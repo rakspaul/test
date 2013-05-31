@@ -1,0 +1,32 @@
+login: &common
+  adapter: postgresql
+  encoding: utf8
+  username: postgres
+  password:
+  host: localhost
+  port: 5432
+  database: amp
+  min_messages: warning # silence the NOTICE: messages from postgres
+
+
+development:
+  <<: *common
+
+qa:
+  <<: *common
+  username: amts
+  host: qa-ampapp1.collective-media.net
+
+stg:
+  <<: *common
+  username: amts
+  host: stg-ampdb1.collective-media.net
+
+production:
+  <<: *common
+  username: amts
+  host: ampdb1.collective-media.net
+
+test:
+  <<: *common
+  database: amp_test
