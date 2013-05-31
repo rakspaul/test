@@ -1,0 +1,24 @@
+= form_tag(session_path, :class => 'form-horizontal') do
+  - unless @account_session.errors.empty?
+    .alert.alert-error
+      - @account_session.errors.full_messages.each do |msg|
+        = msg
+
+  .control-group
+    %label.control-label{:for => "login"} Username
+    .controls
+      = text_field_tag :login, nil, {:autocorrect => "off", :autocapitalize => "off"}
+
+  .control-group
+    %label.control-label{:for => "password"} Password
+    .controls
+      = password_field_tag :password
+
+  .control-group
+    .controls
+      = submit_tag "Login", :class => 'btn btn-primary'
+
+:javascript
+  window.onload = function() {
+    document.getElementById("login").focus();
+  }

@@ -7,10 +7,10 @@ gem 'rails', '4.0.0.rc1'
 gem 'pg'
 
 # HAML template engine
-gem 'haml-rails'
+gem 'haml-rails', '~> 0.4'
 
 # Authentication for legacy logins
-gem 'authlogic', '~> 3.1.3'
+gem 'authlogic', '~> 3.3.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0.rc1'
