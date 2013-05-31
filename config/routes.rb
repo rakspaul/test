@@ -2,6 +2,8 @@ Reachui::Application.routes.draw do
   root 'account_sessions#new'
 
   resource :account_session, :path => 'session', :as => 'session', :only => [:new, :create, :destroy]
+  post 'signin' => 'account_sessions#create'
+  get 'signout' => 'account_sessions#destroy'
 
   resources :reports
 

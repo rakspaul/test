@@ -43,6 +43,8 @@ end
 group :test do
   gem 'shoulda-matchers', '~> 2.1.0'
   gem 'faker', '~> 1.1.2'
+  gem 'capybara', '~> 2.1.0'
+  gem 'poltergeist', '~> 1.3.0'
 end
 
 # Use ActiveModel has_secure_password
