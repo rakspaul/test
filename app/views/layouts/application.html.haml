@@ -1,0 +1,37 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %title= content_for?(:title) ? yield(:title) : "ReachUI"
+    %meta{:content => "Collective Reach UI", :name => "description"}
+    %meta{:content => "Collective", :name => "author"}
+    %link(rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.1.0/base-min.css")
+    %link(rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.1.0/grids-min.css")
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    = yield(:head)
+  %body
+    #app_header
+      .navbar
+        .navbar-inner
+          %a.brand{:href => "#"}
+            = image_tag "cm_logo.jpg"
+          %ul.nav
+            %li.active
+              %a{:href => "#"} Reports
+            %li
+              %a{:href => "#"} Buy
+          %ul.nav.pull-right
+            %li
+              = link_to "Signout", signout_path
+
+    = yield
+
+:javascript
+  $(document).ready(function(){
+    var width = $(window).width() - 200;
+    var height = $(window).height();
+    $("#container").css({"min-width": width+"px"});
+    $("#left_sidebar").css({"min-height": height+"px"});
+  });
