@@ -38,6 +38,7 @@ group :development do
   gem 'binding_of_caller', '~> 0.7.1'
   gem 'awesome_print', '~> 1.1.0'
   gem 'quiet_assets', '~> 1.0.2'
+  gem 'capistrano-unicorn', '~> 0.1.9', :require => false
 end
 
 group :test do
@@ -45,6 +46,14 @@ group :test do
   gem 'faker', '~> 1.1.2'
   gem 'capybara', '~> 2.1.0'
   gem 'poltergeist', '~> 1.3.0'
+end
+
+# Non-production gems
+# intentionally naming this deploy vs dev/development so that rails doesn't try to load them in development mode
+group :deploy do
+  gem 'rvm-capistrano', '~> 1.3.0'
+  gem 'capistrano', '~> 2.15.4'
+  gem 'capistrano-ext', '~> 1.2'
 end
 
 # Use ActiveModel has_secure_password
