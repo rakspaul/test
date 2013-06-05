@@ -24,6 +24,8 @@
           %ul.nav.pull-right
             %li
               = link_to "Signout", signout_path
+    .breadcrumbs
+      = render_crumbs separator: "&nbsp;&nbsp;/&nbsp;&nbsp;".html_safe , last_crumb_linked: false
 
     = yield
 

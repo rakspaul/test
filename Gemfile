@@ -30,6 +30,8 @@ gem 'jquery-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 1.0.1'
 
+gem "crummy", "~> 1.7.2"
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
   gem 'factory_girl_rails', '~> 4.2.1'
