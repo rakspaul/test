@@ -2,11 +2,9 @@
 %html
   %head
     %meta{:charset => "utf-8"}
-    %title= content_for?(:title) ? yield(:title) : "ReachUI"
+    %title= content_for?(:title) ? yield(:title) : "Reach UI"
     %meta{:content => "Collective Reach UI", :name => "description"}
     %meta{:content => "Collective", :name => "author"}
-    %link(rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.1.0/base-min.css")
-    %link(rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/pure/0.1.0/grids-min.css")
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
     = csrf_meta_tags
@@ -17,11 +15,12 @@
         .navbar-inner
           %a.brand{:href => "#"}
             = image_tag "cm_logo.jpg"
+
           %ul.nav
-            %li.active
-              %a{:href => "#"} Reports
-            %li
-              %a{:href => "#"} Buy
+            - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
+              %li{:class => ("active" if controller_name == key)}
+                = link_to value, {:controller => key}
+
           %ul.nav.pull-right
             %li
               = link_to "Signout", signout_path
