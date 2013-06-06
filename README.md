@@ -19,8 +19,8 @@ Rails style guide:
 -
 Try to stick to following ruby and ruby on rails guides:
 
-https://github.com/bbatsov/ruby-style-guide
-https://github.com/bbatsov/rails-style-guide
+* https://github.com/bbatsov/ruby-style-guide
+* https://github.com/bbatsov/rails-style-guide
 
 Overridden style guide:
 -
