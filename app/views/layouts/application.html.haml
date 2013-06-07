@@ -18,8 +18,8 @@
 
           %ul.nav
             - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
-              %li{:class => ("active" if controller_name == key)}
-                = link_to value, {:controller => key}
+              %li{:class => ("active" if controller.class.name == key)}
+                = link_to value[0], value[1]
 
           %ul.nav.pull-right
             %li

@@ -5,7 +5,10 @@ Reachui::Application.routes.draw do
   post 'signin' => 'account_sessions#create'
   get 'signout' => 'account_sessions#destroy'
 
-  resources :reports
+  namespace :reports do
+    resources :reports
+  end
+
   resources :orders
 
   # The priority is based upon order of creation: first created -> highest priority.

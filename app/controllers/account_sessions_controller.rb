@@ -25,7 +25,7 @@ class AccountSessionsController < ApplicationController
     respond_with(@account_session) do |format|
       format.html do
         if @account_session.errors.empty? then
-          redirect_back_or_default reports_path
+          redirect_back_or_default reports_reports_path
         else
           render :action => 'new'
         end
@@ -46,7 +46,7 @@ class AccountSessionsController < ApplicationController
         respond_to do |format|
           format.html do
             store_location
-            redirect_to reports_path
+            redirect_to reports_reports_path
           end
           format.xml{}
         end

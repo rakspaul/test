@@ -1,6 +1,6 @@
 module ApplicationHelper
   APP_NAVIGATION_BAR = {
-    "reports" => "Reports",
-    "orders" => "Orders"
+    "Reports::ReportsController" => ["Reports", :reports_reports],
+    "OrdersController" => ["Orders", :orders]
   }
 end
