@@ -1,0 +1,2 @@
+module Buying::OrdersHelper
+end

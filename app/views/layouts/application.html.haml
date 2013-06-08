@@ -10,7 +10,7 @@
     = csrf_meta_tags
     = yield(:head)
   %body
-    #app_header
+    .app_header
       .navbar
         .navbar-inner
           %a.brand{:href => "#"}
@@ -27,7 +27,8 @@
     .breadcrumbs
       = render_crumbs separator: "&nbsp;&nbsp;/&nbsp;&nbsp;".html_safe , last_crumb_linked: false
 
-    = yield
+    .app_content
+      = yield
 
 :javascript
   $(document).ready(function(){
