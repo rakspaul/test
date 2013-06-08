@@ -1,2 +1,11 @@
-%h1 Report list page
+%h1#header
+
 = link_to "Create New Report", new_reports_report_path
+
+:javascript
+  $(document).ready(function() {
+    var reports = ReachUI.Reports.List();
+    reports.init("#header", "Report list page");
+    reports.renderText();
+  });
+

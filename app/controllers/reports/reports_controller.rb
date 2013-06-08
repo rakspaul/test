@@ -5,7 +5,6 @@ class Reports::ReportsController < ApplicationController
   add_crumb("New Report", only: "new") {|instance| instance.send :reports_reports_path}
 
   def index
-    Rails.logger.info
   end
 
   def new
