@@ -13,6 +13,8 @@ Reachui::Application.routes.draw do
     resources :orders
   end
 
+  resources :kendoui
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
