@@ -31,7 +31,10 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.0.1'
 
 # breadcrumbs
-gem "crummy", "~> 1.7.2"
+gem 'crummy', '~> 1.7.2'
+
+# Embedded Javascript Template for pre-compiling javascript templates
+gem 'ejs', '~> 1.1.1'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
