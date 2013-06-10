@@ -7,6 +7,10 @@
           %button.btn{:type => "submit"} Search
         .hint
           Advertiser, Order, Ad, ID
+
+      .order-new
+        Click to create new order
+
       .order-search-result
         - @orders.each do |order|
           .order{:class => (order.active ? "active-order" : "inactive-order")}
