@@ -16,3 +16,4 @@
 //= require jquery.dragtable
 //= require utils/utils
 //= require reports/list.js
+//= require reports/dimensions

@@ -1,3 +1,53 @@
 // Place all the styles related to the reports/dimensions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.clear{
+  clear: both;
+}
+.dimensionsHeader{
+	font-size: 16px;
+	color: #fff;
+	padding:10px 0 10px 15px;
+	margin:0;
+	background:#48AFDE;
+	border-bottom:1px solid #000;
+}
+.drop-hover{
+  border: 2px solid #ccc;
+}
+.droppable{
+	width:100%;
+	height:800px;
+	background:#fff;
+	overflow:scroll;
+}
+.droppable table th{
+	background:#eee;
+}
+ul.dimensions{
+	padding:0px;
+	margin:0px;
+	list-style-type:none;
+}
+ul.dimensions li{
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #aaa;
+	background:#E3F6FC;
+}
+.placeholder{
+	height:460px;
+	text-align:center;
+	padding-top:320px;
+  font-size:25px;
+  color:#555; 
+  background:#eee;
+  margin-top:-20px;
+}
+.selectedCol{
+  border-right: 3px solid red;
+}
+.selectedColLeft{
+  border-left: 3px solid red;
+}
