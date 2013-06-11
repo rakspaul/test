@@ -1,4 +1,4 @@
-#layout {
+.layout {
   padding-left: 350px;
   left: 0;
 }
@@ -70,6 +70,13 @@
     .order-dates {
       color: #888;
     }
+  }
+
+  .no-order-found {
+    margin-top: 20px;
+    color: #ddd;
+    text-align: center;
+    font-size: 20px;
   }
 }
 

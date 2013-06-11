@@ -14,5 +14,11 @@
 //= require jquery_ujs
 //= require jquery-ui-1.10.3.custom.min
 //= require jquery.dragtable
+//= require underscore-min
+//= require backbone-min
+//= require json2
 //= require utils/utils
+//= require backbone.marionette.min
+//= require_tree ./templates
 //= require reports/list.js
+//= require_tree ./buying

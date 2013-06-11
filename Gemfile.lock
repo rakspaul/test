@@ -212,7 +212,7 @@ DEPENDENCIES
   crummy (~> 1.7.2)
   debugger (~> 1.6.0)
   draper (~> 1.2.1)
-  ejs (~> 1.1.1)
+  ejs
   factory_girl_rails (~> 4.2.1)
   faker (~> 1.1.2)
   haml-rails (~> 0.4)

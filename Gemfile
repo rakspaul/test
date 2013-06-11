@@ -31,13 +31,14 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 1.0.1'
 
 # decorator for presentation logic
-gem "draper", "~> 1.2.1"
+gem 'draper', '~> 1.2.1'
 
 # breadcrumbs
 gem 'crummy', '~> 1.7.2'
 
-# Embedded Javascript Template for pre-compiling javascript templates
-gem 'ejs', '~> 1.1.1'
+# Pre-compiling javascript templates
+#gem 'ruby-haml-js', git: 'https://github.com/dnagir/ruby-haml-js.git'
+gem 'ejs'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
