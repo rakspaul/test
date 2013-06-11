@@ -1,21 +1,93 @@
-#layout {
+.layout {
   padding-left: 350px;
-  position: relative;
+  left: 0;
 }
 
 .sidebar {
   bottom: 0;
-  overflow: auto;
+  left: 350px;
+  margin-left: -350px;
+  overflow-y: auto;
   position: fixed;
   top: 83px;
   width: 350px;
-  margin-left: -350px;
+  z-index: 1000;
   border-right: 1px solid #DDDDDD;
+
   .content {
-    padding: 20px;
+
   }
 }
 
 .main {
   width: 100%;
+
+  .content {
+    padding: 10px;
+  }
+}
+
+.form-search {
+  background-color: #EEEEEE;
+  border-bottom: 1px solid #CCCCCC;
+  padding: 10px 20px;
+
+  .hint {
+    color: #999;
+    font-size: 0.8em;
+    margin-left: 10px;
+  }
+}
+
+.order-new {
+  border-bottom: 1px solid #eee;
+  padding: 15px 10px 15px 20px;
+  cursor: pointer;
+  color: #ddd;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.order-search-result {
+  .order {
+    border-bottom: 1px solid #eee;
+    padding: 15px 10px 15px 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #eee;
+    }
+
+    .order-name {
+      font-weight: bold;
+    }
+
+    .order-advertiser {
+      color: #888;
+    }
+
+    .order-dates {
+      color: #888;
+    }
+
+    .order-id {
+      color: #888;
+    }
+  }
+
+  .no-order-found {
+    margin-top: 20px;
+    color: #ddd;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.active-order {
+  border-left: 5px solid green;
+}
+
+.inactive-order {
+  border-left: 5px solid red;
 }

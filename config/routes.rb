@@ -10,7 +10,11 @@ Reachui::Application.routes.draw do
   end
 
   namespace :buying do
-    resources :orders
+    resources :orders do
+      collection do
+        get 'search'
+      end
+    end
   end
 
   resources :kendoui

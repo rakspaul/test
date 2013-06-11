@@ -1,14 +1,23 @@
-#layout.pure-g-r
+.layout.pure-g
   .pure-u.sidebar
     .content
       .form-search
         .input-append
           %input.search-query{:type => "text"}/
-          %button.btn{:type => "submit"} Search
-      .result
-        Search results here
+          %button#search_button.btn{:type => "button"} Search
+        .hint
+          Advertiser name, Order name, Id, Source Id
+
+      .order-new
+        Click to create new order
+
+      .order-search-result
 
   .pure-u.main
     .content
-      Order details and ads here
 
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.Buying.SearchOrders.initialize();
+  });
