@@ -1,7 +1,7 @@
-class Buying::OrdersController < ApplicationController
+class Orders::OrdersController < ApplicationController
   include Authenticator
 
-  add_crumb("Orders") {|instance| instance.send :buying_orders_path}
+  add_crumb("Orders") {|instance| instance.send :orders_orders_path}
 
   respond_to :html, :json
 

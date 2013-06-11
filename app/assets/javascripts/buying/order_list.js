@@ -1,11 +1,13 @@
 ReachUI.namespace("Buying");
 
 ReachUI.Buying.SearchOrders = (function() {
+  'use strict';
+
   var Order = Backbone.Model.extend({});
 
   var OrderList = Backbone.Collection.extend({
     model: Order,
-    url: '/buying/orders/search.json'
+    url: '/orders/orders/search.json'
   });
 
   var SearchQuery = Backbone.Model.extend({
