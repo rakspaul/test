@@ -18,10 +18,23 @@ ReachUI.Buying.SearchOrders = (function() {
     el: '.form-search',
 
     events: {
-      'click #search_button': 'onSearchClick'
+      'click #search_button': 'onSearchClick',
+      'keypress .search-query': 'onKeyPress'
     },
 
     onSearchClick: function() {
+      this._setSearchText();
+    },
+
+    onKeyPress: function(evt) {
+      var ENTER_KEY = 13;
+
+      if(evt.which === ENTER_KEY) {
+        this._setSearchText();
+      }
+    },
+
+    _setSearchText: function() {
       var val = this.$el.find('.search-query').val();
       this.model.set({'term': val});
     }
