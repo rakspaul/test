@@ -5,21 +5,20 @@ ReachUI.namespace("Reports");
 
 ReachUI.Reports.Dimensions = function() {
 	
+	var baseURL = "/reports/dimensions";
+	var dropColumnCollection = [];
+
 	var addDragDrop = function(){
 		
 		var tabColumn = 0;
 		var dropColName = null;
-		var dropColString = null;
-	
+		var dropColString = null;		
+		var dropColStringOld = null;
+		
+
 		//Drag Starts
 		$( "#draggable ul li" ).draggable({
-			revert: true,
-			drag: function( event, ui ) {
-				//console.log('drag starts');
-			},
-			stop: function( event, ui ) {
-				console.log('stop');
-			}
+			revert: true			
 		});
 
 		//Drop Starts
@@ -35,18 +34,20 @@ ReachUI.Reports.Dimensions = function() {
 
         dropItem.remove();
 				//dropItem.draggable('option', 'disabled', true);
-        $(".placeholder").remove();
+        $(".placeholder").remove();        
 
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
+				dropColumnCollection.push(dropColString);
 									
 				var containsHeaders = $("#ordersReportTable thead th").length;
 
 				if(containsHeaders){
-					addColumnsNew(dropColName, dropColString);
+					addColumnsNew(dropColName, dropColString, dropColStringOld);
 				}
 				else{
 					addColumnNew(dropColName, dropColString);
+					dropColStringOld = dropColString;
 				}
 
 			}
@@ -55,71 +56,98 @@ ReachUI.Reports.Dimensions = function() {
 
 	var addColumnNew = function(dropColName, dropColString){
 						
-		var url = "/reports/"+dropColString+".json";
-		var requestJson = $.get(url);
+		var para={};		
+    para.selected = dropColString;
+    var request = $.ajax({url:baseURL, data:para, dataType: "script"});
 
-		requestJson.done(function(data){
+		request.done(function(data){
+			var jsonData = JSON.parse(data);
+      
+			var tableHeaders = [];			
+			var tableHeaderNames = [dropColName];
 
-      var tr = $("<tr>")
-      var th = $("<th>");
-      th.html(dropColName);
-      th.appendTo(tr);
-      tr.appendTo("#ordersReportTable thead");
+			addTableHeaders(tableHeaderNames);
 
-	  	$.each(data, function(i, item){
-		    
-        var tr = $("<tr>");
-				var td = $("<td>");
-				td.html(item.name);
-				td.appendTo(tr);  					
-				
-				tr.appendTo("#ordersReportTable tbody");
+			addTableColumnData(tableHeaders, jsonData);
 
-			});
 		});
 	}
 
-	var addColumnsNew = function(dropColName, dropColString){
-
-		dropColString = "orders";
+	var addColumnsNew = function(dropColName, dropColString, dropColStringOld){
 
 		$("#ordersReportTable thead tr").remove();
-    $("#ordersReportTable tbody tr").remove();
+    $("#ordersReportTable tbody tr").remove();   
 
-    var url = "/reports/"+dropColString+".json";
-    var requestJson = $.get(url);
+		var para={};
+		// para.existing = dropColStringOld;		
+    para.selected = dropColString;
+    var request = $.ajax({url:baseURL, data:para, dataType: "script"});
 
-    requestJson.done(function(data){
-   		
-   		var tr = $("<tr>")
+    request.done(function(data){
+			
+			var jsonData = JSON.parse(data);
+			
+			//Json Object Headers
+			var tableHeaders = [];
+			var obj = jsonData[0];
+			for (var key in obj) {
+   			tableHeaders.push(key);
+			}			
 
-      var th = $("<th>");
-      th.html("Advertisers");
-      th.appendTo(tr);
+			//Required Headers to add in table
+			//var tableHeaderNames = ["Advertisers", "Orders"];
+			addTableHeaders(dropColumnCollection);
 
-      var th1 = $("<th>");
-      th1.html("Orders");
-      th1.appendTo(tr);
+			//Adds Column data in table
+			addTableColumnsData(tableHeaders, jsonData);
 
-      tr.appendTo("#ordersReportTable thead");
+		});
 
-	  	$.each(data, function(i, item){
-		    
-        var tr = $("<tr>");
-				
-				var td = $("<td>");
-				td.html(item.advertiser.name);
-				td.appendTo(tr);  						
-
-					var td1 = $("<td>");
-				td1.html(item.name);
-				td1.appendTo(tr);
-
-				tr.appendTo("#ordersReportTable tbody");
-
-			});
-    });
 	}	
+
+	var addTableHeaders = function(tableHeaders){
+		
+		var $thead = $("#ordersReportTable thead");
+	
+		var $tableHeadersRow = $("<tr>");
+		var tableHeadersNames = '';
+
+		for(i=0;i<tableHeaders.length;i++){
+			tableHeadersNames  += '<th>' + tableHeaders[i] + '</th>';
+		}
+
+		$(tableHeadersNames).appendTo($tableHeadersRow);
+		$tableHeadersRow.appendTo($thead);
+
+	}
+
+	var addTableColumnData = function(tableHeaders, jsonData){
+
+		var $tbody = $("#ordersReportTable tbody");		
+	
+		var tableColumnNames = '';
+
+		$.each(jsonData, function(count, item){
+			tableColumnNames  += '<tr><td>' + item.name + '</td></tr>';
+		});
+
+		$tbody.append(tableColumnNames);
+
+	}
+
+	var addTableColumnsData = function(tableHeaders, jsonData){
+
+		var $tbody = $("#ordersReportTable tbody");		
+	
+		var tableColumnNames = '';
+
+		$.each(jsonData, function(count, item){
+			tableColumnNames  += '<tr><td>' + item.name + '</td><td>' + item.id + '</td></tr>';
+		});
+
+		$tbody.append(tableColumnNames);
+
+	}
 
 	var addDraggable = function(){
 
