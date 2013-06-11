@@ -1,5 +1,6 @@
 json.array! @orders do |order|
   json.id order.id
+  json.source_id order.source_id
   json.name order.name
   json.active order.active
   json.advertiser_name order.advertiser.name

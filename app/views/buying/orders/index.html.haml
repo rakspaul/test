@@ -6,22 +6,12 @@
           %input.search-query{:type => "text"}/
           %button#search_button.btn{:type => "button"} Search
         .hint
-          Advertiser, Order, Ad, ID
+          Advertiser name, Order name, Id, Source Id
 
       .order-new
         Click to create new order
 
       .order-search-result
-        / - @orders.each do |order|
-        /   .order{:class => (order.active ? "active-order" : "inactive-order")}
-        /     .order-name
-        /       = order.name
-        /     .order-advertiser
-        /       = order.advertiser.name
-        /     .order-dates
-        /       = I18n.localize(order.start_date.in_time_zone("Eastern Time (US & Canada)"), :format => :short)
-        /       to
-        /       = I18n.localize(order.end_date.in_time_zone("Eastern Time (US & Canada)"), :format => :short)
 
   .pure-u.main
     .content
