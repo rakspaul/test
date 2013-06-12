@@ -1,9 +1,9 @@
-.layout {
+#order_layout {
   padding-left: 350px;
   left: 0;
 }
 
-.sidebar {
+#order_list {
   bottom: 0;
   left: 350px;
   margin-left: -350px;
@@ -19,11 +19,28 @@
   }
 }
 
-.main {
+#details {
   width: 100%;
 
   .content {
-    padding: 10px;
+    .order-details {
+      border-bottom: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 20px;
+
+      .header {
+        color: #333;
+      }
+
+      .adv-name {
+        margin-right: 20px;
+        color: #888;
+      }
+
+      .flight {
+        color: #888;
+      }
+    }
   }
 }
 
@@ -74,6 +91,10 @@
     .order-id {
       color: #888;
     }
+  }
+
+  .order-selected {
+    background-color: #BEEDFF;
   }
 
   .no-order-found {

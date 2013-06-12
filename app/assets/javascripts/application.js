@@ -21,4 +21,7 @@
 //= require backbone.marionette.min
 //= require_tree ./templates
 //= require reports/list.js
-//= require_tree ./buying
+//= require ./orders/search.js
+//= require ./orders/list.js
+//= require ./orders/order_detail.js
+//= require ./orders/mediator.js

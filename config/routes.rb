@@ -9,7 +9,7 @@ Reachui::Application.routes.draw do
     resources :reports
   end
 
-  namespace :buying do
+  namespace :orders do
     resources :orders do
       collection do
         get 'search'
