@@ -4,18 +4,100 @@
 .pure-g
   .pure-u-1-6
     #draggable
-      .dimensionsHeader 
-        Dimentions
+      .dimensionsHeader
+        Choose Date Range
+      .selectDateRange
+        %span#report_date{:name => "report_date", :class=>"reportDate"}
+          %i.icon-calendar.icon-large
+          %span
+          %b.caret
+
+      .dimensionsHeader         
+        %span.dimLabel
+          Add Dimensions
+        %span.arrow-down
       %ul.dimensions
         %li Advertisers
         %li Orders
+        %li Order Start Date
+        %li Order End Date
+        %li Line Item
+        %li Line Item Start Date
+        %li Line Item End Date
+        %li Creative
+        %li Ad Size
+        %li PO Number
+        %li Days in Campaign
+        %li Days Complete
+        %li Days Remaining
+        %li Media Spend
+        %li Media Type
+        %li Video Length
+        %li Ad Priority
+        %li Salesperson 
+
+      .dimensionsHeader
+        %span.dimLabel
+          Add Standard Metrics
+        %span.arrow-down
+      %ul.dimensions
+        %li Ad Impressions Booked(Lifetime)
+        %li Ad Impressions Delivered(Lifetime)
+        %li Ad OSI(Lifetime)
+        %li Clicks(Lifetime)
+        %li CTR(Date Range)
+        %li Impressions Delivered(Date Range)
+        %li Clicks(Date Range)
+        %li CTR(Date Range)
+        %li Order Level OSI(Lifetime)
+        %li eCPM
+
+      .dimensionsHeader
+        %span.dimLabel
+          Add Video Metrics
+        %span.arrow-down
+      %ul.dimensions
+        %li Impressions(v)
+        %li Clicks(V)
+        %li CTR%(V)
+        %li Video Plays(V)
+        %li Play Rate(V)
+        %li Completion Rate(V)
+
+      .dimensionsHeader
+        %span.dimLabel
+          Add Engagement Metrics
+        %span.arrow-down
+      %ul.dimensions
+        %li Impressions(E)
+        %li Clicks(E)
+        %li Interactions(E)
+        %li Interaction Rate(E)
+        %li Avg Interaction Time(E)
+        %li Views(E)
+        %li Avg. View Time(E)
+        %li Media Spend
+        %li eCPM(E)
+
+      .dimensionsHeader
+        %span.dimLabel
+          Run/Schedule Report
+        %span.arrow-down
+      %ul.dimensions
+
+      .dimensionsHeader
+        %span.dimLabel
+          Export/Share options
+        %span.arrow-down
+      %ul.dimensions
+
   .pure-u-5-6
     #droppable.droppable
       %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
         %thead
         %tbody
       .placeholder
-        Please drop here
+        Please drop here dimensions
 
 
 :javascript
@@ -25,7 +107,9 @@
     reports.renderText();
 
     var reportsDimnsions = ReachUI.Reports.Dimensions();
-    reportsDimnsions.init();    
+    reportsDimnsions.init();        
+
 
   });
 
+  

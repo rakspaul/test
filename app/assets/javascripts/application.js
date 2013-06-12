@@ -17,3 +17,5 @@
 //= require utils/utils
 //= require reports/list.js
 //= require reports/dimensions
+//= require date
+//= require daterangepicker

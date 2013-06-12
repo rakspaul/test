@@ -39,14 +39,16 @@ ReachUI.Reports.Dimensions = function() {
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
 				dropColumnCollection.push(dropColString);
+
+				console.log(dropColumnCollection);
 									
 				var containsHeaders = $("#ordersReportTable thead th").length;
 
 				if(containsHeaders){
-					addColumnsNew(dropColName, dropColString, dropColStringOld);
+					addColumnsNew(dropColName, dropColString);
 				}
 				else{
-					addColumnNew(dropColName, dropColString);
+					addColumnsNew(dropColName, dropColString);
 					dropColStringOld = dropColString;
 				}
 
@@ -54,26 +56,8 @@ ReachUI.Reports.Dimensions = function() {
 		});
 	}
 
-	var addColumnNew = function(dropColName, dropColString){
-						
-		var para={};		
-    para.selected = dropColString;
-    var request = $.ajax({url:baseURL, data:para, dataType: "script"});
-
-		request.done(function(data){
-			var jsonData = JSON.parse(data);
-      
-			var tableHeaders = [];			
-			var tableHeaderNames = [dropColName];
-
-			addTableHeaders(tableHeaderNames);
-
-			addTableColumnData(tableHeaders, jsonData);
-
-		});
-	}
-
-	var addColumnsNew = function(dropColName, dropColString, dropColStringOld){
+	
+	var addColumnsNew = function(dropColName, dropColString){
 
 		$("#ordersReportTable thead tr").remove();
     $("#ordersReportTable tbody tr").remove();   
@@ -81,6 +65,8 @@ ReachUI.Reports.Dimensions = function() {
 		var para={};
 		// para.existing = dropColStringOld;		
     para.selected = dropColString;
+    para.dimensions = dropColumnCollection;
+
     var request = $.ajax({url:baseURL, data:para, dataType: "script"});
 
     request.done(function(data){
@@ -96,7 +82,7 @@ ReachUI.Reports.Dimensions = function() {
 
 			//Required Headers to add in table
 			//var tableHeaderNames = ["Advertisers", "Orders"];
-			addTableHeaders(dropColumnCollection);
+			addTableHeaders(tableHeaders);
 
 			//Adds Column data in table
 			addTableColumnsData(tableHeaders, jsonData);
@@ -121,31 +107,27 @@ ReachUI.Reports.Dimensions = function() {
 
 	}
 
-	var addTableColumnData = function(tableHeaders, jsonData){
-
-		var $tbody = $("#ordersReportTable tbody");		
-	
-		var tableColumnNames = '';
-
-		$.each(jsonData, function(count, item){
-			tableColumnNames  += '<tr><td>' + item.name + '</td></tr>';
-		});
-
-		$tbody.append(tableColumnNames);
-
-	}
 
 	var addTableColumnsData = function(tableHeaders, jsonData){
 
 		var $tbody = $("#ordersReportTable tbody");		
-	
-		var tableColumnNames = '';
+		//var $tableRow = $("<tr>");
+
+		var tableRowData = '';
 
 		$.each(jsonData, function(count, item){
-			tableColumnNames  += '<tr><td>' + item.name + '</td><td>' + item.id + '</td></tr>';
-		});
+			
+			var tableColumnNames = '';
 
-		$tbody.append(tableColumnNames);
+			for(i=0; i<tableHeaders.length;i++){
+				tableColumnNames  += '<td>' + item[tableHeaders[i]] + '</td>';
+			}
+			
+			tableRowData += '<tr>'+tableColumnNames+'</tr>';
+
+		});		
+
+		$tbody.append(tableRowData);			
 
 	}
 
@@ -161,10 +143,89 @@ ReachUI.Reports.Dimensions = function() {
   	});
 	}
 
+	var initializeDateRangePicker = function() {
+    var maxDate = Date.parse("yesterday"),
+      strSelectedStartDate = Date.parse("3 months ago"),
+      strSelectedEndDate = Date.parse("yesterday");
+
+    // create range for last six months
+    var minDate = Date.parse("6 months ago"),
+      dateRanges = {},
+      monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    while(minDate.isBefore(maxDate)) {
+      var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
+      dateRanges[mName] = [];
+      dateRanges[mName].push(minDate.clone().moveToFirstDayOfMonth());
+      dateRanges[mName].push(minDate.clone().moveToLastDayOfMonth());
+      dateRanges[mName].push("month");
+      minDate.addMonths(1);
+    }
+
+    // add last month
+    var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
+    dateRanges[mName] = [];
+    dateRanges[mName].push(minDate.moveToFirstDayOfMonth().clone());
+    dateRanges[mName].push(minDate.moveToLastDayOfMonth().clone());
+    dateRanges[mName].push("month");
+
+    var yearName = "Last 12 months"
+    dateRanges[yearName] = []
+    dateRanges[yearName].push(Date.parse("1 year ago"));
+    dateRanges[yearName].push(Date.parse("today"));
+    dateRanges[yearName].push("year");
+
+    $('#report_date').daterangepicker(
+      {
+        ranges: dateRanges,
+        opens: 'right',
+        format: 'yyyy-MM-dd',
+        startDate: Date.parse(strSelectedStartDate).moveToFirstDayOfMonth(),
+        endDate: Date.parse(strSelectedEndDate),
+        minDate: false,
+        maxDate: maxDate.moveToLastDayOfMonth(),
+        locale: {
+          applyLabel: 'Apply',
+          fromLabel: 'From',
+          toLabel: 'To',
+          customRangeLabel: 'Custom Range',
+          daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
+          monthNames: monthNames,
+          firstDay: 1
+        }
+      },
+
+      function(start, end, selectedRange) {
+        
+        $('#report_date span').html(formatDate(start) + ' to ' + formatDate(end));
+      }
+    );
+
+    $('#report_date span').html(formatDate(strSelectedStartDate) + ' to ' + formatDate(strSelectedEndDate));
+
+  }
+
+  var formatDate = function(dt) {
+    if(typeof dt === 'string') {
+      dt = Date.parse(dt);
+    }
+
+    return dt.toString('yyyy-MM-dd');
+  }
+
+  var dimensionsAccordion = function(){
+  	$(".dimensionsHeader").click(function(){
+  		$(".dimensions").slideUp();
+  		$(this).next().slideToggle();
+  	});
+  }
+
 	return {
 		init: function(){
 			addDragDrop();
 			addDraggable();
+			initializeDateRangePicker();
+			dimensionsAccordion();
 		}
 	}
 	
