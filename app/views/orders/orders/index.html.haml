@@ -15,8 +15,11 @@
 
   #details.pure-u
     .content
+      .order-details
+        %h4.light-text.center
+          No order selected
 
 :javascript
   $(document).ready(function() {
-    ReachUI.Buying.SearchOrders.initialize();
+    ReachUI.Orders.Mediator.initialize();
   });
