@@ -34,7 +34,8 @@ ReachUI.Reports.Dimensions = function() {
 
         dropItem.remove();
 				//dropItem.draggable('option', 'disabled', true);
-        $(".placeholder").remove();        
+        $(".placeholder").remove(); 
+        $(".ajax_loader").show();       
 
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
@@ -62,15 +63,23 @@ ReachUI.Reports.Dimensions = function() {
 		$("#ordersReportTable thead tr").remove();
     $("#ordersReportTable tbody tr").remove();   
 
+    var selected_date = $("#report_date span").text().split("to");
+    var from_date = selected_date[0].trim();
+    var to_date = selected_date[1].trim();
+
 		var para={};
 		// para.existing = dropColStringOld;		
-    para.selected = dropColString;
+    //para.selected = dropColString;
     para.dimensions = dropColumnCollection;
+    para.from_date = from_date;
+    para.to_date = to_date;
 
     var request = $.ajax({url:baseURL, data:para, dataType: "script"});
 
     request.done(function(data){
 			
+			$(".ajax_loader").hide();
+
 			var jsonData = JSON.parse(data);
 			
 			//Json Object Headers
@@ -215,8 +224,15 @@ ReachUI.Reports.Dimensions = function() {
 
   var dimensionsAccordion = function(){
   	$(".dimensionsHeader").click(function(){
-  		$(".dimensions").slideUp();
-  		$(this).next().slideToggle();
+  		if($(this).next().is(":visible")){
+				$(this).find("span").removeClass('arrow-up').addClass('arrow-down');
+				$(this).next().slideUp();
+
+			} else {
+				$(".dimensionsBody").slideUp();
+				$(this).next().slideToggle();
+				$(this).find("span").toggleClass('arrow-up').toggleClass('arrow-down');
+			}
   	});
   }
 
