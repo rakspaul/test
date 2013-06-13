@@ -7,6 +7,9 @@ Reachui::Application.routes.draw do
 
   namespace :reports do
     resources :reports
+    resources :orders
+    resources :advertisers
+    resources :dimensions
   end
 
   namespace :orders do

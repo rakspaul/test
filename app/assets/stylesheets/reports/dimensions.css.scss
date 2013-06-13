@@ -1,3 +1,120 @@
 // Place all the styles related to the reports/dimensions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.clear{
+  clear: both;
+}
+.dimensionsHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0;
+	background:#48AFDE;
+	border-bottom:1px solid #000;
+	cursor:pointer;
+}
+
+.dimensionsBody{
+	display:none;
+}
+
+.active{
+	display:block;
+}
+.drop-hover{
+  border: 2px solid #ccc;
+}
+.droppable{
+	width:100%;
+	height:700px;
+	background:#fff;
+	overflow:auto;
+	border-left:1px solid #aaa;
+}
+.droppable table th{
+	font-size:12px;
+	line-height:16px;
+	font-weight:bold;
+
+	background:#eee;
+	cursor:move;
+}
+.droppable table td{
+	font-size:12px;
+	line-height:16px;
+}
+
+ul.dimensions{
+	padding:0px;
+	margin:0px;
+	list-style-type:none;
+}
+
+ul.dimensions li{
+	font-size:12px;
+	line-height:16px;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #aaa;
+	background:#E3F6FC;
+
+	cursor:move;
+}
+.placeholder{
+	height:370px;
+	text-align:center;
+	padding-top:300px;
+  font-size:25px;
+  color:#555; 
+  background:#f2f2f2;
+  margin-top:-20px;
+}
+.ajax_loader{
+  display:none;
+  background:#f2f2f2;
+  text-align:center;
+	padding-top:300px;
+	height:370px;
+	margin-top:-20px;
+}
+.selectDateRange{
+	padding:5px;
+}
+.reportDate{
+	background: #fff; 
+	cursor: pointer; 
+	padding: 5px;
+	font-size:13px;
+}
+.caret{
+	margin-top:8px;
+}
+.dimLabel{
+	display:inline-block;
+}
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-bottom: 5px solid #fff;
+
+	margin:5px 5px 0 0;
+	float:right;
+}
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-top: 5px solid #fff;
+
+	margin:5px 5px 0 0;
+	float:right;
+}
+.dimensionsInner{
+	padding:10px 15px;
+}

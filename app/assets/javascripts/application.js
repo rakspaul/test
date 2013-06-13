@@ -25,3 +25,6 @@
 //= require ./orders/list.js
 //= require ./orders/order_detail.js
 //= require ./orders/mediator.js
+//= require reports/dimensions
+//= require date
+//= require daterangepicker

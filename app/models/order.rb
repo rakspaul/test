@@ -11,4 +11,5 @@ class Order < ActiveRecord::Base
   def self.find_by_id_or_source_id(id)
     where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
   end
-end
+
+end  

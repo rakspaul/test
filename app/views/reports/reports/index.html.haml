@@ -1,11 +1,128 @@
 %h1#header
-
 = link_to "Create New Report", new_reports_report_path
+
+.pure-g
+  .pure-u-1-6
+    #draggable
+      .dimensionsHeader
+        Choose Date Range
+      .selectDateRange
+        %span#report_date{:name => "report_date", :class=>"reportDate"}
+          %i.icon-calendar.icon-large
+          %span
+          %b.caret
+
+      .dimensionsHeader         
+        .dimLabel
+          Add Dimensions
+        %span.arrow-down
+      .dimensionsBody
+        %ul.dimensions
+          %li Advertiser
+          %li Order
+          %li Order Start Date
+          %li Order End Date
+          %li Line Item
+          %li Line Item Start Date
+          %li Line Item End Date
+          %li Creative
+          %li Ad Size
+          %li PO Number
+          %li Days in Campaign
+          %li Days Complete
+          %li Days Remaining
+          %li Media Spend
+          %li Media Type
+          %li Video Length
+          %li Ad Priority
+          %li Salesperson 
+
+      .dimensionsHeader
+        .dimLabel
+          Add Standard Metrics
+        %span.arrow-down
+      .dimensionsBody
+        %ul.dimensions
+          %li Ad Impressions Booked(Lifetime)
+          %li Ad Impressions Delivered(Lifetime)
+          %li Ad OSI(Lifetime)
+          %li Clicks(Lifetime)
+          %li CTR(Date Range)
+          %li Impressions Delivered(Date Range)
+          %li Clicks(Date Range)
+          %li CTR(Date Range)
+          %li Order Level OSI(Lifetime)
+          %li eCPM
+
+      .dimensionsHeader
+        .dimLabel
+          Add Video Metrics
+        %span.arrow-down
+      .dimensionsBody
+        %ul.dimensions
+          %li Impressions(v)
+          %li Clicks(V)
+          %li CTR%(V)
+          %li Video Plays(V)
+          %li Play Rate(V)
+          %li Completion Rate(V)
+
+      .dimensionsHeader
+        .dimLabel
+          Add Engagement Metrics
+        %span.arrow-down
+      .dimensionsBody
+        %ul.dimensions
+          %li Impressions(E)
+          %li Clicks(E)
+          %li Interactions(E)
+          %li Interaction Rate(E)
+          %li Avg Interaction Time(E)
+          %li Views(E)
+          %li Avg. View Time(E)
+          %li Media Spend
+          %li eCPM(E)
+
+      .dimensionsHeader
+        .dimLabel
+          Run/Schedule Report
+        %span.arrow-down
+      .dimensionsBody
+        .dimensionsInner
+          %button.btn.btn-mini{:type => "button"} Go!
+          %button.btn.btn-mini{:type => "button"} Stop
+          %button.btn.btn-mini{:type => "button"} Schedule
+
+      .dimensionsHeader
+        .dimLabel
+          Export/Share options
+        %span.arrow-down
+      .dimensionsBody
+        .dimensionsInner
+          %button.btn.btn-mini.btn-primary{:type => "button"} Excel
+          %button.btn.btn-mini.btn-primary{:type => "button"} Email
+
+  .pure-u-5-6
+    #droppable.droppable
+      %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
+        %thead
+        %tbody
+      .placeholder
+        Please drop here dimensions
+      .ajax_loader
+        = image_tag "loading.gif"
+
 
 :javascript
   $(document).ready(function() {
     var reports = ReachUI.Reports.List();
     reports.init("#header", "Report list page");
     reports.renderText();
+
+    var reportsDimnsions = ReachUI.Reports.Dimensions();
+    reportsDimnsions.init();        
+
+
   });
 
+  
