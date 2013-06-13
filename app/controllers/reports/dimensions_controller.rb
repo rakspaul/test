@@ -1,35 +1,20 @@
+require 'csv'
+require 'json'
+
 class Reports::DimensionsController < ApplicationController
   include Authenticator
 
   respond_to :json	
   
   def index
-  	existing = params[:existing].present? ? params[:existing] : ""
-  	selected = params[:selected].present? ? params[:selected] : ""
+    from_date = params[:from_date].present? ? params[:from_date] : ""
+    to_date = params[:to_date].present? ? params[:to_date] : ""
+    dimensions = params[:dimensions].present? ? params[:dimensions] : ""
 
-  	if existing == ""
-  	  if selected == "orders"
-  	    @orders = Order.of_network(current_network).limit(50)
-  	    respond_with(@orders)
-  	  end
-  	  
-  	  if selected == "advertisers"
-  	    @advertisers = Advertiser.of_network(current_network).limit(50)
-  	    respond_with(@advertisers)
-  	  end
-  	
-  	else
-  	  if existing == "orders" && selected == "advertisers"
-  	  	 # return result based on advertiser
-  	    @orders = Order.load_with_advertiser(current_network).limit(50)
-  	    respond_with(@orders)
-  	  else
-  	  	 # return result based on orders
-  	  	@advertisers = Advertiser.load_with_orders(current_network).limit(50)
-  	    respond_with(@advertisers)
-  	  end	 
-    end
+    wrapper = LoadDimensionsWrapper.new
+    csv_results = wrapper.load(current_user.id, dimensions, from_date, to_date, current_network)
 
+    respond_with(csv_results)
   end
 		
 end
