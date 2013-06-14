@@ -17,13 +17,13 @@
 //= require underscore-min
 //= require backbone-min
 //= require json2
-//= require utils/utils
-//= require backbone.marionette.min
+//= require backbone.marionette
+//= require utils/core
 //= require_tree ./templates
 //= require reports/list.js
 //= require ./orders/search.js
-//= require ./orders/list.js
-//= require ./orders/order_detail.js
+//= require ./orders/order.js
+//= require ./lineitems/lineitems.js
 //= require ./orders/mediator.js
 //= require reports/dimensions
 //= require date

@@ -33,4 +33,4 @@
     }
   });
 
-})(ReachUI.namespace("Orders.Search"));
+})(ReachUI.namespace("Search"));

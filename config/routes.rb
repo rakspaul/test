@@ -12,11 +12,10 @@ Reachui::Application.routes.draw do
     resources :dimensions
   end
 
-  namespace :orders do
-    resources :orders do
-      collection do
-        get 'search'
-      end
+  resources :orders do
+    resources :lineitems
+    collection do
+      get 'search'
     end
   end
 

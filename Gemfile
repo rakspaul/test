@@ -80,3 +80,5 @@ gem 'unicorn'
 # Use Capistrano for deployment
 # gem 'capistrano', group: :development
 
+# For cache storage
+gem 'dalli'
