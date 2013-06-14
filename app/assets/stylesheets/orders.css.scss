@@ -2,7 +2,7 @@ $border-color: #ddd;
 $secondary-text-color: #888;
 $active-color: green;
 $inactive-color: red;
-$hover-color: #eee;
+$hover-color: #EDFAFF;
 
 #order_layout {
   padding-left: 350px;
@@ -120,23 +120,58 @@ $hover-color: #eee;
   border-left: 5px solid $inactive-color;
 }
 
+.action-bar {
+  margin-bottom: 20px;
+}
+
 .lineitem-list {
   padding: 10px;
+
+  table {
+    .status {
+      max-width: 20px;
+      width:20px;
+    }
+
+    .start_date {
+      width: 100px;
+      text-align: center;
+    }
+
+    .end_date {
+      width: 100px;
+      text-align: center;
+    }
+
+    .volume {
+      width: 100px;
+      text-align: right;
+    }
+
+    .rate {
+      width: 100px;
+      text-align: right;
+    }
+  }
+
+  .active {
+    color: $active-color;
+    font-size: 40px;
+  }
+
+  .inactive {
+    color: $inactive-color;
+    font-size: 40px;
+  }
 
   .table-container {
     min-width: 1024px;
 
     .table {
-      color: #555;
-    }
-
-    .table thead {
-      background-color: #f9f9f9;
-      color: #6A6A6A;
-    }
-
-    .table-bordered {
-      border-color: #eee;
+      border: 1px solid #eee;
+      thead {
+        background-color: #f9f9f9;
+      }
     }
 
     .table > tbody tr {
@@ -144,14 +179,6 @@ $hover-color: #eee;
 
       &:hover {
         background-color: $hover-color;
-      }
-    }
-
-    .table tr.selected {
-      td, :hover td {
-        background-color: #226AA4; //#2F1802; //#D5D4D3 //#0E94D2; //#EA6526;
-        //border-color: #FFF1C3;
-        color: #fff; //#111010;
       }
     }
 
