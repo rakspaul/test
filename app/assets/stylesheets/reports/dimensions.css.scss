@@ -118,3 +118,19 @@ ul.dimensions li{
 .dimensionsInner{
 	padding:10px 15px;
 }
+.highlightCol, .highlightCol a{
+	background:#48AFDE !important;
+	color:#fff !important;
+}
+
+.dimName, .dimName:link, .dimName:hover, .dimName:active, .dimName:visited{
+	color:#333;
+	text-decoration:none;
+	cursor:default;
+}
+
+.dimNameActive, .dimNameActive:link, .dimNameActive:hover, .dimNameActive:active, .dimNameActive:visited{
+	color:#0088cc !important;
+	text-decoration:underline !important;
+	cursor:pointer !important;
+}

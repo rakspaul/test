@@ -7,6 +7,8 @@ ReachUI.Reports.Dimensions = function() {
 	
 	var baseURL = "/reports/dimensions";
 	var dropColumnCollection = [];
+	var requestpParams ={};
+	var count = 0;
 
 	var addDragDrop = function(){
 		
@@ -45,12 +47,18 @@ ReachUI.Reports.Dimensions = function() {
 									
 				var containsHeaders = $("#ordersReportTable thead th").length;
 
-				if(containsHeaders){
-					addColumnsNew(dropColName, dropColString);
+				if(dropColumnCollection.length < 2){
+					if(containsHeaders){
+						addColumnsNew(dropColName, dropColString);
+					}
+					else{
+						addColumnsNew(dropColName, dropColString);
+						dropColStringOld = dropColString;
+					}
 				}
 				else{
-					addColumnsNew(dropColName, dropColString);
-					dropColStringOld = dropColString;
+					$(".dimName").removeAttr("disabled");
+					$(".dimName").addClass("dimNameActive");
 				}
 
 			}
@@ -58,23 +66,16 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	
+	
 	var addColumnsNew = function(dropColName, dropColString){
 
 		$("#ordersReportTable thead tr").remove();
     $("#ordersReportTable tbody tr").remove();   
+    
 
-    var selected_date = $("#report_date span").text().split("to");
-    var from_date = selected_date[0].trim();
-    var to_date = selected_date[1].trim();
+		var requestParams=getRequestParams();		
 
-		var para={};
-		// para.existing = dropColStringOld;		
-    //para.selected = dropColString;
-    para.dimensions = dropColumnCollection;
-    para.from_date = from_date;
-    para.to_date = to_date;
-
-    var request = $.ajax({url:baseURL, data:para, dataType: "script"});
+    var request = $.ajax({url:baseURL, data:requestParams, dataType: "script"});
 
     request.done(function(data){
 			
@@ -91,36 +92,56 @@ ReachUI.Reports.Dimensions = function() {
 
 			//Required Headers to add in table
 			//var tableHeaderNames = ["Advertisers", "Orders"];
-			addTableHeaders(tableHeaders);
 
-			//Adds Column data in table
-			addTableColumnsData(tableHeaders, jsonData);
+			var $thead = $("#ordersReportTable thead");
+			var $tbody = $("#ordersReportTable tbody");	
+
+			var tableHeadersRow = addTableHeaders(tableHeaders);	
+
+			var tableRowData = addTableColumnsData(tableHeaders, jsonData, "");
+
+			$tbody.append(tableRowData);
+			$thead.append(tableHeadersRow);
 
 		});
 
 	}	
 
+	var getRequestParams = function(){
+		var selected_date = $("#report_date span").text().split("to");
+    var from_date = selected_date[0].trim();
+    var to_date = selected_date[1].trim();
+		
+		// para.existing = dropColStringOld;		
+    //para.selected = dropColString;
+    requestpParams .dimensions = dropColumnCollection;
+    requestpParams .from_date = from_date;
+    requestpParams .to_date = to_date;
+		//requestpParams.expand_id = null;
+
+    return requestpParams;
+	}
+
 	var addTableHeaders = function(tableHeaders){
 		
-		var $thead = $("#ordersReportTable thead");
+		//var $thead = $("#ordersReportTable thead");
 	
-		var $tableHeadersRow = $("<tr>");
+		var tableHeadersRow = '';
 		var tableHeadersNames = '';
 
 		for(i=0;i<tableHeaders.length;i++){
 			tableHeadersNames  += '<th>' + tableHeaders[i] + '</th>';
 		}
 
-		$(tableHeadersNames).appendTo($tableHeadersRow);
-		$tableHeadersRow.appendTo($thead);
+		tableHeadersRow = '<tr>'+ tableHeadersNames + '</tr>';
+		
+		return tableHeadersRow;
+		//$tableHeadersRow.appendTo($thead);
 
 	}
 
 
-	var addTableColumnsData = function(tableHeaders, jsonData){
-
-		var $tbody = $("#ordersReportTable tbody");		
-		//var $tableRow = $("<tr>");
+	var addTableColumnsData = function(tableHeaders, jsonData, tableColClass){
 
 		var tableRowData = '';
 
@@ -129,14 +150,38 @@ ReachUI.Reports.Dimensions = function() {
 			var tableColumnNames = '';
 
 			for(i=0; i<tableHeaders.length;i++){
-				tableColumnNames  += '<td>' + item[tableHeaders[i]] + '</td>';
+				
+				if(tableColClass){
+					if(tableHeaders[i]=="name"){
+						tableColumnNames  += '<td class='+tableColClass+'><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
+					}
+					else{
+						tableColumnNames  += '<td class='+tableColClass+'>' + item[tableHeaders[i]] + '</td>';
+					}
+				}
+				else{
+					if(tableHeaders[i]=="name"){
+						tableColumnNames  += '<td><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
+					}
+					else{
+						tableColumnNames  += '<td>' + item[tableHeaders[i]] + '</td>';
+					}
+				}
+
+			}
+
+			if(tableColClass){
+				tableRowData += '<tr class="hightlightRow">'+tableColumnNames+'</tr>';
+			}
+			else{
+				tableRowData += '<tr>'+tableColumnNames+'</tr>';
 			}
 			
-			tableRowData += '<tr>'+tableColumnNames+'</tr>';
 
 		});		
 
-		$tbody.append(tableRowData);			
+		// $el.append(tableRowData);
+		return tableRowData;		
 
 	}
 
@@ -154,7 +199,7 @@ ReachUI.Reports.Dimensions = function() {
 
 	var initializeDateRangePicker = function() {
     var maxDate = Date.parse("yesterday"),
-      strSelectedStartDate = Date.parse("3 months ago"),
+      strSelectedStartDate = Date.parse("yesterday"),
       strSelectedEndDate = Date.parse("yesterday");
 
     // create range for last six months
@@ -236,12 +281,49 @@ ReachUI.Reports.Dimensions = function() {
   	});
   }
 
+  var dimensionsOrderByClick = function(){
+  	$(document).on("click",".dimName",function(){
+      
+      var selectExpandID = $(this).attr("data-id");
+      var $selectDOMElement = $(this).closest("tr");
+
+      requestpParams.expand_id = selectExpandID;
+
+
+      var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
+
+	    if(count<1){
+	    	request.done(function(data){
+				
+					var jsonData = JSON.parse(data);
+					$(".ajax_loader").hide();
+					count++;
+					
+					//Json Object Headers
+					var tableHeaders = [];
+					var obj = jsonData[0];
+					for (var key in obj) {
+		   			tableHeaders.push(key);
+					}			
+
+					var rowData = addTableColumnsData(tableHeaders, jsonData, "highlightCol");
+
+					$selectDOMElement.after(rowData);
+
+				});
+	    }
+	    
+
+    });
+  }
+
 	return {
 		init: function(){
 			addDragDrop();
 			addDraggable();
 			initializeDateRangePicker();
 			dimensionsAccordion();
+			dimensionsOrderByClick();
 		}
 	}
 	
