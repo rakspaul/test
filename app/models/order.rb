@@ -2,6 +2,8 @@ class Order < ActiveRecord::Base
   belongs_to :advertiser, :foreign_key => :network_advertiser_id
   belongs_to :network
 
+  has_many :lineitems
+
   scope :latest_updated, -> { order("last_modified desc") }
 
   def self.of_network(network)

@@ -1,2 +1,0 @@
-module Orders::OrdersHelper
-end

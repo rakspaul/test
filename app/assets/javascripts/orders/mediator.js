@@ -1,42 +1,84 @@
-ReachUI.Orders.Mediator = (function(Orders) {
+ReachUI.Orders.Mediator = (function(Search, Orders, LineItems) {
   var selectedOrder = null,
-    detailRegion = null;
+    detailRegion = null,
+    lineItemRegion = null,
+    orderDetailsLayout = null,
+    lineItemList = null,
+    lineItemListView = null,
+    newItemView = null;
 
   var DetailRegion = Backbone.Marionette.Region.extend({
-    el: ".order-details"
+    el: "#details .content"
   });
 
-  var initializeSearchList = function() {
-    var orderList = new Orders.List.OrderList(),
-      searchCollectionView = new Orders.List.SearchOrderCollectionView({el: '.order-search-result', collection: orderList}),
-      search = new Orders.Search.SearchQuery(),
-      searchView = new Orders.Search.SearchQueryView({model: search});
+  var _onOrderSelected = function(view) {
+    if(selectedOrder) {
+      var selectedView = this.children.findByModel(selectedOrder);
+      if(selectedView) {
+        selectedView.$el.removeClass("order-selected");
+      }
+    }
 
+    selectedOrder = view.model;
+    view.$el.addClass("order-selected");
+
+    var detailOrderView = new Orders.DetailView({model: selectedOrder});
+    orderDetailsLayout.detail.show(detailOrderView);
+
+    lineItemList = new LineItems.LineItemList();
+    lineItemList.setOrder(selectedOrder);
+    lineItemList.fetch();
+    _showLineItems();
+  };
+
+  var _showLineItems = function() {
+    var lineItemListView = new LineItems.LineItemListView({collection: lineItemList})
+    lineItemListView.on('create:lineitem', _onNewLineItem);
+    orderDetailsLayout.lineitems.show(lineItemListView);
+  }
+
+  var _onNewLineItem = function() {
+    var newLineItem = new LineItems.LineItem({'order': selectedOrder});
+    newItemView = new LineItems.NewLineItemView({model: newLineItem});
+    orderDetailsLayout.lineitems.show(newItemView);
+
+    newItemView.on("created", _onCreateLineItem);
+  }
+
+  var _onCreateLineItem = function(model) {
+    lineItemList.add(model);
+    _showLineItems();
+  }
+
+  var initializeOrderDetailLayout = function() {
     detailRegion = new DetailRegion();
+    orderDetailsLayout = new Orders.OrderDetailLayout();
+
+    detailRegion.show(orderDetailsLayout);
+  };
+
+  var initializeSearchList = function() {
+    var orderList = new Orders.OrderList(),
+      searchOrderListView = new Orders.ListView({el: '.order-search-result', collection: orderList}),
+      search = new Search.SearchQuery(),
+      searchView = new Search.SearchQueryView({model: search});
+
 
     search.on('change:query', function() {
       orderList.fetch({data: {search: this.get('query')}});
     });
 
-    searchCollectionView.on("itemview:selected", function(view) {
-      if(selectedOrder) {
-        var selectedView = searchCollectionView.children.findByModel(selectedOrder);
-        if(selectedView) {
-          selectedView.$el.removeClass("order-selected");
-        }
-      }
-
-      selectedOrder = view.model;
-      view.$el.addClass("order-selected");
-
-      var detailOrder = new Orders.OrderDetail.OrderDetailView({model: selectedOrder});
-      detailRegion.show(detailOrder);
-    });
+    searchOrderListView.on("itemview:selected", _onOrderSelected);
 
     orderList.fetch();
   }
 
+  var init = function() {
+    initializeOrderDetailLayout();
+    initializeSearchList();
+  }
+
   return {
-    initialize: initializeSearchList
+    initialize: init
   };
-})(ReachUI.Orders);
+})(ReachUI.Search, ReachUI.Orders, ReachUI.LineItems);

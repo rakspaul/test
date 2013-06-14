@@ -1,3 +1,9 @@
+$border-color: #ddd;
+$secondary-text-color: #888;
+$active-color: green;
+$inactive-color: red;
+$hover-color: #eee;
+
 #order_layout {
   padding-left: 350px;
   left: 0;
@@ -12,7 +18,7 @@
   top: 83px;
   width: 350px;
   z-index: 1000;
-  border-right: 1px solid #DDDDDD;
+  border-right: 1px solid $border-color;
 
   .content {
 
@@ -21,10 +27,11 @@
 
 #details {
   width: 100%;
+  overflow: auto;
 
   .content {
     .order-details {
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid $border-color;
       padding: 10px;
       margin-bottom: 20px;
 
@@ -34,11 +41,11 @@
 
       .adv-name {
         margin-right: 20px;
-        color: #888;
+        color: $secondary-text-color;
       }
 
       .flight {
-        color: #888;
+        color: $secondary-text-color;
       }
     }
   }
@@ -46,7 +53,7 @@
 
 .form-search {
   background-color: #EEEEEE;
-  border-bottom: 1px solid #CCCCCC;
+  border-bottom: 1px solid $border-color;
   padding: 10px 20px;
 
   .hint {
@@ -73,7 +80,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: #eee;
+      background-color: $hover-color;
     }
 
     .order-name {
@@ -81,15 +88,15 @@
     }
 
     .order-advertiser {
-      color: #888;
+      color: $secondary-text-color;
     }
 
     .order-dates {
-      color: #888;
+      color: $secondary-text-color;
     }
 
     .order-id {
-      color: #888;
+      color: $secondary-text-color;
     }
   }
 
@@ -106,9 +113,50 @@
 }
 
 .active-order {
-  border-left: 5px solid green;
+  border-left: 5px solid $active-color;
 }
 
 .inactive-order {
-  border-left: 5px solid red;
+  border-left: 5px solid $inactive-color;
+}
+
+.lineitem-list {
+  padding: 10px;
+
+  .table-container {
+    min-width: 1024px;
+
+    .table {
+      color: #555;
+    }
+
+    .table thead {
+      background-color: #f9f9f9;
+      color: #6A6A6A;
+    }
+
+    .table-bordered {
+      border-color: #eee;
+    }
+
+    .table > tbody tr {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+
+    .table tr.selected {
+      td, :hover td {
+        background-color: #226AA4; //#2F1802; //#D5D4D3 //#0E94D2; //#EA6526;
+        //border-color: #FFF1C3;
+        color: #fff; //#111010;
+      }
+    }
+
+    .table th, .table td {
+      border-color: #eee;
+    }
+  }
 }
