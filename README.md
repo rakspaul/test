@@ -26,3 +26,13 @@ Overridden style guide:
 -
 Add points here on which we don't agree from above style guides.
 
+Memcached configuration:
+-
+Memcached is an excellent cache store, and Dalli is the best way to interact with it through Ruby.
+
+How to configure
+-
+ 
+1. Install memcached 'apt-get install memcached'
+2. Add 'gem dalli' in gem file
+3. Add 'config.cache_store = :dalli_store' in 'config/environment/*.rb' file
