@@ -4,21 +4,22 @@ require 'csv'
 
   class LoadDimensionsWrapper
 
-    def load(user_id, dimensions, from_date, to_date, current_network)
-      arr = []
-      arr = dimensions.split(",")
+    def load(user_id, dimensions, from_date, to_date, current_network, expand_id)
+      arr = dimensions
 
       if arr.length == 1
-        if arr[0] == "order"
-          list_type = "order"
-          detail_type = "advertiser"
-        else
-          list_type = "advertiser"
-          detail_type = "order"
-        end    
+        list_type = arr[0]
+        detail_type = arr[0]
+        item = arr[0]
+        grp = arr[0]
       else
         list_type = arr[0]
         detail_type = arr[1]
+        item = arr[1]
+        grp = arr[0]
+        parent_type = arr[0]
+        detail_id = expand_id
+        parent_id = expand_id
       end  
 
       params = {
@@ -28,10 +29,12 @@ require 'csv'
         "universe" => "network",
         "listtype" => list_type,
         "detailtype" => detail_type,
+        "item" => item,
+        "grp" => grp,
         "format" => "csv",
         "sortField" => user_id,
         "usage" => "0",
-        "pagesize" => "200",
+        "pagesize" => "20",
         "pagestart" => "0",
         "sortDirection" => "ascending",
         "fromdate" => from_date,
@@ -40,13 +43,15 @@ require 'csv'
         "tkn" => Digest::MD5.hexdigest("#{current_network.id}:#{user_id}:#{Date.today.strftime('%Y-%m-%d')}")
       }
 
+      if expand_id != ""
+        params = { "detailid" => detail_id, "parentid" => parent_id, "parenttype" => parent_type }.merge(params)
+      end  
+
       query_string = params.map {|k,v| "#{k}=#{v}"}.join("&")
 
-      #cdb_server = current_network.ssp_cdb_url + "delivery/data"
       cdb_server = "http://cm.qacdb.collective-media.net/delivery/data"
 
       url = "#{cdb_server}?#{query_string}"
-      puts url
       csv_results = []
       doc = Nokogiri::XML(open(url, :read_timeout => 3600))
       data = doc.at_xpath('.//data')
@@ -59,6 +64,14 @@ require 'csv'
           dr.type = row['type']
           dr.ad_start = row['ad_start']
           dr.ad_end = row['ad_start']
+          dr.clicks = row['clicks']
+          dr.ctr = row['ctr']
+          dr.ar = row['ar']
+          dr.gross_rev = row['gross_rev']
+          dr.gross_ecpm = row['gross_ecpm']
+          dr.net_ecpa = row['net_ecpa']
+          dr.net_ecpc = row['net_ecpa']
+
           csv_results << dr
         end
       end
@@ -66,4 +79,4 @@ require 'csv'
       return csv_results
     end
 
- end   	
+ end    
