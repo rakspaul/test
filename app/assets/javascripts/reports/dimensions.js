@@ -292,26 +292,23 @@ ReachUI.Reports.Dimensions = function() {
 
       var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
 
-	    if(count<1){
-	    	request.done(function(data){
+    	request.done(function(data){
+			
+				var jsonData = JSON.parse(data);
+				$(".ajax_loader").hide();
 				
-					var jsonData = JSON.parse(data);
-					$(".ajax_loader").hide();
-					count++;
-					
-					//Json Object Headers
-					var tableHeaders = [];
-					var obj = jsonData[0];
-					for (var key in obj) {
-		   			tableHeaders.push(key);
-					}			
+				//Json Object Headers
+				var tableHeaders = [];
+				var obj = jsonData[0];
+				for (var key in obj) {
+	   			tableHeaders.push(key);
+				}			
 
-					var rowData = addTableColumnsData(tableHeaders, jsonData, "highlightCol");
+				var rowData = addTableColumnsData(tableHeaders, jsonData, "highlightCol");
 
-					$selectDOMElement.after(rowData);
+				$selectDOMElement.after(rowData);
 
-				});
-	    }
+			});
 	    
 
     });
