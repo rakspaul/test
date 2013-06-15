@@ -8,6 +8,9 @@ class LineitemsController < ApplicationController
 
   # GET orders/{order_id}/lineitems/new
   def new
+    respond_to do |format|
+      format.html { render "orders/index" }
+    end
   end
 
   # GET order/{order_id}/{lineitem_id}
