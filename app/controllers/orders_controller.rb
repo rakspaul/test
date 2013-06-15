@@ -8,6 +8,16 @@ class OrdersController < ApplicationController
   def index
   end
 
+  def show
+    @order = Order.of_network(current_network)
+              .includes(:advertiser).find(params[:id])
+
+    respond_to do |format|
+      format.html { render :index }
+      format.json
+    end
+  end
+
   def search
     search_query = params[:search]
     @orders = Order.of_network(current_network).includes(:advertiser).limit(50)

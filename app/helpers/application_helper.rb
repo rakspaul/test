@@ -1,7 +1,14 @@
 module ApplicationHelper
   APP_NAVIGATION_BAR = {
-    "Reports::ReportsController" => ["Reports", :reports_reports],
-    "OrdersController" => ["Orders", :orders]
+    "Reports" => {
+      controllers: ["Reports::ReportsController"],
+      path: :reports_reports
+    },
+
+    "Orders" => {
+      controllers: ["OrdersController","LineitemsController"],
+      path: :orders
+    }
   }
 
   def format_date(date)

@@ -70,7 +70,7 @@
       var self = this;
       this.model.save(mj, {
         success: function(model, response, options) {
-          self.trigger("created", model);
+          self.trigger("lineitem:created", model);
         },
         error: function(model, xhr, options) {
           alert('error');

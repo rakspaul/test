@@ -18,5 +18,11 @@
 
 :javascript
   $(document).ready(function() {
-    ReachUI.Orders.Mediator.initialize();
+    var controller = new ReachUI.Orders.OrderController();
+    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+
+    Backbone.history.start({
+      pushState: true,
+      root: "/orders"
+    });
   });

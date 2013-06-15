@@ -59,6 +59,7 @@ GEM
     coderay (1.0.9)
     columnize (0.3.6)
     crummy (1.7.2)
+    dalli (2.6.4)
     debug_inspector (0.0.2)
     debugger (1.6.0)
       columnize (>= 0.3.1)
@@ -210,6 +211,7 @@ DEPENDENCIES
   capistrano-unicorn (~> 0.1.9)
   capybara (~> 2.1.0)
   crummy (~> 1.7.2)
+  dalli
   debugger (~> 1.6.0)
   draper (~> 1.2.1)
   ejs
