@@ -16,7 +16,7 @@ gem 'authlogic', '~> 3.3.0'
 gem 'sass-rails', '~> 4.0.0.rc1'
 
 # Twitter bootstrap
-gem 'bootstrap-sass-rails'
+gem 'bootstrap-sass-rails', git: 'https://github.com/yabawock/bootstrap-sass-rails.git', :branch => 'develop'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
