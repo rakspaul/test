@@ -23,6 +23,10 @@ body {
   font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
+.daterangepicker td.in-range {
+  background: none repeat scroll 0 0 #A7E3FF;
+}
+
 .user-info {
   text-align: right;
   font-size: .90em;

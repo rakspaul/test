@@ -2,7 +2,7 @@ $border-color: #f5f5f5;
 $secondary-text-color: #888;
 $active-color: #29C827;
 $inactive-color: red;
-$hover-color: #EDFAFF;
+$hover-color: #B5E8FF; //#EDFAFF;
 
 #order_layout {
   padding-left: 350px;
@@ -89,21 +89,25 @@ $hover-color: #EDFAFF;
       font-size: 1.1em;
     }
 
-    .order-advertiser {
-      color: $secondary-text-color;
-    }
-
-    .order-dates {
-      color: $secondary-text-color;
-    }
-
-    .order-id {
+    .order-advertiser, .order-dates, .order-id {
       color: $secondary-text-color;
     }
   }
 
   .order-selected {
-    background-color: #BEEDFF;
+    background-color: #2ea5dc; //#BEEDFF;
+
+    .order-name {
+      color: #fff;
+    }
+
+    .order-advertiser, .order-dates, .order-id {
+      color: #C0E0EF;
+    }
+
+    &:hover {
+      background-color: #2ea5dc;
+    }
   }
 
   .no-order-found {
@@ -162,12 +166,10 @@ $hover-color: #EDFAFF;
 
   .active {
     color: $active-color;
-    font-size: 40px;
   }
 
   .inactive {
     color: $inactive-color;
-    font-size: 40px;
   }
 
   .table-container {
