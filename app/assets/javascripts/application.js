@@ -28,5 +28,3 @@
 //= require ./lineitems/lineitems.js
 //= require ./orders/mediator.js
 //= require reports/dimensions
-//= require date
-//= require daterangepicker
