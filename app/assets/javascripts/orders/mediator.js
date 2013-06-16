@@ -119,7 +119,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _newLineItem: function() {
-    var newLineItem = new ReachUI.LineItems.LineItem({'order': this.selectedOrder});
+    var newLineItem = new ReachUI.LineItems.LineItem({}, {'order': this.selectedOrder});
     var newItemView = new ReachUI.LineItems.NewLineItemView({model: newLineItem});
     newItemView.on("lineitem:created", function() {
       ReachUI.Orders.router.navigate('/'+this.selectedOrder.id, {trigger: true});

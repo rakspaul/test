@@ -18,6 +18,8 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
+//= require moment.min
+//= require daterangepicker
 //= require utils/core
 //= require_tree ./templates
 //= require reports/list.js

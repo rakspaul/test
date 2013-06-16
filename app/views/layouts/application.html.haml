@@ -24,6 +24,15 @@
                 = link_to key, value[:path]
 
           %ul.nav.pull-right
+            %li.user-info
+              %span
+                = current_network.name
+                %br
+                = current_user.first_name
+                = current_user.last_name
+                (
+                = current_user.account_login
+                )
             %li
               = link_to "Signout", signout_path
     .breadcrumbs
