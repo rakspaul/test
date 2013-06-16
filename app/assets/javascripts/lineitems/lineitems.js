@@ -1,6 +1,15 @@
 (function(LineItems) {
+  'use strict';
+
   LineItems.LineItem = Backbone.Model.extend({
-    initialize: function(opts) {
+    defaults: {
+      volume: 0,
+      rate: 0.0,
+      start_date: moment().add('days', 1).format("YYYY-MM-DD"),
+      end_date: moment().add('days', 15).format("YYYY-MM-DD")
+    },
+
+    initialize: function(attrs, opts) {
       this.order = opts.order;
     },
 
@@ -45,14 +54,43 @@
     ui: {
       name: '#name',
       active: '#active',
+      flight: '#flight',
+      flight_container: '.flight-input',
       start_date: '#start_date',
       end_date: '#end_date',
       volume: '#volume',
-      rate: '#rate'
+      rate: '#rate',
+      name_error: '#name_error',
+      start_date_error: '#start_date_error',
+      end_date_error: '#end_date_error',
+      volume_error: '#volume_error',
+      rate_error: '#rate_error'
     },
 
     events: {
       'click .save': 'create'
+    },
+
+    onDomRefresh: function() {
+      var self = this;
+      this.ui.flight_container.daterangepicker({
+        format: 'YYYY-MM-DD',
+        separator: ' to ',
+        startDate: moment().add('days', 1),
+        endDate: moment().add('days', 15)
+      },
+      function(start, end) {
+        if(start) {
+          self.ui.start_date.val(start.format("YYYY-MM-DD"));
+          self.ui.end_date.val(end.format("YYYY-MM-DD"));
+          self.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
+        }
+      });
+
+      // initial flight values
+      this.ui.start_date.val(this.model.get("start_date"));
+      this.ui.end_date.val(this.model.get("end_date"));
+      this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
     },
 
     create: function(evt) {
@@ -68,12 +106,29 @@
       };
 
       var self = this;
+
+      // get all the error labels and clear them
+      _.keys(this.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.ui[val].text("");
+        });
+
       this.model.save(mj, {
         success: function(model, response, options) {
           self.trigger("lineitem:created", model);
         },
         error: function(model, xhr, options) {
-          alert('error');
+          if(xhr.responseJSON && xhr.responseJSON.errors) {
+            _.each(xhr.responseJSON.errors, function(value, key) {
+              var errorLabel = self.ui[key + "_error"];
+              if(errorLabel) {
+                errorLabel.text(value[0]);
+              }
+            });
+          }
         }
       });
     }

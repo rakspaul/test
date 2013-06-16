@@ -1,8 +1,8 @@
 class Order < ActiveRecord::Base
-  belongs_to :advertiser, :foreign_key => :network_advertiser_id
+  belongs_to :advertiser, foreign_key: :network_advertiser_id
   belongs_to :network
 
-  has_many :lineitems
+  has_many :lineitems, inverse_of: :order
 
   scope :latest_updated, -> { order("last_modified desc") }
 
