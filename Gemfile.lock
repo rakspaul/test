@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/yabawock/bootstrap-sass-rails.git
+  revision: 0f7026d126c81cca891fc8ed9590e3e705f69211
+  branch: develop
+  specs:
+    bootstrap-sass-rails (2.3.2.0)
+      railties (>= 3.1.0)
+      sass-rails (>= 3.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,9 +45,6 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.1)
       debug_inspector (>= 0.0.1)
-    bootstrap-sass-rails (2.3.2.0)
-      railties (>= 3.1.0)
-      sass-rails (>= 3.1.0)
     builder (3.1.4)
     capistrano (2.15.4)
       highline
@@ -205,7 +211,7 @@ DEPENDENCIES
   awesome_print (~> 1.1.0)
   better_errors (~> 0.9.0)
   binding_of_caller (~> 0.7.1)
-  bootstrap-sass-rails
+  bootstrap-sass-rails!
   capistrano (~> 2.15.4)
   capistrano-ext (~> 1.2)
   capistrano-unicorn (~> 0.1.9)
