@@ -1,0 +1,52 @@
+<h4>New lineitem</h4>
+<hr/>
+<form class="form-horizontal">
+  <div class="control-group" id="name_group">
+    <label class="control-label" for="name">Name</label>
+    <div class="controls">
+      <input type="text" id="name" placeholder="Lineitem name" required>
+      <label class="help-inline form-error" id="name_error"></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="active">Active</label>
+    <div class="controls">
+      <input type="checkbox" id="active">
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="flight">Flight Dates</label>
+    <div class="controls">
+      <span class="flight-input">
+        <i class="icon-calendar"></i>
+        <span id="flight"></span>
+        <b class="caret"></b>
+      </span>
+      <input type="hidden" id="start_date" placeholder="Start date">
+      <input type="hidden" id="end_date" placeholder="End date">
+      <label class="help-inline form-error" id="start_date_error"></label>
+      <label class="help-inline form-error" id="end_date_error"></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="volume">Volume Imps</label>
+    <div class="controls">
+      <input type="text" id="volume" placeholder="Volume" value="<%= lineitem.volume %>" required>
+      <label class="help-inline form-error" id="volume_error"></label>
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label" for="rate">Rate</label>
+    <div class="controls">
+      <input type="text" id="rate" placeholder="Rate" value="<%= lineitem.rate %>" required>
+      <label class="help-inline form-error" id="rate_error"></label>
+      <br/>
+      <br/>
+      <button type="submit" class="btn save">Create</button>
+    </div>
+  </div>
+</form>

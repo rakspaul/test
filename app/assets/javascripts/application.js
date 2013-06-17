@@ -15,11 +15,17 @@
 //= require jquery-ui-1.10.3.custom.min
 //= require jquery.dragtable
 //= require underscore-min
-//= require backbone-min
+//= require backbone
 //= require json2
-//= require utils/utils
-//= require backbone.marionette.min
+//= require backbone.marionette
+//= require moment.min
+//= require daterangepicker
+//= require utils/core
+//= require_tree ./templates
 //= require reports/list.js
 //= require reports/dimensions
-//= require date
-//= require daterangepicker
+//= require ./orders/search.js
+//= require ./orders/order.js
+//= require ./lineitems/lineitems.js
+//= require ./orders/mediator.js
+

@@ -1,0 +1,28 @@
+#order_layout.pure-g
+  #order_list.pure-u
+    .content
+      .form-search
+        .input-append
+          %input.search-query{:type => "text"}/
+          %button#search_button.btn{:type => "button"} Search
+        .hint
+          Advertiser name, Order name, Id, Source Id
+
+      .order-new
+        Click to create new order
+
+      .order-search-result
+
+  #details.pure-u
+    .content
+
+:javascript
+  $(document).ready(function() {
+    var controller = new ReachUI.Orders.OrderController();
+    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+
+    Backbone.history.start({
+      pushState: true,
+      root: "/orders"
+    });
+  });

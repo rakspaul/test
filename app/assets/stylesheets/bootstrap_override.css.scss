@@ -8,7 +8,7 @@
   border-radius: 0;
   box-shadow: 0 0 0;
   border: 0;
-  border-bottom: 3px solid #48AFDE;
+  border-bottom: 3px solid #2ea5dc; //#48AFDE;
 }
 
 .navbar .brand {
@@ -30,12 +30,12 @@
 }
 
 .navbar .nav > .active > a, .navbar .nav > .active > a:hover, .navbar .nav > .active > a:focus {
-  background-color:#48AFDE;
+  background-color: #2ea5dc;;
   box-shadow: 0 0 0;
   color: #fff;
 }
 
 .navbar .nav > li > a:hover {
-    background-color: #F55856;
-    color: #FFFFFF;
+  background-color: #F55856;
+  color: #FFFFFF;
 }

@@ -18,10 +18,19 @@
 
           %ul.nav
             - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
-              %li{:class => ("active" if controller.class.name == key)}
-                = link_to value[0], value[1]
+              %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
+                = link_to key, value[:path]
 
           %ul.nav.pull-right
+            %li.user-info
+              %span
+                = current_network.name
+                %br
+                = current_user.first_name
+                = current_user.last_name
+                (
+                = current_user.account_login
+                )
             %li
               = link_to "Signout", signout_path
     .breadcrumbs

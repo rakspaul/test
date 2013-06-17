@@ -1,0 +1,211 @@
+$border-color: #f5f5f5;
+$secondary-text-color: #888;
+$active-color: #29C827;
+$inactive-color: red;
+$hover-color: #B5E8FF; //#EDFAFF;
+
+#order_layout {
+  padding-left: 350px;
+  left: 0;
+}
+
+#order_list {
+  bottom: 0;
+  left: 350px;
+  margin-left: -350px;
+  overflow-y: auto;
+  position: fixed;
+  top: 84px;
+  width: 350px;
+  z-index: 1000;
+  border-right: 1px solid #ddd;
+
+  .content {
+
+  }
+}
+
+#details {
+  width: 100%;
+  overflow: auto;
+
+  .content {
+    .order-details {
+      border-bottom: 1px solid $border-color;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #f9f9f9;
+
+      .header {
+        color: #333;
+      }
+
+      .adv-name {
+        margin-right: 20px;
+        color: $secondary-text-color;
+      }
+
+      .flight {
+        color: $secondary-text-color;
+      }
+    }
+  }
+}
+
+.form-search {
+  background-color: #f9f9f9;
+  border-bottom: 1px solid $border-color;
+  padding: 10px 20px;
+
+  .hint {
+    color: #999;
+    font-size: 0.8em;
+    margin-left: 10px;
+  }
+}
+
+.order-new {
+  border-bottom: 1px solid #eee;
+  padding: 15px 10px 15px 20px;
+  cursor: pointer;
+  color: #ddd;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.order-search-result {
+  .order {
+    border-bottom: 1px solid $border-color;
+    padding: 15px 10px 15px 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+
+    .order-name {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    .order-advertiser, .order-dates, .order-id {
+      color: $secondary-text-color;
+    }
+  }
+
+  .order-selected {
+    background-color: #2ea5dc; //#BEEDFF;
+
+    .order-name {
+      color: #fff;
+    }
+
+    .order-advertiser, .order-dates, .order-id {
+      color: #C0E0EF;
+    }
+
+    &:hover {
+      background-color: #2ea5dc;
+    }
+  }
+
+  .no-order-found {
+    margin-top: 20px;
+    color: #ddd;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+
+.active-order {
+  border-left: 5px solid $active-color;
+}
+
+.inactive-order {
+  border-left: 5px solid $inactive-color;
+}
+
+.action-bar {
+  margin-bottom: 20px;
+}
+
+.lineitem-list {
+  padding: 10px;
+
+  table {
+    .name {
+      font-weight: 600;
+    }
+
+    .status {
+      max-width: 20px;
+      width:20px;
+    }
+
+    .start_date {
+      width: 100px;
+      text-align: center;
+    }
+
+    .end_date {
+      width: 100px;
+      text-align: center;
+    }
+
+    .volume {
+      width: 100px;
+      text-align: right;
+    }
+
+    .rate {
+      width: 100px;
+      text-align: right;
+    }
+  }
+
+  .active {
+    color: $active-color;
+  }
+
+  .inactive {
+    color: $inactive-color;
+  }
+
+  .table-container {
+    min-width: 1024px;
+
+    .table {
+      border: 1px solid #eee;
+      thead {
+        background-color: #f9f9f9;
+      }
+    }
+
+    .table > tbody tr {
+      cursor: pointer;
+
+      &:hover {
+        background-color: $hover-color;
+      }
+    }
+
+    .table th, .table td {
+      border: 1px solid #EEEEEE;
+    }
+  }
+}
+
+.flight-input {
+  line-height: 18px;
+  padding: 6px;
+  border: 1px solid #CCCCCC;
+  border-radius: 4px;
+  cursor: pointer;
+  vertical-align: middle;
+
+  .caret {
+    margin-left: 2px;
+    margin-top: 8px;
+  }
+}
