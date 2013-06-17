@@ -1,10 +1,10 @@
 %h1#header
 = link_to "Create New Report", new_reports_report_path
 
-.pure-g
-  .pure-u-1-6
-    #draggable
-      .dimensionsHeader
+.pure-g.orderReportsMain
+  .pure-u-1-6.orderRepLeftCol
+    #draggable.draggable
+      .reportDateHeader
         Choose Date Range
       .selectDateRange
         %span#report_date{:name => "report_date", :class=>"reportDate"}
@@ -103,7 +103,7 @@
           %button.btn.btn-mini.btn-primary{:type => "button"} Excel
           %button.btn.btn-mini.btn-primary{:type => "button"} Email
 
-  .pure-u-5-6
+  .pure-u-5-6.orderRepRightCol
     #droppable.droppable
       %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
         %thead
@@ -112,6 +112,55 @@
         Please drop here dimensions
       .ajax_loader
         = image_tag "loading.gif"
+
+
+%script{:type => "text/template", :id=>"orders_reports_headers_temp"}
+  :plain
+    <tr>
+      <th>Name</th>
+      <th>Imps</th>
+      <th>Clicks</th>
+      <th>CTR%</th>        
+      <th>PCCR %</th>
+      <th>Total Actions</th>
+      <th>AR%</th>
+      <th>Gross Rev</th>
+      <th>Gross eCMP</th>
+      <th>eCPM</th>
+      <th>eCPA</th>
+    </tr>
+
+%script{:type => "text/template", :id=>"orders_reports_body_temp"}
+  :plain
+    <tr>
+      <td><span class="accIcon icon-plus-sign"></span> <a class="dimName" disabled="disabled" data-id="<%= id %>"><%= name %></a></td>
+      <td><%= impressions %></td>
+      <td><%= clicks %></td>
+      <td><%= ctr %></td>
+      <td><%= pccr %></td>
+      <td><%= actions %></td>
+      <td><%= ar %></td>
+      <td><%= gross_rev %></td>
+      <td><%= gross_ecpm %></td>
+      <td><%= net_ecpc %></td>
+      <td><%= net_ecpa %></td>
+    </tr>
+
+%script{:type => "text/template", :id=>"orders_reports_body_temp_high"}
+  :plain
+    <tr class="highlightCol">
+      <td><%= name %></td>
+      <td><%= impressions %></td>
+      <td><%= clicks %></td>
+      <td><%= ctr %></td>
+      <td><%= pccr %></td>
+      <td><%= actions %></td>
+      <td><%= ar %></td>
+      <td><%= gross_rev %></td>
+      <td><%= gross_ecpm %></td>
+      <td><%= net_ecpc %></td>
+      <td><%= net_ecpa %></td>
+    </tr>
 
 
 :javascript

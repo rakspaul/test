@@ -41,6 +41,7 @@ ReachUI.Reports.Dimensions = function() {
 
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
+				if(dropColString == 'ads') dropColString = 'ad';
 				dropColumnCollection.push(dropColString);
 
 				console.log(dropColumnCollection);
@@ -59,13 +60,14 @@ ReachUI.Reports.Dimensions = function() {
 				else{
 					$(".dimName").removeAttr("disabled");
 					$(".dimName").addClass("dimNameActive");
+					$(".accIcon").css({'display':'inline-block'});
+					$(".ajax_loader").hide();
+					$(".droppable").css({"border":"none"});
 				}
 
 			}
 		});
 	}
-
-	
 	
 	var addColumnsNew = function(dropColName, dropColString){
 
@@ -80,6 +82,8 @@ ReachUI.Reports.Dimensions = function() {
     request.done(function(data){
 			
 			$(".ajax_loader").hide();
+			$(".droppable").css({"border":"none"});
+			$("#ordersReportTable").show();
 
 			var jsonData = JSON.parse(data);
 			
@@ -90,21 +94,18 @@ ReachUI.Reports.Dimensions = function() {
    			tableHeaders.push(key);
 			}			
 
-			//Required Headers to add in table
-			//var tableHeaderNames = ["Advertisers", "Orders"];
 
 			var $thead = $("#ordersReportTable thead");
 			var $tbody = $("#ordersReportTable tbody");	
 
 			var tableHeadersRow = addTableHeaders(tableHeaders);	
 
-			var tableRowData = addTableColumnsData(tableHeaders, jsonData, "");
+			var tableRowData = addTableColumnsData(jsonData);
 
 			$tbody.append(tableRowData);
 			$thead.append(tableHeadersRow);
 
 		});
-
 	}	
 
 	var getRequestParams = function(){
@@ -124,24 +125,11 @@ ReachUI.Reports.Dimensions = function() {
 
 	var addTableHeaders = function(tableHeaders){
 		
-		//var $thead = $("#ordersReportTable thead");
-	
-		var tableHeadersRow = '';
-		var tableHeadersNames = '';
-
-		for(i=0;i<tableHeaders.length;i++){
-			tableHeadersNames  += '<th>' + tableHeaders[i] + '</th>';
-		}
-
-		tableHeadersRow = '<tr>'+ tableHeadersNames + '</tr>';
-		
-		return tableHeadersRow;
-		//$tableHeadersRow.appendTo($thead);
-
+		var headersTempl = _.template($("#orders_reports_headers_temp").html());
+		return headersTempl;
 	}
 
-
-	var addTableColumnsData = function(tableHeaders, jsonData, tableColClass){
+	var addTableColumnsData = function(jsonData){
 
 		var tableRowData = '';
 
@@ -149,39 +137,38 @@ ReachUI.Reports.Dimensions = function() {
 			
 			var tableColumnNames = '';
 
-			for(i=0; i<tableHeaders.length;i++){
-				
-				if(tableColClass){
-					if(tableHeaders[i]=="name"){
-						tableColumnNames  += '<td class='+tableColClass+'><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
-					}
-					else{
-						tableColumnNames  += '<td class='+tableColClass+'>' + item[tableHeaders[i]] + '</td>';
-					}
-				}
-				else{
-					if(tableHeaders[i]=="name"){
-						tableColumnNames  += '<td><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
-					}
-					else{
-						tableColumnNames  += '<td>' + item[tableHeaders[i]] + '</td>';
-					}
-				}
+			var bodyTempl = _.template($("#orders_reports_body_temp").html());
 
-			}
+			var populateTempl = bodyTempl(item);
 
-			if(tableColClass){
-				tableRowData += '<tr class="hightlightRow">'+tableColumnNames+'</tr>';
-			}
-			else{
-				tableRowData += '<tr>'+tableColumnNames+'</tr>';
-			}
-			
+			tableRowData += populateTempl;
+
 
 		});		
 
 		// $el.append(tableRowData);
 		return tableRowData;		
+	}
+
+	var addTableColumnsDataHigh = function(jsonData, selectExpandID){
+
+		var tableRowData = '';
+
+		$.each(jsonData, function(count, item){
+			
+			var tableColumnNames = '';
+
+			var bodyTempl = _.template($("#orders_reports_body_temp_high").html());
+
+			var populateTempl = bodyTempl(item);
+
+			tableRowData += populateTempl;
+
+			
+
+		});		
+
+		return tableRowData;	
 
 	}
 
@@ -196,6 +183,54 @@ ReachUI.Reports.Dimensions = function() {
       });   
   	});
 	}
+
+	var dimensionsOrderByClick = function(){
+  	$(document).on("click",".dimName",function(){
+      
+      var selectExpandID = $(this).attr("data-id").trim();
+      var $selectDOMElement = $(this).closest("tr");
+      var $selectAccIcon = $selectDOMElement.find(".accIcon");
+      console.log($selectAccIcon);
+
+      requestpParams.expand_id = selectExpandID;
+
+      if($selectAccIcon.hasClass("icon-plus-sign")){
+      	excuteRequest(selectExpandID);
+      }
+      else{
+      	hideAccordionContent();
+      }
+
+
+      function excuteRequest(selectExpandID){
+
+      	var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
+
+	    	request.done(function(data){
+				
+					var jsonData = JSON.parse(data);
+					$(".ajax_loader").hide();	
+					$(".droppable").css({"border":"none"});			
+					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
+
+					console.log(jsonData);
+
+					var rowData = addTableColumnsDataHigh(jsonData, selectExpandID);
+
+					$selectDOMElement.after(rowData);
+
+				});
+
+      }
+
+      function hideAccordionContent(){
+      	$(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
+      	$(".highlightCol").remove();
+      }
+	    
+
+    });
+  }
 
 	var initializeDateRangePicker = function() {
     var maxDate = Date.parse("yesterday"),
@@ -281,39 +316,7 @@ ReachUI.Reports.Dimensions = function() {
   	});
   }
 
-  var dimensionsOrderByClick = function(){
-  	$(document).on("click",".dimName",function(){
-      
-      var selectExpandID = $(this).attr("data-id");
-      var $selectDOMElement = $(this).closest("tr");
-
-      requestpParams.expand_id = selectExpandID;
-
-
-      var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
-
-    	request.done(function(data){
-			
-				var jsonData = JSON.parse(data);
-				$(".ajax_loader").hide();
-				
-				//Json Object Headers
-				var tableHeaders = [];
-				var obj = jsonData[0];
-				for (var key in obj) {
-	   			tableHeaders.push(key);
-				}			
-
-				var rowData = addTableColumnsData(tableHeaders, jsonData, "highlightCol");
-
-				$selectDOMElement.after(rowData);
-
-			});
-	    
-
-    });
-  }
-
+  
 	return {
 		init: function(){
 			addDragDrop();
