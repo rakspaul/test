@@ -16,7 +16,7 @@ h1{
 }
 
 .orderReportsMain{
-	width:1200px;
+	width:1240px;
 }
 
 .orderRepLeftCol{
@@ -25,7 +25,7 @@ h1{
 }
 
 .orderRepRightCol{
-	width:950px;
+	width:1010px;
 	float:left;
 }
 
@@ -91,13 +91,13 @@ h1{
 }
 .draggable{
 	width:210px;
-	margin:15px 0 0 0px;
+	margin:10px 0 0 0px;
 }
 .droppable{
 	height:500px;
 	background:#fff;
 	overflow:auto;
-	margin:15px 0 0 0px;
+	margin:10px 0 0 0px;
 
   border:1px solid #ccc;
   -webkit-border-radius: 5px;
@@ -169,14 +169,14 @@ ul.dimensions li{
 .placeholder{
 	height:200px;
 	text-align:center;
-	padding-top:200px;
+	padding-top:220px;
   font-size:25px;
   color:#555;   
 }
 .ajax_loader{
   display:none;
   text-align:center;
-	padding-top:200px;
+	padding-top:220px;
 	height:200px;
 }
 .selectDateRange{
@@ -186,10 +186,17 @@ ul.dimensions li{
 	background: #fff; 
 	cursor: pointer; 
 	padding: 5px;
-	font-size:13px;
+	
 	border:1px solid #ccc;
 	margin-bottom:5px;
 	display:block;
+}
+.reportDate span{
+	font-size:13px;
+	color:#1141aa;
+	font-weight:bold;
+	display:inline-block;
+	padding:0 5px;
 }
 .caret{
 	margin-top:8px;

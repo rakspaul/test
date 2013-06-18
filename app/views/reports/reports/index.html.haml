@@ -20,7 +20,7 @@
           Add Dimensions
         %span.arrow-down
       .dimensionsBody
-        %ul.dimensions
+        %ul#dimensions.dimensions
           %li Advertiser
           %li Order
           %li Ads
@@ -115,7 +115,7 @@
         Please drop here dimensions
       .ajax_loader
         = image_tag "loading.gif"
-
+  .clear
 
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain

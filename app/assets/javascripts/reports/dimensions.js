@@ -12,16 +12,28 @@ ReachUI.Reports.Dimensions = function() {
 	var dropItem = '';
 	var dropColName = null;
 	var tabColumn = 0;		
-	var dropColString = null;	
+	var dropColString = null;
+	var flag = true;	
 
-	var appInit = function(){
-		var dropColumnCollection = [];
-		var requestpParams ={};
-		var count = 0;
-		var dropItem = '';
-		var dropColName = null;
-		var tabColumn = 0;		
-		var dropColString = null;	
+	var appReset = function(){
+		 dropColumnCollection = [];
+		 requestpParams ={};
+		 count = 0;
+		 dropItem = '';
+		 dropColName = null;
+		 tabColumn = 0;		
+		 dropColString = null;	
+		$("#ordersReportTable").hide();
+		$(".placeholder").show();
+		$(".droppable").css({"border":"1px solid #ccc"});
+
+		$("#selectedDimensions").html('').hide();
+		$("#dimensions li").show();
+
+		addDragDrop();
+		addDraggable();
+
+		return true;
 	}	
 
 	var addDragDrop = function(){		
@@ -42,18 +54,19 @@ ReachUI.Reports.Dimensions = function() {
 
 				dropItem = ui.draggable;
 
-				if(dropColumnCollection.length<2){
+
+				if(dropColumnCollection.length<2 && flag){
 					
-        	dropItem.remove();
+        	dropItem.hide();
 					//dropItem.draggable('option', 'disabled', true);
-	        $(".placeholder").remove(); 
-	        $(".ajax_loader").show();       
+	        $(".placeholder").hide(); 
+	        $(".ajax_loader").show(); 
+	        flag = false;      
 
 					dropColName = $(dropItem).text();
 					dropColString = $(dropItem).text().toLowerCase();
 					if(dropColString == 'ads') dropColString = 'ad';
 					dropColumnCollection.push(dropColString);
-					// console.log(dropColumnCollection);
 
 					var showSelectedDim = showSelectedDimensions();
 										
@@ -95,7 +108,8 @@ ReachUI.Reports.Dimensions = function() {
 			
 			$(".ajax_loader").hide();
 			$(".droppable").css({"border":"none"});
-			$("#ordersReportTable").show();			
+			$("#ordersReportTable").show();	
+			flag = true;		
 
 			var jsonData = JSON.parse(data);
 			
@@ -138,14 +152,6 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	var showSelectedDimensions = function(){
-		// console.log(dropColumnCollection);
-		// var selectedBtns = [];
-		// var selectedButtons = '';
-
-		// for(i=0; i<dropColumnCollection.length; i++){
-		// 	selectedBtns[i] = "<a href='#' class='btn btn-success'>"+dropColumnCollection[i]+"</a>";
-		// 	selectedButtons += selectedBtns[i];
-		// }
 
 		var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
 
@@ -222,7 +228,8 @@ ReachUI.Reports.Dimensions = function() {
 				
 					var jsonData = JSON.parse(data);
 					$(".ajax_loader").hide();	
-					$(".droppable").css({"border":"none"});	
+					$(".droppable").css({"border":"none"});
+					flag = true;	
 
 					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
 
@@ -298,8 +305,8 @@ ReachUI.Reports.Dimensions = function() {
   var removeSelectedDimension = function(){
   	$(document).on("click",".selectedDim",function(){
   		var dimName = $(this).text();
-  		//clearTableContent();
-  		//appInit();
+  		var clearContent = clearTableContent();
+  		var resetAppParams = appReset();
   	});
   }
   
