@@ -34,7 +34,7 @@ require 'csv'
         "format" => "csv",
         "sortField" => user_id,
         "usage" => "0",
-        "pagesize" => "20",
+        "pagesize" => "400",
         "pagestart" => "0",
         "sortDirection" => "ascending",
         "fromdate" => from_date,
@@ -59,18 +59,19 @@ require 'csv'
       unless data.nil?
         CSV.parse(data.text.delete('"').strip, {:headers => :true, :quote_char => ','}) do |row|
           dr = Result.new
-          dr.id = row['id'].strip
+          dr.id = row['id']  
           dr.name = row['name']
-          dr.type = row['type']
-          dr.ad_start = row['ad_start']
-          dr.ad_end = row['ad_start']
+	   dr.type = row['type']
+          dr.impressions = row['impressions']
           dr.clicks = row['clicks']
           dr.ctr = row['ctr']
+          dr.pccr = row['pccr']
+          dr.actions = row['actions']
           dr.ar = row['ar']
           dr.gross_rev = row['gross_rev']
           dr.gross_ecpm = row['gross_ecpm']
+          dr.net_ecpc = row['net_ecpc']
           dr.net_ecpa = row['net_ecpa']
-          dr.net_ecpc = row['net_ecpa']
 
           csv_results << dr
         end

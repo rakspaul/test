@@ -5,18 +5,38 @@ ReachUI.namespace("Reports");
 
 ReachUI.Reports.Dimensions = function() {
 	
-	var baseURL = "/reports/dimensions";
+	var baseURL = "/reports/dimensions";	
 	var dropColumnCollection = [];
 	var requestpParams ={};
 	var count = 0;
+	var dropItem = '';
+	var dropColName = null;
+	var tabColumn = 0;		
+	var dropColString = null;
+	var flag = true;	
 
-	var addDragDrop = function(){
-		
-		var tabColumn = 0;
-		var dropColName = null;
-		var dropColString = null;		
-		var dropColStringOld = null;
-		
+	var appReset = function(){
+		 dropColumnCollection = [];
+		 requestpParams ={};
+		 count = 0;
+		 dropItem = '';
+		 dropColName = null;
+		 tabColumn = 0;		
+		 dropColString = null;	
+		$("#ordersReportTable").hide();
+		$(".placeholder").show();
+		$(".droppable").css({"border":"1px solid #ccc"});
+
+		$("#selectedDimensions").html('').hide();
+		$("#dimensions li").show();
+
+		addDragDrop();
+		addDraggable();
+
+		return true;
+	}	
+
+	var addDragDrop = function(){		
 
 		//Drag Starts
 		$( "#draggable ul li" ).draggable({
@@ -32,46 +52,53 @@ ReachUI.Reports.Dimensions = function() {
 
 			drop: function( event, ui ) { 
 
-				var dropItem = ui.draggable;
+				dropItem = ui.draggable;
 
-        dropItem.remove();
-				//dropItem.draggable('option', 'disabled', true);
-        $(".placeholder").remove(); 
-        $(".ajax_loader").show();       
 
-				dropColName = $(dropItem).text();
-				dropColString = $(dropItem).text().toLowerCase();
-				dropColumnCollection.push(dropColString);
+				if(dropColumnCollection.length<2 && flag){
+					
+        	dropItem.hide();
+					//dropItem.draggable('option', 'disabled', true);
+	        $(".placeholder").hide(); 
+	        $(".ajax_loader").show(); 
+	        flag = false;      
 
-				console.log(dropColumnCollection);
-									
-				var containsHeaders = $("#ordersReportTable thead th").length;
+					dropColName = $(dropItem).text();
+					dropColString = $(dropItem).text().toLowerCase();
+					if(dropColString == 'ads') dropColString = 'ad';
+					dropColumnCollection.push(dropColString);
 
-				if(dropColumnCollection.length < 2){
-					if(containsHeaders){
-						addColumnsNew(dropColName, dropColString);
+					var showSelectedDim = showSelectedDimensions();
+										
+					var containsHeaders = $("#ordersReportTable thead th").length;
+
+					if(dropColumnCollection.length < 2){
+						if(containsHeaders){
+							addColumnsNew(dropColName, dropColString);
+						}
+						else{
+							addColumnsNew(dropColName, dropColString);
+						}
 					}
 					else{
-						addColumnsNew(dropColName, dropColString);
-						dropColStringOld = dropColString;
-					}
+						$(".dimName").removeAttr("disabled");
+						$(".dimName").addClass("dimNameActive");
+						$(".accIcon").css({'display':'inline-block'});
+						$(".ajax_loader").hide();
+						$(".droppable").css({"border":"none"});
+					}			
 				}
 				else{
-					$(".dimName").removeAttr("disabled");
-					$(".dimName").addClass("dimNameActive");
+					dropItem.draggable('option', 'revert', true);
 				}
 
 			}
 		});
 	}
-
-	
 	
 	var addColumnsNew = function(dropColName, dropColString){
 
-		$("#ordersReportTable thead tr").remove();
-    $("#ordersReportTable tbody tr").remove();   
-    
+		var clear_Table_Content = clearTableContent();     
 
 		var requestParams=getRequestParams();		
 
@@ -80,6 +107,9 @@ ReachUI.Reports.Dimensions = function() {
     request.done(function(data){
 			
 			$(".ajax_loader").hide();
+			$(".droppable").css({"border":"none"});
+			$("#ordersReportTable").show();	
+			flag = true;		
 
 			var jsonData = JSON.parse(data);
 			
@@ -90,99 +120,75 @@ ReachUI.Reports.Dimensions = function() {
    			tableHeaders.push(key);
 			}			
 
-			//Required Headers to add in table
-			//var tableHeaderNames = ["Advertisers", "Orders"];
-
 			var $thead = $("#ordersReportTable thead");
 			var $tbody = $("#ordersReportTable tbody");	
 
 			var tableHeadersRow = addTableHeaders(tableHeaders);	
 
-			var tableRowData = addTableColumnsData(tableHeaders, jsonData, "");
+			var tableRowData = addTableColumnsData(jsonData);
 
 			$tbody.append(tableRowData);
 			$thead.append(tableHeadersRow);
 
 		});
-
 	}	
+
+	var clearTableContent = function(){
+		$("#ordersReportTable thead tr").remove();
+    $("#ordersReportTable tbody tr").remove();
+    return true;  
+	}
 
 	var getRequestParams = function(){
 		var selected_date = $("#report_date span").text().split("to");
     var from_date = selected_date[0].trim();
     var to_date = selected_date[1].trim();
 		
-		// para.existing = dropColStringOld;		
-    //para.selected = dropColString;
     requestpParams .dimensions = dropColumnCollection;
     requestpParams .from_date = from_date;
     requestpParams .to_date = to_date;
-		//requestpParams.expand_id = null;
 
     return requestpParams;
 	}
 
-	var addTableHeaders = function(tableHeaders){
-		
-		//var $thead = $("#ordersReportTable thead");
-	
-		var tableHeadersRow = '';
-		var tableHeadersNames = '';
+	var showSelectedDimensions = function(){
 
-		for(i=0;i<tableHeaders.length;i++){
-			tableHeadersNames  += '<th>' + tableHeaders[i] + '</th>';
-		}
+		var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
 
-		tableHeadersRow = '<tr>'+ tableHeadersNames + '</tr>';
-		
-		return tableHeadersRow;
-		//$tableHeadersRow.appendTo($thead);
-
+		$("#selectedDimensions").append(selectedBtn).show();
 	}
 
+	var addTableHeaders = function(tableHeaders){
+		
+		var headersTempl = _.template($("#orders_reports_headers_temp").html());
+		return headersTempl;
+	}
 
-	var addTableColumnsData = function(tableHeaders, jsonData, tableColClass){
+	var addTableColumnsData = function(jsonData){
 
 		var tableRowData = '';
 
 		$.each(jsonData, function(count, item){
-			
 			var tableColumnNames = '';
-
-			for(i=0; i<tableHeaders.length;i++){
-				
-				if(tableColClass){
-					if(tableHeaders[i]=="name"){
-						tableColumnNames  += '<td class='+tableColClass+'><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
-					}
-					else{
-						tableColumnNames  += '<td class='+tableColClass+'>' + item[tableHeaders[i]] + '</td>';
-					}
-				}
-				else{
-					if(tableHeaders[i]=="name"){
-						tableColumnNames  += '<td><a class="dimName" disabled="disabled" data-id='+item.id+'>' + item[tableHeaders[i]] + '</a></td>';
-					}
-					else{
-						tableColumnNames  += '<td>' + item[tableHeaders[i]] + '</td>';
-					}
-				}
-
-			}
-
-			if(tableColClass){
-				tableRowData += '<tr class="hightlightRow">'+tableColumnNames+'</tr>';
-			}
-			else{
-				tableRowData += '<tr>'+tableColumnNames+'</tr>';
-			}
-			
-
+			var template = _.template($("#orders_reports_body_temp").html(), item);
+			tableRowData += template;
 		});		
 
-		// $el.append(tableRowData);
 		return tableRowData;		
+	}
 
+	var addTableColumnsDataHigh = function(jsonData, expandID){
+
+		var tableRowData = '';
+
+		$.each(jsonData, function(count, item){			
+			var tableColumnNames = '';	
+			item["expandID"] = expandID;
+			var template = _.template($("#orders_reports_body_temp_high").html(), item);
+			tableRowData += template;
+		});		
+
+		return tableRowData;	
 	}
 
 	var addDraggable = function(){
@@ -197,75 +203,90 @@ ReachUI.Reports.Dimensions = function() {
   	});
 	}
 
-	var initializeDateRangePicker = function() {
-    var maxDate = Date.parse("yesterday"),
-      strSelectedStartDate = Date.parse("yesterday"),
-      strSelectedEndDate = Date.parse("yesterday");
+	var dimensionsOrderByClick = function(){
+  	$(document).on("click",".dimName",function(){
+      
+      var selectExpandID = $(this).attr("data-id").trim();
+      var $selectDOMElement = $(this).closest("tr");
+      var $selectAccIcon = $selectDOMElement.find(".accIcon");
 
-    // create range for last six months
-    var minDate = Date.parse("6 months ago"),
-      dateRanges = {},
-      monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      requestpParams.expand_id = selectExpandID;
 
-    while(minDate.isBefore(maxDate)) {
-      var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
-      dateRanges[mName] = [];
-      dateRanges[mName].push(minDate.clone().moveToFirstDayOfMonth());
-      dateRanges[mName].push(minDate.clone().moveToLastDayOfMonth());
-      dateRanges[mName].push("month");
-      minDate.addMonths(1);
-    }
+      if($selectAccIcon.hasClass("icon-plus-sign")){
+      	excuteRequest(selectExpandID);
+      }
+      else{
+      	hideAccordionContent(selectExpandID);
+      }
 
-    // add last month
-    var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
-    dateRanges[mName] = [];
-    dateRanges[mName].push(minDate.moveToFirstDayOfMonth().clone());
-    dateRanges[mName].push(minDate.moveToLastDayOfMonth().clone());
-    dateRanges[mName].push("month");
 
-    var yearName = "Last 12 months"
-    dateRanges[yearName] = []
-    dateRanges[yearName].push(Date.parse("1 year ago"));
-    dateRanges[yearName].push(Date.parse("today"));
-    dateRanges[yearName].push("year");
+      function excuteRequest(selectExpandID){
 
-    $('#report_date').daterangepicker(
-      {
-        ranges: dateRanges,
-        opens: 'right',
-        format: 'yyyy-MM-dd',
-        startDate: Date.parse(strSelectedStartDate).moveToFirstDayOfMonth(),
-        endDate: Date.parse(strSelectedEndDate),
-        minDate: false,
-        maxDate: maxDate.moveToLastDayOfMonth(),
-        locale: {
-          applyLabel: 'Apply',
+      	var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
+
+	    	request.done(function(data){
+				
+					var jsonData = JSON.parse(data);
+					$(".ajax_loader").hide();	
+					$(".droppable").css({"border":"none"});
+					flag = true;	
+
+					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
+
+					var rowData = addTableColumnsDataHigh(jsonData, selectExpandID);
+					
+					$selectDOMElement.after(rowData);
+
+				});
+      }
+
+      function hideAccordionContent(selectExpandID){
+      	$("."+selectExpandID+"_parent").find(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
+      	$("."+selectExpandID+"_child").remove();
+      }
+	    
+
+    });
+  }
+
+ 	var initializeDateRangePicker = function() {
+ 		$('#report_date').daterangepicker(
+	  {
+      ranges: {
+         'Today': [new Date(), new Date()],
+         'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+         'Last 7 Days': [moment().subtract('days', 6), new Date()],
+         'Last 30 Days': [moment().subtract('days', 29), new Date()],
+         'This Month': [moment().startOf('month'), moment().endOf('month')],
+         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+      },
+      opens: 'left',
+      format: 'YYYY-MM-DD',
+      separator: ' to ',
+      startDate: moment().subtract('days', 29),
+      endDate: new Date(),
+      minDate: '2012-01-01',
+      maxDate: '2013-31-12',
+      locale: {
+          applyLabel: 'Submit',
           fromLabel: 'From',
           toLabel: 'To',
           customRangeLabel: 'Custom Range',
           daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-          monthNames: monthNames,
+          monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
           firstDay: 1
-        }
       },
-
-      function(start, end, selectedRange) {
-        
-        $('#report_date span').html(formatDate(start) + ' to ' + formatDate(end));
-      }
-    );
-
-    $('#report_date span').html(formatDate(strSelectedStartDate) + ' to ' + formatDate(strSelectedEndDate));
-
-  }
-
-  var formatDate = function(dt) {
-    if(typeof dt === 'string') {
-      dt = Date.parse(dt);
-    }
-
-    return dt.toString('yyyy-MM-dd');
-  }
+      showWeekNumbers: true,
+      buttonClasses: ['btn-danger'],
+      dateLimit: false
+  	},
+		  function(start, end) {
+		    $('#report_date span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+		  }
+		);
+	  //Set the initial state of the picker label
+		$('#report_date span').html(moment().subtract('days', 29).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
+ 	}
 
   var dimensionsAccordion = function(){
   	$(".dimensionsHeader").click(function(){
@@ -281,39 +302,14 @@ ReachUI.Reports.Dimensions = function() {
   	});
   }
 
-  var dimensionsOrderByClick = function(){
-  	$(document).on("click",".dimName",function(){
-      
-      var selectExpandID = $(this).attr("data-id");
-      var $selectDOMElement = $(this).closest("tr");
-
-      requestpParams.expand_id = selectExpandID;
-
-
-      var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
-
-    	request.done(function(data){
-			
-				var jsonData = JSON.parse(data);
-				$(".ajax_loader").hide();
-				
-				//Json Object Headers
-				var tableHeaders = [];
-				var obj = jsonData[0];
-				for (var key in obj) {
-	   			tableHeaders.push(key);
-				}			
-
-				var rowData = addTableColumnsData(tableHeaders, jsonData, "highlightCol");
-
-				$selectDOMElement.after(rowData);
-
-			});
-	    
-
-    });
+  var removeSelectedDimension = function(){
+  	$(document).on("click",".selectedDim",function(){
+  		var dimName = $(this).text();
+  		var clearContent = clearTableContent();
+  		var resetAppParams = appReset();
+  	});
   }
-
+  
 	return {
 		init: function(){
 			addDragDrop();
@@ -321,6 +317,7 @@ ReachUI.Reports.Dimensions = function() {
 			initializeDateRangePicker();
 			dimensionsAccordion();
 			dimensionsOrderByClick();
+			removeSelectedDimension();
 		}
 	}
 	
