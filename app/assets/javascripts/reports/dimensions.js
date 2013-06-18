@@ -15,8 +15,7 @@ ReachUI.Reports.Dimensions = function() {
 		var tabColumn = 0;
 		var dropColName = null;
 		var dropColString = null;		
-		var dropColStringOld = null;
-		
+		var dropColStringOld = null;		
 
 		//Drag Starts
 		$( "#draggable ul li" ).draggable({
@@ -43,8 +42,7 @@ ReachUI.Reports.Dimensions = function() {
 				dropColString = $(dropItem).text().toLowerCase();
 				if(dropColString == 'ads') dropColString = 'ad';
 				dropColumnCollection.push(dropColString);
-
-				console.log(dropColumnCollection);
+				// console.log(dropColumnCollection);
 									
 				var containsHeaders = $("#ordersReportTable thead th").length;
 
@@ -94,7 +92,6 @@ ReachUI.Reports.Dimensions = function() {
    			tableHeaders.push(key);
 			}			
 
-
 			var $thead = $("#ordersReportTable thead");
 			var $tbody = $("#ordersReportTable tbody");	
 
@@ -113,12 +110,9 @@ ReachUI.Reports.Dimensions = function() {
     var from_date = selected_date[0].trim();
     var to_date = selected_date[1].trim();
 		
-		// para.existing = dropColStringOld;		
-    //para.selected = dropColString;
     requestpParams .dimensions = dropColumnCollection;
     requestpParams .from_date = from_date;
     requestpParams .to_date = to_date;
-		//requestpParams.expand_id = null;
 
     return requestpParams;
 	}
@@ -134,42 +128,26 @@ ReachUI.Reports.Dimensions = function() {
 		var tableRowData = '';
 
 		$.each(jsonData, function(count, item){
-			
 			var tableColumnNames = '';
-
-			var bodyTempl = _.template($("#orders_reports_body_temp").html());
-
-			var populateTempl = bodyTempl(item);
-
-			tableRowData += populateTempl;
-
-
+			var template = _.template($("#orders_reports_body_temp").html(), item);
+			tableRowData += template;
 		});		
 
-		// $el.append(tableRowData);
 		return tableRowData;		
 	}
 
-	var addTableColumnsDataHigh = function(jsonData, selectExpandID){
+	var addTableColumnsDataHigh = function(jsonData, expandID){
 
 		var tableRowData = '';
 
-		$.each(jsonData, function(count, item){
-			
-			var tableColumnNames = '';
-
-			var bodyTempl = _.template($("#orders_reports_body_temp_high").html());
-
-			var populateTempl = bodyTempl(item);
-
-			tableRowData += populateTempl;
-
-			
-
+		$.each(jsonData, function(count, item){			
+			var tableColumnNames = '';	
+			item["expandID"] = expandID;
+			var template = _.template($("#orders_reports_body_temp_high").html(), item);
+			tableRowData += template;
 		});		
 
 		return tableRowData;	
-
 	}
 
 	var addDraggable = function(){
@@ -190,7 +168,6 @@ ReachUI.Reports.Dimensions = function() {
       var selectExpandID = $(this).attr("data-id").trim();
       var $selectDOMElement = $(this).closest("tr");
       var $selectAccIcon = $selectDOMElement.find(".accIcon");
-      console.log($selectAccIcon);
 
       requestpParams.expand_id = selectExpandID;
 
@@ -198,7 +175,7 @@ ReachUI.Reports.Dimensions = function() {
       	excuteRequest(selectExpandID);
       }
       else{
-      	hideAccordionContent();
+      	hideAccordionContent(selectExpandID);
       }
 
 
@@ -213,19 +190,16 @@ ReachUI.Reports.Dimensions = function() {
 					$(".droppable").css({"border":"none"});			
 					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
 
-					console.log(jsonData);
-
 					var rowData = addTableColumnsDataHigh(jsonData, selectExpandID);
-
+					
 					$selectDOMElement.after(rowData);
 
 				});
-
       }
 
-      function hideAccordionContent(){
-      	$(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
-      	$(".highlightCol").remove();
+      function hideAccordionContent(selectExpandID){
+      	$("."+selectExpandID+"_parent").find(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
+      	$("."+selectExpandID+"_child").remove();
       }
 	    
 
@@ -263,14 +237,12 @@ ReachUI.Reports.Dimensions = function() {
       buttonClasses: ['btn-danger'],
       dateLimit: false
   	},
-	  function(start, end) {
-	    $('#report_date span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
-	  }
-	);
-
+		  function(start, end) {
+		    $('#report_date span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+		  }
+		);
 	  //Set the initial state of the picker label
 	$('#report_date span').html(moment().subtract('days', 29).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
-
  	}
 
   var dimensionsAccordion = function(){
@@ -286,7 +258,6 @@ ReachUI.Reports.Dimensions = function() {
 			}
   	});
   }
-
   
 	return {
 		init: function(){

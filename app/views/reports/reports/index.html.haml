@@ -2,6 +2,7 @@
 = link_to "Create New Report", new_reports_report_path
 
 .pure-g.orderReportsMain
+  .selectedDimensions
   .pure-u-1-6.orderRepLeftCol
     #draggable.draggable
       .reportDateHeader
@@ -132,7 +133,7 @@
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp"}
   :plain
-    <tr>
+    <tr class="<%= id %>_parent">
       <td><span class="accIcon icon-plus-sign"></span> <a class="dimName" disabled="disabled" data-id="<%= id %>"><%= name %></a></td>
       <td><%= impressions %></td>
       <td><%= clicks %></td>
@@ -148,7 +149,7 @@
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp_high"}
   :plain
-    <tr class="highlightCol">
+    <tr class="highlightCol <%= expandID %>_child">
       <td><%= name %></td>
       <td><%= impressions %></td>
       <td><%= clicks %></td>
