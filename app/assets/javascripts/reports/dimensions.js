@@ -232,75 +232,46 @@ ReachUI.Reports.Dimensions = function() {
     });
   }
 
-	var initializeDateRangePicker = function() {
-    var maxDate = Date.parse("yesterday"),
-      strSelectedStartDate = Date.parse("yesterday"),
-      strSelectedEndDate = Date.parse("yesterday");
-
-    // create range for last six months
-    var minDate = Date.parse("6 months ago"),
-      dateRanges = {},
-      monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-    while(minDate.isBefore(maxDate)) {
-      var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
-      dateRanges[mName] = [];
-      dateRanges[mName].push(minDate.clone().moveToFirstDayOfMonth());
-      dateRanges[mName].push(minDate.clone().moveToLastDayOfMonth());
-      dateRanges[mName].push("month");
-      minDate.addMonths(1);
-    }
-
-    // add last month
-    var mName = monthNames[minDate.getMonth()] + " " + minDate.getFullYear();
-    dateRanges[mName] = [];
-    dateRanges[mName].push(minDate.moveToFirstDayOfMonth().clone());
-    dateRanges[mName].push(minDate.moveToLastDayOfMonth().clone());
-    dateRanges[mName].push("month");
-
-    var yearName = "Last 12 months"
-    dateRanges[yearName] = []
-    dateRanges[yearName].push(Date.parse("1 year ago"));
-    dateRanges[yearName].push(Date.parse("today"));
-    dateRanges[yearName].push("year");
-
-    $('#report_date').daterangepicker(
-      {
-        ranges: dateRanges,
-        opens: 'right',
-        format: 'yyyy-MM-dd',
-        startDate: Date.parse(strSelectedStartDate).moveToFirstDayOfMonth(),
-        endDate: Date.parse(strSelectedEndDate),
-        minDate: false,
-        maxDate: maxDate.moveToLastDayOfMonth(),
-        locale: {
-          applyLabel: 'Apply',
+ 	var initializeDateRangePicker = function() {
+ 		$('#report_date').daterangepicker(
+	  {
+      ranges: {
+         'Today': [new Date(), new Date()],
+         'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+         'Last 7 Days': [moment().subtract('days', 6), new Date()],
+         'Last 30 Days': [moment().subtract('days', 29), new Date()],
+         'This Month': [moment().startOf('month'), moment().endOf('month')],
+         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+      },
+      opens: 'left',
+      format: 'YYYY-MM-DD',
+      separator: ' to ',
+      startDate: moment().subtract('days', 29),
+      endDate: new Date(),
+      minDate: '2012-01-01',
+      maxDate: '2013-31-12',
+      locale: {
+          applyLabel: 'Submit',
           fromLabel: 'From',
           toLabel: 'To',
           customRangeLabel: 'Custom Range',
           daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr','Sa'],
-          monthNames: monthNames,
+          monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
           firstDay: 1
-        }
       },
+      showWeekNumbers: true,
+      buttonClasses: ['btn-danger'],
+      dateLimit: false
+  	},
+	  function(start, end) {
+	    $('#report_date span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+	  }
+	);
 
-      function(start, end, selectedRange) {
-        
-        $('#report_date span').html(formatDate(start) + ' to ' + formatDate(end));
-      }
-    );
+	  //Set the initial state of the picker label
+	$('#report_date span').html(moment().subtract('days', 29).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
 
-    $('#report_date span').html(formatDate(strSelectedStartDate) + ' to ' + formatDate(strSelectedEndDate));
-
-  }
-
-  var formatDate = function(dt) {
-    if(typeof dt === 'string') {
-      dt = Date.parse(dt);
-    }
-
-    return dt.toString('yyyy-MM-dd');
-  }
+ 	}
 
   var dimensionsAccordion = function(){
   	$(".dimensionsHeader").click(function(){

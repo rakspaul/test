@@ -31,7 +31,6 @@ h1{
 
 #ordersReportTable{
 	display:none;
-	width:920px;
 }
 
 .reportDateHeader{
@@ -91,7 +90,7 @@ h1{
 	
 }
 .draggable{
-	width:200px;
+	width:210px;
 	margin:15px 0 0 0px;
 }
 .droppable{
@@ -176,8 +175,8 @@ ul.dimensions li{
 .reportDate{
 	background: #fff; 
 	cursor: pointer; 
-	padding: 2px;
-	font-size:12px;
+	padding: 5px;
+	font-size:13px;
 	border:1px solid #ccc;
 	margin-bottom:5px;
 	display:block;
@@ -218,7 +217,7 @@ tr.highlightCol td, tr.highlightCol td a{
 }
 
 tr.highlightCol td:first-child{
-	padding-left:25px !important;
+	padding-left:20px !important;
 }
 
 .dimName, .dimName:link, .dimName:hover, .dimName:active, .dimName:visited{
@@ -236,4 +235,5 @@ tr.highlightCol td:first-child{
 
 .accIcon{
 	display:none;
+	margin-right:2px;
 }
