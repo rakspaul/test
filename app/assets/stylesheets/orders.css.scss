@@ -203,9 +203,43 @@ $hover-color: #B5E8FF; //#EDFAFF;
   border-radius: 4px;
   cursor: pointer;
   vertical-align: middle;
+  background-color: #fff;
 
   .caret {
     margin-left: 2px;
     margin-top: 8px;
+  }
+}
+
+.ad-size-list {
+  width: 528px;
+
+  .ad-size {
+    float: left;
+    padding: 5px;
+    width: 102px;
+    cursor: pointer;
+    margin: 0 10px 5px;
+    border-radius: 5px;
+
+    &:hover {
+      background-color: #ccc;
+    }
+
+    input {
+      margin-top: -1px;
+    }
+  }
+}
+
+form fieldset {
+  background: none repeat scroll 0 0 #F7F7F7;
+  border-radius: 5px 5px 5px 5px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+
+  .actions {
+    padding: 0 10px;
   }
 }

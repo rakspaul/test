@@ -22,7 +22,7 @@ class LineitemsController < ApplicationController
   # POST orders/{order_id}/lineitems
   def create
     @order = Order.find(params[:order_id])
-    p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate)
+    p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
     @lineitem = @order.lineitems.create(p)
 
     if @lineitem.valid?

@@ -120,11 +120,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _newLineItem: function() {
     var newLineItem = new ReachUI.LineItems.LineItem({}, {'order': this.selectedOrder});
-    var newItemView = new ReachUI.LineItems.NewLineItemView({model: newLineItem});
-    newItemView.on("lineitem:created", function() {
+    var lineItemController = new ReachUI.LineItems.LineItemController({
+                                    model: newLineItem, mainRegion:
+                                    this.orderDetailsLayout.lineitems
+                                  });
+
+    lineItemController.on("lineitem:saved", function() {
       ReachUI.Orders.router.navigate('/'+this.selectedOrder.id, {trigger: true});
     }, this);
 
-    this.orderDetailsLayout.lineitems.show(newItemView);
+    lineItemController.show();
   }
 });

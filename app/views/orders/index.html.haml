@@ -18,6 +18,9 @@
 
 :javascript
   $(document).ready(function() {
+    $(window).resize(resizeContent);
+    $(resizeContent);
+
     var controller = new ReachUI.Orders.OrderController();
     ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
 
@@ -26,3 +29,10 @@
       root: "/orders"
     });
   });
+
+  function resizeContent() {
+    var width = $(window).width() - 350;
+    var height = $(window).height() - 84;
+    $("#details").width(width).height(height);
+    $("order_list").height(height);
+  }
