@@ -5,17 +5,26 @@ ReachUI.namespace("Reports");
 
 ReachUI.Reports.Dimensions = function() {
 	
-	var baseURL = "/reports/dimensions";
+	var baseURL = "/reports/dimensions";	
 	var dropColumnCollection = [];
 	var requestpParams ={};
 	var count = 0;
+	var dropItem = '';
+	var dropColName = null;
+	var tabColumn = 0;		
+	var dropColString = null;	
 
-	var addDragDrop = function(){
-		
-		var tabColumn = 0;
+	var appInit = function(){
+		var dropColumnCollection = [];
+		var requestpParams ={};
+		var count = 0;
+		var dropItem = '';
 		var dropColName = null;
-		var dropColString = null;		
-		var dropColStringOld = null;		
+		var tabColumn = 0;		
+		var dropColString = null;	
+	}	
+
+	var addDragDrop = function(){		
 
 		//Drag Starts
 		$( "#draggable ul li" ).draggable({
@@ -31,36 +40,43 @@ ReachUI.Reports.Dimensions = function() {
 
 			drop: function( event, ui ) { 
 
-				var dropItem = ui.draggable;
+				dropItem = ui.draggable;
 
-        dropItem.remove();
-				//dropItem.draggable('option', 'disabled', true);
-        $(".placeholder").remove(); 
-        $(".ajax_loader").show();       
+				if(dropColumnCollection.length<2){
+					
+        	dropItem.remove();
+					//dropItem.draggable('option', 'disabled', true);
+	        $(".placeholder").remove(); 
+	        $(".ajax_loader").show();       
 
-				dropColName = $(dropItem).text();
-				dropColString = $(dropItem).text().toLowerCase();
-				if(dropColString == 'ads') dropColString = 'ad';
-				dropColumnCollection.push(dropColString);
-				// console.log(dropColumnCollection);
-									
-				var containsHeaders = $("#ordersReportTable thead th").length;
+					dropColName = $(dropItem).text();
+					dropColString = $(dropItem).text().toLowerCase();
+					if(dropColString == 'ads') dropColString = 'ad';
+					dropColumnCollection.push(dropColString);
+					// console.log(dropColumnCollection);
 
-				if(dropColumnCollection.length < 2){
-					if(containsHeaders){
-						addColumnsNew(dropColName, dropColString);
+					var showSelectedDim = showSelectedDimensions();
+										
+					var containsHeaders = $("#ordersReportTable thead th").length;
+
+					if(dropColumnCollection.length < 2){
+						if(containsHeaders){
+							addColumnsNew(dropColName, dropColString);
+						}
+						else{
+							addColumnsNew(dropColName, dropColString);
+						}
 					}
 					else{
-						addColumnsNew(dropColName, dropColString);
-						dropColStringOld = dropColString;
-					}
+						$(".dimName").removeAttr("disabled");
+						$(".dimName").addClass("dimNameActive");
+						$(".accIcon").css({'display':'inline-block'});
+						$(".ajax_loader").hide();
+						$(".droppable").css({"border":"none"});
+					}			
 				}
 				else{
-					$(".dimName").removeAttr("disabled");
-					$(".dimName").addClass("dimNameActive");
-					$(".accIcon").css({'display':'inline-block'});
-					$(".ajax_loader").hide();
-					$(".droppable").css({"border":"none"});
+					dropItem.draggable('option', 'revert', true);
 				}
 
 			}
@@ -69,9 +85,7 @@ ReachUI.Reports.Dimensions = function() {
 	
 	var addColumnsNew = function(dropColName, dropColString){
 
-		$("#ordersReportTable thead tr").remove();
-    $("#ordersReportTable tbody tr").remove();   
-    
+		var clear_Table_Content = clearTableContent();     
 
 		var requestParams=getRequestParams();		
 
@@ -81,7 +95,7 @@ ReachUI.Reports.Dimensions = function() {
 			
 			$(".ajax_loader").hide();
 			$(".droppable").css({"border":"none"});
-			$("#ordersReportTable").show();
+			$("#ordersReportTable").show();			
 
 			var jsonData = JSON.parse(data);
 			
@@ -105,6 +119,12 @@ ReachUI.Reports.Dimensions = function() {
 		});
 	}	
 
+	var clearTableContent = function(){
+		$("#ordersReportTable thead tr").remove();
+    $("#ordersReportTable tbody tr").remove();
+    return true;  
+	}
+
 	var getRequestParams = function(){
 		var selected_date = $("#report_date span").text().split("to");
     var from_date = selected_date[0].trim();
@@ -115,6 +135,21 @@ ReachUI.Reports.Dimensions = function() {
     requestpParams .to_date = to_date;
 
     return requestpParams;
+	}
+
+	var showSelectedDimensions = function(){
+		// console.log(dropColumnCollection);
+		// var selectedBtns = [];
+		// var selectedButtons = '';
+
+		// for(i=0; i<dropColumnCollection.length; i++){
+		// 	selectedBtns[i] = "<a href='#' class='btn btn-success'>"+dropColumnCollection[i]+"</a>";
+		// 	selectedButtons += selectedBtns[i];
+		// }
+
+		var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
+
+		$("#selectedDimensions").append(selectedBtn).show();
 	}
 
 	var addTableHeaders = function(tableHeaders){
@@ -187,7 +222,8 @@ ReachUI.Reports.Dimensions = function() {
 				
 					var jsonData = JSON.parse(data);
 					$(".ajax_loader").hide();	
-					$(".droppable").css({"border":"none"});			
+					$(".droppable").css({"border":"none"});	
+
 					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
 
 					var rowData = addTableColumnsDataHigh(jsonData, selectExpandID);
@@ -242,7 +278,7 @@ ReachUI.Reports.Dimensions = function() {
 		  }
 		);
 	  //Set the initial state of the picker label
-	$('#report_date span').html(moment().subtract('days', 29).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
+		$('#report_date span').html(moment().subtract('days', 29).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
  	}
 
   var dimensionsAccordion = function(){
@@ -258,6 +294,14 @@ ReachUI.Reports.Dimensions = function() {
 			}
   	});
   }
+
+  var removeSelectedDimension = function(){
+  	$(document).on("click",".selectedDim",function(){
+  		var dimName = $(this).text();
+  		//clearTableContent();
+  		//appInit();
+  	});
+  }
   
 	return {
 		init: function(){
@@ -266,6 +310,7 @@ ReachUI.Reports.Dimensions = function() {
 			initializeDateRangePicker();
 			dimensionsAccordion();
 			dimensionsOrderByClick();
+			removeSelectedDimension();
 		}
 	}
 	

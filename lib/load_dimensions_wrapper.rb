@@ -34,7 +34,7 @@ require 'csv'
         "format" => "csv",
         "sortField" => user_id,
         "usage" => "0",
-        "pagesize" => "20",
+        "pagesize" => "400",
         "pagestart" => "0",
         "sortDirection" => "ascending",
         "fromdate" => from_date,

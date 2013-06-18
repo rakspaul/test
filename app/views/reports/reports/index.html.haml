@@ -1,8 +1,10 @@
 %h1#header
 = link_to "Create New Report", new_reports_report_path
 
-.pure-g.orderReportsMain
-  .selectedDimensions
+.pure-g
+  #selectedDimensions.selectedDimensions
+
+.pure-g.orderReportsMain  
   .pure-u-1-6.orderRepLeftCol
     #draggable.draggable
       .reportDateHeader
@@ -118,49 +120,49 @@
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
-      <th>Name</th>
-      <th>Imps</th>
-      <th>Clicks</th>
-      <th>CTR%</th>        
-      <th>PCCR %</th>
-      <th>Total Actions</th>
-      <th>AR%</th>
-      <th>Gross Rev</th>
-      <th>Gross eCMP</th>
-      <th>eCPM</th>
-      <th>eCPA</th>
+      <th class="l_width">Name</th>
+      <th class="s_width">Imps</th>
+      <th class="s_width">Clicks</th>
+      <th class="s_width">CTR%</th>        
+      <th class="s_width">PCCR %</th>
+      <th class="s_width">Total Actions</th>
+      <th class="s_width">AR%</th>
+      <th class="s_width">Gross Rev</th>
+      <th class="s_width">Gross eCMP</th>
+      <th class="s_width">eCPC</th>
+      <th class="s_width">eCPA</th>
     </tr>
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp"}
   :plain
     <tr class="<%= id %>_parent">
-      <td><span class="accIcon icon-plus-sign"></span> <a class="dimName" disabled="disabled" data-id="<%= id %>"><%= name %></a></td>
-      <td><%= impressions %></td>
-      <td><%= clicks %></td>
-      <td><%= ctr %></td>
-      <td><%= pccr %></td>
-      <td><%= actions %></td>
-      <td><%= ar %></td>
-      <td><%= gross_rev %></td>
-      <td><%= gross_ecpm %></td>
-      <td><%= net_ecpc %></td>
-      <td><%= net_ecpa %></td>
+      <td class="l_width"><span class="accIcon icon-plus-sign"></span> <a class="dimName" disabled="disabled" data-id="<%= id %>"><%= name %></a></td>
+      <td class="s_width"><%= impressions %></td>
+      <td class="s_width"><%= clicks %></td>
+      <td class="s_width"><%= ctr %></td>
+      <td class="s_width"><%= pccr %></td>
+      <td class="s_width"><%= actions %></td>
+      <td class="s_width"><%= ar %></td>
+      <td class="s_width"><%= gross_rev %></td>
+      <td class="s_width"><%= gross_ecpm %></td>
+      <td class="s_width"><%= net_ecpc %></td>
+      <td class="s_width"><%= net_ecpa %></td>
     </tr>
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp_high"}
   :plain
     <tr class="highlightCol <%= expandID %>_child">
-      <td><%= name %></td>
-      <td><%= impressions %></td>
-      <td><%= clicks %></td>
-      <td><%= ctr %></td>
-      <td><%= pccr %></td>
-      <td><%= actions %></td>
-      <td><%= ar %></td>
-      <td><%= gross_rev %></td>
-      <td><%= gross_ecpm %></td>
-      <td><%= net_ecpc %></td>
-      <td><%= net_ecpa %></td>
+      <td class="l_width"><%= name %></td>
+      <td class="s_width"><%= impressions %></td>
+      <td class="s_width"><%= clicks %></td>
+      <td class="s_width"><%= ctr %></td>
+      <td class="s_width"><%= pccr %></td>
+      <td class="s_width"><%= actions %></td>
+      <td class="s_width"><%= ar %></td>
+      <td class="s_width"><%= gross_rev %></td>
+      <td class="s_width"><%= gross_ecpm %></td>
+      <td class="s_width"><%= net_ecpc %></td>
+      <td class="s_width"><%= net_ecpa %></td>
     </tr>
 
 

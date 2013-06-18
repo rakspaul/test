@@ -103,11 +103,15 @@ h1{
   -webkit-border-radius: 5px;
   border-radius: 5px;	
 }
-.droppable table th{
+
+table#ordersReportTable th{
 	font-size:12px;
 	line-height:16px;
 	font-weight:bold;
 	color:#fff;
+	text-align:center;
+	vertical-align: middle;
+	padding:5px;
 
 	background: #1e5799; /* Old browsers */
 	background: -moz-linear-gradient(top, #1e5799 0%, #2989d8 52%, #7db9e8 100%); /* FF3.6+ */
@@ -120,7 +124,13 @@ h1{
 
 	cursor:move;
 }
-.droppable table td{
+
+table#ordersReportTable th.l_width, table#ordersReportTable td.l_width{ width:276px; }
+table#ordersReportTable th.m_width, table#ordersReportTable td.m_width{ width:100px; }
+table#ordersReportTable th.s_width, table#ordersReportTable td.s_width{ width:47px; }
+
+
+table#ordersReportTable td{
 	font-size:12px;
 	line-height:16px;
 	padding:5px;
@@ -239,4 +249,23 @@ tr.highlightCol td:first-child{
 }
 .daterangepicker .ranges li{
 	margin-bottom:3px;
+}
+.selectedDimensions{
+	letter-spacing:0;
+	text-align:center;
+	background:#f8f8f8;
+	padding:10px;
+	display:none;
+
+	-webkit-border-radius: 5px;
+   border-radius: 5px;
+}
+
+.selectedDimensions a{
+	letter-spacing:0;
+	cursor:pointer;
+}
+
+.selectedDim{
+	margin-right:10px;
 }
