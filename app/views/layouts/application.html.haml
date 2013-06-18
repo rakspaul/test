@@ -40,11 +40,3 @@
 
     .app_content
       = yield
-
-:javascript
-  $(document).ready(function(){
-    var width = $(window).width() - 200;
-    var height = $(window).height();
-    $("#container").css({"min-width": width+"px"});
-    $("#left_sidebar").css({"min-height": height+"px"});
-  });

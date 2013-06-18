@@ -8,4 +8,5 @@ class Lineitem < ActiveRecord::Base
   validates :active, inclusion: { in: [true, false] }
   validates :volume, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :rate, numericality: { greater_than_or_equal_to: 0 }
+  validates :ad_sizes, ad_size: true
 end

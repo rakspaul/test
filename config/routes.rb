@@ -1,7 +1,8 @@
 Reachui::Application.routes.draw do
+  get "adsizes/index"
   root 'account_sessions#new'
 
-  resource :account_session, :path => 'session', :as => 'session', :only => [:new, :create, :destroy]
+  resource :account_session, :path => 'session', as: 'session', only: [:new, :create, :destroy]
   post 'signin' => 'account_sessions#create'
   get 'signout' => 'account_sessions#destroy'
 
@@ -20,6 +21,7 @@ Reachui::Application.routes.draw do
   end
 
   resources :kendoui
+  resources :ad_sizes, only: [:index]
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
