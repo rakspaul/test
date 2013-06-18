@@ -23,9 +23,9 @@
 //= require utils/core
 //= require_tree ./templates
 //= require reports/list.js
+//= require reports/dimensions
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
 //= require ./orders/mediator.js
-//= require reports/dimensions
