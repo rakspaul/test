@@ -7,7 +7,7 @@ ReachUI.Reports.Dimensions = function() {
 	
 	var baseURL = "/reports/dimensions";	
 	var dropColumnCollection = [];
-	var requestpParams ={};
+	var requestParams ={};
 	var count = 0;
 	var dropItem = '';
 	var dropColName = null;
@@ -17,7 +17,6 @@ ReachUI.Reports.Dimensions = function() {
 
 	var appReset = function(){
 		 dropColumnCollection = [];
-		 requestpParams ={};
 		 count = 0;
 		 dropItem = '';
 		 dropColName = null;
@@ -73,10 +72,10 @@ ReachUI.Reports.Dimensions = function() {
 
 					if(dropColumnCollection.length < 2){
 						if(containsHeaders){
-							addColumnsNew(dropColName, dropColString);
+							addColumnsNew();
 						}
 						else{
-							addColumnsNew(dropColName, dropColString);
+							addColumnsNew();
 						}
 					}
 					else{
@@ -89,12 +88,12 @@ ReachUI.Reports.Dimensions = function() {
 				else{
 					dropItem.draggable('option', 'revert', true);
 				}
-
 			}
+			
 		});
 	}
 	
-	var addColumnsNew = function(dropColName, dropColString){
+	var addColumnsNew = function(){
 
 		var clear_Table_Content = clearTableContent();     
 
@@ -141,11 +140,11 @@ ReachUI.Reports.Dimensions = function() {
     var from_date = selected_date[0].trim();
     var to_date = selected_date[1].trim();
 		
-    requestpParams .dimensions = dropColumnCollection;
-    requestpParams .from_date = from_date;
-    requestpParams .to_date = to_date;
+    requestParams.dimensions = dropColumnCollection;
+    requestParams.from_date = from_date;
+    requestParams.to_date = to_date;
 
-    return requestpParams;
+    return requestParams;
 	}
 
 	var showSelectedDimensions = function(){
@@ -203,7 +202,7 @@ ReachUI.Reports.Dimensions = function() {
       var $selectDOMElement = $(this).closest("tr");
       var $selectAccIcon = $selectDOMElement.find(".accIcon");
 
-      requestpParams.expand_id = selectExpandID;
+      requestParams.expand_id = selectExpandID;
 
       if($selectAccIcon.hasClass("icon-plus-sign")){
       	excuteRequest(selectExpandID);
@@ -215,7 +214,7 @@ ReachUI.Reports.Dimensions = function() {
 
       function excuteRequest(selectExpandID){
 
-      	var request = $.ajax({url:baseURL, data:requestpParams , dataType: "script"});
+      	var request = $.ajax({url:baseURL, data:requestParams , dataType: "script"});
 
 	    	request.done(function(data){
 				
@@ -317,30 +316,36 @@ ReachUI.Reports.Dimensions = function() {
   				$(".dimName").attr("disabled","disabled");
 					$(".dimName").removeClass("dimNameActive");
 					$(".accIcon").css({'display':'none'});
-
+					$(".highlightCol").remove();
+					$(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
 					var removeItem = dropColumnCollection[1];
 
-					dropColumnCollection = jQuery.grep(dropColumnCollection, function(value) {
-					  return value != removeItem;
-					});
-
+					dropColumnCollection = removeItem_dropColumnCollection(removeItem);
 					showSelectedDimensions();
-
   			}
   			else{
   				var clearContent = clearTableContent();
   				var resetAppParams = appReset();
   				var deleteSelected = deleteSelectedDim(getSelIndex);
-  			}
-  			
-
+					addColumnsNew();
+  				
+  			}  			
   		}
   		
   	});
   }
 
   var deleteSelectedDim = function(getSelIndex){
-  	alert(getSelIndex);
+  	var removeItem = dropColumnCollection[getSelIndex];
+  	dropColumnCollection = removeItem_dropColumnCollection(removeItem);
+  	showSelectedDimensions();  	
+  }
+
+  var removeItem_dropColumnCollection =function(removeItem){
+  	dropColumnCollection = jQuery.grep(dropColumnCollection, function(value) {
+		  return value != removeItem;
+		});
+		return dropColumnCollection;
   }
 
   var addDraggable = function(){
@@ -363,14 +368,12 @@ ReachUI.Reports.Dimensions = function() {
   		adjustColWidth();
   	});
 
-
   	function adjustColWidth(){
   		var docWidth = $(document).width();
 	  	$(".orderRepLeftCol").width(220);
 	  	$(".orderRepRightCol").width(docWidth-220);
 	  	$("#droppable").width(docWidth-220);
   	}
-
   }
 
 	return {
