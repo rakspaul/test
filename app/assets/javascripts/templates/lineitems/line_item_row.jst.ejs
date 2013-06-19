@@ -2,5 +2,5 @@
 <td class="name"><%= lineitem.name %></td>
 <td class="start_date"><%= lineitem.start_date %></td>
 <td class="end_date"><%= lineitem.end_date %></td>
-<td class="volume"><%= lineitem.volume %></td>
-<td class="rate"><%= lineitem.rate %></td>
+<td class="volume"><%= accounting.formatNumber(lineitem.volume) %></td>
+<td class="rate"><%= accounting.formatMoney(lineitem.rate) %></td>
