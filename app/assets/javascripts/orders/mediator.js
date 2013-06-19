@@ -102,8 +102,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var lineitem = this.lineItemList.get(id);
     if(!lineitem) {
       var self = this;
-      lineitem = new ReachUI.LineItems.LineItem({}, {'order': this.selectedOrder});
-      lineitem.id = id;
+      lineitem = new ReachUI.LineItems.LineItem({
+                      'id': id,
+                      'order_id': this.selectedOrder.id
+                    });
       lineitem.fetch({
         success: function(model) {
           self._showLineItem(model);
@@ -154,13 +156,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _newLineItem: function() {
-    var newLineItem = new ReachUI.LineItems.LineItem({}, {'order': this.selectedOrder});
+    var newLineItem = new ReachUI.LineItems.LineItem({'order_id': this.selectedOrder.id});
     var lineItemController = new ReachUI.LineItems.LineItemController({
-                                    model: newLineItem, mainRegion:
-                                    this.orderDetailsLayout.lineitems
+                                    model: newLineItem,
+                                    mainRegion: this.orderDetailsLayout.lineitems
                                   });
 
     lineItemController.on("lineitem:saved", function() {
+      ReachUI.Orders.router.navigate('/'+this.selectedOrder.id, {trigger: true});
+    }, this);
+
+    lineItemController.on("lineitem:close", function() {
       ReachUI.Orders.router.navigate('/'+this.selectedOrder.id, {trigger: true});
     }, this);
 
@@ -168,7 +174,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showLineItem: function(lineitem) {
-    lineitem.setOrder(this.selectedOrder);
     var lineItemController = new ReachUI.LineItems.LineItemController({
                                     model: lineitem,
                                     mainRegion: this.orderDetailsLayout.lineitems
