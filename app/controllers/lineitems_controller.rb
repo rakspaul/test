@@ -17,6 +17,13 @@ class LineitemsController < ApplicationController
 
   # GET order/{order_id}/{lineitem_id}
   def show
+    respond_to do |format|
+      format.html { render "orders/index" }
+      format.json do
+        @order = Order.find(params[:order_id])
+        @lineitem = @order.lineitems.find(params[:id])
+      end
+    end
   end
 
   # POST orders/{order_id}/lineitems
@@ -27,6 +34,17 @@ class LineitemsController < ApplicationController
 
     if @lineitem.valid?
       render status: :ok
+    else
+      render json: { errors: @lineitem.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @order = Order.find(params[:order_id])
+    @lineitem = @order.lineitems.find(params[:id])
+    p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
+    if @lineitem.update_attributes(p)
+      render :create
     else
       render json: { errors: @lineitem.errors }, status: :unprocessable_entity
     end

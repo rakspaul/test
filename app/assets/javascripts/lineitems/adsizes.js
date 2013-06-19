@@ -8,6 +8,10 @@
 
     toggleSelected: function() {
       this.set({"selected": !this.get("selected")});
+    },
+
+    selected: function() {
+      this.set({"selected": !this.get("selected")});
     }
   });
 

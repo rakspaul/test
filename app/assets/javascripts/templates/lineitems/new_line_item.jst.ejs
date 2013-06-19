@@ -1,7 +1,7 @@
 <div class="control-group" id="name_group">
   <label class="control-label" for="name">Name</label>
   <div class="controls">
-    <input type="text" id="name" placeholder="Lineitem name" required>
+    <input type="text" id="name" placeholder="Lineitem name" value="<%= lineitem.name %>" required>
     <label class="help-inline form-error" id="name_error"></label>
   </div>
 </div>
@@ -9,7 +9,7 @@
 <div class="control-group">
   <label class="control-label" for="active">Active</label>
   <div class="controls">
-    <input type="checkbox" id="active">
+    <input type="checkbox" id="active" <%= lineitem.active ? "checked" : '' %>>
   </div>
 </div>
 
@@ -21,8 +21,8 @@
       <span id="flight"></span>
       <b class="caret"></b>
     </span>
-    <input type="hidden" id="start_date" placeholder="Start date">
-    <input type="hidden" id="end_date" placeholder="End date">
+    <input type="hidden" id="start_date" placeholder="Start date" value="<%= lineitem.start_date %>">
+    <input type="hidden" id="end_date" placeholder="End date" value="<%= lineitem.end %>">
     <label class="help-inline form-error" id="start_date_error"></label>
     <label class="help-inline form-error" id="end_date_error"></label>
   </div>

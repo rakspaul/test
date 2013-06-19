@@ -6,4 +6,4 @@ json.end_date format_date(@lineitem.end_date)
 json.volume @lineitem.volume
 json.rate @lineitem.rate
 json.value @lineitem.value
-json.value @lineitem.ad_sizes
+json.ad_sizes @lineitem.ad_sizes
