@@ -25,8 +25,7 @@ ReachUI.Reports.Dimensions = function() {
 		 dropColString = null;	
 		$("#ordersReportTable").hide();
 		$(".placeholder").show();
-		$(".droppable").css({"border":"1px solid #ccc"});
-
+		
 		$("#selectedDimensions").html('').hide();
 		$("#dimensions li").show();
 
@@ -84,8 +83,7 @@ ReachUI.Reports.Dimensions = function() {
 						$(".dimName").removeAttr("disabled");
 						$(".dimName").addClass("dimNameActive");
 						$(".accIcon").css({'display':'inline-block'});
-						$(".ajax_loader").hide();
-						$(".droppable").css({"border":"none"});
+						$(".ajax_loader").hide();						
 					}			
 				}
 				else{
@@ -106,8 +104,7 @@ ReachUI.Reports.Dimensions = function() {
 
     request.done(function(data){
 			
-			$(".ajax_loader").hide();
-			$(".droppable").css({"border":"none"});
+			$(".ajax_loader").hide();			
 			$("#ordersReportTable").show();	
 			flag = true;		
 
@@ -153,9 +150,17 @@ ReachUI.Reports.Dimensions = function() {
 
 	var showSelectedDimensions = function(){
 
-		var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
+		var selectedBtns = [];
+		var selectedButtons = '';
 
-		$("#selectedDimensions").append(selectedBtn).show();
+		for(i=0; i<dropColumnCollection.length; i++){
+		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnCollection[i]+" <i class='icon-white icon-remove'></i></a>";
+		  selectedButtons += selectedBtns[i];
+		}
+
+		// var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
+
+		$("#selectedDimensions").html(selectedButtons).show();
 	}
 
 	var addTableHeaders = function(tableHeaders){
@@ -191,18 +196,6 @@ ReachUI.Reports.Dimensions = function() {
 		return tableRowData;	
 	}
 
-	var addDraggable = function(){
-
-		$('#ordersReportTable').each(function(){
-      $(this).dragtable({
-        placeholder: 'dragtable-col-placeholder',
-        items: 'thead th:not( .notdraggable ):not( :has( .dragtable-drag-handle ) ), .dragtable-drag-handle',
-        appendTarget: $(this).parent(),
-        scroll: true
-      });   
-  	});
-	}
-
 	var dimensionsOrderByClick = function(){
   	$(document).on("click",".dimName",function(){
       
@@ -227,8 +220,7 @@ ReachUI.Reports.Dimensions = function() {
 	    	request.done(function(data){
 				
 					var jsonData = JSON.parse(data);
-					$(".ajax_loader").hide();	
-					$(".droppable").css({"border":"none"});
+					$(".ajax_loader").hide();						
 					flag = true;	
 
 					$selectAccIcon.removeClass("icon-plus-sign").addClass("icon-minus-sign");
@@ -302,16 +294,88 @@ ReachUI.Reports.Dimensions = function() {
   	});
   }
 
-  var removeSelectedDimension = function(){
+  var removeSelectedDimension = function(){  	
+
   	$(document).on("click",".selectedDim",function(){
   		var dimName = $(this).text();
-  		var clearContent = clearTableContent();
-  		var resetAppParams = appReset();
+  		if(dropColumnCollection.length==1){
+  			var clearContent = clearTableContent();
+  			var resetAppParams = appReset();
+  		}
+  		else{
+  			var dime_name = dimName.toLowerCase().trim();
+				var getSelIndex;
+
+  			for(i=0; i<dropColumnCollection.length; i++){
+	  			if( dropColumnCollection[i] == dime_name) 
+	  			{
+	  				getSelIndex = i;
+	  			}	  				
+  			}
+
+  			if(getSelIndex==1){
+  				$(".dimName").attr("disabled","disabled");
+					$(".dimName").removeClass("dimNameActive");
+					$(".accIcon").css({'display':'none'});
+
+					var removeItem = dropColumnCollection[1];
+
+					dropColumnCollection = jQuery.grep(dropColumnCollection, function(value) {
+					  return value != removeItem;
+					});
+
+					showSelectedDimensions();
+
+  			}
+  			else{
+  				var clearContent = clearTableContent();
+  				var resetAppParams = appReset();
+  				var deleteSelected = deleteSelectedDim(getSelIndex);
+  			}
+  			
+
+  		}
+  		
   	});
   }
+
+  var deleteSelectedDim = function(getSelIndex){
+  	alert(getSelIndex);
+  }
+
+  var addDraggable = function(){
+
+		$('#ordersReportTable').each(function(){
+      $(this).dragtable({
+        placeholder: 'dragtable-col-placeholder',
+        items: 'thead th:not( .notdraggable ):not( :has( .dragtable-drag-handle ) ), .dragtable-drag-handle',
+        appendTarget: $(this).parent(),
+        scroll: true
+      });   
+  	});
+	}
   
+  var adjustColumnWidth = function(){
+
+  	adjustColWidth();
+
+  	$(window).resize(function(){
+  		adjustColWidth();
+  	});
+
+
+  	function adjustColWidth(){
+  		var docWidth = $(document).width();
+	  	$(".orderRepLeftCol").width(220);
+	  	$(".orderRepRightCol").width(docWidth-220);
+	  	$("#droppable").width(docWidth-220);
+  	}
+
+  }
+
 	return {
 		init: function(){
+			adjustColumnWidth();
 			addDragDrop();
 			addDraggable();
 			initializeDateRangePicker();
