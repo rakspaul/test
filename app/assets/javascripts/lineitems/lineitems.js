@@ -14,7 +14,11 @@
     },
 
     url: function() {
-      return '/orders/' + this.order.id + '/lineitems/' + this.id + '.json';
+      if(this.isNew()) {
+        return '/orders/' + this.order.id + '/lineitems.json';
+      } else {
+        return '/orders/' + this.order.id + '/lineitems/' + this.id + '.json';
+      }
     },
 
     setOrder: function(order) {
