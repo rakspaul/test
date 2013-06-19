@@ -1,4 +1,4 @@
-jsonjson.id @lineitem.id
+json.id @lineitem.id
 json.name @lineitem.name
 json.active @lineitem.active
 json.start_date format_date(@lineitem.start_date)

@@ -17,8 +17,13 @@ class LineitemsController < ApplicationController
 
   # GET order/{order_id}/{lineitem_id}
   def show
-    @order = Order.find(params[:order_id])
-    @lineitem = @order.lineitems.find(params[:id])
+    respond_to do |format|
+      format.html { render "orders/index" }
+      format.json do
+        @order = Order.find(params[:order_id])
+        @lineitem = @order.lineitems.find(params[:id])
+      end
+    end
   end
 
   # POST orders/{order_id}/lineitems
