@@ -9,20 +9,12 @@
       end_date: moment().add('days', 15).format("YYYY-MM-DD")
     },
 
-    initialize: function(attrs, opts) {
-      this.order = opts.order;
-    },
-
     url: function() {
       if(this.isNew()) {
-        return '/orders/' + this.order.id + '/lineitems.json';
+        return '/orders/' + this.get("order_id") + '/lineitems.json';
       } else {
-        return '/orders/' + this.order.id + '/lineitems/' + this.id + '.json';
+        return '/orders/' + this.get("order_id") + '/lineitems/' + this.id + '.json';
       }
-    },
-
-    setOrder: function(order) {
-      this.order = order;
     },
 
     toJSON: function() {
