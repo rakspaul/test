@@ -14,7 +14,11 @@
     },
 
     url: function() {
-      return '/orders/' + this.order.id + '/lineitems.json';
+      return '/orders/' + this.order.id + '/lineitems/' + this.id + '.json';
+    },
+
+    setOrder: function(order) {
+      this.order = order;
     },
 
     toJSON: function() {
@@ -34,7 +38,12 @@
 
   LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
     tagName: 'tr',
-    template: JST['templates/lineitems/line_item_row']
+    className: 'lineitem-row',
+    template: JST['templates/lineitems/line_item_row'],
+
+    triggers: {
+      'click': 'lineitem:show'
+    }
   });
 
   LineItems.LineItemListView = Backbone.Marionette.CompositeView.extend({
@@ -44,7 +53,7 @@
     className: 'table-container',
 
     triggers: {
-      'click .create': 'create:lineitem'
+      'click .create': 'lineitem:create'
     }
   });
 
@@ -56,7 +65,8 @@
     },
 
     triggers: {
-      'click .save': 'lineitem:save'
+      'click .save-lineitem': 'lineitem:save',
+      'click .close-lineitem': 'lineitem:close'
     }
   });
 
@@ -80,12 +90,16 @@
     },
 
     onDomRefresh: function() {
+      // initial flight values
+      this.ui.start_date.val(this.model.get("start_date"));
+      this.ui.end_date.val(this.model.get("end_date"));
+
       var self = this;
       this.ui.flight_container.daterangepicker({
         format: 'YYYY-MM-DD',
         separator: ' to ',
-        startDate: moment().add('days', 1),
-        endDate: moment().add('days', 15)
+        startDate: this.ui.start_date.val(),
+        endDate: this.ui.end_date.val()
       },
       function(start, end) {
         if(start) {
@@ -95,9 +109,6 @@
         }
       });
 
-      // initial flight values
-      this.ui.start_date.val(this.model.get("start_date"));
-      this.ui.end_date.val(this.model.get("end_date"));
       this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
     }
   });
@@ -125,6 +136,10 @@
         this._saveLineitem();
       }, this);
 
+      layout.on("lineitem:close", function(evt) {
+        this.trigger("lineitem:close");
+      }, this);
+
       return layout;
     },
 
@@ -136,9 +151,21 @@
     _showAdSizes: function(layout) {
       this.adSizeList = new LineItems.AdSizeList();
       var adSizeListView = new LineItems.AdSizeCheckboxList({collection: this.adSizeList});
+      adSizeListView.on("after:item:added", this._setSelectedAdSizes, this);
       layout.adsizes.show(adSizeListView);
 
       this.adSizeList.fetch();
+    },
+
+    _setSelectedAdSizes: function(view) {
+      var strAdSizes = this.lineItemModel.get("ad_sizes");
+
+      if(strAdSizes) {
+        var tmpAdSizeList = strAdSizes.split(',');
+        if(tmpAdSizeList.indexOf(view.model.get("size")) !== -1) {
+          view.model.selected();
+        }
+      }
     },
 
     _saveLineitem: function() {
