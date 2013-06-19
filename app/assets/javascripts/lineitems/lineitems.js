@@ -29,6 +29,9 @@
     },
     setOrder: function(order) {
       this.order = order;
+    },
+    getOrder: function() {
+      return this.order;
     }
   });
 
@@ -112,12 +115,23 @@
   LineItems.LineItemController = Marionette.Controller.extend({
     initialize: function(options) {
       this.mainRegion = options.mainRegion;
-      this.lineItemModel = options.model;
+      this.adSizeList = new LineItems.AdSizeList();
     },
 
-    show: function() {
+    show: function(lineitem) {
+      this._clearAdSizeSelection();
+      this.lineItemModel = lineitem;
+
       var layout = this._getLayout();
       this.mainRegion.show(layout);
+    },
+
+    // Ad sizes are cached, therefore clear any previously selected
+    // ad sizes.
+    _clearAdSizeSelection: function() {
+      this.adSizeList.forEach(function(adSize) {
+        adSize.set({selected: false}, {silent: true});
+      });
     },
 
     _getLayout: function() {
@@ -145,12 +159,13 @@
     },
 
     _showAdSizes: function(layout) {
-      this.adSizeList = new LineItems.AdSizeList();
+      if(this.adSizeList.length === 0) {
+        this.adSizeList.fetch();
+      }
+
       var adSizeListView = new LineItems.AdSizeCheckboxList({collection: this.adSizeList});
       adSizeListView.on("after:item:added", this._setSelectedAdSizes, this);
       layout.adsizes.show(adSizeListView);
-
-      this.adSizeList.fetch();
     },
 
     _setSelectedAdSizes: function(view) {
