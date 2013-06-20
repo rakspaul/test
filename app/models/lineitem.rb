@@ -2,6 +2,7 @@ class Lineitem < ActiveRecord::Base
   self.table_name = "io_lineitems"
 
   belongs_to :order
+  belongs_to :user
 
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
