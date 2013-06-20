@@ -30,9 +30,10 @@ class LineitemsController < ApplicationController
   def create
     @order = Order.find(params[:order_id])
     p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
-    @lineitem = @order.lineitems.create(p)
+    @lineitem = @order.lineitems.build(p)
+    @lineitem.user = current_user
 
-    if @lineitem.valid?
+    if @lineitem.save
       render status: :ok
     else
       render json: { errors: @lineitem.errors }, status: :unprocessable_entity
