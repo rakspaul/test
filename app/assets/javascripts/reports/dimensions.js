@@ -411,8 +411,25 @@ ReachUI.Reports.Dimensions = function() {
   	});
 	}
   
+  var adjustColumnWidth = function(){
+
+  	adjustColWidth();
+
+  	$(window).resize(function(){
+  		adjustColWidth();
+  	});
+
+  	function adjustColWidth(){
+  		var docWidth = $(document).width();
+	  	$(".orderRepLeftCol").width(220);
+	  	$(".orderRepRightCol").width(docWidth-220);
+	  	$("#droppable").width(docWidth-250);
+  	}
+  }
+
 	return {
 		init: function(){
+			// adjustColumnWidth();
 			add_dimensions_list();
 			addDragDrop();
 			addDraggable();
