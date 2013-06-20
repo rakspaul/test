@@ -48,15 +48,16 @@
 .active{
 	display:block;
 }
-.droppable{
-	height:500px;
-	background:#f2f2f2;
+.droppable{	
+	background:#f2f2f2;	
+}
+
+.droppableInner{
 	overflow:auto;
 }
 
 #ordersReportTable{
 	display:none;
-
 }
 
 table#ordersReportTable th{
@@ -103,17 +104,17 @@ ul.dimensions li:hover{
 	color:#fff;
 }
 .placeholder{
-	height:200px;
+	height:400px;
 	text-align:center;
-	padding-top:220px;
+	padding-top:270px;
   font-size:25px;
   color:#555;   
 }
 .ajax_loader{
+	height:400px;
   display:none;
   text-align:center;
-	padding-top:220px;
-	height:200px;
+	padding-top:270px;	
 }
 .selectDateRange{
 	padding:2px 2px 0px 2px;
