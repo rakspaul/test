@@ -7,4 +7,6 @@ json.array! @order.lineitems do |lineitem|
   json.volume lineitem.volume
   json.rate lineitem.rate
   json.value lineitem.value
+  json.ad_sizes lineitem.ad_sizes
+  json.order_id @order.id
 end

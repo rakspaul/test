@@ -8,6 +8,10 @@
 
     toggleSelected: function() {
       this.set({"selected": !this.get("selected")});
+    },
+
+    selected: function() {
+      this.set({"selected": !this.get("selected")});
     }
   });
 
@@ -42,6 +46,11 @@
 
     _selected: function() {
       this.ui.checkbox.prop('checked', this.model.get("selected"));
+      if(this.model.get("selected")) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
     }
   });
 

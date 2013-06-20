@@ -6,7 +6,8 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
   appRoutes: {
     '': 'index',
     ':id': 'orderDetails',
-    ':id/lineitems/new': 'newLineItem'
+    ':id/lineitems/new': 'newLineItem',
+    ':id/lineitems/:lineitem_id': 'showLineItem'
   },
 
   current : function() {
@@ -39,20 +40,23 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   initialize: function() {
     this.orderDetailRegion = new ReachUI.Orders.DetailRegion();
     this.orderDetailsLayout = new ReachUI.Orders.OrderDetailLayout();
+    this.orderList = new ReachUI.Orders.OrderList();
+    this.lineItemList = new ReachUI.LineItems.LineItemList();
 
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
-    this.orderList = new ReachUI.Orders.OrderList();
-    var searchOrderListView = new ReachUI.Orders.ListView({el: '.order-search-result', collection: this.orderList});
-    searchOrderListView.on("itemview:selected", function(view) {
-      ReachUI.Orders.router.navigate('/'+view.model.id, {trigger: true});
-    });
+    this._initializeLineItemController();
 
     var search = new ReachUI.Search.SearchQuery(),
       searchView = new ReachUI.Search.SearchQueryView({model: search}),
-      self = this;
-    search.on('change:query', function() {
-      self.orderList.fetch({data: {search: this.get('query')}});
+      searchOrderListView = new ReachUI.Orders.ListView({el: '.order-search-result', collection: this.orderList});
+
+    search.on('change:query', function(model) {
+      this.orderList.fetch({data: {search: model.get('query')}});
+    }, this);
+
+    searchOrderListView.on("itemview:selected", function(view) {
+      ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
   },
 
@@ -62,31 +66,72 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   orderDetails: function(id) {
     this._loadOrder(id);
-    console.log('navigated');
   },
 
   newLineItem: function(id) {
     this._loadOrder(id);
   },
 
+  showLineItem: function(orderId, lineItemId) {
+    this.lineItemId = lineItemId;
+    this._loadOrder(orderId);
+  },
+
+  _initializeLineItemController: function() {
+    this.lineItemController = new ReachUI.LineItems.LineItemController({
+                                    mainRegion: this.orderDetailsLayout.lineitems
+                                  });
+    this.lineItemController.on("lineitem:saved", this._navigateToSelectedOrder, this);
+    this.lineItemController.on("lineitem:close", this._navigateToSelectedOrder, this);
+  },
+
+  _navigateToSelectedOrder: function(lineitem) {
+    if(lineitem) {
+      this.lineItemList.add(lineitem);
+    }
+
+    ReachUI.Orders.router.navigate('/'+ this.selectedOrder.id, {trigger: true});
+  },
+
   _loadOrder: function(id) {
     this.selectedOrder = this.orderList.get(id);
     if(!this.selectedOrder) {
       var self = this;
-      this.selectedOrder = new ReachUI.Orders.Order({'id': id})
+      this.selectedOrder = new ReachUI.Orders.Order({'id': id});
       this.selectedOrder.fetch({
         success: function() {
           self.orderList.add(self.selectedOrder);
           self._selectOrder(self.selectedOrder);
         },
         error: function() {
-          alert('Order not found');
+          alert('Order not found. Id: ' + id);
         }
       });
     } else {
       this._selectOrder(this.selectedOrder);
     }
-    console.log(ReachUI.Orders.router.current());
+  },
+
+  _loadLineitem: function(id, order) {
+    if(!this.lineItemList) {
+      this.lineItemList = new ReachUI.LineItems.LineItemList();
+    }
+
+    var lineitem = this.lineItemList.get(id);
+    if(!lineitem) {
+      var self = this;
+      lineitem = new ReachUI.LineItems.LineItem({'id': id, 'order_id': order.id});
+      lineitem.fetch({
+        success: function(model) {
+          self._showLineItem(model);
+        },
+        error: function(model) {
+          alert('Lineitem not found. Id: ' + model.id);
+        }
+      });
+    } else {
+      this._showLineItem(lineitem);
+    }
   },
 
   _selectOrder: function(order) {
@@ -96,7 +141,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(currentRoute === "orderDetails") {
       this._showLineitemList(order);
     } else if(currentRoute === "newLineItem") {
-      this._newLineItem();
+      this._newLineItem(order);
+    } else if(currentRoute === "showLineItem") {
+      this._loadLineitem(this.lineItemId, order);
     }
   },
 
@@ -106,29 +153,30 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showLineitemList: function(order) {
-    var lineItemList = new ReachUI.LineItems.LineItemList();
-    lineItemList.setOrder(order);
-    lineItemList.fetch();
+    if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
+      this.lineItemList.setOrder(order);
+      this.lineItemList.fetch();
+    }
 
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList})
-    lineItemListView.on('create:lineitem', function() {
-      ReachUI.Orders.router.navigate('/'+this.selectedOrder.id+'/lineitems/new', {trigger: true});
+    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: this.lineItemList})
+    lineItemListView.on('lineitem:create', function(args) {
+      ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
+    }, this);
+
+    lineItemListView.on('itemview:lineitem:show', function(view) {
+      this.selectedLineItem = view.model;
+      ReachUI.Orders.router.navigate('/'+ view.model.get("order_id") +'/lineitems/' + view.model.id, {trigger: true});
     }, this);
 
     this.orderDetailsLayout.lineitems.show(lineItemListView);
   },
 
-  _newLineItem: function() {
-    var newLineItem = new ReachUI.LineItems.LineItem({}, {'order': this.selectedOrder});
-    var lineItemController = new ReachUI.LineItems.LineItemController({
-                                    model: newLineItem, mainRegion:
-                                    this.orderDetailsLayout.lineitems
-                                  });
+  _newLineItem: function(order) {
+    var newLineItem = new ReachUI.LineItems.LineItem({'order_id': order.id});
+    this.lineItemController.show(newLineItem);
+  },
 
-    lineItemController.on("lineitem:saved", function() {
-      ReachUI.Orders.router.navigate('/'+this.selectedOrder.id, {trigger: true});
-    }, this);
-
-    lineItemController.show();
+  _showLineItem: function(lineitem) {
+    this.lineItemController.show(lineitem);
   }
 });
