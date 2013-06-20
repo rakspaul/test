@@ -48,15 +48,18 @@
 .active{
 	display:block;
 }
-.droppable{
+.droppable{	
+	background:#f2f2f2;	
+}
+
+.droppableInner{
+	width:980px;
 	height:500px;
-	background:#f2f2f2;
 	overflow:auto;
 }
 
 #ordersReportTable{
 	display:none;
-
 }
 
 table#ordersReportTable th{

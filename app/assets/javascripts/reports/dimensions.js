@@ -14,6 +14,9 @@ ReachUI.Reports.Dimensions = function() {
 	var tabColumn = 0;		
 	var dropColString = null;
 	var flag = true;	
+	var options = {};
+	var dimensions_all = ["Advertiser","Order","Ads"]
+	var dimensions_list_all = ["Advertiser","Order","Ads"]
 
 	var appReset = function(){
 		 dropColumnCollection = [];
@@ -27,12 +30,31 @@ ReachUI.Reports.Dimensions = function() {
 		
 		$("#selectedDimensions").html('').hide();
 		$("#dimensions li").show();
+		dimensions_all = ["Advertiser","Order","Ads"]
 
 		addDragDrop();
 		addDraggable();
 
 		return true;
 	}	
+
+	var add_dimensions_all = function(){
+		$("#dimensions").html("");
+		$.each(dimensions_list_all, function(index, objValue){
+			$("#dimensions").append(
+        $("<li>" + objValue + "</li>"));
+		});
+		addDragDrop();
+	}
+
+	var add_dimensions_list = function(){
+		$("#dimensions").html("");
+		$.each(dimensions_all, function(index, objValue){
+			$("#dimensions").append(
+        $("<li>" + objValue + "</li>"));
+		});
+		addDragDrop();
+	}
 
 	var addDragDrop = function(){		
 
@@ -52,14 +74,12 @@ ReachUI.Reports.Dimensions = function() {
 
 				dropItem = ui.draggable;
 
-
 				if(dropColumnCollection.length<2 && flag){
 					
-        	dropItem.hide();
+		    	dropItem.hide();
 					//dropItem.draggable('option', 'disabled', true);
-	        $(".placeholder").hide(); 
-	        $(".ajax_loader").show(); 
-	        flag = false;      
+		       
+		      flag = false;
 
 					dropColName = $(dropItem).text();
 					dropColString = $(dropItem).text().toLowerCase();
@@ -68,15 +88,8 @@ ReachUI.Reports.Dimensions = function() {
 
 					var showSelectedDim = showSelectedDimensions();
 										
-					var containsHeaders = $("#ordersReportTable thead th").length;
-
 					if(dropColumnCollection.length < 2){
-						if(containsHeaders){
-							addColumnsNew();
-						}
-						else{
-							addColumnsNew();
-						}
+						addColumnsNew();
 					}
 					else{
 						$(".dimName").removeAttr("disabled");
@@ -88,16 +101,20 @@ ReachUI.Reports.Dimensions = function() {
 				else{
 					dropItem.draggable('option', 'revert', true);
 				}
+
 			}
-			
+
 		});
 	}
 	
 	var addColumnsNew = function(){
 
+		$(".placeholder").hide(); 
+		$(".ajax_loader").show();
+
 		var clear_Table_Content = clearTableContent();     
 
-		var requestParams=getRequestParams();		
+		var requestParams=getRequestParams();	
 
     var request = $.ajax({url:baseURL, data:requestParams, dataType: "script"});
 
@@ -147,10 +164,16 @@ ReachUI.Reports.Dimensions = function() {
     return requestParams;
 	}
 
+	var setRequestParams = function(options){
+
+		requestParams.expand_id = options.expand_id;
+	}
+
 	var showSelectedDimensions = function(){
 
 		var selectedBtns = [];
 		var selectedButtons = '';
+		dimensions_all = dimensions_list_all;
 
 		for(i=0; i<dropColumnCollection.length; i++){
 		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnCollection[i]+" <i class='icon-white icon-remove'></i></a>";
@@ -202,7 +225,11 @@ ReachUI.Reports.Dimensions = function() {
       var $selectDOMElement = $(this).closest("tr");
       var $selectAccIcon = $selectDOMElement.find(".accIcon");
 
-      requestParams.expand_id = selectExpandID;
+      // requestParams.expand_id = selectExpandID;
+      
+      options.expand_id = selectExpandID;
+
+      setRequestParams(options);
 
       if($selectAccIcon.hasClass("icon-plus-sign")){
       	excuteRequest(selectExpandID);
@@ -236,7 +263,6 @@ ReachUI.Reports.Dimensions = function() {
       	$("."+selectExpandID+"_child").remove();
       }
 	    
-
     });
   }
 
@@ -296,10 +322,13 @@ ReachUI.Reports.Dimensions = function() {
   var removeSelectedDimension = function(){  	
 
   	$(document).on("click",".selectedDim",function(){
-  		var dimName = $(this).text();
+  		
+  		var dimName = $(this).text();  		
+
   		if(dropColumnCollection.length==1){
   			var clearContent = clearTableContent();
   			var resetAppParams = appReset();
+  			add_dimensions_all();
   		}
   		else{
   			var dime_name = dimName.toLowerCase().trim();
@@ -320,15 +349,25 @@ ReachUI.Reports.Dimensions = function() {
 					$(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
 					var removeItem = dropColumnCollection[1];
 
-					dropColumnCollection = removeItem_dropColumnCollection(removeItem);
+					dropColumnCollection = removeItem_dropColumnCollection(removeItem);					
+
+					requestParams.dimensions = dropColumnCollection;
+
+					dimensions_all = removeItem_dimensions_all(dropColumnCollection[0]);
+      		add_dimensions_list();
+      		flag = true;
 					showSelectedDimensions();
   			}
   			else{
   				var clearContent = clearTableContent();
-  				var resetAppParams = appReset();
+  				// var resetAppParams = appReset();
   				var deleteSelected = deleteSelectedDim(getSelIndex);
-					addColumnsNew();
-  				
+					options.expand_id = '';
+      		setRequestParams(options);       		
+      		
+      		dimensions_all = removeItem_dimensions_all(dropColumnCollection[0]);
+      		add_dimensions_list();
+					addColumnsNew();  
   			}  			
   		}
   		
@@ -348,6 +387,18 @@ ReachUI.Reports.Dimensions = function() {
 		return dropColumnCollection;
   }
 
+  var removeItem_dimensions_all =function(removeItem){
+  	
+  	var removeItem = removeItem.charAt(0).toUpperCase() + removeItem.substring(1);
+
+  	if(removeItem == "Ad") removeItem = "Ads"
+
+  	dimensions_all = jQuery.grep(dimensions_all, function(value) {
+		  return value != removeItem;
+		});
+		return dimensions_all;
+  }
+
   var addDraggable = function(){
 
 		$('#ordersReportTable').each(function(){
@@ -360,25 +411,9 @@ ReachUI.Reports.Dimensions = function() {
   	});
 	}
   
-  var adjustColumnWidth = function(){
-
-  	adjustColWidth();
-
-  	$(window).resize(function(){
-  		adjustColWidth();
-  	});
-
-  	function adjustColWidth(){
-  		var docWidth = $(document).width();
-	  	$(".orderRepLeftCol").width(220);
-	  	$(".orderRepRightCol").width(docWidth-220);
-	  	$("#droppable").width(docWidth-220);
-  	}
-  }
-
 	return {
 		init: function(){
-			adjustColumnWidth();
+			add_dimensions_list();
 			addDragDrop();
 			addDraggable();
 			initializeDateRangePicker();
