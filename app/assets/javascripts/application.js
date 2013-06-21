@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require moment.min
 //= require daterangepicker
+//= require accounting.min
 //= require utils/core
 //= require_tree ./templates
 //= require reports/list.js

@@ -57,7 +57,7 @@
   });
 
   LineItems.LineItemLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/lineitems/new_line_item_layout'],
+    template: JST['templates/lineitems/line_item_detail_layout'],
     regions: {
       properties: '.properties-region',
       adsizes: '.ad-sizes-region',
@@ -70,7 +70,7 @@
   });
 
   LineItems.LineItemDetailView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/lineitems/new_line_item'],
+    template: JST['templates/lineitems/line_item_detail'],
 
     ui: {
       name: '#name',
