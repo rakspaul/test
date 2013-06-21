@@ -58,6 +58,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     searchOrderListView.on("itemview:selected", function(view) {
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
+
+    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
   },
 
   index: function() {
@@ -65,16 +67,51 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   orderDetails: function(id) {
-    this._loadOrder(id);
+    this.selectedOrder = this.orderList.get(id);
+    if(!this.selectedOrder) {
+      var promise = this._fetchOrder(id);
+      promise.then(this._showOrderDetailsAndLineItems);
+    } else {
+      this._showOrderDetailsAndLineItems(this.selectedOrder);
+    }
   },
 
   newLineItem: function(id) {
-    this._loadOrder(id);
+    this.selectedOrder = this.orderList.get(id);
+    if(!this.selectedOrder) {
+      this._fetchOrder(id).then(this._showNewLineItemView);
+    } else {
+      this._showNewLineItemView(this.selectedOrder);
+    }
   },
 
   showLineItem: function(orderId, lineItemId) {
-    this.lineItemId = lineItemId;
-    this._loadOrder(orderId);
+    this.selectedOrder = this.orderList.get(orderId);
+    if(!this.selectedOrder) {
+      var self = this;
+      this._fetchOrder(orderId).then(function(order) {
+        order.select();
+        self._showOrderDetails(order);
+        self._fetchLineitem(lineItemId, order).then(function(lineitem) {
+          self.lineItemController.show(lineitem);
+        });
+      });
+    } else {
+      this.selectedOrder.select();
+      if(!this.lineItemList) {
+        this.lineItemList = new ReachUI.LineItems.LineItemList();
+      }
+
+      var lineitem = this.lineItemList.get(lineItemId);
+      if(!lineitem) {
+        var self = this;
+        this._fetchLineitem(lineItemId, this.selectedOrder).then(function(lineitem) {
+          self.lineItemController.show(lineitem);
+        });
+      } else {
+        this.lineItemController.show(lineitem);
+      }
+    }
   },
 
   _initializeLineItemController: function() {
@@ -93,58 +130,43 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     ReachUI.Orders.router.navigate('/'+ this.selectedOrder.id, {trigger: true});
   },
 
-  _loadOrder: function(id) {
-    this.selectedOrder = this.orderList.get(id);
-    if(!this.selectedOrder) {
-      var self = this;
-      this.selectedOrder = new ReachUI.Orders.Order({'id': id});
-      this.selectedOrder.fetch({
-        success: function() {
-          self.orderList.add(self.selectedOrder);
-          self._selectOrder(self.selectedOrder);
-        },
-        error: function() {
-          alert('Order not found. Id: ' + id);
-        }
+  _fetchOrder: function(id) {
+    var self = this;
+    this.selectedOrder = new ReachUI.Orders.Order({'id': id});
+
+    return this.selectedOrder.fetch().then(
+      function() {
+        self.orderList.add(self.selectedOrder);
+        return self.selectedOrder;
+      },
+      function(error) {
+        alert("Order not found. Id: " + id);
       });
-    } else {
-      this._selectOrder(this.selectedOrder);
-    }
   },
 
-  _loadLineitem: function(id, order) {
-    if(!this.lineItemList) {
-      this.lineItemList = new ReachUI.LineItems.LineItemList();
-    }
-
-    var lineitem = this.lineItemList.get(id);
-    if(!lineitem) {
-      var self = this;
-      lineitem = new ReachUI.LineItems.LineItem({'id': id, 'order_id': order.id});
-      lineitem.fetch({
-        success: function(model) {
-          self._showLineItem(model);
-        },
-        error: function(model) {
-          alert('Lineitem not found. Id: ' + model.id);
-        }
+  _fetchLineitem: function(id, order) {
+    var lineitem = new ReachUI.LineItems.LineItem({'id': id, 'order_id': order.id});
+    return lineitem.fetch().then(
+      function() {
+        return lineitem;
+      },
+      function() {
+        alert('Lineitem not found. Id: ' + id);
       });
-    } else {
-      this._showLineItem(lineitem);
-    }
   },
 
-  _selectOrder: function(order) {
+  _showOrderDetailsAndLineItems: function(order) {
     order.select();
     this._showOrderDetails(order);
-    var currentRoute = ReachUI.Orders.router.current().route;
-    if(currentRoute === "orderDetails") {
-      this._showLineitemList(order);
-    } else if(currentRoute === "newLineItem") {
-      this._newLineItem(order);
-    } else if(currentRoute === "showLineItem") {
-      this._loadLineitem(this.lineItemId, order);
-    }
+    this._showLineitemList(order);
+  },
+
+  _showNewLineItemView: function(order) {
+    order.select();
+    this._showOrderDetails(order);
+
+    var newLineItem = new ReachUI.LineItems.LineItem({'order_id': order.id});
+    this.lineItemController.show(newLineItem);
   },
 
   _showOrderDetails: function(order) {
@@ -154,6 +176,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
+      this.lineItemList.reset();
       this.lineItemList.setOrder(order);
       this.lineItemList.fetch();
     }
@@ -169,14 +192,5 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }, this);
 
     this.orderDetailsLayout.lineitems.show(lineItemListView);
-  },
-
-  _newLineItem: function(order) {
-    var newLineItem = new ReachUI.LineItems.LineItem({'order_id': order.id});
-    this.lineItemController.show(newLineItem);
-  },
-
-  _showLineItem: function(lineitem) {
-    this.lineItemController.show(lineitem);
   }
 });
