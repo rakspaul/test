@@ -9,12 +9,12 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = Order.of_network(current_network)
-              .includes(:advertiser).find(params[:id])
-
     respond_to do |format|
       format.html { render :index }
-      format.json
+      format.json do
+        @order = Order.of_network(current_network)
+              .includes(:advertiser).find(params[:id])
+      end
     end
   end
 
