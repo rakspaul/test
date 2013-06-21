@@ -5,61 +5,28 @@
 .clear{
   clear: both;
 }
-
 .appHeaderContent{
 	padding:15px;	
 }
-
+#reportsLayoutTable{
+	width:100%;
+}
 .orderRepLeftCol{
-	width:18%;
-	float:left;
+	width:220px;
+	vertical-align:top;
 }
-
 .orderRepRightCol{
-	width:82%;
-	float:right;
-}
-
-.reportDateHeader{
-	font-size: 14px;
-	line-height:16px;
-	color: #fff;
-	padding:7px 0 7px 15px;
-	margin:0 0 0px 0;
-	background:#898989;
-	border-bottom:1px solid #000;
-	cursor:pointer;
-}
-
-.dimensionsHeader{
-	font-size: 14px;
-	line-height:16px;
-	color: #fff;
-	padding:7px 0 7px 15px;
-	margin:0px;
-	background:#898989;
-	border-bottom:1px solid #fff;
-	cursor:pointer;
-	
-}
-.dimensionsBody{
-	display:none;
-}
-.active{
-	display:block;
+	vertical-align:top;
 }
 .droppable{	
 	background:#f2f2f2;	
 }
-
 .droppableInner{
 	overflow:auto;
 }
-
 #ordersReportTable{
 	display:none;
 }
-
 table#ordersReportTable th{
 	font-size:12px;
 	line-height:16px;
@@ -71,10 +38,11 @@ table#ordersReportTable th{
 	background: #898989; 
 	cursor:move;
 }
+table#ordersReportTable th.l_width{ width:270px; }
+table#ordersReportTable th.s_width{ width:47px; }
 
-table#ordersReportTable th.l_width, table#ordersReportTable td.l_width{ width:276px; }
-table#ordersReportTable th.m_width, table#ordersReportTable td.m_width{ width:100px; }
-table#ordersReportTable th.s_width, table#ordersReportTable td.s_width{ width:47px; }
+table#ordersReportTable td.l_width{ text-align: left; }
+table#ordersReportTable td.s_width{ text-align: right; }
 
 table#ordersReportTable td{
 	font-size:12px;
@@ -82,26 +50,25 @@ table#ordersReportTable td{
 	padding:5px;
 }
 
-ul.dimensions{
-	padding:0px;
-	margin:0px 0 3px 0;
-	list-style-type:none;
+tr.highlightCol td, tr.highlightCol td a{
+	background:#48AFDE !important;
+	color:#fff !important;
+	font-weight:normal;
 }
 
-ul.dimensions li{
-	font-size:12px;
+tr.highlightCol td:first-child{
+	padding-left:20px !important;
+}
+
+.reportDateHeader{
+	font-size: 14px;
 	line-height:16px;
-	color:#333;
-
-	padding:5px 0 5px 15px;
-	margin:0px;
-	border-bottom: 1px solid #fff;
-	background:#e7e7e7;
-	cursor:move;
-}
-ul.dimensions li:hover{
-	background:#008dd1;
-	color:#fff;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0 0 0px 0;
+	background:#898989;
+	border-bottom:1px solid #000;
+	cursor:pointer;
 }
 .placeholder{
 	height:400px;
@@ -122,8 +89,7 @@ ul.dimensions li:hover{
 .reportDate{
 	background: #fff; 
 	cursor: pointer; 
-	padding: 5px;
-	
+	padding: 5px;	
 	border:1px solid #ccc;
 	margin-bottom:5px;
 	display:block;
@@ -137,42 +103,6 @@ ul.dimensions li:hover{
 .caret{
 	margin-top:8px;
 }
-.dimLabel{
-	display:inline-block;
-}
-.arrow-up {
-	width: 0; 
-	height: 0; 
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;	
-	border-bottom: 5px solid #fff;
-
-	margin:5px 5px 0 0;
-	float:right;
-}
-.arrow-down {
-	width: 0; 
-	height: 0; 
-	border-left: 5px solid transparent;
-	border-right: 5px solid transparent;	
-	border-top: 5px solid #fff;
-
-	margin:5px 5px 0 0;
-	float:right;
-}
-.dimensionsInner{
-	padding:10px 15px;
-}
-tr.highlightCol td, tr.highlightCol td a{
-	background:#48AFDE !important;
-	color:#fff !important;
-	font-weight:normal;
-}
-
-tr.highlightCol td:first-child{
-	padding-left:20px !important;
-}
-
 .dimName, .dimName:link, .dimName:hover, .dimName:active, .dimName:visited{
 	color:#333;
 	text-decoration:none;
@@ -199,7 +129,6 @@ tr.highlightCol td:first-child{
 	padding:10px;
 	display:none;
 }
-
 .selectedDim, .selectedDim:hover{
 	color:#fff;
 	margin:10px;
@@ -208,4 +137,128 @@ tr.highlightCol td:first-child{
 	text-decoration:none;
 	letter-spacing:0;
 	cursor:pointer;
+}
+
+.dimLabel{
+	display:inline-block;
+}
+.dimensionsAccordion{
+	padding:0px;
+	margin:0px;
+}
+.dimensionsHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0px;
+	background:#898989;
+	border-bottom:1px solid #fff;
+	cursor:pointer;	
+}
+.dimensionsBody{
+	display:none;
+}
+.active{
+	display:block;
+}
+ul.dimensions{
+	padding:0px;
+	margin:0px 0 3px 0;
+	list-style-type:none;
+}
+ul.dimensions li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+	cursor:move;
+}
+ul.dimensions li:hover{
+	background:#008dd1;
+	color:#fff;
+}
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-bottom: 5px solid #fff;
+	margin:5px 5px 0 0;
+	float:right;
+}
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-top: 5px solid #fff;
+	margin:5px 5px 0 0;
+	float:right;
+}
+
+.dimensionsInner{
+	padding:10px 15px;
+}
+
+.dropdownAccordion{
+	position:relative;
+}
+.dropdownAccHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0px;
+	background:#898989;
+	border-bottom:1px solid #fff;
+	cursor:pointer;	
+	position:relative;
+}
+.dropdownAccBody{
+	display:none;
+	width:200px;
+	position:absolute;
+	top:32px;
+	left:10px;
+	border:1px solid #333;
+	background:#e7e7e7;
+	z-index:1000;
+}
+
+.dropdownAccBody ul{
+	padding:0px;
+	margin:0px 0 3px 0;
+	list-style-type:none;
+}
+.dropdownAccBody ul li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+	cursor:move;
+}
+.dropdownAccBody ul li:hover{
+	background:#008dd1;
+	color:#fff;
+}
+.dropDownArrow{
+	width:20px;
+	height:16px;
+	background:#333;
+	position:absolute;
+	top:0px;
+	right:0px;
+	padding:7px 5px;
+}
+.dropDownArrow .arrow-down{
+	margin-top:5px;
 }
