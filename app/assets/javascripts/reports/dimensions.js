@@ -15,8 +15,8 @@ ReachUI.Reports.Dimensions = function() {
 	var dropColString = null;
 	var flag = true;	
 	var options = {};
-	var dimensions_all = ["Advertiser","Order","Ads"]
-	var dimensions_list_all = ["Advertiser","Order","Ads"]
+	var dimensions_all = ["Advertiser","Order","Ad", "Creative Size"]
+	var dimensions_list_all = ["Advertiser","Order","Ad", "Creative Size"]
 
 	var appReset = function(){
 		 dropColumnCollection = [];
@@ -29,8 +29,8 @@ ReachUI.Reports.Dimensions = function() {
 		$(".placeholder").show();
 		
 		$("#selectedDimensions").html('').hide();
-		$("#dimensions li").show();
-		dimensions_all = ["Advertiser","Order","Ads"]
+		$(".addFilter li").show();
+		dimensions_all = ["Advertiser","Order","Ad", "Creative Size"]
 
 		addDragDrop();
 		addDraggable();
@@ -39,18 +39,18 @@ ReachUI.Reports.Dimensions = function() {
 	}	
 
 	var add_dimensions_all = function(){
-		$("#dimensions").html("");
+		$(".addFilter").html("");
 		$.each(dimensions_list_all, function(index, objValue){
-			$("#dimensions").append(
+			$(".addFilter").append(
         $("<li>" + objValue + "</li>"));
 		});
 		addDragDrop();
 	}
 
 	var add_dimensions_list = function(){
-		$("#dimensions").html("");
+		$(".addFilter").html("");
 		$.each(dimensions_all, function(index, objValue){
-			$("#dimensions").append(
+			$(".addFilter").append(
         $("<li>" + objValue + "</li>"));
 		});
 		addDragDrop();
@@ -59,7 +59,7 @@ ReachUI.Reports.Dimensions = function() {
 	var addDragDrop = function(){		
 
 		//Drag Starts
-		$( "#draggable ul li" ).draggable({
+		$( "#draggable ul.addFilter li" ).draggable({
 			revert: true			
 		});
 
@@ -67,7 +67,7 @@ ReachUI.Reports.Dimensions = function() {
 		$("#droppable").droppable({ 
 			
 			hoverClass: "drop-hover",
-			accept: "#draggable ul li",
+			accept: "#draggable ul.addFilter li",
 			tolerance: "pointer",
 
 			drop: function( event, ui ) { 
@@ -77,13 +77,13 @@ ReachUI.Reports.Dimensions = function() {
 				if(dropColumnCollection.length<2 && flag){
 					
 		    	dropItem.hide();
+		    	resetDropdownAccordion();
 					//dropItem.draggable('option', 'disabled', true);
 		       
 		      flag = false;
 
 					dropColName = $(dropItem).text();
 					dropColString = $(dropItem).text().toLowerCase();
-					if(dropColString == 'ads') dropColString = 'ad';
 					dropColumnCollection.push(dropColString);
 
 					var showSelectedDim = showSelectedDimensions();
@@ -143,6 +143,12 @@ ReachUI.Reports.Dimensions = function() {
 			$tbody.append(tableRowData);
 			$thead.append(tableHeadersRow);
 
+		});
+		request.fail(function(){
+			appReset();
+			// $(".placeholder").show();
+			// $(".ajax_loader").hide();
+			alert("error");
 		});
 	}	
 
@@ -256,6 +262,11 @@ ReachUI.Reports.Dimensions = function() {
 					$selectDOMElement.after(rowData);
 
 				});
+				request.fail(function(){
+					// $(".placeholder").show();
+					// $(".ajax_loader").hide();
+					alert("error");
+				});
       }
 
       function hideAccordionContent(selectExpandID){
@@ -317,6 +328,23 @@ ReachUI.Reports.Dimensions = function() {
 				$(this).find("span").toggleClass('arrow-up').toggleClass('arrow-down');
 			}
   	});
+
+  	$(".dropdownAccHeader").click(function(){
+  		if($(this).next().is(":visible")){
+				$(this).find("span").removeClass('arrow-up').addClass('arrow-down');
+				$(this).next().slideUp();
+
+			} else {
+				$(".dropdownAccBody").slideUp();
+				$(this).next().slideToggle();
+				$(this).find("span").toggleClass('arrow-up').toggleClass('arrow-down');
+			}
+  	});
+  }
+
+  var resetDropdownAccordion = function(){
+  	$(".dropdownAccBody").slideUp();
+  	$(".dropdownAccHeader").find("span").removeClass('arrow-up').addClass('arrow-down');
   }
 
   var removeSelectedDimension = function(){  	
@@ -391,8 +419,6 @@ ReachUI.Reports.Dimensions = function() {
   	
   	var removeItem = removeItem.charAt(0).toUpperCase() + removeItem.substring(1);
 
-  	if(removeItem == "Ad") removeItem = "Ads"
-
   	dimensions_all = jQuery.grep(dimensions_all, function(value) {
 		  return value != removeItem;
 		});
@@ -411,25 +437,8 @@ ReachUI.Reports.Dimensions = function() {
   	});
 	}
   
-  var adjustColumnWidth = function(){
-
-  	adjustColWidth();
-
-  	$(window).resize(function(){
-  		adjustColWidth();
-  	});
-
-  	function adjustColWidth(){
-  		var docWidth = $(document).width();
-	  	$(".orderRepLeftCol").width(220);
-	  	$(".orderRepRightCol").width(docWidth-220);
-	  	$("#droppable").width(docWidth-250);
-  	}
-  }
-
 	return {
 		init: function(){
-			// adjustColumnWidth();
 			add_dimensions_list();
 			addDragDrop();
 			addDraggable();

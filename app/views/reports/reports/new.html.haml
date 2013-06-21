@@ -1,52 +1,68 @@
 %h1 new report
 
-.pure-g
-  .pure-u-1-6.orderRepLeftCol
-    #draggable.draggable
-      .selectDateRange
-        %span#report_date{:name => "report_date", :class=>"reportDate"}
-          %i.icon-calendar.icon-large
-          %span
-          %b.caret
+%table#reportsLayoutTable
+  %tr
+    %td.orderRepLeftCol
+      #draggable.draggable
+        .selectDateRange
+          %span#report_date{:name => "report_date", :class=>"reportDate"}
+            %i.icon-calendar.icon-large
+            %span
+            %b.caret
 
-      .dimensionsHeader         
-        .dimLabel
-          Add Columns
-        %span.arrow-down
-      .dimensionsBody
-        %ul#dimensions.dimensions            
+        .dropdownAccordion
+          .dropdownAccHeader.addFilterHeader 
+            .dimLabel
+              Add Filter
+            .dropDownArrow
+              %span.arrow-down
+          .dropdownAccBody
+            %ul.addFilter
+        
+        .dropdownAccordion
+          .dropdownAccHeader.addFilterHeader 
+            .dimLabel
+              Add Columns
+            .dropDownArrow
+              %span.arrow-down
+          .dropdownAccBody
+            %ul
+              %li Dimensions
+              %li Standard Metrics
+              %li Video Metrics
+              %li Engagement Metrics
 
-      .dimensionsHeader
-        .dimLabel
-          Run/Schedule Report
-        %span.arrow-down
-      .dimensionsBody
-        .dimensionsInner
-          %button.btn.btn-mini{:type => "button"} Go!
-          %button.btn.btn-mini{:type => "button"} Stop
-          %button.btn.btn-mini{:type => "button"} Schedule
+        .dimensionsAccordion
+          .dimensionsHeader
+            .dimLabel
+              Run/Schedule Report
+            %span.arrow-down
+          .dimensionsBody
+            .dimensionsInner
+              %button.btn.btn-mini{:type => "button"} Go!
+              %button.btn.btn-mini{:type => "button"} Stop
+              %button.btn.btn-mini{:type => "button"} Schedule
 
-      .dimensionsHeader
-        .dimLabel
-          Export/Share options
-        %span.arrow-down
-      .dimensionsBody
-        .dimensionsInner
-          %button.btn.btn-mini.btn-primary{:type => "button"} Excel
-          %button.btn.btn-mini.btn-primary{:type => "button"} Email
-
-  .pure-u-5-6.orderRepRightCol
-    #selectedDimensions.selectedDimensions
-    #droppable.droppable
-      .droppableInner
-        %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
-          %thead
-          %tbody
-        .placeholder
-          Please drop here dimensions
-        .ajax_loader
-          = image_tag "loading.gif"
-  .clear
+        .dimensionsAccordion
+          .dimensionsHeader
+            .dimLabel
+              Export/Share options
+            %span.arrow-down
+          .dimensionsBody
+            .dimensionsInner
+              %button.btn.btn-mini.btn-primary{:type => "button"} Excel
+              %button.btn.btn-mini.btn-primary{:type => "button"} Email
+    %td.orderRepRightCol      
+      #selectedDimensions.selectedDimensions
+      #droppable.droppable
+        .droppableInner
+          %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
+            %thead
+            %tbody
+          .placeholder
+            Please drop here dimensions
+          .ajax_loader
+            = image_tag "loading.gif"
 
 
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
