@@ -125,15 +125,12 @@ tr.highlightCol td:first-child{
 }
 .selectedDimensions{
 	letter-spacing:0;
-	text-align:center;
 	padding:10px;
+	border:1px solid #333;
 	display:none;
 }
 .selectedDim, .selectedDim:hover{
-	color:#fff;
-	margin:10px;
-	background: #51a351;
-	padding:7px 15px;
+	margin: 0 0 10px 0;
 	text-decoration:none;
 	letter-spacing:0;
 	cursor:pointer;

@@ -16,7 +16,7 @@ ReachUI.Reports.Dimensions = function() {
 	var flag = true;	
 	var options = {};
 	var dimensions_all = ["Advertiser","Order","Ad", "Creative Size"]
-	var dimensions_list_all = ["Advertiser","Order","Ad", "Creative Size"]
+	var dimensions_list_all = dimensions_all;
 
 	var appReset = function(){
 		 dropColumnCollection = [];
@@ -73,8 +73,10 @@ ReachUI.Reports.Dimensions = function() {
 			drop: function( event, ui ) { 
 
 				dropItem = ui.draggable;
+				dropColName = $(dropItem).text();
+				dropColString = $(dropItem).text().toLowerCase();
 
-				if(dropColumnCollection.length<2 && flag){
+				if(dropColumnCollection.length<2 && flag && dropColName !="Creative Size"){
 					
 		    	dropItem.hide();
 		    	resetDropdownAccordion();
@@ -82,8 +84,7 @@ ReachUI.Reports.Dimensions = function() {
 		       
 		      flag = false;
 
-					dropColName = $(dropItem).text();
-					dropColString = $(dropItem).text().toLowerCase();
+					
 					dropColumnCollection.push(dropColString);
 
 					var showSelectedDim = showSelectedDimensions();
@@ -92,10 +93,7 @@ ReachUI.Reports.Dimensions = function() {
 						addColumnsNew();
 					}
 					else{
-						$(".dimName").removeAttr("disabled");
-						$(".dimName").addClass("dimNameActive");
-						$(".accIcon").css({'display':'inline-block'});
-						$(".ajax_loader").hide();						
+						activateGroupByFilter();						
 					}			
 				}
 				else{
@@ -105,6 +103,13 @@ ReachUI.Reports.Dimensions = function() {
 			}
 
 		});
+	}
+
+	var activateGroupByFilter = function(){
+		$(".dimName").removeAttr("disabled");
+		$(".dimName").addClass("dimNameActive");
+		$(".accIcon").css({'display':'inline-block'});
+		$(".ajax_loader").hide();
 	}
 	
 	var addColumnsNew = function(){
@@ -145,7 +150,7 @@ ReachUI.Reports.Dimensions = function() {
 
 		});
 		request.fail(function(){
-			appReset();
+			// appReset();
 			// $(".placeholder").show();
 			// $(".ajax_loader").hide();
 			alert("error");
@@ -182,7 +187,7 @@ ReachUI.Reports.Dimensions = function() {
 		dimensions_all = dimensions_list_all;
 
 		for(i=0; i<dropColumnCollection.length; i++){
-		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnCollection[i]+" <i class='icon-white icon-remove'></i></a>";
+		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnCollection[i]+" <i class='icon-remove'></i></a><br/>";
 		  selectedButtons += selectedBtns[i];
 		}
 
