@@ -10,7 +10,7 @@
             %span
             %b.caret
 
-        .dropdownAccordion
+        .dropdownAccordion.addFilterAccordion
           .dropdownAccHeader.addFilterHeader 
             .dimLabel
               Add Filter
@@ -18,6 +18,16 @@
               %span.arrow-down
           .dropdownAccBody
             %ul.addFilter
+
+        .dropdownAccordion.selectedFilterAcc
+          .dropdownAccHeader.selectedFilterAccHeader 
+            .dimLabel
+              Search or Select
+            .dropDownArrow
+              %span.arrow-down
+          .dropdownAccBody
+            .selectedFilterListDiv
+              %ul.selectedFilterList
         
         .dropdownAccordion
           .dropdownAccHeader.addFilterHeader 
@@ -52,9 +62,13 @@
             .dimensionsInner
               %button.btn.btn-mini.btn-primary{:type => "button"} Excel
               %button.btn.btn-mini.btn-primary{:type => "button"} Email
-      %br/
-      %br/
+      %br
+      %br      
       #selectedDimensions.selectedDimensions
+        .filterContentHeader
+          %h2 Filters
+        .filterContentBody
+
     %td.orderRepRightCol    
       #droppable.droppable
         .droppableInner

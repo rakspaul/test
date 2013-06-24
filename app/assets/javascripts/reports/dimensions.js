@@ -17,9 +17,11 @@ ReachUI.Reports.Dimensions = function() {
 	var options = {};
 	var dimensions_all = ["Advertiser","Order","Ad", "Creative Size"]
 	var dimensions_list_all = dimensions_all;
+	var dropColumnNames = []
 
 	var appReset = function(){
 		 dropColumnCollection = [];
+		 dropColumnNames = [];
 		 count = 0;
 		 dropItem = '';
 		 dropColName = null;
@@ -28,7 +30,10 @@ ReachUI.Reports.Dimensions = function() {
 		$("#ordersReportTable").hide();
 		$(".placeholder").show();
 		
-		$("#selectedDimensions").html('').hide();
+		$("#selectedDimensions").hide();
+		$("#selectedDimensions .filterContentBody").html('');
+		$(".selectedFilterAcc").hide();
+
 		$(".addFilter li").show();
 		dimensions_all = ["Advertiser","Order","Ad", "Creative Size"]
 
@@ -83,9 +88,9 @@ ReachUI.Reports.Dimensions = function() {
 					//dropItem.draggable('option', 'disabled', true);
 		       
 		      flag = false;
-
 					
 					dropColumnCollection.push(dropColString);
+					dropColumnNames.push(dropColName);
 
 					var showSelectedDim = showSelectedDimensions();
 										
@@ -145,8 +150,14 @@ ReachUI.Reports.Dimensions = function() {
 
 			var tableRowData = addTableColumnsData(jsonData);
 
+			var addSearchData = addSearchSelectData(jsonData);
+
 			$tbody.append(tableRowData);
 			$thead.append(tableHeadersRow);
+
+			$(".selectedFilterAcc").show();
+
+			$(".selectedFilterList").append(addSearchData);
 
 		});
 		request.fail(function(){
@@ -186,14 +197,15 @@ ReachUI.Reports.Dimensions = function() {
 		var selectedButtons = '';
 		dimensions_all = dimensions_list_all;
 
-		for(i=0; i<dropColumnCollection.length; i++){
-		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnCollection[i]+" <i class='icon-remove'></i></a><br/>";
+		for(i=0; i<dropColumnNames.length; i++){
+		  selectedBtns[i] = "<a href='#' class='selectedDim'>"+dropColumnNames[i]+" <i class='icon-remove'></i></a><br/>";
 		  selectedButtons += selectedBtns[i];
 		}
 
 		// var selectedBtn = "<a class='btn btn-success selectedDim'>"+dropColName+" <i class='icon-white icon-remove'></i></a>";
 
-		$("#selectedDimensions").html(selectedButtons).show();
+		$("#selectedDimensions").show();
+		$("#selectedDimensions .filterContentBody").html(selectedButtons)
 	}
 
 	var addTableHeaders = function(tableHeaders){
@@ -213,6 +225,18 @@ ReachUI.Reports.Dimensions = function() {
 		});		
 
 		return tableRowData;		
+	}
+
+	var addSearchSelectData = function(jsonData){
+
+		var selectOptionData = '';
+
+		$.each(jsonData, function(count, item){
+			selectOptionData += '<li>'+item["name"]+'</li>';
+		});
+
+		return selectOptionData;
+
 	}
 
 	var addTableColumnsDataHigh = function(jsonData, expandID){
@@ -380,9 +404,12 @@ ReachUI.Reports.Dimensions = function() {
 					$(".accIcon").css({'display':'none'});
 					$(".highlightCol").remove();
 					$(".accIcon").removeClass("icon-minus-sign").addClass("icon-plus-sign");
+					
+					var removeColItem = dropColumnNames[1];
 					var removeItem = dropColumnCollection[1];
 
-					dropColumnCollection = removeItem_dropColumnCollection(removeItem);					
+					dropColumnCollection = removeItem_dropColumnCollection(removeItem);	
+					dropColumnNames = removeItem_dropColumnNames(removeColItem);				
 
 					requestParams.dimensions = dropColumnCollection;
 
@@ -399,8 +426,15 @@ ReachUI.Reports.Dimensions = function() {
       		setRequestParams(options);       		
       		
       		dimensions_all = removeItem_dimensions_all(dropColumnCollection[0]);
+
+     
+
       		add_dimensions_list();
 					addColumnsNew();  
+
+					var removeColItem = dropColumnNames[0];
+					dropColumnNames = removeItem_dropColumnNames(removeColItem);
+					showSelectedDimensions();
   			}  			
   		}
   		
@@ -418,6 +452,13 @@ ReachUI.Reports.Dimensions = function() {
 		  return value != removeItem;
 		});
 		return dropColumnCollection;
+  }
+
+  var removeItem_dropColumnNames = function(removeColItem){
+  	dropColumnNames = jQuery.grep(dropColumnNames, function(value) {
+		  return value != removeColItem;
+		});
+		return dropColumnNames;
   }
 
   var removeItem_dimensions_all =function(removeItem){
@@ -444,7 +485,7 @@ ReachUI.Reports.Dimensions = function() {
   
 	return {
 		init: function(){
-			add_dimensions_list();
+			add_dimensions_all();
 			addDragDrop();
 			addDraggable();
 			initializeDateRangePicker();
