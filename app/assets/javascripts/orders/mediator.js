@@ -5,6 +5,7 @@ ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
 ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
   appRoutes: {
     '': 'index',
+    'new': 'newOrder',
     ':id': 'orderDetails',
     ':id/lineitems/new': 'newLineItem',
     ':id/lineitems/:lineitem_id': 'showLineItem'
@@ -59,11 +60,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
 
+    $(".order-new").click(function() {
+      ReachUI.Orders.router.navigate('/new', {trigger: true});
+    });
+
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
   },
 
   index: function() {
     this.orderList.fetch();
+  },
+
+  newOrder: function() {
+    var order = new ReachUI.Orders.Order();
+    var view = new ReachUI.Orders.EditView({model: order});
+    var uploadView = new ReachUI.Orders.UploadView();
+
+    if(this.selectedOrder) {
+      this.selectedOrder.unselect();
+    }
+
+    this.orderDetailsLayout.top.show(uploadView);
+    this.orderDetailsLayout.bottom.show(view);
   },
 
   orderDetails: function(id) {
@@ -116,7 +134,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _initializeLineItemController: function() {
     this.lineItemController = new ReachUI.LineItems.LineItemController({
-                                    mainRegion: this.orderDetailsLayout.lineitems
+                                    mainRegion: this.orderDetailsLayout.bottom
                                   });
     this.lineItemController.on("lineitem:saved", this._navigateToSelectedOrder, this);
     this.lineItemController.on("lineitem:close", this._navigateToSelectedOrder, this);
@@ -171,7 +189,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
-    this.orderDetailsLayout.detail.show(detailOrderView);
+    this.orderDetailsLayout.top.show(detailOrderView);
   },
 
   _showLineitemList: function(order) {
@@ -191,6 +209,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/'+ view.model.get("order_id") +'/lineitems/' + view.model.id, {trigger: true});
     }, this);
 
-    this.orderDetailsLayout.lineitems.show(lineItemListView);
+    this.orderDetailsLayout.bottom.show(lineItemListView);
   }
 });

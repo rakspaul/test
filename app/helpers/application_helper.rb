@@ -14,4 +14,8 @@ module ApplicationHelper
   def format_date(date)
     I18n.localize(date.in_time_zone("Eastern Time (US & Canada)"), :format => :short)
   end
+
+  def format_datetime(datetime)
+    I18n.localize(date.in_time_zone("Eastern Time (US & Canada)"))
+  end
 end

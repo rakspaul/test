@@ -12,6 +12,10 @@
 
     unselect: function() {
       this.set({selected: false});
+    },
+
+    toJSON: function() {
+      return { order: _.clone(this.attributes) };
     }
   });
 
@@ -72,8 +76,16 @@
     template: JST['templates/orders/order_detail_layout'],
 
     regions: {
-      detail: ".order-details-region",
-      lineitems: ".lineitem-list"
+      top: ".top-region",
+      bottom: ".bottom-region"
     }
+  });
+
+  Orders.EditView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/edit_order']
+  });
+
+  Orders.UploadView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/upload_order']
   });
 })(ReachUI.namespace("Orders"));

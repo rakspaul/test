@@ -1,7 +1,13 @@
-.lineitem-list {
+.table-container {
+  min-width: 1024px;
   padding: 10px;
 
-  table {
+  .table {
+    border: 1px solid #eee;
+    thead {
+      background-color: #f9f9f9;
+    }
+
     .name {
       font-weight: 600;
     }
@@ -30,37 +36,26 @@
       width: 100px;
       text-align: right;
     }
-  }
 
-  .active {
-    color: $active-color;
-  }
-
-  .inactive {
-    color: $inactive-color;
-  }
-
-  .table-container {
-    min-width: 1024px;
-
-    .table {
-      border: 1px solid #eee;
-      thead {
-        background-color: #f9f9f9;
-      }
+    .active {
+      color: $active-color;
     }
 
-    .table > tbody tr {
-      cursor: pointer;
-
-      &:hover {
-        background-color: $hover-color;
-      }
+    .inactive {
+      color: $inactive-color;
     }
+  }
 
-    .table th, .table td {
-      border: 1px solid #EEEEEE;
+  .table > tbody tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $hover-color;
     }
+  }
+
+  .table th, .table td {
+    border: 1px solid #EEEEEE;
   }
 }
 
