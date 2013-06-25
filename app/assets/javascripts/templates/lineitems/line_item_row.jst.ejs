@@ -4,3 +4,4 @@
 <td class="end_date"><%= lineitem.end_date %></td>
 <td class="volume"><%= accounting.formatNumber(lineitem.volume) %></td>
 <td class="rate"><%= accounting.formatMoney(lineitem.rate) %></td>
+<td class="media-cost"><%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %></td>
