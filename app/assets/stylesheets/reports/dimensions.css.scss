@@ -125,15 +125,12 @@ tr.highlightCol td:first-child{
 }
 .selectedDimensions{
 	letter-spacing:0;
-	text-align:center;
 	padding:10px;
+	border:1px solid #333;
 	display:none;
 }
 .selectedDim, .selectedDim:hover{
-	color:#fff;
-	margin:10px;
-	background: #51a351;
-	padding:7px 15px;
+	margin: 0 0 10px 0;
 	text-decoration:none;
 	letter-spacing:0;
 	cursor:pointer;
@@ -190,6 +187,7 @@ ul.dimensions li:hover{
 	border-bottom: 5px solid #fff;
 	margin:5px 5px 0 0;
 	float:right;
+	display:inline-block;
 }
 .arrow-down {
 	width: 0; 
@@ -199,6 +197,24 @@ ul.dimensions li:hover{
 	border-top: 5px solid #fff;
 	margin:5px 5px 0 0;
 	float:right;
+	display:inline-block;
+}
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid #333;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	margin:5px 5px 0 0;
+	display:inline-block;
+}
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-right: 5px solid #fff;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	display:inline-block;
 }
 
 .dimensionsInner{
@@ -244,11 +260,14 @@ ul.dimensions li:hover{
 	margin:0px;
 	border-bottom: 1px solid #fff;
 	background:#e7e7e7;
-	cursor:move;
+
 }
 .dropdownAccBody ul li:hover{
 	background:#008dd1;
 	color:#fff;
+}
+ul.addFilter li{
+	cursor: move;
 }
 .dropDownArrow{
 	width:20px;
@@ -261,4 +280,45 @@ ul.dimensions li:hover{
 }
 .dropDownArrow .arrow-down{
 	margin-top:5px;
+}
+.selectedFilterAcc{
+	display:none;
+	padding:5px;
+}
+
+.selectedFilterAccHeader{
+	background:#fff;
+	color:#333;
+	border:1px solid #ccc;
+	height:14px;
+	overflow:hidden;
+}
+
+.selectedFilterListDiv{
+	height:300px;
+	overflow: auto;
+}
+
+ul.filters_list{
+	padding:0px;
+	margin:0px;
+}
+
+ul.selectedFilterList li{
+	cursor:pointer;
+}
+
+.filterContentHeader h2{
+	font-size:20px;
+	line-height:24px;
+	padding:0;
+	margin:0 0 10px 0;
+}
+
+.remove_filter_dimension, .remove_filter_dimension:hover{
+	text-decoration:none;
+}
+
+.selectParam{
+	display:block;
 }
