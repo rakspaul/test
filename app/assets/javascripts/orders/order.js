@@ -48,7 +48,11 @@
 
   Orders.DetailView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_details'],
-    className: 'order-details'
+    className: 'order-details',
+
+    triggers: {
+      'click .edit-action':'order:edit'
+    }
   });
 
   Orders.ListView = Backbone.Marionette.CollectionView.extend({
@@ -222,7 +226,6 @@
   });
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/upload_order'],
-    className: 'upload-io-region'
+    template: JST['templates/orders/upload_order']
   });
 })(ReachUI.namespace("Orders"));
