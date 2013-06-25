@@ -290,6 +290,8 @@ ul.addFilter li{
 	background:#fff;
 	color:#333;
 	border:1px solid #ccc;
+	height:14px;
+	overflow:hidden;
 }
 
 .selectedFilterListDiv{
@@ -300,6 +302,10 @@ ul.addFilter li{
 ul.filters_list{
 	padding:0px;
 	margin:0px;
+}
+
+ul.selectedFilterList li{
+	cursor:pointer;
 }
 
 .filterContentHeader h2{

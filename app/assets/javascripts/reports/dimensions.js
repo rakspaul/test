@@ -17,7 +17,8 @@ ReachUI.Reports.Dimensions = function() {
 	var options = {};
 	var filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"]
 	var filters_all = filter_dimensions;
-	var dropColumnNames = []
+	var dropColumnNames = [];
+	var selectParam_Names = []
 
 	var appReset = function(){
 		 dropColumnCollection = [];
@@ -35,10 +36,12 @@ ReachUI.Reports.Dimensions = function() {
 		$(".selectedFilterAcc").hide();
 
 		$(".addFilter li").show();
-		filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"]
+		filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"];
 
 		addDragDrop();
 		addDraggable();
+
+		selectParam_Names = [];
 
 		return true;
 	}	
@@ -469,12 +472,21 @@ ReachUI.Reports.Dimensions = function() {
 
   var handle_App_Clicks = function(){
   	$(document).on("click",".selectedFilterList li",function(){
+  		
   		var selectParam_Name = $(this).text();
   		var data_select_param = $(this).parent().attr("data-colname");
   		
   		$(".filters_list li[data-colsel="+data_select_param+"]").append("<span class='selectParam'>"+selectParam_Name+"</span>");
 
+  		$(".selectedFilterAccHeader .dimLabel").text(selectParam_Name);
+
   		$(".selectedFilterAccHeader").trigger("click");
+
+  		selectParam_Names.push(selectParam_Name);
+
+  		console.log(selectParam_Names);
+
+  		$(this).remove();
 
   	});
   }
