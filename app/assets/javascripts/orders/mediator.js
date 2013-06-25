@@ -91,23 +91,34 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _saveOrder: function(args) {
-    var model = args.model;
-    var view = args.view;
+    var model = args.model,
+      view = args.view;
 
     var _order = {
       name: view.ui.name.val(),
       start_date: view.ui.start_date.val(),
       end_date: view.ui.end_date.val(),
-      advertiser_id: view.ui.advertiser_id.val()
+      advertiser_id: view.ui.advertiser_id.val(),
+      sales_person_id: view.ui.sales_person_id.val()
     };
 
+    // get all the error labels and clear them
+    _.keys(this.lineItemView.ui)
+      .filter(function(val) {
+        return /_error$/.test(val);
+      })
+      .forEach(function(val) {
+        view.ui[val].text("");
+      });
+
     var self = this;
+
     model.save(_order, {
       success: function(model, response, options) {
         // add order at beginning
         self.orderList.unshift(model);
         // view order
-        ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
+        ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
       },
       error: function(model, xhr, options) {
         if(xhr.responseJSON && xhr.responseJSON.errors) {
