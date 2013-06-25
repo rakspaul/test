@@ -187,6 +187,7 @@ ul.dimensions li:hover{
 	border-bottom: 5px solid #fff;
 	margin:5px 5px 0 0;
 	float:right;
+	display:inline-block;
 }
 .arrow-down {
 	width: 0; 
@@ -196,6 +197,24 @@ ul.dimensions li:hover{
 	border-top: 5px solid #fff;
 	margin:5px 5px 0 0;
 	float:right;
+	display:inline-block;
+}
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid #333;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	margin:5px 5px 0 0;
+	display:inline-block;
+}
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-right: 5px solid #fff;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	display:inline-block;
 }
 
 .dimensionsInner{
@@ -278,9 +297,22 @@ ul.addFilter li{
 	overflow: auto;
 }
 
+ul.filters_list{
+	padding:0px;
+	margin:0px;
+}
+
 .filterContentHeader h2{
 	font-size:20px;
 	line-height:24px;
 	padding:0;
 	margin:0 0 10px 0;
+}
+
+.remove_filter_dimension, .remove_filter_dimension:hover{
+	text-decoration:none;
+}
+
+.selectParam{
+	display:block;
 }
