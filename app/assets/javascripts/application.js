@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require twitter/bootstrap/typeahead
 //= require moment.min
+//= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
 //= require utils/core
