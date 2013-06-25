@@ -115,7 +115,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _saveOrder: function(args) {
     var model = args.model,
-      view = args.view;
+      view = args.view,
+      isNew = model.isNew();;
 
     var _order = {
       name: view.ui.name.val(),
@@ -140,8 +141,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       success: function(model, response, options) {
         // add order at beginning
         self.orderList.unshift(model);
-        // view order
-        ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
+        if(isNew) {
+          // view order
+          ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
+        } else {
+          window.history.back();
+        }
       },
       error: function(model, xhr, options) {
         if(xhr.responseJSON && xhr.responseJSON.errors) {
@@ -188,6 +193,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     } else {
       this.selectedOrder.select();
+      this._showOrderDetails(this.selectedOrder);
       if(!this.lineItemList) {
         this.lineItemList = new ReachUI.LineItems.LineItemList();
       }
