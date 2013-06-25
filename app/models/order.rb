@@ -3,12 +3,13 @@ class Order < ActiveRecord::Base
   belongs_to :data_source
   belongs_to :network
   belongs_to :user
+  belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
-  has_many :lineitems, inverse_of: :order, :order => 'name'
+  has_many :lineitems, -> { order('name') }, inverse_of: :order
 
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
-  validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
+  validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_sales_people, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
 
@@ -33,6 +34,12 @@ class Order < ActiveRecord::Base
 
     def validate_user_id
       errors.add :user_id, "is invalid" unless User.exists?(self.user_id)
+    end
+
+    def validate_sales_people
+      if self.sales_person_id.to_i > 0
+        errors.add :sales_person_id, "is invalid" unless SalesPeople.exists?(self.sales_person_id)
+      end
     end
 
     def validate_end_date_after_start_date
