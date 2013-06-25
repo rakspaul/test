@@ -69,6 +69,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   index: function() {
     this.orderList.fetch();
+    this.orderDetailsLayout.top.close();
+    this.orderDetailsLayout.bottom.close();
   },
 
   newOrder: function() {
@@ -82,6 +84,42 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.show(view);
+    view.on('order:save', this._saveOrder, this);
+    view.on('order:close', function() {
+      window.history.back();
+    });
+  },
+
+  _saveOrder: function(args) {
+    var model = args.model;
+    var view = args.view;
+
+    var _order = {
+      name: view.ui.name.val(),
+      start_date: view.ui.start_date.val(),
+      end_date: view.ui.end_date.val(),
+      advertiser_id: view.ui.advertiser_id.val()
+    };
+
+    var self = this;
+    model.save(_order, {
+      success: function(model, response, options) {
+        // add order at beginning
+        self.orderList.unshift(model);
+        // view order
+        ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
+      },
+      error: function(model, xhr, options) {
+        if(xhr.responseJSON && xhr.responseJSON.errors) {
+          _.each(xhr.responseJSON.errors, function(value, key) {
+            var errorLabel = view.ui[key + "_error"];
+            if(errorLabel) {
+              errorLabel.text(value[0]);
+            }
+          });
+        }
+      }
+    });
   },
 
   orderDetails: function(id) {

@@ -2,8 +2,17 @@
   'use strict';
 
   Orders.Order = Backbone.Model.extend({
+    defaults: {
+      start_date: moment().add('days', 1).format("YYYY-MM-DD"),
+      end_date: moment().add('days', 15).format("YYYY-MM-DD")
+    },
+
     url: function() {
-      return '/orders/' + this.id + '.json';
+      if(this.isNew()) {
+        return '/orders';
+      } else {
+        return '/orders/' + this.id + '.json';
+      }
     },
 
     select: function() {
@@ -69,6 +78,15 @@
       } else {
         view.$el.removeClass("order-selected");
       }
+    },
+
+    // This method is only overriden to append newly created order at top.
+    appendHtml: function(collectionView, itemView, index) {
+      if(index === 0) {
+        collectionView.$el.prepend(itemView.el);
+      } else {
+        collectionView.$el.append(itemView.el);
+      }
     }
   });
 
@@ -82,10 +100,89 @@
   });
 
   Orders.EditView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/edit_order']
+    template: JST['templates/orders/edit_order'],
+    className: 'edit-order-region',
+    ui: {
+      name: "#name",
+      active: "#active",
+      flight: '#flight',
+      flight_container: '.flight-input',
+      start_date: '#start_date',
+      end_date: '#end_date',
+      advertiser_id: '#advertiser_id',
+      network_advertiser_id_error: '#network_advertiser_id_error',
+      name_error: '#name_error'
+    },
+
+    triggers: {
+      'click .save-order': 'order:save',
+      'click .close-order': 'order:close'
+    },
+
+    onDomRefresh: function() {
+      // initial flight values
+      this.ui.start_date.val(this.model.get("start_date"));
+      this.ui.end_date.val(this.model.get("end_date"));
+
+      var self = this;
+      this.ui.flight_container.daterangepicker({
+          format: 'YYYY-MM-DD',
+          separator: ' to ',
+          startDate: this.ui.start_date.val(),
+          endDate: this.ui.end_date.val()
+        },
+        function(start, end) {
+          if(start) {
+            self.ui.start_date.val(start.format("YYYY-MM-DD"));
+            self.ui.end_date.val(end.format("YYYY-MM-DD"));
+            self.ui.flight.text(self.ui.start_date.val() + " to " + self.ui.end_date.val());
+          }
+        });
+
+      this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
+      this._initialize_typeahead();
+    },
+
+    _initialize_typeahead: function() {
+      var advertiser_data = [],
+        self = this;
+      this.$('#advertiser_name').typeahead({
+        source: function (query, process) {
+          return $.get('/advertisers.json', { search: query }, function (data) {
+            advertiser_data = data;
+            return process(_.pluck(data, 'id'));
+          });
+        },
+
+        updater: function(item) {
+          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
+          self.$('#advertiser_id').val(item);
+          return adv.name;
+        },
+
+        sorter: function(items) {
+          return items;
+        },
+
+        matcher: function (item) {
+          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
+          return ~adv.name.toLowerCase().indexOf(this.query.toLowerCase())
+        },
+
+        highlighter: function (item) {
+          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
+          var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+          return adv.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+            return '<strong>' + match + '</strong>'
+          })
+        },
+        minLength: 1
+      });
+    }
   });
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/upload_order']
+    template: JST['templates/orders/upload_order'],
+    className: 'upload-io-region'
   });
 })(ReachUI.namespace("Orders"));

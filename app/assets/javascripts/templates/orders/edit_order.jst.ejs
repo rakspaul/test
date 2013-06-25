@@ -1,9 +1,45 @@
+<h3 class="order-or-separator">OR</h3>
+
 <form class="form-horizontal">
-  <div class="control-group" id="name_group">
-    <label class="control-label" for="name">Name</label>
-    <div class="controls">
-      <input type="text" id="name" placeholder="Order name" value="<%= order.name %>" required>
-      <label class="help-inline form-error" id="name_error"></label>
+  <fieldset>
+    <div class="control-group" id="advertiser_group">
+      <label class="control-label" for="name">Advertiser</label>
+      <div class="controls">
+        <input type="text" id="advertiser_name" placeholder="Type advertiser name" value="<%= order.advertiser_name %>" required autocomplete="off">
+        <input type="hidden" id="advertiser_id">
+        <label class="help-inline form-error" id="network_advertiser_id_error"></label>
+      </div>
     </div>
-  </div>
+
+    <div class="control-group" id="name_group">
+      <label class="control-label" for="name">Name</label>
+      <div class="controls">
+        <input type="text" id="name" placeholder="Order name" value="<%= order.name %>" required>
+        <label class="help-inline form-error" id="name_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="flight">Flight Dates</label>
+      <div class="controls">
+        <span class="flight-input">
+          <i class="icon-calendar"></i>
+          <span id="flight"></span>
+          <b class="caret"></b>
+        </span>
+        <input type="hidden" id="start_date" placeholder="Start date" value="<%= order.start_date %>">
+        <input type="hidden" id="end_date" placeholder="End date" value="<%= order.end %>">
+        <label class="help-inline form-error" id="start_date_error"></label>
+        <label class="help-inline form-error" id="end_date_error"></label>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <div class="actions">
+      <button type="submit" class="btn btn-primary save-order">&nbsp;Save&nbsp;</button>
+      &nbsp;&nbsp;&nbsp;
+      <button class="btn close-order">Close</button>
+    </div>
+  </fieldset>
 </form>

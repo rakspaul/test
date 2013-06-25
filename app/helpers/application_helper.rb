@@ -16,6 +16,6 @@ module ApplicationHelper
   end
 
   def format_datetime(datetime)
-    I18n.localize(date.in_time_zone("Eastern Time (US & Canada)"))
+    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)"))
   end
 end

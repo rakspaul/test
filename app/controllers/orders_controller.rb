@@ -19,7 +19,9 @@ class OrdersController < ApplicationController
   end
 
   def create
-    @order = Order.new(params[:order])
+    p = params.require(:order).permit(:name, :start_date, :end_date)
+    @order = Order.new(p)
+    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
     @order.network = current_network
     @order.user = current_user
     if @order.save
