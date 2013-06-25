@@ -103,7 +103,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     };
 
     // get all the error labels and clear them
-    _.keys(this.lineItemView.ui)
+    _.keys(view.ui)
       .filter(function(val) {
         return /_error$/.test(val);
       })
