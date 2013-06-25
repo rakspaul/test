@@ -95,18 +95,18 @@
 
       var self = this;
       this.ui.flight_container.daterangepicker({
-        format: 'YYYY-MM-DD',
-        separator: ' to ',
-        startDate: this.ui.start_date.val(),
-        endDate: this.ui.end_date.val()
-      },
-      function(start, end) {
-        if(start) {
-          self.ui.start_date.val(start.format("YYYY-MM-DD"));
-          self.ui.end_date.val(end.format("YYYY-MM-DD"));
-          self.ui.flight.text(self.ui.start_date.val() + " to " + self.ui.end_date.val());
-        }
-      });
+          format: 'YYYY-MM-DD',
+          separator: ' to ',
+          startDate: this.ui.start_date.val(),
+          endDate: this.ui.end_date.val()
+        },
+        function(start, end) {
+          if(start) {
+            self.ui.start_date.val(start.format("YYYY-MM-DD"));
+            self.ui.end_date.val(end.format("YYYY-MM-DD"));
+            self.ui.flight.text(self.ui.start_date.val() + " to " + self.ui.end_date.val());
+          }
+        });
 
       this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
     }

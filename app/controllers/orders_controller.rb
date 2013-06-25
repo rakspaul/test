@@ -18,6 +18,19 @@ class OrdersController < ApplicationController
     end
   end
 
+  def create
+    p = params.require(:order).permit(:name, :start_date, :end_date)
+    @order = Order.new(p)
+    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
+    @order.network = current_network
+    @order.user = current_user
+    if @order.save
+      render status: :ok
+    else
+      render json: { errors: @order.errors }, status: :unprocessable_entity
+    end
+  end
+
   def search
     search_query = params[:search]
     @orders = Order.of_network(current_network).includes(:advertiser).limit(50)

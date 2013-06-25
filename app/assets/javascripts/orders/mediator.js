@@ -5,6 +5,7 @@ ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
 ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
   appRoutes: {
     '': 'index',
+    'new': 'newOrder',
     ':id': 'orderDetails',
     ':id/lineitems/new': 'newLineItem',
     ':id/lineitems/:lineitem_id': 'showLineItem'
@@ -59,11 +60,66 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
 
+    $(".order-new").click(function() {
+      ReachUI.Orders.router.navigate('/new', {trigger: true});
+    });
+
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
   },
 
   index: function() {
     this.orderList.fetch();
+    this.orderDetailsLayout.top.close();
+    this.orderDetailsLayout.bottom.close();
+  },
+
+  newOrder: function() {
+    var order = new ReachUI.Orders.Order();
+    var view = new ReachUI.Orders.EditView({model: order});
+    var uploadView = new ReachUI.Orders.UploadView();
+
+    if(this.selectedOrder) {
+      this.selectedOrder.unselect();
+    }
+
+    this.orderDetailsLayout.top.show(uploadView);
+    this.orderDetailsLayout.bottom.show(view);
+    view.on('order:save', this._saveOrder, this);
+    view.on('order:close', function() {
+      window.history.back();
+    });
+  },
+
+  _saveOrder: function(args) {
+    var model = args.model;
+    var view = args.view;
+
+    var _order = {
+      name: view.ui.name.val(),
+      start_date: view.ui.start_date.val(),
+      end_date: view.ui.end_date.val(),
+      advertiser_id: view.ui.advertiser_id.val()
+    };
+
+    var self = this;
+    model.save(_order, {
+      success: function(model, response, options) {
+        // add order at beginning
+        self.orderList.unshift(model);
+        // view order
+        ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
+      },
+      error: function(model, xhr, options) {
+        if(xhr.responseJSON && xhr.responseJSON.errors) {
+          _.each(xhr.responseJSON.errors, function(value, key) {
+            var errorLabel = view.ui[key + "_error"];
+            if(errorLabel) {
+              errorLabel.text(value[0]);
+            }
+          });
+        }
+      }
+    });
   },
 
   orderDetails: function(id) {
@@ -116,7 +172,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _initializeLineItemController: function() {
     this.lineItemController = new ReachUI.LineItems.LineItemController({
-                                    mainRegion: this.orderDetailsLayout.lineitems
+                                    mainRegion: this.orderDetailsLayout.bottom
                                   });
     this.lineItemController.on("lineitem:saved", this._navigateToSelectedOrder, this);
     this.lineItemController.on("lineitem:close", this._navigateToSelectedOrder, this);
@@ -171,7 +227,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
-    this.orderDetailsLayout.detail.show(detailOrderView);
+    this.orderDetailsLayout.top.show(detailOrderView);
   },
 
   _showLineitemList: function(order) {
@@ -191,6 +247,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/'+ view.model.get("order_id") +'/lineitems/' + view.model.id, {trigger: true});
     }, this);
 
-    this.orderDetailsLayout.lineitems.show(lineItemListView);
+    this.orderDetailsLayout.bottom.show(lineItemListView);
   }
 });

@@ -18,6 +18,7 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
+//= require twitter/bootstrap/typeahead
 //= require moment.min
 //= require daterangepicker
 //= require accounting.min

@@ -1,17 +1,17 @@
 <div class="order-name">
-  <%= name %>
+  <%= order.name %>
 </div>
 
 <div class="order-id">
-  <%= id %> / <%= source_id %>
+  <%= order.id %> / <%= order.source_id.indexOf("R_") === 0 ? 'NA' : order.source_id %>
 </div>
 
 <div class="order-advertiser">
-  <%= advertiser_name %>
+  <%= order.advertiser_name %>
 </div>
 
 <div class="order-dates">
-  <%= start_date %>
+  <%= order.start_date %>
   to
-  <%= end_date %>
+  <%= order.end_date %>
 </div>

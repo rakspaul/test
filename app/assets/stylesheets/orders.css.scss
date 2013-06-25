@@ -124,4 +124,26 @@
   margin-bottom: 20px;
 }
 
+.upload-io-region {
+  border: 2px dashed #DDDDDD;
+  height: 100px;
+  margin: 5px;
+  padding: 5px;
+  text-align: center;
+  color: #ddd;
+  cursor: pointer;
+
+  h3 {
+    margin-top: 30px;
+  }
+}
+
+.edit-order-region {
+  padding: 10px;
+
+  .order-or-separator {
+    color: #666;
+    text-align: center;
+  }
+}
 
