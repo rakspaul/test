@@ -72,6 +72,22 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
+    this._bindKeys();
+  },
+
+  _bindKeys: function() {
+    var self = this;
+    Mousetrap.bind(['command+o', 'ctrl+o'], function(e) {
+      ReachUI.Orders.router.navigate('/new', {trigger: true});
+      return false;
+    });
+
+    Mousetrap.bind(['command+e', 'ctrl+e'], function(e) {
+      if(self.selectedOrder) {
+        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/edit', {trigger: true});
+        return false;
+      }
+    });
   },
 
   index: function() {
