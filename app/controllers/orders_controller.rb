@@ -32,6 +32,23 @@ class OrdersController < ApplicationController
     end
   end
 
+  def update
+    @order = Order.find(params[:id])
+    order_param = params[:order]
+
+    @order.name = params[:order][:name]
+    @order.start_date = DateTime.parse(params[:order][:start_date])
+    @order.end_date = DateTime.parse(params[:order][:end_date])
+    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
+    @order.sales_person_id = params[:order][:sales_person_id].to_i
+
+    if @order.save
+      render :create
+    else
+      render json: { errors: @order.errors }, status: :unprocessable_entity
+    end
+  end
+
   def search
     search_query = params[:search]
     @orders = Order.of_network(current_network)

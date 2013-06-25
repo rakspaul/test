@@ -7,6 +7,7 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
     '': 'index',
     'new': 'newOrder',
     ':id': 'orderDetails',
+    ':id/edit': 'editOrder',
     ':id/lineitems/new': 'newLineItem',
     ':id/lineitems/:lineitem_id': 'showLineItem'
   },
@@ -83,6 +84,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
 
     this.orderDetailsLayout.top.show(uploadView);
+    this.orderDetailsLayout.bottom.show(view);
+    view.on('order:save', this._saveOrder, this);
+    view.on('order:close', function() {
+      window.history.back();
+    });
+  },
+
+  editOrder: function(id) {
+    this.selectedOrder = this.orderList.get(id);
+    if(!this.selectedOrder) {
+      var promise = this._fetchOrder(id);
+      promise.then(this._showEditOrder);
+    } else {
+      this._showEditOrder(this.selectedOrder);
+    }
+  },
+
+  _showEditOrder: function(order) {
+    order.select();
+
+    var view = new ReachUI.Orders.EditView({model: order});
+    this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
     view.on('order:save', this._saveOrder, this);
     view.on('order:close', function() {
@@ -238,6 +261,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    detailOrderView.on('order:edit', function(args) {
+      var order = args.model;
+      ReachUI.Orders.router.navigate('/'+ order.id +'/edit', {trigger: true});
+    });
     this.orderDetailsLayout.top.show(detailOrderView);
   },
 

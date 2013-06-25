@@ -1,12 +1,10 @@
-<h3 class="order-or-separator">OR</h3>
-
 <form class="form-horizontal">
   <fieldset>
     <div class="control-group" id="advertiser_group">
       <label class="control-label" for="name">Advertiser</label>
       <div class="controls">
         <input type="text" id="advertiser_name" placeholder="Type advertiser name" value="<%= order.advertiser_name %>" required autocomplete="off">
-        <input type="hidden" id="advertiser_id">
+        <input type="hidden" id="advertiser_id" value="<%= order.advertiser_id %>">
         <label class="help-inline form-error" id="network_advertiser_id_error"></label>
       </div>
     </div>
