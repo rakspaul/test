@@ -61,6 +61,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
 
+    searchOrderListView.listenTo(this.orderList, 'change', function(model) {
+      // update the order view in list when order is edited and saved.
+      var view = searchOrderListView.children.findByModel(model);
+      view.render();
+    });
+
     $(".order-new").click(function() {
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
