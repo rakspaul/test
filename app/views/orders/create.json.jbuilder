@@ -6,5 +6,6 @@ json.end_date format_date(@order.end_date)
 json.advertiser_id @order.advertiser.id
 json.advertiser_name @order.advertiser.name
 json.user_id @order.user.id
+json.source_id @order.source_id
 json.created_at format_datetime(@order.created_at)
 json.updated_at format_datetime(@order.updated_at)

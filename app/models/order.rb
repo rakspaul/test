@@ -51,5 +51,6 @@ class Order < ActiveRecord::Base
 
     def make_order_inactive
       self.active = false
+      true
     end
 end
