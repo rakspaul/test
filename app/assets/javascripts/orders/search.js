@@ -15,6 +15,10 @@
       'keypress .search-query': 'onKeyPress'
     },
 
+    initialize: function() {
+      _.bindAll(this, '_focusSearchInput');
+    },
+
     onSearchClick: function() {
       this._setSearchText();
     },
@@ -25,6 +29,14 @@
       if(evt.which === ENTER_KEY) {
         this._setSearchText();
       }
+    },
+
+    bindShortcutKey: function(key) {
+      Mousetrap.bind([key], this._focusSearchInput);
+    },
+
+    _focusSearchInput: function(e) {
+      this.$('.search-query').focus();
     },
 
     _setSearchText: function() {

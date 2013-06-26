@@ -66,6 +66,19 @@
     triggers: {
       'click .save-lineitem': 'lineitem:save',
       'click .close-lineitem': 'lineitem:close'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_close_form');
+      Mousetrap.bind(['esc'], this._close_form);
+    },
+
+    onClose: function() {
+      Mousetrap.unbind('esc');
+    },
+
+    _close_form: function() {
+      this.trigger('lineitem:close');
     }
   });
 

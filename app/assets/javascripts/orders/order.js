@@ -125,6 +125,11 @@
       'click .close-order': 'order:close'
     },
 
+    initialize: function() {
+      _.bindAll(this, '_close_form');
+      Mousetrap.bind(['esc'], this._close_form);
+    },
+
     onDomRefresh: function() {
       // initial flight values
       this.ui.start_date.val(this.model.get("start_date"));
@@ -148,6 +153,14 @@
       this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
       this._initialize_advertiser();
       this._initialize_sales_person();
+    },
+
+    onClose: function() {
+      Mousetrap.unbind('esc');
+    },
+
+    _close_form: function() {
+      this.trigger('order:close');
     },
 
     _initialize_advertiser: function() {
