@@ -16,7 +16,7 @@
     },
 
     initialize: function() {
-      _.bindAll(this, 'bindShortcutKey');
+      _.bindAll(this, '_focusSearchInput');
     },
 
     onSearchClick: function() {
@@ -32,10 +32,11 @@
     },
 
     bindShortcutKey: function(key) {
-      var self = this;
-      Mousetrap.bind([key], function(e) {
-        self.$('.search-query').focus();
-      });
+      Mousetrap.bind([key], this._focusSearchInput);
+    },
+
+    _focusSearchInput: function(e) {
+      this.$('.search-query').focus();
     },
 
     _setSearchText: function() {
