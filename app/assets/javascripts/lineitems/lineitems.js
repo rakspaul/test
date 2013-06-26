@@ -81,11 +81,17 @@
       end_date: '#end_date',
       volume: '#volume',
       rate: '#rate',
+      media_cost: '#media_cost',
       name_error: '#name_error',
       start_date_error: '#start_date_error',
       end_date_error: '#end_date_error',
       volume_error: '#volume_error',
       rate_error: '#rate_error'
+    },
+
+    events: {
+      'change #volume': '_calculate_media_cost',
+      'change #rate': '_calculate_media_cost'
     },
 
     onDomRefresh: function() {
@@ -109,6 +115,13 @@
         });
 
       this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
+      this._calculate_media_cost();
+    },
+
+    _calculate_media_cost: function() {
+      var imps = parseInt(this.ui.volume.val(), 10),
+        cpm = parseFloat(this.ui.rate.val(), 10);
+      this.ui.media_cost.val(imps/1000 * cpm);
     }
   });
 

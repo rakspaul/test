@@ -48,7 +48,11 @@
 
   Orders.DetailView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_details'],
-    className: 'order-details'
+    className: 'order-details',
+
+    triggers: {
+      'click .edit-action':'order:edit'
+    }
   });
 
   Orders.ListView = Backbone.Marionette.CollectionView.extend({
@@ -110,8 +114,10 @@
       start_date: '#start_date',
       end_date: '#end_date',
       advertiser_id: '#advertiser_id',
+      sales_person_id: '#sales_person_id',
       network_advertiser_id_error: '#network_advertiser_id_error',
-      name_error: '#name_error'
+      name_error: '#name_error',
+      sales_person_id_error: '#sales_person_id_error'
     },
 
     triggers: {
@@ -140,10 +146,11 @@
         });
 
       this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
-      this._initialize_typeahead();
+      this._initialize_advertiser();
+      this._initialize_sales_person();
     },
 
-    _initialize_typeahead: function() {
+    _initialize_advertiser: function() {
       var advertiser_data = [],
         self = this;
       this.$('#advertiser_name').typeahead({
@@ -178,11 +185,47 @@
         },
         minLength: 1
       });
+    },
+
+    _initialize_sales_person: function() {
+      var sales_person_data = [],
+        self = this;
+      this.$('#sales_person_name').typeahead({
+        source: function (query, process) {
+          return $.get('/sales_people.json', { search: query }, function (data) {
+            sales_person_data = data;
+            return process(_.pluck(data, 'id'));
+          });
+        },
+
+        updater: function(item) {
+          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
+          self.$('#sales_person_id').val(item);
+          return sp.name;
+        },
+
+        sorter: function(items) {
+          return items;
+        },
+
+        matcher: function (item) {
+          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
+          return ~sp.name.toLowerCase().indexOf(this.query.toLowerCase())
+        },
+
+        highlighter: function (item) {
+          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
+          var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
+          return sp.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
+            return '<strong>' + match + '</strong>'
+          })
+        },
+        minLength: 1
+      });
     }
   });
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/upload_order'],
-    className: 'upload-io-region'
+    template: JST['templates/orders/upload_order']
   });
 })(ReachUI.namespace("Orders"));

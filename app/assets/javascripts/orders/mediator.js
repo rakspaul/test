@@ -7,6 +7,7 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
     '': 'index',
     'new': 'newOrder',
     ':id': 'orderDetails',
+    ':id/edit': 'editOrder',
     ':id/lineitems/new': 'newLineItem',
     ':id/lineitems/:lineitem_id': 'showLineItem'
   },
@@ -60,6 +61,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
 
+    searchOrderListView.listenTo(this.orderList, 'change', function(model) {
+      // update the order view in list when order is edited and saved.
+      var view = searchOrderListView.children.findByModel(model);
+      view.render();
+    });
+
     $(".order-new").click(function() {
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
@@ -90,24 +97,62 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
   },
 
+  editOrder: function(id) {
+    this.selectedOrder = this.orderList.get(id);
+    if(!this.selectedOrder) {
+      var promise = this._fetchOrder(id);
+      promise.then(this._showEditOrder);
+    } else {
+      this._showEditOrder(this.selectedOrder);
+    }
+  },
+
+  _showEditOrder: function(order) {
+    order.select();
+
+    var view = new ReachUI.Orders.EditView({model: order});
+    this.orderDetailsLayout.top.close();
+    this.orderDetailsLayout.bottom.show(view);
+    view.on('order:save', this._saveOrder, this);
+    view.on('order:close', function() {
+      window.history.back();
+    });
+  },
+
   _saveOrder: function(args) {
-    var model = args.model;
-    var view = args.view;
+    var model = args.model,
+      view = args.view,
+      isNew = model.isNew();;
 
     var _order = {
       name: view.ui.name.val(),
       start_date: view.ui.start_date.val(),
       end_date: view.ui.end_date.val(),
-      advertiser_id: view.ui.advertiser_id.val()
+      advertiser_id: view.ui.advertiser_id.val(),
+      sales_person_id: view.ui.sales_person_id.val()
     };
 
+    // get all the error labels and clear them
+    _.keys(view.ui)
+      .filter(function(val) {
+        return /_error$/.test(val);
+      })
+      .forEach(function(val) {
+        view.ui[val].text("");
+      });
+
     var self = this;
+
     model.save(_order, {
       success: function(model, response, options) {
         // add order at beginning
         self.orderList.unshift(model);
-        // view order
-        ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
+        if(isNew) {
+          // view order
+          ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
+        } else {
+          window.history.back();
+        }
       },
       error: function(model, xhr, options) {
         if(xhr.responseJSON && xhr.responseJSON.errors) {
@@ -154,6 +199,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     } else {
       this.selectedOrder.select();
+      this._showOrderDetails(this.selectedOrder);
       if(!this.lineItemList) {
         this.lineItemList = new ReachUI.LineItems.LineItemList();
       }
@@ -227,6 +273,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    detailOrderView.on('order:edit', function(args) {
+      var order = args.model;
+      ReachUI.Orders.router.navigate('/'+ order.id +'/edit', {trigger: true});
+    });
     this.orderDetailsLayout.top.show(detailOrderView);
   },
 

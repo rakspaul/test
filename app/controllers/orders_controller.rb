@@ -22,6 +22,7 @@ class OrdersController < ApplicationController
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
+    @order.sales_person_id = params[:order][:sales_person_id].to_i
     @order.network = current_network
     @order.user = current_user
     if @order.save
@@ -31,9 +32,34 @@ class OrdersController < ApplicationController
     end
   end
 
+  def update
+    @order = Order.find(params[:id])
+    order_param = params[:order]
+
+    @order.name = params[:order][:name]
+    @order.start_date = params[:order][:start_date]
+    @order.end_date = params[:order][:end_date]
+    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
+    @order.sales_person_id = params[:order][:sales_person_id].to_i
+
+    # Legacy orders might not have user's assigned to it. Therefore this user
+    # as owner/creator of order
+    @order.user = current_user if @order.user.nil?
+
+    if @order.save
+      render :create
+    else
+      render json: { errors: @order.errors }, status: :unprocessable_entity
+    end
+  end
+
   def search
     search_query = params[:search]
-    @orders = Order.of_network(current_network).includes(:advertiser).limit(50)
+    @orders = Order.of_network(current_network)
+      .includes(:advertiser)
+      .includes(:sales_person)
+      .includes(:user)
+      .limit(50)
     if search_query.present?
       id = Integer(search_query) rescue 0
       # assume that number above 4 digit is search on 'id' or 'source id'
