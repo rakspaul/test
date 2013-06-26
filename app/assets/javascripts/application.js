@@ -19,6 +19,7 @@
 //= require json2
 //= require backbone.marionette
 //= require twitter/bootstrap/typeahead
+//= require twitter/bootstrap/modal
 //= require moment.min
 //= require mousetrap.min
 //= require daterangepicker

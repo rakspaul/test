@@ -97,6 +97,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         return false;
       }
     });
+
+    Mousetrap.bind(['?'], function(e) {
+      $("#shortcut_help_modal").modal("show");
+    });
   },
 
   index: function() {

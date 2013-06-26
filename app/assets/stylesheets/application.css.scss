@@ -54,3 +54,25 @@ body {
 .form-error {
   color: #B94A48
 }
+
+.right-align {
+  text-align: right;
+}
+
+.shortcut-help {
+  td {
+    padding-bottom: 3px;
+    padding-top: 3px;
+    padding-right: 15px;
+  }
+
+  .key {
+    background-color: #333333;
+    border-radius: 3px 3px 3px 3px;
+    color: #FFFFFF;
+    display: inline-block;
+    min-width: 10px;
+    padding: 2px 7px;
+    text-align: center;
+  }
+}
