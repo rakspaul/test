@@ -57,6 +57,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.orderList.fetch({data: {search: model.get('query')}});
     }, this);
 
+    searchView.bindShortcutKey('s');
+
     searchOrderListView.on("itemview:selected", function(view) {
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
@@ -77,16 +79,27 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _bindKeys: function() {
     var self = this;
-    Mousetrap.bind(['command+o', 'ctrl+o'], function(e) {
+    Mousetrap.bind(['c o'], function(e) {
       ReachUI.Orders.router.navigate('/new', {trigger: true});
       return false;
     });
 
-    Mousetrap.bind(['command+e', 'ctrl+e'], function(e) {
+    Mousetrap.bind(['e o'], function(e) {
       if(self.selectedOrder) {
         ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/edit', {trigger: true});
         return false;
       }
+    });
+
+    Mousetrap.bind(['c l'], function(e) {
+      if(self.selectedOrder) {
+        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/lineitems/new', {trigger: true});
+        return false;
+      }
+    });
+
+    Mousetrap.bind(['?'], function(e) {
+      $("#shortcut_help_modal").modal("show");
     });
   },
 
