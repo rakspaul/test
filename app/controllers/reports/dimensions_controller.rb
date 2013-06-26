@@ -1,4 +1,3 @@
-require 'csv'
 require 'json'
 require 'load_dimensions_wrapper'
 
@@ -8,15 +7,16 @@ class Reports::DimensionsController < ApplicationController
   respond_to :json	
   
   def index
-    from_date = params[:from_date].present? ? params[:from_date] : ""
-    to_date = params[:to_date].present? ? params[:to_date] : ""
-    dimensions = params[:dimensions].present? ? params[:dimensions] : ""
-    expand_id = params[:expand_id].present? ? params[:expand_id] : ""
+    start_date = params[:start_date].present? ? params[:start_date] : ""
+    end_date = params[:end_date].present? ? params[:end_date] : ""
+    group = params[:group].present? ? params[:group] : ""
+    cols = params[:cols].present? ? params[:cols] : ""
+    filter = params[:filter].present? ? params[:filter] : ""
 
     wrapper = LoadDimensionsWrapper.new
-    csv_results = wrapper.load(current_user.id, dimensions, from_date, to_date, current_network, expand_id)
+    results = wrapper.load(group, cols, filter, start_date, end_date, current_network, current_user)
     
-    respond_with(csv_results)
+    respond_with(results)
   end
 		
 end

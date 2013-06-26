@@ -82,3 +82,6 @@ gem 'unicorn'
 
 # For cache storage
 gem 'dalli'
+
+# For json parsing
+gem 'json', '~> 1.7.7'
