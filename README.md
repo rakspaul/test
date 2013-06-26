@@ -22,6 +22,12 @@ Try to stick to following ruby and ruby on rails guides:
 * https://github.com/bbatsov/ruby-style-guide
 * https://github.com/bbatsov/rails-style-guide
 
+Javascript style guide:
+-
+Try to stick to following javascrpit style guide:
+
+* https://github.com/rwldrn/idiomatic.js/
+
 Overridden style guide:
 -
 Add points here on which we don't agree from above style guides.
