@@ -63,7 +63,7 @@
   padding: 15px 10px 15px 20px;
   cursor: pointer;
   color: #ddd;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
 }
@@ -80,7 +80,6 @@
 
     .order-name {
       font-weight: 600;
-      font-size: 1.1em;
     }
 
     .order-advertiser, .order-dates, .order-id {
@@ -135,8 +134,8 @@
   color: #ddd;
   cursor: pointer;
 
-  h3 {
-    margin-top: 30px;
+  h4 {
+    margin-top: 40px;
   }
 }
 
