@@ -277,7 +277,7 @@
     },
 
     _uploadFailed: function(e, data) {
-      alert(data.errorThrown);
+      alert("Error processing IO");
       var resp = data.jqXHR.responseJSON,
         messages = [];
 
