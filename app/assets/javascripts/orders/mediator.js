@@ -118,6 +118,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.selectedOrder.unselect();
     }
 
+    uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.show(view);
     view.on('order:save', this._saveOrder, this);
@@ -146,6 +147,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     view.on('order:close', function() {
       window.history.back();
     });
+  },
+
+  _ioUploaded: function(orderModel) {
+    this.orderList.unshift(orderModel);
+    // view order
+    ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
   },
 
   _saveOrder: function(args) {

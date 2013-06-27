@@ -40,6 +40,12 @@ gem 'crummy', '~> 1.7.2'
 #gem 'ruby-haml-js', git: 'https://github.com/dnagir/ruby-haml-js.git'
 gem 'ejs'
 
+# read Excel files
+gem 'roo', '~> 1.11.2'
+
+# gem for https://github.com/blueimp/jQuery-File-Upload
+gem "jquery-fileupload-rails", "~> 0.4.1"
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
   gem 'factory_girl_rails', '~> 4.2.1'
