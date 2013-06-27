@@ -125,10 +125,12 @@
 }
 
 .upload-io-region {
+  padding: 10px;
+}
+
+.drop-region {
   border: 2px dashed #DDDDDD;
   height: 100px;
-  margin: 5px;
-  padding: 5px;
   text-align: center;
   color: #ddd;
   cursor: pointer;
@@ -147,9 +149,21 @@
   text-align: center;
 }
 
-#io_fileupload {
-  width: 0px;
-  height: 0px;
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
 }
 
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
 

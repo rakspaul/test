@@ -247,16 +247,8 @@
       upload_status: '.upload-status'
     },
 
-    events: {
-      'click .upload-io-region': 'onUploadClick'
-    },
-
     initialize: function() {
       _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
-    },
-
-    onUploadClick: function() {
-      this.ui.io_fileupload.trigger("click");
     },
 
     onDomRefresh: function() {
@@ -274,8 +266,7 @@
     _uploadStarted: function(e) {
       this.ui.upload_status.removeClass('alert alert-error');
       this.ui.upload_status.addClass('alert');
-      //this.ui.upload_io_region.hide();
-      this.ui.upload_status.append("<h4>Uploading</h4>");
+      this.ui.upload_status.html("<strong>Uploading</strong>");
     },
 
     _uploadSuccess: function(e, data) {
@@ -286,7 +277,6 @@
 
     _uploadFailed: function(e, data) {
       alert(data.errorThrown);
-      //this.ui.upload_io_region.show();
       var resp = data.jqXHR.responseJSON,
         messages = [];
 
