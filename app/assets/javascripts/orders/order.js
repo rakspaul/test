@@ -239,6 +239,62 @@
   });
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/upload_order']
+    template: JST['templates/orders/upload_order'],
+
+    ui: {
+      io_fileupload: '#io_fileupload',
+      upload_io_region: '.upload-io-region',
+      drop_region: '.drop-region',
+      upload_status: '.upload-status'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
+    },
+
+    onDomRefresh: function() {
+      this.ui.io_fileupload.fileupload({
+        dataType: 'json',
+        url: '/io_import.json',
+        dropZone: this.ui.drop_region,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._uploadSuccess,
+        fail: this._uploadFailed
+      });
+    },
+
+    _uploadStarted: function(e) {
+      this.ui.upload_status.removeClass('alert alert-error');
+      this.ui.upload_status.addClass('alert');
+      this.ui.upload_status.html("<strong>Uploading</strong>");
+    },
+
+    _uploadSuccess: function(e, data) {
+      this.ui.upload_status.html("<h4>Successfully uploaded.</h4>");
+      var orderModel = new Orders.Order(data.result);
+      this.trigger('io:uploaded', orderModel);
+    },
+
+    _uploadFailed: function(e, data) {
+      alert("Error processing IO");
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      messages.push("<strong>Error processing IO.</strong>");
+      messages.push("<ul>");
+      if(resp) {
+        _.each(resp.errors.base, function(msg) {
+          messages.push("<li>");
+          messages.push(msg);
+          messages.push("</li>");
+        });
+      } else {
+        messages.push(data.jqXHR.responseText);
+      }
+      messages.push("</ul>");
+      this.ui.upload_status.html(messages.join(""));
+      this.ui.upload_status.addClass('alert alert-error');
+    }
   });
 })(ReachUI.namespace("Orders"));

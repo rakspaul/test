@@ -198,7 +198,7 @@
       var strAdSizes = this.lineItemModel.get("ad_sizes");
 
       if(strAdSizes) {
-        var tmpAdSizeList = strAdSizes.split(',');
+        var tmpAdSizeList = _.map(strAdSizes.split(','), function(size) { return size.trim(); });
         if(tmpAdSizeList.indexOf(view.model.get("size")) !== -1) {
           view.model.selected();
         }
