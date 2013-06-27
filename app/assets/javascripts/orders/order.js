@@ -239,6 +239,67 @@
   });
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/upload_order']
+    template: JST['templates/orders/upload_order'],
+
+    ui: {
+      io_fileupload: '#io_fileupload',
+      upload_io_region: '.upload-io-region',
+      upload_status: '.upload-status'
+    },
+
+    events: {
+      'click .upload-io-region': 'onUploadClick'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
+    },
+
+    onUploadClick: function() {
+      this.ui.io_fileupload.trigger("click");
+    },
+
+    onDomRefresh: function() {
+      this.ui.io_fileupload.fileupload({
+        dataType: 'json',
+        url: '/io_import.json',
+        dropZone: this.ui.upload_io_region,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._uploadSuccess,
+        fail: this._uploadFailed
+      });
+    },
+
+    _uploadStarted: function(e) {
+      this.ui.upload_status.removeClass('alert alert-error');
+      this.ui.upload_status.addClass('alert');
+      //this.ui.upload_io_region.hide();
+      this.ui.upload_status.append("<h4>Uploading</h4>");
+    },
+
+    _uploadSuccess: function(e, data) {
+      this.ui.upload_status.html("<h4>Successfully uploaded.</h4>");
+      var orderModel = new Orders.Order(data.result);
+      this.trigger('io:uploaded', orderModel);
+    },
+
+    _uploadFailed: function(e, data) {
+      alert(data.errorThrown);
+      //this.ui.upload_io_region.show();
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      if(resp) {
+        _.each(resp.errors.base, function(msg) {
+          messages.push(msg);
+        });
+      } else {
+        messages.push(data.jqXHR.responseText);
+      }
+
+      this.ui.upload_status.html(messages.join("<br/>"));
+      this.ui.upload_status.addClass('alert alert-error');
+    }
   });
 })(ReachUI.namespace("Orders"));
