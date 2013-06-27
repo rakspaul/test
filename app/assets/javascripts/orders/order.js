@@ -244,6 +244,7 @@
     ui: {
       io_fileupload: '#io_fileupload',
       upload_io_region: '.upload-io-region',
+      drop_region: '.drop-region',
       upload_status: '.upload-status'
     },
 
@@ -255,7 +256,7 @@
       this.ui.io_fileupload.fileupload({
         dataType: 'json',
         url: '/io_import.json',
-        dropZone: this.ui.upload_io_region,
+        dropZone: this.ui.drop_region,
         pasteZone: null,
         start: this._uploadStarted,
         done: this._uploadSuccess,
@@ -280,15 +281,19 @@
       var resp = data.jqXHR.responseJSON,
         messages = [];
 
+      messages.push("<strong>Error processing IO.</strong>");
+      messages.push("<ul>");
       if(resp) {
         _.each(resp.errors.base, function(msg) {
+          messages.push("<li>");
           messages.push(msg);
+          messages.push("</li>");
         });
       } else {
         messages.push(data.jqXHR.responseText);
       }
-
-      this.ui.upload_status.html(messages.join("<br/>"));
+      messages.push("</ul>");
+      this.ui.upload_status.html(messages.join(""));
       this.ui.upload_status.addClass('alert alert-error');
     }
   });
