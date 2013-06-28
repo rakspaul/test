@@ -63,7 +63,7 @@
   padding: 15px 10px 15px 20px;
   cursor: pointer;
   color: #ddd;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   text-align: center;
 }
@@ -80,7 +80,6 @@
 
     .order-name {
       font-weight: 600;
-      font-size: 1.1em;
     }
 
     .order-advertiser, .order-dates, .order-id {
@@ -125,16 +124,18 @@
 }
 
 .upload-io-region {
+  padding: 10px;
+}
+
+.drop-region {
   border: 2px dashed #DDDDDD;
   height: 100px;
-  margin: 5px;
-  padding: 5px;
   text-align: center;
   color: #ddd;
   cursor: pointer;
 
-  h3 {
-    margin-top: 30px;
+  h4 {
+    margin-top: 40px;
   }
 }
 
@@ -146,3 +147,22 @@
   color: #666;
   text-align: center;
 }
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.fileinput-button input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  transform: translate(-300px, 0) scale(4);
+  font-size: 23px;
+  direction: ltr;
+  cursor: pointer;
+}
+

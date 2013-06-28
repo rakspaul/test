@@ -57,6 +57,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.orderList.fetch({data: {search: model.get('query')}});
     }, this);
 
+    searchView.bindShortcutKey('s');
+
     searchOrderListView.on("itemview:selected", function(view) {
       ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
     });
@@ -72,6 +74,33 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
+    this._bindKeys();
+  },
+
+  _bindKeys: function() {
+    var self = this;
+    Mousetrap.bind(['c o'], function(e) {
+      ReachUI.Orders.router.navigate('/new', {trigger: true});
+      return false;
+    });
+
+    Mousetrap.bind(['e o'], function(e) {
+      if(self.selectedOrder) {
+        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/edit', {trigger: true});
+        return false;
+      }
+    });
+
+    Mousetrap.bind(['c l'], function(e) {
+      if(self.selectedOrder) {
+        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/lineitems/new', {trigger: true});
+        return false;
+      }
+    });
+
+    Mousetrap.bind(['?'], function(e) {
+      $("#shortcut_help_modal").modal("show");
+    });
   },
 
   index: function() {
@@ -89,6 +118,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.selectedOrder.unselect();
     }
 
+    uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.show(view);
     view.on('order:save', this._saveOrder, this);
@@ -117,6 +147,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     view.on('order:close', function() {
       window.history.back();
     });
+  },
+
+  _ioUploaded: function(orderModel) {
+    this.orderList.unshift(orderModel);
+    // view order
+    ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
   },
 
   _saveOrder: function(args) {

@@ -16,6 +16,37 @@
   #details.pure-u
     .content
 
+.shortcut-help
+  #shortcut_help_modal.modal.hide.fade{ tabindex: "-1", role: "dialog"}
+    .modal-header
+      %h3 Shortcuts
+    .modal-body
+      %table
+        %tbody
+          %tr
+            %td.right-align
+              %span.key C
+              %span.key O
+            %td
+              Create Order
+          %tr
+            %td.right-align
+              %span.key E
+              %span.key O
+            %td
+              Edit Order
+          %tr
+            %td.right-align
+              %span.key C
+              %span.key L
+            %td
+              Create Lineitem
+          %tr
+            %td.right-align
+              %span.key S
+            %td
+              Search Orders
+
 :javascript
   $(document).ready(function() {
     $(window).resize(resizeContent);

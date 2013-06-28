@@ -25,6 +25,8 @@ Reachui::Application.routes.draw do
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
 
+  resource :io_import, controller: 'io_import'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

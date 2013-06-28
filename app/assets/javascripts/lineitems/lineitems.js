@@ -66,6 +66,19 @@
     triggers: {
       'click .save-lineitem': 'lineitem:save',
       'click .close-lineitem': 'lineitem:close'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_close_form');
+      Mousetrap.bind(['esc'], this._close_form);
+    },
+
+    onClose: function() {
+      Mousetrap.unbind('esc');
+    },
+
+    _close_form: function() {
+      this.trigger('lineitem:close');
     }
   });
 
@@ -185,7 +198,7 @@
       var strAdSizes = this.lineItemModel.get("ad_sizes");
 
       if(strAdSizes) {
-        var tmpAdSizeList = strAdSizes.split(',');
+        var tmpAdSizeList = _.map(strAdSizes.split(','), function(size) { return size.trim(); });
         if(tmpAdSizeList.indexOf(view.model.get("size")) !== -1) {
           view.model.selected();
         }
