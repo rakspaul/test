@@ -10,15 +10,14 @@
             %span
             %b.caret
 
-        .dropdownAccordion.addFilterAccordion
-          .dropdownAccHeader.addFilterHeader 
+        .dimensionsAccordion
+          .dimensionsHeader
             .dimLabel
-              Add Filter
-            .dropDownArrow
-              %span.arrow-down
-          .dropdownAccBody
+              Add Dimesnsions
+            %span.arrow-down
+          .dimensionsBody
             %ul.addFilter
-
+ 
         .dropdownAccordion.selectedFilterAcc
           .dropdownAccHeader.selectedFilterAccHeader 
             .dimLabel
@@ -81,53 +80,39 @@
           .ajax_loader
             = image_tag "loading.gif"
 
+        #simplePagination.pagination.fr
+
 
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
-      <th class="l_width">Name</th>
+      <% if(advertiser_name != "" )  {%>
+        <th class="l_width">Advertiser Name</th>
+      <% } %>
+      <% if(order_name != "" )  {%>
+        <th class="l_width">Order Name</th>
+      <% } %>
+       <% if(ad_name != "" )  {%>
+        <th class="l_width">Ad Name</th>
+      <% } %>
       <th class="s_width">Imps</th>
       <th class="s_width">Clicks</th>
-      <th class="s_width">CTR%</th>        
-      <th class="s_width">PCCR %</th>
-      <th class="s_width">Total Actions</th>
-      <th class="s_width">AR%</th>
-      <th class="s_width">Gross Rev</th>
-      <th class="s_width">Gross eCMP</th>
-      <th class="s_width">eCPC</th>
-      <th class="s_width">eCPA</th>
     </tr>
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp"}
-  :plain
-    <tr class="<%= id %>_parent">
-      <td class="l_width"><span class="accIcon icon-plus-sign"></span> <a class="dimName" disabled="disabled" data-id="<%= id %>"><%= name %></a></td>
+  :plain           
+    <tr>
+      <% if(advertiser_name != "" )  {%>
+        <td class="l_width"><%= advertiser_name %></td>
+      <% } %>
+      <% if(order_name != "" )  {%>
+        <td class="l_width"><%= order_name %></td>
+      <% } %>
+       <% if(ad_name != "" )  {%>
+        <td class="l_width"><%= ad_name %></td>
+      <% } %>
       <td class="s_width"><%= impressions %></td>
       <td class="s_width"><%= clicks %></td>
-      <td class="s_width"><%= ctr %></td>
-      <td class="s_width"><%= pccr %></td>
-      <td class="s_width"><%= actions %></td>
-      <td class="s_width"><%= ar %></td>
-      <td class="s_width"><%= gross_rev %></td>
-      <td class="s_width"><%= gross_ecpm %></td>
-      <td class="s_width"><%= net_ecpc %></td>
-      <td class="s_width"><%= net_ecpa %></td>
-    </tr>
-
-%script{:type => "text/template", :id=>"orders_reports_body_temp_high"}
-  :plain
-    <tr class="highlightCol <%= expandID %>_child">
-      <td class="l_width"><%= name %></td>
-      <td class="s_width"><%= impressions %></td>
-      <td class="s_width"><%= clicks %></td>
-      <td class="s_width"><%= ctr %></td>
-      <td class="s_width"><%= pccr %></td>
-      <td class="s_width"><%= actions %></td>
-      <td class="s_width"><%= ar %></td>
-      <td class="s_width"><%= gross_rev %></td>
-      <td class="s_width"><%= gross_ecpm %></td>
-      <td class="s_width"><%= net_ecpc %></td>
-      <td class="s_width"><%= net_ecpa %></td>
     </tr>
 
 

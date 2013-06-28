@@ -34,3 +34,4 @@
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
 //= require ./orders/mediator.js
+//= require jquery.simplePagination

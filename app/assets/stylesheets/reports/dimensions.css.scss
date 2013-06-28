@@ -2,9 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.clear{
-  clear: both;
-}
+.fl{ float: left }
+.fr{ float:right; }
+.clear{ clear: both; }
+
 .appHeaderContent{
 	padding:15px;	
 }
@@ -22,6 +23,7 @@
 	background:#f2f2f2;	
 }
 .droppableInner{
+	height:600px;
 	overflow:auto;
 }
 #ordersReportTable{
@@ -266,8 +268,28 @@ ul.dimensions li:hover{
 	background:#008dd1;
 	color:#fff;
 }
+
+ ul.addFilter{
+	padding:0px;
+	list-style-type:none;
+	padding:0px;
+	margin:0px;
+}
 ul.addFilter li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
 	cursor: move;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+
+}
+.addFilter ul li:hover{
+	background:#008dd1;
+	color:#fff;
 }
 .dropDownArrow{
 	width:20px;
