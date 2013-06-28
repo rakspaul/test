@@ -80,3 +80,6 @@ gem 'unicorn'
 
 # For cache storage
 gem 'dalli'
+
+# For exporting xlsx file with order info
+gem "spreadsheetx", "~> 0.2.2"

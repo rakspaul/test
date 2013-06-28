@@ -15,6 +15,7 @@ Reachui::Application.routes.draw do
     collection do
       get 'search'
     end
+    get 'export'
   end
 
   resources :ad_sizes, only: [:index]

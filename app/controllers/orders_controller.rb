@@ -77,4 +77,35 @@ class OrdersController < ApplicationController
 
     respond_with(@orders)
   end
+
+  def export
+    @order = Order.of_network(current_network)
+              .includes(:advertiser).find(params[:order_id])
+
+    workbook = SpreadsheetX.open('public/template.xlsx')    
+    worksheet = workbook.worksheets[0]
+    worksheet.update_cell(3, 19, @order.name)
+    worksheet.update_cell(3, 20, @order.source_id)
+    worksheet.update_cell(7, 25, @order.start_date.strftime("%m/%d/%Y"))
+    worksheet.update_cell(7, 26, @order.end_date.strftime("%m/%d/%Y"))
+    worksheet.update_cell(3, 18, @order.advertiser.name)
+    
+    row_no =29
+    @order.lineitems.each do |lineitem|
+      worksheet.update_cell(1, row_no, lineitem.start_date.strftime("%m/%d/%Y"))
+      worksheet.update_cell(2, row_no, lineitem.end_date.strftime("%m/%d/%Y"))
+      worksheet.update_cell(3, row_no, lineitem.ad_sizes)
+      worksheet.update_cell(5, row_no,  lineitem.volume.to_i)
+      worksheet.update_cell(6, row_no,  lineitem.rate.to_i)
+      worksheet.update_cell(7, row_no,  lineitem.value.to_i)
+
+      row_no = row_no + 1
+    end
+
+    name = "public/exports/"+@order.name.to_s.gsub( /\W/, '_' ) + ".xlsx"
+    workbook.save(name)
+    
+    send_file name , :x_sendfile => true
+  end
 end
+
