@@ -18,6 +18,8 @@ ReachUI.Reports.Dimensions = function() {
 	var filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"];	
 	var filters_all = filter_dimensions;
 	var dropColumnNames = [];
+
+	var pageOffset = 0;
 	var jsonObjectsCol = [];
 	var jsonObjectDefault = {
 		advertiser_id: '',
@@ -36,6 +38,8 @@ ReachUI.Reports.Dimensions = function() {
 		 dropColName = null;
 		 tabColumn = 0;		
 		 dropColString = null;	
+		 pageOffset = 0;
+
 		$("#ordersReportTable").hide();
 		$(".placeholder").show();
 		
@@ -137,7 +141,7 @@ ReachUI.Reports.Dimensions = function() {
 
 		var requestParams=getRequestParams();	
 
-    var request = $.ajax({url:baseURL, data:requestParams, dataType: "script"});
+    var request = $.ajax({url:baseURL, data:requestParams, dataType: "json"});
 
     request.success(function(data){			
 			
@@ -145,8 +149,8 @@ ReachUI.Reports.Dimensions = function() {
 			$("#ordersReportTable").show();	
 			flag = true;
 
-			var jsonData = JSON.parse(data);
-			
+			var jsonData = data["records"];
+
 			setNewJsonData(jsonData);
 
 			//Json Object Headers
@@ -168,20 +172,21 @@ ReachUI.Reports.Dimensions = function() {
 
 		});
 		request.fail(function(){
-			alert("error");
+			alert("error msg");
 		});
 	}
 
 	var setNewJsonData = function(jsonData){
-
+		resetJsonObjets();
 		for(i=0; i<jsonData.length; i++){
-				var jsonObj = jsonData[i];
-				
-				$.extend(jsonObjectDefault, jsonObj );
+			var jsonObj = jsonData[i];
+			
+			var newObj = $.extend({},jsonObjectDefault, jsonObj);
 
-				jsonObjectsCol.push(jsonObjectDefault);
+			jsonObjectsCol.push(newObj);
 
-			}
+		}
+
 	}	
 
 	var clearTableContent = function(){
@@ -209,18 +214,9 @@ ReachUI.Reports.Dimensions = function() {
 		  group:group_cols,
 		  cols:cols_names,
 		  start_date:selected_date[0].trim(),
-		  end_date:selected_date[1].trim()
+		  end_date:selected_date[1].trim(),
+		  offset: pageOffset
 		}
-
-		// requestParams = {
-		//   instance:6,
-		//   format:"json",
-		//   group:group_cols,
-		//   cols:cols_names,
-		//   start_date:selected_date[0].trim(),
-		//   end_date:selected_date[1].trim(),
-		//   limit:20
-		// }
 
     return requestParams;
 	}
@@ -406,6 +402,8 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	var loadPaginationLineItems = function(pageNumber){
+		pageOffset = 50 * (pageNumber - 1);
+		addColumnsNew();
 	}
   
   var addSimplePagination = function(){
@@ -414,7 +412,6 @@ ReachUI.Reports.Dimensions = function() {
         itemsOnPage: 10,
         cssStyle: 'light-theme',
         onPageClick: function(pageNumber, event){
-  				console.log(pageNumber);
   				loadPaginationLineItems(pageNumber);
   			}
     });

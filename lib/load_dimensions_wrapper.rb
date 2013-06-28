@@ -28,7 +28,9 @@ require 'open-uri'
         response = file.read
       end
 
-      return response
+      data = ActiveSupport::JSON.decode(response)
+
+      return data
     end
 
  end    
