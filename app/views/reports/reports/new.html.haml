@@ -10,15 +10,14 @@
             %span
             %b.caret
 
-        .dropdownAccordion.addFilterAccordion
-          .dropdownAccHeader.addFilterHeader 
+        .dimensionsAccordion
+          .dimensionsHeader
             .dimLabel
-              Add Filter
-            .dropDownArrow
-              %span.arrow-down
-          .dropdownAccBody
+              Add Dimesnsions
+            %span.arrow-down
+          .dimensionsBody
             %ul.addFilter
-
+ 
         .dropdownAccordion.selectedFilterAcc
           .dropdownAccHeader.selectedFilterAccHeader 
             .dimLabel
@@ -81,19 +80,37 @@
           .ajax_loader
             = image_tag "loading.gif"
 
+        #simplePagination.pagination.fr
+
 
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
-      <th class="l_width">Advertiser Name</th>
+      <% if(advertiser_name != "" )  {%>
+        <th class="l_width">Advertiser Name</th>
+      <% } %>
+      <% if(order_name != "" )  {%>
+        <th class="l_width">Order Name</th>
+      <% } %>
+       <% if(ad_name != "" )  {%>
+        <th class="l_width">Ad Name</th>
+      <% } %>
       <th class="s_width">Imps</th>
       <th class="s_width">Clicks</th>
     </tr>
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp"}
-  :plain        
+  :plain           
     <tr>
-      <td class="l_width"><%= advertiser_name %></td>
+      <% if(advertiser_name != "" )  {%>
+        <td class="l_width"><%= advertiser_name %></td>
+      <% } %>
+      <% if(order_name != "" )  {%>
+        <td class="l_width"><%= order_name %></td>
+      <% } %>
+       <% if(ad_name != "" )  {%>
+        <td class="l_width"><%= ad_name %></td>
+      <% } %>
       <td class="s_width"><%= impressions %></td>
       <td class="s_width"><%= clicks %></td>
     </tr>
