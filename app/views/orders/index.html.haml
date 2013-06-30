@@ -52,6 +52,8 @@
     $(window).resize(resizeContent);
     $(resizeContent);
 
+    ReachUI.SetupGlobalErrorHandler();
+
     var controller = new ReachUI.Orders.OrderController();
     ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
 

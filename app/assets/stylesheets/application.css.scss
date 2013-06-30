@@ -76,3 +76,19 @@ body {
     text-align: center;
   }
 }
+
+.top-floating-error {
+  position: absolute;
+  top: 43px;
+  //right: 0;
+  z-index: 999999;
+
+  .alert, .alert-error {
+    background-color: #DA0808;
+    border-color: #DA0808;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 1px 4px #61C5E6;
+    color: #FFFFFF;
+    text-shadow: 0 0 0 #DA0808;
+  }
+}

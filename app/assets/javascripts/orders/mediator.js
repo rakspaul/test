@@ -236,9 +236,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this.selectedOrder.select();
       this._showOrderDetails(this.selectedOrder);
-      if(!this.lineItemList) {
-        this.lineItemList = new ReachUI.LineItems.LineItemList();
-      }
 
       var lineitem = this.lineItemList.get(lineItemId);
       if(!lineitem) {

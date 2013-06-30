@@ -25,8 +25,9 @@
 //= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
-//= require utils/core
 //= require_tree ./templates
+//= require utils/core
+//= require utils/errors
 //= require reports/list.js
 //= require ./orders/search.js
 //= require ./orders/order.js
