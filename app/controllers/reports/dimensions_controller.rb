@@ -24,9 +24,11 @@ class Reports::DimensionsController < ApplicationController
       filter = params[:filter]
       per_page = params[:per_page]
       offset = params[:offset]
+      sort_param = params[:sort_param]
+      sort_direction = params[:sort_direction]
 
       wrapper = LoadDimensionsWrapper.new
-      results = wrapper.load(current_network, current_user, group, cols, filter, per_page, offset, start_date, end_date)
+      results = wrapper.load(current_network, current_user, group, cols, filter, per_page, offset, start_date, end_date, sort_param, sort_direction)
 
       if results
         respond_with(results)

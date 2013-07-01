@@ -2,11 +2,11 @@ require 'open-uri'
 
   class LoadDimensionsWrapper
 
-    def load(current_network, current_user, group, cols, filter, per_page, offset, start_date, end_date)
+    def load(current_network, current_user, group, cols, filter, per_page, offset, start_date, end_date, sort_param, sort_direction)
       params = {
         "instance" => current_network.id,
         "format" => "json",
-        "limit" => "50",
+        "limit" => "30",
         "user_id" => current_user.id,
         "tkn" => Digest::MD5.hexdigest("#{current_network.id}:#{current_user.id}:#{Date.today.strftime('%Y-%m-%d')}")
       }
@@ -18,9 +18,10 @@ require 'open-uri'
       params["filter"] = filter unless filter.nil?
       params["per_page"] = per_page unless per_page.nil?
       params["offset"] = offset unless offset.nil?
+      params["sort"] = sort_param + ":" + sort_direction unless sort_param.nil? && sort_direction.nil?
 
       query_string = params.map {|k,v| "#{k}=#{v}"}.join("&")      
-      cdb_server = "http://stg-cdb1.collective-media.net/export"
+      cdb_server = Reachui::Application.config.reporting_service_uri
       url = "#{cdb_server}?#{query_string}"
 
       response = nil
@@ -28,7 +29,9 @@ require 'open-uri'
         response = file.read
       end
 
-      return response
+      data = ActiveSupport::JSON.decode(response)
+
+      return data
     end
 
  end    

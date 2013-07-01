@@ -19,5 +19,8 @@ module Reachui
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+
+    # Set the stage reporting server url
+    config.reporting_service_uri = 'http://stg-cdb1.collective-media.net/export'
   end
 end
