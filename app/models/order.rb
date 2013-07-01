@@ -6,6 +6,7 @@ class Order < ActiveRecord::Base
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
   has_many :lineitems, -> { order('name') }, inverse_of: :order
+  has_many :io_assets
 
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}

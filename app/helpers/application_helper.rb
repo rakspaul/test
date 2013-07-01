@@ -12,10 +12,10 @@ module ApplicationHelper
   }
 
   def format_date(date)
-    I18n.localize(date.in_time_zone("Eastern Time (US & Canada)"), :format => :short)
+    I18n.localize(date.in_time_zone("Eastern Time (US & Canada)"), :format => :short) unless date.nil?
   end
 
   def format_datetime(datetime)
-    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)"))
+    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)")) unless datetime.nil?
   end
 end
