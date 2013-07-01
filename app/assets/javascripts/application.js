@@ -33,4 +33,5 @@
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
-//= require ./orders/mediator.js
+//= require ./orders/controller.js
+//= require ./orders/router.js
