@@ -17,6 +17,16 @@
             %span.arrow-down
           .dimensionsBody
             %ul.addFilter
+              %li{:"data-name" => "advertiser", :"data-col" => "group_by"} Advertiser
+              %li{:"data-name" => "order", :"data-col" => "group_by"} Order
+              %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
+
+              %li{:"data-name" => "ctr", :"data-col" => "optional"} CTR %
+              %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
+              %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
+              %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
+              %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
+
  
         .dropdownAccordion.selectedFilterAcc
           .dropdownAccHeader.selectedFilterAccHeader 
@@ -86,33 +96,64 @@
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
-      <% if(advertiser_name != "" )  {%>
+      <% if(advertiser_name != null )  {%>
         <th class="l_width">Advertiser Name</th>
       <% } %>
-      <% if(order_name != "" )  {%>
+      <% if(order_name != null )  {%>
         <th class="l_width">Order Name</th>
       <% } %>
-       <% if(ad_name != "" )  {%>
+      <% if(ad_name != null )  {%>
         <th class="l_width">Ad Name</th>
       <% } %>
       <th class="s_width">Imps</th>
       <th class="s_width">Clicks</th>
+      <% if(ctr != null )  {%>
+        <th class="s_width">CTR(%)</th>
+      <% } %>
+      <% if(pccr != null )  {%>
+        <th class="s_width">PCCR(%)</th>
+      <% } %>
+      <% if(actions != null )  {%>
+        <th class="s_width">Actions</th>
+      <% } %>
+      <% if(gross_rev != null )  {%>
+        <th class="s_width">Gross rev</th>
+      <% } %>
+      <% if(gross_ecpm != null )  {%>
+        <th class="s_width">Gross ecpm</th>
+      <% } %>
+      
     </tr>
 
 %script{:type => "text/template", :id=>"orders_reports_body_temp"}
   :plain           
     <tr>
-      <% if(advertiser_name != "" )  {%>
+      <% if(advertiser_name != null )  {%>
         <td class="l_width"><%= advertiser_name %></td>
       <% } %>
-      <% if(order_name != "" )  {%>
+      <% if(order_name != null )  {%>
         <td class="l_width"><%= order_name %></td>
       <% } %>
-       <% if(ad_name != "" )  {%>
+      <% if(ad_name != null )  {%>
         <td class="l_width"><%= ad_name %></td>
       <% } %>
       <td class="s_width"><%= impressions %></td>
       <td class="s_width"><%= clicks %></td>
+      <% if(ctr != null )  {%>
+        <td class="s_width"><%= ctr %></td>
+      <% } %>
+      <% if(pccr != null )  {%>
+        <td class="s_width"><%= pccr %></td>
+      <% } %>
+      <% if(actions != null )  {%>
+        <td class="s_width"><%= actions %></td>
+      <% } %>
+      <% if(gross_rev != null )  {%>
+        <td class="s_width"><%= gross_rev %></td>
+      <% } %>
+      <% if(gross_ecpm != null )  {%>
+        <td class="s_width"><%= gross_ecpm %></td>
+      <% } %>      
     </tr>
 
 

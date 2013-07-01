@@ -15,74 +15,100 @@ ReachUI.Reports.Dimensions = function() {
 	var dropColString = null;
 	var flag = true;	
 	var options = {};
-	var filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"];	
-	var filters_all = filter_dimensions;
+
 	var dropColumnNames = [];
 
+	var dimeColumnNames = {};		
+	var dataColumnType = '';
+	var optionalColNames = [];
+	var flagOptionalCol = false;
+
+	var paginationNav = false;
 	var pageOffset = 0;
+	var totalRecords = 0;
 	var jsonObjectsCol = [];
 	var jsonObjectDefault = {
-		advertiser_id: '',
-		advertiser_name: '',
-		order_id: '',
-		order_name: '',
-		ad_id : '',
-		ad_name : ''
+		advertiser_id: null,
+		advertiser_name: null,
+		order_id: null,
+		order_name: null,
+		ad_id : null,
+		ad_name : null,
+		ctr: null,
+		pccr: null,
+		actions: null,
+		gross_rev: null,
+		gross_ecpm: null
 	}
 
-	var appReset = function(){
-		 dropColumnCollection = [];
-		 dropColumnNames = [];
-		 count = 0;
-		 dropItem = '';
-		 dropColName = null;
-		 tabColumn = 0;		
-		 dropColString = null;	
-		 pageOffset = 0;
+	var paginationOptions = {
+    items: 100,
+    itemsOnPage: 50,
+    cssStyle: 'light-theme',
+    onPageClick: function(pageNumber, event){
+			loadPaginationLineItems(pageNumber);
+		}
+  }
+
+	var appResetComplete = function(){
+		dropColumnCollection = [];
+		dropColumnNames = [];
+		count = 0;
+		dropItem = '';
+		dropColName = null;
+		tabColumn = 0;		
+		dropColString = null;	
+		pageOffset = 0;
+		paginationNav = false;
+		flagOptionalCol = false;
 
 		$("#ordersReportTable").hide();
+		$("#simplePagination").hide();
+
 		$(".placeholder").show();
 		
 		$("#selectedDimensions").hide();
 		$("#selectedDimensions ul.filters_list").html('');
 
 		$(".addFilter li").show();
-		filter_dimensions = ["Advertiser","Order","Ad", "Creative Size"];
 
 		addDragDrop();
 		addDraggable();
 		resetJsonObjets();
 
+		dimeColumnNames = {};		
+		dataColumnType = '';
+		optionalColNames = [];
+
+		$("#simplePagination").pagination(paginationOptions);
+
 		return true;
-	}	
+	}		
 
 	var resetJsonObjets = function(){
 		jsonObjectsCol = [];
 		jsonObjectDefault = {
-			advertiser_id: '',
-			advertiser_name: '',
-			order_id: '',
-			order_name: '',
-			ad_id : '',
-			ad_name : ''
+			advertiser_id: null,
+			advertiser_name: null,
+			order_id: null,
+			order_name: null,
+			ad_id : null,
+			ad_name : null,
+			ctr: null,
+			pccr: null,
+			actions: null,
+			gross_rev: null,
+			gross_ecpm: null
 		}
 	}
 
 	var add_filters_all = function(){
-		$(".addFilter").html("");
-		$.each(filters_all, function(index, objValue){
-			$(".addFilter").append(
-        $("<li>" + objValue + "</li>"));
-		});
+		$(".addFilter li").show();
 		addDragDrop();
 	}
 
-	var add_dimensions_list = function(){
-		$(".addFilter").html("");
-		$.each(filter_dimensions, function(index, objValue){
-			$(".addFilter").append(
-        $("<li>" + objValue + "</li>"));
-		});
+	var add_dimensions_list = function(dimName){
+		$(".addFilter li[data-name="+dimName+"]").show();
 		addDragDrop();
 	}
 
@@ -105,22 +131,36 @@ ReachUI.Reports.Dimensions = function() {
 				dropItem = ui.draggable;
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
+				
+				dataColumnName = $(dropItem).attr("data-name");
+				dataColumnType = $(dropItem).attr("data-col");
 
-				if(dropColumnCollection.length<3 && flag && dropColName !="Creative Size"){
+				
+
+				if(flag && dataColumnType =="group_by" || flagOptionalCol){
 					
-		    	dropItem.remove();
+		    	dropItem.hide();
 		    	resetDropdownAccordion();
-					//dropItem.draggable('option', 'disabled', true);
-		       
+					//dropItem.draggable('option', 'disabled', true);		       
 		      flag = false;
+		      flagOptionalCol = true;
+		      pageOffset = 0;
+		      paginationNav = false;		      
 					
-					dropColumnCollection.push(dropColString);
-					dropColumnNames.push(dropColName);
-					filter_dimensions = removeItem_filter_dimensions(dropColName);
+					dropColumnCollection.push(dataColumnName);
+					if(dataColumnType == "group_by"){
+						dropColumnNames.push(dataColumnName);
+					}					
+
+					if(dataColumnType=="optional"){
+						optionalColNames.push(dataColumnName);
+					}
+
+					dimeColumnNames[dataColumnName] = dataColumnType;
 
 					var showSelectedDim = showSelectedDimensions();
 										
-					addColumnsNew();
+					addColumnsNew(paginationNav);
 
 				}
 				else{
@@ -132,9 +172,10 @@ ReachUI.Reports.Dimensions = function() {
 		});
 	}
 
-	var addColumnsNew = function(){
+	var addColumnsNew = function(paginationNavOption){
 
-		$(".placeholder").hide(); 
+		$(".placeholder").hide();
+		$("#simplePagination").hide(); 
 		$(".ajax_loader").show();
 
 		var clear_Table_Content = clearTableContent();     
@@ -145,14 +186,25 @@ ReachUI.Reports.Dimensions = function() {
 
     request.success(function(data){			
 			
-			$(".ajax_loader").hide();			
-			$("#ordersReportTable").show();	
 			flag = true;
 
+			$(".ajax_loader").hide();			
+			$("#ordersReportTable").show();					
+
+			if(!paginationNavOption){
+				pageOffset = 0;
+				totalRecords = data["total_records"];
+				paginationOptions["items"] = totalRecords;
+				$("#simplePagination").pagination(paginationOptions);
+				// console.log(paginationOptions);
+			}		
+
+			$("#simplePagination").show();
+
 			var jsonData = data["records"];
-
+			// console.log(jsonData);
 			setNewJsonData(jsonData);
-
+			// console.log(jsonObjectsCol);
 			//Json Object Headers
 			var tableHeaders = [];
 			var obj = jsonData[0];
@@ -186,7 +238,6 @@ ReachUI.Reports.Dimensions = function() {
 			jsonObjectsCol.push(newObj);
 
 		}
-
 	}	
 
 	var clearTableContent = function(){
@@ -201,13 +252,19 @@ ReachUI.Reports.Dimensions = function() {
 		
 		var group_cols = '';
 		var cols_names = '';
-		var fixed_col_names = "impressions,clicks,ctr,pccr,actions,gross_rev,gross_ecpm"
+		var fixed_col_names = "impressions,clicks" //,ctr,pccr,actions,gross_rev,gross_ecpm
 		
-		for(i=0; i<dropColumnCollection.length; i++){
+		for(i=0; i<dropColumnNames.length; i++){
 			group_cols += dropColumnCollection[i] + "_id,";
 			cols_names += dropColumnCollection[i] + "_id," + dropColumnCollection[i] + "_name,"
+		}		
+
+		if(optionalColNames.length){
+			for(i=0; i<optionalColNames.length; i++){
+				cols_names += optionalColNames[i] + ",";
+			}
 		}
-		
+
 		cols_names = cols_names + fixed_col_names;
 
 		requestParams = {
@@ -222,14 +279,11 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	var showSelectedDimensions = function(){
-
-		var selectedBtns = [];
 		var selectedButtons = '';
 
-		for(i=0; i<dropColumnNames.length; i++){
-		  selectedBtns[i] = "<li data-colsel="+dropColumnNames[i].toLowerCase()+"><span class='arrow-right'></span><a href='#' class='selectedDim'>"+dropColumnNames[i]+"</a> <a href='#' class='remove_filter_dimension icon-remove'></a></li>";
-		  selectedButtons += selectedBtns[i];
-		}
+		$.each(dimeColumnNames, function(key, val){
+			selectedButtons += "<li data-col="+val+" data-name="+key+"><span class='arrow-right'></span><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-remove'></a></li>";
+		});
 
 		$("#selectedDimensions").show();
 		$("#selectedDimensions ul.filters_list").html(selectedButtons)
@@ -333,33 +387,45 @@ ReachUI.Reports.Dimensions = function() {
   		
   		var dimName = $(this).parent().text().trim();  		
 
+  		var dimeDataColType = $(this).parent().attr("data-col");
+
+  		delete dimeColumnNames[dimName];
+
   		if(dropColumnCollection.length==1){
   			var clearContent = clearTableContent();
-  			var resetAppParams = appReset();
+  			var resetAppParams = appResetComplete();
   			add_filters_all();
   		}
   		else{
 
   			resetJsonObjets();
 
-				dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());	
-				dropColumnNames = removeItem_dropColumnNames(dimName);				
+  			dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());					
 				
-				filter_dimensions.push(dimName);
+				if(dimeDataColType == "group_by"){
+					dropColumnNames = removeItem_dropColumnNames(dimName);
+				}
 
-    		add_dimensions_list();    		
+				if(dimeDataColType == "optional"){
+					optionalColNames = removeItem_Collection(dimName, optionalColNames);
+				}
+
+    		add_dimensions_list(dimName.toLowerCase());    		
 				showSelectedDimensions();
 				flag = true;
-				addColumnsNew();
+				pageOffset = 0;
+		    paginationNav = false;
+				addColumnsNew(paginationNav);
   					
   		}
   	});
   }
 
-  var deleteSelectedDim = function(getSelIndex){
-  	var removeItem = dropColumnCollection[getSelIndex];
-  	dropColumnCollection = removeItem_dropColumnCollection(removeItem);
-  	showSelectedDimensions();  	
+  var removeItem_Collection = function(removeItemValue, collectionName){
+  	collectionName = jQuery.grep(collectionName, function(value) {
+		  return value != removeItemValue;
+		});
+		return collectionName;
   }
 
   var removeItem_dropColumnCollection =function(removeItem){
@@ -374,16 +440,6 @@ ReachUI.Reports.Dimensions = function() {
 		  return value != removeColItem;
 		});
 		return dropColumnNames;
-  }
-
-  var removeItem_filter_dimensions =function(removeItem){
-  	
-  	var removeItem = removeItem.charAt(0).toUpperCase() + removeItem.substring(1);
-
-  	filter_dimensions = jQuery.grep(filter_dimensions, function(value) {
-		  return value != removeItem;
-		});
-		return filter_dimensions;
   }
 
   var handle_App_Clicks = function(){
@@ -402,24 +458,17 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	var loadPaginationLineItems = function(pageNumber){
+		paginationNav = true;
 		pageOffset = 50 * (pageNumber - 1);
-		addColumnsNew();
+		addColumnsNew(paginationNav);
 	}
   
-  var addSimplePagination = function(){
-  	$("#simplePagination").pagination({
-        items: 100,
-        itemsOnPage: 10,
-        cssStyle: 'light-theme',
-        onPageClick: function(pageNumber, event){
-  				loadPaginationLineItems(pageNumber);
-  			}
-    });
+  var addSimplePagination = function(){  	
+  	$("#simplePagination").pagination(paginationOptions);
   }
 
 	return {
 		init: function(){
-			add_filters_all();
 			addDragDrop();
 			addDraggable();
 			initializeDateRangePicker();
