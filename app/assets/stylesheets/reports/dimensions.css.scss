@@ -269,13 +269,13 @@ ul.dimensions li:hover{
 	color:#fff;
 }
 
- ul.addFilter{
+.dimensionsBody ul{
 	padding:0px;
 	list-style-type:none;
 	padding:0px;
 	margin:0px;
 }
-ul.addFilter li{
+.dimensionsBody ul li{
 	font-size:12px;
 	line-height:16px;
 	color:#333;
@@ -287,7 +287,7 @@ ul.addFilter li{
 	background:#e7e7e7;
 
 }
-.addFilter ul li:hover{
+.dimensionsBody ul li:hover{
 	background:#008dd1;
 	color:#fff;
 }
@@ -324,6 +324,7 @@ ul.addFilter li{
 ul.filters_list{
 	padding:0px;
 	margin:0px;
+	list-style-type:none;
 }
 
 ul.selectedFilterList li{

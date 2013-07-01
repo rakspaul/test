@@ -115,7 +115,7 @@ ReachUI.Reports.Dimensions = function() {
 	var addDragDrop = function(){		
 
 		//Drag Starts
-		$( "#draggable ul.addFilter li" ).draggable({
+		$( "#draggable ul.addFilter li,#draggable ul.addColumns li" ).draggable({
 			revert: true			
 		});
 
@@ -123,7 +123,7 @@ ReachUI.Reports.Dimensions = function() {
 		$("#droppable").droppable({ 
 			
 			hoverClass: "drop-hover",
-			accept: "#draggable ul.addFilter li",
+			accept: "#draggable ul.addFilter li, #draggable ul.addColumns li",
 			tolerance: "pointer",
 
 			drop: function( event, ui ) { 
@@ -196,15 +196,13 @@ ReachUI.Reports.Dimensions = function() {
 				totalRecords = data["total_records"];
 				paginationOptions["items"] = totalRecords;
 				$("#simplePagination").pagination(paginationOptions);
-				// console.log(paginationOptions);
 			}		
 
 			$("#simplePagination").show();
 
 			var jsonData = data["records"];
-			// console.log(jsonData);
 			setNewJsonData(jsonData);
-			// console.log(jsonObjectsCol);
+
 			//Json Object Headers
 			var tableHeaders = [];
 			var obj = jsonData[0];
@@ -224,7 +222,7 @@ ReachUI.Reports.Dimensions = function() {
 
 		});
 		request.fail(function(){
-			alert("error msg");
+			alert("error");
 		});
 	}
 

@@ -21,35 +21,52 @@
               %li{:"data-name" => "order", :"data-col" => "group_by"} Order
               %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
 
+              / %li{:"data-name" => "ctr", :"data-col" => "optional"} CTR %
+              / %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
+              / %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
+              / %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
+              / %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
+
+        .dimensionsAccordion
+          .dimensionsHeader 
+            .dimLabel
+              Add Columns
+            %span.arrow-down
+          .dimensionsBody
+            %ul.addColumns
               %li{:"data-name" => "ctr", :"data-col" => "optional"} CTR %
               %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
               %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
               %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
               %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
 
- 
-        .dropdownAccordion.selectedFilterAcc
-          .dropdownAccHeader.selectedFilterAccHeader 
-            .dimLabel
-              Search or Select
-            .dropDownArrow
-              %span.arrow-down
-          .dropdownAccBody
-            .selectedFilterListDiv
-              %ul.selectedFilterList
-        
-        .dropdownAccordion
-          .dropdownAccHeader.addFilterHeader 
-            .dimLabel
-              Add Columns
-            .dropDownArrow
-              %span.arrow-down
-          .dropdownAccBody
-            %ul
-              %li Dimensions
-              %li Standard Metrics
-              %li Video Metrics
-              %li Engagement Metrics
+        / .dimensionsAccordion
+        /   .dimensionsHeader 
+        /     .dimLabel
+        /       Standard Metrics 
+        /     %span.arrow-down
+        /   .dimensionsBody
+        /     %ul
+        /       %li Standard Metrics 
+
+        / .dimensionsAccordion
+        /   .dimensionsHeader 
+        /     .dimLabel
+        /       Video Metrics
+        /     %span.arrow-down
+        /   .dimensionsBody
+        /     %ul
+        /       %li Video Metrics
+
+        / .dimensionsAccordion
+        /   .dimensionsHeader 
+        /     .dimLabel
+        /       Engagement Metrics
+        /     %span.arrow-down
+        /   .dimensionsBody
+        /     %ul
+        /       %li Engagement Metrics
+
 
         .dimensionsAccordion
           .dimensionsHeader
