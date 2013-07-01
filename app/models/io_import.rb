@@ -15,8 +15,10 @@ class IoImport
       import_orders_and_lineitems
       errors.empty?
     rescue => e
-     errors.add :base, e.message
-     false
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+      errors.add :base, e.message
+      false
     end
   end
 
@@ -37,8 +39,11 @@ class IoImport
       raise "No line items found in #{@file.original_filename}." if lineitems.empty?
 
       if lineitems.map(&:valid?).all?
-        @order.save!
-        lineitems.each(&:save!)
+        @order.transaction do
+          @order.save!
+          lineitems.each(&:save!)
+          save_io_to_disk
+        end
       else
         lineitems.each_with_index do |lineitem, index|
           lineitem.errors.full_messages.each do |message|
@@ -105,5 +110,16 @@ class IoImport
     else
       raise "Unknown file type: #{@file.original_filename}"
     end
+  end
+
+  def save_io_to_disk
+    location = "file_store/io_imports/#{@order.advertiser.id}"
+    FileUtils.mkdir_p(location) unless Dir.exists?(location)
+    file_name = "#{@order.id}_#{@order.io_assets.count}_#{@file.original_filename}"
+    path = File.join(location, file_name)
+
+    io_asset = @order.io_assets.create({asset_upload_name: @file.original_filename, asset_path: path})
+
+    File.open(path, "wb") {|f| f.write(@file.read) }
   end
 end
