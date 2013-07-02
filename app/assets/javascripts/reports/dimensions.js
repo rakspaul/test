@@ -4,21 +4,21 @@
 ReachUI.namespace("Reports");
 
 ReachUI.Reports.Dimensions = function() {
-	
-	var baseURL = "/reports/dimensions";	
+
+	var baseURL = "/reports/query.json";
 	var dropColumnCollection = [];
 	var requestParams ={};
 	var count = 0;
 	var dropItem = '';
 	var dropColName = null;
-	var tabColumn = 0;		
+	var tabColumn = 0;
 	var dropColString = null;
-	var flag = true;	
+	var flag = true;
 	var options = {};
 
 	var dropColumnNames = [];
 
-	var dimeColumnNames = {};		
+	var dimeColumnNames = {};
 	var dataColumnType = '';
 	var optionalColNames = [];
 	var flagOptionalCol = false;
@@ -56,8 +56,8 @@ ReachUI.Reports.Dimensions = function() {
 		count = 0;
 		dropItem = '';
 		dropColName = null;
-		tabColumn = 0;		
-		dropColString = null;	
+		tabColumn = 0;
+		dropColString = null;
 		pageOffset = 0;
 		paginationNav = false;
 		flagOptionalCol = false;
@@ -66,7 +66,7 @@ ReachUI.Reports.Dimensions = function() {
 		$("#simplePagination").hide();
 
 		$(".placeholder").show();
-		
+
 		$("#selectedDimensions").hide();
 		$("#selectedDimensions ul.filters_list").html('');
 
@@ -76,14 +76,14 @@ ReachUI.Reports.Dimensions = function() {
 		addDraggable();
 		resetJsonObjets();
 
-		dimeColumnNames = {};		
+		dimeColumnNames = {};
 		dataColumnType = '';
 		optionalColNames = [];
 
 		$("#simplePagination").pagination(paginationOptions);
 
 		return true;
-	}		
+	}
 
 	var resetJsonObjets = function(){
 		jsonObjectsCol = [];
@@ -112,45 +112,45 @@ ReachUI.Reports.Dimensions = function() {
 		addDragDrop();
 	}
 
-	var addDragDrop = function(){		
+	var addDragDrop = function(){
 
 		//Drag Starts
 		$( "#draggable ul.addFilter li" ).draggable({
-			revert: true			
+			revert: true
 		});
 
 		//Drop Starts
-		$("#droppable").droppable({ 
-			
+		$("#droppable").droppable({
+
 			hoverClass: "drop-hover",
 			accept: "#draggable ul.addFilter li",
 			tolerance: "pointer",
 
-			drop: function( event, ui ) { 
+			drop: function( event, ui ) {
 
 				dropItem = ui.draggable;
 				dropColName = $(dropItem).text();
 				dropColString = $(dropItem).text().toLowerCase();
-				
+
 				dataColumnName = $(dropItem).attr("data-name");
 				dataColumnType = $(dropItem).attr("data-col");
 
-				
+
 
 				if(flag && dataColumnType =="group_by" || flagOptionalCol){
-					
+
 		    	dropItem.hide();
 		    	resetDropdownAccordion();
-					//dropItem.draggable('option', 'disabled', true);		       
+					//dropItem.draggable('option', 'disabled', true);
 		      flag = false;
 		      flagOptionalCol = true;
 		      pageOffset = 0;
-		      paginationNav = false;		      
-					
+		      paginationNav = false;
+
 					dropColumnCollection.push(dataColumnName);
 					if(dataColumnType == "group_by"){
 						dropColumnNames.push(dataColumnName);
-					}					
+					}
 
 					if(dataColumnType=="optional"){
 						optionalColNames.push(dataColumnName);
@@ -159,7 +159,7 @@ ReachUI.Reports.Dimensions = function() {
 					dimeColumnNames[dataColumnName] = dataColumnType;
 
 					var showSelectedDim = showSelectedDimensions();
-										
+
 					addColumnsNew(paginationNav);
 
 				}
@@ -175,21 +175,21 @@ ReachUI.Reports.Dimensions = function() {
 	var addColumnsNew = function(paginationNavOption){
 
 		$(".placeholder").hide();
-		$("#simplePagination").hide(); 
+		$("#simplePagination").hide();
 		$(".ajax_loader").show();
 
-		var clear_Table_Content = clearTableContent();     
+		var clear_Table_Content = clearTableContent();
 
-		var requestParams=getRequestParams();	
+		var requestParams=getRequestParams();
 
     var request = $.ajax({url:baseURL, data:requestParams, dataType: "json"});
 
-    request.success(function(data){			
-			
+    request.success(function(data){
+
 			flag = true;
 
-			$(".ajax_loader").hide();			
-			$("#ordersReportTable").show();					
+			$(".ajax_loader").hide();
+			$("#ordersReportTable").show();
 
 			if(!paginationNavOption){
 				pageOffset = 0;
@@ -197,7 +197,7 @@ ReachUI.Reports.Dimensions = function() {
 				paginationOptions["items"] = totalRecords;
 				$("#simplePagination").pagination(paginationOptions);
 				// console.log(paginationOptions);
-			}		
+			}
 
 			$("#simplePagination").show();
 
@@ -211,11 +211,11 @@ ReachUI.Reports.Dimensions = function() {
 			for (var key in obj) {
    			tableHeaders.push(key);
 			}
-						
-			var $thead = $("#ordersReportTable thead");
-			var $tbody = $("#ordersReportTable tbody");	
 
-			var tableHeadersRow = addTableHeaders(jsonObjectsCol[0]);	
+			var $thead = $("#ordersReportTable thead");
+			var $tbody = $("#ordersReportTable tbody");
+
+			var tableHeadersRow = addTableHeaders(jsonObjectsCol[0]);
 
 			var tableRowData = addTableColumnsData(jsonObjectsCol);
 
@@ -232,32 +232,32 @@ ReachUI.Reports.Dimensions = function() {
 		resetJsonObjets();
 		for(i=0; i<jsonData.length; i++){
 			var jsonObj = jsonData[i];
-			
+
 			var newObj = $.extend({},jsonObjectDefault, jsonObj);
 
 			jsonObjectsCol.push(newObj);
 
 		}
-	}	
+	}
 
 	var clearTableContent = function(){
 		$("#ordersReportTable thead tr").remove();
     $("#ordersReportTable tbody tr").remove();
-    return true;  
+    return true;
 	}
 
 	var getRequestParams = function(){
-		
+
 		var selected_date = $("#report_date span").text().split("to");
-		
+
 		var group_cols = '';
 		var cols_names = '';
 		var fixed_col_names = "impressions,clicks" //,ctr,pccr,actions,gross_rev,gross_ecpm
-		
+
 		for(i=0; i<dropColumnNames.length; i++){
 			group_cols += dropColumnCollection[i] + "_id,";
 			cols_names += dropColumnCollection[i] + "_id," + dropColumnCollection[i] + "_name,"
-		}		
+		}
 
 		if(optionalColNames.length){
 			for(i=0; i<optionalColNames.length; i++){
@@ -290,7 +290,7 @@ ReachUI.Reports.Dimensions = function() {
 	}
 
 	var addTableHeaders = function(tableHeaders){
-		
+
 		var headersTempl = _.template($("#orders_reports_headers_temp").html(), tableHeaders);
 		return headersTempl;
 	}
@@ -303,9 +303,9 @@ ReachUI.Reports.Dimensions = function() {
 			var tableColumnNames = '';
 			var template = _.template($("#orders_reports_body_temp").html(), item);
 			tableRowData += template;
-		});		
+		});
 
-		return tableRowData;		
+		return tableRowData;
 	}
 
 	var dimensionsOrderByClick = function(){
@@ -381,11 +381,11 @@ ReachUI.Reports.Dimensions = function() {
   	$(".dropdownAccHeader").find("span").removeClass('arrow-up').addClass('arrow-down');
   }
 
-  var removeSelectedDimension = function(){  	
+  var removeSelectedDimension = function(){
 
   	$(document).on("click",".remove_filter_dimension",function(){
-  		
-  		var dimName = $(this).parent().text().trim();  		
+
+  		var dimName = $(this).parent().text().trim();
 
   		var dimeDataColType = $(this).parent().attr("data-col");
 
@@ -400,8 +400,8 @@ ReachUI.Reports.Dimensions = function() {
 
   			resetJsonObjets();
 
-  			dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());					
-				
+  			dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());
+
 				if(dimeDataColType == "group_by"){
 					dropColumnNames = removeItem_dropColumnNames(dimName);
 				}
@@ -410,13 +410,13 @@ ReachUI.Reports.Dimensions = function() {
 					optionalColNames = removeItem_Collection(dimName, optionalColNames);
 				}
 
-    		add_dimensions_list(dimName.toLowerCase());    		
+    		add_dimensions_list(dimName.toLowerCase());
 				showSelectedDimensions();
 				flag = true;
 				pageOffset = 0;
 		    paginationNav = false;
 				addColumnsNew(paginationNav);
-  					
+
   		}
   	});
   }
@@ -453,7 +453,7 @@ ReachUI.Reports.Dimensions = function() {
         items: 'thead th:not( .notdraggable ):not( :has( .dragtable-drag-handle ) ), .dragtable-drag-handle',
         appendTarget: $(this).parent(),
         scroll: true
-      });   
+      });
   	});
 	}
 
@@ -462,8 +462,8 @@ ReachUI.Reports.Dimensions = function() {
 		pageOffset = 50 * (pageNumber - 1);
 		addColumnsNew(paginationNav);
 	}
-  
-  var addSimplePagination = function(){  	
+
+  var addSimplePagination = function(){
   	$("#simplePagination").pagination(paginationOptions);
   }
 
@@ -478,7 +478,7 @@ ReachUI.Reports.Dimensions = function() {
 			addSimplePagination();
 		}
 	}
-	
+
 }
 
 
