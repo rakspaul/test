@@ -1,4 +1,6 @@
 class Order < ActiveRecord::Base
+  has_paper_trail ignore: [:updated_at]
+
   belongs_to :advertiser, foreign_key: :network_advertiser_id
   belongs_to :data_source
   belongs_to :network

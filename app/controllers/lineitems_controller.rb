@@ -3,6 +3,8 @@ class LineitemsController < ApplicationController
 
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
+  respond_to :html, :json
+
   # GET orders/{order_id}/lineitems
   def index
     @order = Order.find(params[:order_id])
@@ -32,22 +34,17 @@ class LineitemsController < ApplicationController
     p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
     @lineitem = @order.lineitems.build(p)
     @lineitem.user = current_user
+    @lineitem.save
 
-    if @lineitem.save
-      render status: :ok
-    else
-      render json: { errors: @lineitem.errors }, status: :unprocessable_entity
-    end
+    respond_with(@lineitem)
   end
 
   def update
     @order = Order.find(params[:order_id])
     @lineitem = @order.lineitems.find(params[:id])
     p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
-    if @lineitem.update_attributes(p)
-      render :create
-    else
-      render json: { errors: @lineitem.errors }, status: :unprocessable_entity
-    end
+    @lineitem.update_attributes(p)
+
+    respond_with(@lineitem)
   end
 end
