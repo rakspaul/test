@@ -416,6 +416,19 @@
             }
         },
 
+        destroy: function() {
+            $(document).off('mousedown', this.hide);
+
+            this.element.off('keyup', this.updateFromControl);
+            this.element.off('click', this.show);
+            if (this.element.is('input')) {
+                this.element.off('focus', this.show);
+            }
+
+            this.element.removeData('daterangepicker');
+            this.container.remove();
+        },
+
         enterRange: function (e) {
             var label = e.target.innerHTML;
             if (label == this.locale.customRangeLabel) {
@@ -757,10 +770,16 @@
 
     $.fn.daterangepicker = function (options, cb) {
         this.each(function () {
-            var el = $(this);
-            if (!el.data('daterangepicker'))
-                el.data('daterangepicker', new DateRangePicker(el, options, cb));
+            var $this = $(this),
+                daterangepicker = $this.data('daterangepicker');
+            if (!daterangepicker) {
+                $this.data('daterangepicker', new DateRangePicker($this, options, cb));
+            }
+            if(daterangepicker && (typeof options === 'string')) {
+                daterangepicker[options].call(daterangepicker);
+            }
         });
+
         return this;
     };
 

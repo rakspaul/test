@@ -27,9 +27,11 @@
     url: function() {
       return '/orders/' + this.order.id + '/lineitems.json';
     },
+
     setOrder: function(order) {
       this.order = order;
     },
+
     getOrder: function() {
       return this.order;
     }
@@ -58,6 +60,8 @@
 
   LineItems.LineItemLayout = Backbone.Marionette.Layout.extend({
     template: JST['templates/lineitems/line_item_detail_layout'],
+    className: 'lineitem-details',
+
     regions: {
       properties: '.properties-region',
       adsizes: '.ad-sizes-region',
@@ -131,6 +135,10 @@
       this._calculate_media_cost();
     },
 
+    onClose: function() {
+      this.ui.flight_container.daterangepicker('destroy');
+    },
+
     _calculate_media_cost: function() {
       var imps = parseInt(this.ui.volume.val(), 10),
         cpm = parseFloat(this.ui.rate.val(), 10);
@@ -142,14 +150,15 @@
     initialize: function(options) {
       this.mainRegion = options.mainRegion;
       this.adSizeList = new LineItems.AdSizeList();
+      _.bindAll(this, '_adSizeLoadError');
     },
 
     show: function(lineitem) {
       this._clearAdSizeSelection();
       this.lineItemModel = lineitem;
 
-      var layout = this._getLayout();
-      this.mainRegion.show(layout);
+      this._createLayout();
+      this.mainRegion.show(this.layout);
     },
 
     // Ad sizes are cached, therefore clear any previously selected
@@ -160,38 +169,43 @@
       });
     },
 
-    _getLayout: function() {
-      var layout = new LineItems.LineItemLayout();
+    _createLayout: function() {
+      this.layout = new LineItems.LineItemLayout();
 
-      layout.on("render", function() {
-        this._showProperties(layout);
-        this._showAdSizes(layout);
+      this.layout.on("render", function() {
+        this._showProperties();
+        this._showAdSizes();
       }, this);
 
-      layout.on("lineitem:save", function(evt) {
+      this.layout.on("lineitem:save", function(evt) {
         this._saveLineitem();
       }, this);
 
-      layout.on("lineitem:close", function(evt) {
+      this.layout.on("lineitem:close", function(evt) {
         this.trigger("lineitem:close");
       }, this);
-
-      return layout;
     },
 
-    _showProperties: function(layout) {
+    _showProperties: function() {
       this.lineItemView = new LineItems.LineItemDetailView({model: this.lineItemModel});
-      layout.properties.show(this.lineItemView);
+      this.layout.properties.show(this.lineItemView);
     },
 
-    _showAdSizes: function(layout) {
+    _showAdSizes: function() {
       if(this.adSizeList.length === 0) {
-        this.adSizeList.fetch();
+        this.adSizeList.fetch({error: this._adSizeLoadError});
       }
 
       var adSizeListView = new LineItems.AdSizeCheckboxList({collection: this.adSizeList});
       adSizeListView.on("after:item:added", this._setSelectedAdSizes, this);
-      layout.adsizes.show(adSizeListView);
+      this.layout.adsizes.show(adSizeListView);
+    },
+
+    _adSizeLoadError: function() {
+      var errorModel = new ReachUI.Error({message: 'Error loading ad sizes'}),
+        inlineErrorView = new ReachUI.InlineErrorView({model: errorModel});
+
+      this.layout.adsizes.show(inlineErrorView);
     },
 
     _setSelectedAdSizes: function(view) {

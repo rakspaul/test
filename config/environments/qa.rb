@@ -39,4 +39,9 @@ Reachui::Application.configure do
 
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
+
+  ## Custom application configurations
+
+  # Set the reporting server url
+  config.report_service_uri = 'http://stg-cdb1.collective-media.net/export'
 end

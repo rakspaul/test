@@ -25,11 +25,9 @@ class OrdersController < ApplicationController
     @order.sales_person_id = params[:order][:sales_person_id].to_i
     @order.network = current_network
     @order.user = current_user
-    if @order.save
-      render status: :ok
-    else
-      render json: { errors: @order.errors }, status: :unprocessable_entity
-    end
+    @order.save
+
+    respond_with(@order)
   end
 
   def update

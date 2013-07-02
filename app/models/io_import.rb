@@ -15,8 +15,10 @@ class IoImport
       import_orders_and_lineitems
       errors.empty?
     rescue => e
-     errors.add :base, e.message
-     false
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+      errors.add :base, e.message
+      false
     end
   end
 
@@ -25,25 +27,23 @@ class IoImport
   end
 
   def import_orders_and_lineitems
-    io_spreadsheet = open_excel_file
-    io_spreadsheet.default_sheet = io_spreadsheet.sheets.first
+    @io_sheet = open_excel_file
+    @io_sheet.default_sheet = @io_sheet.sheets.first
 
-    advertiser = read_advertiser(io_spreadsheet)
-
-    @order = Order.new({
-        name: io_spreadsheet.cell('C', 19).strip,
-        start_date: io_spreadsheet.cell('G', 25),
-        end_date: io_spreadsheet.cell('G', 26),
-        user: @current_user,
-        network: @current_user.network,
-        advertiser: advertiser
-      })
+    read_advertiser
+    read_order
 
     if @order.valid?
-      lineitems = read_lineitems(io_spreadsheet, @order, advertiser)
+      lineitems = read_lineitems
+
+      raise "No line items found in #{@file.original_filename}." if lineitems.empty?
+
       if lineitems.map(&:valid?).all?
-        @order.save!
-        lineitems.each(&:save!)
+        @order.transaction do
+          @order.save!
+          lineitems.each(&:save!)
+          save_io_to_disk
+        end
       else
         lineitems.each_with_index do |lineitem, index|
           lineitem.errors.full_messages.each do |message|
@@ -58,29 +58,38 @@ class IoImport
     end
   end
 
-  def read_advertiser(io_sheet)
-    adv_name = io_sheet.cell('C', 18).strip
-    advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
-    if advertiser.nil?
+  def read_advertiser
+    adv_name = @io_sheet.cell('D', 18).strip
+    @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
+    if @advertiser.nil?
       raise "Advertiser not found: #{adv_name}"
     end
-
-    advertiser
   end
 
-  def read_lineitems(io_sheet, order, advertiser)
+  def read_order
+    @order = Order.new({
+        name: @io_sheet.cell('C', 19).strip,
+        start_date: @io_sheet.cell('G', 25),
+        end_date: @io_sheet.cell('G', 26),
+        user: @current_user,
+        network: @current_user.network,
+        advertiser: @advertiser
+      })
+  end
+
+  def read_lineitems
     row = LINE_ITEM_START_ROW
     lineitems = []
 
-    until io_sheet.cell('A', row).nil?
+    while @io_sheet.cell('A', row).instance_of? Date
       lineitem = Lineitem.new({
-        start_date: io_sheet.cell('A', row),
-        end_date: io_sheet.cell('B', row),
-        ad_sizes: io_sheet.cell('C', row).strip.downcase,
-        name: "#{advertiser.name} | #{order.name} | #{io_sheet.cell('D', row)}",
-        volume: io_sheet.cell('E', row).to_i,
-        rate: io_sheet.cell('F', row).to_f,
-        order: order,
+        start_date: @io_sheet.cell('A', row),
+        end_date: @io_sheet.cell('B', row),
+        ad_sizes: @io_sheet.cell('C', row).strip.downcase,
+        name: "#{@advertiser.name} | #{@order.name} | #{@io_sheet.cell('D', row)}",
+        volume: @io_sheet.cell('E', row).to_i,
+        rate: @io_sheet.cell('F', row).to_f,
+        order: @order,
         user: @current_user
       })
 
@@ -93,10 +102,24 @@ class IoImport
 
   def open_excel_file
     ext = File.extname(@file.original_filename)
-    if ext != ".xlsx"
-      raise "Unknown file type: #{@file.original_filename}"
-    else
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
       Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
     end
+  end
+
+  def save_io_to_disk
+    location = "file_store/io_imports/#{@order.advertiser.id}"
+    FileUtils.mkdir_p(location) unless Dir.exists?(location)
+    file_name = "#{@order.id}_#{@order.io_assets.count}_#{@file.original_filename}"
+    path = File.join(location, file_name)
+
+    io_asset = @order.io_assets.create({asset_upload_name: @file.original_filename, asset_path: path})
+
+    File.open(path, "wb") {|f| f.write(@file.read) }
   end
 end
