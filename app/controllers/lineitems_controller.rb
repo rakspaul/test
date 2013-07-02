@@ -42,7 +42,13 @@ class LineitemsController < ApplicationController
   def update
     @order = Order.find(params[:order_id])
     @lineitem = @order.lineitems.find(params[:id])
+
     p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
+
+    # Parse date in correct timezone
+    p[:start_date] = Time.zone.parse(p[:start_date])
+    p[:end_date] = Time.zone.parse(p[:end_date])
+
     @lineitem.update_attributes(p)
 
     respond_with(@lineitem)
