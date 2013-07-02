@@ -13,7 +13,7 @@ ReachUI.GlobalErrorView = Backbone.Marionette.ItemView.extend({
   className: 'top-floating-error',
 
   events: {
-    'click .close': '_hide'
+    'click .close': 'hide'
   },
 
   initialize: function() {
@@ -28,7 +28,7 @@ ReachUI.GlobalErrorView = Backbone.Marionette.ItemView.extend({
     this.$el.show();
   },
 
-  _hide: function() {
+  hide: function() {
     this.model.set({message: ''}, {silent:true});
     this.$el.hide();
   }
@@ -49,5 +49,9 @@ ReachUI.SetupGlobalErrorHandler = function() {
     if(ERROR_MESSAGES[jqxhr.status]) {
       error.set({message: ERROR_MESSAGES[jqxhr.status]});
     }
+  });
+
+  $(document).ajaxStart(function() {
+    errorView.hide();
   });
 }
