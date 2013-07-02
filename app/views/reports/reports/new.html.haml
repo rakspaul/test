@@ -21,12 +21,6 @@
               %li{:"data-name" => "order", :"data-col" => "group_by"} Order
               %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
 
-              / %li{:"data-name" => "ctr", :"data-col" => "optional"} CTR %
-              / %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
-              / %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
-              / %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
-              / %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
-
         .dimensionsAccordion
           .dimensionsHeader 
             .dimLabel
@@ -34,7 +28,6 @@
             %span.arrow-down
           .dimensionsBody
             %ul.addColumns
-              %li{:"data-name" => "ctr", :"data-col" => "optional"} CTR %
               %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
               %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
               %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
@@ -88,15 +81,14 @@
             .dimensionsInner
               %button.btn.btn-mini.btn-primary{:type => "button"} Excel
               %button.btn.btn-mini.btn-primary{:type => "button"} Email
-      %br
-      %br      
-      #selectedDimensions.selectedDimensions
-        .filterContentHeader
-          %h2 Filters
-        .filterContentBody
-          %ul.filters_list
+      
+      #optionalBtns        
 
-    %td.orderRepRightCol    
+    %td.orderRepRightCol
+      #selectedDimensions.selectedDimensions
+        #groupByBtns
+        
+
       #droppable.droppable
         .droppableInner
           %table{:id => "ordersReportTable", :class => "table table-striped table-bordered"}
@@ -124,9 +116,7 @@
       <% } %>
       <th class="s_width">Imps</th>
       <th class="s_width">Clicks</th>
-      <% if(ctr != null )  {%>
-        <th class="s_width">CTR(%)</th>
-      <% } %>
+      <th class="s_width">CTR(%)</th>
       <% if(pccr != null )  {%>
         <th class="s_width">PCCR(%)</th>
       <% } %>
@@ -156,9 +146,7 @@
       <% } %>
       <td class="s_width"><%= impressions %></td>
       <td class="s_width"><%= clicks %></td>
-      <% if(ctr != null )  {%>
-        <td class="s_width"><%= ctr %></td>
-      <% } %>
+      <td class="s_width"><%= ctr %></td>
       <% if(pccr != null )  {%>
         <td class="s_width"><%= pccr %></td>
       <% } %>
