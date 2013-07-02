@@ -74,5 +74,6 @@ class OrdersController < ApplicationController
     end
 
     respond_with(@orders)
-  end
+  end 
 end
+
