@@ -44,6 +44,8 @@ class OrdersController < ApplicationController
     # as owner/creator of order
     @order.user = current_user if @order.user.nil?
 
+    @order.save
+
     respond_with(@order)
   end
 
