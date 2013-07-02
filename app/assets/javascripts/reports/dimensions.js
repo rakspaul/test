@@ -225,6 +225,7 @@ ReachUI.Reports.Dimensions = function() {
       cols:cols_names,
       start_date:selected_date[0].trim(),
       end_date:selected_date[1].trim(),
+      limit:50,
       offset: pageOffset
     }
 
