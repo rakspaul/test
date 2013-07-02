@@ -128,10 +128,11 @@ tr.highlightCol td:first-child{
 .selectedDimensions{
 	letter-spacing:0;
 	padding:10px;
-	border:1px solid #333;
 	display:none;
+	text-align:center;
 }
 .selectedDim, .selectedDim:hover{
+	color:#fff;
 	margin: 0 0 10px 0;
 	text-decoration:none;
 	letter-spacing:0;
@@ -269,13 +270,13 @@ ul.dimensions li:hover{
 	color:#fff;
 }
 
- ul.addFilter{
+.dimensionsBody ul{
 	padding:0px;
 	list-style-type:none;
 	padding:0px;
 	margin:0px;
 }
-ul.addFilter li{
+.dimensionsBody ul li{
 	font-size:12px;
 	line-height:16px;
 	color:#333;
@@ -287,7 +288,7 @@ ul.addFilter li{
 	background:#e7e7e7;
 
 }
-.addFilter ul li:hover{
+.dimensionsBody ul li:hover{
 	background:#008dd1;
 	color:#fff;
 }
@@ -324,6 +325,7 @@ ul.addFilter li{
 ul.filters_list{
 	padding:0px;
 	margin:0px;
+	list-style-type:none;
 }
 
 ul.selectedFilterList li{
@@ -339,6 +341,7 @@ ul.selectedFilterList li{
 
 .remove_filter_dimension, .remove_filter_dimension:hover{
 	text-decoration:none;
+	color:#fff;
 }
 
 .selectParam{
@@ -348,4 +351,27 @@ ul.selectedFilterList li{
 .pagination{
 	display:none;
 	margin-right:20px;	
+}
+
+#groupByBtns{
+	padding:5px;
+}
+
+#optionalBtns{
+	padding:15px;
+}
+
+.selectedBtns_groupBy{
+	display:inline-block;
+	padding:5px 10px;
+	background:green;
+	color:#fff;
+	margin-right:10px;
+}
+.selectedBtns_optionalCol{
+	display:inline-block;
+	padding:5px 10px;
+	background:#aaa;
+	color:#fff;
+	margin: 0 0 10px 0px;
 }
