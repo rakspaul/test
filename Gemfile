@@ -82,4 +82,4 @@ gem 'unicorn'
 gem 'dalli'
 
 # For exporting xlsx file with order info
-gem "spreadsheetx", "~> 0.2.2"
+gem "rjb"
