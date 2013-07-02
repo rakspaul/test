@@ -44,7 +44,10 @@ gem 'ejs'
 gem 'roo', '~> 1.11.2'
 
 # gem for https://github.com/blueimp/jQuery-File-Upload
-gem "jquery-fileupload-rails", "~> 0.4.1"
+gem 'jquery-fileupload-rails', '~> 0.4.1'
+
+# For audit logs
+gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git', :branch => 'rails4'
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'

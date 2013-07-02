@@ -25,6 +25,7 @@
 //= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
+//= require jquery.simplePagination
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
@@ -34,6 +35,5 @@
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
-//= require jquery.simplePagination
 //= require ./orders/controller.js
 //= require ./orders/router.js

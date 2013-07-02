@@ -1,6 +1,8 @@
 class Lineitem < ActiveRecord::Base
   self.table_name = "io_lineitems"
 
+  has_paper_trail ignore: [:updated_at]
+
   belongs_to :order
   belongs_to :user
 
