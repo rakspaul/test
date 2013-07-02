@@ -36,7 +36,7 @@
       <label class="control-label" for="name">Sales Person</label>
       <div class="controls">
         <input type="text" id="sales_person_name" placeholder="Type sales person name" value="<%= order.sales_person_name %>" required autocomplete="off">
-        <input type="hidden" id="sales_person_id" value="<% order.sales_person_id %>">
+        <input type="hidden" id="sales_person_id" value="<%= order.sales_person_id %>">
         <label class="help-inline form-error" id="sales_person_id_error"></label>
       </div>
     </div>
