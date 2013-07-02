@@ -25,6 +25,7 @@
 //= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
+//= require jquery.simplePagination
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
