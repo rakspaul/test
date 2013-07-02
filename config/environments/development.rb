@@ -29,4 +29,9 @@ Reachui::Application.configure do
   # This option may cause significant delays in view rendering with a large
   # number of complex assets.
   config.assets.debug = true
+
+  ## Custom application configurations
+
+  # Set the reporting server url
+  config.report_service_uri = 'http://stg-cdb1.collective-media.net/export'
 end

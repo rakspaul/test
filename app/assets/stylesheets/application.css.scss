@@ -10,6 +10,7 @@
  *
  *= require grids-min
  *= require jquery-ui-1.10.3.custom.min
+ *= require dragtable-default
  *= require daterangepicker
  *= require_self
  */
@@ -21,6 +22,7 @@
 @import "bootstrap_override.css.scss";
 @import "orders.css.scss";
 @import "lineitem.css.scss";
+@import "reports/dimensions.css.scss";
 
 body {
   font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
