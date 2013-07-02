@@ -1,0 +1,43 @@
+#orders
+
+:javascript
+  $(document).ready(function() {
+    $("#orders").kendoGrid({
+      columns: [
+        {field: "id", title: "Id", groupable: false},
+        {field: "name", title: "Name", groupable: false},
+        {field: "advertiser_name", title: "Advertiser Name"},
+        {field: "start_date", title: "Start Date", groupable: false, filterable: false},
+        {field: "end_date", title: "End Date", groupable: false, filterable: false}
+      ],
+
+      dataSource: {
+        transport: {
+          read : {
+            url: "/kendoui.json",
+            dataType: "json"
+          }
+        },
+        schema: {
+          total: "total_count",
+          data: "orders"
+        },
+        pageSize: 50,
+        serverPaging: true,
+        serverFiltering: true,
+        serverSorting: true
+      },
+
+      filterable: true,
+      groupable: true,
+      selectable: true,
+      sortable: true,
+      resizable: true,
+      reordable: true,
+      pageable: {
+        pageSize: 50,
+        pageSizes: true
+      }
+    });
+  });
+

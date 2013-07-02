@@ -1,3 +1,351 @@
 // Place all the styles related to the reports/dimensions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.fl{ float: left }
+.fr{ float:right; }
+.clear{ clear: both; }
+
+.appHeaderContent{
+	padding:15px;	
+}
+#reportsLayoutTable{
+	width:100%;
+}
+.orderRepLeftCol{
+	width:220px;
+	vertical-align:top;
+}
+.orderRepRightCol{
+	vertical-align:top;
+}
+.droppable{	
+	background:#f2f2f2;	
+}
+.droppableInner{
+	height:600px;
+	overflow:auto;
+}
+#ordersReportTable{
+	display:none;
+}
+table#ordersReportTable th{
+	font-size:12px;
+	line-height:16px;
+	font-weight:bold;
+	color:#fff;
+	text-align:center;
+	vertical-align: middle;
+	padding:5px;
+	background: #898989; 
+	cursor:move;
+}
+table#ordersReportTable th.l_width{ width:270px; }
+table#ordersReportTable th.s_width{ width:47px; }
+
+table#ordersReportTable td.l_width{ text-align: left; }
+table#ordersReportTable td.s_width{ text-align: right; }
+
+table#ordersReportTable td{
+	font-size:12px;
+	line-height:16px;
+	padding:5px;
+}
+
+tr.highlightCol td, tr.highlightCol td a{
+	background:#48AFDE !important;
+	color:#fff !important;
+	font-weight:normal;
+}
+
+tr.highlightCol td:first-child{
+	padding-left:20px !important;
+}
+
+.reportDateHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0 0 0px 0;
+	background:#898989;
+	border-bottom:1px solid #000;
+	cursor:pointer;
+}
+.placeholder{
+	height:400px;
+	text-align:center;
+	padding-top:270px;
+  font-size:25px;
+  color:#555;   
+}
+.ajax_loader{
+	height:400px;
+  display:none;
+  text-align:center;
+	padding-top:270px;	
+}
+.selectDateRange{
+	padding:2px 2px 0px 2px;
+}
+.reportDate{
+	background: #fff; 
+	cursor: pointer; 
+	padding: 5px;	
+	border:1px solid #ccc;
+	margin-bottom:5px;
+	display:block;
+}
+.reportDate span{
+	font-size:13px;
+	color:#333;
+	display:inline-block;
+	padding:0 5px;
+}
+.caret{
+	margin-top:8px;
+}
+.dimName, .dimName:link, .dimName:hover, .dimName:active, .dimName:visited{
+	color:#333;
+	text-decoration:none;
+	cursor:default;
+	font-weight:bold;
+}
+
+.dimNameActive, .dimNameActive:link, .dimNameActive:hover, .dimNameActive:active, .dimNameActive:visited{
+	color:#0088cc !important;
+	text-decoration:underline !important;
+	cursor:pointer !important;
+}
+
+.accIcon{
+	display:none;
+	margin-right:2px;
+}
+.daterangepicker .ranges li{
+	margin-bottom:3px;
+}
+.selectedDimensions{
+	letter-spacing:0;
+	padding:10px;
+	border:1px solid #333;
+	display:none;
+}
+.selectedDim, .selectedDim:hover{
+	margin: 0 0 10px 0;
+	text-decoration:none;
+	letter-spacing:0;
+	cursor:pointer;
+}
+
+.dimLabel{
+	display:inline-block;
+}
+.dimensionsAccordion{
+	padding:0px;
+	margin:0px;
+}
+.dimensionsHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0px;
+	background:#898989;
+	border-bottom:1px solid #fff;
+	cursor:pointer;	
+}
+.dimensionsBody{
+	display:none;
+}
+.active{
+	display:block;
+}
+ul.dimensions{
+	padding:0px;
+	margin:0px 0 3px 0;
+	list-style-type:none;
+}
+ul.dimensions li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+	cursor:move;
+}
+ul.dimensions li:hover{
+	background:#008dd1;
+	color:#fff;
+}
+.arrow-up {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-bottom: 5px solid #fff;
+	margin:5px 5px 0 0;
+	float:right;
+	display:inline-block;
+}
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid transparent;
+	border-right: 5px solid transparent;	
+	border-top: 5px solid #fff;
+	margin:5px 5px 0 0;
+	float:right;
+	display:inline-block;
+}
+.arrow-right {
+	width: 0; 
+	height: 0; 
+	border-left: 5px solid #333;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	margin:5px 5px 0 0;
+	display:inline-block;
+}
+.arrow-left {
+	width: 0; 
+	height: 0; 
+	border-right: 5px solid #fff;
+	border-top: 5px solid transparent;	
+	border-bottom: 5px solid transparent;
+	display:inline-block;
+}
+
+.dimensionsInner{
+	padding:10px 15px;
+}
+
+.dropdownAccordion{
+	position:relative;
+}
+.dropdownAccHeader{
+	font-size: 14px;
+	line-height:16px;
+	color: #fff;
+	padding:7px 0 7px 15px;
+	margin:0px;
+	background:#898989;
+	border-bottom:1px solid #fff;
+	cursor:pointer;	
+	position:relative;
+}
+.dropdownAccBody{
+	display:none;
+	width:200px;
+	position:absolute;
+	top:32px;
+	left:10px;
+	border:1px solid #333;
+	background:#e7e7e7;
+	z-index:1000;
+}
+
+.dropdownAccBody ul{
+	padding:0px;
+	margin:0px 0 3px 0;
+	list-style-type:none;
+}
+.dropdownAccBody ul li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+
+}
+.dropdownAccBody ul li:hover{
+	background:#008dd1;
+	color:#fff;
+}
+
+ ul.addFilter{
+	padding:0px;
+	list-style-type:none;
+	padding:0px;
+	margin:0px;
+}
+ul.addFilter li{
+	font-size:12px;
+	line-height:16px;
+	color:#333;
+	cursor: move;
+
+	padding:5px 0 5px 15px;
+	margin:0px;
+	border-bottom: 1px solid #fff;
+	background:#e7e7e7;
+
+}
+.addFilter ul li:hover{
+	background:#008dd1;
+	color:#fff;
+}
+.dropDownArrow{
+	width:20px;
+	height:16px;
+	background:#333;
+	position:absolute;
+	top:0px;
+	right:0px;
+	padding:7px 5px;
+}
+.dropDownArrow .arrow-down{
+	margin-top:5px;
+}
+.selectedFilterAcc{
+	display:none;
+	padding:5px;
+}
+
+.selectedFilterAccHeader{
+	background:#fff;
+	color:#333;
+	border:1px solid #ccc;
+	height:14px;
+	overflow:hidden;
+}
+
+.selectedFilterListDiv{
+	height:300px;
+	overflow: auto;
+}
+
+ul.filters_list{
+	padding:0px;
+	margin:0px;
+}
+
+ul.selectedFilterList li{
+	cursor:pointer;
+}
+
+.filterContentHeader h2{
+	font-size:20px;
+	line-height:24px;
+	padding:0;
+	margin:0 0 10px 0;
+}
+
+.remove_filter_dimension, .remove_filter_dimension:hover{
+	text-decoration:none;
+}
+
+.selectParam{
+	display:block;
+}
+
+.pagination{
+	display:none;
+	margin-right:20px;	
+}

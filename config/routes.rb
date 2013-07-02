@@ -8,6 +8,7 @@ Reachui::Application.routes.draw do
 
   namespace :reports do
     resources :reports
+    resources :query
   end
 
   resources :orders do
@@ -17,6 +18,7 @@ Reachui::Application.routes.draw do
     end
   end
 
+  resources :kendoui
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
