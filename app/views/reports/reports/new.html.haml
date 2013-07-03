@@ -28,7 +28,8 @@
             %span.arrow-down
           .dimensionsBody
             %ul.addColumns
-              %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
+              %li{:"data-name" => "pccr", :"data-col" => "optional"} 
+                PCCR %                             
               %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
               %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
               %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
@@ -79,7 +80,7 @@
             %span.arrow-down
           .dimensionsBody
             .dimensionsInner
-              %button.btn.btn-mini.btn-primary{:type => "button"} Excel
+              %button#export_button.btn.btn-mini.btn-primary{:type => "button"} Export CSV
               %button.btn.btn-mini.btn-primary{:type => "button"} Email
       
       #optionalBtns        
@@ -118,16 +119,36 @@
       <th class="s_width">Clicks</th>
       <th class="s_width">CTR(%)</th>
       <% if(pccr != null )  {%>
-        <th class="s_width">PCCR(%)</th>
+        <th class="s_width">
+          <div class="header-closebtn-wrapper">
+            PCCR(%)
+            <a href="#" class="colCloseBtn" data-col="optional" data-name="pccr"><i class="remove_filter_dimension icon-white icon-remove-circle"></i></a>
+          </div>
+        </th>
       <% } %>
       <% if(actions != null )  {%>
-        <th class="s_width">Actions</th>
+        <th class="s_width">
+          <div class="header-closebtn-wrapper">
+            Actions
+            <a href="#" class="colCloseBtn" data-col="optional" data-name="actions"><i class="remove_filter_dimension icon-white icon-remove-circle"></i></a>
+          </div>
+        </th>
       <% } %>
       <% if(gross_rev != null )  {%>
-        <th class="s_width">Gross rev</th>
+        <th class="s_width">
+          <div class="header-closebtn-wrapper">
+            Gross rev
+            <a href="#" class="colCloseBtn" data-col="optional" data-name="gross_rev"><i class="remove_filter_dimension icon-white icon-remove-circle"></i></a>
+          </div>
+        </th>
       <% } %>
       <% if(gross_ecpm != null )  {%>
-        <th class="s_width">Gross ecpm</th>
+        <th class="s_width">
+          <div class="header-closebtn-wrapper">
+            Gross ecpm
+            <a href="#" class="colCloseBtn" data-col="optional" data-name="gross_ecpm"><i class="remove_filter_dimension icon-white icon-remove-circle"></i></a>
+          </div>
+        </th>
       <% } %>
       
     </tr>

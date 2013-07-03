@@ -201,6 +201,7 @@ ReachUI.Reports.Dimensions = function() {
   var clearTableContent = function(){
     $("#ordersReportTable thead tr").remove();
     $("#ordersReportTable tbody tr").remove();
+    $("#ordersReportTable").hide();
   }
 
   var getRequestParams = function(){
@@ -226,6 +227,7 @@ ReachUI.Reports.Dimensions = function() {
       start_date:selected_date[0].trim(),
       end_date:selected_date[1].trim(),
       limit:50,
+      format:"json",
       offset: pageOffset
     }
 
@@ -240,7 +242,7 @@ ReachUI.Reports.Dimensions = function() {
         selectedButtons_groupby += "<div data-col="+val+" data-name="+key+" class='selectedBtns_groupBy'><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-white icon-remove'></a></div>";
       }
       if( val=="optional" ){
-        selectedButtons_columns += "<div data-col="+val+" data-name="+key+" class='selectedBtns_optionalCol'><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-white icon-remove'></a></div><br/>";
+        // selectedButtons_columns += "<div data-col="+val+" data-name="+key+" class='selectedBtns_optionalCol'><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-white icon-remove'></a></div><br/>";
       }
     });
     $("#selectedDimensions").show();
@@ -334,16 +336,20 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var removeSelectedDimension = function(){
-    $(document).on( "click",".remove_filter_dimension", function(){
-      var dimName = $(this).parent().text().trim();
+    $(document).on( "click",".remove_filter_dimension", function(){      
+      
+      var dimName = $(this).parent().attr("data-name");
       var dimeDataColType = $(this).parent().attr("data-col");
-      delete dimeColumnNames[dimName];
+     
       if( dropColumnCollection.length==1 ){
         clearTableContent();
         appReset();
         add_filters_all();
       }
-      else{
+      else{        
+        if(dimeDataColType=="group_by" && dropColumnNames.length == 1 && optionalColNames.length) return
+
+        delete dimeColumnNames[dimName];
         resetJsonObjets();
         dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());
         if( dimeDataColType == "group_by" ){
@@ -357,7 +363,7 @@ ReachUI.Reports.Dimensions = function() {
         flag = true;
         pageOffset = 0;
         paginationNav = false;
-        addColumnsNew(paginationNav);
+        addColumnsNew(paginationNav);        
       }
     });
   }
@@ -400,13 +406,22 @@ ReachUI.Reports.Dimensions = function() {
     addColumnsNew(paginationNav);
   }
 
+  var exportButtonClick = function(){
+    $(document).on('click', '#export_button', function(){
+      var requestParamCSV = getRequestParams();
+      requestParamCSV["format"] = "csv"
+      console.log(requestParamCSV);
+    });
+  }
+
   return {
     init: function(){
       addDragDrop();
-      addDraggable();
+      // addDraggable();
       initializeDateRangePicker();
       dimensionsAccordion();
       removeSelectedDimension();
+      exportButtonClick();
     }
   }
 }
