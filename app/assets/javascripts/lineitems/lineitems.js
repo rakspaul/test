@@ -150,7 +150,7 @@
     initialize: function(options) {
       this.mainRegion = options.mainRegion;
       this.adSizeList = new LineItems.AdSizeList();
-      _.bindAll(this, '_adSizeLoadError');
+      _.bindAll(this, '_adSizeLoadError', '_onSaveSuccess', '_onSaveFailure');
     },
 
     show: function(lineitem) {
@@ -243,20 +243,30 @@
         });
 
       this.lineItemModel.save(mj, {
-        success: function(model, response, options) {
-          self.trigger("lineitem:saved", model);
-        },
-        error: function(model, xhr, options) {
-          if(xhr.responseJSON && xhr.responseJSON.errors) {
-            _.each(xhr.responseJSON.errors, function(value, key) {
-              var errorLabel = self.lineItemView.ui[key + "_error"];
-              if(errorLabel) {
-                errorLabel.text(value[0]);
-              }
-            });
-          }
-        }
+        success: this._onSaveSuccess,
+        error: this._onSaveFailure
       });
+    },
+
+    _onSaveSuccess: function(model, response, options) {
+      this.trigger("lineitem:saved", model);
+    },
+
+    _onSaveFailure: function(model, xhr, options) {
+      if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
+
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.lineItemView.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
+
+        alert("Error saving lineitem. \n" + formErrors.join("\n"));
+      }
     }
   });
 
