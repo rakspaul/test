@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ReportServiceWrapper
-  SUPPORTED_PARAMS = ['group', 'cols', 'start_date', 'end_date', 'filter', 'per_page', 'offset', 'sort', 'limit']
+  SUPPORTED_PARAMS = ['group', 'cols', 'start_date', 'end_date', 'filter', 'per_page', 'offset', 'sort', 'limit', 'format']
 
   def initialize(current_user)
     @current_user = current_user
@@ -13,11 +13,14 @@ class ReportServiceWrapper
 
     params.keep_if {|key, value| SUPPORTED_PARAMS.include? key}
 
+    limit = params[:limit] unless params[:limit].nil?
+
     params.merge!({
       "instance" => @current_user.network.id,
       "user_id" => @current_user.id,
       "tkn" => build_request_token,
-      "format" => "json"
+      "format" => params[:format],
+      "limit" => limit
     })
 
     query_string = params.map {|k,v| "#{k}=#{v}"}.join("&")
