@@ -43,7 +43,7 @@ default_run_options[:pty] = true
 
 before 'deploy:setup', "rvm:install_rvm", "rvm:install_ruby"
 before "deploy", "display_branch"
-before "deploy", uninstall_gem
+before "deploy", "uninstall_gem"
 
 # Unicorn tasks
 set(:unicorn_env) { rails_env }
