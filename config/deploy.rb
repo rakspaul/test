@@ -33,7 +33,6 @@ set :rvm_ruby_string, "ruby-2.0.0-p195@reachui"
 set :rvm_user, :amp
 set :rvm_type, :user # we're doing user based rvm install (vs system wide)
 set :rvm_install_type, :stable # vs :head
-set :default_environment, 'JAVA_HOME' => "/usr/lib/jvm/java-6-sun/"
 
 set :bundle_flags, "" #   "--quiet"
 set :bundle_without,  [:deploy, :development, :test]
@@ -44,6 +43,7 @@ default_run_options[:pty] = true
 
 before 'deploy:setup', "rvm:install_rvm", "rvm:install_ruby"
 before "deploy", "display_branch"
+before "deploy", "set_java_home"
 
 # Unicorn tasks
 set(:unicorn_env) { rails_env }
@@ -58,8 +58,17 @@ task :display_branch, :except => {:no_release => true} do
   puts "\nDEPLOYING #{branch} branch of #{application} to #{stage}\n\n"
 end
 
+
 namespace :deploy do
   task :file_store_symlink do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
   end
 end
+
+task :set_java_home,:except => {:no_release => true} do
+  puts "--------------SETTING ---JAVA PATH------"
+  run "gem uninstall rjb"
+  run "export 'JAVA_HOME=/usr/lib/jvm/java-6-sun/'"
+  puts "--------------SETTING DONE------"
+end
+
