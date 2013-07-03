@@ -33,7 +33,7 @@ set :rvm_ruby_string, "ruby-2.0.0-p195@reachui"
 set :rvm_user, :amp
 set :rvm_type, :user # we're doing user based rvm install (vs system wide)
 set :rvm_install_type, :stable # vs :head
-set :default_environment, 'JAVA_HOME' => "/usr/lib/jvm/java-6-sun"
+set :default_environment, 'JAVA_HOME' => "/usr/lib/jvm/java-6-sun-1.6.0.26"
 
 set :bundle_flags, "" #   "--quiet"
 set :bundle_without,  [:deploy, :development, :test]
