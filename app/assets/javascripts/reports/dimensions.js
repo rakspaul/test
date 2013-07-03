@@ -59,11 +59,11 @@ ReachUI.Reports.Dimensions = function() {
     optionalColNames = [],        
     pageOffset = 0,
     totalRecords = 0,
-    $("#ordersReportTable").hide();
+    $("#orders_report_table").hide();
     $("#simplePagination").hide();
     $(".placeholder").show();
-    $("#selectedDimensions").hide();
-    $("#selectedDimensions ul.filters_list").html('');
+    $("#selected_dimensions").hide();
+    $("#selected_dimensions ul.filters-list").html('');
     $(".addFilter li").show();
     $("#simplePagination").pagination(paginationOptions);   
     addDragDrop();
@@ -93,16 +93,13 @@ ReachUI.Reports.Dimensions = function() {
     addDragDrop();
   }
 
-  var add_dimensions_list = function( dimName, dimeDataColType ){
-    
+  var add_dimensions_list = function( dimName, dimeDataColType ){    
     if( dimeDataColType == "group_by"){
       $(".addFilter li[data-name="+dimName+"]").show();
     }
     if( dimeDataColType == "optional" ){
       $(".addColumns li[data-name="+dimName+"]").show();
     }
-    
-
     addDragDrop();
   }
 
@@ -125,7 +122,6 @@ ReachUI.Reports.Dimensions = function() {
 
         if(flag && dataColumnType =="group_by" || flagOptionalCol){
           dropItem.hide();
-          resetDropdownAccordion();
           flag = false;
           flagOptionalCol = true;
           pageOffset = 0;
@@ -153,22 +149,22 @@ ReachUI.Reports.Dimensions = function() {
   var addColumnsNew = function( paginationNavOption ){
     $(".placeholder").hide();
     $("#simplePagination").hide();
-    $(".ajax_loader").show();
+    $(".ajax-loader").show();
     clearTableContent();
     var requestParams=getRequestParams();
 
     var request = $.ajax({url:baseURL, data:requestParams, dataType: "json"});
     request.success(function(data){
       var jsonData = data["records"],
-        $thead = $("#ordersReportTable thead"),
-        $tbody = $("#ordersReportTable tbody"),
+        $thead = $("#orders_report_table thead"),
+        $tbody = $("#orders_report_table tbody"),
         tableHeadersRow = '',
         tableRowData = '';
 
       setNewJsonData(jsonData);
       flag = true;
-      $(".ajax_loader").hide();
-      $("#ordersReportTable").show();
+      $(".ajax-loader").hide();
+      $("#orders_report_table").show();
 
       if(!paginationNavOption){
         pageOffset = 0;
@@ -199,28 +195,28 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var clearTableContent = function(){
-    $("#ordersReportTable thead tr").remove();
-    $("#ordersReportTable tbody tr").remove();
-    $("#ordersReportTable").hide();
+    $("#orders_report_table thead tr").remove();
+    $("#orders_report_table tbody tr").remove();
+    $("#orders_report_table").hide();
   }
 
   var getRequestParams = function(){
     var selected_date = $("#report_date span").text().split("to");
     var group_cols = '';
     var cols_names = '';
-    var fixed_col_names = "impressions,clicks,ctr" //,ctr,pccr,actions,gross_rev,gross_ecpm
+    var fixed_col_names = "impressions,clicks,ctr," //,ctr,pccr,actions,gross_rev,gross_ecpm
 
     for( i=0; i<dropColumnNames.length; i++ ){
       group_cols += dropColumnNames[i] + "_id,";
-      cols_names += dropColumnNames[i] + "_id," + dropColumnNames[i] + "_name,"
+      cols_names += dropColumnNames[i] + "_name,"
     }
+    cols_names = cols_names + fixed_col_names;    
     if( optionalColNames.length ){
       for(i=0; i<optionalColNames.length; i++){
         cols_names += optionalColNames[i] + ",";
       }
     }
-
-    cols_names = cols_names + fixed_col_names;
+    
     requestParams = {
       group:group_cols,
       cols:cols_names,
@@ -239,15 +235,15 @@ ReachUI.Reports.Dimensions = function() {
     var selectedButtons_columns = '';
     $.each(dimeColumnNames, function(key, val){
       if( val=="group_by" ){
-        selectedButtons_groupby += "<div data-col="+val+" data-name="+key+" class='selectedBtns_groupBy'><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-white icon-remove'></a></div>";
+        selectedButtons_groupby += "<div data-col="+val+" data-name="+key+" class='selected-btns-groupby'><a href='#' class='selected-dimename'>"+key+"</a> <a href='#' class='remove-filter-dimension icon-white icon-remove'></a></div>";
       }
       if( val=="optional" ){
-        // selectedButtons_columns += "<div data-col="+val+" data-name="+key+" class='selectedBtns_optionalCol'><a href='#' class='selectedDim'>"+key+"</a> <a href='#' class='remove_filter_dimension icon-white icon-remove'></a></div><br/>";
+        // selectedButtons_columns += "<div data-col="+val+" data-name="+key+" class='selected-btns-optional'><a href='#' class='selected-dimename'>"+key+"</a> <a href='#' class='remove-filter-dimension icon-white icon-remove'></a></div><br/>";
       }
     });
-    $("#selectedDimensions").show();
-    $("#groupByBtns").html(selectedButtons_groupby);
-    $("#optionalBtns").html(selectedButtons_columns)
+    $("#selected_dimensions").show();
+    $("#group_by_btns").html(selectedButtons_groupby);
+    $("#optional_btns").html(selectedButtons_columns)
   }
 
   var addTableHeaders = function( tableHeaders ){
@@ -305,13 +301,13 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var dimensionsAccordion = function(){
-    $(".dimensionsHeader").click(function(){
+    $(".dimensions-header").click(function(){
       if($(this).next().is(":visible")){
         $(this).find("span").removeClass('arrow-up').addClass('arrow-down');
         $(this).next().slideUp();
 
       } else {
-        $(".dimensionsBody").slideUp();
+        $(".dimensions-body").slideUp();
         $(this).next().slideToggle();
         $(this).find("span").toggleClass('arrow-up').toggleClass('arrow-down');
       }
@@ -330,14 +326,8 @@ ReachUI.Reports.Dimensions = function() {
     });
   }
 
-  var resetDropdownAccordion = function(){
-    $(".dropdownAccBody").slideUp();
-    $(".dropdownAccHeader").find("span").removeClass('arrow-up').addClass('arrow-down');
-  }
-
   var removeSelectedDimension = function(){
-    $(document).on( "click",".remove_filter_dimension", function(){      
-      
+    $(document).on( "click",".remove-filter-dimension", function(){     
       var dimName = $(this).parent().attr("data-name");
       var dimeDataColType = $(this).parent().attr("data-col");
      
@@ -390,7 +380,7 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var addDraggable = function(){
-    $('#ordersReportTable').each(function(){
+    $('#orders_report_table').each(function(){
       $(this).dragtable({
         placeholder: 'dragtable-col-placeholder',
         items: 'thead th:not( .notdraggable ):not( :has( .dragtable-drag-handle ) ), .dragtable-drag-handle',
@@ -408,9 +398,14 @@ ReachUI.Reports.Dimensions = function() {
 
   var exportButtonClick = function(){
     $(document).on('click', '#export_button', function(){
+      if(!dropColumnCollection.length) return
       var requestParamCSV = getRequestParams();
-      requestParamCSV["format"] = "csv"
-      console.log(requestParamCSV);
+      var requestParamQueryString = '';
+      requestParamCSV["format"] = "csv";
+      // requestParamCSV["limit"] = totalRecords;
+      requestParamQueryString = decodeURIComponent($.param(requestParamCSV));
+      window.location = '/reports/query.csv?'+requestParamQueryString;
+
     });
   }
 
