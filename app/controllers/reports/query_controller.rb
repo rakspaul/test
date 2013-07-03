@@ -9,7 +9,7 @@ class Reports::QueryController < ApplicationController
   def index
     wrapper = ReportServiceWrapper.new(@current_user)
     resp = wrapper.load(params.clone)
-
+    
     respond_to do |format|
       format.csv {export_report(resp)}
       format.json {render :json => resp, :status => 200;}
@@ -22,11 +22,9 @@ class Reports::QueryController < ApplicationController
   def export_report(resp)
   	file_path = get_file_path
 
-    temp_file = Tempfile.new(['report', '.csv'], :encoding => 'ascii-8bit')
     begin
-      File.open(temp_file.path, 'w') do |file|
-        file.puts resp
-      end	
+      temp_file = Tempfile.new(['report', '.csv'])
+      temp_file.write(resp.force_encoding('utf-8'))	
       send_file temp_file.path, :type => "text/csv", :x_sendfile => true, :filename => "#{file_path}.csv"
     ensure
       temp_file.close
