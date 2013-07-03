@@ -402,7 +402,7 @@ ReachUI.Reports.Dimensions = function() {
       var requestParamCSV = getRequestParams();
       var requestParamQueryString = '';
       requestParamCSV["format"] = "csv";
-      // requestParamCSV["limit"] = totalRecords;
+      requestParamCSV["limit"] = totalRecords;
       requestParamQueryString = decodeURIComponent($.param(requestParamCSV));
       window.location = '/reports/query.csv?'+requestParamQueryString;
 
