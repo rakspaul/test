@@ -37,7 +37,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
 
-    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
+    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView', '_onSaveOrderSuccess');
     this._bindKeys();
   },
 
@@ -144,27 +144,39 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var self = this;
 
     model.save(_order, {
-      success: function(model, response, options) {
-        // add order at beginning
-        self.orderList.unshift(model);
-        if(isNew) {
-          // view order
-          ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
-        } else {
-          window.history.back();
-        }
-      },
-      error: function(model, xhr, options) {
-        if(xhr.responseJSON && xhr.responseJSON.errors) {
-          _.each(xhr.responseJSON.errors, function(value, key) {
-            var errorLabel = view.ui[key + "_error"];
-            if(errorLabel) {
-              errorLabel.text(value[0]);
-            }
-          });
-        }
-      }
+      success: this._onSaveOrderSuccess,
+      error: this._onSaveOrderFailure,
+      view: view,
+      isNew: isNew
     });
+  },
+
+  _onSaveOrderSuccess: function(model, response, options) {
+    // add order at beginning
+    this.orderList.unshift(model);
+    if(options.isNew) {
+      // view order
+      ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
+    } else {
+      window.history.back();
+    }
+  },
+
+  _onSaveOrderFailure: function(model, xhr, options) {
+    if(xhr.responseJSON && xhr.responseJSON.errors) {
+      var formErrors = [];
+
+      _.each(xhr.responseJSON.errors, function(value, key) {
+        var errorLabel = options.view.ui[key + "_error"];
+        if(errorLabel) {
+          errorLabel.text(value[0]);
+        } else {
+          formErrors.push(value);
+        }
+      });
+
+      alert("Error saving order. \n" + formErrors.join("\n"));
+    }
   },
 
   orderDetails: function(id) {
