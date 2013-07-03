@@ -43,7 +43,7 @@ default_run_options[:pty] = true
 
 before 'deploy:setup', "rvm:install_rvm", "rvm:install_ruby"
 before "deploy", "display_branch"
-before "deploy", "set_java_home"
+before "deploy", uninstall_gem
 
 # Unicorn tasks
 set(:unicorn_env) { rails_env }
@@ -65,10 +65,8 @@ namespace :deploy do
   end
 end
 
-task :set_java_home,:except => {:no_release => true} do
-  puts "--------------SETTING ---JAVA PATH------"
+task :uninstall_gem do
+  puts "--------------UNINSTALL------"
   run "gem uninstall rjb"
-  run "export 'JAVA_HOME=/usr/lib/jvm/java-6-sun/'"
-  puts "--------------SETTING DONE------"
-end
+end 
 
