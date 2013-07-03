@@ -35,20 +35,18 @@ class OrdersController < ApplicationController
     order_param = params[:order]
 
     @order.name = params[:order][:name]
-    @order.start_date = params[:order][:start_date]
-    @order.end_date = params[:order][:end_date]
+    @order.start_date = Time.zone.parse(params[:order][:start_date])
+    @order.end_date = Time.zone.parse(params[:order][:end_date])
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
     @order.sales_person_id = params[:order][:sales_person_id].to_i
 
-    # Legacy orders might not have user's assigned to it. Therefore this user
+    # Legacy orders might not have user's assigned to it. Therefore assign current user
     # as owner/creator of order
     @order.user = current_user if @order.user.nil?
 
-    if @order.save
-      render :create
-    else
-      render json: { errors: @order.errors }, status: :unprocessable_entity
-    end
+    @order.save
+
+    respond_with(@order)
   end
 
   def search
