@@ -66,5 +66,5 @@ namespace :deploy do
 end
 
 task :set_java_home,:except => {:no_release => true} do
-  run "export 'JAVA_HOME=/usr/lib/jvm/java-6-openjdk'" 
+  run "export 'JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk'" 
 end
