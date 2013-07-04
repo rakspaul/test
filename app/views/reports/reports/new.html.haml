@@ -28,8 +28,10 @@
             %span.arrow-down
           .dimensions-body
             %ul.addColumns
-              %li{:"data-name" => "pccr", :"data-col" => "optional"} 
-                PCCR %                             
+              %li.hide{:"data-name" => "impressions", :"data-col" => "groupFixed"} Impressions
+              %li.hide{:"data-name" => "clicks", :"data-col" => "groupFixed"} Clicks
+              %li.hide{:"data-name" => "ctr", :"data-col" => "groupFixed"} CTR %
+              %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
               %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
               %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
               %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
@@ -87,8 +89,7 @@
 
     %td.order-repoprt-rightcol
       #selected_dimensions.selected-dimensions
-        #group_by_btns
-        
+        #group_by_btns        
 
       #droppable.droppable
         .droppable-inner
@@ -103,9 +104,6 @@
         .ajax-loader
           = image_tag "loading.gif"
 
-
-
-
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
@@ -118,39 +116,46 @@
       <% if(ad_name != null )  {%>
         <th class="l_width">Ad Name</th>
       <% } %>
-      <th class="s_width">Imps</th>
-      <th class="s_width">Clicks</th>
-      <th class="s_width">CTR(%)</th>
+      <% if(impressions != null )  {%>
+      <th class="s_width">
+        Imps
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="impressions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
+      <% if(clicks != null )  {%>
+      <th class="s_width">
+        Clicks
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="clicks"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
+      <% if(ctr != null )  {%>
+      <th class="s_width">
+        CTR(%)
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="ctr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
       <% if(pccr != null )  {%>
-        <th class="s_width">
-          <div class="header-closebtn-wrapper">
+        <th class="s_width">          
             PCCR(%)
-            <a href="#" class="column-close-btn" data-col="optional" data-name="pccr"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="pccr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(actions != null )  {%>
         <th class="s_width">
-          <div class="header-closebtn-wrapper">
             Actions
-            <a href="#" class="column-close-btn" data-col="optional" data-name="actions"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="actions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_rev != null )  {%>
         <th class="s_width">
-          <div class="header-closebtn-wrapper">
             Gross rev
-            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_rev"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_rev"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_ecpm != null )  {%>
         <th class="s_width">
-          <div class="header-closebtn-wrapper">
             Gross ecpm
             <a href="#" class="column-close-btn" data-col="optional" data-name="gross_ecpm"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
         </th>
       <% } %>
       
@@ -168,9 +173,15 @@
       <% if(ad_name != null )  {%>
         <td class="l_width"><%= ad_name %></td>
       <% } %>
+      <% if(impressions != null )  {%>
       <td class="s_width"><%= impressions %></td>
+      <% } %>
+      <% if(clicks != null )  {%>
       <td class="s_width"><%= clicks %></td>
+      <% } %>
+      <% if(ctr != null )  {%>
       <td class="s_width"><%= ctr %></td>
+      <% } %>
       <% if(pccr != null )  {%>
         <td class="s_width"><%= pccr %></td>
       <% } %>

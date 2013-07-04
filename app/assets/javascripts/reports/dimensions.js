@@ -21,6 +21,7 @@ ReachUI.Reports.Dimensions = function() {
     pageOffset = 0,
     totalRecords = 0,
     jsonObjectsCol = [],
+    fixedColumnNames = ["impressions", "clicks", "ctr"],
     jsonObjectDefault = {
       advertiser_id: null,
       advertiser_name: null,
@@ -28,6 +29,8 @@ ReachUI.Reports.Dimensions = function() {
       order_name: null,
       ad_id : null,
       ad_name : null,
+      impressions: null,
+      clicks: null,
       ctr: null,
       pccr: null,
       actions: null,
@@ -59,6 +62,7 @@ ReachUI.Reports.Dimensions = function() {
     optionalColNames = [],        
     pageOffset = 0,
     totalRecords = 0,
+    fixedColumnNames = ["impressions", "clicks", "ctr"];
     $("#orders_report_table").hide();
     $("#simplePagination").hide();
     $(".placeholder").show();
@@ -80,6 +84,8 @@ ReachUI.Reports.Dimensions = function() {
       order_name: null,
       ad_id : null,
       ad_name : null,
+      impressions: null,
+      clicks: null,
       ctr: null,
       pccr: null,
       actions: null,
@@ -99,6 +105,9 @@ ReachUI.Reports.Dimensions = function() {
     }
     if( dimeDataColType == "optional" ){
       $(".addColumns li[data-name="+dimName+"]").show();
+    }
+    if( dimeDataColType == "groupFixed" ){
+      $(".addColumns li[data-name="+dimName+"]").removeClass('hide').show();
     }
     addDragDrop();
   }
@@ -134,7 +143,10 @@ ReachUI.Reports.Dimensions = function() {
           }
           if( dataColumnType=="optional" ){
             optionalColNames.push(dataColumnName);
-          }         
+          }
+          if( dataColumnType=="groupFixed" ){
+            fixedColumnNames.push(dataColumnName);
+          }          
           showSelectedDimensions();
           addColumnsNew(paginationNav);
         }
@@ -201,16 +213,17 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var getRequestParams = function(){
-    var selected_date = $("#report_date span").text().split("to");
-    var group_cols = '';
+    var selectedDate = $("#report_date span").text().split("to");
+    var groupColDimensions = '';
     var cols_names = '';
-    var fixed_col_names = "impressions,clicks,ctr," //,ctr,pccr,actions,gross_rev,gross_ecpm
-
+  
     for( i=0; i<dropColumnNames.length; i++ ){
-      group_cols += dropColumnNames[i] + "_id,";
+      groupColDimensions += dropColumnNames[i] + "_id,";
       cols_names += dropColumnNames[i] + "_name,"
     }
-    cols_names = cols_names + fixed_col_names;    
+    for( i =0; i<fixedColumnNames.length; i++){
+      cols_names += fixedColumnNames[i] + ",";
+    } 
     if( optionalColNames.length ){
       for(i=0; i<optionalColNames.length; i++){
         cols_names += optionalColNames[i] + ",";
@@ -218,10 +231,10 @@ ReachUI.Reports.Dimensions = function() {
     }
     
     requestParams = {
-      group:group_cols,
+      group:groupColDimensions,
       cols:cols_names,
-      start_date:selected_date[0].trim(),
-      end_date:selected_date[1].trim(),
+      start_date:selectedDate[0].trim(),
+      end_date:selectedDate[1].trim(),
       limit:50,
       format:"json",
       offset: pageOffset
@@ -327,14 +340,15 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var removeSelectedDimension = function(){
-    $(document).on( "click",".remove-filter-dimension", function(){     
+    $(document).on( "mousedown",".remove-filter-dimension", function(){     
       var dimName = $(this).parent().attr("data-name");
       var dimeDataColType = $(this).parent().attr("data-col");
      
-      if( dropColumnCollection.length==1 ){
+      if( dropColumnCollection.length==1 && dimeDataColType=="group_by" && dimeDataColType != "groupFixed" ){
         clearTableContent();
         appReset();
         add_filters_all();
+
       }
       else{        
         if(dimeDataColType=="group_by" && dropColumnNames.length == 1 && optionalColNames.length) return
@@ -344,6 +358,9 @@ ReachUI.Reports.Dimensions = function() {
         dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());
         if( dimeDataColType == "group_by" ){
           dropColumnNames = removeItem_dropColumnNames(dimName);
+        }
+        if(dimeDataColType =="groupFixed"){
+          fixedColumnNames = removeItem_Collection(dimName, fixedColumnNames);
         }
         if( dimeDataColType == "optional" ){
           optionalColNames = removeItem_Collection(dimName, optionalColNames);
@@ -411,14 +428,12 @@ ReachUI.Reports.Dimensions = function() {
 
   return {
     init: function(){
-      addDragDrop();
-      // addDraggable();
+      addDragDrop();      
       initializeDateRangePicker();
       dimensionsAccordion();
       removeSelectedDimension();
       exportButtonClick();
+      addDraggable();
     }
   }
 }
-
-
