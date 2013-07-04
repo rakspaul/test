@@ -9,11 +9,8 @@ class Reports::QueryController < ApplicationController
   def index
     wrapper = ReportServiceWrapper.new(@current_user)
     resp = wrapper.load(params.clone)
-    
-    respond_to do |format|
-      format.csv {export_report(resp)}
-      format.json {render :json => resp, :status => 200;}
-    end  
+
+    respond_with(resp) { |format| format.csv {export_report(resp)} }
    
   rescue => e
     respond_with(e.message, status: :service_unavailable)
