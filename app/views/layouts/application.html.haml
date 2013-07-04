@@ -7,8 +7,6 @@
     %meta{:content => "Collective", :name => "author"}
     = stylesheet_link_tag    "application", :media => "all"
     = javascript_include_tag "application"
-    = stylesheet_link_tag    "application", "/stylesheets/kendo.common.min.css", "/stylesheets/kendo.default.min.css", :media => "all"
-    = javascript_include_tag "application", "/javascripts/kendo.web.min.js"
     = csrf_meta_tags
     = yield(:head)
   %body
