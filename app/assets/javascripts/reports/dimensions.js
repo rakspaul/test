@@ -68,7 +68,7 @@ ReachUI.Reports.Dimensions = function() {
     $(".placeholder").show();
     $("#selected_dimensions").hide();
     $("#selected_dimensions ul.filters-list").html('');
-    $(".addFilter li").show();
+    $(".add-filter li, .add-columns li.show").show();
     $("#simplePagination").pagination(paginationOptions);   
     addDragDrop();
     addDraggable();
@@ -95,31 +95,31 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var add_filters_all = function(){
-    $(".addFilter li").show();
+    $(".add-filter li").show();
     addDragDrop();
   }
 
   var add_dimensions_list = function( dimName, dimeDataColType ){    
     if( dimeDataColType == "group_by"){
-      $(".addFilter li[data-name="+dimName+"]").show();
+      $(".add-filter li[data-name="+dimName+"]").show();
     }
     if( dimeDataColType == "optional" ){
-      $(".addColumns li[data-name="+dimName+"]").show();
+      $(".add-columns li[data-name="+dimName+"]").show();
     }
     if( dimeDataColType == "groupFixed" ){
-      $(".addColumns li[data-name="+dimName+"]").removeClass('hide').show();
+      $(".add-columns li[data-name="+dimName+"]").removeClass('hide').show();
     }
     addDragDrop();
   }
 
   var addDragDrop = function(){
 
-    $( "#draggable ul.addFilter li,#draggable ul.addColumns li" ).draggable({
+    $( "#draggable ul.add-filter li,#draggable ul.add-columns li" ).draggable({
       revert: true      
     });
 
     $("#droppable").droppable({
-      accept: "#draggable ul.addFilter li, #draggable ul.addColumns li",
+      accept: "#draggable ul.add-filter li, #draggable ul.add-columns li",
       tolerance: "pointer",
 
       drop: function( event, ui ) {
@@ -343,12 +343,11 @@ ReachUI.Reports.Dimensions = function() {
     $(document).on( "mousedown",".remove-filter-dimension", function(){     
       var dimName = $(this).parent().attr("data-name");
       var dimeDataColType = $(this).parent().attr("data-col");
-     
-      if( dropColumnCollection.length==1 && dimeDataColType=="group_by" && dimeDataColType != "groupFixed" ){
+
+      if( dropColumnNames.length==1 && dimeDataColType != "groupFixed" ){
         clearTableContent();
         appReset();
         add_filters_all();
-
       }
       else{        
         if(dimeDataColType=="group_by" && dropColumnNames.length == 1 && optionalColNames.length) return

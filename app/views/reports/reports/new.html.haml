@@ -16,7 +16,7 @@
               Add Dimesnsions
             %span.arrow-down
           .dimensions-body
-            %ul.addFilter
+            %ul.add-filter
               %li{:"data-name" => "advertiser", :"data-col" => "group_by"} Advertiser
               %li{:"data-name" => "order", :"data-col" => "group_by"} Order
               %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
@@ -27,14 +27,14 @@
               Add Columns
             %span.arrow-down
           .dimensions-body
-            %ul.addColumns
+            %ul.add-columns
               %li.hide{:"data-name" => "impressions", :"data-col" => "groupFixed"} Impressions
               %li.hide{:"data-name" => "clicks", :"data-col" => "groupFixed"} Clicks
               %li.hide{:"data-name" => "ctr", :"data-col" => "groupFixed"} CTR %
-              %li{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
-              %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
-              %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
-              %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
+              %li.show{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
+              %li.show{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
+              %li.show{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
+              %li.show{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
 
         / .dimensions-accordion
         /   .dimensions-header 
