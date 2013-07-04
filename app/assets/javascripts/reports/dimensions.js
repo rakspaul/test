@@ -22,6 +22,9 @@ ReachUI.Reports.Dimensions = function() {
     totalRecords = 0,
     jsonObjectsCol = [],
     fixedColumnNames = ["impressions", "clicks", "ctr"],
+    sortDirection = null,
+    sortParam = null,
+    sortDirectionParam = true;
     jsonObjectDefault = {
       advertiser_id: null,
       advertiser_name: null,
@@ -240,6 +243,11 @@ ReachUI.Reports.Dimensions = function() {
       offset: pageOffset
     }
 
+    if( sortParam && sortDirection != "null" ){
+      requestParams["sort_param"]=sortParam;
+      requestParams["sort_direction"]=sortDirection ? "asc" : "desc";
+    }
+
     return requestParams;
   }
 
@@ -414,14 +422,26 @@ ReachUI.Reports.Dimensions = function() {
 
   var exportButtonClick = function(){
     $(document).on('click', '#export_button', function(){
-      if(!dropColumnCollection.length) return
+      if(!dropColumnCollection.length) return;
       var requestParamCSV = getRequestParams();
       var requestParamQueryString = '';
       requestParamCSV["format"] = "csv";
       requestParamCSV["limit"] = totalRecords;
       requestParamQueryString = decodeURIComponent($.param(requestParamCSV));
       window.location = '/reports/query.csv?'+requestParamQueryString;
+    });
+  }
 
+  var addTableSorting = function(){
+    $(document).on( 'mousedown','.table-filter-icon', function(){
+      var sortColumnName = $(this).parent().attr("data-name");
+      if(sortParam === sortColumnName) {
+        sortDirection = !sortDirection;
+      } else {
+        sortParam = sortColumnName;
+        sortDirection = true;
+      }
+      addColumnsNew(false);
     });
   }
 
@@ -433,6 +453,7 @@ ReachUI.Reports.Dimensions = function() {
       removeSelectedDimension();
       exportButtonClick();
       addDraggable();
+      addTableSorting();
     }
   }
 }

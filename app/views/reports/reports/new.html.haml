@@ -107,54 +107,70 @@
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
     <tr>
-      <% if(advertiser_name != null )  {%>
-        <th class="l_width">Advertiser Name</th>
+      <% if( advertiser_name != null )  {%>
+        <th class="l_width" data-name="advertiser_name">
+          Advertiser Name    
+          <i class="table-filter-icon icon-white icon-filter"></i>          
+        </th>
       <% } %>
-      <% if(order_name != null )  {%>
-        <th class="l_width">Order Name</th>
+      <% if( order_name != null )  {%>
+        <th class="l_width" data-name="order_name">
+          Order Name
+          <i class="table-filter-icon icon-white icon-filter"></i>
+        </th>
       <% } %>
       <% if(ad_name != null )  {%>
-        <th class="l_width">Ad Name</th>
+        <th class="l_width" data-name="ad_name">
+        Ad Name
+        <i class="table-filter-icon icon-white icon-filter"></i>
+        </th>
       <% } %>
       <% if(impressions != null )  {%>
-      <th class="s_width">
+      <th class="s_width" data-name="impressions">
         Imps
+        <i class="table-filter-icon icon-white icon-filter"></i>
         <a href="#" class="column-close-btn" data-col="groupFixed" data-name="impressions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
       </th>
       <% } %>
       <% if(clicks != null )  {%>
-      <th class="s_width">
+      <th class="s_width" data-name="clicks">
         Clicks
+        <i class="table-filter-icon icon-white icon-filter"></i>
         <a href="#" class="column-close-btn" data-col="groupFixed" data-name="clicks"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
       </th>
       <% } %>
       <% if(ctr != null )  {%>
-      <th class="s_width">
+      <th class="s_width" data-name="ctr">
         CTR(%)
+        <i class="table-filter-icon icon-white icon-filter"></i>
         <a href="#" class="column-close-btn" data-col="groupFixed" data-name="ctr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
       </th>
       <% } %>
       <% if(pccr != null )  {%>
-        <th class="s_width">          
+        <th class="s_width" data-name="pccr">           
             PCCR(%)
+            <i class="table-filter-icon icon-white icon-filter"></i>
             <a href="#" class="column-close-btn" data-col="optional" data-name="pccr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(actions != null )  {%>
-        <th class="s_width">
+        <th class="s_width" data-name="actions">
             Actions
+            <i class="table-filter-icon icon-white icon-filter"></i>
             <a href="#" class="column-close-btn" data-col="optional" data-name="actions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_rev != null )  {%>
-        <th class="s_width">
+        <th class="s_width" data-name="gross_rev">
             Gross rev
+            <i class="table-filter-icon icon-white icon-filter"></i>
             <a href="#" class="column-close-btn" data-col="optional" data-name="gross_rev"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_ecpm != null )  {%>
-        <th class="s_width">
+        <th class="s_width" data-name="gross_ecpm">
             Gross ecpm
+            <i class="table-filter-icon icon-white icon-filter"></i>
             <a href="#" class="column-close-btn" data-col="optional" data-name="gross_ecpm"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
         </th>
       <% } %>

@@ -24,7 +24,6 @@ table#orders_report_table th{
 	vertical-align: middle;
 	padding:5px;
 	background: #898989; 
-	cursor:move;
 }
 table#orders_report_table th.l_width{ width:270px; }
 table#orders_report_table th.s_width{ width:47px; }
@@ -225,10 +224,13 @@ ul.filters-list{
 	color:#fff;
 	margin: 0 0 10px 0px;
 }
-
 .column-close-btn, .column-close-btn:hover{
 	display:inline-block;
 	color:#fff;
 	text-decoration:none;
+	margin:0 0 0 2px;
+}
+.table-filter-icon, .table-filter-icon:hover{
 	float:right;
+	cursor:pointer;
 }
