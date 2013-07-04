@@ -67,7 +67,7 @@ end
 
 task :set_java_home,:except => {:no_release => true} do
   puts "----------------------------"
-  run "export 'JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk'" 
+  run "export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk" 
   run "printenv"
   puts "----------------------------"
 end
