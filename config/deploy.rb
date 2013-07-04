@@ -43,7 +43,6 @@ default_run_options[:pty] = true
 
 before 'deploy:setup', "rvm:install_rvm", "rvm:install_ruby"
 before "deploy", "display_branch"
-before "deploy", "set_java_home"
 
 # Unicorn tasks
 set(:unicorn_env) { rails_env }
@@ -63,11 +62,4 @@ namespace :deploy do
   task :file_store_symlink do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
   end
-end
-
-task :set_java_home,:except => {:no_release => true} do
-  puts "----------------------------"
-  run "export JAVA_HOME=/usr/lib/jvm/java-1.6.0-openjdk" 
-  run "printenv"
-  puts "----------------------------"
 end
