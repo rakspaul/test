@@ -19,7 +19,7 @@ class ReportServiceWrapper
       "instance" => @current_user.network.id,
       "user_id" => @current_user.id,
       "tkn" => build_request_token,
-      "format" => params[:format],
+      "format" => params[:format] == 'xls' ? 'csv' : params[:format],
       "limit" => limit
     })
 
