@@ -16,50 +16,45 @@
               Add Dimesnsions
             %span.arrow-down
           .dimensions-body
-            %ul.addFilter
+            %ul.add-filter
               %li{:"data-name" => "advertiser", :"data-col" => "group_by"} Advertiser
               %li{:"data-name" => "order", :"data-col" => "group_by"} Order
               %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
+            %ul.add-columns
+              %li.hide{:"data-name" => "impressions", :"data-col" => "groupFixed"} Impressions
+              %li.hide{:"data-name" => "clicks", :"data-col" => "groupFixed"} Clicks
+              %li.hide{:"data-name" => "ctr", :"data-col" => "groupFixed"} CTR %
+              %li.show{:"data-name" => "pccr", :"data-col" => "optional"} PCCR %
+              %li.show{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
+              %li.show{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
+              %li.show{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
 
         .dimensions-accordion
           .dimensions-header 
             .dime-label
-              Add Columns
+              Add Standard Metrics 
             %span.arrow-down
           .dimensions-body
-            %ul.addColumns
-              %li{:"data-name" => "pccr", :"data-col" => "optional"} 
-                PCCR %                             
-              %li{:"data-name" => "actions", :"data-col" => "optional"} Total Actions
-              %li{:"data-name" => "gross_rev", :"data-col" => "optional"} Gross Rev
-              %li{:"data-name" => "gross_ecpm", :"data-col" => "optional"} Gross eCPM
+            %ul
+              %li Standard Metrics 
 
-        / .dimensions-accordion
-        /   .dimensions-header 
-        /     .dime-label
-        /       Standard Metrics 
-        /     %span.arrow-down
-        /   .dimensions-body
-        /     %ul
-        /       %li Standard Metrics 
+        .dimensions-accordion
+          .dimensions-header 
+            .dime-label
+              Add Video Metrics
+            %span.arrow-down
+          .dimensions-body
+            %ul
+              %li Video Metrics
 
-        / .dimensions-accordion
-        /   .dimensions-header 
-        /     .dime-label
-        /       Video Metrics
-        /     %span.arrow-down
-        /   .dimensions-body
-        /     %ul
-        /       %li Video Metrics
-
-        / .dimensions-accordion
-        /   .dimensions-header 
-        /     .dime-label
-        /       Engagement Metrics
-        /     %span.arrow-down
-        /   .dimensions-body
-        /     %ul
-        /       %li Engagement Metrics
+        .dimensions-accordion
+          .dimensions-header 
+            .dime-label
+              Add Engagement Metrics
+            %span.arrow-down
+          .dimensions-body
+            %ul
+              %li Engagement Metrics
 
 
         .dimensions-accordion
@@ -80,15 +75,15 @@
             %span.arrow-down
           .dimensions-body
             .dimensions-inner
-              %button#export_button.btn.btn-mini.btn-primary{:type => "button"} Export CSV
-              %button.btn.btn-mini.btn-primary{:type => "button"} Email
+              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "xls"} Excel
+              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "csv"} CSV
+              %a.btn.btn-mini.btn-primary{:type => "button"} Email
       
       #optional_btns        
 
     %td.order-repoprt-rightcol
       #selected_dimensions.selected-dimensions
-        #group_by_btns
-        
+        #group_by_btns        
 
       #droppable.droppable
         .droppable-inner
@@ -103,54 +98,145 @@
         .ajax-loader
           = image_tag "loading.gif"
 
-
-
-
 %script{:type => "text/template", :id=>"orders_reports_headers_temp"}
   :plain
+    / <% $("#orders_report_table th["+sortParam+"]").addClass(sortDirection); %>
     <tr>
-      <% if(advertiser_name != null )  {%>
-        <th class="l_width">Advertiser Name</th>
+      <% if( advertiser_name != null )  {%>
+        <th class="l_width" data-name="advertiser_name">
+          Advertiser Name
+          <% if( sortDirection == null || sortParam != "advertiser_name")  {%>
+            <i class="table-filter-icon">&uarr;&darr;</i> 
+          <% } else if(sortParam == "advertiser_name") { %>  
+          <% if( sortDirection )  {%>
+            <i class="table-filter-icon">&darr;</i> 
+          <% } else { %>
+            <i class="table-filter-icon">&uarr;</i> 
+          <% } } %>         
+        </th>
       <% } %>
-      <% if(order_name != null )  {%>
-        <th class="l_width">Order Name</th>
+      <% if( order_name != null )  {%>
+        <th class="l_width" data-name="order_name">
+          Order Name
+          <% if( sortDirection == null || sortParam != "order_name")  {%>
+            <i class="table-filter-icon">&uarr;&darr;</i> 
+          <% } else if(sortParam == "order_name") { %>  
+          <% if( sortDirection )  {%>
+            <i class="table-filter-icon">&darr;</i> 
+          <% } else { %>
+            <i class="table-filter-icon">&uarr;</i> 
+          <% } } %>
+        </th>
       <% } %>
       <% if(ad_name != null )  {%>
-        <th class="l_width">Ad Name</th>
+        <th class="l_width" data-name="ad_name">
+          Ad Name
+          <% if( sortDirection == null || sortParam != "ad_name")  {%>
+            <i class="table-filter-icon">&uarr;&darr;</i> 
+          <% } else if(sortParam == "ad_name") { %>  
+          <% if( sortDirection )  {%>
+            <i class="table-filter-icon">&darr;</i> 
+          <% } else { %>
+            <i class="table-filter-icon">&uarr;</i> 
+          <% } } %>
+        </th>
       <% } %>
-      <th class="s_width">Imps</th>
-      <th class="s_width">Clicks</th>
-      <th class="s_width">CTR(%)</th>
+      <% if(impressions != null )  {%>
+      <th class="s_width" data-name="impressions">
+        Imps
+        <% if( sortDirection == null || sortParam != "impressions")  {%>
+          <i class="table-filter-icon">&uarr;&darr;</i> 
+        <% } else if(sortParam == "impressions") { %>  
+        <% if( sortDirection )  {%>
+          <i class="table-filter-icon">&darr;</i> 
+        <% } else { %>
+          <i class="table-filter-icon">&uarr;</i> 
+        <% } } %>
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="impressions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
+      <% if(clicks != null )  {%>
+      <th class="s_width" data-name="clicks">
+        Clicks
+        <% if( sortDirection == null || sortParam != "clicks")  {%>
+          <i class="table-filter-icon">&uarr;&darr;</i> 
+        <% } else if(sortParam == "clicks") { %>  
+        <% if( sortDirection )  {%>
+          <i class="table-filter-icon">&darr;</i> 
+        <% } else { %>
+          <i class="table-filter-icon">&uarr;</i> 
+        <% } } %>
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="clicks"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
+      <% if(ctr != null )  {%>
+      <th class="s_width" data-name="ctr">
+        CTR(%)
+        <% if( sortDirection == null || sortParam != "ctr")  {%>
+          <i class="table-filter-icon">&uarr;&darr;</i> 
+        <% } else if(sortParam == "ctr") { %>  
+        <% if( sortDirection )  {%>
+          <i class="table-filter-icon">&darr;</i> 
+        <% } else { %>
+          <i class="table-filter-icon">&uarr;</i> 
+        <% } } %>
+        <a href="#" class="column-close-btn" data-col="groupFixed" data-name="ctr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
+      </th>
+      <% } %>
       <% if(pccr != null )  {%>
-        <th class="s_width">
-          <div class="header-closebtn-wrapper">
+        <th class="s_width" data-name="pccr">           
             PCCR(%)
-            <a href="#" class="column-close-btn" data-col="optional" data-name="pccr"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <% if( sortDirection == null || sortParam != "pccr")  {%>
+              <i class="table-filter-icon">&uarr;&darr;</i> 
+            <% } else if(sortParam == "pccr") { %>  
+            <% if( sortDirection )  {%>
+              <i class="table-filter-icon">&darr;</i> 
+            <% } else { %>
+              <i class="table-filter-icon">&uarr;</i> 
+            <% } } %>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="pccr"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(actions != null )  {%>
-        <th class="s_width">
-          <div class="header-closebtn-wrapper">
+        <th class="s_width" data-name="actions">
             Actions
-            <a href="#" class="column-close-btn" data-col="optional" data-name="actions"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <% if( sortDirection == null || sortParam != "actions")  {%>
+              <i class="table-filter-icon">&uarr;&darr;</i> 
+            <% } else if(sortParam == "actions") { %>  
+            <% if( sortDirection )  {%>
+              <i class="table-filter-icon">&darr;</i> 
+            <% } else { %>
+              <i class="table-filter-icon">&uarr;</i> 
+            <% } } %>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="actions"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_rev != null )  {%>
-        <th class="s_width">
-          <div class="header-closebtn-wrapper">
+        <th class="s_width" data-name="gross_rev">
             Gross rev
-            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_rev"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
+            <% if( sortDirection == null || sortParam != "gross_rev")  {%>
+              <i class="table-filter-icon">&uarr;&darr;</i> 
+            <% } else if(sortParam == "gross_rev") { %>  
+            <% if( sortDirection )  {%>
+              <i class="table-filter-icon">&darr;</i> 
+            <% } else { %>
+              <i class="table-filter-icon">&uarr;</i> 
+            <% } } %>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_rev"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       <% if(gross_ecpm != null )  {%>
-        <th class="s_width">
-          <div class="header-closebtn-wrapper">
+        <th class="s_width" data-name="gross_ecpm">
             Gross ecpm
+            <% if( sortDirection == null || sortParam != "gross_ecpm")  {%>
+              <i class="table-filter-icon">&uarr;&darr;</i> 
+            <% } else if(sortParam == "gross_ecpm") { %>  
+            <% if( sortDirection )  {%>
+              <i class="table-filter-icon">&darr;</i> 
+            <% } else { %>
+              <i class="table-filter-icon">&uarr;</i> 
+            <% } } %>
             <a href="#" class="column-close-btn" data-col="optional" data-name="gross_ecpm"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
-          </div>
         </th>
       <% } %>
       
@@ -168,9 +254,15 @@
       <% if(ad_name != null )  {%>
         <td class="l_width"><%= ad_name %></td>
       <% } %>
+      <% if(impressions != null )  {%>
       <td class="s_width"><%= impressions %></td>
+      <% } %>
+      <% if(clicks != null )  {%>
       <td class="s_width"><%= clicks %></td>
+      <% } %>
+      <% if(ctr != null )  {%>
       <td class="s_width"><%= ctr %></td>
+      <% } %>
       <% if(pccr != null )  {%>
         <td class="s_width"><%= pccr %></td>
       <% } %>

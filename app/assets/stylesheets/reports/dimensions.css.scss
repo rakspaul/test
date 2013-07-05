@@ -24,7 +24,6 @@ table#orders_report_table th{
 	vertical-align: middle;
 	padding:5px;
 	background: #898989; 
-	cursor:move;
 }
 table#orders_report_table th.l_width{ width:270px; }
 table#orders_report_table th.s_width{ width:47px; }
@@ -225,21 +224,13 @@ ul.filters-list{
 	color:#fff;
 	margin: 0 0 10px 0px;
 }
-.header-closebtn-wrapper{
-	position:relative;
-}
 .column-close-btn, .column-close-btn:hover{
-	position:absolute;
-	top:-15px;
-	right:-12px;
-	z-index:1000;
-	width:16px;
-	height:16px;
-	border-radius:10px;
-	-webkit-border-radius:10px;
-	background:#333;
 	display:inline-block;
 	color:#fff;
-	padding:2px;
 	text-decoration:none;
+	margin:0 0 0 2px;
+}
+.table-filter-icon, .table-filter-icon:hover{
+	float:right;
+	cursor:pointer;
 }
