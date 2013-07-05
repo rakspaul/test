@@ -24,7 +24,6 @@ ReachUI.Reports.Dimensions = function() {
     fixedColumnNames = ["impressions", "clicks", "ctr"],
     sortDirection = null,
     sortParam = null,
-    sortDirectionParam = true;
     jsonObjectDefault = {
       advertiser_id: null,
       advertiser_name: null,
@@ -65,6 +64,8 @@ ReachUI.Reports.Dimensions = function() {
     optionalColNames = [],        
     pageOffset = 0,
     totalRecords = 0,
+    sortDirection = null,
+    sortParam = null,
     fixedColumnNames = ["impressions", "clicks", "ctr"];
     $("#orders_report_table").hide();
     $("#simplePagination").hide();
@@ -269,6 +270,13 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var addTableHeaders = function( tableHeaders ){
+    tableHeaders["sortParam"] = sortParam;
+    if(sortDirection == null){
+      tableHeaders["sortDirection"] = null;
+    }
+    else{      
+      tableHeaders["sortDirection"] = sortDirection;
+    }    
     var headersTempl = _.template($("#orders_reports_headers_temp").html(), tableHeaders);
     return headersTempl;
   }
