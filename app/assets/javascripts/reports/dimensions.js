@@ -430,14 +430,14 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var exportButtonClick = function(){
-    $(document).on('click', '#export_button', function(){
-      if(!dropColumnCollection.length) return;
+    $(document).on('click', '.export-button', function(e){
+      var exportFormat = $(this).attr("data-format");
       var requestParamCSV = getRequestParams();
       var requestParamQueryString = '';
-      requestParamCSV["format"] = "csv";
+      requestParamCSV["format"] = exportFormat;
       requestParamCSV["limit"] = totalRecords;
       requestParamQueryString = decodeURIComponent($.param(requestParamCSV));
-      window.location = '/reports/query.csv?'+requestParamQueryString;
+      window.location = '/reports/query.'+ exportFormat +'?'+requestParamQueryString;
     });
   }
 

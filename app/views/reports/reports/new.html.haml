@@ -75,8 +75,9 @@
             %span.arrow-down
           .dimensions-body
             .dimensions-inner
-              %button#export_button.btn.btn-mini.btn-primary{:type => "button"} Export CSV
-              %button.btn.btn-mini.btn-primary{:type => "button"} Email
+              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "xls"} Excel
+              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "csv"} CSV
+              %a.btn.btn-mini.btn-primary{:type => "button"} Email
       
       #optional_btns        
 
