@@ -284,11 +284,13 @@
       messages.push("<strong>Error processing IO.</strong>");
       messages.push("<ul>");
       if(resp) {
-        _.each(resp.errors.base, function(msg) {
-          messages.push("<li>");
-          messages.push(msg);
-          messages.push("</li>");
-        });
+        for(var error in resp.errors) {
+          _.each(resp.errors[error], function(msg) {
+            messages.push("<li>");
+            messages.push(error + " : " + msg);
+            messages.push("</li>");
+          });
+        }
       } else {
         messages.push(data.jqXHR.responseText);
       }

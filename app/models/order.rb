@@ -47,12 +47,12 @@ class Order < ActiveRecord::Base
     end
 
     def validate_start_date
-      errors.add :start_date, "can not be less than today" if self.start_date < Time.zone.now.beginning_of_day
+      errors.add :start_date, "can not be in past" if self.start_date < Time.zone.now.beginning_of_day
     end
 
     def validate_end_date_after_start_date
       if(self.start_date >= self.end_date)
-        errors.add :end_date, "can not be less than or equal to start date"
+        errors.add :end_date, "can not be before start date"
       end
     end
 
