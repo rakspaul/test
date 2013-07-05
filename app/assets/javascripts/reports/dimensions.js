@@ -74,10 +74,11 @@ ReachUI.Reports.Dimensions = function() {
     $("#selected_dimensions ul.filters-list").html('');
     $(".add-columns li").hide();
     $(".add-filter li, .add-columns li.show").show();
-    $("#simplePagination").pagination(paginationOptions);   
+    $("#simplePagination").pagination(paginationOptions);
     addDragDrop();
     addDraggable();
     resetJsonObjets();
+    window.location.hash = "";
   }
 
   var resetJsonObjets = function(){
@@ -105,7 +106,7 @@ ReachUI.Reports.Dimensions = function() {
   }
 
   var add_dimensions_list = function( dimName, dimeDataColType ){    
-    if( dimeDataColType == "group_by"){
+    if( dimeDataColType == "groupBy"){
       $(".add-filter li[data-name="+dimName+"]").show();
     }
     if( dimeDataColType == "optional" ){
@@ -134,7 +135,7 @@ ReachUI.Reports.Dimensions = function() {
         dataColumnName = $(dropItem).attr("data-name");
         dataColumnType = $(dropItem).attr("data-col");
 
-        if(flag && dataColumnType =="group_by" || flagOptionalCol){
+        if(flag && dataColumnType =="groupBy" || flagOptionalCol){
           dropItem.hide();
           flag = false;
           flagOptionalCol = true;
@@ -143,7 +144,7 @@ ReachUI.Reports.Dimensions = function() {
           dropColumnCollection.push(dataColumnName);
           dimeColumnNames[dataColumnName] = dataColumnType;
 
-          if( dataColumnType == "group_by" ){
+          if( dataColumnType == "groupBy" ){
             dropColumnNames.push(dataColumnName);
           }
           if( dataColumnType=="optional" ){
@@ -215,29 +216,30 @@ ReachUI.Reports.Dimensions = function() {
     $("#orders_report_table thead tr").remove();
     $("#orders_report_table tbody tr").remove();
     $("#orders_report_table").hide();
+    window.location.hash = "";
   }
 
   var getRequestParams = function(){
     var selectedDate = $("#report_date span").text().split("to");
-    var groupColDimensions = '';
-    var cols_names = '';
+    
+    var groupByDimensions = [],
+      groupByColumns = [],
+      totalColumnNames = [];
+      groupByDimensionsString = '',
+      totalColumnNamesString = '';
   
     for( i=0; i<dropColumnNames.length; i++ ){
-      groupColDimensions += dropColumnNames[i] + "_id,";
-      cols_names += dropColumnNames[i] + "_name,"
+      groupByDimensions.push(dropColumnNames[i] + "_id");
+      groupByColumns.push(dropColumnNames[i] + "_name");
     }
-    for( i =0; i<fixedColumnNames.length; i++){
-      cols_names += fixedColumnNames[i] + ",";
-    } 
-    if( optionalColNames.length ){
-      for(i=0; i<optionalColNames.length; i++){
-        cols_names += optionalColNames[i] + ",";
-      }
-    }
-    
+
+    groupByDimensionsString = groupByDimensions.join();
+    totalColumnNames = groupByColumns.concat(fixedColumnNames, optionalColNames);
+    totalColumnNamesString = totalColumnNames.join();
+
     requestParams = {
-      group:groupColDimensions,
-      cols:cols_names,
+      group:groupByDimensionsString,
+      cols:totalColumnNamesString,
       start_date:selectedDate[0].trim(),
       end_date:selectedDate[1].trim(),
       limit:50,
@@ -257,7 +259,7 @@ ReachUI.Reports.Dimensions = function() {
     var selectedButtons_groupby = '';
     var selectedButtons_columns = '';
     $.each(dimeColumnNames, function(key, val){
-      if( val=="group_by" ){
+      if( val=="groupBy" ){
         selectedButtons_groupby += "<div data-col="+val+" data-name="+key+" class='selected-btns-groupby'><a href='#' class='selected-dimename'>"+key+"</a> <a href='#' class='remove-filter-dimension icon-white icon-remove'></a></div>";
       }
       if( val=="optional" ){
@@ -361,18 +363,18 @@ ReachUI.Reports.Dimensions = function() {
       var dimName = $(this).parent().attr("data-name");
       var dimeDataColType = $(this).parent().attr("data-col");
 
-      if( dropColumnNames.length==1 && dimeDataColType != "groupFixed" ){
+      if( dropColumnNames.length==1 && dimeDataColType != "groupFixed" && dimeDataColType != "optional" ){
         clearTableContent();
         appReset();
         add_filters_all();
       }
       else{        
-        if(dimeDataColType=="group_by" && dropColumnNames.length == 1 && optionalColNames.length) return
+        if(dimeDataColType=="groupBy" && dropColumnNames.length == 1 && optionalColNames.length) return
 
         delete dimeColumnNames[dimName];
         resetJsonObjets();
         dropColumnCollection = removeItem_dropColumnCollection(dimName.toLowerCase());
-        if( dimeDataColType == "group_by" ){
+        if( dimeDataColType == "groupBy" ){
           dropColumnNames = removeItem_dropColumnNames(dimName);
         }
         if(dimeDataColType =="groupFixed"){
@@ -431,18 +433,20 @@ ReachUI.Reports.Dimensions = function() {
 
   var exportButtonClick = function(){
     $(document).on('click', '.export-button', function(e){
+      if(!dropColumnCollection.length) return;
       var exportFormat = $(this).attr("data-format");
-      var requestParamCSV = getRequestParams();
+      var requestParamExport = getRequestParams();
       var requestParamQueryString = '';
-      requestParamCSV["format"] = exportFormat;
-      requestParamCSV["limit"] = totalRecords;
-      requestParamQueryString = decodeURIComponent($.param(requestParamCSV));
+      requestParamExport["format"] = exportFormat;
+      requestParamExport["offset"] = 0;
+      requestParamExport["limit"] = totalRecords;
+      requestParamQueryString = decodeURIComponent($.param(requestParamExport));
       window.location = '/reports/query.'+ exportFormat +'?'+requestParamQueryString;
     });
   }
 
   var addTableSorting = function(){
-    $(document).on( 'mousedown','.table-filter-icon', function(){
+    $(document).on( 'mousedown','.table-filter-icon', function(){      
       var sortColumnName = $(this).parent().attr("data-name");
       if(sortParam === sortColumnName) {
         sortDirection = !sortDirection;

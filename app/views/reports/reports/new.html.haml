@@ -17,9 +17,9 @@
             %span.arrow-down
           .dimensions-body
             %ul.add-filter
-              %li{:"data-name" => "advertiser", :"data-col" => "group_by"} Advertiser
-              %li{:"data-name" => "order", :"data-col" => "group_by"} Order
-              %li{:"data-name" => "ad", :"data-col" => "group_by"} Ad
+              %li{:"data-name" => "advertiser", :"data-col" => "groupBy"} Advertiser
+              %li{:"data-name" => "order", :"data-col" => "groupBy"} Order
+              %li{:"data-name" => "ad", :"data-col" => "groupBy"} Ad
             %ul.add-columns
               %li.hide{:"data-name" => "impressions", :"data-col" => "groupFixed"} Impressions
               %li.hide{:"data-name" => "clicks", :"data-col" => "groupFixed"} Clicks
@@ -236,7 +236,7 @@
             <% } else { %>
               <i class="table-filter-icon">&uarr;</i> 
             <% } } %>
-            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_ecpm"><i class="remove-filter-dimension icon-white icon-remove-circle"></i></a>
+            <a href="#" class="column-close-btn" data-col="optional" data-name="gross_ecpm"><i class="remove-filter-dimension icon-white icon-remove"></i></a>
         </th>
       <% } %>
       
