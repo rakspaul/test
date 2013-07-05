@@ -71,6 +71,7 @@ ReachUI.Reports.Dimensions = function() {
     $(".placeholder").show();
     $("#selected_dimensions").hide();
     $("#selected_dimensions ul.filters-list").html('');
+    $(".add-columns li").hide();
     $(".add-filter li, .add-columns li.show").show();
     $("#simplePagination").pagination(paginationOptions);   
     addDragDrop();
