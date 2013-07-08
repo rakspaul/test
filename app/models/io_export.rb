@@ -1,5 +1,5 @@
 class IoExport
-	include ActiveModel::Validations
+  include ActiveModel::Validations
 
   LINE_ITEM_START_ROW = 28
 
@@ -9,7 +9,7 @@ class IoExport
   end
 
   def import_java_classes
-  	# JVM loading
+    # JVM loading
     apache_poi_path = 'lib/jars/poi-3.5-FINAL-20090928.jar'
     Rjb::load("#{apache_poi_path}", ['-Xmx512M'])
 
@@ -21,10 +21,10 @@ class IoExport
   end
 
   def export_io_file
-  	import_java_classes
-  	get_order
+    import_java_classes
+    get_order
 
-		@file_input = @file_input_class.new('public/template.xls')
+    @file_input = @file_input_class.new('public/template.xls')
     @fs = @poifs_class.new(@file_input)
     @book = @workbook_class.new(@fs)
     @worksheet = @book.getSheet('Insertion Order')
@@ -65,40 +65,72 @@ class IoExport
     formula_for_total_media_cost = "SUM(G#{LINE_ITEM_START_ROW+1}:G#{row_no})"
     formula_for_total_CPM = "G#{row_no+1}/E#{row_no+1}*1000"
 
-		@worksheet.getRow(row_no).getCell(4).setCellFormula(formula_for_total_impressions)
-		@worksheet.getRow(row_no).getCell(6).setCellFormula(formula_for_total_media_cost)
-		@worksheet.getRow(row_no).getCell(5).setCellFormula(formula_for_total_CPM)
+    @worksheet.getRow(row_no).getCell(4).setCellFormula(formula_for_total_impressions)
+    @worksheet.getRow(row_no).getCell(6).setCellFormula(formula_for_total_media_cost)
+    @worksheet.getRow(row_no).getCell(5).setCellFormula(formula_for_total_CPM)
 
     evaluator = @book.getCreationHelper().createFormulaEvaluator();
     evaluator.evaluateFormulaCell(@worksheet.getRow(row_no).getCell(4))
     evaluator.evaluateFormulaCell(@worksheet.getRow(row_no).getCell(5))
     evaluator.evaluateFormulaCell(@worksheet.getRow(row_no).getCell(6))
-
-    fileOut = @file_class.new("public/exports/#{@order.name.to_s.gsub( /\W/, '_' )}.xls")
-    @book.write(fileOut)
-    fileOut.close()
+    
+    save_io_to_disk
+  end
+  def save_io_to_disk
+      writer = IOFileWriter.new("file_store/io_exports", @book, @order)
+      @io_asset = writer.write
   end
 
   def get_order
-  	@order = Order.of_network(@current_user.network)
+    @order = Order.of_network(@current_user.network)
              .includes(:advertiser).find(@order_id)
     if @order.nil?
-    	raise "Order not found for given Id: #{@order_id}"
+      raise "Order not found for given Id: #{@order_id}"
     end          
   end
 
-  def get_file_path
-  	return "public/exports/#{@order.name.to_s.gsub( /\W/, '_' )}.xls"
-  end
-
   def export_order
-  	begin
-    	export_io_file
-    	errors.empty?
-  	rescue => e
-   		errors.add :base, e.message
-   		false
+    begin
+      export_io_file
+      errors.empty?
+    rescue => e
+      errors.add :base, e.message
+      false
     end
   end
+  def get_file_path
+    @io_asset.asset_path
+  end
   
+end
+
+class IOFileWriter
+  def initialize(location, file_object, order)
+    @file_class = Rjb::import('java.io.FileOutputStream')
+    @location = location
+    @file = file_object
+    @order = order
+  end
+
+  def write
+    path = prepare_store_location
+    fileOut = @file_class.new(path)
+    @file.write(fileOut)
+    fileOut.close()
+
+    @order.io_assets.create({asset_upload_name: get_file_name, asset_path: path})
+  end
+
+  private
+
+    def prepare_store_location
+      location = "#{@location}/#{@order.advertiser.id}"
+      FileUtils.mkdir_p(location) unless Dir.exists?(location)
+    
+      return "#{location}/#{get_file_name}"    
+    end
+
+    def get_file_name
+      return "#{@order.id}_#{@order.io_assets.count}_#{@order.name.to_s.gsub( /\W/, '_' )}.xls"
+    end
 end
