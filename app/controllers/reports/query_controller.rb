@@ -33,10 +33,8 @@ class Reports::QueryController < ApplicationController
     Spreadsheet.client_encoding = 'UTF-8'
     book = Spreadsheet::Workbook.new
     sheet = book.create_worksheet :name => "Report Data"
-    csv = CSV.parse(resp)
     row_no = 0
-
-    csv.each do |row_data|
+    CSV.parse(resp.gsub(/\\\"/,'\\'=>'\\\\', '"' => '\\"'), :skip_blanks => true, :encoding => 'u') do |row_data|
       xls_row = sheet.row(row_no)
       col_no = 0
       row_data.each do |col|
