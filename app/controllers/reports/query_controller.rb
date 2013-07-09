@@ -39,7 +39,7 @@ class Reports::QueryController < ApplicationController
       col_no = 0
       row_data.each do |col|
         if is_number?(col)
-          xls_row[col_no] = col.to_i
+          xls_row[col_no] = col.to_f ? col.to_f : col.to_i 
         else
           xls_row[col_no] = col
         end
