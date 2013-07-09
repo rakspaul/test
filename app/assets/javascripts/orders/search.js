@@ -37,6 +37,7 @@
 
     _focusSearchInput: function(e) {
       this.$('.search-query').focus();
+      return false;
     },
 
     _setSearchText: function() {
