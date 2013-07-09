@@ -1,4 +1,5 @@
 Reachui::Application.routes.draw do
+  get "nielsen_ocr/index"
   get "adsizes/index"
   root 'account_sessions#new'
 
@@ -22,6 +23,7 @@ Reachui::Application.routes.draw do
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
+  resources :nielsen_ocrs
 
   resource :io_import, controller: 'io_import'
 
