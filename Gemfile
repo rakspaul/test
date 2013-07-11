@@ -92,3 +92,5 @@ gem 'dalli'
 
 # For json parsing
 gem 'json', '~> 1.7.7'
+
+gem 'whenever', :require => false
