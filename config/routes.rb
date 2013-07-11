@@ -16,6 +16,7 @@ Reachui::Application.routes.draw do
     collection do
       get 'search'
     end
+    get 'export' => 'io_export#export'
   end
 
   resources :kendoui

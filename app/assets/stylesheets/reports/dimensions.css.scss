@@ -2,34 +2,20 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.fl{ float: left }
-.fr{ float:right; }
-.clear{ clear: both; }
-
-.appHeaderContent{
-	padding:15px;	
-}
-#reportsLayoutTable{
+#reports_layout_table{
 	width:100%;
 }
-.orderRepLeftCol{
+.order-repoprt-leftcol{
 	width:220px;
 	vertical-align:top;
 }
-.orderRepRightCol{
+.order-repoprt-rightcol{
 	vertical-align:top;
 }
-.droppable{	
-	background:#f2f2f2;	
-}
-.droppableInner{
-	height:600px;
-	overflow:auto;
-}
-#ordersReportTable{
+#orders_report_table{
 	display:none;
 }
-table#ordersReportTable th{
+table#orders_report_table th{
 	font-size:12px;
 	line-height:16px;
 	font-weight:bold;
@@ -38,39 +24,18 @@ table#ordersReportTable th{
 	vertical-align: middle;
 	padding:5px;
 	background: #898989; 
-	cursor:move;
 }
-table#ordersReportTable th.l_width{ width:270px; }
-table#ordersReportTable th.s_width{ width:47px; }
-
-table#ordersReportTable td.l_width{ text-align: left; }
-table#ordersReportTable td.s_width{ text-align: right; }
-
-table#ordersReportTable td{
+table#orders_report_table th.l_width{ width:270px; }
+table#orders_report_table th.s_width{ width:47px; }
+table#orders_report_table td.l_width{ text-align: left; }
+table#orders_report_table td.s_width{ text-align: right; }
+table#orders_report_table td{
 	font-size:12px;
 	line-height:16px;
 	padding:5px;
 }
-
-tr.highlightCol td, tr.highlightCol td a{
-	background:#48AFDE !important;
-	color:#fff !important;
-	font-weight:normal;
-}
-
-tr.highlightCol td:first-child{
-	padding-left:20px !important;
-}
-
-.reportDateHeader{
-	font-size: 14px;
-	line-height:16px;
-	color: #fff;
-	padding:7px 0 7px 15px;
-	margin:0 0 0px 0;
-	background:#898989;
-	border-bottom:1px solid #000;
-	cursor:pointer;
+.droppable-inner{
+	padding:10px;
 }
 .placeholder{
 	height:400px;
@@ -78,25 +43,31 @@ tr.highlightCol td:first-child{
 	padding-top:270px;
   font-size:25px;
   color:#555;   
+  background:#f2f2f2;	
+  margin-top:-20px;
 }
-.ajax_loader{
+.ajax-loader{
 	height:400px;
   display:none;
   text-align:center;
-	padding-top:270px;	
+	padding-top:270px;
+	background:#f2f2f2;		
+	margin-top:-20px;
 }
-.selectDateRange{
+.select-date-range{
 	padding:2px 2px 0px 2px;
 }
-.reportDate{
+.report-date{
 	background: #fff; 
 	cursor: pointer; 
 	padding: 5px;	
 	border:1px solid #ccc;
+	-webkit-border-radius:4px;
+	border-radius:4px;
 	margin-bottom:5px;
 	display:block;
 }
-.reportDate span{
+.report-date span{
 	font-size:13px;
 	color:#333;
 	display:inline-block;
@@ -105,47 +76,29 @@ tr.highlightCol td:first-child{
 .caret{
 	margin-top:8px;
 }
-.dimName, .dimName:link, .dimName:hover, .dimName:active, .dimName:visited{
-	color:#333;
-	text-decoration:none;
-	cursor:default;
-	font-weight:bold;
-}
-
-.dimNameActive, .dimNameActive:link, .dimNameActive:hover, .dimNameActive:active, .dimNameActive:visited{
-	color:#0088cc !important;
-	text-decoration:underline !important;
-	cursor:pointer !important;
-}
-
-.accIcon{
-	display:none;
-	margin-right:2px;
-}
 .daterangepicker .ranges li{
 	margin-bottom:3px;
 }
-.selectedDimensions{
+.selected-dimensions{
 	letter-spacing:0;
-	padding:10px;
-	border:1px solid #333;
 	display:none;
+	text-align:center;
 }
-.selectedDim, .selectedDim:hover{
+.selected-dimename, .selected-dimename:hover{
+	color:#fff;
 	margin: 0 0 10px 0;
 	text-decoration:none;
 	letter-spacing:0;
 	cursor:pointer;
 }
-
-.dimLabel{
+.dime-label{
 	display:inline-block;
 }
-.dimensionsAccordion{
+.dimensions-accordion{
 	padding:0px;
 	margin:0px;
 }
-.dimensionsHeader{
+.dimensions-header{
 	font-size: 14px;
 	line-height:16px;
 	color: #fff;
@@ -155,7 +108,7 @@ tr.highlightCol td:first-child{
 	border-bottom:1px solid #fff;
 	cursor:pointer;	
 }
-.dimensionsBody{
+.dimensions-body{
 	display:none;
 }
 .active{
@@ -170,7 +123,6 @@ ul.dimensions li{
 	font-size:12px;
 	line-height:16px;
 	color:#333;
-
 	padding:5px 0 5px 15px;
 	margin:0px;
 	border-bottom: 1px solid #fff;
@@ -218,134 +170,69 @@ ul.dimensions li:hover{
 	border-bottom: 5px solid transparent;
 	display:inline-block;
 }
-
-.dimensionsInner{
-	padding:10px 15px;
+.dimensions-inner{
+	padding:10px;
 }
-
-.dropdownAccordion{
-	position:relative;
-}
-.dropdownAccHeader{
-	font-size: 14px;
-	line-height:16px;
-	color: #fff;
-	padding:7px 0 7px 15px;
-	margin:0px;
-	background:#898989;
-	border-bottom:1px solid #fff;
-	cursor:pointer;	
-	position:relative;
-}
-.dropdownAccBody{
-	display:none;
-	width:200px;
-	position:absolute;
-	top:32px;
-	left:10px;
-	border:1px solid #333;
-	background:#e7e7e7;
-	z-index:1000;
-}
-
-.dropdownAccBody ul{
-	padding:0px;
-	margin:0px 0 3px 0;
-	list-style-type:none;
-}
-.dropdownAccBody ul li{
-	font-size:12px;
-	line-height:16px;
-	color:#333;
-
-	padding:5px 0 5px 15px;
-	margin:0px;
-	border-bottom: 1px solid #fff;
-	background:#e7e7e7;
-
-}
-.dropdownAccBody ul li:hover{
-	background:#008dd1;
-	color:#fff;
-}
-
- ul.addFilter{
+.dimensions-body ul{
 	padding:0px;
 	list-style-type:none;
 	padding:0px;
 	margin:0px;
 }
-ul.addFilter li{
+.dimensions-body ul li{
 	font-size:12px;
 	line-height:16px;
 	color:#333;
 	cursor: move;
-
 	padding:5px 0 5px 15px;
 	margin:0px;
 	border-bottom: 1px solid #fff;
 	background:#e7e7e7;
-
 }
-.addFilter ul li:hover{
+.dimensions-body ul li:hover{
 	background:#008dd1;
 	color:#fff;
 }
-.dropDownArrow{
-	width:20px;
-	height:16px;
-	background:#333;
-	position:absolute;
-	top:0px;
-	right:0px;
-	padding:7px 5px;
-}
-.dropDownArrow .arrow-down{
-	margin-top:5px;
-}
-.selectedFilterAcc{
-	display:none;
-	padding:5px;
-}
-
-.selectedFilterAccHeader{
-	background:#fff;
-	color:#333;
-	border:1px solid #ccc;
-	height:14px;
-	overflow:hidden;
-}
-
-.selectedFilterListDiv{
-	height:300px;
-	overflow: auto;
-}
-
-ul.filters_list{
+ul.filters-list{
 	padding:0px;
 	margin:0px;
+	list-style-type:none;
 }
-
-ul.selectedFilterList li{
-	cursor:pointer;
-}
-
-.filterContentHeader h2{
-	font-size:20px;
-	line-height:24px;
-	padding:0;
-	margin:0 0 10px 0;
-}
-
-.remove_filter_dimension, .remove_filter_dimension:hover{
+.remove-filter-dimension, .remove-filter-dimension:hover{
 	text-decoration:none;
+	color:#fff;
 }
-
-.selectParam{
-	display:block;
-}
-
 .pagination{
 	display:none;
-	margin-right:20px;	
+	margin:0px 30px 30px 0;
+}
+#group_by_btns{
+	padding:5px;
+}
+#optional_btns{
+	padding:15px;
+}
+.selected-btns-groupby{
+	display:inline-block;
+	padding:5px 10px;
+	background:green;
+	color:#fff;
+	margin-right:10px;
+}
+.selected-btns-optional{
+	display:inline-block;
+	padding:5px 10px;
+	background:#aaa;
+	color:#fff;
+	margin: 0 0 10px 0px;
+}
+.column-close-btn, .column-close-btn:hover{
+	display:inline-block;
+	color:#fff;
+	text-decoration:none;
+	margin:0 0 0 2px;
+}
+.table-filter-icon, .table-filter-icon:hover{
+	float:right;
+	cursor:pointer;
 }
