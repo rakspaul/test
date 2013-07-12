@@ -14,6 +14,7 @@ Reachui::Application.routes.draw do
 
   resources :orders do
     resources :lineitems
+    resources :nielsen_campaigns
     collection do
       get 'search'
     end
@@ -23,7 +24,7 @@ Reachui::Application.routes.draw do
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
-  resources :nielsen_ocrs
+  resources :nielsen_ocrs, only: [:index]
 
   resource :io_import, controller: 'io_import'
 
