@@ -1,0 +1,9 @@
+json.id campaign.id
+json.name campaign.name
+json.cost_type campaign.cost_type
+json.value campaign.value
+json.trp_goal campaign.trp_goal
+json.target_gender campaign.target_gender
+json.age_range campaign.age_range
+json.source_id campaign.source_id
+json.order_id campaign.order_id

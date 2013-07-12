@@ -78,8 +78,7 @@
     },
 
     triggers: {
-      'click .save-campaign': 'campaign:save',
-      'click .close-campaign': 'campaign:close'
+      'click .save-campaign': 'campaign:save'
     },
 
     onRender: function() {
