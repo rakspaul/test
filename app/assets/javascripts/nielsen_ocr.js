@@ -4,9 +4,9 @@
   Ocr.Campaign = Backbone.Model.extend({
     defaults: {
       name: '',
-      cpp_value: 0,
+      cost_type: 'cpp',
       trp_goal: 0,
-      imps_value: 0,
+      value: 0,
       target_gender: 'both',
       age_range: '2-PLUS'
     },
@@ -69,10 +69,12 @@
     className: 'ocr-campaign-detail',
     ui: {
       name: '#name',
-      cpp_value: '#cpp_value',
+      value: '#value',
       trp_goal: '#trp_goal',
       target_gender: '#target_gender',
-      age_range: '#age_range'
+      age_range: '#age_range',
+      imps_radio: '#imps_radio',
+      cpp_radio: '#cpp_radio'
     },
 
     triggers: {
@@ -83,6 +85,12 @@
     onRender: function() {
       this.ui.age_range.val(this.model.get('age_range'));
       this.ui.target_gender.val(this.model.get('target_gender'));
+      this.ui.imps_radio.prop('checked', (this.model.get('cost_type') === "imps"));
+      this.ui.cpp_radio.prop('checked', (this.model.get('cost_type') === "cpp"));
+    },
+
+    getCostType: function() {
+      return this.$('input:radio[name=cost_type]:checked').val();
     }
   });
 
@@ -185,7 +193,8 @@
 
       var _campaign = {
         name: view.ui.name.val(),
-        cpp_value: view.ui.cpp_value.val(),
+        cost_type: view.getCostType(),
+        value: view.ui.value.val(),
         trp_goal: view.ui.trp_goal.val(),
         target_gender: view.ui.target_gender.val(),
         age_range: view.ui.age_range.val()

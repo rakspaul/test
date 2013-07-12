@@ -1,7 +1,7 @@
 json.id @nielsen_campaign.id
 json.name @nielsen_campaign.name
-json.cpp_value @nielsen_campaign.cpp_value
-json.imps_value @nielsen_campaign.imps_value
+json.cost_type @nielsen_campaign.cost_type
+json.value @nielsen_campaign.value
 json.trp_goal @nielsen_campaign.trp_goal
 json.target_gender @nielsen_campaign.target_gender
 json.age_range age_range(@nielsen_campaign)
