@@ -10,32 +10,40 @@ class Reports::ScheduleReportsController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
+  def new
+    @report_schedule = ReportSchedule.new
+    @report_schedule.user = current_user
+  end  
+
   def create
   	@report = ReportSchedule.new(params[:report_schedule])
-  	@report.user = current_user
-
-	if @report.save
-      respond_with(@reports, status: :ok)
-    else
+  	
+	  if !@report.save
       render json: { errors: @report.errors }, status: :unprocessable_entity
     end
   end
+
+  def show
+    @report = ReportSchedule.find(params[:id])
+    render :json => @report.to_json
+  rescue ActiveRecord::RecordNotFound  
+    render :json => "Schedule report #{params[:id]} not found",
+           :status => :ok 
+    false
+  end  
 
   def update
   	@report = ReportSchedule.find_by_id(params[:id])
   	@report.update_attributes(params[:report])
 
-  	if @report.save
-      respond_with(@reports, status: :ok)
-    else
+  	if !@report.save
       render json: { errors: @report.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
-  	@report = ReportSchedule.find_by_id(params[:id])
+  	@report = ReportSchedule.find(params[:id])
   	@report.destroy
-  	render status: :ok
   end	  
 
 end  

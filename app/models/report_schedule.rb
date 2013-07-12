@@ -1,5 +1,5 @@
 class ReportSchedule < ActiveRecord::Base
-  has_many :schedule_histories, :foreign_key => "job_id", :dependent => :destroy
+  self.table_name = "report_schedule"
   belongs_to :user
 
 end	
