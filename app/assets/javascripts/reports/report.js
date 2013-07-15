@@ -4,17 +4,72 @@
 ReachUI.namespace("Reports");
 
 ReachUI.Reports.Dimensions = function() {
-  
-  var addDragDrop = function() {
+
+  // ********************************************************** Models ****************************************
+
+  var Dimension = Backbone.Model.extend({
+      setId: function (value) {
+        this.set({id: value});
+      },
+      setDisplayName: function(value) {
+        this.set({displayName: value});
+      },
+      getId: function() {
+        return this.get("id");
+      }
+  });
+
+  // ********************************************************** Collection ***********************************
+
+  var DimensionsList = Backbone.Collection.extend({
+      model: Dimension,
+  });
+
+  // ********************************************************** Views ****************************************  
+
+  var ReportLayout = Backbone.Marionette.Layout.extend({
+      template: JST['templates/reports/report_layout'],
+
+      regions: {
+        dimensions: "#selected_dimensions",
+        report_table: "#report_table"
+      }
+  });
+
+  var SelectedDimension = Backbone.Marionette.ItemView.extend({
+      template: JST['templates/reports/dimension_list_item'],
+      className: "selected-dimension-btn",
+      triggers: {
+        'click': 'delete'
+      }
+  });
+
+  var SelectedDimensionsView = Backbone.Marionette.CollectionView.extend({
+      itemView: SelectedDimension,
+  });
+
+  // ********************************************************************************************************
+
+  var initializeDragDrop = function() {
     $( "#draggable ul.dimensions-list li" ).draggable({
       revert: true      
     });
+
     $("#droppable").droppable({
       accept: "#draggable ul.dimensions-list li",
       tolerance: "pointer",
-      drop: function( event, ui ) {
-        dropItem = ui.draggable;
-        dropItem.hide();   
+      drop: function( event, item ) {
+        dropedItem = item.draggable;
+        var id = dropedItem.attr("data-field-name");
+        var displayName = dropedItem.text();
+        var isDimension = dropedItem.attr("data-dimension") === "true" ? true : false;
+        if (isDimension) {
+          selected_dimensions.push({id: id, displayName: displayName});
+        } else {
+          // its a column           
+        }
+        toggleAccordionItemState(id, false);
+        $(".dimensions-list li.hide").show();
       }
     });
   }
@@ -48,7 +103,7 @@ ReachUI.Reports.Dimensions = function() {
     $('#report_date span').html(moment().subtract('days', 30).format('YYYY-MM-DD') + ' to ' + moment().subtract('days', 1).format('YYYY-MM-DD'));
   }
 
-  var dimensionsAccordion = function(){
+  var dimensionsAccordionClickHandler = function(){
     $(".dimensions-header").click(function(){
       if($(this).next().is(":visible")){
         $(".dimensions-header").find("span").removeClass('arrow-up');
@@ -57,21 +112,56 @@ ReachUI.Reports.Dimensions = function() {
       } else {
         $(".dimensions-body").slideUp();
         $(this).next().slideToggle('fast');
-        $(".dimensions-header").find("span").removeClass('arrow-up').addClass('arrow-down');        
+        $(".dimensions-header").find("span").removeClass('arrow-up').addClass('arrow-down');
         $(this).find("span").toggleClass('arrow-up').toggleClass('arrow-down');
       }
     });
   }
 
-  var intialize = function(){
+  var toggleAccordionItemState = function(id, visible) {
+    if(visible) {
+      $(".dimensions-list li[data-field-name="+ id +"]").show();
+    } else {
+      $(".dimensions-list li[data-field-name="+ id +"]").hide();
+    }
+  }
+
+  var onDeleteDimension = function(view) {
+    var model = view.model;
+    toggleAccordionItemState(model.getId(), true);
+    selected_dimensions.remove(view.model);
+    if (selected_dimensions.length < 1) {
+      $(".dimensions-list li.hide").hide();
+    }
+  }
+
+  var report_ui,
+    reportLayout,
+    selected_dimensions,
+    selected_dimensions_view;
+  var initialize = function(){
+
     initializeDateRangePicker();
-    addDragDrop(); 
-    dimensionsAccordion();   
+    initializeDragDrop();
+    dimensionsAccordionClickHandler();
+
+    report_ui = new Backbone.Marionette.Application();
+    report_ui.addRegions({
+      mainRegion: "#droppable-inner"
+    });
+
+    reportLayout = new ReportLayout();
+    report_ui.mainRegion.show(reportLayout);
+
+    selected_dimensions = new DimensionsList();
+    selected_dimensions_view = new SelectedDimensionsView({collection:selected_dimensions})
+    selected_dimensions_view.on("itemview:delete", onDeleteDimension);
+    reportLayout.dimensions.show(selected_dimensions_view);
   }
 
   return {
     init: function(){      
-      intialize();
+      initialize();
     }
   }
 }

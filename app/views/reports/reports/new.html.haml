@@ -20,9 +20,9 @@
               %li{:"data-field-name" => "advertiser", :"data-dimension" => "true"} Advertiser
               %li{:"data-field-name" => "order", :"data-dimension" => "true"} Order
               %li{:"data-field-name" => "ad", :"data-dimension" => "true"} Ad
-              %li.hide{:"data-field-name" => "impressions", :"data-dimension" => "false"} Impressions
-              %li.hide{:"data-field-name" => "clicks", :"data-dimension" => "false"} Clicks
-              %li.hide{:"data-field-name" => "ctr", :"data-dimension" => "false"} CTR %
+              / %li.hide{:"data-field-name" => "impressions", :"data-dimension" => "false"} Impressions
+              / %li.hide{:"data-field-name" => "clicks", :"data-dimension" => "false"} Clicks
+              / %li.hide{:"data-field-name" => "ctr", :"data-dimension" => "false"} CTR %
               %li.hide{:"data-field-name" => "pccr", :"data-dimension" => "false"} PCCR %
               %li.hide{:"data-field-name" => "actions", :"data-dimension" => "false"} Total Actions
               %li.hide{:"data-field-name" => "gross_rev", :"data-dimension" => "false"} Gross Rev
@@ -80,11 +80,11 @@
     %td.report-right-column    
       %h1 new report
       #droppable.droppable
-        .droppable-inner
-          .placeholder
-            Please drop dimensions here.
-          .ajax-loader
-            = image_tag "loading.gif"
+        .droppable-inner#droppable-inner
+      .placeholder
+        Please drop dimensions here.
+      .ajax-loader
+        = image_tag "loading.gif"
 
 
 

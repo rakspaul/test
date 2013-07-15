@@ -23,7 +23,6 @@
   float:right;
   display:inline-block;
 }
-
 /* Layout Styles */
 #reports_table_layout{
   width:100%;
@@ -126,3 +125,11 @@ ul.dimensions-list li{
   margin-bottom:3px;
 }
 
+/* Main region styles */
+.selected-dimensions-container{
+  text-align:center;
+}
+.selected-dimension-btn{
+  display:inline-block;
+  margin-right:5px;
+}
