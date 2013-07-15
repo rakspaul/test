@@ -1,9 +1,9 @@
-<form class="form-horizontal">
+<form class="form-horizontal nielsen-campaign-form">
   <fieldset>
     <div class="control-group" id="name_group">
       <label class="control-label" for="name">Tag Name</label>
       <div class="controls">
-        <input type="text" id="name" class="input-xxlarge" placeholder="Tag name" value="<%= name %>" required>
+        <input type="text" id="name" class="name" placeholder="Tag name" value="<%= name %>" required>
         <label class="help-inline form-error" id="name_error"></label>
       </div>
     </div>
@@ -18,7 +18,12 @@
         </label>
       </div>
       <div class="controls">
-        <input type="text" id="value" value="<%= value %>">
+        <div class="input-prepend">
+          <span class="add-on" id="value-sign">
+            <i class="icon-usd" id="cost_type_icon"></i>
+          </span>
+          <input type="text" id="value" class="value" value="<%= value %>">
+        </div>
         <label class="help-inline form-error" id="value_error"></label>
       </div>
     </div>
@@ -26,7 +31,7 @@
     <div class="control-group" id="trp_group">
       <label class="control-label" for="trp_goal">TRP Goal</label>
       <div class="controls">
-        <input type="text" id="trp_goal" value="<%= trp_goal %>">
+        <input type="text" id="trp_goal" class="trp_goal" value="<%= trp_goal %>">
         <label class="help-inline form-error" id="trp_goal_error"></label>
       </div>
     </div>
@@ -34,7 +39,7 @@
     <div class="control-group">
       <label class="control-label" for="target_gender">Target Gender</label>
       <div class="controls">
-        <select id="target_gender">
+        <select id="target_gender" class="target_gender">
           <option value="both">Both</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
@@ -45,7 +50,7 @@
     <div class="control-group">
       <label class="control-label" for="age_range">Age Range</label>
       <div class="controls">
-        <select id="age_range">
+        <select id="age_range" class="age_range">
           <option value="2-PLUS">All</option>
           <option value="18-24">18-24</option>
           <option value="18-34">18-34</option>

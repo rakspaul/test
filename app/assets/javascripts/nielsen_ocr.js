@@ -74,11 +74,16 @@
       target_gender: '#target_gender',
       age_range: '#age_range',
       imps_radio: '#imps_radio',
-      cpp_radio: '#cpp_radio'
+      cpp_radio: '#cpp_radio',
+      cost_type_icon: '#cost_type_icon'
     },
 
     triggers: {
       'click .save-campaign': 'campaign:save'
+    },
+
+    events: {
+      'change input:radio[name=cost_type]': '_onCostTypeChange'
     },
 
     onRender: function() {
@@ -86,10 +91,19 @@
       this.ui.target_gender.val(this.model.get('target_gender'));
       this.ui.imps_radio.prop('checked', (this.model.get('cost_type') === "imps"));
       this.ui.cpp_radio.prop('checked', (this.model.get('cost_type') === "cpp"));
+      this._onCostTypeChange();
     },
 
     getCostType: function() {
       return this.$('input:radio[name=cost_type]:checked').val();
+    },
+
+    _onCostTypeChange: function() {
+      if(this.getCostType() === "cpp") {
+        this.ui.cost_type_icon.addClass('icon-usd');
+      } else {
+        this.ui.cost_type_icon.removeClass('icon-usd');
+      }
     }
   });
 
