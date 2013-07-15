@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require twitter/bootstrap/typeahead
 //= require twitter/bootstrap/modal
+//= require twitter/bootstrap/collapse
 //= require jquery-fileupload/basic
 //= require moment.min
 //= require mousetrap.min
@@ -30,7 +31,7 @@
 //= require utils/core
 //= require utils/errors
 //= require reports/list.js
-//= require reports/dimensions
+//= require reports/report
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
