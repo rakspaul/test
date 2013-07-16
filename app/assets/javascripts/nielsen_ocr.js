@@ -1,4 +1,4 @@
-(function(Ocr, Orders, Search) {
+(function(Ocr, Orders, Search, DMA) {
   'use strict';
 
   Ocr.Campaign = Backbone.Model.extend({
@@ -64,9 +64,22 @@
     }
   });
 
+  Ocr.CampaignDetailLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/nielsen_ocr/campaign_detail_layout'],
+
+    regions: {
+      details: ".details-region",
+      dmas: ".dma-region",
+      ads: ".ads-region"
+    },
+
+    triggers: {
+      'click .save-campaign': 'campaign:save'
+    }
+  });
+
   Ocr.CampaignDetailView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/nielsen_ocr/campaign_detail'],
-    className: 'ocr-campaign-detail',
     ui: {
       name: '#name',
       value: '#value',
@@ -76,10 +89,6 @@
       imps_radio: '#imps_radio',
       cpp_radio: '#cpp_radio',
       cost_type_icon: '#cost_type_icon'
-    },
-
-    triggers: {
-      'click .save-campaign': 'campaign:save'
     },
 
     events: {
@@ -170,20 +179,24 @@
       this.ocrLayout.top.show(campaignTableView);
     },
 
-    _onCampaignSelect: function(view) {
-      ReachUI.Ocr.router.navigate('/' + this.selectedOrder.id + '/campaigns/' + view.model.id, {trigger: true});
-    },
-
     newCampaign: function(orderId) {
       if(this.selectCampaign) {
         this.selectCampaign.set({selected: false});
       }
 
+      this._loadDMAs();
+      var dmaSelect = new DMA.ChosenView({collection: this.dmaList});
+
       var campaign = new Ocr.Campaign({'order_id': orderId});
       var campaignDetailView = new Ocr.CampaignDetailView({model: campaign});
-      campaignDetailView.on('campaign:save', this._saveCampaign, this);
 
-      this.ocrLayout.bottom.show(campaignDetailView);
+      var campaignDetailLayout = new Ocr.CampaignDetailLayout();
+      campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
+
+      this.ocrLayout.bottom.show(campaignDetailLayout);
+
+      campaignDetailLayout.details.show(campaignDetailView);
+      campaignDetailLayout.dmas.show(dmaSelect);
     },
 
     showCampaign: function(id, campaignId) {
@@ -195,22 +208,48 @@
       this.selectCampaign.set({selected: true});
 
       var campaignDetailView = new Ocr.CampaignDetailView({model: this.selectCampaign});
-      campaignDetailView.on('campaign:save', this._saveCampaign, this);
 
-      this.ocrLayout.bottom.show(campaignDetailView);
+      this._loadDMAs();
+      var dmaSelect = new DMA.ChosenView({collection: this.dmaList, dma_ids: this.selectCampaign.get('dma_ids')});
+      //dmaSelect.$el.val(this.selectCampaign.get('dma_ids'));
+
+      var campaignDetailLayout = new Ocr.CampaignDetailLayout();
+      campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
+
+      this.ocrLayout.bottom.show(campaignDetailLayout);
+
+      campaignDetailLayout.details.show(campaignDetailView);
+      campaignDetailLayout.dmas.show(dmaSelect);
+    },
+
+    _onCampaignSelect: function(view) {
+      ReachUI.Ocr.router.navigate('/' + this.selectedOrder.id + '/campaigns/' + view.model.id, {trigger: true});
+    },
+
+    _loadDMAs: function() {
+      if(!this.dmaList) {
+        this.dmaList = new DMA.List();
+        this.dmaList.fetch({reset: true});
+        this.dmaList.on('reset', function(collection, options) {
+          collection.add(new DMA.Model(), {at: 0});
+        });
+      }
     },
 
     _saveCampaign: function(args) {
-      var model = args.model,
-        view = args.view;
+      var view = args.view,
+        model = view.details.currentView.model,
+        detailsView = view.details.currentView,
+        dmasView = view.dmas.currentView;
 
       var _campaign = {
-        name: view.ui.name.val(),
-        cost_type: view.getCostType(),
-        value: view.ui.value.val(),
-        trp_goal: view.ui.trp_goal.val(),
-        target_gender: view.ui.target_gender.val(),
-        age_range: view.ui.age_range.val()
+        name: detailsView.ui.name.val(),
+        cost_type: detailsView.getCostType(),
+        value: detailsView.ui.value.val(),
+        trp_goal: detailsView.ui.trp_goal.val(),
+        target_gender: detailsView.ui.target_gender.val(),
+        age_range: detailsView.ui.age_range.val(),
+        dma_ids: dmasView.$el.val()
       };
 
       model.save(_campaign, {
@@ -246,4 +285,4 @@
       ':id/campaigns/:campaign_id': 'showCampaign'
     }
   });
-})(ReachUI.namespace("Ocr"), ReachUI.namespace("Orders"), ReachUI.namespace("Search"));
+})(ReachUI.namespace("Ocr"), ReachUI.namespace("Orders"), ReachUI.namespace("Search"), ReachUI.namespace("DMA"));

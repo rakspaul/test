@@ -1,80 +1,70 @@
-<form class="form-horizontal nielsen-campaign-form">
-  <fieldset>
-    <div class="control-group" id="name_group">
-      <label class="control-label" for="name">Tag Name</label>
-      <div class="controls">
-        <input type="text" id="name" class="name" placeholder="Tag name" value="<%= name %>" required>
-        <label class="help-inline form-error" id="name_error"></label>
-      </div>
-    </div>
+<div class="control-group" id="name_group">
+  <label class="control-label" for="name">Tag Name</label>
+  <div class="controls">
+    <input type="text" id="name" class="name" placeholder="Tag name" value="<%= name %>" required>
+    <label class="help-inline form-error" id="name_error"></label>
+  </div>
+</div>
 
-    <div class="control-group">
-      <div class="control-label radio-label">
-        <label class="radio inline">
-          <input type="radio" name="cost_type" id="imps_radio" value="imps">Imp
-        </label>
-        <label class="radio inline">
-        <input type="radio" name="cost_type" id="cpp_radio" value="cpp">CPP
-        </label>
-      </div>
-      <div class="controls">
-        <div class="input-prepend">
-          <span class="add-on" id="value-sign">
-            <i class="icon-usd" id="cost_type_icon"></i>
-          </span>
-          <input type="text" id="value" class="value" value="<%= value %>">
-        </div>
-        <label class="help-inline form-error" id="value_error"></label>
-      </div>
+<div class="control-group">
+  <div class="control-label radio-label">
+    <label class="radio inline">
+      <input type="radio" name="cost_type" id="imps_radio" value="imps">Imp
+    </label>
+    <label class="radio inline">
+    <input type="radio" name="cost_type" id="cpp_radio" value="cpp">CPP
+    </label>
+  </div>
+  <div class="controls">
+    <div class="input-prepend">
+      <span class="add-on" id="value-sign">
+        <i class="icon-usd" id="cost_type_icon"></i>
+      </span>
+      <input type="text" id="value" class="value" value="<%= value %>">
     </div>
+    <label class="help-inline form-error" id="value_error"></label>
+  </div>
+</div>
 
-    <div class="control-group" id="trp_group">
-      <label class="control-label" for="trp_goal">TRP Goal</label>
-      <div class="controls">
-        <input type="text" id="trp_goal" class="trp_goal" value="<%= trp_goal %>">
-        <label class="help-inline form-error" id="trp_goal_error"></label>
-      </div>
-    </div>
+<div class="control-group" id="trp_group">
+  <label class="control-label" for="trp_goal">TRP Goal</label>
+  <div class="controls">
+    <input type="text" id="trp_goal" class="trp_goal" value="<%= trp_goal %>">
+    <label class="help-inline form-error" id="trp_goal_error"></label>
+  </div>
+</div>
 
-    <div class="control-group">
-      <label class="control-label" for="target_gender">Target Gender</label>
-      <div class="controls">
-        <select id="target_gender" class="target_gender">
-          <option value="both">Both</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-        </select>
-      </div>
-    </div>
+<div class="control-group">
+  <label class="control-label" for="target_gender">Target Gender</label>
+  <div class="controls">
+    <select id="target_gender" class="target_gender">
+      <option value="both">Both</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+    </select>
+  </div>
+</div>
 
-    <div class="control-group">
-      <label class="control-label" for="age_range">Age Range</label>
-      <div class="controls">
-        <select id="age_range" class="age_range">
-          <option value="2-PLUS">All</option>
-          <option value="18-24">18-24</option>
-          <option value="18-34">18-34</option>
-          <option value="18-44">18-44</option>
-          <option value="18-54">18-54</option>
-          <option value="25-34">25-34</option>
-          <option value="25-44">25-44</option>
-          <option value="25-54">25-54</option>
-          <option value="25-64">25-64</option>
-          <option value="35-44">35-44</option>
-          <option value="35-54">35-54</option>
-          <option value="35-64">35-64</option>
-          <option value="45-54">45-54</option>
-          <option value="55-64">55-64</option>
-          <option value="65-PLUS">65+</option>
-        </select>
-      </div>
-    </div>
-  </fieldset>
-
-  <fieldset>
-    <div class="actions">
-      <button type="submit" class="btn btn-primary save-campaign">&nbsp;Save&nbsp;</button>
-    </div>
-  </fieldset>
-</form>
+<div class="control-group">
+  <label class="control-label" for="age_range">Age Range</label>
+  <div class="controls">
+    <select id="age_range" class="age_range">
+      <option value="2-PLUS">All</option>
+      <option value="18-24">18-24</option>
+      <option value="18-34">18-34</option>
+      <option value="18-44">18-44</option>
+      <option value="18-54">18-54</option>
+      <option value="25-34">25-34</option>
+      <option value="25-44">25-44</option>
+      <option value="25-54">25-54</option>
+      <option value="25-64">25-64</option>
+      <option value="35-44">35-44</option>
+      <option value="35-54">35-54</option>
+      <option value="35-64">35-64</option>
+      <option value="45-54">45-54</option>
+      <option value="55-64">55-64</option>
+      <option value="65-PLUS">65+</option>
+    </select>
+  </div>
+</div>
 

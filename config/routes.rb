@@ -25,7 +25,7 @@ Reachui::Application.routes.draw do
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
   resources :nielsen_ocrs, only: [:index]
-
+  resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
 
   # The priority is based upon order of creation: first created -> highest priority.

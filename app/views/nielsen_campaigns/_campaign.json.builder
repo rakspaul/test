@@ -7,3 +7,4 @@ json.target_gender campaign.target_gender
 json.age_range campaign.age_range
 json.source_id campaign.source_id
 json.order_id campaign.order_id
+json.dma_ids campaign.dmas.map(&:code)

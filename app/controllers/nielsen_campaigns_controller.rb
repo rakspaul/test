@@ -9,7 +9,7 @@ class NielsenCampaignsController < ApplicationController
 
   def create
     @order = Order.find(params[:order_id])
-    p = params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range)
+    p = params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range, dma_ids:[])
     @nielsen_campaign = @order.nielsen_campaigns.build(p)
     @nielsen_campaign.user = current_user
     @nielsen_campaign.save
@@ -20,7 +20,12 @@ class NielsenCampaignsController < ApplicationController
   def update
     @order = Order.find(params[:order_id])
     @nielsen_campaign = @order.nielsen_campaigns.find(params[:id])
-    p = params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range)
+
+    p = params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range, dma_ids:[])
+
+    # This will remove all assigned dmas if none is included in request
+    p[:dma_ids] ||= []
+
     @nielsen_campaign.update_attributes(p)
 
     respond_with(@nielsen_campaign)
