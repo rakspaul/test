@@ -10,9 +10,80 @@ ReachUI.Reports.Dimensions = function() {
   var Dimension = Backbone.Model.extend({
       setDisplayName: function(value) {
         this.set({displayName: value});
-      }
+      },
+
+      getFieldName: function() {
+        return this.get("fieldName");
+      },
+
+      getGroupId: function() {
+        return this.get("groupId");
+      },
+
   });
 
+  var Report = Backbone.Model.extend({
+    defaults: {
+      start_date: moment().subtract("days", 30).format('YYYY-MM-DD'),
+      end_date: moment().subtract("days", 1).format('YYYY-MM-DD'),
+      dimensions: null,
+      columns: ["impressions", "clicks", "ctr"],
+    },
+
+    addDimension: function(model) {
+      this.get("dimensions").push(model);
+    },
+
+    removeDimension: function(model) {
+      this.get("dimensions").remove(model);
+    },
+
+    getDimensionLength: function() {
+      return this.get("dimensions").length;
+    },
+
+    getDimensions: function() {
+      return this.get("dimensions");
+    },
+
+    getColumns: function() {
+      return this.get("columns");
+    },
+
+    setStartDate: function(start_date) {
+      this.set({start_date: start_date});
+    },
+
+    setEndDate: function(end_date) {
+      this.set({end_date: end_date});
+    },
+
+    getStartDate: function() {
+      return this.get("start_date");
+    },
+
+    getEndDate: function() {
+      return this.get("end_date");
+    },
+
+    getQueryString: function() {
+      var str ='';
+      var dimensions = [];
+      var dimensionColumns = [];
+      this.getDimensions().each(function(dimension){
+        dimensions.push(dimension.getGroupId());
+        dimensionColumns.push(dimension.getFieldName());
+      });
+
+      str = "group=" + dimensions.join(",");
+      str += "&cols=" + dimensionColumns.join(",") +","+ this.getColumns().join(",");
+      str += "&start_date=" + this.getStartDate();
+      str += "&end_date=" + this.getEndDate();
+
+      return str;
+    },
+
+  });
   // ********************************************************** Collection ***********************************
 
   var DimensionsList = Backbone.Collection.extend({
@@ -33,6 +104,7 @@ ReachUI.Reports.Dimensions = function() {
   var SelectedDimension = Backbone.Marionette.ItemView.extend({
       template: JST['templates/reports/dimension_list_item'],
       className: "selected-dimension-btn",
+
       triggers: {
         'click': 'delete'
       }
@@ -54,15 +126,17 @@ ReachUI.Reports.Dimensions = function() {
       tolerance: "pointer",
       drop: function( event, item ) {
         dropedItem = item.draggable;
-        var id = dropedItem.attr("data-field-name");
+        var field_name = dropedItem.attr("data-field-name");
         var displayName = dropedItem.text();
+        var group_id = dropedItem.attr("data-group-id");
         var isDimension = dropedItem.attr("data-dimension") === "true" ? true : false;
         if (isDimension) {
-          selected_dimensions.push({id: id, displayName: displayName});
+          report.addDimension({fieldName: field_name, displayName: displayName, groupId: group_id});
+          getReportData();
         } else {
           // its a column           
         }
-        toggleAccordionItemState(id, false);
+        toggleAccordionItemState(field_name, false);
         $(".dimensions-list li.hide").show();
       }
     });
@@ -89,6 +163,8 @@ ReachUI.Reports.Dimensions = function() {
     },
       function(start, end) {
         $('#report_date span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        report.setStartDate(start.format('YYYY-MM-DD'));
+        report.setEndDate(end.format('YYYY-MM-DD'));
       }
     );
     //Set the initial state of the picker label
@@ -110,26 +186,36 @@ ReachUI.Reports.Dimensions = function() {
     });
   }
 
-  var toggleAccordionItemState = function(id, visible) {
+  var toggleAccordionItemState = function(name, visible) {
     if(visible) {
-      $(".dimensions-list li[data-field-name="+ id +"]").show();
+      $(".dimensions-list li[data-field-name="+ name +"]").show();
     } else {
-      $(".dimensions-list li[data-field-name="+ id +"]").hide();
+      $(".dimensions-list li[data-field-name="+ name +"]").hide();
     }
   }
 
   var onDeleteDimension = function(view) {
     var model = view.model;
-    toggleAccordionItemState(model.id, true);
-    selected_dimensions.remove(view.model);
-    if (selected_dimensions.length < 1) {
+    toggleAccordionItemState(model.getFieldName(), true);
+    report.removeDimension(view.model);
+    if (report.getDimensionLength() < 1) {
       $(".dimensions-list li.hide").hide();
+    } else {
+      getReportData();
     }
+  }
+
+  var getReportData = function() {
+    $.ajax({
+      dataType: "json",
+      url: "/reports/query.json",
+      data: report.getQueryString() + "&limit=50&offset=0&format=json"
+      });
   }
 
   var report_ui,
     reportLayout,
-    selected_dimensions,
+    report,
     selected_dimensions_view;
   var initialize = function(){
 
@@ -145,8 +231,10 @@ ReachUI.Reports.Dimensions = function() {
     reportLayout = new ReportLayout();
     report_ui.mainRegion.show(reportLayout);
 
-    selected_dimensions = new DimensionsList();
-    selected_dimensions_view = new SelectedDimensionsView({collection:selected_dimensions})
+    report = new Report({
+      dimensions: new DimensionsList(),
+    });
+    selected_dimensions_view = new SelectedDimensionsView({collection:report.getDimensions()})
     selected_dimensions_view.on("itemview:delete", onDeleteDimension);
     reportLayout.dimensions.show(selected_dimensions_view);
   }
