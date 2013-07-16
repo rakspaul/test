@@ -8,14 +8,8 @@ ReachUI.Reports.Dimensions = function() {
   // ********************************************************** Models ****************************************
 
   var Dimension = Backbone.Model.extend({
-      setId: function (value) {
-        this.set({id: value});
-      },
       setDisplayName: function(value) {
         this.set({displayName: value});
-      },
-      getId: function() {
-        return this.get("id");
       }
   });
 
@@ -31,8 +25,8 @@ ReachUI.Reports.Dimensions = function() {
       template: JST['templates/reports/report_layout'],
 
       regions: {
-        dimensions: "#selected_dimensions",
-        report_table: "#report_table"
+        dimensions: "#selected_dimensions_region",
+        report_table: "#report_table_region"
       }
   });
 
@@ -78,7 +72,6 @@ ReachUI.Reports.Dimensions = function() {
     $('#report_date').daterangepicker(
     {
       ranges: {
-         'Today': [new Date(), new Date()],
          'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
          'Last 7 Days': [moment().subtract('days', 7), moment().subtract('days', 1)],
          'Last 30 Days': [moment().subtract('days', 30), moment().subtract('days', 1)],
@@ -90,7 +83,6 @@ ReachUI.Reports.Dimensions = function() {
       separator: ' to ',
       startDate: moment().subtract('days', 30),
       endDate: moment().subtract('days', 1),
-      maxDate: moment().subtract('days', 1),
       showWeekNumbers: true,
       buttonClasses: ['btn-danger'],
       dateLimit: false
@@ -128,7 +120,7 @@ ReachUI.Reports.Dimensions = function() {
 
   var onDeleteDimension = function(view) {
     var model = view.model;
-    toggleAccordionItemState(model.getId(), true);
+    toggleAccordionItemState(model.id, true);
     selected_dimensions.remove(view.model);
     if (selected_dimensions.length < 1) {
       $(".dimensions-list li.hide").hide();
