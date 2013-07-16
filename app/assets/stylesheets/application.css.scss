@@ -12,6 +12,7 @@
  *= require jquery-ui-1.10.3.custom.min
  *= require dragtable-default
  *= require daterangepicker
+ *= require chosen.min
  *= require_self
  */
 
@@ -23,6 +24,7 @@
 @import "orders.css.scss";
 @import "lineitem.css.scss";
 @import "reports/dimensions.css.scss";
+@import "nielsen_ocr.css.scss";
 
 body {
   font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -94,3 +96,37 @@ body {
     text-shadow: 0 0 0 #DA0808;
   }
 }
+
+.table-container {
+  min-width: 1024px;
+  padding: 10px;
+
+  .table {
+    border: 1px solid #eee;
+    thead {
+      background-color: #f9f9f9;
+    }
+  }
+
+  .table > tbody tr {
+    cursor: pointer;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+  }
+
+  .table > tbody tr.selected {
+    background-color: $selected-row-bg-color;
+    color: $selected-row-fg-color;
+
+    &:hover {
+      background-color: $selected-row-bg-color;
+    }
+  }
+
+  .table th, .table td {
+    border: 1px solid #EEEEEE;
+  }
+}
+

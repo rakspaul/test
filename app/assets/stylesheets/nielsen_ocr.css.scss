@@ -1,3 +1,57 @@
-// Place all the styles related to the nielsen_ocr controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#ocr_layout {
+  padding-left: 350px;
+  left: 0;
+
+  #order_list {
+    bottom: 0;
+    left: 350px;
+    margin-left: -350px;
+    overflow-y: auto;
+    position: fixed;
+    top: 84px;
+    width: 350px;
+    z-index: 1000;
+    border-right: 1px solid #ddd;
+
+    .content {
+
+    }
+  }
+
+  #details {
+    width: 100%;
+    overflow: auto;
+
+    .content {
+
+    }
+  }
+}
+
+.nielsen-campaign-form {
+  padding: 10px;
+  margin-top: 20px;
+  border-top: 2px solid #ddd;
+
+  .name {
+    width: 300px;
+  }
+
+  .value {
+    text-align: right;
+    width: 69px;
+  }
+
+  .trp_goal {
+    text-align: right;
+    width: 96px;
+  }
+
+  .target_gender {
+    width: 110px;
+  }
+
+  .age_range {
+    width: 110px;
+  }
+}

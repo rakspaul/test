@@ -26,9 +26,11 @@
 //= require daterangepicker
 //= require accounting.min
 //= require jquery.simplePagination
+//= require chosen.jquery
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
+//= require ./common/dma
 //= require reports/list.js
 //= require reports/dimensions
 //= require ./orders/search.js
