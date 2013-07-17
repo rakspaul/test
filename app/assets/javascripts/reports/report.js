@@ -27,6 +27,7 @@ ReachUI.Reports.Dimensions = function() {
       start_date: moment().subtract("days", 30).format('YYYY-MM-DD'),
       end_date: moment().subtract("days", 1).format('YYYY-MM-DD'),
       dimensions: null,
+      report_data: null,
       columns: ["impressions", "clicks", "ctr"],
     },
 
@@ -66,6 +67,18 @@ ReachUI.Reports.Dimensions = function() {
       return this.get("end_date");
     },
 
+    setReportData: function(report_data) {
+      this.set({report_data: report_data});
+    },
+
+    getReportData: function() {
+      return this.get("report_data");
+    },
+
+    getReportTableColumns: function() {
+      return this.get("columns");
+    },
+
     getQueryString: function() {
       var str ='';
       var dimensions = [];
@@ -84,10 +97,15 @@ ReachUI.Reports.Dimensions = function() {
     },
 
   });
+
   // ********************************************************** Collection ***********************************
 
   var DimensionsList = Backbone.Collection.extend({
       model: Dimension,
+  });
+
+  var ReportData = Backbone.Collection.extend({
+
   });
 
   // ********************************************************** Views ****************************************  
@@ -113,6 +131,45 @@ ReachUI.Reports.Dimensions = function() {
   var SelectedDimensionsView = Backbone.Marionette.CollectionView.extend({
       itemView: SelectedDimension,
   });
+
+  var ReportTableRowView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/reports/report_table_row'],
+    tagName: "tr",
+    serializeData: function(){
+        var data = {};
+        data.columns = this.options.columns;
+        data.model = this.model.toJSON();
+        return data
+    }
+  });
+
+  var ReportTableView = Backbone.Marionette.CompositeView.extend({
+    tagName: "table",
+    template: JST['templates/reports/report_table'],
+    itemView: ReportTableRowView,
+    
+    initialize: function(){
+        this.collection = this.model.getReportData();
+    },
+     serializeData: function(){
+        var data = {};
+        data.collection = this.collection;
+        data.columns = this.model.getReportTableColumns();
+        return data
+    },
+    
+    buildItemView: function(item, ItemView){
+        var view = new ItemView({
+            model: item,
+            columns:this.model.getReportTableColumns(),
+        });
+        return view;
+    },
+ 
+    appendHtml: function(collectionView, itemView){
+        collectionView.$("tbody").append(itemView.el);
+    }
+});
 
   // ********************************************************************************************************
 
@@ -216,7 +273,8 @@ ReachUI.Reports.Dimensions = function() {
   var report_ui,
     reportLayout,
     report,
-    selected_dimensions_view;
+    selected_dimensions_view,
+    report_table_view;
   var initialize = function(){
 
     initializeDateRangePicker();
@@ -234,9 +292,13 @@ ReachUI.Reports.Dimensions = function() {
     report = new Report({
       dimensions: new DimensionsList(),
     });
+
     selected_dimensions_view = new SelectedDimensionsView({collection:report.getDimensions()})
     selected_dimensions_view.on("itemview:delete", onDeleteDimension);
     reportLayout.dimensions.show(selected_dimensions_view);
+
+    report_table_view = new ReportTableView({model:report});
+    reportLayout.report_table.show(report_table_view);    
   }
 
   return {
