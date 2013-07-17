@@ -2,8 +2,8 @@ login: &common
   adapter: postgresql
   encoding: utf8
   username: postgres
-  password: cybage@123
-  host: 172.27.165.59
+  password:
+  host: localhost
   port: 5432
   database: amp
   min_messages: warning # silence the NOTICE: messages from postgres

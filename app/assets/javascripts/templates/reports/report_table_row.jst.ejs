@@ -1,5 +1,5 @@
 <%
-  for (var index in columns) {
-    print('<td>'+ model[columns[index]] + '</td>')
+  for ( var key in columns) {
+    print('<td class='+ columns[key].field_name +'>'+ model[columns[key].field_name] + '</td>')
   }
  %>

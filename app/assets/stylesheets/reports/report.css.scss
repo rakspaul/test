@@ -36,8 +36,8 @@
   vertical-align:top;
 }
 .report-right-column h1{
-  font-size:25px; 
-  line-height:30px;
+  font-size:15px; 
+  line-height:15px;
   color:#333;
   padding:10px 15px;
   margin:0px;
@@ -128,9 +128,34 @@ ul.dimensions-list li{
 
 /* Main Region Styles */
 .selected-dimensions-container{
-  padding:0px 15px
+  padding:0px 15px;
+  height:25px;
 }
 .selected-dimension-btn{
   display:inline-block;
   margin-right:5px;
+}
+
+#report_table_region{
+  padding:10px 15px;
+}
+
+#report_table_region table th{
+  font-size:12px;
+  line-height:16px;
+  font-weight:bold;
+  color:#fff;
+  text-align:center;
+  vertical-align: middle;
+  padding:5px;
+  background: #898989; 
+}
+
+#report_table_region table td{
+  font-size:12px;
+  line-height:16px;
+  padding:5px;
+}
+td.impressions, td.clicks, td.ctr{
+  text-align:right;
 }

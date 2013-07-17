@@ -1,8 +1,8 @@
 <thead>      
   <tr>
     <%
-      for ( var index in columns) {
-        print('<th>'+ columns[index] + '</th>')
+      for ( var key in columns) {
+        print('<th>'+ columns[key].field_header + '</th>')
       }
     %>
   </tr>
