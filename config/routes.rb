@@ -14,7 +14,7 @@ Reachui::Application.routes.draw do
 
   resources :orders do
     resources :lineitems
-    resources :nielsen_campaigns
+    resource :nielsen_campaign
     collection do
       get 'search'
     end
