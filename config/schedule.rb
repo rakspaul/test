@@ -6,8 +6,11 @@
 set :output, "log/cron_log.log"
 
 every 1.day, :at => '11:30 pm' do
-  rake "schedule_report:get_reports_from_amp", :environment => "development"
-  rake "schedule_report:get_reports_data", :environment => "development"
-  rake "schedule_report:parse_and_export", :environment => "development"
-  rake "schedule_report:email_to_user", :environment => "development"
+  rake "schedule_report:everyday_report", :environment =>"development"	
+  
+  rake "schedule_report:weekly_report", :environment => "development"
+  
+  rake "schedule_report:monthly_report", :environment => "development"
+  
+  rake "schedule_report:quarterly_report", :environment => "development"
 end

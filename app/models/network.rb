@@ -5,4 +5,5 @@ class Network < ActiveRecord::Base
   belongs_to :data_source
 
   has_many :ad_sizes
+  has_many :users
 end
