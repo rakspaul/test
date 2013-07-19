@@ -19,13 +19,12 @@
 
   Report.TableHeaderColumnView = Backbone.Marionette.ItemView.extend({
     tagName: 'th',
-    template: _.template('<%= name %>'),
+    template: _.template('<%= name %>')
   });
 
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
-    itemView: Report.TableHeaderColumnView,
-
+    itemView: Report.TableHeaderColumnView
   });
 
   // Represents single row returned in AA response
@@ -35,10 +34,6 @@
     model: Report.ResponseRow,
   });
 
-  // template:
-  // for(col in columns) {
-  //  <td>model.get(col)</td>
-  // }
   Report.ResponseRowView = Backbone.Marionette.ItemView.extend({
     tagName: 'tr',
     template: _.template("<% for(col in columns){%><td><%= model[columns[col]] %> </td> <% } %>"),
@@ -55,17 +50,12 @@
   });
 
   Report.TableBodyView = Backbone.Marionette.CollectionView.extend({
-    tagName: "tbody",
     itemView: Report.ResponseRowView,
     initialize: function() {
       this.columns = this.options.columns.pluck('internal_name');
       // this.columns = ['advertiser_name']
       this.collection.on("reset", this.onCollectionChange, this);
     },
-
-    // itemViewOptions: {
-    //   columns: 'test',
-    // },
 
     onCollectionChange: function() {
       this.render();
@@ -79,21 +69,22 @@
       return view;
     },
 
+    appendHtml: function(collectionView, itemView, index) {
+      // hackish way to properly render table
+      this.$el.parent().append(itemView.el);
+    },
+
     setSelectedColumns: function(columns) {
       this.columns = columns.pluck('internal_name');
       this.render();
-    },
+    }
+   });
 
-   }); 
-  // <table id='report_table'>
-  //  <thead class='head-region'></thead>
-  //  <tbody class='body-region'></tbody>
-  // </table>
   Report.TableLayout = Backbone.Marionette.Layout.extend({
     template: JST['templates/reports/table_layout'],
     regions: {
-      'head': '#head-region',
-      'body': '#body-region'
+      'head': '.head-region',
+      'body': '.body-region'
     },
 
     onRender: function() {
@@ -108,7 +99,5 @@
         }
       })
     }
-
-
   });
 })(ReachUI.namespace("Reports"));

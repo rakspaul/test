@@ -48,7 +48,7 @@
       this.metadata.on('change', this.regenerateReport, this);
 
       this.pagingMetaData = new Report.PagingMetaData();
-      
+
 
       this.availableDimensions = new Report.DimensionList(this._initializeAvaliableDimensions());
       // this.selectedDimensions = new Report.DimensionList();
@@ -60,8 +60,11 @@
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
       this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
       this.selectedDimensionsView.on('itemview:dimension:remove', this._onRemoveDimension, this);
+
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
-      this.tableBodyView = new Report.TableBodyView({collection: this.responseRowList, columns: this.metadata.selectedColumns});
+      this.tableBodyView = new Report.TableBodyView({
+        collection: this.responseRowList,
+        columns: this.metadata.selectedColumns});
       this.pagingView = new Report.PagingView({model:this.pagingMetaData});
 
       this.layout.date_range_picker.show(this.dateRangePicker);
@@ -74,9 +77,9 @@
 
       this.tableLayout.head.show(this.tableHeadView);
       this.tableLayout.body.show(this.tableBodyView);
- 
+
       this.tableLayout.on("item:drop", this._onItemDrop, this);
-      
+
     },
 
     regenerateReport: function() {
@@ -89,7 +92,7 @@
 
     _getReportData: function(update_paging) {
 
-      var para = {}; 
+      var para = {};
         para.start_date = this.metadata.get("start_date").format('YYYY-MM-DD');
         para.end_date = this.metadata.get("end_date").format('YYYY-MM-DD');
         para.group = this.metadata.selectedDimensions.pluck("internal_id").join(',');
@@ -115,14 +118,14 @@
     },
 
     _onItemDrop: function(dropItem){
-      this.model = this.availableDimensions.find(function(model) { 
-        return model.get('name') == dropItem; 
+      this.model = this.availableDimensions.find(function(model) {
+        return model.get('name') == dropItem;
       });
 
       this.is_dimension = this.model.get('is_dimension');
 
       if (this.is_dimension) {
-         this.metadata.selectedDimensions.add(this.model);        
+         this.metadata.selectedDimensions.add(this.model);
       }
 
       this.metadata.selectedColumns.add(this.model);
