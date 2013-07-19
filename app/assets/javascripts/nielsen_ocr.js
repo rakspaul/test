@@ -12,55 +12,7 @@
     },
 
     url: function() {
-      var p = ['/orders', this.get('order_id'), 'nielsen_campaigns'];
-
-      if(!this.isNew()) p.push(this.id);
-
-      return p.join('/') + '.json';
-    },
-  });
-
-  Ocr.CampaignList = Backbone.Collection.extend({
-    model: Ocr.Campaign,
-    url: function() {
-      return '/orders/' + this.order.id + '/nielsen_campaigns.json';
-    },
-
-    setOrder: function(order) {
-      this.order = order;
-    }
-  });
-
-  Ocr.CampaignRowView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    className: 'campaign-row',
-    template: JST['templates/nielsen_ocr/campaign_row'],
-
-    triggers : {
-      'click': 'selected'
-    },
-
-    initialize: function() {
-      this.listenTo(this.model, 'change:selected', this._onSelected);
-    },
-
-    _onSelected: function() {
-      if(this.model.get('selected')) {
-        this.$el.addClass('selected');
-      } else {
-        this.$el.removeClass('selected');
-      }
-    }
-  });
-
-  Ocr.CampaignTableView = Backbone.Marionette.CompositeView.extend({
-    itemView: Ocr.CampaignRowView,
-    itemViewContainer: 'tbody',
-    template: JST['templates/nielsen_ocr/campaign_table'],
-    className: 'table-container nielsen-campaign-table',
-
-    triggers: {
-      'click .create': 'campaign:create'
+      return ['/orders', this.get('order_id'), 'nielsen_campaign.json'].join('/');
     }
   });
 
@@ -75,6 +27,23 @@
 
     triggers: {
       'click .save-campaign': 'campaign:save'
+    },
+
+    events: {
+      'change #enable_ocr': '_onEnableOcr'
+    },
+
+    setEnableOcrStatus: function(visible) {
+      this.$('.enable-ocr')[visible ? 'show':'hide']();
+      this._setRegionsVisibility(!visible);
+    },
+
+    _onEnableOcr: function(e) {
+      this._setRegionsVisibility(e.target.checked);
+    },
+
+    _setRegionsVisibility: function(visible) {
+      this.$('.nielsen-campaign-form')[visible ? 'show':'hide']();
     }
   });
 
@@ -120,29 +89,22 @@
     el: "#details .content"
   });
 
-  Ocr.OcrLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/nielsen_ocr/ocr_layout'],
-
-    regions: {
-      top: ".top-region",
-      bottom: ".bottom-region"
-    }
-  });
-
   Ocr.OcrController = Marionette.Controller.extend({
     initialize: function(options) {
       var search = new Search.SearchQuery(),
         searchView = new Search.SearchQueryView({model: search}),
         searchOrderListView = null;
 
-      this.ocrRegion = new Ocr.OcrRegion(),
-      this.ocrLayout = new Ocr.OcrLayout();
+      this.ocrRegion = new Ocr.OcrRegion();
       this.orderList = new ReachUI.Orders.OrderList();
 
-      this.ocrRegion.show(this.ocrLayout);
+      this.dmaList = new DMA.List();
+      this.dmaList.on('reset', function(collection, options) {
+        collection.add(new DMA.Model(), {at: 0});
+      });
 
       search.on('change:query', function(model) {
-        this.orderList.fetch({data: {search: model.get('query')}});
+        this.orderList.fetch({data: {search: model.get('query'), ocr: true}});
       }, this);
 
       searchOrderListView = new Orders.ListView({el: '.order-search-result', collection: this.orderList})
@@ -163,76 +125,32 @@
       this.selectedOrder = this.orderList.get(orderId);
       this.selectedOrder.select();
 
-      this.campaignList = new Ocr.CampaignList();
-      this.campaignList.setOrder(this.selectedOrder);
-      this.campaignList.fetch();
+      if(!this.campaignDetailLayout) {
+        this.campaignDetailLayout = new Ocr.CampaignDetailLayout();
+        this.campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
 
-      var campaignTableView = new Ocr.CampaignTableView({collection: this.campaignList});
-      campaignTableView.on('campaign:create', function(args) {
-        ReachUI.Ocr.router.navigate('/'+ orderId +'/campaigns/new', {trigger: true});
-      }, this);
-
-      campaignTableView.on('itemview:selected', this._onCampaignSelect, this);
-
-      this.selectCampaign = null;
-      this.ocrLayout.bottom.close();
-      this.ocrLayout.top.show(campaignTableView);
-    },
-
-    newCampaign: function(orderId) {
-      if(this.selectCampaign) {
-        this.selectCampaign.set({selected: false});
+        this.ocrRegion.show(this.campaignDetailLayout);
       }
 
-      this._loadDMAs();
+      this.campaignDetailLayout.setEnableOcrStatus(!this.selectedOrder.get('ocr_enabled'));
+
       var dmaSelect = new DMA.ChosenView({collection: this.dmaList});
 
       var campaign = new Ocr.Campaign({'order_id': orderId});
       var campaignDetailView = new Ocr.CampaignDetailView({model: campaign});
 
-      var campaignDetailLayout = new Ocr.CampaignDetailLayout();
-      campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
+      this.campaignDetailLayout.details.show(campaignDetailView);
+      this.campaignDetailLayout.dmas.show(dmaSelect);
 
-      this.ocrLayout.bottom.show(campaignDetailLayout);
-
-      campaignDetailLayout.details.show(campaignDetailView);
-      campaignDetailLayout.dmas.show(dmaSelect);
-    },
-
-    showCampaign: function(id, campaignId) {
-      if(this.selectCampaign) {
-        this.selectCampaign.set({selected: false});
+      if(this.dmaList.length === 0) {
+        this.dmaList.fetch({reset: true});
       }
 
-      this.selectCampaign = this.campaignList.get(campaignId);
-      this.selectCampaign.set({selected: true});
-
-      var campaignDetailView = new Ocr.CampaignDetailView({model: this.selectCampaign});
-
-      this._loadDMAs();
-      var dmaSelect = new DMA.ChosenView({collection: this.dmaList, dma_ids: this.selectCampaign.get('dma_ids')});
-      //dmaSelect.$el.val(this.selectCampaign.get('dma_ids'));
-
-      var campaignDetailLayout = new Ocr.CampaignDetailLayout();
-      campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
-
-      this.ocrLayout.bottom.show(campaignDetailLayout);
-
-      campaignDetailLayout.details.show(campaignDetailView);
-      campaignDetailLayout.dmas.show(dmaSelect);
-    },
-
-    _onCampaignSelect: function(view) {
-      ReachUI.Ocr.router.navigate('/' + this.selectedOrder.id + '/campaigns/' + view.model.id, {trigger: true});
-    },
-
-    _loadDMAs: function() {
-      if(!this.dmaList) {
-        this.dmaList = new DMA.List();
-        this.dmaList.fetch({reset: true});
-        this.dmaList.on('reset', function(collection, options) {
-          collection.add(new DMA.Model(), {at: 0});
-        });
+      if(this.selectedOrder.get('ocr_enabled')) {
+        campaign.fetch({ success: function() {
+          campaignDetailView.render();
+          dmaSelect.setDmaIds(campaign.get('dma_ids'));
+        }});
       }
     },
 
@@ -260,8 +178,8 @@
 
     _onSaveCampaignSuccess: function(model, response, options) {
       alert('Saved');
-      this.campaignList.unshift(model);
-      ReachUI.Ocr.router.navigate('/' + this.selectedOrder.id + '/campaigns/' + model.id, {trigger: true});
+      this.selectedOrder.set({ocr_enabled: true});
+      this.campaignDetailLayout.setEnableOcrStatus(!this.selectedOrder.get('ocr_enabled'));
     },
 
     _onSaveCampaignFailure: function(model, xhr, options) {
@@ -280,9 +198,7 @@
   Ocr.Router = Backbone.Marionette.AppRouter.extend({
     appRoutes: {
       '': 'index',
-      ':id': 'show',
-      ':id/campaigns/new': 'newCampaign',
-      ':id/campaigns/:campaign_id': 'showCampaign'
+      ':id': 'show'
     }
   });
 })(ReachUI.namespace("Ocr"), ReachUI.namespace("Orders"), ReachUI.namespace("Search"), ReachUI.namespace("DMA"));

@@ -5,9 +5,16 @@ class NielsenCampaignController < ApplicationController
 
   def create
     @order = Order.find(params[:order_id])
-    @nielsen_campaign = @order.nielsen_campaign.build_association(campaign_params)
+    @nielsen_campaign = @order.build_nielsen_campaign(campaign_params)
     @nielsen_campaign.user = current_user
     @nielsen_campaign.save
+
+    respond_with(@nielsen_campaign)
+  end
+
+  def show
+    @order = Order.find(params[:order_id])
+    @nielsen_campaign = @order.nielsen_campaign
 
     respond_with(@nielsen_campaign)
   end
@@ -27,7 +34,7 @@ class NielsenCampaignController < ApplicationController
   end
 
   private
-    def campaign_param
+    def campaign_params
       params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range, dma_ids:[])
     end
 end

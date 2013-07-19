@@ -28,8 +28,18 @@
   DMA.ChosenView = Backbone.Marionette.CollectionView.extend({
     tagName: 'select',
     itemView: DMA.OptionView,
+
+    initialize: function(options) {
+      this.dma_ids = options.dma_ids;
+    },
+
+    setDmaIds: function(dma_ids) {
+      this.dma_ids = dma_ids;
+      this.render();
+    },
+
     itemViewOptions: function(model, index) {
-      var selected =  _.indexOf(this.options.dma_ids, model.id) >= 0;
+      var selected =  _.indexOf(this.dma_ids, model.id) >= 0;
       return {
         selected: selected
       };
