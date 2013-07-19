@@ -29,14 +29,12 @@
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
-
 //= require reports/list.js
 //= require reports/table.js
 //= require reports/report.js
 //= require reports/dimensions.js
 //= require reports/date_range_selection.js
-
-
+//= require reports/paging_view.js
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js

@@ -40,8 +40,8 @@
   //  <td>model.get(col)</td>
   // }
   Report.ResponseRowView = Backbone.Marionette.ItemView.extend({
-    tagName: 'td',
-    template: _.template("<% for(col in columns) { %> model[columns[col]] <% } %>"),
+    tagName: 'tr',
+    template: _.template("<% for(col in columns){%><td><%= model[columns[col]] %> </td> <% } %>"),
     initialize: function(options) {
       this.columns = options.columns;
     },
@@ -49,28 +49,39 @@
     serializeData: function() {
       return {
         columns: this.columns,
-        model: this.model.toJSON()  
+        model: this.model.toJSON()
       };
     }
   });
 
   Report.TableBodyView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'tr',
+    tagName: "tbody",
     itemView: Report.ResponseRowView,
-
     initialize: function() {
-      this.columns = this.options.columns.pluck('name');
+      this.columns = this.options.columns.pluck('internal_name');
+      // this.columns = ['advertiser_name']
+      this.collection.on("reset", this.onCollectionChange, this);
     },
 
     // itemViewOptions: {
     //   columns: 'test',
     // },
+
+    onCollectionChange: function() {
+      this.render();
+    },
+
     buildItemView: function(item, ItemView){
       var view = new ItemView({
         model: item,
         columns:this.columns
       });
       return view;
+    },
+
+    setSelectedColumns: function(columns) {
+      this.columns = columns.pluck('internal_name');
+      this.render();
     },
 
    }); 
