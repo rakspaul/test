@@ -30,10 +30,11 @@
 }
 .report-left-column{
   width:220px;
-  vertical-align:top;
+  float:left;
 }
 .report-right-column{
-  vertical-align:top;
+  min-width:1000px;
+  float:left;
 }
 .report-right-column h1{
   font-size:15px; 
@@ -72,7 +73,7 @@
   display:inline-block;
 }
 .dimensions-body{
-  display:none;
+  display:block;
 }
 ul.dimensions-list{
   padding:0px;
@@ -124,6 +125,17 @@ ul.dimensions-list li{
 }
 .daterangepicker .ranges li{
   margin-bottom:3px;
+}
+
+.report-date {
+  background: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 5px;
+  display: block;
 }
 
 /* Main Region Styles */

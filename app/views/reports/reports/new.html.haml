@@ -1,93 +1,4 @@
-%table#reports_table_layout
-  %tr
-    %td.report-left-column
-      #draggable.draggable
-        .report-date-header
-          Select Date Range
-        .select-date-range
-          %span#report_date{:name => "report_date", :class=>"report-date-range"}
-            %i.icon-calendar.icon-large
-            %span
-            %b.caret
-
-        .dimensions-accordion
-          .dimensions-header
-            .dime-label
-              Add Dimesnsions
-            %span.arrow-up
-          .dimensions-body{:style => "display:block"}
-            %ul.dimensions-list
-              %li{:"data-field-name" => "advertiser_name", :"data-group-id" => "advertiser_id", :"data-dimension" => "true"} Advertiser
-              %li{:"data-field-name" => "order_name", :"data-group-id" => "order_id", :"data-dimension" => "true"} Order
-              %li{:"data-field-name" => "ad_name", :"data-group-id" => "ad_id", :"data-dimension" => "true"} Ad
-              / %li.hide{:"data-field-name" => "impressions", :"data-dimension" => "false"} Impressions
-              / %li.hide{:"data-field-name" => "clicks", :"data-dimension" => "false"} Clicks
-              / %li.hide{:"data-field-name" => "ctr", :"data-dimension" => "false"} CTR %
-              %li.hide{:"data-field-name" => "pccr", :"data-dimension" => "false"} PCCR %
-              %li.hide{:"data-field-name" => "actions", :"data-dimension" => "false"} Total Actions
-              %li.hide{:"data-field-name" => "gross_rev", :"data-dimension" => "false"} Gross Rev
-              %li.hide{:"data-field-name" => "gross_ecpm", :"data-dimension" => "false"} Gross eCPM
-
-        .dimensions-accordion
-          .dimensions-header 
-            .dime-label
-              Add Standard Metrics 
-            %span.arrow-down
-          .dimensions-body
-            .dimensions-inner
-              Standard Metrics 
-
-        .dimensions-accordion
-          .dimensions-header 
-            .dime-label
-              Add Video Metrics
-            %span.arrow-down
-          .dimensions-body
-            .dimensions-inner
-              Video Metrics
-
-        .dimensions-accordion
-          .dimensions-header 
-            .dime-label
-              Add Engagement Metrics
-            %span.arrow-down
-          .dimensions-body
-            .dimensions-inner
-              Engagement Metrics
-
-        .dimensions-accordion
-          .dimensions-header
-            .dime-label
-              Run/Schedule Report
-            %span.arrow-down
-          .dimensions-body
-            .dimensions-inner
-              %button.btn.btn-mini{:type => "button"} Go!
-              %button.btn.btn-mini{:type => "button"} Stop
-              %button.btn.btn-mini{:type => "button"} Schedule
-
-        .dimensions-accordion
-          .dimensions-header
-            .dime-label
-              Export/Share options
-            %span.arrow-down
-          .dimensions-body
-            .dimensions-inner
-              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "xls"} Excel
-              %a.export-button.btn.btn-mini.btn-primary{:"data-format" => "csv"} CSV
-              %a.btn.btn-mini.btn-primary{:type => "button"} Email
-
-    %td.report-right-column    
-      %h1 new report
-      #droppable.droppable
-        .droppable-inner#droppable-inner
-      .placeholder
-        Please drop dimensions here.
-      .ajax-loader
-        = image_tag "loading.gif"
-
-
-
+#details.content
 
 :javascript
   $(document).ready(function() {
@@ -95,6 +6,7 @@
     reports.init("#header", "Report list page");
     reports.renderText();
 
-    var reportsDimnsions = ReachUI.Reports.Dimensions();
-    reportsDimnsions.init();
+    var controller = new ReachUI.Reports.ReportController();
+    // var reportsDimnsions = ReachUI.Reports.Dimensions();
+    // reportsDimnsions.init();
   });
