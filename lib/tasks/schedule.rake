@@ -1,4 +1,4 @@
-require 'open-uri'
+require 'net/http'
 
 namespace :schedule_report do
  task :everyday_report => :environment do
@@ -9,15 +9,20 @@ namespace :schedule_report do
    @time_now = DateTime.now.utc.in_time_zone(@timezone)
 
    scheduled_rep.each do |report|
-     @network_id = User.find(report.user_id).network.id
-     @user_id = report.user_id
+     @user = User.find(report.user_id)
 
      if report.report_end_date >= @time_now && report.report_start_date <= @time_now
        @url = modify_url(report.url)
 
        resp = report_service_call(@url)
 
-       send_email
+       if resp.length > 0
+         file_path = write_file(resp, report)   
+         ReportMailer.send_mail(@user, report, file_path).deliver
+         File.delete(file_path)
+       else
+         raise NoDataException
+       end
      end
    end  	
  
@@ -32,20 +37,30 @@ namespace :schedule_report do
  end
 
  def report_service_call(url)
+   uri = URI.parse(@url)
+   http_conn = Net::HTTP.new(uri.host, uri.port)
+   http_conn.use_ssl = uri.is_a? URI::HTTPS
    response = nil
-     open(url, :read_timeout => 3600) do |file|
-       response = file.read
-     end
-   
-   response
+   http_conn.start {|http| response = http.post("#{uri.path}", "#{uri.query}")}
+    
+   response.body  
  end
 
  def build_request_token
-   Digest::MD5.hexdigest("#{@network_id}:#{@user_id}:#{Date.today.strftime('%Y-%m-%d')}")
+   Digest::MD5.hexdigest("#{@user.network.id}:#{@user_id}:#{Date.today.strftime('%Y-%m-%d')}")
  end
 
- def send_email
- end
+ def write_file(resp, report)
+   file_name = "Report_#{@user_id}_(#{report.start_date.strftime("%Y-%m-%d")}_to_#{@time_now.strftime("%Y-%m-%d")}).csv"
+   file_path = "tmp/reports/#{file_name}" 
+
+   File.open(file_path,'w') do |file|
+     file.puts resp
+   end
+
+   return file_path
+ end 
+
 
  task :weekly_report => :environment do
  end 
