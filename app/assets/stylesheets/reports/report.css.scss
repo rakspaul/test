@@ -2,75 +2,25 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-/* Common Styles */
-.arrow-up {
-  width: 0; 
-  height: 0; 
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;  
-  border-bottom: 5px solid #fff;
-  margin:5px 5px 0 0;
-  float:right;
-  display:inline-block;
-}
-.arrow-down {
-  width: 0; 
-  height: 0; 
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;  
-  border-top: 5px solid #fff;
-  margin:5px 5px 0 0;
-  float:right;
-  display:inline-block;
-}
 
 /* Layout Styles */
-#reports_table_layout{
-  width:100%;
-}
+
 .report-left-column{
-  width:220px;
+  width:20%;
   float:left;
 }
 .report-right-column{
-  min-width:1000px;
-  float:left;
-}
-.report-right-column h1{
-  font-size:15px; 
-  line-height:15px;
-  color:#333;
-  padding:10px 15px;
-  margin:0px;
-}
-.droppable-inner{
-  min-height:300px;
-}
-.placeholder{
-  font-size:22px;
-  text-align:center;
-  color:#ccc;
-  }
-.ajax-loader{
-  height:200px;
-  display:none;
-  text-align:center;
+  width:80%;
+  float:right;
 }
 
 /* Left Column Styles */
-.dimensions-inner{
-  padding:10px 15px;
-}
-.dimensions-header{
+.dimensions-header {
   color: #fff;
-  padding:7px 0 7px 15px;
-  margin:0 0 0px 0;
-  background:#898989;
-  border-bottom:1px solid #fff;
-  cursor:pointer;
-}
-.dime-label{
-  display:inline-block;
+  padding: 7px 0 7px 15px;
+  margin: 0 0 0px 0;
+  background: #898989;
+  border-bottom: 1px solid #fff;
 }
 .dimensions-body{
   display:block;
@@ -97,6 +47,16 @@ ul.dimensions-list li{
 }
 
 /* Daterange Picker Styles */
+.report-date {
+  background: #fff;
+  cursor: pointer;
+  padding: 5px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  display: block;
+}
 .report-date-header{
   color: #fff;
   padding:8px 15px;
@@ -127,31 +87,25 @@ ul.dimensions-list li{
   margin-bottom:3px;
 }
 
-.report-date {
-  background: #fff;
-  cursor: pointer;
-  padding: 5px;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  margin-bottom: 5px;
-  display: block;
-}
 
-/* Main Region Styles */
-.selected-dimensions-container{
-  padding:0px 15px;
-  height:25px;
+/* Selected Dimensions Styles */
+#selected_dimensions_region{
+  padding:10px;
 }
-.selected-dimension-btn{
-  display:inline-block;
+.selected-dimensions-list{
+  padding:0px;
+  margin:0px;
+  list-style-type:none;
+}
+.selected-dimensions-list li{
+  display: inline-block;
   margin-right:5px;
 }
 
+/* Reporting Table Styles */
 #report_table_region{
   padding:10px 15px;
 }
-
 #report_table_region table th{
   font-size:12px;
   line-height:16px;
@@ -162,7 +116,6 @@ ul.dimensions-list li{
   padding:5px;
   background: #898989; 
 }
-
 #report_table_region table td{
   font-size:12px;
   line-height:16px;

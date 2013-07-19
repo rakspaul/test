@@ -41,7 +41,7 @@
   // }
   Report.ResponseRowView = Backbone.Marionette.ItemView.extend({
     tagName: 'td',
-    template: _.template("<% for(col in columns) { print( model[columns[col]]) } %>"),
+    template: _.template("<% for(col in columns) { %> model[columns[col]] <% } %>"),
     initialize: function(options) {
       this.columns = options.columns;
     },
@@ -86,14 +86,18 @@
     },
 
     onRender: function() {
-     this.$el.droppable({
-      accept: ".dimensions-list li",
-      drop: function(event, ui){
-        ui.draggable.hide();
-        alert($(ui.draggable).text());
-
-     }})
+      var self = this,
+        dropItem
+      this.$el.droppable({
+        accept: ".dimensions-list li",
+        drop: function(event, ui){
+          ui.draggable.hide();
+          dropItem = $(ui.draggable).text();
+          self.trigger("item:drop", dropItem);
+        }
+      })
     }
+
 
   });
 })(ReachUI.namespace("Reports"));

@@ -55,7 +55,7 @@
 
       this.dateRangePicker = new Report.ReportDateRangePickerView({model: this.metadata});
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
-      this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.selectedColumns});
+      this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.selectedDimensions});
       this.selectedDimensionsView.on('itemview:dimension:remove', this._onRemoveDimension, this);
       this.tableHeadView = new Report.TableHeadView({collection:this.selectedColumns});
       this.tableBodyView = new Report.TableBodyView({collection: this.reportList, columns: this.selectedColumns});
@@ -67,6 +67,8 @@
       this.layout.report_table.show(this.tableLayout);
       this.tableLayout.head.show(this.tableHeadView);
       this.tableLayout.body.show(this.tableBodyView);
+ 
+      this.tableLayout.on("item:drop", this._onItemDrop, this);
       
     },
 
@@ -74,16 +76,44 @@
 
     },
 
+    _onItemDrop: function(dropItem){
+      this.model = this.availableDimensions.find(function(model) { 
+        return model.get('name') == dropItem; 
+      });
+
+      this.is_dimension = this.model.get('is_dimension');
+
+      if (this.is_dimension) {
+        this.selectedDimensions.add(this.model);        
+      }
+
+      this.selectedColumns.add(this.model);       
+      this.availableDimensions.remove(this.model);
+    },
+
     _initializeAvaliableDimensions: function() {
       return [
-        { id: 1, name: 'Advertiser'},
-        { id: 2, name: 'Order'},
-        { id: 3, name: 'Ad'}
+        { name: 'Advertiser', internal_name: 'advertiser_name', is_removable: false, is_dimension: true, index: 1 },
+        { name: 'Order', internal_name: 'order_name', is_removable: false, is_dimension: true, index: 2 },
+        { name: 'Ad', internal_name: 'ad_name', is_removable: false, is_dimension: true, index: 3 },
+        { name: 'PCCR %', internal_name: 'pccr', is_removable: false, is_dimension: false, index: 4 },
+        { name: 'Total Actions', internal_name: 'actions', is_removable: false, is_dimension: false, index: 5 },
+        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: false, is_dimension: false, index: 6 },
+        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: false, is_dimension: false, index: 7 }
+      ];
+    },
+
+    _initializeSelectedColumns: function(){
+       return [
+        { name: 'Impressions', internal_name: 'impressions', is_removable: false, is_dimension: false, index: 1 },
+        { name: 'Clicks', internal_name: 'clicks', is_removable: false, is_dimension: false, index: 2 },
+        { name: 'CTR %', internal_name: 'ctr', is_removable: false, is_dimension: false, index: 3 },
       ];
     },
 
     _onRemoveDimension: function(args) {
       this.selectedDimensions.remove(args.model);
+      this.selectedColumns.remove(args.model);
       this.availableDimensions.add(args.model);
     }
   });
