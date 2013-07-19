@@ -3,10 +3,10 @@ require 'net/http'
 namespace :schedule_report do
  task :everyday_report => :environment do
 
+   $log = Logger.new(STDOUT)
    scheduled_rep = ReportSchedule.where(frequency_type: 'Everyday', status: 'Scheduled')
    
-   @timezone = 'Eastern Time (US & Canada)'
-   @time_now = DateTime.now.utc.in_time_zone(@timezone)
+   @time_now = get_time_utc
 
    scheduled_rep.each do |report|
      @user = User.find(report.user_id)
@@ -16,12 +16,12 @@ namespace :schedule_report do
 
        resp = report_service_call(@url)
 
-       if resp.length > 0
-         file_path = write_file(resp, report)   
+       if resp.body.length > 0
+         file_path = write_file(resp.body, report)   
          ReportMailer.send_mail(@user, report, file_path).deliver
          File.delete(file_path)
        else
-         raise NoDataException
+         $log.info "No such data in a report"
        end
      end
    end  	
@@ -37,17 +37,22 @@ namespace :schedule_report do
  end
 
  def report_service_call(url)
-   uri = URI.parse(@url)
-   http_conn = Net::HTTP.new(uri.host, uri.port)
-   http_conn.use_ssl = uri.is_a? URI::HTTPS
-   response = nil
-   http_conn.start {|http| response = http.post("#{uri.path}", "#{uri.query}")}
+  begin
+    uri = URI.parse(@url)
+    puts uri
+    http_conn = Net::HTTP.new(uri.host, uri.port)
+    http_conn.use_ssl = uri.is_a? URI::HTTPS
+    response = nil
+    http_conn.start {|http| response = http.post("#{uri.path}", "#{uri.query}")}
+  rescue => e
+    e.message
+  end 
     
-   response.body  
+   response  
  end
 
  def build_request_token
-   Digest::MD5.hexdigest("#{@user.network.id}:#{@user_id}:#{Date.today.strftime('%Y-%m-%d')}")
+   Digest::MD5.hexdigest("#{@user.network.id}:#{@user.id}:#{Date.today.strftime('%Y-%m-%d')}")
  end
 
  def write_file(resp, report)
@@ -59,10 +64,34 @@ namespace :schedule_report do
    end
 
    return file_path
- end 
+ end
 
+ def get_time_utc
+   timezone = Rails.application.config.time_zone
+   time_now = DateTime.now.utc.in_time_zone(@timezone)
+   
+   time_now 
+ end
 
  task :weekly_report => :environment do
+   scheduled_rep = ReportSchedule.where(frequency_type: 'Weekly', status: 'Scheduled')
+
+   scheduled_rep.each do |report|
+     @user = User.find(report.user_id)
+
+     @time_now = Date.parse(get_time_utc.strftime("%Y-%m-%d"))
+     last_ran = Date.parse(report.last_ran.strftime("%Y-%m-%d"))
+     no_of_days = (@time_now - last_ran).to_i
+
+     if no_of_days == 8
+       @url = modify_url(report.url)
+       resp = report_service_call(@url)
+
+       file_path = write_file(resp.body, report)   
+       ReportMailer.send_mail(@user, report, file_path).deliver
+       File.delete(file_path)
+     end 
+   end   
  end 
 
  task :monthly_report => :environment do
