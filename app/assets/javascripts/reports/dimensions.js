@@ -18,6 +18,7 @@
 
   Report.DimensionView = Backbone.Marionette.ItemView.extend({
     tagName: 'li',
+    className: 'droppable',
     template: _.template('<%= name %>')
   });
 

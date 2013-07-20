@@ -15,35 +15,41 @@
 }
 
 /* Left Column Styles */
-.dimensions-header {
-  color: #fff;
-  padding: 7px 0 7px 15px;
-  margin: 0 0 0px 0;
-  background: #898989;
-  border-bottom: 1px solid #fff;
+.accordion {
+  .header {
+    color: #fff;
+    padding: 7px 0 7px 15px;
+    margin: 0 0 0px 0;
+    background: #898989;
+    border-bottom: 1px solid #fff;
+  }
+
+  .body {
+    display:block;
+  }
 }
-.dimensions-body{
-  display:block;
-}
-ul.dimensions-list{
+
+ul.dimensions-list, ul.columns-list {
   padding:0px;
   list-style-type:none;
   padding:0px;
   margin:0px;
-}
-ul.dimensions-list li{
-  font-size:12px;
-  line-height:18px;
-  color:#333;
-  cursor: move;
-  padding:5px 0 5px 15px;
-  margin:0px;
-  border-bottom: 1px solid #fff;
-  background:#e7e7e7;
-}
-.dimensions-list ul li:hover{
-  background:#008dd1;
-  color:#fff;
+
+  li {
+    font-size:12px;
+    line-height:18px;
+    color:#333;
+    cursor: move;
+    padding:5px 0 5px 15px;
+    margin:0px;
+    border-bottom: 1px solid #fff;
+    background:#e7e7e7;
+
+    &:hover{
+      background:#008dd1;
+      color:#fff;
+    }
+  }
 }
 
 /* Daterange Picker Styles */
@@ -68,9 +74,9 @@ ul.dimensions-list li{
   padding:2px 0;
 }
 .report-date-range{
-  background: #fff; 
-  cursor: pointer; 
-  padding: 5px; 
+  background: #fff;
+  cursor: pointer;
+  padding: 5px;
   border:1px solid #ccc;
   display:block;
 }
@@ -114,7 +120,7 @@ ul.dimensions-list li{
   text-align:center;
   vertical-align: middle;
   padding:5px;
-  background: #898989; 
+  background: #898989;
 }
 #report_table_region table td{
   font-size:12px;

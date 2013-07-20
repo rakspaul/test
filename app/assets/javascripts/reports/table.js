@@ -11,9 +11,22 @@
   });
 
   Report.TableColumnList = Backbone.Collection.extend({
-    model: Report.TableColumn,
-    comparator: function(column) {
-      return column.get('index');
+    model: Report.TableColumn
+  });
+
+  Report.ColumnView = Backbone.Marionette.ItemView.extend({
+    tagName: 'li',
+    className: 'droppable',
+    template: _.template('<%= name %>')
+  });
+
+  Report.AvailableColumnsView = Backbone.Marionette.CollectionView.extend({
+    tagName: 'ul',
+    className: 'columns-list',
+    itemView: Report.ColumnView,
+
+    onAfterItemAdded: function(itemView) {
+      itemView.$el.draggable({ revert: true });
     }
   });
 
@@ -92,7 +105,7 @@
       var self = this,
         dropItem
       this.$el.droppable({
-        accept: ".dimensions-list li",
+        accept: ".droppable",
         drop: function(event, ui){
           ui.draggable.hide();
           dropItem = $(ui.draggable).text();

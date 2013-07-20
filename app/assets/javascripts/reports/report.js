@@ -30,6 +30,7 @@
     regions: {
       date_range_picker: '#date_range_region',
       available_dimensions: "#available_dimensions_region",
+      available_columns: "#columns_region",
       selected_dimensions: '#selected_dimensions_region',
       report_table: "#report_table_region",
       paging: "#paging_region"
@@ -47,6 +48,7 @@
       this._initializeTableView();
       this._intializePagination();
       this._intializeDimensions();
+      this._initializeColumns();
       this._initializeDatePicker();
     },
 
@@ -87,9 +89,9 @@
 
     _intializeDimensions: function() {
       this.availableDimensions = new Report.DimensionList([
-        { name: 'Advertiser', internal_id:'advertiser_id', internal_name: 'advertiser_name', index: 1 },
-        { name: 'Order', internal_id:'order_id', internal_name: 'order_name', index: 2 },
-        { name: 'Ad', internal_id:'ad_id', internal_name: 'ad_name', index: 3 },
+        { name: 'Advertiser', internal_id:'advertiser_id', default_column: 'advertiser_name', index: 1 },
+        { name: 'Order', internal_id:'order_id', default_column: 'order_name', index: 2 },
+        { name: 'Ad', internal_id:'ad_id', default_column: 'ad_name', index: 3 },
       ]);
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
@@ -98,6 +100,19 @@
 
       this.layout.available_dimensions.show(this.availableDimensionsView);
       this.layout.selected_dimensions.show(this.selectedDimensionsView);
+    },
+
+    _initializeColumns: function() {
+      this.availableColumns = new Report.TableColumnList([
+        { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: true, index: 1 },
+        { name: 'Order Name', internal_name: 'order_name', is_removable: true, index: 2 },
+        { name: 'Ad Name', internal_name: 'ad_name', is_removable: true, index: 3 },
+        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 3 },
+        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 4 },
+        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 5 }
+      ]);
+      this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
+      this.layout.available_columns.show(this.availableColumnsView);
     },
 
     regenerateReport: function() {
@@ -136,32 +151,35 @@
     },
 
     _onItemDrop: function(dropItem){
-      this.model = this.availableDimensions.find(function(model) {
-        return model.get('name') == dropItem;
-      });
+      var dimension = this.availableDimensions.findWhere({name: dropItem}),
+        column = null;
 
-      this.metadata.selectedDimensions.add(this.model);
+      // ignore column drops if no dimensions are selected
+      if(!dimension && this.metadata.selectedDimensions.length === 0) {
+        return;
+      }
 
-      this.metadata.selectedColumns.add(this.model);
-      this.availableDimensions.remove(this.model);
+      if(dimension) {
+        this.metadata.selectedDimensions.add(dimension);
+        this.availableDimensions.remove(dimension);
+        column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') })
+      } else {
+        column = this.availableColumns.findWhere({name: dropItem });
+      }
+
+      this.metadata.selectedColumns.add(column);
+      this.availableColumns.remove(column);
+
+      // this is first dimension, therefore add default columns with it
+      if(this.metadata.selectedDimensions.length === 1) {
+        var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
+          clicks = this.availableColumns.findWhere({internal_name: 'clicks' })
+
+        this.metadata.selectedColumns.add([imps, clicks]);
+        this.availableColumns.remove([imps, clicks]);
+      }
+
       this._getReportData(true);
-    },
-
-    _initializeAvaliableDimensions: function() {
-      return [
-        { name: 'Advertiser', internal_id:'advertiser_id', internal_name: 'advertiser_name', index: 1 },
-        { name: 'Order', internal_id:'order_id', internal_name: 'order_name', index: 2 },
-        { name: 'Ad', internal_id:'ad_id', internal_name: 'ad_name', index: 3 },
-      ];
-    },
-
-
-    _initializeSelectedColumns: function(){
-       return [
-        { name: 'Impressions', internal_name: 'impressions', is_removable: false, is_dimension: false, index: 1 },
-        { name: 'Clicks', internal_name: 'clicks', is_removable: false, is_dimension: false, index: 2 },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: false, is_dimension: false, index: 3 },
-      ];
     },
 
     _onRemoveDimension: function(args) {
