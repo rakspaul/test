@@ -32,7 +32,18 @@
 
   Report.TableHeaderColumnView = Backbone.Marionette.ItemView.extend({
     tagName: 'th',
-    template: _.template('<%= name %>')
+    template: _.template('<%= name %> <% if (is_removable) { %> <i class="icon-white icon-remove"></i> <%} %>'),
+
+    attributes: function() {
+      return {
+        "id" : this.model.get("internal_name"),
+      }
+    },
+   
+    triggers: {
+      'click' : 'column:sort',
+      'click .icon-remove' : 'column:remove'
+    },
   });
 
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({

@@ -69,6 +69,8 @@
       this.layout.report_table.show(this.tableLayout);
 
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
+      this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
+      this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
         collection: this.reportData,
         columns: this.metadata.selectedColumns});
@@ -104,12 +106,12 @@
 
     _initializeColumns: function() {
       this.availableColumns = new Report.TableColumnList([
-        { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: true, index: 1 },
-        { name: 'Order Name', internal_name: 'order_name', is_removable: true, index: 2 },
-        { name: 'Ad Name', internal_name: 'ad_name', is_removable: true, index: 3 },
-        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 3 },
-        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 4 },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 5 }
+        { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: false, index: 1 },
+        { name: 'Order Name', internal_name: 'order_name', is_removable: false, index: 2 },
+        { name: 'Ad Name', internal_name: 'ad_name', is_removable: false, index: 3 },
+        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 4 },
+        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 5 },
+        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 6 }
       ]);
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
@@ -132,7 +134,7 @@
         para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
         para.limit = 50;
         para.format = "json";
-        para.offset = this.pagination.getOffset();
+        para.offset = !update_paging ? this.pagination.getOffset() : 0;
 
       var self = this;
       var request = $.ajax({
@@ -183,10 +185,43 @@
     },
 
     _onRemoveDimension: function(args) {
-      this.metadata.selectedDimensions.remove(args.model);
-      this.metadata.selectedColumns.remove(args.model);
-      this.availableDimensions.add(args.model);
-    }
+      var dimension = args.model,
+        column = this.metadata.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
+
+      this.metadata.selectedDimensions.remove(dimension);
+
+      this.metadata.selectedColumns.remove(column);
+      this.availableDimensions.add(dimension);
+      this.availableColumns.add(column);
+      // if all the dimension deleted
+      if (this.metadata.selectedDimensions.isEmpty({})) {
+        this.availableColumns.add(this.metadata.selectedColumns.toJSON());
+        this.metadata.selectedColumns.reset();
+        this.reportData.reset(new Report.ResponseRowList().toJSON());
+        this.pagination.setTotalRecords(0);
+      }
+      else {
+        this._updateTableBodyView();
+        this._getReportData(true);
+      }
+    },
+
+    _onTableColumnRemove: function(args) {
+      var column = args.model;
+      this.metadata.selectedColumns.remove(column);
+      this.availableColumns.add(column);
+      this._updateTableBodyView();
+      this._getReportData(true);
+    },
+
+    _updateTableBodyView: function() {
+      this.tableBodyView.setSelectedColumns(this.metadata.selectedColumns);
+    },
+
+    _onTableColumnSort: function(sort_field, sort_direction) {
+      // this._getReportData(true);
+    },
+
   });
 
 })(ReachUI.namespace("Reports"));
