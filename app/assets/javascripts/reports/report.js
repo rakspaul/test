@@ -31,6 +31,7 @@
       date_range_picker: '#date_range_region',
       available_dimensions: "#available_dimensions_region",
       available_columns: "#columns_region",
+      report_options: "#report_options_region",
       selected_dimensions: '#selected_dimensions_region',
       report_table: "#report_table_region",
       paging: "#paging_region"
@@ -50,6 +51,7 @@
       this._intializeDimensions();
       this._initializeColumns();
       this._initializeDatePicker();
+      this._initializeReportOptions();
     },
 
     _initializeLayout: function() {
@@ -104,6 +106,12 @@
       this.layout.selected_dimensions.show(this.selectedDimensionsView);
     },
 
+    _initializeReportOptions: function() {
+      this.reportOptionsView = new Report.ReportOptionsView();
+      this.reportOptionsView.on('report:export', this._exportReport, this);
+      this.layout.report_options.show(this.reportOptionsView);
+    },
+
     _initializeColumns: function() {
       this.availableColumns = new Report.TableColumnList([
         { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: false, index: 1 },
@@ -127,13 +135,8 @@
 
     _getReportData: function(update_paging) {
 
-      var para = {};
-        para.start_date = this.metadata.get("start_date").format('YYYY-MM-DD');
-        para.end_date = this.metadata.get("end_date").format('YYYY-MM-DD');
-        para.group = this.metadata.selectedDimensions.pluck("internal_id").join(',');
-        para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
+      var para = this._getQueryParam('json');
         para.limit = 50;
-        para.format = "json";
         para.offset = !update_paging ? this.pagination.getOffset() : 0;
 
       var self = this;
@@ -143,13 +146,23 @@
         data: para
       });
 
-      request.success(function(data){
+      request.success(function(data) {
         self.reportData.reset(new Report.ResponseRowList(data.records).toJSON());
         self.tableBodyView.setSelectedColumns(self.metadata.selectedColumns);
         if(update_paging) {
           self.pagination.setTotalRecords(data.total_records);
         }
       });
+    },
+
+    _getQueryParam: function(format) {
+      var para = {};
+        para.start_date = this.metadata.get("start_date").format('YYYY-MM-DD');
+        para.end_date = this.metadata.get("end_date").format('YYYY-MM-DD');
+        para.group = this.metadata.selectedDimensions.pluck("internal_id").join(',');
+        para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
+        para.format = format;
+        return para;
     },
 
     _onItemDrop: function(dropItem){
@@ -220,6 +233,11 @@
 
     _onTableColumnSort: function(sort_field, sort_direction) {
       // this._getReportData(true);
+    },
+
+    _exportReport: function(report_type) {
+      var para = this._getQueryParam(report_type);
+      window.location = '/reports/query.'+ report_type +'?' + $.param(para);
     },
 
   });

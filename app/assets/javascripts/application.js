@@ -35,6 +35,7 @@
 //= require reports/dimensions.js
 //= require reports/date_range_selection.js
 //= require reports/paging_view.js
+//= require reports/report_options.js
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
