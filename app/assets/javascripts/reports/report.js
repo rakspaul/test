@@ -120,7 +120,11 @@
         { name: 'Ad Name', internal_name: 'ad_name', is_removable: false, index: 3 },
         { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 4 },
         { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 5 },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 6 }
+        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 6 },
+        { name: 'PCCR %', internal_name: 'pccr', is_removable: true, index: 7 },
+        { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 8 },
+        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 9 },
+        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 10 }
       ]);
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
@@ -191,9 +195,10 @@
       if(this.metadata.selectedDimensions.length === 1) {
         var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
           clicks = this.availableColumns.findWhere({internal_name: 'clicks' })
-
-        this.metadata.selectedColumns.add([imps, clicks]);
-        this.availableColumns.remove([imps, clicks]);
+        if(imps && clicks) {  
+          this.metadata.selectedColumns.add([imps, clicks]);
+          this.availableColumns.remove([imps, clicks]);
+        }
       }
 
       this._getReportData(true);

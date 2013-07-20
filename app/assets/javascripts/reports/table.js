@@ -32,7 +32,7 @@
 
   Report.TableHeaderColumnView = Backbone.Marionette.ItemView.extend({
     tagName: 'th',
-    template: _.template('<%= name %> <i class="dragtable-drag-handle icon-white icon-move"></i> <% if (is_removable) { %> <i class="icon-white icon-remove"></i> <%} %>'),
+    template: _.template('<%= name %> <% if (is_removable) { %> <i class="icon-white icon-remove pull-right"></i> <%} %> <i class="dragtable-drag-handle icon-white icon-move pull-right"></i>'),
 
     attributes: function() {
       return {
@@ -60,7 +60,7 @@
 
   Report.ResponseRowView = Backbone.Marionette.ItemView.extend({
     tagName: 'tr',
-    template: _.template("<% for(col in columns){%><td><%= model[columns[col]] %> </td> <% } %>"),
+    template: _.template("<% for(col in columns){%><td class='<%= columns[col] %>'><%= model[columns[col]] %> </td> <% } %>"),
     initialize: function(options) {
       this.columns = options.columns;
     },

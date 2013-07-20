@@ -15,6 +15,15 @@
 }
 
 /* Left Column Styles */
+
+.dimensions-header{
+  color: #fff;
+  padding: 7px 0 7px 15px;
+  margin: 0 0 0px 0;
+  background: #898989;
+  border-bottom: 1px solid #fff;
+}
+
 .accordion {
   .header {
     color: #fff;
@@ -50,6 +59,10 @@ ul.dimensions-list, ul.columns-list {
       color:#fff;
     }
   }
+}
+
+.report_options_region{
+  padding:10px;  
 }
 
 /* Daterange Picker Styles */
@@ -93,10 +106,9 @@ ul.dimensions-list, ul.columns-list {
   margin-bottom:3px;
 }
 
-
 /* Selected Dimensions Styles */
 #selected_dimensions_region{
-  padding:10px;
+  margin:38px 15px 5px;
 }
 .selected-dimensions-list{
   padding:0px;
@@ -110,23 +122,32 @@ ul.dimensions-list, ul.columns-list {
 
 /* Reporting Table Styles */
 #report_table_region{
-  padding:10px 15px;
+  padding:0px 15px 10px;
 }
-#report_table_region table th{
-  font-size:12px;
-  line-height:16px;
-  font-weight:bold;
-  color:#fff;
-  text-align:center;
-  vertical-align: middle;
-  padding:5px;
-  background: #898989;
+#report_table{
+  th{
+    font-size:12px;
+    line-height:16px;
+    font-weight:bold;
+    color:#fff;
+    text-align:center;
+    vertical-align: middle;
+    padding:5px;
+    background: #898989;
+  }
+  td{
+    font-size:12px;
+    line-height:16px;
+    padding:5px;
+  }
+  .impressions, .clicks, .ctr, .pccr, .actions, .gross_rev, .gross_ecpm{
+    text-align:right;
+  }
 }
-#report_table_region table td{
-  font-size:12px;
-  line-height:16px;
-  padding:5px;
+.dragtable-drag-handle{
+  margin-right:5px;
 }
-td.impressions, td.clicks, td.ctr{
-  text-align:right;
+.paging-region .pagination{
+  margin:0px 15px 0 0;
+  float:right;
 }
