@@ -120,7 +120,7 @@
         drop: function(event, ui){
           ui.draggable.hide();
           dropItem = $(ui.draggable).text();
-          self.trigger("item:drop", dropItem);
+          self.trigger("item:drop", dropItem, ui.draggable);
         }
       })
     }

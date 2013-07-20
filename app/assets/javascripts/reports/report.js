@@ -165,12 +165,13 @@
         return para;
     },
 
-    _onItemDrop: function(dropItem){
+    _onItemDrop: function(dropItem, dropped_item){
       var dimension = this.availableDimensions.findWhere({name: dropItem}),
         column = null;
 
       // ignore column drops if no dimensions are selected
       if(!dimension && this.metadata.selectedDimensions.length === 0) {
+        dropped_item.show();
         return;
       }
 

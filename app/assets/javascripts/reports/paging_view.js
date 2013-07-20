@@ -35,6 +35,12 @@
         cssStyle: "pagination",
         onPageClick: this._onPageClick,
       });
+
+      if (this.model.get('total_records') > 0) {
+        this.$el.show();
+      } else {
+        this.$el.hide();
+      }
     },
 
     _onPageClick: function(page_number, event) {
