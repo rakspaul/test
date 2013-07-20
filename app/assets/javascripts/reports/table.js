@@ -32,14 +32,14 @@
 
   Report.TableHeaderColumnView = Backbone.Marionette.ItemView.extend({
     tagName: 'th',
-    template: _.template('<%= name %> <% if (is_removable) { %> <i class="icon-white icon-remove pull-right"></i> <%} %> <i class="dragtable-drag-handle icon-white icon-move pull-right"></i>'),
+    template: JST['templates/reports/table_header_column'],
 
     attributes: function() {
       return {
         "data-header" : this.model.get("internal_name"),
       }
     },
-   
+
     triggers: {
       'click' : 'column:sort',
       'click .icon-remove' : 'column:remove'
@@ -110,9 +110,8 @@
           var columnsOrder = $('#report_table').dragtable('order');
           self.trigger("column:reorder", columnsOrder);
         }
-      });      
-    },
-
+      });
+    }
    });
 
   Report.TableLayout = Backbone.Marionette.Layout.extend({

@@ -34,7 +34,7 @@
 
   Report.SelectedDimensionView = Backbone.Marionette.ItemView.extend({
     tagName: 'li',
-    template: _.template('<a class="btn btn-success"><%= name %> <i class="icon-white icon-remove"></i></a>'),
+    template: _.template('<a><%= name %><span class="remove-icon"><i class="icon-remove"></i></span></a>'),
     triggers: {
       'click .icon-remove': 'dimension:remove'
     }

@@ -1,153 +1,166 @@
-// Place all the styles related to the reports/dimensions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
-
 /* Layout Styles */
+.report-layout {
+  left: 0;
+  padding-left: 230px;
 
-.report-left-column{
-  width:20%;
-  float:left;
-}
-.report-right-column{
-  width:80%;
-  float:right;
-}
+  .report-options {
+    bottom: 0;
+    left: 230px;
+    margin-left: -230px;
+    top: 84px;
+    width: 230px;
+    z-index: 1000;
 
-/* Left Column Styles */
-
-.dimensions-header{
-  color: #fff;
-  padding: 7px 0 7px 15px;
-  margin: 0 0 0px 0;
-  background: #898989;
-  border-bottom: 1px solid #fff;
-}
-
-.accordion {
-  .header {
-    color: #fff;
-    padding: 7px 0 7px 15px;
-    margin: 0 0 0px 0;
-    background: #898989;
-    border-bottom: 1px solid #fff;
+    .content {
+      margin-top: 10px;
+    }
   }
 
-  .body {
-    display:block;
-  }
-}
+  .report-data {
+    overflow: auto;
+    width: 100%;
 
-ul.dimensions-list, ul.columns-list {
-  padding:0px;
-  list-style-type:none;
-  padding:0px;
-  margin:0px;
-
-  li {
-    font-size:12px;
-    line-height:18px;
-    color:#333;
-    cursor: move;
-    padding:5px 0 5px 15px;
-    margin:0px;
-    border-bottom: 1px solid #fff;
-    background:#e7e7e7;
-
-    &:hover{
-      background:#008dd1;
-      color:#fff;
+    .content {
+      padding: 10px;
     }
   }
 }
 
-.report_options_region{
-  padding:10px;  
+.report-option {
+  border-bottom: 5px solid #303535;
+  //margin-bottom: 5px;
+
+  .header {
+    background: none repeat scroll 0 0 #38454A;
+    border: 1px solid #2A2B2C;
+    color: #fff;
+    padding: 7px 5px 7px 15px;
+    font-weight: bold;
+  }
+
+  .body {
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+
+      li {
+        background: none repeat scroll 0 0 #303535;
+        //border-bottom: 1px solid #FBFBFB;
+        color: #9B9B9B;
+        cursor: move;
+        font-size: 12px;
+        line-height: 18px;
+        margin: 0;
+        padding: 5px 0 5px 15px;
+
+        &:hover{
+          background:#008dd1;
+          color:#fff;
+        }
+      }
+    }
+
+    .report-date {
+      cursor: pointer;
+      display: block;
+      //margin-bottom: 2px;
+      padding: 5px;
+      background-color: #303535;
+      color: #9B9B9B;
+    }
+
+    .export-share {
+      padding: 10px;
+      background-color: #303535;
+      color: #9B9B9B;
+    }
+  }
 }
 
-/* Daterange Picker Styles */
-.report-date {
-  background: #fff;
-  cursor: pointer;
+.selected-dimensions-container {
+  background-color: #F8F8F8;
+  border: 1px solid #F2F2F2;
   padding: 5px;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  margin-bottom: 2px;
-  display: block;
-}
-.report-date-header{
-  color: #fff;
-  padding:8px 15px;
-  margin:0 0 0px 0;
-  background:#898989;
-  cursor:pointer;
-}
-.select-date-range{
-  padding:2px 0;
-}
-.report-date-range{
-  background: #fff;
-  cursor: pointer;
-  padding: 5px;
-  border:1px solid #ccc;
-  display:block;
-}
-.report-date-range span{
-  font-size:13px;
-  color:#333;
-  display:inline-block;
-  padding:0 5px;
-}
-.caret{
-  margin-top:8px;
-}
-.daterangepicker .ranges li{
-  margin-bottom:3px;
+  margin-bottom: 10px;
+
+  ul {
+    padding:0px;
+    margin:0px;
+    list-style-type:none;
+
+    li {
+      display: inline-block;
+      margin-right:5px;
+
+      a {
+        background-color: white;
+        border: 1px solid #DEDEDE;
+        border-radius: 4px 4px 4px 4px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+        color: #333333;
+        display: inline-block;
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 20px;
+        padding: 4px 12px;
+        text-decoration: none;
+        text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        .remove-icon {
+          padding-left: 5px;
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
 }
 
-/* Selected Dimensions Styles */
-#selected_dimensions_region{
-  margin:38px 15px 5px;
-}
-.selected-dimensions-list{
-  padding:0px;
-  margin:0px;
-  list-style-type:none;
-}
-.selected-dimensions-list li{
-  display: inline-block;
-  margin-right:5px;
-}
+.report-table-region {
 
-/* Reporting Table Styles */
-#report_table_region{
-  padding:0px 15px 10px;
-}
-#report_table{
-  th{
-    font-size:12px;
-    line-height:16px;
-    font-weight:bold;
-    color:#fff;
-    text-align:center;
-    vertical-align: middle;
-    padding:5px;
-    background: #898989;
+  .report-table {
+    width: 100%;
+
+    th {
+      background: none repeat scroll 0 0 #F7F7F7;
+      border-left: 1px solid #F2F2F2;
+      color: #4094C3;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 16px;
+      padding: 7px 10px;
+      text-align: left;
+      vertical-align: middle;
+      border-radius: 0;
+      border-top: 1px solid #f2f2f2;
+    }
+
+    td {
+      font-size: 12px;
+      line-height: 16px;
+      padding: 5px;
+      border-top: 1px solid #f2f2f2;
+      border-left: 1px solid #f2f2f2;
+
+      &:last-child {
+        border-right: 1px solid #f2f2f2;
+      }
+    }
+
+    tr:last-child > td {
+      border-bottom: 1px solid #f2f2f2;
+    }
+
+    .impressions, .clicks, .ctr, .pccr, .actions, .gross_rev, .gross_ecpm{
+      text-align:right;
+      width: 100px;
+    }
   }
-  td{
-    font-size:12px;
-    line-height:16px;
-    padding:5px;
-  }
-  .impressions, .clicks, .ctr, .pccr, .actions, .gross_rev, .gross_ecpm{
-    text-align:right;
-  }
-}
-.dragtable-drag-handle{
-  margin-right:5px;
-}
-.paging-region .pagination{
-  margin:0px 15px 0 0;
-  float:right;
 }
