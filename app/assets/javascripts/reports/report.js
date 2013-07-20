@@ -81,6 +81,7 @@
       this.tableLayout.body.show(this.tableBodyView);
 
       this.tableLayout.on("item:drop", this._onItemDrop, this);
+      this.tableBodyView.on("column:reorder", this._onColumnReorder, this);
     },
 
     _intializePagination: function() {
@@ -239,6 +240,16 @@
     _exportReport: function(report_type) {
       var para = this._getQueryParam(report_type);
       window.location = '/reports/query.'+ report_type +'?' + $.param(para);
+    },
+
+    _onColumnReorder: function(columnsOrder){
+      var reoderedColumns = new Report.TableColumnList();
+
+      for (var i = 0; i < columnsOrder.length; i++) {        
+        var column = this.metadata.selectedColumns.findWhere({ internal_name: columnsOrder[i] });
+        reoderedColumns.add(column);
+      };      
+      this.metadata.selectedColumns.reset(reoderedColumns.toJSON());
     },
 
   });

@@ -32,11 +32,11 @@
 
   Report.TableHeaderColumnView = Backbone.Marionette.ItemView.extend({
     tagName: 'th',
-    template: _.template('<%= name %> <% if (is_removable) { %> <i class="icon-white icon-remove"></i> <%} %>'),
+    template: _.template('<%= name %> <i class="dragtable-drag-handle icon-white icon-move"></i> <% if (is_removable) { %> <i class="icon-white icon-remove"></i> <%} %>'),
 
     attributes: function() {
       return {
-        "id" : this.model.get("internal_name"),
+        "data-header" : this.model.get("internal_name"),
       }
     },
    
@@ -101,7 +101,18 @@
     setSelectedColumns: function(columns) {
       this.columns = columns.pluck('internal_name');
       this.render();
-    }
+    },
+
+    onDomRefresh: function(){
+      var self = this;
+      $('#report_table').dragtable({
+        stop: function(){
+          var columnsOrder = $('#report_table').dragtable('order');
+          self.trigger("column:reorder", columnsOrder);
+        }
+      });      
+    },
+
    });
 
   Report.TableLayout = Backbone.Marionette.Layout.extend({
