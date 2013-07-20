@@ -5,8 +5,6 @@
     defaults: {
       name: '',
       internal_name: '',
-      is_removable: false,
-      is_dimension: false,
       index: 0
     }
   });
@@ -27,7 +25,7 @@
     tagName: 'ul',
     className: 'dimensions-list',
     itemView: Report.DimensionView,
-    
+
     onAfterItemAdded: function(itemView) {
       itemView.$el.draggable({ revert: true });
     }

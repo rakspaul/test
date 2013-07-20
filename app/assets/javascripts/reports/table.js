@@ -84,7 +84,8 @@
     template: JST['templates/reports/table_layout'],
     regions: {
       'head': '.head-region',
-      'body': '.body-region'
+      'body': '.body-region',
+      'footer': '.foot-region'
     },
 
     onRender: function() {

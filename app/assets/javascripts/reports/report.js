@@ -38,48 +38,66 @@
 
   Report.ReportController = Marionette.Controller.extend({
     initialize: function() {
-
-      this.layout = new Report.Layout();
-      this.detailRegion = new Report.DetailRegion();
-      this.detailRegion.show(this.layout);
-      this.tableLayout = new Report.TableLayout();
-
       this.metadata = new Report.Metadata();
       this.metadata.on('change', this.regenerateReport, this);
+      this.reportData = new Report.ResponseRowList();
 
-      this.pagingMetaData = new Report.PagingMetaData();
+      this._initializeLayout();
 
+      this._initializeTableView();
+      this._initializePaging();
+      this._intializeDimensions();
+      this._initializeDatePicker();
+    },
 
-      this.availableDimensions = new Report.DimensionList(this._initializeAvaliableDimensions());
-      // this.selectedDimensions = new Report.DimensionList();
+    _initializeLayout: function() {
+      this.detailRegion = new Report.DetailRegion();
 
-      // this.selectedColumns = new Report.TableColumnList();
-      this.responseRowList = new Report.ResponseRowList();
+      this.layout = new Report.Layout();
+      this.detailRegion.show(this.layout);
+    },
 
+    _initializeDatePicker: function() {
       this.dateRangePicker = new Report.ReportDateRangePickerView({model: this.metadata});
-      this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
-      this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
-      this.selectedDimensionsView.on('itemview:dimension:remove', this._onRemoveDimension, this);
+      this.layout.date_range_picker.show(this.dateRangePicker);
+    },
+
+    _initializeTableView: function() {
+      this.tableLayout = new Report.TableLayout();
+      this.layout.report_table.show(this.tableLayout);
 
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
       this.tableBodyView = new Report.TableBodyView({
-        collection: this.responseRowList,
+        collection: this.reportData,
         columns: this.metadata.selectedColumns});
+
+      this.pagingMetaData = new Report.PagingMetaData();
       this.pagingView = new Report.PagingView({model:this.pagingMetaData});
-
-      this.layout.date_range_picker.show(this.dateRangePicker);
-      this.layout.available_dimensions.show(this.availableDimensionsView);
-      this.layout.selected_dimensions.show(this.selectedDimensionsView);
-
-      this.layout.report_table.show(this.tableLayout);
-      this.layout.paging.show(this.pagingView);
       this.pagingView.on('page:change', this.onPageChange, this);
 
       this.tableLayout.head.show(this.tableHeadView);
       this.tableLayout.body.show(this.tableBodyView);
+      this.tableLayout.footer.show(this.pagingView);
 
       this.tableLayout.on("item:drop", this._onItemDrop, this);
+    },
 
+    _initializePaging: function() {
+    },
+
+    _intializeDimensions: function() {
+      this.availableDimensions = new Report.DimensionList([
+        { name: 'Advertiser', internal_id:'advertiser_id', internal_name: 'advertiser_name', index: 1 },
+        { name: 'Order', internal_id:'order_id', internal_name: 'order_name', index: 2 },
+        { name: 'Ad', internal_id:'ad_id', internal_name: 'ad_name', index: 3 },
+      ]);
+      this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
+
+      this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
+      this.selectedDimensionsView.on('itemview:dimension:remove', this._onRemoveDimension, this);
+
+      this.layout.available_dimensions.show(this.availableDimensionsView);
+      this.layout.selected_dimensions.show(this.selectedDimensionsView);
     },
 
     regenerateReport: function() {
@@ -109,7 +127,7 @@
       });
 
       request.success(function(data){
-        self.responseRowList.reset(new Report.ResponseRowList(data.records).toJSON());
+        self.reportData.reset(new Report.ResponseRowList(data.records).toJSON());
         self.tableBodyView.setSelectedColumns(self.metadata.selectedColumns);
         if(update_paging) {
           self.pagingMetaData.setItemCount(data.total_records);
@@ -122,11 +140,7 @@
         return model.get('name') == dropItem;
       });
 
-      this.is_dimension = this.model.get('is_dimension');
-
-      if (this.is_dimension) {
-         this.metadata.selectedDimensions.add(this.model);
-      }
+      this.metadata.selectedDimensions.add(this.model);
 
       this.metadata.selectedColumns.add(this.model);
       this.availableDimensions.remove(this.model);
@@ -135,15 +149,12 @@
 
     _initializeAvaliableDimensions: function() {
       return [
-        { name: 'Advertiser', internal_id:'advertiser_id', internal_name: 'advertiser_name', is_removable: false, is_dimension: true, index: 1 },
-        { name: 'Order', internal_id:'order_id', internal_name: 'order_name', is_removable: false, is_dimension: true, index: 2 },
-        { name: 'Ad', internal_id:'ad_id', internal_name: 'ad_name', is_removable: false, is_dimension: true, index: 3 },
-        { name: 'PCCR %', internal_name: 'pccr', is_removable: false, is_dimension: false, index: 4 },
-        { name: 'Total Actions', internal_name: 'actions', is_removable: false, is_dimension: false, index: 5 },
-        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: false, is_dimension: false, index: 6 },
-        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: false, is_dimension: false, index: 7 }
+        { name: 'Advertiser', internal_id:'advertiser_id', internal_name: 'advertiser_name', index: 1 },
+        { name: 'Order', internal_id:'order_id', internal_name: 'order_name', index: 2 },
+        { name: 'Ad', internal_id:'ad_id', internal_name: 'ad_name', index: 3 },
       ];
     },
+
 
     _initializeSelectedColumns: function(){
        return [
