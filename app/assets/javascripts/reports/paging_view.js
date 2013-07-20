@@ -1,57 +1,45 @@
 (function(Report) {
   'use strict';
 
-  Report.PagingMetaData = Backbone.Model.extend({
+  Report.Pagination = Backbone.Model.extend({
     defaults: {
-      item_count: 0,
-      per_page: 50,
-      selected_page: 0,
+      total_records: 0,
+      page_size: 50,
+      current_page: 0,
     },
 
-    getItemCount: function() {
-      return this.get("item_count");
-    },
-
-    setItemCount: function(count) {
-      this.set({item_count: count});
-      this.setSelectedPage(0);
-    },
-
-    perPage: function() {
-      return this.get("per_page");
-    },
-
-    setSelectedPage: function(selected_page) {
-      this.set({selected_page: selected_page});
-    },
-
-    getSelectedPage: function() {
-      return this.get("selected_page");
+    setTotalRecords: function(count) {
+      this.set({total_records: count, current_page: 0});
     },
 
     getOffset: function() {
-      return this.get("selected_page") * this.perPage();
+      return this.get("current_page") * this.get("page_size");
     },
   });
 
-  Report.PagingView = Backbone.Marionette.ItemView.extend({
+  Report.PaginationView = Backbone.Marionette.ItemView.extend({
     template: _.template("<div/>"),
 
-    initialize: function() {
-      this.model.on('change:item_count', this.render, this);  
+    modelEvents: {
+      'change:total_records': 'render'
     },
 
-    onRender:function() {
-      var self = this;
+    initialize: function() {
+      _.bindAll(this, '_onPageClick');
+    },
+
+    onRender: function() {
       this.$el.pagination({
-        items: this.model.getItemCount(), 
-        itemsOnPage: this.model.perPage(), 
+        items: this.model.get('total_records'),
+        itemsOnPage: this.model.get('page_size'),
         cssStyle: "pagination",
-        onPageClick: function(page_number, event) {
-          self.model.setSelectedPage(page_number);
-          self.trigger("page:change");
-        },
+        onPageClick: this._onPageClick,
       });
     },
+
+    _onPageClick: function(page_number, event) {
+      this.model.set({current_page: page_number});
+      this.trigger('page:change', page_number);
+    }
   });
 })(ReachUI.namespace("Reports"));

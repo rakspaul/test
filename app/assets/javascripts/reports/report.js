@@ -45,7 +45,7 @@
       this._initializeLayout();
 
       this._initializeTableView();
-      this._initializePaging();
+      this._intializePagination();
       this._intializeDimensions();
       this._initializeDatePicker();
     },
@@ -71,18 +71,18 @@
         collection: this.reportData,
         columns: this.metadata.selectedColumns});
 
-      this.pagingMetaData = new Report.PagingMetaData();
-      this.pagingView = new Report.PagingView({model:this.pagingMetaData});
-      this.pagingView.on('page:change', this.onPageChange, this);
-
       this.tableLayout.head.show(this.tableHeadView);
       this.tableLayout.body.show(this.tableBodyView);
-      this.tableLayout.footer.show(this.pagingView);
 
       this.tableLayout.on("item:drop", this._onItemDrop, this);
     },
 
-    _initializePaging: function() {
+    _intializePagination: function() {
+      this.pagination = new Report.Pagination();
+      this.paginationView = new Report.PaginationView({model:this.pagination});
+      this.paginationView.on('page:change', this.onPageChange, this);
+
+      this.layout.paging.show(this.paginationView);
     },
 
     _intializeDimensions: function() {
@@ -117,7 +117,7 @@
         para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
         para.limit = 50;
         para.format = "json";
-        para.offset = this.pagingMetaData.getOffset();
+        para.offset = this.pagination.getOffset();
 
       var self = this;
       var request = $.ajax({
@@ -130,7 +130,7 @@
         self.reportData.reset(new Report.ResponseRowList(data.records).toJSON());
         self.tableBodyView.setSelectedColumns(self.metadata.selectedColumns);
         if(update_paging) {
-          self.pagingMetaData.setItemCount(data.total_records);
+          self.pagination.setTotalRecords(data.total_records);
         }
       });
     },
