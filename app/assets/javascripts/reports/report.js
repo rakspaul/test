@@ -12,12 +12,7 @@
       this.selectedColumns = new Report.TableColumnList();
 
       Backbone.Model.apply(this, arguments);
-    },
-
-    getSelectedColumnsList: function() {
-      return this.get("selectedColumns");
-    },
-
+    }
   });
 
   Report.DetailRegion = Backbone.Marionette.Region.extend({
@@ -80,7 +75,8 @@
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
         collection: this.reportData,
-        columns: this.metadata.selectedColumns});
+        columns: this.metadata.selectedColumns
+      });
 
       this.tableLayout.head.show(this.tableHeadView);
       this.tableLayout.body.show(this.tableBodyView);

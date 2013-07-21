@@ -1,4 +1,4 @@
-/* 
+/*
  * dragtable
  *
  * @Version 1.0.3
@@ -15,28 +15,29 @@
 /*
  * gets wrapped around placeholder table
  */
-  
+
 .dragtable-drag-wrapper{
   position: absolute;
     z-index: 1000;
-} 
+}
  /*
-  * this gets applied to the table copy of the col that we are dragging 
-  */ 
+  * this gets applied to the table copy of the col that we are dragging
+  */
 .dragtable-drag-wrapper .dragtable-drag-col{
     opacity: 0.7;
     filter: alpha(opacity=70);
     cursor:move;
+    background: #efefef;
 }
 
 /*
   placeholder is just a name for the real table col
 */
-.dragtable-col-placeholder { 
+.dragtable-col-placeholder {
     border-left: 1px dotted black;
-    border-right: 1px dotted black; 
+    border-right: 1px dotted black;
     color:#EFEFEF;
-    background: #EFEFEF !important; 
+    background: #EFEFEF !important;
     visibility: visible !important;
 }
 table .dragtable-col-placeholder:first{
@@ -44,7 +45,7 @@ table .dragtable-col-placeholder:first{
 }
 
 
-.dragtable-col-placeholder * { 
-    opacity: 0.0; 
-    visibility: hidden; 
+.dragtable-col-placeholder * {
+    opacity: 0.0;
+    visibility: hidden;
 }
