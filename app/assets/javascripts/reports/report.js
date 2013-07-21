@@ -91,8 +91,8 @@
 
     _intializePagination: function() {
       this.pagination = new Report.Pagination();
+      this.pagination.on('change:current_page', this.onPageChange, this);
       this.paginationView = new Report.PaginationView({model:this.pagination});
-      this.paginationView.on('page:change', this.onPageChange, this);
 
       this.layout.paging.show(this.paginationView);
     },

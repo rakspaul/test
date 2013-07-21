@@ -44,8 +44,7 @@
     },
 
     _onPageClick: function(page_number, event) {
-      this.model.set({current_page: page_number});
-      this.trigger('page:change', page_number);
+      this.model.set({current_page: (page_number-1)});
     }
   });
 })(ReachUI.namespace("Reports"));
