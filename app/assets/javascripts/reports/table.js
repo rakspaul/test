@@ -6,7 +6,9 @@
       name: '',
       internal_name: '',
       is_removable: false,
-      index: 0
+      index: 0,
+      format: 'string',
+      precision: 0
     }
   });
 
@@ -60,7 +62,8 @@
 
   Report.ResponseRowView = Backbone.Marionette.ItemView.extend({
     tagName: 'tr',
-    template: _.template("<% for(col in columns){%><td class='<%= columns[col] %>'><%= model[columns[col]] %> </td> <% } %>"),
+    template: JST['templates/reports/table_body_row'],
+
     initialize: function(options) {
       this.columns = options.columns;
     },
@@ -76,7 +79,7 @@
   Report.TableBodyView = Backbone.Marionette.CollectionView.extend({
     itemView: Report.ResponseRowView,
     initialize: function() {
-      this.columns = this.options.columns.pluck('internal_name');
+      this.columns = this.options.columns.toJSON();
       // this.columns = ['advertiser_name']
       this.collection.on("reset", this.onCollectionChange, this);
     },
@@ -99,7 +102,7 @@
     },
 
     setSelectedColumns: function(columns) {
-      this.columns = columns.pluck('internal_name');
+      this.columns = columns.toJSON();
       this.render();
     },
 

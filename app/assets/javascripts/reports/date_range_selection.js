@@ -29,19 +29,22 @@
            'This Month': [moment().startOf('month'), moment().endOf('month')],
            'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
         },
-        opens: 'left',
         format: 'YYYY-MM-DD',
         separator: ' to ',
         startDate: moment().subtract('days', 30),
         endDate: moment().subtract('days', 1),
         showWeekNumbers: true,
-        buttonClasses: ['btn-danger'],
-        dateLimit: false
+        dateLimit: false,
+        locale: {
+          clearLabel: 'Close'
+        }
       };
     },
 
     _onDateSelected: function(start, end) {
-      this.model.set({start_date: start, end_date: end});
+      if(start && end) {
+        this.model.set({start_date: start, end_date: end});
+      }
     },
 
     _onDateChanged: function(model) {

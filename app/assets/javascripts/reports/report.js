@@ -35,6 +35,11 @@
       selected_dimensions: '#selected_dimensions_region',
       report_table: "#report_table_region",
       paging: "#paging_region"
+    },
+
+    onDomRefresh: function() {
+      var height = $(window).height() - 84 - 10; // 84 - window top to breadcrumb, 10 - content area margin
+      this.$('.report-options .content').css({'min-height': height});
     }
   });
 
@@ -97,6 +102,7 @@
         { name: 'Advertiser', internal_id:'advertiser_id', default_column: 'advertiser_name', index: 1 },
         { name: 'Order', internal_id:'order_id', default_column: 'order_name', index: 2 },
         { name: 'Ad', internal_id:'ad_id', default_column: 'ad_name', index: 3 },
+        { name: 'DMA', internal_id:'dma_id', default_column: 'dma_name', index: 4 },
       ]);
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
@@ -118,13 +124,18 @@
         { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: false, index: 1 },
         { name: 'Order Name', internal_name: 'order_name', is_removable: false, index: 2 },
         { name: 'Ad Name', internal_name: 'ad_name', is_removable: false, index: 3 },
-        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 4 },
-        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 5 },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 6 },
-        { name: 'PCCR %', internal_name: 'pccr', is_removable: true, index: 7 },
-        { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 8 },
-        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 9 },
-        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 10 }
+        { name: 'Ad Start', internal_name: 'ad_start', is_removable: true, index: 4 },
+        { name: 'Ad End', internal_name: 'ad_end', is_removable: true, index: 5 },
+        { name: 'Ad Starts', internal_name: 'ad_starts', is_removable: true, index: 6 },
+        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 7, format:'number' },
+        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 8, format:'number' },
+        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 9, format:'number', precision: 4 },
+        { name: 'PCCR %', internal_name: 'pccr', is_removable: true, index: 10, format:'number', precision: 4 },
+        { name: 'Action Rate', internal_name: 'action_rate', is_removable: true, index: 11, format:'number', precision: 4 },
+        { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 12, format:'number' },
+        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 13, format:'number' },
+        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 14, format:'number' },
+        { name: 'DMA', internal_name: 'dma_name', is_removable: true, index: 15 }
       ]);
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
@@ -195,7 +206,7 @@
       if(this.metadata.selectedDimensions.length === 1) {
         var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
           clicks = this.availableColumns.findWhere({internal_name: 'clicks' })
-        if(imps && clicks) {  
+        if(imps && clicks) {
           this.metadata.selectedColumns.add([imps, clicks]);
           this.availableColumns.remove([imps, clicks]);
         }
@@ -250,10 +261,10 @@
     _onColumnReorder: function(columnsOrder){
       var reoderedColumns = new Report.TableColumnList();
 
-      for (var i = 0; i < columnsOrder.length; i++) {        
+      for (var i = 0; i < columnsOrder.length; i++) {
         var column = this.metadata.selectedColumns.findWhere({ internal_name: columnsOrder[i] });
         reoderedColumns.add(column);
-      };      
+      };
       this.metadata.selectedColumns.reset(reoderedColumns.toJSON());
     },
 
