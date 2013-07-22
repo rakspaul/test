@@ -80,30 +80,32 @@
     itemView: Report.ResponseRowView,
     initialize: function() {
       this.columns = this.options.columns.toJSON();
-      // this.columns = ['advertiser_name']
-      this.collection.on("reset", this.onCollectionChange, this);
+      this.selectedColumns = this.options.columns;
+
+      this.listenTo(this.selectedColumns, "remove", this.onCollectionChange);
+      this.listenTo(this.collection, "reset", this.onCollectionChange);
     },
 
     onCollectionChange: function() {
       this.render();
     },
 
+    onBeforeRender: function() {
+      this.columns = this.selectedColumns.toJSON();
+    },
+
     buildItemView: function(item, ItemView){
       var view = new ItemView({
         model: item,
-        columns:this.columns
+        columns: this.columns
       });
+
       return view;
     },
 
     appendHtml: function(collectionView, itemView, index) {
       // hackish way to properly render table
       this.$el.parent().append(itemView.el);
-    },
-
-    setSelectedColumns: function(columns) {
-      this.columns = columns.toJSON();
-      this.render();
     },
 
     onDomRefresh: function(){

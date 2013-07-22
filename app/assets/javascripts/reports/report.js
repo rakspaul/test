@@ -7,11 +7,73 @@
       end_date: moment().subtract("days", 1),
     },
 
+    url: '/reports/query.json',
+
     constructor: function() {
       this.selectedDimensions = new Report.DimensionList();
       this.selectedColumns = new Report.TableColumnList();
+      this.pagination = new Report.Pagination();
+      this.reportData = new Report.ResponseRowList();
 
       Backbone.Model.apply(this, arguments);
+    },
+
+    initialize: function() {
+      this.on('change:start_date change:end_date', this._fetchReportData, this);
+      this.selectedColumns.on('add', this._fetchReportData, this);
+      this.selectedDimensions.on('remove', this._fetchReportData, this);
+      this.pagination.on('change:current_page', this._fetchReportData, this);
+    },
+
+    addDimension: function(dimensions, columns) {
+      this.selectedDimensions.add(dimensions);
+
+      if(this.selectedColumns.length === 0) {
+        this.selectedColumns.reset(columns);
+        this._fetchReportData();
+      } else {
+        this.selectedColumns.add(columns);
+      }
+    },
+
+    resetMetadata: function() {
+      this.selectedColumns.reset();
+      this.reportData.reset();
+      this.pagination.setTotalRecords(0);
+    },
+
+    parse: function(response, options) {
+      this.reportData.reset(response.records);
+
+      if(this.pagination.get('total_records') <= 0) {
+        this.pagination.setTotalRecords(response.total_records);
+      }
+
+      delete response.records;
+      delete response.start_date;
+      delete response.end_date;
+
+      return response;
+    },
+
+    _fetchReportData: function() {
+      if(!this.selectedColumns.isEmpty()) {
+        this.fetch({data: this._toQueryParam()});
+      }
+    },
+
+    _toQueryParam: function() {
+      var params = {
+        format: 'json',
+        start_date: this.get("start_date").format('YYYY-MM-DD'),
+        end_date: this.get("end_date").format('YYYY-MM-DD'),
+        group: this.selectedDimensions.pluck("internal_id").join(','),
+        cols: this.selectedColumns.pluck("internal_name").join(','),
+        limit: this.pagination.get('page_size'),
+        offset: this.pagination.getOffset()
+      }
+
+      return params;
     }
   });
 
@@ -41,11 +103,8 @@
   Report.ReportController = Marionette.Controller.extend({
     initialize: function() {
       this.metadata = new Report.Metadata();
-      this.metadata.on('change', this.regenerateReport, this);
-      this.reportData = new Report.ResponseRowList();
 
       this._initializeLayout();
-
       this._initializeTableView();
       this._intializePagination();
       this._intializeDimensions();
@@ -74,7 +133,7 @@
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
-        collection: this.reportData,
+        collection: this.metadata.reportData,
         columns: this.metadata.selectedColumns
       });
 
@@ -86,11 +145,14 @@
     },
 
     _intializePagination: function() {
-      this.pagination = new Report.Pagination();
-      this.pagination.on('change:current_page', this.onPageChange, this);
-      this.paginationView = new Report.PaginationView({model:this.pagination});
-
+      this.paginationView = new Report.PaginationView({model:this.metadata.pagination});
       this.layout.paging.show(this.paginationView);
+    },
+
+    _initializeReportOptions: function() {
+      this.reportOptionsView = new Report.ReportOptionsView();
+      this.reportOptionsView.on('report:export', this._exportReport, this);
+      this.layout.report_options.show(this.reportOptionsView);
     },
 
     _intializeDimensions: function() {
@@ -100,6 +162,7 @@
         { name: 'Ad', internal_id:'ad_id', default_column: 'ad_name', index: 3 },
         { name: 'DMA', internal_id:'dma_id', default_column: 'dma_name', index: 4 },
       ]);
+
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
       this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
@@ -107,12 +170,6 @@
 
       this.layout.available_dimensions.show(this.availableDimensionsView);
       this.layout.selected_dimensions.show(this.selectedDimensionsView);
-    },
-
-    _initializeReportOptions: function() {
-      this.reportOptionsView = new Report.ReportOptionsView();
-      this.reportOptionsView.on('report:export', this._exportReport, this);
-      this.layout.report_options.show(this.reportOptionsView);
     },
 
     _initializeColumns: function() {
@@ -145,41 +202,9 @@
        this._getReportData(false);
     },
 
-    _getReportData: function(update_paging) {
-
-      var para = this._getQueryParam('json');
-        para.limit = 50;
-        para.offset = !update_paging ? this.pagination.getOffset() : 0;
-
-      var self = this;
-      var request = $.ajax({
-        dataType: "json",
-        url: "/reports/query.json",
-        data: para
-      });
-
-      request.success(function(data) {
-        self.reportData.reset(new Report.ResponseRowList(data.records).toJSON());
-        self.tableBodyView.setSelectedColumns(self.metadata.selectedColumns);
-        if(update_paging) {
-          self.pagination.setTotalRecords(data.total_records);
-        }
-      });
-    },
-
-    _getQueryParam: function(format) {
-      var para = {};
-        para.start_date = this.metadata.get("start_date").format('YYYY-MM-DD');
-        para.end_date = this.metadata.get("end_date").format('YYYY-MM-DD');
-        para.group = this.metadata.selectedDimensions.pluck("internal_id").join(',');
-        para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
-        para.format = format;
-        return para;
-    },
-
     _onItemDrop: function(dropItem, dropped_item){
       var dimension = this.availableDimensions.findWhere({name: dropItem}),
-        column = null;
+        columns = [];
 
       // ignore column drops if no dimensions are selected
       if(!dimension && this.metadata.selectedDimensions.length === 0) {
@@ -188,61 +213,54 @@
       }
 
       if(dimension) {
-        this.metadata.selectedDimensions.add(dimension);
+        var column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') });
+        if(column) {
+          columns.push(column);
+        }
+
+        if(this.metadata.selectedDimensions.length === 0) {
+          var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
+            clicks = this.availableColumns.findWhere({internal_name: 'clicks' });
+          if(imps && clicks) {
+            columns.push(imps);
+            columns.push(clicks);
+          }
+        }
+
+        this.metadata.addDimension(dimension, columns);
+
+        this.availableColumns.remove([imps, clicks]);
         this.availableDimensions.remove(dimension);
-        column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') })
       } else {
-        column = this.availableColumns.findWhere({name: dropItem });
-      }
-
-      this.metadata.selectedColumns.add(column);
-      this.availableColumns.remove(column);
-
-      // this is first dimension, therefore add default columns with it
-      if(this.metadata.selectedDimensions.length === 1) {
-        var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
-          clicks = this.availableColumns.findWhere({internal_name: 'clicks' })
-        if(imps && clicks) {
-          this.metadata.selectedColumns.add([imps, clicks]);
-          this.availableColumns.remove([imps, clicks]);
+        var column = this.availableColumns.findWhere({name: dropItem });
+        if(column) {
+          this.metadata.selectedColumns.add(column);
+          this.availableColumns.remove(column);
         }
       }
-
-      this._getReportData(true);
     },
 
     _onRemoveDimension: function(args) {
       var dimension = args.model,
         column = this.metadata.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
 
-      this.metadata.selectedDimensions.remove(dimension);
-
-      this.metadata.selectedColumns.remove(column);
       this.availableDimensions.add(dimension);
       this.availableColumns.add(column);
+
       // if all the dimension deleted
-      if (this.metadata.selectedDimensions.isEmpty({})) {
-        this.availableColumns.add(this.metadata.selectedColumns.toJSON());
-        this.metadata.selectedColumns.reset();
-        this.reportData.reset(new Report.ResponseRowList().toJSON());
-        this.pagination.setTotalRecords(0);
+      if (this.metadata.selectedDimensions.length === 1) {
+        this.availableColumns.add(this.metadata.selectedColumns.models);
+        this.metadata.resetMetadata();
+      } else {
+        this.metadata.selectedColumns.remove(column);
       }
-      else {
-        this._updateTableBodyView();
-        this._getReportData(true);
-      }
+
+      this.metadata.selectedDimensions.remove(dimension);
     },
 
     _onTableColumnRemove: function(args) {
-      var column = args.model;
-      this.metadata.selectedColumns.remove(column);
-      this.availableColumns.add(column);
-      this._updateTableBodyView();
-      this._getReportData(true);
-    },
-
-    _updateTableBodyView: function() {
-      this.tableBodyView.setSelectedColumns(this.metadata.selectedColumns);
+      this.metadata.selectedColumns.remove(args.model);
+      this.availableColumns.add(args.model);
     },
 
     _onTableColumnSort: function(sort_field, sort_direction) {
@@ -255,15 +273,14 @@
     },
 
     _onColumnReorder: function(columnsOrder){
-      var reoderedColumns = new Report.TableColumnList();
+      var reoderedColumns = [];
 
       for (var i = 0; i < columnsOrder.length; i++) {
         var column = this.metadata.selectedColumns.findWhere({ internal_name: columnsOrder[i] });
-        reoderedColumns.add(column);
+        reoderedColumns.push(column);
       };
-      this.metadata.selectedColumns.reset(reoderedColumns.toJSON());
-    },
-
+      this.metadata.selectedColumns.reset(reoderedColumns);
+    }
   });
 
 })(ReachUI.namespace("Reports"));
