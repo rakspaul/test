@@ -16,6 +16,59 @@
     }
   });
 
+  Ocr.Ad = Backbone.Model.extend({ });
+
+  Ocr.Ads = Backbone.Collection.extend({
+    model: Ocr.Ad
+  });
+
+  Ocr.AdView = Backbone.Marionette.ItemView.extend({
+    tagName: 'tr',
+    className: 'ad',
+    template: _.template('<td><%= id %></td><td><%= name %></td>')
+  });
+
+  Ocr.Lineitem = Backbone.Model.extend({
+    constructor: function() {
+      this.ads = new Ocr.Ads();
+      Backbone.Model.apply(this, arguments);
+    },
+
+    parse: function(response, options) {
+      this.ads.reset(response.ads);
+
+      delete response.ads;
+
+      return response;
+    }
+  });
+
+  Ocr.Lineitems = Backbone.Collection.extend({
+    model: Ocr.Lineitem
+  });
+
+  Ocr.LineItemView = Backbone.Marionette.CompositeView.extend({
+    className: 'lineitem-view',
+    template: JST['templates/nielsen_ocr/lineitem_with_ads'],
+    itemViewContainer: "tbody",
+    itemView: Ocr.AdView,
+
+    initialize: function() {
+      this.collection = this.model.ads;
+    }
+  });
+
+  Ocr.LineItemEmptyView = Backbone.Marionette.ItemView.extend({
+    className: 'no-ads',
+    template: _.template('No ad associated with order.')
+  });
+
+  Ocr.LineItemListView = Backbone.Marionette.CollectionView.extend({
+    className: 'lineitem-list-view',
+    itemView: Ocr.LineItemView,
+    emptyView: Ocr.LineItemEmptyView
+  });
+
   Ocr.CampaignDetailLayout = Backbone.Marionette.Layout.extend({
     template: JST['templates/nielsen_ocr/campaign_detail_layout'],
 
@@ -152,6 +205,11 @@
           dmaSelect.setDmaIds(campaign.get('dma_ids'));
         }});
       }
+
+      this.lineitems = new Ocr.Lineitems([], {url: '/orders/' + this.selectedOrder.id + '/nielsen_campaign/ads.json'});
+      var lineitemListView = new Ocr.LineItemListView({collection: this.lineitems});
+      this.campaignDetailLayout.ads.show(lineitemListView);
+      this.lineitems.fetch();
     },
 
     _saveCampaign: function(args) {

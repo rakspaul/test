@@ -33,6 +33,25 @@ class NielsenCampaignController < ApplicationController
     respond_with(@nielsen_campaign)
   end
 
+  def ads
+    @ads = Ad.joins(:order).where(:order_id => params[:order_id].to_i).where.not(alt_ad_id: nil)
+    lineitems = Lineitem.where(name: @ads.map(&:alt_ad_id).uniq)
+
+    @results = []
+    @ads.group_by(&:alt_ad_id).each do |alt_ad_id, ads|
+      li = lineitems.select{|l| l.name == alt_ad_id}.first || Lineitem.new
+
+      @results << {
+        name: alt_ad_id,
+        cpp: li.volume,
+        trp: li.rate,
+        ads: ads,
+      }
+    end
+
+    respond_with(@results)
+  end
+
   private
     def campaign_params
       params.permit(:name, :cost_type, :value, :trp_goal, :target_gender, :age_range, dma_ids:[])
