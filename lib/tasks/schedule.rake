@@ -1,35 +1,72 @@
 require 'net/http'
 
 namespace :schedule_report do
- task :everyday_report => :environment do
-
-   $log = Logger.new(STDOUT)
-   scheduled_rep = ReportSchedule.where(frequency_type: 'Everyday', status: 'Scheduled')
+ 
+ task :schedule_task => :environment do
    
+   scheduled_rep = ReportSchedule.where(status: 'Scheduled')
    @time_now = get_time_utc
 
    scheduled_rep.each do |report|
      @user = User.find(report.user_id)
 
      if report.report_end_date >= @time_now && report.report_start_date <= @time_now
-       @url = modify_url(report.url)
+         
+       if report.frequency_type == "Everyday"
+         @url = modify_url(report.url)
+         resp = report_service_call(@url)
+     
+       elsif report.frequency_type == "Weekly"
+         if report.frequency_value.include?(@time_now.strftime("%A"))
+           @url = modify_url(report.url)
+           resp = report_service_call(@url)
+         end
 
-       resp = report_service_call(@url)
+       elsif report.frequency_type == "Specific day"
+         values = report.frequency_value.to_date.strftime("%Y-%m-%d")
 
-       if resp.body.length > 0
+         if values.include?(@time_now.strftime("%Y-%m-%d"))
+           @url = modify_url(report.url)
+           resp = report_service_call(@url) 
+         end
+
+       elsif report.frequency_type == "Quarterly"
+         quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+         current_quarter = quarters[(DateTime.now.month - 1) / 3]
+         q_num = quarters.index(current_quarter) + 1
+
+         current_year = DateTime.now.year
+         q_dates = ["#{current_year}-03-31", "#{current_year}-06-30", "#{current_year}-09-30", "#{current_year}-12-31"]
+  
+         if report.frequency_value.include?(q_num.to_s) && q_dates.include?(@time_now.strftime("%Y-%m-%d"))
+           @url = modify_url(report.url)
+           rep = report_service_call(@url)  
+         end  
+
+       else
+         raise "No recurrence type selected"  
+       end  
+
+       if !resp.nil?
          file_path = write_file(resp.body, report)   
          ReportMailer.send_mail(@user, report, file_path).deliver
          File.delete(file_path)
+
+         if report.report_end_date == @time_now
+           ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Completed' WHERE id = #{report.id};")
+           ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET last_ran = #{@time_now} WHERE id = #{report.id};") 
+         end 
        else
-         $log.info "No such data in a report"
+         raise "Report data missing"
+         ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Failure' WHERE id = #{report.id};")
        end
-     end
-   end  	
- 
+     end  
+
+   end
+
  end
 
- def modify_url(url)
-   uri = URI.parse(url)
+def modify_url(url)
    url =~ /tkn=/ ? url.sub!(/tkn=(\w+)/,"tkn=#{build_request_token}") : url += "&tkn=#{build_request_token}"
    url.gsub!(/end_date(=|:)[0-9-]+/,'end_date\1'+@time_now.strftime('%Y-%m-%d').gsub(/-0/,'-'))
    
@@ -39,7 +76,6 @@ namespace :schedule_report do
  def report_service_call(url)
   begin
     uri = URI.parse(@url)
-    puts uri
     http_conn = Net::HTTP.new(uri.host, uri.port)
     http_conn.use_ssl = uri.is_a? URI::HTTPS
     response = nil
@@ -63,7 +99,7 @@ namespace :schedule_report do
      file.puts resp
    end
 
-   return file_path
+   file_path
  end
 
  def get_time_utc
@@ -73,31 +109,5 @@ namespace :schedule_report do
    time_now 
  end
 
- task :weekly_report => :environment do
-   scheduled_rep = ReportSchedule.where(frequency_type: 'Weekly', status: 'Scheduled')
-
-   scheduled_rep.each do |report|
-     @user = User.find(report.user_id)
-
-     @time_now = Date.parse(get_time_utc.strftime("%Y-%m-%d"))
-     last_ran = Date.parse(report.last_ran.strftime("%Y-%m-%d"))
-     no_of_days = (@time_now - last_ran).to_i
-
-     if no_of_days == 8
-       @url = modify_url(report.url)
-       resp = report_service_call(@url)
-
-       file_path = write_file(resp.body, report)   
-       ReportMailer.send_mail(@user, report, file_path).deliver
-       File.delete(file_path)
-     end 
-   end   
- end 
-
- task :monthly_report => :environment do
- end 
-
- task :quarterly_report => :environment do
- end  
-
 end  
+ 
