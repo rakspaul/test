@@ -26,6 +26,9 @@
     tagName: 'ul',
     className: 'dimensions-list',
     itemView: Report.DimensionView,
+    initialize: function() {
+      this.listenTo(this.collection, "sort", this.render);
+    },
 
     onAfterItemAdded: function(itemView) {
       itemView.$el.draggable({ revert: true });

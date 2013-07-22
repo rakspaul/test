@@ -56,25 +56,29 @@
       return response;
     },
 
-    _fetchReportData: function() {
-      if(!this.selectedColumns.isEmpty()) {
-        this.fetch({data: this._toQueryParam()});
-      }
-    },
-
-    _toQueryParam: function() {
+    toQueryParam: function(report_type) {
       var params = {
-        format: 'json',
+        format: report_type,
         start_date: this.get("start_date").format('YYYY-MM-DD'),
         end_date: this.get("end_date").format('YYYY-MM-DD'),
         group: this.selectedDimensions.pluck("internal_id").join(','),
-        cols: this.selectedColumns.pluck("internal_name").join(','),
-        limit: this.pagination.get('page_size'),
-        offset: this.pagination.getOffset()
+        cols: this.selectedColumns.pluck("internal_name").join(',')
+      }
+
+      if (report_type === "json") {
+        params.limit = this.pagination.get('page_size');
+        params.offset = this.pagination.getOffset();
       }
 
       return params;
-    }
+    },
+
+    _fetchReportData: function() {
+      if(!this.selectedColumns.isEmpty()) {
+        this.fetch({data: this.toQueryParam("json")});
+      }
+    },
+
   });
 
   Report.DetailRegion = Backbone.Marionette.Region.extend({
@@ -97,7 +101,13 @@
     onDomRefresh: function() {
       var height = $(window).height() - 84 - 10; // 84 - window top to breadcrumb, 10 - content area margin
       this.$('.report-options .content').css({'min-height': height});
-    }
+      this.$('.header').click(this._onHeaderClick);
+    },
+
+    _onHeaderClick: function(event) {
+      $(event.target).next().slideToggle(600);
+      $(event.target).find('i').toggleClass('icon-collapse icon-collapse-top');
+    },
   });
 
   Report.ReportController = Marionette.Controller.extend({
@@ -188,8 +198,11 @@
         { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 12, format:'number' },
         { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 13, format:'number' },
         { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 14, format:'number' },
-        { name: 'DMA', internal_name: 'dma_name', is_removable: true, index: 15 }
+        { name: 'DMA', internal_name: 'dma_name', is_removable: false, index: 15 }
       ]);
+      this.availableColumns.comparator = function(column) { 
+        return column.get("index"); 
+      };
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
     },
@@ -216,6 +229,7 @@
         var column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') });
         if(column) {
           columns.push(column);
+          this.availableColumns.remove(column);
         }
 
         if(this.metadata.selectedDimensions.length === 0) {
@@ -234,6 +248,11 @@
       } else {
         var column = this.availableColumns.findWhere({name: dropItem });
         if(column) {
+          var temp_dimension  = this.availableDimensions.findWhere({default_column: column.get('internal_name')});
+          if(temp_dimension) {
+            dropped_item.show();
+            return;
+          }
           this.metadata.selectedColumns.add(column);
           this.availableColumns.remove(column);
         }
@@ -268,8 +287,10 @@
     },
 
     _exportReport: function(report_type) {
-      var para = this._getQueryParam(report_type);
-      window.location = '/reports/query.'+ report_type +'?' + $.param(para);
+      if(!this.metadata.selectedColumns.isEmpty()) {
+        var para = this.metadata.toQueryParam(report_type);
+        window.location = '/reports/query.'+ report_type +'?' + $.param(para);
+      }
     },
 
     _onColumnReorder: function(columnsOrder){
