@@ -32,7 +32,12 @@
 //= require utils/errors
 //= require ./common/dma
 //= require reports/list.js
-//= require reports/dimensions
+//= require reports/table.js
+//= require reports/report.js
+//= require reports/dimensions.js
+//= require reports/date_range_selection.js
+//= require reports/paging_view.js
+//= require reports/report_options.js
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js

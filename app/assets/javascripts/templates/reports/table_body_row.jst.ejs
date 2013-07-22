@@ -1,0 +1,10 @@
+<%
+  for(col in columns) {
+    var internal_name = columns[col].internal_name,
+      format = columns[col].format,
+      precision = columns[col].precision;
+%>
+  <td class='<%= internal_name %> <%= format %>'>
+    <%= ReachUI.formatColumn(model[internal_name], format, precision) %>
+  </td>
+<% } %>
