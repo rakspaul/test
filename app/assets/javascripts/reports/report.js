@@ -105,8 +105,8 @@
     },
 
     _onHeaderClick: function(event) {
-      $(event.target).next().slideToggle(600);
-      $(event.target).find('i').toggleClass('icon-collapse icon-collapse-top');
+      $(event.target).next().slideToggle(300);
+      $(event.target).find('i').toggleClass('icon-angle-down icon-angle-right');
     },
   });
 
@@ -200,8 +200,8 @@
         { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 14, format:'number' },
         { name: 'DMA', internal_name: 'dma_name', is_removable: false, index: 15 }
       ]);
-      this.availableColumns.comparator = function(column) { 
-        return column.get("index"); 
+      this.availableColumns.comparator = function(column) {
+        return column.get("index");
       };
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
