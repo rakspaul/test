@@ -166,13 +166,8 @@
     },
 
     _intializeDimensions: function() {
-      this.availableDimensions = new Report.DimensionList([
-        { name: 'Advertiser', internal_id:'advertiser_id', default_column: 'advertiser_name', index: 1 },
-        { name: 'Order', internal_id:'order_id', default_column: 'order_name', index: 2 },
-        { name: 'Ad', internal_id:'ad_id', default_column: 'ad_name', index: 3 },
-        { name: 'DMA', internal_id:'dma_id', default_column: 'dma_name', index: 4 },
-      ]);
-
+      this.availableDimensions = new Report.DimensionList();
+      this.availableDimensions.fetch();
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
       this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
@@ -183,23 +178,8 @@
     },
 
     _initializeColumns: function() {
-      this.availableColumns = new Report.TableColumnList([
-        { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: false, index: 1 },
-        { name: 'Order Name', internal_name: 'order_name', is_removable: false, index: 2 },
-        { name: 'Ad Name', internal_name: 'ad_name', is_removable: false, index: 3 },
-        { name: 'Ad Start', internal_name: 'ad_start', is_removable: true, index: 4 },
-        { name: 'Ad End', internal_name: 'ad_end', is_removable: true, index: 5 },
-        { name: 'Ad Starts', internal_name: 'ad_starts', is_removable: true, index: 6 },
-        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 7, format:'number' },
-        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 8, format:'number' },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 9, format:'number', precision: 4 },
-        { name: 'PCCR %', internal_name: 'pccr', is_removable: true, index: 10, format:'number', precision: 4 },
-        { name: 'Action Rate', internal_name: 'action_rate', is_removable: true, index: 11, format:'number', precision: 4 },
-        { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 12, format:'number' },
-        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 13, format:'number' },
-        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 14, format:'number' },
-        { name: 'DMA', internal_name: 'dma_name', is_removable: false, index: 15 }
-      ]);
+      this.availableColumns = new Report.TableColumnList();
+      this.availableColumns.fetch();
       this.availableColumns.comparator = function(column) {
         return column.get("index");
       };

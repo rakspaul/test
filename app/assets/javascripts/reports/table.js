@@ -13,7 +13,8 @@
   });
 
   Report.TableColumnList = Backbone.Collection.extend({
-    model: Report.TableColumn
+    model: Report.TableColumn,
+    url: '/reports/reports/columns.json',
   });
 
   Report.ColumnView = Backbone.Marionette.ItemView.extend({
