@@ -156,7 +156,6 @@
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
-      this.tableHeadView.on('change:sort_direction', this.tableHeadView.render());
       this.tableBodyView = new Report.TableBodyView({
         collection: this.metadata.reportData,
         columns: this.metadata.selectedColumns

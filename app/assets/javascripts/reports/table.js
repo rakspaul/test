@@ -11,9 +11,6 @@
       precision: 0,
       sort_direction:''
     },
-    setSortParam: function(sort_param){
-      this.set({'sort_param': sort_param});
-    },
     setSortDirection: function(sort_direction){
       this.set({'sort_direction': sort_direction});
     }    
