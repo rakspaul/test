@@ -53,6 +53,7 @@
     initialize: function(){
       this.model.on('change', this.render);
     },
+
     triggers: {
       'click' : 'column:sort',
       'click .icon-remove' : 'column:remove'
@@ -62,9 +63,6 @@
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
     itemView: Report.TableHeaderColumnView,
-    initialize: function(){
-      this.collection.on('change', this.render);      
-    } 
   });
 
   // Represents single row returned in AA response
