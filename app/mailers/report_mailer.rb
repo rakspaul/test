@@ -24,7 +24,7 @@ class ReportMailer < ActionMailer::Base
        @headers[:template_path] = custom_path
        @headers[:template_name] = custom_name
      else
-       Rails.logger.info "File not found"
+       raise "File not found at #{file_path}"
      end  
    end
     
