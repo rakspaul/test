@@ -40,6 +40,8 @@
       this.selectedColumns.reset();
       this.reportData.reset();
       this.pagination.setTotalRecords(0);
+      this.set({'sort_param': ''});
+      this.set({'sort_direction': ''});
     },
 
     parse: function(response, options) {
@@ -56,6 +58,13 @@
       return response;
     },
 
+    setSortParam: function(sort_param){
+      this.set({'sort_param': sort_param});
+    },
+    setSortDirection:  function(sort_direction){
+      this.set({'sort_direction': sort_direction});
+    },
+
     toQueryParam: function(report_type) {
       var params = {
         format: report_type,
@@ -68,6 +77,11 @@
       if (report_type === "json") {
         params.limit = this.pagination.get('page_size');
         params.offset = this.pagination.getOffset();
+      }
+
+      if(this.get('sort_param')){
+        params.sort_param = this.get('sort_param');
+        params.sort_direction = this.get('sort_direction');
       }
 
       return params;
@@ -142,6 +156,7 @@
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
+      this.tableHeadView.on('change:sort_direction', this.tableHeadView.render());
       this.tableBodyView = new Report.TableBodyView({
         collection: this.metadata.reportData,
         columns: this.metadata.selectedColumns
@@ -262,8 +277,20 @@
       this.availableColumns.add(args.model);
     },
 
-    _onTableColumnSort: function(sort_field, sort_direction) {
-      // this._getReportData(true);
+    _onTableColumnSort: function(args) { 
+      var sortParam = args.model.get('internal_name');     
+      this.metadata.setSortParam(sortParam);
+
+      var sortDirection = this.metadata.get('sort_direction'); 
+      if(sortDirection){
+        sortDirection = (sortDirection == 'asc') ? 'desc' : 'asc';
+        this.metadata.setSortDirection(sortDirection);
+      } else{
+        sortDirection = 'asc';
+        this.metadata.setSortDirection('asc');
+      } 
+      this.metadata._fetchReportData();
+      args.model.setSortDirection(sortDirection);
     },
 
     _exportReport: function(report_type) {

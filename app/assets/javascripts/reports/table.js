@@ -8,8 +8,15 @@
       is_removable: false,
       index: 0,
       format: 'string',
-      precision: 0
-    }
+      precision: 0,
+      sort_direction:''
+    },
+    setSortParam: function(sort_param){
+      this.set({'sort_param': sort_param});
+    },
+    setSortDirection: function(sort_direction){
+      this.set({'sort_direction': sort_direction});
+    }    
   });
 
   Report.TableColumnList = Backbone.Collection.extend({
@@ -46,6 +53,9 @@
       }
     },
 
+    initialize: function(){
+      this.model.on('change', this.render);
+    },
     triggers: {
       'click' : 'column:sort',
       'click .icon-remove' : 'column:remove'
@@ -54,7 +64,10 @@
 
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
-    itemView: Report.TableHeaderColumnView
+    itemView: Report.TableHeaderColumnView,
+    initialize: function(){
+      this.collection.on('change', this.render);      
+    } 
   });
 
   // Represents single row returned in AA response
