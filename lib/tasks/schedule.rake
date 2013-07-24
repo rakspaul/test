@@ -3,11 +3,12 @@ require 'net/http'
 namespace :schedule_report do
  
  task :schedule_task => :environment do
+ 	start_time = Time.now
 
    $logger.info("Report running execution begin...")
    scheduled_rep = ReportSchedule.where("status = 'Scheduled' AND frequency_type IS NOT NULL")
 
-   $logger.info("Load scheduled reports.")
+   $logger.info("Loading scheduled reports..")
    @time_now = get_time_utc
 
    begin
@@ -25,7 +26,7 @@ namespace :schedule_report do
 	        run(report)	
 
 	      when "Weekly"
-	    	  if report.frequency_value.include?(@time_now.strftime("%A"))
+	    	  if report.frequency_value.include?(@time_now.strftime("%a"))
 	    	    run(report)
 	    	  end  	
 
@@ -39,26 +40,29 @@ namespace :schedule_report do
            quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
            current_quarter = quarters[(@time_now.month - 1) / 3]
            q_num = quarters.index(current_quarter) + 1
-
            current_year = @time_now.year
-           q_dates = ["#{current_year}-03-31", "#{current_year}-06-30", "#{current_year}-09-30", "#{current_year}-12-31", "2013-07-24"]
-         
-           if report.frequency_value.include?(q_num.to_s) && q_dates.include?(@time_now.strftime("%Y-%m-%d"))
+
+           if report.frequency_value.include?(q_num.to_s) && is_today_last_day == true
              run(report)
            end
        
          else
            $logger.warn("No reports to be executed on date #{@time_now.strftime("%Y-%m-%d")}")	
-         end    	
-       
-         $logger.info("Report running execution end")
-       end  
+         end
+
+       end
      end
+
+     $logger.info("Scheduled report job finished in time [#{Time.now-start_time} sec]")
    rescue Exception => e
      $logger.error(e.message)	
    end  
 
  end
+
+ def is_today_last_day
+ 	return true if @time_now.strftime("%Y-%m-%d") == @time_now.end_of_quarter.strftime("%Y-%m-%d")
+ end	
 
  def run(report)
    @url = modify_url(report.url)
@@ -104,7 +108,7 @@ namespace :schedule_report do
   rescue => e
   	 $logger.error(e.message)
   end
-    
+
    response  
  end
 
