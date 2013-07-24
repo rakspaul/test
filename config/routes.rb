@@ -13,8 +13,13 @@ Reachui::Application.routes.draw do
   end
 
   resources :orders do
+    resource :nielsen_campaign, controller: 'nielsen_campaign' do
+      member do
+        get 'ads'
+      end
+    end
     resources :lineitems
-    resources :nielsen_campaigns
+
     collection do
       get 'search'
     end

@@ -28,10 +28,15 @@
   }
 }
 
+.enable-ocr {
+  display: inline-block;
+  padding-left: 30px;
+  padding-top: 15px;
+}
+
 .nielsen-campaign-form {
   padding: 10px;
-  margin-top: 20px;
-  border-top: 2px solid #ddd;
+  margin-top: 10px;
 
   .name {
     width: 300px;
@@ -53,5 +58,50 @@
 
   .age_range {
     width: 110px;
+  }
+}
+
+.lineitem-list-view {
+  .no-ads {
+    color: #FF0000;
+    padding: 5px 0;
+  }
+}
+
+.lineitem-view {
+  padding: 0 10px 10px 0;
+
+  table {
+    width: 100%;
+
+    th {
+      background-color: #eee;
+      padding: 5px;
+      text-align: left;
+      border: 1px solid #e0e0e0;
+
+      &:first-child {
+        width: 140px;
+      }
+
+      .cpp, .trp {
+        margin-left: 10px;
+        width: 96px;
+        text-align: right;
+      }
+    }
+
+    .ad {
+      background-color: #fff;
+
+      td {
+        border: 1px solid #f2f2f2;
+        padding: 3px 10px;
+      }
+
+      &:hover {
+        background-color: #f2f2f2;
+      }
+    }
   }
 }

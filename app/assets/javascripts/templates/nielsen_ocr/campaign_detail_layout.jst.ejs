@@ -1,3 +1,7 @@
+<label class="checkbox enable-ocr">
+  <input type="checkbox" id="enable_ocr"> Enable OCR
+</label>
+
 <form class="form-horizontal nielsen-campaign-form">
   <fieldset>
     <div class="details-region"></div>
@@ -10,12 +14,16 @@
       </div>
     </div>
 
-    <div class="ads-region"></div>
-  </fieldset>
-
-  <fieldset>
-    <div class="actions">
-      <button type="submit" class="btn btn-primary save-campaign">&nbsp;Save&nbsp;</button>
+    <div class="ads">
+      <div class="control-group">
+        <label class="control-label" for="dma">Ads</label>
+        <div class="controls ads-region">
+        </div>
+      </div>
     </div>
   </fieldset>
+
+  <div class="form-actions">
+      <button type="submit" class="btn btn-primary save-campaign">&nbsp;Save&nbsp;</button>
+  </div>
 </form>
