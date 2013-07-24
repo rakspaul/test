@@ -27,7 +27,8 @@ class IoImport
   private
 
     def read_and_verify_advertiser
-      @advertiser = Advertiser.of_network(@current_user.network).find_by(name: @reader.advertiser_name)
+      adv_name = @reader.advertiser_name
+      @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
       if @advertiser.nil?
         raise "Advertiser not found: #{adv_name}"
       end
