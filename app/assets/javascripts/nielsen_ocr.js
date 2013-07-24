@@ -94,6 +94,7 @@
 
     _onEnableOcr: function(e) {
       this._setRegionsVisibility(e.target.checked);
+      this.trigger('enable-ocr:checked', e.target.checked);
     },
 
     _setRegionsVisibility: function(visible) {
@@ -182,15 +183,21 @@
       if(!this.campaignDetailLayout) {
         this.campaignDetailLayout = new Ocr.CampaignDetailLayout();
         this.campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
+        this.campaignDetailLayout.on('enable-ocr:checked', this._loadCampaign, this);
 
         this.ocrRegion.show(this.campaignDetailLayout);
       }
 
       this.campaignDetailLayout.setEnableOcrStatus(!this.selectedOrder.get('ocr_enabled'));
+      if(this.selectedOrder.get('ocr_enabled')) {
+        this._loadCampaign();
+      }
+    },
 
+    _loadCampaign: function() {
       var dmaSelect = new DMA.ChosenView({collection: this.dmaList});
 
-      var campaign = new Ocr.Campaign({'order_id': orderId});
+      var campaign = new Ocr.Campaign({'order_id': this.selectedOrder.id});
       var campaignDetailView = new Ocr.CampaignDetailView({model: campaign});
 
       this.campaignDetailLayout.details.show(campaignDetailView);
