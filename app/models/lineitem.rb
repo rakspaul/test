@@ -6,6 +6,8 @@ class Lineitem < ActiveRecord::Base
   belongs_to :order
   belongs_to :user
 
+  has_one :nielsen_pricing, autosave: true
+
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
   validates :active, inclusion: { in: [true, false] }
@@ -15,6 +17,7 @@ class Lineitem < ActiveRecord::Base
   validate :flight_dates_with_in_order_range
 
   before_save :sanitize_ad_sizes
+  after_create :create_nielsen_pricing
 
   private
 
@@ -30,5 +33,9 @@ class Lineitem < ActiveRecord::Base
 
     def sanitize_ad_sizes
       self.ad_sizes.delete!(' ')
+    end
+
+    def create_nielsen_pricing
+      nielsen_pricing.save! if nielsen_pricing
     end
 end

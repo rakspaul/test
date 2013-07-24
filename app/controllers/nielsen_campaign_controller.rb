@@ -9,6 +9,12 @@ class NielsenCampaignController < ApplicationController
     @nielsen_campaign.user = current_user
     @nielsen_campaign.save
 
+    # set pricing for ad groups
+    if(@nielsen_campaign.valid? and params[:lineitems].present?)
+      ad_group_pricing = NielsenAdGroupPricingService.new(@order, current_user)
+      ad_group_pricing.set_pricing(params[:lineitems])
+    end
+
     respond_with(@nielsen_campaign)
   end
 
@@ -28,24 +34,32 @@ class NielsenCampaignController < ApplicationController
       p[:dma_ids] ||= []  # remove all assigned dmas if none is included in request
 
       @nielsen_campaign.update_attributes(p)
+
+      # set pricing for ad groups
+      if(@nielsen_campaign.valid? and params[:lineitems].present?)
+        ad_group_pricing = NielsenAdGroupPricingService.new(@order, current_user)
+        ad_group_pricing.set_pricing(params[:lineitems])
+      end
     end
 
     respond_with(@nielsen_campaign)
   end
 
   def ads
-    @ads = Ad.joins(:order).where(:order_id => params[:order_id].to_i).where.not(alt_ad_id: nil)
-    lineitems = Lineitem.where(name: @ads.map(&:alt_ad_id).uniq)
+    @order = Order.find(params[:order_id])
+    @ads = @order.ads.where.not(alt_ad_id: nil)
+    lineitems = @order.lineitems.where(name: @ads.map(&:alt_ad_id).uniq)
 
     @results = []
     @ads.group_by(&:alt_ad_id).each do |alt_ad_id, ads|
       li = lineitems.select{|l| l.name == alt_ad_id}.first || Lineitem.new
+      pricing = li.nielsen_pricing
 
       @results << {
         name: alt_ad_id,
-        cpp: li.volume,
-        trp: li.rate,
-        ads: ads,
+        cpp: pricing.nil? ? 0 : pricing.cpp,
+        trp: pricing.nil? ? 0 : pricing.trp,
+        ads: ads
       }
     end
 

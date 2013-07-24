@@ -216,7 +216,19 @@
       var view = args.view,
         model = view.details.currentView.model,
         detailsView = view.details.currentView,
-        dmasView = view.dmas.currentView;
+        dmasView = view.dmas.currentView,
+        adsView = view.ads.currentView;
+
+      var lis = {};
+      adsView.$('input.cpp').each(function(index, cpp) {
+        var key = cpp.getAttribute('data-lineitem');
+        lis[key] = {name: key, cpp: cpp.value};
+      });
+
+      adsView.$('input.trp').each(function(index, trp) {
+        var key = trp.getAttribute('data-lineitem');
+        lis[key]['trp'] = trp.value;
+      });
 
       var _campaign = {
         name: detailsView.ui.name.val(),
@@ -225,7 +237,8 @@
         trp_goal: detailsView.ui.trp_goal.val(),
         target_gender: detailsView.ui.target_gender.val(),
         age_range: detailsView.ui.age_range.val(),
-        dma_ids: dmasView.$el.val()
+        dma_ids: dmasView.$el.val(),
+        lineitems: _.values(lis)
       };
 
       model.save(_campaign, {
