@@ -49,6 +49,7 @@ class NielsenAdGroupPricingService
 
       lineitem = @order.lineitems.build({
         name: alt_ad_id,
+        alt_ad_id: alt_ad_id,
         start_date: min_start_date,
         end_date: max_end_date,
         ad_sizes: ad_sizes,

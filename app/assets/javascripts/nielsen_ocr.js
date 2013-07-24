@@ -86,9 +86,10 @@
       'change #enable_ocr': '_onEnableOcr'
     },
 
-    setEnableOcrStatus: function(visible) {
-      this.$('.enable-ocr')[visible ? 'show':'hide']();
-      this._setRegionsVisibility(!visible);
+    setEnableOcrStatus: function(enabled) {
+      this.$('.enable-ocr')[enabled ? 'show':'hide']();
+      this.$('#enable_ocr').prop('checked', !enabled);
+      this._setRegionsVisibility(!enabled);
     },
 
     _onEnableOcr: function(e) {
@@ -258,10 +259,10 @@
         var formErrors = [];
 
         _.each(xhr.responseJSON.errors, function(value, key) {
-          formErrors.push(value);
+          formErrors.push(key + " " + value);
         });
 
-        alert("Error saving order. \n" + formErrors.join("\n"));
+        alert("Error saving order: \n\n" + formErrors.join("\n"));
       }
     }
   });
