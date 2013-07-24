@@ -7,10 +7,14 @@ Reachui::Application.routes.draw do
   post 'signin' => 'account_sessions#create'
   get 'signout' => 'account_sessions#destroy'
 
+
   namespace :reports do
-    resources :reports
+    resources :reports 
     resources :query
+    resources :dimensions
+    resources :columns
   end
+
 
   resources :orders do
     resource :nielsen_campaign, controller: 'nielsen_campaign' do

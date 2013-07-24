@@ -41,6 +41,12 @@
     color: #fff;
     padding: 7px 5px 7px 15px;
     font-weight: bold;
+    cursor: pointer;
+
+    .expand-collapse-icon {
+      color: #687B82;
+      font-weight: normal;
+    }
   }
 
   .body {
@@ -133,6 +139,10 @@
   .report-table {
     width: 100%;
 
+    tbody > tr:hover {
+      background-color: #f8f8f8;
+    }
+
     th {
       background: none repeat scroll 0 0 #F7F7F7;
       border-left: 1px solid #ededed;
@@ -204,4 +214,13 @@
       width: 130px;
     }
   }
+}
+
+.disable-text-select {
+    -moz-user-select: -moz-none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
 }

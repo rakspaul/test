@@ -8,12 +8,17 @@
       is_removable: false,
       index: 0,
       format: 'string',
-      precision: 0
-    }
+      precision: 0,
+      sort_direction:''
+    },
+    setSortDirection: function(sort_direction){
+      this.set({'sort_direction': sort_direction});
+    }    
   });
 
   Report.TableColumnList = Backbone.Collection.extend({
-    model: Report.TableColumn
+    model: Report.TableColumn,
+    url: '/reports/columns.json',
   });
 
   Report.ColumnView = Backbone.Marionette.ItemView.extend({
@@ -26,6 +31,9 @@
     tagName: 'ul',
     className: 'columns-list',
     itemView: Report.ColumnView,
+    initialize: function() {
+      this.listenTo(this.collection, "sort", this.render);
+    },
 
     onAfterItemAdded: function(itemView) {
       itemView.$el.draggable({ revert: true });
@@ -42,15 +50,53 @@
       }
     },
 
+    initialize: function(){
+      this.sort_field = this.options.sort_field;
+      this.sort_direction = this.options.sort_direction;
+    },
+
     triggers: {
       'click' : 'column:sort',
       'click .icon-remove' : 'column:remove'
     },
+
+    serializeData: function() {
+      return {
+        model: this.model.toJSON(),
+        sort_field: this.sort_field,
+        sort_direction: this.sort_direction,
+      };
+    }
+
   });
 
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
-    itemView: Report.TableHeaderColumnView
+    itemView: Report.TableHeaderColumnView,
+
+    initialize: function() {
+      this.metadata = this.options.metadata;
+      this.sort_field = this.metadata.get('sort_field')
+      this.sort_direction = this.metadata.get('sort_direction');
+      this.listenTo(this.metadata, "change", this.onChange);
+    },
+
+    onChange: function () {
+      this.sort_field = this.metadata.get('sort_field')
+      this.sort_direction = this.metadata.get('sort_direction');
+      this.render();
+    },
+
+    buildItemView: function(item, ItemView){
+      var view = new ItemView({
+        model: item,
+        sort_field: this.sort_field,
+        sort_direction: this.sort_direction,
+      });
+
+      return view;
+    },
+    
   });
 
   // Represents single row returned in AA response
@@ -80,30 +126,32 @@
     itemView: Report.ResponseRowView,
     initialize: function() {
       this.columns = this.options.columns.toJSON();
-      // this.columns = ['advertiser_name']
-      this.collection.on("reset", this.onCollectionChange, this);
+      this.selectedColumns = this.options.columns;
+
+      this.listenTo(this.selectedColumns, "remove", this.onCollectionChange);
+      this.listenTo(this.collection, "reset", this.onCollectionChange);
     },
 
     onCollectionChange: function() {
       this.render();
     },
 
+    onBeforeRender: function() {
+      this.columns = this.selectedColumns.toJSON();
+    },
+
     buildItemView: function(item, ItemView){
       var view = new ItemView({
         model: item,
-        columns:this.columns
+        columns: this.columns
       });
+
       return view;
     },
 
     appendHtml: function(collectionView, itemView, index) {
       // hackish way to properly render table
       this.$el.parent().append(itemView.el);
-    },
-
-    setSelectedColumns: function(columns) {
-      this.columns = columns.toJSON();
-      this.render();
     },
 
     onDomRefresh: function(){

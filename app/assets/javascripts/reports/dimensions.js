@@ -11,6 +11,7 @@
 
   Report.DimensionList = Backbone.Collection.extend({
     model: Report.Dimension,
+    url: '/reports/dimensions.json',
     comparator: function(dimension) {
       return dimension.get('index');
     }
@@ -26,6 +27,9 @@
     tagName: 'ul',
     className: 'dimensions-list',
     itemView: Report.DimensionView,
+    initialize: function() {
+      this.listenTo(this.collection, "sort", this.render);
+    },
 
     onAfterItemAdded: function(itemView) {
       itemView.$el.draggable({ revert: true });

@@ -7,12 +7,92 @@
       end_date: moment().subtract("days", 1),
     },
 
+    url: '/reports/query.json',
+
     constructor: function() {
       this.selectedDimensions = new Report.DimensionList();
       this.selectedColumns = new Report.TableColumnList();
+      this.pagination = new Report.Pagination();
+      this.reportData = new Report.ResponseRowList();
 
       Backbone.Model.apply(this, arguments);
-    }
+    },
+
+    initialize: function() {
+      this.on('change:start_date change:end_date', this._fetchReportData, this);
+      this.selectedColumns.on('add', this._fetchReportData, this);
+      this.selectedDimensions.on('remove', this._fetchReportData, this);
+      this.pagination.on('change:current_page', this._fetchReportData, this);
+    },
+
+    addDimension: function(dimensions, columns) {
+      this.selectedDimensions.add(dimensions);
+
+      if(this.selectedColumns.length === 0) {
+        this.selectedColumns.reset(columns);
+        this._fetchReportData();
+      } else {
+        this.selectedColumns.add(columns);
+      }
+    },
+
+    resetMetadata: function() {
+      this.selectedColumns.reset();
+      this.reportData.reset();
+      this.pagination.setTotalRecords(0);
+      this.set({'sort_param': ''});
+      this.set({'sort_direction': ''});
+    },
+
+    parse: function(response, options) {
+      this.reportData.reset(response.records);
+
+      if(this.pagination.get('total_records') <= 0) {
+        this.pagination.setTotalRecords(response.total_records);
+      }
+
+      delete response.records;
+      delete response.start_date;
+      delete response.end_date;
+
+      return response;
+    },
+
+    setSortField: function(sort_field){
+      this.set({'sort_field': sort_field});
+    },
+    setSortDirection:  function(sort_direction){
+      this.set({'sort_direction': sort_direction});
+    },
+
+    toQueryParam: function(report_type) {
+      var params = {
+        format: report_type,
+        start_date: this.get("start_date").format('YYYY-MM-DD'),
+        end_date: this.get("end_date").format('YYYY-MM-DD'),
+        group: this.selectedDimensions.pluck("internal_id").join(','),
+        cols: this.selectedColumns.pluck("internal_name").join(',')
+      }
+
+      if (report_type === "json") {
+        params.limit = this.pagination.get('page_size');
+        params.offset = this.pagination.getOffset();
+      }
+
+      if(this.get('sort_field')){
+        params.sort_param = this.get('sort_field');
+        params.sort_direction = this.get('sort_direction');
+      }
+
+      return params;
+    },
+
+    _fetchReportData: function() {
+      if(!this.selectedColumns.isEmpty()) {
+        this.fetch({data: this.toQueryParam("json")});
+      }
+    },
+
   });
 
   Report.DetailRegion = Backbone.Marionette.Region.extend({
@@ -35,17 +115,20 @@
     onDomRefresh: function() {
       var height = $(window).height() - 84 - 10; // 84 - window top to breadcrumb, 10 - content area margin
       this.$('.report-options .content').css({'min-height': height});
-    }
+      this.$('.header').click(this._onHeaderClick);
+    },
+
+    _onHeaderClick: function(event) {
+      $(event.target).next().slideToggle(300);
+      $(event.target).find('i').toggleClass('icon-angle-down icon-angle-right');
+    },
   });
 
   Report.ReportController = Marionette.Controller.extend({
     initialize: function() {
       this.metadata = new Report.Metadata();
-      this.metadata.on('change', this.regenerateReport, this);
-      this.reportData = new Report.ResponseRowList();
 
       this._initializeLayout();
-
       this._initializeTableView();
       this._intializePagination();
       this._intializeDimensions();
@@ -70,11 +153,11 @@
       this.tableLayout = new Report.TableLayout();
       this.layout.report_table.show(this.tableLayout);
 
-      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
+      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns, metadata: this.metadata});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
-        collection: this.reportData,
+        collection: this.metadata.reportData,
         columns: this.metadata.selectedColumns
       });
 
@@ -86,20 +169,19 @@
     },
 
     _intializePagination: function() {
-      this.pagination = new Report.Pagination();
-      this.pagination.on('change:current_page', this.onPageChange, this);
-      this.paginationView = new Report.PaginationView({model:this.pagination});
-
+      this.paginationView = new Report.PaginationView({model:this.metadata.pagination});
       this.layout.paging.show(this.paginationView);
     },
 
+    _initializeReportOptions: function() {
+      this.reportOptionsView = new Report.ReportOptionsView();
+      this.reportOptionsView.on('report:export', this._exportReport, this);
+      this.layout.report_options.show(this.reportOptionsView);
+    },
+
     _intializeDimensions: function() {
-      this.availableDimensions = new Report.DimensionList([
-        { name: 'Advertiser', internal_id:'advertiser_id', default_column: 'advertiser_name', index: 1 },
-        { name: 'Order', internal_id:'order_id', default_column: 'order_name', index: 2 },
-        { name: 'Ad', internal_id:'ad_id', default_column: 'ad_name', index: 3 },
-        { name: 'DMA', internal_id:'dma_id', default_column: 'dma_name', index: 4 },
-      ]);
+      this.availableDimensions = new Report.DimensionList();
+      this.availableDimensions.fetch();
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
       this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
@@ -109,30 +191,12 @@
       this.layout.selected_dimensions.show(this.selectedDimensionsView);
     },
 
-    _initializeReportOptions: function() {
-      this.reportOptionsView = new Report.ReportOptionsView();
-      this.reportOptionsView.on('report:export', this._exportReport, this);
-      this.layout.report_options.show(this.reportOptionsView);
-    },
-
     _initializeColumns: function() {
-      this.availableColumns = new Report.TableColumnList([
-        { name: 'Advertiser Name', internal_name: 'advertiser_name', is_removable: false, index: 1 },
-        { name: 'Order Name', internal_name: 'order_name', is_removable: false, index: 2 },
-        { name: 'Ad Name', internal_name: 'ad_name', is_removable: false, index: 3 },
-        { name: 'Ad Start', internal_name: 'ad_start', is_removable: true, index: 4 },
-        { name: 'Ad End', internal_name: 'ad_end', is_removable: true, index: 5 },
-        { name: 'Ad Starts', internal_name: 'ad_starts', is_removable: true, index: 6 },
-        { name: 'Impressions', internal_name: 'impressions', is_removable: true, index: 7, format:'number' },
-        { name: 'Clicks', internal_name: 'clicks', is_removable: true, index: 8, format:'number' },
-        { name: 'CTR %', internal_name: 'ctr', is_removable: true, index: 9, format:'number', precision: 4 },
-        { name: 'PCCR %', internal_name: 'pccr', is_removable: true, index: 10, format:'number', precision: 4 },
-        { name: 'Action Rate', internal_name: 'action_rate', is_removable: true, index: 11, format:'number', precision: 4 },
-        { name: 'Total Actions', internal_name: 'actions', is_removable: true, index: 12, format:'number' },
-        { name: 'Gross Rev', internal_name: 'gross_rev', is_removable: true, index: 13, format:'number' },
-        { name: 'Gross eCPM', internal_name: 'gross_ecpm', is_removable: true, index: 14, format:'number' },
-        { name: 'DMA', internal_name: 'dma_name', is_removable: true, index: 15 }
-      ]);
+      this.availableColumns = new Report.TableColumnList();
+      this.availableColumns.fetch();
+      this.availableColumns.comparator = function(column) {
+        return column.get("index");
+      };
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
     },
@@ -145,41 +209,9 @@
        this._getReportData(false);
     },
 
-    _getReportData: function(update_paging) {
-
-      var para = this._getQueryParam('json');
-        para.limit = 50;
-        para.offset = !update_paging ? this.pagination.getOffset() : 0;
-
-      var self = this;
-      var request = $.ajax({
-        dataType: "json",
-        url: "/reports/query.json",
-        data: para
-      });
-
-      request.success(function(data) {
-        self.reportData.reset(new Report.ResponseRowList(data.records).toJSON());
-        self.tableBodyView.setSelectedColumns(self.metadata.selectedColumns);
-        if(update_paging) {
-          self.pagination.setTotalRecords(data.total_records);
-        }
-      });
-    },
-
-    _getQueryParam: function(format) {
-      var para = {};
-        para.start_date = this.metadata.get("start_date").format('YYYY-MM-DD');
-        para.end_date = this.metadata.get("end_date").format('YYYY-MM-DD');
-        para.group = this.metadata.selectedDimensions.pluck("internal_id").join(',');
-        para.cols = this.metadata.selectedColumns.pluck("internal_name").join(',');
-        para.format = format;
-        return para;
-    },
-
     _onItemDrop: function(dropItem, dropped_item){
       var dimension = this.availableDimensions.findWhere({name: dropItem}),
-        column = null;
+        columns = [];
 
       // ignore column drops if no dimensions are selected
       if(!dimension && this.metadata.selectedDimensions.length === 0) {
@@ -188,82 +220,93 @@
       }
 
       if(dimension) {
-        this.metadata.selectedDimensions.add(dimension);
+        var column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') });
+        if(column) {
+          columns.push(column);
+          this.availableColumns.remove(column);
+        }
+
+        if(this.metadata.selectedDimensions.length === 0) {
+          var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
+            clicks = this.availableColumns.findWhere({internal_name: 'clicks' });
+          if(imps && clicks) {
+            columns.push(imps);
+            columns.push(clicks);
+          }
+        }
+
+        this.metadata.addDimension(dimension, columns);
+
+        this.availableColumns.remove([imps, clicks]);
         this.availableDimensions.remove(dimension);
-        column = this.availableColumns.findWhere({internal_name: dimension.get('default_column') })
       } else {
-        column = this.availableColumns.findWhere({name: dropItem });
-      }
-
-      this.metadata.selectedColumns.add(column);
-      this.availableColumns.remove(column);
-
-      // this is first dimension, therefore add default columns with it
-      if(this.metadata.selectedDimensions.length === 1) {
-        var imps = this.availableColumns.findWhere({internal_name: 'impressions' }),
-          clicks = this.availableColumns.findWhere({internal_name: 'clicks' })
-        if(imps && clicks) {
-          this.metadata.selectedColumns.add([imps, clicks]);
-          this.availableColumns.remove([imps, clicks]);
+        var column = this.availableColumns.findWhere({name: dropItem });
+        if(column) {
+          var temp_dimension  = this.availableDimensions.findWhere({default_column: column.get('internal_name')});
+          if(temp_dimension) {
+            dropped_item.show();
+            return;
+          }
+          this.metadata.selectedColumns.add(column);
+          this.availableColumns.remove(column);
         }
       }
-
-      this._getReportData(true);
     },
 
     _onRemoveDimension: function(args) {
       var dimension = args.model,
         column = this.metadata.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
 
-      this.metadata.selectedDimensions.remove(dimension);
-
-      this.metadata.selectedColumns.remove(column);
       this.availableDimensions.add(dimension);
       this.availableColumns.add(column);
+
       // if all the dimension deleted
-      if (this.metadata.selectedDimensions.isEmpty({})) {
-        this.availableColumns.add(this.metadata.selectedColumns.toJSON());
-        this.metadata.selectedColumns.reset();
-        this.reportData.reset(new Report.ResponseRowList().toJSON());
-        this.pagination.setTotalRecords(0);
+      if (this.metadata.selectedDimensions.length === 1) {
+        this.availableColumns.add(this.metadata.selectedColumns.models);
+        this.metadata.resetMetadata();
+      } else {
+        this.metadata.selectedColumns.remove(column);
       }
-      else {
-        this._updateTableBodyView();
-        this._getReportData(true);
-      }
+
+      this.metadata.selectedDimensions.remove(dimension);
     },
 
     _onTableColumnRemove: function(args) {
-      var column = args.model;
-      this.metadata.selectedColumns.remove(column);
-      this.availableColumns.add(column);
-      this._updateTableBodyView();
-      this._getReportData(true);
+      this.metadata.selectedColumns.remove(args.model);
+      this.availableColumns.add(args.model);
     },
 
-    _updateTableBodyView: function() {
-      this.tableBodyView.setSelectedColumns(this.metadata.selectedColumns);
-    },
+    _onTableColumnSort: function(args) { 
+      var sort_field = args.model.get('internal_name');
+      var sortDirection = this.metadata.get('sort_direction');
 
-    _onTableColumnSort: function(sort_field, sort_direction) {
-      // this._getReportData(true);
+      if(sortDirection){
+        sortDirection = (sortDirection == 'asc') ? 'desc' : 'asc';
+      } else{
+        sortDirection = 'asc';
+      }
+      
+      this.metadata.setSortField(sort_field);
+      this.metadata.setSortDirection(sortDirection);
+      this.metadata._fetchReportData();
     },
 
     _exportReport: function(report_type) {
-      var para = this._getQueryParam(report_type);
-      window.location = '/reports/query.'+ report_type +'?' + $.param(para);
+      if(!this.metadata.selectedColumns.isEmpty()) {
+        var para = this.metadata.toQueryParam(report_type);
+        window.location = '/reports/query.'+ report_type +'?' + $.param(para);
+      }
     },
 
     _onColumnReorder: function(columnsOrder){
-      var reoderedColumns = new Report.TableColumnList();
+      var reoderedColumns = [];
 
       for (var i = 0; i < columnsOrder.length; i++) {
         var column = this.metadata.selectedColumns.findWhere({ internal_name: columnsOrder[i] });
-        reoderedColumns.add(column);
+        reoderedColumns.push(column);
       };
-      this.metadata.selectedColumns.reset(reoderedColumns.toJSON());
-    },
-
+      this.metadata.selectedColumns.reset(reoderedColumns);
+    }
   });
 
 })(ReachUI.namespace("Reports"));
