@@ -9,13 +9,4 @@ class Reports::ReportsController < ApplicationController
 
   def new
   end
-
-
-  def dimensions
-  	respond_with(Dimensions.all)
-  end
-
-  def columns
-  	respond_with(Columns.all)
-  end
 end

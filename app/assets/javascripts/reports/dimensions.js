@@ -11,7 +11,7 @@
 
   Report.DimensionList = Backbone.Collection.extend({
     model: Report.Dimension,
-    url: '/reports/reports/dimensions.json',
+    url: '/reports/dimensions.json',
     comparator: function(dimension) {
       return dimension.get('index');
     }

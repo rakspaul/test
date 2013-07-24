@@ -6,11 +6,12 @@ Reachui::Application.routes.draw do
   post 'signin' => 'account_sessions#create'
   get 'signout' => 'account_sessions#destroy'
 
-  get 'reports/reports/dimensions' => 'reports/reports#dimensions'
-  get 'reports/reports/columns' => 'reports/reports#columns'
+
   namespace :reports do
     resources :reports 
     resources :query
+    resources :dimensions
+    resources :columns
   end
 
 
