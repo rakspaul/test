@@ -58,8 +58,8 @@
       return response;
     },
 
-    setSortParam: function(sort_param){
-      this.set({'sort_param': sort_param});
+    setSortField: function(sort_field){
+      this.set({'sort_field': sort_field});
     },
     setSortDirection:  function(sort_direction){
       this.set({'sort_direction': sort_direction});
@@ -79,8 +79,8 @@
         params.offset = this.pagination.getOffset();
       }
 
-      if(this.get('sort_param')){
-        params.sort_param = this.get('sort_param');
+      if(this.get('sort_field')){
+        params.sort_param = this.get('sort_field');
         params.sort_direction = this.get('sort_direction');
       }
 
@@ -153,7 +153,7 @@
       this.tableLayout = new Report.TableLayout();
       this.layout.report_table.show(this.tableLayout);
 
-      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
+      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns, metadata: this.metadata});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
@@ -277,19 +277,18 @@
     },
 
     _onTableColumnSort: function(args) { 
-      var sortParam = args.model.get('internal_name');     
-      this.metadata.setSortParam(sortParam);
+      var sort_field = args.model.get('internal_name');
+      var sortDirection = this.metadata.get('sort_direction');
 
-      var sortDirection = this.metadata.get('sort_direction'); 
       if(sortDirection){
         sortDirection = (sortDirection == 'asc') ? 'desc' : 'asc';
-        this.metadata.setSortDirection(sortDirection);
       } else{
         sortDirection = 'asc';
-        this.metadata.setSortDirection('asc');
-      } 
+      }
+      
+      this.metadata.setSortField(sort_field);
+      this.metadata.setSortDirection(sortDirection);
       this.metadata._fetchReportData();
-      args.model.setSortDirection(sortDirection);
     },
 
     _exportReport: function(report_type) {
