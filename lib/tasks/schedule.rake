@@ -3,75 +3,79 @@ require 'net/http'
 namespace :schedule_report do
  
  task :schedule_task => :environment do
-   
-   scheduled_rep = ReportSchedule.where(status: 'Scheduled')
 
    $logger.info("Report running execution begin...")
+   scheduled_rep = ReportSchedule.where("status = 'Scheduled' AND frequency_type IS NOT NULL")
+
    $logger.info("Load scheduled reports.")
    @time_now = get_time_utc
 
    scheduled_rep.each do |report|
      @user = User.find(report.user_id)
+     start_date = report.report_start_date.strftime("%Y-%m-%d")
+     end_date = report.report_end_date.strftime("%Y-%m-%d")
 
-     if report.report_end_date >= @time_now && report.report_start_date <= @time_now
+     if end_date >= @time_now.strftime("%Y-%m-%d") && start_date <= @time_now.strftime("%Y-%m-%d")
 	    $logger.info("Processing report id #{report.id}")
-         
-       if report.frequency_type == "Everyday"
-         @url = modify_url(report.url)
-         resp = report_service_call(@url)
-     
-       elsif report.frequency_type == "Weekly"
-         if report.frequency_value.include?(@time_now.strftime("%A"))
-           @url = modify_url(report.url)
-           resp = report_service_call(@url)
-         end
 
-       elsif report.frequency_type == "Specific day"
-         values = report.frequency_value.to_date.strftime("%Y-%m-%d")
+	    case report.frequency_type
+	    
+	    when "Everyday"
+	      run(report)	
 
+	    when "Weekly"
+	    	if report.frequency_value.include?(@time_now.strftime("%A"))
+	    	  run(report)
+	    	end  	
+
+	    when "Specific day"
+	    	values = report.frequency_value.to_date.strftime("%Y-%m-%d")
          if values.include?(@time_now.strftime("%Y-%m-%d"))
-           @url = modify_url(report.url)
-           resp = report_service_call(@url) 
-         end
+           run(report)
+         end  	
 
-       elsif report.frequency_type == "Quarterly"
+       when "Quarterly"
          quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
-         current_quarter = quarters[(DateTime.now.month - 1) / 3]
+         current_quarter = quarters[(@time_now.month - 1) / 3]
          q_num = quarters.index(current_quarter) + 1
 
-         current_year = DateTime.now.year
+         current_year = @time_now.year
          q_dates = ["#{current_year}-03-31", "#{current_year}-06-30", "#{current_year}-09-30", "#{current_year}-12-31"]
          
          if report.frequency_value.include?(q_num.to_s) && q_dates.include?(@time_now.strftime("%Y-%m-%d"))
-           @url = modify_url(report.url)
-           resp = report_service_call(@url)  
-         end  
-
-       else
-         $logger.warn("No recurrence type selected")
-       end  
-
-       if !resp.nil?
-         file_path = write_file(resp.body, report)
-         ReportMailer.send_mail(@user, report, file_path).deliver
-         $logger.info("Send email to user successfully")
-         File.delete(file_path)
-
-         if report.report_end_date == @time_now
-           $logger.info("Updating report status")	
-           ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Completed' WHERE id = #{report.id};")
-           ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET last_ran = #{@time_now} WHERE id = #{report.id};") 
-         end 
-       else
-       	raise "Report data missing"
-         ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Failure' WHERE id = #{report.id};")
-       end
+           run(report)
+         end
        
-       $logger.info("Report running execution end..")
+       else
+         $logger.warn("No reports to be executed on date #{@time_now.strftime("%Y-%m-%d")}")	
+       end    	
+       
+       $logger.info("Report running execution end")
      end  
    end
 
  end
+
+ def run(report)
+   @url = modify_url(report.url)
+   resp = report_service_call(@url)
+
+   if !resp.nil?
+     file_path = write_file(resp.body, report)
+     ReportMailer.send_mail(@user, report, file_path).deliver
+     $logger.info("Send email to #{@user.first_name}-#{@user.last_name}")
+     File.delete(file_path)
+
+     if report.report_end_date.strftime("%Y-%m-%d") == @time_now.strftime("%Y-%m-%d")
+       $logger.info("Updating report status")	
+       ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Completed' WHERE id = #{report.id};")
+       ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET last_ran = #{@time_now} WHERE id = #{report.id};") 
+     end 
+   else
+     $logger.error("Report data missing of ID:- #{report.id}")
+     ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Failure' WHERE id = #{report.id};")
+   end
+ end	
 
  def modify_url(url)
    url =~ /tkn=/ ? url.sub!(/tkn=(\w+)/,"tkn=#{build_request_token}") : url += "&tkn=#{build_request_token}"
@@ -119,4 +123,3 @@ namespace :schedule_report do
  end
 
 end  
- 
