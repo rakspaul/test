@@ -60,19 +60,8 @@
       'click .icon-remove' : 'column:remove'
     },
 
-    events: {
-      'mouseover .actions-container' : 'onMouseOver',
-      'mouseout .actions-container' : 'onMouseOut',
-    },
-
-    onMouseOver : function(event) {
-      if($(event.currentTarget).find('.dummySortClass').length) {
-        $(event.currentTarget).find('.dummySortClass').css({visibility: 'visible'});
-      }
-    },
-
-    onMouseOut : function(event) {
-      $(event.currentTarget).find('.dummySortClass').css({visibility: 'hidden'});
+    initialize: function() {
+      this.listenTo(this.model, "change", this.render);
     },
 
   });
@@ -81,14 +70,6 @@
     tagName: 'tr',
     itemView: Report.TableHeaderColumnView,
     
-    initialize: function() {
-      this.listenTo(this.collection, "change", this.onCollectionChange);
-    },
-
-    onCollectionChange: function() {
-      this.render();
-    },
-
   });
 
   // Represents single row returned in AA response
