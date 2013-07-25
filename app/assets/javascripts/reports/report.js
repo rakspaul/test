@@ -40,8 +40,6 @@
       this.selectedColumns.reset();
       this.reportData.reset();
       this.pagination.setTotalRecords(0);
-      this.set({'sort_param': ''});
-      this.set({'sort_direction': ''});
     },
 
     parse: function(response, options) {
@@ -58,13 +56,6 @@
       return response;
     },
 
-    setSortField: function(sort_field){
-      this.set({'sort_field': sort_field});
-    },
-    setSortDirection:  function(sort_direction){
-      this.set({'sort_direction': sort_direction});
-    },
-
     toQueryParam: function(report_type) {
       var params = {
         format: report_type,
@@ -79,10 +70,18 @@
         params.offset = this.pagination.getOffset();
       }
 
-      if(this.get('sort_field')){
-        params.sort_param = this.get('sort_field');
-        params.sort_direction = this.get('sort_direction');
-      }
+      var column = this.selectedColumns.find(this._getSortedColumn);
+      // get sorted column info if any
+      if(column){
+        params.sort_param = column.get('internal_name');
+        params.sort_direction = column.get('sort_direction');
+      } else {
+        // no column is sorted get the column which is associated with the first dimension
+        var column = this._getDefaultColumnForSort();
+          column.setSortDirection('asc');
+        params.sort_param = column.get('internal_name');
+        params.sort_direction =  column.get('sort_direction')
+      };
 
       return params;
     },
@@ -91,6 +90,17 @@
       if(!this.selectedColumns.isEmpty()) {
         this.fetch({data: this.toQueryParam("json")});
       }
+    },
+
+    _getSortedColumn: function(model) {
+      return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
+    },
+
+    _getDefaultColumnForSort: function() {
+      var dimension = this.selectedDimensions.at(0);
+      var column = this.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
+
+      return column;
     },
 
   });
@@ -153,7 +163,7 @@
       this.tableLayout = new Report.TableLayout();
       this.layout.report_table.show(this.tableLayout);
 
-      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns, metadata: this.metadata});
+      this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
       this.tableBodyView = new Report.TableBodyView({
@@ -256,13 +266,19 @@
     _onRemoveDimension: function(args) {
       var dimension = args.model,
         column = this.metadata.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
-
+      // if deleted column is sorted then reset the sort direction
+      column.resetSortDirection();
       this.availableDimensions.add(dimension);
       this.availableColumns.add(column);
 
       // if all the dimension deleted
       if (this.metadata.selectedDimensions.length === 1) {
-        this.availableColumns.add(this.metadata.selectedColumns.models);
+        // reset the sort direction and then add the object
+        this.metadata.selectedColumns.each(function(model) {
+          model.resetSortDirection();
+          this.availableColumns.add(model);
+        },this);
+
         this.metadata.resetMetadata();
       } else {
         this.metadata.selectedColumns.remove(column);
@@ -272,13 +288,19 @@
     },
 
     _onTableColumnRemove: function(args) {
+      // if deleted column is sorted then reset the sort direction  
+      args.model.resetSortDirection();
       this.metadata.selectedColumns.remove(args.model);
       this.availableColumns.add(args.model);
     },
 
-    _onTableColumnSort: function(args) { 
-      var sort_field = args.model.get('internal_name');
-      var sortDirection = this.metadata.get('sort_direction');
+    _onTableColumnSort: function(args) {
+      var sortDirection = args.model.get('sort_direction');
+      var column = this.metadata.selectedColumns.find(this._getSortedColumn);
+
+      if (column) {
+        column.resetSortDirection();
+      }
 
       if(sortDirection){
         sortDirection = (sortDirection == 'asc') ? 'desc' : 'asc';
@@ -286,8 +308,9 @@
         sortDirection = 'asc';
       }
       
-      this.metadata.setSortField(sort_field);
-      this.metadata.setSortDirection(sortDirection);
+      args.model.setSortDirection(sortDirection);
+      // reset the paging view
+      this.metadata.pagination.setTotalRecords(0);
       this.metadata._fetchReportData();
     },
 
@@ -306,6 +329,10 @@
         reoderedColumns.push(column);
       };
       this.metadata.selectedColumns.reset(reoderedColumns);
+    },
+
+    _getSortedColumn: function(model) {
+      return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
     }
   });
 

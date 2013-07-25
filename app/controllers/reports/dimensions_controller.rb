@@ -1,6 +1,6 @@
 class Reports::DimensionsController < ApplicationController
   include Authenticator
-  respond_to :html, :json
+  respond_to :json
 
   def index
     respond_with(ReportDimensions.all)

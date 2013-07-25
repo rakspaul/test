@@ -1,15 +1,15 @@
 <div class="pure-g header-container" >
   <div class="pure-u title-container">
-    <div class="dragtable-drag-handle title"><%= model.name %></div>
+    <div class="dragtable-drag-handle title"><%= name %></div>
   </div>
   <div class="pure-u">
     <div class="actions-container">
-      <% if (sort_field === model.internal_name) { %>
+      <% if (sort_direction) { %>
         <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
-      <% } else { %>
+      <% } else {%>
         <i class="icon-sort"></i>
       <% } %>
-      <% if (model.is_removable) { %>
+      <% if (is_removable) { %>
         <i class="icon-remove remove-action"></i>
       <% } %>
     </div>
