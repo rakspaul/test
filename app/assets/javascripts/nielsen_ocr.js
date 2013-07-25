@@ -94,6 +94,7 @@
 
     _onEnableOcr: function(e) {
       this._setRegionsVisibility(e.target.checked);
+      this.trigger('enable-ocr:checked', e.target.checked);
     },
 
     _setRegionsVisibility: function(visible) {
@@ -150,7 +151,9 @@
         searchOrderListView = null;
 
       this.ocrRegion = new Ocr.OcrRegion();
-      this.orderList = new ReachUI.Orders.OrderList();
+      this.orderList = new ReachUI.Orders.OrderList([], {
+        url: '/nielsen_ocrs/search.json'
+      });
 
       this.dmaList = new DMA.List();
       this.dmaList.on('reset', function(collection, options) {
@@ -176,21 +179,43 @@
     },
 
     show: function(orderId) {
-      this.selectedOrder = this.orderList.get(orderId);
+      var order = this.orderList.get(orderId);
+      if(!order) {
+        var self = this;
+        order = new Orders.Order({'id': orderId});
+        order.fetch().done(function() {
+          self.orderList.add(order);
+          self._showCampaign(order);
+        }).fail(function(error) {
+          alert('Order not found. Id: ' + orderId);
+        });
+      } else {
+        this._showCampaign(order);
+      }
+    },
+
+    _showCampaign: function(order) {
+      this.selectedOrder = order;
       this.selectedOrder.select();
 
       if(!this.campaignDetailLayout) {
         this.campaignDetailLayout = new Ocr.CampaignDetailLayout();
         this.campaignDetailLayout.on('campaign:save', this._saveCampaign, this);
+        this.campaignDetailLayout.on('enable-ocr:checked', this._loadCampaign, this);
 
         this.ocrRegion.show(this.campaignDetailLayout);
       }
 
       this.campaignDetailLayout.setEnableOcrStatus(!this.selectedOrder.get('ocr_enabled'));
+      if(this.selectedOrder.get('ocr_enabled')) {
+        this._loadCampaign();
+      }
+    },
 
+    _loadCampaign: function() {
       var dmaSelect = new DMA.ChosenView({collection: this.dmaList});
 
-      var campaign = new Ocr.Campaign({'order_id': orderId});
+      var campaign = new Ocr.Campaign({'order_id': this.selectedOrder.id});
       var campaignDetailView = new Ocr.CampaignDetailView({model: campaign});
 
       this.campaignDetailLayout.details.show(campaignDetailView);
