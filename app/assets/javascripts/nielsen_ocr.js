@@ -151,7 +151,9 @@
         searchOrderListView = null;
 
       this.ocrRegion = new Ocr.OcrRegion();
-      this.orderList = new ReachUI.Orders.OrderList();
+      this.orderList = new ReachUI.Orders.OrderList([], {
+        url: '/nielsen_ocrs/search.json'
+      });
 
       this.dmaList = new DMA.List();
       this.dmaList.on('reset', function(collection, options) {
@@ -177,7 +179,23 @@
     },
 
     show: function(orderId) {
-      this.selectedOrder = this.orderList.get(orderId);
+      var order = this.orderList.get(orderId);
+      if(!order) {
+        var self = this;
+        order = new Orders.Order({'id': orderId});
+        order.fetch().done(function() {
+          self.orderList.add(order);
+          self._showCampaign(order);
+        }).fail(function(error) {
+          alert('Order not found. Id: ' + orderId);
+        });
+      } else {
+        this._showCampaign(order);
+      }
+    },
+
+    _showCampaign: function(order) {
+      this.selectedOrder = order;
       this.selectedOrder.select();
 
       if(!this.campaignDetailLayout) {
