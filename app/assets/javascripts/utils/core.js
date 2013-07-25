@@ -13,3 +13,11 @@ var ReachUI = {
     return object;
   }
 };
+
+ReachUI.formatColumn = function(value, type, precision) {
+  if(type === 'number') {
+    return accounting.formatNumber(value, precision || 0);
+  } else {
+    return value;
+  }
+}
