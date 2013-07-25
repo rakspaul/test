@@ -51,7 +51,8 @@
     className: 'order-details',
 
     triggers: {
-      'click .edit-action':'order:edit'
+      'click .edit-action':'order:edit',
+      'click .export-order':'order:export'
     }
   });
 

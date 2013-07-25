@@ -286,6 +286,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var order = args.model;
       ReachUI.Orders.router.navigate('/'+ order.id +'/edit', {trigger: true});
     });
+    detailOrderView.on('order:export', function(args) {
+      var order = args.model;
+      window.location.href = '/orders/'+ order.id +'/export.xls';
+    });
     this.orderDetailsLayout.top.show(detailOrderView);
   },
 
