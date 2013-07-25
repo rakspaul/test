@@ -93,5 +93,8 @@ gem 'dalli'
 # For json parsing
 gem 'json', '~> 1.7.7'
 
+# For exporting xlsx file with order info
+gem "rjb"
 
 gem 'spreadsheet'
+
