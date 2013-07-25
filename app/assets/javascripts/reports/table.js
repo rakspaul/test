@@ -11,9 +11,14 @@
       precision: 0,
       sort_direction:''
     },
-    setSortDirection: function(sort_direction){
-      this.set({'sort_direction': sort_direction});
-    }    
+
+    setSortDirection: function(sort_direction) {
+      this.set({sort_direction: sort_direction});
+    },
+
+    resetSortDirection: function() {
+      this.set({sort_direction: ''});
+    },
   });
 
   Report.TableColumnList = Backbone.Collection.extend({
@@ -50,53 +55,40 @@
       }
     },
 
-    initialize: function(){
-      this.sort_field = this.options.sort_field;
-      this.sort_direction = this.options.sort_direction;
-    },
-
     triggers: {
       'click' : 'column:sort',
       'click .icon-remove' : 'column:remove'
     },
 
-    serializeData: function() {
-      return {
-        model: this.model.toJSON(),
-        sort_field: this.sort_field,
-        sort_direction: this.sort_direction,
-      };
-    }
+    events: {
+      'mouseover .actions-container' : 'onMouseOver',
+      'mouseout .actions-container' : 'onMouseOut',
+    },
+
+    onMouseOver : function(event) {
+      if($(event.currentTarget).find('.dummySortClass').length) {
+        $(event.currentTarget).find('.dummySortClass').css({visibility: 'visible'});
+      }
+    },
+
+    onMouseOut : function(event) {
+      $(event.currentTarget).find('.dummySortClass').css({visibility: 'hidden'});
+    },
 
   });
 
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
     itemView: Report.TableHeaderColumnView,
-
+    
     initialize: function() {
-      this.metadata = this.options.metadata;
-      this.sort_field = this.metadata.get('sort_field')
-      this.sort_direction = this.metadata.get('sort_direction');
-      this.listenTo(this.metadata, "change", this.onChange);
+      this.listenTo(this.collection, "change", this.onCollectionChange);
     },
 
-    onChange: function () {
-      this.sort_field = this.metadata.get('sort_field')
-      this.sort_direction = this.metadata.get('sort_direction');
+    onCollectionChange: function() {
       this.render();
     },
 
-    buildItemView: function(item, ItemView){
-      var view = new ItemView({
-        model: item,
-        sort_field: this.sort_field,
-        sort_direction: this.sort_direction,
-      });
-
-      return view;
-    },
-    
   });
 
   // Represents single row returned in AA response
