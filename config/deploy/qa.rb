@@ -7,3 +7,6 @@ set :qa1, "qa-ampapp1.collective-media.net"
 role :web, qa1
 role :app, qa1
 role :db,  qa1, :primary => true
+
+set :default_environment, 'JAVA_HOME' => "/usr/lib/jvm/java-6-sun-1.6.0.26"
+
