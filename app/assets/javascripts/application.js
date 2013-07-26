@@ -24,6 +24,7 @@
 //= require moment.min
 //= require mousetrap.min
 //= require daterangepicker
+//= require bootstrap-datepicker
 //= require accounting.min
 //= require jquery.simplePagination
 //= require_tree ./templates
