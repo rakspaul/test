@@ -3,7 +3,7 @@
 
   Report.ScheduleReportView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/reports/schedule_report'],
-    
+
     initialize: function(){
       this.bindUIElements();
     },
@@ -33,7 +33,7 @@
       else{
         this.ui.select_end_date.attr("disabled", "disabled");
       }
-    }
+    },
 
   });
 })(ReachUI.namespace("Reports"));

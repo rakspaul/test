@@ -295,7 +295,7 @@
     },
 
     _onTableColumnRemove: function(args) {
-      // if deleted column is sorted then reset the sort direction  
+      // if deleted column is sorted then reset the sort direction
       args.model.resetSortDirection();
       this.metadata.selectedColumns.remove(args.model);
       this.availableColumns.add(args.model);
@@ -314,7 +314,7 @@
       } else{
         sortDirection = 'asc';
       }
-      
+
       args.model.setSortDirection(sortDirection);
       // reset the paging view
       this.metadata.pagination.setTotalRecords(0);
@@ -341,6 +341,7 @@
     _getSortedColumn: function(model) {
       return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
     }
+
   });
 
 })(ReachUI.namespace("Reports"));
