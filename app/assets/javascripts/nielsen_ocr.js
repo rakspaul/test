@@ -173,9 +173,10 @@
 
   Ocr.OcrController = Marionette.Controller.extend({
     initialize: function(options) {
-      var search = new Search.SearchQuery({ocr:true}),
-        searchView = new Search.SearchQueryView({model: search}),
-        ocrEnabledCheckbox = new Ocr.OcrEnabledCheckbox({model: search}),
+      this.search = new Search.SearchQuery({ocr:true});
+
+      var searchView = new Search.SearchQueryView({model: this.search}),
+        ocrEnabledCheckbox = new Ocr.OcrEnabledCheckbox({model: this.search}),
         searchOrderListView = null;
 
       this.ocrRegion = new Ocr.OcrRegion();
@@ -188,7 +189,7 @@
         collection.add(new DMA.Model(), {at: 0});
       });
 
-      search.on('change:query change:ocr', function(model) {
+      this.search.on('change:query change:ocr', function(model) {
         this.orderList.fetch({data: {search: model.get('query'), ocr: model.get('ocr')}});
       }, this);
 
@@ -208,7 +209,7 @@
     },
 
     index: function() {
-      this.orderList.fetch();
+      this.orderList.fetch({data: {search: this.search.get('query'), ocr: this.search.get('ocr')}});
     },
 
     show: function(orderId) {
