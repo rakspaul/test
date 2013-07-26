@@ -119,7 +119,8 @@
       report_options: "#report_options_region",
       selected_dimensions: '#selected_dimensions_region',
       report_table: "#report_table_region",
-      paging: "#paging_region"
+      paging: "#paging_region",
+      schedule_report: "#schedule_report_region"
     },
 
     onDomRefresh: function() {
@@ -145,6 +146,7 @@
       this._initializeColumns();
       this._initializeDatePicker();
       this._initializeReportOptions();
+      this._initializeScheduleReport();
     },
 
     _initializeLayout: function() {
@@ -187,6 +189,11 @@
       this.reportOptionsView = new Report.ReportOptionsView();
       this.reportOptionsView.on('report:export', this._exportReport, this);
       this.layout.report_options.show(this.reportOptionsView);
+    },
+
+    _initializeScheduleReport: function(){
+      this.scheduleReportView = new Report.ScheduleReportView({model: this.metadata});
+      this.layout.schedule_report.show(this.scheduleReportView);
     },
 
     _intializeDimensions: function() {

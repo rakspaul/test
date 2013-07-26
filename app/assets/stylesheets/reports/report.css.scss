@@ -81,7 +81,7 @@
       color: #9B9B9B;
     }
 
-    .export-share {
+    .export-share, .schedule-report {
       padding: 10px;
       background-color: #303535;
       color: #9B9B9B;
@@ -223,4 +223,36 @@
     -ms-user-select: none;
     user-select: none;
     cursor: default;
+}
+
+.schedule-report-modal{
+  
+  .modal-body{
+    max-height: 600px;
+  }
+
+  form fieldset{
+    padding:10px 0;
+    margin:0px 0 10px 0;
+  }
+
+  .control-group{
+    padding:0px;
+    margin:0 0 10px 0;
+  }
+
+  legend{
+    font-size:15px;
+    line-height:20px;
+    margin-bottom:10px;
+  }
+
+  .checkboxes-inner{
+    padding:0 0 10px 20px;
+  }
+
+  .close{
+    margin:0px 5px 0 0;
+  }
+  
 }
