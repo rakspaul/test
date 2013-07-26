@@ -58,7 +58,7 @@
 			appendTarget: $(  document.body ),
 			//if true,this will scroll the appendTarget offsetParent when the dragDisplay is dragged past its boundaries
 			scroll: false
-			
+
 		},
 		// when a col is dragged use this to find the semantic elements, for speed
   		tableElemIndex:{  
@@ -69,9 +69,9 @@
 		tbodyRegex: /(tbody|TBODY)/,
 		theadRegex: /(thead|THEAD)/,
 		tfootRegex: /(tfoot|TFOOT)/,
-			
+
 		_create: function() {
-			
+
 			//console.log(this);
 			//used start/end of drag
 			this.startIndex = null;
@@ -83,30 +83,30 @@
 			//the div wrapping the drag display table
 			this.dragDisplay = $([])
 
-			
+
 			var self = this,
 				o = self.options,
 				el = self.element;
-		
+
 			//offsetappendTarget catch for this
 			if( o.appendTarget.length == 0 ){
 				o.appendTarget = $( document.body );
 			}
 			//grab the ths and the handles and bind them 
 			el.delegate(o.items, 'mousedown.' + self.widgetEventPrefix, function(e){
-				
+
 				var $handle = $(this),
 					elementOffsetTop = self.element.position().top;
 
 				//make sure we are working with a th instead of a handle
 				if( $handle.hasClass( o.handle ) ){
-					
+
 					$handle = $handle.closest('th');
 					//change the target to the th, so the handler can pick up the offsetleft
 					e.currentTarget = $handle.closest('th')[0]
 				}
-				
-							
+
+
 			self.getCol( $handle.index() )
 					.attr( 'tabindex', -1 )
 	                .focus()
@@ -117,15 +117,15 @@
 	                    left: ( self.currentColumnCollectionOffset.left + o.appendTarget[0].scrollLeft )
 					})
 	                .appendTo( o.appendTarget )
-				
 
-				
+
+
 				self._mousemoveHandler( e );
 				//############
 			});
                 
 		},
-		
+
 		/*
 		 * e.currentTarget is used for figuring out offsetLeft
 		 * getCol must be called before this is 
@@ -134,7 +134,7 @@
 		_mousemoveHandler: function( e ){
 			//call this first, catch any drag display issues
 			this._start( e )
-				
+
 			var self = this,
 				o = self.options,
             	prevMouseX = e.pageX,
@@ -177,7 +177,7 @@
 						} else {
 							appendTarget.scrollLeft = scrollLeft;
 						}
-				 		
+
 				 	}
                    
                    
@@ -188,11 +188,11 @@
 				}else{
 				 //move right
 				 	var threshold = columnPos.left + halfDragDisplayWidth ;
-				 	
+
 				 	//scroll right
 				 	if( left > (appendTarget.clientWidth - dragDisplayWidth ) && scroll == true ) {
 				 		//console.log(  o.appendTarget[0].clientWidth + (e.pageX - prevMouseX))
-				 		
+
 				 		var scrollLeft =  appendTarget.scrollLeft + mouseXDiff
 				 		/*
 				 		 * firefox does scroll the body with target being body but chome does
@@ -202,9 +202,9 @@
 						} else {
 							appendTarget.scrollLeft = scrollLeft;
 						}
-				 		
+
 				 	}
-				 	
+
                     //move to the right only if x is greater than threshold and the current col isn' the last one
                     if( left  > threshold  && colCount != self.startIndex ){
                     	self._swapCol( self.startIndex + 1 );
@@ -212,22 +212,22 @@
 				}
 				//update mouse position
 				prevMouseX = e.pageX;
-		
+
             })
             .one( 'mouseup.' + self.widgetEventPrefix ,function(e ){
                 self._stop( e );
             });
                           
 		},
-		
+
 		_start: function( e ){
-			
+
 			$( document )
                 	//move disableselection and cursor to default handlers of the start event
 	                .disableSelection()
 	                .css( 'cursor', 'move')
 
-				
+
 			return this._eventHelper('start',e,{
 					//'draggable': $dragDisplay
 				});
@@ -241,18 +241,18 @@
 			 	 .unbind( 'mousemove.' + this.widgetEventPrefix )
 			 	 .enableSelection()
 			 	 .css( 'cursor', 'move')
-				
+
 				this.dropCol();
 				this.dragDisplay.remove()
 			};  
-	                    
+
 		},
-		
+
 		_setOption: function(option, value) {
 			$.Widget.prototype._setOption.apply( this, arguments );
            
 		},
-		
+
 		/*
 		 * get the selected index cell out of table row
 		 * needs to work as fast as possible. and performance gains in this method are worth the time
@@ -279,39 +279,39 @@
 				//reduce looking up the chain, dont do it for the foot think thats more overhead since not many tables have a tfoot
 				tdsSemanticBody = tds.semantic[ei.body],
 				tdsSemanticHead = tds.semantic[ei.head];
-			
+
 			//console.log(index);
 			//check does this col exsist
 			if(index <= -1 || typeof elem.rows[0].cells[index] == undefined){
 				return tds;
 			}
-			
+
 			for(var i = 0, length = elem.rows.length; i < length; i++){
-				
+
 				var td = elem.rows[i].cells[index];
-				
+
 				//if the row has no cells dont error out;
 				if( td == undefined ){
 					continue;
 				}
-				
+
 				var parentNodeName = td.parentNode.parentNode.nodeName;
 				tds.array.push(td);
 				//faster to leave out ^ and $ in the regular expression
 				if( tbodyRegex.test( parentNodeName ) ){
-					
+
 					tdsSemanticBody.push( td );
-					
+
 				}else if( theadRegex.test( parentNodeName ) ){
-					
+
 					tdsSemanticHead.push( td );
-				
+
 				}else if( this.tfootRegex.test( parentNodeName ) ){
-					
+
 					tds.semantic[ei.foot].push( td );
 				}
-				
-					 		
+
+
 		 	}
 		 	//console.timeEnd('getcells');
 		 	return tds;
@@ -320,7 +320,7 @@
 		 * returns all element attrs in a string key="value" key2="value"
 		 */
 		_getElementAttributes: function(element){
-			
+
         	var attrsString = '',
 	        	attrs = element.attributes;
 	        for(var i=0, length = attrs.length; i < length; i++) {
@@ -366,31 +366,31 @@
 			//console.log('index of col '+index);
 			//drag display is just simple html
 			//console.profile('selectCol');
-			
+
 			//colHeader.addClass('ui-state-disabled')
 
 			var $table = this.element,
 				self = this,
 				eIndex = self.tableElemIndex,
 				placholderClassnames = ' ' + this.options.placeholder;
-				
+
 				//BUG: IE thinks that this table is disabled, dont know how that happend
 				self.dragDisplay = $('<table '+self._getElementAttributes($table[0])+'></table>')
 									.addClass('dragtable-drag-col');
-			
+
 			//start and end are the same to start out with
 			self.startIndex = self.endIndex = index;
-		
+
 
 		 	var cells = self._getCells($table[0], index);
 			self.currentColumnCollection = cells.array;
 			//console.log(cells);
 			//################################
-			
+
 			//TODO: convert to for in // its faster than each
 			$.each(cells.semantic,function(k,collection){
 				//dont bother processing if there is nothing here
-				
+
 				if(collection.length == 0){
 					return;
 				}
@@ -406,14 +406,14 @@
                 }
 
 				for(var i = 0,length = collection.length; i < length; i++){
-					
+
 					var clone = collection[i].cloneNode(true);
 					collection[i].className+=placholderClassnames;
 					var tr = document.createElement('tr');
 					tr.appendChild(clone);
 					//console.log(tr);
-					
-					
+
+
 					target.appendChild(tr);
 					//collection[i]=;
 				}
@@ -426,22 +426,22 @@
             self.dragDisplay  = $('<div class="dragtable-drag-wrapper"></div>').append(self.dragDisplay)
     		return self.dragDisplay;
 		},
-		
-		
+
+
 		_setCurrentColumnCollectionOffset: function(){
 			return this.currentColumnCollectionOffset = $( this.currentColumnCollection[0] ).position();
 		},
-		
+
 		/*
 		 * move column left or right
 		 */
 		_swapCol: function( to ){
-			
+
 			//cant swap if same position
 			if(to == this.startIndex){
 				return false;
 			}
-			
+
 			var from = this.startIndex;
 			this.endIndex = to;
 			//this col cant be moved past me
@@ -454,12 +454,12 @@
 			if( th.find( '.' + this.options.handle ).hasClass( this.options.boundary ) == true ){
 				return false;
 			}
-			
+
 			if( this._eventHelper('breforechange',{}) === false ){
 				return false;
 			};
-			
-			
+
+
 	        if(from < to) {
 	        	//console.log('move right');
 	        	for(var i = from; i < to; i++) {
@@ -479,7 +479,7 @@
 	        	}
 	        }
 	        this._eventHelper('change',{});
-	        
+
 	        this.startIndex = this.endIndex;
 		},
 		/*
@@ -492,10 +492,10 @@
 			//dont use jquery.fn.removeClass for performance reasons
 			for(var i = 0, length = this.currentColumnCollection.length; i < length; i++){
 				var td = this.currentColumnCollection[i];
-				
+
 				td.className = td.className.replace(regex,'')
 			}
-			
+
 
 		},
 		/*
@@ -506,8 +506,8 @@
 				elem = self.element,
 				options = self.options,
 				headers = elem.find('thead tr:first').children('th');
-				
-			
+
+
 			if(order == undefined){
 				//get
 				var ret = [];
@@ -517,13 +517,13 @@
 						//the attr is missing so grab the text and use that
 						header = $(this).text();
 					}
-					
+
 					ret.push(header);
-					
+
 				});
-				
+
 				return ret;
-				
+
 			}else{
 				//set
 				//headers and order have to match up
@@ -532,29 +532,29 @@
 					return self;
 				}
 				for(var i = 0, length = order.length; i < length; i++){
-					 
+
 					 var start = headers.filter('['+ options.dataHeader +'='+ order[i] +']').index();
 					 if(start != -1){
 					 	//console.log('start index '+start+' - swap to '+i);
 					 	self.startIndex = start;
-					 	
+
 						self.currentColumnCollection = self._getCells(self.element[0], start).array;
 
 					 	self._swapCol(i);
 					 }
-					 
-					 
+
+
 				}
 				return self;
 			}
 		},
-				
+
 		destroy: function() {
 			var self = this,
 				o = self.options;
-			
+
 			this.element.undelegate( o.items, 'mousedown.' + self.widgetEventPrefix );
-			
+
 			$( document ).unbind('.' + self.widgetEventPrefix )
             
 		}

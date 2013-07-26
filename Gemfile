@@ -94,3 +94,8 @@ gem 'dalli'
 gem 'json', '~> 1.7.7'
 
 gem 'whenever', :require => false
+
+# For exporting xlsx file with order info
+gem "rjb"
+
+gem 'spreadsheet'

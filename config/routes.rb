@@ -6,17 +6,22 @@ Reachui::Application.routes.draw do
   post 'signin' => 'account_sessions#create'
   get 'signout' => 'account_sessions#destroy'
 
+
   namespace :reports do
-    resources :reports
+    resources :reports 
     resources :query
     resources :schedule_reports
+    resources :dimensions
+    resources :columns
   end
+
 
   resources :orders do
     resources :lineitems
     collection do
       get 'search'
     end
+    get 'export' => 'io_export#export'
   end
 
   resources :kendoui
