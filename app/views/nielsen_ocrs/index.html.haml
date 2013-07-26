@@ -1,0 +1,41 @@
+#ocr_layout.pure-g
+  #order_list.pure-u
+    .content
+      .form-search
+        .input-append
+          %input.search-query{:type => "text"}/
+          %button#search_button.btn{:type => "button"} Search
+        .hint
+          Advertiser name, Order name, Id, Source Id
+      .filters
+        %label.checkbox.inline
+          %input.ocr-enabled-only{:type => "checkbox"} Show only OCR enabled orders
+
+      .order-search-result
+
+  #details.pure-u
+    .content
+
+
+:javascript
+  $(document).ready(function() {
+    $(window).resize(resizeContent);
+    $(resizeContent);
+
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.Ocr.OcrController();
+    ReachUI.Ocr.router = new ReachUI.Ocr.Router({controller: controller});
+
+    Backbone.history.start({
+      pushState: true,
+      root: "/nielsen_ocrs"
+    });
+  });
+
+  function resizeContent() {
+    var width = $(window).width() - 350;
+    var height = $(window).height() - 84;
+    $("#details").width(width).height(height);
+    $("order_list").height(height);
+  }

@@ -1,4 +1,5 @@
 Reachui::Application.routes.draw do
+  get "nielsen_ocr/index"
   get "adsizes/index"
   root 'account_sessions#new'
 
@@ -16,7 +17,13 @@ Reachui::Application.routes.draw do
 
 
   resources :orders do
+    resource :nielsen_campaign, controller: 'nielsen_campaign' do
+      member do
+        get 'ads'
+      end
+    end
     resources :lineitems
+
     collection do
       get 'search'
     end
@@ -27,7 +34,13 @@ Reachui::Application.routes.draw do
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
+  resources :nielsen_ocrs, only: [:index, :show] do
+    collection do
+      get 'search'
+    end
+  end
 
+  resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
 
   # The priority is based upon order of creation: first created -> highest priority.
