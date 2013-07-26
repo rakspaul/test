@@ -140,14 +140,42 @@
     }
   });
 
+  Ocr.OrderListItemView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/nielsen_ocr/order_list_item'],
+    className: 'order',
+    triggers: {
+      'click': 'selected'
+    }
+  });
+
+  Ocr.OcrEnabledCheckbox = Backbone.Marionette.ItemView.extend({
+    el: '.ocr-enabled-only',
+    events: {
+      'change': '_onChange'
+    },
+
+    initialize: function() {
+      this.$el.prop('checked', this.model.get('ocr'));
+    },
+
+    isChecked: function() {
+      return this.$el.is(':checked');
+    },
+
+    _onChange: function() {
+      this.model.set({ocr: this.isChecked()});
+    }
+  });
+
   Ocr.OcrRegion = Backbone.Marionette.Region.extend({
     el: "#details .content"
   });
 
   Ocr.OcrController = Marionette.Controller.extend({
     initialize: function(options) {
-      var search = new Search.SearchQuery(),
+      var search = new Search.SearchQuery({ocr:true}),
         searchView = new Search.SearchQueryView({model: search}),
+        ocrEnabledCheckbox = new Ocr.OcrEnabledCheckbox({model: search}),
         searchOrderListView = null;
 
       this.ocrRegion = new Ocr.OcrRegion();
@@ -160,11 +188,16 @@
         collection.add(new DMA.Model(), {at: 0});
       });
 
-      search.on('change:query', function(model) {
-        this.orderList.fetch({data: {search: model.get('query'), ocr: true}});
+      search.on('change:query change:ocr', function(model) {
+        this.orderList.fetch({data: {search: model.get('query'), ocr: model.get('ocr')}});
       }, this);
 
-      searchOrderListView = new Orders.ListView({el: '.order-search-result', collection: this.orderList})
+      searchOrderListView = new Orders.ListView({
+        el: '.order-search-result',
+        collection: this.orderList,
+        itemView: Ocr.OrderListItemView
+      });
+
       searchOrderListView.on("itemview:selected", function(view) {
         Ocr.router.navigate('/' + view.model.id, {trigger: true});
       });

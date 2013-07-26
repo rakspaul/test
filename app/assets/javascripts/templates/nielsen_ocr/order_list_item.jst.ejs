@@ -1,0 +1,24 @@
+<div class="order-name">
+  <%= order.name %>
+</div>
+
+<div class="order-id">
+  <%= order.id %> / <%= order.source_id.indexOf("R_") === 0 ? 'NA' : order.source_id %>
+</div>
+
+<div class="order-status">
+  <%= order.active ? 'Active' : 'Inactive' %>
+  <% if(order.ocr_enabled) { %>
+    / OCR Enabled
+  <% } %>
+</div>
+
+<div class="order-advertiser">
+  <%= order.advertiser_name %>
+</div>
+
+<div class="order-dates">
+  <%= order.start_date %>
+  to
+  <%= order.end_date %>
+</div>

@@ -18,6 +18,7 @@ class NielsenOcrsController < ApplicationController
                 .limit(50)
 
     if search_query.present?
+      @orders = @orders.where.not(nielsen_campaigns: {order_id: nil}) if params[:ocr] == 'true'
       @orders = SearchOrdersQuery.new(@orders).search(search_query)
     else
       @orders = LatestUpdatedOcrOrdersQuery.new(@orders.includes(:advertiser)).all
