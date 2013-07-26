@@ -15,12 +15,14 @@ class NielsenOcrsController < ApplicationController
 
     @orders = Order.of_network(current_network)
                 .includes(:nielsen_campaign)
+                .order('orders.name')
                 .limit(50)
 
-    if search_query.present?
-      @orders = SearchOrdersQuery.new(@orders).search(search_query)
-    else
+    if search_query.blank? and params[:ocr] == 'true'
       @orders = LatestUpdatedOcrOrdersQuery.new(@orders.includes(:advertiser)).all
+    else
+      @orders = @orders.where.not(nielsen_campaigns: {order_id: nil}) if params[:ocr] == 'true'
+      @orders = SearchOrdersQuery.new(@orders).search(search_query)
     end
 
     respond_with(@orders)
