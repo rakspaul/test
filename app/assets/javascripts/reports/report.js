@@ -154,6 +154,7 @@
 
       this.layout = new Report.Layout();
       this.detailRegion.show(this.layout);
+      this.layout.addRegions({ 'modal': Report.ModalRegion});
     },
 
     _initializeDatePicker: function() {
@@ -192,7 +193,8 @@
     },
 
     _initializeScheduleReport: function(){
-      this.scheduleReportView = new Report.ScheduleReportView({model: this.metadata});
+      this.scheduleReportView = new Report.ScheduleReportView();
+      this.scheduleReportView.on('open:schedule_report_modal', this._openScheduleReportModal, this);
       this.layout.schedule_report.show(this.scheduleReportView);
     },
 
@@ -340,6 +342,16 @@
 
     _getSortedColumn: function(model) {
       return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
+    },
+
+    _openScheduleReportModal: function() {
+      var reportModal = new Report.ReportModel();
+      var start_date = this.metadata.get('start_date').format('YYYY-MM-DD');
+      var end_date = this.metadata.get('end_date').format('YYYY-MM-DD');
+        reportModal.set({start_date: start_date, end_date: end_date});
+
+      this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
+      this.layout.modal.show(this.scheduleReportModalView);
     }
 
   });

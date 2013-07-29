@@ -1,34 +1,91 @@
 (function(Report) {
   'use strict';
 
+  Report.ReportModel = Backbone.Model.extend({
+    url: '/schedule_reports/',
+    defaults: {
+      title: '',
+      emails: '',
+      start_date: '',
+      end_date: '',
+      recalculate_dates: false,
+      report_start_date: moment().add("days", 1).format('YYYY-MM-DD'),
+      report_end_date: '',
+      groups: null,
+      cols: null,
+      sort_param: '',
+      sort_direction: '',
+      frequency_type: 'Everyday',
+      frequency_value: 1,
+    },
+  });
+
+  Report.ModalRegion = Backbone.Marionette.Region.extend({
+    el: "#modal",
+
+    constructor: function(){
+      _.bindAll(this);
+      Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
+      this.on("show", this.showModal, this);
+    },
+
+    getEl: function(selector){
+      var $el = $(selector);
+      $el.on("hidden", this.close);
+      return $el;
+    },
+
+    showModal: function(view){
+      view.on("close", this.hideModal, this);
+      this.$el.modal('show');
+    },
+
+    hideModal: function(){
+      this.$el.modal('hide');
+    }
+  });
+
+
   Report.ScheduleReportView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/reports/schedule_report'],
+
+    triggers: {
+      'click #schedule_report' : 'open:schedule_report_modal',
+    },
+
+  });
+
+  Report.ScheduleReportModalView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/reports/schedule_report_modal'],
+    className: 'modal schedule-report-modal',
 
     initialize: function(){
       this.bindUIElements();
     },
 
     events: {
-      'change input[name="endsOnRadio"]' : 'endsOnRadioClick'
+      'change input[name="endsOnRadio"]' : 'endsOnRadioClick',
+      'click #save_report' : 'saveReport'
     },
 
     ui: {
       end_date : '#end_date',
-      report_dates : '#report_dates'
-    },
-
-    onRender: function(){
-      this._updateScheduleReportView(this.model.get('start_date'), this.model.get('end_date'));
+      report_dates : '#report_dates',
+      title : '#title',
+      emails: '#emails',
+      report_start_date: '#start_date',
+      report_end_date: '#end_date'
     },
 
     onDomRefresh: function(){
-      $('#start_date, #end_date').datepicker({
-        format: 'yyyy-mm-dd'
-      });
+      $('#start_date, #end_date').datepicker(this._defaults());
     },
 
-    _updateScheduleReportView: function(start, end){
-      this.ui.report_dates.val(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+    _defaults: function() {
+      return {
+        format: 'yyyy-mm-dd',
+        startDate: this.model.get('report_start_date'),
+      }
     },
 
     endsOnRadioClick: function(event){
@@ -42,5 +99,12 @@
       }
     },
 
+    saveReport: function() {
+
+    }
+
+
+
   });
+
 })(ReachUI.namespace("Reports"));
