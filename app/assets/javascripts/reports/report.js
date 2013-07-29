@@ -45,9 +45,9 @@
     parse: function(response, options) {
       this.reportData.reset(response.records);
 
-      if(this.pagination.get('total_records') <= 0) {
+      // if(this.pagination.get('total_records') <= 0) {
         this.pagination.setTotalRecords(response.total_records);
-      }
+      // }
 
       delete response.records;
       delete response.start_date;
@@ -288,7 +288,7 @@
     },
 
     _onTableColumnRemove: function(args) {
-      // if deleted column is sorted then reset the sort direction  
+      // if deleted column is sorted then reset the sort direction
       args.model.resetSortDirection();
       this.metadata.selectedColumns.remove(args.model);
       this.availableColumns.add(args.model);
@@ -307,7 +307,7 @@
       } else{
         sortDirection = 'asc';
       }
-      
+
       args.model.setSortDirection(sortDirection);
       // reset the paging view
       this.metadata.pagination.setTotalRecords(0);
