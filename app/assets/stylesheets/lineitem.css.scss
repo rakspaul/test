@@ -1,13 +1,5 @@
 .table-container {
-  min-width: 1024px;
-  padding: 10px;
-
   .table {
-    border: 1px solid #eee;
-    thead {
-      background-color: #f9f9f9;
-    }
-
     .name {
     }
 
@@ -48,18 +40,6 @@
     .inactive {
       color: $inactive-color;
     }
-  }
-
-  .table > tbody tr {
-    cursor: pointer;
-
-    &:hover {
-      background-color: $hover-color;
-    }
-  }
-
-  .table th, .table td {
-    border: 1px solid #EEEEEE;
   }
 }
 

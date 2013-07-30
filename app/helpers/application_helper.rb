@@ -8,6 +8,11 @@ module ApplicationHelper
     "Orders" => {
       controllers: ["OrdersController","LineitemsController"],
       path: :orders
+    },
+
+    "Nielsen OCR" => {
+      controllers: ["NielsenOcrsController"],
+      path: :nielsen_ocrs
     }
   }
 

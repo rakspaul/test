@@ -27,9 +27,11 @@
 //= require bootstrap-datepicker
 //= require accounting.min
 //= require jquery.simplePagination
+//= require chosen.jquery
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
+//= require ./common/dma
 //= require reports/list.js
 //= require reports/table.js
 //= require reports/report.js
@@ -44,3 +46,4 @@
 //= require ./lineitems/adsizes.js
 //= require ./orders/controller.js
 //= require ./orders/router.js
+//= require ./nielsen_ocr

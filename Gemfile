@@ -91,7 +91,7 @@ gem 'unicorn'
 gem 'dalli'
 
 # For json parsing
-gem 'json', '~> 1.7.7'
+gem 'json', '~> 1.8.0'
 
 # For exporting xlsx file with order info
 gem "rjb"
