@@ -21,12 +21,11 @@
   });
 
   Report.ModalRegion = Backbone.Marionette.Region.extend({
-    el: "#modal",
 
     constructor: function(){
       _.bindAll(this);
-      Backbone.Marionette.Region.prototype.constructor.apply(this, arguments);
-      this.on("show", this.showModal, this);
+      this.ensureEl();
+      Marionette.Region.prototype.constructor.apply(this, arguments);
     },
 
     getEl: function(selector){
@@ -35,7 +34,7 @@
       return $el;
     },
 
-    showModal: function(view){
+    onShow: function(view){
       view.on("close", this.hideModal, this);
       this.$el.modal('show');
     },

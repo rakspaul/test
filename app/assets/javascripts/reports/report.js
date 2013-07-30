@@ -154,7 +154,7 @@
 
       this.layout = new Report.Layout();
       this.detailRegion.show(this.layout);
-      this.layout.addRegions({ 'modal': Report.ModalRegion});
+      this.layout.addRegions({'schedule_report_modal': new Report.ModalRegion({el:'#schedule_report_modal'})});
     },
 
     _initializeDatePicker: function() {
@@ -351,7 +351,7 @@
         reportModal.set({start_date: start_date, end_date: end_date});
 
       this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
-      this.layout.modal.show(this.scheduleReportModalView);
+      this.layout.schedule_report_modal.show(this.scheduleReportModalView);
     }
 
   });
