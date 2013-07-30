@@ -11,29 +11,15 @@ class Reports::ScheduleReportsController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def new
-    @report_schedule = ReportSchedule.new
-    @report_schedule.user = current_user
-  end  
-
   def create
-  	@report = ReportSchedule.new(params[:report_schedule])
+    p = params.require(:report_schedule).permit(:start_date, :end_date, :report_start_date)
+    @report_schedule = ReportSchedule.new(p)
+    @report_schedule.user_id = @current_user.id
 
-    params.clone.keep_if {|key, value| SUPPORTED_PARAMS.include? key}
-    params.merge!({
-      "instance" => @current_user.network.id,
-      "user_id" => @current_user.id,
-      "tkn" => build_request_token
-     })
-
-    query_string = params.map {|k,v| "#{k}=#{v}"}.join("&")
-    report_server = Rails.application.config.report_service_uri
-    url = "#{report_server}?#{query_string}"
-
-    @report.url = url
+    @report_schedule.url = create_url(p)
   	
-	  if !@report.save
-      render json: { errors: @report.errors }, status: :unprocessable_entity
+    if !@report_schedule.save
+      render json: { errors: @report_schedule.errors }, status: :unprocessable_entity
     end
   end
 
@@ -47,21 +33,37 @@ class Reports::ScheduleReportsController < ApplicationController
   end  
 
   def update
-  	@report = ReportSchedule.find_by_id(params[:id])
-  	@report.update_attributes(params[:report])
+    @report = ReportSchedule.find_by_id(params[:id])
+    @report.update_attributes(params[:report])
 
-  	if !@report.save
+    if !@report.save
       render json: { errors: @report.errors }, status: :unprocessable_entity
     end
   end
 
   def destroy
-  	@report = ReportSchedule.find(params[:id])
-  	@report.destroy
+    @report = ReportSchedule.find(params[:id])
+    @report.destroy
   end
 
   def build_request_token
     Digest::MD5.hexdigest("#{@current_user.network.id}:#{@current_user.id}:#{Date.today.strftime('%Y-%m-%d')}")
-  end	  
+  end
+
+  private
+    def create_url(p)
+      p.keep_if {|key, value| SUPPORTED_PARAMS.include? key}
+      p.merge!({
+        "instance" => @current_user.network.id,
+        "user_id" => @current_user.id,
+        "tkn" => build_request_token
+       })
+
+      query_string = p.map {|k,v| "#{k}=#{v}"}.join("&")
+      report_server = Rails.application.config.report_service_uri
+      url = "#{report_server}?#{query_string}"	  
+
+      url
+    end  
 
 end  
