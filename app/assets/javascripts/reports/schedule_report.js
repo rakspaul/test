@@ -2,7 +2,7 @@
   'use strict';
 
   Report.ReportModel = Backbone.Model.extend({
-    url: '/schedule_reports/',
+    url: '/reports/schedule_reports/',
     defaults: {
       title: '',
       emails: '',
@@ -99,10 +99,8 @@
     },
 
     saveReport: function() {
-
+      this.model.save();
     }
-
-
 
   });
 
