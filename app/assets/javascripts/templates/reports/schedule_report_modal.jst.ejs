@@ -7,14 +7,14 @@
       <div class="control-group">
         <label class="control-label" for="title">Title</label>
         <div class="controls">
-          <input type="text" id="title" placeholder="Title" value="<%= title%>">
+          <input type="text" id="title" placeholder="Title" value="<%= report_schedule.title %>">
         </div>
       </div>
 
       <div class="control-group">
         <label class="control-label" for="reportDates">Report Dates</label>
         <div class="controls">
-          <input type="text" id="report_dates" placeholder="Report Dates" value="<%= start_date%> to <%= end_date%>" disabled>
+          <input type="text" id="report_dates" placeholder="Report Dates" value="<%= report_schedule.start_date%> to <%= report_schedule.end_date%>" disabled>
         </div>
       </div>
 
@@ -28,7 +28,7 @@
       <div class="control-group">
         <label class="control-label" for="emails">Emails</label>
         <div class="controls">
-          <input type="text" id="emails" placeholder="Emails" value="<%= emails%>">
+          <input type="text" id="emails" placeholder="Emails" value="<%= report_schedule.emails%>">
         </div>
       </div>
     </fieldset>
@@ -38,7 +38,7 @@
       <div class="control-group">
         <label class="control-label" for="start_date" >Start On</label>
         <div class="controls">
-          <input type="text" id="start_date" placeholder="Start On" value="<%= report_start_date%>">
+          <input type="text" id="start_date" placeholder="Start On" value="<%= report_schedule.report_start_date%>">
         </div>
       </div>
 
@@ -121,5 +121,5 @@
 
 <div class="modal-footer">
   <button id="save_report" class="btn btn-primary">Schedule</button>
-  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  <button id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>

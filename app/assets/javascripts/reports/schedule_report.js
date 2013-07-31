@@ -18,6 +18,10 @@
       frequency_type: 'Everyday',
       frequency_value: 1,
     },
+
+    toJSON: function() {
+      return { report_schedule: _.clone(this.attributes) };
+    }
   });
 
   Report.ModalRegion = Backbone.Marionette.Region.extend({
@@ -99,8 +103,21 @@
     },
 
     saveReport: function() {
-      this.model.save();
+      var _report = this.model.toJSON();
+      this.model.save(_report.report_schedule,{
+        success: this._onSaveReportSuccess,
+        error: this._onSaveReportFailure
+      });
+    },
+
+    _onSaveReportSuccess: function(model, response, options){
+      //Success
+    },
+
+    _onSaveReportFailure: function(model, response, options){
+      $('#close_modal').trigger('click');
     }
+
 
   });
 
