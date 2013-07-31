@@ -345,17 +345,19 @@
     },
 
     _openScheduleReportModal: function() {
-      var reportModal = new Report.ReportModel();
-      var start_date = this.metadata.get('start_date').format('YYYY-MM-DD');
-      var end_date = this.metadata.get('end_date').format('YYYY-MM-DD');
+      if(!this.metadata.selectedColumns.isEmpty()){
+        var reportModal = new Report.ReportModel();
+        var start_date = this.metadata.get('start_date').format('YYYY-MM-DD');
+        var end_date = this.metadata.get('end_date').format('YYYY-MM-DD');
 
-      reportModal.set({start_date: start_date, end_date: end_date});
-      reportModal.set({title:'Report_'+start_date+'-'+ end_date});
-      reportModal.set({groups: this.metadata.selectedDimensions.pluck("internal_id").join(',') });
-      reportModal.set({cols: this.metadata.selectedColumns.pluck("internal_name").join(',') });
+        reportModal.set({start_date: start_date, end_date: end_date});
+        reportModal.set({title:'Report_'+start_date+'-'+ end_date});
+        reportModal.set({groups: this.metadata.selectedDimensions.pluck("internal_id").join(',') });
+        reportModal.set({cols: this.metadata.selectedColumns.pluck("internal_name").join(',') });
 
-      this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
-      this.layout.schedule_report_modal.show(this.scheduleReportModalView);
+        this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
+        this.layout.schedule_report_modal.show(this.scheduleReportModalView);
+      }
     }
 
   });
