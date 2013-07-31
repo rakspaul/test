@@ -1,0 +1,28 @@
+- content_for :content do
+  .pure-g
+    .pure-u
+      .v-nav
+        %ul
+          %li{class: ('active' if controller.class.name == 'Admin::ReachClientsController')}
+            = link_to 'Reach Clients', admin_reach_clients_path
+          %li{class: ('active' if controller.class.name == 'Admin::AudienceGroupsController')}
+            = link_to 'Audience Groups', admin_audience_groups_path
+          %li{class: ('active' if controller.class.name == 'Admin::ExcludeSitesController')}
+            = link_to 'Exclude Sites', admin_exclude_sites_path
+    .pure-u
+      .admin-content
+        = yield
+
+= render template: "layouts/application"
+
+:javascript
+  $(document).ready(function() {
+    $(window).resize(resizeContent);
+    $(resizeContent);
+  });
+
+  function resizeContent() {
+    var width = $(window).width() - 350;
+    var height = $(window).height() - 84;
+    $(".v-nav").height(height);
+  }

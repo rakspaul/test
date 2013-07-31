@@ -1,6 +1,4 @@
 Reachui::Application.routes.draw do
-  get "nielsen_ocr/index"
-  get "adsizes/index"
   root 'account_sessions#new'
 
   resource :account_session, :path => 'session', as: 'session', only: [:new, :create, :destroy]
@@ -9,12 +7,17 @@ Reachui::Application.routes.draw do
 
 
   namespace :reports do
-    resources :reports 
+    resources :reports
     resources :query
     resources :dimensions
     resources :columns
   end
 
+  namespace :admin do
+    resources :reach_clients
+    resources :audience_groups
+    resources :exclude_sites
+  end
 
   resources :orders do
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
