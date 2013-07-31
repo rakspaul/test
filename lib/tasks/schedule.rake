@@ -3,7 +3,8 @@ require 'net/http'
 namespace :schedule_report do
  
  task :schedule_task => :environment do
- 	start_time = Time.now
+   start_time = Time.now
+   job_id = start_time.to_i
 
    $logger.info("Report running execution begin...")
    scheduled_rep = ReportSchedule.where("status = 'Scheduled' AND frequency_type IS NOT NULL")
@@ -18,42 +19,46 @@ namespace :schedule_report do
        scheduled_end_date = report.report_end_date.strftime("%Y-%m-%d")
 
        if scheduled_end_date >= @time_now.strftime("%Y-%m-%d") && scheduled_start_date <= @time_now.strftime("%Y-%m-%d")
-	      $logger.info("Processing report id #{report.id}")
+         $logger.info("Processing report id #{report.id}")
 
-	      case report.frequency_type
-	    
-	      when "Everyday"
-	        run(report)	
+	 case report.frequency_type
+	 
+	 when "Everyday"
+	   run(report)	
 
-	      when "Weekly"
-	    	  if report.frequency_value.include?(@time_now.strftime("%a"))
-	    	    run(report)
-	    	  end  	
+	 when "Weekly"
+	   if report.frequency_value.include?(@time_now.strftime("%a"))
+	     run(report)
+	   end  	
 
-	      when "Specific day"
-	    	  values = report.frequency_value.to_date.strftime("%Y-%m-%d")
-           if values.include?(@time_now.strftime("%Y-%m-%d"))
-             run(report)
-           end  	
+	  when "Specific day"
+	    values = report.frequency_value.to_date.strftime("%Y-%m-%d")
+            if values.include?(@time_now.strftime("%Y-%m-%d"))
+              run(report)
+            end  	
 
-         when "Quarterly"
-           quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
-           current_quarter = quarters[(@time_now.month - 1) / 3]
-           q_num = quarters.index(current_quarter) + 1
-           current_year = @time_now.year
+          when "Quarterly"
+            quarters = [[1,2,3], [4,5,6], [7,8,9], [10,11,12]]
+            current_quarter = quarters[(@time_now.month - 1) / 3]
+            q_num = quarters.index(current_quarter) + 1
+            current_year = @time_now.year
 
-           if report.frequency_value.include?(q_num.to_s) && is_today_last_day == true
-             run(report)
-           end
+            if report.frequency_value.include?(q_num.to_s) && is_today_last_day == true
+              run(report)
+            end
        
-         else
-           $logger.warn("No reports to be executed on date #{@time_now.strftime("%Y-%m-%d")}")	
-         end
+          else
+            $logger.warn("No reports to be executed on date #{@time_now.strftime("%Y-%m-%d")}")	
+          end
 
        end
+       end_time = Time.now
+       ActiveRecord::Base.connection.execute("INSERT INTO reach_schedule_report_history (job_id, start_date_time, end_date_time, url, report_id)
+                                              VALUES (#{job_id}), #{start_time}, #{end_time}, #{report.url}, #{report.id}")
+       ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET last_ran = #{@time_now} WHERE id = #{report.id};") 
      end
 
-     $logger.info("Scheduled report job finished in time [#{Time.now-start_time} sec]")
+     $logger.info("Scheduled report job finished in time [#{end_time-start_time} sec]")
    rescue Exception => e
      $logger.error(e.message)	
    end  
@@ -61,7 +66,7 @@ namespace :schedule_report do
  end
 
  def is_today_last_day
- 	return true if @time_now.strftime("%Y-%m-%d") == @time_now.end_of_quarter.strftime("%Y-%m-%d")
+   return true if @time_now.strftime("%Y-%m-%d") == @time_now.end_of_quarter.strftime("%Y-%m-%d")
  end	
 
  def run(report)
@@ -82,7 +87,6 @@ namespace :schedule_report do
      if report.report_end_date.strftime("%Y-%m-%d") == @time_now.strftime("%Y-%m-%d")
        $logger.info("Updating report status")	
        ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET status ='Completed' WHERE id = #{report.id};")
-       ActiveRecord::Base.connection.execute("UPDATE reach_schedule_reports SET last_ran = #{@time_now} WHERE id = #{report.id};") 
      end 
    else
      $logger.error("Report data missing of ID:- #{report.id}")
@@ -99,14 +103,14 @@ namespace :schedule_report do
 
  def report_service_call(url)
   begin
-  	 $logger.info("Fetching data from reporting server")
+    $logger.info("Fetching data from reporting server")
     uri = URI.parse(@url)
     http_conn = Net::HTTP.new(uri.host, uri.port)
     http_conn.use_ssl = uri.is_a? URI::HTTPS
     response = nil
     http_conn.start {|http| response = http.post("#{uri.path}", "#{uri.query}")}
   rescue => e
-  	 $logger.error(e.message)
+    $logger.error(e.message)
   end
 
    response  
