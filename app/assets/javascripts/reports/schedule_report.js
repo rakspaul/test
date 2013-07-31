@@ -64,60 +64,91 @@
 
     initialize: function(){
       this.bindUIElements();
+      _.bindAll(this);
     },
 
     events: {
       'change input[name="endsOnRadio"]' : 'endsOnRadioClick',
+      'change input[name="frequencyRadio"]' : 'frequencyRadioClick',
       'click #save_report' : 'saveReport'
     },
 
     ui: {
-      end_date : '#end_date',
       report_dates : '#report_dates',
       title : '#title',
       emails: '#emails',
-      report_start_date: '#start_date',
-      report_end_date: '#end_date'
+      report_start_date: '#report_start_date',
+      report_end_date: '#report_end_date'
     },
 
     onDomRefresh: function(){
-      $('#start_date, #end_date').datepicker(this._defaults());
+      this.ui.report_start_date.datepicker(this._defaults_start_date()).on('changeDate', this.onStartDateChange);
+      this.ui.report_end_date.datepicker(this._defaults_end_date()).on('changeDate', this.onEndDateChange);;
     },
 
-    _defaults: function() {
+    _defaults_start_date: function() {
       return {
         format: 'yyyy-mm-dd',
-        startDate: this.model.get('report_start_date'),
+        startDate: moment().add("days", 1).format('YYYY-MM-DD'),
+        autoclose: true,
       }
+    },
+
+    _defaults_end_date: function() {
+      return {
+        format: 'yyyy-mm-dd',
+        startDate: moment().add("days", 1).format('YYYY-MM-DD'),
+        autoclose: true,
+      }
+    },
+
+    onStartDateChange: function(event) {
+      this.ui.report_end_date.datepicker('setStartDate', moment(event.date).format('YYYY-MM-DD'));
+      this.model.set({report_start_date: moment(event.date).format('YYYY-MM-DD')});
+      this.model.set({report_end_date: moment(event.date).format('YYYY-MM-DD')});
+    },
+
+    onEndDateChange: function(event){
+      this.ui.report_end_date.val(moment(event.date).format('YYYY-MM-DD'));
+      this.model.set({report_end_date: moment(event.date).format('YYYY-MM-DD')});
     },
 
     endsOnRadioClick: function(event){
       var selected = $(event.target).val();
       if(selected == 'end_date'){
-        this.ui.end_date.removeAttr("disabled");
+        this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
+        this.model.set({report_end_date: this.model.get('report_start_date') });
+        this.ui.report_end_date.removeAttr("disabled");
       }
       else{
-        this.ui.end_date.attr("disabled", "disabled");
-        this.ui.end_date.val('');
+        this.ui.report_end_date.attr("disabled", "disabled");
+        this.ui.report_end_date.val('');
       }
+    },
+
+    frequencyRadioClick: function(event){
+      // var selected = $(event.target).val();
     },
 
     saveReport: function() {
       var _report = this.model.toJSON();
+
+      _report.report_schedule.title = this.ui.title.val();
+      _report.report_schedule.emails = this.ui.emails.val();
+
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,
         error: this._onSaveReportFailure
       });
     },
 
-    _onSaveReportSuccess: function(model, response, options){
+    _onSaveReportSuccess: function(model, xhr, options){
       //Success
     },
 
-    _onSaveReportFailure: function(model, response, options){
+    _onSaveReportFailure: function(model, xhr, options){
       $('#close_modal').trigger('click');
-    }
-
+    },
 
   });
 

@@ -7,7 +7,8 @@
       <div class="control-group">
         <label class="control-label" for="title">Title</label>
         <div class="controls">
-          <input type="text" id="title" placeholder="Title" value="<%= report_schedule.title %>">
+          <input type="text" id="title" placeholder="Title" value="<%= report_schedule.title %>" required>
+          <label class="help-inline form-error" id="title_error"></label>
         </div>
       </div>
 
@@ -28,7 +29,8 @@
       <div class="control-group">
         <label class="control-label" for="emails">Emails</label>
         <div class="controls">
-          <input type="text" id="emails" placeholder="Emails" value="<%= report_schedule.emails%>">
+          <input type="email" id="emails" placeholder="Emails" value="<%= report_schedule.emails%>" required>
+          <label class="help-inline form-error" id="emails_error"></label>
         </div>
       </div>
     </fieldset>
@@ -38,7 +40,7 @@
       <div class="control-group">
         <label class="control-label" for="start_date" >Start On</label>
         <div class="controls">
-          <input type="text" id="start_date" placeholder="Start On" value="<%= report_schedule.report_start_date%>">
+          <input type="text" id="report_start_date" placeholder="Start On" value="<%= report_schedule.report_start_date%>" readonly>
         </div>
       </div>
 
@@ -50,7 +52,7 @@
           </label>
           <label class="radio">
             <input type="radio" name="endsOnRadio" id="end_date_radio" value="end_date">
-            On <input type="text" id="end_date" placeholder="Ends On" disabled>
+            On <input type="text" id="report_end_date" placeholder="Ends On" value="<%= report_schedule.report_end_date%>" disabled readonly>
           </label>
         </div>
       </div>
@@ -59,15 +61,15 @@
         <label class="control-label">Frequency</label>
         <div class="controls">
           <label class="radio">
-            <input type="radio" name="optionsFrequency" id="frequency_everyday_radio" value="option1" checked> Everyday
+            <input type="radio" name="frequencyRadio" id="frequency_everyday_radio" value="everyday" checked> Everyday
           </label>
 
           <label class="radio">
-            <input type="radio" name="optionsFrequency" id="frequency_specificdays_radio" value="option2"> Specific Days
+            <input type="radio" name="frequencyRadio" id="frequency_specificdays_radio" value="specific_days"> Specific Days
           </label>
 
           <label class="radio">
-            <input type="radio" name="optionsFrequency" id="frequency_weekly_radio" value="option3"> Weekly
+            <input type="radio" name="frequencyRadio" id="frequency_weekly_radio" value="weekly"> Weekly
           </label>
 
           <div class="checkboxes-inner">
@@ -95,7 +97,7 @@
           </div>
 
           <label class="radio">
-            <input type="radio" name="optionsFrequency" id="optionsRadios3" value="option4"> Quarterly
+            <input type="radio" name="frequencyRadio" id="optionsRadios3" value="quarterly"> Quarterly
           </label>
 
           <div class="checkboxes-inner">
