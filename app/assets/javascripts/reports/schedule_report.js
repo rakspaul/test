@@ -4,17 +4,17 @@
   Report.ReportModel = Backbone.Model.extend({
     url: '/reports/schedule_reports/',
     defaults: {
-      title: '',
-      emails: '',
-      start_date: '',
-      end_date: '',
+      title: null,
+      emails: null,
+      start_date: null,
+      end_date: null,
       recalculate_dates: false,
       report_start_date: moment().add("days", 1).format('YYYY-MM-DD'),
-      report_end_date: '',
-      groups: null,
+      report_end_date: null,
+      group: null,
       cols: null,
-      sort_param: '',
-      sort_direction: '',
+      sort_param: null,
+      sort_direction: null,
       frequency_type: 'Everyday',
       frequency_value: 1,
     },
@@ -70,6 +70,8 @@
     events: {
       'change input[name="endsOnRadio"]' : 'endsOnRadioClick',
       'change input[name="frequencyRadio"]' : 'frequencyRadioClick',
+      'change input[name="weeklyCheckboxes"]' : 'weeklyCheckboxesClick',
+      'change input[name="quarterlyCheckboxes"]' : 'quarterlyCheckboxesClick',
       'click #save_report' : 'saveReport'
     },
 
@@ -85,7 +87,7 @@
     onDomRefresh: function(){
       this.ui.report_start_date.datepicker(this._date_options()).on('changeDate', this.onStartDateChange);
       this.ui.report_end_date.datepicker(this._date_options()).on('changeDate', this.onEndDateChange);
-      this.ui.report_specific_days.datepicker(this._date_options_specific());
+      this.ui.report_specific_days.datepicker(this._date_options_specific()).on('changeDate', this.onSpecificDateChange);;
     },
 
     _date_options: function() {
@@ -114,12 +116,15 @@
       this.model.set({report_end_date: moment(event.date).format('YYYY-MM-DD')});
     },
 
+    onSpecificDateChange: function(event){
+      this.model.set({frequency_value: this.ui.report_specific_days.find('input').val()});
+    },
+
     endsOnRadioClick: function(event){
       var selected = $(event.target).val();
       if(selected == 'end_date'){
         this.ui.report_end_date.show();
         this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
-        this.model.set({report_end_date: this.model.get('report_start_date') });
       }
       else{
         this.ui.report_end_date.find('input').val('');
@@ -132,31 +137,42 @@
 
       if(selected == 'specific_days'){
         $('#specific_days_option').show();
-        $('#weekly_checkboxes_option').hide();
-        $('#quarterly_checkboxes_option').hide();
+        $('#weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
+        this.model.set({frequency_type: 'Specific Days'});
       }
-
       if(selected == 'weekly'){
-        $('#specific_days_option').hide();
         $('#weekly_checkboxes_option').show();
-        $('#quarterly_checkboxes_option').hide();
-
+        $('#specific_days_option, #quarterly_checkboxes_option').hide();
+        this.model.set({frequency_type: 'Weekly'});
         this.ui.report_specific_days.find('input').val('');
       }
-
       if(selected == 'quarterly'){
-        $('#specific_days_option').hide();
-        $('#weekly_checkboxes_option').hide();
         $('#quarterly_checkboxes_option').show();
-
+        $('#specific_days_option, #weekly_checkboxes_option').hide();
+        this.model.set({frequency_type: 'Quarterly'});
         this.ui.report_specific_days.find('input').val('');
       }
-
       if(selected == 'everyday'){
-        $('#specific_days_option').hide();
-        $('#weekly_checkboxes_option').hide();
-        $('#quarterly_checkboxes_option').hide();
+        $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
+        this.model.set({frequency_type: 'Everyday'});
+        this.ui.report_specific_days.find('input').val('');
       }
+    },
+
+    weeklyCheckboxesClick: function(event){
+      var selectedWeeklyDays = [];
+      $('input[name="weeklyCheckboxes"]:checked').each(function() {
+         selectedWeeklyDays.push(this.value);
+      });
+      this.model.set({frequency_value: selectedWeeklyDays.join(',') });
+    },
+
+    quarterlyCheckboxesClick: function(event){
+      var selectedQuarters = [];
+      $('input[name="quarterlyCheckboxes"]:checked').each(function() {
+         selectedQuarters.push(this.value);
+      });
+      this.model.set({frequency_value: selectedQuarters.join(',') });
     },
 
     saveReport: function() {
@@ -172,7 +188,7 @@
     },
 
     _onSaveReportSuccess: function(model, xhr, options){
-      //Success
+      $('#close_modal').trigger('click');
     },
 
     _onSaveReportFailure: function(model, xhr, options){

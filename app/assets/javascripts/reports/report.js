@@ -352,7 +352,7 @@
 
         reportModal.set({start_date: start_date, end_date: end_date});
         reportModal.set({title:'Report_'+start_date+'-'+ end_date});
-        reportModal.set({groups: this.metadata.selectedDimensions.pluck("internal_id").join(',') });
+        reportModal.set({group: this.metadata.selectedDimensions.pluck("internal_id").join(',') });
         reportModal.set({cols: this.metadata.selectedColumns.pluck("internal_name").join(',') });
 
         this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
