@@ -78,15 +78,17 @@
       title : '#title',
       emails: '#emails',
       report_start_date: '#report_start_date',
-      report_end_date: '#report_end_date'
+      report_end_date: '#report_end_date',
+      report_specific_days: '#report_specific_days'
     },
 
     onDomRefresh: function(){
-      this.ui.report_start_date.datepicker(this._defaults_start_date()).on('changeDate', this.onStartDateChange);
-      this.ui.report_end_date.datepicker(this._defaults_end_date()).on('changeDate', this.onEndDateChange);;
+      this.ui.report_start_date.datepicker(this._date_options()).on('changeDate', this.onStartDateChange);
+      this.ui.report_end_date.datepicker(this._date_options()).on('changeDate', this.onEndDateChange);
+      this.ui.report_specific_days.datepicker(this._date_options_specific());
     },
 
-    _defaults_start_date: function() {
+    _date_options: function() {
       return {
         format: 'yyyy-mm-dd',
         startDate: moment().add("days", 1).format('YYYY-MM-DD'),
@@ -94,11 +96,10 @@
       }
     },
 
-    _defaults_end_date: function() {
+    _date_options_specific: function() {
       return {
         format: 'yyyy-mm-dd',
-        startDate: moment().add("days", 1).format('YYYY-MM-DD'),
-        autoclose: true,
+        startDate: moment().add("days", 1).format('YYYY-MM-DD')
       }
     },
 
@@ -116,18 +117,46 @@
     endsOnRadioClick: function(event){
       var selected = $(event.target).val();
       if(selected == 'end_date'){
+        this.ui.report_end_date.show();
         this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
         this.model.set({report_end_date: this.model.get('report_start_date') });
-        this.ui.report_end_date.removeAttr("disabled");
       }
       else{
-        this.ui.report_end_date.attr("disabled", "disabled");
-        this.ui.report_end_date.val('');
+        this.ui.report_end_date.find('input').val('');
+        this.ui.report_end_date.hide();
       }
     },
 
     frequencyRadioClick: function(event){
-      // var selected = $(event.target).val();
+      var selected = $(event.target).val();
+
+      if(selected == 'specific_days'){
+        $('#specific_days_option').show();
+        $('#weekly_checkboxes_option').hide();
+        $('#quarterly_checkboxes_option').hide();
+      }
+
+      if(selected == 'weekly'){
+        $('#specific_days_option').hide();
+        $('#weekly_checkboxes_option').show();
+        $('#quarterly_checkboxes_option').hide();
+
+        this.ui.report_specific_days.find('input').val('');
+      }
+
+      if(selected == 'quarterly'){
+        $('#specific_days_option').hide();
+        $('#weekly_checkboxes_option').hide();
+        $('#quarterly_checkboxes_option').show();
+
+        this.ui.report_specific_days.find('input').val('');
+      }
+
+      if(selected == 'everyday'){
+        $('#specific_days_option').hide();
+        $('#weekly_checkboxes_option').hide();
+        $('#quarterly_checkboxes_option').hide();
+      }
     },
 
     saveReport: function() {

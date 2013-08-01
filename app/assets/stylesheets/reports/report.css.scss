@@ -230,7 +230,7 @@
   letter-spacing:0;
 
   .modal-body{
-    max-height: 600px;
+    max-height: 550px;
   }
 
   form fieldset{
@@ -250,8 +250,12 @@
     padding-bottom:3px;
   }
 
-  .checkboxes-inner{
-    padding:0 0 10px 20px;
+  .controls-inner{
+    margin:0 0 0px 20px;
+  }
+
+  .date-field{
+    width:180px;
   }
 
   .close{
