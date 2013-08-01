@@ -49,7 +49,6 @@ class IoImport
         li.name = "#{@advertiser.name} | #{@order.name} | #{li.name}"
         li.order = @order
         li.user = @current_user
-
         @lineitems << li
       end
     end
@@ -121,6 +120,8 @@ end
 
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
+  DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
+  DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
   attr_reader :file
 
@@ -134,25 +135,27 @@ class IOExcelFileReader
   end
 
   def advertiser_name
-    @spreadsheet.cell('D', 18).strip
+    if @spreadsheet.cell('A', 19).to_s.strip =~ /advertiser name/i
+      @spreadsheet.cell('C', 19).strip
+    end
   end
 
   def order
     {
-      name: @spreadsheet.cell('C', 19).strip,
-      start_date: @spreadsheet.cell('G', 25),
-      end_date: @spreadsheet.cell('G', 26),
+      name: @spreadsheet.cell('C', 18).strip,
+      start_date: start_flight_date,
+      end_date: finish_flight_date,
     }
   end
 
   def lineitems
     row = LINE_ITEM_START_ROW
-    while @spreadsheet.cell('A', row).instance_of? Date
+    while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
       yield({
-        start_date: @spreadsheet.cell('A', row),
-        end_date: @spreadsheet.cell('B', row),
+        start_date: parse_date(@spreadsheet.cell('A', row)),
+        end_date: parse_date(@spreadsheet.cell('B', row)),
         ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
-        name: @spreadsheet.cell('D', row).strip,
+        name: @spreadsheet.cell('D', row).to_s.strip, 
         volume: @spreadsheet.cell('E', row).to_i,
         rate: @spreadsheet.cell('F', row).to_f
       })
@@ -161,7 +164,23 @@ class IOExcelFileReader
     end
   end
 
+  def start_flight_date
+    parse_date(@spreadsheet.cell('G', 25))
+  end
+
+  def finish_flight_date
+    parse_date(@spreadsheet.cell('G', 26))
+  end
+
   private
+
+    def parse_date str
+      return str if str.is_a?(Date)
+
+      Date.strptime(str.strip, str.index('.') ? DATE_FORMAT_WITH_DOT : DATE_FORMAT_WITH_SLASH)
+    rescue
+      nil
+    end
 
     def open_based_on_file_extension
       ext = File.extname(@file.original_filename)
