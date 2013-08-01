@@ -1,0 +1,93 @@
+$text_color: #005c97;
+$bg_color: #c0e2f9;
+
+.clearfix { clear:both }
+
+.new_order_header {
+  margin-top:30px;
+  margin-left:40px;
+
+  p.heading {
+    font-size:28px;
+    color: $text_color;
+  }
+
+  p.adv_name {
+    color:#999;
+    font-weight:bold;
+  }
+
+  .field {
+    width:300px;
+    float:left;
+    padding:3px;
+
+    span:nth-child(1) {
+      text-align:right;
+      color: $text_color;
+      width:40%;
+      float:left;
+      margin-right:10px;
+    }
+
+    span:nth-child(2) {
+      text-align:left;
+    }
+  }
+
+  .general_info_container {
+    border-top:1px solid #f2f2f2;
+    border-bottom:1px solid #f2f2f2;
+    float:left;
+    margin-top:17px;
+    padding-top:22px;
+    padding-bottom:22px;
+    clear:both;
+
+    .column {
+      width: 400px;
+      float:left;
+      
+      .field {
+        width:400px;
+        margin-top:17px;
+      }
+    }
+  }
+
+  .toggle_general_info_button {
+    padding: 3px;
+    clear:both;
+    position:relative;
+    margin:0px auto;
+    border:0px;
+    color:$text_color;
+    background:$bg_color;
+    width:200px;
+    padding:5px;
+  }
+
+  .imported_file_name {
+    width:500px;
+    border:1px dashed $text_color;
+    float:left;
+    padding:3px;
+    margin-right:50px;
+
+    .name {
+      float:left;
+      padding-left:10px;
+      color: $text_color;
+
+      span {
+        text-decoration: underline;
+        color: black;
+      }
+    }
+
+    .timestamp {
+      color: $text_color;
+      float:right;
+    }
+  }
+}
