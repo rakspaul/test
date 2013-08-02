@@ -177,6 +177,17 @@
     saveReport: function() {
       var _report = this.model.toJSON();
 
+      self = this;
+
+      // get all the error labels and clear them
+      _.keys(this.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.ui[val].text("");
+        });
+
       _report.report_schedule.title = this.ui.title.val();
       _report.report_schedule.email = this.ui.email.val();
 
@@ -205,8 +216,8 @@
         });
 
         alert("Error saving report. \n" + formErrors.join("\n"));
+        $('#close_modal').trigger('click');
       }
-      $('#close_modal').trigger('click');
     },
 
   });
