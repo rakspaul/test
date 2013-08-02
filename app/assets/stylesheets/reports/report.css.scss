@@ -233,7 +233,17 @@
     max-height: 550px;
   }
 
-  form fieldset{
+}
+
+.form-schedule-report{
+
+  label, input, button,
+  select, textarea {
+    font-size:13px;
+    line-height:16px;
+  }
+
+  fieldset{
     padding:10px 0;
     margin:0px 0 10px 0;
   }
@@ -250,6 +260,10 @@
     padding-bottom:3px;
   }
 
+  .radio.inline, .checkbox.inline{
+    margin-bottom:5px;
+  }
+
   .controls-inner{
     margin:0 0 0px 20px;
   }
@@ -258,17 +272,19 @@
     width:180px;
   }
 
-  .close{
-    margin:0px 5px 0 0;
-  }
-
 }
 
 .datepicker{
+
   font-size:13px;
   line-height:18px;
+
+  table {
+    width:210px;
+  }
 
   th, td{
     padding: 3px 5px;
   }
+
 }

@@ -5,7 +5,7 @@
     url: '/reports/schedule_reports/',
     defaults: {
       title: null,
-      emails: null,
+      email: null,
       start_date: null,
       end_date: null,
       recalculate_dates: false,
@@ -78,10 +78,12 @@
     ui: {
       report_dates : '#report_dates',
       title : '#title',
-      emails: '#emails',
+      email: '#email',
       report_start_date: '#report_start_date',
       report_end_date: '#report_end_date',
-      report_specific_days: '#report_specific_days'
+      report_specific_days: '#report_specific_days',
+      title_error: '#title_error',
+      email_error: '#email_error'
     },
 
     onDomRefresh: function(){
@@ -123,12 +125,12 @@
     endsOnRadioClick: function(event){
       var selected = $(event.target).val();
       if(selected == 'end_date'){
-        this.ui.report_end_date.show();
+        $('#report_enddate_option').show();
         this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
       }
       else{
         this.ui.report_end_date.find('input').val('');
-        this.ui.report_end_date.hide();
+        $('#report_enddate_option').hide();
       }
     },
 
@@ -144,18 +146,15 @@
         $('#weekly_checkboxes_option').show();
         $('#specific_days_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Weekly'});
-        this.ui.report_specific_days.find('input').val('');
       }
       if(selected == 'quarterly'){
         $('#quarterly_checkboxes_option').show();
         $('#specific_days_option, #weekly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Quarterly'});
-        this.ui.report_specific_days.find('input').val('');
       }
       if(selected == 'everyday'){
         $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Everyday'});
-        this.ui.report_specific_days.find('input').val('');
       }
     },
 
@@ -179,7 +178,7 @@
       var _report = this.model.toJSON();
 
       _report.report_schedule.title = this.ui.title.val();
-      _report.report_schedule.emails = this.ui.emails.val();
+      _report.report_schedule.email = this.ui.email.val();
 
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,
@@ -188,10 +187,25 @@
     },
 
     _onSaveReportSuccess: function(model, xhr, options){
+      alert("Report saved succcessfully.");
       $('#close_modal').trigger('click');
     },
 
     _onSaveReportFailure: function(model, xhr, options){
+      if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
+
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        });
+
+        alert("Error saving report. \n" + formErrors.join("\n"));
+      }
       $('#close_modal').trigger('click');
     },
 
