@@ -19,5 +19,11 @@ module Reachui
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
+    # config.action_dispatch.default_headers = { 'Header-Name' => 'Header-Value', 'X-Frame-Options' => 'ALLOW-FROM http://172.27.165.55:3004' }
+
+    # Rails 4 by defaults adds X-Frame-Options response header with a value "SAMEORIGIN",
+    # because of this application will not load if the parent application and child application are from different domains.
+    # http://stackoverflow.com/questions/16573411/fix-rails-oauth-facebook-x-frame-options-sameorigin-error
+    config.action_dispatch.default_headers.clear()
   end
 end
