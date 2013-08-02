@@ -78,7 +78,7 @@
       } else {
         // no column is sorted get the column which is associated with the first dimension
         var column = this._getDefaultColumnForSort();
-          column.setSortDirection('asc');
+        column.setSortDirection('asc');
         params.sort_param = column.get('internal_name');
         params.sort_direction =  column.get('sort_direction')
       };
@@ -119,7 +119,8 @@
       report_options: "#report_options_region",
       selected_dimensions: '#selected_dimensions_region',
       report_table: "#report_table_region",
-      paging: "#paging_region"
+      paging: "#paging_region",
+      schedule_report: "#schedule_report_region"
     },
 
     onDomRefresh: function() {
@@ -145,6 +146,7 @@
       this._initializeColumns();
       this._initializeDatePicker();
       this._initializeReportOptions();
+      this._initializeScheduleReport();
     },
 
     _initializeLayout: function() {
@@ -152,6 +154,7 @@
 
       this.layout = new Report.Layout();
       this.detailRegion.show(this.layout);
+      this.layout.addRegions({'schedule_report_modal': new Report.ModalRegion({el:'#schedule_report_modal'})});
     },
 
     _initializeDatePicker: function() {
@@ -187,6 +190,12 @@
       this.reportOptionsView = new Report.ReportOptionsView();
       this.reportOptionsView.on('report:export', this._exportReport, this);
       this.layout.report_options.show(this.reportOptionsView);
+    },
+
+    _initializeScheduleReport: function(){
+      this.scheduleReportView = new Report.ScheduleReportView();
+      this.scheduleReportView.on('open:schedule_report_modal', this._openScheduleReportModal, this);
+      this.layout.schedule_report.show(this.scheduleReportView);
     },
 
     _intializeDimensions: function() {
@@ -333,7 +342,24 @@
 
     _getSortedColumn: function(model) {
       return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
+    },
+
+    _openScheduleReportModal: function() {
+      if(!this.metadata.selectedColumns.isEmpty()){
+        var reportModal = new Report.ReportModel();
+        var start_date = this.metadata.get('start_date').format('YYYY-MM-DD');
+        var end_date = this.metadata.get('end_date').format('YYYY-MM-DD');
+
+        reportModal.set({start_date: start_date, end_date: end_date});
+        reportModal.set({title:'Report_'+start_date+'-'+ end_date});
+        reportModal.set({group: this.metadata.selectedDimensions.pluck("internal_id").join(',') });
+        reportModal.set({cols: this.metadata.selectedColumns.pluck("internal_name").join(',') });
+
+        this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
+        this.layout.schedule_report_modal.show(this.scheduleReportModalView);
+      }
     }
+
   });
 
 })(ReachUI.namespace("Reports"));
