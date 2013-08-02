@@ -177,7 +177,7 @@
     saveReport: function() {
       var _report = this.model.toJSON();
 
-      self = this;
+      var self = this;
 
       // get all the error labels and clear them
       _.keys(this.ui)
@@ -206,8 +206,10 @@
       if(xhr.responseJSON && xhr.responseJSON.errors) {
         var formErrors = [];
 
+        var self = this;
+
         _.each(xhr.responseJSON.errors, function(value, key) {
-          var errorLabel = this.ui[key + "_error"];
+          var errorLabel = self.ui[key + "_error"];
           if(errorLabel) {
             errorLabel.text(value[0]);
           } else {
@@ -216,7 +218,6 @@
         });
 
         alert("Error saving report. \n" + formErrors.join("\n"));
-        $('#close_modal').trigger('click');
       }
     },
 
