@@ -41,16 +41,16 @@ class AccountSessionsController < ApplicationController
 
   private
 
-    def require_no_user
-      if current_user
-        respond_to do |format|
-          format.html do
-            store_location
-            redirect_to reports_reports_path
-          end
-          format.xml{}
+  def require_no_user
+    if current_user
+      respond_to do |format|
+        format.html do
+          store_location
+          redirect_to reports_reports_path
         end
+        format.xml{}
       end
     end
+  end
 end
 
