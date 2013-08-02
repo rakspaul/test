@@ -16,7 +16,7 @@ describe IOExcelFileReader do
     end
 
     it "have start flight dates" do
-      subject.start_flight_date == Date.strptime("08/04/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
+      subject.start_flight_date == Date.strptime("06/27/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
     end
 
     it "have finish flight date" do
@@ -36,7 +36,7 @@ describe IOExcelFileReader do
       it "have first lineitem with correct options" do
         li = @lineitems.first
 
-        li[:start_date].should == Date.strptime("08/04/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
+        li[:start_date].should == Date.strptime("06/27/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("08/18/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
         li[:ad_sizes].should == "300x250, 728x90, 160x600"
         li[:name].should == "Age 18-34 or Age 34-50 or Education; Columbus Zips"

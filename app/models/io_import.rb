@@ -123,6 +123,12 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
+  ADVERTISER_LABEL_CELL = ['A', 18]
+  ADVERTISER_CELL = ['C', 18]
+  ORDER_NAME_CELL = ['C', 19]
+  ORDER_START_FLIGHT_DATE = ['H', 25]
+  ORDER_END_FLIGHT_DATE = ['H', 26]
+
   attr_reader :file
 
   def initialize(file_object)
@@ -135,14 +141,14 @@ class IOExcelFileReader
   end
 
   def advertiser_name
-    if @spreadsheet.cell('A', 19).to_s.strip =~ /advertiser name/i
-      @spreadsheet.cell('C', 19).strip
+    if @spreadsheet.cell(*ADVERTISER_LABEL_CELL).to_s.strip =~ /advertiser name/i
+      @spreadsheet.cell(*ADVERTISER_CELL).strip
     end
   end
 
   def order
     {
-      name: @spreadsheet.cell('C', 18).strip,
+      name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
       start_date: start_flight_date,
       end_date: finish_flight_date,
     }
@@ -156,8 +162,8 @@ class IOExcelFileReader
         end_date: parse_date(@spreadsheet.cell('B', row)),
         ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
         name: @spreadsheet.cell('D', row).to_s.strip, 
-        volume: @spreadsheet.cell('E', row).to_i,
-        rate: @spreadsheet.cell('F', row).to_f
+        volume: @spreadsheet.cell('F', row).to_i,
+        rate: @spreadsheet.cell('G', row).to_f
       })
 
       row += 1
@@ -165,11 +171,11 @@ class IOExcelFileReader
   end
 
   def start_flight_date
-    parse_date(@spreadsheet.cell('G', 25))
+    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
   end
 
   def finish_flight_date
-    parse_date(@spreadsheet.cell('G', 26))
+    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
   end
 
   private
