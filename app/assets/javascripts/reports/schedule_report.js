@@ -193,6 +193,7 @@
 
       _report.report_schedule.title = this.ui.title.val();
       _report.report_schedule.email = this.ui.email.val();
+      _report.report_schedule.recalculate_dates = $('#recalculate_dates').is(':checked');
 
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,
