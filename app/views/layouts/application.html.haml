@@ -44,7 +44,8 @@
   $(document).ready(function() {
   // If application is loaded in IFrame then hide the header (Flex loads this application in IFrame).
     var isInIFrame = (window.location != window.parent.location) ? true : false;
-    if(isInIFrame)
+    if(isInIFrame) {
       $('#app_header').hide();
       $('#breadcrumbs').hide();
+    }
   });
