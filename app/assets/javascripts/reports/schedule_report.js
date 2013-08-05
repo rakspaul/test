@@ -146,15 +146,18 @@
         $('#weekly_checkboxes_option').show();
         $('#specific_days_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Weekly'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected == 'quarterly'){
         $('#quarterly_checkboxes_option').show();
         $('#specific_days_option, #weekly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Quarterly'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected == 'everyday'){
         $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Everyday'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
     },
 
