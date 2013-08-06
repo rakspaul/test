@@ -28,7 +28,10 @@ namespace :schedule_report do
             run(report)
           when "Weekly"
             if report.frequency_value.include?(@time_now.strftime("%a"))
-              run(report)
+              if report.recalculate_dates == true
+                report.url = adjust_date_recalculate(report)
+              end
+            run(report)
             end
           when "Specific day"
             values = report.frequency_value.to_date.strftime("%Y-%m-%d")
@@ -55,7 +58,6 @@ namespace :schedule_report do
         update_report_history(job_id, start_time, end_time, report)
 
         report.update_attributes(:last_ran => "#{end_time}", :id => "#{report.id}")
-        report.save
       end
 
       $logger.info("Scheduled report job finished in time [#{Time.now-start_time} sec]")
@@ -87,20 +89,30 @@ namespace :schedule_report do
       if report.report_end_date.strftime("%Y-%m-%d") == @time_now.strftime("%Y-%m-%d")
         $logger.info("Updating report status")
         report.update_attributes(:status => 'Completed', :id => "#{report.id}")
-        report.save
       end
     else
       $logger.error("Report data missing of ID:- #{report.id}")
       report.update_attributes(:status => 'Failure', :id => "#{report.id}")
-      report.save
     end
   end
 
   def modify_url(url)
     url =~ /tkn=/ ? url.sub!(/tkn=(\w+)/,"tkn=#{build_request_token}") : url += "&tkn=#{build_request_token}"
-    url.gsub!(/end_date(=|:)[0-9-]+/,'end_date\1'+@time_now.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+    url.gsub!(/end_date(=|:)[0-9-]+/,'end_date\1'+1.day.ago.end_of_day.strftime('%Y-%m-%d').gsub(/-0/,'-'))
 
     url
+  end
+
+  def adjust_date_recalculate(report)
+    last_week_date = 1.week.ago.strftime('%Y-%m-%d')
+
+    if last_week_date >= report.start_date.strftime('%Y-%m-%d')
+      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+1.week.ago.beginning_of_day.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+    else
+      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+report.start_date.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+    end
+
+    report.url
   end
 
   def report_service_call(url)
