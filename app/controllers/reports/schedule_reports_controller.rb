@@ -7,7 +7,7 @@ class Reports::ScheduleReportsController < ApplicationController
 
   def index
     @reports = ReportSchedule.all
-    respond_with(@reports)
+    respond_with(@reports, :each_serializer => ScheduleReportsSerializer)
   rescue => e
     respond_with(e.message, status: :service_unavailable)
   end
@@ -39,15 +39,12 @@ class Reports::ScheduleReportsController < ApplicationController
   private
     def create_url(p)
       wrapper = ReportServiceWrapper.new(@current_user)
-
-      p.keep_if {|key, value| ReportServiceWrapper::SUPPORTED_PARAMS.include? key}
       p.merge!({
-        "instance" => @current_user.network.id,
-        "user_id" => @current_user.id,
-        "tkn" => wrapper.build_request_token
-      })
-
-      query_string = p.map {|k,v| "#{k}=#{v}"}.join("&")
+         "instance" => @current_user.network.id,
+         "user_id" => @current_user.id,
+         "tkn" => wrapper.build_request_token
+       })
+      query_string = p[:url] + p.map {|k,v| "#{k}=#{v}"}.join("&")
       report_server = Rails.application.config.report_service_uri
       url = "#{report_server}?#{query_string}"
 
@@ -55,7 +52,7 @@ class Reports::ScheduleReportsController < ApplicationController
     end
 
     def schedule_report_params
-      params.require(:report_schedule).permit(:title, :email, :recalculate_dates, :start_date, :end_date, :report_start_date, :report_end_date, :frequency_value, :frequency_type)
+      params.require(:report_schedule).permit(:title, :email, :recalculate_dates, :start_date, :end_date, :report_start_date, :report_end_date, :frequency_value, :frequency_type, :url)
     end
 
 end
