@@ -99,3 +99,5 @@ gem 'whenever', :require => false
 gem "rjb"
 
 gem 'spreadsheet'
+
+gem 'active_model_serializers', '~> 0.6.0' #:git => 'git://github.com/rails-api/active_model_serializers.git'
