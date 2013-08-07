@@ -347,22 +347,20 @@
     _openScheduleReportModal: function() {
       if(!this.metadata.selectedColumns.isEmpty()){
         var reportModal = new Report.ReportModel(),
-         data = this.metadata.toQueryParam("json");
+          data = this.metadata.toQueryParam("json"),
+          url = $.param(data);
 
         reportModal.set({
           start_date: data.start_date,
           end_date: data.end_date,
           title: 'Report_'+ data.start_date+'-'+ data.end_date,
-          group: data.group,
-          cols: data.cols,
-          sort_direction: data.sort_direction,
-          sort_param: data.sort_param
+          url: url
         });
 
         this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
         this.layout.schedule_report_modal.show(this.scheduleReportModalView);
       }
-    }
+    },
 
   });
 
