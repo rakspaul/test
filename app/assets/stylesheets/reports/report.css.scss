@@ -287,3 +287,62 @@
   }
 
 }
+
+/* schedule report table */
+
+.schedule-report-table-region {
+
+  .schedule-report-table {
+    width: 100%;
+
+    tbody > tr:hover {
+      background-color: #f8f8f8;
+    }
+
+    th {
+      background: none repeat scroll 0 0 #F7F7F7;
+      border-left: 1px solid #ededed;
+      color: #4094C3;
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 16px;
+      text-align: left;
+      vertical-align: middle;
+      border-radius: 0;
+      border-top: 1px solid #ededed;
+      padding:7px;
+
+      &:last-child {
+        border-right: 1px solid #ededed;
+      }
+
+    }
+
+    td {
+      font-size: 12px;
+      line-height: 16px;
+      padding: 5px;
+      border-top: 1px solid #ededed;
+      border-left: 1px solid #ededed;
+
+      &:last-child {
+        border-right: 1px solid #ededed;
+      }
+    }
+
+    tr:last-child > td {
+      border-bottom: 1px solid #ededed;
+    }
+
+  }
+}
+
+.report-new {
+  border-bottom: 1px solid #EEEEEE;
+  color: #DDDDDD;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 10px 15px 20px;
+  text-align: center;
+}

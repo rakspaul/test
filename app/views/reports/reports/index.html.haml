@@ -1,6 +1,16 @@
-.appHeaderContent
-  %h1#header
-  = link_to "Create New Report", new_reports_report_path
+#details.content
 
+:javascript
+  $(document).ready(function() {
+    var reports = ReachUI.Reports.List();
+    reports.init("#header", "Report list page");
+    reports.renderText();
 
-  
+    var controller = new ReachUI.Reports.ReportController();
+    ReachUI.Reports.router = new ReachUI.Reports.Router({controller: controller});
+
+    Backbone.history.start({
+      root: "reports/reports",
+      pushState: true,
+    });
+  });

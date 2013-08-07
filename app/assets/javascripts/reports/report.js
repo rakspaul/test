@@ -99,7 +99,6 @@
     _getDefaultColumnForSort: function() {
       var dimension = this.selectedDimensions.at(0);
       var column = this.selectedColumns.findWhere({internal_name: dimension.get('default_column') });
-
       return column;
     },
 
@@ -135,9 +134,85 @@
     },
   });
 
+  Report.ScheduledReportsLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/reports/scheduled_reports_layout'],
+
+    regions: {
+      scheduled_reports_table: "#scheduled_reports_table"
+    },
+
+    onDomRefresh: function() {
+      this.$('#new_report').click(this._onNewReportClick);
+    },
+
+    _onNewReportClick: function(event) {
+      ReachUI.Reports.router.navigate('/new', {trigger: true});
+    },
+
+  });
+
   Report.ReportController = Marionette.Controller.extend({
     initialize: function() {
+      this.detailRegion = new Report.DetailRegion();
+    },
+
+    index: function() {
+      this._initializeScheduledReportsLayout();
+      this._initializeScheduledReportsGridView();
+    },
+
+    newReport: function() {
       this.metadata = new Report.Metadata();
+
+      this._initializeLayout();
+      this._initializeTableView();
+      this._intializePagination();
+      this._fetchDimensions();
+      this._intializeDimensions();
+      this._fetchColumns();
+      this._initializeColumns();
+      this._initializeDatePicker();
+      this._initializeReportOptions();
+      this._initializeScheduleReport();
+    },
+
+    editReport: function(id) {
+      var report_to_edit = this.reportModelList.get(id);
+      var metadata = new Report.Metadata();
+      var groups = report_to_edit.get('group').split(',');
+      var columns = report_to_edit.get('cols').split(',');
+      var self = this;
+
+      this._fetchDimensions().then(function() {
+        for (var i = 0; i < groups.length; i++) {
+          var dimension = self.availableDimensions.findWhere({internal_id: groups[i]});
+          metadata.selectedDimensions.add(dimension, {silent: true});
+          self.availableDimensions.remove(dimension);
+
+          self._fetchColumns().then(function() {
+            for (var i = 0; i < columns.length; i++) {
+              var column = self.availableColumns.findWhere({internal_name: columns[i]});
+              if(column.get('internal_name') === report_to_edit.get('sort_param')) {
+                column.set({sort_direction: report_to_edit.get('sort_direction')})
+              }
+              metadata.selectedColumns.add(column, {silent: true});
+              self.availableColumns.remove(column);
+              self._initializeEditFlow(metadata, report_to_edit);
+            };
+          })
+        };
+      })
+    },
+
+    _initializeEditFlow: function(metadata, report_to_edit) {
+      this.metadata = metadata;
+      var start_date = report_to_edit.get('start_date');
+      var end_date = report_to_edit.get('end_date');
+
+      this.metadata.set({start_date: moment(start_date, 'YYYY-MM-DD')}, {silent: true});
+      // all the parameter of the report is now set we need to send request to the server to fetch the data.
+      // not calling {silent: true} on end_date, this will trigger change event and data will get fetched from the server
+      this.metadata.set({end_date: moment(end_date, 'YYYY-MM-DD')});
 
       this._initializeLayout();
       this._initializeTableView();
@@ -150,8 +225,6 @@
     },
 
     _initializeLayout: function() {
-      this.detailRegion = new Report.DetailRegion();
-
       this.layout = new Report.Layout();
       this.detailRegion.show(this.layout);
       this.layout.addRegions({'schedule_report_modal': new Report.ModalRegion({el:'#schedule_report_modal'})});
@@ -165,7 +238,6 @@
     _initializeTableView: function() {
       this.tableLayout = new Report.TableLayout();
       this.layout.report_table.show(this.tableLayout);
-
       this.tableHeadView = new Report.TableHeadView({collection:this.metadata.selectedColumns});
       this.tableHeadView.on('itemview:column:sort', this._onTableColumnSort, this);
       this.tableHeadView.on('itemview:column:remove', this._onTableColumnRemove, this);
@@ -198,9 +270,12 @@
       this.layout.schedule_report.show(this.scheduleReportView);
     },
 
-    _intializeDimensions: function() {
+    _fetchDimensions: function() {
       this.availableDimensions = new Report.DimensionList();
-      this.availableDimensions.fetch();
+      return this.availableDimensions.fetch();
+    },
+
+    _intializeDimensions: function() {
       this.availableDimensionsView = new Report.AvailableDimensionsView({collection: this.availableDimensions});
 
       this.selectedDimensionsView = new Report.SelectedDimensionsView({collection:this.metadata.selectedDimensions});
@@ -210,12 +285,15 @@
       this.layout.selected_dimensions.show(this.selectedDimensionsView);
     },
 
-    _initializeColumns: function() {
+    _fetchColumns: function() {
       this.availableColumns = new Report.TableColumnList();
-      this.availableColumns.fetch();
       this.availableColumns.comparator = function(column) {
         return column.get("index");
       };
+      return this.availableColumns.fetch();
+    },
+
+    _initializeColumns: function() {
       this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
       this.layout.available_columns.show(this.availableColumnsView);
     },
@@ -358,7 +436,29 @@
         this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
         this.layout.schedule_report_modal.show(this.scheduleReportModalView);
       }
-    }
+    },
+
+    _initializeScheduledReportsLayout: function() {
+      this.layout = new Report.ScheduledReportsLayout();
+      this.detailRegion.show(this.layout);
+    },
+
+    _initializeScheduledReportsGridView: function() {
+      this.reportModelList = new Report.ReportModelList();
+      this.reportModelList.fetch();
+      this.scheduledReportsGridView = new Report.ScheduledReportsGridView({collection: this.reportModelList});
+      this.scheduledReportsGridView.on('itemview:delete:scheduled_report', this._onScheduledReportDelete, this)
+      this.scheduledReportsGridView.on('itemview:edit:scheduled_report', this._onScheduledReportEdit, this)
+      this.layout.scheduled_reports_table.show(this.scheduledReportsGridView);
+    },
+
+    _onScheduledReportDelete: function(args) {
+      args.model.destroy();
+    },
+
+    _onScheduledReportEdit: function(args) {
+      ReachUI.Reports.router.navigate('/' + args.model.id + '/edit', {trigger: true});
+    },
 
   });
 

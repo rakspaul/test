@@ -2,7 +2,13 @@
   'use strict';
 
   Report.ReportModel = Backbone.Model.extend({
-    url: '/reports/schedule_reports/',
+    url: function() {
+      if(this.isNew()) {
+        return '/reports/schedule_reports/';
+      } else {
+        return '/reports/schedule_reports/' + this.id + '.json';
+      }
+    },
     defaults: {
       title: null,
       email: null,
@@ -22,6 +28,31 @@
     toJSON: function() {
       return { report_schedule: _.clone(this.attributes) };
     }
+  });
+
+  Report.ReportModelList = Backbone.Collection.extend({
+    model: Report.ReportModel,
+    url: '/reports/schedule_reports.json'
+  });
+
+  Report.ScheduledReportsGridItemView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/reports/scheduled_reports_grid_item'],
+    tagName: 'tr',
+    triggers: {
+      'click .icon-remove' : 'delete:scheduled_report',
+      'click .icon-edit' : 'edit:scheduled_report'
+    },
+  });
+
+  Report.ScheduledReportsGridView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/reports/scheduled_reports_grid'],
+    itemView: Report.ScheduledReportsGridItemView,
+    tagName: 'table',
+    className: 'schedule-report-table',
+
+    appendHtml: function(collectionView, itemView){
+        collectionView.$('tbody').append(itemView.el);
+    },
   });
 
   Report.ModalRegion = Backbone.Marionette.Region.extend({
