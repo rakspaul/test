@@ -71,8 +71,8 @@
     },
 
     explodeToObject: function(url) {
-      var queryString = url.split('?');
-      var array = queryString[1].split('&');
+      var decoded_url = decodeURIComponent(url);
+      var queryString = decoded_url.split('?');
       var object = {};
       for(var i=0; i < array.length; i++) {
         var paramvalue = array[i].split('=');
