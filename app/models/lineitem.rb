@@ -8,6 +8,8 @@ class Lineitem < ActiveRecord::Base
 
   has_one :nielsen_pricing, autosave: true
 
+  has_many :ads, foreign_key: 'io_lineitem_id'
+
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
   validates :active, inclusion: { in: [true, false] }

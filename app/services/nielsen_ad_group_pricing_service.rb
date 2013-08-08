@@ -26,6 +26,21 @@ class NielsenAdGroupPricingService
       if lineitem.nil?
         ads = @order.ads.where(alt_ad_id: alt_ad_id).select('id, start_date, end_date, size').includes(:ad_pricing)
         lineitem = build_lineitem(alt_ad_id, ads) unless ads.empty?
+      else
+        # unassign ads that no longer have alt_ad_id same as lineitem
+        lineitem.ads.each do |ad|
+          if ad.alt_ad_id != lineitem.alt_ad_id
+            lineitem.ads.delete ad
+          end
+        end
+
+        # assign ads to lineitem with same alt_ad_id as lineitem
+        ads = @order.ads.where(alt_ad_id: alt_ad_id)
+        ads.each do |ad|
+          if ad.io_lineitem_id != lineitem.id
+            lineitem.ads << ad
+          end
+        end
       end
 
       lineitem
@@ -58,6 +73,7 @@ class NielsenAdGroupPricingService
         value: value
       })
       lineitem.user = @user
+      lineitem.ads << ads
 
       lineitem
     end
