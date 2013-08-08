@@ -37,14 +37,15 @@ class Reports::ScheduleReportsController < ApplicationController
   end
 
   private
-    def create_url(p)
+    def create_url(prm)
       wrapper = ReportServiceWrapper.new(@current_user)
-      p.merge!({
+
+      req_params = {
          "instance" => @current_user.network.id,
          "user_id" => @current_user.id,
          "tkn" => wrapper.build_request_token
-       })
-      query_string = p[:url] + p.map {|k,v| "#{k}=#{v}"}.join("&")
+       }
+      query_string = "#{prm[:url]}&#{req_params.map {|k,v| "#{k}=#{v}"}.join("&")}"
       report_server = Rails.application.config.report_service_uri
       url = "#{report_server}?#{query_string}"
 
