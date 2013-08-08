@@ -99,3 +99,7 @@ gem 'whenever', :require => false
 gem "rjb"
 
 gem 'spreadsheet'
+
+# For serialize the json response
+gem 'active_model_serializers', '~> 0.8.0'
+
