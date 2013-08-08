@@ -2,7 +2,7 @@ class ReportSchedule < ActiveRecord::Base
   self.table_name = "reach_schedule_reports"
   belongs_to :user
 
-  validates :title, :email, :user_id, :report_start_date, presence: true
+  validates :title, :email, :user_id, :report_start_date, :frequency_value, presence: true
   validate :validate_start_date, :validate_user_id, :validate_end_date_after_start_date
   validates_format_of :email, :with => /^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$/, :message => "Invalid email ID", :multiline => true
 
