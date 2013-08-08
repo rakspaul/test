@@ -68,9 +68,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    this.orderList.fetch();
-    this.orderDetailsLayout.top.close();
-    this.orderDetailsLayout.bottom.close();
+    //this.orderList.fetch();
+    //this.orderDetailsLayout.top.close();
+    //this.orderDetailsLayout.bottom.close();
+    var order = new ReachUI.Orders.Order();
+    var uploadView = new ReachUI.Orders.UploadView();
+
+    if(this.selectedOrder) {
+      this.selectedOrder.unselect();
+    }
+
+    uploadView.on('io:uploaded', this._ioUploaded, this);
+    this.orderDetailsLayout.top.show(uploadView);
+    //this.orderDetailsLayout.bottom.show(view);
+    
   },
 
   newOrder: function() {
@@ -107,6 +118,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
+
     view.on('order:save', this._saveOrder, this);
     view.on('order:close', function() {
       window.history.back();
@@ -291,6 +303,21 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       window.location.href = '/orders/'+ order.id +'/export.xls';
     });
     this.orderDetailsLayout.top.show(detailOrderView);
+
+    //turn x-editable plugin to inline mode
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
+    $('.editable.typeahead').editable({
+      source: ["Eric Burns", "Mary Ball", "Bryan Snyder", "Ronnie Wallace"]
+    });
+    $('.total_media_cost .editable.custom').editable({
+      validate: function(value) {
+        if(value.match(/[^\d]+/)) {
+          return 'This field should contain only digits';
+        }
+      }
+    });
+    $('.editable:not(.typeahead):not(.custom)').editable();
   },
 
   _showLineitemList: function(order) {

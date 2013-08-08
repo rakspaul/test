@@ -50,6 +50,19 @@
     template: JST['templates/orders/order_details'],
     className: 'order-details',
 
+    _toggle_general_info: function() {
+      $('.general_info_container .columns').slideToggle({
+        complete: function() {
+          var general_info_visible = ($(this).css('display') == 'block');
+          $('.toggle_general_info_button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
+        }
+      });
+    },
+
+    events: {
+      'click .toggle_general_info_button': '_toggle_general_info'
+    },
+
     triggers: {
       'click .edit-action':'order:edit',
       'click .export-order':'order:export'

@@ -1,20 +1,30 @@
 $text_color: #005c97;
 $bg_color: #c0e2f9;
+$li_number_bg: #007ac9;
 
 .clearfix { clear:both }
+
+@font-face {
+  font-family: 'Soho Gothic Pro';
+  src:font-url('SohoGothicProRegular.otf');
+  font-weight: normal;
+  font-style: normal;
+}
 
 .new_order_header {
   margin-top:30px;
   margin-left:40px;
 
   p.heading {
-    font-size:28px;
+    font-size:24px;
     color: $text_color;
+    font-family: 'Soho Gothic Pro';
   }
 
   p.adv_name {
     color:#999;
     font-weight:bold;
+    font-family: 'Soho Gothic Pro';
   }
 
   .field {
@@ -28,26 +38,76 @@ $bg_color: #c0e2f9;
       width:40%;
       float:left;
       margin-right:10px;
+      font-family: 'Soho Gothic Pro';
     }
 
     span:nth-child(2) {
       text-align:left;
     }
+
+    .editable-input input, .uneditable-input input {
+      width: 105px !important; 
+    }
+
+    .editable-input input.input-small, .uneditable-input input.input-small {
+      width: 95px !important;
+    }
+  }
+
+  .field.salesperson span:nth-child(1):before {
+    content:url("salesperson_icon.png");
+    position:relative;
+    margin-right:7px;
+    top:2px;
+  }
+
+  .field.account_contact span:nth-child(1):before {
+    content:url("account_contact_icon.png");
+    position:relative;
+    margin-right:7px;
+    top:2px;
+  }
+
+  .field.billing_contact span:nth-child(1):before {
+    content:url("billing_contact_icon.png");
+    position:relative;
+    margin-right:7px;
+    top:2px;
+  }
+
+  .field.media_contact span:nth-child(1):before {
+    content:url("media_contact_icon.png");
+    position:relative;
+    margin-right:7px;
+    top:2px;
+  }
+
+  .current_io_status_top {
+    float:right;
+    color: #D02898;
+    font-size:20px;
+    font-family: 'Soho Gothic Pro';
+  }
+
+  .current_io_status_top:before {
+    content:url("draft_status_icon.png");
+    vertical-align:middle;
+    margin-right:5px;
   }
 
   .general_info_container {
     border-top:1px solid #f2f2f2;
     border-bottom:1px solid #f2f2f2;
-    float:left;
+    float:none;
     margin-top:17px;
-    padding-top:22px;
-    padding-bottom:22px;
     clear:both;
 
-    .column {
-      width: 400px;
-      float:left;
-      
+    .columns {
+      padding-top:22px;
+      padding-bottom:22px;
+    }
+
+    .pure-u-1-3 {
       .field {
         width:400px;
         margin-top:17px;
@@ -65,6 +125,7 @@ $bg_color: #c0e2f9;
     background:$bg_color;
     width:200px;
     padding:5px;
+    cursor:pointer;
   }
 
   .imported_file_name {
@@ -73,6 +134,7 @@ $bg_color: #c0e2f9;
     float:left;
     padding:3px;
     margin-right:50px;
+    font-family: 'Soho Gothic Pro';
 
     .name {
       float:left;
@@ -82,12 +144,85 @@ $bg_color: #c0e2f9;
       span {
         text-decoration: underline;
         color: black;
+        font-family: 'Arial', sans-serif;
       }
     }
 
     .timestamp {
       color: $text_color;
       float:right;
+      font-size:12px;
     }
+  }
+
+  .lineitems_container {
+    margin:20px 10px 10px 10px;
+    font-size:13px;
+    color:black;
+    font-weight:normal;
+    font-size:normal;
+
+    .header {
+      color: $text_color;
+    }
+
+    .lineitem {
+      margin-top:20px;
+      background-color: $bg_color;
+      padding:0;
+
+      div {
+        padding:10px 0;
+      }
+
+      .li_number {
+        text-align:center;
+        color:white;
+        font-weight:bold;
+        background: $li_number_bg;
+      }
+
+      span.operation {
+        color: $text_color;
+        cursor: pointer;
+      }
+    }
+
+    .summary {
+      margin-top:20px;
+      
+      .totals_label {
+        color: $text_color;
+      }
+
+      .totals_label, .total_cpm, .total_media_cost, .total_impressions {
+        font-weight:bold;
+        font-size:14px;
+      }
+
+      .li_button {
+        float: left;
+        padding: 3px 15px;
+        border: 1px dashed $text_color;
+        color: $text_color;
+        cursor: pointer;
+      }
+      
+      .li_button.disabled {
+        cursor: default;
+        opacity: 0.5;
+      }
+
+      .li_button:not(.add_targeting) {
+        margin-left: 15px;
+      }
+    }
+  }
+
+  .status_btn_container {
+    background: $bg_color;
+    margin-right:10px;
+    margin-top:20px;
+    padding:10px;
   }
 }

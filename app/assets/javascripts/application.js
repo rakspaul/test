@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require twitter/bootstrap/typeahead
 //= require twitter/bootstrap/modal
+//= require bootstrap-editable
 //= require jquery-fileupload/basic
 //= require moment.min
 //= require mousetrap.min
