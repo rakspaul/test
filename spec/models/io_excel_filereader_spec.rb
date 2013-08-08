@@ -16,11 +16,45 @@ describe IOExcelFileReader do
     end
 
     it "have start flight dates" do
-      subject.start_flight_date == Date.strptime("06/27/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
+      subject.start_flight_date.should == Date.strptime("06/27/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
     end
 
     it "have finish flight date" do
-      subject.finish_flight_date == Date.strptime("08/18/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
+      subject.finish_flight_date.should == Date.strptime("08/18/2013", IOExcelFileReader::DATE_FORMAT_WITH_SLASH)
+    end
+
+    it "have account contact name, phone and email" do
+      subject.account_contact[:name].should == "Alexandra Piechota" 
+      subject.account_contact[:phone].should == "646-786-6701"
+      subject.account_contact[:email].should == "ampnetwork@collective.com"
+    end
+
+    it "have media contact name, company, address, phone and email" do
+      subject.media_contact[:name].should == "Mary Ball"
+      subject.media_contact[:company].should == "Time Warner Cable"
+      subject.media_contact[:address].should == ""
+      subject.media_contact[:phone].should == "704-973-7508"
+      subject.media_contact[:email].should == "digital.services@twcable.com"
+    end
+
+    it "have trafficking contact name, email and phone" do
+      subject.trafficking_contact[:name].should == "Ronnie Wallace" 
+      subject.trafficking_contact[:phone].should == "646-442-8220"
+      subject.trafficking_contact[:email].should == "ops@collective.com"
+    end
+
+    it "have sales person's name, email and phone" do
+      subject.sales_person[:name].should == "Eric Burns"
+      subject.sales_person[:phone].should == "919-604-4451"
+      subject.sales_person[:email].should == "eric@collective.com"
+    end
+
+    it "have billing contact name, phone and email" do
+      subject.billing_contact[:name].should == "Bryan Snyder"
+      subject.billing_contact[:company].should == "Time Warner Cable"
+      subject.billing_contact[:address].should == ""
+      subject.billing_contact[:phone].should == "(704) 973-7346"
+      subject.billing_contact[:email].should == "digital.services@twcable.com"
     end
 
     context "lineitems" do

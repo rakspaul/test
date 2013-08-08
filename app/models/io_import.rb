@@ -3,11 +3,17 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :xls_filename
+  attr_reader :order, :xls_filename, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
 
   def initialize(file, current_user)
     @reader = IOExcelFileReader.new(file)
     @current_user = current_user
+
+    @account_contact = Struct.new(:name, :phone, :email)
+    @media_contact = Struct.new(:name, :company, :address, :phone, :email)
+    @trafficking_contact = Struct.new(:name, :phone, :email)
+    @sales_person = Struct.new(:name, :phone, :email)
+    @billing_contact = Struct.new(:name, :company, :address, :phone, :email)
   end
 
   def import
@@ -15,6 +21,13 @@ class IoImport
 
     read_uploaded_file_attributes
     read_advertiser
+
+    read_account_contact
+    read_media_contact
+    read_billing_contact
+    read_sales_person
+    read_trafficking_contact
+
     read_order
     read_lineitems
 
@@ -34,6 +47,26 @@ class IoImport
     def read_advertiser
       adv_name = @reader.advertiser_name
       @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
+    end
+
+    def read_account_contact
+      @account_contact = @reader.account_contact
+    end
+
+    def read_media_contact
+      @media_contact = @reader.media_contact
+    end
+
+    def read_trafficking_contact
+      @trafficking_contact = @reader.trafficking_contact
+    end
+
+    def read_sales_person
+      @sales_person = @reader.sales_person
+    end
+
+    def read_billing_contact
+      @billing_contact = @reader.billing_contact
     end
 
     def read_order
@@ -131,6 +164,30 @@ class IOExcelFileReader
   ORDER_START_FLIGHT_DATE = ['H', 25]
   ORDER_END_FLIGHT_DATE = ['H', 26]
 
+  ACCOUNT_CONTACT_NAME_CELL = ['E', 12]
+  ACCOUNT_CONTACT_PHONE_CELL = ['E', 13]
+  ACCOUNT_CONTACT_EMAIL_CELL = ['E', 14]
+
+  MEDIA_CONTACT_NAME_CELL = ['E', 17]
+  MEDIA_CONTACT_COMPANY_CELL = ['E', 18]
+  MEDIA_CONTACT_ADDRESS_CELL = ['E', 19]
+  MEDIA_CONTACT_PHONE_CELL = ['E', 20]
+  MEDIA_CONTACT_EMAIL_CELL = ['E', 21]
+
+  TRAFFICKING_CONTACT_NAME_CELL = ['G', 12]
+  TRAFFICKING_CONTACT_PHONE_CELL = ['G', 13]
+  TRAFFICKING_CONTACT_EMAIL_CELL = ['G', 14]
+
+  SALES_PERSON_NAME_CELL = ['C', 12]
+  SALES_PERSON_PHONE_CELL = ['C', 13]
+  SALES_PERSON_EMAIL_CELL = ['C', 14]
+
+  BILLING_CONTACT_NAME_CELL = ['G', 17]
+  BILLING_CONTACT_COMPANY_CELL = ['G', 18]
+  BILLING_CONTACT_ADDRESS_CELL = ['G', 19]
+  BILLING_CONTACT_PHONE_CELL = ['G', 20]
+  BILLING_CONTACT_EMAIL_CELL = ['G', 21]
+  
   attr_reader :file
 
   def initialize(file_object)
@@ -148,11 +205,56 @@ class IOExcelFileReader
     end
   end
 
+  def account_contact
+    {
+      name: @spreadsheet.cell(*ACCOUNT_CONTACT_NAME_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*ACCOUNT_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*ACCOUNT_CONTACT_EMAIL_CELL).to_s.strip
+    }
+  end
+
+  def media_contact
+    {
+      name: @spreadsheet.cell(*MEDIA_CONTACT_NAME_CELL).to_s.strip,
+      company: @spreadsheet.cell(*MEDIA_CONTACT_COMPANY_CELL).to_s.strip,
+      address: @spreadsheet.cell(*MEDIA_CONTACT_ADDRESS_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*MEDIA_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*MEDIA_CONTACT_EMAIL_CELL).to_s.strip
+    }
+  end
+
+  def trafficking_contact
+    {
+      name: @spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
+    }
+  end
+
+  def sales_person
+    {
+      name: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
+    }
+  end
+
+  def billing_contact
+    {
+      name: @spreadsheet.cell(*BILLING_CONTACT_NAME_CELL).to_s.strip,
+      company: @spreadsheet.cell(*BILLING_CONTACT_COMPANY_CELL).to_s.strip,
+      address: @spreadsheet.cell(*BILLING_CONTACT_ADDRESS_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*BILLING_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*BILLING_CONTACT_EMAIL_CELL).to_s.strip
+    }
+  end
+
   def order
     {
       name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
       start_date: start_flight_date,
       end_date: finish_flight_date,
+      sales_person: SalesPeople.new(sales_person)
     }
   end
 
