@@ -111,7 +111,8 @@
       report_end_date: '#report_end_date',
       report_specific_days: '#report_specific_days',
       title_error: '#title_error',
-      email_error: '#email_error'
+      email_error: '#email_error',
+      frequency_value_error: '#frequency_value_error'
     },
 
     onDomRefresh: function(){
@@ -168,23 +169,23 @@
       if(selected === 'specific_days'){
         $('#specific_days_option').show();
         $('#weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Specific Days'});
+        this.model.set({frequency_type: 'Specific Days', frequency_value: null });
       }
       if(selected === 'weekly'){
         $('#weekly_checkboxes_option').show();
         $('#specific_days_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Weekly'});
+        this.model.set({frequency_type: 'Weekly', frequency_value: null });
         this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected === 'quarterly'){
         $('#quarterly_checkboxes_option').show();
         $('#specific_days_option, #weekly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Quarterly'});
+        this.model.set({frequency_type: 'Quarterly', frequency_value: null });
         this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected === 'everyday'){
         $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Everyday'});
+        this.model.set({frequency_type: 'Everyday', frequency_value: 1 });
         this.ui.report_specific_days.datepicker('reset_date');
       }
     },
@@ -206,9 +207,14 @@
     },
 
     _saveReport: function() {
-      var _report = this.model.toJSON();
+      this.model.set({
+        title: this.ui.title.val(),
+        email: this.ui.email.val(),
+        recalculate_dates: $('#recalculate_dates').is(':checked')
+      });
 
-      var self = this;
+      var _report = this.model.toJSON(),
+        self = this;
 
       // get all the error labels and clear them
       _.keys(this.ui)
@@ -218,10 +224,6 @@
         .forEach(function(val) {
           self.ui[val].text("");
         });
-
-      _report.report_schedule.title = this.ui.title.val();
-      _report.report_schedule.email = this.ui.email.val();
-      _report.report_schedule.recalculate_dates = $('#recalculate_dates').is(':checked');
 
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,
@@ -236,9 +238,8 @@
 
     _onSaveReportFailure: function(model, xhr, options){
       if(xhr.responseJSON && xhr.responseJSON.errors) {
-        var formErrors = [];
-
-        var self = this;
+        var formErrors = [],
+          self = this;
 
         _.each(xhr.responseJSON.errors, function(value, key) {
           var errorLabel = self.ui[key + "_error"];
