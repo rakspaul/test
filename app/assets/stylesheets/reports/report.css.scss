@@ -230,7 +230,8 @@
   letter-spacing:0;
 
   .modal-body{
-    max-height: 550px;
+    max-height: 650px;
+    padding-bottom:0px;
   }
 
 }
@@ -244,7 +245,7 @@
 
   fieldset{
     padding:10px 0;
-    margin:0px 0 10px 0;
+    margin:0px;
   }
 
   .control-group{
@@ -269,6 +270,10 @@
 
   .date-field{
     width:180px;
+  }
+
+  .error-label{
+    margin-left: 146px;
   }
 
 }
