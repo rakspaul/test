@@ -17,10 +17,6 @@
       recalculate_dates: false,
       report_start_date: moment().add("days", 1).format('YYYY-MM-DD'),
       report_end_date: null,
-      group: null,
-      cols: null,
-      sort_param: null,
-      sort_direction: null,
       frequency_type: 'Everyday',
       frequency_value: 1,
     },
@@ -177,15 +173,18 @@
         $('#weekly_checkboxes_option').show();
         $('#specific_days_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Weekly'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected == 'quarterly'){
         $('#quarterly_checkboxes_option').show();
         $('#specific_days_option, #weekly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Quarterly'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
       if(selected == 'everyday'){
         $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
         this.model.set({frequency_type: 'Everyday'});
+        this.ui.report_specific_days.datepicker('reset_date');
       }
     },
 
@@ -221,6 +220,7 @@
 
       _report.report_schedule.title = this.ui.title.val();
       _report.report_schedule.email = this.ui.email.val();
+      _report.report_schedule.recalculate_dates = $('#recalculate_dates').is(':checked');
 
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,

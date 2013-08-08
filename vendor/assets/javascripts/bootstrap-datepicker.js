@@ -459,7 +459,7 @@
       }
       if ( currentDate )
       {
-        if ( this.multidate != true && date.valueOf() == currentDate)
+        if ( date.valueOf() == currentDate )
           cls.push('active');
         else if ( this.multidate == true && this.dateSelected[ date.valueOf() ] )
           cls.push('active');
@@ -730,6 +730,15 @@
         // console.log("ADD: " + date );
         this.dateSelected[date.valueOf()] = date;
       }
+    },
+
+    reset_date: function(){
+      this.dateSelected = {}
+      if (this.isInput)
+        this.element.val("");
+      else
+        this.element.find('input').val("");
+      this.update();
     },
 
     _setDate: function(date, which){
