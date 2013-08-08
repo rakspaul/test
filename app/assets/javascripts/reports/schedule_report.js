@@ -9,6 +9,12 @@
         return '/reports/schedule_reports/' + this.id + '.json';
       }
     },
+
+    constructor: function() {
+      this.report_para = null;
+      Backbone.Model.apply(this, arguments);
+    },
+
     defaults: {
       title: null,
       email: null,
@@ -19,6 +25,59 @@
       report_end_date: null,
       frequency_type: 'Everyday',
       frequency_value: 1,
+    },
+
+    getGroups: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['group'].split(',');
+    },
+
+    getColumns: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['cols'].split(',');
+    },
+
+    getStartDate: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['start_date']
+    },
+
+    getEndDate: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['end_date']
+    },
+
+    getSortField: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['sort_param']
+    },
+
+    getSortDirection: function() {
+      if(!this.report_para) {
+        this.report_para = this.explodeToObject(this.get('url'));
+      }
+      return this.report_para['sort_direction']
+    },
+
+    explodeToObject: function(url) {
+      var queryString = url.split('?');
+      var array = queryString[1].split('&');
+      var object = {};
+      for(var i=0; i < array.length; i++) {
+        var paramvalue = array[i].split('=');
+        object[paramvalue[0]] = paramvalue[1];
+      }
+      return object;
     },
 
     toJSON: function() {
