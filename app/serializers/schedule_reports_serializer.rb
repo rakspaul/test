@@ -15,7 +15,7 @@ class ScheduleReportsSerializer < ActiveModel::Serializer
   end
 
   def report_end_date
-    object.report_end_date.strftime("%Y-%m-%d")
+    object.report_end_date.nil? ? "" : object.report_end_date.strftime("%Y-%m-%d")
   end
 
 end
