@@ -3,7 +3,7 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order
+  attr_reader :order, :xls_filename
 
   def initialize(file, current_user)
     @reader = IOExcelFileReader.new(file)
@@ -13,7 +13,8 @@ class IoImport
   def import
     @reader.open
 
-    read_and_verify_advertiser
+    read_uploaded_file_attributes
+    read_advertiser
     read_order
     read_lineitems
 
@@ -26,12 +27,13 @@ class IoImport
 
   private
 
-    def read_and_verify_advertiser
+    def read_uploaded_file_attributes
+      @xls_filename = @reader.file.original_filename
+    end
+
+    def read_advertiser
       adv_name = @reader.advertiser_name
       @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
-      if @advertiser.nil?
-        raise "Advertiser not found: #{adv_name}"
-      end
     end
 
     def read_order
