@@ -163,6 +163,7 @@
 
     newReport: function() {
       this.metadata = new Report.Metadata();
+      this.report_to_edit = null;
 
       this._initializeLayout();
       this._initializeTableView();
@@ -177,10 +178,10 @@
     },
 
     editReport: function(id) {
-      var report_to_edit = this.reportModelList.get(id);
+      this.report_to_edit = this.reportModelList.get(id);
       var metadata = new Report.Metadata();
-      var groups = report_to_edit.get('group').split(',');
-      var columns = report_to_edit.get('cols').split(',');
+      var groups = this.report_to_edit.getGroups();
+      var columns = this.report_to_edit.getColumns();
       var self = this;
 
       this._fetchDimensions().then(function() {
@@ -192,22 +193,22 @@
           self._fetchColumns().then(function() {
             for (var i = 0; i < columns.length; i++) {
               var column = self.availableColumns.findWhere({internal_name: columns[i]});
-              if(column.get('internal_name') === report_to_edit.get('sort_param')) {
-                column.set({sort_direction: report_to_edit.get('sort_direction')})
+              if(column.get('internal_name') === self.report_to_edit.getSortField()) {
+                column.set({sort_direction: self.report_to_edit.getSortDirection()})
               }
               metadata.selectedColumns.add(column, {silent: true});
               self.availableColumns.remove(column);
-              self._initializeEditFlow(metadata, report_to_edit);
-            };
+            }
+            self._initializeEditFlow(metadata);
           })
         };
       })
     },
 
-    _initializeEditFlow: function(metadata, report_to_edit) {
+    _initializeEditFlow: function(metadata) {
       this.metadata = metadata;
-      var start_date = report_to_edit.get('start_date');
-      var end_date = report_to_edit.get('end_date');
+      var start_date = this.report_to_edit.getStartDate();
+      var end_date = this.report_to_edit.getEndDate();
 
       this.metadata.set({start_date: moment(start_date, 'YYYY-MM-DD')}, {silent: true});
       // all the parameter of the report is now set we need to send request to the server to fetch the data.
@@ -424,9 +425,15 @@
 
     _openScheduleReportModal: function() {
       if(!this.metadata.selectedColumns.isEmpty()){
-        var reportModal = new Report.ReportModel(),
+        var reportModal,
           data = this.metadata.toQueryParam("json"),
           url = $.param(data);
+
+        if(this.report_to_edit) {
+          reportModal = this.report_to_edit
+        } else {
+          reportModal = new Report.ReportModel();
+        }
 
         reportModal.set({
           start_date: data.start_date,
