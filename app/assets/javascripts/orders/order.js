@@ -50,17 +50,17 @@
     template: JST['templates/orders/order_details'],
     className: 'order-details',
 
-    _toggle_general_info: function() {
-      $('.general_info_container .columns').slideToggle({
+    _toggleGeneralInfo: function() {
+      $('.general-info-container .columns').slideToggle({
         complete: function() {
           var general_info_visible = ($(this).css('display') == 'block');
-          $('.toggle_general_info_button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
+          $('.toggle-general-info-button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
         }
       });
     },
 
     events: {
-      'click .toggle_general_info_button': '_toggle_general_info'
+      'click .toggle-general-info-button': '_toggleGeneralInfo'
     },
 
     triggers: {

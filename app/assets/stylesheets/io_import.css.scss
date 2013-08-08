@@ -11,7 +11,7 @@ $li_number_bg: #007ac9;
   font-style: normal;
 }
 
-.new_order_header {
+.new-order-header {
   margin-top:30px;
   margin-left:40px;
 
@@ -21,7 +21,7 @@ $li_number_bg: #007ac9;
     font-family: 'Soho Gothic Pro';
   }
 
-  p.adv_name {
+  p.adv-name {
     color:#999;
     font-weight:bold;
     font-family: 'Soho Gothic Pro';
@@ -54,48 +54,48 @@ $li_number_bg: #007ac9;
     }
   }
 
-  .field.salesperson span:nth-child(1):before {
+  .field.salesperson-name span:nth-child(1):before {
     content:url("salesperson_icon.png");
     position:relative;
     margin-right:7px;
     top:2px;
   }
 
-  .field.account_contact span:nth-child(1):before {
+  .field.account-contact-name span:nth-child(1):before {
     content:url("account_contact_icon.png");
     position:relative;
     margin-right:7px;
     top:2px;
   }
 
-  .field.billing_contact span:nth-child(1):before {
+  .field.billing-contact-name span:nth-child(1):before {
     content:url("billing_contact_icon.png");
     position:relative;
     margin-right:7px;
     top:2px;
   }
 
-  .field.media_contact span:nth-child(1):before {
+  .field.media-contact-name span:nth-child(1):before {
     content:url("media_contact_icon.png");
     position:relative;
     margin-right:7px;
     top:2px;
   }
 
-  .current_io_status_top {
+  .current-io-status-top {
     float:right;
     color: #D02898;
     font-size:20px;
     font-family: 'Soho Gothic Pro';
   }
 
-  .current_io_status_top:before {
+  .current-io-status-top:before {
     content:url("draft_status_icon.png");
     vertical-align:middle;
     margin-right:5px;
   }
 
-  .general_info_container {
+  .general-info-container {
     border-top:1px solid #f2f2f2;
     border-bottom:1px solid #f2f2f2;
     float:none;
@@ -115,7 +115,7 @@ $li_number_bg: #007ac9;
     }
   }
 
-  .toggle_general_info_button {
+  .toggle-general-info-button {
     padding: 3px;
     clear:both;
     position:relative;
@@ -128,7 +128,7 @@ $li_number_bg: #007ac9;
     cursor:pointer;
   }
 
-  .imported_file_name {
+  .imported-file-name {
     width:500px;
     border:1px dashed $text_color;
     float:left;
@@ -155,7 +155,7 @@ $li_number_bg: #007ac9;
     }
   }
 
-  .lineitems_container {
+  .lineitems-container {
     margin:20px 10px 10px 10px;
     font-size:13px;
     color:black;
@@ -175,7 +175,7 @@ $li_number_bg: #007ac9;
         padding:10px 0;
       }
 
-      .li_number {
+      .li-number {
         text-align:center;
         color:white;
         font-weight:bold;
@@ -191,16 +191,16 @@ $li_number_bg: #007ac9;
     .summary {
       margin-top:20px;
       
-      .totals_label {
+      .totals-label {
         color: $text_color;
       }
 
-      .totals_label, .total_cpm, .total_media_cost, .total_impressions {
+      .totals-label, .total-cpm, .total-media-cost, .total-impressions {
         font-weight:bold;
         font-size:14px;
       }
 
-      .li_button {
+      .li-button {
         float: left;
         padding: 3px 15px;
         border: 1px dashed $text_color;
@@ -208,18 +208,18 @@ $li_number_bg: #007ac9;
         cursor: pointer;
       }
       
-      .li_button.disabled {
+      .li-button.disabled {
         cursor: default;
         opacity: 0.5;
       }
 
-      .li_button:not(.add_targeting) {
+      .li-button:not(.add_targeting) {
         margin-left: 15px;
       }
     }
   }
 
-  .status_btn_container {
+  .status-btn-container {
     background: $bg_color;
     margin-right:10px;
     margin-top:20px;

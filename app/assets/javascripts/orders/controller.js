@@ -310,7 +310,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.editable.typeahead').editable({
       source: ["Eric Burns", "Mary Ball", "Bryan Snyder", "Ronnie Wallace"]
     });
-    $('.total_media_cost .editable.custom').editable({
+    $('.total-media-cost .editable.custom').editable({
       validate: function(value) {
         if(value.match(/[^\d]+/)) {
           return 'This field should contain only digits';
