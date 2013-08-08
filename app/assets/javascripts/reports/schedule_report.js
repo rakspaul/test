@@ -13,6 +13,7 @@
       report_end_date: null,
       frequency_type: 'Everyday',
       frequency_value: 1,
+      url: null
     },
 
     toJSON: function() {
@@ -83,7 +84,7 @@
     },
 
     onDomRefresh: function(){
-      this.ui.report_start_date.datepicker(this._date_options()).on('changeDate', this._onStartDateChange);
+      this.ui.report_start_date.datepicker(this._dateOptions()).on('changeDate', this._onStartDateChange);
       this.ui.report_end_date.datepicker(this._dateOptions()).on('changeDate', this._onEndDateChange);
       this.ui.report_specific_days.datepicker(this._dateOptionsSpecific()).on('changeDate', this._onSpecificDateChange);;
     },
