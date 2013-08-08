@@ -30,6 +30,7 @@ Reachui::Application.configure do
   # number of complex assets.
   config.assets.debug = true
 
+  config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
   ## Custom application configurations
 
   # Set the reporting server url
