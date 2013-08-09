@@ -25,6 +25,7 @@
       report_end_date: null,
       frequency_type: 'Everyday',
       frequency_value: 1,
+      url: null
     },
 
     getGroups: function() {
@@ -156,11 +157,11 @@
     },
 
     events: {
-      'change input[name="endsOnRadio"]' : 'endsOnRadioClick',
-      'change input[name="frequencyRadio"]' : 'frequencyRadioClick',
-      'change input[name="weeklyCheckboxes"]' : 'weeklyCheckboxesClick',
-      'change input[name="quarterlyCheckboxes"]' : 'quarterlyCheckboxesClick',
-      'click #save_report' : 'saveReport'
+      'change input[name="endsOnRadio"]' : '_endsOnRadioClick',
+      'change input[name="frequencyRadio"]' : '_frequencyRadioClick',
+      'change input[name="weeklyCheckboxes"]' : '_weeklyCheckboxesClick',
+      'change input[name="quarterlyCheckboxes"]' : '_quarterlyCheckboxesClick',
+      'click #save_report' : '_saveReport'
     },
 
     ui: {
@@ -171,16 +172,17 @@
       report_end_date: '#report_end_date',
       report_specific_days: '#report_specific_days',
       title_error: '#title_error',
-      email_error: '#email_error'
+      email_error: '#email_error',
+      frequency_value_error: '#frequency_value_error'
     },
 
     onDomRefresh: function(){
-      this.ui.report_start_date.datepicker(this._date_options()).on('changeDate', this.onStartDateChange);
-      this.ui.report_end_date.datepicker(this._date_options()).on('changeDate', this.onEndDateChange);
-      this.ui.report_specific_days.datepicker(this._date_options_specific()).on('changeDate', this.onSpecificDateChange);;
+      this.ui.report_start_date.datepicker(this._dateOptions()).on('changeDate', this._onStartDateChange);
+      this.ui.report_end_date.datepicker(this._dateOptions()).on('changeDate', this._onEndDateChange);
+      this.ui.report_specific_days.datepicker(this._dateOptionsSpecific()).on('changeDate', this._onSpecificDateChange);;
     },
 
-    _date_options: function() {
+    _dateOptions: function() {
       return {
         format: 'yyyy-mm-dd',
         startDate: moment().add("days", 1).format('YYYY-MM-DD'),
@@ -188,31 +190,31 @@
       }
     },
 
-    _date_options_specific: function() {
+    _dateOptionsSpecific: function() {
       return {
         format: 'yyyy-mm-dd',
         startDate: moment().add("days", 1).format('YYYY-MM-DD')
       }
     },
 
-    onStartDateChange: function(event) {
+    _onStartDateChange: function(event) {
       this.ui.report_end_date.datepicker('setStartDate', moment(event.date).format('YYYY-MM-DD'));
       this.model.set({report_start_date: moment(event.date).format('YYYY-MM-DD')});
       this.model.set({report_end_date: moment(event.date).format('YYYY-MM-DD')});
     },
 
-    onEndDateChange: function(event){
+    _onEndDateChange: function(event){
       this.ui.report_end_date.val(moment(event.date).format('YYYY-MM-DD'));
       this.model.set({report_end_date: moment(event.date).format('YYYY-MM-DD')});
     },
 
-    onSpecificDateChange: function(event){
+    _onSpecificDateChange: function(event){
       this.model.set({frequency_value: this.ui.report_specific_days.find('input').val()});
     },
 
-    endsOnRadioClick: function(event){
+    _endsOnRadioClick: function(event){
       var selected = $(event.target).val();
-      if(selected == 'end_date'){
+      if(selected === 'end_date'){
         $('#report_enddate_option').show();
         this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
       }
@@ -222,34 +224,34 @@
       }
     },
 
-    frequencyRadioClick: function(event){
+    _frequencyRadioClick: function(event){
       var selected = $(event.target).val();
 
-      if(selected == 'specific_days'){
+      if(selected === 'specific_days'){
         $('#specific_days_option').show();
         $('#weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Specific Days'});
+        this.model.set({frequency_type: 'Specific Days', frequency_value: null });
       }
-      if(selected == 'weekly'){
+      if(selected === 'weekly'){
         $('#weekly_checkboxes_option').show();
         $('#specific_days_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Weekly'});
+        this.model.set({frequency_type: 'Weekly', frequency_value: null });
         this.ui.report_specific_days.datepicker('reset_date');
       }
-      if(selected == 'quarterly'){
+      if(selected === 'quarterly'){
         $('#quarterly_checkboxes_option').show();
         $('#specific_days_option, #weekly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Quarterly'});
+        this.model.set({frequency_type: 'Quarterly', frequency_value: null });
         this.ui.report_specific_days.datepicker('reset_date');
       }
-      if(selected == 'everyday'){
+      if(selected === 'everyday'){
         $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Everyday'});
+        this.model.set({frequency_type: 'Everyday', frequency_value: 1 });
         this.ui.report_specific_days.datepicker('reset_date');
       }
     },
 
-    weeklyCheckboxesClick: function(event){
+    _weeklyCheckboxesClick: function(event){
       var selectedWeeklyDays = [];
       $('input[name="weeklyCheckboxes"]:checked').each(function() {
          selectedWeeklyDays.push(this.value);
@@ -257,7 +259,7 @@
       this.model.set({frequency_value: selectedWeeklyDays.join(',') });
     },
 
-    quarterlyCheckboxesClick: function(event){
+    _quarterlyCheckboxesClick: function(event){
       var selectedQuarters = [];
       $('input[name="quarterlyCheckboxes"]:checked').each(function() {
          selectedQuarters.push(this.value);
@@ -265,10 +267,15 @@
       this.model.set({frequency_value: selectedQuarters.join(',') });
     },
 
-    saveReport: function() {
-      var _report = this.model.toJSON();
+    _saveReport: function() {
+      this.model.set({
+        title: this.ui.title.val(),
+        email: this.ui.email.val(),
+        recalculate_dates: $('#recalculate_dates').is(':checked')
+      });
 
-      var self = this;
+      var _report = this.model.toJSON(),
+        self = this;
 
       // get all the error labels and clear them
       _.keys(this.ui)
@@ -278,10 +285,6 @@
         .forEach(function(val) {
           self.ui[val].text("");
         });
-
-      _report.report_schedule.title = this.ui.title.val();
-      _report.report_schedule.email = this.ui.email.val();
-      _report.report_schedule.recalculate_dates = $('#recalculate_dates').is(':checked');
 
       this.model.save(_report.report_schedule,{
         success: this._onSaveReportSuccess,
@@ -296,9 +299,8 @@
 
     _onSaveReportFailure: function(model, xhr, options){
       if(xhr.responseJSON && xhr.responseJSON.errors) {
-        var formErrors = [];
-
-        var self = this;
+        var formErrors = [],
+          self = this;
 
         _.each(xhr.responseJSON.errors, function(value, key) {
           var errorLabel = self.ui[key + "_error"];

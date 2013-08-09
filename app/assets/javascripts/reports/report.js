@@ -93,7 +93,7 @@
     },
 
     _getSortedColumn: function(model) {
-      return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
+      return model.get('sort_direction') === 'asc' || model.get('sort_direction') === 'desc'
     },
 
     _getDefaultColumnForSort: function() {
@@ -391,7 +391,7 @@
       }
 
       if(sortDirection){
-        sortDirection = (sortDirection == 'asc') ? 'desc' : 'asc';
+        sortDirection = (sortDirection === 'asc') ? 'desc' : 'asc';
       } else{
         sortDirection = 'asc';
       }
@@ -420,7 +420,7 @@
     },
 
     _getSortedColumn: function(model) {
-      return model.get('sort_direction') == 'asc' || model.get('sort_direction') == 'desc'
+      return model.get('sort_direction') === 'asc' || model.get('sort_direction') === 'desc'
     },
 
     _openScheduleReportModal: function() {
