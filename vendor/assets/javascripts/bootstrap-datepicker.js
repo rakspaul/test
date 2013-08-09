@@ -459,7 +459,7 @@
       }
       if ( currentDate )
       {
-        if ( date.valueOf() == currentDate )
+        if ( this.multidate != true && date.valueOf() == currentDate )
           cls.push('active');
         else if ( this.multidate == true && this.dateSelected[ date.valueOf() ] )
           cls.push('active');

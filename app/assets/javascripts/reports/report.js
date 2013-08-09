@@ -433,12 +433,12 @@
           reportModal = this.report_to_edit
         } else {
           reportModal = new Report.ReportModel();
+          reportModal.set({ title: 'Report_'+ data.start_date+'-'+ data.end_date })
         }
 
         reportModal.set({
           start_date: data.start_date,
           end_date: data.end_date,
-          title: 'Report_'+ data.start_date+'-'+ data.end_date,
           url: url
         });
 
