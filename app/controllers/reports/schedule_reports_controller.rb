@@ -7,7 +7,7 @@ class Reports::ScheduleReportsController < ApplicationController
 
   def index
     @reports = ReportSchedule.all
-    respond_with(@reports, :each_serializer => ScheduleReportsSerializer)
+    respond_with(@reports)
   rescue => e
     respond_with(e.message, status: :service_unavailable)
   end
@@ -24,6 +24,8 @@ class Reports::ScheduleReportsController < ApplicationController
   def update
     @report_schedule = ReportSchedule.find_by_id(params[:id])
     @report_schedule.update_attributes(schedule_report_params)
+    @report_schedule.url = create_url(params[:report_schedule])
+
     @report_schedule.save
 
     respond_with(@report_schedule)
