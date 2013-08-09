@@ -178,6 +178,7 @@
       weekly_checkboxes_option: '#weekly_checkboxes_option',
       quarterly_checkboxes_option: '#quarterly_checkboxes_option',
       report_enddate_option: '#report_enddate_option',
+      recalculate_dates: '#recalculate_dates'
     },
 
     onDomRefresh: function(){
@@ -189,20 +190,22 @@
       var frequency_type = this.model.get('frequency_type'),
         frequency_value = this.model.get('frequency_value').split(',');
 
-      $('input[name="frequencyRadio"][value='+ frequency_type +']').trigger('click');
+      if(frequency_type && frequency_value){
+        $('input[name="frequencyRadio"][value='+ frequency_type +']').trigger('click');
 
-      if( frequency_type==='everyday' ){
-        this.model.set({frequency_value: frequency_value});
-      } else if(frequency_type==='specific_days'){
-        this.model.set({frequency_value: frequency_value});
-        //Update Datepicker dates
-      } else if(frequency_type==='weekly'){
-        for(var i=0; i< frequency_value.length; i++){
-          $('input[name="weeklyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
-        }
-      } else if(frequency_type==='quarterly'){
-        for(var i=0; i< frequency_value.length; i++){
-          $('input[name="quarterlyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
+        if( frequency_type==='everyday' ){
+          this.model.set({frequency_value: frequency_value});
+        } else if(frequency_type==='specific_days'){
+          this.model.set({frequency_value: frequency_value});
+          //Update Datepicker dates
+        } else if(frequency_type==='weekly'){
+          for(var i=0; i< frequency_value.length; i++){
+            $('input[name="weeklyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
+          }
+        } else if(frequency_type==='quarterly'){
+          for(var i=0; i< frequency_value.length; i++){
+            $('input[name="quarterlyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
+          }
         }
       }
 
@@ -210,6 +213,11 @@
       if(this.model.get('report_end_date')){
         $('input[name="endsOnRadio"][value="end_date"]').trigger('click');
         this.ui.report_enddate_option.show();
+      }
+
+      // Recalculate date field update
+      if(this.model.get('recalculate_dates')){
+        this.ui.recalculate_dates.attr({'checked':'checked'});
       }
 
     },
@@ -299,7 +307,7 @@
       this.model.set({
         title: this.ui.title.val(),
         email: this.ui.email.val(),
-        recalculate_dates: $('#recalculate_dates').is(':checked')
+        recalculate_dates: this.ui.recalculate_dates.is(':checked')
       });
 
       var _report = this.model.toJSON(),
