@@ -40,7 +40,6 @@
 //= require reports/paging_view.js
 //= require reports/report_options.js
 //= require reports/schedule_report.js
-//= require reports/router.js
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js

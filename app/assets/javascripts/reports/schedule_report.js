@@ -23,7 +23,7 @@
       recalculate_dates: false,
       report_start_date: moment().add("days", 1).format('YYYY-MM-DD'),
       report_end_date: null,
-      frequency_type: 'Everyday',
+      frequency_type: 'everyday',
       frequency_value: 1,
       url: null
     },
@@ -173,13 +173,53 @@
       report_specific_days: '#report_specific_days',
       title_error: '#title_error',
       email_error: '#email_error',
-      frequency_value_error: '#frequency_value_error'
+      frequency_value_error: '#frequency_value_error',
+      specific_days_option: '#specific_days_option',
+      weekly_checkboxes_option: '#weekly_checkboxes_option',
+      quarterly_checkboxes_option: '#quarterly_checkboxes_option',
+      report_enddate_option: '#report_enddate_option',
+      recalculate_dates: '#recalculate_dates'
     },
 
     onDomRefresh: function(){
       this.ui.report_start_date.datepicker(this._dateOptions()).on('changeDate', this._onStartDateChange);
       this.ui.report_end_date.datepicker(this._dateOptions()).on('changeDate', this._onEndDateChange);
-      this.ui.report_specific_days.datepicker(this._dateOptionsSpecific()).on('changeDate', this._onSpecificDateChange);;
+      this.ui.report_specific_days.datepicker(this._dateOptionsSpecific()).on('changeDate', this._onSpecificDateChange);
+
+      // Frequency field update
+      var frequency_type = this.model.get('frequency_type'),
+        frequency_value = this.model.get('frequency_value').split(',');
+
+      if(frequency_type && frequency_value){
+        $('input[name="frequencyRadio"][value='+ frequency_type +']').trigger('click');
+
+        if( frequency_type==='everyday' ){
+          this.model.set({frequency_value: frequency_value});
+        } else if(frequency_type==='specific_days'){
+          this.model.set({frequency_value: frequency_value});
+          //Update Datepicker dates
+        } else if(frequency_type==='weekly'){
+          for(var i=0; i< frequency_value.length; i++){
+            $('input[name="weeklyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
+          }
+        } else if(frequency_type==='quarterly'){
+          for(var i=0; i< frequency_value.length; i++){
+            $('input[name="quarterlyCheckboxes"][value='+ frequency_value[i] +']').attr({'checked':'checked'});
+          }
+        }
+      }
+
+      // Ends on date field update
+      if(this.model.get('report_end_date')){
+        $('input[name="endsOnRadio"][value="end_date"]').trigger('click');
+        this.ui.report_enddate_option.show();
+      }
+
+      // Recalculate date field update
+      if(this.model.get('recalculate_dates')){
+        this.ui.recalculate_dates.attr({'checked':'checked'});
+      }
+
     },
 
     _dateOptions: function() {
@@ -215,40 +255,36 @@
     _endsOnRadioClick: function(event){
       var selected = $(event.target).val();
       if(selected === 'end_date'){
-        $('#report_enddate_option').show();
+        this.ui.report_enddate_option.show();
         this.ui.report_end_date.datepicker('setStartDate', this.model.get('report_start_date'));
       }
       else{
         this.ui.report_end_date.find('input').val('');
-        $('#report_enddate_option').hide();
+        this.ui.report_enddate_option.hide();
       }
     },
 
     _frequencyRadioClick: function(event){
       var selected = $(event.target).val();
 
-      if(selected === 'specific_days'){
-        $('#specific_days_option').show();
-        $('#weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Specific Days', frequency_value: null });
-      }
-      if(selected === 'weekly'){
-        $('#weekly_checkboxes_option').show();
-        $('#specific_days_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Weekly', frequency_value: null });
-        this.ui.report_specific_days.datepicker('reset_date');
-      }
-      if(selected === 'quarterly'){
-        $('#quarterly_checkboxes_option').show();
-        $('#specific_days_option, #weekly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Quarterly', frequency_value: null });
-        this.ui.report_specific_days.datepicker('reset_date');
-      }
+      this.ui.specific_days_option.hide(),
+      this.ui.weekly_checkboxes_option.hide(),
+      this.ui.quarterly_checkboxes_option.hide();
+      this.ui.report_specific_days.datepicker('reset_date');
+
       if(selected === 'everyday'){
-        $('#specific_days_option, #weekly_checkboxes_option, #quarterly_checkboxes_option').hide();
-        this.model.set({frequency_type: 'Everyday', frequency_value: 1 });
-        this.ui.report_specific_days.datepicker('reset_date');
+        this.model.set({frequency_type: 'everyday'});
+      } else if(selected === 'specific_days'){
+        this.ui.specific_days_option.show();
+        this.model.set({frequency_type: 'specific_days'});
+      } else if(selected === 'weekly'){
+        this.ui.weekly_checkboxes_option.show();
+        this.model.set({frequency_type: 'weekly'});
+      } else if(selected === 'quarterly'){
+        this.ui.quarterly_checkboxes_option.show();
+        this.model.set({frequency_type: 'quarterly'});
       }
+
     },
 
     _weeklyCheckboxesClick: function(event){
@@ -271,7 +307,7 @@
       this.model.set({
         title: this.ui.title.val(),
         email: this.ui.email.val(),
-        recalculate_dates: $('#recalculate_dates').is(':checked')
+        recalculate_dates: this.ui.recalculate_dates.is(':checked')
       });
 
       var _report = this.model.toJSON(),

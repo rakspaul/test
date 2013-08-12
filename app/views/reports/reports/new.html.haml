@@ -1,0 +1,10 @@
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    var reports = ReachUI.Reports.List();
+    reports.init("#header", "Report list page");
+    reports.renderText();
+
+    var controller = new ReachUI.Reports.ReportController();
+  });

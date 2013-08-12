@@ -140,31 +140,51 @@
     regions: {
       scheduled_reports_table: "#scheduled_reports_table"
     },
+  });
 
-    onDomRefresh: function() {
-      this.$('#new_report').click(this._onNewReportClick);
+  Report.ReportListController = Marionette.Controller.extend({
+    initialize: function() {
+      this._initializeScheduledReportsLayout();
+      this._initializeScheduledReportsGridView();
     },
 
-    _onNewReportClick: function(event) {
-      ReachUI.Reports.router.navigate('/new', {trigger: true});
+    _initializeScheduledReportsLayout: function() {
+      this.detailRegion = new Report.DetailRegion();
+      this.layout = new Report.ScheduledReportsLayout();
+      this.detailRegion.show(this.layout);
+    },
+
+    _initializeScheduledReportsGridView: function() {
+      this.reportModelList = new Report.ReportModelList();
+      this.reportModelList.fetch();
+      this.scheduledReportsGridView = new Report.ScheduledReportsGridView({collection: this.reportModelList});
+      this.scheduledReportsGridView.on('itemview:delete:scheduled_report', this._onScheduledReportDelete, this)
+      this.scheduledReportsGridView.on('itemview:edit:scheduled_report', this._onScheduledReportEdit, this)
+      this.layout.scheduled_reports_table.show(this.scheduledReportsGridView);
+    },
+
+    _onScheduledReportDelete: function(args) {
+      args.model.destroy();
+    },
+
+    _onScheduledReportEdit: function(args) {
+      window.location = 'reports/' + args.model.id+ '/edit';
     },
 
   });
 
   Report.ReportController = Marionette.Controller.extend({
-    initialize: function() {
-      this.detailRegion = new Report.DetailRegion();
-    },
+    initialize: function(options) {
 
-    index: function() {
-      this._initializeScheduledReportsLayout();
-      this._initializeScheduledReportsGridView();
+      if(options.report && options.report !== 'undefined') {
+        this.editReport(options.report);
+      } else {
+        this.newReport();
+      }
     },
 
     newReport: function() {
       this.metadata = new Report.Metadata();
-      this.report_to_edit = null;
-
       this._initializeLayout();
       this._initializeTableView();
       this._intializePagination();
@@ -177,8 +197,9 @@
       this._initializeScheduleReport();
     },
 
-    editReport: function(id) {
-      this.report_to_edit = this.reportModelList.get(id);
+    editReport: function(object) {
+      this.report_to_edit = new Report.ReportModel(object);
+
       var metadata = new Report.Metadata();
       var groups = this.report_to_edit.getGroups();
       var columns = this.report_to_edit.getColumns();
@@ -226,6 +247,7 @@
     },
 
     _initializeLayout: function() {
+      this.detailRegion = new Report.DetailRegion();
       this.layout = new Report.Layout();
       this.detailRegion.show(this.layout);
       this.layout.addRegions({'schedule_report_modal': new Report.ModalRegion({el:'#schedule_report_modal'})});
@@ -433,40 +455,18 @@
           reportModal = this.report_to_edit
         } else {
           reportModal = new Report.ReportModel();
+          reportModal.set({ title: 'Report_'+ data.start_date+'-'+ data.end_date })
         }
 
         reportModal.set({
           start_date: data.start_date,
           end_date: data.end_date,
-          title: 'Report_'+ data.start_date+'-'+ data.end_date,
           url: url
         });
 
         this.scheduleReportModalView = new Report.ScheduleReportModalView({model: reportModal});
         this.layout.schedule_report_modal.show(this.scheduleReportModalView);
       }
-    },
-
-    _initializeScheduledReportsLayout: function() {
-      this.layout = new Report.ScheduledReportsLayout();
-      this.detailRegion.show(this.layout);
-    },
-
-    _initializeScheduledReportsGridView: function() {
-      this.reportModelList = new Report.ReportModelList();
-      this.reportModelList.fetch();
-      this.scheduledReportsGridView = new Report.ScheduledReportsGridView({collection: this.reportModelList});
-      this.scheduledReportsGridView.on('itemview:delete:scheduled_report', this._onScheduledReportDelete, this)
-      this.scheduledReportsGridView.on('itemview:edit:scheduled_report', this._onScheduledReportEdit, this)
-      this.layout.scheduled_reports_table.show(this.scheduledReportsGridView);
-    },
-
-    _onScheduledReportDelete: function(args) {
-      args.model.destroy();
-    },
-
-    _onScheduledReportEdit: function(args) {
-      ReachUI.Reports.router.navigate('/' + args.model.id + '/edit', {trigger: true});
     },
 
   });
