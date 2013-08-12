@@ -11,8 +11,7 @@ class Reports::ReportsController < ApplicationController
   end
 
   def edit
-    @report = ReportSchedule.of_user_by_id(params[:id])
-
+    @report = ReportSchedule.of_user_by_id(current_user, params[:id])
     if @report
       add_crumb "Edit - #{@report.title}"
     else
