@@ -233,9 +233,9 @@ class IOExcelFileReader
 
   def sales_person
     {
-      name: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip,
-      phone: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
-      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
+      name: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip
+      #phone: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
+      #email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
     }
   end
 
