@@ -28,7 +28,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.0.1'
+gem 'jbuilder', '~> 1.5.0'
 
 # decorator for presentation logic
 gem 'draper', '~> 1.2.1'
@@ -49,8 +49,12 @@ gem 'jquery-fileupload-rails', '~> 0.4.1'
 # For audit logs
 gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git', :branch => 'rails4'
 
+# State machine
+gem 'aasm', '~> 3.0.20'
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
+  gem 'shoulda', '~> 3.5.0'
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'debugger', '~> 1.6.0'
 end
