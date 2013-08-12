@@ -3,6 +3,9 @@ require 'net/http'
 namespace :schedule_report do
 
   task :schedule_task => :environment do
+    include ApplicationHelper
+
+    @time_now = format_date(Time.now)
     start_time = Time.now
     job_id = start_time.to_i
 
@@ -10,16 +13,14 @@ namespace :schedule_report do
     scheduled_rep = ReportSchedule.where("status = 'Scheduled' AND frequency_type IS NOT NULL")
 
     $logger.info("Loading scheduled reports..")
-    @time_now = get_time_utc
-
     begin
       scheduled_rep.each do |report|
 
         @user = User.find(report.user_id)
-        scheduled_start_date = report.report_start_date.strftime("%Y-%m-%d")
-        scheduled_end_date = report.report_end_date.strftime("%Y-%m-%d")
+        scheduled_start_date = format_date(report.report_start_date)
+        scheduled_end_date = format_date(report.report_end_date)
 
-        if scheduled_end_date >= @time_now.strftime("%Y-%m-%d") && scheduled_start_date <= @time_now.strftime("%Y-%m-%d")
+        if scheduled_end_date >= @time_now && scheduled_start_date <= @time_now
           $logger.info("Processing report id #{report.id}")
 
           case report.frequency_type
@@ -27,15 +28,15 @@ namespace :schedule_report do
           when "Everyday"
             run(report)
           when "Weekly"
-            if report.frequency_value.include?(@time_now.strftime("%a"))
+            if report.frequency_value.include?(@time_now.to_date.strftime("%a"))
               if report.recalculate_dates == true
                 report.url = adjust_date_recalculate(report)
               end
             run(report)
             end
           when "Specific day"
-            values = report.frequency_value.to_date.strftime("%Y-%m-%d")
-            if values.include?(@time_now.strftime("%Y-%m-%d"))
+            values = format_date(report.frequency_value.to_date)
+            if values.include?(@time_now)
               run(report)
             end
           when "Quarterly"
@@ -44,12 +45,12 @@ namespace :schedule_report do
             q_num = quarters.index(current_quarter) + 1
             current_year = @time_now.year
 
-            if report.frequency_value.include?(q_num.to_s) && is_today_last_day == true
+            if report.frequency_value.include?("q#{q_num.to_s}") && is_today_last_day == true
               run(report)
             end
 
           else
-            $logger.warn("No reports to be executed on date #{@time_now.strftime("%Y-%m-%d")}")
+            $logger.warn("No reports to be executed on date #{@time_now}")
           end
         end
 
@@ -68,7 +69,7 @@ namespace :schedule_report do
   end
 
   def is_today_last_day
-    return true if @time_now.strftime("%Y-%m-%d") == @time_now.end_of_quarter.strftime("%Y-%m-%d")
+    return true if @time_now == format_date(@time_now.end_of_quarter)
   end
 
   def run(report)
@@ -86,7 +87,7 @@ namespace :schedule_report do
      	  $logger.error(e.message)
       end
 
-      if report.report_end_date.strftime("%Y-%m-%d") == @time_now.strftime("%Y-%m-%d")
+      if format_date(report.report_end_date) == @time_now
         $logger.info("Updating report status")
         report.update_attributes(:status => 'Completed', :id => "#{report.id}")
       end
@@ -98,18 +99,18 @@ namespace :schedule_report do
 
   def modify_url(url)
     url =~ /tkn=/ ? url.sub!(/tkn=(\w+)/,"tkn=#{build_request_token}") : url += "&tkn=#{build_request_token}"
-    url.gsub!(/end_date(=|:)[0-9-]+/,'end_date\1'+1.day.ago.end_of_day.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+    url.gsub!(/end_date(=|:)[0-9-]+/,'end_date\1'+format_date(1.day.ago.end_of_day).gsub(/-0/,'-'))
 
     url
   end
 
   def adjust_date_recalculate(report)
-    last_week_date = 1.week.ago.strftime('%Y-%m-%d')
+    last_week_date = format_date(1.week.ago)
 
-    if last_week_date >= report.start_date.strftime('%Y-%m-%d')
-      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+1.week.ago.beginning_of_day.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+    if last_week_date >= format_date(report.start_date)
+      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+format_date(1.week.ago.beginning_of_day).gsub(/-0/,'-'))
     else
-      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+report.start_date.strftime('%Y-%m-%d').gsub(/-0/,'-'))
+      report.url.gsub!(/start_date(=|:)[0-9-]+/,'start_date\1'+format_date(report.start_date).gsub(/-0/,'-'))
     end
 
     report.url
@@ -131,7 +132,7 @@ namespace :schedule_report do
   end
 
   def write_file(resp, report)
-    file_name = "Report_#{@user.id}_#{report.start_date.strftime("%Y-%m-%d")}_to_#{@time_now.strftime("%Y-%m-%d")}.csv"
+    file_name = "Report_#{@user.id}_#{format_date(report.start_date)}_to_#{@time_now}.csv"
     file_path = "tmp/reports/#{file_name}"
 
     File.open(file_path,'w') do |file|
@@ -143,14 +144,7 @@ namespace :schedule_report do
   end
 
   def build_request_token
-    Digest::MD5.hexdigest("#{@user.network.id}:#{@user.id}:#{Date.today.strftime('%Y-%m-%d')}")
-  end
-
-  def get_time_utc
-    timezone = Rails.application.config.time_zone
-    time_now = DateTime.now.utc.in_time_zone(@timezone)
-
-    time_now
+    Digest::MD5.hexdigest("#{@user.network.id}:#{@user.id}:#{@time_now}")
   end
 
   def update_report_history(job_id, start_time, end_time, report)

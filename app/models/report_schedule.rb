@@ -6,6 +6,14 @@ class ReportSchedule < ActiveRecord::Base
   validate :validate_start_date, :validate_user_id, :validate_end_date_after_start_date
   validates_format_of :email, :with => /^[a-z0-9_\+-]+(\.[a-z0-9_\+-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*\.([a-z]{2,4})$/, :message => "Invalid email ID", :multiline => true
 
+  def self.of_user(user)
+    where(:user => user)
+  end
+
+  def self.of_user_by_id(user, id)
+    of_user(user).where(:id => id).first
+  end
+
   private
     def validate_start_date
       errors.add :report_start_date, "can not be in past" if self.report_start_date < Time.zone.now.beginning_of_day

@@ -6,7 +6,7 @@ class Reports::ScheduleReportsController < ApplicationController
   respond_to :json
 
   def index
-    @reports = ReportSchedule.all
+    @reports = ReportSchedule.of_user(@current_user)
     respond_with(@reports)
   rescue => e
     respond_with(e.message, status: :service_unavailable)
@@ -22,7 +22,7 @@ class Reports::ScheduleReportsController < ApplicationController
   end
 
   def update
-    @report_schedule = ReportSchedule.find_by_id(params[:id])
+    @report_schedule = ReportSchedule.of_user_by_id(@current_user, params[:id])
     @report_schedule.update_attributes(schedule_report_params)
     @report_schedule.url = create_url(params[:report_schedule])
 
