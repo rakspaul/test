@@ -6,11 +6,5 @@
     reports.init("#header", "Report list page");
     reports.renderText();
 
-    var controller = new ReachUI.Reports.ReportController();
-    ReachUI.Reports.router = new ReachUI.Reports.Router({controller: controller});
-
-    Backbone.history.start({
-      root: "reports/reports",
-      pushState: true,
-    });
+    var controller = new ReachUI.Reports.ReportListController();
   });
