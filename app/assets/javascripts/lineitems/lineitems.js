@@ -38,8 +38,8 @@
   });
 
   LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    className: 'lineitem-row',
+    tagName: 'div',
+    className: 'lineitem pure-g',
     template: JST['templates/lineitems/line_item_row'],
 
     triggers: {
@@ -49,9 +49,9 @@
 
   LineItems.LineItemListView = Backbone.Marionette.CompositeView.extend({
     itemView: LineItems.LineItemView,
-    itemViewContainer: 'tbody',
+    itemViewContainer: '.lineitems-container',
     template: JST['templates/lineitems/line_item_table'],
-    className: 'table-container',
+    className: 'lineitems-container',
 
     triggers: {
       'click .create': 'lineitem:create'
@@ -94,8 +94,8 @@
       active: '#active',
       flight: '#flight',
       flight_container: '.flight-input',
-      start_date: '#start_date',
-      end_date: '#end_date',
+      start_date: '#start-date',
+      end_date: '#end-date',
       volume: '#volume',
       rate: '#rate',
       media_cost: '#media_cost',

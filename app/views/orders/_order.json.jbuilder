@@ -15,7 +15,11 @@ json.sales_person_email order.sales_person.try(:email)
 json.sales_person_id order.sales_person.nil? ? nil : order.sales_person.id
 
 json.user_id order.user.nil? ? nil : order.user.id
-json.source_id order.source_id
 json.ocr_enabled !order.nielsen_campaign.nil?
 json.created_at format_datetime(order.created_at)
 json.updated_at format_datetime(order.updated_at)
+
+json.io_asset_filename order.io_assets.try(:last).try(:asset_upload_name)
+json.io_asset_created_at format_datetime(order.io_assets.try(:last).try(:created_at).to_s)
+
+json.client_advertiser_name order.io_detail.client_advertiser_name

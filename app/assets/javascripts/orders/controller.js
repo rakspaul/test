@@ -318,6 +318,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
     $('.editable:not(.typeahead):not(.custom)').editable();
+
+    $(".chosen-select").chosen();
   },
 
   _showLineitemList: function(order) {

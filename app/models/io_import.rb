@@ -3,7 +3,7 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :xls_filename, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
+  attr_reader :order, :io_details, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
 
   def initialize(file, current_user)
     @reader = IOExcelFileReader.new(file)
@@ -19,7 +19,6 @@ class IoImport
   def import
     @reader.open
 
-    read_uploaded_file_attributes
     read_advertiser
 
     read_account_contact
@@ -28,7 +27,7 @@ class IoImport
     read_sales_person
     read_trafficking_contact
 
-    read_order
+    read_order_and_details
     read_lineitems
 
     save
@@ -39,10 +38,6 @@ class IoImport
   end
 
   private
-
-    def read_uploaded_file_attributes
-      @xls_filename = @reader.file.original_filename
-    end
 
     def read_advertiser
       adv_name = @reader.advertiser_name
@@ -69,11 +64,15 @@ class IoImport
       @billing_contact = @reader.billing_contact
     end
 
-    def read_order
+    def read_order_and_details
       @order = Order.new(@reader.order)
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
+
+      @io_details = IoDetail.new
+      @io_details.client_advertiser_name = @reader.advertiser_name
+      @io_details.order = @order
     end
 
     def read_lineitems
@@ -94,6 +93,7 @@ class IoImport
       if errors.empty?
         @order.transaction do
           @order.save!
+          @io_details.save!
           @lineitems.each(&:save!)
           save_io_to_disk
         end

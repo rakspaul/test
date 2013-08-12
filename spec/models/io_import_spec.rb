@@ -7,9 +7,8 @@ describe IoImport do
 
   before { io.import }
 
-  it "have access to xls filename" do
-    io.xls_filename.should == "Collective_IO.xls"
-  end
+  it "have access to xls filename"
+  it "have store when the xls filename was uploaded"
 
   it "reads info about order" do
     io.order.should be

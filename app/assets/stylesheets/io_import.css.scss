@@ -32,7 +32,7 @@ $li_number_bg: #007ac9;
     float:left;
     padding:3px;
 
-    span:nth-child(1) {
+    > span:nth-child(1) {
       text-align:right;
       color: $text_color;
       width:40%;
@@ -96,8 +96,8 @@ $li_number_bg: #007ac9;
   }
 
   .general-info-container {
-    border-top:1px solid #f2f2f2;
-    border-bottom:1px solid #f2f2f2;
+    border-top:1px solid $bg_color;
+    border-bottom:1px solid $bg_color;
     float:none;
     margin-top:17px;
     clear:both;
@@ -154,75 +154,91 @@ $li_number_bg: #007ac9;
       font-size:12px;
     }
   }
+}
 
-  .lineitems-container {
-    margin:20px 10px 10px 10px;
-    font-size:13px;
-    color:black;
-    font-weight:normal;
-    font-size:normal;
+.lineitems-container {
+  margin:20px 10px 10px 10px;
+  font-size:13px;
+  color:black;
+  font-weight:normal;
+  font-size:normal;
 
-    .header {
+  .header {
+    color: $text_color;
+
+    div {
+      font-family: 'Soho Gothic Pro';
+      font-size:14px;
+      vertical-align:bottom;
+    }
+  }
+
+  .lineitem {
+    margin-bottom:10px;
+    margin-top:10px;
+    background-color: $bg_color;
+    padding:0;
+
+    div {
+      padding:10px 0;
+      height:80px;
+    }
+
+    .li-number {
+      text-align:center;
+      color:white;
+      font-weight:bold;
+      background: $li_number_bg;
+    }
+
+    span.operation {
+      color: $text_color;
+      cursor: pointer;
+    }
+  }
+}
+
+.lineitems-summary-container {
+  margin:10px;
+  font-size:13px;
+  color:black;
+  font-weight:normal;
+  font-size:normal;
+
+  .summary {
+    margin-top:20px;
+      
+    .totals-label {
       color: $text_color;
     }
 
-    .lineitem {
-      margin-top:20px;
-      background-color: $bg_color;
-      padding:0;
-
-      div {
-        padding:10px 0;
-      }
-
-      .li-number {
-        text-align:center;
-        color:white;
-        font-weight:bold;
-        background: $li_number_bg;
-      }
-
-      span.operation {
-        color: $text_color;
-        cursor: pointer;
-      }
+    .totals-label, .total-cpm, .total-media-cost, .total-impressions {
+      font-weight:bold;
+      font-size:14px;
     }
 
-    .summary {
-      margin-top:20px;
+    .li-button {
+      float: left;
+      padding: 3px 15px;
+      border: 1px dashed $text_color;
+      color: $text_color;
+      cursor: pointer;
+    }
       
-      .totals-label {
-        color: $text_color;
-      }
+    .li-button.disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
 
-      .totals-label, .total-cpm, .total-media-cost, .total-impressions {
-        font-weight:bold;
-        font-size:14px;
-      }
-
-      .li-button {
-        float: left;
-        padding: 3px 15px;
-        border: 1px dashed $text_color;
-        color: $text_color;
-        cursor: pointer;
-      }
-      
-      .li-button.disabled {
-        cursor: default;
-        opacity: 0.5;
-      }
-
-      .li-button:not(.add_targeting) {
-        margin-left: 15px;
-      }
+    .li-button:not(.add_targeting) {
+      margin-left: 15px;
     }
   }
+}
 
-  .status-btn-container {
-    background: $bg_color;
-    margin-right:10px;
-    margin-top:20px;
-    padding:10px;
-  }
+.status-btn-container {
+  margin-right:10px;
+  margin-top:20px;
+  padding:10px;
+  text-align:right;
 }

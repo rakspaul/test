@@ -13,10 +13,10 @@
   <div class="imported-file-name">
     <div class="name">
       Imported File
-      <span><%= order.xls_filename %></span>
+      <span><%= order.io_asset_filename %></span>
     </div>
     <div class="timestamp">
-      11:15 AM 05/12/2013
+      <%= order.io_asset_created_at %>
     </div>
   </div>
 
@@ -40,8 +40,18 @@
           <span>AMP Network CORE</span>
         </div>
         <div class="field advertiser-name">
-          <span>Advertiser Name</span>
-          <span><%= order.advertiser_name %>r</span>
+          <span>Advertiser / Network</span>
+          <span>
+            <select data-placeholder="<%= order.advertiser_name %>" style="width:200px;" class="chosen-select">
+              <% for(var i = 0; i < order.possible_advertisers.length; i++) { %>
+              <option value="<%= order.possible_advertisers[i][0] %>"><%= order.possible_advertisers[i][0] %> / <%= order.possible_advertisers[i][1] %></option>
+              <% } %>
+            </select>
+          </span>
+        </div>
+        <div class="field advertiser-name">
+          <span>Client's Advertiser Name</span>
+          <span><%= order.client_advertiser_name %></span>
         </div>
         <div class="field order-name">
           <span>Order Name</span>
@@ -49,7 +59,7 @@
         </div>
         <div class="field client-order-id">
           <span>Client Order ID</span>
-          <span>7767942</span>
+          <span><%= order.id %></span>
         </div>
         <div class="field start-date">
           <span>Start Date</span>
@@ -61,7 +71,7 @@
         </div>
         <div class="field total-media-cost">
           <span>Total Media Cost</span>
-          <span class="editable custom" data-type="text" data-pk="1" data-name="total_media_cost" data-url="/orders/<%= order.id %>">$0</span>
+          <span class="editable custom" data-type="text" data-pk="1" data-name="total_media_cost" data-url="/orders/<%= order.id %>">0</span>
         </div>
       </div>
 
@@ -86,10 +96,6 @@
         <div class="field media-contact-company">
           <span>Company</span>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company" data-url="/orders/<%= order.id %>">Time Warner Cable</span>
-        </div>
-        <div class="field media-contact-address">
-          <span>Company Address</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_address" data-url="/orders/<%= order.id %>">+Add</span>
         </div>
         <div class="field media-contact-phone">
           <span>Phone</span>
@@ -122,10 +128,6 @@
         <div class="field billing-contact-company">
           <span>Company</span>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company" data-url="/orders/<%= order.id %>">Time Warner Cable</span>
-        </div>
-        <div class="field billing-contact-address">
-          <span>Company Address</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_address" data-url="/orders/<%= order.id %>">+Add</span>
         </div>
         <div class="field billing-contact-phone">
           <span>Phone</span>

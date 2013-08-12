@@ -14,6 +14,8 @@ class OrdersController < ApplicationController
       format.json do
         @order = Order.of_network(current_network)
               .includes(:advertiser).find(params[:id])
+        @io_details = @order.io_detail
+        @possible_advertisers = @io_details.try(:client_advertiser_name).blank? ? [] : Advertiser.includes(:network).where(['name LIKE ?', "#{@io_details.client_advertiser_name}%"]).map{|a| [a.name, a.network.name]}
       end
     end
   end
