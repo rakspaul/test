@@ -210,19 +210,18 @@
           var dimension = self.availableDimensions.findWhere({internal_id: groups[i]});
           metadata.selectedDimensions.add(dimension, {silent: true});
           self.availableDimensions.remove(dimension);
-
-          self._fetchColumns().then(function() {
-            for (var i = 0; i < columns.length; i++) {
-              var column = self.availableColumns.findWhere({internal_name: columns[i]});
-              if(column.get('internal_name') === self.report_to_edit.getSortField()) {
-                column.set({sort_direction: self.report_to_edit.getSortDirection()})
-              }
-              metadata.selectedColumns.add(column, {silent: true});
-              self.availableColumns.remove(column);
+        }
+        self._fetchColumns().then(function() {
+          for (var i = 0; i < columns.length; i++) {
+            var column = self.availableColumns.findWhere({internal_name: columns[i]});
+            if(column.get('internal_name') === self.report_to_edit.getSortField()) {
+              column.set({sort_direction: self.report_to_edit.getSortDirection()})
             }
-            self._initializeEditFlow(metadata);
-          })
-        };
+            metadata.selectedColumns.add(column, {silent: true});
+            self.availableColumns.remove(column);
+          }
+          self._initializeEditFlow(metadata);
+        })
       })
     },
 
