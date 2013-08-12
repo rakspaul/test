@@ -3,6 +3,8 @@ class User < ActiveRecord::Base
 
   belongs_to :network, :foreign_key => 'company_id'
 
+  has_one :reach_client
+
   def admin?
     authority.downcase == 'admin'
   end

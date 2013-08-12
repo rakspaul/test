@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+
   has_paper_trail ignore: [:updated_at]
 
   belongs_to :advertiser, foreign_key: :network_advertiser_id
@@ -12,6 +13,8 @@ class Order < ActiveRecord::Base
   has_many :lineitems, -> { order('name') }, inverse_of: :order
   has_many :io_assets
   has_many :ads
+
+  has_one :io_detail
 
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
@@ -28,6 +31,18 @@ class Order < ActiveRecord::Base
 
   def self.find_by_id_or_source_id(id)
     where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
+  end
+
+  def total_impressions
+    self.lineitems.inject(0){|sum, li| sum += li.volume.to_i }
+  end
+
+  def total_cpm
+    self.lineitems.inject(0.0){|sum, li| sum += li.rate.to_f }
+  end
+
+  def total_media_cost
+    self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
   end
 
   private
