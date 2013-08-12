@@ -3,10 +3,10 @@ json.array! @reports do |report|
   json.title report.title
   json.email report.email
   json.recalculate_dates report.recalculate_dates
-  json.start_date report.start_date
-  json.end_date report.end_date
+  json.start_date format_date(report.start_date)
+  json.end_date format_date(report.end_date)
   json.url report.url
-  json.last_ran report.last_ran
+  json.last_ran format_date(report.last_ran)
   json.frequency_type report.frequency_type
   json.frequency_value report.frequency_value
   json.report_start_date format_date(report.report_start_date)
