@@ -25,7 +25,7 @@ class ReportSchedule < ActiveRecord::Base
 
     def validate_end_date_after_start_date
       if !self.report_end_date.nil?
-        if(self.report_start_date >= self.report_end_date)
+        if(self.report_start_date > self.report_end_date)
           errors.add :report_end_date, "can not be before start date"
         end
       end

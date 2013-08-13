@@ -12,6 +12,13 @@ class Reports::ScheduleReportsController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
+  def show
+    @report = ReportSchedule.of_user_by_id(@current_user, params[:id])
+    respond_with(@report)
+  rescue => e
+    respond_with(e.message, status: :service_unavailable)
+  end
+
   def create
     @report_schedule = ReportSchedule.new(schedule_report_params)
     @report_schedule.user_id = @current_user.id
