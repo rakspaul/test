@@ -38,14 +38,17 @@ describe IOExcelFileReader do
     end
 
     it "have trafficking contact name, email and phone" do
-      subject.trafficking_contact[:name].should == "Ronnie Wallace" 
-      subject.trafficking_contact[:phone].should == "646-442-8220"
+      subject.trafficking_contact[:first_name].should == "Ronnie" 
+      subject.trafficking_contact[:last_name].should == "Wallace" 
+      subject.trafficking_contact[:phone_number].should == "646-442-8220"
       subject.trafficking_contact[:email].should == "ops@collective.com"
     end
 
     it "have sales person's name, email and phone" do
-      subject.sales_person[:name].should == "Eric Burns"
-      subject.sales_person[:phone].should == "919-604-4451"
+      subject.sales_person[:first_name].should == "Eric"
+      subject.sales_person[:last_name].should == "Burns"
+      subject.sales_person[:account_login].should == "ericburns"
+      subject.sales_person[:phone_number].should == "919-604-4451"
       subject.sales_person[:email].should == "eric@collective.com"
     end
 

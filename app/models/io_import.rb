@@ -72,6 +72,13 @@ class IoImport
 
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
+
+      @io_details.sales_person        = User.sales_people.find_or_create_by!(@reader.sales_person.merge(default_attributes))
+      #@io_details.media_contact       = User.find_or_create_by!(@reader.media_contact)
+      #@io_details.billing_contact     = User.find_or_create_by!(@reader.billing_contact)
+      #@io_details.trafficking_contact = User.find_or_create_by!(@reader.trafficking_contact)
+      #@io_details.account_manager     = User.find_or_create_by!(@reader.account_manager)
+
       @io_details.order = @order
     end
 
@@ -85,6 +92,13 @@ class IoImport
         li.user = @current_user
         @lineitems << li
       end
+    end
+
+    def default_attributes
+      {
+        company_id: Company.find_by!(name: "Collective").id,
+        client_type: 'Advertiser'
+      }
     end
 
     def save
@@ -225,18 +239,17 @@ class IOExcelFileReader
 
   def trafficking_contact
     {
-      name: @spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip,
-      phone: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
+      phone_number: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
-    }
+    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
   end
 
   def sales_person
     {
-      name: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip
-      #phone: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
-      #email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
-    }
+      account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
+      phone_number: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip)
   end
 
   def billing_contact
@@ -253,8 +266,7 @@ class IOExcelFileReader
     {
       name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
       start_date: start_flight_date,
-      end_date: finish_flight_date,
-      sales_person: SalesPeople.new(sales_person)
+      end_date: finish_flight_date
     }
   end
 
@@ -301,6 +313,18 @@ class IOExcelFileReader
         Roo::Excelx.new(@file.path, nil, :ignore)
       else
         raise "Unknown file type: #{@file.original_filename}"
+      end
+    end
+
+    def split_name name
+      parts = name.split(/\W+/)
+      case parts.length
+      when 0..1
+        name
+      when 2
+        {first_name: parts[0], last_name: parts[1]}
+      else
+        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
       end
     end
 end
