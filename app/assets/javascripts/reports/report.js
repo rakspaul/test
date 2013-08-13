@@ -174,13 +174,16 @@
   });
 
   Report.ReportController = Marionette.Controller.extend({
-    initialize: function(options) {
+    initialize: function() {
 
-      if(options.report && options.report !== 'undefined') {
-        this.editReport(options.report);
-      } else {
-        this.newReport();
-      }
+    },
+
+    initNewReport: function() {
+       this.newReport();
+    },
+
+    initEditReport: function(report) {
+      this.editReport(report);
     },
 
     newReport: function() {
@@ -197,32 +200,37 @@
       this._initializeScheduleReport();
     },
 
-    editReport: function(object) {
-      this.report_to_edit = new Report.ReportModel(object);
-
-      var metadata = new Report.Metadata();
-      var groups = this.report_to_edit.getGroups();
-      var columns = this.report_to_edit.getColumns();
+    editReport: function(id) {
+      this.report_to_edit = new Report.ReportModel({'id': id});
       var self = this;
 
-      this._fetchDimensions().then(function() {
-        for (var i = 0; i < groups.length; i++) {
-          var dimension = self.availableDimensions.findWhere({internal_id: groups[i]});
-          metadata.selectedDimensions.add(dimension, {silent: true});
-          self.availableDimensions.remove(dimension);
-        }
-        self._fetchColumns().then(function() {
-          for (var i = 0; i < columns.length; i++) {
-            var column = self.availableColumns.findWhere({internal_name: columns[i]});
-            if(column.get('internal_name') === self.report_to_edit.getSortField()) {
-              column.set({sort_direction: self.report_to_edit.getSortDirection()})
-            }
-            metadata.selectedColumns.add(column, {silent: true});
-            self.availableColumns.remove(column);
+      this.report_to_edit.fetch().then(function() {
+        var metadata = new Report.Metadata();
+        var groups = self.report_to_edit.getGroups();
+        var columns = self.report_to_edit.getColumns();
+
+        self._fetchDimensions().then(function() {
+          for (var i = 0; i < groups.length; i++) {
+            var dimension = self.availableDimensions.findWhere({internal_id: groups[i]});
+            metadata.selectedDimensions.add(dimension, {silent: true});
+            self.availableDimensions.remove(dimension);
           }
-          self._initializeEditFlow(metadata);
+
+          self._fetchColumns().then(function() {
+            for (var i = 0; i < columns.length; i++) {
+              var column = self.availableColumns.findWhere({internal_name: columns[i]});
+              if(column.get('internal_name') === self.report_to_edit.getSortField()) {
+                column.set({sort_direction: self.report_to_edit.getSortDirection()})
+              }
+              metadata.selectedColumns.add(column, {silent: true});
+              self.availableColumns.remove(column);
+            }
+            self._initializeEditFlow(metadata);
+          })
+
         })
-      })
+
+      });
     },
 
     _initializeEditFlow: function(metadata) {

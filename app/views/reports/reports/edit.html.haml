@@ -6,5 +6,6 @@
     reports.init("#header", "Report list page");
     reports.renderText();
 
-    var controller = new ReachUI.Reports.ReportController({report: #{@report.to_json()}});
+    var controller = new ReachUI.Reports.ReportController();
+      controller.initEditReport(#{@report.id});
   });

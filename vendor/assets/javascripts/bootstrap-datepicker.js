@@ -732,13 +732,21 @@
       }
     },
 
-    reset_date: function(){
+    _reset_date: function(){
       this.dateSelected = {}
       if (this.isInput)
         this.element.val("");
       else
         this.element.find('input').val("");
       this.update();
+    },
+
+    _update_dates: function(arrDates){
+      var date = null;
+      for(i=0; i<arrDates.length; i++){
+        date = DPGlobal.parseDate(arrDates[i], this.format, this.o.language)
+        this._setDate(date);
+      }
     },
 
     _setDate: function(date, which){
