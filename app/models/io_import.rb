@@ -96,7 +96,7 @@ class IoImport
 
     def default_attributes
       {
-        company_id: Company.find_by!(name: "Collective").id,
+        company_id: Network.find_by!(name: "Collective").id,
         client_type: 'Advertiser'
       }
     end
