@@ -337,15 +337,20 @@
       if ( this.multidate != true )
         return DPGlobal.formatDate(this.date, format, this.o.language);
 
+      // sorting of selected dates added
+      var selected_dates_list=[],
+        selected_dates_arr=[],
+        selected_dates_sort = [];
 
-      // Here we could sort them or have them in any order. I guess it should be option if they are chronological or first-selected -order
-      // Now i guess they are more or less random.
-      var selected_dates_list=[];
-      for ( var seldate_key in this.dateSelected )
-      {
-        selected_dates_list.push( DPGlobal.formatDate( this.dateSelected[seldate_key] , format, this.o.language) )
+      for ( var seldate_key in this.dateSelected ){
+        selected_dates_arr.push(this.dateSelected[seldate_key].valueOf());
+      }
+      selected_dates_sort = selected_dates_arr.sort();
+      for ( var count=0; count< selected_dates_sort.length; count++ ){
+        selected_dates_list.push( DPGlobal.formatDate( new Date(selected_dates_sort[count]) , format, this.o.language) );
       }
       return selected_dates_list.join(",");
+
     },
 
     setStartDate: function(startDate){
@@ -744,7 +749,8 @@
     _update_dates: function(arrDates){
       var date = null;
       for(i=0; i<arrDates.length; i++){
-        date = DPGlobal.parseDate(arrDates[i], this.format, this.o.language)
+        date = DPGlobal.parseDate(arrDates[i], this.format, this.o.language);
+        // console.log(date);
         this._setDate(date);
       }
     },

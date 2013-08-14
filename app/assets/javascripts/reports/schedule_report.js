@@ -242,8 +242,8 @@
 
     _onStartDateChange: function(event) {
       if($('input[name="ends_on_radio_group"][value="end_date"]').is(':checked')){
-        this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
-        this.ui.report_end_date.datepicker('_update_dates', this.ui.report_start_date.find('input').val().split(','));
+        // this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
+        this.ui.report_end_date.datepicker('update', this.ui.report_start_date.find('input').val());
       }
     },
 
@@ -256,7 +256,6 @@
       if(selected === 'end_date'){
         this.ui.report_enddate_option.show();
         this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
-        this.ui.report_end_date.datepicker('_update_dates', this.ui.report_start_date.find('input').val().split(','));
       }
       else{
         this.ui.report_end_date.datepicker('_reset_date');
@@ -276,7 +275,6 @@
       if(frequency_type === 'specific_days'){
         var frequency_value =  moment().add("days", 1).format('YYYY-MM-DD');
         this.ui.specific_days_option.show();
-        this.ui.report_specific_days.datepicker('_update_dates', frequency_value.split(','));
       } else if(frequency_type === 'weekly'){
         this.ui.weekly_checkboxes_option.show();
       } else if(frequency_type === 'quarterly'){
