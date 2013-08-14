@@ -1,9 +1,94 @@
 <thead>
   <tr>
-    <th>Title</th>
-    <th>Report Start Date</th>
-    <th>Report End Date</th>
-    <th>Reoccurring</th>
+    <th id="title"> Title
+      <%
+        if(sort_field === "title") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    </th>
+    <th id="report_start_date"> Report Start Date
+      <%
+        if(sort_field === "report_start_date") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    </th>
+    <th id="report_end_date"> Report End Date
+      <%
+        if(sort_field === "report_end_date") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    </th>
+    <th id="recalculate_dates"> Reoccurring
+      <%
+        if(sort_field === "recalculate_dates") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    </th>
+    <th id="status"> Status
+      <%
+        if(sort_field === "status") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    <th id="updated_at"> Updated At
+      <%
+        if(sort_field === "updated_at") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    <th id="created_at"> Created At
+      <%
+        if(sort_field === "created_at") {
+      %>
+          <i class="<%= sort_direction === 'asc' ? 'icon-sort-by-attributes' : 'icon-sort-by-attributes-alt'%>"></i>
+      <%
+        } else {
+      %>
+          <i class="icon-sort"></i>
+      <%
+        }
+      %>
+    </th>
     <th></th>
   </tr>
 </thead>

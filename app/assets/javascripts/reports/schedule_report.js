@@ -107,9 +107,74 @@
     itemView: Report.ScheduledReportsGridItemView,
     tagName: 'table',
     className: 'schedule-report-table',
+    events: {
+      'click th#title' : 'onHeaderSort',
+      'click th#report_start_date' : 'onHeaderSort',
+      'click th#report_end_date' : 'onHeaderSort',
+      'click th#recalculate_dates' : 'onHeaderSort',
+      'click th#status' : 'onHeaderSort',
+      'click th#updated_at' : 'onHeaderSort',
+      'click th#created_at' : 'onHeaderSort',
+
+    },
+
+    initialize: function() {
+      this.sort_field = 'created_at';
+      this.sort_direction = 'asc';
+      this._sortReports(this.sort_field, this.sort_direction);
+      this.collection.on('sort', this.render);
+    },
+
+    serializeData: function() {
+      var data = {};
+      data.sort_field = this.sort_field;
+      data.sort_direction = this.sort_direction
+      return data;
+    },
+
+    onHeaderSort: function(event) {
+      this.sort_field = event.target.id;
+      this.sort_direction = this.sort_direction === 'asc' ? 'desc' : 'asc';
+      this._sortReports(this.sort_field, this.sort_direction);
+    },
+
+    _sortReports: function(sort_field, sort_direction) {
+      this._setComparator(sort_field, sort_direction);
+      this.collection.sort();
+    },
+
+    convertToDate: function(str){
+      return new Date(str);
+    },
+
+    _setComparator: function(sort_field, sort_direction) {
+      var self = this;
+      this.collection.comparator = function(model) {
+        if(sort_direction === 'asc') {
+          if (sort_field === "report_start_date" || sort_field === "report_end_date" || sort_field === "created_at" || sort_field === "updated_at") {
+            var date = self.convertToDate(model.get(sort_field));
+            return date.getTime();
+          }
+          else if(sort_field === "title" || sort_field === "status") {
+            return String.fromCharCode.apply(String, _.map(model.get(sort_field).split(""), function(c) {
+              return 0xffff - c.charCodeAt();
+            }));
+          } else {
+            return -model.get(sort_field);
+          }
+        } else {
+          if (sort_field === "report_start_date" || sort_field === "report_end_date" || sort_field === "created_at" || sort_field === "updated_at") {
+            var date = self.convertToDate(model.get(sort_field));
+            return -date.getTime();
+          } else {
+            return model.get(sort_field);
+          }
+        }
+      }
+    },
 
     appendHtml: function(collectionView, itemView){
-        collectionView.$('tbody').append(itemView.el);
+      collectionView.$('tbody').append(itemView.el);
     },
   });
 

@@ -158,8 +158,8 @@
       this.reportModelList = new Report.ReportModelList();
       this.reportModelList.fetch();
       this.scheduledReportsGridView = new Report.ScheduledReportsGridView({collection: this.reportModelList});
-      this.scheduledReportsGridView.on('itemview:delete:scheduled_report', this._onScheduledReportDelete, this)
-      this.scheduledReportsGridView.on('itemview:edit:scheduled_report', this._onScheduledReportEdit, this)
+      this.scheduledReportsGridView.on('itemview:delete:scheduled_report', this._onScheduledReportDelete, this);
+      this.scheduledReportsGridView.on('itemview:edit:scheduled_report', this._onScheduledReportEdit, this);
       this.layout.scheduled_reports_table.show(this.scheduledReportsGridView);
     },
 
