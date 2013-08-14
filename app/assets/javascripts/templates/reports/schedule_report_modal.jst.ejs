@@ -41,7 +41,7 @@
         <label class="control-label" for="start_date" >Start On</label>
         <div class="controls">
           <div class="input-append date" id="report_start_date">
-            <input type="text" class="date-field" placeholder="Start On" value="<%= report_schedule.report_start_date%>" readonly>
+            <input type="text" id="report_start_date_input" class="date-field" placeholder="Start On" readonly>
             <span class="add-on"><i class="icon-calendar"></i></span>
           </div>
           <label class="help-inline form-error" id="report_start_date_error"></label>
@@ -52,10 +52,10 @@
         <label class="control-label">Ends</label>
         <div class="controls">
           <label class="radio inline">
-            <input type="radio" name="ends_on_radio_group" value="end_never" checked> Never
+            <input type="radio" id="radio_end_never" name="ends_on_radio_group" value="end_never" checked> Never
           </label><div class="clear"></div>
           <label class="radio inline">
-            <input type="radio" name="ends_on_radio_group" value="end_date">
+            <input type="radio" id="radio_end_date" name="ends_on_radio_group" value="end_date">
             On
             <label class="help-inline form-error" id="report_end_date_error"></label>
           </label><div class="clear"></div>
@@ -63,7 +63,7 @@
           <div class="control-group" id="report_enddate_option" style="display:none">
             <div class="controls controls-inner">
               <div class="input-append date" id="report_end_date">
-                <input type="text" class="date-field" placeholder="Ends On" value="<%= report_schedule.report_end_date %>" readonly>
+                <input type="text" id="report_end_date_input" class="date-field" placeholder="Ends On" readonly>
                 <span class="add-on"><i class="icon-calendar"></i></span>
               </div>
             </div>
