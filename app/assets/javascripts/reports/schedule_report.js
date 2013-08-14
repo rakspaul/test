@@ -250,7 +250,7 @@
       return {
         format: 'yyyy-mm-dd',
         startDate: this.ui.report_start_date.find('input').val(),
-        endDate: this.ui.report_end_date.find('input').val() === '' ? moment().add('year', 1000).format('YYYY-MM-DD') : this.ui.report_end_date.find('input').val()
+        endDate: this.ui.radio_end_date.is(':checked') ? this.ui.report_end_date.find('input').val() : moment().add('year', 1000).format('YYYY-MM-DD')
       }
     },
 
@@ -341,7 +341,8 @@
     _saveReport: function() {
 
       var report_start_date = this.ui.report_start_date.find('input').val(),
-      report_end_date = (this.ui.report_end_date.find('input').val() === '') ? null : this.ui.report_end_date.find('input').val();
+
+      report_end_date = this.ui.radio_end_date.is(':checked') ? this.ui.report_end_date.find('input').val() : null;
 
       this.model.set({
         title: this.ui.title.val(),
