@@ -219,6 +219,7 @@
     initialize: function(){
       this.bindUIElements();
       _.bindAll(this);
+      $(window).on("resize",this._setModalHeight);
     },
 
     events: {
@@ -294,6 +295,18 @@
         this.ui.recalculate_dates.attr({'checked':'checked'});
       }
 
+      // set modal height
+      this._setModalHeight();
+    },
+
+    _setModalHeight: function(){
+      if( this.$el.height() > (window.innerHeight * 0.85) ){
+        this.$el.css({top: '5%'});
+        this.$el.find('.modal-body').height((window.innerHeight * 0.8) - this.$el.find('.modal-footer').height() );
+      } else{
+        this.$el.css({top: '10%'});
+        this.$el.find('.modal-body').height(530);
+      }
     },
 
     _startDateOptions: function() {
@@ -459,6 +472,10 @@
         alert("Error saving report. \n" + formErrors.join("\n"));
       }
     },
+
+    onBeforeClose: function(){
+      $(window).off("resize",this._setModalHeight);
+    }
 
   });
 
