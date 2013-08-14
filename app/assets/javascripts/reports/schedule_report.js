@@ -159,8 +159,6 @@
     events: {
       'change input[name="ends_on_radio_group"]' : '_endsOnRadioClick',
       'change input[name="frequency_radio_group"]' : '_frequencyRadioClick',
-      'change input[name="weekly_checkbox_group"]' : '_weeklyCheckboxClick',
-      'change input[name="quarterly_checkbox_group"]' : '_quarterlyCheckboxClick',
       'click #save_report' : '_saveReport'
     },
 
@@ -169,7 +167,11 @@
       title : '#title',
       email: '#email',
       report_start_date: '#report_start_date',
+      report_start_date_input: '#report_start_date_input',
       report_end_date: '#report_end_date',
+      report_end_date_input: '#report_end_date_input',
+      radio_end_never: '#radio_end_never',
+      radio_end_date: '#radio_end_date',
       report_specific_days: '#report_specific_days',
       title_error: '#title_error',
       email_error: '#email_error',
@@ -185,9 +187,19 @@
     },
 
     onDomRefresh: function(){
-      this.ui.report_start_date.datepicker(this._dateOptions()).on('changeDate', this._onStartDateChange);
-      this.ui.report_end_date.datepicker(this._dateOptions()).on('changeDate', this._onEndDateChange);
-      this.ui.report_specific_days.datepicker(this._dateOptionsSpecific());
+      this.ui.report_start_date_input.val(this.model.get('report_start_date'));
+      this.ui.report_start_date.datepicker(this._startDateOptions()).on('changeDate', this._onStartDateChange);
+
+      if (this.model.get('report_end_date') && this.model.get('report_end_date') !== 'undefined') {
+        this.ui.radio_end_date.attr('checked', true)
+        this.ui.report_enddate_option.show();
+        this.ui.report_end_date_input.val(this.model.get('report_end_date'));
+      } else {
+         this.ui.report_end_date_input.val(this.ui.report_start_date.find('input').val());
+      }
+
+      this.ui.report_end_date.datepicker(this._endDateOptions()).on('changeDate', this._onEndDateChange);
+      this.ui.report_specific_days.datepicker(this._specificDateOptions());
 
       // Frequency field update
       var frequency_type = this.model.get('frequency_type'),
@@ -212,12 +224,6 @@
         }
       }
 
-      // Ends on date field update
-      if(this.model.get('report_end_date')){
-        $('input[name="ends_on_radio_group"][value="end_date"]').trigger('click');
-        this.ui.report_enddate_option.show();
-      }
-
       // Recalculate date field update
       if(this.model.get('recalculate_dates')){
         this.ui.recalculate_dates.attr({'checked':'checked'});
@@ -225,42 +231,50 @@
 
     },
 
-    _dateOptions: function() {
+    _startDateOptions: function() {
       return {
         format: 'yyyy-mm-dd',
-        startDate: moment().add("days", 1).format('YYYY-MM-DD'),
         autoclose: true,
       }
     },
 
-    _dateOptionsSpecific: function() {
+    _endDateOptions: function() {
       return {
         format: 'yyyy-mm-dd',
-        startDate: moment().add("days", 1).format('YYYY-MM-DD')
+        startDate: this.ui.report_start_date.find('input').val(),
+        autoclose: true,
+      }
+    },
+
+    _specificDateOptions: function() {
+      return {
+        format: 'yyyy-mm-dd',
+        startDate: this.ui.report_start_date.find('input').val(),
+        endDate: this.ui.report_end_date.find('input').val() === '' ? moment().add('year', 1000).format('YYYY-MM-DD') : this.ui.report_end_date.find('input').val()
       }
     },
 
     _onStartDateChange: function(event) {
-      if($('input[name="ends_on_radio_group"][value="end_date"]').is(':checked')){
-        // this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
-        this.ui.report_end_date.datepicker('update', this.ui.report_start_date.find('input').val());
-      }
+      this.ui.report_end_date_input.val(this.ui.report_start_date.find('input').val());
+      this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
+      this.ui.report_specific_days.datepicker('_reset_date');
+      this.ui.report_specific_days.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
     },
 
-    _onEndDateChange: function(event){
-      this.ui.report_end_date.val(moment(event.date).format('YYYY-MM-DD'));
+    _onEndDateChange: function(event) {
+      this.ui.report_specific_days.datepicker('_reset_date');
+      this.ui.report_specific_days.datepicker('setEndDate', this.ui.report_end_date.find('input').val());
     },
 
     _endsOnRadioClick: function(event){
-      var selected = $(event.target).val();
-      if(selected === 'end_date'){
+      var end_date_option = $(event.target).val();
+      if(end_date_option === 'end_date'){
         this.ui.report_enddate_option.show();
-        this.ui.report_end_date.datepicker('setStartDate', this.ui.report_start_date.find('input').val());
-      }
-      else{
-        this.ui.report_end_date.datepicker('_reset_date');
-        this.ui.report_end_date.find('input').val('');
+        this.ui.report_specific_days.datepicker('_reset_date');
+        this.ui.report_specific_days.datepicker('setEndDate', this.ui.report_end_date.find('input').val());
+      } else{
         this.ui.report_enddate_option.hide();
+        this.ui.report_specific_days.datepicker('setEndDate', moment().add('year', 1000).format('YYYY-MM-DD'));
       }
     },
 
@@ -273,7 +287,6 @@
       this._reset_controls();
 
       if(frequency_type === 'specific_days'){
-        var frequency_value =  moment().add("days", 1).format('YYYY-MM-DD');
         this.ui.specific_days_option.show();
       } else if(frequency_type === 'weekly'){
         this.ui.weekly_checkboxes_option.show();
@@ -288,56 +301,57 @@
       $('input[name="quarterly_checkbox_group"]:checked').removeAttr('checked');
     },
 
-    _weeklyCheckboxClick: function(event){
-      var selectedWeeklyDays = [];
-      $('input[name="weekly_checkbox_group"]:checked').each(function() {
-         selectedWeeklyDays.push(this.value);
-      });
+    _getFrequencyType: function() {
+      return $('input[name="frequency_radio_group"]:checked').val();
     },
 
-    _quarterlyCheckboxClick: function(event){
-      var selectedQuarters = [];
-      $('input[name="quarterly_checkbox_group"]:checked').each(function() {
-         selectedQuarters.push(this.value);
-      });
-    },
+    _getFrequencyValue: function() {
+      var frequency_type = this._getFrequencyType(),
+      frequency_value = '';
 
-    _setReportModel: function(){
-      //getting selected values for frequency_type & frequency_value
-      var frequency_type = $('input[name="frequency_radio_group"]:checked').val(),
-        frequency_value = 1;
       if(frequency_type === 'everyday'){
         frequency_value = 1;
       } else if(frequency_type === 'specific_days'){
         frequency_value = this.ui.specific_days_input.val();
       } else if(frequency_type === 'weekly'){
-        var arr = []
-        $.each($('input[name="weekly_checkbox_group"]:checked'), function(){
-          arr.push($(this).val());
-        });
-        frequency_value = arr.join(',');
+        frequency_value = this._getSelectedWeekDays();
       } else if(frequency_type === 'quarterly'){
-        var arr = []
-        $.each($('input[name="quarterly_checkbox_group"]:checked'), function(){
-          arr.push($(this).val());
-        });
-        frequency_value = arr.join(',');
+        frequency_value = this._getSelectedQuarters();
       }
+      return frequency_value;
+
+    },
+
+    _getSelectedWeekDays: function() {
+      var array = []
+      $.each($('input[name="weekly_checkbox_group"]:checked'), function(){
+        array.push($(this).val());
+      });
+      return array.join(',');
+    },
+
+    _getSelectedQuarters: function() {
+      var array = []
+      $.each($('input[name="quarterly_checkbox_group"]:checked'), function(){
+        array.push($(this).val());
+      });
+      return array.join(',');
+    },
+
+    _saveReport: function() {
+
+      var report_start_date = this.ui.report_start_date.find('input').val(),
+      report_end_date = (this.ui.report_end_date.find('input').val() === '') ? null : this.ui.report_end_date.find('input').val();
 
       this.model.set({
         title: this.ui.title.val(),
         email: this.ui.email.val(),
         recalculate_dates: this.ui.recalculate_dates.is(':checked'),
-        report_start_date:this.ui.report_start_date.find('input').val(),
-        report_end_date:(this.ui.report_end_date.find('input').val() === "") ? null : this.ui.report_end_date.find('input').val(),
-        frequency_type: frequency_type,
-        frequency_value: frequency_value
+        report_start_date: report_start_date,
+        report_end_date: report_end_date,
+        frequency_type: this._getFrequencyType(),
+        frequency_value: this._getFrequencyValue()
       });
-    },
-
-    _saveReport: function() {
-      //set model from form properties
-      this._setReportModel();
 
       var _report = this.model.toJSON(),
         self = this;
