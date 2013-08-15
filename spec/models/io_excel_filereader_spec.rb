@@ -24,8 +24,9 @@ describe IOExcelFileReader do
     end
 
     it "have account contact name, phone and email" do
-      subject.account_contact[:name].should == "Alexandra Piechota" 
-      subject.account_contact[:phone].should == "646-786-6701"
+      subject.account_contact[:first_name].should == "Alexandra"
+      subject.account_contact[:last_name].should == "Piechota" 
+      subject.account_contact[:phone_number].should == "646-786-6701"
       subject.account_contact[:email].should == "ampnetwork@collective.com"
     end
 

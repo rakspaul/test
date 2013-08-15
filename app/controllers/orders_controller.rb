@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
         @possible_advertisers = if @io_details.try(:client_advertiser_name).blank?
           []
         else
-          Advertiser.collective_company.where(["network_advertisers.name LIKE ?", "#{@io_details.client_advertiser_name}%"]).map(&:name)
+          Advertiser.of_network(current_user.network).where(["network_advertisers.name LIKE ?", "#{@io_details.client_advertiser_name}%"]).map(&:name)
         end
       end
     end

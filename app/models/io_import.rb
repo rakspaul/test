@@ -72,15 +72,15 @@ class IoImport
 
       reach_client = ReachClient.find_by!(name: @reader.reach_client_name)
 
-      @io_details = IoDetail.new
+      @io_details = IoDetail.new :overall_status => :draft, :trafficking_status => :unreviewed, :account_manager_status => :unreviewed
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
-
-      @io_details.sales_person         = find_or_create_sales_person
+      @io_details.reach_client         = reach_client
+      @io_details.sales_person         = User.sales_people.where(first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email]).first
       @io_details.media_contact        = find_or_create_media_contact(reach_client)
       @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
-      #@io_details.trafficking_contact  = find_or_create_trafficking_contact(reach_client)
-      #@io_details.account_manager      = find_or_create_account_manager(reach_client)      
+      @io_details.trafficking_contact  = User.where(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], email: @reader.trafficking_contact[:email]).first
+      @io_details.account_manager      = User.where(first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email]).first
     end
 
     def read_lineitems
@@ -93,13 +93,6 @@ class IoImport
         li.user = @current_user
         @lineitems << li
       end
-    end
-
-    def default_attributes
-      {
-        company_id: Network.find_by!(name: "Collective").id,
-        client_type: 'Advertiser'
-      }
     end
 
     def find_or_create_media_contact(reach_client)
@@ -117,21 +110,6 @@ class IoImport
 
       BillingContact.transaction do
         BillingContact.where(name: bc[:name], email: bc[:email]).first || BillingContact.create!(bc)
-      end
-    end
-
-    def find_or_create_sales_person
-      sp = @reader.sales_person
-
-      User.transaction do
-        if u = User.sales_people.where(first_name: sp[:first_name], last_name: sp[:last_name], email: sp[:email]).first
-          u
-        else
-          u = User.create!(sp.merge(default_attributes))
-          u.roles = [Role.find_by_name('Sales')]
-          u.save
-          u
-        end
       end
     end
 
@@ -261,10 +239,9 @@ class IOExcelFileReader
 
   def account_contact
     {
-      name: @spreadsheet.cell(*ACCOUNT_CONTACT_NAME_CELL).to_s.strip,
-      phone: @spreadsheet.cell(*ACCOUNT_CONTACT_PHONE_CELL).to_s.strip,
+      phone_number: @spreadsheet.cell(*ACCOUNT_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*ACCOUNT_CONTACT_EMAIL_CELL).to_s.strip
-    }
+    }.merge split_name(@spreadsheet.cell(*ACCOUNT_CONTACT_NAME_CELL).to_s.strip)
   end
 
   def media_contact

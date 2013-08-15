@@ -5,8 +5,6 @@ class Advertiser < ActiveRecord::Base
 
   has_many :orders
 
-  scope :collective_company, -> { includes(:network).where("companies.name = 'Collective'").references(:network) }
-
   def self.of_network(network)
     where(:network => network)
   end

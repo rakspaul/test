@@ -9,19 +9,24 @@ describe IoImport do
 
   before do
     @adv = Advertiser.create network_id: collective_network.id, name: "Otterbein University", source_id: '12345'
+    sales_role = Role.create name: 'Sales'
+    FactoryGirl.create :user, first_name: "Ronnie", last_name: "Wallace", phone_number: "646-442-8220", email: "ops@collective.com", :network => collective_network
+    FactoryGirl.create :user, first_name: "Alexandra", last_name: "Piechota", phone_number: "646-786-6701", email: "ampnetwork@collective.com", :network => collective_network
+    sales = FactoryGirl.create :user, first_name: "Eric", last_name: "Burns", phone_number: "919-604-4451", email: "eric@collective.com", :network => collective_network
+    sales.roles << sales_role
+    sales.save
     ReachClient.create name: "Time Warner Cable", abbr: "TWC", address: "New York", network_id: collective_network.id
     AdSize.create size: "300x250", width: 300, height: 250, network_id: collective_network.id
     AdSize.create size: "728x90", width: 728, height: 90, network_id: collective_network.id
     AdSize.create size: "160x600", width: 160, height: 600, network_id: collective_network.id
-    Role.create name: 'Sales'
   end
  
-  it "creates order, io_detail, sales_person" do
+  it "creates order, io_detail, billing_contact" do
     lambda {
       lambda {
         lambda {
           io.import
-        }.should change(User.sales_people, :count).by(1)
+        }.should change(BillingContact, :count).by(1)
       }.should change(IoDetail, :count).by(1)
     }.should change(Order, :count).by(1)
   end
