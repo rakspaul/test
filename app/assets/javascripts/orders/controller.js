@@ -312,7 +312,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
     $('.total-media-cost .editable.custom').editable({
       validate: function(value) {
-        if(value.match(/[^\d]+/)) {
+        if(value.match(/[^\d\.,]+/)) {
           return 'This field should contain only digits';
         }
       }

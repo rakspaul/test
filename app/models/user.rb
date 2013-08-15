@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
 
   has_one :reach_client
 
-  scope :sales_people, -> { includes(:roles).where(['roles.name = ?', SALES_ROLE]) }
+  scope :sales_people, -> { includes(:roles).where(['roles.name = ?', SALES_ROLE]).references(:roles) }
 
   def admin?
     authority.downcase == 'admin'

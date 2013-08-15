@@ -1,28 +1,55 @@
 require 'spec_helper'
 
 describe IoImport do
-  let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xls') }
-  let(:current_user) { FactoryGirl.create(:user) }
+  let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx') }
+  let(:data_source) { DataSource.create name: "Test Source", ident: "source ident" }
+  let(:collective_network) { Network.create name: 'Collective', :data_source => data_source }
+  let(:current_user) { FactoryGirl.create(:user, :network => collective_network) }
   let(:io) { IoImport.new file, current_user }
 
-  before { io.import }
-
-  it "have access to xls filename"
-  it "have store when the xls filename was uploaded"
-
-  it "reads info about order" do
-    io.order.should be
+  before do
+    @adv = Advertiser.create network_id: collective_network.id, name: "Otterbein University", source_id: '12345'
+    ReachClient.create name: "Time Warner Cable", abbr: "TWC", address: "New York", network_id: collective_network.id
+    AdSize.create size: "300x250", width: 300, height: 250, network_id: collective_network.id
+    AdSize.create size: "728x90", width: 728, height: 90, network_id: collective_network.id
+    AdSize.create size: "160x600", width: 160, height: 600, network_id: collective_network.id
+    Role.create name: 'Sales'
+  end
+ 
+  it "creates order, io_detail, sales_person" do
+    lambda {
+      lambda {
+        lambda {
+          io.import
+        }.should change(User.sales_people, :count).by(1)
+      }.should change(IoDetail, :count).by(1)
+    }.should change(Order, :count).by(1)
   end
 
-  it "associates order with current user" do
-    io.order.user.should == current_user
-  end
+  context "IO imported" do
+    before { io.import }
+ 
+    it "reads advertiser correctly" do
+      io.advertiser.should == @adv
+    end
 
-  it "associates order's network with current user's network" do
-    io.order.network.should == current_user.network
-  end
+    it "have access to xls filename"
+    it "have store when the xls filename was uploaded"
 
-  #it "sets current order advertiser with read advertiser" do 
-  #  io.order.advertiser = io.advertiser
-  #end
+    it "reads info about order" do
+      io.order.should be
+    end
+
+    it "associates order with current user" do
+      io.order.user.should == current_user
+    end
+
+    it "associates order's network with current user's network" do
+      io.order.network.should == current_user.network
+    end
+
+    it "links to special IoDetail model where all additional info is stored" do
+      io.order.io_detail.should be
+    end
+  end
 end

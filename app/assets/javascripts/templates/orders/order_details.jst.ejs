@@ -44,7 +44,7 @@
           <span>
             <select data-placeholder="<%= order.advertiser_name %>" style="width:200px;" class="chosen-select">
               <% for(var i = 0; i < order.possible_advertisers.length; i++) { %>
-              <option value="<%= order.possible_advertisers[i][0] %>"><%= order.possible_advertisers[i][0] %> / <%= order.possible_advertisers[i][1] %></option>
+              <option value="<%= order.possible_advertisers[i] %>"><%= order.possible_advertisers[i] %></option>
               <% } %>
             </select>
           </span>
@@ -78,32 +78,32 @@
       <div class="pure-u-1-3">
         <div class="field salesperson-name">
           <span>Salesperson</span>
-          <span class="editable typeahead" data-name="salesperson_name" data-pk="1" data-type="typeahead" data-pk="1" data-url="/orders/<%= order.id %>">Eric Burns</span>
+          <span class="editable typeahead" data-name="salesperson_name" data-pk="1" data-type="typeahead" data-pk="1" data-url="/orders/<%= order.id %>"><%= order.sales_person_name %></span>
         </div>
         <div class="field salesperson-phone">
           <span>Phone</span>
-          <span class="editable" data-type="text" data-pk="1" data-name="salesperson_phone" data-url="/orders/<%= order.id %>">919-604-4451</span>
+          <span class="editable" data-type="text" data-pk="1" data-name="salesperson_phone" data-url="/orders/<%= order.id %>"><%= order.sales_person_phone %></span>
         </div>
         <div class="field salesperson-email">
           <span>Email</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="salesperson_email" data-url="/orders/<%= order.id %>">eric@collective.com</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="salesperson_email" data-url="/orders/<%= order.id %>"><%= order.sales_person_email %></span>
         </div>
 
         <div class="field media-contact-name">
           <span>Media Contact</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name" data-url="/orders/<%= order.id %>">Mary Ball</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-company">
           <span>Company</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company" data-url="/orders/<%= order.id %>">Time Warner Cable</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-phone">
           <span>Phone</span>
-          <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone" data-url="/orders/<%= order.id %>">704-973-7508</span>
+          <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone" data-url="/orders/<%= order.id %>"><%= order.media_contact_phone %></span>
         </div>
         <div class="field media-contact-email">
           <span>Email</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email" data-url="/orders/<%= order.id %>">digital.services@twcable.com</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email" data-url="/orders/<%= order.id %>"><%= order.media_contact_email %></span>
         </div>
       </div>
 
@@ -123,19 +123,19 @@
 
         <div class="field billing-contact-name">
           <span>Billing Contact</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name" data-url="/orders/<%= order.id %>">Bryan Snyder</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-company">
           <span>Company</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company" data-url="/orders/<%= order.id %>">Time Warner Cable</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-phone">
           <span>Phone</span>
-          <span class="editable" data-type="text" data-pk="1" data-name="billing_contact_phone" data-url="/orders/<%= order.id %>">(704) 973-7346</span>
+          <span class="editable" data-type="text" data-pk="1" data-name="billing_contact_phone" data-url="/orders/<%= order.id %>"><%= order.billing_contact_phone %></span>
         </div>
         <div class="field billing-contact-email">
           <span>Email</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_email" data-url="/orders/<%= order.id %>">digital.services@twcable.com</span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_email" data-url="/orders/<%= order.id %>"><%= order.billing_contact_email %></span>
         </div>
       </div>
     </div>

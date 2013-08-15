@@ -9,12 +9,11 @@ class Order < ActiveRecord::Base
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
   has_one :nielsen_campaign
+  has_one :io_detail
 
   has_many :lineitems, -> { order('name') }, inverse_of: :order
   has_many :io_assets
   has_many :ads
-
-  has_one :io_detail
 
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}

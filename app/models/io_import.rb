@@ -3,17 +3,17 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :io_details, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
+  attr_reader :order, :advertiser, :io_details, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
 
   def initialize(file, current_user)
     @reader = IOExcelFileReader.new(file)
     @current_user = current_user
 
-    @account_contact = Struct.new(:name, :phone, :email)
-    @media_contact = Struct.new(:name, :company, :address, :phone, :email)
-    @trafficking_contact = Struct.new(:name, :phone, :email)
-    @sales_person = Struct.new(:name, :phone, :email)
-    @billing_contact = Struct.new(:name, :company, :address, :phone, :email)
+    @account_contact      = Struct.new(:name, :phone, :email)
+    @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
+    @trafficking_contact  = Struct.new(:name, :phone, :email)
+    @sales_person         = Struct.new(:name, :phone, :email)
+    @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
   end
 
   def import
@@ -41,7 +41,7 @@ class IoImport
 
     def read_advertiser
       adv_name = @reader.advertiser_name
-      @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
+      @advertiser ||= Advertiser.of_network(@current_user.network).find_by(name: adv_name)
     end
 
     def read_account_contact
@@ -70,16 +70,17 @@ class IoImport
       @order.network = @current_user.network
       @order.advertiser = @advertiser
 
+      reach_client = ReachClient.find_by!(name: @reader.reach_client_name)
+
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
-
-      @io_details.sales_person        = User.sales_people.find_or_create_by!(@reader.sales_person.merge(default_attributes))
-      #@io_details.media_contact       = User.find_or_create_by!(@reader.media_contact)
-      #@io_details.billing_contact     = User.find_or_create_by!(@reader.billing_contact)
-      #@io_details.trafficking_contact = User.find_or_create_by!(@reader.trafficking_contact)
-      #@io_details.account_manager     = User.find_or_create_by!(@reader.account_manager)
-
       @io_details.order = @order
+
+      @io_details.sales_person         = find_or_create_sales_person
+      @io_details.media_contact        = find_or_create_media_contact(reach_client)
+      @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
+      #@io_details.trafficking_contact  = find_or_create_trafficking_contact(reach_client)
+      #@io_details.account_manager      = find_or_create_account_manager(reach_client)      
     end
 
     def read_lineitems
@@ -99,6 +100,39 @@ class IoImport
         company_id: Network.find_by!(name: "Collective").id,
         client_type: 'Advertiser'
       }
+    end
+
+    def find_or_create_media_contact(reach_client)
+      mc = @reader.media_contact.merge(reach_client_id: reach_client.id)
+
+      # must be wrapped in the transaction because when the search is performed someone could 
+      # be inserting the record in the Database 
+      MediaContact.transaction do
+        MediaContact.where(name: mc[:name], email: mc[:email]).first || MediaContact.create!(mc)
+      end
+    end
+
+    def find_or_create_billing_contact(reach_client)
+      bc = @reader.billing_contact.merge(reach_client_id: reach_client.id)
+
+      BillingContact.transaction do
+        BillingContact.where(name: bc[:name], email: bc[:email]).first || BillingContact.create!(bc)
+      end
+    end
+
+    def find_or_create_sales_person
+      sp = @reader.sales_person
+
+      User.transaction do
+        if u = User.sales_people.where(first_name: sp[:first_name], last_name: sp[:last_name], email: sp[:email]).first
+          u
+        else
+          u = User.create!(sp.merge(default_attributes))
+          u.roles = [Role.find_by_name('Sales')]
+          u.save
+          u
+        end
+      end
     end
 
     def save
@@ -202,6 +236,8 @@ class IOExcelFileReader
   BILLING_CONTACT_PHONE_CELL = ['G', 20]
   BILLING_CONTACT_EMAIL_CELL = ['G', 21]
   
+  REACH_CLIENT_CELL = ['G', 18]
+
   attr_reader :file
 
   def initialize(file_object)
@@ -211,6 +247,10 @@ class IOExcelFileReader
   def open
     @spreadsheet = open_based_on_file_extension
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
+  end
+
+  def reach_client_name
+    @spreadsheet.cell(*REACH_CLIENT_CELL).strip
   end
 
   def advertiser_name
@@ -230,8 +270,8 @@ class IOExcelFileReader
   def media_contact
     {
       name: @spreadsheet.cell(*MEDIA_CONTACT_NAME_CELL).to_s.strip,
-      company: @spreadsheet.cell(*MEDIA_CONTACT_COMPANY_CELL).to_s.strip,
-      address: @spreadsheet.cell(*MEDIA_CONTACT_ADDRESS_CELL).to_s.strip,
+      #company: @spreadsheet.cell(*MEDIA_CONTACT_COMPANY_CELL).to_s.strip,
+      #address: @spreadsheet.cell(*MEDIA_CONTACT_ADDRESS_CELL).to_s.strip,
       phone: @spreadsheet.cell(*MEDIA_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*MEDIA_CONTACT_EMAIL_CELL).to_s.strip
     }
@@ -255,8 +295,8 @@ class IOExcelFileReader
   def billing_contact
     {
       name: @spreadsheet.cell(*BILLING_CONTACT_NAME_CELL).to_s.strip,
-      company: @spreadsheet.cell(*BILLING_CONTACT_COMPANY_CELL).to_s.strip,
-      address: @spreadsheet.cell(*BILLING_CONTACT_ADDRESS_CELL).to_s.strip,
+      #company: @spreadsheet.cell(*BILLING_CONTACT_COMPANY_CELL).to_s.strip,
+      #address: @spreadsheet.cell(*BILLING_CONTACT_ADDRESS_CELL).to_s.strip,
       phone: @spreadsheet.cell(*BILLING_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*BILLING_CONTACT_EMAIL_CELL).to_s.strip
     }
