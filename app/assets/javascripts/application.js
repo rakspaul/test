@@ -18,7 +18,7 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
-//= require twitter/bootstrap/typeahead
+//= require typeahead
 //= require twitter/bootstrap/modal
 //= require bootstrap-editable
 //= require jquery-fileupload/basic

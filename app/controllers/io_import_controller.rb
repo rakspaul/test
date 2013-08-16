@@ -9,11 +9,6 @@ class IoImportController < ApplicationController
     @io_import.import
 
     @io_details = @io_import.order.io_detail
-    @possible_advertisers = if @io_details.try(:client_advertiser_name).blank?
-      []
-    else
-      Advertiser.of_network(current_user.network).where(["network_advertisers.name LIKE ?", "#{@io_details.client_advertiser_name}%"]).map(&:name)
-    end
 
     respond_with(@io_import)
   end

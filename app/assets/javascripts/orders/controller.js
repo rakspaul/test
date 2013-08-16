@@ -308,7 +308,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
     $('.editable.typeahead').editable({
-      source: ["Eric Burns", "Mary Ball", "Bryan Snyder", "Ronnie Wallace"]
+      local: ["Eric Burns", "Mary Ball", "Bryan Snyder", "Ronnie Wallace"]
     });
     $('.total-media-cost .editable.custom').editable({
       validate: function(value) {
@@ -319,7 +319,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
     $('.editable:not(.typeahead):not(.custom)').editable();
 
-    $(".chosen-select").chosen();
+    $('.advertiser-name input').typeahead({
+      name: 'advertiser-names',
+      remote: '/advertisers.json?search=%QUERY',
+      valueKey: 'name'
+    });
+
   },
 
   _showLineitemList: function(order) {

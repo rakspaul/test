@@ -40,13 +40,9 @@
           <span>AMP Network CORE</span>
         </div>
         <div class="field advertiser-name">
-          <span>Advertiser / Network</span>
+          <span>Advertiser Name</span>
           <span>
-            <select data-placeholder="<%= order.advertiser_name %>" style="width:200px;" class="chosen-select">
-              <% for(var i = 0; i < order.possible_advertisers.length; i++) { %>
-              <option value="<%= order.possible_advertisers[i] %>"><%= order.possible_advertisers[i] %></option>
-              <% } %>
-            </select>
+            <input type="text" autocomplete="off" name="advertiser_name"/>
           </span>
         </div>
         <div class="field advertiser-name">
