@@ -1,0 +1,23 @@
+<div>
+  <label for="media_contact" >Media contact</label>
+  <div>
+    <select id="media_contact">
+      <% mediaContacts.each(function(item){ %>
+          <option> <%= item.get('name') %> </option>
+      <%}); %>
+    </select>
+  </div>
+  <button class="btn"> Add </button>
+</div>
+
+<div>
+  <label for="billing_contact" >Billing contact</label>
+  <div>
+    <select id="billing_contact">
+      <% billingContacts.each(function(item){ %>
+          <option> <%= item.get('name') %> </option>
+      <%}); %>
+    </select>
+  </div>
+  <button class="btn"> Add </button>
+</div>

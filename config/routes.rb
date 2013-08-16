@@ -17,6 +17,8 @@ Reachui::Application.routes.draw do
     resources :reach_clients
     resources :audience_groups
     resources :exclude_sites
+    resources :media_contacts
+    resources :billing_contacts
   end
 
   resources :orders do

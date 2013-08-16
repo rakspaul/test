@@ -8,7 +8,7 @@ class Admin::ReachClientsController < ApplicationController
   add_crumb("Edit", only: "edit") {|instance| instance.send :edit_admin_reach_client_path}
 
   def index
-
+    @reach_clients = ReachClients.all()
   end
 
   def new
