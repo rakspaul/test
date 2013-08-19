@@ -5,6 +5,8 @@
 
 set :output, "log/cron_log.log"
 
-every 1.day, :at => '11:30 pm' do
-  rake "schedule_report:schedule_task", :environment =>"development"	
+#set :environment, ENV['RAILS_ENV']
+
+every 1.day, :at => '10:00pm' do
+  rake "schedule_report:schedule_task", :environment =>"development"
 end
