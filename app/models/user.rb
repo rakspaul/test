@@ -10,5 +10,10 @@ class User < ActiveRecord::Base
   def super_admin?
     authority.downcase == 'superadmin'
   end
+
+  def self.of_network(network)
+    where(:network => network)
+  end
+
 end
 

@@ -16,7 +16,6 @@
   ReachClient.ReachClientController = Marionette.Controller.extend({
     initialize: function() {
       this._initializeLayout();
-      this._initializeClientDetailsController();
     },
 
     _initializeLayout: function() {
@@ -26,11 +25,22 @@
       this.detailRegion.show(this.layout);
     },
 
-    _initializeClientDetailsController: function() {
+    initializeForCreateNewReachClient: function() {
       var model = new ReachClient.ReachClientModel();
       this.clientDetailsController = new ReachClient.ReachClientDetailsController({
-        mainRegion: this.layout.content,
-        model: model
+        mainRegion: this.layout.content
+      });
+      this.clientDetailsController.createNewReachClient(model);
+    },
+
+    initializeForEditReachClient: function(id) {
+      var self = this;
+      this.model = new ReachClient.ReachClientModel({id: id});
+      this.model.fetch().then(function() {
+        self.clientDetailsController = new ReachClient.ReachClientDetailsController({
+          mainRegion: self.layout.content
+        });
+        self.clientDetailsController.editReachClient(self.model);
       });
     },
 

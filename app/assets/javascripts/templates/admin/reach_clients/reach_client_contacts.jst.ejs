@@ -3,11 +3,15 @@
   <div>
     <select id="media_contact">
       <% mediaContacts.each(function(item){ %>
-          <option> <%= item.get('name') %> </option>
+        <% if(selected_media_id && item.id === selected_media_id) { %>
+          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
+        <% } else { %>
+          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
+        <% } %>
       <%}); %>
     </select>
   </div>
-  <button class="btn"> Add </button>
+  <button class="btn" id="addMediaContact"> Add </button>
 </div>
 
 <div>
@@ -15,9 +19,13 @@
   <div>
     <select id="billing_contact">
       <% billingContacts.each(function(item){ %>
-          <option> <%= item.get('name') %> </option>
+        <% if(selected_billing_id && item.id === selected_billing_id) { %>
+          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
+        <% } else { %>
+          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
+        <% } %>
       <%}); %>
     </select>
   </div>
-  <button class="btn"> Add </button>
+  <button class="btn" id="addBillingContact"> Add </button>
 </div>

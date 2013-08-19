@@ -1,1 +1,7 @@
-%h1 edit reach client
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    var controller = new ReachUI.ReachClients.ReachClientController();
+      controller.initializeForEditReachClient('#{@reachClient.id}');
+  });

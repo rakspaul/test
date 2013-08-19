@@ -47,7 +47,7 @@ Reachui::Application.routes.draw do
 
   resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
-
+  resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
