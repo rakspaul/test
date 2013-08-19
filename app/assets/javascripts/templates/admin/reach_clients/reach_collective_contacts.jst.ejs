@@ -1,6 +1,6 @@
-<div>
-  <label for="sales_person" >Sales Person</label>
-  <div>
+<div class="control-group">
+  <label for="sales_person" class="control-label">Sales Person</label>
+  <div class="controls">
     <select id="sales_person">
       <% salesPerson.each(function(item){ %>
         <% if(selected_sales_person_id && item.id === selected_sales_person_id) { %>
@@ -13,9 +13,9 @@
   </div>
 </div>
 
-<div>
-  <label for="account_manager" >Account Manager</label>
-  <div>
+<div class="control-group">
+  <label for="account_manager" class="control-label">Account Manager</label>
+  <div class="controls">
     <select id="account_manager">
       <% accountManager.each(function(item){ %>
         <% if(selected_account_manager_id && item.id === selected_account_manager_id) { %>
@@ -28,9 +28,9 @@
   </div>
 </div>
 
-<div>
-  <label for="trafficker" >Trafficker</label>
-  <div>
+<div class="control-group">
+  <label for="trafficker" class="control-label">Trafficker</label>
+  <div class="controls">
     <select id="trafficker">
       <% trafficker.each(function(item){ %>
         <% if(selected_trafficker_id && item.id === selected_trafficker_id) { %>

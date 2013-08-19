@@ -1,6 +1,6 @@
-<div>
-  <label for="media_contact" >Media contact</label>
-  <div>
+<div class="control-group">
+  <label for="media_contact" class="control-label">Media contact</label>
+  <div class="controls">
     <select id="media_contact">
       <% mediaContacts.each(function(item){ %>
         <% if(selected_media_id && item.id === selected_media_id) { %>
@@ -10,13 +10,13 @@
         <% } %>
       <%}); %>
     </select>
+    <button class="btn" id="addMediaContact"> Add </button>
   </div>
-  <button class="btn" id="addMediaContact"> Add </button>
 </div>
 
-<div>
-  <label for="billing_contact" >Billing contact</label>
-  <div>
+<div class="control-group">
+  <label for="billing_contact" class="control-label">Billing contact</label>
+  <div class="controls">
     <select id="billing_contact">
       <% billingContacts.each(function(item){ %>
         <% if(selected_billing_id && item.id === selected_billing_id) { %>
@@ -26,6 +26,6 @@
         <% } %>
       <%}); %>
     </select>
+    <button class="btn" id="addBillingContact"> Add </button>
   </div>
-  <button class="btn" id="addBillingContact"> Add </button>
 </div>

@@ -1,22 +1,22 @@
-<div>
-  <label for="name" >Name</label>
-  <div>
+<div class="control-group">
+  <label for="name" class="control-label">Name</label>
+  <div class="controls">
     <input type="text" required="" value="<%= reachClient.name%>" placeholder="Name" id="name">
     <label id="name_error"></label>
   </div>
 </div>
 
-<div>
-  <label for="abbreviation" >Abbreviation</label>
-  <div>
+<div class="control-group">
+  <label for="abbreviation" class="control-label">Abbreviation</label>
+  <div class="controls">
     <input type="text" required="" value="<%= reachClient.abbr%>" placeholder="Abbreviation" id="abbreviation">
     <label id="abbreviation_error"></label>
   </div>
 </div>
 
-<div>
-  <label for="address" >Address</label>
-  <div>
+<div class="control-group">
+  <label for="address" class="control-label">Address</label>
+  <div class="controls">
     <textarea rows="4" cols="50" required="" placeholder="Address" id="address" ><%= reachClient.address%></textarea>
     <label id="address_error"></label>
   </div>
