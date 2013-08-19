@@ -1,67 +1,68 @@
+require 'report_service_wrapper'
+
 class Reports::ScheduleReportsController < ApplicationController
   include Authenticator
-  SUPPORTED_PARAMS = ['group', 'cols', 'start_date', 'end_date', 'filter', 'per_page', 'offset', 'sort', 'limit', 'format']
 
   respond_to :json
 
   def index
-    @reports = ReportSchedule.all
+    @reports = ReportSchedule.of_user(@current_user)
     respond_with(@reports)
   rescue => e
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def new
-    @report_schedule = ReportSchedule.new
-    @report_schedule.user = current_user
-  end  
-
-  def create
-  	@report = ReportSchedule.new(params[:report_schedule])
-
-    params.clone.keep_if {|key, value| SUPPORTED_PARAMS.include? key}
-    params.merge!({
-      "instance" => @current_user.network.id,
-      "user_id" => @current_user.id,
-      "tkn" => build_request_token
-     })
-
-    query_string = params.map {|k,v| "#{k}=#{v}"}.join("&")
-    report_server = Rails.application.config.report_service_uri
-    url = "#{report_server}?#{query_string}"
-
-    @report.url = url
-  	
-	  if !@report.save
-      render json: { errors: @report.errors }, status: :unprocessable_entity
-    end
+  def show
+    @report = ReportSchedule.of_user_by_id(@current_user, params[:id])
+    respond_with(@report)
+  rescue => e
+    respond_with(e.message, status: :service_unavailable)
   end
 
-  def show
-    @report = ReportSchedule.find(params[:id])
-    render :json => @report.to_json
-  rescue ActiveRecord::RecordNotFound  
-    render :json => "Schedule report #{params[:id]} not found",
-           :status => :ok 
-    false
-  end  
+  def create
+    @report_schedule = ReportSchedule.new(schedule_report_params)
+    @report_schedule.user_id = @current_user.id
+    @report_schedule.url = create_url(params[:report_schedule])
+    @report_schedule.save
+
+    respond_with(@report_schedule, location: nil)
+  end
 
   def update
-  	@report = ReportSchedule.find_by_id(params[:id])
-  	@report.update_attributes(params[:report])
+    @report_schedule = ReportSchedule.of_user_by_id(@current_user, params[:id])
+    @report_schedule.update_attributes(schedule_report_params)
+    @report_schedule.url = create_url(params[:report_schedule])
 
-  	if !@report.save
-      render json: { errors: @report.errors }, status: :unprocessable_entity
-    end
+    @report_schedule.save
+
+    respond_with(@report_schedule)
   end
 
   def destroy
-  	@report = ReportSchedule.find(params[:id])
-  	@report.destroy
+    @report_schedule = ReportSchedule.find(params[:id])
+    @report_schedule.destroy
+
+    respond_with(@report_schedule)
   end
 
-  def build_request_token
-    Digest::MD5.hexdigest("#{@current_user.network.id}:#{@current_user.id}:#{Date.today.strftime('%Y-%m-%d')}")
-  end	  
+  private
+    def create_url(prm)
+      wrapper = ReportServiceWrapper.new(@current_user)
 
-end  
+      req_params = {
+         "instance" => @current_user.network.id,
+         "user_id" => @current_user.id,
+         "tkn" => wrapper.build_request_token
+       }
+      query_string = "#{prm[:url]}&#{req_params.map {|k,v| "#{k}=#{v}"}.join("&")}"
+      report_server = Rails.application.config.report_service_uri
+      url = "#{report_server}?#{query_string}"
+
+      url
+    end
+
+    def schedule_report_params
+      params.require(:report_schedule).permit(:title, :email, :recalculate_dates, :start_date, :end_date, :report_start_date, :report_end_date, :frequency_value, :frequency_type, :url)
+    end
+
+end
