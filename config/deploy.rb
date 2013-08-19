@@ -57,6 +57,12 @@ task :display_branch, :except => {:no_release => true} do
   puts "\nDEPLOYING #{branch} branch of #{application} to #{stage}\n\n"
 end
 
+# require "whenever/capistrano"
+# set(:whenever_command) { "RAILS_ENV=#{rails_env} bundle exec whenever" }
+
+# set :whenever_environment, defer { development }
+# require "whenever/capistrano"
+# set :whenever_command, "bundle exec whenever"
 
 namespace :deploy do
   task :file_store_symlink do
