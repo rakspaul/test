@@ -9,7 +9,7 @@ class Admin::ReachClientsController < ApplicationController
   # add_crumb("Edit", only: "edit") {|instance| instance.send :edit_admin_reach_client_path}
 
   def index
-    @reach_clients = ReachClients.of_network(current_network)
+    @reach_clients = ReachClients.includes(:media_contacts, :billing_contacts).of_network(current_network)
   end
 
   def new

@@ -90,10 +90,14 @@
     },
 
     initialize: function() {
+      var self = this;
       this.mediaContacts = this.options.mediaContacts;
       this.billingContacts = this.options.billingContacts;
       this.listenTo(this.mediaContacts, 'add', this.render);
       this.listenTo(this.billingContacts, 'add', this.render);
+      $.when(this.mediaContacts.fetch(), this.billingContacts.fetch()).then(function(){
+        self.render();
+      })
     },
 
     triggers: {
@@ -307,7 +311,6 @@
     },
 
     _initializeClientContactsView: function(model) {
-      var self =this;
 
       this.mediaContacts = new ReachClient.MediaContactList();
       this.mediaContacts.url = '/admin/media_contacts.json?id=' + model.id;
@@ -324,9 +327,7 @@
       this.clientContactsView.on('Add:MediaContact', this._addMediaContact, this);
       this.clientContactsView.on('Add:BillingContact', this._addBillingContact, this);
 
-      $.when(this.mediaContacts.fetch(), this.billingContacts.fetch()).then(function(){
-        self.layout.client_contacts.show(self.clientContactsView);
-      })
+      this.layout.client_contacts.show(this.clientContactsView);
     },
 
     _initializeCollectiveContactsView: function() {

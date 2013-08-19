@@ -15,8 +15,8 @@
     %tr
       %td= link_to client.name, edit_admin_reach_client_path(client)
       %td= client.abbr
-      %td= client.media_contacts.name
-      %td= client.billing_contacts.name
+      %td= client.media_contacts ? client.media_contacts.name : ''
+      %td= client.billing_contacts ? client.billing_contacts.name : ''
       %td= client.sales_person.first_name
       %td= client.account_manager.first_name
       %td= client.trafficker.first_name
