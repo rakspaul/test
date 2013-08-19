@@ -106,16 +106,9 @@
     template: JST['templates/reports/scheduled_reports_grid'],
     itemView: Report.ScheduledReportsGridItemView,
     tagName: 'table',
-    className: 'schedule-report-table',
+    className: 'report-table list-report-table',
     events: {
-      'click th#title' : 'onHeaderSort',
-      'click th#report_start_date' : 'onHeaderSort',
-      'click th#report_end_date' : 'onHeaderSort',
-      'click th#recalculate_dates' : 'onHeaderSort',
-      'click th#status' : 'onHeaderSort',
-      'click th#updated_at' : 'onHeaderSort',
-      'click th#created_at' : 'onHeaderSort',
-
+      'click .actions-container' : 'onHeaderSort',
     },
 
     initialize: function() {
@@ -133,7 +126,7 @@
     },
 
     onHeaderSort: function(event) {
-      this.sort_field = event.target.id;
+      this.sort_field = $(event.target).parent().attr('id');
       this.sort_direction = this.sort_direction === 'asc' ? 'desc' : 'asc';
       this._sortReports(this.sort_field, this.sort_direction);
     },
