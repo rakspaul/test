@@ -214,6 +214,7 @@
       width: 130px;
     }
   }
+
 }
 
 .disable-text-select {
@@ -293,66 +294,38 @@
 
 }
 
-/* schedule report table */
-
 .schedule-list-report{
 
-  padding: 10px;
+  padding:10px;
 
-  .top-headers {
-    margin-bottom: 10px;
+  .top-headers{
+    margin-bottom:10px;
   }
 
-  .schedule-report-table-region {
+  .list-report-table{
 
-    .schedule-report-table {
-      width: 100%;
-
-      tbody > tr:hover {
-        background-color: #f8f8f8;
+    th{
+      .header-container {
+        padding-left: 20px;
       }
-
-      th {
-        background: none repeat scroll 0 0 #F7F7F7;
-        border-left: 1px solid #ededed;
-        color: #4094C3;
-        font-size: 12px;
-        font-weight: bold;
-        line-height: 16px;
-        text-align: left;
-        vertical-align: middle;
-        border-radius: 0;
-        border-top: 1px solid #ededed;
-        padding:7px;
-
-        &:last-child {
-          border-right: 1px solid #ededed;
-        }
-
-        i{
-          float:right;
-          color:#b3b3b3;
-        }
-
+      .title-container{
+        margin-left: -20px;
       }
-
-      td {
-        font-size: 12px;
-        line-height: 16px;
-        padding: 5px;
-        border-top: 1px solid #ededed;
-        border-left: 1px solid #ededed;
-
-        &:last-child {
-          border-right: 1px solid #ededed;
-        }
+      .actions-container{
+        width:18px;
       }
-
-      tr:last-child > td {
-        border-bottom: 1px solid #ededed;
-      }
-
     }
+
+    td{
+      i,.icon-edit:before, .icon-remove:before{
+        cursor:pointer;
+      }
+
+      .icon-edit{
+        margin-right:5px;
+      }
+    }
+
   }
 
 }
