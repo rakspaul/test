@@ -9,4 +9,15 @@ class Reports::ReportsController < ApplicationController
 
   def new
   end
+
+  def edit
+    @report = ReportSchedule.of_user_by_id(current_user, params[:id])
+    if @report
+      add_crumb "Edit - #{@report.title}"
+    else
+      # redirect user to report list page
+      redirect_to reports_reports_path
+    end
+  end
+
 end
