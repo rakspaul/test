@@ -41,7 +41,7 @@ class IoImport
 
     def read_advertiser
       adv_name = @reader.advertiser_name
-      @advertiser ||= Advertiser.of_network(@current_user.network).find_by(name: adv_name)
+      @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
     end
 
     def read_account_contact
@@ -88,7 +88,7 @@ class IoImport
 
       @reader.lineitems do |lineitem|
         li = Lineitem.new(lineitem)
-        li.name = "#{@advertiser.name} | #{@order.name} | #{li.name}"
+        li.name = "#{@advertiser.try(:name)} | #{@order.name} | #{li.name}"
         li.order = @order
         li.user = @current_user
         @lineitems << li

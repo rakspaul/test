@@ -15,6 +15,11 @@ Reachui::Application.routes.draw do
     resources :columns
   end
 
+  resources :users do
+    collection do
+      get 'search'
+    end
+  end
 
   resources :orders do
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
