@@ -1,0 +1,165 @@
+<div class="modal-body">
+
+  <form class="form-horizontal form-schedule-report">
+    <legend>Schedule Report</legend>
+
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="title">Title</label>
+        <div class="controls">
+          <input type="text" id="title" placeholder="Title" value="<%= report_schedule.title %>" required>
+          <label class="help-inline form-error" id="title_error"></label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="reportDates">Report Dates</label>
+        <div class="controls">
+          <input type="text" id="report_dates" placeholder="Report Dates" value="<%= report_schedule.start_date%> to <%= report_schedule.end_date%>" readonly>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Recalculate Dates</label>
+        <div class="controls">
+          <input type="checkbox" name="recalculateDates" id="recalculate_dates" value="option1">
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="email">Emails</label>
+        <div class="controls">
+          <input type="email" id="email" placeholder="Emails" value="<%= report_schedule.email%>" required>
+          <label class="help-inline form-error" id="email_error"></label>
+        </div>
+      </div>
+    </fieldset>
+
+    <legend>Reccurrence</legend>
+    <fieldset>
+      <div class="control-group">
+        <label class="control-label" for="start_date" >Start On</label>
+        <div class="controls">
+          <div class="input-append date" id="report_start_date">
+            <input type="text" id="report_start_date_input" class="date-field" placeholder="Start On" readonly>
+            <span class="add-on"><i class="icon-calendar"></i></span>
+          </div>
+          <label class="help-inline form-error" id="report_start_date_error"></label>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Ends</label>
+        <div class="controls">
+          <label class="radio inline">
+            <input type="radio" id="radio_end_never" name="ends_on_radio_group" value="end_never" checked> Never
+          </label><div class="clear"></div>
+          <label class="radio inline">
+            <input type="radio" id="radio_end_date" name="ends_on_radio_group" value="end_date">
+            On
+            <label class="help-inline form-error" id="report_end_date_error"></label>
+          </label><div class="clear"></div>
+
+          <div class="control-group" id="report_enddate_option" style="display:none">
+            <div class="controls controls-inner">
+              <div class="input-append date" id="report_end_date">
+                <input type="text" id="report_end_date_input" class="date-field" placeholder="Ends On" readonly>
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label">Frequency</label>
+
+        <div class="controls">
+          <label class="radio inline">
+            <input type="radio" name="frequency_radio_group" id="frequency_everyday_radio" value="everyday" checked> Everyday
+          </label>
+          <label class="help-inline form-error error-label" id="frequency_value_error"></label>
+          <div class="clear"></div>
+
+          <label class="radio inline">
+            <input type="radio" name="frequency_radio_group" id="frequency_specificdays_radio" value="specific_days">
+            Specific Days
+          </label><div class="clear"></div>
+
+          <div class="control-group" id="specific_days_option" style="display:none">
+            <div class="controls controls-inner">
+              <div class="input-append date multidate" id="report_specific_days">
+                <input type="text" class="date-field" placeholder="Specific Days" id="specific_days_input" value="<%= report_schedule.frequency_value %>" readonly>
+                <span class="add-on"><i class="icon-calendar"></i></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="controls">
+          <label class="radio inline">
+            <input type="radio" name="frequency_radio_group" id="frequency_weekly_radio" value="weekly"> Weekly
+          </label><div class="clear"></div>
+
+          <div class="control-group" id="weekly_checkboxes_option" style="display:none">
+            <div class="controls controls-inner">
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="sun">SU
+                </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="mon">M
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="tue">T
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="wed">W
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="thu">TH
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="fri">F
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="weekly_checkbox_group" value="sat">S
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <label class="radio inline">
+            <input type="radio" name="frequency_radio_group" id="frequency_quarterly_radio" value="quarterly"> Quarterly
+          </label><div class="clear"></div>
+
+          <div class="control-group" id="quarterly_checkboxes_option" style="display:none">
+            <div class="controls controls-inner">
+              <label class="checkbox inline">
+                <input type="checkbox" name="quarterly_checkbox_group" value="q1">Q1
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="quarterly_checkbox_group" value="q2">Q2
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="quarterly_checkbox_group" value="q3">Q3
+              </label>
+              <label class="checkbox inline">
+                <input type="checkbox" name="quarterly_checkbox_group" value="q4">Q4
+              </label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </fieldset>
+  </form>
+
+</div>
+
+<div class="modal-footer">
+  <button id="save_report" class="btn btn-primary">Schedule</button>
+  <button id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>

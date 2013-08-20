@@ -25,6 +25,7 @@
 //= require moment.min
 //= require mousetrap.min
 //= require daterangepicker
+//= require bootstrap-datepicker
 //= require accounting.min
 //= require jquery.simplePagination
 //= require chosen.jquery
@@ -39,6 +40,7 @@
 //= require reports/date_range_selection.js
 //= require reports/paging_view.js
 //= require reports/report_options.js
+//= require reports/schedule_report.js
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js

@@ -81,7 +81,7 @@
       color: #9B9B9B;
     }
 
-    .export-share {
+    .export-share, .schedule-report {
       padding: 10px;
       background-color: #303535;
       color: #9B9B9B;
@@ -134,7 +134,7 @@
   }
 }
 
-.report-table-region {
+.report-table-region, .dragtable-drag-wrapper {
 
   .report-table {
     width: 100%;
@@ -214,6 +214,7 @@
       width: 130px;
     }
   }
+
 }
 
 .disable-text-select {
@@ -223,4 +224,108 @@
     -ms-user-select: none;
     user-select: none;
     cursor: default;
+}
+
+.schedule-report-modal{
+
+  letter-spacing:0;
+
+  .modal-body{
+    max-height: 650px;
+    padding-bottom:0px;
+  }
+
+}
+
+.form-schedule-report{
+
+  label, input, button, select, textarea {
+    font-size:13px;
+    line-height:20px;
+  }
+
+  fieldset{
+    padding:10px 0;
+    margin:0px;
+  }
+
+  .control-group{
+    padding:0px;
+    margin:0 0 10px 0;
+  }
+
+  legend{
+    font-size:15px;
+    line-height:20px;
+    margin-bottom:10px;
+    padding-bottom:3px;
+  }
+
+  .radio.inline, .checkbox.inline{
+    margin-bottom:5px;
+  }
+
+  .controls-inner{
+    margin:0 0 0px 20px;
+  }
+
+  .date-field{
+    width:180px;
+  }
+
+  .error-label{
+    margin-left: 146px;
+  }
+
+}
+
+.datepicker{
+
+  font-size:13px;
+  line-height:18px;
+
+  table {
+    width:210px;
+  }
+
+  th, td{
+    padding: 3px 5px;
+  }
+
+}
+
+.schedule-list-report{
+
+  padding:10px;
+
+  .top-headers{
+    margin-bottom:10px;
+  }
+
+  .list-report-table{
+
+    th{
+      .header-container {
+        padding-left: 20px;
+      }
+      .title-container{
+        margin-left: -20px;
+      }
+      .actions-container{
+        width:18px;
+      }
+    }
+
+    td{
+      i,.icon-edit:before, .icon-remove:before{
+        cursor:pointer;
+      }
+
+      .icon-edit{
+        margin-right:5px;
+      }
+    }
+
+  }
+
 }
