@@ -2,7 +2,7 @@
 <div class="pure-u-1-12 start-date"><%= lineitem.start_date %></div>
 <div class="pure-u-1-12 end-date"><%= lineitem.end_date %></div>
 <div class="pure-u-1-6">
-  300X250, 728X90, 160X600
+  <%= lineitem.ad_sizes %>
   <br/>
   <span class="operation">Edit Creatives</span>
 </div>
@@ -16,3 +16,6 @@
 <div class="pure-u-1-12 volume"><%= accounting.formatNumber(lineitem.volume) %></div>
 <div class="pure-u-1-12 rate"><%= accounting.formatMoney(lineitem.rate) %></div>
 <div class="pure-u-1-12 media-cost"><%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %></div>
+
+<div class="ads-container">
+</div>

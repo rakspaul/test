@@ -81,7 +81,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     //this.orderDetailsLayout.bottom.show(view);
-    
   },
 
   newOrder: function() {
@@ -292,6 +291,30 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemController.show(newLineItem);
   },
 
+  _setupTypeaheadFields: function() {
+    $('.salesperson-name .typeahead, .media-contact-name .typeahead, .account-contact-name .typeahead, .billing-contact-name .typeahead, .account-manager-container .typeahead').editable({
+      source: "/users/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+    $('.salesperson-email .typeahead, .media-contact-email .typeahead, .account-contact-email .typeahead, .billing-contact-email .typeahead').editable({
+      source: "/users/search.json?search_by=email",
+      typeahead: { 
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=email',
+        valueKey: 'email'
+      }
+    });
+    $('.advertiser-name input').typeahead({
+      name: 'advertiser-names',
+      remote: '/advertisers.json?search=%QUERY',
+      valueKey: 'name'
+    });
+  },
+
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
     detailOrderView.on('order:edit', function(args) {
@@ -307,9 +330,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
-    $('.editable.typeahead').editable({
-      local: ["Eric Burns", "Mary Ball", "Bryan Snyder", "Ronnie Wallace"]
-    });
+    
     $('.total-media-cost .editable.custom').editable({
       validate: function(value) {
         if(value.match(/[^\d\.,]+/)) {
@@ -318,13 +339,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
     $('.editable:not(.typeahead):not(.custom)').editable();
-
-    $('.advertiser-name input').typeahead({
-      name: 'advertiser-names',
-      remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name'
-    });
-
+    this._setupTypeaheadFields();
   },
 
   _showLineitemList: function(order) {
@@ -334,15 +349,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.fetch();
     }
 
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: this.lineItemList})
+    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: this.lineItemList});
+
     lineItemListView.on('lineitem:create', function(args) {
       ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
     }, this);
 
-    lineItemListView.on('itemview:lineitem:show', function(view) {
-      this.selectedLineItem = view.model;
-      ReachUI.Orders.router.navigate('/'+ view.model.get("order_id") +'/lineitems/' + view.model.id, {trigger: true});
-    }, this);
+    lineItemListView.on('itemview:lineitem:add_ad', function(view) {
+      var ad = new ReachUI.Ads.Ad();
+      var adsView = new ReachUI.Ads.AdView({model: ad});
+      view.ui.ads_list.append(adsView.render().el);
+    });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);
   }
