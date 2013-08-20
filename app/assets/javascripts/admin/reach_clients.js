@@ -437,6 +437,7 @@
 
     _onSaveSuccess: function(model, response, options) {
       this.reachClientModel = model;
+      alert("Client saved successfully.");
       if (!this.clientContactsView) {
         this._initializeClientContactsView(model, false);
       }

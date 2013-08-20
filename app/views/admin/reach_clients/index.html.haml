@@ -4,13 +4,62 @@
 %table.admin-reach-table
   %thead
     %tr
-      %th.name Name
-      %th Abbr
-      %th Media Contact
-      %th Billing Contact
-      %th Sales Person
-      %th Account Manager
-      %th Trafficker
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Name
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Abbr
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Media Contact
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Billing Contact
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Sales Person
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Account Manager
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Trafficker
+          .pure-u
+            #title.actions-container
+              %i.icon-sort
   - @reach_clients.each do |client|
     %tr
       %td= link_to client.name, edit_admin_reach_client_path(client)

@@ -1,31 +1,35 @@
-<div class="control-group">
-  <label for="media_contact" class="control-label">Media contact</label>
-  <div class="controls">
-    <select id="media_contact">
-      <% mediaContacts.each(function(item){ %>
-        <% if(selected_media_id && item.id === selected_media_id) { %>
-          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
-        <% } else { %>
-          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
-        <% } %>
-      <%}); %>
-    </select>
-    <button class="btn" id="addMediaContact"> Add </button>
-  </div>
-</div>
+<legend>Client Contacts</legend>
 
-<div class="control-group">
-  <label for="billing_contact" class="control-label">Billing contact</label>
-  <div class="controls">
-    <select id="billing_contact">
-      <% billingContacts.each(function(item){ %>
-        <% if(selected_billing_id && item.id === selected_billing_id) { %>
-          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
-        <% } else { %>
-          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
-        <% } %>
-      <%}); %>
-    </select>
-    <button class="btn" id="addBillingContact"> Add </button>
+<fieldset>
+  <div class="control-group">
+    <label for="media_contact" class="control-label">Media contact</label>
+    <div class="controls">
+      <select id="media_contact">
+        <% mediaContacts.each(function(item){ %>
+          <% if(selected_media_id && item.id === selected_media_id) { %>
+            <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
+          <% } else { %>
+            <option value="<%= item.id %>"> <%= item.get('name') %> </option>
+          <% } %>
+        <%}); %>
+      </select>
+      <button class="btn" id="addMediaContact"> Add </button>
+    </div>
   </div>
-</div>
+
+  <div class="control-group">
+    <label for="billing_contact" class="control-label">Billing contact</label>
+    <div class="controls">
+      <select id="billing_contact">
+        <% billingContacts.each(function(item){ %>
+          <% if(selected_billing_id && item.id === selected_billing_id) { %>
+            <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
+          <% } else { %>
+            <option value="<%= item.id %>"> <%= item.get('name') %> </option>
+          <% } %>
+        <%}); %>
+      </select>
+      <button class="btn" id="addBillingContact"> Add </button>
+    </div>
+  </div>
+</fieldset>
