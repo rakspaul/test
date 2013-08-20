@@ -98,3 +98,4 @@ gem "rjb"
 
 gem 'spreadsheet'
 
+gem 'kaminari'

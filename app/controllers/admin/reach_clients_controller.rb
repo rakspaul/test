@@ -8,7 +8,11 @@ class Admin::ReachClientsController < ApplicationController
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_reach_client_path}
 
   def index
-    @reach_clients = ReachClient.includes(:media_contact, :billing_contact).of_network(current_network)
+    sort_direction = params[:sort_direction] ? params[:sort_direction] : "asc"
+    sort_column = params[:sort_column] ? params[:sort_column] : "name"
+
+    reach_clients = ReachClient.includes(:media_contact, :billing_contact).of_network(current_network).order(sort_column + " " + sort_direction)
+    @reach_clients = Kaminari.paginate_array(reach_clients).page(params[:page]).per(50);
   end
 
   def new
