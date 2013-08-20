@@ -74,6 +74,9 @@
       name: '#name',
       abbreviation: '#abbreviation',
       address: '#address',
+      name_error: '#name_error',
+      abbr_error: '#abbr_error',
+      address_error: '#address_error',
     },
   });
 
@@ -151,6 +154,9 @@
       name: '#name',
       phone: '#phone',
       email: '#email',
+      name_error: '#name_error',
+      phone_error: '#phone_error',
+      email_error: '#email_error',
     },
 
     events: {
@@ -169,6 +175,16 @@
         reach_client_id: this.model.get('reach_client_id'),
       }
 
+      var self = this;
+
+      _.keys(this.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.ui[val].text("");
+        });
+
       this.model.save(para, {
         success: this._onSaveSuccess,
         error: this._onSaveFailure
@@ -182,7 +198,16 @@
 
     _onSaveFailure: function(model, xhr, options) {
       if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
 
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
       }
     }
 
@@ -196,6 +221,9 @@
       name: '#name',
       phone: '#phone',
       email: '#email',
+      name_error: '#name_error',
+      phone_error: '#phone_error',
+      email_error: '#email_error',
     },
 
     events: {
@@ -214,6 +242,16 @@
         reach_client_id: this.model.get('reach_client_id'),
       }
 
+      var self = this;
+
+      _.keys(this.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.ui[val].text("");
+        });
+
       this.model.save(para, {
         success: this._onSaveSuccess,
         error: this._onSaveFailure
@@ -227,7 +265,16 @@
 
     _onSaveFailure: function(model, xhr, options) {
       if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
 
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
       }
     },
 
@@ -375,6 +422,16 @@
         prop['billing_contact_id'] = this.clientContactsView.ui.billing_contact.val();
       }
 
+      var self = this;
+
+      _.keys(this.clientDetailsView.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.clientDetailsView.ui[val].text("");
+        });
+
       this.reachClientModel.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
@@ -387,7 +444,16 @@
 
     _onSaveFailure: function(model, xhr, options) {
       if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
 
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.clientDetailsView.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
       }
     }
 

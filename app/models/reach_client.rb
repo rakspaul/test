@@ -8,6 +8,10 @@ class ReachClient < ActiveRecord::Base
   belongs_to :account_manager, :foreign_key => 'account_manager_id', :class_name => "User"
   belongs_to :trafficker, :foreign_key => 'trafficking_contact_id', :class_name => "User"
 
+  validates :name, presence: true
+  validates :abbr, presence: true
+  validates :address, presence: true
+
   def self.of_network(network)
     where(:network => network)
   end
