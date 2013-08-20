@@ -1,4 +1,4 @@
-class BillingContacts < ActiveRecord::Base
+class MediaContact < ActiveRecord::Base
   has_many :reach_clients
 
   def self.for_user(id)

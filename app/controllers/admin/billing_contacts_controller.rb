@@ -4,20 +4,16 @@ class Admin::BillingContactsController < ApplicationController
   respond_to :json
 
   def index
-    @billing_contacts = BillingContacts.for_user(params[:id])
+    @billing_contacts = BillingContact.for_user(params[:id])
     respond_with(@billing_contacts)
   end
 
   def create
     p = params.require(:billingContact).permit(:name, :phone, :email, :reach_client_id)
-    @billingContact = BillingContacts.new(p)
-    @billingContact.name = params[:billingContact][:name]
-    @billingContact.phone = params[:billingContact][:phone]
-    @billingContact.email = params[:billingContact][:email]
-    @billingContact.reach_client_id = params[:billingContact][:reach_client_id]
-    @billingContact.save
+    @billing_contact = BillingContact.new(p)
+    @billing_contact.save
 
-    respond_with(@billingContact, location: nil)
+    respond_with(@billing_contact, location: nil)
   end
 
 end

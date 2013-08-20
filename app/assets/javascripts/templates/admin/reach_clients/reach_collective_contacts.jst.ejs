@@ -4,9 +4,9 @@
     <select id="sales_person">
       <% salesPerson.each(function(item){ %>
         <% if(selected_sales_person_id && item.id === selected_sales_person_id) { %>
-          <option selected value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } else { %>
-          <option value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } %>
       <%}); %>
     </select>
@@ -19,9 +19,9 @@
     <select id="account_manager">
       <% accountManager.each(function(item){ %>
         <% if(selected_account_manager_id && item.id === selected_account_manager_id) { %>
-          <option selected value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } else { %>
-          <option value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } %>
       <%}); %>
     </select>
@@ -34,9 +34,9 @@
     <select id="trafficker">
       <% trafficker.each(function(item){ %>
         <% if(selected_trafficker_id && item.id === selected_trafficker_id) { %>
-          <option selected value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } else { %>
-          <option value="<%= item.id %>"> <%= item.getFullName() %> </option>
+          <option value="<%= item.id %>"> <%= item.get('name') %> </option>
         <% } %>
       <%}); %>
     </select>

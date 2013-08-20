@@ -59,11 +59,7 @@
   //   model: ReachClient.Trafficker,
   // });
 
-  ReachClient.User = Backbone.Model.extend({
-    getFullName: function() {
-      return this.get('first_name') + ' ' + this.get('last_name')
-    }
-  });
+  ReachClient.User = Backbone.Model.extend({});
 
   ReachClient.UserList = Backbone.Collection.extend({
     url: '/users.json',
@@ -95,9 +91,11 @@
       this.billingContacts = this.options.billingContacts;
       this.listenTo(this.mediaContacts, 'add', this.render);
       this.listenTo(this.billingContacts, 'add', this.render);
-      $.when(this.mediaContacts.fetch(), this.billingContacts.fetch()).then(function(){
-        self.render();
-      })
+      if (this.options.fetch_records) {
+        $.when(this.mediaContacts.fetch(), this.billingContacts.fetch()).then(function(){
+          self.render();
+        })
+      };
     },
 
     triggers: {
@@ -294,7 +292,7 @@
       this.reachClientModel = model;
       this._initializeLayout();
       this._initializeClientDetailsView();
-      this._initializeClientContactsView(this.reachClientModel);
+      this._initializeClientContactsView(this.reachClientModel, true);
       this._initializeCollectiveContactsView();
     },
 
@@ -310,7 +308,7 @@
       this.layout.client_details.show(this.clientDetailsView);
     },
 
-    _initializeClientContactsView: function(model) {
+    _initializeClientContactsView: function(model, fetch_records) {
 
       this.mediaContacts = new ReachClient.MediaContactList();
       this.mediaContacts.url = '/admin/media_contacts.json?id=' + model.id;
@@ -321,7 +319,8 @@
       this.clientContactsView = new ReachClient.ReachClientContactsView({
         model: this.reachClientModel,
         mediaContacts: this.mediaContacts,
-        billingContacts: this.billingContacts
+        billingContacts: this.billingContacts,
+        fetch_records: fetch_records,
       });
 
       this.clientContactsView.on('Add:MediaContact', this._addMediaContact, this);
@@ -382,7 +381,7 @@
     _onSaveSuccess: function(model, response, options) {
       this.reachClientModel = model;
       if (!this.clientContactsView) {
-        this._initializeClientContactsView(model);
+        this._initializeClientContactsView(model, false);
       }
     },
 
