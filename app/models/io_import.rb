@@ -3,18 +3,31 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order
+  attr_reader :order, :advertiser, :io_details, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
 
   def initialize(file, current_user)
     @reader = IOExcelFileReader.new(file)
     @current_user = current_user
+
+    @account_contact      = Struct.new(:name, :phone, :email)
+    @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
+    @trafficking_contact  = Struct.new(:name, :phone, :email)
+    @sales_person         = Struct.new(:name, :phone, :email)
+    @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
   end
 
   def import
     @reader.open
 
-    read_and_verify_advertiser
-    read_order
+    read_advertiser
+
+    read_account_contact
+    read_media_contact
+    read_billing_contact
+    read_sales_person
+    read_trafficking_contact
+
+    read_order_and_details
     read_lineitems
 
     save
@@ -26,19 +39,48 @@ class IoImport
 
   private
 
-    def read_and_verify_advertiser
+    def read_advertiser
       adv_name = @reader.advertiser_name
       @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
-      if @advertiser.nil?
-        raise "Advertiser not found: #{adv_name}"
-      end
     end
 
-    def read_order
+    def read_account_contact
+      @account_contact = @reader.account_contact
+    end
+
+    def read_media_contact
+      @media_contact = @reader.media_contact
+    end
+
+    def read_trafficking_contact
+      @trafficking_contact = @reader.trafficking_contact
+    end
+
+    def read_sales_person
+      @sales_person = @reader.sales_person
+    end
+
+    def read_billing_contact
+      @billing_contact = @reader.billing_contact
+    end
+
+    def read_order_and_details
       @order = Order.new(@reader.order)
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
+
+      reach_client = ReachClient.find_by!(name: @reader.reach_client_name)
+
+      @io_details = IoDetail.new :overall_status => :draft, :trafficking_status => :unreviewed, :account_manager_status => :unreviewed
+      @io_details.client_advertiser_name = @reader.advertiser_name
+      @io_details.order = @order
+      @io_details.reach_client         = reach_client
+      @io_details.sales_person         = User.sales_people.where(first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email]).first
+      @io_details.media_contact        = find_or_create_media_contact(reach_client)
+      @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
+      @io_details.trafficking_contact  = User.where(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], email: @reader.trafficking_contact[:email]).first
+      @io_details.account_manager      = User.where(first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email]).first
     end
 
     def read_lineitems
@@ -46,11 +88,28 @@ class IoImport
 
       @reader.lineitems do |lineitem|
         li = Lineitem.new(lineitem)
-        li.name = "#{@advertiser.name} | #{@order.name} | #{li.name}"
+        li.name = "#{@advertiser.try(:name)} | #{@order.name} | #{li.name}"
         li.order = @order
         li.user = @current_user
-
         @lineitems << li
+      end
+    end
+
+    def find_or_create_media_contact(reach_client)
+      mc = @reader.media_contact.merge(reach_client_id: reach_client.id)
+
+      # must be wrapped in the transaction because when the search is performed someone could 
+      # be inserting the record in the Database 
+      MediaContact.transaction do
+        MediaContact.where(name: mc[:name], email: mc[:email]).first || MediaContact.create!(mc)
+      end
+    end
+
+    def find_or_create_billing_contact(reach_client)
+      bc = @reader.billing_contact.merge(reach_client_id: reach_client.id)
+
+      BillingContact.transaction do
+        BillingContact.where(name: bc[:name], email: bc[:email]).first || BillingContact.create!(bc)
       end
     end
 
@@ -60,6 +119,7 @@ class IoImport
       if errors.empty?
         @order.transaction do
           @order.save!
+          @io_details.save!
           @lineitems.each(&:save!)
           save_io_to_disk
         end
@@ -121,6 +181,40 @@ end
 
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
+  DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
+  DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
+
+  ADVERTISER_LABEL_CELL = ['A', 18]
+  ADVERTISER_CELL = ['C', 18]
+  ORDER_NAME_CELL = ['C', 19]
+  ORDER_START_FLIGHT_DATE = ['H', 25]
+  ORDER_END_FLIGHT_DATE = ['H', 26]
+
+  ACCOUNT_CONTACT_NAME_CELL = ['E', 12]
+  ACCOUNT_CONTACT_PHONE_CELL = ['E', 13]
+  ACCOUNT_CONTACT_EMAIL_CELL = ['E', 14]
+
+  MEDIA_CONTACT_NAME_CELL = ['E', 17]
+  MEDIA_CONTACT_COMPANY_CELL = ['E', 18]
+  MEDIA_CONTACT_ADDRESS_CELL = ['E', 19]
+  MEDIA_CONTACT_PHONE_CELL = ['E', 20]
+  MEDIA_CONTACT_EMAIL_CELL = ['E', 21]
+
+  TRAFFICKING_CONTACT_NAME_CELL = ['G', 12]
+  TRAFFICKING_CONTACT_PHONE_CELL = ['G', 13]
+  TRAFFICKING_CONTACT_EMAIL_CELL = ['G', 14]
+
+  SALES_PERSON_NAME_CELL = ['C', 12]
+  SALES_PERSON_PHONE_CELL = ['C', 13]
+  SALES_PERSON_EMAIL_CELL = ['C', 14]
+
+  BILLING_CONTACT_NAME_CELL = ['G', 17]
+  BILLING_CONTACT_COMPANY_CELL = ['G', 18]
+  BILLING_CONTACT_ADDRESS_CELL = ['G', 19]
+  BILLING_CONTACT_PHONE_CELL = ['G', 20]
+  BILLING_CONTACT_EMAIL_CELL = ['G', 21]
+  
+  REACH_CLIENT_CELL = ['G', 18]
 
   attr_reader :file
 
@@ -133,35 +227,99 @@ class IOExcelFileReader
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
   end
 
+  def reach_client_name
+    @spreadsheet.cell(*REACH_CLIENT_CELL).strip
+  end
+
   def advertiser_name
-    @spreadsheet.cell('D', 18).strip
+    if @spreadsheet.cell(*ADVERTISER_LABEL_CELL).to_s.strip =~ /advertiser name/i
+      @spreadsheet.cell(*ADVERTISER_CELL).strip
+    end
+  end
+
+  def account_contact
+    {
+      phone_number: @spreadsheet.cell(*ACCOUNT_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*ACCOUNT_CONTACT_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*ACCOUNT_CONTACT_NAME_CELL).to_s.strip)
+  end
+
+  def media_contact
+    {
+      name: @spreadsheet.cell(*MEDIA_CONTACT_NAME_CELL).to_s.strip,
+      #company: @spreadsheet.cell(*MEDIA_CONTACT_COMPANY_CELL).to_s.strip,
+      #address: @spreadsheet.cell(*MEDIA_CONTACT_ADDRESS_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*MEDIA_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*MEDIA_CONTACT_EMAIL_CELL).to_s.strip
+    }
+  end
+
+  def trafficking_contact
+    {
+      phone_number: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
+  end
+
+  def sales_person
+    {
+      account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
+      phone_number: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip)
+  end
+
+  def billing_contact
+    {
+      name: @spreadsheet.cell(*BILLING_CONTACT_NAME_CELL).to_s.strip,
+      #company: @spreadsheet.cell(*BILLING_CONTACT_COMPANY_CELL).to_s.strip,
+      #address: @spreadsheet.cell(*BILLING_CONTACT_ADDRESS_CELL).to_s.strip,
+      phone: @spreadsheet.cell(*BILLING_CONTACT_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*BILLING_CONTACT_EMAIL_CELL).to_s.strip
+    }
   end
 
   def order
     {
-      name: @spreadsheet.cell('C', 19).strip,
-      start_date: @spreadsheet.cell('G', 25),
-      end_date: @spreadsheet.cell('G', 26),
+      name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
+      start_date: start_flight_date,
+      end_date: finish_flight_date
     }
   end
 
   def lineitems
     row = LINE_ITEM_START_ROW
-    while @spreadsheet.cell('A', row).instance_of? Date
+    while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
       yield({
-        start_date: @spreadsheet.cell('A', row),
-        end_date: @spreadsheet.cell('B', row),
+        start_date: parse_date(@spreadsheet.cell('A', row)),
+        end_date: parse_date(@spreadsheet.cell('B', row)),
         ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
-        name: @spreadsheet.cell('D', row).strip,
-        volume: @spreadsheet.cell('E', row).to_i,
-        rate: @spreadsheet.cell('F', row).to_f
+        name: @spreadsheet.cell('D', row).to_s.strip, 
+        volume: @spreadsheet.cell('F', row).to_i,
+        rate: @spreadsheet.cell('G', row).to_f
       })
 
       row += 1
     end
   end
 
+  def start_flight_date
+    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+  end
+
+  def finish_flight_date
+    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+  end
+
   private
+
+    def parse_date str
+      return str if str.is_a?(Date)
+
+      Date.strptime(str.strip, str.index('.') ? DATE_FORMAT_WITH_DOT : DATE_FORMAT_WITH_SLASH)
+    rescue
+      nil
+    end
 
     def open_based_on_file_extension
       ext = File.extname(@file.original_filename)
@@ -172,6 +330,18 @@ class IOExcelFileReader
         Roo::Excelx.new(@file.path, nil, :ignore)
       else
         raise "Unknown file type: #{@file.original_filename}"
+      end
+    end
+
+    def split_name name
+      parts = name.split(/\W+/)
+      case parts.length
+      when 0..1
+        name
+      when 2
+        {first_name: parts[0], last_name: parts[1]}
+      else
+        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
       end
     end
 end

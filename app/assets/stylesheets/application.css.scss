@@ -12,7 +12,10 @@
  *= require jquery-ui-1.10.3.custom.min
  *= require dragtable-default
  *= require daterangepicker
+ *= require datepicker
  *= require chosen.min
+ *= require bootstrap-editable
+ *= require typeahead
  *= require_self
  */
 
@@ -26,9 +29,19 @@
 @import "reports/report.css.scss";
 @import "nielsen_ocr.css.scss";
 @import "admin/admin.css.scss";
+@import "io_import.css.scss";
+
+$borderColor: #eee;
+$light-background: #f7f7f7;
+
+@mixin bordered-section {
+  border: 1px solid $borderColor;
+  border-radius: 5px;
+  padding: 50px 20px 0;
+}
 
 body {
-  font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Armata', Arial, sans-serif;
 }
 
 .daterangepicker td.in-range {
@@ -131,3 +144,11 @@ body {
   }
 }
 
+.login-form {
+  @include bordered-section;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  max-width: 470px;
+}

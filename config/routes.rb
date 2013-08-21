@@ -9,9 +9,11 @@ Reachui::Application.routes.draw do
   namespace :reports do
     resources :reports
     resources :query
+    resources :schedule_reports
     resources :dimensions
     resources :columns
   end
+
 
   namespace :admin do
     resources :reach_clients
@@ -20,6 +22,13 @@ Reachui::Application.routes.draw do
     resources :media_contacts
     resources :billing_contacts
   end
+
+  resources :users do
+    collection do
+      get 'search'
+    end
+  end
+
 
   resources :orders do
     resource :nielsen_campaign, controller: 'nielsen_campaign' do

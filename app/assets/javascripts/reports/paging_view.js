@@ -9,7 +9,11 @@
     },
 
     setTotalRecords: function(count) {
-      this.set({total_records: count, current_page: 0});
+      this.set({total_records: count});
+      // http://backbonejs.org/#changelog
+      // Passing {silent:true} on change will no longer delay individual "change:attr" events,
+      // instead they are silenced entirely.
+      this.set({current_page: 0}, {silent : true});
     },
 
     getOffset: function() {
