@@ -11,7 +11,19 @@ class Admin::ReachClientsController < ApplicationController
     sort_direction = params[:sort_direction] ? params[:sort_direction] : "asc"
     sort_column = params[:sort_column] ? params[:sort_column] : "name"
 
-    reach_clients = ReachClient.includes(:media_contact, :billing_contact).of_network(current_network).order(sort_column + " " + sort_direction)
+    if sort_column == "media_contact"
+      sort_column = "media_contacts.name"
+    elsif sort_column == "billing_contact"
+      sort_column = "billing_contacts.name"
+    elsif sort_column == "sales_person"
+      sort_column = "users.first_name"
+    elsif sort_column == "account_manager"
+      sort_column = "account_managers_reach_clients.first_name"
+    elsif sort_column == "trafficker"
+      sort_column = "traffickers_reach_clients.first_name"
+    end
+
+    reach_clients = ReachClient.includes(:media_contact, :billing_contact).joins(:sales_person, :account_manager, :trafficker).of_network(current_network).order(sort_column + " " + sort_direction)
     @reach_clients = Kaminari.paginate_array(reach_clients).page(params[:page]).per(50);
   end
 

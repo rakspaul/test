@@ -86,6 +86,8 @@
     ui: {
       media_contact: '#media_contact',
       billing_contact: '#billing_contact',
+      media_contact_id_error: '#media_contact_id_error',
+      billing_contact_id_error: '#billing_contact_id_error'
     },
 
     initialize: function() {
@@ -423,13 +425,20 @@
       }
 
       var self = this;
+      var uiControls = {};
+
+      if (this.clientContactsView) {
+        uiControls = $.extend(this.clientDetailsView.ui, this.clientContactsView.ui);
+      } else {
+        uiControls = this.clientDetailsView.ui
+      }
 
       _.keys(this.clientDetailsView.ui)
         .filter(function(val) {
           return /_error$/.test(val);
         })
         .forEach(function(val) {
-          self.clientDetailsView.ui[val].text("");
+          uiControls[val].text("");
         });
 
       this.reachClientModel.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
@@ -446,15 +455,22 @@
     _onSaveFailure: function(model, xhr, options) {
       if(xhr.responseJSON && xhr.responseJSON.errors) {
         var formErrors = [];
+        var uiControls = {};
 
+        if (this.clientContactsView) {
+          uiControls = $.extend(this.clientDetailsView.ui, this.clientContactsView.ui);
+        } else {
+          uiControls = this.clientDetailsView.ui
+        }
         _.each(xhr.responseJSON.errors, function(value, key) {
-          var errorLabel = this.clientDetailsView.ui[key + "_error"];
+          var errorLabel = uiControls[key + "_error"];
           if(errorLabel) {
             errorLabel.text(value[0]);
           } else {
             formErrors.push(value);
           }
         }, this);
+        alert("Error saving Reach client. \n" + formErrors.join("\n"));
       }
     }
 

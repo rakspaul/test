@@ -69,15 +69,7 @@
 :javascript
   $('.actions-container i').click(function(event) {
     var para = {};
-    var column = $(event.target).parent().attr('id');
-
-    if(column === 'media_contact') {
-      para.sort_column = 'media_contacts.name'
-    } else if(column === 'billing_contact') {
-      para.sort_column = 'billing_contacts.name'
-    } else {
-      para.sort_column = column
-    }
+    para.sort_column = $(event.target).parent().attr('id');
 
     var class_name = $(event.target).attr('class');
 
