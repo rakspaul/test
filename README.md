@@ -30,15 +30,42 @@ Try to stick to following javascrpit style guide:
 
 Overridden style guide:
 -
-Add points here on which we don't agree from above style guides.
 
-Memcached configuration:
--
-Memcached is an excellent cache store, and Dalli is the best way to interact with it through Ruby.
+###Organizing code
 
-How to configure
--
- 
-1. Install memcached 'apt-get install memcached'
-2. Add 'gem dalli' in gem file
-3. Add 'config.cache_store = :dalli_store' in 'config/environment/*.rb' file
+####Rails model:
+```ruby
+class RailsModel < ActiveRecord::Base
+  # include modules
+
+  # self.table_name
+
+  # default_scope
+
+  # contants
+
+  # accessors
+
+  # belongs_to
+
+  # has_one
+
+  # has_many
+
+  # has_many_and_belongs_to
+
+  # validates
+
+  # validate
+
+  # callbacks
+
+  # scopes
+
+  # class methods
+
+  # instance methods
+end
+```
+
+
