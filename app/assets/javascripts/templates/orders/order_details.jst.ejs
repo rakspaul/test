@@ -36,101 +36,125 @@
     <div class="columns">
       <div class="pure-u-1-3">
         <div class="field network">
-          <span>Network</span>
+          <p>Network</p>
           <span>AMP Network CORE</span>
         </div>
         <div class="field advertiser-name">
-          <span>Advertiser Name</span>
-          <span>
+          <p>Advertiser Name</p>
+          <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
             <input type="text" autocomplete="off" name="advertiser_name"/>
           </span>
         </div>
         <div class="field advertiser-name">
-          <span>Client's Advertiser Name</span>
+          <p>Client's Advertiser Name</p>
           <span><%= order.client_advertiser_name %></span>
         </div>
         <div class="field order-name">
-          <span>Order Name</span>
+          <p>Order Name</p>
           <span class="editable" data-type="text" data-pk="1" data-name="order_name" data-url="/orders/<%= order.id %>"><%= order.name %></span>
         </div>
         <div class="field client-order-id">
-          <span>Client Order ID</span>
+          <p>Client Order ID</p>
           <span><%= order.id %></span>
         </div>
         <div class="field start-date">
-          <span>Start Date</span>
+          <p>Start Date</p>
           <span class="editable date" data-type="date" data-pk="1" data-name="start_date" data-url="/orders/<%= order.id %>"><%= order.start_date %></span>
         </div>
         <div class="field end-date">
-          <span>End Date</span>
+          <p>End Date</p>
           <span class="editable date" data-type="date" data-pk="1" data-name="end_date" data-url="/orders/<%= order.id %>"><%= order.end_date %></span>
         </div>
         <div class="field total-media-cost">
-          <span>Total Media Cost</span>
+          <p>Total Media Cost</p>
           <span class="editable custom" data-type="text" data-pk="1" data-name="total_media_cost" data-url="/orders/<%= order.id %>">0</span>
         </div>
       </div>
 
       <div class="pure-u-1-3">
         <div class="field salesperson-name">
-          <span>Salesperson</span>
+          <p>
+            <% if(order.sales_person_unknown) { %>
+            <img src="/assets/contact_unknown.png" title="Sales person is not found in existing contacts" alt="Sales person unknown"/>
+            <% } %>
+            <img src="/assets/salesperson_icon.png" title="Sales person" alt="Sales person"/>
+            Salesperson
+          </p>
           <span class="editable typeahead" data-name="salesperson_name" data-pk="1" data-type="typeahead" data-pk="1" data-url="/orders/<%= order.id %>"><%= order.sales_person_name %></span>
         </div>
         <div class="field salesperson-phone">
-          <span>Phone</span>
+          <p>Phone</p>
           <span class="editable" data-type="text" data-pk="1" data-name="salesperson_phone" data-url="/orders/<%= order.id %>"><%= order.sales_person_phone %></span>
         </div>
         <div class="field salesperson-email">
-          <span>Email</span>
+          <p>Email</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="salesperson_email" data-url="/orders/<%= order.id %>"><%= order.sales_person_email %></span>
         </div>
 
         <div class="field media-contact-name">
-          <span>Media Contact</span>
+          <p>
+            <% if(order.media_contact_unknown) { %>
+            <img src="/assets/contact_unknown.png" title="Media Contact is not found in existing contacts" alt="Media Contact unknown"/>
+            <% } %>
+            <img src="/assets/media_contact_icon.png" title="Media Contact" alt="Media Contact"/>
+            Media Contact
+          </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-company">
-          <span>Company</span>
+          <p>Company</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-phone">
-          <span>Phone</span>
+          <p>Phone</p>
           <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone" data-url="/orders/<%= order.id %>"><%= order.media_contact_phone %></span>
         </div>
         <div class="field media-contact-email">
-          <span>Email</span>
+          <p>Email</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email" data-url="/orders/<%= order.id %>"><%= order.media_contact_email %></span>
         </div>
       </div>
 
       <div class="pure-u-1-3">
         <div class="field account-contact-name">
-          <span>Account Contact</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name" data-url="/orders/<%= order.id %>">Alexandra Piechota</span>
+          <p>
+            <% if(order.account_manager_unknown) { %>
+            <img src="/assets/contact_unknown.png" title="Account Manager is not found in existing contacts" alt="Account Manager unknown"/>
+            <% } %>
+            <img src="/assets/account_contact_icon.png" title="Account Manager" alt="Account Manager"/>
+            Account Contact
+          </p>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name" data-url="/orders/<%= order.id %>"><%= order.account_manager_name %></span>
         </div>
         <div class="field account-contact-phone">
-          <span>Phone</span>
-          <span  class="editable" data-type="text" data-pk="1" data-name="account_contact_phone" data-url="/orders/<%= order.id %>">646-786-6701</span>
+          <p>Phone</p>
+          <span  class="editable" data-type="text" data-pk="1" data-name="account_contact_phone" data-url="/orders/<%= order.id %>"><%= order.account_manager_phone %></span>
         </div>
         <div class="field account-contact-email">
-          <span>Email</span>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_email" data-url="/orders/<%= order.id %>">ampnetwork@collective.com</span>
+          <p>Email</p>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_email" data-url="/orders/<%= order.id %>"><%= order.account_manager_email %></span>
         </div>
 
         <div class="field billing-contact-name">
-          <span>Billing Contact</span>
+          <p>
+            <% if(order.billing_contact_unknown) { %>
+            <img src="/assets/contact_unknown.png" title="Billing Contact is not found in existing contacts" alt="Billing Contact unknown"/>
+            <% } %>
+            <img src="/assets/billing_contact_icon.png" title="Billing Contact" alt="Billing Contact"/>
+            Billing Contact
+          </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-company">
-          <span>Company</span>
+          <p>Company</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-phone">
-          <span>Phone</span>
+          <p>Phone</p>
           <span class="editable" data-type="text" data-pk="1" data-name="billing_contact_phone" data-url="/orders/<%= order.id %>"><%= order.billing_contact_phone %></span>
         </div>
         <div class="field billing-contact-email">
-          <span>Email</span>
+          <p>Email</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_email" data-url="/orders/<%= order.id %>"><%= order.billing_contact_email %></span>
         </div>
       </div>

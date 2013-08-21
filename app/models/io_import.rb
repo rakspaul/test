@@ -3,12 +3,15 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :advertiser, :io_details, :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact
+  attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, 
+:account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
+:sales_person_unknown, :account_manager_unknown, :media_contact_unknown, :billing_contact_unknown
 
   def initialize(file, current_user)
-    @reader = IOExcelFileReader.new(file)
-    @current_user = current_user
-
+    @reader               = IOExcelFileReader.new(file)
+    @current_user         = current_user
+    @original_filename    = file.original_filename
+    @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown = [false, false, false, false]
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @trafficking_contact  = Struct.new(:name, :phone, :email)
@@ -30,7 +33,7 @@ class IoImport
     read_order_and_details
     read_lineitems
 
-    save
+    #save_io_to_disk
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
@@ -76,11 +79,14 @@ class IoImport
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
       @io_details.reach_client         = reach_client
-      @io_details.sales_person         = User.sales_people.where(first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email]).first
+      @io_details.sales_person         = find_sales_person
       @io_details.media_contact        = find_or_create_media_contact(reach_client)
+
       @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
-      @io_details.trafficking_contact  = User.where(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], email: @reader.trafficking_contact[:email]).first
-      @io_details.account_manager      = User.where(first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email]).first
+
+      @io_details.trafficking_contact  = User.find_or_initialize_by(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], phone_number: @reader.trafficking_contact[:phone_number], email: @reader.trafficking_contact[:email])
+
+      @io_details.account_manager      = find_account_manager
     end
 
     def read_lineitems
@@ -92,6 +98,26 @@ class IoImport
         li.order = @order
         li.user = @current_user
         @lineitems << li
+      end
+    end
+
+    def find_sales_person
+      params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email] }
+      if u = User.sales_people.where(params).first
+        u
+      else
+        @sales_person_unknown = true
+        User.sales_people.new params.merge(phone_number: @reader.sales_person[:phone_number])
+      end
+    end
+
+    def find_account_manager
+      params = { first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email] }
+      if u = User.where(params).first
+        u
+      else
+        @account_manager_unknown = true
+        User.new params.merge(phone_number: @reader.account_contact[:phone_number])
       end
     end
 

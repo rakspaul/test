@@ -124,10 +124,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
   },
 
-  _ioUploaded: function(orderModel) {
+  _ioUploaded: function(orderModel, lineItems) {
     this.orderList.unshift(orderModel);
     // view order
-    ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
+    if(orderModel.id) {
+      ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
+    } else {
+      // just uploaded model (w/o id, source_id)
+      this._showOrderDetails(orderModel);
+      this._liSetCallbacksAndShow(lineItems);
+    }
   },
 
   _saveOrder: function(args) {
@@ -349,7 +355,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.fetch();
     }
 
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: this.lineItemList});
+    this._liSetCallbacksAndShow(this.lineItemList);
+  },
+
+  _liSetCallbacksAndShow: function(lineItemList) {
+    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     lineItemListView.on('lineitem:create', function(args) {
       ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});

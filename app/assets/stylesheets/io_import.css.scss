@@ -25,7 +25,7 @@ $li_number_bg: #007ac9;
     float:left;
     padding:3px;
 
-    > span:nth-child(1) {
+    > p {
       text-align:right;
       color: $text_color;
       width:40%;
@@ -34,7 +34,7 @@ $li_number_bg: #007ac9;
       font-family: 'Armata', sans-serif;
     }
 
-    span:nth-child(2) {
+    > span {
       text-align:left;
     }
 
@@ -45,38 +45,15 @@ $li_number_bg: #007ac9;
     .editable-input input.input-small, .uneditable-input input.input-small {
       width: 95px !important;
     }
+  
+    .advertiser-unknown {
+      background: red;
+      padding: 5px 5px 35px 5px;
+    }
   }
 
   .field.order-name .editable {
     display: table-cell;
-  }
-
-  .field.salesperson-name > span:nth-child(1):before {
-    content:url("salesperson_icon.png");
-    position:relative;
-    margin-right:7px;
-    top:2px;
-  }
-
-  .field.account-contact-name > span:nth-child(1):before {
-    content:url("account_contact_icon.png");
-    position:relative;
-    margin-right:7px;
-    top:2px;
-  }
-
-  .field.billing-contact-name > span:nth-child(1):before {
-    content:url("billing_contact_icon.png");
-    position:relative;
-    margin-right:7px;
-    top:2px;
-  }
-
-  .field.media-contact-name > span:nth-child(1):before {
-    content:url("media_contact_icon.png");
-    position:relative;
-    margin-right:7px;
-    top:2px;
   }
 
   .current-io-status-top {
@@ -120,7 +97,7 @@ $li_number_bg: #007ac9;
     border: 0px;
     color: $text_color;
     background: $bg_color;
-    width: 210px;
+    width: 215px;
     padding: 5px;
     cursor: pointer;
   }
@@ -269,4 +246,18 @@ $li_number_bg: #007ac9;
   padding:10px;
   text-align:right;
   font-family: 'Armata', sans-serif;
+
+  .save-order-btn {
+    border: 1px dashed $text_color;
+    color: $text_color;
+    width: 50px;
+    float: right;
+    text-align: center;
+    padding: 5px;
+  }
+
+  .save-order-btn:hover {
+    background: $bg_color;
+    cursor: pointer;
+  }
 }
