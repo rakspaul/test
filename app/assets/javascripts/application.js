@@ -49,3 +49,5 @@
 //= require ./orders/controller.js
 //= require ./orders/router.js
 //= require ./nielsen_ocr
+//= require ./admin/reach_clients.js
+//= require ./admin/reach_client_controller.js

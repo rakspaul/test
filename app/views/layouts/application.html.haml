@@ -39,7 +39,7 @@
       = render_crumbs separator: "&nbsp;&nbsp;/&nbsp;&nbsp;".html_safe , last_crumb_linked: false
 
     .app_content
-      = yield
+      = content_for?(:content) ? yield(:content) : yield
 
 :javascript
   $(document).ready(function() {

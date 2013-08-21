@@ -22,5 +22,10 @@ class User < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def self.of_network(network)
+    where(:network => network)
+  end
+
 end
 
