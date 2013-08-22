@@ -1,47 +1,123 @@
-#order_layout.pure-g
+.pure-g
   #details.pure-u
     .content
+      .pure-g.header-filter-container
+        .pure-u
+          .delete-button
+            %button.btn
+              Delete
+        .pure-u-1-5
+          %label Status
+          %select
+            %option draft
+            %option active
+        .pure-u-1-5
+          %label Account Manager
+          %select
+            - @users.each do |user|
+              %option= "#{user.first_name} #{user.last_name}"
+        .pure-u-1-5
+          %label Trafficker
+          %select
+            - @users.each do |user|
+              %option= "#{user.first_name} #{user.last_name}"
+        .pure-u-1-5
+          .upload-button
+            %button.btn
+              Upload IO
 
-.shortcut-help
-  #shortcut_help_modal.modal.hide.fade{ tabindex: "-1", role: "dialog"}
-    .modal-header
-      %h3 Shortcuts
-    .modal-body
-      %table
-        %tbody
+.pure-g
+  #details.pure-u
+    .content
+      %table.order-table
+        %thead
           %tr
-            %td.right-align
-              %span.key C
-              %span.key O
-            %td
-              Create Order
-          %tr
-            %td.right-align
-              %span.key E
-              %span.key O
-            %td
-              Edit Order
-          %tr
-            %td.right-align
-              %span.key C
-              %span.key L
-            %td
-              Create Lineitem
-          %tr
-            %td.right-align
-              %span.key S
-            %td
-              Search Orders
+            %th
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    ID
+                .pure-u
+                  #id.actions-container
+                    %i.icon-sort-by-attributes
+            %th.order-name
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Order Name
+                .pure-u
+                  #order_name.actions-container
+                    %i.icon-sort-by-attributes
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Client
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Advertiser
+                .pure-u
+                  #advertiser.actions-container
+                    %i.icon-sort
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Abbr
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    AM
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Trafficker
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Start Date
+                .pure-u
+                  #start_date.actions-container
+                    %i.icon-sort
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    End Date
+                .pure-u
+                  #end_date.actions-container
+                    %i.icon-sort
+
+        %tbody{:id => "orders"}
+          =render "order_table" ,:orders => @orders,:users => @users
+
+.pure-g
+  #details.pure-u
+    .content
+      .paginator{:id => "paginator"}
+        = paginate @orders,:remote => :true
 
 :javascript
-  $(document).ready(function() {
-    ReachUI.SetupGlobalErrorHandler();
+  $('.actions-container i').click(function(event) {
+    var para = {};
+    para.sort_column = $(event.target).parent().attr('id');
 
-    var controller = new ReachUI.Orders.OrderController();
-    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    var class_name = $(event.target).attr('class');
 
-    Backbone.history.start({
-      pushState: true,
-      root: "/orders"
-    });
+    if(class_name==='icon-sort' || class_name==='icon-sort-by-attributes-alt') {
+      para.sort_direction = 'asc';
+      $('.order-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
+      $(event.target).removeClass('icon-sort-by-attributes-alt icon-sort').addClass('icon-sort-by-attributes');
+    } else if(class_name==='icon-sort-by-attributes') {
+      para.sort_direction = 'desc';
+      $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
+    }
+
+    var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
