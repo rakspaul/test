@@ -1,167 +1,99 @@
-#order_layout {
-  left: 0;
-}
-
-#order_list {
-  bottom: 0;
-  left: 350px;
-  margin-left: -350px;
-  overflow-y: auto;
-  position: fixed;
-  top: 84px;
-  width: 350px;
-  z-index: 1000;
-  border-right: 1px solid #ddd;
-
-  .content {
-
-  }
-}
-
 #details {
   width: 100%;
   overflow: auto;
 
   .content {
-    .order-details {
-      padding: 10px;
-      margin-bottom: 20px;
+    padding:10px;
 
-      .header {
-        color: #333;
-      }
-
-      .adv-name {
-        margin-right: 20px;
-        color: $secondary-text-color;
-      }
-
-      .flight {
-        color: $secondary-text-color;
-      }
+    .header-filter-container{
+      background:#f7f7f7;
+      border-radius:5px;
+      padding:10px;
     }
+
+    .delete-button, .upload-button{
+      margin:24px 20px 0 10px;
+    }
+
+    label{
+      margin-bottom:5px;
+    }
+
   }
 }
 
-.form-search {
-  background-color: #f9f9f9;
-  border-bottom: 1px solid $border-color;
-  padding: 10px 20px;
-
-  .hint {
-    color: #999;
-    font-size: 0.8em;
-    margin-left: 10px;
-  }
-}
-
-.order-new {
-  border-bottom: 1px solid #eee;
-  padding: 15px 10px 15px 20px;
-  cursor: pointer;
-  color: #ddd;
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-}
-
-.order-search-result {
-  .order {
-    border-bottom: 1px solid $border-color;
-    padding: 15px 10px 15px 20px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $hover-color;
-    }
-
-    .order-name {
-      font-weight: 600;
-    }
-
-    .order-status, .order-advertiser, .order-dates, .order-id {
-      color: $secondary-text-color;
-    }
-  }
-
-  .order-selected {
-    background-color: #2ea5dc; //#BEEDFF;
-
-    .order-name {
-      color: #fff;
-    }
-
-    .order-status, .order-advertiser, .order-dates, .order-id {
-      color: #C0E0EF;
-    }
-
-    &:hover {
-      background-color: #2ea5dc;
-    }
-  }
-
-  .no-order-found {
-    margin-top: 20px;
-    color: #ddd;
-    text-align: center;
-    font-size: 20px;
-  }
-}
-
-.active-order {
-  border-left: 5px solid $active-color;
-}
-
-.inactive-order {
-  border-left: 5px solid $inactive-color;
-}
-
-.action-bar {
-  margin-bottom: 20px;
-}
-
-.upload-io-region {
-  padding: 10px;
-}
-
-.drop-region {
-  border: 2px dashed #DDDDDD;
-  height: 100px;
-  text-align: center;
-  color: #ddd;
-  cursor: pointer;
-
-  h4 {
-    margin-top: 40px;
-  }
-}
-
-.edit-order-region {
-  padding: 10px;
-}
-
-.order-or-separator {
-  color: #666;
-  text-align: center;
-}
-
-.fileinput-button {
-  position: relative;
-  overflow: hidden;
-}
-
-.fileinput-button input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100px;
+.order-table {
   width: 100%;
-  margin: 0;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  font-size: 23px;
-  direction: ltr;
-  cursor: pointer;
-}
 
+  tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  th {
+    background: none repeat scroll 0 0 #F7F7F7;
+    border-left: 1px solid #ededed;
+    color: #4094C3;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 0;
+    border-top: 1px solid #ededed;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+
+    .header-container {
+      padding-left: 20px;
+    }
+
+    .title-container {
+      width: 100%;
+      margin-left: -20px;
+
+      .title {
+        padding: 7px;
+      }
+    }
+
+    .actions-container {
+      text-align: right;
+      width: 18px;
+      border-left: 1px solid #f1f1f1;
+      color: #B3B3B3;
+
+      i {
+        padding: 9px 3px 8px;
+        display: inline-block;
+
+        &:hover {
+          background-color: #e8e8e8;
+        }
+      }
+    }
+
+  }
+
+  td {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px;
+    border-top: 1px solid #ededed;
+    border-left: 1px solid #ededed;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+  }
+
+  tr:last-child > td {
+    border-bottom: 1px solid #ededed;
+  }
+
+  .order-name{
+    width:400px;
+  }
+
+}

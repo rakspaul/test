@@ -1,0 +1,21 @@
+- @orders.each do |order|
+  %tr
+    %td
+      %input{:name => "test", :type => "checkbox"}
+      %td= order.source_id
+      %td= order.name
+      %td= order.advertiser.name
+    -if !order.io_detail.nil? && !order.io_detail.reach_client.nil?
+      %td= order.io_detail.reach_client.name
+      %td= order.io_detail.reach_client.abbr
+      %td= "#{order.io_detail.reach_client.account_manager.first_name} #{order.io_detail.reach_client.account_manager.last_name}"
+      %td= "#{order.io_detail.reach_client.trafficker.first_name} #{order.io_detail.reach_client.trafficker.last_name}"
+      %td= format_date(order.start_date)
+      %td= format_date(order.end_date)
+    -else
+      %td
+      %td
+      %td
+      %td
+      %td= format_date(order.start_date)
+      %td= format_date(order.end_date)
