@@ -73,16 +73,16 @@ class IoImport
       @order.network = @current_user.network
       @order.advertiser = @advertiser
 
-      reach_client = ReachClient.find_by!(name: @reader.reach_client_name)
+      reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 
       @io_details = IoDetail.new :overall_status => :draft, :trafficking_status => :unreviewed, :account_manager_status => :unreviewed
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
       @io_details.reach_client         = reach_client
       @io_details.sales_person         = find_sales_person
-      @io_details.media_contact        = find_or_create_media_contact(reach_client)
+      @io_details.media_contact        = find_media_contact
 
-      @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
+      @io_details.billing_contact      = find_billing_contact
 
       @io_details.trafficking_contact  = User.find_or_initialize_by(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], phone_number: @reader.trafficking_contact[:phone_number], email: @reader.trafficking_contact[:email])
 
@@ -121,22 +121,14 @@ class IoImport
       end
     end
 
-    def find_or_create_media_contact(reach_client)
-      mc = @reader.media_contact.merge(reach_client_id: reach_client.id)
-
-      # must be wrapped in the transaction because when the search is performed someone could 
-      # be inserting the record in the Database 
-      MediaContact.transaction do
-        MediaContact.where(name: mc[:name], email: mc[:email]).first || MediaContact.create!(mc)
-      end
+    def find_media_contact
+      mc = @reader.media_contact
+      MediaContact.where(name: mc[:name], email: mc[:email]).first
     end
 
-    def find_or_create_billing_contact(reach_client)
-      bc = @reader.billing_contact.merge(reach_client_id: reach_client.id)
-
-      BillingContact.transaction do
-        BillingContact.where(name: bc[:name], email: bc[:email]).first || BillingContact.create!(bc)
-      end
+    def find_billing_contact
+      bc = @reader.billing_contact
+      BillingContact.where(name: bc[:name], email: bc[:email]).first
     end
 
     def save
@@ -254,12 +246,12 @@ class IOExcelFileReader
   end
 
   def reach_client_name
-    @spreadsheet.cell(*REACH_CLIENT_CELL).strip
+    @spreadsheet.cell(*REACH_CLIENT_CELL).to_s.strip
   end
 
   def advertiser_name
     if @spreadsheet.cell(*ADVERTISER_LABEL_CELL).to_s.strip =~ /advertiser name/i
-      @spreadsheet.cell(*ADVERTISER_CELL).strip
+      @spreadsheet.cell(*ADVERTISER_CELL).to_s.strip
     end
   end
 
@@ -307,7 +299,7 @@ class IOExcelFileReader
 
   def order
     {
-      name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
+      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip,
       start_date: start_flight_date,
       end_date: finish_flight_date
     }
@@ -363,7 +355,7 @@ class IOExcelFileReader
       parts = name.split(/\W+/)
       case parts.length
       when 0..1
-        name
+        {first_name: name}
       when 2
         {first_name: parts[0], last_name: parts[1]}
       else

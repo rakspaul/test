@@ -21,14 +21,12 @@ describe IoImport do
     AdSize.create size: "160x600", width: 160, height: 600, network_id: collective_network.id
   end
  
-  it "creates order, io_detail, billing_contact" do
+  it "doesn't creates order and io_detail" do
     lambda {
       lambda {
-        lambda {
-          io.import
-        }.should change(BillingContact, :count).by(1)
-      }.should change(IoDetail, :count).by(1)
-    }.should change(Order, :count).by(1)
+        io.import
+      }.should change(IoDetail, :count).by(0)
+    }.should change(Order, :count).by(0)
   end
 
   context "IO imported" do
@@ -38,7 +36,10 @@ describe IoImport do
       io.advertiser.should == @adv
     end
 
-    it "have access to xls filename"
+    it "have access to xls filename" do
+      io.original_filename.should == "Collective_IO.xlsx"
+    end
+
     it "have store when the xls filename was uploaded"
 
     it "reads info about order" do
@@ -51,10 +52,6 @@ describe IoImport do
 
     it "associates order's network with current user's network" do
       io.order.network.should == current_user.network
-    end
-
-    it "links to special IoDetail model where all additional info is stored" do
-      io.order.io_detail.should be
     end
   end
 end
