@@ -132,6 +132,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       // just uploaded model (w/o id, source_id)
       this._showOrderDetails(orderModel);
+      lineItems.setOrder(orderModel);
       this._liSetCallbacksAndShow(lineItems);
     }
   },
@@ -297,8 +298,45 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemController.show(newLineItem);
   },
 
-  _setupTypeaheadFields: function() {
-    $('.salesperson-name .typeahead, .media-contact-name .typeahead, .account-contact-name .typeahead, .billing-contact-name .typeahead, .account-manager-container .typeahead').editable({
+  _setupTypeaheadFields: function(order) {
+    $('.salesperson-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("sales_person_name", newValue); //update backbone model
+      },
+      source: "/users/search.json?search_by=name&sales=true",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name&sales=true',
+        valueKey: 'name'
+      }
+    });
+    $('.media-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("media_contact_name", newValue); //update backbone model
+      },
+      source: "/media_contacts/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/media_contacts/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+    $('.billing-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("billing_contact_name", newValue); //update backbone model
+      },
+      source: "/billing_contacts/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/billing_contacts/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+
+    $('.account-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("account_contact_name", newValue); //update backbone model
+      },
       source: "/users/search.json?search_by=name",
       typeahead: {
         minLength: 2,
@@ -306,11 +344,31 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
-    $('.salesperson-email .typeahead, .media-contact-email .typeahead, .account-contact-email .typeahead, .billing-contact-email .typeahead').editable({
-      source: "/users/search.json?search_by=email",
+    $('.account-manager-container .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("account_manager_name", newValue); //update backbone model
+      },
+      source: "/users/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+
+    $('.media-contact-email .typeahead').editable({
+      source: "/media_contacts/search.json?search_by=email",
       typeahead: { 
         minLength: 2,
-        remote: '/users/search.json?search=%QUERY&search_by=email',
+        remote: '/media_contacts/search.json?search=%QUERY&search_by=email',
+        valueKey: 'email'
+      }
+    });
+    $('.billing-contact-email .typeahead').editable({
+      source: "/billing_contacts/search.json?search_by=email",
+      typeahead: { 
+        minLength: 2,
+        remote: '/billing_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
       }
     });
@@ -345,7 +403,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
     $('.editable:not(.typeahead):not(.custom)').editable();
-    this._setupTypeaheadFields();
+    this._setupTypeaheadFields(order);
   },
 
   _showLineitemList: function(order) {
@@ -355,6 +413,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.fetch();
     }
 
+    this.lineItemList.setOrder(order);
     this._liSetCallbacksAndShow(this.lineItemList);
   },
 

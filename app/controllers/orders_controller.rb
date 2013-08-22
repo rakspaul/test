@@ -20,15 +20,29 @@ class OrdersController < ApplicationController
   end
 
   def create
+    reach_client = ReachClient.find_by! id: params[:order][:reach_client_id]
+    bc = find_or_create_billing_contact(params, reach_client)
+    mc = find_or_create_media_contact(params, reach_client)
+    sales_person = find_sales_person(params) 
+    am_params = params.require(:order).permit(:account_manager_name, 
+:account_manager_phone, :account_manager_email)
+
+    # :advertiser_name, :io_asset_filename
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
-    @order.sales_person_id = params[:order][:sales_person_id].to_i
+    @order.sales_person_id = sales_person.id
     @order.network = current_network
     @order.user = current_user
-    @order.save
 
-    respond_with(@order)
+    respond_to do |format|
+      if @order.save
+        io_detail = IoDetail.create! client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order: @order
+        format.json { render json: {status: 'success', order_id: @order.id} }
+      else
+        format.json { render json: {status: 'error', errors: @order.errors} }
+      end
+    end
   end
 
   def update
@@ -69,6 +83,24 @@ class OrdersController < ApplicationController
     end
 
     respond_with(@orders)
-  end 
-end
+  end
 
+private
+
+  def find_sales_person(params)
+    sp_params = params.require(:order).permit(:sales_person_name, 
+:sales_person_phone, :sales_person_email)
+    sp_name = sp_params[:sales_person_name].split(/\s+/)
+    User.sales_people.find_by!(first_name: sp_name.first, last_name: sp_name.last, email: sp_params[:sales_person_email])
+  end
+
+  def find_or_create_media_contact(params, reach_client)
+    mc_params = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
+    MediaContact.find_or_create_by!(name: mc_params[:media_contact_name], email: mc_params[:media_contact_email], phone: mc_params[:media_contact_phone], reach_client: reach_client)
+  end
+
+  def find_or_create_billing_contact(params, reach_client)
+    bc_params = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
+    BillingContact.find_or_create_by!(name: bc_params[:billing_contact_name], email: bc_params[:billing_contact_email], phone: bc_params[:billing_contact_phone], reach_client: reach_client)
+  end
+end

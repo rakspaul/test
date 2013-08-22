@@ -117,7 +117,7 @@
     }
   });
 
-  Orders.EditView = Backbone.Marionette.ItemView.extend({
+  /*Orders.EditView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/edit_order'],
     className: 'edit-order-region',
     ui: {
@@ -250,7 +250,7 @@
         minLength: 1
       });
     }
-  });
+  });*/
 
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/upload_order'],

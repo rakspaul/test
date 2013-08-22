@@ -39,3 +39,5 @@ json.account_manager_phone    io_detail.try(:account_manager).try(:phone_number)
 json.sales_person_unknown     sales_person_unknown
 json.account_manager_unknown  account_manager_unknown
 json.account_manager_email    io_detail.try(:account_manager).try(:email)
+
+json.reach_client_id          reach_client_id
