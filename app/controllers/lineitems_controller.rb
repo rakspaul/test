@@ -34,9 +34,14 @@ class LineitemsController < ApplicationController
     p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
     @lineitem = @order.lineitems.build(p)
     @lineitem.user = current_user
-    @lineitem.save
 
-    respond_with(@lineitem)
+    respond_to do |format|
+      if @lineitem.save
+        format.json { render json: {status: 'success', li_id: @lineitem.id} }
+      else
+        format.json { render json: {status: 'error', errors: @lineitem.errors} }
+      end
+    end
   end
 
   def update

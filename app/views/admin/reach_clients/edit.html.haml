@@ -1,0 +1,9 @@
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.ReachClients.ReachClientController();
+      controller.initializeForEditReachClient('#{@reach_client.id}');
+  });

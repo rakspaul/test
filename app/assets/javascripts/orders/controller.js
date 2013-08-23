@@ -68,9 +68,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    this.orderList.fetch();
-    this.orderDetailsLayout.top.close();
-    this.orderDetailsLayout.bottom.close();
+    //this.orderList.fetch();
+    //this.orderDetailsLayout.top.close();
+    //this.orderDetailsLayout.bottom.close();
+    var order = new ReachUI.Orders.Order();
+    var uploadView = new ReachUI.Orders.UploadView();
+
+    if(this.selectedOrder) {
+      this.selectedOrder.unselect();
+    }
+
+    uploadView.on('io:uploaded', this._ioUploaded, this);
+    this.orderDetailsLayout.top.show(uploadView);
+    //this.orderDetailsLayout.bottom.show(view);
   },
 
   newOrder: function() {
@@ -107,16 +117,24 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
+
     view.on('order:save', this._saveOrder, this);
     view.on('order:close', function() {
       window.history.back();
     });
   },
 
-  _ioUploaded: function(orderModel) {
+  _ioUploaded: function(orderModel, lineItems) {
     this.orderList.unshift(orderModel);
     // view order
-    ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
+    if(orderModel.id) {
+      ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
+    } else {
+      // just uploaded model (w/o id, source_id)
+      this._showOrderDetails(orderModel);
+      lineItems.setOrder(orderModel);
+      this._liSetCallbacksAndShow(lineItems);
+    }
   },
 
   _saveOrder: function(args) {
@@ -280,6 +298,94 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemController.show(newLineItem);
   },
 
+  _setupTypeaheadFields: function(order) {
+    $('.salesperson-name .typeahead').editable({
+      source: "/users/search.json?search_by=name&sales=true",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name&sales=true',
+        valueKey: 'name'
+      }
+    });
+    $('.salesperson-name').on('typeahead:selected', function(ev, el) {
+      order.set("sales_person_name", el.name);//update backbone model
+      order.set("sales_person_email", el.email);
+      order.set("sales_person_phone", el.phone);
+      $('.salesperson-phone span').html(el.phone);
+      $('.salesperson-email span').html(el.email);
+    });
+
+    $('.media-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("media_contact_name", newValue); //update backbone model
+      },
+      source: "/media_contacts/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/media_contacts/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+
+    $('.billing-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("billing_contact_name", newValue); //update backbone model
+      },
+      source: "/billing_contacts/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/billing_contacts/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+
+    $('.account-contact-name .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("account_contact_name", newValue); //update backbone model
+      },
+      source: "/users/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+    $('.account-contact-name').on('typeahead:selected', function(ev, el) {
+      order.set("account_contact_name", el.name);//update backbone model
+      order.set("account_contact_email", el.email);
+      order.set("account_contact_phone", el.phone);
+      $('.account-contact-phone span').html(el.phone);
+      $('.account-contact-email span').html(el.email);
+    });
+
+    $('.media-contact-email .typeahead').editable({
+      source: "/media_contacts/search.json?search_by=email",
+      typeahead: { 
+        minLength: 2,
+        remote: '/media_contacts/search.json?search=%QUERY&search_by=email',
+        valueKey: 'email'
+      }
+    });
+    $('.billing-contact-email .typeahead').editable({
+      source: "/billing_contacts/search.json?search_by=email",
+      typeahead: { 
+        minLength: 2,
+        remote: '/billing_contacts/search.json?search=%QUERY&search_by=email',
+        valueKey: 'email'
+      }
+    });
+    $('.advertiser-name input').typeahead({
+      name: 'advertiser-names',
+      remote: '/advertisers.json?search=%QUERY',
+      valueKey: 'name'
+    });
+    $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
+      $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+      order.set("advertiser_id", el.id);
+      order.set("advertiser_name", el.name);
+    });
+  },
+
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
     detailOrderView.on('order:edit', function(args) {
@@ -291,6 +397,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       window.location.href = '/orders/'+ order.id +'/export.xls';
     });
     this.orderDetailsLayout.top.show(detailOrderView);
+
+    //turn x-editable plugin to inline mode
+    $.fn.editable.defaults.mode = 'inline';
+    $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
+    
+    $('.total-media-cost .editable.custom').editable({
+      validate: function(value) {
+        if(value.match(/[^\d\.,]+/)) {
+          return 'This field should contain only digits';
+        }
+      }
+    });
+    $('.editable:not(.typeahead):not(.custom)').editable();
+    this._setupTypeaheadFields(order);
   },
 
   _showLineitemList: function(order) {
@@ -300,15 +420,22 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.fetch();
     }
 
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: this.lineItemList})
+    this.lineItemList.setOrder(order);
+    this._liSetCallbacksAndShow(this.lineItemList);
+  },
+
+  _liSetCallbacksAndShow: function(lineItemList) {
+    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+
     lineItemListView.on('lineitem:create', function(args) {
       ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
     }, this);
 
-    lineItemListView.on('itemview:lineitem:show', function(view) {
-      this.selectedLineItem = view.model;
-      ReachUI.Orders.router.navigate('/'+ view.model.get("order_id") +'/lineitems/' + view.model.id, {trigger: true});
-    }, this);
+    lineItemListView.on('itemview:lineitem:add_ad', function(view) {
+      var ad = new ReachUI.Ads.Ad();
+      var adsView = new ReachUI.Ads.AdView({model: ad});
+      view.ui.ads_list.append(adsView.render().el);
+    });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);
   }

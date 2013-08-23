@@ -18,8 +18,9 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
-//= require twitter/bootstrap/typeahead
+//= require typeahead
 //= require twitter/bootstrap/modal
+//= require bootstrap-editable.js
 //= require jquery-fileupload/basic
 //= require moment.min
 //= require mousetrap.min
@@ -44,6 +45,9 @@
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
+//= require ./ads/ads.js
 //= require ./orders/controller.js
 //= require ./orders/router.js
 //= require ./nielsen_ocr
+//= require ./admin/reach_clients.js
+//= require ./admin/reach_client_controller.js

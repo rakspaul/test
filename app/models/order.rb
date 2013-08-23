@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+
   has_paper_trail ignore: [:updated_at]
 
   belongs_to :advertiser, foreign_key: :network_advertiser_id
@@ -8,6 +9,7 @@ class Order < ActiveRecord::Base
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
   has_one :nielsen_campaign
+  has_one :io_detail
 
   has_many :lineitems, -> { order('name') }, inverse_of: :order
   has_many :io_assets
@@ -16,7 +18,7 @@ class Order < ActiveRecord::Base
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
   validate :validate_start_date, on: :create
-  validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_sales_people, :validate_end_date_after_start_date
+  validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
 
@@ -30,6 +32,18 @@ class Order < ActiveRecord::Base
     where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
   end
 
+  def total_impressions
+    self.lineitems.inject(0){|sum, li| sum += li.volume.to_i }
+  end
+
+  def total_cpm
+    self.lineitems.inject(0.0){|sum, li| sum += li.rate.to_f }
+  end
+
+  def total_media_cost
+    self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
+  end
+
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)
@@ -41,12 +55,6 @@ class Order < ActiveRecord::Base
 
     def validate_user_id
       errors.add :user_id, "is invalid" unless User.exists?(self.user_id)
-    end
-
-    def validate_sales_people
-      if self.sales_person_id.to_i > 0
-        errors.add :sales_person_id, "is invalid" unless SalesPeople.exists?(self.sales_person_id)
-      end
     end
 
     def validate_start_date

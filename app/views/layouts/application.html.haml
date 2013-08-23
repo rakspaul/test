@@ -6,6 +6,7 @@
     %meta{:content => "Collective Reach UI", :name => "description"}
     %meta{:content => "Collective", :name => "author"}
     = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "http://fonts.googleapis.com/css?family=Armata"
     = javascript_include_tag "application"
     = csrf_meta_tags
     = yield(:head)
@@ -37,4 +38,4 @@
       = render_crumbs separator: "&nbsp;&nbsp;/&nbsp;&nbsp;".html_safe , last_crumb_linked: false
 
     .app_content
-      = yield
+      = content_for?(:content) ? yield(:content) : yield

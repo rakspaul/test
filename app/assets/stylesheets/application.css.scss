@@ -14,6 +14,8 @@
  *= require daterangepicker
  *= require datepicker
  *= require chosen.min
+ *= require bootstrap-editable
+ *= require typeahead
  *= require_self
  */
 
@@ -26,6 +28,8 @@
 @import "lineitem.css.scss";
 @import "reports/report.css.scss";
 @import "nielsen_ocr.css.scss";
+@import "admin/admin.css.scss";
+@import "io_import.css.scss";
 
 $borderColor: #eee;
 $light-background: #f7f7f7;
@@ -37,7 +41,7 @@ $light-background: #f7f7f7;
 }
 
 body {
-  font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-family: 'Armata', Arial, sans-serif;
 }
 
 .daterangepicker td.in-range {

@@ -38,111 +38,60 @@
   });
 
   LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    className: 'lineitem-row',
+    tagName: 'div',
+    className: 'lineitem pure-g',
     template: JST['templates/lineitems/line_item_row'],
 
+    ui: {
+      ads_list: '.ads-container',
+    },
+
     triggers: {
-      'click': 'lineitem:show'
+      'click': 'lineitem:show',
+      'click .li-number': 'lineitem:add_ad'
     }
   });
 
   LineItems.LineItemListView = Backbone.Marionette.CompositeView.extend({
     itemView: LineItems.LineItemView,
-    itemViewContainer: 'tbody',
+    itemViewContainer: '.lineitems-container',
     template: JST['templates/lineitems/line_item_table'],
-    className: 'table-container',
+    className: 'lineitems-container',
 
-    triggers: {
-      'click .create': 'lineitem:create'
-    }
-  });
-
-  LineItems.LineItemLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/lineitems/line_item_detail_layout'],
-    className: 'lineitem-details',
-
-    regions: {
-      properties: '.properties-region',
-      adsizes: '.ad-sizes-region',
-    },
-
-    triggers: {
-      'click .save-lineitem': 'lineitem:save',
-      'click .close-lineitem': 'lineitem:close'
-    },
-
-    initialize: function() {
-      _.bindAll(this, '_close_form');
-      Mousetrap.bind(['esc'], this._close_form);
-    },
-
-    onClose: function() {
-      Mousetrap.unbind('esc');
-    },
-
-    _close_form: function() {
-      this.trigger('lineitem:close');
-    }
-  });
-
-  LineItems.LineItemDetailView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/lineitems/line_item_detail'],
-
-    ui: {
-      name: '#name',
-      active: '#active',
-      flight: '#flight',
-      flight_container: '.flight-input',
-      start_date: '#start_date',
-      end_date: '#end_date',
-      volume: '#volume',
-      rate: '#rate',
-      media_cost: '#media_cost',
-      name_error: '#name_error',
-      start_date_error: '#start_date_error',
-      end_date_error: '#end_date_error',
-      volume_error: '#volume_error',
-      rate_error: '#rate_error'
+    _saveOrder: function(ev) {
+      var lineitems = this.collection;
+      this.collection.order.save({}, {
+        success: function(model, response, options) {
+          // error handling
+          if(response.status == "error") {
+            _.each(response.errors, function(error, key) {
+              console.log(key);
+              console.log(error);
+            });
+          } else if(response.status == "success") {
+            var order_id = response.order_id;
+            _.each(lineitems.models, function(model) { 
+              model.save({order_id: order_id}, {
+                success: function(){
+                  ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
+                }
+              });
+            });
+          }
+        },
+        error: function(model, xhr, options) {
+          alert('There was an error while saving Order.');
+          console.log(xhr.responseJSON);
+        }
+      });
     },
 
     events: {
-      'change #volume': '_calculate_media_cost',
-      'change #rate': '_calculate_media_cost'
+      'click .save-order-btn': '_saveOrder'
     },
 
-    onDomRefresh: function() {
-      // initial flight values
-      this.ui.start_date.val(this.model.get("start_date"));
-      this.ui.end_date.val(this.model.get("end_date"));
-
-      var self = this;
-      this.ui.flight_container.daterangepicker({
-          format: 'YYYY-MM-DD',
-          separator: ' to ',
-          startDate: this.ui.start_date.val(),
-          endDate: this.ui.end_date.val()
-        },
-        function(start, end) {
-          if(start) {
-            self.ui.start_date.val(start.format("YYYY-MM-DD"));
-            self.ui.end_date.val(end.format("YYYY-MM-DD"));
-            self.ui.flight.text(self.ui.start_date.val() + " to " + self.ui.end_date.val());
-          }
-        });
-
-      this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
-      this._calculate_media_cost();
-    },
-
-    onClose: function() {
-      this.ui.flight_container.daterangepicker('destroy');
-    },
-
-    _calculate_media_cost: function() {
-      var imps = parseInt(this.ui.volume.val(), 10),
-        cpm = parseFloat(this.ui.rate.val(), 10);
-      this.ui.media_cost.val(imps/1000 * cpm);
+    triggers: {
+      'click .create': 'lineitem:create'
     }
   });
 
