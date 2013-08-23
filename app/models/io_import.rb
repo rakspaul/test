@@ -3,11 +3,12 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, :reach_client, 
+  attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client, 
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_manager_unknown, :media_contact_unknown, :billing_contact_unknown
 
   def initialize(file, current_user)
+    @io_file_path         = file.path
     @reader               = IOExcelFileReader.new(file)
     @current_user         = current_user
     @original_filename    = file.original_filename
@@ -32,8 +33,6 @@ class IoImport
 
     read_order_and_details
     read_lineitems
-
-    #save_io_to_disk
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
@@ -130,60 +129,21 @@ class IoImport
       bc = @reader.billing_contact
       BillingContact.where(name: bc[:name], email: bc[:email]).first
     end
-
-    def save
-      validate
-
-      if errors.empty?
-        @order.transaction do
-          @order.save!
-          @io_details.save!
-          @lineitems.each(&:save!)
-          save_io_to_disk
-        end
-      end
-
-      errors.empty?
-    end
-
-    def validate
-      unless @order.valid?
-        @order.errors.full_messages.each do |message|
-          errors.add "Order", message
-        end
-      end
-
-      unless @lineitems.map(&:valid?).all?
-        @lineitems.each_with_index do |lineitem, index|
-          lineitem.errors.full_messages.each do |message|
-            errors.add "Lineitem", "Row #{IOExcelFileReader::LINE_ITEM_START_ROW + index}: #{message}"
-          end
-        end
-      end
-
-      if @lineitems.empty?
-        errors.add "Lineitem", "No lineitems found."
-      end
-    end
-
-    def save_io_to_disk
-      writer = IOFileWriter.new("file_store/io_imports", @reader.file, @order)
-      writer.write
-    end
 end
 
 class IOFileWriter
-  def initialize(location, file_object, order)
+  def initialize(location, file_object, original_filename, order)
     @location = location
     @file = file_object
     @order = order
+    @original_filename = original_filename
   end
 
   def write
     path = prepare_store_location
     File.open(path, "wb") {|f| f.write(@file.read) }
 
-    @order.io_assets.create({asset_upload_name: @file.original_filename, asset_path: path})
+    @order.io_assets.create({asset_upload_name: @original_filename, asset_path: path})
   end
 
   private
@@ -192,7 +152,7 @@ class IOFileWriter
       location = "#{@location}/#{@order.advertiser.id}"
       FileUtils.mkdir_p(location) unless Dir.exists?(location)
 
-      file_name = "#{@order.id}_#{@order.io_assets.count}_#{@file.original_filename}"
+      file_name = "#{@order.id}_#{@order.io_assets.count}_#{@original_filename}"
       File.join(location, file_name)
     end
 end

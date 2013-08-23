@@ -20,14 +20,19 @@ class OrdersController < ApplicationController
   end
 
   def create
-    reach_client = ReachClient.find_by! id: params[:order][:reach_client_id]
+    reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
+    if !reach_client
+      render json: {status: 'error', errors: {reach_client: 'should be specified'} }
+      return 
+    end
+
     bc = find_or_create_billing_contact(params, reach_client)
     mc = find_or_create_media_contact(params, reach_client)
     sales_person = find_sales_person(params) 
     am_params = params.require(:order).permit(:account_manager_name, 
 :account_manager_phone, :account_manager_email)
 
-    # :advertiser_name, :io_asset_filename
+    # :io_asset_filename
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
@@ -37,7 +42,10 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        io_detail = IoDetail.create! client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order: @order
+        IoDetail.create! client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order: @order
+
+        store_io_asset(params)
+
         format.json { render json: {status: 'success', order_id: @order.id} }
       else
         format.json { render json: {status: 'error', errors: @order.errors} }
@@ -102,5 +110,12 @@ private
   def find_or_create_billing_contact(params, reach_client)
     bc_params = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
     BillingContact.find_or_create_by!(name: bc_params[:billing_contact_name], email: bc_params[:billing_contact_email], phone: bc_params[:billing_contact_phone], reach_client: reach_client)
+  end
+
+  def store_io_asset params
+    file = File.open(params[:order][:io_file_path])
+    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
+    writer.write
+    file.close
   end
 end

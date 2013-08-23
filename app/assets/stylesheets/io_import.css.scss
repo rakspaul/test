@@ -1,6 +1,7 @@
 $text_color: #005c97;
 $bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
+$error_bg: #ff7d78;
 
 .clearfix { clear:both }
 
@@ -18,6 +19,19 @@ $li_number_bg: #007ac9;
     color:#999;
     font-weight:bold;
     font-family: 'Armata', sans-serif;
+  }
+
+  .field.advertiser-name p {
+    height: 40px;
+  }
+
+  .field.advertiser-name .tt-query {
+    background: url(magnifier_icon.png) 2px 5px no-repeat;
+    padding-left:20px;
+  }
+
+  .field.advertiser-name .tt-hint {
+    padding-left:20px;
   }
 
   .field {
@@ -47,8 +61,16 @@ $li_number_bg: #007ac9;
     }
   
     .advertiser-unknown {
-      background: red;
-      padding: 5px 5px 35px 5px;
+      background: $error_bg;
+      padding: 5px 2px 35px 2px;
+    }
+
+    .advertiser-unknown:after {
+      content: "Choose DFP advertiser name";
+      float: left;
+      position: relative;
+      top: -5px;
+      left: 7px;
     }
   }
 
@@ -114,6 +136,7 @@ $li_number_bg: #007ac9;
       float:left;
       padding-left:10px;
       color: $text_color;
+      width: 73%;
 
       span {
         text-decoration: underline;
@@ -127,6 +150,10 @@ $li_number_bg: #007ac9;
       float:right;
       font-size:12px;
     }
+  }
+
+  .trafficker-container {
+    float: right;
   }
 }
 

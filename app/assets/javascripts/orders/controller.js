@@ -300,9 +300,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _setupTypeaheadFields: function(order) {
     $('.salesperson-name .typeahead').editable({
-      success: function(response, newValue) {
-        order.set("sales_person_name", newValue); //update backbone model
-      },
       source: "/users/search.json?search_by=name&sales=true",
       typeahead: {
         minLength: 2,
@@ -310,6 +307,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
+    $('.salesperson-name').on('typeahead:selected', function(ev, el) {
+      order.set("sales_person_name", el.name);//update backbone model
+      order.set("sales_person_email", el.email);
+      order.set("sales_person_phone", el.phone);
+      $('.salesperson-phone span').html(el.phone);
+      $('.salesperson-email span').html(el.email);
+    });
+
     $('.media-contact-name .typeahead').editable({
       success: function(response, newValue) {
         order.set("media_contact_name", newValue); //update backbone model
@@ -321,6 +326,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
+
     $('.billing-contact-name .typeahead').editable({
       success: function(response, newValue) {
         order.set("billing_contact_name", newValue); //update backbone model
@@ -344,16 +350,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
-    $('.account-manager-container .typeahead').editable({
-      success: function(response, newValue) {
-        order.set("account_manager_name", newValue); //update backbone model
-      },
-      source: "/users/search.json?search_by=name",
-      typeahead: {
-        minLength: 2,
-        remote: '/users/search.json?search=%QUERY&search_by=name',
-        valueKey: 'name'
-      }
+    $('.account-contact-name').on('typeahead:selected', function(ev, el) {
+      order.set("account_contact_name", el.name);//update backbone model
+      order.set("account_contact_email", el.email);
+      order.set("account_contact_phone", el.phone);
+      $('.account-contact-phone span').html(el.phone);
+      $('.account-contact-email span').html(el.email);
     });
 
     $('.media-contact-email .typeahead').editable({
@@ -376,6 +378,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
       valueKey: 'name'
+    });
+    $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
+      $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+      order.set("advertiser_id", el.id);
+      order.set("advertiser_name", el.name);
     });
   },
 
