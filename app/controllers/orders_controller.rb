@@ -15,7 +15,9 @@ class OrdersController < ApplicationController
       sort_column = "network_advertisers.name"
     end
 
-    order_array = Order.includes(:advertiser, :io_detail).of_network(current_network).order(sort_column + " " + sort_direction)
+    order_array = Order.includes(:advertiser).of_network(current_network)
+                  .joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
+                  .order(sort_column + " " + sort_direction)
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50);
     @users = User.of_network(current_network)
   end
