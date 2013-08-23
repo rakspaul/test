@@ -1,25 +1,13 @@
 class OrdersController < ApplicationController
   include Authenticator
 
+  before_filter :set_users_and_orders, :only => [:index, :show]
+
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
   respond_to :html, :json
 
   def index
-    sort_column = params[:sort_column]? params[:sort_column] : "name"
-    sort_direction = params[:sort_direction]? params[:sort_direction] : "asc"
-
-    if sort_column == "order_name"
-      sort_column = "name"
-    elsif sort_column == "advertiser"
-      sort_column = "network_advertisers.name"
-    end
-
-    order_array = Order.includes(:advertiser).of_network(current_network)
-                  .joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
-                  .order(sort_column + " " + sort_direction)
-    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50);
-    @users = User.of_network(current_network)
   end
 
   def show
@@ -102,6 +90,23 @@ class OrdersController < ApplicationController
 
 private
 
+  def set_users_and_orders
+    sort_column = params[:sort_column]? params[:sort_column] : "name"
+    sort_direction = params[:sort_direction]? params[:sort_direction] : "asc"
+
+    if sort_column == "order_name"
+      sort_column = "name"
+    elsif sort_column == "advertiser"
+      sort_column = "network_advertisers.name"
+    end
+
+    order_array = Order.includes(:advertiser).of_network(current_network)
+                  .joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
+                  .order(sort_column + " " + sort_direction)
+    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
+    @users = User.of_network(current_network)
+  end
+
   def find_sales_person(params)
     sp_params = params.require(:order).permit(:sales_person_name, 
 :sales_person_phone, :sales_person_email)
@@ -111,12 +116,18 @@ private
 
   def find_or_create_media_contact(params, reach_client)
     mc_params = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
-    MediaContact.find_or_create_by!(name: mc_params[:media_contact_name], email: mc_params[:media_contact_email], phone: mc_params[:media_contact_phone], reach_client: reach_client)
+    mc = MediaContact.find_or_create_by!(name: mc_params[:media_contact_name], email: mc_params[:media_contact_email], phone: mc_params[:media_contact_phone])
+    mc.reach_clients << reach_client
+    mc.save
+    mc
   end
 
   def find_or_create_billing_contact(params, reach_client)
     bc_params = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
-    BillingContact.find_or_create_by!(name: bc_params[:billing_contact_name], email: bc_params[:billing_contact_email], phone: bc_params[:billing_contact_phone], reach_client: reach_client)
+    bc = BillingContact.find_or_create_by!(name: bc_params[:billing_contact_name], email: bc_params[:billing_contact_email], phone: bc_params[:billing_contact_phone])
+    bc.reach_clients << reach_client
+    bc.save
+    bc
   end
 
   def store_io_asset params
