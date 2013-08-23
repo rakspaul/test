@@ -20,11 +20,6 @@
     </div>
   </div>
 
-  <div class="field account-manager-container">
-    <span>Account Manager</span>
-    <span class="editable typeahead" data-type="typeahead" data-pk="1" data-url="/account_managers">Alexandra Piechota</span>
-  </div>
-
   <div class="field trafficker-container">
     <span>Trafficker</span>
     <span class="editable typeahead" data-type="typeahead" data-pk="1" data-url="/traffickers">Senthil Pandian</span>
@@ -45,7 +40,7 @@
             <input type="text" autocomplete="off" name="advertiser_name"/>
           </span>
         </div>
-        <div class="field advertiser-name">
+        <div class="field client-advertiser-name">
           <p>Client's Advertiser Name</p>
           <span><%= order.client_advertiser_name %></span>
         </div>
@@ -80,15 +75,15 @@
             <img src="/assets/salesperson_icon.png" title="Sales person" alt="Sales person"/>
             Salesperson
           </p>
-          <span class="editable typeahead" data-name="salesperson_name" data-pk="1" data-type="typeahead" data-pk="1" data-url="/orders/<%= order.id %>"><%= order.sales_person_name %></span>
+          <span class="editable typeahead" data-name="salesperson_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
         </div>
         <div class="field salesperson-phone">
           <p>Phone</p>
-          <span class="editable" data-type="text" data-pk="1" data-name="salesperson_phone" data-url="/orders/<%= order.id %>"><%= order.sales_person_phone %></span>
+          <span data-type="text" data-pk="1" data-name="salesperson_phone"><%= order.sales_person_phone %></span>
         </div>
         <div class="field salesperson-email">
           <p>Email</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="salesperson_email" data-url="/orders/<%= order.id %>"><%= order.sales_person_email %></span>
+          <span data-type="typeahead" data-pk="1" data-name="salesperson_email"><%= order.sales_person_email %></span>
         </div>
 
         <div class="field media-contact-name">
@@ -99,19 +94,19 @@
             <img src="/assets/media_contact_icon.png" title="Media Contact" alt="Media Contact"/>
             Media Contact
           </p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-company">
           <p>Company</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company" data-url="/orders/<%= order.id %>"><%= order.media_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company"><%= order.media_contact_name %></span>
         </div>
         <div class="field media-contact-phone">
           <p>Phone</p>
-          <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone" data-url="/orders/<%= order.id %>"><%= order.media_contact_phone %></span>
+          <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone"><%= order.media_contact_phone %></span>
         </div>
         <div class="field media-contact-email">
           <p>Email</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email" data-url="/orders/<%= order.id %>"><%= order.media_contact_email %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email"><%= order.media_contact_email %></span>
         </div>
       </div>
 
@@ -124,15 +119,15 @@
             <img src="/assets/account_contact_icon.png" title="Account Manager" alt="Account Manager"/>
             Account Contact
           </p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name" data-url="/orders/<%= order.id %>"><%= order.account_manager_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_manager_name %></span>
         </div>
         <div class="field account-contact-phone">
           <p>Phone</p>
-          <span  class="editable" data-type="text" data-pk="1" data-name="account_contact_phone" data-url="/orders/<%= order.id %>"><%= order.account_manager_phone %></span>
+          <span data-type="text" data-pk="1" data-name="account_contact_phone"><%= order.account_manager_phone %></span>
         </div>
         <div class="field account-contact-email">
           <p>Email</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_email" data-url="/orders/<%= order.id %>"><%= order.account_manager_email %></span>
+          <span data-type="typeahead" data-pk="1" data-name="account_contact_email"><%= order.account_manager_email %></span>
         </div>
 
         <div class="field billing-contact-name">
@@ -143,19 +138,19 @@
             <img src="/assets/billing_contact_icon.png" title="Billing Contact" alt="Billing Contact"/>
             Billing Contact
           </p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-company">
           <p>Company</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company" data-url="/orders/<%= order.id %>"><%= order.billing_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company"><%= order.billing_contact_name %></span>
         </div>
         <div class="field billing-contact-phone">
           <p>Phone</p>
-          <span class="editable" data-type="text" data-pk="1" data-name="billing_contact_phone" data-url="/orders/<%= order.id %>"><%= order.billing_contact_phone %></span>
+          <span class="editable" data-type="text" data-pk="1" data-name="billing_contact_phone"><%= order.billing_contact_phone %></span>
         </div>
         <div class="field billing-contact-email">
           <p>Email</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_email" data-url="/orders/<%= order.id %>"><%= order.billing_contact_email %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_email"><%= order.billing_contact_email %></span>
         </div>
       </div>
     </div>

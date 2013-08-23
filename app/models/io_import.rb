@@ -3,11 +3,12 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, 
+  attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client, 
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_manager_unknown, :media_contact_unknown, :billing_contact_unknown
 
   def initialize(file, current_user)
+    @io_file_path         = file.path
     @reader               = IOExcelFileReader.new(file)
     @current_user         = current_user
     @original_filename    = file.original_filename
@@ -32,8 +33,6 @@ class IoImport
 
     read_order_and_details
     read_lineitems
-
-    #save_io_to_disk
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
@@ -73,16 +72,16 @@ class IoImport
       @order.network = @current_user.network
       @order.advertiser = @advertiser
 
-      reach_client = ReachClient.find_by!(name: @reader.reach_client_name)
+      @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 
       @io_details = IoDetail.new :overall_status => :draft, :trafficking_status => :unreviewed, :account_manager_status => :unreviewed
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
       @io_details.reach_client         = reach_client
       @io_details.sales_person         = find_sales_person
-      @io_details.media_contact        = find_or_create_media_contact(reach_client)
+      @io_details.media_contact        = find_media_contact
 
-      @io_details.billing_contact      = find_or_create_billing_contact(reach_client)
+      @io_details.billing_contact      = find_billing_contact
 
       @io_details.trafficking_contact  = User.find_or_initialize_by(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], phone_number: @reader.trafficking_contact[:phone_number], email: @reader.trafficking_contact[:email])
 
@@ -121,77 +120,30 @@ class IoImport
       end
     end
 
-    def find_or_create_media_contact(reach_client)
-      mc = @reader.media_contact.merge(reach_client_id: reach_client.id)
-
-      # must be wrapped in the transaction because when the search is performed someone could 
-      # be inserting the record in the Database 
-      MediaContact.transaction do
-        MediaContact.where(name: mc[:name], email: mc[:email]).first || MediaContact.create!(mc)
-      end
+    def find_media_contact
+      mc = @reader.media_contact
+      MediaContact.where(name: mc[:name], email: mc[:email]).first
     end
 
-    def find_or_create_billing_contact(reach_client)
-      bc = @reader.billing_contact.merge(reach_client_id: reach_client.id)
-
-      BillingContact.transaction do
-        BillingContact.where(name: bc[:name], email: bc[:email]).first || BillingContact.create!(bc)
-      end
-    end
-
-    def save
-      validate
-
-      if errors.empty?
-        @order.transaction do
-          @order.save!
-          @io_details.save!
-          @lineitems.each(&:save!)
-          save_io_to_disk
-        end
-      end
-
-      errors.empty?
-    end
-
-    def validate
-      unless @order.valid?
-        @order.errors.full_messages.each do |message|
-          errors.add "Order", message
-        end
-      end
-
-      unless @lineitems.map(&:valid?).all?
-        @lineitems.each_with_index do |lineitem, index|
-          lineitem.errors.full_messages.each do |message|
-            errors.add "Lineitem", "Row #{IOExcelFileReader::LINE_ITEM_START_ROW + index}: #{message}"
-          end
-        end
-      end
-
-      if @lineitems.empty?
-        errors.add "Lineitem", "No lineitems found."
-      end
-    end
-
-    def save_io_to_disk
-      writer = IOFileWriter.new("file_store/io_imports", @reader.file, @order)
-      writer.write
+    def find_billing_contact
+      bc = @reader.billing_contact
+      BillingContact.where(name: bc[:name], email: bc[:email]).first
     end
 end
 
 class IOFileWriter
-  def initialize(location, file_object, order)
+  def initialize(location, file_object, original_filename, order)
     @location = location
     @file = file_object
     @order = order
+    @original_filename = original_filename
   end
 
   def write
     path = prepare_store_location
     File.open(path, "wb") {|f| f.write(@file.read) }
 
-    @order.io_assets.create({asset_upload_name: @file.original_filename, asset_path: path})
+    @order.io_assets.create({asset_upload_name: @original_filename, asset_path: path})
   end
 
   private
@@ -200,7 +152,7 @@ class IOFileWriter
       location = "#{@location}/#{@order.advertiser.id}"
       FileUtils.mkdir_p(location) unless Dir.exists?(location)
 
-      file_name = "#{@order.id}_#{@order.io_assets.count}_#{@file.original_filename}"
+      file_name = "#{@order.id}_#{@order.io_assets.count}_#{@original_filename}"
       File.join(location, file_name)
     end
 end
@@ -254,12 +206,12 @@ class IOExcelFileReader
   end
 
   def reach_client_name
-    @spreadsheet.cell(*REACH_CLIENT_CELL).strip
+    @spreadsheet.cell(*REACH_CLIENT_CELL).to_s.strip
   end
 
   def advertiser_name
     if @spreadsheet.cell(*ADVERTISER_LABEL_CELL).to_s.strip =~ /advertiser name/i
-      @spreadsheet.cell(*ADVERTISER_CELL).strip
+      @spreadsheet.cell(*ADVERTISER_CELL).to_s.strip
     end
   end
 
@@ -307,7 +259,7 @@ class IOExcelFileReader
 
   def order
     {
-      name: @spreadsheet.cell(*ORDER_NAME_CELL).strip,
+      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip,
       start_date: start_flight_date,
       end_date: finish_flight_date
     }
@@ -363,7 +315,7 @@ class IOExcelFileReader
       parts = name.split(/\W+/)
       case parts.length
       when 0..1
-        name
+        {first_name: name}
       when 2
         {first_name: parts[0], last_name: parts[1]}
       else

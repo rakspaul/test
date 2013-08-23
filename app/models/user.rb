@@ -26,6 +26,5 @@ class User < ActiveRecord::Base
   def self.of_network(network)
     where(:network => network)
   end
-
 end
 

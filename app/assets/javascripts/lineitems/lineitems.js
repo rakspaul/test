@@ -58,6 +58,38 @@
     template: JST['templates/lineitems/line_item_table'],
     className: 'lineitems-container',
 
+    _saveOrder: function(ev) {
+      var lineitems = this.collection;
+      this.collection.order.save({}, {
+        success: function(model, response, options) {
+          // error handling
+          if(response.status == "error") {
+            _.each(response.errors, function(error, key) {
+              console.log(key);
+              console.log(error);
+            });
+          } else if(response.status == "success") {
+            var order_id = response.order_id;
+            _.each(lineitems.models, function(model) { 
+              model.save({order_id: order_id}, {
+                success: function(){
+                  ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
+                }
+              });
+            });
+          }
+        },
+        error: function(model, xhr, options) {
+          alert('There was an error while saving Order.');
+          console.log(xhr.responseJSON);
+        }
+      });
+    },
+
+    events: {
+      'click .save-order-btn': '_saveOrder'
+    },
+
     triggers: {
       'click .create': 'lineitem:create'
     }

@@ -48,6 +48,19 @@ Reachui::Application.routes.draw do
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
+
+  resources :billing_contacts do
+    collection do
+      get :search
+    end
+  end
+
+  resources :media_contacts do
+    collection do
+      get :search
+    end
+  end
+
   resources :nielsen_ocrs, only: [:index, :show] do
     collection do
       get 'search'

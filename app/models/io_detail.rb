@@ -51,12 +51,17 @@ class IoDetail < ActiveRecord::Base
 
   state_machine :overall_status, initial: :draft do
     state :draft
+    state :saved
     state :reviewing
     state :rejected
     state :ready_for_push
     state :pushing
     state :failure
     state :active
+
+    event :review do
+      transition [:saved] => [:reviewing]
+    end
 
     event :approved_by_account_manager do
       transition [:reviewed_by_trafficking, :reviewed_by_account_manager] => :ready_for_push
@@ -67,7 +72,7 @@ class IoDetail < ActiveRecord::Base
     end
 
     event :revert_to_draft do
-      transition :running => :draft
+      transition [:running, :saved] => :draft
     end
 
     event :push do
