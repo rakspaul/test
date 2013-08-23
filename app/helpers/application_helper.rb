@@ -13,6 +13,11 @@ module ApplicationHelper
     "Nielsen OCR" => {
       controllers: ["NielsenOcrsController"],
       path: :nielsen_ocrs
+    },
+
+    "Admin" => {
+      controllers: ["Admin::ReachClientsController", "Admin::AudienceGroupsController", "Admin::ExcludeSitesController"],
+      path: :admin_reach_clients
     }
   }
 

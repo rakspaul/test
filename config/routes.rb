@@ -1,6 +1,4 @@
 Reachui::Application.routes.draw do
-  get "nielsen_ocr/index"
-  get "adsizes/index"
   root 'account_sessions#new'
 
   resource :account_session, :path => 'session', as: 'session', only: [:new, :create, :destroy]
@@ -9,11 +7,20 @@ Reachui::Application.routes.draw do
 
 
   namespace :reports do
-    resources :reports 
+    resources :reports
     resources :query
     resources :schedule_reports
     resources :dimensions
     resources :columns
+  end
+
+
+  namespace :admin do
+    resources :reach_clients
+    resources :audience_groups
+    resources :exclude_sites
+    resources :media_contacts
+    resources :billing_contacts
   end
 
   resources :users do
@@ -21,6 +28,7 @@ Reachui::Application.routes.draw do
       get 'search'
     end
   end
+
 
   resources :orders do
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
@@ -61,7 +69,7 @@ Reachui::Application.routes.draw do
 
   resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
-
+  resources :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

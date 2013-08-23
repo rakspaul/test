@@ -6,6 +6,20 @@ class OrdersController < ApplicationController
   respond_to :html, :json
 
   def index
+    sort_column = params[:sort_column]? params[:sort_column] : "name"
+    sort_direction = params[:sort_direction]? params[:sort_direction] : "asc"
+
+    if sort_column == "order_name"
+      sort_column = "name"
+    elsif sort_column == "advertiser"
+      sort_column = "network_advertisers.name"
+    end
+
+    order_array = Order.includes(:advertiser).of_network(current_network)
+                  .joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
+                  .order(sort_column + " " + sort_direction)
+    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50);
+    @users = User.of_network(current_network)
   end
 
   def show
@@ -14,7 +28,6 @@ class OrdersController < ApplicationController
       format.json do
         @order = Order.of_network(current_network)
               .includes(:advertiser).find(params[:id])
-        @io_details = @order.io_detail
       end
     end
   end
@@ -55,25 +68,19 @@ class OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
+    order_param = params[:order]
 
-    #@order.name = params[:name] if params[:name]
-
-    if params[:name] == "start_date"
-      @order.start_date = Time.zone.parse(params[:value])
-    end
-
-    if params[:name] == "end_date"
-      @order.end_date = Time.zone.parse(params[:value])
-    end
-
-    @order.network_advertiser_id = params[:advertiser_id].to_i if params[:advertiser_id]
-    @order.sales_person_id = params[:sales_person_id].to_i if params[:sales_person_id]
+    @order.name = params[:order][:name]
+    @order.start_date = Time.zone.parse(params[:order][:start_date])
+    @order.end_date = Time.zone.parse(params[:order][:end_date])
+    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
+    @order.sales_person_id = params[:order][:sales_person_id].to_i
 
     # Legacy orders might not have user's assigned to it. Therefore assign current user
     # as owner/creator of order
     @order.user = current_user if @order.user.nil?
 
-    @order.save if @order.changed?
+    @order.save
 
     respond_with(@order)
   end
