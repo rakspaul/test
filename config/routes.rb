@@ -40,6 +40,7 @@ Reachui::Application.routes.draw do
 
     collection do
       get 'search'
+      delete 'delete'
     end
     get 'export' => 'io_export#export'
   end

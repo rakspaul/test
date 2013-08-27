@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
   include Authenticator
 
-  before_filter :set_users_and_orders, :only => [:index, :show]
+  before_filter :set_users_and_orders, :only => [:index, :show, :delete]
 
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
@@ -24,11 +24,12 @@ class OrdersController < ApplicationController
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
     if !reach_client
       render json: {status: 'error', errors: {reach_client: 'should be specified'} }
-      return 
+      return
     end
 
     bc = find_or_create_billing_contact(params, reach_client)
     mc = find_or_create_media_contact(params, reach_client)
+
     sales_person = find_sales_person(params) 
     account_manager = find_account_manager(params)
 
@@ -87,6 +88,14 @@ class OrdersController < ApplicationController
     respond_with(@orders)
   end
 
+  def delete
+    ids = params[:ids]
+    Order.delete_all("id IN(#{ids})")
+    IoDetail.delete_all("order_id IN(#{ids})")
+
+    render :action => :index
+  end
+
 private
 
   def set_users_and_orders
@@ -99,9 +108,16 @@ private
       sort_column = "network_advertisers.name"
     end
 
+    if sort_column == "id"
+      sort_column = "source_id"
+      order_by = sort_column + "::integer" + " " + sort_direction
+    else
+      order_by = sort_column + " " + sort_direction
+    end
+
     order_array = Order.includes(:advertiser).of_network(current_network)
                   .joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
-                  .order(sort_column + " " + sort_direction)
+                  .order(order_by)
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network)
   end
