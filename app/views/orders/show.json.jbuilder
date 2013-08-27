@@ -7,5 +7,6 @@ json.partial! 'order',
     reach_client_id: @order.io_detail.try(:reach_client).try(:id),
     sales_person_unknown: false,
     account_manager_unknown: false,
-    io_file_path: ""
+    io_file_path: "",
+    reach_client_name: @order.io_detail.try(:reach_client).try(:name)
   }

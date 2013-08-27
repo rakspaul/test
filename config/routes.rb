@@ -49,6 +49,12 @@ Reachui::Application.routes.draw do
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
 
+  resources :reach_clients do
+    collection do
+      get :search
+    end
+  end
+
   resources :billing_contacts do
     collection do
       get :search

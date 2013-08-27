@@ -93,7 +93,7 @@ class IoImport
 
       @reader.lineitems do |lineitem|
         li = Lineitem.new(lineitem)
-        li.name = "#{@advertiser.try(:name)} | #{@order.name} | #{li.name}"
+        li.name = [@advertiser.try(:name), li.name].compact.join(' | ')
         li.order = @order
         li.user = @current_user
         @lineitems << li

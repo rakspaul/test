@@ -30,8 +30,7 @@ class OrdersController < ApplicationController
     bc = find_or_create_billing_contact(params, reach_client)
     mc = find_or_create_media_contact(params, reach_client)
     sales_person = find_sales_person(params) 
-    am_params = params.require(:order).permit(:account_manager_name, 
-:account_manager_phone, :account_manager_email)
+    account_manager = find_account_manager(params)
 
     # :io_asset_filename
     p = params.require(:order).permit(:name, :start_date, :end_date)
@@ -43,7 +42,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        IoDetail.create! client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order: @order
+        IoDetail.create! client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order: @order, account_manager: account_manager
 
         store_io_asset(params)
 
@@ -107,24 +106,30 @@ private
     @users = User.of_network(current_network)
   end
 
+  def find_account_manager(params)
+    p = params.require(:order).permit(:account_manager_name, 
+:account_manager_phone, :account_manager_email)
+    am_name = p[:account_manager_name].split(/\s+/)
+    User.find_by(first_name: am_name.first, last_name: am_name.last, email: p[:account_manager_email])
+  end
+
   def find_sales_person(params)
-    sp_params = params.require(:order).permit(:sales_person_name, 
-:sales_person_phone, :sales_person_email)
-    sp_name = sp_params[:sales_person_name].split(/\s+/)
-    User.sales_people.find_by!(first_name: sp_name.first, last_name: sp_name.last, email: sp_params[:sales_person_email])
+    sp = params.require(:order).permit(:sales_person_name, :sales_person_phone, :sales_person_email)
+    sp_name = sp[:sales_person_name].split(/\s+/)
+    User.sales_people.find_by!(first_name: sp_name.first, last_name: sp_name.last, email: sp[:sales_person_email])
   end
 
   def find_or_create_media_contact(params, reach_client)
-    mc_params = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
-    mc = MediaContact.find_or_create_by!(name: mc_params[:media_contact_name], email: mc_params[:media_contact_email], phone: mc_params[:media_contact_phone])
+    p = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
+    mc = MediaContact.find_or_create_by!(name: p[:media_contact_name], email: p[:media_contact_email], phone: p[:media_contact_phone])
     mc.reach_clients << reach_client
     mc.save
     mc
   end
 
   def find_or_create_billing_contact(params, reach_client)
-    bc_params = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
-    bc = BillingContact.find_or_create_by!(name: bc_params[:billing_contact_name], email: bc_params[:billing_contact_email], phone: bc_params[:billing_contact_phone])
+    p = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
+    bc = BillingContact.find_or_create_by!(name: p[:billing_contact_name], email: p[:billing_contact_email], phone: p[:billing_contact_phone])
     bc.reach_clients << reach_client
     bc.save
     bc

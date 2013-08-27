@@ -298,7 +298,44 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemController.show(newLineItem);
   },
 
+  _setupOrderDateFields: function(order) {
+    $('.order-details .start-date .editable.date').editable({
+      success: function(response, newValue) {
+        order.set("start_date", newValue); //update backbone model
+        $('.order-details .start-date .errors_container').html('');
+        $('.order-details .start-date').removeClass('field_with_errors');
+      },
+      datepicker: {
+        startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+      }
+    });
+
+    $('.order-details .end-date .editable.date').editable({
+      success: function(response, newValue) {
+        order.set("end_date", newValue); //update backbone model
+        $('.order-details .end-date .errors_container').html('');
+        $('.order-details .end-date').removeClass('field_with_errors');
+      },
+      datepicker: {
+        startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+      }
+    });
+  },
+
   _setupTypeaheadFields: function(order) {
+    $('.billing-contact-company .typeahead').editable({
+      source: "/reach_clients/search.json",
+      typeahead: {
+        minLength: 2,
+        remote: '/reach_clients/search.json?search=%QUERY',
+        valueKey: 'name'
+      }
+    });
+    $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
+      order.set("reach_client_name", el.name);//update backbone model
+      order.set("reach_client_id", el.id);
+    });
+
     $('.salesperson-name .typeahead').editable({
       source: "/users/search.json?search_by=name&sales=true",
       typeahead: {
@@ -311,8 +348,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("sales_person_name", el.name);//update backbone model
       order.set("sales_person_email", el.email);
       order.set("sales_person_phone", el.phone);
-      $('.salesperson-phone span').html(el.phone);
-      $('.salesperson-email span').html(el.email);
+      $('.salesperson-phone span').removeClass('editable-empty').html(el.phone);
+      $('.salesperson-email span').removeClass('editable-empty').html(el.email);
     });
 
     $('.media-contact-name .typeahead').editable({
@@ -326,6 +363,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
+    $('.media-contact-name').on('typeahead:selected', function(ev, el) {
+      $('.media-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.media-contact-email span').removeClass('editable-empty').html(el.email);
+      order.set("media_contact_name", el.name);//update backbone model
+      order.set("media_contact_email", el.email);
+      order.set("media_contact_phone", el.phone);
+    });
 
     $('.billing-contact-name .typeahead').editable({
       success: function(response, newValue) {
@@ -337,6 +381,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
+    });
+    $('.billing-contact-name').on('typeahead:selected', function(ev, el) {
+      $('.billing-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.billing-contact-email span').removeClass('editable-empty').html(el.email);
+      order.set("billing_contact_name", el.name);//update backbone model
+      order.set("billing_contact_email", el.email);
+      order.set("billing_contact_phone", el.phone);
     });
 
     $('.account-contact-name .typeahead').editable({
@@ -354,8 +405,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("account_contact_name", el.name);//update backbone model
       order.set("account_contact_email", el.email);
       order.set("account_contact_phone", el.phone);
-      $('.account-contact-phone span').html(el.phone);
-      $('.account-contact-email span').html(el.email);
+      $('.account-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.account-contact-email span').removeClass('editable-empty').html(el.email);
     });
 
     $('.media-contact-email .typeahead').editable({
@@ -411,6 +462,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
     $('.editable:not(.typeahead):not(.custom)').editable();
     this._setupTypeaheadFields(order);
+    this._setupOrderDateFields(order);
   },
 
   _showLineitemList: function(order) {
@@ -432,9 +484,25 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }, this);
 
     lineItemListView.on('itemview:lineitem:add_ad', function(view) {
-      var ad = new ReachUI.Ads.Ad();
+      // Ad name should be this format: 
+      // Client Abbreviated Name + Advertiser Name (C18) + Quarter (Q2) + Year + Ad Sizes
+      // Example: RE TW LA Sinus MD - Dr. Kayem Q213 300x250,728x90,160x600
+
+      var start_date = new Date(view.model.attributes.start_date);
+      var start_quarter = ReachUI.getQuarter(start_date);
+      var start_year = start_date.getFullYear() % 100;
+
+      var ad_name = view.model.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+view.model.attributes.ad_sizes;
+      var attrs = _.extend(view.model.attributes, {name: ad_name});
+      var ad = new ReachUI.Ads.Ad(attrs);
       var adsView = new ReachUI.Ads.AdView({model: ad});
       view.ui.ads_list.append(adsView.render().el);
+
+      $('.editable:not(.typeahead):not(.custom)').editable();
+      /*$('.ad .editable').click(function(ev) {
+        //ev.stopPropagation();
+        $('.ad .editable').not(this).editable('toggle');
+      });*/
     });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);

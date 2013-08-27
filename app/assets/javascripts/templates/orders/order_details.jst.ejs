@@ -54,11 +54,13 @@
         </div>
         <div class="field start-date">
           <p>Start Date</p>
-          <span class="editable date" data-type="date" data-pk="1" data-name="start_date"><%= order.start_date %></span>
+          <span class="editable date custom" data-type="date" data-pk="1" data-name="start_date"><%= order.start_date %></span>
+          <div class="errors_container"></div>
         </div>
         <div class="field end-date">
           <p>End Date</p>
-          <span class="editable date" data-type="date" data-pk="1" data-name="end_date"><%= order.end_date %></span>
+          <span class="editable date custom" data-type="date" data-pk="1" data-name="end_date"><%= order.end_date %></span>
+          <div class="errors_container"></div>
         </div>
         <div class="field total-media-cost">
           <p>Total Media Cost</p>
@@ -142,7 +144,8 @@
         </div>
         <div class="field billing-contact-company">
           <p>Company</p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company"><%= order.billing_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company"><%= order.reach_client_name %></span>
+          <div class="errors_container"></div>
         </div>
         <div class="field billing-contact-phone">
           <p>Phone</p>

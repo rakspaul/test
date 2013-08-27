@@ -8,7 +8,8 @@ json.order do
     sales_person_unknown: @io_import.sales_person_unknown,
     account_manager_unknown: @io_import.account_manager_unknown,
     reach_client_id: @io_import.reach_client.try(:id),
-    io_file_path: @io_import.io_file_path
+    io_file_path: @io_import.io_file_path,
+    reach_client_name: @io_import.reach_client.try(:name)
   }
 end
 
