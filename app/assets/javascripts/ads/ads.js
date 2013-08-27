@@ -43,12 +43,23 @@
     template: JST['templates/ads/ad_row'],
 
     events: {
-      'mouseover': '_show_delete_btn'
+      'mouseenter': '_show_delete_btn',
+      'mouseleave': '_hide_delete_btn',
+      'click .delete_btn': '_destroy_ad'
     },
 
     _show_delete_btn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').toggle();
+      this.$el.find('.delete_btn').show();
+    },
+
+    _hide_delete_btn: function(e) {
+      e.stopPropagation();
+      this.$el.find('.delete_btn').hide();
+    },
+    
+    _destroy_ad: function(e) {
+      this.remove();
     }
   });
 
