@@ -1,9 +1,20 @@
 $text_color: #005c97;
 $bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
-$error_bg: #ff7d78;
+$error_color: #ff7d78;
 
 .clearfix { clear:both }
+
+.field_with_errors {
+  border-bottom:1px solid $error_color;
+  border-left: 1px solid $error_color;
+  border-right: 1px solid $error_color;
+}
+
+.errors_container {
+  background-color: $error_color;
+  margin-top:5px;
+}
 
 .new-order-header {
   margin-top:30px;
@@ -37,7 +48,7 @@ $error_bg: #ff7d78;
   .field {
     width:300px;
     float:left;
-    padding:3px;
+    margin:3px;
 
     > p {
       text-align:right;
@@ -61,7 +72,7 @@ $error_bg: #ff7d78;
     }
   
     .advertiser-unknown {
-      background: $error_bg;
+      background: $error_color;
       padding: 5px 2px 35px 2px;
     }
 
@@ -197,7 +208,7 @@ $error_bg: #ff7d78;
       content: url("expand_li_btn.png");
       vertical-align: middle;
       position: relative;
-      left: -27px;
+      left: -3em;
       cursor: pointer;
     }
 
@@ -209,7 +220,7 @@ $error_bg: #ff7d78;
 
   .ads-container {
     .ad > div {
-      height: 50px;
+      height: 87px;
     }
 
     div[class^="pure-u"] {

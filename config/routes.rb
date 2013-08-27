@@ -40,6 +40,7 @@ Reachui::Application.routes.draw do
 
     collection do
       get 'search'
+      delete 'delete'
     end
     get 'export' => 'io_export#export'
   end
@@ -48,6 +49,12 @@ Reachui::Application.routes.draw do
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index]
   resources :sales_people, only: [:index]
+
+  resources :reach_clients do
+    collection do
+      get :search
+    end
+  end
 
   resources :billing_contacts do
     collection do

@@ -63,10 +63,18 @@
       this.collection.order.save({}, {
         success: function(model, response, options) {
           // error handling
+          var errors_fields_correspondence = {
+            reach_client: '.order-details .billing-contact-company',
+            start_date: '.order-details .start-date',
+            end_date: '.order-details .end-date'
+          };
           if(response.status == "error") {
             _.each(response.errors, function(error, key) {
               console.log(key);
+              var field_class = errors_fields_correspondence[key];
               console.log(error);
+              $(field_class + ' .errors_container').html(error);
+              $(field_class).addClass('field_with_errors');
             });
           } else if(response.status == "success") {
             var order_id = response.order_id;
