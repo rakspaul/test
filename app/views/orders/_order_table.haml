@@ -1,7 +1,10 @@
 - @orders.each do |order|
   %tr
     %td
-      %input{:name=>"test", :value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
+      -if !order.io_detail.nil? && order.io_detail.state != "draft"
+        %input{:name=>"test", :value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox", :disabled => true}
+      -else
+        %input{:name=>"test", :value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
       %td= order.source_id
       %td= order.name
       %td= order.advertiser.name
