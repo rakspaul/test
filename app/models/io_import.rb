@@ -5,7 +5,7 @@ class IoImport
 
   attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client, 
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
-:sales_person_unknown, :account_manager_unknown, :media_contact_unknown, :billing_contact_unknown
+:sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown
 
   def initialize(file, current_user)
     @io_file_path         = file.path
@@ -80,12 +80,11 @@ class IoImport
       @io_details.reach_client         = reach_client
       @io_details.sales_person         = find_sales_person
       @io_details.media_contact        = find_media_contact
-
       @io_details.billing_contact      = find_billing_contact
+      @io_details.client_order_id      = @reader.client_order_id
+      @io_details.account_manager      = find_account_contact
 
       @io_details.trafficking_contact  = User.find_or_initialize_by(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], phone_number: @reader.trafficking_contact[:phone_number], email: @reader.trafficking_contact[:email])
-
-      @io_details.account_manager      = find_account_manager
     end
 
     def read_lineitems
@@ -110,24 +109,34 @@ class IoImport
       end
     end
 
-    def find_account_manager
+    def find_account_contact
       params = { first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email] }
       if u = User.where(params).first
         u
       else
-        @account_manager_unknown = true
+        @account_contact_unknown = true
         User.new params.merge(phone_number: @reader.account_contact[:phone_number])
       end
     end
 
     def find_media_contact
-      mc = @reader.media_contact
-      MediaContact.where(name: mc[:name], email: mc[:email]).first
+      c = @reader.media_contact
+      mc = MediaContact.where(name: c[:name], email: c[:email]).first
+      if !mc
+        @media_contact_unknown = true
+        mc = MediaContact.new(name: c[:name], email: c[:email], phone: c[:phone])
+      end
+      mc
     end
 
     def find_billing_contact
-      bc = @reader.billing_contact
-      BillingContact.where(name: bc[:name], email: bc[:email]).first
+      c = @reader.billing_contact
+      bc = BillingContact.where(name: c[:name], email: c[:email]).first
+      if !bc
+        @billing_contact_unknown = true
+        bc = BillingContact.new(name: c[:name], email: c[:email], phone: c[:phone])
+      end
+      bc
     end
 end
 
@@ -162,37 +171,39 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
-  ADVERTISER_LABEL_CELL = ['A', 18]
-  ADVERTISER_CELL = ['C', 18]
-  ORDER_NAME_CELL = ['C', 19]
-  ORDER_START_FLIGHT_DATE = ['H', 25]
-  ORDER_END_FLIGHT_DATE = ['H', 26]
+  ADVERTISER_LABEL_CELL           = ['A', 18]
+  ADVERTISER_CELL                 = ['C', 18]
+  ORDER_NAME_CELL                 = ['C', 19]
+  ORDER_START_FLIGHT_DATE         = ['H', 25]
+  ORDER_END_FLIGHT_DATE           = ['H', 26]
 
-  ACCOUNT_CONTACT_NAME_CELL = ['E', 12]
-  ACCOUNT_CONTACT_PHONE_CELL = ['E', 13]
-  ACCOUNT_CONTACT_EMAIL_CELL = ['E', 14]
+  ACCOUNT_CONTACT_NAME_CELL       = ['E', 12]
+  ACCOUNT_CONTACT_PHONE_CELL      = ['E', 13]
+  ACCOUNT_CONTACT_EMAIL_CELL      = ['E', 14]
 
-  MEDIA_CONTACT_NAME_CELL = ['E', 17]
-  MEDIA_CONTACT_COMPANY_CELL = ['E', 18]
-  MEDIA_CONTACT_ADDRESS_CELL = ['E', 19]
-  MEDIA_CONTACT_PHONE_CELL = ['E', 20]
-  MEDIA_CONTACT_EMAIL_CELL = ['E', 21]
+  MEDIA_CONTACT_NAME_CELL         = ['E', 17]
+  MEDIA_CONTACT_COMPANY_CELL      = ['E', 18]
+  MEDIA_CONTACT_ADDRESS_CELL      = ['E', 19]
+  MEDIA_CONTACT_PHONE_CELL        = ['E', 20]
+  MEDIA_CONTACT_EMAIL_CELL        = ['E', 21]
 
-  TRAFFICKING_CONTACT_NAME_CELL = ['G', 12]
-  TRAFFICKING_CONTACT_PHONE_CELL = ['G', 13]
-  TRAFFICKING_CONTACT_EMAIL_CELL = ['G', 14]
+  TRAFFICKING_CONTACT_NAME_CELL   = ['G', 12]
+  TRAFFICKING_CONTACT_PHONE_CELL  = ['G', 13]
+  TRAFFICKING_CONTACT_EMAIL_CELL  = ['G', 14]
 
-  SALES_PERSON_NAME_CELL = ['C', 12]
-  SALES_PERSON_PHONE_CELL = ['C', 13]
-  SALES_PERSON_EMAIL_CELL = ['C', 14]
+  SALES_PERSON_NAME_CELL          = ['C', 12]
+  SALES_PERSON_PHONE_CELL         = ['C', 13]
+  SALES_PERSON_EMAIL_CELL         = ['C', 14]
 
-  BILLING_CONTACT_NAME_CELL = ['G', 17]
-  BILLING_CONTACT_COMPANY_CELL = ['G', 18]
-  BILLING_CONTACT_ADDRESS_CELL = ['G', 19]
-  BILLING_CONTACT_PHONE_CELL = ['G', 20]
-  BILLING_CONTACT_EMAIL_CELL = ['G', 21]
+  BILLING_CONTACT_NAME_CELL       = ['G', 17]
+  BILLING_CONTACT_COMPANY_CELL    = ['G', 18]
+  BILLING_CONTACT_ADDRESS_CELL    = ['G', 19]
+  BILLING_CONTACT_PHONE_CELL      = ['G', 20]
+  BILLING_CONTACT_EMAIL_CELL      = ['G', 21]
   
-  REACH_CLIENT_CELL = ['G', 18]
+  CLIENT_ORDER_ID_CELL            = ['C', 20]
+
+  REACH_CLIENT_CELL               = ['G', 18]
 
   attr_reader :file
 
@@ -203,6 +214,10 @@ class IOExcelFileReader
   def open
     @spreadsheet = open_based_on_file_extension
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
+  end
+
+  def client_order_id
+    @spreadsheet.cell(*CLIENT_ORDER_ID_CELL).to_i
   end
 
   def reach_client_name

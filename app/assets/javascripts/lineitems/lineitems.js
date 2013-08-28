@@ -42,6 +42,11 @@
     className: 'lineitem pure-g',
     template: JST['templates/lineitems/line_item_row'],
 
+    initialize: function(){
+      _.bindAll(this, "render");
+      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+    },
+
     ui: {
       ads_list: '.ads-container',
     },
@@ -59,6 +64,7 @@
     className: 'lineitems-container',
 
     _saveOrder: function(ev) {
+      this._clearAllErrors();
       var lineitems = this.collection;
       this.collection.order.save({}, {
         success: function(model, response, options) {
@@ -66,7 +72,11 @@
           var errors_fields_correspondence = {
             reach_client: '.order-details .billing-contact-company',
             start_date: '.order-details .start-date',
-            end_date: '.order-details .end-date'
+            end_date: '.order-details .end-date',
+            billing_contact: '.order-details .billing-contact-name',
+            media_contact: '.order-details .media-contact-name',
+            sales_person: '.order-details .salesperson-name',
+            account_manager: '.order-details .account-contact-name'
           };
           if(response.status == "error") {
             _.each(response.errors, function(error, key) {
@@ -100,6 +110,11 @@
 
     triggers: {
       'click .create': 'lineitem:create'
+    },
+
+    _clearAllErrors: function() {
+      $('.errors_container').html('');
+      $('.field').removeClass('field_with_errors');
     }
   });
 

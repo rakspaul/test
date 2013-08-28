@@ -33,12 +33,16 @@ json.media_contact_name       io_detail.try(:media_contact).try(:name)
 json.media_contact_email      io_detail.try(:media_contact).try(:email)
 json.media_contact_phone      io_detail.try(:media_contact).try(:phone)
 
-json.account_manager_name     io_detail.try(:account_manager).try(:full_name)
-json.account_manager_phone    io_detail.try(:account_manager).try(:phone_number)
-json.account_manager_email    io_detail.try(:account_manager).try(:email)
+json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
+json.account_contact_phone    io_detail.try(:account_manager).try(:phone_number)
+json.account_contact_email    io_detail.try(:account_manager).try(:email)
 
 json.sales_person_unknown     sales_person_unknown
-json.account_manager_unknown  account_manager_unknown
+json.account_contact_unknown  account_contact_unknown
+json.media_contact_unknown    media_contact_unknown
+json.billing_contact_unknown  billing_contact_unknown
 
 json.reach_client_id          reach_client_id
+json.reach_client_name        reach_client_name
 json.io_file_path             io_file_path
+json.client_order_id          io_detail.try(:client_order_id)

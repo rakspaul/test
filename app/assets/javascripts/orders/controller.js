@@ -131,6 +131,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
     } else {
       // just uploaded model (w/o id, source_id)
+      orderModel.lineItemList = lineItems;
       this._showOrderDetails(orderModel);
       lineItems.setOrder(orderModel);
       this._liSetCallbacksAndShow(lineItems);
@@ -301,7 +302,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _setupOrderDateFields: function(order) {
     $('.order-details .start-date .editable.date').editable({
       success: function(response, newValue) {
-        order.set("start_date", newValue); //update backbone model
+        var start_date = moment(newValue).format("YYYY-MM-DD");
+        _.each(order.lineItemList.models, function(li) {
+          li.set("start_date", start_date);
+        });
+        order.set("start_date", start_date); //update backbone model
         $('.order-details .start-date .errors_container').html('');
         $('.order-details .start-date').removeClass('field_with_errors');
       },
@@ -312,7 +317,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     $('.order-details .end-date .editable.date').editable({
       success: function(response, newValue) {
-        order.set("end_date", newValue); //update backbone model
+        var end_date = moment(newValue).format("YYYY-MM-DD");
+        _.each(order.lineItemList.models, function(li) {
+          li.set("end_date", end_date);
+        });
+        order.set("end_date", end_date); //update backbone model
         $('.order-details .end-date .errors_container').html('');
         $('.order-details .end-date').removeClass('field_with_errors');
       },
@@ -454,13 +463,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
     
     $('.total-media-cost .editable.custom').editable({
+      success: function(response, newValue) {
+        order.set("total_media_cost", newValue); //update backbone model
+      },
       validate: function(value) {
         if(value.match(/[^\d\.,]+/)) {
           return 'This field should contain only digits';
         }
       }
     });
-    $('.editable:not(.typeahead):not(.custom)').editable();
+    $('.editable:not(.typeahead):not(.custom)').editable({
+      success: function(response, newValue) {
+        order.set(this.dataset['name'], newValue); //update backbone model;
+      }
+    });
     this._setupTypeaheadFields(order);
     this._setupOrderDateFields(order);
   },
