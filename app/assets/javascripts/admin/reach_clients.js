@@ -53,11 +53,6 @@
   //   model: ReachClient.AccountManager,
   // });
 
-  // ReachClient.Trafficker = Backbone.Model.extend({});
-
-  // ReachClient.TraffickerList = Backbone.Collection.extend({
-  //   model: ReachClient.Trafficker,
-  // });
 
   ReachClient.User = Backbone.Model.extend({});
 
@@ -124,7 +119,6 @@
     ui: {
       sales_person: '#sales_person',
       account_manager: '#account_manager',
-      trafficker: '#trafficker',
     },
 
     initialize: function() {
@@ -141,8 +135,6 @@
         salesPerson: this.users,
         selected_account_manager_id: this.model.get('account_manager_id'),
         accountManager: this.users,
-        selected_trafficker_id: this.model.get('trafficking_contact_id'),
-        trafficker: this.users,
       }
     },
 
@@ -293,7 +285,12 @@
     },
 
     triggers: {
-      'click #save': 'save',
+      'click #btnSave': 'save',
+    },
+
+    ui:{
+      btnSave: '#btnSave',
+      btnClose: '#btnClose'
     },
 
   });
@@ -415,7 +412,6 @@
         abbr: this.clientDetailsView.ui.abbreviation.val(),
         address: this.clientDetailsView.ui.address.val(),
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
-        trafficking_contact_id: this.collectiveContactsView.ui.trafficker.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
       }
 
@@ -441,11 +437,17 @@
           uiControls[val].text("");
         });
 
+      this.layout.ui.btnSave.text('Saving...').attr('disabled','disabled');
+      this.layout.ui.btnClose.attr('disabled','disabled');
       this.reachClientModel.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
     _onSaveSuccess: function(model, response, options) {
       this.reachClientModel = model;
+
+      this.layout.ui.btnSave.text('Save').removeAttr('disabled');
+      this.layout.ui.btnClose.removeAttr('disabled');
+
       alert("Client saved successfully.");
       if (!this.clientContactsView) {
         this._initializeClientContactsView(model, false);
@@ -453,6 +455,9 @@
     },
 
     _onSaveFailure: function(model, xhr, options) {
+      this.layout.ui.btnSave.text('Save').removeAttr('disabled');
+      this.layout.ui.btnClose.removeAttr('disabled');
+
       if(xhr.responseJSON && xhr.responseJSON.errors) {
         var formErrors = [];
         var uiControls = {};
