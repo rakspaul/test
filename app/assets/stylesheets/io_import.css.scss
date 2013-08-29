@@ -94,6 +94,7 @@ $error_color: #ff7d78;
     color: #D02898;
     font-size:20px;
     font-family: 'Armata', sans-serif;
+    margin-right: 50px;
   }
 
   .current-io-status-top:before {
@@ -147,7 +148,7 @@ $error_color: #ff7d78;
       float:left;
       padding-left:10px;
       color: $text_color;
-      width: 73%;
+      width: 72%;
 
       span {
         text-decoration: underline;
