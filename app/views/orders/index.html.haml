@@ -10,9 +10,9 @@
           Delete
     .pure-u-1-5
       %label Status
-      %select
-        %option draft
-        %option active
+      %select.status
+        %option All
+        %option Draft
     .pure-u-1-5
       %label Account Manager
       %select
@@ -29,6 +29,14 @@
     %thead
       %tr
         %th
+        %th
+          .pure-g.header-container
+            .pure-u.title-container
+              .title
+                Status
+            .pure-u
+              #state.actions-container
+                %i.icon-sort
         %th
           .pure-g.header-container
             .pure-u.title-container
@@ -124,7 +132,7 @@
       $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
     }
 
-    var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
+      var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
 
   $('.btn').click(function(event) {
