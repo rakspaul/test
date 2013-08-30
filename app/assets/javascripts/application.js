@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require typeahead
 //= require twitter/bootstrap/modal
+//= require bootstrap-popup-tooltip.js
 //= require bootstrap-editable.js
 //= require jquery-fileupload/basic
 //= require moment.min
