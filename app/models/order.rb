@@ -32,6 +32,14 @@ class Order < ActiveRecord::Base
     where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
   end
 
+  def self.filter_by_status(status)
+    if status == "Draft"
+      joins("INNER JOIN io_details ON (io_details.order_id = orders.id AND io_details.state = 'Draft')")
+    else
+      joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
+    end
+  end
+
   def total_impressions
     self.lineitems.inject(0){|sum, li| sum += li.volume.to_i }
   end
