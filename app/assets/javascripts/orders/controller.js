@@ -305,6 +305,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var start_date = moment(newValue).format("YYYY-MM-DD");
         _.each(order.lineItemList.models, function(li) {
           li.set("start_date", start_date);
+          _.each(li.ads, function(ad) {
+            ad.set("start_date", start_date);
+          });
         });
         order.set("start_date", start_date); //update backbone model
         $('.order-details .start-date .errors_container').html('');
@@ -320,6 +323,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var end_date = moment(newValue).format("YYYY-MM-DD");
         _.each(order.lineItemList.models, function(li) {
           li.set("end_date", end_date);
+          _.each(li.ads, function(ad) {
+            ad.set("end_date", end_date);
+          });
         });
         order.set("end_date", end_date); //update backbone model
         $('.order-details .end-date .errors_container').html('');
@@ -331,7 +337,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
   },
 
+  _clearErrorsOn: function(field_class) {
+    $(field_class + ' .errors_container').html('');
+    $(field_class).removeClass('field_with_errors');
+  },
+
   _setupTypeaheadFields: function(order) {
+    var ordersController = this;
+
     $('.billing-contact-company .typeahead').editable({
       source: "/reach_clients/search.json",
       typeahead: {
@@ -416,6 +429,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("account_contact_phone", el.phone);
       $('.account-contact-phone span').removeClass('editable-empty').html(el.phone);
       $('.account-contact-email span').removeClass('editable-empty').html(el.email);
+
+      ordersController._clearErrorsOn(".account-contact-name");
     });
 
     $('.media-contact-email .typeahead').editable({
@@ -462,7 +477,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
     
-    $('.total-media-cost .editable.custom').editable({
+    $('.general-info-container .total-media-cost .editable.custom').editable({
       success: function(response, newValue) {
         order.set("total_media_cost", newValue); //update backbone model
       },
@@ -472,7 +487,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       }
     });
-    $('.editable:not(.typeahead):not(.custom)').editable({
+    $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
       success: function(response, newValue) {
         order.set(this.dataset['name'], newValue); //update backbone model;
       }
@@ -492,33 +507,32 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this._liSetCallbacksAndShow(this.lineItemList);
   },
 
+  // Ad name should be in this format: 
+  // Client Abbreviated Name + Advertiser Name (C18) + Quarter (Q2) + Year + Ad Sizes
+  // Example: RE TW LA Sinus MD - Dr. Kayem Q213 300x250,728x90,160x600
+  _generateAdName: function(li) {
+    var start_date = new Date(li.attributes.start_date);
+    var start_quarter = ReachUI.getQuarter(start_date);
+    var start_year = start_date.getFullYear() % 100;
+    return li.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+li.attributes.ad_sizes;
+  },
+
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+    var ordersController = this;
 
-    lineItemListView.on('lineitem:create', function(args) {
-      ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
-    }, this);
+    //lineItemListView.on('lineitem:create', function(args) {
+    //  ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
+    //}, this);
 
-    lineItemListView.on('itemview:lineitem:add_ad', function(view) {
-      // Ad name should be this format: 
-      // Client Abbreviated Name + Advertiser Name (C18) + Quarter (Q2) + Year + Ad Sizes
-      // Example: RE TW LA Sinus MD - Dr. Kayem Q213 300x250,728x90,160x600
+    lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
+      var li = li_view.model;
+      var ad_name = ordersController._generateAdName(li);
+      var attrs = _.extend(_.omit(li.attributes, 'name', 'volume', 'value', 'ad_sizes'), {description: ad_name, size: li.attributes.ad_sizes});
 
-      var start_date = new Date(view.model.attributes.start_date);
-      var start_quarter = ReachUI.getQuarter(start_date);
-      var start_year = start_date.getFullYear() % 100;
-
-      var ad_name = view.model.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+view.model.attributes.ad_sizes;
-      var attrs = _.extend(view.model.attributes, {name: ad_name});
       var ad = new ReachUI.Ads.Ad(attrs);
-      var adsView = new ReachUI.Ads.AdView({model: ad});
-      view.ui.ads_list.append(adsView.render().el);
-
-      $('.editable:not(.typeahead):not(.custom)').editable();
-      /*$('.ad .editable').click(function(ev) {
-        //ev.stopPropagation();
-        $('.ad .editable').not(this).editable('toggle');
-      });*/
+      li.pushAd(ad);
+      li_view.renderAd(ad);
     });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);

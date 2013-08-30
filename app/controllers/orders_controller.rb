@@ -71,14 +71,23 @@ class OrdersController < ApplicationController
     @order.user = current_user
 
     respond_to do |format|
-      if @order.save
-        IoDetail.create! client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
+      Order.transaction do
+        if @order.save
+          IoDetail.create! client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
 
-        store_io_asset(params)
+          errors = save_lineitems_with_ads(params[:order][:lineitems])
 
-        format.json { render json: {status: 'success', order_id: @order.id} }
-      else
-        format.json { render json: {status: 'error', errors: @order.errors} }
+          if errors.blank?
+            store_io_asset(params)
+            format.json { render json: {status: 'success', order_id: @order.id} }
+          else
+            format.json { render json: {status: 'error', errors: {lineitems: errors}} } 
+            raise ActiveRecord::Rollback         
+          end
+        else
+          format.json { render json: {status: 'error', errors: @order.errors} }
+          raise ActiveRecord::Rollback
+        end
       end
     end
   end
@@ -179,5 +188,34 @@ private
     writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
     writer.write
     file.close
+  end
+
+  def save_lineitems_with_ads(params)
+    li_errors = {}
+
+    params.each_with_index do |li, i|
+      Rails.logger.warn 'li - ' + li.inspect
+      lineitem = @order.lineitems.build(li[:lineitem])
+      lineitem.user = current_user
+      if lineitem.save
+        li[:ads].each_with_index do |ad, j|
+          begin
+            ad_object = lineitem.ads.build(ad[:ad])
+            if !ad_object.save
+              li_errors[i] ||= {:ads => {}}
+              li_errors[i][:ads][j] = ad_object.errors
+            end
+          rescue => e
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+          end
+        end
+      else
+        li_errors[i] ||= {}
+        li_errors[i][:lineitems] = lineitem.errors
+      end
+    end
+
+    li_errors
   end
 end

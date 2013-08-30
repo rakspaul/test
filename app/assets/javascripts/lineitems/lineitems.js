@@ -2,6 +2,10 @@
   'use strict';
 
   LineItems.LineItem = Backbone.Model.extend({
+    initialize: function() {
+      this.ads = [];
+    },
+
     defaults: {
       volume: 0,
       rate: 0.0,
@@ -18,7 +22,11 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes) };
+      return { lineitem: _.clone(this.attributes), ads: this.ads };
+    },
+
+    pushAd: function(ad) {
+      this.ads.push(ad);
     }
   });
 
@@ -47,6 +55,28 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
     },
 
+    // after start/end date changed LI is rerendered, so render linked Ads also
+    onRender: function(){
+      // manipulate the `el` here. it's already been rendered, and is full of the view's HTML, ready to go.
+
+      $.fn.editable.defaults.mode = 'popup';
+      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+        success: function(response, newValue) {
+          this.model.set(this.dataset['name'], newValue); //update backbone model;
+        }
+      });
+
+      var view = this;
+      _.each(this.model.ads, function(ad) {
+        view.renderAd(ad);
+      });
+    },
+
+    renderAd: function(ad) {
+      var adView = new ReachUI.Ads.AdView({model: ad});
+      this.ui.ads_list.append(adView.render().el);
+    },
+
     ui: {
       ads_list: '.ads-container',
     },
@@ -66,7 +96,9 @@
     _saveOrder: function(ev) {
       this._clearAllErrors();
       var lineitems = this.collection;
-      this.collection.order.save({}, {
+      
+      // store Order and Lineitems in one POST request
+      this.collection.order.save({lineitems: lineitems.models}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -81,20 +113,24 @@
           if(response.status == "error") {
             _.each(response.errors, function(error, key) {
               console.log(key);
-              var field_class = errors_fields_correspondence[key];
               console.log(error);
-              $(field_class + ' .errors_container').html(error);
-              $(field_class).addClass('field_with_errors');
+              
+              if(key == 'lineitems') {
+                _.each(error, function(li_errors, li_k) {
+                  console.log('li_k - ' + li_k);
+                  console.log('li_errors - ' + li_errors);
+                  _.each(li_errors["ads"], function(ad_error, ad_k) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .size .errors').addClass('field_with_errors').html(ad_error);
+                  });
+                });
+              } else {
+                var field_class = errors_fields_correspondence[key];
+                $(field_class + ' .errors_container').html(error);
+                $(field_class).addClass('field_with_errors');
+              }
             });
           } else if(response.status == "success") {
-            var order_id = response.order_id;
-            _.each(lineitems.models, function(model) { 
-              model.save({order_id: order_id}, {
-                success: function(){
-                  ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
-                }
-              });
-            });
+            ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
           }
         },
         error: function(model, xhr, options) {
