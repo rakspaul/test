@@ -1,2 +1,9 @@
-%h1 Admin::AudienceGroups#new
-%p Find me in app/views/admin/audience_groups/new.html.haml
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.AudienceGroups.AudienceGroupController();
+      controller.initializeForCreateNewAudienceGroup();
+  });

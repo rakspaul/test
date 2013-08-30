@@ -1,0 +1,43 @@
+<div class="audience-groups">
+  <form class="form-horizontal">
+    <legend>Audience Groups</legend>
+
+    <fieldset>
+      <div class="form-audience-new">
+
+        <div class="control-group">
+          <label for="name" class="control-label">
+            <div class="text-left">Group Name</div>
+          </label>
+          <div class="controls">
+            <input type="text" required="" placeholder="Name" id="group_name_input" value="<%= audienceGroup.get('name')%>">
+          </div>
+        </div>
+
+        <div class="control-group search-keyvals">
+          <div class="input-append">
+            <input type="text" placeholder="Search" id="search_keyvals_input">
+            <a class="btn add-on" id="search_keyvals_button">Search</a>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <div class="pure-u select-keyvals">
+            <ul id="select_keyvals_list">
+              <% audienceKeyVal.each(function(item){ %>
+                <li class="droppable"> <%= item.get('keyval') %> </li>
+              <% }); %>
+            </select>
+          </div>
+          <div class="pure-u select-textbox">
+            <textarea placeholder="Select Key-Values" id="selected_keyvals_textarea"><%
+              var selectedVals = selectedAudienceKeyVal.pluck('keyval').join(',');
+              if(selectedAudienceKeyVal.length){ %><%=selectedVals%><% } %></textarea>
+          </div>
+        </div>
+
+      </div>
+    </fieldset>
+
+  </form>
+</div>

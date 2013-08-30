@@ -163,3 +163,62 @@
 
 }
 
+.audience-groups{
+
+  .create-button{
+    margin-right:20px;
+  }
+
+  .form-audience-new{
+
+    padding-left:100px;
+
+    .group-name{
+      .control-label{
+        width:auto;
+      }
+      .controls{
+        margin-left:100px;
+      }
+    }
+
+    .select-keyvals{
+      width:255px;
+      height:200px;
+      background:#fff;
+      border:1px solid #ccc;
+      margin-right:20px;
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+      ul{
+        margin:0;
+        list-style-type: none;
+      }
+
+      ul li{
+        padding:2px;
+      }
+
+      ul li:hover{
+        color:#fff;
+        background:#008DD1;
+      }
+    }
+
+    .select-textbox{
+      textarea{
+        width:250px;
+        height:190px;
+      }
+    }
+
+    .search-keyvals{
+      .add-on{
+        cursor: pointer;
+      }
+    }
+
+  }
+
+}

@@ -1,2 +1,32 @@
-%h1 Admin::AudienceGroups#index
-%p Find me in app/views/admin/audience_groups/index.html.haml
+.audience-groups
+  .pure-g.top-headers
+    .pure-u.create-button
+      = link_to "Create new Audience Group", new_admin_audience_group_path, class: 'btn'
+    .pure-u
+      %a.btn Export
+
+  .pure-g
+    .pure-u-4-5
+      %table.admin-reach-table
+        %thead
+          %tr
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Group Name
+                .pure-u
+                  #name.actions-container
+                    %i.icon-sort-by-attributes
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Key-Values
+                .pure-u
+                  #name.actions-container
+                    %i.icon-sort-by-attributes
+        %tbody
+          %tr
+            %td Age range
+            %td btg=cm.abx, btg=cm.efj

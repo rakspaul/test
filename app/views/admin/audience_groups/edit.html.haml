@@ -1,2 +1,9 @@
-%h1 Admin::AudienceGroups#edit
-%p Find me in app/views/admin/audience_groups/edit.html.haml
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.AudienceGroups.AudienceGroupController();
+      controller.initializeForEditReachClient();
+  });
