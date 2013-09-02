@@ -300,3 +300,34 @@ $error_color: #ff7d78;
     cursor: pointer;
   }
 }
+
+.targeting-container {
+  width:100%;
+  float:left;
+  border: 2px dashed $text_color;
+  padding: 5px;
+  background-color: white;
+  letter-spacing: 0;
+
+  .targeting-options {
+    width: 50%;
+    float: left;
+
+    .tab.zip-codes textarea {
+      width: 95%;
+    }
+
+    .tab.key-values {
+      height: 200px;
+      border: 1px solid;
+      overflow: auto;
+      padding: 5px;
+    }
+  }
+  
+  .selected-targeting {
+    width: 46%;
+    float: left;
+    padding-left: 25px;
+  }
+}

@@ -1,0 +1,84 @@
+<div class="targeting-options">
+  <h4>Targeting options</h4>
+
+  <ul class="nav nav-tabs">
+    <li class="active key-values">
+      <a href="javascript:void(0)">Key Values</a>
+    </li>
+    <li class="dmas"><a href="javascript:void(0)">DMAs</a></li>
+    <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
+  </ul>
+
+  <div class="tab key-values">
+
+    Age<br/>
+    <input type="checkbox" name="age" value="Age.Teens"/> Teens<br/>
+    <input type="checkbox" name="age" value="Age.18-24"/> Age: 18-24<br/>
+    <input type="checkbox" name="age" value="Age.25-34"/> Age: 25-34<br/>
+    <input type="checkbox" name="age" value="Age.35-44"/> Age: 35-44<br/>
+    <input type="checkbox" name="age" value="Age.45-54"/> Age: 45-54<br/>
+    <input type="checkbox" name="age" value="Age.55-64"/> Age: 55-64<br/>
+    <input type="checkbox" name="age" value="Age.65+"/> Age: 65+<br/>
+    Etnicity<br/>
+    <input type="checkbox" name="etnicity" value="Etnicity.African American"/> African American<br/>
+    <input type="checkbox" name="etnicity" value="Etnicity.Asian"/> Asian<br/>
+    <input type="checkbox" name="etnicity" value="Etnicity.Hispanic"/> Hispanic<br/>
+    Interests/Other<br/>
+    <input type="checkbox" name="interests" value="Interests.Auto"/> Auto<br/>
+    <input type="checkbox" name="interests" value="Interests.Business"/> Business<br/>
+    <input type="checkbox" name="interests" value="Interests.Dating"/> Dating<br/>
+    <input type="checkbox" name="interests" value="Interests.Entertainment"/> Entertainment<br/>
+    <input type="checkbox" name="interests" value="Interests.Education"/> Education<br/>
+    <input type="checkbox" name="interests" value="Interests.Family"/> Family<br/>
+    <input type="checkbox" name="interests" value="Interests.Fashion"/> Fashion<br/>
+    <input type="checkbox" name="interests" value="Interests.Finance"/> Finance<br/>
+    <input type="checkbox" name="interests" value="Interests.Fitness"/> Fitness<br/>
+    <input type="checkbox" name="interests" value="Interests.Food"/> Food<br/>
+    <input type="checkbox" name="interests" value="Interests.Gadget"/> Gadget<br/>
+    <input type="checkbox" name="interests" value="Interests.Health"/> Health<br/>
+    <input type="checkbox" name="interests" value="Interests.Holiday"/> Holiday<br/>
+    <input type="checkbox" name="interests" value="Interests.Home & Garden/Home"/> Home & Garden/Home<br/>
+    <input type="checkbox" name="interests" value="Interests.Improvement"/> Improvement<br/>
+    <input type="checkbox" name="interests" value="Interests.Home Owner"/> Home Owner<br/>
+    <input type="checkbox" name="interests" value="Interests.Jobs"/> Jobs<br/>
+    <input type="checkbox" name="interests" value="Interests.Music"/> Music<br/>
+    <input type="checkbox" name="interests" value="Interests.Married"/> Married<br/>
+    <input type="checkbox" name="interests" value="Interests.Political"/> Political<br/>
+    <input type="checkbox" name="interests" value="Interests.Pets"/> Pets<br/>
+    <input type="checkbox" name="interests" value="Interests.Real Estate"/> Real Estate<br/>
+    <input type="checkbox" name="interests" value="Interests.Single"/> Single<br/>
+    <input type="checkbox" name="interests" value="Interests.Shopping/Retail"/> Shopping/Retail<br/>
+    <input type="checkbox" name="interests" value="Interests.Sports"/> Sports<br/>
+    <input type="checkbox" name="interests" value="Interests.Outdoor"/> Outdoor<br/>
+    <input type="checkbox" name="interests" value="Interests.Technology"/> Technology<br/>
+    <input type="checkbox" name="interests" value="Interests.Travel"/> Travel<br/>
+    <input type="checkbox" name="interests" value="Interests.Weather"/> Weather<br/>
+    <input type="checkbox" name="interests" value="Interests.Hobbies & Interests"/> Hobbies & Interests<br/>
+    <input type="checkbox" name="interests" value="Interests.Society"/> Society<br/>
+    <input type="checkbox" name="interests" value="Interests.News"/> News<br/>
+    <input type="checkbox" name="interests" value="Interests.Moms"/> Moms<br/>
+    Household Income<br/>
+    <input type="checkbox" name="interests" value="Income.High"/> High HHI<br/>
+    <input type="checkbox" name="interests" value="Income.Mid"/> Mid HHI<br/>
+    <input type="checkbox" name="interests" value="Income.Low"/> Low HHI<br/>
+    Gender<br/>
+    <input type="checkbox" name="interests" value="Gender.Male"/> Male<br/>
+    <input type="checkbox" name="interests" value="Gender.Female"/> Female<br/>
+  </div>
+
+  <div class="tab dmas" style="display:none">
+    <select multiple class="chosen-select" name="dmas" style="width:95%;">
+      <% for (var i = 0; i < dmas_list.length; i++) { %>
+      <option value="<%= dmas_list[i].code %>"><%= dmas_list[i].name %></option>
+      <% } %>
+    </select>
+  </div>
+
+  <div class="tab zip-codes" style="display:none">
+    <textarea rows="7"></textarea>
+  </div>
+</div>
+
+<div class="selected-targeting">
+
+</div>
