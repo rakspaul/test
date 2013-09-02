@@ -47,6 +47,7 @@
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
 //= require ./ads/ads.js
+//= require ./common/targeting.js
 //= require ./orders/controller.js
 //= require ./orders/router.js
 //= require ./nielsen_ocr

@@ -23,7 +23,7 @@
     <%= lineitem.name %>
   </span>
   <br/>
-  <span class="operation">+ Add Targeting</span>
+  <span class="add_targeting_btn operation">+ Add Targeting</span>
 </div>
   
 <div class="pure-u-1-12 volume"><%= accounting.formatNumber(lineitem.volume) %></div>
@@ -31,4 +31,7 @@
 <div class="pure-u-1-12 media-cost"><%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %></div>
 
 <div class="ads-container">
+</div>
+
+<div class="targeting-container">
 </div>

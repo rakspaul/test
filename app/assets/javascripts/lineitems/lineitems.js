@@ -77,12 +77,29 @@
       this.ui.ads_list.append(adView.render().el);
     },
 
+    _toggleTargetingDialog: function() {
+      var targeting = new ReachUI.Targeting.Targeting();
+      var dmas = new ReachUI.DMA.List();
+      var self = this;
+      dmas.fetch({
+        success: function(collection, response, options) {
+          targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+          var targetingView = new ReachUI.Targeting.TargetingView({model: targeting});
+          self.ui.targeting.html(targetingView.render().el);
+        }
+      });
+    },
+
     ui: {
       ads_list: '.ads-container',
+      targeting: '.targeting-container'
+    },
+
+    events: {
+      'click .add_targeting_btn': '_toggleTargetingDialog'
     },
 
     triggers: {
-      'click': 'lineitem:show',
       'click .li-number': 'lineitem:add_ad'
     }
   });
