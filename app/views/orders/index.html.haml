@@ -153,12 +153,27 @@
     } else {
       var cfm = confirm("Are you sure to want to delete");
       if(cfm === true) {
-        var request = $.ajax({url:'/orders/delete', type:'DELETE', data:"ids="+checkedValues, dataType: 'script'});
+        var request = $.ajax({url:'/orders/delete.json', type:'DELETE', data:"ids="+checkedValues});
         request.done(function(data){
           var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
         });
+
+        request.fail(function(){
+          alert( "Request failed");
+        });
       }
     }
+  });
+
+  $('.status').change(function(event) {
+    var para = {};
+    var status = $('.status').val();
+
+    if(status =="All") {
+      status =""
+    }
+    para.order_status = status;
+    var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
 
 
