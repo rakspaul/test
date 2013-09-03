@@ -87,6 +87,7 @@ class OrdersController < ApplicationController
           format.json { render json: {status: 'error', errors: @order.errors} }
           raise ActiveRecord::Rollback
         end
+      end
     end
   end
 
@@ -192,10 +193,11 @@ private
     li_errors = {}
 
     params.each_with_index do |li, i|
-      Rails.logger.warn 'li - ' + li.inspect
+      li[:lineitem].delete("targeting") # after targeting will be ready
+
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
-      if lineitem.save
+      if lineitem.save && !li[:ads].blank?
         li[:ads].each_with_index do |ad, j|
           begin
             ad_object = lineitem.ads.build(ad[:ad])
