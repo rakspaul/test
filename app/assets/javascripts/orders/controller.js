@@ -521,10 +521,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
     var ordersController = this;
 
-    //lineItemListView.on('lineitem:create', function(args) {
-    //  ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
-    //}, this);
-
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
       var li = li_view.model;
       var ad_name = ordersController._generateAdName(li);

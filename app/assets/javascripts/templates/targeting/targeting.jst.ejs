@@ -72,6 +72,12 @@
       <option value="<%= dmas_list[i].code %>"><%= dmas_list[i].name %></option>
       <% } %>
     </select>
+    <div style="clear:both"></div>
+    <div class="dmas-checkboxes-container">
+      <% for (var i = 0; i < dmas_list.length; i++) { %>
+      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>"/> <%= dmas_list[i].name %><br/>
+      <% } %>
+    </div>
   </div>
 
   <div class="tab zip-codes" style="display:none">
@@ -80,5 +86,10 @@
 </div>
 
 <div class="selected-targeting">
+</div>
 
+<div style="clear:both"></div>
+
+<div class="pull-right">
+  <div class="save-targeting-btn">Done</div>
 </div>
