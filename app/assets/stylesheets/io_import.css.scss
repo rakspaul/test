@@ -94,6 +94,7 @@ $error_color: #ff7d78;
     color: #D02898;
     font-size:20px;
     font-family: 'Armata', sans-serif;
+    margin-right: 50px;
   }
 
   .current-io-status-top:before {
@@ -147,7 +148,7 @@ $error_color: #ff7d78;
       float:left;
       padding-left:10px;
       color: $text_color;
-      width: 73%;
+      width: 72%;
 
       span {
         text-decoration: underline;
@@ -297,5 +298,56 @@ $error_color: #ff7d78;
   .save-order-btn:hover {
     background: $bg_color;
     cursor: pointer;
+  }
+}
+
+.targeting-container {
+  width:100%;
+  float:left;
+  border: 2px dashed $text_color;
+  padding: 5px;
+  background-color: white;
+  letter-spacing: 0;
+
+  .targeting-options {
+    width: 50%;
+    float: left;
+
+    .tab.zip-codes textarea {
+      width: 95%;
+    }
+
+    .tab.key-values {
+      height: 200px;
+      border: 1px solid;
+      overflow: auto;
+      padding: 5px;
+    }
+  }
+  
+  .save-targeting-btn {
+    color: white;
+    background-color: $text_color;
+    width: 50px;
+    float: right;
+    text-align: center;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .selected-targeting {
+    width: 46%;
+    float: left;
+    padding-left: 25px;
+  }
+
+  .dmas-checkboxes-container {
+    width: 95%;
+    float: left;
+    height: 200px;
+    overflow: auto;
+    padding-left: 5px;
+    border: 1px solid;
+    margin-top: 5px;
   }
 }

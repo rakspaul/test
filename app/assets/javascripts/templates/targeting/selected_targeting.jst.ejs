@@ -1,0 +1,76 @@
+<h4>Targeting</h4>
+
+<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">
+
+<div class="age-targeting">
+  <p>
+    <% if(selected_key_values["Age"].length > 0) { %>
+    <b>Age:</b>
+    <% } %>
+    <% var ages = []; for (var i = 0; i < selected_key_values["Age"].length; i++) { ages.push(selected_key_values["Age"][i]); } %>
+    <%= ages.join(', ') %>
+  </p>
+</div>
+
+<div class="etnicity-targeting">
+  <p>
+    <% if(selected_key_values["Etnicity"].length > 0) { %>
+    <b>Etnicity:</b>
+    <% } %>
+    <% var etnicities = []; for (var i = 0; i < selected_key_values["Etnicity"].length; i++) { etnicities.push(selected_key_values["Etnicity"][i]); } %>
+    <%= etnicities.join(', ') %>
+  </p>
+</div>
+
+<div class="interests-targeting">
+  <p>
+    <% if(selected_key_values["Interests"].length > 0) { %>
+    <b>Interests/Other:</b>
+    <% } %>
+    <% var interests = []; for (var i = 0; i < selected_key_values["Interests"].length; i++) { interests.push(selected_key_values["Interests"][i]); } %>
+    <%= interests.join(", ") %>
+  </p>
+</div>
+
+<div class="income-targeting">
+  <p>
+    <% if(selected_key_values["Income"].length > 0) { %>
+    <b>Income:</b>
+    <% } %>
+    <% var incomes = []; for (var i = 0; i < selected_key_values["Income"].length; i++) { incomes.push(selected_key_values["Income"][i]); } %>
+    <%= incomes.join(', ') %>
+  </p>
+</div>
+
+<div class="gender-targeting">
+  <p>
+    <% if(selected_key_values["Gender"].length > 0) { %>
+    <b>Gender:</b>
+    <% } %>
+    <% var genders = []; for (var i = 0; i < selected_key_values["Gender"].length; i++) { genders.push(selected_key_values["Gender"][i]); } %>
+    <%= genders.join(', ') %>
+  </p>
+</div>
+
+<img src="/assets/dma_targeting_icon.png" title="DMAs" alt="DMAs">
+
+<div class="dma-targeting">
+  <p>
+    <% if(selected_dmas.length > 0) { %>
+    <b>DMAs:</b>
+    <% } %>
+    <% var dmas = []; for (var i = 0; i < selected_dmas.length; i++) { dmas.push(selected_dmas[i].title); } %>
+    <%= dmas.join(', ') %>
+  </p>
+</div>
+
+<div class="zip-codes-targeting">
+  <p>
+    <% if(selected_zip_codes.length > 0) { %>
+    <img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">
+    <b>Zip Codes:</b>
+    <% } %>
+    <% var zips = []; for (var i = 0; i < selected_zip_codes.length; i++) { zips.push(selected_zip_codes[i]); } %>
+    <%= zips.join(', ') %>
+  </p>
+</div>

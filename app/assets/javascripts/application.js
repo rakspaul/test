@@ -20,6 +20,7 @@
 //= require backbone.marionette
 //= require typeahead
 //= require twitter/bootstrap/modal
+//= require bootstrap-popup-tooltip.js
 //= require bootstrap-editable.js
 //= require jquery-fileupload/basic
 //= require moment.min
@@ -46,6 +47,7 @@
 //= require ./lineitems/lineitems.js
 //= require ./lineitems/adsizes.js
 //= require ./ads/ads.js
+//= require ./common/targeting.js
 //= require ./orders/controller.js
 //= require ./orders/router.js
 //= require ./nielsen_ocr

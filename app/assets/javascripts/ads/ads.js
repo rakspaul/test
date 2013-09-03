@@ -3,7 +3,6 @@
 
   Ads.Ad = Backbone.Model.extend({
     defaults: {
-      volume: 0,
       rate: 0.0,
       start_date: moment().add('days', 1).format("YYYY-MM-DD"),
       end_date: moment().add('days', 15).format("YYYY-MM-DD")
@@ -42,13 +41,38 @@
     className: 'ad pure-g',
     template: JST['templates/ads/ad_row'],
 
+    initialize: function(){
+      _.bindAll(this, "render");
+      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+    },
+
     events: {
-      'mouseover': '_show_delete_btn'
+      'mouseenter': '_show_delete_btn',
+      'mouseleave': '_hide_delete_btn',
+      'click .delete_btn': '_destroy_ad'
+    },
+
+    onRender: function() {
+      $.fn.editable.defaults.mode = 'popup';
+      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+        success: function(response, newValue) {
+          this.model.set(this.dataset['name'], newValue); //update backbone model
+        }
+      });
     },
 
     _show_delete_btn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').toggle();
+      this.$el.find('.delete_btn').show();
+    },
+
+    _hide_delete_btn: function(e) {
+      e.stopPropagation();
+      this.$el.find('.delete_btn').hide();
+    },
+    
+    _destroy_ad: function(e) {
+      this.remove();
     }
   });
 

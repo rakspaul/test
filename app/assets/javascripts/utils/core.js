@@ -22,13 +22,11 @@ ReachUI.formatColumn = function(value, type, precision) {
   }
 }
 
-// For the US Government fiscal year
-// Oct-Dec = 1
-// Jan-Mar = 2
-// Apr-Jun = 3
-// Jul-Sep = 4
+// Jan-Mar = 1
+// Apr-Jun = 2
+// Jul-Sep = 3
+// Oct-Dec = 4
 ReachUI.getQuarter = function(d) {
   d = d || new Date();
-  var m = Math.floor(d.getMonth()/3) + 2;
-  return m > 4? m - 5 : m;
+  return Math.ceil((d.getMonth() + 1) / 3);
 }

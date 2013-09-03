@@ -2,6 +2,10 @@
   'use strict';
 
   LineItems.LineItem = Backbone.Model.extend({
+    initialize: function() {
+      this.ads = [];
+    },
+
     defaults: {
       volume: 0,
       rate: 0.0,
@@ -18,7 +22,11 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes) };
+      return { lineitem: _.clone(this.attributes), ads: this.ads };
+    },
+
+    pushAd: function(ad) {
+      this.ads.push(ad);
     }
   });
 
@@ -42,12 +50,62 @@
     className: 'lineitem pure-g',
     template: JST['templates/lineitems/line_item_row'],
 
+    initialize: function(){
+      _.bindAll(this, "render");
+      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      var targeting = new ReachUI.Targeting.Targeting();
+      this.model.set('targeting', targeting);
+    },
+
+    // after start/end date changed LI is rerendered, so render linked Ads also
+    onRender: function(){
+      // manipulate the `el` here. it's already been rendered, and is full of the view's HTML, ready to go.
+
+      $.fn.editable.defaults.mode = 'popup';
+      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+        success: function(response, newValue) {
+          this.model.set(this.dataset['name'], newValue); //update backbone model;
+        }
+      });
+
+      var view = this;
+      _.each(this.model.ads, function(ad) {
+        view.renderAd(ad);
+      });
+      
+      var dmas = new ReachUI.DMA.List();
+      var self = this;
+      dmas.fetch({
+        success: function(collection, response, options) {
+          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_li_view: self});
+          self.ui.targeting.html(targetingView.render().el);
+        }
+      });
+    },
+
+    renderAd: function(ad) {
+      var adView = new ReachUI.Ads.AdView({model: ad});
+      this.ui.ads_list.append(adView.render().el);
+    },
+
+    _toggleTargetingDialog: function() {
+      this.ui.targeting.toggle('slow');
+      var is_visible = ($(this.ui.targeting).css('display') == 'block');
+      this.$el.find('.add_targeting_btn').html(is_visible ? 'Hide Targeting' : '+ Add Targeting');
+    },
+
     ui: {
       ads_list: '.ads-container',
+      targeting: '.targeting-container'
+    },
+
+    events: {
+      'click .add_targeting_btn': '_toggleTargetingDialog'
     },
 
     triggers: {
-      'click': 'lineitem:show',
       'click .li-number': 'lineitem:add_ad'
     }
   });
@@ -59,32 +117,43 @@
     className: 'lineitems-container',
 
     _saveOrder: function(ev) {
+      this._clearAllErrors();
       var lineitems = this.collection;
-      this.collection.order.save({}, {
+      
+      // store Order and Lineitems in one POST request
+      this.collection.order.save({lineitems: lineitems.models}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
             reach_client: '.order-details .billing-contact-company',
             start_date: '.order-details .start-date',
-            end_date: '.order-details .end-date'
+            end_date: '.order-details .end-date',
+            billing_contact: '.order-details .billing-contact-name',
+            media_contact: '.order-details .media-contact-name',
+            sales_person: '.order-details .salesperson-name',
+            account_manager: '.order-details .account-contact-name'
           };
           if(response.status == "error") {
             _.each(response.errors, function(error, key) {
               console.log(key);
-              var field_class = errors_fields_correspondence[key];
               console.log(error);
-              $(field_class + ' .errors_container').html(error);
-              $(field_class).addClass('field_with_errors');
+              
+              if(key == 'lineitems') {
+                _.each(error, function(li_errors, li_k) {
+                  console.log('li_k - ' + li_k);
+                  console.log('li_errors - ' + li_errors);
+                  _.each(li_errors["ads"], function(ad_error, ad_k) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .size .errors').addClass('field_with_errors').html(ad_error);
+                  });
+                });
+              } else {
+                var field_class = errors_fields_correspondence[key];
+                $(field_class + ' .errors_container').html(error);
+                $(field_class).addClass('field_with_errors');
+              }
             });
           } else if(response.status == "success") {
-            var order_id = response.order_id;
-            _.each(lineitems.models, function(model) { 
-              model.save({order_id: order_id}, {
-                success: function(){
-                  ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
-                }
-              });
-            });
+            ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
           }
         },
         error: function(model, xhr, options) {
@@ -100,6 +169,11 @@
 
     triggers: {
       'click .create': 'lineitem:create'
+    },
+
+    _clearAllErrors: function() {
+      $('.errors_container').html('');
+      $('.field').removeClass('field_with_errors');
     }
   });
 
