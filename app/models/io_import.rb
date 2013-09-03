@@ -3,7 +3,7 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client, 
+  attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown
 
@@ -101,7 +101,7 @@ class IoImport
 
     def find_sales_person
       params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email] }
-      if u = User.sales_people.where(params).first
+      if u = User.where(params).first
         u
       else
         @sales_person_unknown = true
@@ -200,7 +200,7 @@ class IOExcelFileReader
   BILLING_CONTACT_ADDRESS_CELL    = ['G', 19]
   BILLING_CONTACT_PHONE_CELL      = ['G', 20]
   BILLING_CONTACT_EMAIL_CELL      = ['G', 21]
-  
+
   CLIENT_ORDER_ID_CELL            = ['C', 20]
 
   REACH_CLIENT_CELL               = ['G', 18]
@@ -287,7 +287,7 @@ class IOExcelFileReader
         start_date: parse_date(@spreadsheet.cell('A', row)),
         end_date: parse_date(@spreadsheet.cell('B', row)),
         ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
-        name: @spreadsheet.cell('D', row).to_s.strip, 
+        name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
         rate: @spreadsheet.cell('G', row).to_f
       })
