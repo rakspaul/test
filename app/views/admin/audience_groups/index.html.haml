@@ -1,32 +1,67 @@
-.audience-groups
-  .pure-g.top-headers
-    .pure-u.create-button
-      = link_to "Create new Audience Group", new_admin_audience_group_path, class: 'btn'
-    .pure-u
-      %a.btn Export
+.pure-g.top-headers
+  .pure-u.create-button
+    = link_to "Create new Audience Group", new_admin_audience_group_path, class: 'btn'
+  .pure-u.pull-right
+    %a.btn#export
+      %i.icon-download-alt
+        Export
 
-  .pure-g
-    .pure-u-4-5
-      %table.admin-reach-table
-        %thead
-          %tr
-            %th
-              .pure-g.header-container
-                .pure-u.title-container
-                  .title
-                    Group Name
-                .pure-u
-                  #name.actions-container
-                    %i.icon-sort-by-attributes
-            %th
-              .pure-g.header-container
-                .pure-u.title-container
-                  .title
-                    Key-Values
-                .pure-u
-                  #name.actions-container
-                    %i.icon-sort-by-attributes
-        %tbody
-          %tr
-            %td Age range
-            %td btg=cm.abx, btg=cm.efj
+.admin-table-content
+  %table.admin-reach-table
+    %thead
+      %tr
+        %th.group-name
+          .pure-g.header-container
+            .pure-u.title-container
+              .title
+                Group Name
+            .pure-u
+              #name.actions-container
+                %i.icon-sort-by-attributes
+        %th
+          .pure-g.header-container
+            .pure-u.title-container
+              .title
+                Key-Values
+            .pure-u
+              #key_values.actions-container
+                %i.icon-sort
+    %tbody{:id => "audience_groups"}
+      =render "audience_group_table" ,:audience_groups => @audience_groups
+
+  .paginator{:id => "paginator"}
+    = paginate @audience_groups,:remote => :true
+
+:javascript
+  $('.actions-container i').click(function(event) {
+    var para = {};
+    para.sort_column = $(event.target).parent().attr('id');
+
+    var class_name = $(event.target).attr('class');
+
+    if(class_name==='icon-sort' || class_name==='icon-sort-by-attributes-alt') {
+      para.sort_direction = 'asc';
+      $('.admin-reach-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
+      $(event.target).removeClass('icon-sort-by-attributes-alt icon-sort').addClass('icon-sort-by-attributes');
+    } else if(class_name==='icon-sort-by-attributes') {
+      para.sort_direction = 'desc';
+      $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
+    }
+
+    var request = $.ajax({url:'/admin/audience_groups', data:para, dataType: 'script'});
+
+  });
+
+  $('#export').click(function(event){
+    var sortColumns = $('.admin-reach-table').find('.actions-container i'),
+      para = {};
+
+    sortColumns.each(function(){
+      if($(this).hasClass('icon-sort-by-attributes') || $(this).hasClass('icon-sort-by-attributes-alt')){
+        para.sort_column = $(this).parent().attr('id');
+        para.sort_direction = $(this).hasClass('icon-sort-by-attributes') ? 'asc' : 'desc';
+      }
+    });
+
+    window.location.href = '/admin/audience_groups.csv?sort_column='+para.sort_column+'&sort_direction='+para.sort_direction;
+  });

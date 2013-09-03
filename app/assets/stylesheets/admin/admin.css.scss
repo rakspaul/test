@@ -74,6 +74,10 @@
 
       .top-headers{
         margin-bottom:15px;
+
+          .create-button{
+            margin-right:20px;
+          }
       }
 
       .form-horizontal{
@@ -86,139 +90,160 @@
         }
       }
 
-    }
-
-  }
-
-  .admin-reach-table {
-    width: 100%;
-
-    tbody > tr:hover {
-      background-color: #f8f8f8;
-    }
-
-    th {
-      background: none repeat scroll 0 0 #F7F7F7;
-      border-left: 1px solid #ededed;
-      color: #4094C3;
-      font-size: 12px;
-      font-weight: bold;
-      line-height: 16px;
-      text-align: left;
-      vertical-align: middle;
-      border-radius: 0;
-      border-top: 1px solid #ededed;
-
-      &:last-child {
-        border-right: 1px solid #ededed;
+      .actions-buttons{
+        margin-left:92px;
       }
 
-      .header-container {
-        padding-left: 20px;
-      }
-
-      .title-container {
-        width: 100%;
-        margin-left: -20px;
-
-        .title {
-          padding: 7px;
-        }
-      }
-
-      .actions-container {
-        text-align: right;
-        width: 18px;
-        border-left: 1px solid #f1f1f1;
-        color: #B3B3B3;
-
-        i {
-          padding: 9px 3px 8px;
-          display: inline-block;
-
-          &:hover {
-            background-color: #e8e8e8;
-          }
-        }
-      }
-    }
-
-    td {
-      font-size: 12px;
-      line-height: 16px;
-      padding: 5px;
-      border-top: 1px solid #ededed;
-      border-left: 1px solid #ededed;
-
-      &:last-child {
-        border-right: 1px solid #ededed;
-      }
-    }
-
-    tr:last-child > td {
-      border-bottom: 1px solid #ededed;
     }
 
   }
 
 }
 
-.audience-groups{
+.admin-reach-table {
+  width: 100%;
 
-  .create-button{
+  tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  th {
+    background: none repeat scroll 0 0 #F7F7F7;
+    border-left: 1px solid #ededed;
+    color: #4094C3;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 0;
+    border-top: 1px solid #ededed;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+
+    .header-container {
+      padding-left: 20px;
+    }
+
+    .title-container {
+      width: 100%;
+      margin-left: -20px;
+
+      .title {
+        padding: 7px;
+      }
+    }
+
+    .actions-container {
+      text-align: right;
+      width: 18px;
+      border-left: 1px solid #f1f1f1;
+      color: #B3B3B3;
+
+      i {
+        padding: 9px 3px 8px;
+        display: inline-block;
+
+        &:hover {
+          background-color: #e8e8e8;
+        }
+      }
+    }
+  }
+
+  td {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px;
+    border-top: 1px solid #ededed;
+    border-left: 1px solid #ededed;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+  }
+
+  tr:last-child > td {
+    border-bottom: 1px solid #ededed;
+  }
+
+  .group-name{
+    width:40%;
+  }
+
+}
+
+#audience_groups_details{
+
+  .group-name{
+    .control-label{
+      width:auto;
+    }
+    .controls{
+      margin-left:100px;
+    }
+  }
+
+  .select-keyvals{
+    font-size:12px;
+    width:317px;
+    height:300px;
+    background:#fff;
+    border:1px solid #ccc;
     margin-right:20px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+
+    ul{
+      margin:0;
+      list-style-type: none;
+    }
+
+    ul li{
+      padding:2px;
+    }
+
+    ul li:hover{
+      color:#fff;
+      background:#008DD1;
+    }
   }
 
-  .form-audience-new{
+  .select-textbox{
+    textarea{
+      font-size:12px;
+      width:300px;
+      height:290px;
+      float:left;
+    }
 
+    .key-values-error{
+      width:300px;
+      float:left;
+    }
+  }
+
+  .search-keyvals{
+    input{
+      width:245px;
+    }
+    .add-on{
+      cursor: pointer;
+    }
+  }
+
+  .audience-views{
     padding-left:100px;
-
-    .group-name{
-      .control-label{
-        width:auto;
-      }
-      .controls{
-        margin-left:100px;
-      }
-    }
-
-    .select-keyvals{
-      width:255px;
-      height:200px;
-      background:#fff;
-      border:1px solid #ccc;
-      margin-right:20px;
-      overflow-y: scroll;
-      overflow-x: hidden;
-
-      ul{
-        margin:0;
-        list-style-type: none;
-      }
-
-      ul li{
-        padding:2px;
-      }
-
-      ul li:hover{
-        color:#fff;
-        background:#008DD1;
-      }
-    }
-
-    .select-textbox{
-      textarea{
-        width:250px;
-        height:190px;
-      }
-    }
-
-    .search-keyvals{
-      .add-on{
-        cursor: pointer;
-      }
-    }
-
   }
+
+  #search_results_view, #selected_segments_view{
+    display:inline-block;
+    margin-right:15px;
+  }
+
+
 
 }
+

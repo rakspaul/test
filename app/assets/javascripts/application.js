@@ -20,7 +20,6 @@
 //= require backbone.marionette
 //= require typeahead
 //= require twitter/bootstrap/modal
-//= require twitter/bootstrap/button
 //= require bootstrap-editable.js
 //= require jquery-fileupload/basic
 //= require moment.min
@@ -53,3 +52,4 @@
 //= require ./admin/reach_clients.js
 //= require ./admin/reach_client_controller.js
 //= require ./admin/audience_groups.js
+//= require ./admin/audience_group_controller.js

@@ -1,0 +1,2 @@
+class BehavioralSegment < Segment
+end

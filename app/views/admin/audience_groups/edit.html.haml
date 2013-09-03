@@ -4,6 +4,6 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    var controller = new ReachUI.AudienceGroups.AudienceGroupController();
-      controller.initializeForEditReachClient();
+    var controller = new ReachUI.AudienceGroups.Controller();
+      controller.initializeForEditAudienceGroup('#{@audience_group.id}');
   });

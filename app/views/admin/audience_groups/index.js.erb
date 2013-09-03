@@ -1,0 +1,2 @@
+$('#audience_groups').html('<%= escape_javascript render "audience_group_table",:audience_groups =>@audience_groups %>');
+$('#paginator').html('<%= escape_javascript(paginate(@audience_groups, :remote => true).to_s) %>');
