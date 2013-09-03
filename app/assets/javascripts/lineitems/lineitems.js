@@ -53,6 +53,9 @@
     initialize: function(){
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      var targeting = new ReachUI.Targeting.Targeting();
+      this.model.set('targeting', targeting);
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -70,6 +73,16 @@
       _.each(this.model.ads, function(ad) {
         view.renderAd(ad);
       });
+      
+      var dmas = new ReachUI.DMA.List();
+      var self = this;
+      dmas.fetch({
+        success: function(collection, response, options) {
+          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_li_view: self});
+          self.ui.targeting.html(targetingView.render().el);
+        }
+      });
     },
 
     renderAd: function(ad) {
@@ -78,16 +91,9 @@
     },
 
     _toggleTargetingDialog: function() {
-      var targeting = new ReachUI.Targeting.Targeting();
-      var dmas = new ReachUI.DMA.List();
-      var self = this;
-      dmas.fetch({
-        success: function(collection, response, options) {
-          targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          var targetingView = new ReachUI.Targeting.TargetingView({model: targeting});
-          self.ui.targeting.html(targetingView.render().el);
-        }
-      });
+      this.ui.targeting.toggle('slow');
+      var is_visible = ($(this.ui.targeting).css('display') == 'block');
+      this.$el.find('.add_targeting_btn').html(is_visible ? 'Hide Targeting' : '+ Add Targeting');
     },
 
     ui: {

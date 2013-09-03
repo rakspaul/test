@@ -63,3 +63,14 @@
     <%= dmas.join(', ') %>
   </p>
 </div>
+
+<div class="zip-codes-targeting">
+  <p>
+    <% if(selected_zip_codes.length > 0) { %>
+    <img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">
+    <b>Zip Codes:</b>
+    <% } %>
+    <% var zips = []; for (var i = 0; i < selected_zip_codes.length; i++) { zips.push(selected_zip_codes[i]); } %>
+    <%= zips.join(', ') %>
+  </p>
+</div>
