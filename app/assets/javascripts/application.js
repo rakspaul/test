@@ -53,3 +53,5 @@
 //= require ./nielsen_ocr
 //= require ./admin/reach_clients.js
 //= require ./admin/reach_client_controller.js
+//= require ./admin/audience_groups.js
+//= require ./admin/audience_group_controller.js

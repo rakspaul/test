@@ -1,0 +1,10 @@
+Audience, Key Values
+<%
+  require 'csv'
+  csv_string = CSV.generate do |csv|
+    @audience_groups.each do |group|
+      csv << [group.name, group.key_values]
+    end
+  end
+-%>
+<%= raw csv_string %>
