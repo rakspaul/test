@@ -197,8 +197,8 @@ private
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
-      if lineitem.save && !li[:ads].blank?
-        li[:ads].each_with_index do |ad, j|
+      if lineitem.save
+        li[:ads].to_a.compact.each_with_index do |ad, j|
           begin
             ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])
@@ -213,6 +213,7 @@ private
           end
         end
       else
+        Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
         li_errors[i][:lineitems] = lineitem.errors
       end
