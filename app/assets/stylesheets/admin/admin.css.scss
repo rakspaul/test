@@ -91,7 +91,7 @@
       }
 
       .actions-buttons{
-        margin-left:92px;
+        margin-left:20px;
       }
 
     }
@@ -177,12 +177,13 @@
 
 #audience_groups_details{
 
-  .group-name{
-    .control-label{
+  .group-name {
+    .control-label {
       width:auto;
     }
-    .controls{
-      margin-left:100px;
+
+    .controls {
+      margin-left: 100px;
     }
   }
 
@@ -203,6 +204,8 @@
 
     ul li{
       padding:2px;
+      border-bottom: 1px solid #f2f2f2;
+      background: #fff;
     }
 
     ul li:hover{
@@ -235,15 +238,12 @@
   }
 
   .audience-views{
-    padding-left:100px;
+    padding-left:20px;
   }
 
   #search_results_view, #selected_segments_view{
     display:inline-block;
     margin-right:15px;
   }
-
-
-
 }
 
