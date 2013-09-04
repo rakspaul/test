@@ -20,7 +20,7 @@ ReachUI.formatColumn = function(value, type, precision) {
   } else {
     return value;
   }
-}
+};
 
 // Jan-Mar = 1
 // Apr-Jun = 2
@@ -29,4 +29,19 @@ ReachUI.formatColumn = function(value, type, precision) {
 ReachUI.getQuarter = function(d) {
   d = d || new Date();
   return Math.ceil((d.getMonth() + 1) / 3);
-}
+};
+
+// returns string like "Option, option + 5 more"
+ReachUI.truncateArray = function(arr, attr) {
+  var result = "";
+  if(arr.length >= 2) {
+    result += (attr ? (arr[0][attr]+", "+arr[1][attr]) : (arr[0]+", "+arr[1]));
+    if(arr.length >= 3) {
+      var remaining_arr = arr.slice(2);
+      result += " +" + remaining_arr.length + " more";
+    }
+  } else if(arr.length == 1) {
+    result += (attr ? arr[0][attr] : arr[0]); 
+  }
+  return result;
+};

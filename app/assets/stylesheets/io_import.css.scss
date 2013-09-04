@@ -220,7 +220,7 @@ $error_color: #ff7d78;
   }
 
   .ads-container {
-    .ad > div {
+    .ad > div[class^="pure-u"] {
       height: 87px;
     }
 
@@ -238,6 +238,12 @@ $error_color: #ff7d78;
       text-align: center;
       cursor: pointer;
     }
+  }
+
+  .targeting_options_condensed {
+    clear: both;
+    font-size: 11px;
+    margin-top:7px;
   }
 }
 
@@ -302,7 +308,8 @@ $error_color: #ff7d78;
 }
 
 .targeting-container {
-  width:100%;
+  width: 96%;
+  height: 100%;
   float:left;
   border: 2px dashed $text_color;
   padding: 5px;

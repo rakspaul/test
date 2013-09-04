@@ -60,16 +60,25 @@
 
     // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function(){
-      // manipulate the `el` here. it's already been rendered, and is full of the view's HTML, ready to go.
-
+      var view = this;
       $.fn.editable.defaults.mode = 'popup';
+
+      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+        success: function(response, newValue) {
+          var date = moment(newValue).format("YYYY-MM-DD");
+          view.model.set(this.dataset['name'], date); //update backbone model;
+        },
+        datepicker: {
+          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+        }
+      }); 
+
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          this.model.set(this.dataset['name'], newValue); //update backbone model;
+          view.model.set(this.dataset['name'], newValue); //update backbone model;
         }
       });
-
-      var view = this;
+      
       _.each(this.model.ads, function(ad) {
         view.renderAd(ad);
       });
@@ -79,21 +88,52 @@
       dmas.fetch({
         success: function(collection, response, options) {
           self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_li_view: self});
+          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_view: self});
           self.ui.targeting.html(targetingView.render().el);
         }
       });
     },
 
     renderAd: function(ad) {
-      var adView = new ReachUI.Ads.AdView({model: ad});
+      var adView = new ReachUI.Ads.AdView({model: ad, parent_view: this});
       this.ui.ads_list.append(adView.render().el);
     },
 
-    _toggleTargetingDialog: function() {
-      this.ui.targeting.toggle('slow');
+    _toggleTargetingDialog: function() {    
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.add_targeting_btn').html(is_visible ? 'Hide Targeting' : '+ Add Targeting');
+      this.$el.find('.add_targeting_btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
+      this.ui.targeting.toggle('slow');
+
+      if(is_visible) {
+        var targeting_options = [];
+
+        var dmas = this.model.attributes.targeting.attributes.selected_dmas;
+        if(dmas.length > 0) {
+          targeting_options.push('<img src="/assets/dma_targeting_icon.png" title="DMAs" alt="DMAs">', ReachUI.truncateArray(dmas, "title"));
+        }
+
+        var zips = this.model.attributes.targeting.attributes.selected_zip_codes;
+        if(zips.length > 0) {
+          targeting_options.push('<img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">', ReachUI.truncateArray(zips));
+        }
+
+        var key_values = this.model.attributes.targeting.attributes.selected_key_values;      
+        var kv_icon_pushed = false;
+        _.each(key_values, function(value, key) {
+          if(value.length > 0) {
+            if(!kv_icon_pushed) {
+              targeting_options.push('<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">&nbsp;');
+              kv_icon_pushed = true;
+            }
+            targeting_options.push("<b>"+key+":</b>", ReachUI.truncateArray(value));
+          }
+        }); 
+    
+        // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
+        // selected (including Ads' ones), so we need to limit this only to first matching element
+        var toptions = this.$el.find('.targeting_options_condensed')[0];
+        $(toptions).html(targeting_options.join(' '));
+      }
     },
 
     ui: {
