@@ -105,7 +105,7 @@ class IoImport
         u
       else
         @sales_person_unknown = true
-        User.sales_people.new params.merge(phone_number: @reader.sales_person[:phone_number])
+        User.new params.merge(phone_number: @reader.sales_person[:phone_number])
       end
     end
 
