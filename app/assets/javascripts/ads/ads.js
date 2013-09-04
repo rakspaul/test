@@ -2,10 +2,12 @@
   'use strict';
 
   Ads.Ad = Backbone.Model.extend({
-    defaults: {
-      rate: 0.0,
-      start_date: moment().add('days', 1).format("YYYY-MM-DD"),
-      end_date: moment().add('days', 15).format("YYYY-MM-DD")
+    defaults: function() {
+      return {
+        rate: 0.0,
+        start_date: moment().add('days', 1).format("YYYY-MM-DD"),
+        end_date: moment().add('days', 15).format("YYYY-MM-DD")
+      }
     },
 
     url: function() {
@@ -44,19 +46,52 @@
     initialize: function(){
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      var targeting = new ReachUI.Targeting.Targeting();
+      this.model.set('targeting', targeting);
     },
 
     events: {
       'mouseenter': '_show_delete_btn',
       'mouseleave': '_hide_delete_btn',
-      'click .delete_btn': '_destroy_ad'
+      'click .delete_btn': '_destroy_ad',
+      'click .add_targeting': '_toggleTargetingDialog'
+    },
+
+    ui: {
+      ads_list: '.ads-container',
+      targeting: '.targeting-container'
+    },
+
+    _toggleTargetingDialog: function() {
+      this.options.parent_view._toggleTargetingDialog.apply(this);
     },
 
     onRender: function() {
+      var self = this;
       $.fn.editable.defaults.mode = 'popup';
+      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+        success: function(response, newValue) {
+          var date = moment(newValue).format("YYYY-MM-DD");
+          self.model.set(this.dataset['name'], date); //update backbone model
+        },
+        datepicker: {
+          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+        }
+      });
+
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          this.model.set(this.dataset['name'], newValue); //update backbone model
+          self.model.set(this.dataset['name'], newValue); //update backbone model
+        }
+      });
+
+      var dmas = new ReachUI.DMA.List();
+      dmas.fetch({
+        success: function(collection, response, options) {
+          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_view: self});
+          self.ui.targeting.html(targetingView.render().el);
         }
       });
     },

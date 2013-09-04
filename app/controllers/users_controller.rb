@@ -9,16 +9,14 @@ class UsersController < ApplicationController
   end
 
   def search
+    @users = User.of_network(current_network).limit(8)
+
     @users = if params[:search_by] == 'email'
-      User.where("email ilike ?", "#{params[:search]}%").limit(8)
+      @users.where("email ilike ?", "#{params[:search]}%")
     elsif params[:search_by] == 'name'
-      relation = params[:sales].present? ? User.sales_people : User
-      relation.where("(first_name || ' ' || last_name) ilike ?", "#{params[:search]}%").limit(8)
+      @users.where("(first_name || ' ' || last_name) ilike ?", "#{params[:search]}%")
     end
 
-    @users.map!{|u| {id: u.id, email: u.email, phone: u.phone_number, name: "#{u.first_name} #{u.last_name}"} }
-
-    render :json => @users.to_json
+    respond_with(@users)
   end
-
 end

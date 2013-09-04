@@ -200,12 +200,14 @@ private
       if lineitem.save && !li[:ads].blank?
         li[:ads].each_with_index do |ad, j|
           begin
+            ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])
             if !ad_object.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_object.errors
             end
           rescue => e
+            Rails.logger.warn 'e.message - ' + e.message.inspect
             li_errors[i] ||= {:ads => {}}
             li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
           end

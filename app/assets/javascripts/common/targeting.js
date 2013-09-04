@@ -2,11 +2,13 @@
   'use strict';
 
   Targeting.Targeting = Backbone.Model.extend({
-    defaults: {
-      selected_key_values: {"Age": [], "Etnicity": [], "Interests": [], "Income": [], "Gender": []},
-      selected_dmas: [],
-      dmas_list: [],
-      selected_zip_codes: []
+    defaults: function() {
+      return {
+        selected_key_values: {"Age": [], "Etnicity": [], "Interests": [], "Income": [], "Gender": []},
+        selected_dmas: [],
+        dmas_list: [],
+        selected_zip_codes: []
+      }
     },
 
     toJSON: function() {
@@ -142,7 +144,7 @@
     },
 
     _closeTargetingDialog: function() {
-      this.options.parent_li_view._toggleTargetingDialog();    
+      this.options.parent_view._toggleTargetingDialog();    
     },
 
     events: {

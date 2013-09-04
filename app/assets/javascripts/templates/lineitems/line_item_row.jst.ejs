@@ -1,13 +1,13 @@
 <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">Contract LI</div>
 
 <div class="pure-u-1-12 start-date">
-  <span class="editable" data-type="date" data-name="start_date" data-pk="1">
+  <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.start_date %>
   </span>
 </div>
 
 <div class="pure-u-1-12 end-date">
-  <span class="editable" data-type="date" data-name="end_date" data-pk="1">
+  <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.end_date %>
   </span>
 </div>
@@ -24,6 +24,7 @@
   </span>
   <br/>
   <span class="add_targeting_btn operation">+ Add Targeting</span>
+  <div class="targeting_options_condensed" style="clear:both"></div>
 </div>
   
 <div class="pure-u-1-12 volume"><%= accounting.formatNumber(lineitem.volume) %></div>
