@@ -11,7 +11,7 @@ json.order do
     media_contact_unknown: @io_import.media_contact_unknown,
     reach_client_id: @io_import.reach_client.try(:id),
     reach_client_name: @io_import.reach_client.try(:name),
-    io_file_path: @io_import.io_file_path,
+    io_file_path: @io_import.tempfile.path,
     reach_client_name: @io_import.reach_client.try(:name)
   }
 end

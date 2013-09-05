@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def create
+  def create  
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
     if !reach_client
       render json: {status: 'error', errors: {reach_client: 'should be specified'} }
@@ -187,6 +187,7 @@ private
     writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
     writer.write
     file.close
+    File.unlink(file.path)
   end
 
   def save_lineitems_with_ads(params)
@@ -202,6 +203,8 @@ private
           begin
             ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])
+            ad_object.order_id = @order.id
+            ad_object.source_id = @order.source_id
             if !ad_object.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_object.errors
