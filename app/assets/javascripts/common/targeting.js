@@ -12,7 +12,7 @@
     },
 
     toJSON: function() {
-      return { targeting: _.clone(this.attributes) };
+      return { targeting: _.clone(_.omit(this.attributes, 'dmas_list')) };
     }
   });
 

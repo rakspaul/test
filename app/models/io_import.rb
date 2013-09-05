@@ -3,12 +3,14 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :io_file_path, :lineitems, :advertiser, :io_details, :reach_client,
+  attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
-:sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown
+:sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile
 
   def initialize(file, current_user)
-    @io_file_path         = file.path
+    @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
+    @tempfile.write File.read(file.path)
+
     @reader               = IOExcelFileReader.new(file)
     @current_user         = current_user
     @original_filename    = file.original_filename
