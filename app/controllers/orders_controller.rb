@@ -72,7 +72,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if @order.save
-          IoDetail.create! client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
+          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
 
@@ -184,7 +184,7 @@ private
 
   def store_io_asset params
     file = File.open(params[:order][:io_file_path])
-    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
+    writer = ::IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
     writer.write
     file.close
     File.unlink(file.path)

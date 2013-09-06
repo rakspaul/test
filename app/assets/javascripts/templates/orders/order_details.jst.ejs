@@ -69,7 +69,7 @@
       </div>
 
       <div class="pure-u-1-3">
-        <div class="field salesperson-name">
+        <div class="field salesperson-name <% if(order.sales_person_unknown) { %> field_with_errors <% } %>">
           <p>
             <% if(order.sales_person_unknown) { %>
             <img src="/assets/contact_unknown.png" title="Sales person is not found in existing contacts" alt="Sales person unknown"/>
@@ -77,13 +77,19 @@
             <img src="/assets/salesperson_icon.png" title="Sales person" alt="Sales person"/>
             Salesperson
           </p>
-          <span class="editable typeahead" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
-          <div class="errors_container"></div>
+          <span class="<% if(order.sales_person_unknown) { %>editable typeahead<% } %>" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
+          <div class="errors_container">
+          <% if(order.sales_person_unknown) { %>
+            This sales person is not associated with current Reach Client
+          <% } %>
+          </div>
         </div>
+
         <div class="field salesperson-phone">
           <p>Phone</p>
           <span data-type="text" data-pk="1" data-name="sales_person_phone"><%= order.sales_person_phone %></span>
         </div>
+
         <div class="field salesperson-email">
           <p>Email</p>
           <span data-type="typeahead" data-pk="1" data-name="sales_person_email"><%= order.sales_person_email %></span>
@@ -100,14 +106,17 @@
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
           <div class="errors_container"></div>
         </div>
+
         <div class="field media-contact-company">
           <p>Company</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_company"><%= order.reach_client_name %></span>
         </div>
+
         <div class="field media-contact-phone">
           <p>Phone</p>
           <span class="editable" data-type="text" data-pk="1" data-name="media_contact_phone"><%= order.media_contact_phone %></span>
         </div>
+
         <div class="field media-contact-email">
           <p>Email</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1"  data-name="media_contact_email"><%= order.media_contact_email %></span>
@@ -115,7 +124,7 @@
       </div>
 
       <div class="pure-u-1-3">
-        <div class="field account-contact-name">
+        <div class="field account-contact-name <% if(order.account_contact_unknown) { %> field_with_errors <% } %>">
           <p>
             <% if(order.account_contact_unknown) { %>
             <img src="/assets/contact_unknown.png" title="Account Manager is not found in existing contacts" alt="Account Manager unknown"/>
@@ -123,13 +132,19 @@
             <img src="/assets/account_contact_icon.png" title="Account Manager" alt="Account Manager"/>
             Account Contact
           </p>
-          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
-          <div class="errors_container"></div>
+          <span class="<% if(order.account_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
+          <div class="errors_container">
+          <% if(order.account_contact_unknown) { %>
+            This account manager is not associated with current Reach Client
+          <% } %>
+          </div>
         </div>
+
         <div class="field account-contact-phone">
           <p>Phone</p>
           <span data-type="text" data-pk="1" data-name="account_contact_phone"><%= order.account_contact_phone %></span>
         </div>
+
         <div class="field account-contact-email">
           <p>Email</p>
           <span data-type="typeahead" data-pk="1" data-name="account_contact_email"><%= order.account_contact_email %></span>
