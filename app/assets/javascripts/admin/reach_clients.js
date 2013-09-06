@@ -68,10 +68,8 @@
     ui: {
       name: '#name',
       abbreviation: '#abbreviation',
-      address: '#address',
       name_error: '#name_error',
       abbr_error: '#abbr_error',
-      address_error: '#address_error',
     },
   });
 
@@ -148,9 +146,11 @@
       name: '#name',
       phone: '#phone',
       email: '#email',
+      address: '#address',
       name_error: '#name_error',
       phone_error: '#phone_error',
       email_error: '#email_error',
+      address_error: '#address_error'
     },
 
     events: {
@@ -166,6 +166,7 @@
         name: this.ui.name.val(),
         phone: this.ui.phone.val(),
         email: this.ui.email.val(),
+        address: this.ui.address.val(),
         reach_client_id: this.model.get('reach_client_id'),
       }
 
@@ -215,9 +216,11 @@
       name: '#name',
       phone: '#phone',
       email: '#email',
+      address: '#address',
       name_error: '#name_error',
       phone_error: '#phone_error',
       email_error: '#email_error',
+      address_error: '#address_error'
     },
 
     events: {
@@ -233,6 +236,7 @@
         name: this.ui.name.val(),
         phone: this.ui.phone.val(),
         email: this.ui.email.val(),
+        address: this.ui.address.val(),
         reach_client_id: this.model.get('reach_client_id'),
       }
 
@@ -410,7 +414,6 @@
       var prop = {
         name: this.clientDetailsView.ui.name.val(),
         abbr: this.clientDetailsView.ui.abbreviation.val(),
-        address: this.clientDetailsView.ui.address.val(),
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
       }
