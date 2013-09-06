@@ -20,6 +20,11 @@
   AudienceGroup.SegmantList = Backbone.Collection.extend({
     url: '/segments/search.json',
     model: AudienceGroup.Segmant,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
   });
 
   AudienceGroup.AudienceGroupDetailsLayout = Backbone.Marionette.Layout.extend({
@@ -67,7 +72,6 @@
       if (event.type === 'keypress' && event.keyCode != 13) {
         return;
       }
-
       this.trigger('search', this.ui.search_input.val().trim());
     },
 
@@ -84,6 +88,10 @@
       }
     },
 
+    events:{
+      'click' : '_onListItemClick'
+    },
+
     onRender: function(){
       this.$el.draggable({
         revert: 'invalid',
@@ -91,13 +99,48 @@
       });
     },
 
+    _onListItemClick: function(event){
+      $(event.target).toggleClass('selected');
+    }
+
   });
 
   AudienceGroup.SearchResultsView = Backbone.Marionette.CompositeView.extend({
-    template: _.template('<ul id="searchResults"> </ul>'),
-    className: 'pure-u select-keyvals',
+    template: JST['templates/admin/audience_groups/search_results_view'],
     itemViewContainer: '#searchResults',
     itemView: AudienceGroup.SearchItem,
+
+    events:{
+      'click #add_keyvals_button' : '_onAddKeyValsClick'
+    },
+
+    ui:{
+      loading_div: '#loading_div'
+    },
+
+    initialize: function() {
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
+    },
+
+    _onAddKeyValsClick: function(){
+      var selectedKeyVals = $('#searchResults li.selected');
+      var selectedKeyValsNames = [];
+
+      $(selectedKeyVals).each(function(){
+        selectedKeyValsNames.push($(this).attr('data-name'));
+      })
+
+      this.trigger('addKeyVals', selectedKeyValsNames);
+    },
   });
 
 
@@ -156,23 +199,36 @@
       this.nameView = new AudienceGroup.NameView({model: this.model});
       this.layout.name_view.show(this.nameView);
 
-      this.searchView = new AudienceGroup.SearchView()
+      this.searchView = new AudienceGroup.SearchView();
+      this.layout.search_view.show(this.searchView);
       this.searchView.on('search', this._onSearch, this);
 
-      this.layout.search_view.show(this.searchView);
-
       this.searchResults = new AudienceGroup.SegmantList();
-      this.searchResults.fetch();
 
       this.searchResultsView = new AudienceGroup.SearchResultsView({collection: this.searchResults})
-      this.layout.search_results_view.show(this.searchResultsView)
+      this.layout.search_results_view.show(this.searchResultsView);
+      this.searchResultsView.on('addKeyVals', this._onAddKeyVals, this);
+
+      this.searchResults.fetch({reset: true});
 
       this.selectedSegmentsView = new AudienceGroup.SelectedSegmentsView({model: this.model});
       this.layout.selected_segments_view.show(this.selectedSegmentsView);
     },
 
     _onSearch: function(search_string) {
-      this.searchResults.fetch({data:{search: search_string}});
+      this.searchResults.fetch({data:{search: search_string}, reset: true})
+    },
+
+    _onAddKeyVals: function(selectedKeyVals){
+      if(selectedKeyVals.length){
+        $('#searchResults li').removeClass('selected');
+        if(this.selectedSegmentsView.ui.key_values.val() === ''){
+          this.selectedSegmentsView.ui.key_values.val(selectedKeyVals.join(','));
+        } else {
+          var str = this.selectedSegmentsView.ui.key_values.val();
+          this.selectedSegmentsView.ui.key_values.val(str + ', ' + selectedKeyVals.join(','));
+        }
+      }
     },
 
     _saveAudienceGroups: function(){
