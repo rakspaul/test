@@ -497,14 +497,24 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showLineitemList: function(order) {
+    var self = this;
+
     if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);
-      this.lineItemList.fetch();
+      this.lineItemList.fetch().then(
+        function(collection, response, options) {
+          self._liSetCallbacksAndShow(self.lineItemList);
+        },
+        function(model, response, options) {
+          console.log('error while getting lineitems list');
+          console.log(response);
+        }
+      );
+    } else {
+      this.lineItemList.setOrder(order);
+      this._liSetCallbacksAndShow(this.lineItemList);
     }
-
-    this.lineItemList.setOrder(order);
-    this._liSetCallbacksAndShow(this.lineItemList);
   },
 
   // Ad name should be in this format: 
@@ -525,12 +535,35 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li = li_view.model;
       var ad_name = ordersController._generateAdName(li);
       var attrs = _.extend(_.omit(li.attributes, 'name', 'volume', 'value', 'ad_sizes', 'targeting'), {description: ad_name, size: li.attributes.ad_sizes});
-console.log(attrs);
       var ad = new ReachUI.Ads.Ad(attrs);
       li.pushAd(ad);
       li_view.renderAd(ad);
     });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);
+
+    // show Ads for each LI (only if `show` action)
+    if(lineItemList.order.id) {
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        li_view.model.ads = new ReachUI.Ads.AdList();
+        li_view.model.ads.setOrder(lineItemList.order);
+        // fetch ads for each lineitem and append then to the view of this lineitem
+        li_view.model.ads.fetch().then(
+          function(collection, response, options) {
+            _.each(collection, function(attrs) {
+              attrs.start_date = moment(attrs.start_date).format("YYYY-MM-DD");
+              attrs.end_date = moment(attrs.end_date).format("YYYY-MM-DD");
+              var ad = new ReachUI.Ads.Ad(attrs);
+              li_view.model.pushAd(ad);
+              li_view.renderAd(ad);
+            })
+          },
+          function(model, response, options) {
+            console.log('error while getting ads list');
+            console.log(response);
+          }
+        );
+      });
+    }
   }
 });

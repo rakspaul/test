@@ -45,8 +45,8 @@
 //= require ./orders/search.js
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
-//= require ./lineitems/adsizes.js
 //= require ./ads/ads.js
+//= require ./lineitems/adsizes.js
 //= require ./common/targeting.js
 //= require ./orders/controller.js
 //= require ./orders/router.js

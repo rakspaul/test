@@ -37,6 +37,7 @@ Reachui::Application.routes.draw do
       end
     end
     resources :lineitems
+    resources :ads, :only => [:index]
 
     collection do
       get 'search'
