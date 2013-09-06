@@ -38,7 +38,12 @@ ReachUI.truncateArray = function(arr, attr) {
     result += (attr ? (arr[0][attr]+", "+arr[1][attr]) : (arr[0]+", "+arr[1]));
     if(arr.length >= 3) {
       var remaining_arr = arr.slice(2);
-      result += " +" + remaining_arr.length + " more";
+      var more_items_tooltip = [];
+      more_items_tooltip = _.inject(remaining_arr, function(sum, el) { 
+        attr ? sum.push(el[attr]) : sum.push(el); 
+        return sum; 
+      }, [] );
+      result += ' <span title="'+more_items_tooltip.join('; ')+'">+' + remaining_arr.length + ' more</span>';
     }
   } else if(arr.length == 1) {
     result += (attr ? arr[0][attr] : arr[0]); 

@@ -102,22 +102,26 @@ class IoImport
     end
 
     def find_sales_person
-      params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email] }
-      if u = User.where(params).first
-        u
+      params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email], phone_number: @reader.sales_person[:phone_number] }
+      sp = @reach_client.sales_person
+
+      if sp && sp.first_name == params[:first_name] && sp.last_name == params[:last_name]
+        @reach_client.sales_person
       else
         @sales_person_unknown = true
-        User.new params.merge(phone_number: @reader.sales_person[:phone_number])
+        User.new params
       end
     end
 
     def find_account_contact
-      params = { first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email] }
-      if u = User.where(params).first
-        u
+      params = { first_name: @reader.account_contact[:first_name], last_name: @reader.account_contact[:last_name], email: @reader.account_contact[:email], phone_number: @reader.account_contact[:phone_number] }
+      am = @reach_client.account_manager
+
+      if am && am.first_name == params[:first_name] && am.last_name == params[:last_name]
+        @reach_client.account_manager
       else
         @account_contact_unknown = true
-        User.new params.merge(phone_number: @reader.account_contact[:phone_number])
+        User.new params
       end
     end
 

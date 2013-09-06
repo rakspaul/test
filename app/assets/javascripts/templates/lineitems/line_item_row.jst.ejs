@@ -27,9 +27,22 @@
   <div class="targeting_options_condensed" style="clear:both"></div>
 </div>
   
-<div class="pure-u-1-12 volume"><%= accounting.formatNumber(lineitem.volume) %></div>
-<div class="pure-u-1-12 rate"><%= accounting.formatMoney(lineitem.rate) %></div>
-<div class="pure-u-1-12 media-cost"><%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %></div>
+<div class="pure-u-1-12 volume">
+  <span class="editable" data-type="text" data-name="volume" data-pk="1">
+    <%= accounting.formatNumber(lineitem.volume) %>
+  </span>
+</div>
+<div class="pure-u-1-12 rate">
+  <span class="editable" data-type="text" data-name="rate" data-pk="1">
+    <%= accounting.formatMoney(lineitem.rate) %>
+  </span>
+</div>
+
+<div class="pure-u-1-12 media-cost">
+  <span class="editable" data-type="text" data-name="media_cost" data-pk="1">
+    <%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %>
+  </span>
+</div>
 
 <div class="ads-container">
 </div>
