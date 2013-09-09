@@ -16,14 +16,14 @@
     .pure-u-1-5
       %label Account Manager
       %select
+        %option Select
         - @users.each do |user|
-          %option Select
           %option= "#{user.first_name} #{user.last_name}"
     .pure-u-1-5
       %label Trafficker
       %select
+        %option Select
         - @users.each do |user|
-          %option Select
           %option= "#{user.first_name} #{user.last_name}"
     .pure-u-1-5
 
