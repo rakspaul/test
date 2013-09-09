@@ -61,7 +61,6 @@ class OrdersController < ApplicationController
       return
     end
 
-    # :io_asset_filename
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
@@ -72,7 +71,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if @order.save
-          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, trafficking_status: "unreviewed", account_manager_status: "unreviewed", overall_status: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
+          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, state: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
 
@@ -95,27 +94,51 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     order_param = params[:order]
 
-    @order.name = params[:order][:name]
-    @order.start_date = Time.zone.parse(params[:order][:start_date])
-    @order.end_date = Time.zone.parse(params[:order][:end_date])
-    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
-    @order.sales_person_id = params[:order][:sales_person_id].to_i
+    @order.name = order_param[:name]
+    @order.start_date = Time.zone.parse(order_param[:start_date])
+    @order.end_date = Time.zone.parse(order_param[:end_date])
+    @order.network_advertiser_id = order_param[:advertiser_id].to_i
+    @order.sales_person_id = order_param[:sales_person_id].to_i
 
-    # Legacy orders might not have user's assigned to it. Therefore assign current user
-    # as owner/creator of order
-    @order.user = current_user if @order.user.nil?
+    io_details = @order.io_detail
+    io_details.client_advertiser_name = order_param[:client_advertiser_name]
+    #io_details.media_contact_id       = order_param[:media_contact_id]
+    #io_details.billing_contact_id     = order_param[:billing_contact_id]
+    #io_details.reach_client_id        = order_param[:reach_client_id]
+    #io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
+    #io_details.sales_person_id        = order_param[:sales_person_id]
+    #io_details.account_manager_id     = order_param[:account_manager_id]
+    io_details.client_order_id        = order_param[:client_order_id]
+    io_details.sales_person_email     = order_param[:sales_person_email]
+    io_details.sales_person_phone     = order_param[:sales_person_phone]
+    io_details.account_manager_email  = order_param[:account_manager_email]
+    io_details.account_manager_phone  = order_param[:account_manager_phone]
 
-    @order.save
+    respond_to do |format|
+      Order.transaction do
+        li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
-    respond_with(@order)
+        if li_ads_errors.blank?
+          if @order.save && io_details.save
+            format.json { render json: {status: 'success', order_id: @order.id} }
+          else
+            Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
+            Rails.logger.warn '@order.errors - ' + @order.errors.inspect
+            format.json { render json: {status: 'error', errors: @order.errors} }
+            raise ActiveRecord::Rollback
+          end
+        else
+          format.json { render json: {status: 'error', errors: {lineitems: li_ads_errors}} }
+          raise ActiveRecord::Rollback
+        end
+      end
+    end
   end
 
   def search
     search_query = params[:search]
-    @orders = Order.of_network(current_network)
-      .includes(:sales_person)
-      .includes(:user)
-      .limit(50)
+    @orders = Order.of_network(current_network).includes(:sales_person).includes(:user).limit(50)
+
     if search_query.present?
       @orders = SearchOrdersQuery.new(@orders).search(search_query)
     else
@@ -181,6 +204,23 @@ private
     writer.write
     file.close
     File.unlink(file.path)
+  end
+
+  def update_lineitems_with_ads(params)
+    li_errors = {}
+
+    params.each_with_index do |li, i|
+      li[:lineitem].delete(:targeting)
+      lineitem = @order.lineitems.find(li[:lineitem][:id])
+      li[:lineitem].delete(:id)
+      if !lineitem.update_attributes(li[:lineitem])
+        Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
+        li_errors[i] ||= {}
+        li_errors[i][:lineitems] = lineitem.errors
+      end
+    end
+
+    li_errors
   end
 
   def save_lineitems_with_ads(params)
