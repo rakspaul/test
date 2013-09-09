@@ -102,6 +102,8 @@
 
 .admin-reach-table {
   width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
 
   tbody > tr:hover {
     background-color: #f8f8f8;
@@ -163,6 +165,10 @@
     &:last-child {
       border-right: 1px solid #ededed;
     }
+
+    .key-values{
+      word-wrap:break-word;
+    }
   }
 
   tr:last-child > td {
@@ -170,7 +176,7 @@
   }
 
   .group-name{
-    width:40%;
+    width:30%;
   }
 
 }
@@ -197,7 +203,7 @@
       height:300px;
       background:#fff;
       border:1px solid #ccc;
-      margin:0 20px 20px 0;
+      margin:0 20px 5px 0;
       overflow-y: scroll;
       overflow-x: hidden;
       float:left;
@@ -248,8 +254,9 @@
     }
 
     .key-values-error{
-      width:220px;
+      width:250px;
       float:left;
+      word-wrap:break-word;
     }
   }
 
@@ -264,10 +271,15 @@
 
   .audience-views{
     padding-left:20px;
+    margin-bottom:20px;
   }
 
   .add-keyvals-button{
     margin:135px 20px 0 0;
+  }
+
+  .helper-text{
+    font-size:11px;
   }
 
 }
