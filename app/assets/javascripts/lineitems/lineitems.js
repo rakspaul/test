@@ -65,10 +65,30 @@
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
-      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+      this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
           view.model.set(this.dataset['name'], date); //update backbone model;
+          
+          // order's start date should be lowest of all related LIs
+          var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
+          _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
+          $('.order-details .start-date .editable.date').html(min_date);
+        },
+        datepicker: {
+          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+        }
+      });
+
+      this.$el.find('.end-date .editable.custom').editable({
+        success: function(response, newValue) {
+          var date = moment(newValue).format("YYYY-MM-DD");
+          view.model.set(this.dataset['name'], date); //update backbone model;
+
+          // order's end date should be highest of all related LIs
+          var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
+          _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
+          $('.order-details .end-date .editable.date').html(max_date);
         },
         datepicker: {
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
@@ -80,8 +100,8 @@
           view.model.set(this.dataset['name'], newValue); //update backbone model;
         }
       });
-      
-      _.each(this.model.ads, function(ad) {
+    
+      _.each((this.model.ads.models || this.model.ads.collection || this.model.ads), function(ad) {
         view.renderAd(ad);
       });
       
@@ -92,6 +112,9 @@
           self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
           var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_view: self});
           self.ui.targeting.html(targetingView.render().el);
+
+          // align height of lineitem's li-number div
+          _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
         }
       });
     },
@@ -135,6 +158,9 @@
         // selected (including Ads' ones), so we need to limit this only to first matching element
         var toptions = this.$el.find('.targeting_options_condensed')[0];
         $(toptions).html(targeting_options.join(' '));
+
+        // align height of lineitem's li-number div
+        _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
       }
     },
 
@@ -183,7 +209,11 @@
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
                   console.log('li_k - ' + li_k);
-                  console.log('li_errors - ' + li_errors);
+                  var li_errors_list = [];
+                  _.each(li_errors.lineitems, function(val, k) { 
+                    li_errors_list.push(k + ' ' + val);
+                  });
+                  $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors').addClass('field_with_errors').html(li_errors_list.join('; '));
                   _.each(li_errors["ads"], function(ad_error, ad_k) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .size .errors').addClass('field_with_errors').html(ad_error);
                   });

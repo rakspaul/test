@@ -372,6 +372,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("sales_person_phone", el.phone);
       $('.salesperson-phone span').removeClass('editable-empty').html(el.phone);
       $('.salesperson-email span').removeClass('editable-empty').html(el.email);
+
+      ordersController._clearErrorsOn(".salesperson-name");
     });
 
     $('.media-contact-name .typeahead').editable({
@@ -504,6 +506,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.setOrder(order);
       this.lineItemList.fetch().then(
         function(collection, response, options) {
+          order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
         },
         function(model, response, options) {
@@ -556,7 +559,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               var ad = new ReachUI.Ads.Ad(attrs);
               li_view.model.pushAd(ad);
               li_view.renderAd(ad);
-            })
+            });
           },
           function(model, response, options) {
             console.log('error while getting ads list');

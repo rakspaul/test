@@ -76,7 +76,7 @@ class IoImport
 
       @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 
-      @io_details = IoDetail.new :overall_status => :draft, :trafficking_status => :unreviewed, :account_manager_status => :unreviewed
+      @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
       @io_details.reach_client         = reach_client
