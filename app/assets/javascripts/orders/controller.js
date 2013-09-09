@@ -305,7 +305,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var start_date = moment(newValue).format("YYYY-MM-DD");
         _.each(order.lineItemList.models, function(li) {
           li.set("start_date", start_date);
-          _.each(li.ads, function(ad) {
+          _.each(li.ads.models || li.ads, function(ad) {
             ad.set("start_date", start_date);
           });
         });
@@ -323,7 +323,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var end_date = moment(newValue).format("YYYY-MM-DD");
         _.each(order.lineItemList.models, function(li) {
           li.set("end_date", end_date);
-          _.each(li.ads, function(ad) {
+          _.each(li.ads.models || li.ads, function(ad) {
             ad.set("end_date", end_date);
           });
         });
