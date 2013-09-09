@@ -95,12 +95,29 @@
     onRender: function(){
       this.$el.draggable({
         revert: 'invalid',
-        helper: 'clone',
+        helper: this._dragHelper,
+        containment: '.content'
       });
     },
 
     _onListItemClick: function(event){
-      $(event.target).toggleClass('selected');
+      if (event.ctrlKey) {
+        $(event.target).toggleClass('selected');
+      }
+      else{
+        $("#searchResults li").removeClass('selected');
+        $(event.target).addClass('selected');
+      }
+    },
+
+    _dragHelper: function(){
+      var selected = $('#searchResults li.selected');
+      if (selected.length === 0) {
+        selected = $(this).addClass('selected');
+      }
+      var container = $('<ul />');
+      container.append(selected.clone());
+      return container;
     }
 
   });
@@ -132,13 +149,12 @@
     },
 
     _onAddKeyValsClick: function(){
-      var selectedKeyVals = $('#searchResults li.selected');
-      var selectedKeyValsNames = [];
+      var selectedKeyVals = $('#searchResults li.selected'),
+        selectedKeyValsNames = [];
 
       $(selectedKeyVals).each(function(){
         selectedKeyValsNames.push($(this).attr('data-name'));
       })
-
       this.trigger('addKeyVals', selectedKeyValsNames);
     },
   });
@@ -157,17 +173,29 @@
     },
 
     onRender: function(){
-      this.$el.droppable({ accept: ".draggble", drop: this._onDrop });
+      this.$el.droppable({
+        accept: ".draggble", tolerance: "pointer", drop: this._onDrop
+      });
+    },
+
+    addKeyVals: function(keyvals){
+      if(this.ui.key_values.val() === ''){
+        this.ui.key_values.val(keyvals.join(','));
+      } else {
+        var str = this.ui.key_values.val();
+        this.ui.key_values.val(str + ',' + keyvals.join(','));
+      }
     },
 
     _onDrop: function(event, ui){
-      var dropItem = $(ui.draggable).attr('data-name');
-      if(this.ui.key_values.val() === ''){
-        this.ui.key_values.val(dropItem);
-      } else {
-        var str = this.ui.key_values.val();
-        this.ui.key_values.val(str + ', ' + dropItem);
-      }
+      var newItems = $(ui.helper).find('li').clone(false),
+        dropItems = [];
+      $(newItems).each(function(){
+        dropItems.push($(this).attr('data-name'));
+      });
+
+      $('#searchResults li.selected').removeClass('selected');
+      this.addKeyVals(dropItems);
     },
 
   });
@@ -222,12 +250,7 @@
     _onAddKeyVals: function(selectedKeyVals){
       if(selectedKeyVals.length){
         $('#searchResults li').removeClass('selected');
-        if(this.selectedSegmentsView.ui.key_values.val() === ''){
-          this.selectedSegmentsView.ui.key_values.val(selectedKeyVals.join(','));
-        } else {
-          var str = this.selectedSegmentsView.ui.key_values.val();
-          this.selectedSegmentsView.ui.key_values.val(str + ', ' + selectedKeyVals.join(','));
-        }
+        this.selectedSegmentsView.addKeyVals(selectedKeyVals);
       }
     },
 
