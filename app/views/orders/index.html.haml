@@ -17,11 +17,13 @@
       %label Account Manager
       %select
         - @users.each do |user|
+          %option Select
           %option= "#{user.first_name} #{user.last_name}"
     .pure-u-1-5
       %label Trafficker
       %select
         - @users.each do |user|
+          %option Select
           %option= "#{user.first_name} #{user.last_name}"
     .pure-u-1-5
 
@@ -34,9 +36,6 @@
             .pure-u.title-container
               .title
                 Status
-            .pure-u
-              #state.actions-container
-                %i.icon-sort
         %th
           .pure-g.header-container
             .pure-u.title-container
