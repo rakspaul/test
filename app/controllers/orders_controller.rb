@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
     end
   end
 
-  def create  
+  def create
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
     if !reach_client
       render json: {status: 'error', errors: {reach_client: 'should be specified'} }
@@ -169,16 +169,9 @@ private
       sort_column = "network_advertisers.name"
     end
 
-    if sort_column == "id"
-      sort_column = "source_id"
-      order_by = sort_column + "::integer" + " " + sort_direction
-    else
-      order_by = sort_column + " " + sort_direction
-    end
-
     order_array = Order.includes(:advertiser).of_network(current_network)
                   .filter_by_status(order_status)
-                  .order(order_by)
+                  .order(sort_column + " " + sort_direction)
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network)
   end
