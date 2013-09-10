@@ -539,6 +539,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad_name = ordersController._generateAdName(li);
       var attrs = _.extend(_.omit(li.attributes, 'name', 'volume', 'value', 'ad_sizes', 'targeting'), {description: ad_name, size: li.attributes.ad_sizes});
       var ad = new ReachUI.Ads.Ad(attrs);
+
+      var li_targeting = new ReachUI.Targeting.Targeting({
+        selected_key_values: li.attributes.targeting.attributes.selected_key_values,
+        selected_dmas: li.attributes.targeting.attributes.selected_dmas,
+        dmas_list: li.attributes.targeting.attributes.dmas_list,
+        selected_zip_codes: li.attributes.targeting.attributes.selected_zip_codes
+      });
+
+      ad.set('targeting', li_targeting);
       li.pushAd(ad);
       li_view.renderAd(ad);
     });

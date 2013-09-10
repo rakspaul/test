@@ -56,8 +56,10 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
-      var targeting = new ReachUI.Targeting.Targeting();
-      this.model.set('targeting', targeting);
+      if(! this.model.get('targeting')) {
+        var targeting = new ReachUI.Targeting.Targeting();
+        this.model.set('targeting', targeting);
+      }
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -122,6 +124,7 @@
     renderAd: function(ad) {
       var adView = new ReachUI.Ads.AdView({model: ad, parent_view: this});
       this.ui.ads_list.append(adView.render().el);
+      ReachUI.showCondensedTargetingOptions.apply(adView);
     },
 
     _toggleTargetingDialog: function() {    
@@ -130,34 +133,7 @@
       this.ui.targeting.toggle('slow');
 
       if(is_visible) {
-        var targeting_options = [];
-
-        var dmas = this.model.attributes.targeting.attributes.selected_dmas;
-        if(dmas.length > 0) {
-          targeting_options.push('<img src="/assets/dma_targeting_icon.png" title="DMAs" alt="DMAs">', ReachUI.truncateArray(dmas, "title"));
-        }
-
-        var zips = this.model.attributes.targeting.attributes.selected_zip_codes;
-        if(zips.length > 0) {
-          targeting_options.push('<img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">', ReachUI.truncateArray(zips));
-        }
-
-        var key_values = this.model.attributes.targeting.attributes.selected_key_values;      
-        var kv_icon_pushed = false;
-        _.each(key_values, function(value, key) {
-          if(value.length > 0) {
-            if(!kv_icon_pushed) {
-              targeting_options.push('<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">&nbsp;');
-              kv_icon_pushed = true;
-            }
-            targeting_options.push("<b>"+key+":</b>", ReachUI.truncateArray(value));
-          }
-        }); 
-    
-        // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
-        // selected (including Ads' ones), so we need to limit this only to first matching element
-        var toptions = this.$el.find('.targeting_options_condensed')[0];
-        $(toptions).html(targeting_options.join(' '));
+        ReachUI.showCondensedTargetingOptions.apply(this);
 
         // align height of lineitem's li-number div
         _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
