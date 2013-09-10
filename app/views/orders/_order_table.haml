@@ -1,17 +1,17 @@
 - @orders.each do |order|
   %tr
     %td
-      -if !order.io_detail.nil? && order.io_detail.state != "Draft"
+      -if !order.io_detail.nil? && order.io_detail.state != "draft"
         %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox", :disabled => true}
       -else
         %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
       %td= order.try(:io_detail).try(:state)
       %td= order.id
       %td= order.name
-      %td= order.advertiser.name
       %td= order.io_detail.try(:reach_client).try(:name)
+      %td= order.try(:io_detail).client_advertiser_name
       %td= order.io_detail.try(:reach_client).try(:abbr)
-      %td= order.io_detail.try(:reach_client).try(:account_manager).try(:full_name)
-      %td= order.io_detail.try(:trafficker).try(:full_name)
+      %td= order.io_detail.try(:account_manager).try(:full_name)
+      %td= order.io_detail.try(:trafficking_contact).try(:full_name)
       %td= format_date(order.start_date)
       %td= format_date(order.end_date)

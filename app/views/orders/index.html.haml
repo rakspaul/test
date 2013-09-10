@@ -6,25 +6,26 @@
   .pure-g.header-filter-container
     .pure-u
       .delete-button
-        %button.btn
+        %button.btn#btn_delete_orders
           Delete
     .pure-u-1-5
       %label Status
-      %select.status
+      %select.filter-orders.status
         %option All
+        %option Saved
         %option Draft
     .pure-u-1-5
       %label Account Manager
-      %select
+      %select.filter-orders.am
         %option Select
         - @users.each do |user|
-          %option= "#{user.first_name} #{user.last_name}"
+          %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
     .pure-u-1-5
       %label Trafficker
-      %select
+      %select.filter-orders.trafficker
         %option Select
         - @users.each do |user|
-          %option= "#{user.first_name} #{user.last_name}"
+          %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
     .pure-u-1-5
 
   %table.order-table
@@ -131,10 +132,13 @@
       $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
     }
 
-      var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
+    var filterParams = getFilterParams();
+    $.extend(para, filterParams);
+
+    var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
 
-  $('.btn').click(function(event) {
+  $('#btn_delete_orders').click(function(event) {
     var para = {};
 
     var checkedValues = $('.ordersCheckbox:checked').map(function() {return this.value;}).get().join(',');
@@ -164,15 +168,48 @@
     }
   });
 
-  $('.status').change(function(event) {
-    var para = {};
-    var status = $('.status').val();
+  $('.filter-orders').change(function(event) {
+    var para = getFilterParams();
+    var sortParams = getSortParams();
+    $.extend(para, sortParams);
 
-    if(status =="All") {
-      status =""
-    }
-    para.order_status = status;
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
+
+  function getFilterParams(){
+    var filterParams = {},
+        status= $('.status').val().toLowerCase(),
+        am = $('.am').val(),
+        trafficker = $('.trafficker').val();
+
+    if(status === "all") { status = null }
+    if(am === "Select") { am = null }
+    if(trafficker == "Select") { trafficker = null }
+
+    if(status){
+      filterParams.order_status = status;
+    }
+    if(am){
+      filterParams.am = am;
+    }
+    if(trafficker){
+      filterParams.trafficker = trafficker;
+    }
+
+    return filterParams;
+  }
+
+  function getSortParams(){
+    var sortParams = {};
+    var sortColumn = $('.actions-container i.icon-sort-by-attributes');
+    if(!sortColumn.length) sortColumn = $('.actions-container i.icon-sort-by-attributes-alt');
+
+    if(sortColumn){
+      sortParams.sort_column = sortColumn.parent().attr('id');
+      sortParams.sort_direction = sortColumn.hasClass('icon-sort-by-attributes') ? "asc" : "desc";
+    }
+
+    return sortParams;
+  }
 
 

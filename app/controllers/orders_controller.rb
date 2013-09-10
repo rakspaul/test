@@ -162,16 +162,19 @@ private
     sort_column = params[:sort_column]? params[:sort_column] : "name"
     sort_direction = params[:sort_direction]? params[:sort_direction] : "asc"
     order_status = params[:order_status]? params[:order_status] : ""
+    am = params[:am]? params[:am] : ""
+    trafficker = params[:trafficker]? params[:trafficker] : ""
 
     if sort_column == "order_name"
       sort_column = "name"
     elsif sort_column == "advertiser"
-      sort_column = "network_advertisers.name"
+      sort_column = "io_details.client_advertiser_name"
     end
 
-    order_array = Order.includes(:advertiser).of_network(current_network)
-                  .filter_by_status(order_status)
+    order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
                   .order(sort_column + " " + sort_direction)
+                  .filterByStatus(order_status).filterByAM(am).filterByTrafficker(trafficker)
+
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network)
   end
