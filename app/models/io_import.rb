@@ -315,7 +315,13 @@ class IOExcelFileReader
     def parse_date str
       return str if str.is_a?(Date)
 
-      Date.strptime(str.strip, str.index('.') ? DATE_FORMAT_WITH_DOT : DATE_FORMAT_WITH_SLASH)
+      if str.index('-')
+        Date.strptime(str.strip)
+      elsif str.index('.')
+        Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
+      else
+        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+      end
     rescue
       nil
     end
