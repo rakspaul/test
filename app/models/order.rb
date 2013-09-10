@@ -23,6 +23,9 @@ class Order < ActiveRecord::Base
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
 
   scope :latest_updated, -> { order("last_modified desc") }
+  scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
+  scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
+  scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
 
   def self.of_network(network)
     where(:network => network)
@@ -30,14 +33,6 @@ class Order < ActiveRecord::Base
 
   def self.find_by_id_or_source_id(id)
     where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
-  end
-
-  def self.filter_by_status(status)
-    if status == "Draft"
-      joins("INNER JOIN io_details ON (io_details.order_id = orders.id AND io_details.state = 'Draft')")
-    else
-      joins("INNER JOIN io_details ON (io_details.order_id = orders.id)")
-    end
   end
 
   def total_impressions

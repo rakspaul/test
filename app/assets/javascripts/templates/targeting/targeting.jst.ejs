@@ -12,76 +12,54 @@
   <div class="tab key-values">
 
     Age<br/>
-    <input type="checkbox" name="age" value="Age.Teens"/> Teens<br/>
-    <input type="checkbox" name="age" value="Age.18-24"/> Age: 18-24<br/>
-    <input type="checkbox" name="age" value="Age.25-34"/> Age: 25-34<br/>
-    <input type="checkbox" name="age" value="Age.35-44"/> Age: 35-44<br/>
-    <input type="checkbox" name="age" value="Age.45-54"/> Age: 45-54<br/>
-    <input type="checkbox" name="age" value="Age.55-64"/> Age: 55-64<br/>
-    <input type="checkbox" name="age" value="Age.65+"/> Age: 65+<br/>
+    <% var ages = ["Teens", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"] %>
+    <% for(var i = 0; i < ages.length; i++) { %>
+    <input type="checkbox" name="age" value="Age.<%= ages[i] %>" <% if(selected_key_values["Age"].indexOf(ages[i]) >= 0) { %>checked="checked"<% } %>/> <%= ages[i] %><br/>
+    <% } %>
+
     Etnicity<br/>
-    <input type="checkbox" name="etnicity" value="Etnicity.African American"/> African American<br/>
-    <input type="checkbox" name="etnicity" value="Etnicity.Asian"/> Asian<br/>
-    <input type="checkbox" name="etnicity" value="Etnicity.Hispanic"/> Hispanic<br/>
+    <% var etno = ["African American", "Asian", "Hispanic"]; %>
+    <% for(var i = 0; i < etno.length; i++) { %>
+    <input type="checkbox" name="etnicity" value="Etnicity.<%= etno[i] %>" <% if(selected_key_values["Etnicity"].indexOf(etno[i]) >= 0) { %>checked="checked"<% } %> /> <%= etno[i] %><br/>
+    <% } %>
+
     Interests/Other<br/>
-    <input type="checkbox" name="interests" value="Interests.Auto"/> Auto<br/>
-    <input type="checkbox" name="interests" value="Interests.Business"/> Business<br/>
-    <input type="checkbox" name="interests" value="Interests.Dating"/> Dating<br/>
-    <input type="checkbox" name="interests" value="Interests.Entertainment"/> Entertainment<br/>
-    <input type="checkbox" name="interests" value="Interests.Education"/> Education<br/>
-    <input type="checkbox" name="interests" value="Interests.Family"/> Family<br/>
-    <input type="checkbox" name="interests" value="Interests.Fashion"/> Fashion<br/>
-    <input type="checkbox" name="interests" value="Interests.Finance"/> Finance<br/>
-    <input type="checkbox" name="interests" value="Interests.Fitness"/> Fitness<br/>
-    <input type="checkbox" name="interests" value="Interests.Food"/> Food<br/>
-    <input type="checkbox" name="interests" value="Interests.Gadget"/> Gadget<br/>
-    <input type="checkbox" name="interests" value="Interests.Health"/> Health<br/>
-    <input type="checkbox" name="interests" value="Interests.Holiday"/> Holiday<br/>
-    <input type="checkbox" name="interests" value="Interests.Home & Garden/Home"/> Home & Garden/Home<br/>
-    <input type="checkbox" name="interests" value="Interests.Improvement"/> Improvement<br/>
-    <input type="checkbox" name="interests" value="Interests.Home Owner"/> Home Owner<br/>
-    <input type="checkbox" name="interests" value="Interests.Jobs"/> Jobs<br/>
-    <input type="checkbox" name="interests" value="Interests.Music"/> Music<br/>
-    <input type="checkbox" name="interests" value="Interests.Married"/> Married<br/>
-    <input type="checkbox" name="interests" value="Interests.Political"/> Political<br/>
-    <input type="checkbox" name="interests" value="Interests.Pets"/> Pets<br/>
-    <input type="checkbox" name="interests" value="Interests.Real Estate"/> Real Estate<br/>
-    <input type="checkbox" name="interests" value="Interests.Single"/> Single<br/>
-    <input type="checkbox" name="interests" value="Interests.Shopping/Retail"/> Shopping/Retail<br/>
-    <input type="checkbox" name="interests" value="Interests.Sports"/> Sports<br/>
-    <input type="checkbox" name="interests" value="Interests.Outdoor"/> Outdoor<br/>
-    <input type="checkbox" name="interests" value="Interests.Technology"/> Technology<br/>
-    <input type="checkbox" name="interests" value="Interests.Travel"/> Travel<br/>
-    <input type="checkbox" name="interests" value="Interests.Weather"/> Weather<br/>
-    <input type="checkbox" name="interests" value="Interests.Hobbies & Interests"/> Hobbies & Interests<br/>
-    <input type="checkbox" name="interests" value="Interests.Society"/> Society<br/>
-    <input type="checkbox" name="interests" value="Interests.News"/> News<br/>
-    <input type="checkbox" name="interests" value="Interests.Moms"/> Moms<br/>
+    <% var interests = ["Auto", "Business", "Dating", "Entertainment", "Education", "Family", "Fashion", "Finance", "Fitness", "Food", "Gadget", "Health", "Holiday", "Home & Garden/Home", "Improvement", "Home Owner", "Jobs", "Music", "Married", "Political", "Pets", "Real Estate", "Single", "Shopping/Retail", "Sports", "Outdoor", "Technology", "Travel", "Weather", "Hobbies & Interests", "Society", "News", "Moms"]; %>
+    <% for(var i = 0; i < interests.length; i++) { %>
+    <input type="checkbox" name="interests" value="Interests.<%= interests[i] %>" <% if(selected_key_values["Interests"].indexOf(interests[i]) >= 0) { %>checked="checked"<% } %>/> <%= interests[i] %><br/>
+    <% } %>
+
     Household Income<br/>
-    <input type="checkbox" name="interests" value="Income.High"/> High HHI<br/>
-    <input type="checkbox" name="interests" value="Income.Mid"/> Mid HHI<br/>
-    <input type="checkbox" name="interests" value="Income.Low"/> Low HHI<br/>
+    <% var incomes = ["High", "Mid", "Low"]; %>
+    <% for(var i = 0; i < incomes.length; i++) { %>
+    <input type="checkbox" name="income" value="Income.<%= incomes[i] %>" <% if(selected_key_values["Income"].indexOf(incomes[i]) >= 0) { %>checked="checked"<% } %> /> <%= incomes[i] %> HHI<br/>
+    <% } %>
+
     Gender<br/>
-    <input type="checkbox" name="interests" value="Gender.Male"/> Male<br/>
-    <input type="checkbox" name="interests" value="Gender.Female"/> Female<br/>
+    <input type="checkbox" name="gender" value="Gender.Male" <% if(selected_key_values["Gender"].indexOf("Male") >= 0) { %>checked="checked"<% } %> /> Male<br/>
+    <input type="checkbox" name="gender" value="Gender.Female" <% if(selected_key_values["Gender"].indexOf("Female") >= 0) { %>checked="checked"<% } %> /> Female<br/>
   </div>
+
+  <% var selected_dmas_ids = [] %>
+  <% for(var prop in selected_dmas) { selected_dmas_ids.push(parseInt(selected_dmas[prop].id)); } %>
 
   <div class="tab dmas" style="display:none">
     <select multiple class="chosen-select" name="dmas" style="width:95%;">
       <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <option value="<%= dmas_list[i].code %>"><%= dmas_list[i].name %></option>
+      <option value="<%= dmas_list[i].code %>" <% if(selected_dmas_ids.indexOf(dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
       <% } %>
     </select>
     <div style="clear:both"></div>
+
     <div class="dmas-checkboxes-container">
       <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>"/> <%= dmas_list[i].name %><br/>
+      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>" <% if(selected_dmas_ids.indexOf(dmas_list[i].code) >= 0) { %>checked="checked"<% } %> /> <%= dmas_list[i].name %><br/>
       <% } %>
     </div>
   </div>
 
   <div class="tab zip-codes" style="display:none">
-    <textarea rows="7"></textarea>
+    <textarea rows="7"><%= selected_zip_codes.join(', ') %></textarea>
   </div>
 </div>
 

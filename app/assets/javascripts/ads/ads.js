@@ -47,8 +47,10 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
-      var targeting = new ReachUI.Targeting.Targeting();
-      this.model.set('targeting', targeting);
+      if( !this.model.get('targeting') ) {
+        var targeting = new ReachUI.Targeting.Targeting();
+        this.model.set('targeting', targeting);
+      }
     },
 
     events: {
@@ -86,14 +88,19 @@
         }
       });
 
-      var dmas = new ReachUI.DMA.List();
-      dmas.fetch({
-        success: function(collection, response, options) {
-          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_view: self});
-          self.ui.targeting.html(targetingView.render().el);
-        }
-      });
+      if(this.model.get('targeting').attributes.dmas_list.length == 0) {
+        var dmas = new ReachUI.DMA.List();
+        dmas.fetch({
+          success: function(collection, response, options) {
+            self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+            var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.get('targeting'), parent_view: self});
+            self.ui.targeting.html(targetingView.render().el);
+          }
+        });
+      } else {
+        var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.get('targeting'), parent_view: self});
+        self.ui.targeting.html(targetingView.render().el);
+      }
     },
 
     _show_delete_btn: function(e) {
