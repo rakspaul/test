@@ -10,6 +10,7 @@ json.partial! 'order',
     account_contact_unknown: false,
     billing_contact_unknown: false,
     media_contact_unknown: false,
+    trafficking_contact_unknown: false,
     io_file_path: "",
     reach_client_name: @order.io_detail.try(:reach_client).try(:name)
   }

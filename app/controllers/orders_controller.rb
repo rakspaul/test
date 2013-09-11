@@ -12,10 +12,9 @@ class OrdersController < ApplicationController
 
   def show
     respond_to do |format|
-      format.html { render :index }
+      format.html
       format.json do
-        @order = Order.of_network(current_network)
-              .includes(:advertiser).find(params[:id])
+        @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
       end
     end
   end
@@ -24,6 +23,13 @@ class OrdersController < ApplicationController
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
     if !reach_client
       render json: {status: 'error', errors: {reach_client: 'should be specified'} }
+      return
+    end
+
+    begin
+      trafficking_contact = User.find_by! id: params[:order][:trafficking_contact_id]
+    rescue ActiveRecord::RecordNotFound => e
+      render json: {status: 'error', errors: {trafficking_contact: "this trafficker was not found, please select another one"} }
       return
     end
 
@@ -71,7 +77,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if @order.save
-          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, state: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager
+          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, state: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
 
@@ -229,13 +235,13 @@ private
   def save_lineitems_with_ads(params)
     li_errors = {}
 
-    params.each_with_index do |li, i|
+    params.to_a.each_with_index do |li, i|
       li[:lineitem].delete("targeting") # after targeting will be ready
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       if lineitem.save
-        li[:ads].to_a.compact.each_with_index do |ad, j|
+        li[:ads].to_a.each_with_index do |ad, j|
           begin
             ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])

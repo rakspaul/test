@@ -20,9 +20,14 @@
     </div>
   </div>
 
-  <div class="field trafficker-container">
+  <div class="field trafficker-container <% if(order.trafficking_contact_unknown) { %> field_with_errors <% } %>">
     <p>Trafficker</p>
-    <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
+    <span class="<% if(order.trafficking_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
+    <div class="errors_container">
+    <% if(order.trafficking_contact_unknown) { %>
+      this trafficker was not found, please select another one
+    <% } %>
+    </div>
   </div>
 
   <div class="clearfix"></div>
@@ -46,7 +51,7 @@
         </div>
         <div class="field order-name">
           <p>Order Name</p>
-          <span class="editable" data-type="text" data-pk="1" data-name="order_name"><%= order.name %></span>
+          <span class="editable" data-type="text" data-pk="1" data-name="name"><%= order.name %></span>
         </div>
         <div class="field client-order-id">
           <p>Client Order ID</p>

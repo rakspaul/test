@@ -9,6 +9,7 @@ json.order do
     account_contact_unknown: @io_import.account_contact_unknown,
     billing_contact_unknown: @io_import.billing_contact_unknown,
     media_contact_unknown: @io_import.media_contact_unknown,
+    trafficking_contact_unknown: @io_import.trafficking_contact_unknown,
     reach_client_id: @io_import.reach_client.try(:id),
     reach_client_name: @io_import.reach_client.try(:name),
     io_file_path: @io_import.tempfile.path,

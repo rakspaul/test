@@ -5,7 +5,8 @@ class IoImport
 
   attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
-:sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile
+:sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
+:trafficking_contact_unknown
 
   def initialize(file, current_user)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
@@ -14,7 +15,7 @@ class IoImport
     @reader               = IOExcelFileReader.new(file)
     @current_user         = current_user
     @original_filename    = file.original_filename
-    @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown = [false, false, false, false]
+    @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @trafficking_contact  = Struct.new(:name, :phone, :email)
@@ -79,14 +80,17 @@ class IoImport
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
-      @io_details.reach_client         = reach_client
-      @io_details.sales_person         = find_sales_person
-      @io_details.media_contact        = find_media_contact
-      @io_details.billing_contact      = find_billing_contact
-      @io_details.client_order_id      = @reader.client_order_id
-      @io_details.account_manager      = find_account_contact
-
-      @io_details.trafficking_contact  = User.find_or_initialize_by(first_name: @reader.trafficking_contact[:first_name], last_name: @reader.trafficking_contact[:last_name], phone_number: @reader.trafficking_contact[:phone_number], email: @reader.trafficking_contact[:email])
+      @io_details.reach_client          = reach_client
+      @io_details.sales_person          = find_sales_person
+      @io_details.sales_person_email    = @reader.sales_person[:email]
+      @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
+      @io_details.media_contact         = find_media_contact
+      @io_details.billing_contact       = find_billing_contact
+      @io_details.client_order_id       = @reader.client_order_id
+      @io_details.account_manager       = find_account_contact
+      @io_details.account_manager_email = @reader.account_contact[:email]
+      @io_details.account_manager_phone = @reader.account_contact[:phone_number]
+      @io_details.trafficking_contact   = find_trafficking_contact
     end
 
     def read_lineitems
@@ -111,6 +115,16 @@ class IoImport
         @sales_person_unknown = true
         User.new params
       end
+    end
+
+    def find_trafficking_contact
+      tr = @reader.trafficking_contact
+      trafficker = User.where(first_name: tr[:first_name], last_name: tr[:last_name], email: tr[:email]).first
+      if !trafficker
+        @trafficking_contact_unknown = true
+        trafficker = User.new(first_name: tr[:first_name], last_name: tr[:last_name], email: tr[:email], phone_number: tr[:phone])
+      end
+      trafficker
     end
 
     def find_account_contact

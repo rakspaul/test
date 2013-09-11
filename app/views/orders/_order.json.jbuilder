@@ -11,8 +11,8 @@ json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
-json.sales_person_phone       io_detail.sales_person_phone ? io_detail.sales_person_phone : io_detail.try(:sales_person).try(:phone_number)
-json.sales_person_email       io_detail.sales_person_email ? io_detail.sales_person_email : io_detail.try(:sales_person).try(:email)
+json.sales_person_phone       io_detail.sales_person_phone
+json.sales_person_email       io_detail.sales_person_email
 json.sales_person_id          io_detail.try(:sales_person).nil? ? nil : io_detail.sales_person.id
 
 json.user_id                  order.user.nil? ? nil : order.user.id
@@ -34,13 +34,14 @@ json.media_contact_email      io_detail.try(:media_contact).try(:email)
 json.media_contact_phone      io_detail.try(:media_contact).try(:phone)
 
 json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
-json.account_contact_phone    io_detail.account_manager_phone ? io_detail.account_manager_phone : io_detail.try(:account_manager).try(:phone_number)
-json.account_contact_email    io_detail.account_manager_email ? io_detail.account_manager_email : io_detail.try(:account_manager).try(:email)
+json.account_contact_phone    io_detail.account_manager_phone
+json.account_contact_email    io_detail.account_manager_email
 
 json.sales_person_unknown     sales_person_unknown
 json.account_contact_unknown  account_contact_unknown
 json.media_contact_unknown    media_contact_unknown
 json.billing_contact_unknown  billing_contact_unknown
+json.trafficking_contact_unknown trafficking_contact_unknown
 
 json.reach_client_id          reach_client_id
 json.reach_client_name        reach_client_name
@@ -48,3 +49,4 @@ json.io_file_path             io_file_path
 json.client_order_id          io_detail.try(:client_order_id)
 
 json.trafficking_contact_name io_detail.try(:trafficking_contact).try(:full_name)
+json.trafficking_contact_id   io_detail.try(:trafficking_contact).try(:id)
