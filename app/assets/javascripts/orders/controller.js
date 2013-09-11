@@ -408,6 +408,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("billing_contact_phone", el.phone);
     });
 
+    //-------------------------------------------------------------------------------
+    // trafficking contact
+    $('.trafficker-container .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("trafficking_contact_name", newValue); //update backbone model
+      },
+      source: "/users/search.json?search_by=name",
+      typeahead: {
+        minLength: 2,
+        remote: '/users/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+    $('.trafficker-container').on('typeahead:selected', function(ev, el) {
+      $('.trafficker-container span').removeClass('editable-empty');
+      ordersController._clearErrorsOn(".trafficker-container");
+      order.set("trafficking_contact_id", el.id);//update backbone model
+      order.set("trafficking_contact_name", el.name);
+    });
+
+    //--------------------------------------------------------------------------------
+    // account contact
     $('.account-contact-name .typeahead').editable({
       success: function(response, newValue) {
         order.set("account_contact_name", newValue); //update backbone model

@@ -175,7 +175,8 @@
             billing_contact: '.order-details .billing-contact-name',
             media_contact: '.order-details .media-contact-name',
             sales_person: '.order-details .salesperson-name',
-            account_manager: '.order-details .account-contact-name'
+            account_manager: '.order-details .account-contact-name',
+            trafficking_contact: '.order-details .trafficker-container'
           };
           if(response.status == "error") {
             _.each(response.errors, function(error, key) {
