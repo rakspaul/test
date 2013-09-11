@@ -235,13 +235,13 @@ private
   def save_lineitems_with_ads(params)
     li_errors = {}
 
-    params.each_with_index do |li, i|
+    params.to_a.each_with_index do |li, i|
       li[:lineitem].delete("targeting") # after targeting will be ready
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       if lineitem.save
-        li[:ads].to_a.compact.each_with_index do |ad, j|
+        li[:ads].to_a.each_with_index do |ad, j|
           begin
             ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])

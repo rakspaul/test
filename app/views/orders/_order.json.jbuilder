@@ -11,8 +11,8 @@ json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
-json.sales_person_phone       io_detail.sales_person_phone ? io_detail.sales_person_phone : io_detail.try(:sales_person).try(:phone_number)
-json.sales_person_email       io_detail.sales_person_email ? io_detail.sales_person_email : io_detail.try(:sales_person).try(:email)
+json.sales_person_phone       io_detail.sales_person_phone
+json.sales_person_email       io_detail.sales_person_email
 json.sales_person_id          io_detail.try(:sales_person).nil? ? nil : io_detail.sales_person.id
 
 json.user_id                  order.user.nil? ? nil : order.user.id
@@ -34,8 +34,8 @@ json.media_contact_email      io_detail.try(:media_contact).try(:email)
 json.media_contact_phone      io_detail.try(:media_contact).try(:phone)
 
 json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
-json.account_contact_phone    io_detail.account_manager_phone ? io_detail.account_manager_phone : io_detail.try(:account_manager).try(:phone_number)
-json.account_contact_email    io_detail.account_manager_email ? io_detail.account_manager_email : io_detail.try(:account_manager).try(:email)
+json.account_contact_phone    io_detail.account_manager_phone
+json.account_contact_email    io_detail.account_manager_email
 
 json.sales_person_unknown     sales_person_unknown
 json.account_contact_unknown  account_contact_unknown

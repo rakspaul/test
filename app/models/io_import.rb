@@ -80,13 +80,17 @@ class IoImport
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
-      @io_details.reach_client         = reach_client
-      @io_details.sales_person         = find_sales_person
-      @io_details.media_contact        = find_media_contact
-      @io_details.billing_contact      = find_billing_contact
-      @io_details.client_order_id      = @reader.client_order_id
-      @io_details.account_manager      = find_account_contact
-      @io_details.trafficking_contact  = find_trafficking_contact
+      @io_details.reach_client          = reach_client
+      @io_details.sales_person          = find_sales_person
+      @io_details.sales_person_email    = @reader.sales_person[:email]
+      @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
+      @io_details.media_contact         = find_media_contact
+      @io_details.billing_contact       = find_billing_contact
+      @io_details.client_order_id       = @reader.client_order_id
+      @io_details.account_manager       = find_account_contact
+      @io_details.account_manager_email = @reader.account_contact[:email]
+      @io_details.account_manager_phone = @reader.account_contact[:phone_number]
+      @io_details.trafficking_contact   = find_trafficking_contact
     end
 
     def read_lineitems
