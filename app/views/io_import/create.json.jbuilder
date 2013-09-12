@@ -22,3 +22,9 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
   end
 end
+
+json.creatives do
+  json.array! @io_import.inreds do |inred|
+    json.partial! 'creatives/creative.json.jbuilder', creative: inred
+  end
+end

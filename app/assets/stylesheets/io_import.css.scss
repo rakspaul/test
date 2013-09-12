@@ -367,3 +367,52 @@ $error_color: #ff7d78;
     margin-top: 5px;
   }
 }
+
+table.creatives-content {
+  width: 100%;
+  background: white;
+
+  td.creatives-container-offset {
+    width: 91.6666%;
+    background-color: $bg_color;
+
+    .add-creative-btn {
+      color: $text_color;
+      width: 50px;
+      text-align: center;
+      padding: 5px;
+      cursor: pointer;
+      margin: 5px;
+      border: 1px dashed $text_color;
+    }
+
+    .done-creative-btn {
+      color: white;
+      background-color: $text_color;
+      width: 50px;
+      text-align: center;
+      padding: 5px;
+      cursor: pointer;
+      margin:5px;
+    }
+
+    .creatives-container {
+      padding-top: 15px;
+      padding-bottom: 15px;
+
+      hr {
+        width:92%;
+        margin:20px auto;
+      }
+
+      .creative {
+        margin-top:7px;
+
+        .delete-btn-container {
+          text-align: center;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
