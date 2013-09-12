@@ -44,6 +44,15 @@
 
     getOrder: function() {
       return this.order;
+    },
+
+    _recalculateLiImpressions: function() {
+      var sum_impressions = _.inject(this.models, function(sum, el) {
+        sum += parseInt(el.get('volume'));
+        return sum;
+      }, 0);
+
+      $('.lineitems-summary-container .total-impressions').html(sum_impressions);
     }
   });
 
@@ -96,6 +105,13 @@
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
         }
       }); 
+
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(response, newValue) {
+          view.model.set(this.dataset['name'], parseInt(newValue)); //update backbone model;
+          view.model.collection._recalculateLiImpressions();
+        }
+      });
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
