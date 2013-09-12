@@ -1,8 +1,8 @@
-set :branch, 'stage'
+set :branch, 'master'
 
-set :rails_env, "stg" # set for capistrano asset pipeline precompilation
+set :rails_env, "production" # set for capistrano asset pipeline precompilation
 
-set :app1, "stg-ampapp1.collective-media.net"
+set :app1, "ampapp1.collective-media.net"
 
 role :web, app1
 role :app, app1
