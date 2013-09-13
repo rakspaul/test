@@ -182,7 +182,7 @@ private
                   .filterByStatus(order_status).filterByAM(am).filterByTrafficker(trafficker)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network)
+    @users = User.of_network(current_network).order(:first_name)
   end
 
   def find_account_manager(params)

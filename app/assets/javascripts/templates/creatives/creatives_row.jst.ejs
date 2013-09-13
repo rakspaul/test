@@ -1,0 +1,24 @@
+<div class="pure-u-1-24 delete-btn-container">
+  <img src="/assets/delete_btn.png" class="delete_btn" style="display:none;margin-top:3px;" alt="Delete"/>
+</div>
+
+<div class="pure-u-1-12 start-date">
+  <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
+</div>
+
+<div class="pure-u-1-12 end-date">
+  <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
+</div>
+
+<div class="pure-u-1-6 size">
+  <span class="editable" data-type="text" data-name="ad_size" data-pk="1">
+    <%= creative.ad_size %>
+    <div class="errors" style="clear:both"></div>
+  </span>
+</div>
+
+<div class="pure-u-1-2 image-url">
+  <span class="editable" data-type="text" data-pk="1" data-name="image_url"><%= creative.image_url %></span>
+</div>
+  
+<div class="pure-u-1-12 client-ad-id"><span class="editable" data-type="text" data-pk="1"><%= creative.ad_id %></span></div>

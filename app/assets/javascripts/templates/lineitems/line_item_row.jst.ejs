@@ -15,7 +15,7 @@
 <div class="pure-u-1-6">
   <%= lineitem.ad_sizes %>
   <br/>
-  <span class="operation">Edit Creatives</span>
+  <span class="toggle-creatives-btn operation">Edit Creatives</span>
 </div>
 
 <div class="pure-u-1-3 name">
@@ -24,13 +24,13 @@
     <div class="errors" style="clear:both"></div>
   </span>
   <br/>
-  <span class="add_targeting_btn operation">+ Add Targeting</span>
+  <span class="toggle-targeting-btn operation">+ Add Targeting</span>
   <div class="targeting_options_condensed" style="clear:both"></div>
 </div>
   
 <div class="pure-u-1-12 volume">
-  <span class="editable" data-type="text" data-name="volume" data-pk="1">
-    <%= accounting.formatNumber(lineitem.volume) %>
+  <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
+    <%= lineitem.volume %>
   </span>
 </div>
 <div class="pure-u-1-12 rate">
@@ -49,4 +49,7 @@
 </div>
 
 <div class="targeting-container" style="display:none">
+</div>
+
+<div class="creatives-list-view" style="display:none">
 </div>

@@ -3,7 +3,7 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :lineitems, :advertiser, :io_details, :reach_client,
+  attr_reader :order, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
 :trafficking_contact_unknown
@@ -36,6 +36,7 @@ class IoImport
 
     read_order_and_details
     read_lineitems
+    read_inreds
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
@@ -103,6 +104,11 @@ class IoImport
         li.user = @current_user
         @lineitems << li
       end
+    end
+
+    def read_inreds
+      @inreds = []
+      @reader.inreds{|inred| @inreds << inred}
     end
 
     def find_sales_person
@@ -188,6 +194,7 @@ end
 
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
+  
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
@@ -225,6 +232,16 @@ class IOExcelFileReader
 
   REACH_CLIENT_CELL               = ['G', 18]
 
+  INREDS_SPREADSHEET_PAGE         = 1
+  INREDS_START_ROW                = 4
+  INREDS_AD_ID_COLUMN             = 'E'
+  INREDS_PLACEMENT_COLUMN         = 'G'
+  INREDS_AD_SIZE_COLUMN           = 'H'
+  INREDS_START_DATE_COLUMN        = 'I'
+  INREDS_END_DATE_COLUMN          = 'J'
+  INREDS_IMAGE_URL_COLUMN         = 'K'
+  INREDS_CLICK_URL_COLUMN         = 'L'
+
   attr_reader :file
 
   def initialize(file_object)
@@ -234,6 +251,13 @@ class IOExcelFileReader
   def open
     @spreadsheet = open_based_on_file_extension
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
+  end
+
+  def change_sheet(num, &block)
+    default_sheet = @spreadsheet.default_sheet
+    @spreadsheet.default_sheet = @spreadsheet.sheets[num]
+    yield
+    @spreadsheet.default_sheet = default_sheet
   end
 
   def client_order_id
@@ -322,6 +346,26 @@ class IOExcelFileReader
 
   def finish_flight_date
     parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+  end
+
+  def inreds
+    row = INREDS_START_ROW
+    
+    change_sheet INREDS_SPREADSHEET_PAGE do
+      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
+        yield({
+          ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
+          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
+          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
+          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
+          placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
+          image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
+          click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
+        })
+
+        row += 1
+      end
+    end
   end
 
   private

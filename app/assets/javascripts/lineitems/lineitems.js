@@ -44,6 +44,15 @@
 
     getOrder: function() {
       return this.order;
+    },
+
+    _recalculateLiImpressions: function() {
+      var sum_impressions = _.inject(this.models, function(sum, el) {
+        sum += parseInt(el.get('volume'));
+        return sum;
+      }, 0);
+
+      $('.lineitems-summary-container .total-impressions').html(sum_impressions);
     }
   });
 
@@ -97,6 +106,13 @@
         }
       }); 
 
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(response, newValue) {
+          view.model.set(this.dataset['name'], parseInt(newValue)); //update backbone model;
+          view.model.collection._recalculateLiImpressions();
+        }
+      });
+
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
           view.model.set(this.dataset['name'], newValue); //update backbone model;
@@ -107,6 +123,16 @@
         view.renderAd(ad);
       });
       
+      // rendering template for Creatives Dialog layout
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: view});
+      this.ui.creatives_container.html(creatives_list_view.render().el);
+
+      // rendering each Creative
+      _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
+        var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+        creatives_list_view.ui.creatives.append(creativeView.render().el);
+      });
+
       var dmas = new ReachUI.DMA.List();
       var self = this;
       dmas.fetch({
@@ -127,9 +153,17 @@
       ReachUI.showCondensedTargetingOptions.apply(adView);
     },
 
+    ///////////////////////////////////////////////////////////////////////////////
+    // Toggle Creatives div (could be called both from LI level and from Creatives level)
+    _toggleCreativesDialog: function() {
+      var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
+      this.$el.find('.toggle-creatives-btn').html(is_visible ? 'Edit Creatives' : 'Hide Creatives');
+      this.ui.creatives_container.toggle('slow');
+    },
+
     _toggleTargetingDialog: function() {    
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.add_targeting_btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
+      this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       this.ui.targeting.toggle('slow');
 
       if(is_visible) {
@@ -142,11 +176,14 @@
 
     ui: {
       ads_list: '.ads-container',
-      targeting: '.targeting-container'
+      targeting: '.targeting-container',
+      creatives_container: '.creatives-list-view',
+      creatives_content: '.creatives-content'
     },
 
     events: {
-      'click .add_targeting_btn': '_toggleTargetingDialog'
+      'click .toggle-targeting-btn': '_toggleTargetingDialog',
+      'click .toggle-creatives-btn': '_toggleCreativesDialog'
     },
 
     triggers: {

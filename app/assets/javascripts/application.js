@@ -46,6 +46,7 @@
 //= require ./orders/order.js
 //= require ./lineitems/lineitems.js
 //= require ./ads/ads.js
+//= require ./creatives/creative.js
 //= require ./lineitems/adsizes.js
 //= require ./common/targeting.js
 //= require ./orders/controller.js
