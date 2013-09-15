@@ -128,10 +128,12 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
-        var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
-        creatives_list_view.ui.creatives.append(creativeView.render().el);
-      });
+      if(this.model.collection.creatives) {
+        _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+      }
 
       var dmas = new ReachUI.DMA.List();
       var self = this;
