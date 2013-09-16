@@ -186,15 +186,15 @@ private
   end
 
   def find_account_manager(params)
-    p = params.require(:order).permit(:account_contact_name, :account_contact_phone, :account_contact_email)
+    p = params.require(:order).permit(:account_contact_name, :account_contact_phone)
     am_name = p[:account_contact_name].split(/\s+/)
-    User.find_by!(first_name: am_name.first, last_name: am_name.last, email: p[:account_contact_email])
+    User.find_by!(first_name: am_name.first, last_name: am_name.last)
   end
 
   def find_sales_person(params)
-    sp = params.require(:order).permit(:sales_person_name, :sales_person_phone, :sales_person_email)
+    sp = params.require(:order).permit(:sales_person_name, :sales_person_phone)
     sp_name = sp[:sales_person_name].split(/\s+/)
-    User.find_by!(first_name: sp_name.first, last_name: sp_name.last, email: sp[:sales_person_email])
+    User.find_by!(first_name: sp_name.first, last_name: sp_name.last)
   end
 
   def find_or_create_media_contact(params, reach_client)
