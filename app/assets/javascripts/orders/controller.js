@@ -118,14 +118,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     view.on('order:save', this._saveOrder, this);
   },
 
-  _ioUploaded: function(orderModel, lineItems, creatives) {
+  _ioUploaded: function(orderModel, lineItems) {
     this.orderList.unshift(orderModel);
     // view order
     if(orderModel.id) {
       ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
     } else {
       // just uploaded model (w/o id, source_id)
-      lineItems.creatives = creatives;
       orderModel.lineItemList = lineItems;
       this._showOrderDetails(orderModel);
       lineItems.setOrder(orderModel);

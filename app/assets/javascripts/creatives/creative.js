@@ -86,7 +86,12 @@
     },
     
     _destroyCreative: function(e) {
-      this.remove();
+      var view = this;
+      this.model.destroy({
+        success: function(model, response) {
+          view.remove();
+        }
+      });
     }
   });
 
