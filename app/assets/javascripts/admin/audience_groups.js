@@ -101,13 +101,7 @@
     },
 
     _onListItemClick: function(event){
-      if (event.ctrlKey) {
-        $(event.target).toggleClass('selected');
-      }
-      else{
-        $("#searchResults li").removeClass('selected');
-        $(event.target).addClass('selected');
-      }
+      $(event.target).toggleClass('selected');
     },
 
     _dragHelper: function(){
