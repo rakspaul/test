@@ -128,10 +128,12 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
-        var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
-        creatives_list_view.ui.creatives.append(creativeView.render().el);
-      });
+      if(this.model.collection.creatives) {
+        _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+      }
 
       var dmas = new ReachUI.DMA.List();
       var self = this;
@@ -202,7 +204,7 @@
       var lineitems = this.collection;
       
       // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models}, {
+      this.collection.order.save({lineitems: lineitems.models, creatives: lineitems.creatives.models}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
