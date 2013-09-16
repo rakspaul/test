@@ -21,52 +21,51 @@ class OrdersController < ApplicationController
 
   def create
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
+    errors_list = {}
+
     if !reach_client
-      render json: {status: 'error', errors: {reach_client: 'should be specified'} }
-      return
+      errors_list['reach_client'] = 'should be specified'
     end
 
     begin
       trafficking_contact = User.find_by! id: params[:order][:trafficking_contact_id]
     rescue ActiveRecord::RecordNotFound => e
-      render json: {status: 'error', errors: {trafficking_contact: "this trafficker was not found, please select another one"} }
-      return
+      errors_list['trafficking_contact'] = "this trafficker was not found, please select another one"
     end
 
     begin
       bc = find_or_create_billing_contact(params, reach_client)
     rescue ActiveRecord::RecordInvalid => e
-      render json: {status: 'error', errors: {billing_contact: e.message} }
-      return
+      errors_list['billing_contact'] = e.message
     end
 
     begin
       mc = find_or_create_media_contact(params, reach_client)
     rescue ActiveRecord::RecordInvalid => e
-      render json: {status: 'error', errors: {media_contact: e.message} }
-      return
+      errors_list['media_contact'] = e.message
     end
 
     begin
       sales_person = find_sales_person(params)
     rescue ActiveRecord::RecordInvalid => e
-      render json: {status: 'error', errors: {sales_person: e.message} }
-      return
+      errors_list['sales_person'] = e.message
     rescue ActiveRecord::RecordNotFound
-      render json: {status: 'error', errors: {sales_person: "this sales person was not found, please select another one"} }
-      return
+      errors_list['sales_person'] = "this sales person was not found, please select another one"
     end
 
     begin
       account_manager = find_account_manager(params)
     rescue ActiveRecord::RecordInvalid => e
-      render json: {status: 'error', errors: {account_manager: e.message} }
-      return
+      errors_list['account_manager'] = e.message
     rescue ActiveRecord::RecordNotFound
-      render json: {status: 'error', errors: {account_manager: "this account manager was not found, please select another one"} }
-      return
+      errors_list['account_manager'] = "this account manager was not found, please select another one"
     end
 
+    if !errors_list.blank?
+      render json: {status: 'error', errors: errors_list}
+      return
+    end
+ 
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i

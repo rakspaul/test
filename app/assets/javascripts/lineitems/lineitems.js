@@ -204,7 +204,7 @@
       var lineitems = this.collection;
       
       // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models}, {
+      this.collection.order.save({lineitems: lineitems.models, creatives: lineitems.creatives.models}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
