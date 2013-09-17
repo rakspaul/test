@@ -45,6 +45,10 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://stg-cdb1.collective-media.net/export'
 
+  # audience group segment search
+  # comma separated string of network ids
+  config.search_segments_in_network = '6,176'
+
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default :charset => "utf-8"
