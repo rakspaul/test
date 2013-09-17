@@ -98,7 +98,7 @@
     tagName: 'tr',
     triggers: {
       'click .icon-remove' : 'delete:scheduled_report',
-      'click .icon-edit' : 'edit:scheduled_report'
+      'click .edit-report' : 'edit:scheduled_report'
     },
   });
 

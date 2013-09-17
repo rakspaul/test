@@ -1,7 +1,7 @@
 class MediaContact < ActiveRecord::Base
   has_many :reach_clients
 
-  validates :name, presence: true
+  validates :name, :address, presence: true
   validates :email, uniqueness: {message: 'already exist' }, presence: true
   validates :phone, uniqueness: {message: 'already exist' }, presence: true, numericality: { only_integer: true, message: 'invalid number' }
 
