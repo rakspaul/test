@@ -160,8 +160,12 @@
     // Toggle Creatives div (could be called both from LI level and from Creatives level)
     _toggleCreativesDialog: function() {
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
-      this.$el.find('.toggle-creatives-btn').html(is_visible ? 'Edit Creatives' : 'Hide Creatives');
-      this.ui.creatives_container.toggle('slow');
+      var edit_creatives_title = 'Edit Creatives (' + this.model.creatives.length + ')';
+
+      var self = this;
+      this.ui.creatives_container.toggle('slow', function() {
+        self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+      });
 
       var creatives_sizes = [];
       _.each(this.model.creatives.models, function(el) {
