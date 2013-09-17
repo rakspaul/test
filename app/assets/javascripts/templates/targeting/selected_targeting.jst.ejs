@@ -66,11 +66,24 @@
 
 <div class="zip-codes-targeting">
   <p>
-    <% if(selected_zip_codes.length > 0) { %>
+  <% if(selected_zip_codes.length > 0) { %>
     <img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">
-    <b>Zip Codes:</b>
+
+    <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
+      var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
+      if(!is_current_zip_code_valid) {
+        errors_in_zips = true;
+      }
+      var html_for_zip = '<span ' + (is_current_zip_code_valid ? '' : 'class="invalid-zip"') + '>' + selected_zip_codes[i] + '</span>';
+      zips.push( html_for_zip );
+    } %>
+
+    <b>Zip Codes:</b><%= zips.join(', ') %>
+
+    <% if(errors_in_zips) { %>
+    <div style="clear:both"></div>
+    <div class="errors-container">Highlighted zip codes are not valid. Please edit them.</div>
     <% } %>
-    <% var zips = []; for (var i = 0; i < selected_zip_codes.length; i++) { zips.push(selected_zip_codes[i]); } %>
-    <%= zips.join(', ') %>
+  <% } %>
   </p>
 </div>
