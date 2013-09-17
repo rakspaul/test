@@ -88,20 +88,12 @@
       }
     },
 
-    events:{
-      'click' : '_onListItemClick'
-    },
-
     onRender: function(){
       this.$el.draggable({
         revert: 'invalid',
         helper: this._dragHelper,
         containment: '.content'
       });
-    },
-
-    _onListItemClick: function(event){
-      $(event.target).toggleClass('selected');
     },
 
     _dragHelper: function(){
@@ -122,16 +114,20 @@
     itemView: AudienceGroup.SearchItem,
 
     events:{
-      'click #add_keyvals_button' : '_onAddKeyValsClick'
+      'click #add_keyvals_button' : '_onAddKeyValsClick',
+      'click #searchResults li' : '_onListItemClick'
     },
 
     ui:{
-      loading_div: '#loading_div'
+      loading_div: '#loading_div',
+      searchResultsList: '#searchResults'
     },
 
     initialize: function() {
       this.collection.on("fetch", this.onFetch, this);
       this.collection.on("reset", this.onReset, this);
+      this.prev = -1;
+      this.curr = null;
     },
 
     onFetch: function() {
@@ -151,6 +147,22 @@
       })
       this.trigger('addKeyVals', selectedKeyValsNames);
     },
+
+    _onListItemClick: function(event){
+      this.curr = $(event.target).index();
+
+      if(event.ctrlKey || event.metaKey){
+        this.prev = this.curr;
+        $(event.target).toggleClass('selected');
+      } else if(event.shiftKey && this.prev > -1){
+        this.ui.searchResultsList.find('li').slice(Math.min(this.prev, this.curr), 1 + Math.max(this.prev, this.curr)).addClass('selected');
+      } else {
+        this.prev = this.curr;
+        this.ui.searchResultsList.find('li').removeClass('selected');
+        $(event.target).toggleClass('selected');
+      }
+    },
+
   });
 
 
