@@ -235,14 +235,17 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
-      li[:lineitem].delete("targeting") # after targeting will be ready
+      li_targeting = li[:lineitem].delete("targeting") # after targeting will be ready
+      li_creatives = li.delete(:creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       if lineitem.save
+        lineitem.save_creatives(li_creatives)
+
         li[:ads].to_a.each_with_index do |ad, j|
           begin
-            ad[:ad].delete("targeting")
+            ad_targeting = ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id

@@ -4,6 +4,7 @@
   LineItems.LineItem = Backbone.Model.extend({
     initialize: function() {
       this.ads = [];
+      this.creatives = [];
     },
 
     defaults: function() {
@@ -24,7 +25,7 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads };
+      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.creatives };
     },
 
     pushAd: function(ad) {

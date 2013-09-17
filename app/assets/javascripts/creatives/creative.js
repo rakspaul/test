@@ -115,6 +115,7 @@
       var creative = new ReachUI.Creatives.Creative();
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
       this.ui.creatives.append(creativeView.render().el);
+      this.options.parent_view.model.creatives.push(creative);
     },
 
     _closeCreativeDialog: function() {
