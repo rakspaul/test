@@ -4,6 +4,7 @@
   LineItems.LineItem = Backbone.Model.extend({
     initialize: function() {
       this.ads = [];
+      this.creatives = [];
     },
 
     defaults: function() {
@@ -24,7 +25,7 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads };
+      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.creatives };
     },
 
     pushAd: function(ad) {
@@ -128,8 +129,8 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      if(this.model.collection.creatives) {
-        _.each((this.model.collection.creatives.models || this.model.collection.creatives), function(creative) {
+      if(this.model.creatives) {
+        _.each((this.model.creatives.models || this.model.creatives), function(creative) {
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
@@ -161,6 +162,15 @@
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       this.$el.find('.toggle-creatives-btn').html(is_visible ? 'Edit Creatives' : 'Hide Creatives');
       this.ui.creatives_container.toggle('slow');
+
+      var creatives_sizes = [];
+      _.each(this.model.creatives.models, function(el) {
+        creatives_sizes.push(el.get('ad_size'));
+      });
+
+      var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
+      this.ui.lineitem_sizes.html(uniq_creative_sizes);
+      this.model.set('ad_sizes', uniq_creative_sizes);
     },
 
     _toggleTargetingDialog: function() {    
@@ -180,7 +190,8 @@
       ads_list: '.ads-container',
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content'
+      creatives_content: '.creatives-content',
+      lineitem_sizes: '.lineitem-sizes'
     },
 
     events: {
@@ -204,7 +215,7 @@
       var lineitems = this.collection;
       
       // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models, creatives: lineitems.creatives.models}, {
+      this.collection.order.save({lineitems: lineitems.models}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {

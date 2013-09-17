@@ -355,6 +355,16 @@ $error_color: #ff7d78;
     width: 46%;
     float: left;
     padding-left: 25px;
+
+    .zip-codes-targeting {
+      .invalid-zip {
+        border-bottom: 2px solid $error_color;
+      }
+
+      .errors-container {
+        border-bottom: 1px dashed $error_color;
+      }
+    }
   }
 
   .dmas-checkboxes-container {

@@ -153,8 +153,10 @@
       this.ui.upload_status.html("<h4>Successfully uploaded.</h4>");
       var orderModel = new Orders.Order(data.result.order);
       var lineItems  = new ReachUI.LineItems.LineItemList(data.result.lineitems);
-      var creatives  = new ReachUI.Creatives.CreativesList(data.result.creatives);
-      this.trigger('io:uploaded', orderModel, lineItems, creatives);
+      _.each(lineItems.models, function(li) {
+        li.creatives = new ReachUI.Creatives.CreativesList(data.result.creatives);
+      });
+      this.trigger('io:uploaded', orderModel, lineItems);
     },
 
     _uploadFailed: function(e, data) {

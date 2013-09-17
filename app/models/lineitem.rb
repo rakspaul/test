@@ -9,6 +9,8 @@ class Lineitem < ActiveRecord::Base
   has_one :nielsen_pricing, autosave: true
 
   has_many :ads, foreign_key: 'io_lineitem_id'
+  has_many :lineitem_assignments, foreign_key: :io_lineitem_id
+  has_many :creatives, through: :lineitem_assignments
 
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
@@ -21,6 +23,15 @@ class Lineitem < ActiveRecord::Base
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes
   after_create :create_nielsen_pricing
+  
+  def save_creatives(creatives_params)
+    creatives_params.each do |params|
+      width, height = params[:creative][:ad_size].split(/x/).map(&:to_i)
+
+      creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: params[:creative][:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: params[:creative][:ad_id], network_id: self.order.network_id, data_source_id: 1
+      LineitemAssignment.create lineitem: self, creative: creative, start_date: params[:creative][:start_date], end_date: params[:creative][:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+    end
+  end
 
   private
 

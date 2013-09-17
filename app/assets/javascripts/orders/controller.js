@@ -37,7 +37,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
 
-    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView', '_onSaveOrderSuccess');
+    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
     this._bindKeys();
   },
 
@@ -68,9 +68,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    //this.orderList.fetch();
-    //this.orderDetailsLayout.top.close();
-    //this.orderDetailsLayout.bottom.close();
     var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
@@ -114,18 +111,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
-
-    view.on('order:save', this._saveOrder, this);
   },
 
-  _ioUploaded: function(orderModel, lineItems, creatives) {
+  _ioUploaded: function(orderModel, lineItems) {
     this.orderList.unshift(orderModel);
     // view order
     if(orderModel.id) {
       ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
     } else {
       // just uploaded model (w/o id, source_id)
-      lineItems.creatives = creatives;
       orderModel.lineItemList = lineItems;
       this._showOrderDetails(orderModel);
       lineItems.setOrder(orderModel);
@@ -133,7 +127,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
-  _saveOrder: function(args) {
+  /*_saveOrder: function(args) {
     var model = args.model,
       view = args.view,
       isNew = model.isNew();;
@@ -191,7 +185,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       alert("Error saving order. \n" + formErrors.join("\n"));
     }
-  },
+  },*/
 
   orderDetails: function(id) {
     this.selectedOrder = this.orderList.get(id);
@@ -523,6 +517,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this.lineItemList.setOrder(order);
       this.lineItemList.fetch().then(
         function(collection, response, options) {
+          _.each(self.lineItemList.models, function(li, index) {
+            li.creatives = new ReachUI.Creatives.CreativesList(collection[index].creatives);
+          });
           order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
         },

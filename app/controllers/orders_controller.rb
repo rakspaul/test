@@ -65,7 +65,7 @@ class OrdersController < ApplicationController
       render json: {status: 'error', errors: errors_list}
       return
     end
- 
+
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
@@ -181,7 +181,7 @@ private
                   .filterByStatus(order_status).filterByAM(am).filterByTrafficker(trafficker)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).order(:first_name)
+    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order('first_name ASC')
   end
 
   def find_account_manager(params)
@@ -235,14 +235,17 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
-      li[:lineitem].delete("targeting") # after targeting will be ready
+      li_targeting = li[:lineitem].delete("targeting") # after targeting will be ready
+      li_creatives = li.delete(:creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       if lineitem.save
+        lineitem.save_creatives(li_creatives)
+
         li[:ads].to_a.each_with_index do |ad, j|
           begin
-            ad[:ad].delete("targeting")
+            ad_targeting = ad[:ad].delete("targeting")
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id
