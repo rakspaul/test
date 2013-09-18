@@ -20,13 +20,10 @@
     </div>
   </div>
 
-  <div class="field trafficker-container <% if(order.trafficking_contact_unknown) { %> field_with_errors <% } %>">
+  <div class="field trafficker-container">
     <p>Trafficker</p>
-    <span class="<% if(order.trafficking_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
+    <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
     <div class="errors_container">
-    <% if(order.trafficking_contact_unknown) { %>
-      this trafficker was not found, please select another one
-    <% } %>
     </div>
   </div>
 

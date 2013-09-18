@@ -124,13 +124,7 @@ class IoImport
     end
 
     def find_trafficking_contact
-      tr = @reader.trafficking_contact
-      trafficker = User.where(first_name: tr[:first_name], last_name: tr[:last_name], email: tr[:email]).first
-      if !trafficker
-        @trafficking_contact_unknown = true
-        trafficker = User.new(first_name: tr[:first_name], last_name: tr[:last_name], email: tr[:email], phone_number: tr[:phone])
-      end
-      trafficker
+      @current_user
     end
 
     def find_account_contact

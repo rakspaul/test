@@ -22,7 +22,7 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      json.array! @io_import.inreds do |inred|
+      json.array! @io_import.inreds.select{|ir| ir[:placement] == lineitem.name} do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
     end
