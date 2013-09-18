@@ -139,7 +139,7 @@
     },
 
     _updateZipCodes: function(e) {
-      this.model.attributes.selected_zip_codes = e.currentTarget.value.split(',');
+      this.model.attributes.selected_zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
       this._renderSelectedTargetingOptions();
     },
 
