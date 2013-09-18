@@ -34,14 +34,14 @@
   </span>
 </div>
 <div class="pure-u-1-12 rate">
-  <span class="editable" data-type="text" data-name="rate" data-pk="1">
-    <%= accounting.formatMoney(lineitem.rate) %>
+  $<span class="editable" data-type="text" data-name="rate" data-pk="1">
+    <%= accounting.formatMoney(lineitem.rate, '') %>
   </span>
 </div>
 
 <div class="pure-u-1-12 media-cost">
-  <span class="editable" data-type="text" data-name="media_cost" data-pk="1">
-    <%= accounting.formatMoney(lineitem.volume / 1000 * lineitem.rate) %>
+  $<span class="editable custom" data-type="text" data-name="value" data-pk="1">
+    <%= accounting.formatMoney(lineitem.value, '') %>
   </span>
 </div>
 
