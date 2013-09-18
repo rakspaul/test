@@ -236,10 +236,12 @@ private
 
     params.to_a.each_with_index do |li, i|
       li_targeting = li[:lineitem].delete("targeting") # after targeting will be ready
-      li_creatives = li.delete(:creatives)
+      li_creatives = li[:lineitem].delete(:creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
+      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+
       if lineitem.save
         lineitem.save_creatives(li_creatives)
 

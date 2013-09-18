@@ -154,7 +154,8 @@
       var orderModel = new Orders.Order(data.result.order);
       var lineItems  = new ReachUI.LineItems.LineItemList(data.result.lineitems);
       _.each(lineItems.models, function(li) {
-        li.creatives = new ReachUI.Creatives.CreativesList(data.result.creatives);
+        // doesn't matter which lineitem creatives to use since it's not persisted Order, so we use [0]
+        li.creatives = new ReachUI.Creatives.CreativesList(data.result.lineitems[0].creatives);
       });
       this.trigger('io:uploaded', orderModel, lineItems);
     },

@@ -11,7 +11,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
-    this._initializeLineItemController();
+    //this._initializeLineItemController();
 
     var search = new ReachUI.Search.SearchQuery(),
       searchView = new ReachUI.Search.SearchQueryView({model: search}),
@@ -127,66 +127,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
-  /*_saveOrder: function(args) {
-    var model = args.model,
-      view = args.view,
-      isNew = model.isNew();;
-
-    var _order = {
-      name: view.ui.name.val(),
-      start_date: view.ui.start_date.val(),
-      end_date: view.ui.end_date.val(),
-      advertiser_id: view.ui.advertiser_id.val(),
-      sales_person_id: view.ui.sales_person_id.val()
-    };
-
-    // get all the error labels and clear them
-    _.keys(view.ui)
-      .filter(function(val) {
-        return /_error$/.test(val);
-      })
-      .forEach(function(val) {
-        view.ui[val].text("");
-      });
-
-    var self = this;
-
-    model.save(_order, {
-      success: this._onSaveOrderSuccess,
-      error: this._onSaveOrderFailure,
-      view: view,
-      isNew: isNew
-    });
-  },
-
-  _onSaveOrderSuccess: function(model, response, options) {
-    // add order at beginning
-    this.orderList.unshift(model);
-    if(options.isNew) {
-      // view order
-      ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
-    } else {
-      window.history.back();
-    }
-  },
-
-  _onSaveOrderFailure: function(model, xhr, options) {
-    if(xhr.responseJSON && xhr.responseJSON.errors) {
-      var formErrors = [];
-
-      _.each(xhr.responseJSON.errors, function(value, key) {
-        var errorLabel = options.view.ui[key + "_error"];
-        if(errorLabel) {
-          errorLabel.text(value[0]);
-        } else {
-          formErrors.push(value);
-        }
-      });
-
-      alert("Error saving order. \n" + formErrors.join("\n"));
-    }
-  },*/
-
   orderDetails: function(id) {
     this.selectedOrder = this.orderList.get(id);
     if(!this.selectedOrder) {
@@ -233,7 +173,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
-  _initializeLineItemController: function() {
+  /*_initializeLineItemController: function() {
     this.lineItemController = new ReachUI.LineItems.LineItemController({
                                     mainRegion: this.orderDetailsLayout.bottom
                                   });
@@ -247,7 +187,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
 
     ReachUI.Orders.router.navigate('/'+ this.selectedOrder.id, {trigger: true});
-  },
+  },*/
 
   _fetchOrder: function(id) {
     var self = this;
@@ -283,7 +223,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _showNewLineItemView: function(order) {
     order.select();
     this._showOrderDetails(order);
-
     var newLineItem = new ReachUI.LineItems.LineItem({'order_id': order.id});
     this.lineItemController.show(newLineItem);
   },
@@ -476,14 +415,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
-    detailOrderView.on('order:edit', function(args) {
-      var order = args.model;
-      ReachUI.Orders.router.navigate('/'+ order.id +'/edit', {trigger: true});
-    });
-    detailOrderView.on('order:export', function(args) {
-      var order = args.model;
-      window.location.href = '/orders/'+ order.id +'/export.xls';
-    });
     this.orderDetailsLayout.top.show(detailOrderView);
 
     //turn x-editable plugin to inline mode
@@ -568,11 +499,22 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this.orderDetailsLayout.bottom.show(lineItemListView);
 
-    // show Ads for each LI (only if `show` action)
+    // only if `show` action
     if(lineItemList.order.id) {
+      // set targeting for existing Order
+      _.each(lineItemList.models, function(li) {
+        var zipcodes = li.get('targeted_zipcodes').split(',');
+        li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes}));
+      })
+
+      // show Ads for each LI
       _.each(lineItemListView.children._views, function(li_view, li_name) {
         li_view.model.ads = new ReachUI.Ads.AdList();
         li_view.model.ads.setOrder(lineItemList.order);
+
+        // show condensed targeting options
+        ReachUI.showCondensedTargetingOptions.apply(li_view);
+
         // fetch ads for each lineitem and append then to the view of this lineitem
         li_view.model.ads.fetch().then(
           function(collection, response, options) {

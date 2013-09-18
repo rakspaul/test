@@ -26,10 +26,10 @@ class Lineitem < ActiveRecord::Base
   
   def save_creatives(creatives_params)
     creatives_params.each do |params|
-      width, height = params[:creative][:ad_size].split(/x/).map(&:to_i)
+      width, height = params[:ad_size].split(/x/).map(&:to_i)
 
-      creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: params[:creative][:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: params[:creative][:ad_id], network_id: self.order.network_id, data_source_id: 1
-      LineitemAssignment.create lineitem: self, creative: creative, start_date: params[:creative][:start_date], end_date: params[:creative][:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+      creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: params[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: params[:ad_id], network_id: self.order.network_id, data_source_id: 1
+      LineitemAssignment.create lineitem: self, creative: creative, start_date: params[:start_date], end_date: params[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
     end
   end
 

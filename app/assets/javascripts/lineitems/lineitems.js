@@ -280,7 +280,7 @@
     }
   });
 
-  LineItems.LineItemController = Marionette.Controller.extend({
+  /*LineItems.LineItemController = Marionette.Controller.extend({
     initialize: function(options) {
       this.mainRegion = options.mainRegion;
       this.adSizeList = new LineItems.AdSizeList();
@@ -402,6 +402,6 @@
         alert("Error saving lineitem. \n" + formErrors.join("\n"));
       }
     }
-  });
+  });*/
 
 })(ReachUI.namespace("LineItems"));
