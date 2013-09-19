@@ -208,7 +208,7 @@ private
 
   def store_io_asset params
     file = File.open(params[:order][:io_file_path])
-    writer = ::IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
+    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
     writer.write
     file.close
     File.unlink(file.path)
@@ -241,6 +241,8 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+      dmas_ids = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
+      lineitem.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
 
       if lineitem.save
         lineitem.save_creatives(li_creatives)

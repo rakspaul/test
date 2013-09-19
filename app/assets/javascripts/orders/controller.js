@@ -503,8 +503,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(lineItemList.order.id) {
       // set targeting for existing Order
       _.each(lineItemList.models, function(li) {
-        var zipcodes = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
-        li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes}));
+        var dmas      = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+        var zipcodes  = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+        li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: dmas}));
       })
 
       // show Ads for each LI
