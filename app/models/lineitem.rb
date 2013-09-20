@@ -12,6 +12,8 @@ class Lineitem < ActiveRecord::Base
   has_many :lineitem_assignments, foreign_key: :io_lineitem_id
   has_many :creatives, through: :lineitem_assignments
 
+  has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_code
+
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
   validates :active, inclusion: { in: [true, false] }
