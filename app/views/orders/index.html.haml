@@ -165,7 +165,8 @@
     }
 
     var filterParams = getFilterParams();
-    $.extend(para, filterParams);
+    var searchParams = getSearchParams();
+    $.extend(para, sortParams, searchParams);
 
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
