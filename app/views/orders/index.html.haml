@@ -3,34 +3,62 @@
     .content
 
 .order-table-content
-  .pure-g.header-filter-container
-    .pure-u
-      .delete-button
+  .header-filter-container
+    .pure-g
+      .pure-u.delete-button
         %button.btn#btn_delete_orders
           Delete
-    .pure-u-1-5
-      %label Status
-      %select.filter-orders.status
-        %option All
-        %option Saved
-        %option Draft
-    .pure-u-1-5
-      %label Account Manager
-      %select.filter-orders.am
-        %option Select
-        - @users.each do |user|
-          %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
-    .pure-u-1-5
-      %label Trafficker
-      %select.filter-orders.trafficker
-        %option Select
-        - @users.each do |user|
-          %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
-    .pure-u-1-5
-      %label Orders
-      %select.filter-orders.orders_by_user
-        %option{:value => "my_orders"} My Orders
-        %option{:value => "all_orders"} All Orders
+
+      .pure-u-2-3.filter-section
+        %form.form-horizontal.orders-filter-form
+          .pure-g
+            .pure-u
+              .control-group
+                %label.control-label
+                  Status
+                .controls
+                  %select.filter-orders.status
+                    %option All
+                    %option Saved
+                    %option Draft
+            .pure-u
+              .control-group
+                %label.control-label
+                  Orders
+                .controls
+                  %select.filter-orders#orders_by_user
+                    %option{:value => "my_orders"} My Orders
+                    %option{:value => "all_orders"} All Orders
+
+          .pure-g
+            .pure-u
+              .control-group
+                %label.control-label
+                  Account Manager
+                .controls
+                  %select.filter-orders.am
+                    %option Select
+                    - @users.each do |user|
+                      %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
+            .pure-u
+              .control-group
+                %label.control-label
+                  Trafficker
+                .controls
+                  %select.filter-orders.trafficker
+                    %option Select
+                    - @users.each do |user|
+                      %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
+
+      .pure-u.search-orders
+        .search-orders-inner
+          .control-group
+            %label.control-label
+              Search Orders
+            .controls
+              %input{type: "text", placeholder: "Order Name", id: "get_search_query"}
+            %button.btn.btn-primary#btn_search_orders Search
+            %button.btn#btn_reset_orders Reset
 
   %table.order-table
     %thead
@@ -173,12 +201,35 @@
   });
 
   $('.filter-orders').change(function(event) {
-    var para = getFilterParams();
+   sendRequest();
+  });
+
+  $('#btn_search_orders').click(function(event) {
+    sendRequest();
+  });
+
+  $('#btn_reset_orders').click(function() {
+    $('#get_search_query').val("");
+    sendRequest();
+  });
+
+  $('#get_search_query').keypress(function(e) {
+    if ( e.which == 13 ) {
+      e.preventDefault();
+      sendRequest();
+    }
+  });
+
+  function sendRequest(){
+    var para = {};
+    para = getFilterParams();
     var sortParams = getSortParams();
-    $.extend(para, sortParams);
+    var searchParams = getSearchParams();
+
+    $.extend(para, sortParams, searchParams);
 
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
-  });
+  }
 
   function getFilterParams(){
     var filterParams = {},
@@ -200,7 +251,7 @@
       filterParams.trafficker = trafficker;
     }
 
-    orders_by_user = $('.orders_by_user').val();
+    orders_by_user = $('#orders_by_user').val();
     if(orders_by_user === "all_orders") { orders_by_user = null }
     filterParams.orders_by_user = orders_by_user;
 
@@ -218,6 +269,16 @@
     }
 
     return sortParams;
+  }
+
+  function getSearchParams(){
+    var para = {};
+    _search_query = $('#get_search_query').val();
+    if(_search_query != "") {
+      para.search_query = _search_query;
+    }
+
+    return para;
   }
 
 
