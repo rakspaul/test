@@ -1,0 +1,2 @@
+class OptimizationSegment < Segment
+end

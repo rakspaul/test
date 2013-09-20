@@ -1,0 +1,4 @@
+- @audience_groups.each do |group|
+  %tr
+    %td= link_to group.name, edit_admin_audience_group_path(group)
+    %td= group.key_values
