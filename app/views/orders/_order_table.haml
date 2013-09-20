@@ -6,7 +6,10 @@
       -else
         %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
       %td= order.try(:io_detail).try(:state)
-      %td= link_to order.id, order_path(order)
+      %td
+        = link_to order.id, order_path(order)
+        %hr/
+        = order.source_id
       %td= order.name
       %td= order.io_detail.try(:reach_client).try(:name)
       %td= order.try(:io_detail).client_advertiser_name
