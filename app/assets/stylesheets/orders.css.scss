@@ -91,6 +91,23 @@
       .controls{
         margin-left:150px;
       }
+
+      .search-control{
+
+        margin-top:15px;
+
+        .control-label{
+          width:auto;
+        }
+        .controls{
+          margin-left:60px;
+
+          input{
+            margin-bottom:10px;
+          }
+        }
+      }
+
     }
 
   }

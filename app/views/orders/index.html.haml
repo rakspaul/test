@@ -4,13 +4,11 @@
 
 .order-table-content
   .header-filter-container
-    .pure-g
-      .pure-u.delete-button
-        %button.btn#btn_delete_orders
-          Delete
-
-      .pure-u-2-3.filter-section
-        %form.form-horizontal.orders-filter-form
+    %form.form-horizontal.orders-filter-form
+      .pure-g
+        .pure-u.delete-button
+          %button.btn#btn_delete_orders{type: "button"} Delete
+        .pure-u-2-3.filter-section
           .pure-g
             .pure-u
               .control-group
@@ -29,7 +27,6 @@
                   %select.filter-orders#orders_by_user
                     %option{:value => "my_orders"} My Orders
                     %option{:value => "all_orders"} All Orders
-
           .pure-g
             .pure-u
               .control-group
@@ -49,16 +46,16 @@
                     %option Select
                     - @users.each do |user|
                       %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
-
-      .pure-u.search-orders
-        .search-orders-inner
-          .control-group
-            %label.control-label
-              Search Orders
-            .controls
-              %input{type: "text", placeholder: "Order Name", id: "get_search_query"}
-            %button.btn.btn-primary#btn_search_orders Search
-            %button.btn#btn_reset_orders Reset
+        .pure-u.search-orders
+          .search-orders-inner
+            .control-group.search-control
+              %label.control-label
+                Search
+              .controls
+                %input{type: "text", placeholder: "Search", id: "get_search_query"}
+                %br/
+                %button.btn.btn-primary#btn_search_orders{type: "button"} Search
+                %button.btn#btn_reset_orders{type: "button"} Reset
 
   %table.order-table
     %thead
@@ -166,7 +163,7 @@
 
     var filterParams = getFilterParams();
     var searchParams = getSearchParams();
-    $.extend(para, sortParams, searchParams);
+    $.extend(para, filterParams, searchParams);
 
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
@@ -226,7 +223,6 @@
     para = getFilterParams();
     var sortParams = getSortParams();
     var searchParams = getSearchParams();
-
     $.extend(para, sortParams, searchParams);
 
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
@@ -275,7 +271,7 @@
   function getSearchParams(){
     var para = {};
     _search_query = $('#get_search_query').val();
-    if(_search_query != "") {
+    if(_search_query) {
       para.search_query = _search_query;
     }
 
