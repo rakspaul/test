@@ -27,6 +27,10 @@
         - @users.each do |user|
           %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
     .pure-u-1-5
+      %label Orders
+      %select.filter-orders.orders_by_user
+        %option{:value => "my_orders"} My Orders
+        %option{:value => "all_orders"} All Orders
 
   %table.order-table
     %thead
@@ -195,6 +199,10 @@
     if(trafficker){
       filterParams.trafficker = trafficker;
     }
+
+    orders_by_user = $('.orders_by_user').val();
+    if(orders_by_user === "all_orders") { orders_by_user = null }
+    filterParams.orders_by_user = orders_by_user;
 
     return filterParams;
   }
