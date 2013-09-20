@@ -169,6 +169,7 @@ private
     order_status = params[:order_status]? params[:order_status] : ""
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
+    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -178,7 +179,8 @@ private
 
     order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
                   .order(sort_column + " " + sort_direction)
-                  .filterByStatus(order_status).filterByAM(am).filterByTrafficker(trafficker)
+                  .filterByStatus(order_status).filterByAM(am)
+                  .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order('first_name ASC')
