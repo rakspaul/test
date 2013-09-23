@@ -27,7 +27,8 @@ class Order < ActiveRecord::Base
   scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
   scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
   scope :filterByLoggingUser, lambda { |user, orders_by_user| where("user_id = '#{user.id}'") unless orders_by_user.blank? }
-  scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("name ILIKE ? or source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?","%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
+  scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or name ILIKE ? or source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?",
+                                                             "%#{query}%", "%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
 
   def self.of_network(network)
     where(:network => network)
