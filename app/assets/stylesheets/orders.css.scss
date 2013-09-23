@@ -59,16 +59,35 @@
   .header-filter-container{
     background:#f7f7f7;
     border-radius:5px;
-    padding:10px;
+    padding:20px 10px 0;
     margin-bottom:10px;
-  }
+    position:relative;
 
-  .delete-button, .upload-button{
-    margin:24px 20px 0 10px;
-  }
+    .delete-button{
+      position:absolute;
+      left:10px;
+      top:70px;
+    }
 
-  label{
-    margin-bottom:5px;
+    .header-filter-inner{
+      margin-left:100px;
+    }
+
+    .orders-filter-form{
+      margin:0;
+
+      .control-label{
+        width:140px;
+      }
+      .controls{
+        margin-left:150px;
+      }
+
+      .search-control{
+        margin-left:50px;
+      }
+    }
+
   }
 
   .order-table {
@@ -157,4 +176,3 @@
   }
 
 }
-
