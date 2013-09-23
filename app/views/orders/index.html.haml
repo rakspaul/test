@@ -8,7 +8,7 @@
       .pure-g
         .pure-u.delete-button
           %button.btn#btn_delete_orders{type: "button"} Delete
-        .pure-u-2-3.filter-section
+        .pure-u-1.header-filter-inner
           .pure-g
             .pure-u
               .control-group
@@ -46,16 +46,11 @@
                     %option Select
                     - @users.each do |user|
                       %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
-        .pure-u.search-orders
-          .search-orders-inner
-            .control-group.search-control
-              %label.control-label
-                Search
-              .controls
-                %input{type: "text", placeholder: "Search", id: "get_search_query"}
-                %br/
-                %button.btn.btn-primary#btn_search_orders{type: "button"} Search
-                %button.btn#btn_reset_orders{type: "button"} Reset
+            .pure-u
+              .control-group.search-control
+                .input-append
+                  %input{type: "text", placeholder: "Search", id: "get_search_query"}
+                  %a.btn.add-on#btn_search_orders Search
 
   %table.order-table
     %thead
@@ -203,11 +198,6 @@
   });
 
   $('#btn_search_orders').click(function(event) {
-    sendRequest();
-  });
-
-  $('#btn_reset_orders').click(function() {
-    $('#get_search_query').val("");
     sendRequest();
   });
 

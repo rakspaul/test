@@ -59,27 +59,18 @@
   .header-filter-container{
     background:#f7f7f7;
     border-radius:5px;
+    padding:20px 10px 0;
     margin-bottom:10px;
     position:relative;
 
     .delete-button{
-      margin:75px 10px 0;
-    }
-
-    .filter-section{
-      padding:26px 10px 2px;
-    }
-
-    .search-orders{
-      float:right;
       position:absolute;
-      right:0;
-      height:100%;
-      border-left:1px solid #ededed;
+      left:10px;
+      top:70px;
+    }
 
-      .search-orders-inner{
-        padding:10px;
-      }
+    .header-filter-inner{
+      margin-left:100px;
     }
 
     .orders-filter-form{
@@ -93,21 +84,8 @@
       }
 
       .search-control{
-
-        margin-top:15px;
-
-        .control-label{
-          width:auto;
-        }
-        .controls{
-          margin-left:60px;
-
-          input{
-            margin-bottom:10px;
-          }
-        }
+        margin-left:50px;
       }
-
     }
 
   }
@@ -198,6 +176,3 @@
   }
 
 }
-
-
-
