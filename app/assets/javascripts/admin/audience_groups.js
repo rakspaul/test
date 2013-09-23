@@ -15,6 +15,18 @@
     }
   });
 
+  AudienceGroup.AudienceGroupsList = Backbone.Model.extend({
+    model: AudienceGroup.AudienceGroupModel,
+
+    url: function() {
+      return '/admin/audience_groups.json';
+    },
+
+    toJSON: function() {
+      return { audienceGroup: _.clone(this.attributes) };
+    }
+  });
+
   AudienceGroup.Segmant = Backbone.Model.extend({});
 
   AudienceGroup.SegmantList = Backbone.Collection.extend({

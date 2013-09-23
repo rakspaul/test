@@ -10,34 +10,9 @@
   </ul>
 
   <div class="tab key-values">
-
-    Age<br/>
-    <% var ages = ["Teens", "18-24", "25-34", "35-44", "45-54", "55-64", "65+"] %>
-    <% for(var i = 0; i < ages.length; i++) { %>
-    <input type="checkbox" name="age" value="Age.<%= ages[i] %>" <% if(selected_key_values["Age"].indexOf(ages[i]) >= 0) { %>checked="checked"<% } %>/> <%= ages[i] %><br/>
+    <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
+    <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values[audience_groups[i]['name']]) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
     <% } %>
-
-    Etnicity<br/>
-    <% var etno = ["African American", "Asian", "Hispanic"]; %>
-    <% for(var i = 0; i < etno.length; i++) { %>
-    <input type="checkbox" name="etnicity" value="Etnicity.<%= etno[i] %>" <% if(selected_key_values["Etnicity"].indexOf(etno[i]) >= 0) { %>checked="checked"<% } %> /> <%= etno[i] %><br/>
-    <% } %>
-
-    Interests/Other<br/>
-    <% var interests = ["Auto", "Business", "Dating", "Entertainment", "Education", "Family", "Fashion", "Finance", "Fitness", "Food", "Gadget", "Health", "Holiday", "Home & Garden/Home", "Improvement", "Home Owner", "Jobs", "Music", "Married", "Political", "Pets", "Real Estate", "Single", "Shopping/Retail", "Sports", "Outdoor", "Technology", "Travel", "Weather", "Hobbies & Interests", "Society", "News", "Moms"]; %>
-    <% for(var i = 0; i < interests.length; i++) { %>
-    <input type="checkbox" name="interests" value="Interests.<%= interests[i] %>" <% if(selected_key_values["Interests"].indexOf(interests[i]) >= 0) { %>checked="checked"<% } %>/> <%= interests[i] %><br/>
-    <% } %>
-
-    Household Income<br/>
-    <% var incomes = ["High", "Mid", "Low"]; %>
-    <% for(var i = 0; i < incomes.length; i++) { %>
-    <input type="checkbox" name="income" value="Income.<%= incomes[i] %>" <% if(selected_key_values["Income"].indexOf(incomes[i]) >= 0) { %>checked="checked"<% } %> /> <%= incomes[i] %> HHI<br/>
-    <% } %>
-
-    Gender<br/>
-    <input type="checkbox" name="gender" value="Gender.Male" <% if(selected_key_values["Gender"].indexOf("Male") >= 0) { %>checked="checked"<% } %> /> Male<br/>
-    <input type="checkbox" name="gender" value="Gender.Female" <% if(selected_key_values["Gender"].indexOf("Female") >= 0) { %>checked="checked"<% } %> /> Female<br/>
   </div>
 
   <% var selected_dmas_ids = [] %>
@@ -64,6 +39,10 @@
 </div>
 
 <div class="selected-targeting">
+</div>
+
+<div class="custom-regular-keyvalue-btn pull-right">
+  <span>Custom K/V</span>
 </div>
 
 <div style="clear:both"></div>

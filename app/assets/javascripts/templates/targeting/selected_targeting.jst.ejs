@@ -4,51 +4,8 @@
 
 <div class="age-targeting">
   <p>
-    <% if(selected_key_values["Age"].length > 0) { %>
-    <b>Age:</b>
-    <% } %>
-    <% var ages = []; for (var i = 0; i < selected_key_values["Age"].length; i++) { ages.push(selected_key_values["Age"][i]); } %>
-    <%= ages.join(', ') %>
-  </p>
-</div>
-
-<div class="etnicity-targeting">
-  <p>
-    <% if(selected_key_values["Etnicity"].length > 0) { %>
-    <b>Etnicity:</b>
-    <% } %>
-    <% var etnicities = []; for (var i = 0; i < selected_key_values["Etnicity"].length; i++) { etnicities.push(selected_key_values["Etnicity"][i]); } %>
-    <%= etnicities.join(', ') %>
-  </p>
-</div>
-
-<div class="interests-targeting">
-  <p>
-    <% if(selected_key_values["Interests"].length > 0) { %>
-    <b>Interests/Other:</b>
-    <% } %>
-    <% var interests = []; for (var i = 0; i < selected_key_values["Interests"].length; i++) { interests.push(selected_key_values["Interests"][i]); } %>
-    <%= interests.join(", ") %>
-  </p>
-</div>
-
-<div class="income-targeting">
-  <p>
-    <% if(selected_key_values["Income"].length > 0) { %>
-    <b>Income:</b>
-    <% } %>
-    <% var incomes = []; for (var i = 0; i < selected_key_values["Income"].length; i++) { incomes.push(selected_key_values["Income"][i]); } %>
-    <%= incomes.join(', ') %>
-  </p>
-</div>
-
-<div class="gender-targeting">
-  <p>
-    <% if(selected_key_values["Gender"].length > 0) { %>
-    <b>Gender:</b>
-    <% } %>
-    <% var genders = []; for (var i = 0; i < selected_key_values["Gender"].length; i++) { genders.push(selected_key_values["Gender"][i]); } %>
-    <%= genders.join(', ') %>
+    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { kv.push(selected_key_values[i]); } %>
+    <%= kv.join(', ') %>
   </p>
 </div>
 

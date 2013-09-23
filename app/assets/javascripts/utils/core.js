@@ -67,17 +67,11 @@ ReachUI.showCondensedTargetingOptions = function() {
     targeting_options.push('<img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">', ReachUI.truncateArray(zips));
   }
  
-  var key_values = targeting.attributes.selected_key_values;     
-  var kv_icon_pushed = false;
-  _.each(key_values, function(value, key) {
-    if(value.length > 0) {
-      if(!kv_icon_pushed) {
-        targeting_options.push('<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">&nbsp;');
-        kv_icon_pushed = true;
-      }
-      targeting_options.push("<b>"+key+":</b>", ReachUI.truncateArray(value));
-    }
-  }); 
+  var key_values = targeting.attributes.selected_key_values;      
+  if(key_values.length > 0) {   
+    targeting_options.push('<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">&nbsp;');
+    targeting_options.push(ReachUI.truncateArray(key_values));
+  } 
 
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
   // selected (including Ads' ones), so we need to limit this only to first matching element
