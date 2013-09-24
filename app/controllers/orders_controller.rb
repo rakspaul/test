@@ -227,13 +227,29 @@ private
     li_errors = {}
 
     params.each_with_index do |li, i|
-      li[:lineitem].delete(:targeting)
+      li_targeting = li[:lineitem].delete(:targeting)
+      li_creatives = li[:lineitem].delete(:creatives)
+      li_selected_zipcodes   = li[:lineitem].delete(:targeted_zipcodes)
+      li_selected_dmas       = li[:lineitem].delete(:selected_dmas)
+      li_selected_key_values = li[:lineitem].delete(:selected_key_values)
+
       lineitem = @order.lineitems.find(li[:lineitem][:id])
       li[:lineitem].delete(:id)
+
       if !lineitem.update_attributes(li[:lineitem])
         Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
         li_errors[i][:lineitems] = lineitem.errors
+      else
+        lineitem.targeted_zipcodes = li_selected_zipcodes.blank? ? "" : li_selected_zipcodes.to_a.map(&:strip).join(',')
+        dmas_ids = li_selected_dmas.to_a.collect{|dma| dma[:id]}
+        lineitem.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+
+        selected_groups = li_selected_key_values.to_a.collect do |group_name|
+          AudienceGroup.find_by(name: group_name)
+        end
+        lineitem.audience_groups = selected_groups if !selected_groups.blank?
+        lineitem.save
       end
     end
 
@@ -244,7 +260,7 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
-      li_targeting = li[:lineitem].delete("targeting") # after targeting will be ready
+      li_targeting = li[:lineitem].delete("targeting")
       li_creatives = li[:lineitem].delete(:creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
