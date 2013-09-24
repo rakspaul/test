@@ -1,6 +1,6 @@
 <h4>Targeting</h4>
 
-<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">
+<div class="account-contact-icon" title="Key Value Targeting"></div>
 
 <div class="age-targeting">
   <p>
@@ -9,7 +9,7 @@
   </p>
 </div>
 
-<img src="/assets/dma_targeting_icon.png" title="DMAs" alt="DMAs">
+<div class="dma-targeting-icon" title="DMAs"></div>
 
 <div class="dma-targeting">
   <p>
@@ -22,10 +22,10 @@
 </div>
 
 <div class="zip-codes-targeting">
-  <p>
+  
   <% if(selected_zip_codes.length > 0) { %>
-    <img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">
-
+    <div class="zip-codes-icon" title="Zip codes"></div>
+    <p>
     <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
       var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
       if(!is_current_zip_code_valid) {
@@ -41,6 +41,6 @@
     <div style="clear:both"></div>
     <div class="errors-container">Highlighted zip codes are not valid. Please edit them.</div>
     <% } %>
+    </p>
   <% } %>
-  </p>
 </div>

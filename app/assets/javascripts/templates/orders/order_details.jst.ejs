@@ -73,11 +73,11 @@
       <div class="pure-u-1-3">
         <div class="field salesperson-name <% if(order.sales_person_unknown) { %> field_with_errors <% } %>">
           <p>
+            <span style="float:right">Salesperson</span>
+            <span class="salesperson-icon" title="Sales person"></span>
             <% if(order.sales_person_unknown) { %>
-            <img src="/assets/contact_unknown.png" title="Sales person is not found in existing contacts" alt="Sales person unknown"/>
+            <span class="contact-unknown" title="Sales person is not found in existing contacts"></span>
             <% } %>
-            <img src="/assets/salesperson_icon.png" title="Sales person" alt="Sales person"/>
-            Salesperson
           </p>
           <span class="<% if(order.sales_person_unknown) { %>editable typeahead<% } %>" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
           <div class="errors_container">
@@ -99,11 +99,11 @@
 
         <div class="field media-contact-name">
           <p>
+            <span style="float:right">Media Contact</span>
+            <span class="media-contact-icon" title="Media Contact"></span>
             <% if(order.media_contact_unknown) { %>
-            <img src="/assets/contact_unknown.png" title="Media Contact is not found in existing contacts" alt="Media Contact unknown"/>
+            <span class="contact-unknown" title="Media Contact is not found in existing contacts"></span>
             <% } %>
-            <img src="/assets/media_contact_icon.png" title="Media Contact" alt="Media Contact"/>
-            Media Contact
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
           <div class="errors_container"></div>
@@ -128,11 +128,11 @@
       <div class="pure-u-1-3">
         <div class="field account-contact-name <% if(order.account_contact_unknown) { %> field_with_errors <% } %>">
           <p>
+            <span style="float:right">Account Contact</span>
+            <span class="account-contact-icon" title="Account Manager"></span>
             <% if(order.account_contact_unknown) { %>
-            <img src="/assets/contact_unknown.png" title="Account Manager is not found in existing contacts" alt="Account Manager unknown"/>
+            <span class="contact-unknown" title="Account Manager is not found in existing contacts"></span>
             <% } %>
-            <img src="/assets/account_contact_icon.png" title="Account Manager" alt="Account Manager"/>
-            Account Contact
           </p>
           <span class="<% if(order.account_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
           <div class="errors_container">
@@ -154,11 +154,11 @@
 
         <div class="field billing-contact-name">
           <p>
+            <span style="float:right">Billing Contact</span>
+            <span class="billing-contact-icon" title="Billing Contact"></span>
             <% if(order.billing_contact_unknown) { %>
-            <img src="/assets/contact_unknown.png" title="Billing Contact is not found in existing contacts" alt="Billing Contact unknown"/>
+            <span class="contact-unknown" title="Billing Contact is not found in existing contacts"></span>
             <% } %>
-            <img src="/assets/billing_contact_icon.png" title="Billing Contact" alt="Billing Contact"/>
-            Billing Contact
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name"><%= order.billing_contact_name %></span>
           <div class="errors_container"></div>

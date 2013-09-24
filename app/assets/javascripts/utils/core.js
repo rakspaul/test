@@ -59,18 +59,20 @@ ReachUI.showCondensedTargetingOptions = function() {
 
   var dmas = targeting.attributes.selected_dmas;
   if(dmas.length > 0) {
-    targeting_options.push('<img src="/assets/dma_targeting_icon.png" title="DMAs" alt="DMAs">', ReachUI.truncateArray(dmas, "title"));
+    targeting_options.push('<div class="dma-targeting-icon" title="DMAs"></div>', '<div style="float:left">', ReachUI.truncateArray(dmas, "title"), '</div>');
   }
 
   var zips = targeting.attributes.selected_zip_codes;
   if(zips.length > 0) {
-    targeting_options.push('<img src="/assets/zip_codes_icon.png" title="Zip codes" alt="Zip Codes">', ReachUI.truncateArray(zips));
+    targeting_options.push('<div class="zip-codes-icon" title="Zip codes"></div>', '<div style="float:left">', ReachUI.truncateArray(zips), '</div>');
   }
  
   var key_values = targeting.attributes.selected_key_values;      
   if(key_values.length > 0) {   
-    targeting_options.push('<img src="/assets/account_contact_icon.png" title="Key Value Targeting" alt="Key Value Targeting">&nbsp;');
+    targeting_options.push('<div class="account-contact-icon" title="Key Value Targeting"></div>');
+    targeting_options.push('<div style="float:left">');
     targeting_options.push(ReachUI.truncateArray(key_values));
+    targeting_options.push('</div>');
   } 
 
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be

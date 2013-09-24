@@ -81,16 +81,6 @@
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
       }
-
-      var dmas = new ReachUI.DMA.List();
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var self = this;
-      ags.fetch().done(dmas.fetch({
-        success: function(collection, response, options) {
-          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          self.model.attributes.targeting.set('audience_groups', ags.attributes);
-        }
-      }))
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -152,14 +142,18 @@
       // rendering each Creative
       if(this.model.creatives) {
         _.each((this.model.creatives.models || this.model.creatives), function(creative) {
+          creative.set('order_id', view.model.get('order_id'));
+          creative.set('lineitem_id', view.model.get('id'));
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
       
-      var targetingView = new ReachUI.Targeting.TargetingView({model: view.model.get('targeting'), parent_view: view});
-      view.ui.targeting.html(targetingView.render().el);    
-          
+      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(targetingView.render().el);    
+      
+      ReachUI.showCondensedTargetingOptions.apply(this);
+
      // align height of lineitem's li-number div
      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
     },
@@ -173,11 +167,12 @@
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level)
     _toggleCreativesDialog: function() {
-      var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = 'Edit Creatives (' + this.model.creatives.length + ')';
-
+      
       var self = this;
       this.ui.creatives_container.toggle('slow', function() {
+        var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+        var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
+
         self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
       });
 
@@ -293,129 +288,5 @@
       $('.field').removeClass('field_with_errors');
     }
   });
-
-  /*LineItems.LineItemController = Marionette.Controller.extend({
-    initialize: function(options) {
-      this.mainRegion = options.mainRegion;
-      this.adSizeList = new LineItems.AdSizeList();
-      _.bindAll(this, '_adSizeLoadError', '_onSaveSuccess', '_onSaveFailure');
-    },
-
-    show: function(lineitem) {
-      this._clearAdSizeSelection();
-      this.lineItemModel = lineitem;
-
-      this._createLayout();
-      this.mainRegion.show(this.layout);
-    },
-
-    // Ad sizes are cached, therefore clear any previously selected
-    // ad sizes.
-    _clearAdSizeSelection: function() {
-      this.adSizeList.forEach(function(adSize) {
-        adSize.set({selected: false}, {silent: true});
-      });
-    },
-
-    _createLayout: function() {
-      this.layout = new LineItems.LineItemLayout();
-
-      this.layout.on("render", function() {
-        this._showProperties();
-        this._showAdSizes();
-      }, this);
-
-      this.layout.on("lineitem:save", function(evt) {
-        this._saveLineitem();
-      }, this);
-
-      this.layout.on("lineitem:close", function(evt) {
-        this.trigger("lineitem:close");
-      }, this);
-    },
-
-    _showProperties: function() {
-      this.lineItemView = new LineItems.LineItemDetailView({model: this.lineItemModel});
-      this.layout.properties.show(this.lineItemView);
-    },
-
-    _showAdSizes: function() {
-      if(this.adSizeList.length === 0) {
-        this.adSizeList.fetch({error: this._adSizeLoadError});
-      }
-
-      var adSizeListView = new LineItems.AdSizeCheckboxList({collection: this.adSizeList});
-      adSizeListView.on("after:item:added", this._setSelectedAdSizes, this);
-      this.layout.adsizes.show(adSizeListView);
-    },
-
-    _adSizeLoadError: function() {
-      var errorModel = new ReachUI.Error({message: 'Error loading ad sizes'}),
-        inlineErrorView = new ReachUI.InlineErrorView({model: errorModel});
-
-      this.layout.adsizes.show(inlineErrorView);
-    },
-
-    _setSelectedAdSizes: function(view) {
-      var strAdSizes = this.lineItemModel.get("ad_sizes");
-
-      if(strAdSizes) {
-        var tmpAdSizeList = _.map(strAdSizes.split(','), function(size) { return size.trim(); });
-        if(tmpAdSizeList.indexOf(view.model.get("size")) !== -1) {
-          view.model.selected();
-        }
-      }
-    },
-
-    _saveLineitem: function() {
-      var selectedSizes = this.adSizeList.getSelected();
-      var mj = {
-        'name': this.lineItemView.ui.name.val(),
-        'active': this.lineItemView.ui.active.prop('checked'),
-        'start_date': this.lineItemView.ui.start_date.val(),
-        'end_date': this.lineItemView.ui.end_date.val(),
-        'volume': this.lineItemView.ui.volume.val(),
-        'rate': this.lineItemView.ui.rate.val(),
-        'ad_sizes': _.map(selectedSizes, function(size) { return size.get('size'); }).join(',')
-      };
-
-      var self = this;
-
-      // get all the error labels and clear them
-      _.keys(this.lineItemView.ui)
-        .filter(function(val) {
-          return /_error$/.test(val);
-        })
-        .forEach(function(val) {
-          self.lineItemView.ui[val].text("");
-        });
-
-      this.lineItemModel.save(mj, {
-        success: this._onSaveSuccess,
-        error: this._onSaveFailure
-      });
-    },
-
-    _onSaveSuccess: function(model, response, options) {
-      this.trigger("lineitem:saved", model);
-    },
-
-    _onSaveFailure: function(model, xhr, options) {
-      if(xhr.responseJSON && xhr.responseJSON.errors) {
-        var formErrors = [];
-
-        _.each(xhr.responseJSON.errors, function(value, key) {
-          var errorLabel = this.lineItemView.ui[key + "_error"];
-          if(errorLabel) {
-            errorLabel.text(value[0]);
-          } else {
-            formErrors.push(value);
-          }
-        }, this);
-
-        alert("Error saving lineitem. \n" + formErrors.join("\n"));
-      }
-    }
-  });*/
 
 })(ReachUI.namespace("LineItems"));

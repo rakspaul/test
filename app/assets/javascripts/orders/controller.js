@@ -503,9 +503,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(lineItemList.order.id) {
       // set targeting for existing Order
       _.each(lineItemList.models, function(li) {
-        var dmas      = li.get('selected_dmas') ? li.get('selected_dmas') : [];
-        var zipcodes  = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
-        li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: dmas}));
+        var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+        var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+        var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+
+        var dmas = new ReachUI.DMA.List();
+        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+        
+        ags.fetch().done(dmas.fetch({
+          success: function(collection, response, options) {
+            var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+
+            li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
+          }
+        }))
       })
 
       // show Ads for each LI

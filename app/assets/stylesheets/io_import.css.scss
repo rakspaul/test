@@ -40,7 +40,7 @@ $error_color: #ff7d78;
   }
 
   .field.advertiser-name .tt-query {
-    background: url(magnifier_icon.png) 2px 5px no-repeat;
+    background: url(asset-path('magnifier_icon.png', image)) 2px 5px no-repeat;
     padding-left:20px;
   }
 
@@ -86,6 +86,46 @@ $error_color: #ff7d78;
       top: -5px;
       left: 7px;
     }
+
+    .contact-unknown {
+      background: url(asset-path('contact_unknown.png', image));
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-right: 5px;
+    }
+
+    .billing-contact-icon {
+      background: url(asset-path('billing_contact_icon.png', image));
+      width: 16px;
+      height: 16px;
+      float: right;
+      margin-right: 5px;
+    }
+
+    .account-contact-icon {
+      background: url(asset-path('account_contact_icon.png', image));
+      width: 16px;
+      height: 16px;
+      float: right;
+      margin-right: 5px;
+    }
+
+    .media-contact-icon {
+      background: url(asset-path('media_contact_icon.png', image));
+      width: 16px;
+      height: 16px;
+      float: right;
+      margin-right: 5px;
+    }
+
+    .salesperson-icon {
+      background: url(asset-path('salesperson_icon.png', image));
+      width: 16px;
+      height: 16px;
+      float: right;
+      margin-right: 5px;
+    }
   }
 
   .field.order-name .editable {
@@ -101,9 +141,9 @@ $error_color: #ff7d78;
   }
 
   .current-io-status-top:before {
-    content:url("draft_status_icon.png");
-    vertical-align:middle;
-    margin-right:5px;
+    content: url(asset-path('draft_status_icon.png', image));
+    vertical-align: middle;
+    margin-right: 5px;
   }
 
   .general-info-container {
@@ -210,7 +250,7 @@ $error_color: #ff7d78;
     }
 
     .li-number:before {
-      content: url("expand_li_btn.png");
+      content: url(asset-path('expand_li_btn.png', image));
       vertical-align: middle;
       position: relative;
       left: -3em;
@@ -237,10 +277,26 @@ $error_color: #ff7d78;
       color: $text_color;
     }
 
-    .clone_btn {
+    .buttons-container {
       background-color: white;
       text-align: center;
       cursor: pointer;
+
+      .clone-btn {
+        background: url(asset-path('clone_btn.png', image)) no-repeat;
+        width: 16px;
+        height: 16px;
+        float: left;
+        margin: 0 5px;
+      }
+      
+      .delete-btn {
+        background: url(asset-path('delete_btn.png', image)) no-repeat;
+        width: 16px;
+        height: 16px;
+        float: left;
+        margin: 10px 5px 0 5px;
+      }
     }
   }
 
@@ -315,6 +371,30 @@ $error_color: #ff7d78;
       cursor: pointer;
     }
   }
+}
+
+.account-contact-icon {
+  background: url(asset-path('account_contact_icon.png', image)) no-repeat;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 5px;
+}
+
+.dma-targeting-icon {
+  background: url(asset-path('dma_targeting_icon.png', image)) no-repeat;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin-right: 5px;
+}
+
+.zip-codes-icon {
+  background: url(asset-path('zip_codes_icon.png', image)) no-repeat;
+  width: 12px;
+  height: 16px;
+  float: left;
+  margin: 0 5px;
 }
 
 .targeting-container {
@@ -434,6 +514,14 @@ table.creatives-content {
         .delete-btn-container {
           text-align: center;
           cursor: pointer;
+
+          .delete-btn {
+            background: url(asset-path('delete_btn.png', image)) no-repeat;
+            width: 14px;
+            height: 14px;
+            margin-right: 5px;
+            margin-top:3px;
+          }
         }
       }
     }

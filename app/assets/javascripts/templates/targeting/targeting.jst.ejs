@@ -11,7 +11,7 @@
 
   <div class="tab key-values">
     <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
-    <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values[audience_groups[i]['name']]) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
+    <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values.indexOf(audience_groups[i]['name']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
     <% } %>
   </div>
 

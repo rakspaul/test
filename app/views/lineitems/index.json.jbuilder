@@ -13,4 +13,8 @@ json.array! @order.lineitems do |lineitem|
       json.title dma.name
     end
   end
+
+  json.selected_key_values do
+    json.array! lineitem.audience_groups.collect{|ag| ag.name}
+  end
 end
