@@ -229,9 +229,9 @@ private
     params.each_with_index do |li, i|
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
-      li_selected_zipcodes   = li[:lineitem].delete(:targeted_zipcodes)
-      li_selected_dmas       = li[:lineitem].delete(:selected_dmas)
-      li_selected_key_values = li[:lineitem].delete(:selected_key_values)
+      li[:lineitem].delete(:targeted_zipcodes)
+      li[:lineitem].delete(:selected_dmas)
+      li[:lineitem].delete(:selected_key_values)
 
       lineitem = @order.lineitems.find(li[:lineitem][:id])
       li[:lineitem].delete(:id)
@@ -241,15 +241,19 @@ private
         li_errors[i] ||= {}
         li_errors[i][:lineitems] = lineitem.errors
       else
-        lineitem.targeted_zipcodes = li_selected_zipcodes.blank? ? "" : li_selected_zipcodes.to_a.map(&:strip).join(',')
-        dmas_ids = li_selected_dmas.to_a.collect{|dma| dma[:id]}
-        lineitem.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+        lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+        dmas_ids = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
+        lineitem.designated_market_areas = []
+        lineitem.designated_market_areas << DesignatedMarketArea.find(dmas_ids)
 
-        selected_groups = li_selected_key_values.to_a.collect do |group_name|
+        selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
           AudienceGroup.find_by(name: group_name)
         end
         lineitem.audience_groups = selected_groups if !selected_groups.blank?
-        lineitem.save
+
+        if !lineitem.save
+          Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
+        end
       end
     end
 
