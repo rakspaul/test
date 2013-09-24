@@ -248,6 +248,11 @@ private
       dmas_ids = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
       lineitem.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
 
+      selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+        AudienceGroup.find_by(name: group_name)
+      end
+      lineitem.audience_groups = selected_groups if !selected_groups.blank?
+
       if lineitem.save
         lineitem.save_creatives(li_creatives)
 

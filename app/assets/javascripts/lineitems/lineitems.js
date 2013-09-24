@@ -81,16 +81,6 @@
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
       }
-
-      var dmas = new ReachUI.DMA.List();
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var self = this;
-      ags.fetch().done(dmas.fetch({
-        success: function(collection, response, options) {
-          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          self.model.attributes.targeting.set('audience_groups', ags.attributes);
-        }
-      }))
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -157,9 +147,11 @@
         });
       }
       
-      var targetingView = new ReachUI.Targeting.TargetingView({model: view.model.get('targeting'), parent_view: view});
-      view.ui.targeting.html(targetingView.render().el);    
-          
+      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(targetingView.render().el);    
+      
+      ReachUI.showCondensedTargetingOptions.apply(this);
+
      // align height of lineitem's li-number div
      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
     },
@@ -173,11 +165,12 @@
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level)
     _toggleCreativesDialog: function() {
-      var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = 'Edit Creatives (' + this.model.creatives.length + ')';
-
+      
       var self = this;
       this.ui.creatives_container.toggle('slow', function() {
+        var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+        var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
+
         self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
       });
 
