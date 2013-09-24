@@ -13,7 +13,7 @@
     },
 
     toJSON: function() {
-      return { targeting: _.clone(_.omit(this.attributes, 'dmas_list')) };
+      return { targeting: _.clone(_.omit(this.attributes, 'dmas_list', 'audience_groups')) };
     }
   });
 
