@@ -544,6 +544,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }
         );
       });
+    } else {
+      _.each(lineItemList.models, function(li) {
+        var dmas = new ReachUI.DMA.List();
+        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();       
+        ags.fetch().done(dmas.fetch({
+          success: function(collection, response, options) {
+            var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+            li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
+          }
+        }));
+      });
     }
 
     lineItemList._recalculateLiImpressions();
