@@ -54,9 +54,9 @@
     },
 
     events: {
-      'mouseenter': '_show_delete_btn',
-      'mouseleave': '_hide_delete_btn',
-      'click .delete_btn': '_destroy_ad',
+      'mouseenter': '_showDeleteBtn',
+      'mouseleave': '_hideDeleteBtn',
+      'click .delete-btn': '_destroyAd',
       'click .add_targeting': '_toggleTargetingDialog'
     },
 
@@ -103,17 +103,17 @@
       }
     },
 
-    _show_delete_btn: function(e) {
+    _showDeleteBtn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').show();
+      this.$el.find('.delete-btn').show();
     },
 
-    _hide_delete_btn: function(e) {
+    _hideDeleteBtn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').hide();
+      this.$el.find('.delete-btn').hide();
     },
     
-    _destroy_ad: function(e) {
+    _destroyAd: function(e) {
       this.remove();
     }
   });

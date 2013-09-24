@@ -13,7 +13,7 @@
       if(this.isNew()) {
         return '/orders/' + this.get("order_id") + '/creatives.json';
       } else {
-        return '/orders/' + this.get("order_id") + '/creatives/' + this.id + '.json';
+        return '/orders/' + this.get("order_id") + '/lineitems/' + this.get("lineitem_id") + '/creatives/' + this.id + '.json';
       }
     },
 
@@ -51,7 +51,7 @@
     events: {
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
-      'click .delete_btn': '_destroyCreative',
+      'click .delete-btn': '_destroyCreative',
     },
 
     onRender: function() {
@@ -77,16 +77,17 @@
 
     _showDeleteBtn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').show();
+      this.$el.find('.delete-btn').show();
     },
 
     _hideDeleteBtn: function(e) {
       e.stopPropagation();
-      this.$el.find('.delete_btn').hide();
+      this.$el.find('.delete-btn').hide();
     },
     
     _destroyCreative: function(e) {
       var view = this;
+
       this.model.destroy({
         success: function(model, response) {
           view.remove();

@@ -36,7 +36,11 @@ Reachui::Application.routes.draw do
         get 'ads'
       end
     end
-    resources :lineitems
+
+    resources :lineitems do
+      resources :creatives, :only => [:destroy]
+    end
+
     resources :ads, :only => [:index]
 
     collection do
