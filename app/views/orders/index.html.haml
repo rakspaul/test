@@ -63,19 +63,19 @@
                 Status
         %th
           .pure-g.header-container
-            .pure-u.title-container
+            .pure-u.title-container.medium
               .title
-                ID
-            .pure-u
-              #id.actions-container
+                AMP Id / DFP Id
+            .pure-u.actions-container
+              #id
                 %i.icon-sort
         %th.order-name
           .pure-g.header-container
-            .pure-u.title-container
+            .pure-u.title-container.medium
               .title
                 Order Name
-            .pure-u
-              #order_name.actions-container
+            .pure-u.actions-container
+              #order_name
                 %i.icon-sort-by-attributes
         %th
           .pure-g.header-container
@@ -87,8 +87,8 @@
             .pure-u.title-container
               .title
                 Advertiser
-            .pure-u
-              #advertiser.actions-container
+            .pure-u.actions-container
+              #advertiser
                 %i.icon-sort
         %th
           .pure-g.header-container
@@ -107,19 +107,19 @@
                 Trafficker
         %th
           .pure-g.header-container
-            .pure-u.title-container
+            .pure-u.title-container.small
               .title
                 Start Date
-            .pure-u
-              #start_date.actions-container
+            .pure-u.actions-container
+              #start_date
                 %i.icon-sort
         %th
           .pure-g.header-container
-            .pure-u.title-container
+            .pure-u.title-container.small
               .title
                 End Date
-            .pure-u
-              #end_date.actions-container
+            .pure-u.actions-container
+              #end_date
                 %i.icon-sort
 
     %tbody{:id => "orders"}
@@ -239,7 +239,6 @@
     }
 
     orders_by_user = $('#orders_by_user').val();
-    if(orders_by_user === "all_orders") { orders_by_user = null }
     filterParams.orders_by_user = orders_by_user;
 
     return filterParams;
