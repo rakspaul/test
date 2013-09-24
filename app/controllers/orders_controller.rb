@@ -169,8 +169,13 @@ private
     order_status = params[:order_status]? params[:order_status] : ""
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
     search_query = params[:search_query].present? ? params[:search_query] : ""
+
+    if params[:orders_by_user] == "all_orders"
+      orders_by_user = ""
+    else
+      orders_by_user = "my_orders"
+    end
 
     if sort_column == "order_name"
       sort_column = "name"
