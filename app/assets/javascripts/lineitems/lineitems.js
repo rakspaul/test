@@ -81,6 +81,16 @@
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
       }
+
+      var dmas = new ReachUI.DMA.List();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var self = this;
+      ags.fetch().done(dmas.fetch({
+        success: function(collection, response, options) {
+          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+          self.model.attributes.targeting.set('audience_groups', ags.attributes);
+        }
+      }))
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -146,19 +156,12 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
-
-      var dmas = new ReachUI.DMA.List();
-      var self = this;
-      dmas.fetch({
-        success: function(collection, response, options) {
-          self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-          var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.attributes.targeting, parent_view: self});
-          self.ui.targeting.html(targetingView.render().el);
-
-          // align height of lineitem's li-number div
-          _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
-        }
-      });
+      
+      var targetingView = new ReachUI.Targeting.TargetingView({model: view.model.get('targeting'), parent_view: view});
+      view.ui.targeting.html(targetingView.render().el);    
+          
+     // align height of lineitem's li-number div
+     _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
     },
 
     renderAd: function(ad) {

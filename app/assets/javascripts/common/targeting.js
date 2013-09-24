@@ -4,9 +4,10 @@
   Targeting.Targeting = Backbone.Model.extend({
     defaults: function() {
       return {
-        selected_key_values: {"Age": [], "Etnicity": [], "Interests": [], "Income": [], "Gender": []},
+        selected_key_values: [],
         selected_dmas: [],
         dmas_list: [],
+        audience_groups: [],
         selected_zip_codes: []
       }
     },
@@ -31,6 +32,7 @@
       data.selected_key_values = this.model.attributes.selected_key_values;
       data.selected_dmas = this.model.attributes.selected_dmas;
       data.selected_zip_codes = this.model.attributes.selected_zip_codes;
+      data.audience_groups = this.model.attributes.audience_groups;
       return data;
     },
 
@@ -125,14 +127,14 @@
     },
 
     _toggleKeyValuesTargeting: function(e) {
-      var targeting = e.currentTarget.value.split('.');
+      var targeting = e.currentTarget.value;
       var kv = this.model.attributes.selected_key_values;
 
       if(e.currentTarget.checked == true) {
-        kv[targeting[0]].push(targeting[1]);
+        kv.push(targeting);
       } else {
-        var index = kv[targeting[0]].indexOf(targeting[1]);
-        kv[targeting[0]].splice(index, 1);
+        var index = kv.indexOf(targeting);
+        kv.splice(index, 1);
       }
       
       this._renderSelectedTargetingOptions();
@@ -147,6 +149,10 @@
       this.options.parent_view._toggleTargetingDialog();    
     },
 
+    _toggleCustomRegularKeyValues: function() {
+      
+    },
+
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
       'click .dmas .dmas-checkboxes-container input:checkbox': '_handleDmasCheckboxes',
@@ -154,7 +160,8 @@
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .dmas': '_showDMAsTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
-      'keyup .zip-codes textarea': '_updateZipCodes'
+      'keyup .zip-codes textarea': '_updateZipCodes',
+      'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues'
     }
   });
 })(ReachUI.namespace("Targeting"));

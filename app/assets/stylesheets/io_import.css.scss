@@ -67,13 +67,13 @@ $error_color: #ff7d78;
     }
 
     .editable-input input, .uneditable-input input {
-      width: 105px !important; 
+      width: 105px !important;
     }
 
     .editable-input input.input-small, .uneditable-input input.input-small {
       width: 95px !important;
     }
-  
+
     .advertiser-unknown {
       background: $error_color;
       padding: 5px 2px 35px 2px;
@@ -264,7 +264,7 @@ $error_color: #ff7d78;
 
   .summary {
     margin-top:20px;
-      
+
     .totals-label {
       color: $text_color;
     }
@@ -281,7 +281,7 @@ $error_color: #ff7d78;
       color: $text_color;
       cursor: pointer;
     }
-      
+
     .li-button.disabled {
       cursor: default;
       opacity: 0.5;
@@ -300,18 +300,20 @@ $error_color: #ff7d78;
   text-align:right;
   font-family: 'Armata', sans-serif;
 
-  .save-order-btn {
+  .save-order-btn, .close-order-btn {
     border: 1px dashed $text_color;
     color: $text_color;
     width: 50px;
     float: right;
     text-align: center;
     padding: 5px;
-  }
+    text-decoration:none;
+    margin-right:10px;
 
-  .save-order-btn:hover {
-    background: $bg_color;
-    cursor: pointer;
+    &:hover{
+      background: $bg_color;
+      cursor: pointer;
+    }
   }
 }
 
@@ -340,7 +342,7 @@ $error_color: #ff7d78;
       padding: 5px;
     }
   }
-  
+
   .save-targeting-btn {
     color: white;
     background-color: $text_color;
@@ -352,7 +354,7 @@ $error_color: #ff7d78;
   }
 
   .selected-targeting {
-    width: 46%;
+    width: 38%;
     float: left;
     padding-left: 25px;
 
@@ -364,6 +366,17 @@ $error_color: #ff7d78;
       .errors-container {
         border-bottom: 1px dashed $error_color;
       }
+    }
+  }
+
+  .custom-regular-keyvalue-btn {
+    padding-top: 35px;
+    padding-right: 10px;
+    cursor: pointer;
+
+    span:before {
+      content: url(asset-path('custom_kv_icon.png', image));
+      vertical-align:text-top;
     }
   }
 

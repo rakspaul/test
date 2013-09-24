@@ -65,7 +65,7 @@
           .pure-g.header-container
             .pure-u.title-container
               .title
-                ID
+                AMP Id / DFP Id
             .pure-u
               #id.actions-container
                 %i.icon-sort
@@ -239,7 +239,6 @@
     }
 
     orders_by_user = $('#orders_by_user').val();
-    if(orders_by_user === "all_orders") { orders_by_user = null }
     filterParams.orders_by_user = orders_by_user;
 
     return filterParams;
