@@ -107,10 +107,10 @@ class OrdersController < ApplicationController
 
     io_details = @order.io_detail
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
-    #io_details.media_contact_id       = order_param[:media_contact_id]
-    #io_details.billing_contact_id     = order_param[:billing_contact_id]
-    #io_details.reach_client_id        = order_param[:reach_client_id]
-    #io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
+    io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
+    io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
+    io_details.reach_client_id        = order_param[:reach_client_id]
+    io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
     #io_details.sales_person_id        = order_param[:sales_person_id]
     #io_details.account_manager_id     = order_param[:account_manager_id]
     io_details.client_order_id        = order_param[:client_order_id]
