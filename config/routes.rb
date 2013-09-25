@@ -48,6 +48,8 @@ Reachui::Application.routes.draw do
       delete 'delete'
     end
     get 'export' => 'io_export#export'
+
+    resources :notes, controller: 'order_notes'
   end
 
   resources :kendoui
