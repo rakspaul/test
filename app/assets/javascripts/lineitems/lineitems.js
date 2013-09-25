@@ -168,23 +168,23 @@
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level)
     _toggleCreativesDialog: function() {
-      
       var self = this;
-      this.ui.creatives_container.toggle('slow', function() {
-        var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
-        var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
-
-        self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
-      });
 
       var creatives_sizes = [];
-      _.each(this.model.creatives.models, function(el) {
+      _.each(self.model.creatives.models, function(el) {
         creatives_sizes.push(el.get('ad_size'));
       });
 
       var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-      this.ui.lineitem_sizes.html(uniq_creative_sizes);
-      this.model.set('ad_sizes', uniq_creative_sizes);
+      self.ui.lineitem_sizes.html(uniq_creative_sizes);
+      self.model.set('ad_sizes', uniq_creative_sizes);
+
+      var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+      var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
+
+      this.ui.creatives_container.toggle('slow', function() {
+        self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+      });
     },
 
     _toggleTargetingDialog: function() {    
@@ -266,7 +266,9 @@
               }
             });
           } else if(response.status == "success") {
-            ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
+            $('#save-order-dialog').modal('show').on('hidden', function () {
+              ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
+            })
           }
         },
         error: function(model, xhr, options) {
