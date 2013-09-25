@@ -181,3 +181,41 @@
   }
 
 }
+
+.order-notes-table{
+  width:500px;
+
+  tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  td {
+    font-size: 11px;
+    line-height: 15px;
+    padding: 3px;
+    border-bottom: 1px solid #ededed;
+  }
+
+  .username{ min-width:70px; color:#005C97; }
+  .notetimestamp{ min-width: 130px; }
+
+
+}
+
+.note-input-control{
+
+  .control-label{
+    float:left;
+    padding-top:5px;
+    margin-right:10px;
+  }
+
+  input{
+    float:left;
+    margin:0 10px 20px 0;
+  }
+
+  .save-note-btn{
+    float:left;
+  }
+}

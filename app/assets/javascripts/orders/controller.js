@@ -390,7 +390,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     $('.media-contact-email .typeahead').editable({
       source: "/media_contacts/search.json?search_by=email",
-      typeahead: { 
+      typeahead: {
         minLength: 2,
         remote: '/media_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
@@ -399,7 +399,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     $('.billing-contact-email .typeahead').editable({
       source: "/billing_contacts/search.json?search_by=email",
-      typeahead: { 
+      typeahead: {
         minLength: 2,
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
@@ -424,7 +424,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
-    
+
     $('.general-info-container .total-media-cost .editable.custom').editable({
       success: function(response, newValue) {
         order.set("total_media_cost", newValue); //update backbone model
@@ -457,6 +457,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           });
           order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
+          self._showNotesView(order);
         },
         function(model, response, options) {
           console.log('error while getting lineitems list');
@@ -466,10 +467,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this.lineItemList.setOrder(order);
       this._liSetCallbacksAndShow(this.lineItemList);
+      this._showNotesView(order);
     }
   },
 
-  // Ad name should be in this format: 
+  // Ad name should be in this format:
   // Client Abbreviated Name + Advertiser Name (C18) + Quarter (Q2) + Year + Ad Sizes
   // Example: RE TW LA Sinus MD - Dr. Kayem Q213 300x250,728x90,160x600
   _generateAdName: function(li) {
@@ -513,7 +515,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
         var dmas = new ReachUI.DMA.List();
         var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-        
+
         ags.fetch().done(dmas.fetch({
           success: function(collection, response, options) {
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
@@ -551,7 +553,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       _.each(lineItemList.models, function(li) {
         var dmas = new ReachUI.DMA.List();
-        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();       
+        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
         ags.fetch().done(dmas.fetch({
           success: function(collection, response, options) {
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
@@ -562,5 +564,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
 
     lineItemList._recalculateLiImpressions();
-  }
+  },
+
+  _showNotesView: function(order) {
+    this.notesRegion = new ReachUI.Orders.NotesRegion();
+    this.noteList = new ReachUI.Orders.NoteList();
+    this.noteList.setOrder(order)
+    this.notesRegion.show(new ReachUI.Orders.NoteListView({collection: this.noteList, order: order}));
+    this.noteList.fetch();
+  },
 });
