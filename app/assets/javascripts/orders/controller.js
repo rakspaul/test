@@ -297,6 +297,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.salesperson-name').on('typeahead:selected', function(ev, el) {
       order.set("sales_person_name", el.name);//update backbone model
       order.set("sales_person_email", el.email);
+      order.set("sales_person_id", el.id);
       order.set("sales_person_phone", el.phone);
       $('.salesperson-phone span').removeClass('editable-empty').html(el.phone);
       $('.salesperson-email span').removeClass('editable-empty').html(el.email);
@@ -320,6 +321,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $('.media-contact-email span').removeClass('editable-empty').html(el.email);
       order.set("media_contact_name", el.name);//update backbone model
       order.set("media_contact_email", el.email);
+      order.set("media_contact_id", el.id);
       order.set("media_contact_phone", el.phone);
     });
 
@@ -340,6 +342,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("billing_contact_name", el.name);//update backbone model
       order.set("billing_contact_email", el.email);
       order.set("billing_contact_phone", el.phone);
+      order.set("billing_contact_id", el.id);
     });
 
     //-------------------------------------------------------------------------------
@@ -393,6 +396,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'email'
       }
     });
+
     $('.billing-contact-email .typeahead').editable({
       source: "/billing_contacts/search.json?search_by=email",
       typeahead: {

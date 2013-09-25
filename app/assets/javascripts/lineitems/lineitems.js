@@ -49,7 +49,8 @@
 
     _recalculateLiImpressions: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
-        sum += parseInt(el.get('volume'));
+        var imps = parseInt(String(el.get('volume')).replace(/,|\./, ''));
+        sum += imps;
         return sum;
       }, 0);
 
@@ -60,7 +61,7 @@
 
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
   
-      $('.lineitems-summary-container .total-impressions').html(sum_impressions);
+      $('.lineitems-summary-container .total-impressions').html(accounting.formatNumber(sum_impressions));
 
       $('.lineitems-summary-container .total-media-cost').html(accounting.formatMoney(sum_media_cost));
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
@@ -120,7 +121,7 @@
 
       this.$el.find('.volume .editable.custom, .media-cost .editable.custom').editable({
         success: function(response, newValue) {
-          view.model.set(this.dataset['name'], parseFloat(newValue)); //update backbone model;
+          view.model.set(this.dataset['name'], newValue); //update backbone model;
           view.model.collection._recalculateLiImpressions();
         }
       });
