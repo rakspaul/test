@@ -227,7 +227,8 @@
     itemView: ReachUI.Orders.NoteView,
 
     events: {
-      'keypress #note_input' : 'saveNote'
+      'keypress #note_input' : 'saveNote',
+      'click #btnSave' : 'saveNote'
     },
 
     ui: {
