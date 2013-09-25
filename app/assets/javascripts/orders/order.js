@@ -41,6 +41,36 @@
     }
   });
 
+  Orders.Note = Backbone.Model.extend({
+    url: function() {
+      if(this.isNew()) {
+        return '/orders/' + this.order.id + '/notes';
+      }
+    },
+
+    setOrder: function(order) {
+      this.order = order;
+    },
+
+    toJSON: function() {
+      return { note: _.clone(this.attributes) };
+    }
+
+  });
+
+  Orders.NoteList = Backbone.Collection.extend({
+    url: function() {
+      return '/orders/' + this.order.id + '/notes.json';
+    },
+
+    model: Orders.Note,
+
+    setOrder: function(order) {
+      this.order = order;
+    },
+
+  });
+
   Orders.EmptyView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_search_empty'],
     className: 'no-order-found'
@@ -182,4 +212,63 @@
       this.ui.upload_status.addClass('alert alert-error');
     }
   });
+
+  ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
+    el: "#notes"
+  });
+
+  ReachUI.Orders.NoteView = Backbone.Marionette.ItemView.extend({
+    tagName:'tr',
+    template: JST['templates/orders/note_list_item'],
+  });
+
+  ReachUI.Orders.NoteListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/orders/note_list'],
+    itemView: ReachUI.Orders.NoteView,
+
+    events: {
+      'keypress #note_input' : 'saveNote'
+    },
+
+    ui: {
+      note_input: '#note_input',
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+    },
+
+    appendHtml: function(collectionView, itemView){
+        collectionView.$("tbody").append(itemView.el);
+    },
+
+    saveNote: function(event) {
+      if (event.type === 'keypress' && event.keyCode != 13) {
+        return;
+      }
+
+      if(this.ui.note_input.val().trim() == "") {
+        return;
+      }
+
+      var prop = {
+        note: this.ui.note_input.val().trim(),
+      }
+
+      this.model = new ReachUI.Orders.Note();
+      this.model.setOrder(this.options.order);
+      this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+    },
+
+    _onSaveSuccess: function(event) {
+      this.ui.note_input.val('');
+      this.collection.fetch({reset:true});
+    },
+
+    _onSaveFailure: function() {
+
+    }
+
+  });
+
 })(ReachUI.namespace("Orders"));
