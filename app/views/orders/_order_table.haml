@@ -19,7 +19,13 @@
           &frasl;
           %span.dfp-id{:title => "DFP Order ID"}
             = order.source_id
-      %td= order.name
+      %td
+        .order-title
+          = order.name
+        - if order.order_note.last.try(:note)
+          .arrow_box
+            = order.try(:order_note).order(:created_at).last.try(:note)
+
       %td= order.io_detail.try(:reach_client).try(:name)
       %td= order.try(:io_detail).client_advertiser_name
       %td= order.io_detail.try(:reach_client).try(:abbr)

@@ -169,6 +169,10 @@
       width:400px;
     }
 
+    .order-title{
+      margin-bottom:5px;
+    }
+
     hr{
       margin:0px;
     }
@@ -182,40 +186,88 @@
 
 }
 
-.order-notes-table{
-  width:500px;
+.order-notes{
+  margin-bottom:20px;
 
-  tbody > tr:hover {
-    background-color: #f8f8f8;
+  .order-notes-table{
+    width:500px;
+
+    td {
+      font-size: 11px;
+      line-height: 15px;
+      padding: 3px;
+    }
+
+    .username{ min-width:70px; color:#005C97; }
+    .ordersnotes{ min-width:150px; }
+    .notetimestamp{ min-width: 120px; }
   }
 
-  td {
-    font-size: 11px;
-    line-height: 15px;
-    padding: 3px;
-    border-bottom: 1px solid #ededed;
+  .note-input-control{
+
+    .control-label{
+      float:left;
+      font-size:12px;
+      margin-right:10px;
+      color:#005C97;
+      font-weight:bold;
+      min-width:70px;
+    }
+
+    input{
+      float:left;
+      margin:0 10px 20px 0;
+      border:none;
+      font-size:11px;
+      line-height:14px;
+      padding:0 2px;
+      box-shadow:none;
+      border-bottom: 1px solid #005C97;
+      border-left: 1px solid #005C97;
+      border-right: 1px solid #005C97;
+      border-radius:0;
+      min-width:280px;
+    }
+
+    .save-note-btn{
+      float:left;
+    }
   }
-
-  .username{ min-width:70px; color:#005C97; }
-  .notetimestamp{ min-width: 130px; }
-
 
 }
 
-.note-input-control{
+.arrow_box {
+  position: relative;
+  background: #fff;
+  border: 1px solid #cccccc;
+  border-radius:4px;
+  padding:4px;
+  width:250px;
 
-  .control-label{
-    float:left;
-    padding-top:5px;
-    margin-right:10px;
+  &:after, &:before{
+    bottom: 100%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
   }
 
-  input{
-    float:left;
-    margin:0 10px 20px 0;
+  &:after{
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #fff;
+    border-width: 5px;
+    left: 20%;
+    margin-left: -5px;
   }
 
-  .save-note-btn{
-    float:left;
+  &:before{
+    border-color: rgba(204, 204, 204, 0);
+    border-bottom-color: #cccccc;
+    border-width: 6px;
+    left: 20%;
+    margin-left: -6px;
   }
 }
+
