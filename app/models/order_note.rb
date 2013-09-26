@@ -1,5 +1,4 @@
 class OrderNote < ActiveRecord::Base
-  self.table_name = "reach_order_notes"
 
   belongs_to :order
   belongs_to :user

@@ -214,7 +214,7 @@
   });
 
   ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
-    el: "#notes"
+    el: "#order-notes"
   });
 
   ReachUI.Orders.NoteView = Backbone.Marionette.ItemView.extend({
