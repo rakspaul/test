@@ -57,16 +57,50 @@
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyAd',
-      'click .add_targeting': '_toggleTargetingDialog'
+      'click .toggle-ads-targeting-btn': '_toggleTargetingDialog',
+      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog'
     },
 
     ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container'
+      targeting: '.targeting-container',
+      creatives_container: '.ads-creatives-list-view',
+      creatives_content: '.creatives-content',
+      ads_sizes: '.ads-sizes'
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////
+    // Toggle Creatives div for Ads (could be called both from Ads level and from Creatives level: 'Done' button)
+    _toggleCreativesDialog: function() {
+      var self = this,
+          creatives_sizes = [],
+          creatives = this.model.get('creatives').models;
+
+      _.each(creatives, function(el) {
+        creatives_sizes.push(el.get('ad_size'));
+      });
+
+      var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
+      self.ui.ads_sizes.html(uniq_creative_sizes);
+
+      var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+      var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
+
+      this.ui.creatives_container.toggle('slow', function() {
+        self.$el.find('.toggle-ads-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+      });
     },
 
     _toggleTargetingDialog: function() {
-      this.options.parent_view._toggleTargetingDialog.apply(this);
+      var is_visible = ($(this.ui.targeting).css('display') == 'block');
+      this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
+      $(this.ui.targeting).toggle('slow');
+
+      if(is_visible) {
+        ReachUI.showCondensedTargetingOptions.apply(this);
+
+        // align height of lineitem's li-number div
+        //_.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      }
     },
 
     onRender: function() {

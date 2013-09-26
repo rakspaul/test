@@ -86,6 +86,7 @@
     },
     
     _destroyCreative: function(e) {
+      e.stopPropagation();
       var view = this;
 
       this.model.destroy({

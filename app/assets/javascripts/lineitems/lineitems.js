@@ -134,7 +134,7 @@
       _.each((this.model.ads.models || this.model.ads.collection || this.model.ads), function(ad) {
         view.renderAd(ad);
       });
-      
+  
       // rendering template for Creatives Dialog layout
       var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: view});
       this.ui.creatives_container.html(creatives_list_view.render().el);
@@ -159,13 +159,29 @@
     },
 
     renderAd: function(ad) {
-      var adView = new ReachUI.Ads.AdView({model: ad, parent_view: this});
-      this.ui.ads_list.append(adView.render().el);
-      ReachUI.showCondensedTargetingOptions.apply(adView);
+      var li_view = this,
+          ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
+      li_view.ui.ads_list.append(ad_view.render().el);
+      ReachUI.showCondensedTargetingOptions.apply(ad_view);
+
+      // rendering template for Creatives Dialog layout
+      // parent_view here set to **ad_view** so 'Done' button in creatives dialog will work correctly
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({itemViewContainer: '.ads-creatives-list-view', parent_view: ad_view});
+      ad_view.ui.creatives_container.html(creatives_list_view.render().el);
+
+      // rendering each Creative
+      if(ad_view.model.get('creatives').models) {
+        _.each(ad_view.model.get('creatives').models, function(creative) {
+          creative.set('order_id', li_view.model.get('order_id'));
+          creative.set('lineitem_id', li_view.model.get('id'));
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+      }
     },
 
     ///////////////////////////////////////////////////////////////////////////////
-    // Toggle Creatives div (could be called both from LI level and from Creatives level)
+    // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function() {
       var self = this;
 
@@ -186,10 +202,10 @@
       });
     },
 
-    _toggleTargetingDialog: function() {    
+    _toggleTargetingDialog: function() {
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
       this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      this.ui.targeting.toggle('slow');
+      $(this.ui.targeting).toggle('slow');
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
