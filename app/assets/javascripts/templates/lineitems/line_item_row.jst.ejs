@@ -40,9 +40,7 @@
 </div>
 
 <div class="pure-u-1-12 media-cost">
-  $<span class="editable custom" data-type="text" data-name="value" data-pk="1">
-    <%= accounting.formatMoney(lineitem.value, '') %>
-  </span>
+  $<span><%= accounting.formatMoney(lineitem.value, '') %></span>
 </div>
 
 <div class="ads-container">

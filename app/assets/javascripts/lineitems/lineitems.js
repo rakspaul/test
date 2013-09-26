@@ -62,7 +62,6 @@
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
   
       $('.lineitems-summary-container .total-impressions').html(accounting.formatNumber(sum_impressions));
-
       $('.lineitems-summary-container .total-media-cost').html(accounting.formatMoney(sum_media_cost));
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
       $('.total-media-cost span').html(accounting.formatMoney(cpm_total));
