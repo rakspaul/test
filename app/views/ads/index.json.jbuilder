@@ -7,7 +7,7 @@ json.array! @order.ads do |ad|
     json.size ad.size
     json.rate ad.rate
     json.io_lineitem_id ad.io_lineitem_id
-    json.targeted_zipcodes ad.targeted_zipcodes
+    json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
   end
 
   json.creatives do

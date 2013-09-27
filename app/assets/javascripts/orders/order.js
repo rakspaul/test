@@ -184,7 +184,7 @@
       var orderModel = new Orders.Order(data.result.order);
       var lineItems  = new ReachUI.LineItems.LineItemList(data.result.lineitems);
       _.each(lineItems.models, function(li, index) {
-        li.creatives = new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives);
+        li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
       });
       this.trigger('io:uploaded', orderModel, lineItems);
     },
