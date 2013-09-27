@@ -23,8 +23,9 @@
         .order-title
           = order.name
         - if order.order_note.last.try(:note)
-          .arrow_box
+          .order-note{:title => order.try(:order_note).order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
             = order.try(:order_note).order(:created_at).last.try(:note)
+
 
       %td= order.io_detail.try(:reach_client).try(:name)
       %td= order.try(:io_detail).client_advertiser_name
