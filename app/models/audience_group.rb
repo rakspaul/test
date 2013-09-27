@@ -5,6 +5,7 @@ class AudienceGroup < ActiveRecord::Base
   belongs_to :user
 
   has_and_belongs_to_many :lineitems, join_table: :lineitems_reach_audience_groups, foreign_key: :reach_audience_group_id
+  has_and_belongs_to_many :ads, join_table: :ads_reach_audience_groups, foreign_key: :reach_audience_group_id
 
   validates :name, uniqueness: {message: 'already exist' }, presence: true
   validates :key_values, presence: true

@@ -11,8 +11,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
-    //this._initializeLineItemController();
-
     var search = new ReachUI.Search.SearchQuery(),
       searchView = new ReachUI.Search.SearchQueryView({model: search}),
       searchOrderListView = new ReachUI.Orders.ListView({el: '.order-search-result', collection: this.orderList});
@@ -430,14 +428,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     var self = this;
-
     if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);
       this.lineItemList.fetch().then(
         function(collection, response, options) {
           _.each(self.lineItemList.models, function(li, index) {
-            li.creatives = new ReachUI.Creatives.CreativesList(collection[index].creatives);
+            li.set('creatives', new ReachUI.Creatives.CreativesList(collection[index].creatives));
           });
           order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
@@ -465,6 +462,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     return li.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+li.attributes.ad_sizes;
   },
 
+  /////////////////////////////////////////////////////////////////////////////////////////
+  // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
     var ordersController = this;
@@ -473,7 +472,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
       var li = li_view.model;
       var ad_name = ordersController._generateAdName(li);
-      var attrs = _.extend(_.omit(li.attributes, 'name', 'volume', 'value', 'ad_sizes', 'targeting'), {description: ad_name, size: li.attributes.ad_sizes});
+      var attrs = _.extend(_.omit(li.attributes, 'name', 'volume', 'value', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, size: li.attributes.ad_sizes});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
@@ -537,12 +536,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         // fetch ads for each lineitem and append then to the view of this lineitem
         li_view.model.ads.fetch().then(
           function(collection, response, options) {
+            li_view.model.ads = [];
             _.each(collection, function(attrs) {
-              attrs.start_date = moment(attrs.start_date).format("YYYY-MM-DD");
-              attrs.end_date = moment(attrs.end_date).format("YYYY-MM-DD");
-              var ad = new ReachUI.Ads.Ad(attrs);
-              li_view.model.pushAd(ad);
-              li_view.renderAd(ad);
+              // push and render Ad only under particular lineitem
+              if(li_view.model.get('id') == attrs.ad.io_lineitem_id) {
+                attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
+                attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
+
+                var ad = new ReachUI.Ads.Ad(attrs.ad);
+                ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
+                ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: [], selected_dmas: [], selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
+
+                li_view.model.pushAd(ad);
+                li_view.renderAd(ad);
+              }
             });
           },
           function(model, response, options) {
@@ -551,7 +558,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }
         );
       });
-    } else {
+    } else { // not persisted Order/Lineitems
       _.each(lineItemList.models, function(li) {
         var dmas = new ReachUI.DMA.List();
         var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
