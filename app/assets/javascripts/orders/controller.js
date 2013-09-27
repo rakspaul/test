@@ -542,10 +542,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               if(li_view.model.get('id') == attrs.ad.io_lineitem_id) {
                 attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
                 attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
+                var zipcodes      = attrs.ad.targeted_zipcodes ? attrs.ad.targeted_zipcodes.split(',') : [];
 
                 var ad = new ReachUI.Ads.Ad(attrs.ad);
                 ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
-                ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: [], selected_dmas: [], selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
+                ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: attrs.selected_dmas, selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
 
                 li_view.model.pushAd(ad);
                 li_view.renderAd(ad);

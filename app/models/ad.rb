@@ -7,6 +7,7 @@ class Ad < ActiveRecord::Base
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
 
+  has_and_belongs_to_many :designated_market_areas, join_table: :ads_dmas, association_foreign_key: :designated_market_area_code
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   def save_creatives(creatives_params)
