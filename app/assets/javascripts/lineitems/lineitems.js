@@ -187,12 +187,12 @@
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function(e) {
-      e.stopPropagation();
+    _toggleCreativesDialog: function() {
       var self = this,
-          creatives_sizes = [];
+          creatives_sizes = [],
+          creatives = this.model.get('creatives').models;
 
-      _.each(self.model.creatives.models, function(el) {
+      _.each(creatives, function(el) {
         creatives_sizes.push(el.get('ad_size'));
       });
 
@@ -201,7 +201,7 @@
       self.model.set('ad_sizes', uniq_creative_sizes);
 
       var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
+      var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
       this.ui.creatives_container.toggle('slow', function() {
         self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
       });

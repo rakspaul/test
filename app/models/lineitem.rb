@@ -12,7 +12,7 @@ class Lineitem < ActiveRecord::Base
   has_many :lineitem_assignments, foreign_key: :io_lineitem_id
   has_many :creatives, through: :lineitem_assignments
 
-  has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_code
+  has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
@@ -30,10 +30,11 @@ class Lineitem < ActiveRecord::Base
   
   def save_creatives(creatives_params)
     creatives_params.each do |params|
-      width, height = params[:ad_size].split(/x/).map(&:to_i)
+      cparams = params[:creative]
+      width, height = cparams[:ad_size].split(/x/).map(&:to_i)
 
-      creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: params[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: params[:ad_id], network_id: self.order.network_id, data_source_id: 1
-      LineitemAssignment.create lineitem: self, creative: creative, start_date: params[:start_date], end_date: params[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+      creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: cparams[:ad_id], network_id: self.order.network_id, data_source_id: 1
+      LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
     end
   end
 

@@ -297,14 +297,14 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
-      li_targeting = li[:lineitem].delete("targeting")
+      li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      dmas_ids = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
-      lineitem.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(name: group_name)
@@ -323,9 +323,13 @@ private
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id
 
-            ad_object.targeted_zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-            dmas_ids = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
-            ad_object.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+            zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
+              Zipcode.find_by(zipcode: zipcode.strip)
+            end
+            ad_object.zipcodes = zipcodes.compact if !zipcodes.blank?
+
+            dmas = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+            ad_object.designated_market_areas = dmas.compact if !dmas.blank?
 
             selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
               AudienceGroup.find_by(name: group_name)
