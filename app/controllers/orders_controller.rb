@@ -290,9 +290,9 @@ private
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id
 
-            #ad_object.targeted_zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-            #dmas_ids = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
-            #ad_object.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+            ad_object.targeted_zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+            dmas_ids = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
+            ad_object.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
 
             selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
               AudienceGroup.find_by(name: group_name)

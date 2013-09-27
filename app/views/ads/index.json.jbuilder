@@ -7,11 +7,19 @@ json.array! @order.ads do |ad|
     json.size ad.size
     json.rate ad.rate
     json.io_lineitem_id ad.io_lineitem_id
+    json.targeted_zipcodes ad.targeted_zipcodes
   end
 
   json.creatives do
     json.array! ad.creatives do |creative|
       json.partial! 'creatives/creative.json.jbuilder', creative: creative
+    end
+  end
+
+  json.selected_dmas do
+    json.array! ad.designated_market_areas do |dma|
+      json.id dma.code
+      json.title dma.name
     end
   end
 
