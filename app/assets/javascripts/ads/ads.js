@@ -98,8 +98,8 @@
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
 
-        // align height of lineitem's li-number div
-        //_.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+        // align height of ad's subdivs with the largest one ('.name')
+        _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
       }
     },
 

@@ -284,15 +284,31 @@ private
         li[:ads].to_a.each_with_index do |ad, j|
           begin
             ad_targeting = ad[:ad].delete("targeting")
+            ad_creatives = ad[:ad].delete("creatives")
+            ad[:ad][:size] = ad[:ad][:size].split(/,/).first.strip # for this phase, assign first ad size in this attribute
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id
-            if !ad_object.save
+
+            #ad_object.targeted_zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+            #dmas_ids = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
+            #ad_object.designated_market_areas = DesignatedMarketArea.find(dmas_ids)
+
+            selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+              AudienceGroup.find_by(name: group_name)
+            end
+            ad_object.audience_groups = selected_groups if !selected_groups.blank?
+
+            if ad_object.save
+              ad_object.save_creatives(ad_creatives)
+            else
+              Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect 
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_object.errors
             end
           rescue => e
             Rails.logger.warn 'e.message - ' + e.message.inspect
+            Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
             li_errors[i] ||= {:ads => {}}
             li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
           end

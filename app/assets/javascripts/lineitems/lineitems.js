@@ -130,18 +130,14 @@
           view.model.set(this.dataset['name'], newValue); //update backbone model;
         }
       });
-    
-      _.each((this.model.ads.models || this.model.ads.collection || this.model.ads), function(ad) {
-        view.renderAd(ad);
-      });
   
       // rendering template for Creatives Dialog layout
       var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: view});
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      if(this.model.creatives) {
-        _.each((this.model.creatives.models || this.model.creatives), function(creative) {
+      if(this.model.get('creatives')) {
+        _.each(this.model.get('creatives').models, function(creative) {
           creative.set('order_id', view.model.get('order_id'));
           creative.set('lineitem_id', view.model.get('id'));
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
@@ -156,6 +152,12 @@
 
      // align height of lineitem's li-number div
      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+
+      this.ui.ads_list.html('');
+      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      _.each(ads, function(ad) {
+        view.renderAd(ad);
+      });
     },
 
     renderAd: function(ad) {
@@ -163,6 +165,9 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
+
+      // align height of ad's subdivs with the largest one ('.name')
+      _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
 
       // rendering template for Creatives Dialog layout
       // parent_view here set to **ad_view** so 'Done' button in creatives dialog will work correctly
@@ -182,10 +187,11 @@
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function() {
-      var self = this;
+    _toggleCreativesDialog: function(e) {
+      e.stopPropagation();
+      var self = this,
+          creatives_sizes = [];
 
-      var creatives_sizes = [];
       _.each(self.model.creatives.models, function(el) {
         creatives_sizes.push(el.get('ad_size'));
       });
@@ -196,7 +202,6 @@
 
       var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + self.model.creatives.length + ')';
-
       this.ui.creatives_container.toggle('slow', function() {
         self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
       });
