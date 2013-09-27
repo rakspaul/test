@@ -170,18 +170,51 @@ private
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
-
-    if params[:orders_by_user] == "all_orders"
-      orders_by_user = ""
-    else
-      orders_by_user = "my_orders"
-    end
+    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
 
     if sort_column == "order_name"
       sort_column = "name"
     elsif sort_column == "advertiser"
       sort_column = "io_details.client_advertiser_name"
     end
+
+    if params[:sort_column].blank?
+      if !session[:sort_column].blank?
+        sort_column = session[:sort_column]
+      end
+
+      if !session[:sort_direction].blank?
+        sort_direction = session[:sort_direction]
+      end
+
+      if !session[:order_status].blank?
+        order_status = session[:order_status]
+      end
+
+      if !session[:am].blank?
+        am = session[:am]
+      end
+
+      if !session[:trafficker].blank?
+        trafficker = session[:trafficker]
+      end
+
+      if !session[:search_query].blank?
+        search_query = session[:search_query]
+      end
+
+      if !session[:orders_by_user].blank?
+        orders_by_user = session[:orders_by_user]
+      end
+    end
+
+    session[:sort_column] = sort_column
+    session[:sort_direction] = sort_direction
+    session[:order_status] = order_status
+    session[:orders_by_user] = orders_by_user
+    session[:am] = am
+    session[:trafficker] = trafficker
+    session[:search_query] = search_query
 
     order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
                   .order(sort_column + " " + sort_direction)
@@ -302,7 +335,7 @@ private
             if ad_object.save
               ad_object.save_creatives(ad_creatives)
             else
-              Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect 
+              Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_object.errors
             end

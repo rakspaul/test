@@ -1,7 +1,6 @@
 #order_layout.pure-g
   #details.pure-u
     .content
-
 .order-table-content
   .header-filter-container
     %form.form-horizontal.orders-filter-form
@@ -16,17 +15,17 @@
                   Status
                 .controls
                   %select.filter-orders.status
-                    %option All
-                    %option Saved
-                    %option Draft
+                    %option{:value => "all", :selected => session[:order_status] == ""} All
+                    %option{:value => "saved", :selected => session[:order_status] == "saved"} Saved
+                    %option{:value => "draft", :selected => session[:order_status] == "draft"} Draft
             .pure-u
               .control-group
                 %label.control-label
                   Orders
                 .controls
                   %select.filter-orders#orders_by_user
-                    %option{:value => "my_orders"} My Orders
-                    %option{:value => "all_orders"} All Orders
+                    %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
+                    %option{:value => "all_orders", :selected => session[:orders_by_user] == "all_orders"} All Orders
           .pure-g
             .pure-u
               .control-group
@@ -36,7 +35,7 @@
                   %select.filter-orders.am
                     %option Select
                     - @users.each do |user|
-                      %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
+                      %option{:value => user.id, :selected => session[:am] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
             .pure-u
               .control-group
                 %label.control-label
@@ -45,11 +44,11 @@
                   %select.filter-orders.trafficker
                     %option Select
                     - @users.each do |user|
-                      %option{:value => user.id}= "#{user.first_name} #{user.last_name} - #{user.email}"
+                      %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
             .pure-u
               .control-group.search-control
                 .input-append
-                  %input{type: "text", placeholder: "Search", id: "get_search_query"}
+                  %input{type: "text", placeholder: "Search", id: "get_search_query", :value => session[:search_query]}
                   %a.btn.add-on#btn_search_orders Search
 
   %table.order-table
@@ -66,17 +65,27 @@
             .pure-u.title-container.medium
               .title
                 AMP Id / DFP Id
-            .pure-u.actions-container
-              #id
+            .pure-u.actions-container#id
+              - if session[:sort_column] == "id"
+                - if session[:sort_direction] == "asc"
+                  %i.icon-sort-by-attributes
+                - else
+                  %i.icon-sort-by-attributes-alt
+              - else
                 %i.icon-sort
         %th.order-name
           .pure-g.header-container
             .pure-u.title-container.medium
               .title
                 Order Name
-            .pure-u.actions-container
-              #order_name
-                %i.icon-sort-by-attributes
+            .pure-u.actions-container#order_name
+              - if session[:sort_column] == "name"
+                - if session[:sort_direction] == "asc"
+                  %i.icon-sort-by-attributes
+                - else
+                  %i.icon-sort-by-attributes-alt
+              - else
+                %i.icon-sort
         %th
           .pure-g.header-container
             .pure-u.title-container
@@ -87,8 +96,13 @@
             .pure-u.title-container
               .title
                 Advertiser
-            .pure-u.actions-container
-              #advertiser
+            .pure-u.actions-container#advertiser
+              - if session[:sort_column] == "io_details.client_advertiser_name"
+                - if session[:sort_direction] == "asc"
+                  %i.icon-sort-by-attributes
+                - else
+                  %i.icon-sort-by-attributes-alt
+              - else
                 %i.icon-sort
         %th
           .pure-g.header-container
@@ -110,16 +124,26 @@
             .pure-u.title-container.small
               .title
                 Start Date
-            .pure-u.actions-container
-              #start_date
+            .pure-u.actions-container#start_date
+              - if session[:sort_column] == "start_date"
+                - if session[:sort_direction] == "asc"
+                  %i.icon-sort-by-attributes
+                - else
+                  %i.icon-sort-by-attributes-alt
+              - else
                 %i.icon-sort
         %th
           .pure-g.header-container
             .pure-u.title-container.small
               .title
                 End Date
-            .pure-u.actions-container
-              #end_date
+            .pure-u.actions-container#end_date
+              - if session[:sort_column] == "end_date"
+                - if session[:sort_direction] == "asc"
+                  %i.icon-sort-by-attributes
+                - else
+                  %i.icon-sort-by-attributes-alt
+              - else
                 %i.icon-sort
 
     %tbody{:id => "orders"}
@@ -136,13 +160,17 @@
     ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
 
     $('body').tooltip({
-        selector: '[rel=tooltip]'
+      selector: '[rel=tooltip]'
     });
 
     Backbone.history.start({
       pushState: true,
       root: "/orders"
     });
+  });
+
+  $(window).bind("load", function() {
+   var request = $.ajax({url:'/orders', data:{}, dataType: 'script'});
   });
 
   $('.actions-container i').click(function(event) {
@@ -270,5 +298,3 @@
 
     return para;
   }
-
-
