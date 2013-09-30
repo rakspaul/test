@@ -43,6 +43,10 @@ Reachui::Application.routes.draw do
 
     resources :ads, :only => [:index]
 
+    member do
+      post 'change_status'
+    end
+
     collection do
       get 'search'
       delete 'delete'

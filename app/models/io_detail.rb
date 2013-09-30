@@ -26,23 +26,23 @@ class IoDetail < ActiveRecord::Base
     state :active
 
     event :submit_to_am do
-      transitions [:saved, :reviewed_by_trafficker] => [:reviewing_by_am]
+      transitions from: [:saved, :reviewed_by_trafficker], to: :reviewing_by_am
     end
 
     event :submit_to_trafficker do
-      transitions [:saved, :reviewed_by_am] => [:reviewing_by_trafficker]
+      transitions from: [:saved, :reviewed_by_am], to: :reviewing_by_trafficker
     end
 
     event :approved_by_account_manager do
-      transitions [:reviewed_by_trafficking, :reviewed_by_am] => :ready_for_push
+      transitions from: [:reviewed_by_trafficking, :reviewed_by_am], to: :ready_for_push
     end
 
     event :approved_by_trafficking do
-      transitions [:reviewed_by_trafficking, :reviewed_by_am] => :ready_for_push
+      transitions from: [:reviewed_by_trafficking, :reviewed_by_am], to: :ready_for_push
     end
 
     event :revert_to_draft do
-      transitions [:running, :saved] => :draft
+      transitions from: [:running, :saved], to: :draft
     end
 
     event :push do

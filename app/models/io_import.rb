@@ -81,6 +81,7 @@ class IoImport
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name
       @io_details.order = @order
+      @io_details.state = "draft"
       @io_details.reach_client          = reach_client
       @io_details.sales_person          = find_sales_person
       @io_details.sales_person_email    = @reader.sales_person[:email]

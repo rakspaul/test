@@ -298,8 +298,48 @@
       });
     },
 
+    _changeStatus: function(status) {
+      var order_id = this.collection.order.id;
+      var url = '/orders/' + this.collection.order.get('id') + '/change_status';
+      if(order_id) {
+        jQuery.post(url, {status: status}).done(function(resp) {
+          if(resp.status == 'success') {
+            $('#change-order-status-dialog').modal('show').on('hidden', function () {
+              ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
+            });
+          } else {
+            $('#change-order-status-dialog .modal-body p').html(resp.message);
+            $('#change-order-status-dialog').modal('show');
+          }
+        });
+      } else {
+        $('#change-order-status-dialog .modal-body p').html("Please save order before changing it status");
+        $('#change-order-status-dialog').modal('show');
+      }
+    },
+
+    _pushOrder: function() {
+      this._changeStatus('pushing');
+    },
+
+    _revertOrderToDraft: function() {
+      this._changeStatus('draft');
+    },
+
+    _submitOrderToAm: function() {
+      this._changeStatus('submit_to_am');
+    },
+
+    _submitOrderToTrafficker: function() {
+      this._changeStatus('submit_to_trafficker');
+    },
+
     events: {
-      'click .save-order-btn': '_saveOrder'
+      'click .save-order-btn':        '_saveOrder',
+      'click .push-order-btn':        '_pushOrder',
+      'click .revert-draft-btn':      '_revertOrderToDraft',
+      'click .submit-am-btn':         '_submitOrderToAm',
+      'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },
 
     triggers: {
