@@ -5,7 +5,7 @@
         %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox", :disabled => true}
       -else
         %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
-      %td= order.try(:io_detail).try(:state)
+      %td= order.try(:io_detail).try(:state).to_s.capitalize.humanize
       %td
         -if order.source_id.starts_with? 'R'
           %span.amp-id{:title => "AMP ID"}

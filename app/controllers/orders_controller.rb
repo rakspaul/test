@@ -160,6 +160,24 @@ class OrdersController < ApplicationController
 
     render json: {status: 'success'}
   end
+  
+  def change_status
+    order = Order.find(params[:id])
+    case params[:status].strip.to_s
+    when "submit_to_trafficker"
+      order.io_detail.submit_to_trafficker!
+    when "submit_to_am"
+      order.io_detail.submit_to_am!
+    when "draft"
+      order.io_detail.revert_to_draft!
+    when "push"
+      order.io_detail.push!
+    end
+
+    render json: {status: "success"}
+  rescue AASM::InvalidTransition => e
+    render json: {status: "error", message: e.message}
+  end
 
 private
 

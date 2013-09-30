@@ -11,6 +11,19 @@
   </div>
 </div>
 
+<div id="change-order-status-dialog" class="modal hide fade">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h4>Order's status</h4>
+  </div>
+  <div class="modal-body">
+    <p>Saved successfully</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Close</a>
+  </div>
+</div>
+
 <div class="new-order-header">
   <div style="float:left">
     <p class="heading"><%= order.name %></p> 
@@ -18,7 +31,7 @@
   </div>
 
   <div class="current-io-status-top">
-    Draft
+    <%= order.order_status %>
   </div>
 
   <div class="clearfix"></div>
