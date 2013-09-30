@@ -80,6 +80,7 @@ group :deploy do
   gem 'rvm-capistrano', '~> 1.3.0'
   gem 'capistrano', '~> 2.15.4'
   gem 'capistrano-ext', '~> 1.2'
+  gem 'hipchat', '~> 0.12.0'
 end
 
 # Use ActiveModel has_secure_password
