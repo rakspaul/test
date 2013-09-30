@@ -2,6 +2,8 @@ set :branch, 'master'
 
 set :rails_env, "production" # set for capistrano asset pipeline precompilation
 
+set :hipchat_env, "Production"
+
 set :app1, "ampapp1.collective-media.net"
 
 role :web, app1

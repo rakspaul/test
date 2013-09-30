@@ -2,6 +2,8 @@ set :branch, 'stage'
 
 set :rails_env, "stg" # set for capistrano asset pipeline precompilation
 
+set :hipchat_env, "Stage"
+
 set :app1, "stg-ampapp1.collective-media.net"
 
 role :web, app1

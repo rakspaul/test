@@ -10,6 +10,7 @@ end
 
 require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
+require 'hipchat/capistrano'
 
 set :application, "reachui"
 set :repository,  "git@github.com:collectivereach/reachui.git"
@@ -37,6 +38,12 @@ set :rvm_install_type, :stable # vs :head
 set :bundle_flags, "" #   "--quiet"
 set :bundle_without,  [:deploy, :development, :test]
 #set :required_bundler_version, "1.3.5"
+
+set :hipchat_token, "40ff730a12295ac7dba7a961809cda"
+set :hipchat_room_name, "Syn: ROM P1"
+set :hipchat_announce, false # notify users
+set :hipchat_color, 'green' #finished deployment message color
+set :hipchat_failed_color, 'red' #cancelled deployment message color
 
 ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
