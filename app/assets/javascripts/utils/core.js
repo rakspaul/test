@@ -80,3 +80,8 @@ ReachUI.showCondensedTargetingOptions = function() {
   var toptions = this.$el.find('.targeting_options_condensed')[0];
   $(toptions).html(targeting_options.join(' '));
 };
+
+// align height of ad's subdivs with the largest one ('.name')
+ReachUI.alignAdsDivs = function() {
+  _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+};
