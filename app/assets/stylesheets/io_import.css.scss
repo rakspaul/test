@@ -48,6 +48,14 @@ $error_color: #ff7d78;
     padding-left:20px;
   }
 
+  .field.media-contact-name {
+    margin-top: 70px !important;
+  }
+
+  .field.billing-contact-name {
+    margin-top: 70px !important;
+  }
+
   .field {
     width:300px;
     float:left;
@@ -249,11 +257,12 @@ $error_color: #ff7d78;
       background: $li_number_bg;
     }
 
-    .li-number:before {
-      content: url(asset-path('expand_li_btn.png', image));
-      vertical-align: middle;
-      position: relative;
-      left: -3em;
+    .li-command-btns {
+      background: url(asset-path('expand_li_btn.png', image)) no-repeat;
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-left: -25px;
       cursor: pointer;
     }
 
@@ -264,10 +273,6 @@ $error_color: #ff7d78;
   }
 
   .ads-container {
-    /*.ad > div[class^="pure-u"] {
-      height: 115px;
-    }*/
-
     div[class^="pure-u"] {
       padding-top: 5px;
     }
