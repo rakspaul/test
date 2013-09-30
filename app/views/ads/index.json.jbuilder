@@ -1,5 +1,6 @@
 json.array! @order.ads do |ad|
   json.ad do
+    json.id ad.try(:id)
     json.description ad.description
     json.start_date ad.start_date
     json.end_date ad.end_date
