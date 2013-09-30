@@ -25,7 +25,7 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.creatives };
+      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.get('creatives') };
     },
 
     pushAd: function(ad) {
