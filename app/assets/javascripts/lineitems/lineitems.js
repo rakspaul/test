@@ -166,8 +166,7 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
 
-      // align height of ad's subdivs with the largest one ('.name')
-      _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      ReachUI.alignAdsDivs();
 
       // rendering template for Creatives Dialog layout
       // parent_view here set to **ad_view** so 'Done' button in creatives dialog will work correctly
@@ -247,7 +246,8 @@
     _saveOrder: function(ev) {
       this._clearAllErrors();
       var lineitems = this.collection;
-      
+      var self = this;
+
       // store Order and Lineitems in one POST request
       this.collection.order.save({lineitems: lineitems.models}, {
         success: function(model, response, options) {
@@ -263,20 +263,26 @@
             trafficking_contact: '.order-details .trafficker-container'
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {
-              console.log(key);
-              console.log(error);
-              
+            _.each(response.errors, function(error, key) {            
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
-                  console.log('li_k - ' + li_k);
+                  
                   var li_errors_list = [];
                   _.each(li_errors.lineitems, function(val, k) { 
                     li_errors_list.push(k + ' ' + val);
                   });
-                  $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors').addClass('field_with_errors').html(li_errors_list.join('; '));
-                  _.each(li_errors["ads"], function(ad_error, ad_k) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .size .errors').addClass('field_with_errors').html(ad_error);
+
+                  if(li_errors_list.length > 0) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors').addClass('field_with_errors').html(li_errors_list.join('; '));
+                  }
+
+                  _.each(li_errors["ads"], function(ad_errors, ad_k) {
+                    var ad_errors_list = [];
+                    _.each(ad_errors, function(val, k) {
+                      ad_errors_list.push('['+k+']: '+val);
+                    });
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors').addClass('field_with_errors').html(ad_errors_list.join('; '));
+                    ReachUI.alignAdsDivs();
                   });
                 });
               } else {
