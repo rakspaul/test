@@ -12,7 +12,8 @@
         volume: 0,
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
-        end_date: moment().add('days', 15).format("YYYY-MM-DD")
+        end_date: moment().add('days', 15).format("YYYY-MM-DD"),
+        _delete_creatives: []
       }
     },
 
@@ -140,7 +141,7 @@
         _.each(this.model.get('creatives').models, function(creative) {
           creative.set('order_id', view.model.get('order_id'));
           creative.set('lineitem_id', view.model.get('id'));
-          var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
@@ -178,7 +179,7 @@
         _.each(ad_view.model.get('creatives').models, function(creative) {
           creative.set('order_id', li_view.model.get('order_id'));
           creative.set('lineitem_id', li_view.model.get('id'));
-          var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }

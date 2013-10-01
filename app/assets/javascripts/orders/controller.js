@@ -258,7 +258,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company .typeahead').editable({
       source: "/reach_clients/search.json",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/reach_clients/search.json?search=%QUERY',
         valueKey: 'name'
       }
@@ -271,7 +271,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.salesperson-name .typeahead').editable({
       source: "/users/search.json?search_by=name&sales=true",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/users/search.json?search=%QUERY&search_by=name&sales=true',
         valueKey: 'name'
       }
@@ -293,7 +293,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/media_contacts/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/media_contacts/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -313,7 +313,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/billing_contacts/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -335,7 +335,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/users/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/users/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -355,7 +355,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/users/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/users/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -373,7 +373,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.media-contact-email .typeahead').editable({
       source: "/media_contacts/search.json?search_by=email",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/media_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
       }
@@ -382,7 +382,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-email .typeahead').editable({
       source: "/billing_contacts/search.json?search_by=email",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
       }
@@ -471,6 +471,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // adding Ad under certain lineitem
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
       var li = li_view.model;
+
       var ad_name = ordersController._generateAdName(li);
       var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'volume', 'value', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes')});
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -491,7 +492,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           ad_id: li_creative.get('ad_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
-          image_url: li_creative.get('image_url'),
+          redirect_url: li_creative.get('redirect_url'),
           start_date: li_creative.get('start_date')
         });
         li_creatives.push(cloned_creative);

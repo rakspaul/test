@@ -284,6 +284,7 @@ private
       li[:lineitem].delete(:targeted_zipcodes)
       li[:lineitem].delete(:selected_dmas)
       li[:lineitem].delete(:selected_key_values)
+      _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       lineitem = @order.lineitems.find(li[:lineitem][:id])
       li[:lineitem].delete(:id)
@@ -304,14 +305,25 @@ private
         end
         lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
+        lineitem.creatives.delete(*_delete_creatives_ids) if !_delete_creatives_ids.blank?
+
         if lineitem.save
-          li[:ads].to_a.each_with_index do |ad, j|
+          lineitem.save_creatives(li_creatives)
+          li[:ads].to_a.each_with_index do |ad, j| 
             begin
               ad_targeting = ad[:ad].delete(:targeting)
               ad_creatives = ad[:ad].delete(:creatives)
-              ad[:ad].delete("selected_dmas")
-              ad[:ad].delete("selected_key_values")
-              ad[:ad][:size] = ad[:ad][:size].split(/,/).first.strip # for this phase, assign first ad size in this attribute
+              ad[:ad].delete(:selected_dmas)
+              ad[:ad].delete(:selected_key_values)
+              ad[:ad].delete(:targeted_zipcodes)
+              delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
+
+              # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
+              ad[:ad][:size] = if !ad_creatives.blank?
+                ad_creatives[0][:creative][:ad_size].to_s.strip
+              else
+                ad[:ad][:size].split(/,/).first.strip
+              end
 
               ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
               ad_object.order_id = @order.id
@@ -331,7 +343,9 @@ private
               end
               ad_object.audience_groups = selected_groups if !selected_groups.blank?
 
-              if ad_object.save
+              ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
+
+              if ad_object.update_attributes(ad[:ad])
                 ad_object.save_creatives(ad_creatives)
               else
                 Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
@@ -358,6 +372,7 @@ private
     params.to_a.each_with_index do |li, i|
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
+      delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
@@ -377,7 +392,15 @@ private
           begin
             ad_targeting = ad[:ad].delete(:targeting)
             ad_creatives = ad[:ad].delete(:creatives)
-            ad[:ad][:size] = ad[:ad][:size].split(/,/).first.strip # for this phase, assign first ad size in this attribute
+            delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
+
+            # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
+            ad[:ad][:size] = if !ad_creatives.blank?
+              ad_creatives[0][:creative].try(:ad_size).try(:strip) 
+            else
+              ad[:ad][:size].split(/,/).first.strip
+            end
+
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.source_id = @order.source_id
