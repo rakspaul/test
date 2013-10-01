@@ -58,6 +58,7 @@
       var self = this;
 
       $.fn.editable.defaults.mode = 'popup';
+
       this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
@@ -66,6 +67,19 @@
         datepicker: {
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
         }
+      });
+
+      // select Creative size from the drop-down autocomplete
+      this.$el.find('.size .editable.custom').editable({
+        source: '/ad_sizes.json',
+        typeahead: {
+          minLength: 1,
+          remote: '/ad_sizes.json?search=%QUERY',
+          valueKey: 'size'
+        }
+      });
+      this.$el.find('.size').on('typeahead:selected', function(ev, el) {
+        self.model.set("ad_size", el.size);
       });
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({

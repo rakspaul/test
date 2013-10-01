@@ -293,9 +293,10 @@ private
         li_errors[i][:lineitems] = lineitem.errors
       else
         lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-        dmas_ids = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| dma[:id]}
+        dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+
         lineitem.designated_market_areas = []
-        lineitem.designated_market_areas << DesignatedMarketArea.find(dmas_ids)
+        lineitem.designated_market_areas = dmas.compact if !dmas.blank?
 
         selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
           AudienceGroup.find_by(name: group_name)
@@ -309,7 +310,6 @@ private
               ad_creatives = ad[:ad].delete(:creatives)
               ad[:ad].delete("selected_dmas")
               ad[:ad].delete("selected_key_values")
-
               ad[:ad][:size] = ad[:ad][:size].split(/,/).first.strip # for this phase, assign first ad size in this attribute
 
               ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
@@ -322,6 +322,7 @@ private
               ad_object.zipcodes = zipcodes.compact if !zipcodes.blank?
 
               dmas = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+
               ad_object.designated_market_areas = dmas.compact if !dmas.blank?
 
               selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
