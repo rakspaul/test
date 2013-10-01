@@ -106,6 +106,7 @@ class OrdersController < ApplicationController
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     io_details = @order.io_detail
+    io_details.state                  = "saved" if io_details.draft?
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
@@ -170,7 +171,7 @@ class OrdersController < ApplicationController
       order.io_detail.submit_to_am!
     when "draft"
       order.io_detail.revert_to_draft!
-    when "push"
+    when "pushing"
       order.io_detail.push!
     end
 
