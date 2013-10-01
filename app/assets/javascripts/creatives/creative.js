@@ -105,6 +105,10 @@
 
       this.model.destroy({
         success: function(model, response) {
+          var delete_creatives = view.options.parent_view.model.get('_delete_creatives');
+          delete_creatives.push(view.model.get('id'));
+          view.options.parent_view.model.get('_delete_creatives', delete_creatives);
+
           view.remove();
         }
       });

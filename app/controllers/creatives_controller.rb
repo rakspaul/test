@@ -3,8 +3,7 @@ class CreativesController < ApplicationController
 
   def destroy
     li = Lineitem.find(params[:lineitem_id])
-    creative = li.creatives.find(params[:id])
-    #creative.destroy
+    creative = li.creatives.find_by(id: params[:id])
     respond_with(creative)
   end
 end

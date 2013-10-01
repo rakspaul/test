@@ -6,7 +6,8 @@
       return {
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
-        end_date: moment().add('days', 15).format("YYYY-MM-DD")
+        end_date: moment().add('days', 15).format("YYYY-MM-DD"),
+        _delete_creatives: []
       }
     },
 
@@ -148,6 +149,18 @@
     },
     
     _destroyAd: function(e) {
+      var li_ads = this.options.parent_view.model.ads;
+      var cid = this.model.cid;
+
+      // update list of ads for the related lineitem
+      var new_ads = _.inject(li_ads, function(new_ads, ad) {
+        if(cid != ad.cid) {
+          new_ads.push(ad);
+        }
+        return new_ads;
+      }, []);
+      this.options.parent_view.model.ads = new_ads;
+
       this.remove();
     }
   });
