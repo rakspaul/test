@@ -15,46 +15,36 @@ class IoDetail < ActiveRecord::Base
   aasm :column => 'state' do
     state :draft, :initial => true
     state :saved
-    state :reviewing_by_trafficker
-    state :reviewing_by_am
-    state :rejected
-    state :reviewed_by_trafficker
-    state :reviewed_by_am
-    state :ready_for_push
+
+    state :ready_for_trafficker
+    state :ready_for_am
+
     state :pushing
     state :failure
-    state :active
+    state :pushed
 
     event :submit_to_am do
-      transitions from: [:saved, :reviewed_by_trafficker], to: :reviewing_by_am
+      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_am
     end
 
     event :submit_to_trafficker do
-      transitions from: [:saved, :reviewed_by_am], to: :reviewing_by_trafficker
-    end
-
-    event :approved_by_account_manager do
-      transitions from: [:reviewed_by_trafficking, :reviewed_by_am], to: :ready_for_push
-    end
-
-    event :approved_by_trafficking do
-      transitions from: [:reviewed_by_trafficking, :reviewed_by_am], to: :ready_for_push
+      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_trafficker
     end
 
     event :revert_to_draft do
-      transitions from: [:running, :saved], to: :draft
+      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :draft
     end
 
     event :push do
-      transitions :ready_for_push => :pushing
+      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :pushing
     end
 
     event :success do
-      transitions :pushing => :active
+      transitions from: :pushing, to: :pushed
     end
 
     event :failure do
-      transitions :pushing => :failure
+      transitions from: :pushing, to: :failure
     end
   end
 end
