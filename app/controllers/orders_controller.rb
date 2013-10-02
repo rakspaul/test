@@ -386,7 +386,7 @@ private
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       if lineitem.save
-        lineitem.save_creatives(li_creatives)
+        lineitem.save_creatives(li_creatives) unless li_creatives.nil?
 
         li[:ads].to_a.each_with_index do |ad, j|
           begin
