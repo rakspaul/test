@@ -161,7 +161,7 @@ class OrdersController < ApplicationController
 
     render json: {status: 'success'}
   end
-  
+
   def change_status
     order = Order.find(params[:id])
     case params[:status].strip.to_s
@@ -309,7 +309,7 @@ private
 
         if lineitem.save
           lineitem.save_creatives(li_creatives)
-          li[:ads].to_a.each_with_index do |ad, j| 
+          li[:ads].to_a.each_with_index do |ad, j|
             begin
               ad_targeting = ad[:ad].delete(:targeting)
               ad_creatives = ad[:ad].delete(:creatives)
@@ -396,7 +396,7 @@ private
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
             ad[:ad][:size] = if !ad_creatives.blank?
-              ad_creatives[0][:creative].try(:ad_size).try(:strip) 
+              ad_creatives[0][:creative].try(:fetch, :ad_size).try(:strip)
             else
               ad[:ad][:size].split(/,/).first.strip
             end
