@@ -524,11 +524,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
             li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
-
-            var targetingView = new ReachUI.Targeting.TargetingView({model: li.get('targeting'), parent_view: li_view});
-            li_view.ui.targeting.html(targetingView.render().el);    
-      
-            ReachUI.showCondensedTargetingOptions.apply(li_view);
+   
+            li_view.renderTargetingDialog();
           }
         }))
       })
@@ -568,13 +565,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         );
       });
     } else { // not persisted Order/Lineitems
-      _.each(lineItemList.models, function(li) {
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        var li   = li_view.model;
         var dmas = new ReachUI.DMA.List();
-        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+
         ags.fetch().done(dmas.fetch({
           success: function(collection, response, options) {
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
             li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
+            li_view.renderTargetingDialog();
           }
         }));
       });
