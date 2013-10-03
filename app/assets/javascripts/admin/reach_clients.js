@@ -16,7 +16,13 @@
   });
 
   ReachClient.MediaContact = Backbone.Model.extend({
-    url: '/admin/media_contacts',
+    url: function(){
+      if(this.isNew()){
+        return '/admin/media_contacts';
+      } else {
+        return '/admin/media_contacts/' + this.id +'.json';
+      }
+    },
 
     toJSON: function() {
       return { mediaContact: _.clone(this.attributes) };
@@ -29,7 +35,13 @@
   });
 
   ReachClient.BillingContact = Backbone.Model.extend({
-    url: '/admin/billing_contacts',
+    url: function(){
+      if(this.isNew()){
+        return '/admin/billing_contacts';
+      } else {
+        return '/admin/billing_contacts/' + this.id +'.json';
+      }
+    },
 
     toJSON: function() {
       return { billingContact: _.clone(this.attributes) };
@@ -80,20 +92,28 @@
       media_contact: '#media_contact',
       billing_contact: '#billing_contact',
       media_contact_id_error: '#media_contact_id_error',
-      billing_contact_id_error: '#billing_contact_id_error'
+      billing_contact_id_error: '#billing_contact_id_error',
+      editMediaContact: '#editMediaContact',
+      editBillingContact: '#editBillingContact'
     },
 
     initialize: function() {
       var self = this;
       this.mediaContacts = this.options.mediaContacts;
       this.billingContacts = this.options.billingContacts;
-      this.listenTo(this.mediaContacts, 'add', this.render);
-      this.listenTo(this.billingContacts, 'add', this.render);
+      this.listenTo(this.mediaContacts, 'add change', this.render);
+      this.listenTo(this.billingContacts, 'add change', this.render);
+
       if (this.options.fetch_records) {
         $.when(this.mediaContacts.fetch(), this.billingContacts.fetch()).then(function(){
           self.render();
         })
       };
+    },
+
+    events: {
+      'click #editMediaContact' : '_edtMediaContact',
+      'click #editBillingContact' : '_edtBillingContact'
     },
 
     triggers: {
@@ -109,6 +129,26 @@
         billingContacts: this.billingContacts
       }
     },
+
+    _edtMediaContact: function(event){
+      var mediaContactId = this.ui.media_contact.val();
+      if(mediaContactId)
+      this.trigger('Edit:MediaContact', mediaContactId);
+    },
+
+    _edtBillingContact: function(event){
+      var billingContactId = this.ui.billing_contact.val();
+      if(billingContactId)
+      this.trigger('Edit:BillingContact', billingContactId);
+    },
+
+    onDomRefresh: function(){
+      if(this.mediaContacts.length)
+        this.ui.editMediaContact.removeClass('hide');
+       if(this.billingContacts.length)
+        this.ui.editBillingContact.removeClass('hide');
+    }
+
   });
 
   ReachClient.CollectiveContactsView = Backbone.Marionette.ItemView.extend({
@@ -375,6 +415,8 @@
 
       this.clientContactsView.on('Add:MediaContact', this._addMediaContact, this);
       this.clientContactsView.on('Add:BillingContact', this._addBillingContact, this);
+      this.clientContactsView.on('Edit:MediaContact', this._editMediaContact, this);
+      this.clientContactsView.on('Edit:BillingContact', this._editBillingContact, this);
 
       this.layout.client_contacts.show(this.clientContactsView);
     },
@@ -408,6 +450,18 @@
 
     _onBillingContactSave: function(model) {
       this.billingContacts.add(model);
+    },
+
+    _editMediaContact: function(id){
+      var model = this.mediaContacts.get(id);
+      this.mediaContactView = new ReachClient.MediaContactView({model: model});
+      this.layout.modal.show(this.mediaContactView);
+    },
+
+    _editBillingContact: function(id){
+      var model = this.billingContacts.get(id);
+      this.billingContactView = new ReachClient.BillingContactView({model: model});
+      this.layout.modal.show(this.billingContactView);
     },
 
     _onSave: function() {
