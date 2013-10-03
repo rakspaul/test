@@ -62,6 +62,8 @@
 
         self._renderSelectedTargetingOptions();
       });
+
+      this._renderSelectedTargetingOptions();
     },
 
     _showKeyValuesTab: function() {
@@ -86,9 +88,9 @@
     },
 
     _renderSelectedTargetingOptions: function(e) {
-      var dict = { selected_key_values: this.model.attributes.selected_key_values, selected_dmas: this.model.attributes.selected_dmas, selected_zip_codes: this.model.attributes.selected_zip_codes };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes') };
       var html = JST['templates/targeting/selected_targeting'](dict);     
-      $('.selected-targeting').html(html);
+      this.$el.find('.selected-targeting').html(html);
     },
 
     _addDmaToSelectedDmas: function(selected) {

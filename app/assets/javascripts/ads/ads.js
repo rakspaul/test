@@ -69,6 +69,11 @@
       ads_sizes: '.ads-sizes'
     },
 
+    renderTargetingDialog: function() {
+      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(targetingView.render().el);
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div for Ads (could be called both from Ads level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function() {
@@ -82,7 +87,7 @@
       this.ui.creatives_container.toggle('slow', function() {
         self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
 
-        // change visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
+        // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
         self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
 
         // update caption with Ad sizes for LI
@@ -134,14 +139,12 @@
         var dmas = new ReachUI.DMA.List();
         dmas.fetch({
           success: function(collection, response, options) {
-            self.model.attributes.targeting.set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-            var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.get('targeting'), parent_view: self});
-            self.ui.targeting.html(targetingView.render().el);
+            self.model.get('targeting').set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
+            self.renderTargetingDialog();
           }
         });
       } else {
-        var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.get('targeting'), parent_view: self});
-        self.ui.targeting.html(targetingView.render().el);
+        self.renderTargetingDialog();
       }
 
       // if this Creatives List was open before the rerendering then open ("show") it again

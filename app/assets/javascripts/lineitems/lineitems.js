@@ -163,6 +163,13 @@
       });
     },
 
+    renderTargetingDialog: function() {
+      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(targetingView.render().el);
+
+      ReachUI.showCondensedTargetingOptions.apply(this);
+    },
+
     renderAd: function(ad) {
       var li_view = this,
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
@@ -175,6 +182,8 @@
       // parent_view here set to **ad_view** so 'Done' button in creatives dialog will work correctly
       var creatives_list_view = new ReachUI.Creatives.CreativesListView({itemViewContainer: '.ads-creatives-list-view', parent_view: ad_view});
       ad_view.ui.creatives_container.html(creatives_list_view.render().el);
+
+      ad_view.renderTargetingDialog();
 
       // rendering each Creative
       if(ad_view.model.get('creatives').models) {
