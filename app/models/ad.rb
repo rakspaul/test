@@ -15,7 +15,7 @@ class Ad < ActiveRecord::Base
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create any Creatives here
   def save_creatives(creatives_params)
-    creatives_params.each do |params|
+    creatives_params.to_a.each do |params|
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
 
