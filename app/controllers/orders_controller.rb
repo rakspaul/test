@@ -167,7 +167,7 @@ class OrdersController < ApplicationController
 
     render json: {status: 'success'}
   end
-  
+
   def change_status
     order = Order.find(params[:id])
     case params[:status].strip.to_s
@@ -242,13 +242,13 @@ private
     session[:search_query] = search_query
 
     order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
-                  .order(sort_column + " " + sort_direction)
+                  .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order('first_name ASC')
+    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order("#{:first_name} || ' ' || #{:last_name} ASC")
   end
 
   def find_account_manager(params)
@@ -315,7 +315,7 @@ private
 
         if lineitem.save
           lineitem.save_creatives(li_creatives)
-          li[:ads].to_a.each_with_index do |ad, j| 
+          li[:ads].to_a.each_with_index do |ad, j|
             begin
               ad_targeting = ad[:ad].delete(:targeting)
               ad_creatives = ad[:ad].delete(:creatives)
@@ -392,7 +392,7 @@ private
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       if lineitem.save
-        lineitem.save_creatives(li_creatives)
+        lineitem.save_creatives(li_creatives) unless li_creatives.nil?
 
         li[:ads].to_a.each_with_index do |ad, j|
           begin
@@ -402,7 +402,7 @@ private
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
             ad[:ad][:size] = if !ad_creatives.blank?
-              ad_creatives[0][:creative][:ad_size].try(:strip) 
+              ad_creatives[0][:creative][:ad_size].try(:strip)
             else
               ad[:ad][:size].split(/,/).first.strip
             end
