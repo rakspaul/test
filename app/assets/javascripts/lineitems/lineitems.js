@@ -78,6 +78,8 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
+      this.creatives_visible = {};
+      
       if(! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
@@ -151,8 +153,8 @@
       
       ReachUI.showCondensedTargetingOptions.apply(this);
 
-     // align height of lineitem's li-number div
-     _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      // align height of lineitem's li-number div
+      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -185,9 +187,7 @@
       }
     },
 
-    ///////////////////////////////////////////////////////////////////////////////
-    // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function() {
+    _updateCreativesCaption: function() {
       var self = this,
           creatives_sizes = [],
           creatives = this.model.get('creatives').models;
@@ -199,8 +199,17 @@
       var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
       self.ui.lineitem_sizes.html(uniq_creative_sizes);
       self.model.set('ad_sizes', uniq_creative_sizes);
+    },
 
-      var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+    ///////////////////////////////////////////////////////////////////////////////
+    // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
+    _toggleCreativesDialog: function() {
+      var self = this,
+          creatives = this.model.get('creatives').models;
+
+      this._updateCreativesCaption();      
+
+      var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
       this.ui.creatives_container.toggle('slow', function() {
         self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
@@ -292,7 +301,10 @@
                 $(field_class).addClass('field_with_errors');
               }
             });
+            $('#save-order-dialog .modal-body').html('There was an error while saving an order');
+            $('#save-order-dialog').modal('show');
           } else if(response.status == "success") {
+            $('#save-order-dialog .modal-body').html('Saved successfully');
             $('#save-order-dialog').modal('show').on('hidden', function () {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             })

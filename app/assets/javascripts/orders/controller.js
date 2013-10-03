@@ -489,7 +489,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
-          ad_id: li_creative.get('ad_id'),
+          source_ui_creative_id: li_creative.get('source_ui_creative_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
@@ -498,7 +498,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         li_creatives.push(cloned_creative);
       });
 
-      ad.set('creatives', new ReachUI.Creatives.CreativesList(li_creatives));
+      ad.set('creatives', new ReachUI.Creatives.CreativesList(li_creatives))
 
       li.pushAd(ad);
       li_view.renderAd(ad);
@@ -509,7 +509,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // only if `show` action
     if(lineItemList.order.id) {
       // set targeting for existing Order
-      _.each(lineItemList.models, function(li) {
+
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        var li            = li_view.model;
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
@@ -522,6 +524,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
             li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
+
+            var targetingView = new ReachUI.Targeting.TargetingView({model: li.get('targeting'), parent_view: li_view});
+            li_view.ui.targeting.html(targetingView.render().el);    
+      
+            ReachUI.showCondensedTargetingOptions.apply(li_view);
           }
         }))
       })
@@ -545,6 +552,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
 
                 var ad = new ReachUI.Ads.Ad(attrs.ad);
+
                 ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
                 ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: attrs.ad.targeted_zipcodes, selected_dmas: attrs.selected_dmas, selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
 

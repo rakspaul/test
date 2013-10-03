@@ -15,7 +15,16 @@
 </div>
 
 <div class="pure-u-1-6 size">
-  <span class="ads-sizes"><%= ad.size %></span>
+  <span class="ads-sizes">
+    <%= 
+      _.uniq(
+        _.inject(ad.creatives.models, function(sizes, el) {
+          sizes.push(el.get('ad_size'));
+          return sizes;
+        }, [])
+      ).join(', ') 
+    %>
+  </span>
   <br/>
   <span class="toggle-ads-creatives-btn operation">Edit Creatives (<%= ad.creatives.length %>)</span>
 </div>

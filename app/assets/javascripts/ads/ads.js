@@ -76,18 +76,25 @@
           creatives_sizes = [],
           creatives = this.model.get('creatives').models;
 
-      _.each(creatives, function(el) {
-        creatives_sizes.push(el.get('ad_size'));
-      });
-
-      var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-      self.ui.ads_sizes.html(uniq_creative_sizes);
-
-      var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
+      var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
 
       this.ui.creatives_container.toggle('slow', function() {
-        self.$el.find('.toggle-ads-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
+
+        // change visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
+        self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
+
+        // update caption with Ad sizes for LI
+        self.options.parent_view._updateCreativesCaption(); // this invokes rerendering of this AdView
+
+        // update caption with Ad size for this Ad
+        _.each(creatives, function(el) {
+          creatives_sizes.push(el.get('ad_size'));
+        });
+
+        var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
+        self.ui.ads_sizes.html(uniq_creative_sizes);
       });
     },
 
@@ -135,6 +142,11 @@
       } else {
         var targetingView = new ReachUI.Targeting.TargetingView({model: self.model.get('targeting'), parent_view: self});
         self.ui.targeting.html(targetingView.render().el);
+      }
+
+      // if this Creatives List was open before the rerendering then open ("show") it again
+      if(this.options.parent_view.creatives_visible[self.model.cid]) {
+        this.ui.creatives_container.show();
       }
     },
 

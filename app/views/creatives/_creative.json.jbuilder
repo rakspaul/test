@@ -3,4 +3,7 @@ json.ad_size creative[:ad_size] || creative.size
 json.start_date format_date(creative[:start_date] || creative.lineitem_assignment.try(:start_date))
 json.end_date format_date(creative[:end_date] || creative.lineitem_assignment.try(:end_date))
 json.redirect_url creative[:image_url] || creative.redirect_url
-json.ad_id creative[:ad_id] || creative.source_ui_creative_id
+json.source_ui_creative_id creative[:ad_id] || creative.source_ui_creative_id
+
+json.io_lineitem_id creative.try(:lineitem_assignment).try(:io_lineitem_id)
+json.ad_id          creative.try(:ad_assignment).try(:ad_id)

@@ -34,13 +34,17 @@ class OrdersController < ApplicationController
     end
 
     begin
-      bc = find_or_create_billing_contact(params, reach_client)
+      if reach_client
+        bc = find_or_create_billing_contact(params, reach_client)
+      end
     rescue ActiveRecord::RecordInvalid => e
       errors_list['billing_contact'] = e.message
     end
 
     begin
-      mc = find_or_create_media_contact(params, reach_client)
+      if reach_client
+        mc = find_or_create_media_contact(params, reach_client)
+      end
     rescue ActiveRecord::RecordInvalid => e
       errors_list['media_contact'] = e.message
     end
@@ -61,17 +65,19 @@ class OrdersController < ApplicationController
       errors_list['account_manager'] = "this account manager was not found, please select another one"
     end
 
-    if !errors_list.blank?
-      render json: {status: 'error', errors: errors_list}
-      return
-    end
-
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
     @order.sales_person_id = sales_person.id
     @order.network = current_network
     @order.user = current_user
+
+    @order.valid?
+
+    if !errors_list.blank?
+      render json: {status: 'error', errors: errors_list.merge(@order.errors)}
+      return
+    end
 
     respond_to do |format|
       Order.transaction do
@@ -396,7 +402,7 @@ private
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
             ad[:ad][:size] = if !ad_creatives.blank?
-              ad_creatives[0][:creative].try(:fetch, :ad_size).try(:strip)
+              ad_creatives[0][:creative][:ad_size].try(:strip)
             else
               ad[:ad][:size].split(/,/).first.strip
             end
