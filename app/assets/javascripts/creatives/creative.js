@@ -128,15 +128,13 @@
           });
         });
 
-        if(_.contains(creatives_urls, view.model.get('redirect_url'))) { // not present
+        if(_.contains(creatives_urls, view.model.get('redirect_url'))) { // if present then not delete
           delete_creative_model_from_li = false;
         }
 
         if(delete_creative_model_from_li) {
           // delete this model
           _.each(this_li.get('creatives').models, function(c) {
-            console.log("view.model.get('redirect_url')");
-            console.log(view.model.get('redirect_url'));
             if(c.get('redirect_url') == view.model.get('redirect_url')) {
               c.destroy();
             }

@@ -509,7 +509,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // only if `show` action
     if(lineItemList.order.id) {
       // set targeting for existing Order
-      _.each(lineItemList.models, function(li) {
+
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        var li            = li_view.model;
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
@@ -522,6 +524,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
             li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
+
+            var targetingView = new ReachUI.Targeting.TargetingView({model: li.get('targeting'), parent_view: li_view});
+            li_view.ui.targeting.html(targetingView.render().el);    
+      
+            ReachUI.showCondensedTargetingOptions.apply(li_view);
           }
         }))
       })

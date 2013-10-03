@@ -78,6 +78,8 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
+      this.creatives_visible = {};
+      
       if(! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
@@ -151,8 +153,8 @@
       
       ReachUI.showCondensedTargetingOptions.apply(this);
 
-     // align height of lineitem's li-number div
-     _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      // align height of lineitem's li-number div
+      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
