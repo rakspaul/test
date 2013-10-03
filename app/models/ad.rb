@@ -13,18 +13,21 @@ class Ad < ActiveRecord::Base
 
   validates :description, uniqueness: { message: "The following Ads have duplicate names. Please ensure the Ad names are unique", scope: :order_id }
 
+  # since all Creatives on Ad level are already present or created on LI level => no need to create any Creatives here
   def save_creatives(creatives_params)
     creatives_params.each do |params|
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
 
-      if cparams[:id]
-        creative = Creative.find cparams[:id] 
-        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:ad_id], width: width, height: height, redirect_url: cparams[:redirect_url])
-        creative.ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
-      else
-        creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, redirect_url: cparams[:redirect_url], size: cparams[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: cparams[:ad_id], network_id: self.order.network_id, data_source_id: 1
-        AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+      creative = Creative.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id].to_s)
+      if creative
+        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id], width: width, height: height, redirect_url: cparams[:redirect_url])
+
+        if creative.ad_assignment
+          creative.ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
+        else
+          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+        end
       end
     end
   end

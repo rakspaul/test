@@ -83,6 +83,8 @@
       var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
       self.ui.ads_sizes.html(uniq_creative_sizes);
 
+      this.options.parent_view._updateCreativesCaption();
+
       var is_visible = ($(self.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
 

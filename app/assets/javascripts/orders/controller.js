@@ -489,7 +489,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
-          ad_id: li_creative.get('ad_id'),
+          source_ui_creative_id: li_creative.get('source_ui_creative_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
@@ -498,7 +498,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         li_creatives.push(cloned_creative);
       });
 
-      ad.set('creatives', new ReachUI.Creatives.CreativesList(li_creatives));
+      ad.set('creatives', new ReachUI.Creatives.CreativesList(li_creatives))
 
       li.pushAd(ad);
       li_view.renderAd(ad);
@@ -545,6 +545,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
 
                 var ad = new ReachUI.Ads.Ad(attrs.ad);
+
                 ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
                 ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: attrs.ad.targeted_zipcodes, selected_dmas: attrs.selected_dmas, selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
 

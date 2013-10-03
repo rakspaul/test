@@ -396,7 +396,7 @@ private
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
             ad[:ad][:size] = if !ad_creatives.blank?
-              ad_creatives[0][:creative].try(:ad_size).try(:strip) 
+              ad_creatives[0][:creative][:ad_size].try(:strip) 
             else
               ad[:ad][:size].split(/,/).first.strip
             end

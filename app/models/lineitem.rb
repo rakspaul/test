@@ -35,10 +35,10 @@ class Lineitem < ActiveRecord::Base
 
       if cparams[:id]
         creative = Creative.find cparams[:id]
-        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:ad_id], width: width, height: height, redirect_url: cparams[:redirect_url])
+        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id], width: width, height: height, redirect_url: cparams[:redirect_url])
         creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
       else
-        creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: cparams[:ad_id], redirect_url: cparams[:redirect_url], network_id: self.order.network_id, data_source_id: 1
+        creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: cparams[:source_ui_creative_id], redirect_url: cparams[:redirect_url], network_id: self.order.network_id, data_source_id: 1
         LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
       end
     end

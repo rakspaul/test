@@ -101,17 +101,55 @@
     
     _destroyCreative: function(e) {
       e.stopPropagation();
-      var view = this;
+      var view = this,
+          delete_creative_model_from_li = true;
 
-      this.model.destroy({
+      view.model.destroy({
         success: function(model, response) {
-          var delete_creatives = view.options.parent_view.model.get('_delete_creatives');
-          delete_creatives.push(view.model.get('id'));
-          view.options.parent_view.model.get('_delete_creatives', delete_creatives);
-
           view.remove();
         }
       });
+
+      // only delete Creative on LI level if in another Ads there is no such Creative
+      var this_ad = this.options.parent_view.model;
+      if(this_ad) {
+        var this_li = this.options.parent_view.options.parent_view.model;    
+
+        var ads_except_current = _.filter(this_li.ads, function(el) {
+          if(el.cid != this_ad.cid) {
+            return el;
+          }
+        });
+        
+        var creatives_urls = [];
+        _.each(ads_except_current, function(ad) { 
+          _.each(ad.get('creatives').models, function(c) {
+            creatives_urls.push(c.get('redirect_url'));
+          });
+        });
+
+        if(_.contains(creatives_urls, view.model.get('redirect_url'))) { // not present
+          delete_creative_model_from_li = false;
+        }
+
+        if(delete_creative_model_from_li) {
+          // delete this model
+          _.each(this_li.get('creatives').models, function(c) {
+            console.log("view.model.get('redirect_url')");
+            console.log(view.model.get('redirect_url'));
+            if(c.get('redirect_url') == view.model.get('redirect_url')) {
+              c.destroy();
+            }
+          });
+  
+          // mark this creative to be deleted on back-end side
+          if(view.model.get('id')) {
+            var delete_creatives = view.options.parent_view.model.get('_delete_creatives');
+            delete_creatives.push(view.model.get('id'));
+            this_li.get('_delete_creatives', delete_creatives);
+          }
+        }
+      }
     }
   });
 
@@ -135,6 +173,10 @@
       var creative = new ReachUI.Creatives.Creative();
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
       this.ui.creatives.append(creativeView.render().el);
+
+      var li = this.options.parent_view.options.parent_view.model;
+      li.get('creatives').add(creative);
+
       this.options.parent_view.model.get('creatives').add(creative);
     },
 
