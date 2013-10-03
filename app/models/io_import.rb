@@ -6,7 +6,7 @@ class IoImport
   attr_reader :order, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
-:trafficking_contact_unknown
+:trafficking_contact_unknown, :notes
 
   def initialize(file, current_user)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
@@ -37,6 +37,8 @@ class IoImport
     read_order_and_details
     read_lineitems
     read_inreds
+
+    read_notes
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
@@ -110,6 +112,10 @@ class IoImport
     def read_inreds
       @inreds = []
       @reader.inreds{|inred| @inreds << inred}
+    end
+
+    def read_notes
+      @notes = @reader.find_notes
     end
 
     def find_sales_person
@@ -307,6 +313,14 @@ class IOExcelFileReader
 
       row += 1
     end
+  end
+
+  def find_notes
+    row = LINE_ITEM_START_ROW
+    while !@spreadsheet.cell('A', row).to_s.match(/^notes/i)
+      row += 1
+    end
+    @spreadsheet.cell('B', row)
   end
 
   def start_flight_date
