@@ -9,11 +9,22 @@ class Admin::BillingContactsController < ApplicationController
   end
 
   def create
-    p = params.require(:billingContact).permit(:name, :phone, :email, :address, :reach_client_id)
-    @billing_contact = BillingContact.new(p)
+    @billing_contact = BillingContact.new(billing_contact_params)
     @billing_contact.save
 
     respond_with(@billing_contact, location: nil)
+  end
+
+  def update
+    @billing_contact = BillingContact.find(params[:id])
+    @billing_contact.update_attributes(billing_contact_params)
+    @billing_contact.save
+
+    respond_with(@billing_contact)
+  end
+
+  def billing_contact_params
+    params.require(:billingContact).permit(:name, :phone, :email, :address, :reach_client_id)
   end
 
 end
