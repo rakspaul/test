@@ -86,6 +86,15 @@
       }
     },
 
+    _recalculateMediaCost: function() {
+      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+      var cpm  = parseFloat(this.model.get('rate'));
+
+      var media_cost = (imps / 1000.0) * cpm;
+      this.model.set('value', media_cost);
+      this.$el.find('.media-cost span').html(accounting.formatMoney(media_cost, ''));
+    },
+
     // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function(){
       var view = this;
@@ -121,9 +130,18 @@
         }
       }); 
 
-      this.$el.find('.volume .editable.custom, .media-cost .editable.custom').editable({
+      this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
           view.model.set(this.dataset['name'], newValue); //update backbone model;
+          view._recalculateMediaCost();
+          view.model.collection._recalculateLiImpressions();
+        }
+      });
+
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(response, newValue) {
+          view.model.set(this.dataset['name'], newValue); //update backbone model;
+          view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressions();
         }
       });
