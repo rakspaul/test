@@ -112,17 +112,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _ioUploaded: function(orderModel, lineItems) {
-    this.orderList.unshift(orderModel);
-    // view order
-    if(orderModel.id) {
-      ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
-    } else {
-      // just uploaded model (w/o id, source_id)
-      orderModel.lineItemList = lineItems;
-      this._showOrderDetails(orderModel);
-      lineItems.setOrder(orderModel);
-      this._liSetCallbacksAndShow(lineItems);
-    }
+    // just uploaded model (w/o id, source_id)
+    orderModel.lineItemList = lineItems;
+    this._showOrderDetails(orderModel);
+    lineItems.setOrder(orderModel);
+    this._liSetCallbacksAndShow(lineItems);
+    this._showNotesView(orderModel);
   },
 
   orderDetails: function(id) {
@@ -591,9 +586,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showNotesView: function(order) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
-    this.noteList = new ReachUI.Orders.NoteList();
-    this.noteList.setOrder(order)
-    this.notesRegion.show(new ReachUI.Orders.NoteListView({collection: this.noteList, order: order}));
-    this.noteList.fetch();
+    this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
+    this.noteList.setOrder(order);
+    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order});
+    this.notesRegion.show(notes_list_view);
   },
 });

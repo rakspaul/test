@@ -9,7 +9,8 @@ class IoImportController < ApplicationController
     @io_import.import
 
     @io_details = @io_import.io_details
-    @lineitems = @io_import.lineitems
+    @lineitems  = @io_import.lineitems
+    @notes      = @io_import.notes
 
     respond_with(@io_import)
   end

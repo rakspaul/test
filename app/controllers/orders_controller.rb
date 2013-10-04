@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
       format.html
       format.json do
         @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
+        @notes = @order.order_notes.joins(:user).order("created_at desc")
       end
     end
   end
