@@ -330,8 +330,9 @@ private
               ad[:ad].delete(:selected_dmas)
               ad[:ad].delete(:selected_key_values)
               ad[:ad].delete(:targeted_zipcodes)
-              ad[:ad].delete(:volume)
-              ad[:ad].delete(:value)
+              ad_quantity = ad[:ad].delete(:volume)
+              ad_value    = ad[:ad].delete(:value)
+
               delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
               # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -343,6 +344,7 @@ private
 
               ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
               ad_object.order_id = @order.id
+              ad_object.cost_type = "CPM"
               ad_object.source_id = @order.source_id
 
               zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
@@ -362,6 +364,12 @@ private
               ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
 
               if ad_object.update_attributes(ad[:ad])
+                if ad_pricing = ad_object.ad_pricing
+                  ad_pricing.update_attributes(rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value)
+                else
+                  AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+                end
+
                 ad_object.save_creatives(ad_creatives)
               else
                 Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
@@ -408,8 +416,8 @@ private
           begin
             ad_targeting = ad[:ad].delete(:targeting)
             ad_creatives = ad[:ad].delete(:creatives)
-            ad[:ad].delete(:volume)
-            ad[:ad].delete(:value)
+            ad_quantity  = ad[:ad].delete(:volume)
+            ad_value     = ad[:ad].delete(:value)
             delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -421,6 +429,7 @@ private
 
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
+            ad_object.cost_type = "CPM"
             ad_object.source_id = @order.source_id
 
             zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
@@ -437,6 +446,7 @@ private
             ad_object.audience_groups = selected_groups if !selected_groups.blank?
 
             if ad_object.save
+              AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
               ad_object.save_creatives(ad_creatives)
             else
               Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect

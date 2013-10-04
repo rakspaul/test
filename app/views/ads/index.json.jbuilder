@@ -6,7 +6,9 @@ json.array! @order.ads do |ad|
     json.end_date ad.end_date
     json.order_id ad.order_id
     json.size ad.size
-    json.rate ad.rate
+    json.rate ad.ad_pricing.try(:rate).to_i
+    json.volume ad.ad_pricing.try(:quantity).to_i
+    json.value ad.ad_pricing.try(:value).to_i
     json.io_lineitem_id ad.io_lineitem_id
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
   end
