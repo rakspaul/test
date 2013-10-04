@@ -19,6 +19,69 @@
         padding-bottom: 5px;
         border-bottom: 1px solid #ddd;
       }
+
+      .form-search {
+        background-color: #f9f9f9;
+        border-bottom: 1px solid $border-color;
+        padding: 10px 20px;
+
+        .hint {
+          color: #999;
+          font-size: 0.8em;
+          margin-left: 10px;
+        }
+      }
+
+      .order-search-result {
+        .order {
+          border-bottom: 1px solid $border-color;
+          padding: 15px 10px 15px 20px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $hover-color;
+          }
+
+          .order-name {
+            font-weight: 600;
+          }
+
+          .order-status, .order-advertiser, .order-dates, .order-id {
+            color: $secondary-text-color;
+          }
+        }
+
+        .order-selected {
+          background-color: #2ea5dc; //#BEEDFF;
+
+          .order-name {
+            color: #fff;
+          }
+
+          .order-status, .order-advertiser, .order-dates, .order-id {
+            color: #C0E0EF;
+          }
+
+          &:hover {
+            background-color: #2ea5dc;
+          }
+        }
+
+        .no-order-found {
+          margin-top: 20px;
+          color: #ddd;
+          text-align: center;
+          font-size: 20px;
+        }
+      }
+
+      .active-order {
+        border-left: 5px solid $active-color;
+      }
+
+      .inactive-order {
+        border-left: 5px solid $inactive-color;
+      }
     }
   }
 
@@ -109,3 +172,4 @@
     }
   }
 }
+

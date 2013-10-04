@@ -11,7 +11,7 @@ class Admin::AudienceGroupsController < ApplicationController
   def index
     sort_direction = params[:sort_direction] ? params[:sort_direction] : "asc"
     sort_column = params[:sort_column] ? params[:sort_column] : "name"
-    @audience_groups = AudienceGroup.of_network(current_network).order(sort_column + " " + sort_direction)
+    @audience_groups = AudienceGroup.of_network(current_network).order("#{sort_column} #{sort_direction}")
     if params[:format] != 'csv'
       @audience_groups = Kaminari.paginate_array(@audience_groups).page(params[:page]).per(50);
     end

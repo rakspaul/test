@@ -9,7 +9,7 @@ class Admin::MediaContactsController < ApplicationController
   end
 
   def create
-    p = params.require(:mediaContact).permit(:name, :phone, :email, :reach_client_id)
+    p = params.require(:mediaContact).permit(:name, :phone, :email, :address, :reach_client_id)
     @media_contact = MediaContact.new(p)
     @media_contact.save
 
