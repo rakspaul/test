@@ -580,7 +580,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     }
 
-    lineItemList._recalculateLiImpressions();
+    lineItemList._recalculateLiImpressionsMediaCost();
   },
 
   _showNotesView: function(order) {

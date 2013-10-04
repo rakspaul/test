@@ -69,6 +69,31 @@
       ads_sizes: '.ads-sizes'
     },
 
+    _validateAdImpressions: function() {
+      var li_imps = this.options.parent_view.model.get('volume');
+      var sum_ad_imps = 0;
+
+      _.each(this.options.parent_view.model.ads, function(ad) {
+        var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+        sum_ad_imps += imps;
+        if(imps > li_imps) {
+          alert("Ad impressions exceed LI impressions");
+        }
+      });
+      if(sum_ad_imps > li_imps) {
+        alert("Sum of Ad impressions exceed LI impressions");
+      }
+    },
+
+    _recalculateMediaCost: function() {
+      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+      var cpm  = parseFloat(this.model.get('rate'));
+      var media_cost = (imps / 1000.0) * cpm;
+
+      this.model.set('value', media_cost);
+      this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+    },
+
     renderTargetingDialog: function() {
       var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
       this.ui.targeting.html(targetingView.render().el);
@@ -119,6 +144,15 @@
     onRender: function() {
       var self = this;
       $.fn.editable.defaults.mode = 'popup';
+
+      this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
+        success: function(response, newValue) {
+          self.model.set(this.dataset['name'], newValue); //update backbone model;
+          self._recalculateMediaCost();
+          self._validateAdImpressions();
+        }
+      });
+
       this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
