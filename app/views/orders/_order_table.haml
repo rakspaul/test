@@ -22,9 +22,9 @@
       %td
         .order-title
           = order.name
-        - if order.order_note.last.try(:note)
-          .order-note{:title => order.try(:order_note).order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
-            = order.try(:order_note).order(:created_at).last.try(:note)
+        - if order.order_notes.last.try(:note)
+          .order-note{:title => order.order_notes.order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
+            = order.order_notes.order(:created_at).last.try(:note)
 
 
       %td= order.io_detail.try(:reach_client).try(:name)

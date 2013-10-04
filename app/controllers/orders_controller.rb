@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
       format.html
       format.json do
         @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
+        @notes = @order.order_notes.joins(:user).order("created_at desc")
       end
     end
   end
@@ -82,7 +83,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if @order.save
-          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, state: "saved", sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id
+          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
 
@@ -112,7 +113,6 @@ class OrdersController < ApplicationController
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     io_details = @order.io_detail
-    io_details.state                  = "saved" if io_details.draft?
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
@@ -322,6 +322,8 @@ private
               ad[:ad].delete(:selected_dmas)
               ad[:ad].delete(:selected_key_values)
               ad[:ad].delete(:targeted_zipcodes)
+              ad[:ad].delete(:volume)
+              ad[:ad].delete(:value)
               delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
               # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -398,6 +400,8 @@ private
           begin
             ad_targeting = ad[:ad].delete(:targeting)
             ad_creatives = ad[:ad].delete(:creatives)
+            ad[:ad].delete(:volume)
+            ad[:ad].delete(:value)
             delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)

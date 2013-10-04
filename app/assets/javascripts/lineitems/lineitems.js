@@ -93,7 +93,6 @@
       var media_cost = (imps / 1000.0) * cpm;
       this.model.set('value', media_cost);
       var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost span');
-console.log($li_media_cost[0]);
       $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
     },
 

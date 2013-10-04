@@ -320,7 +320,8 @@ class IOExcelFileReader
     while !@spreadsheet.cell('A', row).to_s.match(/^notes/i)
       row += 1
     end
-    @spreadsheet.cell('B', row)
+    # array with hash in it, because OrdersController#show also use this format
+    [{note: @spreadsheet.cell('B', row), created_at: Time.current.to_s(:db) }]
   end
 
   def start_flight_date
