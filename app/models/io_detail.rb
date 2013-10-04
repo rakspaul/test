@@ -14,8 +14,6 @@ class IoDetail < ActiveRecord::Base
 
   aasm :column => 'state' do
     state :draft, :initial => true
-    state :saved
-
     state :ready_for_trafficker
     state :ready_for_am
 
@@ -24,19 +22,19 @@ class IoDetail < ActiveRecord::Base
     state :pushed
 
     event :submit_to_am do
-      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_am
+      transitions from: [:draft, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_am
     end
 
     event :submit_to_trafficker do
-      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_trafficker
+      transitions from: [:draft, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_trafficker
     end
 
     event :revert_to_draft do
-      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :draft
+      transitions from: [:ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :draft
     end
 
     event :push do
-      transitions from: [:saved, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :pushing
+      transitions from: [:draft, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :pushing
     end
 
     event :success do
