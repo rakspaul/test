@@ -417,6 +417,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       }
     });
+    $('.general-info-container .order-name .editable').editable({
+      success: function(response, newValue) {
+        order.set(this.dataset['name'], newValue); //update backbone model;
+        $('.new-order-header .heading').html(newValue);
+      }
+    });
     $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
       success: function(response, newValue) {
         order.set(this.dataset['name'], newValue); //update backbone model;
