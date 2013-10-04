@@ -48,7 +48,7 @@
       return this.order;
     },
 
-    _recalculateLiImpressions: function() {
+    _recalculateLiImpressionsMediaCost: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
         var imps = parseInt(String(el.get('volume')).replace(/,|\./, ''));
         sum += imps;
@@ -65,7 +65,7 @@
       $('.lineitems-summary-container .total-impressions').html(accounting.formatNumber(sum_impressions));
       $('.lineitems-summary-container .total-media-cost').html(accounting.formatMoney(sum_media_cost));
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
-      $('.total-media-cost span').html(accounting.formatMoney(cpm_total));
+      $('.total-media-cost span').html(accounting.formatMoney(sum_media_cost));
     }
   });
 
@@ -92,7 +92,9 @@
 
       var media_cost = (imps / 1000.0) * cpm;
       this.model.set('value', media_cost);
-      this.$el.find('.media-cost span').html(accounting.formatMoney(media_cost, ''));
+      var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost span');
+console.log($li_media_cost[0]);
+      $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -134,7 +136,7 @@
         success: function(response, newValue) {
           view.model.set(this.dataset['name'], newValue); //update backbone model;
           view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressions();
+          view.model.collection._recalculateLiImpressionsMediaCost();
         }
       });
 
@@ -142,7 +144,7 @@
         success: function(response, newValue) {
           view.model.set(this.dataset['name'], newValue); //update backbone model;
           view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressions();
+          view.model.collection._recalculateLiImpressionsMediaCost();
         }
       });
 
