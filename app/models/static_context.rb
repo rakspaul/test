@@ -1,0 +1,2 @@
+class StaticContext < Context
+end
