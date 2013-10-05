@@ -220,23 +220,35 @@
   margin-bottom:20px;
 
   .order-notes-table{
-    width:500px;
+    width:100%;
 
-    td {
+    td, th {
       font-size: 11px;
       line-height: 15px;
       padding: 3px;
+      vertical-align: top;
     }
 
-    .username{ min-width:70px; color:#005C97; }
-    .ordersnotes{ min-width:150px; }
-    .notetimestamp{ min-width: 120px; }
+    .username {
+      min-width: 90px;
+      color: #005C97;
+    }
+
+    .ordersnotes {
+      width: 100%;
+      border-bottom: 1px dashed #93CEF2;
+    }
+
+    .notetimestamp {
+      min-width: 125px;
+      text-align: right;
+      border-bottom: 1px dashed #93CEF2;
+    }
   }
 
   .note-input-control{
 
     .control-label{
-      float:left;
       font-size:12px;
       margin-right:10px;
       color:#005C97;
@@ -245,7 +257,6 @@
     }
 
     input{
-      float:left;
       margin:0 10px 20px 0;
       border:none;
       font-size:11px;
@@ -256,11 +267,12 @@
       border-left: 1px solid #005C97;
       border-right: 1px solid #005C97;
       border-radius:0;
-      min-width:280px;
+      min-width:100%;
     }
 
     .save-note-btn{
       float:left;
+      margin-left: 20px;
     }
   }
 
