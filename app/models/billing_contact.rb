@@ -9,6 +9,6 @@ class BillingContact < ActiveRecord::Base
   end
 
   def phone=(phone)
-    write_attribute(:phone, phone.gsub(/\D/, ''))
+    write_attribute(:phone, phone.to_s.gsub(/\D/, ''))
   end
 end

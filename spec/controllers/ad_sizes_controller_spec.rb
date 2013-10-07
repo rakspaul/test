@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AdsizesController do
+describe AdSizesController do
 
   describe "GET 'index'" do
     it "returns http success" do
