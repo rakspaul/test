@@ -71,7 +71,7 @@ ReachUI.showCondensedTargetingOptions = function() {
   if(key_values.length > 0) {   
     targeting_options.push('<div class="account-contact-icon" title="Key Value Targeting"></div>');
     targeting_options.push('<div style="float:left">');
-    targeting_options.push(ReachUI.truncateArray(key_values));
+    targeting_options.push(ReachUI.truncateArray(key_values, "title"));
     targeting_options.push('</div>');
   } 
 
