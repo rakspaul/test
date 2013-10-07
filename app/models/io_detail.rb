@@ -11,6 +11,7 @@ class IoDetail < ActiveRecord::Base
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'User'
   belongs_to :order
 
+  validates :reach_client_id, presence: true
 
   aasm :column => 'state' do
     state :draft, :initial => true

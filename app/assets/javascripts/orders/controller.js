@@ -208,12 +208,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.order-details .start-date .editable.date').editable({
       success: function(response, newValue) {
         var start_date = moment(newValue).format("YYYY-MM-DD");
-        _.each(order.lineItemList.models, function(li) {
-          li.set("start_date", start_date);
-          _.each(li.ads.models || li.ads, function(ad) {
-            ad.set("start_date", start_date);
-          });
-        });
         order.set("start_date", start_date); //update backbone model
         $('.order-details .start-date .errors_container').html('');
         $('.order-details .start-date').removeClass('field_with_errors');
@@ -226,12 +220,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.order-details .end-date .editable.date').editable({
       success: function(response, newValue) {
         var end_date = moment(newValue).format("YYYY-MM-DD");
-        _.each(order.lineItemList.models, function(li) {
-          li.set("end_date", end_date);
-          _.each(li.ads.models || li.ads, function(ad) {
-            ad.set("end_date", end_date);
-          });
-        });
         order.set("end_date", end_date); //update backbone model
         $('.order-details .end-date .errors_container').html('');
         $('.order-details .end-date').removeClass('field_with_errors');

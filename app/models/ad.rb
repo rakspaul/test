@@ -2,7 +2,7 @@ class Ad < ActiveRecord::Base
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
 
-  has_one :ad_pricing
+  has_one :ad_pricing, dependent: :destroy
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
