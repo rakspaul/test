@@ -18,7 +18,7 @@ Reachui::Application.routes.draw do
   namespace :admin do
     resources :reach_clients
     resources :audience_groups
-    resources :exclude_sites
+    resources :block_sites
     resources :media_contacts
     resources :billing_contacts
   end
@@ -58,7 +58,11 @@ Reachui::Application.routes.draw do
 
   resources :kendoui
   resources :ad_sizes, only: [:index]
-  resources :advertisers, only: [:index]
+  resources :advertisers, only: [:index] do
+    collection do
+      get 'search'
+    end
+  end
   resources :sales_people, only: [:index]
 
   resources :reach_clients do
@@ -94,6 +98,19 @@ Reachui::Application.routes.draw do
       get 'search'
     end
   end
+
+  resources :sites do
+    collection do
+      get 'search'
+    end
+  end
+
+  resources :advertiser_blocks do
+    collection do
+      get 'search'
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

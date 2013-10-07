@@ -56,3 +56,4 @@
 //= require ./admin/reach_client_controller.js
 //= require ./admin/audience_groups.js
 //= require ./admin/audience_group_controller.js
+//= require ./admin/block_sites.js

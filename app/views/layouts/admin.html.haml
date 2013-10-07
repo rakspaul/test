@@ -7,8 +7,8 @@
             = link_to 'Reach Clients', admin_reach_clients_path
           %li{class: ('active' if controller.class.name == 'Admin::AudienceGroupsController')}
             = link_to 'Audience Groups', admin_audience_groups_path
-          %li{class: ('active' if controller.class.name == 'Admin::ExcludeSitesController')}
-            = link_to 'Exclude Sites', admin_exclude_sites_path
+          %li{class: ('active' if controller.class.name == 'Admin::BlockSitesController')}
+            = link_to 'Block Sites', admin_block_sites_path
     .pure-u.admin-right
       .admin-content
         = yield
