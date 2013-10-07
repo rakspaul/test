@@ -109,7 +109,8 @@
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
-          $('.order-details .start-date .editable.date').html(min_date);
+          $('.order-details .start-date .date').html(min_date).editable('option', 'value', new Date(min_date));
+          view.model.collection.order.set("start_date", min_date); //update backbone model
         },
         datepicker: {
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
@@ -124,7 +125,8 @@
           // order's end date should be highest of all related LIs
           var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
           _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
-          $('.order-details .end-date .editable.date').html(max_date);
+          $('.order-details .end-date .date').html(max_date).editable('option', 'value', new Date(max_date));
+          view.model.collection.order.set("end_date", max_date); //update backbone model
         },
         datepicker: {
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
