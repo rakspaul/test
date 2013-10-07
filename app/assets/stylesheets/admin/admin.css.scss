@@ -288,3 +288,62 @@
 
 }
 
+.blocked-sites-content{
+  background:#F7F7F7;
+  border-radius:5px;
+  padding:10px;
+  margin-bottom:10px;
+
+  .action-buttons{
+    text-align:right;
+  }
+
+  .blocked-advertiser-list, .blocked-advertiser-groups{
+    margin-top:50px;
+  }
+
+  .search-sites-control{
+    margin-bottom:10px;
+    input{
+      width:88%;
+    }
+  }
+
+  .block-site-control{
+    margin-bottom:10px;
+    select{
+      width: 85%;
+      height:500px;
+    }
+  }
+
+}
+
+.block-site-model{
+  min-height:402px;
+
+  form fieldset{
+    margin-bottom:0;
+  }
+
+  .controls{
+    margin-left:65px;
+  }
+
+  .search-control{
+    input{
+      width:312px;
+    }
+  }
+
+  .select-control{
+    margin-bottom:10px;
+
+    select{
+      width:400px;
+      height:280px;
+    }
+  }
+
+
+}
