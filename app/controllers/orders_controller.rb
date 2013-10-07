@@ -315,7 +315,7 @@ private
         lineitem.designated_market_areas = dmas.compact if !dmas.blank?
 
         selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-          AudienceGroup.find_by(name: group_name)
+          AudienceGroup.find_by(id: group_name[:id])
         end
         lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
@@ -357,7 +357,7 @@ private
               ad_object.designated_market_areas = dmas.compact if !dmas.blank?
 
               selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-                AudienceGroup.find_by(name: group_name)
+                AudienceGroup.find_by(id: group_name[:id])
               end
               ad_object.audience_groups = selected_groups if !selected_groups.blank?
 
@@ -405,7 +405,7 @@ private
       lineitem.designated_market_areas = dmas.compact if !dmas.blank?
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-        AudienceGroup.find_by(name: group_name)
+        AudienceGroup.find_by(id: group_name[:id])
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
@@ -441,7 +441,7 @@ private
             ad_object.designated_market_areas = dmas.compact if !dmas.blank?
 
             selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-              AudienceGroup.find_by(name: group_name)
+              AudienceGroup.find_by(id: group_name[:id])
             end
             ad_object.audience_groups = selected_groups if !selected_groups.blank?
 

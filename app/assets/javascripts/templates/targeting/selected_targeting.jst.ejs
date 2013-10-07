@@ -4,7 +4,7 @@
 
 <div class="age-targeting">
   <p>
-    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { kv.push(selected_key_values[i]); } %>
+    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { kv.push(selected_key_values[i]['title']); } %>
     <%= kv.join(', ') %>
   </p>
 </div>

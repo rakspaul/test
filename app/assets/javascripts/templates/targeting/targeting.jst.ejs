@@ -9,10 +9,22 @@
     <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
   </ul>
 
+  <% var selected_kv_ids = [] %>
+  <% for(var prop in selected_key_values) { selected_kv_ids.push(parseInt(selected_key_values[prop].id)); } %>
+
   <div class="tab key-values">
-    <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
-    <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values.indexOf(audience_groups[i]['name']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
-    <% } %>
+    <select multiple class="chosen-select" name="keyvalues" style="width:95%;">
+      <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <option value="<%= audience_groups[i]['id'] %>" <% if(selected_kv_ids.indexOf(audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
+      <% } %>
+    </select>
+    <div style="clear:both"></div>
+
+    <div class="key-values-checkboxes-container">
+      <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(selected_kv_ids.indexOf(audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
+      <% } %>
+    </div>
   </div>
 
   <% var selected_dmas_ids = [] %>

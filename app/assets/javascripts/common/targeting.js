@@ -28,17 +28,18 @@
 
     serializeData: function(){
       var data = this.model.toJSON();
-      data.dmas_list = this.model.attributes.dmas_list;
-      data.selected_key_values = this.model.attributes.selected_key_values;
-      data.selected_dmas = this.model.attributes.selected_dmas;
-      data.selected_zip_codes = this.model.attributes.selected_zip_codes;
-      data.audience_groups = this.model.attributes.audience_groups;
+      data.dmas_list = this.model.get('dmas_list');
+      data.selected_key_values = this.model.get('selected_key_values');
+      data.selected_dmas = this.model.get('selected_dmas');
+      data.selected_zip_codes = this.model.get('selected_zip_codes');
+      data.audience_groups = this.model.get('audience_groups');
       return data;
     },
 
     onRender: function() {
       var self = this;
-      this.$el.find('.chosen-select').chosen({no_results_text: "Select DMAs here", width: "400px"}).change(function(e, el) {
+
+      this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "400px"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
         var selected_values = $(this).val();
         var selected = []
@@ -59,7 +60,30 @@
             this.checked = false;
           }
         });
+        self._renderSelectedTargetingOptions();
+      });
 
+      this.$el.find('.key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "400px"}).change(function(e, el) {
+        // since here we couln't handle unselect option event, must be processed all at once
+        var selected_values = $(this).val();
+        var selected = []
+
+        for(var i = 0; i < this.options.length; i++) {
+          if(this.options[i].selected) {
+            selected.push({id: this.options[i].value, title: this.options[i].text});
+          }
+        }
+
+        self.model.attributes.selected_key_values = selected;
+
+        // sync select w/ checkboxes
+        self.$el.find('.key-values .key-values-checkboxes-container input:checkbox').each(function(index) {
+          if(selected_values.indexOf(String(this.value)) >= 0) {
+            this.checked = true;
+          } else {
+            this.checked = false;
+          }
+        });
         self._renderSelectedTargetingOptions();
       });
 
@@ -93,12 +117,47 @@
       this.$el.find('.selected-targeting').html(html);
     },
 
+    _addKVToSelectedKeyValues: function(selected) {
+      this.model.attributes.selected_key_values.push(selected);
+    },
+
+    _removeKVFromSelectedKeyValues: function(audience_group_id) {
+      this.model.attributes.selected_key_values = _.filter(this.model.get('selected_key_values'), function(el) {
+        if(parseInt(el.id) != audience_group_id) {
+          return el;
+        }
+      });
+    },
+
+    _handleKVCheckboxes: function(e) {
+      var select = this.$el.find('.key-values .chosen-select')[0],
+          checked_value = e.currentTarget.value,
+          checked_text;
+
+      for(var i = 0; i < select.options.length; i++) {
+        if(select.options[i].value == checked_value) {
+          checked_text = select.options[i].text;
+          if(e.currentTarget.checked) {
+            $(select.options[i]).attr('selected', 'selected'); // sync checkboxes with select
+            this._addKVToSelectedKeyValues({id: checked_value, title: checked_text});
+          } else {
+            $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
+            this._removeKVFromSelectedKeyValues(checked_value);
+          }
+          break;
+        }
+      }
+
+      $(select).trigger("chosen:updated");
+      this._renderSelectedTargetingOptions();
+    },
+
     _addDmaToSelectedDmas: function(selected) {
       this.model.attributes.selected_dmas.push(selected);
     },
 
     _removeDmaFromSelectedDmas: function(dma_id) {
-      this.model.attributes.selected_dmas = _.filter(this.model.attributes.selected_dmas, function(el) {
+      this.model.attributes.selected_dmas = _.filter(this.model.get('selected_dmas'), function(el) {
         if(parseInt(el.id) != dma_id) {
           return el;
         }
@@ -106,7 +165,7 @@
     },
 
     _handleDmasCheckboxes: function(e) {
-      var select = this.$el.find('.chosen-select')[0],
+      var select = this.$el.find('.dmas .chosen-select')[0],
           checked_value = e.currentTarget.value,
           checked_text;
 
@@ -128,7 +187,7 @@
       this._renderSelectedTargetingOptions();
     },
 
-    _toggleKeyValuesTargeting: function(e) {
+    /*_toggleKeyValuesTargeting: function(e) {
       var targeting = e.currentTarget.value;
       var kv = this.model.attributes.selected_key_values;
 
@@ -140,7 +199,7 @@
       }
       
       this._renderSelectedTargetingOptions();
-    },
+    },*/
 
     _updateZipCodes: function(e) {
       this.model.attributes.selected_zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
@@ -158,7 +217,7 @@
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
       'click .dmas .dmas-checkboxes-container input:checkbox': '_handleDmasCheckboxes',
-      'click .key-values input:checkbox': '_toggleKeyValuesTargeting',
+      'click .key-values .key-values-checkboxes-container input:checkbox': '_handleKVCheckboxes',
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .dmas': '_showDMAsTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
