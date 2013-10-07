@@ -50,7 +50,7 @@
           }
         }
 
-        self.model.set('selected_dmas', selected);
+        self.model.attributes.selected_dmas = selected;
 
         // sync select w/ checkboxes
         self.$el.find('.dmas .dmas-checkboxes-container input:checkbox').each(function(index) {
@@ -74,7 +74,7 @@
           }
         }
 
-        self.model.set('selected_key_values', selected);
+        self.model.attributes.selected_key_values = selected;
 
         // sync select w/ checkboxes
         self.$el.find('.key-values .key-values-checkboxes-container input:checkbox').each(function(index) {
