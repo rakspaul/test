@@ -10,9 +10,18 @@
   </ul>
 
   <div class="tab key-values">
-    <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
-    <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values.indexOf(audience_groups[i]['name']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
-    <% } %>
+    <select multiple class="chosen-select" name="keyvalues" style="width:95%;">
+      <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <option value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values.indexOf(audience_groups[i]['name']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
+      <% } %>
+    </select>
+    <div style="clear:both"></div>
+
+    <div class="keyvalues-checkboxes-container">
+      <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['name'] %>" <% if(selected_key_values.indexOf(audience_groups[i]['name']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
+      <% } %>
+    </div>
   </div>
 
   <% var selected_dmas_ids = [] %>
