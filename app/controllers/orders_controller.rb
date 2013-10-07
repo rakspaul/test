@@ -15,6 +15,7 @@ class OrdersController < ApplicationController
       format.html
       format.json do
         @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
+        @notes = @order.order_notes.joins(:user).order("created_at desc")
       end
     end
   end
@@ -84,6 +85,10 @@ class OrdersController < ApplicationController
         if @order.save
           IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id
 
+          params[:order][:notes].to_a.each do |note|
+            OrderNote.create note: note[:note], user: current_user, order: @order
+          end
+
           errors = save_lineitems_with_ads(params[:order][:lineitems])
 
           if errors.blank?
@@ -128,6 +133,10 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
+
+        params[:order][:notes].to_a.each do |note|
+          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
+        end
 
         if li_ads_errors.blank?
           if @order.save && io_details.save
@@ -321,8 +330,9 @@ private
               ad[:ad].delete(:selected_dmas)
               ad[:ad].delete(:selected_key_values)
               ad[:ad].delete(:targeted_zipcodes)
-              ad[:ad].delete(:volume)
-              ad[:ad].delete(:value)
+              ad_quantity = ad[:ad].delete(:volume)
+              ad_value    = ad[:ad].delete(:value)
+
               delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
               # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -334,6 +344,7 @@ private
 
               ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
               ad_object.order_id = @order.id
+              ad_object.cost_type = "CPM"
               ad_object.source_id = @order.source_id
 
               zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
@@ -353,6 +364,12 @@ private
               ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
 
               if ad_object.update_attributes(ad[:ad])
+                if ad_pricing = ad_object.ad_pricing
+                  ad_pricing.update_attributes(rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value)
+                else
+                  AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+                end
+
                 ad_object.save_creatives(ad_creatives)
               else
                 Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
@@ -399,8 +416,8 @@ private
           begin
             ad_targeting = ad[:ad].delete(:targeting)
             ad_creatives = ad[:ad].delete(:creatives)
-            ad[:ad].delete(:volume)
-            ad[:ad].delete(:value)
+            ad_quantity  = ad[:ad].delete(:volume)
+            ad_value     = ad[:ad].delete(:value)
             delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
             # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -412,6 +429,7 @@ private
 
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
+            ad_object.cost_type = "CPM"
             ad_object.source_id = @order.source_id
 
             zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
@@ -428,6 +446,7 @@ private
             ad_object.audience_groups = selected_groups if !selected_groups.blank?
 
             if ad_object.save
+              AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
               ad_object.save_creatives(ad_creatives)
             else
               Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect

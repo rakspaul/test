@@ -12,5 +12,11 @@ json.partial! 'order',
     media_contact_unknown: false,
     trafficking_contact_unknown: false,
     io_file_path: "",
-    reach_client_name: @order.io_detail.try(:reach_client).try(:name)
+    reach_client_name: @order.io_detail.try(:reach_client).try(:name),
   }
+
+json.notes do
+  json.array! @notes do |note|
+    json.partial! 'order_notes/note.json.jbuilder', note: note
+  end
+end

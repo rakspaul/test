@@ -172,8 +172,11 @@
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
       this.ui.creatives.append(creativeView.render().el);
 
-      var li = this.options.parent_view.options.parent_view.model;
-      li.get('creatives').add(creative);
+      // if this is Ad 
+      if(this.options.parent_view.options.parent_view) {
+        var li = this.options.parent_view.options.parent_view.model;
+        li.get('creatives').add(creative);
+      }
 
       this.options.parent_view.model.get('creatives').add(creative);
     },

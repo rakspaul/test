@@ -53,9 +53,8 @@
     },
 
     toJSON: function() {
-      return { note: _.clone(this.attributes) };
+      return _.clone(this.attributes);
     }
-
   });
 
   Orders.NoteList = Backbone.Collection.extend({
@@ -254,16 +253,26 @@
 
       var prop = {
         note: this.ui.note_input.val().trim(),
+        created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+        username: window.current_user_name
       }
 
-      this.model = new ReachUI.Orders.Note();
+      this.model = new ReachUI.Orders.Note(prop);
       this.model.setOrder(this.options.order);
-      this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+      this.collection.unshift(this.model);
+
+      this.options.order.set('notes', this.collection);
+
+      if(this.model.isNew()) {
+        this._onSaveSuccess();
+      } else {
+        this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+      }
     },
 
     _onSaveSuccess: function(event) {
       this.ui.note_input.val('');
-      this.collection.fetch({reset:true});
+      this.render();
     },
 
     _onSaveFailure: function() {

@@ -220,7 +220,7 @@
         width:300px;
       }
 
-      ul li:hover, ul li.selected{
+      ul li.selected{
         color:#fff;
         background:#008DD1;
       }
@@ -238,8 +238,12 @@
       opacity:0.7;
       display:none;
 
-      img{
+      .loading-img{
         margin-top:140px;
+        width:16px;
+        height:11px;
+        background-image: image-url("loading.gif");
+        display:inline-block;
       }
     }
 

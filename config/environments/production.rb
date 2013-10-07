@@ -83,4 +83,9 @@ Reachui::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+  # audience group segment search
+  # comma separated string of network ids
+  config.search_segments_in_network = '6,176'
+
 end

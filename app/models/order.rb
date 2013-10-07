@@ -14,7 +14,7 @@ class Order < ActiveRecord::Base
   has_many :lineitems, -> { order('name') }, inverse_of: :order
   has_many :io_assets
   has_many :ads
-  has_many :order_note
+  has_many :order_notes
 
   validates :name, :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}

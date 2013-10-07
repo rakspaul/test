@@ -31,7 +31,9 @@ class AudienceGroup < ActiveRecord::Base
         return
       end
 
-      segments_found = Segment.of_network(network).where(:name => segments_to_search).pluck(:name)
+      networks = Rails.application.config.search_segments_in_network.split(',')
+
+      segments_found = Segment.of_networks(networks).where(:name => segments_to_search).pluck(:name)
       missing_segments = segments_to_search - segments_found
       errors.add :key_values, "#{missing_segments.join(',')} segment(s) does not exist." if missing_segments.length > 0
     end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe BillingContact do
-  it { should belong_to(:reach_client) }
+  it { should have_many(:reach_clients) }
   it { should validate_presence_of(:phone) }
   it { should validate_presence_of(:reach_client_id) }
 

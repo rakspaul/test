@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe Buying::OrdersController do
+#describe Buying::OrdersController do
 
-end
+#end

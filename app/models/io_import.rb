@@ -115,7 +115,8 @@ class IoImport
     end
 
     def read_notes
-      @notes = @reader.find_notes
+      # array with hash in it, because OrdersController#show also use this format
+      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]
     end
 
     def find_sales_person

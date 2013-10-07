@@ -112,17 +112,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _ioUploaded: function(orderModel, lineItems) {
-    this.orderList.unshift(orderModel);
-    // view order
-    if(orderModel.id) {
-      ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
-    } else {
-      // just uploaded model (w/o id, source_id)
-      orderModel.lineItemList = lineItems;
-      this._showOrderDetails(orderModel);
-      lineItems.setOrder(orderModel);
-      this._liSetCallbacksAndShow(lineItems);
-    }
+    // just uploaded model (w/o id, source_id)
+    orderModel.lineItemList = lineItems;
+    this._showOrderDetails(orderModel);
+    lineItems.setOrder(orderModel);
+    this._liSetCallbacksAndShow(lineItems);
+    this._showNotesView(orderModel);
   },
 
   orderDetails: function(id) {
@@ -551,6 +546,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 li_view.renderAd(ad);
               }
             });
+            lineItemList._recalculateLiImpressionsMediaCost();
           },
           function(model, response, options) {
             console.log('error while getting ads list');
@@ -559,29 +555,29 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         );
       });
     } else { // not persisted Order/Lineitems
-      _.each(lineItemListView.children._views, function(li_view, li_name) {
-        var li   = li_view.model;
-        var dmas = new ReachUI.DMA.List();
-        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var dmas = new ReachUI.DMA.List();
+      var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-        ags.fetch().done(dmas.fetch({
-          success: function(collection, response, options) {
-            var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+      ags.fetch().done(dmas.fetch({
+        success: function(collection, response, options) {
+          var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+          _.each(lineItemListView.children._views, function(li_view, li_name) {
+            var li   = li_view.model;
             li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
             li_view.renderTargetingDialog();
-          }
-        }));
-      });
+            li_view._recalculateMediaCost();
+          });
+          lineItemList._recalculateLiImpressionsMediaCost();
+        }
+      }));
     }
-
-    lineItemList._recalculateLiImpressionsMediaCost();
   },
 
   _showNotesView: function(order) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
-    this.noteList = new ReachUI.Orders.NoteList();
-    this.noteList.setOrder(order)
-    this.notesRegion.show(new ReachUI.Orders.NoteListView({collection: this.noteList, order: order}));
-    this.noteList.fetch();
+    this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
+    this.noteList.setOrder(order);
+    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order});
+    this.notesRegion.show(notes_list_view);
   },
 });

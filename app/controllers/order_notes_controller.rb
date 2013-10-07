@@ -3,12 +3,6 @@ class OrderNotesController < ApplicationController
 
   respond_to :json
 
-  # GET orders/{order_id}/notes
-  def index
-    @notes = OrderNote.for_order(params[:order_id]).joins(:user).order("created_at desc")
-    respond_with(@notes)
-  end
-
   # POST orders/{order_id}/notes
   def create
     order = Order.find(params[:order_id])
