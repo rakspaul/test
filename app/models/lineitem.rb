@@ -27,7 +27,7 @@ class Lineitem < ActiveRecord::Base
   before_save :sanitize_ad_sizes
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
-  
+
   def save_creatives(creatives_params)
     creatives_params.to_a.each do |params|
       cparams = params[:creative]
@@ -35,10 +35,10 @@ class Lineitem < ActiveRecord::Base
 
       if cparams[:id]
         creative = Creative.find cparams[:id]
-        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id], width: width, height: height, redirect_url: cparams[:redirect_url])
+        creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url])
         creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
       else
-        creative = Creative.create name: "test.gif", network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "HTML", source_ui_creative_id: cparams[:source_ui_creative_id], redirect_url: cparams[:redirect_url], network_id: self.order.network_id, data_source_id: 1
+        creative = Creative.create name: ad_name(cparams), network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "InternalRedirectCreative", redirect_url: cparams[:redirect_url], network_id: self.order.network_id, data_source_id: 1
         LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
       end
     end
@@ -75,5 +75,13 @@ class Lineitem < ActiveRecord::Base
         max_alt_id = Lineitem.where(order_id: order_id).pluck('alt_ad_id').map{|s| s.to_i}.max || 0
         self.alt_ad_id = max_alt_id + 1
       end
+    end
+
+    def ad_name(params)
+      start_date = Date.parse params[:start_date]
+      quarter = ((start_date.month - 1) / 3) + 1
+
+      "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
+      "Q#{ quarter }#{ start_date.strftime('%y') } #{ params[:ad_size] }"
     end
 end
