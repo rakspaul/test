@@ -195,6 +195,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
+    ReachUI.checkOrderStatus(order.id);
   },
 
   _showNewLineItemView: function(order) {
@@ -402,13 +403,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
     $('.general-info-container .order-name .editable').editable({
       success: function(response, newValue) {
-        order.set(this.dataset['name'], newValue); //update backbone model;
+        order.set($(this).data('name'), newValue); //update backbone model;
         $('.new-order-header .heading').html(newValue);
       }
     });
     $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
       success: function(response, newValue) {
-        order.set(this.dataset['name'], newValue); //update backbone model;
+        order.set($(this).data('name'), newValue); //update backbone model;
       }
     });
     this._setupTypeaheadFields(order);

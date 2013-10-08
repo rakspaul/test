@@ -104,7 +104,7 @@
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
-          view.model.set(this.dataset['name'], date); //update backbone model;
+          view.model.set($(this).data('name'), date); //update backbone model;
           
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
@@ -120,7 +120,7 @@
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
-          view.model.set(this.dataset['name'], date); //update backbone model;
+          view.model.set($(this).data('name'), date); //update backbone model;
 
           // order's end date should be highest of all related LIs
           var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
@@ -135,7 +135,7 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          view.model.set(this.dataset['name'], newValue); //update backbone model;
+          view.model.set($(this).data('name'), newValue); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
         }
@@ -143,7 +143,7 @@
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
-          view.model.set(this.dataset['name'], newValue); //update backbone model;
+          view.model.set($(this).data('name'), newValue); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
         }
@@ -151,7 +151,7 @@
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          view.model.set(this.dataset['name'], newValue); //update backbone model;
+          view.model.set($(this).data('name'), newValue); //update backbone model;
         }
       });
   
@@ -348,13 +348,16 @@
     },
 
     _changeStatus: function(status) {
-      var order_id = this.collection.order.id;
-      var url = '/orders/' + this.collection.order.get('id') + '/change_status';
+      var order_id = this.collection.order.get('id');
+      var url = '/orders/'+order_id+'/change_status';
       if(order_id) {
         jQuery.post(url, {status: status}).done(function(resp) {
           if(resp.status == 'success') {
             $('#change-order-status-dialog').modal('show').on('hidden', function () {
-              ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
+              $('.current-io-status-top').html(resp.state);
+              if(resp.state == 'Pushing') {
+                ReachUI.checkOrderStatus(order_id);
+              }
             });
           } else {
             $('#change-order-status-dialog .modal-body p').html(resp.message);

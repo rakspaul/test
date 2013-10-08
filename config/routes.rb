@@ -45,6 +45,7 @@ Reachui::Application.routes.draw do
 
     member do
       post 'change_status'
+      get 'status'
     end
 
     collection do

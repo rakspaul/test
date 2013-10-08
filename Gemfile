@@ -52,6 +52,9 @@ gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git', :branc
 # State machine
 gem 'aasm'
 
+# Easy to use, feature complete Ruby client for RabbitMQ 2.0 and later versions.
+gem 'bunny'
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
   gem 'shoulda', '~> 3.5.0'

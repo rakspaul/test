@@ -15,14 +15,14 @@
   <div class="tab key-values">
     <select multiple class="chosen-select" name="keyvalues" style="width:95%;">
       <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
-      <option value="<%= audience_groups[i]['id'] %>" <% if(selected_kv_ids.indexOf(audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
+      <option value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
       <% } %>
     </select>
     <div style="clear:both"></div>
 
     <div class="key-values-checkboxes-container">
       <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
-      <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(selected_kv_ids.indexOf(audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
+      <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
       <% } %>
     </div>
   </div>
@@ -33,14 +33,14 @@
   <div class="tab dmas" style="display:none">
     <select multiple class="chosen-select" name="dmas" style="width:95%;">
       <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <option value="<%= dmas_list[i].code %>" <% if(selected_dmas_ids.indexOf(dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
+      <option value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
       <% } %>
     </select>
     <div style="clear:both"></div>
 
     <div class="dmas-checkboxes-container">
       <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>" <% if(selected_dmas_ids.indexOf(dmas_list[i].code) >= 0) { %>checked="checked"<% } %> /> <%= dmas_list[i].name %><br/>
+      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>checked="checked"<% } %> /> <%= dmas_list[i].name %><br/>
       <% } %>
     </div>
   </div>

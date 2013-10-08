@@ -11,12 +11,12 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
+    @notes = @order.order_notes.joins(:user).order("created_at desc")
+
     respond_to do |format|
       format.html
-      format.json do
-        @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
-        @notes = @order.order_notes.joins(:user).order("created_at desc")
-      end
+      format.json
     end
   end
 
@@ -189,9 +189,14 @@ class OrdersController < ApplicationController
       order.io_detail.push!
     end
 
-    render json: {status: "success"}
+    render json: {status: "success", state: order.io_detail.try(:state).to_s.humanize.capitalize}
   rescue AASM::InvalidTransition => e
     render json: {status: "error", message: e.message}
+  end
+
+  def status
+    order = Order.find(params[:id])
+    render json: {status: order.io_detail.try(:state).to_s.humanize.capitalize}
   end
 
 private
