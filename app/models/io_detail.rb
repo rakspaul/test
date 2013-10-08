@@ -13,6 +13,8 @@ class IoDetail < ActiveRecord::Base
 
   validates :reach_client_id, presence: true
 
+  after_commit :enqueue_for_push, on: :update, if: lambda {|order| order.pushing? }
+
   aasm :column => 'state' do
     state :draft, :initial => true
     state :ready_for_trafficker
@@ -45,5 +47,31 @@ class IoDetail < ActiveRecord::Base
     event :failure do
       transitions from: :pushing, to: :failure
     end
+  end
+
+private
+
+  def enqueue_for_push
+    require 'bunny'
+   
+    conn = Bunny.new(:host => '127.0.0.1')
+    conn.start
+
+    ch   = conn.create_channel
+    q    = ch.queue("reach.io.push", :durable => true)
+    log "Sending...#{q.name}, order id: #{self.order.id}"
+    msg  = self.order.id.to_s
+
+    q.publish(msg, :persistent => true)
+    Rails.logger.warn " [reach.io.push] Sent #{msg}"
+
+    conn.close
+  rescue => e
+    log e.message.inspect
+    self.failure!
+  end
+
+  def log txt
+    Rails.logger.warn txt
   end
 end

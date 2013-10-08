@@ -195,6 +195,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
+    ReachUI.checkOrderStatus(order.id);
   },
 
   _showNewLineItemView: function(order) {
