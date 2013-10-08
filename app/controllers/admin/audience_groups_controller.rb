@@ -30,6 +30,8 @@ class Admin::AudienceGroupsController < ApplicationController
 
   def create
     p = params.require(:audienceGroup).permit(:name, :key_values)
+    adjust_key_value(p)
+
     @audience_group = AudienceGroup.new(p)
     @audience_group.network = current_network
     @audience_group.user = current_user
@@ -50,10 +52,18 @@ class Admin::AudienceGroupsController < ApplicationController
   def update
     @audience_group = AudienceGroup.find(params[:id])
     p = params.require(:audienceGroup).permit(:name, :key_values)
+    adjust_key_value(p)
+
     @audience_group.update_attributes(p)
     @audience_group.save
 
     respond_with(@audience_group)
   end
+
+  private
+    def adjust_key_value(p)
+      p[:key_values] = p[:key_values].split(/[\s\,]+/).map(&:strip).uniq.join(',')
+      return
+    end
 
 end

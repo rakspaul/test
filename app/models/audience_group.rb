@@ -15,8 +15,6 @@ class AudienceGroup < ActiveRecord::Base
 
   def key_value_list
     unless key_values.empty?
-      valid_commas
-
       segments_values = []
       contexts_values = []
 
@@ -24,12 +22,6 @@ class AudienceGroup < ActiveRecord::Base
 
       validate_segments(segments_values)
       validate_contexts(contexts_values)
-    end
-  end
-
-  def valid_commas
-    if key_values.last == "," || key_values.first == ","
-      return errors.add :key_values, "Please enter a valid comma separated string."
     end
   end
 
@@ -50,17 +42,7 @@ class AudienceGroup < ActiveRecord::Base
     end
   end
 
-  def find_duplicates(key_values)
-    return key_values.select{|i| key_values.grep(i).size > 1}.uniq
-  end
-
   def validate_segments(segments_to_search)
-    duplicates = find_duplicates(segments_to_search)
-    if duplicates.length > 0
-      errors.add :key_values, "btg=#{duplicates.join(',')} already exists."
-      return
-    end
-
     networks = Rails.application.config.search_segments_in_network.split(',')
 
     segments_found = Segment.of_networks(networks).where(:name => segments_to_search).pluck(:name)
@@ -69,12 +51,6 @@ class AudienceGroup < ActiveRecord::Base
   end
 
   def validate_contexts(contexts_to_search)
-    duplicates = find_duplicates(contexts_to_search)
-    if duplicates.length > 0
-      errors.add :key_values, "contx=#{duplicates.join(',')} already exists."
-      return
-    end
-
     networks = Rails.application.config.search_contexts_in_network.split(',')
 
     contexts_found = Context.of_networks(networks).where(:name => contexts_to_search).pluck(:name)
