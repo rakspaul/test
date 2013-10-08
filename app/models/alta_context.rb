@@ -1,0 +1,2 @@
+class AltaContext < Context
+end

@@ -88,4 +88,8 @@ Reachui::Application.configure do
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
 
+  # audience group context search
+  # comma separated string of network ids
+  config.search_contexts_in_network = '6,176'
+
 end

@@ -29,9 +29,21 @@
 
   AudienceGroup.Segmant = Backbone.Model.extend({});
 
+  AudienceGroup.Context = Backbone.Model.extend({});
+
   AudienceGroup.SegmantList = Backbone.Collection.extend({
     url: '/segments/search.json',
     model: AudienceGroup.Segmant,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+  });
+
+  AudienceGroup.ContextList = Backbone.Collection.extend({
+    url: '/contexts/search.json',
+    model: AudienceGroup.Context,
 
     fetch: function(){
       this.trigger("fetch", this);
@@ -44,8 +56,8 @@
 
     regions: {
       name_view: '#name_view',
-      search_view: '#search_view',
-      search_results_view: '#search_results_view',
+      search_segments_view: '#search_segments_view',
+      search_contexts_view: '#search_contexts_view',
       selected_segments_view: '#selected_segments_view',
     },
 
@@ -69,34 +81,14 @@
 
   });
 
-  AudienceGroup.SearchView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/admin/audience_groups/search_view'],
-    events: {
-      'click #search_keyvals_button': 'onSearch',
-      'keypress #search_keyvals_input': 'onSearch'
-    },
-
-    ui:{
-      search_input: '#search_keyvals_input'
-    },
-
-    onSearch: function(event) {
-      if (event.type === 'keypress' && event.keyCode != 13) {
-        return;
-      }
-      this.trigger('search', this.ui.search_input.val().trim());
-    },
-
-  });
-
-  AudienceGroup.SearchItem = Backbone.Marionette.ItemView.extend({
+  AudienceGroup.SearchSegmentItem = Backbone.Marionette.ItemView.extend({
     tagName:'li',
     className: 'draggble',
     template: _.template('<%= full_name %>'),
 
     attributes: function() {
       return {
-        "data-name" : this.model.get("name"),
+        "data-name" : 'btg='+this.model.get("name"),
       }
     },
 
@@ -104,35 +96,40 @@
       this.$el.draggable({
         revert: 'invalid',
         helper: this._dragHelper,
+        appendTo: 'body',
         containment: '.content'
       });
     },
 
     _dragHelper: function(){
-      var selected = $('#searchResults li.selected');
-      if (selected.length === 0) {
+      var selected = $('#search_segments_results li.selected');
+      if (selected.length <= 1) {
+        $('#search_segments_results li').removeClass('selected');
         selected = $(this).addClass('selected');
       }
-      var container = $('<ul />');
+      var container = $('<ul class="select-keyvals" />');
       container.append(selected.clone());
       return container;
     }
 
   });
 
-  AudienceGroup.SearchResultsView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/audience_groups/search_results_view'],
-    itemViewContainer: '#searchResults',
-    itemView: AudienceGroup.SearchItem,
+  AudienceGroup.SearchSegmentsView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/audience_groups/search_segments_view'],
+    itemViewContainer: '#search_segments_results',
+    itemView: AudienceGroup.SearchSegmentItem,
 
     events:{
-      'click #add_keyvals_button' : '_onAddKeyValsClick',
-      'click #searchResults li' : '_onListItemClick'
+      'click #add_keyvals_button_segment' : '_onAddKeyValsClick',
+      'click #search_segments_results li' : '_onListItemClick',
+      'click #search_keyvals_button_segment': 'onSearch',
+      'keypress #search_keyvals_input_segment': 'onSearch'
     },
 
     ui:{
       loading_div: '#loading_div',
-      searchResultsList: '#searchResults'
+      searchResultsList: '#search_segments_results',
+      search_input: '#search_keyvals_input_segment'
     },
 
     initialize: function() {
@@ -150,8 +147,15 @@
       this.ui.loading_div.hide();
     },
 
+    onSearch: function(event) {
+      if (event.type === 'keypress' && event.keyCode != 13) {
+        return;
+      }
+      this.trigger('search', this.ui.search_input.val().trim());
+    },
+
     _onAddKeyValsClick: function(){
-      var selectedKeyVals = $('#searchResults li.selected'),
+      var selectedKeyVals = $('#search_segments_results li.selected'),
         selectedKeyValsNames = [];
 
       $(selectedKeyVals).each(function(){
@@ -177,6 +181,105 @@
 
   });
 
+  AudienceGroup.SearchContextItem = Backbone.Marionette.ItemView.extend({
+    tagName:'li',
+    className: 'draggble',
+    template: _.template('<%= full_name %>'),
+
+    attributes: function() {
+      return {
+        "data-name" : 'contx='+this.model.get("name"),
+      }
+    },
+
+    onRender: function(){
+      this.$el.draggable({
+        revert: 'invalid',
+        helper: this._dragHelper,
+        appendTo: 'body',
+        containment: '.content',
+      });
+    },
+
+    _dragHelper: function(){
+      var selected = $('#search_contexts_results li.selected');
+      if (selected.length <= 1) {
+        $('#search_contexts_results li').removeClass('selected');
+        selected = $(this).addClass('selected');
+      }
+      var container = $('<ul class="select-keyvals" />');
+      container.append(selected.clone());
+      return container;
+    }
+
+  });
+
+  AudienceGroup.SearchContextsView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/audience_groups/search_contexts_view'],
+    itemViewContainer: '#search_contexts_results',
+    itemView: AudienceGroup.SearchContextItem,
+
+    events:{
+      'click #add_keyvals_button_context' : '_onAddKeyValsClick',
+      'click #search_contexts_results li' : '_onListItemClick',
+      'click #search_keyvals_button_context': 'onSearch',
+      'keypress #search_keyvals_input_context': 'onSearch'
+    },
+
+    ui:{
+      loading_div: '#loading_div',
+      searchResultsList: '#search_contexts_results',
+      search_input: '#search_keyvals_input_context'
+    },
+
+    initialize: function() {
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+      this.prev = -1;
+      this.curr = null;
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
+    },
+
+    onSearch: function(event) {
+      if (event.type === 'keypress' && event.keyCode != 13) {
+        return;
+      }
+      this.trigger('search', this.ui.search_input.val().trim());
+    },
+
+    _onAddKeyValsClick: function(){
+      var selectedKeyVals = $('#search_contexts_results li.selected'),
+        selectedKeyValsNames = [];
+
+      $(selectedKeyVals).each(function(){
+        selectedKeyValsNames.push($(this).attr('data-name'));
+      })
+      this.trigger('addKeyVals', selectedKeyValsNames);
+    },
+
+    _onListItemClick: function(event){
+      this.curr = $(event.target).index();
+
+      if(event.ctrlKey || event.metaKey){
+        this.prev = this.curr;
+        $(event.target).toggleClass('selected');
+      } else if(event.shiftKey && this.prev > -1){
+        this.ui.searchResultsList.find('li').slice(Math.min(this.prev, this.curr), 1 + Math.max(this.prev, this.curr)).addClass('selected');
+      } else {
+        this.prev = this.curr;
+        this.ui.searchResultsList.find('li').removeClass('selected');
+        $(event.target).toggleClass('selected');
+      }
+    },
+
+  });
 
   AudienceGroup.SelectedSegmentsView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/admin/audience_groups/selected_segments_view'],
@@ -197,6 +300,8 @@
     },
 
     addKeyVals: function(keyvals){
+      $('#search_segments_results li.selected').removeClass('selected');
+      $('#search_contexts_results li.selected').removeClass('selected');
       if(this.ui.key_values.val() === ''){
         this.ui.key_values.val(keyvals.join(','));
       } else {
@@ -212,7 +317,6 @@
         dropItems.push($(this).attr('data-name'));
       });
 
-      $('#searchResults li.selected').removeClass('selected');
       this.addKeyVals(dropItems);
     },
 
@@ -245,24 +349,29 @@
       this.nameView = new AudienceGroup.NameView({model: this.model});
       this.layout.name_view.show(this.nameView);
 
-      this.searchView = new AudienceGroup.SearchView();
-      this.layout.search_view.show(this.searchView);
-      this.searchView.on('search', this._onSearch, this);
+      this.searchSegmentList = new AudienceGroup.SegmantList();
+      this.searchContextList = new AudienceGroup.ContextList();
 
-      this.searchResults = new AudienceGroup.SegmantList();
+      this.searchSegmentsView = new AudienceGroup.SearchSegmentsView({collection: this.searchSegmentList})
+      this.layout.search_segments_view.show(this.searchSegmentsView);
+      this.searchSegmentsView.on('addKeyVals', this._onAddKeyVals, this);
+      this.searchSegmentsView.on('search', this._onSearch, this);
 
-      this.searchResultsView = new AudienceGroup.SearchResultsView({collection: this.searchResults})
-      this.layout.search_results_view.show(this.searchResultsView);
-      this.searchResultsView.on('addKeyVals', this._onAddKeyVals, this);
+      this.searchContextsView = new AudienceGroup.SearchContextsView({collection: this.searchContextList})
+      this.layout.search_contexts_view.show(this.searchContextsView);
+      this.searchContextsView.on('addKeyVals', this._onAddKeyVals, this);
+      this.searchContextsView.on('search', this._onSearch, this);
 
-      this.searchResults.fetch({reset: true});
+      this.searchSegmentList.fetch({reset: true});
+      this.searchContextList.fetch({reset: true});
 
       this.selectedSegmentsView = new AudienceGroup.SelectedSegmentsView({model: this.model});
       this.layout.selected_segments_view.show(this.selectedSegmentsView);
     },
 
     _onSearch: function(search_string) {
-      this.searchResults.fetch({data:{search: search_string}, reset: true})
+      this.searchSegmentList.fetch({data:{search: search_string}, reset: true})
+      this.searchContextList.fetch({data:{search: search_string}, reset: true})
     },
 
     _onAddKeyVals: function(selectedKeyVals){

@@ -6,4 +6,10 @@
 
     var controller = new ReachUI.AudienceGroups.Controller();
       controller.initializeForCreateNewAudienceGroup();
+
+    $(document).on('click','#myTab a',function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+    });
+
   });

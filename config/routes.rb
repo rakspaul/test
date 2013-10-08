@@ -106,6 +106,12 @@ Reachui::Application.routes.draw do
     end
   end
 
+  resources :contexts do
+    collection do
+      get 'search'
+    end
+  end
+
   resources :advertiser_blocks do
     collection do
       get 'search'

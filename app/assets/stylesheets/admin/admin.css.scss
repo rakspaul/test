@@ -276,6 +276,22 @@
   .audience-views{
     padding-left:20px;
     margin-bottom:20px;
+
+    .search-vals{
+      ul.nav-tabs{
+        width:317px;
+
+        li{
+          a{
+            padding:5px;
+          }
+        }
+      }
+    }
+
+    .selected-segments{
+      padding-top:108px;
+    }
   }
 
   .add-keyvals-button{
@@ -344,6 +360,17 @@
       height:280px;
     }
   }
+}
 
+ul.select-keyvals{
+  font-size:12px;
+  list-style-type: none;
 
+  li{
+    color:#fff;
+    background:#008DD1;
+    border-bottom: 1px solid #f2f2f2;
+    width:300px;
+    padding:2px;
+  }
 }

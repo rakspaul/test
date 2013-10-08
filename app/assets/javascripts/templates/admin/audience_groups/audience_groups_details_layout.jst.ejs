@@ -2,10 +2,24 @@
   <div class="audience-views">
     <div id ="name_view"> </div>
     <hr/>
-    <div id ="search_view"> </div>
     <div class="pure-g">
-      <div id ="search_results_view" class="pure-u"> </div>
-      <div id ="selected_segments_view" class="pure-u"> </div>
+      <div class="pure-u search-vals">
+        <ul class="nav nav-tabs" id="myTab">
+          <li class="active"><a href="#segmentTab">Segment</a></li>
+          <li><a href="#contextTab">Context</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane active" id="segmentTab">
+            <div id ="search_view"> </div>
+            <div id ="search_segments_view"> </div>
+          </div>
+          <div class="tab-pane" id="contextTab">
+            <div id ="search_contexts_view"> </div>
+          </div>
+        </div>
+      </div>
+      <div id ="selected_segments_view" class="selected-segments pure-u"> </div>
     </div>
   </div>
 </fieldset>

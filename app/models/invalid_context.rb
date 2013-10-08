@@ -1,0 +1,2 @@
+class InvalidContext < Context
+end
