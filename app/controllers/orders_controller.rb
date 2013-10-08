@@ -69,7 +69,7 @@ class OrdersController < ApplicationController
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
-    @order.sales_person_id = sales_person.id
+    @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
     @order.user = current_user
 
@@ -302,6 +302,7 @@ private
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:targeted_zipcodes)
       li[:lineitem].delete(:selected_dmas)
+      li[:lineitem].delete(:itemIndex)
       li[:lineitem].delete(:selected_key_values)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
@@ -401,6 +402,7 @@ private
     params.to_a.each_with_index do |li, i|
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
+      li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])
