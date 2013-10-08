@@ -8,9 +8,11 @@ class AdPricing < ActiveRecord::Base
     self.source_id = "R_#{SecureRandom.uuid}"
   end
 
+private
+
   def sanitize_attributes
     # number of impressions could come in format like 11,234 which would be just 11 after the typecast
-    volume_before_typecast = self.read_attribute_before_type_cast('volume')
-    self[:volume] = volume_before_typecast.gsub(/,|\./, '') if volume_before_typecast.is_a?(String)
+    quantity_before_typecast = self.read_attribute_before_type_cast('quantity')
+    self[:quantity] = quantity_before_typecast.gsub(/,|\./, '') if quantity_before_typecast.is_a?(String)
   end
 end
