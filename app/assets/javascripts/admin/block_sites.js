@@ -66,11 +66,26 @@
     model: BlockSites.AdvertiserBlock,
   });
 
+  BlockSites.BlockedAdvertiser = Backbone.Model.extend({});
+
+  BlockSites.BlockedAdvertiserList = Backbone.Collection.extend({
+    model: BlockSites.BlockedAdvertiser,
+  });
+
+  BlockSites.BlockedAdvertiserBlock = Backbone.Model.extend({});
+
+  BlockSites.BlockedAdvertiserBlockList = Backbone.Collection.extend({
+    model: BlockSites.BlockedAdvertiserBlock,
+  });
+
 // --------------------/ Views /------------------------------------
 
   BlockSites.SiteListItemView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= name%>'),
     tagName: 'option',
+    attributes: function() {
+      return {value: this.model.id};
+    },
   }),
 
   BlockSites.SiteListView = Backbone.Marionette.CompositeView.extend({
@@ -84,6 +99,7 @@
 
     ui:{
       search_input: '#search_input',
+      site_list: '#sitesList'
     },
 
     initialize: function() {
@@ -102,15 +118,41 @@
       var searchString = this.ui.search_input.val().trim();
       this.collection.fetch({data:{search: searchString}, reset: true});
     },
+
+    getSelectedSites: function() {
+      var selectedSites = this.ui.site_list.val();
+      if(selectedSites && selectedSites.length>0) {
+        var sites = []
+        for (var i = 0; i < selectedSites.length; i++) {
+          var site = this.collection.get(selectedSites[i]);
+          sites.push(site)
+        }
+        return sites;
+      } else {
+        return [];
+      }
+    },
   });
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
-    template: _.template('<option><%= name%></option>'),
+    tagName:'option',
+    template: _.template('<%= name%>'),
+    attributes: function() {
+      return {value: this.model.get('id')};
+    },
   });
 
   BlockSites.BlockedAdvertiserListItemView = Backbone.Marionette.CollectionView.extend({
     tagName: 'optgroup',
     itemView: BlockSites.BlockedAdvertiserView,
+    attributes: function() {
+      return {label: this.model.get('site_name')};
+    },
+
+    initialize: function() {
+      this.collection = this.model.get('advertisers');
+    },
+
   });
 
   BlockSites.BlockedAdvertiserListView  = Backbone.Marionette.CompositeView.extend({
@@ -119,29 +161,45 @@
 
     events: {
       'click #btnAdd' : '_onAddAdvertiserClick',
+      'click #btnRemove' : '_onRemoveAdvertiserClick',
     },
 
-    initialize: function() {
-
+    ui: {
+      blocked_advertiser_list: '#blockedAdvertiserList',
     },
 
     appendHtml: function(collectionView, itemView){
-
+      collectionView.$("#blockedAdvertiserList").append(itemView.el);
     },
 
     _onAddAdvertiserClick: function(event) {
       this.trigger('Show:AdvertiserListModalView');
     },
 
+    _onRemoveAdvertiserClick: function(event) {
+      console.log(this.ui.blocked_advertiser_list.val());
+    },
+
   });
 
   BlockSites.BlockedAdvertiserBlockView = Backbone.Marionette.ItemView.extend({
-    template: _.template('<option><%= name%></option>'),
+    tagName:'option',
+    template: _.template('<%= name%>'),
+    attributes: function() {
+      return {value: this.model.id};
+    },
   });
 
   BlockSites.BlockedAdvertiserBlockListItemView = Backbone.Marionette.CollectionView.extend({
     tagName: 'optgroup',
-    itemView: BlockSites.BlockedAdvertiserGroupView,
+    itemView: BlockSites.BlockedAdvertiserBlockView,
+    attributes: function() {
+      return {label: this.model.get('site_name')};
+    },
+
+    initialize: function() {
+      this.collection = this.model.get('advertiserBlocks');
+    },
   });
 
   BlockSites.BlockedAdvertiserBlockListView = Backbone.Marionette.CompositeView.extend({
@@ -152,12 +210,12 @@
       'click #btnAdd' : '_onAddAdvertiserBlockClick',
     },
 
-    initialize: function() {
-
+    ui: {
+      blocked_advertiser_block_list: '#blockedAdvertiserBlockList',
     },
 
     appendHtml: function(collectionView, itemView){
-
+     collectionView.$("#blockedAdvertiserBlockList").append(itemView.el);
     },
 
     _onAddAdvertiserBlockClick: function(event) {
@@ -169,6 +227,9 @@
   BlockSites.AdvertiserView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= name%>'),
     tagName: 'option',
+    attributes: function() {
+      return {value: this.model.id}
+    },
   });
 
   BlockSites.AdvertiserListModalView = Backbone.Marionette.CompositeView.extend({
@@ -177,12 +238,14 @@
     itemView: BlockSites.AdvertiserView,
 
     events: {
-      'click #search_button': 'onSearch',
-      'keypress #search_input': 'onSearch'
+      'click #search_button' : 'onSearch',
+      'keypress #search_input' : 'onSearch',
+      'click #btnBlock' : 'onBlock',
     },
 
     ui:{
       search_input: '#search_input',
+      advertiser_list: '#advertiserList'
     },
 
     initialize: function() {
@@ -202,11 +265,27 @@
       this.collection.fetch({data:{search: searchString}, reset: true});
     },
 
+    onBlock: function(event) {
+      var selectedAdvertiser = this.ui.advertiser_list.val();
+      if(selectedAdvertiser && selectedAdvertiser.length >0 ) {
+        var vos = [];
+        for (var i = 0; i < selectedAdvertiser.length; i++) {
+          var item = this.collection.get(selectedAdvertiser[i]);
+          vos.push(item);
+        }
+      this.trigger('Block:Advertiser', vos);
+      $('#close_modal').trigger('click');
+      }
+    },
+
   });
 
   BlockSites.AdvertiserBlockView = Backbone.Marionette.ItemView.extend({
-    template: _.template('<%= name%>'),
     tagName: 'option',
+    template: _.template('<%= name%>'),
+    attributes: function() {
+      return {value: this.model.id};
+    },
   });
 
   BlockSites.AdvertiserBlockListModalView = Backbone.Marionette.CompositeView.extend({
@@ -216,11 +295,13 @@
 
     events: {
       'click #search_button': 'onSearch',
-      'keypress #search_input': 'onSearch'
+      'keypress #search_input': 'onSearch',
+      'click #btnBlock': 'onBlock',
     },
 
     ui:{
       search_input: '#search_input',
+      blocked_advertiser_list: '#advertiserBlockList'
     },
 
     initialize: function() {
@@ -238,6 +319,19 @@
       }
       var searchString = this.ui.search_input.val().trim();
       this.collection.fetch({data:{search: searchString}, reset: true});
+    },
+
+    onBlock: function(event) {
+      var selectedAdvertiserBlocks = this.ui.blocked_advertiser_list.val();
+      if(selectedAdvertiserBlocks && selectedAdvertiserBlocks.length >0 ) {
+        var vos = [];
+        for (var i = 0; i < selectedAdvertiserBlocks.length; i++) {
+          var item = this.collection.get(selectedAdvertiserBlocks[i]);
+          vos.push(item);
+        }
+      this.trigger('Block:AdvertiserBlock', vos);
+      $('#close_modal').trigger('click');
+      }
     },
 
   });
@@ -266,27 +360,82 @@
     },
 
     _initializeBlockedAdvertiserListView: function() {
-      this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView();
+      this.blockedAdvertiserList = new BlockSites.BlockedAdvertiserList();
+      this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
       this.blockedAdvertiserListView.on('Show:AdvertiserListModalView', this._showAdvertiserModalView, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
 
     _showAdvertiserModalView: function() {
-      this.advertiserListModalView = new BlockSites.AdvertiserListModalView();
-      this.layout.modal.show(this.advertiserListModalView);
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        this.advertiserListModalView = new BlockSites.AdvertiserListModalView();
+        this.advertiserListModalView.on('Block:Advertiser', this._onBlockAdvertiser, this);
+        this.layout.modal.show(this.advertiserListModalView);
+      }
+    },
+
+    _onBlockAdvertiser: function(vos) {
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        for (var i = 0; i < selectedSites.length; i++) {
+          // check for the site exist in block site list
+          var item = selectedSites[i];
+          var site = this.blockedAdvertiserList.findWhere({site_id: item.id});
+          if(!site) {
+            // site is not there add to blockedAdvertiserList collection
+            var blockedAdvertiser = new BlockSites.AdvertiserList(vos)
+            var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({site_id: item.id, site_name: item.get('name'), advertisers: blockedAdvertiser});
+            this.blockedAdvertiserList.add(newBlockedAdvertiser);
+          } else {
+            // site exist need to check if user is adding same advertisers or new one
+            for (var k = 0; k < vos.length; k++) {
+              if(site.get('advertisers').get({id:vos[k].id}) == null)
+                site.get('advertisers').add(vos[k]);
+            }
+          }
+        }
+      }
     },
 
     _initializeBlockedAdvertiserBlockListView: function() {
-      this.blockedAdvertiserBlockListView = new BlockSites.BlockedAdvertiserBlockListView();
+      this.blockedAdvertiserBlockList = new BlockSites.BlockedAdvertiserBlockList();
+      this.blockedAdvertiserBlockListView = new BlockSites.BlockedAdvertiserBlockListView({collection: this.blockedAdvertiserBlockList});
       this.blockedAdvertiserBlockListView.on('Show:AdvertiserBlockModalView', this._showAdvertiserBlockModalView, this);
       this.layout.blockedAdvertiserBlockListView.show(this.blockedAdvertiserBlockListView);
     },
 
     _showAdvertiserBlockModalView:function() {
-      this.advertiserBlockListModalView = new BlockSites.AdvertiserBlockListModalView();
-      this.layout.modal.show(this.advertiserBlockListModalView);
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        this.advertiserBlockListModalView = new BlockSites.AdvertiserBlockListModalView();
+        this.advertiserBlockListModalView.on('Block:AdvertiserBlock', this._onBlockAdvertiserBlock, this);
+        this.layout.modal.show(this.advertiserBlockListModalView);
+      }
     },
 
+    _onBlockAdvertiserBlock: function(vos) {
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        for (var i = 0; i < selectedSites.length; i++) {
+          // check for the site exist in block site list
+          var item = selectedSites[i];
+          var site = this.blockedAdvertiserBlockList.findWhere({site_id: item.id});
+          if(!site) {
+            // site is not there add to blockedAdvertiserBlockList collection
+            var blockedAdvertiserBlocks = new BlockSites.AdvertiserBlockList(vos)
+            var newAdvertiserBlock = new BlockSites.BlockedAdvertiserBlock({site_id: item.id, site_name: item.get('name'), advertiserBlocks: blockedAdvertiserBlocks});
+            this.blockedAdvertiserBlockList.add(newAdvertiserBlock);
+          } else {
+            // site exist need to check if user is adding same advertisers or new one
+            for (var k = 0; k < vos.length; k++) {
+              if(site.get('advertiserBlocks').get({id:vos[k].id}) == null)
+                site.get('advertiserBlocks').add(vos[k]);
+            }
+          }
+        }
+      }
+    },
 
   });
 
