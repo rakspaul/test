@@ -147,7 +147,7 @@
 
       this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set(this.dataset['name'], newValue); //update backbone model;
+          self.model.set($(this).data('name'), newValue); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
         }
@@ -156,7 +156,7 @@
       this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set(this.dataset['name'], date); //update backbone model
+          self.model.set($(this).data('name'), date); //update backbone model
         },
         datepicker: {
           startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
@@ -165,7 +165,7 @@
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          self.model.set(this.dataset['name'], newValue); //update backbone model
+          self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
 
