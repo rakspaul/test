@@ -13,7 +13,7 @@
   <% for(var prop in selected_key_values) { selected_kv_ids.push(parseInt(selected_key_values[prop].id)); } %>
 
   <div class="tab key-values">
-    <select multiple class="chosen-select" name="keyvalues" style="width:95%;">
+    <select multiple class="chosen-select" name="keyvalues" data-placeholder="Select Audience Groups..." style="width:95%;">
       <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <option value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
       <% } %>
@@ -24,14 +24,14 @@
       <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
       <% } %>
-    </div>
+      </div>
   </div>
 
   <% var selected_dmas_ids = [] %>
   <% for(var prop in selected_dmas) { selected_dmas_ids.push(parseInt(selected_dmas[prop].id)); } %>
 
   <div class="tab dmas" style="display:none">
-    <select multiple class="chosen-select" name="dmas" style="width:95%;">
+    <select multiple class="chosen-select" name="dmas" data-placeholder="Select DMAs..." style="width:95%;">
       <% for (var i = 0; i < dmas_list.length; i++) { %>
       <option value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
       <% } %>
