@@ -39,7 +39,7 @@
     onRender: function() {
       var self = this;
 
-      this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "400px"}).change(function(e, el) {
+      this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "97%"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
         var selected_values = $(this).val();
         var selected = []
@@ -63,7 +63,7 @@
         self._renderSelectedTargetingOptions();
       });
 
-      this.$el.find('.key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "400px"}).change(function(e, el) {
+      this.$el.find('.key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "97%"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
         var selected_values = $(this).val();
         var selected = []
@@ -84,8 +84,9 @@
             this.checked = false;
           }
         });
+    
         self._renderSelectedTargetingOptions();
-      });
+      });    
 
       this._renderSelectedTargetingOptions();
     },

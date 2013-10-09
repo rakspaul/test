@@ -1,4 +1,4 @@
-json.array! @order.lineitems do |lineitem|
+json.array! @lineitems do |lineitem|
   json.partial! 'lineitem.json.builder', lineitem: lineitem
 
   json.creatives do

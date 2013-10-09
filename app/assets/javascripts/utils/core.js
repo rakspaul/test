@@ -85,3 +85,23 @@ ReachUI.showCondensedTargetingOptions = function() {
 ReachUI.alignAdsDivs = function() {
   _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
 };
+
+ReachUI.checkOrderStatus = function(order_id) {
+  var current_order_state = $('.current-io-status-top').html();
+
+  if(current_order_state.trim() == "Pushing") {
+    // pulsate the 'Pushing' status
+    $('.current-io-status-top').effect('pulsate', {duration: 9000000, times: 10000}); // 25h
+
+    // check every 2 seconds whether order was pushed or failed
+    var statusCheckTimer = setInterval(function() {
+      $.get('/orders/'+order_id+'/status', function(resp) {
+        if(resp.status != "Pushing") {
+          $('.current-io-status-top').stop(true, true); // stop current running animation
+          $('.current-io-status-top').css('opacity', 1).html(resp.status)
+          clearInterval(statusCheckTimer);
+        }
+      });
+    }, 2000);
+  }
+}

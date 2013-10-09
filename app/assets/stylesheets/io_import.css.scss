@@ -419,13 +419,6 @@ $error_color: #ff7d78;
     .tab.zip-codes textarea {
       width: 95%;
     }
-
-    .tab.key-values {
-      height: 200px;
-      border: 1px solid;
-      overflow: auto;
-      padding: 5px;
-    }
   }
 
   .save-targeting-btn {
@@ -465,7 +458,7 @@ $error_color: #ff7d78;
     }
   }
 
-  .dmas-checkboxes-container {
+  .dmas-checkboxes-container, .key-values-checkboxes-container {
     width: 95%;
     float: left;
     height: 200px;

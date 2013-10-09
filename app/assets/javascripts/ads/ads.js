@@ -76,12 +76,10 @@
       _.each(this.options.parent_view.model.ads, function(ad) {
         var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
         sum_ad_imps += imps;
-        if(imps > li_imps) {
-          alert("Ad impressions exceed LI impressions");
-        }
       });
       if(sum_ad_imps > li_imps) {
-        alert("Sum of Ad impressions exceed LI impressions");
+        alert("Add impressions must not exceed line item impressions. Please correct this and save your order");
+        this.$el.find('.volume .errors_container').html("Ad Impressions exceed Line Item Impressions for Contract Line Item");
       }
     },
 

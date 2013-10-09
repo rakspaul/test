@@ -195,6 +195,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
+    ReachUI.checkOrderStatus(order.id);
   },
 
   _showNewLineItemView: function(order) {
@@ -462,7 +463,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li = li_view.model;
 
       var ad_name = ordersController._generateAdName(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes')});
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes')});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
@@ -498,9 +499,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // only if `show` action
     if(lineItemList.order.id) {
       // set targeting for existing Order
-
+      var itemIndex = 1;
       _.each(lineItemListView.children._views, function(li_view, li_name) {
         var li            = li_view.model;
+
+        li.set('itemIndex', itemIndex);
+        itemIndex += 1;
+
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
@@ -561,8 +566,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ags.fetch().done(dmas.fetch({
         success: function(collection, response, options) {
           var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+          var itemIndex = 1;
+
           _.each(lineItemListView.children._views, function(li_view, li_name) {
             var li   = li_view.model;
+
+            li.set('itemIndex', itemIndex);
+            itemIndex += 1;
+
             li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
             li_view.renderTargetingDialog();
             li_view._recalculateMediaCost();

@@ -1,6 +1,6 @@
 <div class="li-command-btns"></div>
 
-<div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">Contract LI</div>
+<div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">Contract LI<br/><%= lineitem.alt_ad_id || lineitem.itemIndex %></div>
 
 <div class="pure-u-1-12 start-date">
   <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">

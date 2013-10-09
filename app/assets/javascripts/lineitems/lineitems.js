@@ -313,7 +313,7 @@
                   });
 
                   if(li_errors_list.length > 0) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors').addClass('field_with_errors').html(li_errors_list.join('; '));
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors_container').addClass('field_with_errors').html(li_errors_list.join('; '));
                   }
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
@@ -348,13 +348,16 @@
     },
 
     _changeStatus: function(status) {
-      var order_id = this.collection.order.id;
-      var url = '/orders/' + this.collection.order.get('id') + '/change_status';
+      var order_id = this.collection.order.get('id');
+      var url = '/orders/'+order_id+'/change_status';
       if(order_id) {
         jQuery.post(url, {status: status}).done(function(resp) {
           if(resp.status == 'success') {
             $('#change-order-status-dialog').modal('show').on('hidden', function () {
-              ReachUI.Orders.router.navigate('/'+ order_id, {trigger: true});
+              $('.current-io-status-top').html(resp.state);
+              if(resp.state == 'Pushing') {
+                ReachUI.checkOrderStatus(order_id);
+              }
             });
           } else {
             $('#change-order-status-dialog .modal-body p').html(resp.message);

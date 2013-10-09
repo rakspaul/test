@@ -11,12 +11,12 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
+    @notes = @order.order_notes.joins(:user).order("created_at desc")
+
     respond_to do |format|
       format.html
-      format.json do
-        @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
-        @notes = @order.order_notes.joins(:user).order("created_at desc")
-      end
+      format.json
     end
   end
 
@@ -69,7 +69,7 @@ class OrdersController < ApplicationController
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
     @order.network_advertiser_id = params[:order][:advertiser_id].to_i
-    @order.sales_person_id = sales_person.id
+    @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
     @order.user = current_user
 
@@ -190,9 +190,14 @@ class OrdersController < ApplicationController
       order.io_detail.push!
     end
 
-    render json: {status: "success"}
+    render json: {status: "success", state: order.io_detail.try(:state).to_s.humanize.capitalize}
   rescue AASM::InvalidTransition => e
     render json: {status: "error", message: e.message}
+  end
+
+  def status
+    order = Order.find(params[:id])
+    render json: {status: order.io_detail.try(:state).to_s.humanize.capitalize}
   end
 
 private
@@ -274,12 +279,24 @@ private
 
   def find_or_create_media_contact(params, reach_client)
     p = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
-    MediaContact.find_or_create_by!(name: p[:media_contact_name], email: p[:media_contact_email], phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    mc = MediaContact.find_by(name: p[:media_contact_name], email: p[:media_contact_email])
+    if mc
+      mc.update_attributes(phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    else
+      mc = MediaContact.create!(name: p[:media_contact_name], email: p[:media_contact_email], phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    end
+    mc
   end
 
   def find_or_create_billing_contact(params, reach_client)
     p = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
-    BillingContact.find_or_create_by!(name: p[:billing_contact_name], email: p[:billing_contact_email], phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    bc = BillingContact.find_by(name: p[:billing_contact_name], email: p[:billing_contact_email])
+    if bc
+      bc.update_attributes(phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    else
+      bc = BillingContact.create!(name: p[:billing_contact_name], email: p[:billing_contact_email], phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    end
+    bc
   end
 
   def store_io_asset params
@@ -298,6 +315,7 @@ private
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:targeted_zipcodes)
       li[:lineitem].delete(:selected_dmas)
+      li[:lineitem].delete(:itemIndex)
       li[:lineitem].delete(:selected_key_values)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
@@ -397,6 +415,7 @@ private
     params.to_a.each_with_index do |li, i|
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
+      li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       lineitem = @order.lineitems.build(li[:lineitem])

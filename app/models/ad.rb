@@ -21,7 +21,7 @@ class Ad < ActiveRecord::Base
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
 
-      creative = Creative.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id].to_s)
+      creative = self.lineitem.creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       if creative
         creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id], width: width, height: height, redirect_url: cparams[:redirect_url])
 
