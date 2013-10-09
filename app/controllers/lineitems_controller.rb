@@ -8,6 +8,7 @@ class LineitemsController < ApplicationController
   # GET orders/{order_id}/lineitems
   def index
     @order = Order.find(params[:order_id])
+    @lineitems = @order.lineitems.order('alt_ad_id ASC')
   end
 
   # GET orders/{order_id}/lineitems/new
