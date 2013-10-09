@@ -313,7 +313,7 @@
                   });
 
                   if(li_errors_list.length > 0) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors').addClass('field_with_errors').html(li_errors_list.join('; '));
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors_container').addClass('field_with_errors').html(li_errors_list.join('; '));
                   }
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
