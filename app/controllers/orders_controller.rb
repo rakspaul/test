@@ -278,12 +278,24 @@ private
 
   def find_or_create_media_contact(params, reach_client)
     p = params.require(:order).permit(:media_contact_name, :media_contact_email, :media_contact_phone)
-    MediaContact.find_or_create_by!(name: p[:media_contact_name], email: p[:media_contact_email], phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    mc = MediaContact.find_by(name: p[:media_contact_name], email: p[:media_contact_email])
+    if mc
+      mc.update_attributes(phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    else
+      mc = MediaContact.create!(name: p[:media_contact_name], email: p[:media_contact_email], phone: p[:media_contact_phone], reach_client_id: reach_client.id)
+    end
+    mc
   end
 
   def find_or_create_billing_contact(params, reach_client)
     p = params.require(:order).permit(:billing_contact_name, :billing_contact_phone, :billing_contact_email)
-    BillingContact.find_or_create_by!(name: p[:billing_contact_name], email: p[:billing_contact_email], phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    bc = BillingContact.find_by(name: p[:billing_contact_name], email: p[:billing_contact_email])
+    if bc
+      bc.update_attributes(phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    else
+      bc = BillingContact.create!(name: p[:billing_contact_name], email: p[:billing_contact_email], phone: p[:billing_contact_phone], reach_client_id: reach_client.id)
+    end
+    bc
   end
 
   def store_io_asset params

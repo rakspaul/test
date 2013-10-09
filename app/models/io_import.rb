@@ -153,6 +153,8 @@ class IoImport
       if !mc
         @media_contact_unknown = true
         mc = MediaContact.new(name: c[:name], email: c[:email], phone: c[:phone])
+      else
+        mc.phone = c[:phone]
       end
       mc
     end
@@ -163,6 +165,8 @@ class IoImport
       if !bc
         @billing_contact_unknown = true
         bc = BillingContact.new(name: c[:name], email: c[:email], phone: c[:phone])
+      else
+        bc.phone = c[:phone]
       end
       bc
     end
