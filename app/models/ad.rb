@@ -12,6 +12,8 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :description, uniqueness: { message: "The following Ads have duplicate names. Please ensure the Ad names are unique", scope: :order_id }
+  validates :start_date, future_date: true
+  validates_dates_range :end_date, after: :start_date
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create any Creatives here
   def save_creatives(creatives_params)

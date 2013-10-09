@@ -22,6 +22,8 @@ class Lineitem < ActiveRecord::Base
   validates :rate, numericality: { greater_than_or_equal_to: 0 }
   validates :ad_sizes, ad_size: true
   validate :flight_dates_with_in_order_range
+  validates :start_date, future_date: true
+  validates_dates_range :end_date, after: :start_date
 
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes
