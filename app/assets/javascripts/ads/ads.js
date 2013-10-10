@@ -108,8 +108,6 @@
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
 
       this.ui.creatives_container.toggle('slow', function() {
-        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
-
         // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
         self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
 
@@ -123,6 +121,8 @@
 
         var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
         self.ui.ads_sizes.html(uniq_creative_sizes);
+
+        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
       });
     },
 
@@ -153,11 +153,17 @@
 
       this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
         success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD");
+          var date = moment(newValue).format("YYYY-MM-DD"),
+              field = $(this).data('name');
+          if (self.model.get('creatives').models) {
+            _.each(self.model.get('creatives').models, function(creative) {
+              creative.set(field, date);
+            });
+          }
           self.model.set($(this).data('name'), date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       });
 
@@ -179,9 +185,32 @@
         self.renderTargetingDialog();
       }
 
+      this.renderCreatives();
+
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
         this.ui.creatives_container.show();
+        this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
+      }
+    },
+
+    renderCreatives: function() {
+      var ad_view = this,
+          li_view = this.options.parent_view;
+
+      // rendering template for Creatives Dialog layout
+      // parent_view here set to **this view** so 'Done' button in creatives dialog will work correctly
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({itemViewContainer: '.ads-creatives-list-view', parent_view: this});
+      this.ui.creatives_container.html(creatives_list_view.render().el);
+
+      // rendering each Creative
+      if (this.model.get('creatives').models) {
+        _.each(this.model.get('creatives').models, function(creative) {
+          creative.set('order_id', li_view.model.get('order_id'));
+          creative.set('lineitem_id', li_view.model.get('id'));
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
       }
     },
 

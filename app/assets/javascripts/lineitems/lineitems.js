@@ -113,7 +113,7 @@
           view.model.collection.order.set("start_date", min_date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       });
 
@@ -129,7 +129,7 @@
           view.model.collection.order.set("end_date", max_date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       }); 
 
@@ -196,25 +196,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-
       ReachUI.alignAdsDivs();
-
-      // rendering template for Creatives Dialog layout
-      // parent_view here set to **ad_view** so 'Done' button in creatives dialog will work correctly
-      var creatives_list_view = new ReachUI.Creatives.CreativesListView({itemViewContainer: '.ads-creatives-list-view', parent_view: ad_view});
-      ad_view.ui.creatives_container.html(creatives_list_view.render().el);
-
-      ad_view.renderTargetingDialog();
-
-      // rendering each Creative
-      if(ad_view.model.get('creatives').models) {
-        _.each(ad_view.model.get('creatives').models, function(creative) {
-          creative.set('order_id', li_view.model.get('order_id'));
-          creative.set('lineitem_id', li_view.model.get('id'));
-          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
-          creatives_list_view.ui.creatives.append(creativeView.render().el);
-        });
-      }
     },
 
     _updateCreativesCaption: function() {

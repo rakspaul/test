@@ -214,7 +214,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         $('.order-details .start-date').removeClass('field_with_errors');
       },
       datepicker: {
-        startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+        startDate: moment().format("YYYY-MM-DD")
       }
     });
 
@@ -226,7 +226,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         $('.order-details .end-date').removeClass('field_with_errors');
       },
       datepicker: {
-        startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+        startDate: moment().format("YYYY-MM-DD")
       }
     });
   },
