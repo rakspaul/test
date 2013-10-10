@@ -39,6 +39,7 @@ json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
 json.account_contact_phone    io_detail.account_manager_phone
 json.account_contact_email    io_detail.account_manager_email
 
+json.order_name_dup           order_name_dup
 json.sales_person_unknown     sales_person_unknown
 json.account_contact_unknown  account_contact_unknown
 json.media_contact_unknown    media_contact_unknown
