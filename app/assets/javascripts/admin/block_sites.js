@@ -36,11 +36,17 @@
   BlockSites.Layout = Backbone.Marionette.Layout.extend({
     template: JST['templates/admin/block_sites/block_sites_layout'],
 
+    triggers: {
+      'click #btnSave' : 'Save:SiteBlock',
+      'click #btnCommit' : 'Commit:SiteBlock',
+    },
+
     regions: {
       siteListView: '#siteListView',
       blockedAdvertiserListView: '#blockedAdvertiserListView',
       blockedAdvertiserBlockListView: '#blockedAdvertiserBlockListView',
     },
+
   });
 
 // --------------------/ Models /------------------------------------
@@ -66,16 +72,154 @@
     model: BlockSites.AdvertiserBlock,
   });
 
-  BlockSites.BlockedAdvertiser = Backbone.Model.extend({});
+  BlockSites.BlockedAdvertiser = Backbone.Model.extend({
+    addAdvertiser: function(item) {
+      this.get('advertisers').add(item);
+    },
+
+    getAdvertiser: function() {
+      return this.get('advertisers');
+    },
+
+    findAdvertiser: function(id) {
+      return this.get('advertisers').findWhere({advertiser_id:id});
+    },
+  });
+
+  //BlockedAdvertiserList will hold the data in tree format like
+  // [
+  //   {
+  //     site_id
+  //     site_name
+  //     advertisers:[
+  //       {
+  //         id
+  //         advertiser_id
+  //         advertiser_name
+  //         site_id
+  //       }
+  //     ]
+  //   }
+  // ]
 
   BlockSites.BlockedAdvertiserList = Backbone.Collection.extend({
     model: BlockSites.BlockedAdvertiser,
+    url: function() {
+      return '/admin/blocked_advertiser.json?site_id='+ this.sites.join(',');
+    },
+
+    setSites: function(sites) {
+      this.sites = sites;
+    },
+
+    // parse method will convert the data in tree format
+    parse: function(response) {
+      this.reset();
+      for (var i = 0; i < response.length; i++) {
+        if (response[i] != undefined) {
+          var site = {};
+            site.site_id = response[i].site_id;
+            site.site_name = response[i].site_name;
+            site.advertisers = new BlockSites.BlockedAdvertiserList();
+
+            for (var k = 0; k < response.length; k++) {
+              if (response[k] != undefined) {
+                if(site.site_id === response[k].site_id) {
+                  var id = response[k].id,
+                  advertiser_id = response[k].advertiser_id,
+                  advertiser_name= response[k].advertiser_name,
+                  site_id= response[k].site_id;
+
+                  site.advertisers.add({
+                    id: id,
+                    advertiser_id: advertiser_id,
+                    advertiser_name: advertiser_name,
+                    site_id: site_id
+                  });
+                  delete response[k];
+                }
+              }
+            }
+          this.push(site);
+        }
+      }
+      return this.models;
+    },
   });
 
-  BlockSites.BlockedAdvertiserBlock = Backbone.Model.extend({});
+  BlockSites.BlockedAdvertiserBlock = Backbone.Model.extend({
+    addAdvertiserBlock: function(item) {
+      this.get('advertiserBlocks').add(item);
+    },
+
+    getAdvertiserBlocks: function() {
+      return this.get('advertiserBlocks');
+    },
+
+    findAdvertiserBlock: function(id) {
+      return this.get('advertiserBlocks').findWhere({advertiser_block_id:id});
+    },
+  });
+
+  //BlockedAdvertiserBlockList will hold the data in tree format like
+  // [
+  //   {
+  //     site_id
+  //     site_name
+  //     advertiserBlocks:[
+  //       {
+  //         id
+  //         advertiser_block_id
+  //         advertiser_block_name
+  //         site_id
+  //       }
+  //     ]
+  //   }
+  // ]
 
   BlockSites.BlockedAdvertiserBlockList = Backbone.Collection.extend({
     model: BlockSites.BlockedAdvertiserBlock,
+    url: function() {
+      return '/admin/blocked_advertiser_blocks.json?site_id='+ this.sites.join(',');
+    },
+
+    setSites: function(sites) {
+      this.sites = sites;
+    },
+
+    parse: function(response) {
+      this.reset();
+      for (var i = 0; i < response.length; i++) {
+        if (response[i] != undefined) {
+          var site = {};
+            site.site_id = response[i].site_id;
+            site.site_name = response[i].site_name;
+            site.advertiserBlocks = new BlockSites.BlockedAdvertiserBlockList();
+
+            for (var k = 0; k < response.length; k++) {
+              if (response[k] != undefined) {
+                if(site.site_id === response[k].site_id) {
+                  var id = response[k].id,
+                  advertiser_block_id = response[k].advertiser_group_id,
+                  advertiser_block_name= response[k].advertiser_group_name,
+                  site_id= response[k].site_id;
+
+                  site.advertiserBlocks.add({
+                    id: id,
+                    advertiser_block_id: advertiser_block_id,
+                    advertiser_block_name: advertiser_block_name,
+                    site_id: site_id
+                  });
+                  delete response[k];
+                }
+              }
+            }
+          this.push(site);
+        }
+      }
+      return this.models;
+    },
+
   });
 
 // --------------------/ Views /------------------------------------
@@ -94,7 +238,8 @@
 
     events: {
       'click #search_button': 'onSearch',
-      'keypress #search_input': 'onSearch'
+      'keypress #search_input': 'onSearch',
+      'change #sitesList' : 'onSiteListChange',
     },
 
     ui:{
@@ -132,13 +277,21 @@
         return [];
       }
     },
+
+    onSiteListChange: function(event) {
+      var selectedSites = this.ui.site_list.val();
+      if(selectedSites && selectedSites.length>0) {
+        this.trigger('Get:SiteBlocks', selectedSites)
+      }
+    }
+
   });
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= name%>'),
+    template: _.template('<%= advertiser_name%>'),
     attributes: function() {
-      return {value: this.model.get('id')};
+      return {value: this.model.get('advertiser_id')};
     },
   });
 
@@ -177,14 +330,13 @@
     },
 
     _onRemoveAdvertiserClick: function(event) {
-      console.log(this.ui.blocked_advertiser_list.val());
     },
 
   });
 
   BlockSites.BlockedAdvertiserBlockView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= name%>'),
+    template: _.template('<%= advertiser_block_name%>'),
     attributes: function() {
       return {value: this.model.id};
     },
@@ -344,18 +496,23 @@
       this._initializeSiteListView();
       this._initializeBlockedAdvertiserListView();
       this._initializeBlockedAdvertiserBlockListView();
+      _.bindAll(this, '_onSuccess');
     },
 
     _initializeLayout: function() {
       this.detailRegion = new BlockSites.DetailRegion();
 
       this.layout = new BlockSites.Layout();
+      this.layout.on('Save:SiteBlock', this._onSaveSiteBlock, this);
+      this.layout.on('Commit:SiteBlock', this._onCommitSiteBlock, this);
+
       this.detailRegion.show(this.layout);
       this.layout.addRegions({'modal': new BlockSites.ModalRegion({el:'#modal'})});
     },
 
     _initializeSiteListView: function() {
       this.siteListView = new BlockSites.SiteListView();
+      this.siteListView.on('Get:SiteBlocks', this._getSiteBlocks, this);
       this.layout.siteListView.show(this.siteListView);
     },
 
@@ -364,38 +521,6 @@
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
       this.blockedAdvertiserListView.on('Show:AdvertiserListModalView', this._showAdvertiserModalView, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
-    },
-
-    _showAdvertiserModalView: function() {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        this.advertiserListModalView = new BlockSites.AdvertiserListModalView();
-        this.advertiserListModalView.on('Block:Advertiser', this._onBlockAdvertiser, this);
-        this.layout.modal.show(this.advertiserListModalView);
-      }
-    },
-
-    _onBlockAdvertiser: function(vos) {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        for (var i = 0; i < selectedSites.length; i++) {
-          // check for the site exist in block site list
-          var item = selectedSites[i];
-          var site = this.blockedAdvertiserList.findWhere({site_id: item.id});
-          if(!site) {
-            // site is not there add to blockedAdvertiserList collection
-            var blockedAdvertiser = new BlockSites.AdvertiserList(vos)
-            var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({site_id: item.id, site_name: item.get('name'), advertisers: blockedAdvertiser});
-            this.blockedAdvertiserList.add(newBlockedAdvertiser);
-          } else {
-            // site exist need to check if user is adding same advertisers or new one
-            for (var k = 0; k < vos.length; k++) {
-              if(site.get('advertisers').get({id:vos[k].id}) == null)
-                site.get('advertisers').add(vos[k]);
-            }
-          }
-        }
-      }
     },
 
     _initializeBlockedAdvertiserBlockListView: function() {
@@ -414,6 +539,81 @@
       }
     },
 
+    // When user selects the site this method will fetch the blocked advertisers and advertiser blocks
+    _getSiteBlocks: function(sites) {
+      this.blockedAdvertiserList.setSites(sites);
+      this.blockedAdvertiserBlockList.setSites(sites);
+      this.blockedAdvertiserList.fetch({reset:true});
+      this.blockedAdvertiserBlockList.fetch({reset:true});
+    },
+
+    _showAdvertiserModalView: function() {
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        this.advertiserListModalView = new BlockSites.AdvertiserListModalView();
+        this.advertiserListModalView.on('Block:Advertiser', this._onBlockAdvertiser, this);
+        this.layout.modal.show(this.advertiserListModalView);
+      }
+    },
+
+    // When user selects advertiser to block
+    // First check if that site exists in the list
+    // If No create new object and add it to the list
+    // If Yes add selected advertiser to the list
+
+    _onBlockAdvertiser: function(vos) {
+      var selectedSites = this.siteListView.getSelectedSites();
+      if (selectedSites && selectedSites.length > 0) {
+        for (var i = 0; i < selectedSites.length; i++) {
+          // check for the site exist in block site list
+          var item = selectedSites[i];
+          var site = this.blockedAdvertiserList.findWhere({site_id: item.id});
+          if(!site) {
+            // site is not there add to blockedAdvertiserList collection
+            var blockedAdvertiser = this._createNewBlockedAdvertiserObject(item.id, item.get('name'), vos)
+            this.blockedAdvertiserList.add(blockedAdvertiser);
+          } else {
+            // site exist need to check if user is adding same advertisers or new one
+            for (var k = 0; k < vos.length; k++) {
+              if(site.findAdvertiser(vos[k].get('id')) == undefined)
+                site.addAdvertiser(this._createAdvertiserModel(vos[k], site.get('site_id')));
+            }
+          }
+        }
+      }
+    },
+
+    _createNewBlockedAdvertiserObject: function(site_id, site_name, advertisers) {
+      var blockedAdvertiser = new BlockSites.AdvertiserList(this._createAdvertiserModelArray(advertisers, site_id));
+      var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({
+        site_id: site_id,
+        site_name: site_name,
+        advertisers: blockedAdvertiser
+      });
+      return newBlockedAdvertiser;
+    },
+
+    _createAdvertiserModelArray: function(advertisers, site_id) {
+      var items = [];
+      for (var i = 0; i < advertisers.length; i++) {
+        var item = this._createAdvertiserModel(advertisers[i], site_id);
+        items.push(item);
+      }
+      return items;
+    },
+
+    _createAdvertiserModel: function(advertiser, site_id) {
+      var advertiser_id = advertiser.id,
+      name = advertiser.get('name');
+
+      return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name})
+    },
+
+    // When user selects advertiser block to block
+    // First check if that site exists in the list
+    // If No create new object and add it to the list
+    // If Yes add selected advertiser block to the list
+
     _onBlockAdvertiserBlock: function(vos) {
       var selectedSites = this.siteListView.getSelectedSites();
       if (selectedSites && selectedSites.length > 0) {
@@ -423,18 +623,89 @@
           var site = this.blockedAdvertiserBlockList.findWhere({site_id: item.id});
           if(!site) {
             // site is not there add to blockedAdvertiserBlockList collection
-            var blockedAdvertiserBlocks = new BlockSites.AdvertiserBlockList(vos)
-            var newAdvertiserBlock = new BlockSites.BlockedAdvertiserBlock({site_id: item.id, site_name: item.get('name'), advertiserBlocks: blockedAdvertiserBlocks});
-            this.blockedAdvertiserBlockList.add(newAdvertiserBlock);
+            var blockedAdvertiserBlocks = this._createNewBlockedAdvertiserBlockObject(item.id, item.get('name'), vos);
+            this.blockedAdvertiserBlockList.add(blockedAdvertiserBlocks);
           } else {
             // site exist need to check if user is adding same advertisers or new one
             for (var k = 0; k < vos.length; k++) {
-              if(site.get('advertiserBlocks').get({id:vos[k].id}) == null)
-                site.get('advertiserBlocks').add(vos[k]);
+              if(site.findAdvertiserBlock(vos[k].get('id')) == undefined)
+                site.addAdvertiserBlock(this._createAdvertiserBlockModel(vos[k], site.get('site_id')));
             }
           }
         }
       }
+    },
+
+    _createNewBlockedAdvertiserBlockObject: function(site_id, site_name, advertiser_blocks) {
+      var blockedAdvertiserBlock = new BlockSites.AdvertiserBlockList(this._createAdvertiserBlockModelArray(advertiser_blocks, site_id));
+      var newBlockedAdvertiserBlock = new BlockSites.BlockedAdvertiserBlock({
+        site_id: site_id,
+        site_name: site_name,
+        advertiserBlocks: blockedAdvertiserBlock
+      });
+      return newBlockedAdvertiserBlock;
+    },
+
+    _createAdvertiserBlockModelArray: function(advertiser_blocks, site_id) {
+      var items = [];
+      for (var i = 0; i < advertiser_blocks.length; i++) {
+        var item = this._createAdvertiserBlockModel(advertiser_blocks[i], site_id);
+        items.push(item);
+      }
+      return items;
+    },
+
+    _createAdvertiserBlockModel: function(advertiser_block, site_id) {
+      var advertiser_block_id = advertiser_block.id,
+      name = advertiser_block.get('name');
+
+      return new BlockSites.AdvertiserBlock({site_id: site_id, advertiser_block_id: advertiser_block_id, advertiser_block_name: name})
+    },
+
+
+    // Check the collection for new object using backbone's isNew() method
+    _onSaveSiteBlock: function(event) {
+      // find out newly added advertisers
+      var newBlockedAdvertisers = [],
+      newBlockedAdvertiserBlocks = [],
+      para = {};
+
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertiser().each(function(advertiser) {
+          if(advertiser.isNew()) {
+            newBlockedAdvertisers.push(advertiser.toJSON());
+          }
+        })
+      }, this);
+
+      if (newBlockedAdvertisers.length > 0) {
+        para.blocked_advertisers = JSON.stringify(newBlockedAdvertisers)
+      }
+
+      this.blockedAdvertiserBlockList.each(function(site) {
+        site.getAdvertiserBlocks().each(function(advertiser_block) {
+          if(advertiser_block.isNew()) {
+            newBlockedAdvertiserBlocks.push(advertiser_block.toJSON());
+          }
+        })
+      }, this);
+
+      if (newBlockedAdvertiserBlocks.length > 0) {
+        para.blocked_advertiser_blocks = JSON.stringify(newBlockedAdvertiserBlocks)
+      }
+
+      if(newBlockedAdvertisers.length > 0 || newBlockedAdvertiserBlocks.length > 0) {
+        $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, dataType: 'json'});
+      }
+    },
+
+    _onSuccess: function(event) {
+      this.blockedAdvertiserList.fetch({reset:true});
+      this.blockedAdvertiserBlockList.fetch({reset:true});
+    },
+
+    _onCommitSiteBlock: function(event) {
+
     },
 
   });

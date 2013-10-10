@@ -21,6 +21,8 @@ Reachui::Application.routes.draw do
     resources :block_sites
     resources :media_contacts
     resources :billing_contacts
+    resources :blocked_advertiser, :controller => "block_sites", :type => "BlockedAdvertiser"
+    resources :blocked_advertiser_blocks, :controller => "block_sites", :type => "BlockedAdvertiserBlock"
   end
 
   resources :users do
