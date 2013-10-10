@@ -108,8 +108,6 @@
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
 
       this.ui.creatives_container.toggle('slow', function() {
-        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
-
         // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
         self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
 
@@ -123,6 +121,8 @@
 
         var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
         self.ui.ads_sizes.html(uniq_creative_sizes);
+
+        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
       });
     },
 
@@ -184,6 +184,7 @@
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
         this.ui.creatives_container.show();
+        this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
     },
 
