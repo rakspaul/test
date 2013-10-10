@@ -33,4 +33,19 @@ class Ad < ActiveRecord::Base
       end
     end
   end
+
+  def save_targeting(targeting)
+    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
+      Zipcode.find_by(zipcode: zipcode.strip)
+    end
+    self.zipcodes = zipcodes.compact if !zipcodes.blank?
+
+    dmas = targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+    self.designated_market_areas = dmas.compact if !dmas.blank?
+
+    selected_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+      AudienceGroup.find_by(id: group_name[:id])
+    end
+    self.audience_groups = selected_groups if !selected_groups.blank?
+  end
 end

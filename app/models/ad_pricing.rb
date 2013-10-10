@@ -1,6 +1,8 @@
 class AdPricing < ActiveRecord::Base
   belongs_to :ad
 
+  validates :quantity, numericality: { only_integer: true, less_than_or_equal_to: ->(rec) { rec.ad.lineitem.volume.to_i }, message: "Ad Impressions exceed Line Item Impressions" }
+
   before_create :create_random_source_id
   before_validation :sanitize_attributes
 
