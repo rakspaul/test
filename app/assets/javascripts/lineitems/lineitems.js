@@ -113,7 +113,7 @@
           view.model.collection.order.set("start_date", min_date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       });
 
@@ -129,7 +129,7 @@
           view.model.collection.order.set("end_date", max_date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       }); 
 

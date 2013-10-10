@@ -6,7 +6,7 @@
   <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.start_date %>
   </span>
-  <% if (moment().isAfter(lineitem.start_date)) { %>
+  <% if (moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
   <div class="errors_container">Can not be in past</div>
   <% } %>
 </div>
@@ -15,7 +15,7 @@
   <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.end_date %>
   </span>
-  <% if (moment().isAfter(lineitem.end_date)) { %>
+  <% if (moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
   <div class="errors_container">Can not be in past</div>
   <% } %>
 </div>

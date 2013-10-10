@@ -163,7 +163,7 @@
           self.model.set($(this).data('name'), date); //update backbone model
         },
         datepicker: {
-          startDate: moment().subtract('days', 1).format("YYYY-MM-DD")
+          startDate: moment().format("YYYY-MM-DD")
         }
       });
 
