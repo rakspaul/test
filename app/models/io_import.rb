@@ -36,8 +36,9 @@ class IoImport
 
     read_order_and_details
     read_lineitems
-    calculate_order_flight_dates
     read_inreds
+
+    fix_order_flight_dates
 
     read_notes
   rescue => e
@@ -115,7 +116,7 @@ class IoImport
     end
 
     # order's start_date should be earliest of all lineitems, while end_date should be latest of all
-    def calculate_order_flight_dates
+    def fix_order_flight_dates
       if @lineitems.blank?
         @order.start_date = @reader.start_flight_date
         @order.end_date   = @reader.finish_flight_date
@@ -127,6 +128,14 @@ class IoImport
         end
         @order.start_date = min_start
         @order.end_date   = max_end
+      end
+
+      @lineitems.to_a.each do |li|
+        @inreds.select{|ir| ir[:placement] == li.name}.map! do |creative|
+          creative[:start_date] = li.start_date
+          creative[:end_date]   = li.end_date
+          creative
+        end
       end
     end
 
@@ -362,8 +371,6 @@ class IOExcelFileReader
       while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
-          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
           ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
