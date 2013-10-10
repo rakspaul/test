@@ -104,4 +104,8 @@ ReachUI.checkOrderStatus = function(order_id) {
       });
     }, 2000);
   }
-}
+};
+
+RegExp.escape= function(s) {
+    return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+};

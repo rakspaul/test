@@ -449,7 +449,22 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
-    return li.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+li.attributes.ad_sizes;
+    var ad_name = li.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+li.attributes.ad_sizes;
+
+    // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
+    var same_ad_names = 1;
+    _.each(li.ads, function(ad) {
+      var name_regexp = new RegExp("^"+RegExp.escape(ad_name));
+      if(ad.get('description').match(name_regexp)) {
+        same_ad_names += 1;
+      }
+    });
+
+    if(same_ad_names > 1) {
+      ad_name += " ("+same_ad_names+")";
+    }
+
+    return ad_name;
   },
 
   /////////////////////////////////////////////////////////////////////////////////////////
@@ -479,7 +494,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
-          source_ui_creative_id: li_creative.get('source_ui_creative_id'),
+          client_ad_id: li_creative.get('client_ad_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
