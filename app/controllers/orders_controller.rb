@@ -311,6 +311,8 @@ private
     li_errors = {}
 
     params.each_with_index do |li, i|
+      sum_of_ad_impressions = 0
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:targeted_zipcodes)
@@ -325,7 +327,8 @@ private
       if !lineitem.update_attributes(li[:lineitem])
         Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
-        li_errors[i][:lineitems] = lineitem.errors
+        li_errors[i][:lineitems] ||= {}
+        li_errors[i][:lineitems].merge!(lineitem.errors)
       else
         lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
         dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
@@ -342,6 +345,7 @@ private
 
         if lineitem.save
           lineitem.save_creatives(li_creatives)
+
           li[:ads].to_a.each_with_index do |ad, j|
             begin
               ad_targeting = ad[:ad].delete(:targeting)
@@ -366,27 +370,27 @@ private
               ad_object.cost_type = "CPM"
               ad_object.source_id = @order.source_id
 
-              zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
-                Zipcode.find_by(zipcode: zipcode.strip)
-              end
-              ad_object.zipcodes = zipcodes.compact if !zipcodes.blank?
-
-              dmas = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
-
-              ad_object.designated_market_areas = dmas.compact if !dmas.blank?
-
-              selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-                AudienceGroup.find_by(id: group_name[:id])
-              end
-              ad_object.audience_groups = selected_groups if !selected_groups.blank?
-
+              ad_object.save_targeting(ad_targeting)
+              
               ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
 
-              if ad_object.update_attributes(ad[:ad])
-                if ad_pricing = ad_object.ad_pricing
-                  ad_pricing.update_attributes(rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value)
-                else
-                  AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+              if ad_object.update_attributes(ad[:ad])  
+                ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
+
+                ad_pricing.rate = ad[:ad][:rate]
+                ad_pricing.quantity = ad_quantity
+                ad_pricing.value = ad_value
+
+                if !ad_pricing.save
+                  li_errors[i] ||= {:ads => {}}
+                  li_errors[i][:ads][j] = ad_pricing.errors
+                end
+
+                sum_of_ad_impressions += ad_pricing.quantity    
+                if sum_of_ad_impressions > lineitem.volume 
+                  li_errors[i] ||= {}
+                  li_errors[i][:lineitems] ||= {}
+                  li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
                 end
 
                 ad_object.save_creatives(ad_creatives)
@@ -413,6 +417,8 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
+      sum_of_ad_impressions = 0
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
@@ -450,23 +456,26 @@ private
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.cost_type = "CPM"
+            ad_object.alt_ad_id = lineitem.alt_ad_id
             ad_object.source_id = @order.source_id
 
-            zipcodes = ad_targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
-              Zipcode.find_by(zipcode: zipcode.strip)
-            end
-            ad_object.zipcodes = zipcodes.compact if !zipcodes.blank?
-
-            dmas = ad_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
-            ad_object.designated_market_areas = dmas.compact if !dmas.blank?
-
-            selected_groups = ad_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-              AudienceGroup.find_by(id: group_name[:id])
-            end
-            ad_object.audience_groups = selected_groups if !selected_groups.blank?
+            ad_object.save_targeting(ad_targeting)
 
             if ad_object.save
-              AdPricing.create ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+              ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+
+              if !ad_pricing.save
+                li_errors[i] ||= {:ads => {}}
+                li_errors[i][:ads][j] = ad_pricing.errors
+              end
+
+              sum_of_ad_impressions += ad_pricing.quantity    
+              if sum_of_ad_impressions > lineitem.volume 
+                li_errors[i] ||= {}
+                li_errors[i][:lineitems] ||= {}
+                li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
+              end
+
               ad_object.save_creatives(ad_creatives)
             else
               Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect

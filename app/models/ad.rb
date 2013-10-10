@@ -23,14 +23,29 @@ class Ad < ActiveRecord::Base
 
       creative = self.lineitem.creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       if creative
-        creative.update_attributes(size: cparams[:ad_size], source_ui_creative_id: cparams[:source_ui_creative_id], width: width, height: height, redirect_url: cparams[:redirect_url])
+        creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url])
 
-        if creative.ad_assignment
-          creative.ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
+        if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
+          ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
         else
           AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
         end
       end
     end
+  end
+
+  def save_targeting(targeting)
+    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
+      Zipcode.find_by(zipcode: zipcode.strip)
+    end
+    self.zipcodes = zipcodes.compact if !zipcodes.blank?
+
+    dmas = targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+    self.designated_market_areas = dmas.compact if !dmas.blank?
+
+    selected_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+      AudienceGroup.find_by(id: group_name[:id])
+    end
+    self.audience_groups = selected_groups if !selected_groups.blank?
   end
 end

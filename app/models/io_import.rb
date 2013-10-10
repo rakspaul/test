@@ -3,7 +3,7 @@ require 'roo'
 class IoImport
   include ActiveModel::Validations
 
-  attr_reader :order, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
+  attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
 :trafficking_contact_unknown, :notes
@@ -77,6 +77,8 @@ class IoImport
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
+
+      @order_name_dup = Order.exists?(name: @order.name, network_advertiser_id: @advertiser)
 
       @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 
