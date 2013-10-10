@@ -153,7 +153,13 @@
 
       this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
         success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD");
+          var date = moment(newValue).format("YYYY-MM-DD"),
+              field = $(this).data('name');
+          if (self.model.get('creatives').models) {
+            _.each(self.model.get('creatives').models, function(creative) {
+              creative.set(field, date);
+            });
+          }
           self.model.set($(this).data('name'), date); //update backbone model
         },
         datepicker: {
