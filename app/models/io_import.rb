@@ -36,6 +36,7 @@ class IoImport
 
     read_order_and_details
     read_lineitems
+    calculate_order_flight_dates
     read_inreds
 
     read_notes
@@ -108,6 +109,22 @@ class IoImport
         li.order = @order
         li.user = @current_user
         @lineitems << li
+      end
+    end
+
+    # order's start_date should be earliest of all lineitems, while end_date should be latest of all
+    def calculate_order_flight_dates
+      if @lineitems.blank?
+        @order.start_date = @reader.start_flight_date
+        @order.end_date   = @reader.finish_flight_date
+      else
+        min_start, max_end = [@lineitems[0].start_date, @lineitems[0].end_date]
+        @lineitems.each do |li|
+          min_start = li.start_date if li.start_date < min_start
+          max_end   = li.end_date   if li.end_date > max_end
+        end
+        @order.start_date = min_start
+        @order.end_date   = max_end
       end
     end
 
@@ -300,10 +317,16 @@ class IOExcelFileReader
 
   def order
     {
-      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip,
-      start_date: start_flight_date,
-      end_date: finish_flight_date
+      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip
     }
+  end
+
+  def start_flight_date
+    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+  end
+
+  def finish_flight_date
+    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
   end
 
   def lineitems
@@ -328,14 +351,6 @@ class IOExcelFileReader
       row += 1
     end
     @spreadsheet.cell('B', row)
-  end
-
-  def start_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
-  end
-
-  def finish_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
   end
 
   def inreds
