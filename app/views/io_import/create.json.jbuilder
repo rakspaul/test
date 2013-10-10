@@ -6,6 +6,7 @@ json.order do
     io_original_filename: @io_import.original_filename, 
     io_created_at: Time.current.to_s, 
     io_detail: @io_details,
+    order_name_dup: @io_import.order_name_dup,
     sales_person_unknown: @io_import.sales_person_unknown,
     account_contact_unknown: @io_import.account_contact_unknown,
     billing_contact_unknown: @io_import.billing_contact_unknown,

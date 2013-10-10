@@ -148,7 +148,8 @@ class OrdersController < ApplicationController
             raise ActiveRecord::Rollback
           end
         else
-          format.json { render json: {status: 'error', errors: {lineitems: li_ads_errors}} }
+          @order.valid?
+          format.json { render json: {status: 'error', errors: ({lineitems: li_ads_errors}).merge(@order.errors)} }
           raise ActiveRecord::Rollback
         end
       end

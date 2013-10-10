@@ -294,6 +294,7 @@
           // error handling
           var errors_fields_correspondence = {
             reach_client: '.order-details .billing-contact-company',
+            name: '.order-details .order-name',
             start_date: '.order-details .start-date',
             end_date: '.order-details .end-date',
             billing_contact: '.order-details .billing-contact-name',
