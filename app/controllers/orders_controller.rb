@@ -417,6 +417,8 @@ private
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
+      sum_of_ad_impressions = 0
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
@@ -454,6 +456,7 @@ private
             ad_object = lineitem.ads.build(ad[:ad])
             ad_object.order_id = @order.id
             ad_object.cost_type = "CPM"
+            ad_object.alt_ad_id = lineitem.alt_ad_id
             ad_object.source_id = @order.source_id
 
             ad_object.save_targeting(ad_targeting)
@@ -464,6 +467,13 @@ private
               if !ad_pricing.save
                 li_errors[i] ||= {:ads => {}}
                 li_errors[i][:ads][j] = ad_pricing.errors
+              end
+
+              sum_of_ad_impressions += ad_pricing.quantity    
+              if sum_of_ad_impressions > lineitem.volume 
+                li_errors[i] ||= {}
+                li_errors[i][:lineitems] ||= {}
+                li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
               end
 
               ad_object.save_creatives(ad_creatives)
