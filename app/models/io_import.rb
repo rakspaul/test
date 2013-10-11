@@ -80,7 +80,7 @@ class IoImport
       @order.network = @current_user.network
       @order.advertiser = @advertiser
 
-      @order_name_dup = Order.exists?(name: @order.name, network_advertiser_id: @advertiser)
+      @order_name_dup = Order.exists?(name: @order.name)
 
       @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 

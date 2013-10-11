@@ -16,10 +16,10 @@ class Order < ActiveRecord::Base
   has_many :ads
   has_many :order_notes
 
-  validates :name, :start_date, :end_date, presence: true
+  validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
   validate :validate_start_date, on: :create
-  validates :name, uniqueness: { message: "The order name is already used.", scope: :network_advertiser_id }
+  validates :name, uniqueness: { message: "The order name is already used.", score: :network_id }, presence: true
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
