@@ -4976,7 +4976,7 @@ Editableform based on Twitter Bootstrap
 		},
 
 		setDate: function(d) {
-			this.setUTCDate(new Date(d.getTime() - (d.getTimezoneOffset()*60000)));
+			this.setDate(new Date(d.getTime() - (d.getTimezoneOffset()*60000)));
 		},
 
 		setUTCDate: function(d) {
@@ -5094,23 +5094,23 @@ Editableform based on Twitter Bootstrap
 
 		getClassNames: function(date){
 			var cls = [],
-				year = this.viewDate.getUTCFullYear(),
-				month = this.viewDate.getUTCMonth(),
+				year = this.viewDate.getFullYear(),
+				month = this.viewDate.getMonth(),
 				currentDate = this.date.valueOf(),
 				today = new Date();
-			if (date.getUTCFullYear() < year || (date.getUTCFullYear() == year && date.getUTCMonth() < month)) {
+			if (date.getFullYear() < year || (date.getFullYear() == year && date.getMonth() < month)) {
 				cls.push('old');
-			} else if (date.getUTCFullYear() > year || (date.getUTCFullYear() == year && date.getUTCMonth() > month)) {
+			} else if (date.getFullYear() > year || (date.getFullYear() == year && date.getMonth() > month)) {
 				cls.push('new');
 			}
 			// Compare internal UTC date with local today, not UTC today
 			if (this.o.todayHighlight &&
-				date.getUTCFullYear() == today.getFullYear() &&
-				date.getUTCMonth() == today.getMonth() &&
-				date.getUTCDate() == today.getDate()) {
+				date.getFullYear() == today.getFullYear() &&
+				date.getMonth() == today.getMonth() &&
+				date.getDate() == today.getDate()) {
 				cls.push('today');
 			}
-			if (currentDate && date.valueOf() == currentDate) {
+			if (date.toDateString() == this.date.toDateString()) {
 				cls.push('active');
 			}
 			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
@@ -5130,14 +5130,15 @@ Editableform based on Twitter Bootstrap
 
 		fill: function() {
 			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
-				month = d.getUTCMonth(),
-				startYear = this.o.startDate !== -Infinity ? this.o.startDate.getUTCFullYear() : -Infinity,
-				startMonth = this.o.startDate !== -Infinity ? this.o.startDate.getUTCMonth() : -Infinity,
-				endYear = this.o.endDate !== Infinity ? this.o.endDate.getUTCFullYear() : Infinity,
-				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getUTCMonth() : Infinity,
+				year = d.getFullYear(),
+				month = d.getMonth(),
+				startYear = this.o.startDate !== -Infinity ? this.o.startDate.getFullYear() : -Infinity,
+				startMonth = this.o.startDate !== -Infinity ? this.o.startDate.getMonth() : -Infinity,
+				endYear = this.o.endDate !== Infinity ? this.o.endDate.getFullYear() : Infinity,
+				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getMonth() : Infinity,
 				currentDate = this.date && this.date.valueOf(),
 				tooltip;
+
 			this.picker.find('.datepicker-days thead th.datepicker-switch')
 						.text(dates[this.o.language].months[month]+' '+year);
 			this.picker.find('tfoot th.today')
@@ -5149,27 +5150,27 @@ Editableform based on Twitter Bootstrap
 			this.updateNavArrows();
 			this.fillMonths();
 			var prevMonth = UTCDate(year, month-1, 28,0,0,0,0),
-				day = DPGlobal.getDaysInMonth(prevMonth.getUTCFullYear(), prevMonth.getUTCMonth());
-			prevMonth.setUTCDate(day);
-			prevMonth.setUTCDate(day - (prevMonth.getUTCDay() - this.o.weekStart + 7)%7);
+				day = DPGlobal.getDaysInMonth(prevMonth.getFullYear(), prevMonth.getMonth());
+			prevMonth.setDate(day);
+			prevMonth.setDate(day - (prevMonth.getDay() - this.o.weekStart + 7)%7);
 			var nextMonth = new Date(prevMonth);
-			nextMonth.setUTCDate(nextMonth.getUTCDate() + 42);
+			nextMonth.setDate(nextMonth.getDate() + 42);
 			nextMonth = nextMonth.valueOf();
 			var html = [];
 			var clsName;
 			while(prevMonth.valueOf() < nextMonth) {
-				if (prevMonth.getUTCDay() == this.o.weekStart) {
+				if (prevMonth.getDay() == this.o.weekStart) {
 					html.push('<tr>');
 					if(this.o.calendarWeeks){
 						// ISO 8601: First week contains first thursday.
 						// ISO also states week starts on Monday, but we can be more abstract here.
 						var
 							// Start of current week: based on weekstart/current date
-							ws = new Date(+prevMonth + (this.o.weekStart - prevMonth.getUTCDay() - 7) % 7 * 864e5),
+							ws = new Date(+prevMonth + (this.o.weekStart - prevMonth.getDay() - 7) % 7 * 864e5),
 							// Thursday of this week
-							th = new Date(+ws + (7 + 4 - ws.getUTCDay()) % 7 * 864e5),
+							th = new Date(+ws + (7 + 4 - ws.getDay()) % 7 * 864e5),
 							// First Thursday of year, year from thursday
-							yth = new Date(+(yth = UTCDate(th.getUTCFullYear(), 0, 1)) + (7 + 4 - yth.getUTCDay())%7*864e5),
+							yth = new Date(+(yth = UTCDate(th.getFullYear(), 0, 1)) + (7 + 4 - yth.getDay())%7*864e5),
 							// Calendar week: ms between thursdays, div ms per day, div 7 days
 							calWeek =  (th - yth) / 864e5 / 7 + 1;
 						html.push('<td class="cw">'+ calWeek +'</td>');
@@ -5177,6 +5178,7 @@ Editableform based on Twitter Bootstrap
 					}
 				}
 				clsName = this.getClassNames(prevMonth);
+
 				clsName.push('day');
 
 				var before = this.o.beforeShowDay(prevMonth);
@@ -5194,14 +5196,15 @@ Editableform based on Twitter Bootstrap
 					tooltip = before.tooltip;
 
 				clsName = $.unique(clsName);
-				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
-				if (prevMonth.getUTCDay() == this.o.weekEnd) {
+
+				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getDate() + '</td>');
+				if (prevMonth.getDay() == this.o.weekEnd) {
 					html.push('</tr>');
 				}
-				prevMonth.setUTCDate(prevMonth.getUTCDate()+1);
+				prevMonth.setDate(prevMonth.getDate()+1);
 			}
 			this.picker.find('.datepicker-days tbody').empty().append(html.join(''));
-			var currentYear = this.date && this.date.getUTCFullYear();
+			var currentYear = this.date && this.date.getFullYear();
 
 			var months = this.picker.find('.datepicker-months')
 						.find('th:eq(1)')
@@ -5209,7 +5212,7 @@ Editableform based on Twitter Bootstrap
 							.end()
 						.find('span').removeClass('active');
 			if (currentYear && currentYear == year) {
-				months.eq(this.date.getUTCMonth()).addClass('active');
+				months.eq(this.date.getMonth()).addClass('active');
 			}
 			if (year < startYear || year > endYear) {
 				months.addClass('disabled');
@@ -5244,12 +5247,12 @@ Editableform based on Twitter Bootstrap
 				month = d.getUTCMonth();
 			switch (this.viewMode) {
 				case 0:
-					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getUTCFullYear() && month <= this.o.startDate.getUTCMonth()) {
+					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getFullYear() && month <= this.o.startDate.getUTCMonth()) {
 						this.picker.find('.prev').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.prev').css({visibility: 'visible'});
 					}
-					if (this.o.endDate !== Infinity && year >= this.o.endDate.getUTCFullYear() && month >= this.o.endDate.getUTCMonth()) {
+					if (this.o.endDate !== Infinity && year >= this.o.endDate.getFullYear() && month >= this.o.endDate.getUTCMonth()) {
 						this.picker.find('.next').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.next').css({visibility: 'visible'});
@@ -5257,12 +5260,12 @@ Editableform based on Twitter Bootstrap
 					break;
 				case 1:
 				case 2:
-					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getUTCFullYear()) {
+					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getFullYear()) {
 						this.picker.find('.prev').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.prev').css({visibility: 'visible'});
 					}
-					if (this.o.endDate !== Infinity && year >= this.o.endDate.getUTCFullYear()) {
+					if (this.o.endDate !== Infinity && year >= this.o.endDate.getFullYear()) {
 						this.picker.find('.next').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.next').css({visibility: 'visible'});
@@ -5320,24 +5323,24 @@ Editableform based on Twitter Bootstrap
 						break;
 					case 'span':
 						if (!target.is('.disabled')) {
-							this.viewDate.setUTCDate(1);
+							this.viewDate.setDate(1);
 							if (target.is('.month')) {
 								var day = 1;
 								var month = target.parent().find('span').index(target);
-								var year = this.viewDate.getUTCFullYear();
-								this.viewDate.setUTCMonth(month);
+								var year = this.viewDate.getFullYear();
+								this.viewDate.setMonth(month);
 								this._trigger('changeMonth', this.viewDate);
 								if (this.o.minViewMode === 1) {
-									this._setDate(UTCDate(year, month, day,0,0,0,0));
+									this._setDate(new Date(year, month, day,0,0,0,0));
 								}
 							} else {
 								var year = parseInt(target.text(), 10)||0;
 								var day = 1;
 								var month = 0;
-								this.viewDate.setUTCFullYear(year);
+								this.viewDate.setFullYear(year);
 								this._trigger('changeYear', this.viewDate);
 								if (this.o.minViewMode === 2) {
-									this._setDate(UTCDate(year, month, day,0,0,0,0));
+									this._setDate(new Date(year, month, day,0,0,0,0));
 								}
 							}
 							this.showMode(-1);
@@ -5347,8 +5350,8 @@ Editableform based on Twitter Bootstrap
 					case 'td':
 						if (target.is('.day') && !target.is('.disabled')){
 							var day = parseInt(target.text(), 10)||1;
-							var year = this.viewDate.getUTCFullYear(),
-								month = this.viewDate.getUTCMonth();
+							var year = this.viewDate.getFullYear(),
+								month = this.viewDate.getMonth();
 							if (target.is('.old')) {
 								if (month === 0) {
 									month = 11;
@@ -5364,7 +5367,7 @@ Editableform based on Twitter Bootstrap
 									month += 1;
 								}
 							}
-							this._setDate(UTCDate(year, month, day,0,0,0,0));
+							this._setDate(new Date(year, month, day,0,0,0,0));
 						}
 						break;
 				}
@@ -5396,8 +5399,8 @@ Editableform based on Twitter Bootstrap
 		moveMonth: function(date, dir){
 			if (!dir) return date;
 			var new_date = new Date(date.valueOf()),
-				day = new_date.getUTCDate(),
-				month = new_date.getUTCMonth(),
+				day = new_date.getDate(),
+				month = new_date.getMonth(),
 				mag = Math.abs(dir),
 				new_month, test;
 			dir = dir > 0 ? 1 : -1;
@@ -5405,12 +5408,12 @@ Editableform based on Twitter Bootstrap
 				test = dir == -1
 					// If going back one month, make sure month is not current month
 					// (eg, Mar 31 -> Feb 31 == Feb 28, not Mar 02)
-					? function(){ return new_date.getUTCMonth() == month; }
+					? function(){ return new_date.getMonth() == month; }
 					// If going forward one month, make sure month is as expected
 					// (eg, Jan 31 -> Feb 31 == Feb 28, not Mar 02)
-					: function(){ return new_date.getUTCMonth() != new_month; };
+					: function(){ return new_date.getMonth() != new_month; };
 				new_month = month + dir;
-				new_date.setUTCMonth(new_month);
+				new_date.setMonth(new_month);
 				// Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
 				if (new_month < 0 || new_month > 11)
 					new_month = (new_month + 12) % 12;
@@ -5420,15 +5423,15 @@ Editableform based on Twitter Bootstrap
 					// ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
 					new_date = this.moveMonth(new_date, dir);
 				// ...then reset the day, keeping it in the new month
-				new_month = new_date.getUTCMonth();
-				new_date.setUTCDate(day);
-				test = function(){ return new_month != new_date.getUTCMonth(); };
+				new_month = new_date.getMonth();
+				new_date.setDate(day);
+				test = function(){ return new_month != new_date.getMonth(); };
 			}
 			// Common date-resetting loop -- if date is beyond end of month, make it
 			// end of month
 			while (test()){
-				new_date.setUTCDate(--day);
-				new_date.setUTCMonth(new_month);
+				new_date.setDate(--day);
+				new_date.setMonth(new_month);
 			}
 			return new_date;
 		},
@@ -5467,9 +5470,9 @@ Editableform based on Twitter Bootstrap
 						newViewDate = this.moveMonth(this.viewDate, dir);
 					} else {
 						newDate = new Date(this.date);
-						newDate.setUTCDate(this.date.getUTCDate() + dir);
+						newDate.setDate(this.date.getDate() + dir);
 						newViewDate = new Date(this.viewDate);
-						newViewDate.setUTCDate(this.viewDate.getUTCDate() + dir);
+						newViewDate.setDate(this.viewDate.getDate() + dir);
 					}
 					if (this.dateWithinRange(newDate)){
 						this.date = newDate;
@@ -5492,9 +5495,9 @@ Editableform based on Twitter Bootstrap
 						newViewDate = this.moveMonth(this.viewDate, dir);
 					} else {
 						newDate = new Date(this.date);
-						newDate.setUTCDate(this.date.getUTCDate() + dir * 7);
+						newDate.setDate(this.date.getDate() + dir * 7);
 						newViewDate = new Date(this.viewDate);
-						newViewDate.setUTCDate(this.viewDate.getUTCDate() + dir * 7);
+						newViewDate.setDate(this.viewDate.getDate() + dir * 7);
 					}
 					if (this.dateWithinRange(newDate)){
 						this.date = newDate;
