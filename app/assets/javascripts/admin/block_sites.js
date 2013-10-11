@@ -81,8 +81,8 @@
       return this.get('advertisers');
     },
 
-    findAdvertiser: function(id) {
-      return this.get('advertisers').findWhere({advertiser_id:id});
+    hasAdvertiser: function(advertiser_id) {
+      return this.get('advertisers').findWhere({advertiser_id: advertiser_id}) != undefined ? true : false;
     },
   });
 
@@ -117,25 +117,11 @@
       this.reset();
       for (var i = 0; i < response.length; i++) {
         if (response[i] != undefined) {
-          var site = {};
-            site.site_id = response[i].site_id;
-            site.site_name = response[i].site_name;
-            site.advertisers = new BlockSites.BlockedAdvertiserList();
-
+          var site = this._createSite(response[i]);
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
                 if(site.site_id === response[k].site_id) {
-                  var id = response[k].id,
-                  advertiser_id = response[k].advertiser_id,
-                  advertiser_name= response[k].advertiser_name,
-                  site_id= response[k].site_id;
-
-                  site.advertisers.add({
-                    id: id,
-                    advertiser_id: advertiser_id,
-                    advertiser_name: advertiser_name,
-                    site_id: site_id
-                  });
+                  site.advertisers.add(this._createAdvertiser(response[k]));
                   delete response[k];
                 }
               }
@@ -145,6 +131,24 @@
       }
       return this.models;
     },
+
+    _createSite: function(site) {
+      return {
+        site_id: site.site_id,
+        site_name: site.site_name,
+        advertisers: new BlockSites.BlockedAdvertiserList()
+      }
+    },
+
+    _createAdvertiser: function(advertiser) {
+      return {
+        id: advertiser.id,
+        advertiser_id: advertiser.advertiser_id,
+        advertiser_name: advertiser.advertiser_name,
+        site_id: advertiser.site_id
+      }
+    },
+
   });
 
   BlockSites.BlockedAdvertiserBlock = Backbone.Model.extend({
@@ -156,8 +160,8 @@
       return this.get('advertiserBlocks');
     },
 
-    findAdvertiserBlock: function(id) {
-      return this.get('advertiserBlocks').findWhere({advertiser_block_id:id});
+    hasAdvertiserBlock: function(advertiser_block_id) {
+      return this.get('advertiserBlocks').findWhere({advertiser_block_id: advertiser_block_id}) != undefined ? true : false;
     },
   });
 
@@ -191,25 +195,11 @@
       this.reset();
       for (var i = 0; i < response.length; i++) {
         if (response[i] != undefined) {
-          var site = {};
-            site.site_id = response[i].site_id;
-            site.site_name = response[i].site_name;
-            site.advertiserBlocks = new BlockSites.BlockedAdvertiserBlockList();
-
+          var site = this._createSite(response[i]);
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
                 if(site.site_id === response[k].site_id) {
-                  var id = response[k].id,
-                  advertiser_block_id = response[k].advertiser_group_id,
-                  advertiser_block_name= response[k].advertiser_group_name,
-                  site_id= response[k].site_id;
-
-                  site.advertiserBlocks.add({
-                    id: id,
-                    advertiser_block_id: advertiser_block_id,
-                    advertiser_block_name: advertiser_block_name,
-                    site_id: site_id
-                  });
+                  site.advertiserBlocks.add(this._createAdvertiserBlock(response[k]));
                   delete response[k];
                 }
               }
@@ -218,6 +208,23 @@
         }
       }
       return this.models;
+    },
+
+    _createSite: function(site) {
+      return {
+        site_id: site.site_id,
+        site_name: site.site_name,
+        advertiserBlocks: new BlockSites.BlockedAdvertiserBlockList()
+      }
+    },
+
+    _createAdvertiserBlock: function(advertiser_block) {
+      return{
+        id: advertiser_block.id,
+        advertiser_block_id: advertiser_block.advertiser_group_id,
+        advertiser_block_name: advertiser_block.advertiser_group_name,
+        site_id: advertiser_block.site_id
+      }
     },
 
   });
@@ -566,40 +573,42 @@
       if (selectedSites && selectedSites.length > 0) {
         for (var i = 0; i < selectedSites.length; i++) {
           // check for the site exist in block site list
-          var item = selectedSites[i];
-          var site = this.blockedAdvertiserList.findWhere({site_id: item.id});
+          var selectedSite = selectedSites[i],
+          blockedAdvertisers = this._createAdvertiserModelArray(vos, selectedSite.id),
+          site = this.blockedAdvertiserList.findWhere({site_id: selectedSite.id});
+
           if(!site) {
             // site is not there add to blockedAdvertiserList collection
-            var blockedAdvertiser = this._createNewBlockedAdvertiserObject(item.id, item.get('name'), vos)
+            var blockedAdvertiser = this._createNewBlockedAdvertiser(selectedSite.id, selectedSite.get('name'), blockedAdvertisers)
             this.blockedAdvertiserList.add(blockedAdvertiser);
           } else {
             // site exist need to check if user is adding same advertisers or new one
-            for (var k = 0; k < vos.length; k++) {
-              if(site.findAdvertiser(vos[k].get('id')) == undefined)
-                site.addAdvertiser(this._createAdvertiserModel(vos[k], site.get('site_id')));
-            }
+            blockedAdvertisers.each(function(blockedAdvertiser) {
+              if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
+                site.addAdvertiser(blockedAdvertiser);
+              }
+            }, this);
           }
         }
       }
     },
 
-    _createNewBlockedAdvertiserObject: function(site_id, site_name, advertisers) {
-      var blockedAdvertiser = new BlockSites.AdvertiserList(this._createAdvertiserModelArray(advertisers, site_id));
+    _createNewBlockedAdvertiser: function(site_id, site_name, advertisers) {
       var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({
         site_id: site_id,
         site_name: site_name,
-        advertisers: blockedAdvertiser
+        advertisers: advertisers
       });
       return newBlockedAdvertiser;
     },
 
-    _createAdvertiserModelArray: function(advertisers, site_id) {
-      var items = [];
-      for (var i = 0; i < advertisers.length; i++) {
-        var item = this._createAdvertiserModel(advertisers[i], site_id);
-        items.push(item);
+    _createAdvertiserModelArray: function(vos, site_id) {
+      var advertisers = new BlockSites.AdvertiserList();
+      for (var i = 0; i < vos.length; i++) {
+        var advertiser = this._createAdvertiserModel(vos[i], site_id);
+        advertisers.add(advertiser);
       }
-      return items;
+      return advertisers;
     },
 
     _createAdvertiserModel: function(advertiser, site_id) {
@@ -619,40 +628,42 @@
       if (selectedSites && selectedSites.length > 0) {
         for (var i = 0; i < selectedSites.length; i++) {
           // check for the site exist in block site list
-          var item = selectedSites[i];
-          var site = this.blockedAdvertiserBlockList.findWhere({site_id: item.id});
+          var selectedSite = selectedSites[i],
+          blockedAdvertiserBlocks = this._createAdvertiserBlockModelArray(vos, selectedSite.id),
+          site = this.blockedAdvertiserBlockList.findWhere({site_id: selectedSite.id});
+
           if(!site) {
             // site is not there add to blockedAdvertiserBlockList collection
-            var blockedAdvertiserBlocks = this._createNewBlockedAdvertiserBlockObject(item.id, item.get('name'), vos);
-            this.blockedAdvertiserBlockList.add(blockedAdvertiserBlocks);
+            var blockedAdvertiserBlock = this._createNewBlockedAdvertiserBlock(selectedSite.id, selectedSite.get('name'), blockedAdvertiserBlocks);
+            this.blockedAdvertiserBlockList.add(blockedAdvertiserBlock);
           } else {
             // site exist need to check if user is adding same advertisers or new one
-            for (var k = 0; k < vos.length; k++) {
-              if(site.findAdvertiserBlock(vos[k].get('id')) == undefined)
-                site.addAdvertiserBlock(this._createAdvertiserBlockModel(vos[k], site.get('site_id')));
-            }
+            blockedAdvertiserBlocks.each(function(blockedAdvertiserBlock) {
+              if(!site.hasAdvertiserBlock(blockedAdvertiserBlock.get('advertiser_block_id'))) {
+                site.addAdvertiserBlock(blockedAdvertiserBlock);
+              }
+            }, this);
           }
         }
       }
     },
 
-    _createNewBlockedAdvertiserBlockObject: function(site_id, site_name, advertiser_blocks) {
-      var blockedAdvertiserBlock = new BlockSites.AdvertiserBlockList(this._createAdvertiserBlockModelArray(advertiser_blocks, site_id));
+    _createNewBlockedAdvertiserBlock: function(site_id, site_name, blockedAdvertiserBlocks) {
       var newBlockedAdvertiserBlock = new BlockSites.BlockedAdvertiserBlock({
         site_id: site_id,
         site_name: site_name,
-        advertiserBlocks: blockedAdvertiserBlock
+        advertiserBlocks: blockedAdvertiserBlocks
       });
       return newBlockedAdvertiserBlock;
     },
 
-    _createAdvertiserBlockModelArray: function(advertiser_blocks, site_id) {
-      var items = [];
-      for (var i = 0; i < advertiser_blocks.length; i++) {
-        var item = this._createAdvertiserBlockModel(advertiser_blocks[i], site_id);
-        items.push(item);
+    _createAdvertiserBlockModelArray: function(vos, site_id) {
+      var blockedAdvertiserBlocks = new BlockSites.BlockedAdvertiserBlockList();
+      for (var i = 0; i < vos.length; i++) {
+        var blockedAdvertiserBlock = this._createAdvertiserBlockModel(vos[i], site_id);
+        blockedAdvertiserBlocks.push(blockedAdvertiserBlock);
       }
-      return items;
+      return blockedAdvertiserBlocks;
     },
 
     _createAdvertiserBlockModel: function(advertiser_block, site_id) {
