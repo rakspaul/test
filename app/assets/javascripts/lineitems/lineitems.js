@@ -104,13 +104,21 @@
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
+
+          // update creatives start date
+          if (view.model.get('creatives').models) {
+            _.each(view.model.get('creatives').models, function(creative) {
+              creative.set('start_date', date);
+            });
+          }
+
           view.model.set($(this).data('name'), date); //update backbone model;
           
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
           $('.order-details .start-date .date').html(min_date).editable('option', 'value', new Date(min_date));
-          view.model.collection.order.set("start_date", min_date); //update backbone model
+          view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
@@ -120,6 +128,14 @@
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
+
+          // update creatives end date
+          if (view.model.get('creatives').models) {
+            _.each(view.model.get('creatives').models, function(creative) {
+              creative.set('end_date', date);
+            });
+          }
+
           view.model.set($(this).data('name'), date); //update backbone model;
 
           // order's end date should be highest of all related LIs
