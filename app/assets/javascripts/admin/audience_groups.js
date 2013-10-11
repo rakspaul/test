@@ -88,7 +88,7 @@
 
     attributes: function() {
       return {
-        "data-name" : 'btg='+this.model.get("name"),
+        "data-name" : 'btg='+ this.model.get("name")
       }
     },
 
@@ -158,10 +158,12 @@
       var selectedKeyVals = $('#search_segments_results li.selected'),
         selectedKeyValsNames = [];
 
-      $(selectedKeyVals).each(function(){
-        selectedKeyValsNames.push($(this).attr('data-name'));
-      })
-      this.trigger('addKeyVals', selectedKeyValsNames);
+      if(selectedKeyVals.length){
+        $(selectedKeyVals).each(function(){
+          selectedKeyValsNames.push($(this).attr('data-name'));
+        })
+        this.trigger('addKeyVals', selectedKeyValsNames);
+      }
     },
 
     _onListItemClick: function(event){
@@ -188,7 +190,7 @@
 
     attributes: function() {
       return {
-        "data-name" : 'contx='+this.model.get("name"),
+        "data-name" : 'contx='+ this.model.get("name")
       }
     },
 
@@ -256,12 +258,23 @@
 
     _onAddKeyValsClick: function(){
       var selectedKeyVals = $('#search_contexts_results li.selected'),
-        selectedKeyValsNames = [];
+        selectedKeyVal, selectedKeyValsNames = [],
+        self = this;
 
-      $(selectedKeyVals).each(function(){
-        selectedKeyValsNames.push($(this).attr('data-name'));
-      })
-      this.trigger('addKeyVals', selectedKeyValsNames);
+      if(selectedKeyVals.length){
+        $(selectedKeyVals).each(function(){
+          selectedKeyVal = $(this).attr('data-name');
+          selectedKeyVal = self._removeCMContexts(selectedKeyVal);
+          selectedKeyValsNames.push(selectedKeyVal);
+        })
+        this.trigger('addKeyVals', selectedKeyValsNames);
+      }
+    },
+
+    _removeCMContexts: function(selectedKeyVal){
+      selectedKeyVal = selectedKeyVal.split('=');
+      selectedKeyVal = selectedKeyVal[0] + '=' + selectedKeyVal[1].slice(3);
+      return selectedKeyVal;
     },
 
     _onListItemClick: function(event){
@@ -312,12 +325,27 @@
 
     _onDrop: function(event, ui){
       var newItems = $(ui.helper).find('li').clone(false),
-        dropItems = [];
+        dropItems = [], dropItem = null,
+        self = this;
+
       $(newItems).each(function(){
-        dropItems.push($(this).attr('data-name'));
+        dropItem = $(this).attr('data-name');
+        dropItem = self._removeCMContexts(dropItem);
+        dropItems.push(dropItem);
       });
 
       this.addKeyVals(dropItems);
+    },
+
+    _removeCMContexts: function(dropItem){
+      var dropItemArr = dropItem.split('=');
+      if(dropItemArr[0] === 'btg'){
+        return dropItem
+      }
+      if(dropItemArr[0] === 'contx'){
+        dropItem = dropItemArr[0] + '=' + dropItemArr[1].slice(3);
+        return dropItem
+      }
     },
 
   });
@@ -355,12 +383,12 @@
       this.searchSegmentsView = new AudienceGroup.SearchSegmentsView({collection: this.searchSegmentList})
       this.layout.search_segments_view.show(this.searchSegmentsView);
       this.searchSegmentsView.on('addKeyVals', this._onAddKeyVals, this);
-      this.searchSegmentsView.on('search', this._onSearch, this);
+      this.searchSegmentsView.on('search', this._onSearchSegment, this);
 
       this.searchContextsView = new AudienceGroup.SearchContextsView({collection: this.searchContextList})
       this.layout.search_contexts_view.show(this.searchContextsView);
       this.searchContextsView.on('addKeyVals', this._onAddKeyVals, this);
-      this.searchContextsView.on('search', this._onSearch, this);
+      this.searchContextsView.on('search', this._onSearchContext, this);
 
       this.searchSegmentList.fetch({reset: true});
       this.searchContextList.fetch({reset: true});
@@ -369,8 +397,11 @@
       this.layout.selected_segments_view.show(this.selectedSegmentsView);
     },
 
-    _onSearch: function(search_string) {
+    _onSearchSegment: function(search_string) {
       this.searchSegmentList.fetch({data:{search: search_string}, reset: true})
+    },
+
+    _onSearchContext: function(search_string) {
       this.searchContextList.fetch({data:{search: search_string}, reset: true})
     },
 
