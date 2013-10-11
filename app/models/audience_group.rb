@@ -4,6 +4,9 @@ class AudienceGroup < ActiveRecord::Base
   belongs_to :network
   belongs_to :user
 
+  has_and_belongs_to_many :lineitems, join_table: :lineitems_reach_audience_groups, foreign_key: :reach_audience_group_id
+  has_and_belongs_to_many :ads, join_table: :ads_reach_audience_groups, foreign_key: :reach_audience_group_id
+
   validates :name, uniqueness: {message: 'already exist' }, presence: true
   validates :key_values, presence: true
 
@@ -30,14 +33,19 @@ class AudienceGroup < ActiveRecord::Base
 
     kv_pairs.each do|kv_pair|
       kv = kv_pair.split('=')
-      if kv[0] == "btg"
-        segments_vals << kv[1]
+
+      if kv[0].blank?
+        return errors.add :key_values, "Missing key for the value #{kv[1]}"
+      elsif kv[0] == "btg"
+        segments_vals <<  kv[1]
       elsif kv[0] == "contx"
-        contexts_vals << kv[1]
-      elsif kv[1].nil?
-        return errors.add :key_values, "Missing key for the value '#{kv[0]}'"
+        contexts_vals << "#{network.net_prefix}.#{kv[1]}"
       else
-        return errors.add :key_values, "Invalid key '#{kv[0]}' for the value '#{kv[1]}'"
+        return errors.add :key_values, "Invalid key for the value #{kv[1]}"
+      end
+
+      if kv[1].blank?
+        return errors.add :key_values, "Missing value for the key #{kv[0]}"
       end
     end
   end
@@ -55,7 +63,15 @@ class AudienceGroup < ActiveRecord::Base
 
     contexts_found = Context.of_networks(networks).where(:name => contexts_to_search).pluck(:name)
     missing_contexts = contexts_to_search - contexts_found
+    remove_cm_contexts(missing_contexts)
+
     errors.add :key_values, "contx=#{missing_contexts.join(',')} context(s) does not exist." if missing_contexts.length > 0
+  end
+
+  def remove_cm_contexts(missing_contexts)
+    missing_contexts.map! { |context|
+      context.sub(/^[cm.]*/,"")
+    }
   end
 
 end
