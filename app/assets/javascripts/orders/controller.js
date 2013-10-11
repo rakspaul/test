@@ -442,14 +442,29 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
-  // Ad name should be in this format:
-  // Client Abbreviated Name + Advertiser Name (C18) + Quarter (Q2) + Year + Ad Sizes
-  // Example: RE TW LA Sinus MD - Dr. Kayem Q213 300x250,728x90,160x600
+  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
+  // Client Short Name + Client Advertiser Name + Quarter + Year + "GEO" (if DMA or Zips are included for the Ad) + "RON" (if NO Key Values are selected for the Ad) + "BTCT" (if Key Values ARE selected for the Ad) + Creative Sizes.
+  // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
   _generateAdName: function(li) {
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
-    var ad_name = li.collection.order.attributes.client_advertiser_name+' Q'+start_quarter+ start_year +' '+li.attributes.ad_sizes;
+
+    var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_dmas').length != 0);
+    var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
+
+    var ad_name_parts = [li.collection.order.attributes.client_advertiser_name];
+    ad_name_parts.push('Q'+start_quarter+start_year);
+    if(isGeo) {
+      ad_name_parts.push("GEO");
+    }
+    if(hasKeyValues) {
+      ad_name_parts.push("BTCT");
+    } else {
+      ad_name_parts.push("RON");
+    }
+    ad_name_parts.push(li.attributes.ad_sizes);
+    ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
     var same_ad_names = 1;
