@@ -95,8 +95,10 @@
                 if(c.get('redirect_url') == view.model.get('redirect_url') && 
                   c.get('start_date') == view.model.get('start_date') &&
                   c.get('end_date') == view.model.get('end_date') &&
-                  c.get('ad_size') == view.model.get('ad_size')) {
+                  c.get('ad_size') == view.model.get('ad_size')) 
+                {
                   c.attributes = view.model.attributes;
+                  return;
                 } else {
                   clone_creative_to_li = true;
                 }
@@ -146,7 +148,7 @@
         }
       });
 
-      this.updateLiCreative();
+      //this.updateLiCreative();
     },
 
     _showDeleteBtn: function(e) {
