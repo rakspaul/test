@@ -16,7 +16,7 @@ module ApplicationHelper
     },
 
     "Admin" => {
-      controllers: ["Admin::ReachClientsController", "Admin::AudienceGroupsController", "Admin::ExcludeSitesController"],
+      controllers: ["Admin::ReachClientsController", "Admin::AudienceGroupsController", "Admin::BlockSitesController"],
       path: :admin_reach_clients
     }
   }
