@@ -8,11 +8,11 @@ class Order < ActiveRecord::Base
   belongs_to :user
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
-  has_one :nielsen_campaign
-  has_one :io_detail
+  has_one :nielsen_campaign, dependent: :destroy
+  has_one :io_detail, dependent: :destroy
 
-  has_many :lineitems, -> { order('name') }, inverse_of: :order
-  has_many :io_assets
+  has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
+  has_many :io_assets, dependent: :destroy
   has_many :ads
   has_many :order_notes
 
