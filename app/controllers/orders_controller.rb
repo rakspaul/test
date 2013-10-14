@@ -170,9 +170,7 @@ class OrdersController < ApplicationController
   end
 
   def delete
-    ids = params[:ids].split(",")
-    Order.delete_all(:id => ids)
-    IoDetail.delete_all(:order_id => ids)
+    Order.destroy_all(:id => params[:ids].split(','))
 
     render json: {status: 'success'}
   end

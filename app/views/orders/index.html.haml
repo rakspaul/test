@@ -217,7 +217,11 @@
     if(checkedValues == '') {
       alert("No order selected");
     } else {
-      var cfm = confirm("Are you sure to want to delete");
+      var orderNames = [];
+      $('.ordersCheckbox:checked').each(function() {
+        orderNames.push($.trim($(this).parent().nextAll().find('.order-title').html()));
+      });
+      var cfm = confirm("Are you sure you want to delete the following Orders: \n\n" + orderNames.join("\n"));
       if(cfm === true) {
         var request = $.ajax({url:'/orders/delete.json', type:'DELETE', data:"ids="+checkedValues});
         request.done(function(data){
