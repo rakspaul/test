@@ -453,7 +453,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_dmas').length != 0);
     var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
 
-    var ad_name_parts = [li.collection.order.attributes.client_advertiser_name];
+    var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
+    ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     ad_name_parts.push('Q'+start_quarter+start_year);
     if(isGeo) {
       ad_name_parts.push("GEO");

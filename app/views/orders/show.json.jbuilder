@@ -14,6 +14,7 @@ json.partial! 'order',
     trafficking_contact_unknown: false,
     io_file_path: "",
     reach_client_name: @order.io_detail.try(:reach_client).try(:name),
+    reach_client_abbr: @order.io_detail.try(:reach_client).try(:abbr)
   }
 
 json.notes do
