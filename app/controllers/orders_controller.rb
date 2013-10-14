@@ -170,7 +170,10 @@ class OrdersController < ApplicationController
   end
 
   def delete
-    Order.destroy_all(:id => params[:ids].split(','))
+    params[:ids].split(',').each do |id|
+      order = Order.find(id)
+      order.destroy if order && order.io_detail && order.source_id.to_i.zero?
+    end
 
     render json: {status: 'success'}
   end

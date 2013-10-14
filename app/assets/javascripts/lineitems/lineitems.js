@@ -370,6 +370,7 @@
     },
 
     _pushOrder: function() {
+      //$('#push-confirmation-dialog').modal('show');
       this._changeStatus('pushing');
     },
 
