@@ -14,8 +14,8 @@ json.order do
     trafficking_contact_unknown: @io_import.trafficking_contact_unknown,
     reach_client_id: @io_import.reach_client.try(:id),
     reach_client_name: @io_import.reach_client.try(:name),
-    io_file_path: @io_import.tempfile.path,
-    reach_client_name: @io_import.reach_client.try(:name)
+    reach_client_abbr: @io_import.reach_client.try(:abbr),
+    io_file_path: @io_import.tempfile.path
   }
 
   json.notes do

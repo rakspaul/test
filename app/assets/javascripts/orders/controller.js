@@ -453,7 +453,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_dmas').length != 0);
     var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
 
-    var ad_name_parts = [li.collection.order.attributes.client_advertiser_name];
+    var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
+    ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     ad_name_parts.push('Q'+start_quarter+start_year);
     if(isGeo) {
       ad_name_parts.push("GEO");
@@ -528,6 +529,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     // only if `show` action
     if(lineItemList.order.id) {
+      var dmas = new ReachUI.DMA.List();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
+
       // set targeting for existing Order
       var itemIndex = 1;
       _.each(lineItemListView.children._views, function(li_view, li_name) {
@@ -539,20 +544,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+        
+        $.when.apply($, dmas_ags_complete).done(function() {
+          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
-        var dmas = new ReachUI.DMA.List();
-        var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-
-        ags.fetch().done(dmas.fetch({
-          success: function(collection, response, options) {
-            var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-
-            li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
-   
-            li_view.renderTargetingDialog();
-          }
-        }))
-      })
+          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
+          li_view.renderTargetingDialog();
+        });
+      });
 
       // show Ads for each LI
       _.each(lineItemListView.children._views, function(li_view, li_name) {
@@ -591,26 +590,25 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     } else { // not persisted Order/Lineitems
       var dmas = new ReachUI.DMA.List();
-      var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
 
-      ags.fetch().done(dmas.fetch({
-        success: function(collection, response, options) {
-          var dmas_list = _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-          var itemIndex = 1;
+      $.when.apply($, dmas_ags_complete).done(function() {
+        var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+        var itemIndex = 1;
 
-          _.each(lineItemListView.children._views, function(li_view, li_name) {
-            var li   = li_view.model;
+        _.each(lineItemListView.children._views, function(li_view, li_name) {
+          var li   = li_view.model;
 
-            li.set('itemIndex', itemIndex);
-            itemIndex += 1;
+          li.set('itemIndex', itemIndex);
+          itemIndex += 1;
 
-            li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
-            li_view.renderTargetingDialog();
-            li_view._recalculateMediaCost();
-          });
-          lineItemList._recalculateLiImpressionsMediaCost();
-        }
-      }));
+          li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
+          li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
+        });
+        lineItemList._recalculateLiImpressionsMediaCost();
+      });
     }
   },
 

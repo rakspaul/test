@@ -4,6 +4,7 @@ class Advertiser < ActiveRecord::Base
   belongs_to :network
 
   has_many :orders
+  has_many :creatives
 
   def self.of_network(network)
     where(:network => network)
