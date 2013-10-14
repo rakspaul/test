@@ -46,12 +46,70 @@
     initialize: function(){
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+      //this.model.bind('change', this.updateLiCreative);
     },
 
     events: {
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyCreative',
+    },
+
+    updateLiCreative: function() {
+      var view = this,
+          update_creative_model_from_li = true;
+
+      // only update Creative on LI level if in another Ads there is no such Creative
+      var this_ad = this.options.parent_view.model;
+      if(this_ad) {
+        if(this.options.parent_view.options.parent_view) {
+          var this_li = this.options.parent_view.options.parent_view.model;    
+
+          if(this_li) {
+            var ads_except_current = _.filter(this_li.ads, function(el) {
+              if(el.cid != this_ad.cid) {
+                return el;
+              }
+            });
+           
+            // collect all creative attributes from LI's Ads except current one
+            var creatives_urls = [], start_dates = [], end_dates = [], ad_sizes = [];
+            _.each(ads_except_current, function(ad) { 
+              _.each(ad.get('creatives').models, function(c) {
+                creatives_urls.push(c.get('redirect_url'));
+                start_dates.push(c.get('start_date'));
+                end_dates.push(c.get('end_date'));
+                ad_sizes.push(c.get('ad_size'));
+              });
+            });
+
+            // if all attributes are already present among existing ones creatives then do nothing
+            if(_.contains(creatives_urls, view.model.get('redirect_url')) && _.contains(start_dates, view.model.get('start_date')) && _.contains(end_dates, view.model.get('end_date')) && _.contains(ad_sizes, view.model.get('ad_size'))) {
+              update_creative_model_from_li = false;
+            }
+
+            if(update_creative_model_from_li) {
+              var clone_creative_to_li = false;
+
+              _.each(this_li.get('creatives').models, function(c) {
+                if(c.get('redirect_url') == view.model.get('redirect_url') && 
+                  c.get('start_date') == view.model.get('start_date') &&
+                  c.get('end_date') == view.model.get('end_date') &&
+                  c.get('ad_size') == view.model.get('ad_size')) {
+                  c.attributes = view.model.attributes;
+                } else {
+                  clone_creative_to_li = true;
+                }
+              });
+
+              // create new one with new attributes (copy-on-write)
+              if(clone_creative_to_li) {
+                view.options.parent_view.options.parent_view.model.get('creatives').add(view.model);
+              }
+            }
+          }
+        }
+      }
     },
 
     onRender: function() {
@@ -87,6 +145,8 @@
           self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
+
+      this.updateLiCreative();
     },
 
     _showDeleteBtn: function(e) {
@@ -169,7 +229,7 @@
 
     _addCreative: function() {
       var creative = new ReachUI.Creatives.Creative();
-      var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+      var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});
       this.ui.creatives.append(creativeView.render().el);
 
       // if this is Ad 
