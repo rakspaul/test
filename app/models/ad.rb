@@ -22,9 +22,8 @@ class Ad < ActiveRecord::Base
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
 
       creative = self.lineitem.creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
+      # updating creative's attributes should be done on lineitem level
       if creative
-        creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url])
-
         if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
           ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
         else
