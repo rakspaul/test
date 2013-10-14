@@ -1,4 +1,4 @@
-class BlockedAdvertiserBlock < BlockSite
+class BlockedAdvertiserGroup < BlockSite
   belongs_to :network
   belongs_to :user
   belongs_to :site

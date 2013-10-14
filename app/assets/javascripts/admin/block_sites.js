@@ -44,7 +44,7 @@
     regions: {
       siteListView: '#siteListView',
       blockedAdvertiserListView: '#blockedAdvertiserListView',
-      blockedAdvertiserBlockListView: '#blockedAdvertiserBlockListView',
+      blockedAdvertiserGroupListView: '#blockedAdvertiserBlockListView',
     },
 
   });
@@ -58,27 +58,45 @@
     model: BlockSites.Site,
   });
 
-  BlockSites.Advertiser = Backbone.Model.extend({});
+  BlockSites.Advertiser = Backbone.Model.extend({
+    defaults:{
+      state: 'PENDING_BLOCK'
+    },
+  });
 
   BlockSites.AdvertiserList = Backbone.Collection.extend({
     url: '/advertisers/search.json',
     model: BlockSites.Advertiser,
   });
 
-  BlockSites.AdvertiserBlock = Backbone.Model.extend({});
+  BlockSites.AdvertiserGroup = Backbone.Model.extend({
+    defaults:{
+      state: 'PENDING_BLOCK'
+    },
+  });
 
-  BlockSites.AdvertiserBlockList = Backbone.Collection.extend({
+  BlockSites.AdvertiserGroupList = Backbone.Collection.extend({
     url: '/advertiser_blocks/search.json',
-    model: BlockSites.AdvertiserBlock,
+    model: BlockSites.AdvertiserGroup,
   });
 
   BlockSites.BlockedAdvertiser = Backbone.Model.extend({
+
     addAdvertiser: function(item) {
       this.get('advertisers').add(item);
     },
 
-    getAdvertiser: function() {
+    getAdvertisers: function() {
       return this.get('advertisers');
+    },
+
+    removeAdvertiser: function(advertiser_id) {
+      var model = this.getAdvertisers().findWhere({advertiser_id: advertiser_id});
+
+      if(model) {
+        this.get('advertisers').remove(model);
+      }
+      return model;
     },
 
     hasAdvertiser: function(advertiser_id) {
@@ -110,6 +128,14 @@
 
     setSites: function(sites) {
       this.sites = sites;
+    },
+
+    removeSite:function(site_id) {
+      var model = this.findWhere({site_id: site_id});
+      if (model) {
+        this.remove(model);
+      }
+      return model;
     },
 
     // parse method will convert the data in tree format
@@ -145,23 +171,33 @@
         id: advertiser.id,
         advertiser_id: advertiser.advertiser_id,
         advertiser_name: advertiser.advertiser_name,
-        site_id: advertiser.site_id
+        site_id: advertiser.site_id,
+        state: advertiser.state,
       }
     },
 
   });
 
-  BlockSites.BlockedAdvertiserBlock = Backbone.Model.extend({
-    addAdvertiserBlock: function(item) {
-      this.get('advertiserBlocks').add(item);
+  BlockSites.BlockedAdvertiserGroup = Backbone.Model.extend({
+    addAdvertiserGroup: function(item) {
+      this.get('advertiserGroups').add(item);
     },
 
-    getAdvertiserBlocks: function() {
-      return this.get('advertiserBlocks');
+    getAdvertiserGroups: function() {
+      return this.get('advertiserGroups');
     },
 
-    hasAdvertiserBlock: function(advertiser_block_id) {
-      return this.get('advertiserBlocks').findWhere({advertiser_block_id: advertiser_block_id}) != undefined ? true : false;
+    removeAdvertiserGroup: function(advertiser_group_id) {
+      var model = this.getAdvertiserGroups().findWhere({advertiser_group_id: advertiser_group_id});
+
+      if(model) {
+        this.get('advertiserGroups').remove(model);
+      }
+      return model;
+    },
+
+    hasAdvertiserGroup: function(advertiser_group_id) {
+      return this.get('advertiserGroups').findWhere({advertiser_group_id: advertiser_group_id}) != undefined ? true : false;
     },
   });
 
@@ -170,25 +206,33 @@
   //   {
   //     site_id
   //     site_name
-  //     advertiserBlocks:[
+  //     advertiserGroups:[
   //       {
   //         id
-  //         advertiser_block_id
-  //         advertiser_block_name
+  //         advertiser_group_id
+  //         advertiser_group_name
   //         site_id
   //       }
   //     ]
   //   }
   // ]
 
-  BlockSites.BlockedAdvertiserBlockList = Backbone.Collection.extend({
-    model: BlockSites.BlockedAdvertiserBlock,
+  BlockSites.BlockedAdvertiserGroupList = Backbone.Collection.extend({
+    model: BlockSites.BlockedAdvertiserGroup,
     url: function() {
-      return '/admin/blocked_advertiser_blocks.json?site_id='+ this.sites.join(',');
+      return '/admin/blocked_advertiser_groups.json?site_id='+ this.sites.join(',');
     },
 
     setSites: function(sites) {
       this.sites = sites;
+    },
+
+    removeSite:function(site_id) {
+      var model = this.findWhere({site_id: site_id});
+      if (model) {
+        this.remove(model);
+      }
+      return model;
     },
 
     parse: function(response) {
@@ -199,7 +243,7 @@
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
                 if(site.site_id === response[k].site_id) {
-                  site.advertiserBlocks.add(this._createAdvertiserBlock(response[k]));
+                  site.advertiserGroups.add(this._createAdvertiserGroup(response[k]));
                   delete response[k];
                 }
               }
@@ -214,16 +258,17 @@
       return {
         site_id: site.site_id,
         site_name: site.site_name,
-        advertiserBlocks: new BlockSites.BlockedAdvertiserBlockList()
+        advertiserGroups: new BlockSites.BlockedAdvertiserGroupList()
       }
     },
 
-    _createAdvertiserBlock: function(advertiser_block) {
+    _createAdvertiserGroup: function(advertiser_group) {
       return{
-        id: advertiser_block.id,
-        advertiser_block_id: advertiser_block.advertiser_group_id,
-        advertiser_block_name: advertiser_block.advertiser_group_name,
-        site_id: advertiser_block.site_id
+        id: advertiser_group.id,
+        advertiser_group_id: advertiser_group.advertiser_group_id,
+        advertiser_group_name: advertiser_group.advertiser_group_name,
+        site_id: advertiser_group.site_id,
+        state: advertiser_group.state,
       }
     },
 
@@ -296,9 +341,13 @@
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= advertiser_name%>'),
+    template: _.template('<% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_name%>'),
+
     attributes: function() {
-      return {value: this.model.get('advertiser_id')};
+      return {
+        value: this.model.get('advertiser_id'),
+        site_id: this.model.get('site_id')
+      };
     },
   });
 
@@ -337,49 +386,112 @@
     },
 
     _onRemoveAdvertiserClick: function(event) {
+      var selectedAdvertisers = [],
+      unblockedAdvertisers = [];
+
+      if (this._isAdvertiserSelected()) {
+
+        $( "#blockedAdvertiserList option:selected" ).each(function() {
+          var site_id = parseInt($( this ).attr('site_id')),
+          advertiser_id = parseInt($( this ).val());
+          selectedAdvertisers.push({site_id: site_id, advertiser_id: advertiser_id});
+        });
+
+        for (var i = 0; i < selectedAdvertisers.length; i++) {
+          var site = this.collection.findWhere({site_id: selectedAdvertisers[i].site_id}),
+          advertiser = site.removeAdvertiser(selectedAdvertisers[i].advertiser_id);
+          unblockedAdvertisers.push(advertiser);
+        }
+
+        if(site.getAdvertisers().size() < 1) {
+          this.collection.removeSite(site.get('site_id'));
+        }
+
+        this.trigger('UnBlock:Advertiser', unblockedAdvertisers);
+      }
+
     },
+
+    _isAdvertiserSelected: function() {
+      return (this.ui.blocked_advertiser_list.val() && this.ui.blocked_advertiser_list.val().length > 0);
+    }
 
   });
 
-  BlockSites.BlockedAdvertiserBlockView = Backbone.Marionette.ItemView.extend({
+  BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= advertiser_block_name%>'),
+    template: _.template(' <% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_group_name%>'),
     attributes: function() {
-      return {value: this.model.id};
+      return {
+        value: this.model.get('advertiser_group_id'),
+        site_id: this.model.get('site_id')
+      }
     },
   });
 
-  BlockSites.BlockedAdvertiserBlockListItemView = Backbone.Marionette.CollectionView.extend({
+  BlockSites.BlockedAdvertiserGroupListItemView = Backbone.Marionette.CollectionView.extend({
     tagName: 'optgroup',
-    itemView: BlockSites.BlockedAdvertiserBlockView,
+    itemView: BlockSites.BlockedAdvertiserGroupView,
     attributes: function() {
       return {label: this.model.get('site_name')};
     },
 
     initialize: function() {
-      this.collection = this.model.get('advertiserBlocks');
+      this.collection = this.model.get('advertiserGroups');
     },
   });
 
-  BlockSites.BlockedAdvertiserBlockListView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/block_sites/blocked_advertiser_block_list_view'],
-    itemView: BlockSites.BlockedAdvertiserBlockListItemView,
+  BlockSites.BlockedAdvertiserGroupListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/blocked_advertiser_group_list_view'],
+    itemView: BlockSites.BlockedAdvertiserGroupListItemView,
 
     events: {
-      'click #btnAdd' : '_onAddAdvertiserBlockClick',
+      'click #btnAdd' : '_onAddAdvertiserGroupClick',
+      'click #btnRemove' : '_onRemoveAdvertiserGroupClick',
     },
 
     ui: {
-      blocked_advertiser_block_list: '#blockedAdvertiserBlockList',
+      blocked_advertiser_group_list: '#blockedAdvertiserGroupList',
     },
 
     appendHtml: function(collectionView, itemView){
-     collectionView.$("#blockedAdvertiserBlockList").append(itemView.el);
+     collectionView.$("#blockedAdvertiserGroupList").append(itemView.el);
     },
 
-    _onAddAdvertiserBlockClick: function(event) {
-      this.trigger('Show:AdvertiserBlockModalView');
+    _onAddAdvertiserGroupClick: function(event) {
+      this.trigger('Show:AdvertiserGroupModalView');
     },
+
+    _onRemoveAdvertiserGroupClick: function(event) {
+      var selectedAdvertiserGroups = [],
+      unblockedAdvertiserGroups = [];
+
+      if (this._isAdvertiserGroupSelected()) {
+
+        $( "#blockedAdvertiserGroupList option:selected" ).each(function() {
+          var site_id = parseInt($( this ).attr('site_id')),
+          advertiser_group_id = parseInt($( this ).val());
+          selectedAdvertiserGroups.push({site_id: site_id, advertiser_group_id: advertiser_group_id});
+        });
+
+        for (var i = 0; i < selectedAdvertiserGroups.length; i++) {
+          var site = this.collection.findWhere({site_id: selectedAdvertiserGroups[i].site_id}),
+          advertiser_group = site.removeAdvertiserGroup(selectedAdvertiserGroups[i].advertiser_group_id);
+          unblockedAdvertiserGroups.push(advertiser_group);
+        }
+
+        if(site.getAdvertiserGroups().size() < 1) {
+          this.collection.removeSite(site.get('site_id'));
+        }
+
+        this.trigger('UnBlock:AdvertiserGroups', unblockedAdvertiserGroups);
+      }
+
+    },
+
+    _isAdvertiserGroupSelected: function() {
+      return (this.ui.blocked_advertiser_group_list.val() && this.ui.blocked_advertiser_group_list.val().length > 0 )
+    }
 
   });
 
@@ -439,7 +551,7 @@
 
   });
 
-  BlockSites.AdvertiserBlockView = Backbone.Marionette.ItemView.extend({
+  BlockSites.AdvertiserGroupView = Backbone.Marionette.ItemView.extend({
     tagName: 'option',
     template: _.template('<%= name%>'),
     attributes: function() {
@@ -447,10 +559,10 @@
     },
   });
 
-  BlockSites.AdvertiserBlockListModalView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/block_sites/advertiser_block_list_modal_view'],
+  BlockSites.AdvertiserGroupListModalView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/advertiser_group_list_modal_view'],
     className: 'modal',
-    itemView: BlockSites.AdvertiserBlockView,
+    itemView: BlockSites.AdvertiserGroupView,
 
     events: {
       'click #search_button': 'onSearch',
@@ -460,16 +572,16 @@
 
     ui:{
       search_input: '#search_input',
-      blocked_advertiser_list: '#advertiserBlockList'
+      blocked_advertiser_group_list: '#advertiserGroupList'
     },
 
     initialize: function() {
-      this.collection = new BlockSites.AdvertiserBlockList();
+      this.collection = new BlockSites.AdvertiserGroupList();
       this.collection.fetch();
     },
 
     appendHtml: function(collectionView, itemView){
-      collectionView.$("#advertiserBlockList").append(itemView.el);
+      collectionView.$("#advertiserGroupList").append(itemView.el);
     },
 
     onSearch: function(event) {
@@ -481,14 +593,14 @@
     },
 
     onBlock: function(event) {
-      var selectedAdvertiserBlocks = this.ui.blocked_advertiser_list.val();
-      if(selectedAdvertiserBlocks && selectedAdvertiserBlocks.length >0 ) {
+      var selectedAdvertiserGroups = this.ui.blocked_advertiser_group_list.val();
+      if(selectedAdvertiserGroups && selectedAdvertiserGroups.length >0 ) {
         var vos = [];
-        for (var i = 0; i < selectedAdvertiserBlocks.length; i++) {
-          var item = this.collection.get(selectedAdvertiserBlocks[i]);
+        for (var i = 0; i < selectedAdvertiserGroups.length; i++) {
+          var item = this.collection.get(selectedAdvertiserGroups[i]);
           vos.push(item);
         }
-      this.trigger('Block:AdvertiserBlock', vos);
+      this.trigger('Block:AdvertiserGroup', vos);
       $('#close_modal').trigger('click');
       }
     },
@@ -502,8 +614,8 @@
       this._initializeLayout();
       this._initializeSiteListView();
       this._initializeBlockedAdvertiserListView();
-      this._initializeBlockedAdvertiserBlockListView();
-      _.bindAll(this, '_onSuccess');
+      this._initializeBlockedAdvertiserGroupListView();
+      _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError');
     },
 
     _initializeLayout: function() {
@@ -527,31 +639,38 @@
       this.blockedAdvertiserList = new BlockSites.BlockedAdvertiserList();
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
       this.blockedAdvertiserListView.on('Show:AdvertiserListModalView', this._showAdvertiserModalView, this);
+      this.blockedAdvertiserListView.on('UnBlock:Advertiser', this._onUnblockAdvertiser, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
 
-    _initializeBlockedAdvertiserBlockListView: function() {
-      this.blockedAdvertiserBlockList = new BlockSites.BlockedAdvertiserBlockList();
-      this.blockedAdvertiserBlockListView = new BlockSites.BlockedAdvertiserBlockListView({collection: this.blockedAdvertiserBlockList});
-      this.blockedAdvertiserBlockListView.on('Show:AdvertiserBlockModalView', this._showAdvertiserBlockModalView, this);
-      this.layout.blockedAdvertiserBlockListView.show(this.blockedAdvertiserBlockListView);
+    _initializeBlockedAdvertiserGroupListView: function() {
+      this.blockedAdvertiserGroupList = new BlockSites.BlockedAdvertiserGroupList();
+      this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
+      this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
+      this.blockedAdvertiserGroupListView.on('UnBlock:AdvertiserGroups', this._onUnblockAdvertiserGroup, this);
+      this.layout.blockedAdvertiserGroupListView.show(this.blockedAdvertiserGroupListView);
     },
 
-    _showAdvertiserBlockModalView:function() {
+    _showAdvertiserGroupModalView:function() {
       var selectedSites = this.siteListView.getSelectedSites();
       if (selectedSites && selectedSites.length > 0) {
-        this.advertiserBlockListModalView = new BlockSites.AdvertiserBlockListModalView();
-        this.advertiserBlockListModalView.on('Block:AdvertiserBlock', this._onBlockAdvertiserBlock, this);
-        this.layout.modal.show(this.advertiserBlockListModalView);
+        this.advertiserGroupListModalView = new BlockSites.AdvertiserGroupListModalView();
+        this.advertiserGroupListModalView.on('Block:AdvertiserGroup', this._onBlockAdvertiserGroup, this);
+        this.layout.modal.show(this.advertiserGroupListModalView);
       }
     },
 
     // When user selects the site this method will fetch the blocked advertisers and advertiser blocks
     _getSiteBlocks: function(sites) {
       this.blockedAdvertiserList.setSites(sites);
-      this.blockedAdvertiserBlockList.setSites(sites);
+      this.blockedAdvertiserGroupList.setSites(sites);
+      this._fetchSiteBlocks();
+    },
+
+    _fetchSiteBlocks: function() {
+      this.siteToUnblock = [];
       this.blockedAdvertiserList.fetch({reset:true});
-      this.blockedAdvertiserBlockList.fetch({reset:true});
+      this.blockedAdvertiserGroupList.fetch({reset:true});
     },
 
     _showAdvertiserModalView: function() {
@@ -618,29 +737,37 @@
       return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name})
     },
 
+    _onUnblockAdvertiser: function(advertisers) {
+      this.siteToUnblock = this.siteToUnblock.concat(advertisers);
+    },
+
+    _onUnblockAdvertiserGroup: function(advertiser_groups) {
+      this.siteToUnblock = this.siteToUnblock.concat(advertiser_groups);
+    },
+
     // When user selects advertiser block to block
     // First check if that site exists in the list
     // If No create new object and add it to the list
     // If Yes add selected advertiser block to the list
 
-    _onBlockAdvertiserBlock: function(vos) {
+    _onBlockAdvertiserGroup: function(vos) {
       var selectedSites = this.siteListView.getSelectedSites();
       if (selectedSites && selectedSites.length > 0) {
         for (var i = 0; i < selectedSites.length; i++) {
           // check for the site exist in block site list
           var selectedSite = selectedSites[i],
-          blockedAdvertiserBlocks = this._createAdvertiserBlockModelArray(vos, selectedSite.id),
-          site = this.blockedAdvertiserBlockList.findWhere({site_id: selectedSite.id});
+          blockedAdvertiserGroups = this._createAdvertiserGroupModelArray(vos, selectedSite.id),
+          site = this.blockedAdvertiserGroupList.findWhere({site_id: selectedSite.id});
 
           if(!site) {
             // site is not there add to blockedAdvertiserBlockList collection
-            var blockedAdvertiserBlock = this._createNewBlockedAdvertiserBlock(selectedSite.id, selectedSite.get('name'), blockedAdvertiserBlocks);
-            this.blockedAdvertiserBlockList.add(blockedAdvertiserBlock);
+            var blockedAdvertiserGroup = this._createNewBlockedAdvertiserGroup(selectedSite.id, selectedSite.get('name'), blockedAdvertiserGroups);
+            this.blockedAdvertiserGroupList.add(blockedAdvertiserGroup);
           } else {
             // site exist need to check if user is adding same advertisers or new one
-            blockedAdvertiserBlocks.each(function(blockedAdvertiserBlock) {
-              if(!site.hasAdvertiserBlock(blockedAdvertiserBlock.get('advertiser_block_id'))) {
-                site.addAdvertiserBlock(blockedAdvertiserBlock);
+            blockedAdvertiserGroups.each(function(blockedAdvertiserGroup) {
+              if(!site.hasAdvertiserGroup(blockedAdvertiserGroup.get('advertiser_group_id'))) {
+                site.addAdvertiserGroup(blockedAdvertiserGroup);
               }
             }, this);
           }
@@ -648,75 +775,117 @@
       }
     },
 
-    _createNewBlockedAdvertiserBlock: function(site_id, site_name, blockedAdvertiserBlocks) {
-      var newBlockedAdvertiserBlock = new BlockSites.BlockedAdvertiserBlock({
+    _createNewBlockedAdvertiserGroup: function(site_id, site_name, blockedAdvertiserGroups) {
+      var newBlockedAdvertiserGroup = new BlockSites.BlockedAdvertiserGroup({
         site_id: site_id,
         site_name: site_name,
-        advertiserBlocks: blockedAdvertiserBlocks
+        advertiserGroups: blockedAdvertiserGroups
       });
-      return newBlockedAdvertiserBlock;
+      return newBlockedAdvertiserGroup;
     },
 
-    _createAdvertiserBlockModelArray: function(vos, site_id) {
-      var blockedAdvertiserBlocks = new BlockSites.BlockedAdvertiserBlockList();
+    _createAdvertiserGroupModelArray: function(vos, site_id) {
+      var blockedAdvertiserGroups = new BlockSites.BlockedAdvertiserGroupList();
       for (var i = 0; i < vos.length; i++) {
-        var blockedAdvertiserBlock = this._createAdvertiserBlockModel(vos[i], site_id);
-        blockedAdvertiserBlocks.push(blockedAdvertiserBlock);
+        var blockedAdvertiserGroup = this._createAdvertiserGroupModel(vos[i], site_id);
+        blockedAdvertiserGroups.push(blockedAdvertiserGroup);
       }
-      return blockedAdvertiserBlocks;
+      return blockedAdvertiserGroups;
     },
 
-    _createAdvertiserBlockModel: function(advertiser_block, site_id) {
-      var advertiser_block_id = advertiser_block.id,
-      name = advertiser_block.get('name');
+    _createAdvertiserGroupModel: function(advertiser_group, site_id) {
+      var advertiser_group_id = advertiser_group.id,
+      name = advertiser_group.get('name');
 
-      return new BlockSites.AdvertiserBlock({site_id: site_id, advertiser_block_id: advertiser_block_id, advertiser_block_name: name})
+      return new BlockSites.AdvertiserGroup({site_id: site_id, advertiser_group_id: advertiser_group_id, advertiser_group_name: name})
     },
 
 
     // Check the collection for new object using backbone's isNew() method
     _onSaveSiteBlock: function(event) {
-      // find out newly added advertisers
-      var newBlockedAdvertisers = [],
-      newBlockedAdvertiserBlocks = [],
-      para = {};
+      var para = {};
+      var blockedAdvertisers = this._blockAdvertiser(),
+      blockedAdvertiserGroups = this._blockAdvertiserGroup(),
+      unblockedSites = this._unblockedSites();
+
+      if (blockedAdvertisers.length > 0 ) {
+        para.blocked_advertisers = JSON.stringify(blockedAdvertisers);
+      }
+
+      if (blockedAdvertiserGroups.length > 0) {
+        para.blocked_advertiser_groups = JSON.stringify(blockedAdvertiserGroups);
+      }
+
+      if (unblockedSites.length > 0) {
+        para.unblocked_sites = JSON.stringify(unblockedSites);
+      }
+
+      if (blockedAdvertisers.length > 0 || blockedAdvertiserGroups.length > 0 || unblockedSites.length > 0) {
+        $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
+      }
+
+    },
+
+    _blockAdvertiser: function() {
+      var newBlockedAdvertisers = [];
 
       this.blockedAdvertiserList.each(function(site) {
-        site.getAdvertiser().each(function(advertiser) {
+        site.getAdvertisers().each(function(advertiser) {
           if(advertiser.isNew()) {
             newBlockedAdvertisers.push(advertiser.toJSON());
           }
         })
       }, this);
 
-      if (newBlockedAdvertisers.length > 0) {
-        para.blocked_advertisers = JSON.stringify(newBlockedAdvertisers)
-      }
+      return newBlockedAdvertisers;
+    },
 
-      this.blockedAdvertiserBlockList.each(function(site) {
-        site.getAdvertiserBlocks().each(function(advertiser_block) {
-          if(advertiser_block.isNew()) {
-            newBlockedAdvertiserBlocks.push(advertiser_block.toJSON());
+    _blockAdvertiserGroup: function(fetch_records) {
+      // find out newly added advertisers
+      var newBlockedAdvertiserGroup = [];
+
+      this.blockedAdvertiserGroupList.each(function(site) {
+        site.getAdvertiserGroups().each(function(advertiser_group) {
+          if(advertiser_group.isNew()) {
+            newBlockedAdvertiserGroup.push(advertiser_group.toJSON());
           }
         })
       }, this);
 
-      if (newBlockedAdvertiserBlocks.length > 0) {
-        para.blocked_advertiser_blocks = JSON.stringify(newBlockedAdvertiserBlocks)
-      }
+      return newBlockedAdvertiserGroup;
+    },
 
-      if(newBlockedAdvertisers.length > 0 || newBlockedAdvertiserBlocks.length > 0) {
-        $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, dataType: 'json'});
+    _unblockedSites: function() {
+      var array = this.siteToUnblock,
+      unblock = [];
+
+      for (var i = 0; i < array.length; i++) {
+        if (!array[i].isNew()) {
+          unblock.push(array[i]);
+        }
       }
+      return unblock;
     },
 
     _onSuccess: function(event) {
-      this.blockedAdvertiserList.fetch({reset:true});
-      this.blockedAdvertiserBlockList.fetch({reset:true});
+      alert('Your changes were successfully saved.');
+      this._fetchSiteBlocks();
+    },
+
+    _onError: function(event) {
+      alert('An error occurred while saving your changes.');
     },
 
     _onCommitSiteBlock: function(event) {
+      $.ajax({type: "POST", url: '/admin/block_sites/commit.json', success: this._onCommitSuccess, error: this._onCommitError, dataType: 'json'});
+    },
 
+    _onCommitSuccess: function(event) {
+      alert('Your changes were committed successfully.');
+    },
+
+    _onCommitError: function(event) {
+      alert('An error occurred while committing your changes.');
     },
 
   });
