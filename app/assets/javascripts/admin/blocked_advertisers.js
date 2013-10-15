@@ -37,6 +37,11 @@
   BlockedAdvertisers.AdvertisersList = Backbone.Collection.extend({
     url: '/advertisers/search.json',
     model: BlockedAdvertisers.Advertiser,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    }
   });
 
   BlockedAdvertisers.AdvertisersGroup = Backbone.Model.extend({});
@@ -44,6 +49,11 @@
   BlockedAdvertisers.AdvertisersGroupsList = Backbone.Collection.extend({
     url: '/advertiser_blocks/search.json',
     model: BlockedAdvertisers.AdvertisersGroup,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    }
   });
 
   BlockedAdvertisers.Site = Backbone.Model.extend({});
@@ -138,6 +148,20 @@
     ui: {
       search_input: '#search_input',
       list: '#list',
+      loading_div: '#loading_div'
+    },
+
+    initialize: function(){
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
     },
 
     onSearch: function(event) {
@@ -208,7 +232,7 @@
       this.advertiserSearchView = new BlockedAdvertisers.SearchView({collection: this.advertiserList});
       this.advertiserSearchView.on('ItemChange', this._fetchAdvertisers, this);
       this.layout.advertiserSearchView.show(this.advertiserSearchView);
-      this.advertiserList.fetch();
+      this.advertiserList.fetch({reset: true});
     },
 
     _initializeAdvertiserGroupSearchView: function() {
@@ -216,7 +240,7 @@
       this.advertiserGroupSearchView = new BlockedAdvertisers.SearchView({collection: this.advertiserGroupList});
       this.advertiserGroupSearchView.on('ItemChange', this._fetchAdvertiserGroups, this);
       this.layout.advertiserGroupSearchView.show(this.advertiserGroupSearchView);
-      this.advertiserGroupList.fetch();
+      this.advertiserGroupList.fetch({reset: true});
     },
 
     _initializeSearchResultsView: function() {

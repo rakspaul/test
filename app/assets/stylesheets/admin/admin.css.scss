@@ -1,3 +1,20 @@
+.loading-div{
+  position:absolute;
+  top:0px;
+  left:0px;
+  z-index:5000;
+  text-align:center;
+  background:#eee;
+  opacity:0.7;
+
+  .loading-img{
+    width:16px;
+    height:11px;
+    background-image: image-url("loading.gif");
+    display:inline-block;
+  }
+}
+
 .main-container{
   padding-left:105px;
 
@@ -227,23 +244,11 @@
     }
 
     .loading-div{
-      position:absolute;
       width:317px;
       height:300px;
-      top:0px;
-      left:0px;
-      z-index:5000;
-      text-align:center;
-      background:#eee;
-      opacity:0.7;
-      display:none;
 
       .loading-img{
         margin-top:140px;
-        width:16px;
-        height:11px;
-        background-image: image-url("loading.gif");
-        display:inline-block;
       }
     }
 
@@ -311,12 +316,28 @@
 
   .block-site-control{
     margin-bottom:10px;
-    select{
-      width: 85%;
-      height:500px;
-      font-size:13px;
-      padding:2px;
+
+    .controls{
+      position:relative;
+
+      select{
+        width: 85%;
+        height:500px;
+        font-size:13px;
+        padding:2px;
+      }
+
+      .loading-div{
+        width:85%;
+        height:500px;
+
+        .loading-img{
+          margin-top:240px;
+        }
+      }
+
     }
+
   }
 
 }
@@ -341,14 +362,28 @@
   .select-control{
     margin-bottom:10px;
 
-    select{
-      width:400px;
-      height:280px;
-      font-size:13px;
-      padding:2px;
-    }
-  }
+    .controls{
+      position:relative;
 
+      select{
+        width:400px;
+        height:280px;
+        font-size:13px;
+        padding:2px;
+      }
+
+      .loading-div{
+        width:400px;
+        height:280px;
+
+        .loading-img{
+          margin-top:140px;
+        }
+      }
+
+    }
+
+  }
 
 }
 
@@ -368,15 +403,41 @@
 
   .block-advt-results-view{
     margin-top:108px;
+
+    select{
+      width:85%;
+      height:540px;
+    }
   }
 
   .search-input{
     width:86%;
   }
 
-  select{
-    width:85%;
-    height:540px;
+  .select-control{
+    margin-bottom:10px;
+
+    .controls{
+      position:relative;
+
+      select{
+        width:85%;
+        height:540px;
+        font-size:13px;
+        padding:2px;
+      }
+
+      .loading-div{
+        width:85%;
+        height:540px;
+
+        .loading-img{
+          margin-top:260px;
+        }
+      }
+
+    }
+
   }
 
 }

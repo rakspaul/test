@@ -56,6 +56,11 @@
   BlockSites.SiteList = Backbone.Collection.extend({
     url: '/sites/search.json',
     model: BlockSites.Site,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
   });
 
   BlockSites.Advertiser = Backbone.Model.extend({
@@ -67,6 +72,12 @@
   BlockSites.AdvertiserList = Backbone.Collection.extend({
     url: '/advertisers/search.json',
     model: BlockSites.Advertiser,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+
   });
 
   BlockSites.AdvertiserGroup = Backbone.Model.extend({
@@ -78,6 +89,11 @@
   BlockSites.AdvertiserGroupList = Backbone.Collection.extend({
     url: '/advertiser_blocks/search.json',
     model: BlockSites.AdvertiserGroup,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
   });
 
   BlockSites.BlockedAdvertiser = Backbone.Model.extend({
@@ -296,12 +312,24 @@
 
     ui:{
       search_input: '#search_input',
-      site_list: '#sitesList'
+      site_list: '#sitesList',
+      loading_div: '#loading_div'
     },
 
     initialize: function() {
       this.collection = new BlockSites.SiteList();
-      this.collection.fetch();
+      this.collection.fetch({reset: true});
+
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
     },
 
     appendHtml: function(collectionView, itemView){
@@ -516,12 +544,24 @@
 
     ui:{
       search_input: '#search_input',
-      advertiser_list: '#advertiserList'
+      advertiser_list: '#advertiserList',
+      loading_div: '#loading_div'
     },
 
     initialize: function() {
       this.collection = new BlockSites.AdvertiserList();
-      this.collection.fetch();
+      this.collection.fetch({reset: true});
+
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
     },
 
     appendHtml: function(collectionView, itemView){
@@ -572,12 +612,24 @@
 
     ui:{
       search_input: '#search_input',
-      blocked_advertiser_group_list: '#advertiserGroupList'
+      blocked_advertiser_group_list: '#advertiserGroupList',
+      loading_div: '#loading_div'
     },
 
     initialize: function() {
       this.collection = new BlockSites.AdvertiserGroupList();
-      this.collection.fetch();
+      this.collection.fetch({reset: true});
+
+      this.collection.on("fetch", this.onFetch, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    onReset: function() {
+      this.ui.loading_div.hide();
     },
 
     appendHtml: function(collectionView, itemView){
