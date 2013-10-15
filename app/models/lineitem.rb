@@ -6,9 +6,9 @@ class Lineitem < ActiveRecord::Base
   belongs_to :order
   belongs_to :user
 
-  has_one :nielsen_pricing, autosave: true
+  has_one :nielsen_pricing, autosave: true, dependent: :destroy
 
-  has_many :ads, foreign_key: 'io_lineitem_id'
+  has_many :ads, foreign_key: 'io_lineitem_id', dependent: :destroy
   has_many :lineitem_assignments, foreign_key: :io_lineitem_id
   has_many :creatives, through: :lineitem_assignments
 
