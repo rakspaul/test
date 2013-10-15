@@ -364,7 +364,7 @@
           }
         });
       } else {
-        $('#change-order-status-dialog .modal-body p').html("Please save order before changing it status");
+        $('#change-order-status-dialog .modal-body p').html("Please save order before changing its status");
         $('#change-order-status-dialog').modal('show');
       }
     },
