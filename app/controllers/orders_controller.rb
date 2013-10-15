@@ -370,7 +370,6 @@ private
               ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
               ad_object.order_id = @order.id
               ad_object.cost_type = "CPM"
-              ad_object.source_id = @order.source_id
 
               ad_object.save_targeting(ad_targeting)
               
@@ -462,7 +461,6 @@ private
             ad_object.order_id = @order.id
             ad_object.cost_type = "CPM"
             ad_object.alt_ad_id = lineitem.alt_ad_id
-            ad_object.source_id = @order.source_id
 
             ad_object.save_targeting(ad_targeting)
 
