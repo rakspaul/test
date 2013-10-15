@@ -13,7 +13,7 @@ class Order < ActiveRecord::Base
 
   has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
   has_many :io_assets, dependent: :destroy
-  has_many :ads
+  has_many :ads, dependent: :destroy
   has_many :order_notes
   has_many :io_logs
 
