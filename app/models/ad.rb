@@ -29,7 +29,7 @@ class Ad < ActiveRecord::Base
         if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
           ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
         else
-          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
         end
       end
     end
