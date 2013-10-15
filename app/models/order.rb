@@ -15,6 +15,7 @@ class Order < ActiveRecord::Base
   has_many :io_assets, dependent: :destroy
   has_many :ads
   has_many :order_notes
+  has_many :io_logs
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
