@@ -416,6 +416,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this._setupOrderDateFields(order);
   },
 
+  _showPushErrors: function(errors_list) {
+    _.each(errors_list, function(error) {
+      if("ad" == error.type) {
+        $('.ad-'+error.ad_id+'.pushing_errors').html(error.message);
+      } else if("creative" == error.type) {
+        $('.creative-'+error.creative_id+'.pushing_errors').html(error.message);
+      }
+    });
+  },
+
   _showLineitemList: function(order) {
     var self = this;
     if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
@@ -581,6 +591,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               }
             });
             lineItemList._recalculateLiImpressionsMediaCost();
+
+            if(lineItemList.order.get('pushing_errors').length > 0) {
+              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'));
+            }
           },
           function(model, response, options) {
             console.log('error while getting ads list');

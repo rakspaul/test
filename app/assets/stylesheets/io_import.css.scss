@@ -11,7 +11,7 @@ $error_color: #ff7d78;
   border-right: 1px solid $error_color;
 }
 
-.errors_container {
+.errors_container, .pushing_errors {
   background-color: $error_color;
   margin-top:0;
   float: none;

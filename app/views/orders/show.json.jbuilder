@@ -22,3 +22,12 @@ json.notes do
     json.partial! 'order_notes/note.json.jbuilder', note: note
   end
 end
+
+json.pushing_errors do
+  json.array! @pushing_errors do |error|
+    json.type    error.type
+    json.message error.message
+    json.creative_id error.creative_id
+    json.ad_id   error.ad_id
+  end
+end
