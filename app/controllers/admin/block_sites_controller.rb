@@ -7,12 +7,23 @@ class Admin::BlockSitesController < ApplicationController
   add_crumb("Block Sites") {|instance| instance.send :admin_block_sites_path}
 
   def index
-    @blocked_sites = params['type'].present? && params['site_id'].present? ? site_blocks(params['type'], params['site_id']) : []
+    @blocked_sites = site_blocks(params['type'], params['site_id']) if params['type'].present? && params['site_id'].present?
+    @blocked_sites = blocked_advertiser_sites(params['type'], params['advertiser_id']) if params['type'].present? && params['advertiser_id'].present?
+    @blocked_sites = blocked_advertiser_group_sites(params['type'], params['advertiser_group_id']) if params['type'].present? && params['advertiser_group_id'].present?
+
     respond_with(@blocked_sites)
   end
 
   def site_blocks(model, site_ids)
     model.constantize.of_network(current_network).where(site_id: site_ids.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
+  end
+
+  def blocked_advertiser_sites(model, advertiser_id)
+    model.constantize.of_network(current_network).where(advertiser_id: advertiser_id.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
+  end
+
+  def blocked_advertiser_group_sites(model, advertiser_group_id)
+    model.constantize.of_network(current_network).where(advertiser_group_id: advertiser_group_id.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
   end
 
   def create
@@ -28,7 +39,7 @@ class Admin::BlockSitesController < ApplicationController
 
   def block_advertisers(blocked_advertisers)
     blocked_advertisers.each do |advertiser|
-       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"])
+       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
        ba.user = current_user
        ba.network = current_network
        ba.state = "PENDING_BLOCK"
@@ -38,7 +49,7 @@ class Admin::BlockSitesController < ApplicationController
 
   def block_advertiser_group(blocked_advertiser_groups)
     blocked_advertiser_groups.each do |advertiser_group|
-      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"])
+      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
       bag.user = current_user
       bag.network = current_network
       bag.state = "PENDING_BLOCK"

@@ -57,3 +57,4 @@
 //= require ./admin/audience_groups.js
 //= require ./admin/audience_group_controller.js
 //= require ./admin/block_sites.js
+//= require ./admin/blocked_advertisers.js
