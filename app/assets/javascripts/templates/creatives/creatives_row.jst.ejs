@@ -1,12 +1,16 @@
 <div class="pure-u-1-24 delete-btn-container">
+  <% if(isNaN(parseInt(creative.source_id))) { %>
   <div class="delete-btn" style="display:none;" title="Delete"></div>
+  <% } else { %>
+  <div class="dfp-success"></div>
+  <% } %>
 </div>
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
   <div class="creative-<%= creative.id %> pushing_status" style="clear:both">
     <% if(!isNaN(parseInt(creative.source_id))) { %>
-      <div class="dfp-success"></div> <%= creative.source_id %>
+      <%= creative.source_id %>
     <% } %>
   </div>
 </div>
