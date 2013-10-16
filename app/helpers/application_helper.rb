@@ -1,13 +1,14 @@
 module ApplicationHelper
   APP_NAVIGATION_BAR = {
-    "Reports" => {
-      controllers: ["Reports::ReportsController"],
-      path: :reports_reports
-    },
 
     "Orders" => {
       controllers: ["OrdersController","LineitemsController"],
       path: :orders
+    },
+
+    "Reports" => {
+      controllers: ["Reports::ReportsController"],
+      path: :reports_reports
     },
 
     "Nielsen OCR" => {
