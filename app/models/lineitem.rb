@@ -41,7 +41,7 @@ class Lineitem < ActiveRecord::Base
         creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
       else
         creative = Creative.create name: ad_name(cparams), network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: "InternalRedirectCreative", redirect_url: cparams[:redirect_url], network_id: self.order.network_id, data_source_id: 1
-        LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: creative.source_id
+        LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
       end
     end
   end
