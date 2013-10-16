@@ -30,7 +30,9 @@ $error_color: #ff7d78;
 }
 
 .pushing-status {
-  margin-top: 5px;
+  margin-top: 20px;
+  color: $text_color;
+  width: 160px;
 
   span.failed {
     color: red;
@@ -38,10 +40,11 @@ $error_color: #ff7d78;
 
   span.reason {
     cursor: pointer;
+    margin-left: 7px;
   }
 
-  .dfp-success {
-    background: url(asset-path('dfp_icon.png')) 0px 0px no-repeat;
+  .start-date .dfp-success {
+    background: url(asset-path('dfp_icon_small.png')) 0px 0px no-repeat;
     width: 10px;
     height: 16px;
     float: left;
@@ -315,9 +318,19 @@ $error_color: #ff7d78;
       padding-top: 5px;
     }
 
-    .ad_name {
+    .ad-name {
       text-align: center;
       color: $text_color;
+      font-weight: bold;
+
+      .dfp-success {
+        background: url(asset-path('dfp_icon.png')) 0px 0px no-repeat;
+        width: 20px;
+        height: 30px;
+        float: left;
+        margin-top: 3px;
+        margin-left: 15px;
+      }
     }
 
     .buttons-container {
