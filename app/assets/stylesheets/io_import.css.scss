@@ -30,10 +30,10 @@ $error_color: #ff7d78;
 }
 
 .pushing-status {
-  margin-top: 20px;
+  margin-top: 40px;
   color: $text_color;
   width: 160px;
-
+  
   span.failed {
     color: red;
   }

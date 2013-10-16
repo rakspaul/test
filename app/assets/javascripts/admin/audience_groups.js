@@ -15,7 +15,7 @@
     }
   });
 
-  AudienceGroup.AudienceGroupsList = Backbone.Collection.extend({
+  AudienceGroup.AudienceGroupsList = Backbone.Model.extend({
     model: AudienceGroup.AudienceGroupModel,
 
     url: function() {

@@ -184,11 +184,8 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
-      
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);    
-      
-      ReachUI.showCondensedTargetingOptions.apply(this);
+          
+      this.renderTargetingDialog();
 
       // align height of lineitem's li-number div
       _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });

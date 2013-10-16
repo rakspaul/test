@@ -173,18 +173,7 @@
         }
       });
 
-      if(this.model.get('targeting').attributes.dmas_list.length == 0) {
-        var dmas = new ReachUI.DMA.List();
-        dmas.fetch({
-          success: function(collection, response, options) {
-            self.model.get('targeting').set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-            self.renderTargetingDialog();
-          }
-        });
-      } else {
-        self.renderTargetingDialog();
-      }
-
+      this.renderTargetingDialog();
       this.renderCreatives();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
