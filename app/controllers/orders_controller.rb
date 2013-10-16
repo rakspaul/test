@@ -327,6 +327,13 @@ private
       lineitem = @order.lineitems.find(li[:lineitem][:id])
       li[:lineitem].delete(:id)
 
+      # delete Ads functionality
+      delete_ads = lineitem.ads.map(&:id) 
+      li[:ads].to_a.each do |ad|
+        delete_ads.delete(ad[:ad][:id]) if ad[:ad][:id]
+      end
+      Ad.delete_all(id: delete_ads) unless delete_ads.empty?
+
       if !lineitem.update_attributes(li[:lineitem])
         Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
@@ -349,7 +356,6 @@ private
         if lineitem.save
           lineitem.save_creatives(li_creatives)
 
-          delete_ads = lineitem.ads.map(&:id)
           li[:ads].to_a.each_with_index do |ad, j|
             begin
               ad_targeting = ad[:ad].delete(:targeting)
@@ -397,8 +403,6 @@ private
                 end
 
                 ad_object.save_creatives(ad_creatives)
-
-                delete_ads.delete(ad[:ad][:id]) if ad[:ad][:id]
               else
                 Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
                 li_errors[i] ||= {:ads => {}}
@@ -411,7 +415,6 @@ private
               li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
             end
           end
-          Ad.delete_all(id: delete_ads) unless delete_ads.empty?
         end
       end
     end
