@@ -563,9 +563,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         
         $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-          var ags_list = _.map(ags.models, function(el) { return {id: el.attributes.code, name: el.attributes.name} });
-
-          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags_list}));
+         
+          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
           li_view.renderTargetingDialog();
         });
       });
