@@ -525,6 +525,7 @@ $error_color: #ff7d78;
 
   p.heading {
     font-size: 24px;
+    color: $text_color;
     text-align: center;
     line-height: 38px;
     margin-top:20px;
@@ -533,27 +534,28 @@ $error_color: #ff7d78;
   .btns {
     margin:20px auto;
     text-align: center;
+    width: 250px;
   }
 
   .cancel-btn {
-    color: $text_color;
+    background-color: $bg_color;
+    color: white;
     width: 50px;
     text-align: center;
     padding: 5px;
     cursor: pointer;
     margin: 5px;
-    border: 1px dashed $text_color;
     float: left;
   }
 
   .push-btn {
-    color: $text_color;
+    background-color: $text_color;
+    color: white;
     width: 140px;
     text-align: center;
     padding: 5px;
     cursor: pointer;
     margin: 5px;
-    border: 1px dashed $text_color;
     float: left;
   }
 }

@@ -367,8 +367,17 @@
     },
 
     _pushOrder: function() {
-      //$('#push-confirmation-dialog').modal('show');
-      this._changeStatus('pushing');
+      var self = this;
+      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
+        $('#push-confirmation-dialog .cancel-btn').click(function() { 
+          $('#push-confirmation-dialog').modal('hide');
+        });
+        $('#push-confirmation-dialog .push-btn').click(function() { 
+          $('#push-confirmation-dialog').modal('hide');
+          self._changeStatus('pushing');
+        });
+        $('#push-confirmation-dialog').modal('show');
+      }
     },
 
     _revertOrderToDraft: function() {
