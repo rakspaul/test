@@ -4,6 +4,7 @@
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
+  <div class="creative-<%= creative.id %> pushing_status" style="clear:both"></div>
 </div>
 
 <div class="pure-u-1-12 end-date">
@@ -15,7 +16,6 @@
     <%= creative.ad_size %>
   </span>
   <div class="errors" style="clear:both"></div>
-  <div class="creative-<%= creative.id %> pushing_errors" style="clear:both"></div>
 </div>
 
 <div class="pure-u-1-2 image-url">

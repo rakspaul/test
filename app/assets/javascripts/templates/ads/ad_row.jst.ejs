@@ -8,6 +8,11 @@
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.start_date %></span>
+  <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
+    <% if(!isNaN(parseInt(ad.source_id))) { %>
+      <div class="dfp-success"></div> <%= ad.source_id %>
+    <% } %>
+  </div>
 </div>
 
 <div class="pure-u-1-12 end-date">
@@ -37,7 +42,6 @@
   <br/>
   <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
   <div class="targeting_options_condensed" style="clear:both"></div>
-  <div class="ad-<%= ad.id %> pushing_errors" style="clear:both"></div>
 </div>
   
 <div class="pure-u-1-12 volume">
