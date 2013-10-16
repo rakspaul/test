@@ -173,7 +173,21 @@
         }
       });
 
-      this.renderTargetingDialog();
+      if(this.model.get('targeting').attributes.dmas_list.length == 0) {
+        var dmas = new ReachUI.DMA.List();
+        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+
+        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
+          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+         
+          self.model.get('targeting').set('dmas_list', dmas_list);
+          self.model.get('targeting').set('audience_groups', ags.attributes);
+          self.renderTargetingDialog();
+        });
+      } else {
+        self.renderTargetingDialog();
+      }
+
       this.renderCreatives();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
