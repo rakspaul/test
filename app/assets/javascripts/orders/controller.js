@@ -374,7 +374,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name'
+      valueKey: 'name',
+      limit: 20
     });
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
