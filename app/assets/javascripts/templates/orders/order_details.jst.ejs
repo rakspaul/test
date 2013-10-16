@@ -42,6 +42,9 @@
 
   <div class="current-io-status-top">
     <%= order.order_status %>
+    <% if(!isNaN(parseInt(order.source_id))) { %>
+      <%= order.source_id %>
+    <% } %>
   </div>
 
   <div class="clearfix"></div>

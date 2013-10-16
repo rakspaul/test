@@ -18,7 +18,7 @@
             = link_to order.id, order_path(order)
           &frasl;
           %span.dfp-id{:title => "DFP Order ID"}
-            = order.source_id
+            = link_to order.source_id, order.dfp_url, target: '_blank'
       %td
         .order-title
           = order.name
