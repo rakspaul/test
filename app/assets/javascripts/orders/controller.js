@@ -417,12 +417,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this._setupOrderDateFields(order);
   },
 
-  _showPushErrors: function(errors_list) {
+  _showPushErrors: function(errors_list, order) {
     _.each(errors_list, function(error) {
-      if("ad" == error.type) {
-        $('.ad-'+error.ad_id+'.pushing_errors').html(error.message);
+      if("order" == error.type) {
+        $('.pushing-errors-order-level').html(error.message);
+      } else if("ad" == error.type) {
+        $('.ad-'+error.ad_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.ad-'+error.ad_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Ad]: "+error.message);
       } else if("creative" == error.type) {
-        $('.creative-'+error.creative_id+'.pushing_errors').html(error.message);
+        $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       }
     });
   },
@@ -594,7 +600,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             lineItemList._recalculateLiImpressionsMediaCost();
 
             if(lineItemList.order.get('pushing_errors').length > 0) {
-              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'));
+              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
             }
           },
           function(model, response, options) {

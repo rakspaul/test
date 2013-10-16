@@ -11,12 +11,53 @@ $error_color: #ff7d78;
   border-right: 1px solid $error_color;
 }
 
-.errors_container, .pushing_errors {
+.errors_container {
   background-color: $error_color;
   margin-top:0;
   float: none;
   text-align: center;
   clear:both;
+}
+
+.pushing-errors-order-level {
+  background-color: $error_color;
+  margin-top:10px;
+  margin-bottom:10px;
+  width:50%;
+  float:right;
+  text-align: center;
+  clear:both;
+}
+
+.pushing-status {
+  margin-top: 20px;
+  color: $text_color;
+  width: 160px;
+
+  span.failed {
+    color: red;
+  }
+
+  span.reason {
+    cursor: pointer;
+    margin-left: 7px;
+  }
+
+  .start-date .dfp-success {
+    background: url(asset-path('dfp_icon_small.png')) 0px 0px no-repeat;
+    width: 10px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+  }
+
+  .dfp-failure {
+    background: url(asset-path('push_failed_icon.png')) 0px 0px no-repeat; 
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+  }
 }
 
 .new-order-header {
@@ -40,7 +81,7 @@ $error_color: #ff7d78;
   }
 
   .field.advertiser-name .tt-query {
-    background: url(asset-path('magnifier_icon.png', image)) 2px 5px no-repeat;
+    background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
     padding-left:20px;
   }
 
@@ -96,7 +137,7 @@ $error_color: #ff7d78;
     }
 
     .contact-unknown {
-      background: url(asset-path('contact_unknown.png', image));
+      background: url(asset-path('contact_unknown.png'));
       width: 16px;
       height: 16px;
       float: left;
@@ -104,7 +145,7 @@ $error_color: #ff7d78;
     }
 
     .billing-contact-icon {
-      background: url(asset-path('billing_contact_icon.png', image));
+      background: url(asset-path('billing_contact_icon.png'));
       width: 16px;
       height: 16px;
       float: right;
@@ -112,7 +153,7 @@ $error_color: #ff7d78;
     }
 
     .account-contact-icon {
-      background: url(asset-path('account_contact_icon.png', image));
+      background: url(asset-path('account_contact_icon.png'));
       width: 16px;
       height: 16px;
       float: right;
@@ -120,7 +161,7 @@ $error_color: #ff7d78;
     }
 
     .media-contact-icon {
-      background: url(asset-path('media_contact_icon.png', image));
+      background: url(asset-path('media_contact_icon.png'));
       width: 16px;
       height: 16px;
       float: right;
@@ -128,7 +169,7 @@ $error_color: #ff7d78;
     }
 
     .salesperson-icon {
-      background: url(asset-path('salesperson_icon.png', image));
+      background: url(asset-path('salesperson_icon.png'));
       width: 16px;
       height: 16px;
       float: right;
@@ -149,7 +190,7 @@ $error_color: #ff7d78;
   }
 
   .current-io-status-top:before {
-    content: url(asset-path('draft_status_icon.png', image));
+    content: url(asset-path('draft_status_icon.png'));
     vertical-align: middle;
     margin-right: 5px;
   }
@@ -258,7 +299,7 @@ $error_color: #ff7d78;
     }
 
     .li-command-btns {
-      background: url(asset-path('expand_li_btn.png', image)) no-repeat;
+      background: url(asset-path('expand_li_btn.png')) no-repeat;
       width: 16px;
       height: 16px;
       float: left;
@@ -277,9 +318,19 @@ $error_color: #ff7d78;
       padding-top: 5px;
     }
 
-    .ad_name {
+    .ad-name {
       text-align: center;
       color: $text_color;
+      font-weight: bold;
+
+      .dfp-success {
+        background: url(asset-path('dfp_icon.png')) 0px 0px no-repeat;
+        width: 20px;
+        height: 30px;
+        float: left;
+        margin-top: 3px;
+        margin-left: 15px;
+      }
     }
 
     .buttons-container {
@@ -288,7 +339,7 @@ $error_color: #ff7d78;
       cursor: pointer;
 
       .clone-btn {
-        background: url(asset-path('clone_btn.png', image)) no-repeat;
+        background: url(asset-path('clone_btn.png')) no-repeat;
         width: 16px;
         height: 16px;
         float: left;
@@ -296,7 +347,7 @@ $error_color: #ff7d78;
       }
       
       .delete-btn {
-        background: url(asset-path('delete_btn.png', image)) no-repeat;
+        background: url(asset-path('delete_btn.png')) no-repeat;
         width: 16px;
         height: 16px;
         float: left;
@@ -379,7 +430,7 @@ $error_color: #ff7d78;
 }
 
 .account-contact-icon {
-  background: url(asset-path('account_contact_icon.png', image)) no-repeat;
+  background: url(asset-path('account_contact_icon.png')) no-repeat;
   width: 16px;
   height: 16px;
   float: left;
@@ -387,7 +438,7 @@ $error_color: #ff7d78;
 }
 
 .dma-targeting-icon {
-  background: url(asset-path('dma_targeting_icon.png', image)) no-repeat;
+  background: url(asset-path('dma_targeting_icon.png')) no-repeat;
   width: 16px;
   height: 16px;
   float: left;
@@ -395,7 +446,7 @@ $error_color: #ff7d78;
 }
 
 .zip-codes-icon {
-  background: url(asset-path('zip_codes_icon.png', image)) no-repeat;
+  background: url(asset-path('zip_codes_icon.png')) no-repeat;
   width: 12px;
   height: 16px;
   float: left;
@@ -453,7 +504,7 @@ $error_color: #ff7d78;
     cursor: pointer;
 
     span:before {
-      content: url(asset-path('custom_kv_icon.png', image));
+      content: url(asset-path('custom_kv_icon.png'));
       vertical-align:text-top;
     }
   }
@@ -552,7 +603,7 @@ table.creatives-content {
           cursor: pointer;
 
           .delete-btn {
-            background: url(asset-path('delete_btn.png', image)) no-repeat;
+            background: url(asset-path('delete_btn.png')) no-repeat;
             width: 14px;
             height: 14px;
             margin-right: 5px;
