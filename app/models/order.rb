@@ -53,6 +53,10 @@ class Order < ActiveRecord::Base
     self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
   end
 
+  def dfp_url
+    "https://www.google.com/dfp/#{ network.try(:dart_id) }#delivery/OrderDetail/orderId=#{ source_id }"
+  end
+
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)
