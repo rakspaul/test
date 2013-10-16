@@ -15,15 +15,15 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def site_blocks(model, site_ids)
-    model.constantize.of_network(current_network).where(site_id: site_ids.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
+    model.constantize.of_network(current_network).where(site_id: site_ids.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
   end
 
   def blocked_advertiser_sites(model, advertiser_id)
-    model.constantize.of_network(current_network).where(advertiser_id: advertiser_id.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
+    model.constantize.of_network(current_network).where(advertiser_id: advertiser_id.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
   end
 
   def blocked_advertiser_group_sites(model, advertiser_group_id)
-    model.constantize.of_network(current_network).where(advertiser_group_id: advertiser_group_id.split(",")).where(state: ['PENDING_BLOCK', 'BLOCK'])
+    model.constantize.of_network(current_network).where(advertiser_group_id: advertiser_group_id.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
   end
 
   def create
@@ -42,7 +42,7 @@ class Admin::BlockSitesController < ApplicationController
        ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
        ba.user = current_user
        ba.network = current_network
-       ba.state = "PENDING_BLOCK"
+       ba.state = BlockedAdvertiser::PENDING_BLOCK
        ba.save
     end
   end
@@ -52,7 +52,7 @@ class Admin::BlockSitesController < ApplicationController
       bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
       bag.user = current_user
       bag.network = current_network
-      bag.state = "PENDING_BLOCK"
+      bag.state = BlockedAdvertiserGroup::PENDING_BLOCK
       bag.save
     end
   end
@@ -61,7 +61,7 @@ class Admin::BlockSitesController < ApplicationController
     unblocked_sites.each do |block|
       bs = BlockSite.find(block['id'])
       if bs
-        bs.state = 'PENDING_UNBLOCK'
+        bs.state = BlockSite::PENDING_UNBLOCK
         bs.user = current_user
         bs.save
       end
@@ -69,8 +69,14 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def commit
-    enqueue_for_push
-    render json: {status: 'success'}
+    vos = BlockSite.of_network(current_network).where(state: [BlockSite::PENDING_BLOCK, BlockSite::PENDING_UNBLOCK])
+
+    if vos && vos.size > 0
+      enqueue_for_push
+      render json: {status: 'success', message: 'Your changes were committed successfully.'}
+    else
+      render json: {status: 'error', message: 'There are no changes to commit.'}
+    end
 
     rescue => e
     respond_with(e.message, status: :service_unavailable)

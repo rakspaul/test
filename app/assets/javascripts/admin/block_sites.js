@@ -41,6 +41,10 @@
       'click #btnCommit' : 'Commit:SiteBlock',
     },
 
+    ui: {
+      'saveBlock' : '#btnSave',
+    },
+
     regions: {
       siteListView: '#siteListView',
       blockedAdvertiserListView: '#blockedAdvertiserListView',
@@ -873,6 +877,7 @@
       }
 
       if (blockedAdvertisers.length > 0 || blockedAdvertiserGroups.length > 0 || unblockedSites.length > 0) {
+        this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
         $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
       }
 
@@ -920,11 +925,13 @@
     },
 
     _onSuccess: function(event) {
-      alert('Your changes were successfully saved.');
+      this.layout.ui.saveBlock.text('Save').removeAttr('disabled');
       this._fetchSiteBlocks();
+      alert('Your changes were successfully saved.');
     },
 
     _onError: function(event) {
+      this.layout.ui.saveBlock.text('Save').removeAttr('disabled');
       alert('An error occurred while saving your changes.');
     },
 
@@ -933,7 +940,7 @@
     },
 
     _onCommitSuccess: function(event) {
-      alert('Your changes were committed successfully.');
+      alert(event.message);
     },
 
     _onCommitError: function(event) {
