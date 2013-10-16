@@ -4,7 +4,12 @@
   <div class="delete-btn" style="display:none;" title="Delete"/>
 </div>
 
-<div class="pure-u-1-24 ad_name">Ad</div>
+<div class="pure-u-1-24 ad-name">
+  Ad
+  <% if(!isNaN(parseInt(ad.source_id))) { %>
+    <div class="dfp-success"></div>
+  <% } %>
+</div>
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.start_date %></span>
