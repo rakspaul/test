@@ -374,7 +374,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name'
+      valueKey: 'name',
+      limit: 20
     });
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
@@ -544,7 +545,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(lineItemList.order.id) {
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
 
       // set targeting for existing Order
       var itemIndex = 1;
@@ -558,7 +558,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
         
-        $.when.apply($, dmas_ags_complete).done(function() {
+        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
@@ -608,9 +608,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else { // not persisted Order/Lineitems
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
 
-      $.when.apply($, dmas_ags_complete).done(function() {
+      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
         var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
         var itemIndex = 1;
 
