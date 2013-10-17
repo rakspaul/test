@@ -13,7 +13,7 @@ class IoDetail < ActiveRecord::Base
 
   validates :reach_client_id, presence: true
 
-  after_commit :enqueue_for_push, on: :update, if: lambda {|order| order.pushing? }
+  after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.pushing? }
 
   aasm :column => 'state' do
     state :draft, :initial => true
