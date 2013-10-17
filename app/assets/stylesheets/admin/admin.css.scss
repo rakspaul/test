@@ -200,7 +200,7 @@
     .select-keyvals{
       font-size:12px;
       width:317px;
-      height:300px;
+      height:400px;
       background:#fff;
       border:1px solid #ccc;
       margin:0 20px 5px 0;
@@ -229,7 +229,7 @@
     .loading-div{
       position:absolute;
       width:317px;
-      height:300px;
+      height:400px;
       top:0px;
       left:0px;
       z-index:5000;
@@ -239,7 +239,7 @@
       display:none;
 
       .loading-img{
-        margin-top:140px;
+        margin-top:195px;
         width:16px;
         height:11px;
         background-image: image-url("loading.gif");
@@ -253,7 +253,7 @@
     textarea{
       font-size:12px;
       width:300px;
-      height:290px;
+      height:388px;
       float:left;
     }
 
@@ -295,7 +295,7 @@
   }
 
   .add-keyvals-button{
-    margin:135px 20px 0 0;
+    margin:210px 20px 0 0;
   }
 
   .helper-text{
