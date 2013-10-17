@@ -364,6 +364,7 @@ private
               ad[:ad].delete(:selected_dmas)
               ad[:ad].delete(:selected_key_values)
               ad[:ad].delete(:targeted_zipcodes)
+              ad[:ad].delete(:dfp_url)
               ad_quantity = ad[:ad].delete(:volume)
               ad_value    = ad[:ad].delete(:value)
 
