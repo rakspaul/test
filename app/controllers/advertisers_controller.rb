@@ -20,4 +20,20 @@ class AdvertisersController < ApplicationController
     respond_with(@advertisers)
   end
 
+  def validate
+    advertisers = params[:advertisers].split(/[\n\t\,]+/).map(&:strip).uniq.join(',').split(',')
+    advertisers_found = find_advertisers(advertisers)
+    missing_advertisers = advertisers - advertisers_found.pluck('name')
+
+    if missing_advertisers.length > 0
+      render json: {errors: {advertisers: ["#{missing_advertisers.join(',')} advertiser(s) does not exist."]}}, status: 422
+    else
+      render json: advertisers_found
+    end
+  end
+
+  def find_advertisers(advertisers)
+    Advertiser.of_network(current_network).where(:name => advertisers)
+  end
+
 end

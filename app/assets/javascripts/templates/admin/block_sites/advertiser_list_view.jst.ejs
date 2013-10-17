@@ -1,0 +1,29 @@
+<form class="form-horizontal" onsubmit="return false">
+  <fieldset>
+    <div class="control-group search-control">
+      <div class="controls">
+        <div class="input-append">
+          <input id="search_input" placeholder="Advertisers" type="text">
+          <div class="btn-group">
+            <button class="btn" id="search_button" type="button">Search</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="control-group block-site-control select-control">
+      <div class="controls">
+        <select id="advertiserList" multiple="multiple">
+        </select>
+        <div id="loading_div" class="loading-div">
+          <span class="loading-img"></span>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</form>
+
+<div class="modal-footer">
+  <button type="button" id="btnBlock" class="btn btn-primary">Block</button>
+  <button type="button" id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+</div>

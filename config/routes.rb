@@ -66,6 +66,7 @@ Reachui::Application.routes.draw do
   resources :advertisers, only: [:index] do
     collection do
       get 'search'
+      post 'validate'
     end
   end
   resources :sales_people, only: [:index]
