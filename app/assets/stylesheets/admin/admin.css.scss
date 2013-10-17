@@ -293,19 +293,17 @@
 
 }
 
-.blocked-sites-content{
+.block-sites-content{
   background:#F7F7F7;
   border-radius:5px;
   padding:10px;
   margin-bottom:10px;
 
   .action-buttons{
-    text-align:right;
+    text-align:left;
   }
 
-  .blocked-advertiser-list, .blocked-advertiser-groups{
-    margin-top:50px;
-  }
+
 
   .search-sites-control{
     margin-bottom:10px;
@@ -319,6 +317,7 @@
 
     .controls{
       position:relative;
+      margin-bottom:19px;
 
       select{
         width: 85%;
@@ -342,7 +341,7 @@
 
 }
 
-.block-site-model{
+.block-sites-modal{
   min-height:402px;
 
   form fieldset{
@@ -357,6 +356,7 @@
     input{
       width:312px;
     }
+
   }
 
   .select-control{
@@ -385,9 +385,31 @@
 
   }
 
+  .model-bg{
+    background: 0 0 #F7F7F7;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px;
+
+    .nav-tabs{
+      a{padding:5px;}
+    }
+
+  }
+
+  .modal-body{
+    max-height:535px !important;
+    height:535px !important;
+  }
+
+  legend{
+    font-size: 16px;
+    line-height: 30px;
+    margin-bottom: 10px;
+  }
+
 }
 
-.block-advt-content{
+.blocked-advertisers-content{
   background: #F7F7F7;
   border-radius: 5px;
   padding: 10px;
@@ -401,14 +423,19 @@
     }
   }
 
-  .block-advt-results-view{
-    margin-top:108px;
+  .block-advt-results{
+    margin-top:77px;
 
-    select{
-      width:85%;
-      height:540px;
+    .block-advt-results-view{
+
+      select{
+        width:85%;
+        height:540px;
+      }
     }
+
   }
+
 
   .search-input{
     width:86%;
@@ -438,6 +465,21 @@
 
     }
 
+  }
+
+}
+
+.search-advertisers-modal{
+  .controls{
+    margin-left:55px;
+
+    textarea{
+      font-size: 13px;
+      height: 289px;
+      padding: 2px;
+      width: 400px;
+      margin-bottom:5px;
+    }
   }
 
 }

@@ -53,6 +53,26 @@
 
   });
 
+  BlockSites.AdvertiserListModalLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/admin/block_sites/advertiser_list_modal_layout'],
+    className: 'modal block-sites-modal',
+
+    regions: {
+      advertiserSearchView: '#advertiserSearchView',
+      advertiserPasteView: '#advertiserPasteView',
+    },
+
+    events:{
+      'click #advertisersTab' : '_onTabClick',
+    },
+
+    _onTabClick: function(event) {
+       event.preventDefault();
+      $(event.target).tab('show');
+    },
+
+  });
+
 // --------------------/ Models /------------------------------------
 
   BlockSites.Site = Backbone.Model.extend({});
@@ -414,7 +434,7 @@
     },
 
     _onAddAdvertiserClick: function(event) {
-      this.trigger('Show:AdvertiserListModalView');
+      this.trigger('Show:AdvertiserListView');
     },
 
     _onRemoveAdvertiserClick: function(event) {
@@ -535,9 +555,8 @@
     },
   });
 
-  BlockSites.AdvertiserListModalView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/block_sites/advertiser_list_modal_view'],
-    className: 'modal',
+  BlockSites.AdvertiserListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/advertiser_list_view'],
     itemView: BlockSites.AdvertiserView,
 
     events: {
@@ -588,8 +607,71 @@
           var item = this.collection.get(selectedAdvertiser[i]);
           vos.push(item);
         }
-      this.trigger('Block:Advertiser', vos);
+      this.trigger('AdvertiserListView:Block:Advertiser', vos);
       $('#close_modal').trigger('click');
+      }
+    },
+
+  });
+
+  BlockSites.PasteAdvertiserView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/admin/block_sites/paste_advertiser_view'],
+    events:{
+      'click #btnBlock' : 'onBlock',
+    },
+
+    ui:{
+      textAreaAdvertiser: '#textAreaAdvertiser',
+      advertisers_error: '#advertisers_error'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_onSuccess', '_onError');
+    },
+
+    onBlock: function(event) {
+      var str = this.ui.textAreaAdvertiser.val();
+      if(str && str.trim() != "") {
+        this._validateAdvertisers(str);
+      }
+    },
+
+    _validateAdvertisers: function(advertisers) {
+      var para = {advertisers: advertisers},
+      ui = this.ui;
+
+      _.keys(ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+      })
+      .forEach(function(val) {
+        ui[val].text("");
+      });
+
+      $.ajax({type: "POST", url: '/advertisers/validate', data: para, success: this._onSuccess, error: this._onError});
+    },
+
+    _onSuccess: function(event) {
+      var result = event,
+      vos = [];
+
+      for (var i = 0; i < result.length; i++) {
+        var vo = new BlockSites.Advertiser({id: result[i].id, name: result[i].name});
+        vos.push(vo);
+      }
+
+      this.trigger('PasteAdvertiserView:Block:Advertiser', vos);
+      $('#close_modal').trigger('click');
+    },
+
+    _onError: function(event) {
+      if(event.responseJSON && event.responseJSON.errors) {
+        _.each(event.responseJSON.errors, function(value, key) {
+          var errorLabel = this.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          }
+        }, this);
       }
     },
 
@@ -665,6 +747,37 @@
 
 // --------------------/ Controller /------------------------------------
 
+  BlockSites.AdvertiserListModalController = Marionette.Controller.extend({
+    initialize: function() {
+      this.mainRegion = this.options.mainRegion;
+      this._initializeLayout();
+      this._initializeAdvertiserSearchView();
+      this._initializeAdvertiserPasteView();
+    },
+
+    _initializeLayout: function() {
+      this.layout = new BlockSites.AdvertiserListModalLayout();
+      this.mainRegion.show(this.layout);
+    },
+
+    _initializeAdvertiserSearchView: function() {
+      this.advertiserListView = new BlockSites.AdvertiserListView();
+      this.advertiserListView.on('AdvertiserListView:Block:Advertiser', this._onBlockAdvertiser , this)
+      this.layout.advertiserSearchView.show(this.advertiserListView);
+    },
+
+    _initializeAdvertiserPasteView: function() {
+      this.pasteAdvertiserView = new BlockSites.PasteAdvertiserView();
+      this.pasteAdvertiserView.on('PasteAdvertiserView:Block:Advertiser', this._onBlockAdvertiser, this)
+      this.layout.advertiserPasteView.show(this.pasteAdvertiserView);
+    },
+
+    _onBlockAdvertiser: function(vos) {
+      this.trigger('Block:Advertiser', vos);
+    }
+
+  });
+
   BlockSites.BlockSitesController = Marionette.Controller.extend({
     initialize: function() {
       this._initializeLayout();
@@ -694,7 +807,7 @@
     _initializeBlockedAdvertiserListView: function() {
       this.blockedAdvertiserList = new BlockSites.BlockedAdvertiserList();
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
-      this.blockedAdvertiserListView.on('Show:AdvertiserListModalView', this._showAdvertiserModalView, this);
+      this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
       this.blockedAdvertiserListView.on('UnBlock:Advertiser', this._onUnblockAdvertiser, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
@@ -732,9 +845,11 @@
     _showAdvertiserModalView: function() {
       var selectedSites = this.siteListView.getSelectedSites();
       if (selectedSites && selectedSites.length > 0) {
-        this.advertiserListModalView = new BlockSites.AdvertiserListModalView();
-        this.advertiserListModalView.on('Block:Advertiser', this._onBlockAdvertiser, this);
-        this.layout.modal.show(this.advertiserListModalView);
+        this.advertiserListModalController = new BlockSites.AdvertiserListModalController({
+          mainRegion: this.layout.modal
+        });
+
+        this.advertiserListModalController.on('Block:Advertiser', this._onBlockAdvertiser, this);
       }
     },
 
@@ -916,11 +1031,14 @@
       var array = this.siteToUnblock,
       unblock = [];
 
-      for (var i = 0; i < array.length; i++) {
-        if (!array[i].isNew()) {
-          unblock.push(array[i]);
+      if (array && array.length > 0) {
+        for (var i = 0; i < array.length; i++) {
+          if (!array[i].isNew()) {
+            unblock.push(array[i]);
+          }
         }
       }
+
       return unblock;
     },
 
