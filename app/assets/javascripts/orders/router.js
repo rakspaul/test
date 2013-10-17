@@ -8,7 +8,7 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
     ':id/lineitems/:lineitem_id': 'showLineItem'
   },
 
-  current : function() {
+  /*current : function() {
     var Router = this,
         fragment = Backbone.history.fragment,
         routes = _.pairs(Router.appRoutes),
@@ -31,6 +31,6 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
         fragment : fragment,
         params : params
     };
-  }
+  }*/
 });
 
