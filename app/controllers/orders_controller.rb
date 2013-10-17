@@ -85,7 +85,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if @order.save
-          IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id
+          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
           params[:order][:notes].to_a.each do |note|
             OrderNote.create note: note[:note], user: current_user, order: @order
@@ -95,7 +95,7 @@ class OrdersController < ApplicationController
 
           if errors.blank?
             store_io_asset(params)
-            format.json { render json: {status: 'success', order_id: @order.id} }
+            format.json { render json: {status: 'success', order_id: @order.id, state: @io_detail.try(:state).to_s.humanize.capitalize } }
           else
             format.json { render json: {status: 'error', errors: {lineitems: errors}} }
             raise ActiveRecord::Rollback
@@ -131,6 +131,7 @@ class OrdersController < ApplicationController
     io_details.sales_person_phone     = order_param[:sales_person_phone]
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
+    io_details.state                  = order_param[:order_status] || "draft"
 
     respond_to do |format|
       Order.transaction do
@@ -142,7 +143,7 @@ class OrdersController < ApplicationController
 
         if li_ads_errors.blank?
           if @order.save && io_details.save
-            format.json { render json: {status: 'success', order_id: @order.id} }
+            format.json { render json: {status: 'success', order_id: @order.id, state: io_details.try(:state).to_s.humanize.capitalize} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
