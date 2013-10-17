@@ -24,7 +24,8 @@
 
   <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
     <% if(!isNaN(parseInt(ad.source_id))) { %>
-      <div class="dfp-success"></div> <%= ad.source_id %>
+      <div class="dfp-success"></div> 
+      <a href="<%= ad.dfp_url %>" target="_blank"><%= ad.source_id %></a>
     <% } %>
   </div>
 </div>

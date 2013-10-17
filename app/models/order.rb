@@ -54,7 +54,7 @@ class Order < ActiveRecord::Base
   end
 
   def dfp_url
-    "https://www.google.com/dfp/#{ network.try(:dart_id) }#delivery/OrderDetail/orderId=#{ source_id }"
+    "#{ network.try(:dfp_url) }/OrderDetail/orderId=#{ source_id }"
   end
 
   private
