@@ -278,13 +278,13 @@
     template: JST['templates/lineitems/line_item_table'],
     className: 'lineitems-container',
 
-    _saveOrder: function(ev) {
+    _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;
       var self = this;
 
       // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models}, {
+      this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -330,10 +330,13 @@
             $('#save-order-dialog .modal-body').html('There was an error while saving an order');
             $('#save-order-dialog').modal('show');
           } else if(response.status == "success") {
-            $('#save-order-dialog .modal-body').html('Saved successfully');
-            $('#save-order-dialog').modal('show').on('hidden', function () {
+            $('.current-io-status-top').html(response.state);
+            if(response.state == 'Pushing') {
+              ReachUI.checkOrderStatus(response.order_id);
+            }
+            $('#change-order-status-dialog').modal('show').on('hidden', function () {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
-            })
+            })  
           }
         },
         error: function(model, xhr, options) {
@@ -343,59 +346,47 @@
       });
     },
 
-    _changeStatus: function(status) {
-      var order_id = this.collection.order.get('id');
-      var url = '/orders/'+order_id+'/change_status';
-      if(order_id) {
-        jQuery.post(url, {status: status}).done(function(resp) {
-          if(resp.status == 'success') {
-            $('#change-order-status-dialog').modal('show').on('hidden', function () {
-              $('.current-io-status-top').html(resp.state);
-              if(resp.state == 'Pushing') {
-                ReachUI.checkOrderStatus(order_id);
-              }
-            });
-          } else {
-            $('#change-order-status-dialog .modal-body p').html(resp.message);
-            $('#change-order-status-dialog').modal('show');
-          }
-        });
-      } else {
-        $('#change-order-status-dialog .modal-body p').html("Please save order before changing its status");
-        $('#change-order-status-dialog').modal('show');
-      }
-    },
-
     _pushOrder: function() {
       var self = this;
+      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is pushing to the ad server");
+
       if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
         $('#push-confirmation-dialog .cancel-btn').click(function() { 
           $('#push-confirmation-dialog').modal('hide');
         });
         $('#push-confirmation-dialog .push-btn').click(function() { 
           $('#push-confirmation-dialog').modal('hide');
-          self._changeStatus('pushing');
+          self._saveOrderWithStatus('pushing');
         });
         $('#push-confirmation-dialog').modal('show');
+      } else {
+        this._saveOrderWithStatus('pushing');
       }
     },
 
-    _revertOrderToDraft: function() {
-      this._changeStatus('draft');
-    },
-
     _submitOrderToAm: function() {
-      this._changeStatus('submit_to_am');
+      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is ready for the Account Manager");
+      this._saveOrderWithStatus('submit_to_am');
     },
 
     _submitOrderToTrafficker: function() {
-      this._changeStatus('submit_to_trafficker');
+      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is ready for the Trafficker");
+      this._saveOrderWithStatus('submit_to_trafficker');
+    },
+
+    _saveOrderDraft: function() {
+      $('#change-order-status-dialog .modal-body p').html("Your order has been saved");
+      this._saveOrderWithStatus('draft');
+    },
+
+    _saveOrderWithStatus: function(status) {
+      this.status = status;
+      this._saveOrder();
     },
 
     events: {
-      'click .save-order-btn':        '_saveOrder',
+      'click .save-order-btn':        '_saveOrderDraft',
       'click .push-order-btn':        '_pushOrder',
-      'click .revert-draft-btn':      '_revertOrderToDraft',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },

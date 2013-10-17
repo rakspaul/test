@@ -2,6 +2,7 @@ $text_color: #005c97;
 $bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: #ff7d78;
+$magenta_color: #d02898;
 
 .clearfix { clear:both }
 
@@ -412,9 +413,9 @@ $error_color: #ff7d78;
   text-align:right;
   font-family: 'Armata', sans-serif;
 
-  .save-order-btn, .close-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn, .revert-draft-btn {
-    border: 1px dashed $text_color;
-    color: $text_color;
+  .save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
+    background-color: $text_color;
+    color: white;
     width: 50px;
     float: right;
     text-align: center;
@@ -423,8 +424,16 @@ $error_color: #ff7d78;
     margin-right:10px;
 
     &:hover{
-      background: $bg_color;
+      background: lighten($text_color, 10%);
       cursor: pointer;
+    }
+  }
+
+  .push-order-btn {
+    background-color: $magenta_color;
+
+    &:hover{
+      background: lighten($magenta_color, 10%);
     }
   }
 }
