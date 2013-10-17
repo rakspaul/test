@@ -5103,18 +5103,20 @@ Editableform based on Twitter Bootstrap
 			} else if (date.getFullYear() > year || (date.getFullYear() == year && date.getMonth() > month)) {
 				cls.push('new');
 			}
-			// Compare internal UTC date with local today, not UTC today
+			// Compare internal date with local today
 			if (this.o.todayHighlight &&
 				date.getFullYear() == today.getFullYear() &&
 				date.getMonth() == today.getMonth() &&
 				date.getDate() == today.getDate()) {
 				cls.push('today');
 			}
-			if (date.toDateString() == this.date.toDateString()) {
+
+			if (date.toDateString() == today.toDateString()) {
 				cls.push('active');
 			}
+
 			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
-				$.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1) {
+				$.inArray(date.getDay(), this.o.daysOfWeekDisabled) !== -1) {
 				cls.push('disabled');
 			}
 			if (this.range){
@@ -5756,43 +5758,43 @@ Editableform based on Twitter Bootstrap
 					dir = parseInt(part[1]);
 					switch(part[2]){
 						case 'd':
-							date.setUTCDate(date.getUTCDate() + dir);
+							date.setDate(date.getDate() + dir);
 							break;
 						case 'm':
 							date = Datepicker.prototype.moveMonth.call(Datepicker.prototype, date, dir);
 							break;
 						case 'w':
-							date.setUTCDate(date.getUTCDate() + dir * 7);
+							date.setDate(date.getDate() + dir * 7);
 							break;
 						case 'y':
 							date = Datepicker.prototype.moveYear.call(Datepicker.prototype, date, dir);
 							break;
 					}
 				}
-				return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0);
+				return (new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0));
 			}
 			var parts = date && date.match(this.nonpunctuation) || [],
 				date = new Date(),
 				parsed = {},
 				setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
 				setters_map = {
-					yyyy: function(d,v){ return d.setUTCFullYear(v); },
-					yy: function(d,v){ return d.setUTCFullYear(2000+v); },
+					yyyy: function(d,v){ return d.setFullYear(v); },
+					yy: function(d,v){ return d.setFullYear(2000+v); },
 					m: function(d,v){
 						v -= 1;
 						while (v<0) v += 12;
 						v %= 12;
-						d.setUTCMonth(v);
-						while (d.getUTCMonth() != v)
-							d.setUTCDate(d.getUTCDate()-1);
+						d.setMonth(v);
+						while (d.getMonth() != v)
+							d.setDate(d.getDate()-1);
 						return d;
 					},
-					d: function(d,v){ return d.setUTCDate(v); }
+					d: function(d,v){ return d.setDate(v); }
 				},
 				val, filtered, part;
 			setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
 			setters_map['dd'] = setters_map['d'];
-			date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
+			date = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
 			var fparts = format.parts.slice();
 			// Remove noop parts
 			if (parts.length != fparts.length) {
