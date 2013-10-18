@@ -391,14 +391,15 @@
     padding: 10px;
 
     .nav-tabs{
+      margin-bottom:0px;
       a{padding:5px;}
     }
 
   }
 
   .modal-body{
-    max-height:535px !important;
-    height:535px !important;
+    max-height:515px !important;
+    height:515px !important;
   }
 
   legend{
@@ -470,16 +471,43 @@
 }
 
 .search-advertisers-modal{
+
+  .paste-advt-control{
+    margin-bottom:5px;
+  }
+
   .controls{
     margin-left:55px;
 
-    textarea{
-      font-size: 13px;
-      height: 289px;
-      padding: 2px;
-      width: 400px;
-      margin-bottom:5px;
+    .paste_advertisers{
+
+      margin-left:-55px;
+      float:left;
+      width:50%;
+
+      textarea{
+        font-size: 13px;
+        height: 299px;
+        padding: 2px;
+        width: 115%;
+        margin-bottom:5px;
+
+      }
+
     }
+
+    .validate_advertisers{
+      float:right;
+      width:50%;
+
+      textarea{
+        width: 92%;
+        height: 295px;
+        float:right;
+      }
+    }
+
+
   }
 
 }

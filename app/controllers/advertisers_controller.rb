@@ -26,11 +26,7 @@ class AdvertisersController < ApplicationController
     advertisers_found = find_advertisers(advertisers)
     missing_advertisers = advertisers - advertisers_found.pluck('name')
 
-    if missing_advertisers.length > 0
-      render json: {errors: {advertisers: ["#{missing_advertisers.join(',')} advertiser(s) does not exist."]}}, status: 422
-    else
-      render json: advertisers_found
-    end
+    render json: {advertisers: advertisers_found, missing_advertisers: missing_advertisers.join('&#xA;').to_s}
   end
 
   def find_advertisers(advertisers)

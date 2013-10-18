@@ -1,16 +1,25 @@
 <form class="form-horizontal" onsubmit="return false">
   <fieldset>
-    <div class="control-group block-site-control">
+    <div class="control-group paste-advt-control">
       <div class="controls">
-        <textarea id="textAreaAdvertiser"></textarea>
+        <div class="paste_advertisers">
+          <label>Matching</label>
+          <textarea id="textAreaAdvertiser"></textarea>
+        </div>
+        <div class="validate_advertisers">
+          <label>Not Matching</label>
+          <textarea id="advertisers_error" wrap="hard"></textarea>
+        </div>
+
       </div>
-      <label id="advertisers_error" class="help-inline form-error" />
+
     </div>
 
   </fieldset>
 </form>
 
 <div class="modal-footer">
+  <button type="button" id="btnValidate" class="btn">Validate</button>
   <button type="button" id="btnBlock" class="btn btn-primary">Block</button>
   <button type="button" id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>
