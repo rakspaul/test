@@ -618,11 +618,14 @@
     template: JST['templates/admin/block_sites/paste_advertiser_view'],
     events:{
       'click #btnBlock' : 'onBlock',
+      'click #btnValidate' : 'onValidate',
     },
 
     ui:{
       textAreaAdvertiser: '#textAreaAdvertiser',
-      advertisers_error: '#advertisers_error'
+      advertisers_error: '#advertisers_error',
+      btnValidate: '#btnValidate',
+
     },
 
     initialize: function() {
@@ -631,7 +634,16 @@
 
     onBlock: function(event) {
       var str = this.ui.textAreaAdvertiser.val();
+      if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
+        this.trigger('PasteAdvertiserView:Block:Advertiser', this._advertisers);
+        $('#close_modal').trigger('click');
+      }
+    },
+
+    onValidate: function(event) {
+      var str = this.ui.textAreaAdvertiser.val();
       if(str && str.trim() != "") {
+        this.ui.btnValidate.text('Validating...').attr('disabled','disabled');
         this._validateAdvertisers(str);
       }
     },
@@ -652,26 +664,20 @@
     },
 
     _onSuccess: function(event) {
-      var result = event,
-      vos = [];
+      var advertisers = event.advertisers;
+      this._advertisers = [];
 
-      for (var i = 0; i < result.length; i++) {
-        var vo = new BlockSites.Advertiser({id: result[i].id, name: result[i].name});
-        vos.push(vo);
+      for (var i = 0; i < advertisers.length; i++) {
+        var vo = new BlockSites.Advertiser({id: advertisers[i].id, name: advertisers[i].name});
+        this._advertisers.push(vo);
       }
-
-      this.trigger('PasteAdvertiserView:Block:Advertiser', vos);
-      $('#close_modal').trigger('click');
+      this.ui.btnValidate.text('Validate').removeAttr('disabled');
+      this.ui.advertisers_error.html(event.missing_advertisers)
     },
 
     _onError: function(event) {
+      this.ui.btnValidate.text('Validate').removeAttr('disabled');
       if(event.responseJSON && event.responseJSON.errors) {
-        _.each(event.responseJSON.errors, function(value, key) {
-          var errorLabel = this.ui[key + "_error"];
-          if(errorLabel) {
-            errorLabel.text(value[0]);
-          }
-        }, this);
       }
     },
 
