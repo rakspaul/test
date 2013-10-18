@@ -196,6 +196,16 @@ $magenta_color: #d02898;
     margin-right: 5px;
   }
 
+  .current-io-status-top.pushed-status:before {
+    content: url(asset-path('dfp_icon.png'));
+    padding-top: 10px;
+  }
+
+  .current-io-source-id {
+    padding-left: 30px;
+    font-size: 15px;
+  }
+
   .general-info-container {
     border-top:1px solid $bg_color;
     border-bottom:1px solid $bg_color;

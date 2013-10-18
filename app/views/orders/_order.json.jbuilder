@@ -1,5 +1,6 @@
 json.id                       order.id
 json.source_id                order.source_id
+json.dfp_url                  order.dfp_url
 json.name                     order.name
 json.active                   order.active
 

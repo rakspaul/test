@@ -21,7 +21,6 @@ class Lineitem < ActiveRecord::Base
   validates :volume, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :rate, numericality: { greater_than_or_equal_to: 0 }
   validates :ad_sizes, ad_size: true
-  validates_length_of :name, :maximum => 255
   validate :flight_dates_with_in_order_range
   validates :start_date, future_date: true
   validates_dates_range :end_date, after: :start_date
@@ -29,6 +28,7 @@ class Lineitem < ActiveRecord::Base
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes
   before_validation :sanitize_attributes
+  before_validation :sanitize_name
   after_create :create_nielsen_pricing
 
   def save_creatives(creatives_params)
@@ -61,6 +61,10 @@ class Lineitem < ActiveRecord::Base
 
     def sanitize_ad_sizes
       self.ad_sizes.delete!(' ')
+    end
+
+    def sanitize_name
+      self.name = name[0..499]
     end
 
     def sanitize_attributes

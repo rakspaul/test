@@ -40,10 +40,12 @@
     <p class="adv-name"><%= order.reach_client_name %></p>
   </div>
 
-  <div class="current-io-status-top">
+  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id))) { %> pushed-status <% } %>">
     <%= order.order_status %>
     <% if(!isNaN(parseInt(order.source_id))) { %>
-      <%= order.source_id %>
+      <div class="current-io-source-id">
+        <a href="<%= order.dfp_url %>"><%= order.source_id %></a>
+      </div>
     <% } %>
   </div>
 
