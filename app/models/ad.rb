@@ -18,7 +18,7 @@ class Ad < ActiveRecord::Base
   before_create :create_random_source_id
 
   def dfp_url
-    "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.id }&lineItemId=#{ id }"
+    "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
   end
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create any Creatives here
