@@ -21,7 +21,7 @@
             = link_to order.source_id, order.dfp_url, target: '_blank'
       %td
         .order-title
-          = order.name
+          = link_to order.name, order_path(order)
         - if order.order_notes.last.try(:note)
           .order-note{:title => order.order_notes.order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
             = order.order_notes.order(:created_at).last.try(:note)
