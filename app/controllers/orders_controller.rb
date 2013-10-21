@@ -95,7 +95,7 @@ class OrdersController < ApplicationController
 
           if errors.blank?
             store_io_asset(params)
-            format.json { render json: {status: 'success', order_id: @order.id, state: @io_detail.try(:state).to_s.humanize.capitalize } }
+            format.json { render json: {status: 'success', order_id: @order.id, state: @io_detail.try(:state).to_s } }
           else
             format.json { render json: {status: 'error', errors: {lineitems: errors}} }
             raise ActiveRecord::Rollback
@@ -143,7 +143,7 @@ class OrdersController < ApplicationController
 
         if li_ads_errors.blank?
           if @order.save && io_details.save
-            format.json { render json: {status: 'success', order_id: @order.id, state: io_details.try(:state).to_s.humanize.capitalize} }
+            format.json { render json: {status: 'success', order_id: @order.id, state: io_details.try(:state).to_s} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -194,14 +194,14 @@ class OrdersController < ApplicationController
       order.io_detail.push!
     end
 
-    render json: {status: "success", state: order.io_detail.try(:state).to_s.humanize.capitalize}
+    render json: {status: "success", state: order.io_detail.try(:state).to_s}
   rescue AASM::InvalidTransition => e
     render json: {status: "error", message: e.message}
   end
 
   def status
     order = Order.find(params[:id])
-    render json: {status: order.io_detail.try(:state).to_s.humanize.capitalize}
+    render json: {status: order.io_detail.try(:state).to_s}
   end
 
 private

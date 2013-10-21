@@ -32,10 +32,6 @@ class IoDetail < ActiveRecord::Base
       transitions from: [:draft, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :ready_for_trafficker
     end
 
-    event :revert_to_draft do
-      transitions from: [:ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :draft
-    end
-
     event :push do
       transitions from: [:draft, :ready_for_trafficker, :failure, :pushed, :ready_for_am], to: :pushing
     end

@@ -327,20 +327,24 @@
                 $(field_class).addClass('field_with_errors');
               }
             });
-            $('#save-order-dialog .modal-body').html('There was an error while saving an order');
-            $('#save-order-dialog').modal('show');
+            noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
           } else if(response.status == "success") {
             $('.current-io-status-top').html(response.state);
-            if(response.state == 'Pushing') {
+
+            if(response.state.match(/pushing/i)) {
+              noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
-            }
-            $('#change-order-status-dialog').modal('show').on('hidden', function () {
+            } else if(response.state.match(/draft/i)) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
-            })  
+            } else if(response.state.match(/ready for am/i)) {
+              noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
+            } else if(response.state.match(/ready for trafficker/i)) {
+              noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
+            }
           }
         },
         error: function(model, xhr, options) {
-          alert('There was an error while saving Order.');
+          noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
           console.log(xhr.responseJSON);
         }
       });
@@ -348,7 +352,6 @@
 
     _pushOrder: function() {
       var self = this;
-      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is pushing to the ad server");
 
       if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
         $('#push-confirmation-dialog .cancel-btn').click(function() { 
@@ -356,27 +359,25 @@
         });
         $('#push-confirmation-dialog .push-btn').click(function() { 
           $('#push-confirmation-dialog').modal('hide');
-          self._saveOrderWithStatus('pushing');
+          self._saveOrderWithStatus('Pushing');
         });
         $('#push-confirmation-dialog').modal('show');
       } else {
-        this._saveOrderWithStatus('pushing');
+        this._saveOrderWithStatus('Pushing');
       }
     },
 
     _submitOrderToAm: function() {
-      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is ready for the Account Manager");
-      this._saveOrderWithStatus('submit_to_am');
+      this._saveOrderWithStatus('Ready for AM');
     },
 
     _submitOrderToTrafficker: function() {
-      $('#change-order-status-dialog .modal-body p').html("Your order has been saved and is ready for the Trafficker");
-      this._saveOrderWithStatus('submit_to_trafficker');
+      this._saveOrderWithStatus('Ready for Trafficker');
     },
 
     _saveOrderDraft: function() {
-      $('#change-order-status-dialog .modal-body p').html("Your order has been saved");
-      this._saveOrderWithStatus('draft');
+      noty({text: "Your order has been saved", type: 'success', timeout: 5000})
+      this._saveOrderWithStatus('Draft');
     },
 
     _saveOrderWithStatus: function(status) {
