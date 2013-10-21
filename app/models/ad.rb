@@ -15,6 +15,7 @@ class Ad < ActiveRecord::Base
   validates :start_date, future_date: true
   validates_dates_range :end_date, after: :start_date
 
+  before_validation :sanitize_attributes
   before_create :create_random_source_id
 
   def dfp_url
@@ -56,5 +57,10 @@ class Ad < ActiveRecord::Base
 
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
+  end
+
+  def sanitize_attributes
+    # https://github.com/collectivemedia/reachui/issues/136
+    self[:description] = description[0..254]
   end
 end
