@@ -624,6 +624,7 @@
     ui:{
       textAreaAdvertiser: '#textAreaAdvertiser',
       advertisers_error: '#advertisers_error',
+      btnBlock: '#btnBlock',
       btnValidate: '#btnValidate',
 
     },
@@ -664,14 +665,23 @@
     },
 
     _onSuccess: function(event) {
-      var advertisers = event.advertisers;
+      var advertisers = event.advertisers,
+      advertiserNames = [];
       this._advertisers = [];
+
 
       for (var i = 0; i < advertisers.length; i++) {
         var vo = new BlockSites.Advertiser({id: advertisers[i].id, name: advertisers[i].name});
+        advertiserNames.push(advertisers[i].name);
         this._advertisers.push(vo);
       }
+
+      if (this._advertisers && this._advertisers.length > 0) {
+        this.ui.btnBlock.removeAttr('disabled');
+      }
+
       this.ui.btnValidate.text('Validate').removeAttr('disabled');
+      this.ui.textAreaAdvertiser.val(advertiserNames.join('\n'));
       this.ui.advertisers_error.html(event.missing_advertisers)
     },
 
