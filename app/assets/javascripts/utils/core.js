@@ -87,7 +87,8 @@ ReachUI.alignAdsDivs = function() {
 };
 
 ReachUI.checkOrderStatus = function(order_id) {
-  var current_order_state = $('.current-io-status-top').html();
+  var current_order_state = $('.current-io-status-top .io-status').html().trim();
+  current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
 
   if(current_order_state.trim() == "Pushing") {
     // pulsate the 'Pushing' status

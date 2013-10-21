@@ -5111,7 +5111,7 @@ Editableform based on Twitter Bootstrap
 				cls.push('today');
 			}
 
-			if (date.toDateString() == today.toDateString()) {
+			if (date.toDateString() == this.date.toDateString()) {
 				cls.push('active');
 			}
 
@@ -5245,16 +5245,16 @@ Editableform based on Twitter Bootstrap
 			if (!this._allow_update) return;
 
 			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
-				month = d.getUTCMonth();
+				year = d.getFullYear(),
+				month = d.getMonth();
 			switch (this.viewMode) {
 				case 0:
-					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getFullYear() && month <= this.o.startDate.getUTCMonth()) {
+					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getFullYear() && month <= this.o.startDate.getMonth()) {
 						this.picker.find('.prev').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.prev').css({visibility: 'visible'});
 					}
-					if (this.o.endDate !== Infinity && year >= this.o.endDate.getFullYear() && month >= this.o.endDate.getUTCMonth()) {
+					if (this.o.endDate !== Infinity && year >= this.o.endDate.getFullYear() && month >= this.o.endDate.getMonth()) {
 						this.picker.find('.next').css({visibility: 'hidden'});
 					} else {
 						this.picker.find('.next').css({visibility: 'visible'});
@@ -5384,14 +5384,14 @@ Editableform based on Twitter Bootstrap
 			this.fill();
 			this.setValue();
 			this._trigger('changeDate');
-			var element;
-			if (this.isInput) {
+			var element;	
+      if (this.isInput) {
 				element = this.element;
-			} else if (this.component){
+      } else if (this.component){
 				element = this.element.find('input');
 			}
 			if (element) {
-				element.change();
+        element.change();
 				if (this.o.autoclose && (!which || which == 'date')) {
 					this.hide();
 				}
