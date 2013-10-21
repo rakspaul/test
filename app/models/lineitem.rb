@@ -28,7 +28,6 @@ class Lineitem < ActiveRecord::Base
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes
   before_validation :sanitize_attributes
-  before_validation :sanitize_name
   after_create :create_nielsen_pricing
 
   def save_creatives(creatives_params)
@@ -63,14 +62,13 @@ class Lineitem < ActiveRecord::Base
       self.ad_sizes.delete!(' ')
     end
 
-    def sanitize_name
-      self.name = name[0..499]
-    end
-
     def sanitize_attributes
       # number of impressions could come in format like 11,234 which would be just 11 after the typecast
       volume_before_typecast = self.read_attribute_before_type_cast('volume')
       self[:volume] = volume_before_typecast.gsub(/,|\./, '') if volume_before_typecast.is_a?(String)
+
+      # https://github.com/collectivemedia/reachui/issues/136
+      self[:name] = name[0..499]
     end
 
     def create_nielsen_pricing
