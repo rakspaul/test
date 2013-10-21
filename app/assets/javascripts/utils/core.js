@@ -105,7 +105,7 @@ ReachUI.checkOrderStatus = function(order_id) {
           Backbone.history.loadUrl();
         }
       });
-    }, 2000);
+    }, 4000);
   }
 };
 
