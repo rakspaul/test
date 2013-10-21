@@ -100,6 +100,8 @@ ReachUI.checkOrderStatus = function(order_id) {
           $('.current-io-status-top').stop(true, true); // stop current running animation
           $('.current-io-status-top').css('opacity', 1).html(resp.status)
           clearInterval(statusCheckTimer);
+
+          ReachUI.Orders.router.options.controller.orderList.remove(order_id);
           Backbone.history.loadUrl();
         }
       });
