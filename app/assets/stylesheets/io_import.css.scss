@@ -188,22 +188,22 @@ $magenta_color: #d02898;
     font-size:20px;
     font-family: 'Armata', sans-serif;
     margin-right: 50px;
+    padding-left: 25px;
   }
 
-  .current-io-status-top:before {
-    content: url(asset-path('draft_status_icon.png'));
+  .current-io-status-top {
+    background: url(asset-path('draft_status_icon.png')) no-repeat;
     vertical-align: middle;
-    margin-right: 5px;
+    line-height: 24px;
   }
 
-  .current-io-status-top.pushed-status:before {
-    content: url(asset-path('dfp_icon.png'));
-    padding-top: 10px;
+  .current-io-status-top.pushed-status {
+    background: url(asset-path('dfp_icon.png')) left bottom no-repeat;
   }
 
   .current-io-source-id {
-    padding-left: 30px;
     font-size: 15px;
+    margin-top: 15px;
   }
 
   .general-info-container {

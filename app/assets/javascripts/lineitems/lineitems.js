@@ -329,7 +329,7 @@
             });
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
           } else if(response.status == "success") {
-            $('.current-io-status-top').html(response.state);
+            $('.current-io-status-top .io-status').html(response.state);
 
             if(response.state.match(/pushing/i)) {
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
