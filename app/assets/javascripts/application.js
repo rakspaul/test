@@ -28,6 +28,10 @@
 //= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
+//= require jquery.noty.js
+//= require noty.top.layout
+//= require noty.default.theme
+//= require daterangepicker
 //= require jquery.simplePagination
 //= require chosen.jquery
 //= require_tree ./templates
