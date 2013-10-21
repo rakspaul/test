@@ -207,8 +207,8 @@ class OrdersController < ApplicationController
 private
 
   def set_users_and_orders
-    sort_column = params[:sort_column]? params[:sort_column] : "name"
-    sort_direction = params[:sort_direction]? params[:sort_direction] : "asc"
+    sort_column = params[:sort_column]? params[:sort_column] : "id"
+    sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
     order_status = params[:order_status]? params[:order_status] : ""
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
@@ -329,7 +329,7 @@ private
       li[:lineitem].delete(:id)
 
       # delete Ads functionality
-      delete_ads = lineitem.ads.map(&:id) 
+      delete_ads = lineitem.ads.map(&:id)
       li[:ads].to_a.each do |ad|
         delete_ads.delete(ad[:ad][:id]) if ad[:ad][:id]
       end
@@ -382,10 +382,10 @@ private
               ad_object.cost_type = "CPM"
 
               ad_object.save_targeting(ad_targeting)
-              
+
               ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
 
-              if ad_object.update_attributes(ad[:ad])  
+              if ad_object.update_attributes(ad[:ad])
                 ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
 
                 ad_pricing.rate = ad[:ad][:rate]
@@ -397,8 +397,8 @@ private
                   li_errors[i][:ads][j] = ad_pricing.errors
                 end
 
-                sum_of_ad_impressions += ad_pricing.quantity    
-                if sum_of_ad_impressions > lineitem.volume 
+                sum_of_ad_impressions += ad_pricing.quantity
+                if sum_of_ad_impressions > lineitem.volume
                   li_errors[i] ||= {}
                   li_errors[i][:lineitems] ||= {}
                   li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
@@ -479,8 +479,8 @@ private
                 li_errors[i][:ads][j] = ad_pricing.errors
               end
 
-              sum_of_ad_impressions += ad_pricing.quantity    
-              if sum_of_ad_impressions > lineitem.volume 
+              sum_of_ad_impressions += ad_pricing.quantity
+              if sum_of_ad_impressions > lineitem.volume
                 li_errors[i] ||= {}
                 li_errors[i][:lineitems] ||= {}
                 li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
