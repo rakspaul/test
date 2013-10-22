@@ -12,4 +12,8 @@ class Creative < ActiveRecord::Base
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
   end
+
+  def pushed_to_dfp?
+    self.source_id.to_i != 0
+  end
 end

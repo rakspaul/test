@@ -5,5 +5,6 @@ json.end_date       format_date(creative[:end_date] || creative.lineitem_assignm
 json.redirect_url   creative[:image_url] || creative.redirect_url
 json.client_ad_id   creative[:ad_id] || creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
 json.source_id      creative.try(:source_id)
+json.creative_type  creative.try(:creative_type)
 json.io_lineitem_id creative.try(:lineitem_assignment).try(:io_lineitem_id)
 json.ad_id          creative.try(:ad_assignment).try(:ad_id)

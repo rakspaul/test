@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.failure? ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.state == "Failure" ? @order.io_logs.order("created_at DESC").limit(1) : []
 
     respond_to do |format|
       format.html
@@ -335,7 +335,11 @@ private
       li[:ads].to_a.each do |ad|
         delete_ads.delete(ad[:ad][:id]) if ad[:ad][:id]
       end
-      Ad.delete_all(id: delete_ads) unless delete_ads.empty?
+      if !delete_ads.empty?
+        Ad.find(delete_ads).each do |ad_to_delete|
+          ad_to_delete.destroy if !ad_to_destroy.pushed_to_dfp
+        end
+      end
 
       #if !lineitem.update_attributes(li[:lineitem])
       #  Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
@@ -399,7 +403,12 @@ private
 
           if li_saved
             ad_object.save_targeting(ad_targeting)
-            ad_object.creatives.delete(*delete_creatives_ids) if !delete_creatives_ids.blank?
+            if !delete_creatives_ids.blank?
+              ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                ad_assignment.destroy if !creative.pushed_to_dfp?
+              end
+            end
           end
 
           #if ad_object.update_attributes(ad[:ad])

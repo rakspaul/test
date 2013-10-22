@@ -22,7 +22,7 @@ class Ad < ActiveRecord::Base
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
   end
 
-  # since all Creatives on Ad level are already present or created on LI level => no need to create any Creatives here
+  # since all Creatives on Ad level are already present or created on LI level => no need to create or update any Creatives here
   def save_creatives(creatives_params)
     creatives_params.to_a.each do |params|
       cparams = params[:creative]
@@ -57,6 +57,10 @@ class Ad < ActiveRecord::Base
 
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
+  end
+
+  def pushed_to_dfp?
+    self.source_id.to_i != 0
   end
 
   def sanitize_attributes

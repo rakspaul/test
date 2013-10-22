@@ -53,6 +53,7 @@
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyCreative',
+      'click .creative-type input': '_changeCreativeType'
     },
 
     updateLiCreative: function() {
@@ -161,6 +162,18 @@
       this.$el.find('.delete-btn').hide();
     },
     
+    _changeCreativeType: function(e) {
+      e.stopPropagation();
+
+      if($(e.currentTarget).is(':checked')) {
+        this.$el.find('.image-url span').editable('disable');
+        this.model.attributes.creative_type = "HTML";
+      } else {
+        this.$el.find('.image-url span').editable('enable');
+        this.model.attributes.creative_type = "InternalRedirectCreative";
+      }
+    },
+
     _destroyCreative: function(e) {
       e.stopPropagation();
       var view = this,
