@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.failure? ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.state == "Failure" ? @order.io_logs.order("created_at DESC").limit(1) : []
 
     respond_to do |format|
       format.html
