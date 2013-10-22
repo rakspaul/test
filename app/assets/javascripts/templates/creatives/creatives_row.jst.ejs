@@ -19,7 +19,7 @@
   <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
 </div>
 
-<div class="pure-u-1-12 size">
+<div class="pure-u-1-6 size" style="width:12%">
   <span class="editable custom typeahead" data-type="text" data-name="ad_size" data-pk="1">
     <%= creative.ad_size %>
   </span>
@@ -30,7 +30,7 @@
   <span class="editable" <%= creative.creative_type == "HTML" ? 'data-disabled="true"' : '' %> data-type="text" data-pk="1" data-name="redirect_url"><%= creative.redirect_url %></span>
 </div>
 
-<div class="pure-u-1-12 creative-type">
+<div class="pure-u-1-24 creative-type">
   <input type="checkbox" name="creative_type" <%= creative.creative_type == "HTML" ? 'checked="checked"' : '' %> /> 
 </div>
   

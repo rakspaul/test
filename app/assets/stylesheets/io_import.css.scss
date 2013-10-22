@@ -619,6 +619,10 @@ table.creatives-content {
       .creative {
         margin-top:7px;
 
+        .creative-type {
+          text-align: center;
+        }
+
         .delete-btn-container {
           text-align: center;
           cursor: pointer;
