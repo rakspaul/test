@@ -87,7 +87,7 @@ private
   def enqueue_for_push
     require 'bunny'
 
-    connection = Bunny.new(:host => '127.0.0.1')
+    connection = Bunny.new(:host => '127.0.0.1', :vhost => "/", :user => "reach", :password => "asd234f#dg")
     connection.start
 
     channel = connection.create_channel
