@@ -33,6 +33,6 @@ private
     conn.close
   rescue => e
     Rails.logger.warn e.message.inspect
-    self.failure!
+    self.update_attribute :state, "Failure"
   end
 end
