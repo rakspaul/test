@@ -335,7 +335,8 @@
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
             } else if(response.state.match(/draft/i)) {
-              ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
+              //ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
+              noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
@@ -376,7 +377,6 @@
     },
 
     _saveOrderDraft: function() {
-      noty({text: "Your order has been saved", type: 'success', timeout: 5000})
       this._saveOrderWithStatus('Draft');
     },
 
