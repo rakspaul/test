@@ -337,21 +337,9 @@ private
       end
       if !delete_ads.empty?
         Ad.find(delete_ads).each do |ad_to_delete|
-          ad_to_delete.destroy if !ad_to_destroy.pushed_to_dfp
+          ad_to_delete.destroy if !ad_to_delete.pushed_to_dfp?
         end
       end
-
-      #if !lineitem.update_attributes(li[:lineitem])
-      #  Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
-      #  li_errors[i] ||= {}
-      #  li_errors[i][:lineitems] ||= {}
-      #  li_errors[i][:lineitems].merge!(lineitem.errors)
-      #else
-      #unless li_update
-      #  li_errors[i] ||= {}
-      #  li_errors[i][:lineitems] ||= {}
-      #  li_errors[i][:lineitems].merge!(lineitem.errors)
-      #end
 
       li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
@@ -436,7 +424,7 @@ private
             li_errors[i] ||= {}
             li_errors[i][:ads] ||= {}
             li_errors[i][:ads][j] = ad_object.errors.to_hash
-            li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.errors
+            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.errors
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
@@ -445,8 +433,6 @@ private
           li_errors[i][:ads] ||= {}
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
-          #end
-        #end
       end
     end
 
@@ -532,18 +518,13 @@ private
            li_errors[i][:ads][j] = ad_object.errors.to_hash
            li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.errors          
           end
-        #rescue => e
-        #  Rails.logger.warn 'e.message - ' + e.message.inspect
-        #  Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-        #  li_errors[i] ||= {:ads => {}}
-        #  li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+        rescue => e
+          Rails.logger.warn 'e.message - ' + e.message.inspect
+          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+          li_errors[i] ||= {:ads => {}}
+          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
-      #else
-      #  Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
-      #  li_errors[i] ||= {}
-      #  li_errors[i][:lineitems] = lineitem.errors
-      #end
     end
 
     li_errors
