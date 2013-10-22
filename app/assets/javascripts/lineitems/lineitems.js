@@ -296,21 +296,37 @@
             media_contact: '.order-details .media-contact-name',
             sales_person: '.order-details .salesperson-name',
             account_manager: '.order-details .account-contact-name',
-            trafficking_contact: '.order-details .trafficker-container'
+            trafficking_contact: '.order-details .trafficker-container',
+            lineitems: {
+              start_date: ' .start-date',
+              end_date:   ' .end-date',
+              name:       ' .name',
+              volume:     ' .volume'
+            }
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {            
+            _.each(response.errors, function(error, key) {   
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
+                  _.each(li_errors.lineitems, function(errorMsg, fieldName) {
+                    var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
+
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                      .find(fieldSelector + ' .errors_container')
+                      .addClass('field_with_errors').html(errorMsg);
+                  });
+
                   
                   var li_errors_list = [];
                   _.each(li_errors.lineitems, function(val, k) { 
                     li_errors_list.push(k + ' ' + val);
                   });
 
-                  if(li_errors_list.length > 0) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors_container').addClass('field_with_errors').html(li_errors_list.join('; '));
-                  }
+                  /*if (li_errors_list.length > 0) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')').
+                    find(' .name .errors_container').
+                    addClass('field_with_errors').html(li_errors_list.join('; '));
+                  }*/
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     var ad_errors_list = [];

@@ -6,18 +6,22 @@
   <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.start_date %>
   </span>
-  <% if (moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
-  <div class="errors_container">Can not be in past</div>
-  <% } %>
+  <div class="errors_container">
+    <% if (moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
+    Can not be in past
+    <% } %>
+  </div>
 </div>
 
 <div class="pure-u-1-12 end-date">
   <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.end_date %>
   </span>
-  <% if (moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
-  <div class="errors_container">Can not be in past</div>
-  <% } %>
+  <div class="errors_container">
+    <% if (moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
+    Can not be in past
+    <% } %>
+  </div>
 </div>
 
 <div class="pure-u-1-6">
@@ -44,15 +48,18 @@
   <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
     <%= accounting.formatNumber(lineitem.volume) %>
   </span>
+  <div class="errors_container"></div>
 </div>
 <div class="pure-u-1-12 rate">
   $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
     <%= accounting.formatMoney(lineitem.rate, '') %>
   </span>
+  <div class="errors_container"></div>
 </div>
 
 <div class="pure-u-1-12 media-cost">
   $<span><%= accounting.formatMoney(lineitem.value, '') %></span>
+  <div class="errors_container"></div>
 </div>
 <div style="clear:both"></div>
 

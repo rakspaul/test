@@ -406,6 +406,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       success: function(response, newValue) {
         order.set($(this).data('name'), newValue); //update backbone model;
         $('.new-order-header .heading').html(newValue);
+        $(this).siblings('.errors_container').html('');
       }
     });
     $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
