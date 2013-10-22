@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.state == "Failure" ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.state =~ /failure/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
     respond_to do |format|
       format.html
@@ -96,7 +96,7 @@ class OrdersController < ApplicationController
 
           if errors.blank?
             store_io_asset(params)
-            format.json { render json: {status: 'success', order_id: @order.id, state: @io_detail.try(:state).to_s } }
+            format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[@io_details.try(:state).to_s.to_sym] } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
@@ -126,8 +126,6 @@ class OrdersController < ApplicationController
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
     io_details.reach_client_id        = order_param[:reach_client_id]
     io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
-    #io_details.sales_person_id        = order_param[:sales_person_id]
-    #io_details.account_manager_id     = order_param[:account_manager_id]
     io_details.client_order_id        = order_param[:client_order_id]
     io_details.sales_person_email     = order_param[:sales_person_email]
     io_details.sales_person_phone     = order_param[:sales_person_phone]
@@ -145,7 +143,7 @@ class OrdersController < ApplicationController
 
         if li_ads_errors.blank?
           if @order.save && io_details.save
-            format.json { render json: {status: 'success', order_id: @order.id, state: io_details.try(:state).to_s} }
+            format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[io_details.try(:state).to_s.to_sym]} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -183,27 +181,9 @@ class OrdersController < ApplicationController
     render json: {status: 'success'}
   end
 
-  def change_status
-    order = Order.find(params[:id])
-    case params[:status].strip.to_s
-    when "submit_to_trafficker"
-      order.io_detail.submit_to_trafficker!
-    when "submit_to_am"
-      order.io_detail.submit_to_am!
-    when "draft"
-      order.io_detail.revert_to_draft!
-    when "pushing"
-      order.io_detail.push!
-    end
-
-    render json: {status: "success", state: order.io_detail.try(:state).to_s}
-  rescue AASM::InvalidTransition => e
-    render json: {status: "error", message: e.message}
-  end
-
   def status
     order = Order.find(params[:id])
-    render json: {status: order.io_detail.try(:state).to_s}
+    render json: {status: IoDetail::STATUS[order.io_detail.try(:state).to_sym]}
   end
 
 private
@@ -497,7 +477,7 @@ private
           ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
 
           if ad_object.valid? && li_saved
-            ad_object_save
+            ad_object.save
 
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}

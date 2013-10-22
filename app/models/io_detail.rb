@@ -1,4 +1,12 @@
 class IoDetail < ActiveRecord::Base
+  STATUS = {
+    failure: "Failure",
+    pushing: "Pushing",
+    pushed: "Pushed",
+    draft: "Draft",
+    ready_for_am: "Ready for AM",
+    ready_for_trafficker: "Ready for Trafficker"
+  }
 
   has_paper_trail ignore: [:updated_at]
 
@@ -33,6 +41,6 @@ private
     conn.close
   rescue => e
     Rails.logger.warn e.message.inspect
-    self.failure!
+    self.update_attribute :state, STATUS[:failure]
   end
 end

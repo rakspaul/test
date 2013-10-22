@@ -371,24 +371,24 @@
         });
         $('#push-confirmation-dialog .push-btn').click(function() { 
           $('#push-confirmation-dialog').modal('hide');
-          self._saveOrderWithStatus('Pushing');
+          self._saveOrderWithStatus('pushing');
         });
         $('#push-confirmation-dialog').modal('show');
       } else {
-        this._saveOrderWithStatus('Pushing');
+        this._saveOrderWithStatus('pushing');
       }
     },
 
     _submitOrderToAm: function() {
-      this._saveOrderWithStatus('Ready for AM');
+      this._saveOrderWithStatus('ready_for_am');
     },
 
     _submitOrderToTrafficker: function() {
-      this._saveOrderWithStatus('Ready for Trafficker');
+      this._saveOrderWithStatus('ready_for_trafficker');
     },
 
     _saveOrderDraft: function() {
-      this._saveOrderWithStatus('Draft');
+      this._saveOrderWithStatus('draft');
     },
 
     _saveOrderWithStatus: function(status) {
