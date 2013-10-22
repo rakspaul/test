@@ -296,29 +296,40 @@
             media_contact: '.order-details .media-contact-name',
             sales_person: '.order-details .salesperson-name',
             account_manager: '.order-details .account-contact-name',
-            trafficking_contact: '.order-details .trafficker-container'
+            trafficking_contact: '.order-details .trafficker-container',
+            lineitems: {
+              start_date: ' .start-date',
+              end_date:   ' .end-date',
+              name:       ' .name',
+              volume:     ' .volume'
+            },
+            ads: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date',
+              description: ' .name',
+              volume:      ' .volume'
+            }
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {            
+            _.each(response.errors, function(error, key) {   
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
-                  
-                  var li_errors_list = [];
-                  _.each(li_errors.lineitems, function(val, k) { 
-                    li_errors_list.push(k + ' ' + val);
+                  _.each(li_errors.lineitems, function(errorMsg, fieldName) {
+                    var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
+
+                    $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                      .find(fieldSelector + ' .errors_container:first')
+                      .addClass('field_with_errors').html(errorMsg);
                   });
 
-                  if(li_errors_list.length > 0) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors_container').addClass('field_with_errors').html(li_errors_list.join('; '));
-                  }
-
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
-                    var ad_errors_list = [];
-                    _.each(ad_errors, function(val, k) {
-                      ad_errors_list.push('['+k+']: '+val);
+                    _.each(ad_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.ads[fieldName];
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                        .find('.ad:nth(' + ad_k + ') ' + fieldSelector  + ' .errors_container')
+                        .addClass('field_with_errors').html(errorMsg);
+                      ReachUI.alignAdsDivs();
                     });
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors').addClass('field_with_errors').html(ad_errors_list.join('; '));
-                    ReachUI.alignAdsDivs();
                   });
                 });
               } else {
@@ -360,24 +371,24 @@
         });
         $('#push-confirmation-dialog .push-btn').click(function() { 
           $('#push-confirmation-dialog').modal('hide');
-          self._saveOrderWithStatus('Pushing');
+          self._saveOrderWithStatus('pushing');
         });
         $('#push-confirmation-dialog').modal('show');
       } else {
-        this._saveOrderWithStatus('Pushing');
+        this._saveOrderWithStatus('pushing');
       }
     },
 
     _submitOrderToAm: function() {
-      this._saveOrderWithStatus('Ready for AM');
+      this._saveOrderWithStatus('ready_for_am');
     },
 
     _submitOrderToTrafficker: function() {
-      this._saveOrderWithStatus('Ready for Trafficker');
+      this._saveOrderWithStatus('ready_for_trafficker');
     },
 
     _saveOrderDraft: function() {
-      this._saveOrderWithStatus('Draft');
+      this._saveOrderWithStatus('draft');
     },
 
     _saveOrderWithStatus: function(status) {

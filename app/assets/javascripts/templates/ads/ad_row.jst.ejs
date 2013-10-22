@@ -16,10 +16,20 @@
 <div class="pure-u-1-6">
   <div class="pure-u-1-2 start-date pull-left">
     <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.start_date %></span>
+    <div class="errors_container">
+      <% if (moment().format("YYYY-MM-DD") > ad.start_date) { %>
+        Can not be in past
+      <% } %>
+    </div>
   </div>
 
   <div class="pure-u-1-2 end-date pull-left">
     <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.end_date %></span>
+    <div class="errors_container">
+      <% if (moment().format("YYYY-MM-DD") > ad.end_date) { %>
+        Can not be in past
+      <% } %>
+    </div>
   </div>
 
   <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
@@ -46,9 +56,9 @@
 </div>
 
 <div class="pure-u-1-3 name">
-  <span class="editable" data-type="textarea" data-pk="1" data-name="description">
+  <span class="editable" data-type="text" data-pk="1" data-name="description">
     <%= ad.description %>
-    <div class="errors" style="clear:both"></div>
+    <div class="errors_container" style="clear:both"></div>
   </span>
   <br/>
   <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
@@ -66,10 +76,12 @@
   $ <span class="editable custom" data-type="text" data-name="rate" data-pk="1">
     <%= accounting.formatMoney(ad.rate, '') %>
   </span>
+  <div class="errors_container"></div>
 </div>
 
 <div class="pure-u-1-12 media-cost">
   $ <span><%= accounting.formatMoney(ad.value, '') %></span>
+  <div class="errors_container"></div>
 </div>
 
 <div class="targeting-container" style="display:none">

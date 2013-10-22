@@ -27,11 +27,11 @@
 </div>
 
 <div class="pure-u-1-2 image-url">
-  <span class="editable" <%= creative.creative_type == "HTML" ? 'data-disabled="true"' : '' %> data-type="text" data-pk="1" data-name="redirect_url"><%= creative.redirect_url %></span>
+  <span class="editable" <%= creative.creative_type == "CustomCreative" ? 'data-disabled="true"' : '' %> data-type="text" data-pk="1" data-name="redirect_url"><%= creative.redirect_url %></span>
 </div>
 
 <div class="pure-u-1-24 creative-type">
-  <input type="checkbox" name="creative_type" <%= creative.creative_type == "HTML" ? 'checked="checked"' : '' %> /> 
+  <input type="checkbox" name="creative_type" <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> /> 
 </div>
   
 <div class="pure-u-1-12 client-ad-id"><span><%= creative.client_ad_id %></span></div>

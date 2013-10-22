@@ -167,7 +167,7 @@
 
       if($(e.currentTarget).is(':checked')) {
         this.$el.find('.image-url span').editable('disable');
-        this.model.attributes.creative_type = "HTML";
+        this.model.attributes.creative_type = "CustomCreative";
       } else {
         this.$el.find('.image-url span').editable('enable');
         this.model.attributes.creative_type = "InternalRedirectCreative";
