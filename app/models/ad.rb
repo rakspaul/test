@@ -59,6 +59,10 @@ class Ad < ActiveRecord::Base
     self.source_id = "R_#{SecureRandom.uuid}"
   end
 
+  def pushed_to_dfp?
+    self.source_id.to_i != 0
+  end
+
   def sanitize_attributes
     # https://github.com/collectivemedia/reachui/issues/136
     self[:description] = description[0..254]

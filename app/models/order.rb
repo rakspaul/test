@@ -24,6 +24,7 @@ class Order < ActiveRecord::Base
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
+  before_destroy :check_could_be_deleted
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -55,6 +56,10 @@ class Order < ActiveRecord::Base
 
   def dfp_url
     "#{ network.try(:dfp_url) }/OrderDetail/orderId=#{ source_id }"
+  end
+
+  def pushed_to_dfp?
+    self.source_id.to_i != 0
   end
 
   private
@@ -91,5 +96,10 @@ class Order < ActiveRecord::Base
     def make_order_inactive
       self.active = false
       true
+    end
+
+    # order could not be deleted after it was pushed to DFP
+    def check_could_be_deleted
+      pushed_to_dfp? ? false : true
     end
 end
