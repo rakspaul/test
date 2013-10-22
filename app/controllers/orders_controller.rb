@@ -75,16 +75,17 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
-    @order.valid?
+    #@order.valid?
 
-    if !errors_list.blank?
-      render json: {status: 'error', errors: errors_list.merge(@order.errors)}
-      return
-    end
+    #if !errors_list.blank?
+    #  render json: {status: 'error', errors: errors_list.merge(@order.errors)}
+    #  return
+    #end
 
     respond_to do |format|
       Order.transaction do
-        if @order.save
+        order_valid = @order.valid?
+        if errors_list.blank? && order_valid && @order.save
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
           params[:order][:notes].to_a.each do |note|
@@ -97,11 +98,12 @@ class OrdersController < ApplicationController
             store_io_asset(params)
             format.json { render json: {status: 'success', order_id: @order.id, state: @io_detail.try(:state).to_s } }
           else
-            format.json { render json: {status: 'error', errors: {lineitems: errors}} }
+            format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
           end
         else
-          format.json { render json: {status: 'error', errors: @order.errors} }
+          li_errors = save_lineitems_with_ads(params[:order][:lineitems], false)
+          format.json { render json: {status: 'error', errors: errors_list.merge(@order.errors.to_hash.merge({lineitems: li_errors}))} }
           raise ActiveRecord::Rollback
         end
       end
@@ -335,97 +337,101 @@ private
       end
       if !delete_ads.empty?
         Ad.find(delete_ads).each do |ad_to_delete|
-          ad_to_delete.destroy if !ad_to_destroy.pushed_to_dfp
+          ad_to_delete.destroy if !ad_to_delete.pushed_to_dfp?
         end
       end
 
-      if !lineitem.update_attributes(li[:lineitem])
-        Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
+      li_update = lineitem.update_attributes(li[:lineitem])
+      unless li_update
         li_errors[i] ||= {}
         li_errors[i][:lineitems] ||= {}
         li_errors[i][:lineitems].merge!(lineitem.errors)
-      else
-        lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-        dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+      end
 
-        lineitem.designated_market_areas = []
-        lineitem.designated_market_areas = dmas.compact if !dmas.blank?
+      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
+      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
 
-        selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-          AudienceGroup.find_by(id: group_name[:id])
-        end
-        lineitem.audience_groups = selected_groups if !selected_groups.blank?
+      lineitem.designated_market_areas = []
+      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
 
+      selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+        AudienceGroup.find_by(id: group_name[:id])
+      end
+      lineitem.audience_groups = selected_groups if !selected_groups.blank?
+
+      li_saved = nil
+
+      if li_update
         lineitem.creatives.delete(*_delete_creatives_ids) if !_delete_creatives_ids.blank?
 
-        if lineitem.save
-          lineitem.save_creatives(li_creatives)
+        li_saved = lineitem.save
+        lineitem.save_creatives(li_creatives) if li_saved
+      end
 
-          li[:ads].to_a.each_with_index do |ad, j|
-            begin
-              ad_targeting = ad[:ad].delete(:targeting)
-              ad_creatives = ad[:ad].delete(:creatives)
-              ad[:ad].delete(:selected_dmas)
-              ad[:ad].delete(:selected_key_values)
-              ad[:ad].delete(:targeted_zipcodes)
-              ad[:ad].delete(:dfp_url)
-              ad_quantity = ad[:ad].delete(:volume)
-              ad_value    = ad[:ad].delete(:value)
+      li[:ads].to_a.each_with_index do |ad, j|
+        begin
+          ad_targeting = ad[:ad].delete(:targeting)
+          ad_creatives = ad[:ad].delete(:creatives)
+          ad_quantity  = ad[:ad].delete(:volume)
+          ad_value     = ad[:ad].delete(:value)
+          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url].each{ |v| ad[:ad].delete(v) }
 
-              delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
+          delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
-              # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
-              ad[:ad][:size] = if !ad_creatives.blank?
-                ad_creatives[0][:creative][:ad_size].to_s.strip
-              else
-                ad[:ad][:size].split(/,/).first.strip
+          # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
+          ad[:ad][:size] = if !ad_creatives.blank?
+            ad_creatives[0][:creative][:ad_size].to_s.strip
+          else
+            ad[:ad][:size].split(/,/).first.strip
+          end
+
+          ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
+          ad_object.order_id = @order.id
+          ad_object.cost_type = "CPM"
+
+          if li_saved
+            ad_object.save_targeting(ad_targeting)
+            if !delete_creatives_ids.blank?
+              ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                ad_assignment.destroy if !creative.pushed_to_dfp?
               end
-
-              ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
-              ad_object.order_id = @order.id
-              ad_object.cost_type = "CPM"
-
-              ad_object.save_targeting(ad_targeting)
-
-              if !delete_creatives_ids.blank?
-                ad_object.creatives.find(delete_creatives_ids).each do |creative|
-                  ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
-                  ad_assignment.destroy if !creative.pushed_to_dfp?
-                end
-              end
-
-              if ad_object.update_attributes(ad[:ad])
-                ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
-
-                ad_pricing.rate = ad[:ad][:rate]
-                ad_pricing.quantity = ad_quantity
-                ad_pricing.value = ad_value
-
-                if !ad_pricing.save
-                  li_errors[i] ||= {:ads => {}}
-                  li_errors[i][:ads][j] = ad_pricing.errors
-                end
-
-                sum_of_ad_impressions += ad_pricing.quantity
-                if sum_of_ad_impressions > lineitem.volume
-                  li_errors[i] ||= {}
-                  li_errors[i][:lineitems] ||= {}
-                  li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-                end
-
-                ad_object.save_creatives(ad_creatives)
-              else
-                Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
-                li_errors[i] ||= {:ads => {}}
-                li_errors[i][:ads][j] = ad_object.errors
-              end
-            rescue => e
-              Rails.logger.warn 'e.message - ' + e.message.inspect
-              Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-              li_errors[i] ||= {:ads => {}}
-              li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
             end
           end
+
+          #if ad_object.update_attributes(ad[:ad])
+          ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
+
+          ad_pricing.rate = ad[:ad][:rate]
+          ad_pricing.quantity = ad_quantity
+          ad_pricing.value = ad_value
+
+          valid_pricing = ad_pricing.valid?
+          if ad_object.valid? && valid_pricing
+            ad_object.update_attributes(ad[:ad])
+            ad_pricing.save
+
+            sum_of_ad_impressions += ad_pricing.quantity
+            if sum_of_ad_impressions > lineitem.volume
+              li_errors[i] ||= {}
+              li_errors[i][:lineitems] ||= {}
+              li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
+            end
+
+            ad_object.save_creatives(ad_creatives)
+          else
+            Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
+            li_errors[i] ||= {}
+            li_errors[i][:ads] ||= {}
+            li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.errors
+          end
+        rescue => e
+          Rails.logger.warn 'e.message - ' + e.message.inspect
+          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+          li_errors[i] ||= {}
+          li_errors[i][:ads] ||= {}
+          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
     end
@@ -433,7 +439,7 @@ private
     li_errors
   end
 
-  def save_lineitems_with_ads(params)
+  def save_lineitems_with_ads(params, valid_order = true)
     li_errors = {}
 
     params.to_a.each_with_index do |li, i|
@@ -455,63 +461,69 @@ private
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
-      if lineitem.save
-        lineitem.save_creatives(li_creatives) unless li_creatives.nil?
+      valid_li = lineitem.valid?
+      li_saved = valid_order && valid_li
 
-        li[:ads].to_a.each_with_index do |ad, j|
-          begin
-            ad_targeting = ad[:ad].delete(:targeting)
-            ad_creatives = ad[:ad].delete(:creatives)
-            ad_quantity  = ad[:ad].delete(:volume)
-            ad_value     = ad[:ad].delete(:value)
-            delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
-
-            # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
-            ad[:ad][:size] = if !ad_creatives.blank?
-              ad_creatives[0][:creative][:ad_size].try(:strip)
-            else
-              ad[:ad][:size].split(/,/).first.strip
-            end
-
-            ad_object = lineitem.ads.build(ad[:ad])
-            ad_object.order_id = @order.id
-            ad_object.cost_type = "CPM"
-            ad_object.alt_ad_id = lineitem.alt_ad_id
-
-            ad_object.save_targeting(ad_targeting)
-
-            if ad_object.save
-              ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
-
-              if !ad_pricing.save
-                li_errors[i] ||= {:ads => {}}
-                li_errors[i][:ads][j] = ad_pricing.errors
-              end
-
-              sum_of_ad_impressions += ad_pricing.quantity
-              if sum_of_ad_impressions > lineitem.volume
-                li_errors[i] ||= {}
-                li_errors[i][:lineitems] ||= {}
-                li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-              end
-
-              ad_object.save_creatives(ad_creatives)
-            else
-              Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
-              li_errors[i] ||= {:ads => {}}
-              li_errors[i][:ads][j] = ad_object.errors
-            end
-          rescue => e
-            Rails.logger.warn 'e.message - ' + e.message.inspect
-            Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-            li_errors[i] ||= {:ads => {}}
-            li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
-          end
-        end
-      else
+      lineitem.save_creatives(li_creatives) if li_saved && li_creatives
+      unless valid_li
         Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
         li_errors[i][:lineitems] = lineitem.errors
+      end
+
+      li[:ads].to_a.each_with_index do |ad, j|
+        begin
+          ad_targeting = ad[:ad].delete(:targeting)
+          ad_creatives = ad[:ad].delete(:creatives)
+          ad_quantity  = ad[:ad].delete(:volume)
+          ad_value     = ad[:ad].delete(:value)
+          delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
+
+          # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
+          ad[:ad][:size] = if !ad_creatives.blank?
+            ad_creatives[0][:creative][:ad_size].try(:strip)
+          else
+            ad[:ad][:size].split(/,/).first.strip
+          end
+
+          ad_object = lineitem.ads.build(ad[:ad])
+          ad_object.order_id = @order.id
+          ad_object.cost_type = "CPM"
+          ad_object.alt_ad_id = lineitem.alt_ad_id
+
+          ad_object.save_targeting(ad_targeting)
+
+          #if ad_object.save
+          ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+
+          if ad_object.valid? && li_saved
+            ad_object_save
+
+            if !ad_pricing.save
+              li_errors[i] ||= {:ads => {}}
+              li_errors[i][:ads][j] = ad_pricing.errors
+            end
+            sum_of_ad_impressions += ad_pricing.quantity
+            if sum_of_ad_impressions > lineitem.volume
+              li_errors[i] ||= {}
+              li_errors[i][:lineitems] ||= {}
+              li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
+            end
+
+            ad_object.save_creatives(ad_creatives)
+          else
+           Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
+           li_errors[i] ||= {}
+           li_errors[i][:ads] ||= {}
+           li_errors[i][:ads][j] = ad_object.errors.to_hash
+           li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.errors          
+          end
+        rescue => e
+          Rails.logger.warn 'e.message - ' + e.message.inspect
+          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+          li_errors[i] ||= {:ads => {}}
+          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+        end
       end
     end
 
