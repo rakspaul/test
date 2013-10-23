@@ -309,6 +309,13 @@ $magenta_color: #d02898;
       background: $li_number_bg;
     }
 
+    .number-field {
+      text-align: right;
+      .editable {
+        margin-right: 10px;
+      }
+    }
+
     .li-command-btns {
       background: url(asset-path('expand_li_btn.png')) no-repeat;
       width: 16px;

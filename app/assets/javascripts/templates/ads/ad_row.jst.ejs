@@ -65,21 +65,21 @@
   <div class="targeting_options_condensed" style="clear:both"></div>
 </div>
   
-<div class="pure-u-1-12 volume">
+<div class="pure-u-1-12 volume number-field">
   <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
     <%= accounting.formatNumber(ad.volume) %>
   </span>
   <div class="errors_container" style="clear:both"></div>
 </div>
 
-<div class="pure-u-1-12 rate">
+<div class="pure-u-1-12 rate number-field">
   $ <span class="editable custom" data-type="text" data-name="rate" data-pk="1">
     <%= accounting.formatMoney(ad.rate, '') %>
   </span>
   <div class="errors_container"></div>
 </div>
 
-<div class="pure-u-1-12 media-cost">
+<div class="pure-u-1-12 media-cost number-field">
   $ <span><%= accounting.formatMoney(ad.value, '') %></span>
   <div class="errors_container"></div>
 </div>

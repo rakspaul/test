@@ -19,7 +19,7 @@
   <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
 </div>
 
-<div class="pure-u-1-6 size" style="width:12%">
+<div class="pure-u-1-6 size number-field" style="width:12%">
   <span class="editable custom typeahead" data-type="text" data-name="ad_size" data-pk="1">
     <%= creative.ad_size %>
   </span>
@@ -34,4 +34,4 @@
   <input type="checkbox" name="creative_type" <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> /> 
 </div>
   
-<div class="pure-u-1-12 client-ad-id"><span><%= creative.client_ad_id %></span></div>
+<div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>
