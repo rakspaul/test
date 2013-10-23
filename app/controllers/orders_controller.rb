@@ -96,7 +96,8 @@ class OrdersController < ApplicationController
 
           if errors.blank?
             store_io_asset(params)
-            format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[@io_details.try(:state).to_s.to_sym] } }
+
+            format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[@io_detail.state.to_s.to_sym] } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
