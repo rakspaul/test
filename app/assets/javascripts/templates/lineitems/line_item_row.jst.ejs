@@ -7,7 +7,7 @@
     <%= lineitem.start_date %>
   </span>
   <div class="errors_container">
-    <% if (moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
+    <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
     Can not be in past
     <% } %>
   </div>
@@ -18,7 +18,7 @@
     <%= lineitem.end_date %>
   </span>
   <div class="errors_container">
-    <% if (moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
+    <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
     Can not be in past
     <% } %>
   </div>
