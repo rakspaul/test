@@ -17,7 +17,7 @@
   <div class="pure-u-1-2 start-date pull-left">
     <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.start_date %></span>
     <div class="errors_container">
-      <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > ad.start_date) { %>
+      <% if (!ad.order_id && moment().format("YYYY-MM-DD") > ad.start_date) { %>
         Can not be in past
       <% } %>
     </div>
@@ -26,7 +26,7 @@
   <div class="pure-u-1-2 end-date pull-left">
     <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= ad.end_date %></span>
     <div class="errors_container">
-      <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > ad.end_date) { %>
+      <% if (!ad.order_id && moment().format("YYYY-MM-DD") > ad.end_date) { %>
         Can not be in past
       <% } %>
     </div>
