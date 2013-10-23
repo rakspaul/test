@@ -18,7 +18,11 @@ Reachui::Application.routes.draw do
   namespace :admin do
     resources :reach_clients
     resources :audience_groups
-    resources :block_sites
+    resources :block_sites do
+      collection do
+        get 'export'
+      end
+    end
     resources :media_contacts
     resources :billing_contacts
     resources :blocked_advertiser, :controller => "block_sites", :type => "BlockedAdvertiser"

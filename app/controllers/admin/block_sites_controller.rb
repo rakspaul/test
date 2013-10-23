@@ -82,6 +82,22 @@ class Admin::BlockSitesController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
+  def export
+    site_ids = params[:site_ids]
+
+    if !site_ids.nil?
+      blocked_sites = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :site_id => site_ids.split(',')).order(:id)
+      bs_export = BlockSitesExport.new(blocked_sites)
+
+      send_data bs_export.export_to_excel, :filename => "#{get_file_path}.xls", :x_sendfile => true, :type => "application/vnd.ms-excel"
+    else
+      render json: {status: 'error', message: 'No sites selected to export.'}
+    end
+
+   rescue => e
+     render json: { errors: e.message }, status: :unprocessable_entity
+  end
+
 private
 
   def enqueue_for_push
@@ -103,6 +119,10 @@ private
 
   rescue => e
     Rails.logger.warn "Block Site error: #{e.message.inspect}"
+  end
+
+  def get_file_path
+    "#{current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}"
   end
 
 end
