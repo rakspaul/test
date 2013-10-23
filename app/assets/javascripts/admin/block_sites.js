@@ -39,6 +39,7 @@
     triggers: {
       'click #btnSave' : 'Save:SiteBlock',
       'click #btnCommit' : 'Commit:SiteBlock',
+      'click #btnExport' : 'Export:SiteBlock',
     },
 
     ui: {
@@ -387,7 +388,12 @@
       if(selectedSites && selectedSites.length>0) {
         this.trigger('Get:SiteBlocks', selectedSites)
       }
-    }
+    },
+
+    getSelectedSiteIds: function() {
+      var selectedSites = this.ui.site_list.val();
+      return selectedSites;
+    },
 
   });
 
@@ -809,6 +815,7 @@
       this.layout = new BlockSites.Layout();
       this.layout.on('Save:SiteBlock', this._onSaveSiteBlock, this);
       this.layout.on('Commit:SiteBlock', this._onCommitSiteBlock, this);
+      this.layout.on('Export:SiteBlock', this._onExportSiteBlock, this);
 
       this.detailRegion.show(this.layout);
       this.layout.addRegions({'modal': new BlockSites.ModalRegion({el:'#modal'})});
@@ -1071,6 +1078,13 @@
 
     _onCommitSiteBlock: function(event) {
       $.ajax({type: "POST", url: '/admin/block_sites/commit.json', success: this._onCommitSuccess, error: this._onCommitError, dataType: 'json'});
+    },
+
+    _onExportSiteBlock: function(event) {
+      var selectedSiteIds = this.siteListView.getSelectedSiteIds();
+      if (selectedSiteIds && selectedSiteIds.length > 0) {
+        window.location = '/admin/block_sites/export.xls?site_ids='+selectedSiteIds.join(',');
+      }
     },
 
     _onCommitSuccess: function(event) {
