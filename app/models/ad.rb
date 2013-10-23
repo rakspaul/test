@@ -12,8 +12,8 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :description, uniqueness: { message: "The following Ads have duplicate names. Please ensure the Ad names are unique", scope: :order_id }
-  validates :start_date, future_date: true
-  validates_dates_range :end_date, after: :start_date
+  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.to_i != li.start_date.to_i || li.new_record? }
+  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.to_i != li.end_date.to_i || li.new_record? }
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
