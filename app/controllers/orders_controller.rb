@@ -499,7 +499,7 @@ private
            li_errors[i] ||= {}
            li_errors[i][:ads] ||= {}
            li_errors[i][:ads][j] = ad_object.errors.to_hash
-           li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.errors          
+           li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)          
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect

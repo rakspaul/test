@@ -8,7 +8,7 @@ json.array! @order.ads do |ad|
     json.size ad.size
     json.source_id ad.source_id
     json.dfp_url ad.dfp_url
-    json.rate ad.ad_pricing.try(:rate).to_i
+    json.rate ad.ad_pricing.try(:rate).to_f
     json.volume ad.ad_pricing.try(:quantity).to_i
     json.value ad.ad_pricing.try(:value).to_i
     json.io_lineitem_id ad.io_lineitem_id
