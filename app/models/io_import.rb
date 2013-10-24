@@ -109,8 +109,6 @@ class IoImport
         li.name = [@advertiser.try(:name), li.name].compact.join(' | ')
         li.order = @order
         li.user = @current_user
-        li.start_date = Time.current.to_date if li.start_date < Time.current
-        li.end_date   = Time.current.advance({:days => +1}).to_date if li.end_date < Time.current
         @lineitems << li
       end
     end
