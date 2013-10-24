@@ -499,6 +499,11 @@
     }
 
   }
+
+  .export-btn{
+    float:right;
+    margin-right:7.5%;
+  }
 }
 
 ul.select-keyvals{
@@ -511,7 +516,8 @@ ul.select-keyvals{
     border-bottom: 1px solid #f2f2f2;
     width:300px;
     padding:2px;
-  }
+  }  
+
 }
 
 .search-advertisers-modal{
