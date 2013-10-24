@@ -601,13 +601,19 @@ $magenta_color: #d02898;
   }
 }
 
+.creatives-list-view {
+  background-color: white;
+  padding: 10px 0 8px;
+}
+
 table.creatives-content {
   width: 100%;
   background: white;
 
   td.creatives-container-offset {
     width: 91.6666%;
-    background-color: $bg_color;
+    background-color: white;
+    border: 2px dashed $bg_color;
 
     .add-creative-btn {
       color: $text_color;
