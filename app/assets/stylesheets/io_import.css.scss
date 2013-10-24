@@ -326,7 +326,7 @@ $magenta_color: #d02898;
 
     .number-field {
       text-align: right;
-      .editable {
+      .editable, .number-value {
         margin-right: 10px;
       }
     }
@@ -344,6 +344,10 @@ $magenta_color: #d02898;
       color: $text_color;
       cursor: pointer;
     }
+  }
+
+  .start-date .editable, .end-date .editable {
+    margin-left: 10px;
   }
 
   .ads-container {
@@ -611,13 +615,19 @@ $magenta_color: #d02898;
   }
 }
 
+.creatives-list-view {
+  background-color: white;
+  padding: 10px 0 8px;
+}
+
 table.creatives-content {
   width: 100%;
   background: white;
 
   td.creatives-container-offset {
     width: 91.6666%;
-    background-color: $bg_color;
+    background-color: white;
+    border: 2px dashed $bg_color;
 
     .add-creative-btn {
       color: $text_color;
