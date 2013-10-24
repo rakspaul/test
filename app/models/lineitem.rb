@@ -77,8 +77,7 @@ class Lineitem < ActiveRecord::Base
     end
 
     def move_end_date_time
-      begining_of_day = new_record? || self.end_date_was.strftime('%H:%M:%S') == '00:00:00'
-      self.end_date = (self.end_date + 1.day - 1.second) if self.end_date_was != self.end_date || begining_of_day
+      self.end_date = self.end_date.end_of_day
     end
 
     def create_nielsen_pricing
