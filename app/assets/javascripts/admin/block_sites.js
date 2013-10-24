@@ -1083,7 +1083,7 @@
     _onExportSiteBlock: function(event) {
       var selectedSiteIds = this.siteListView.getSelectedSiteIds();
       if (selectedSiteIds && selectedSiteIds.length > 0) {
-        window.location = '/admin/block_sites/export.xls?site_ids='+selectedSiteIds.join(',');
+        window.location = '/admin/block_sites/export_sites.xls?site_ids='+selectedSiteIds.join(',');
       }
     },
 

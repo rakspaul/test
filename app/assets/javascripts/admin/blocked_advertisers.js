@@ -20,6 +20,7 @@
 
     events:{
       'click #block_advt_tabs' : '_onTabClick',
+      'click #export_btn' : '_onExportClick'
     },
 
     _onTabClick: function(event) {
@@ -27,6 +28,11 @@
       $(event.target).tab('show');
       this.trigger('TabChange');
     },
+
+    _onExportClick: function(event){
+      event.preventDefault();
+      this.trigger('ExportAdvertisers');
+    }
 
   });
 
@@ -224,6 +230,7 @@
       this.detailRegion = new BlockedAdvertisers.DetailRegion();
       this.layout = new BlockedAdvertisers.Layout();
       this.layout.on('TabChange', this._onTabChange, this);
+      this.layout.on('ExportAdvertisers', this._onExportAdvertisers, this);
       this.detailRegion.show(this.layout);
     },
 
@@ -253,6 +260,18 @@
       this.searchResults.reset();
       this.advertiserSearchView.resetListSelection();
       this.advertiserGroupSearchView.resetListSelection();
+    },
+
+    _onExportAdvertisers: function() {
+      var selectedTab = $('#block_advt_tabs li.active').attr('data-name');
+      var selectedTabsPane = $('#block_advt_tabs li.active a').attr('href').slice(1);
+
+      var selectedVals= $('#'+selectedTabsPane).find('#list').val();
+
+      if(selectedVals){
+        window.location = '/admin/block_sites/export_adv_and_group.xls?block_list='+selectedVals+'&type='+selectedTab
+      }
+
     },
 
     _fetchAdvertisers: function(items) {

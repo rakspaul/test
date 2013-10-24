@@ -82,19 +82,43 @@ class Admin::BlockSitesController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def export
+  def export_sites
     site_ids = params[:site_ids]
 
     if !site_ids.nil?
       blocked_sites = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :site_id => site_ids.split(',')).order(:id)
-      bs_export = BlockSitesExport.new(blocked_sites)
+      bs_export = BlockSitesExport.new(blocked_sites, current_user)
 
-      send_data bs_export.export_to_excel, :filename => "#{get_file_path}.xls", :x_sendfile => true, :type => "application/vnd.ms-excel"
+      send_data bs_export.export_to_excel, :filename => bs_export.get_sites_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
     else
       render json: {status: 'error', message: 'No sites selected to export.'}
     end
 
-   rescue => e
+  rescue => e
+      render json: { errors: e.message }, status: :unprocessable_entity
+  end
+
+  def export_adv_and_group
+    blocked_type = params[:type]
+    blocked_list = params[:block_list]
+
+    if blocked_type == BlockSite::BLOCKED_ADVERTISER && !blocked_list.nil?
+      blocked_adv = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :advertiser_id => blocked_list.split(',')).order(:id)
+      adv_export = BlockAdvertiserAndGroupExport.new(current_user)
+
+      send_data adv_export.export_advertiser(blocked_adv), :filename => adv_export.get_adv_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+
+    elsif blocked_type == BlockSite::BLOCKED_ADVERTISER_GROUP && !blocked_list.nil?
+      blocked_adv_grp = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :advertiser_group_id => blocked_list.split(',')).order(:id)
+      adv_grp_export = BlockAdvertiserAndGroupExport.new(current_user)
+
+      send_data adv_grp_export.export_advertiser_group(blocked_adv_grp), :filename => adv_grp_export.get_adv_group_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+
+    else
+      render json: {status: 'error', message: 'No advertisers and groups selected to export.'}
+    end
+
+  rescue => e
      render json: { errors: e.message }, status: :unprocessable_entity
   end
 
@@ -121,8 +145,16 @@ private
     Rails.logger.warn "Block Site error: #{e.message.inspect}"
   end
 
-  def get_file_path
-    "#{current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}"
+  def get_sites_file
+    "#{current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  end
+
+  def get_adv_file
+    "#{current_user.network.name}_Block_Advertisers_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  end
+
+  def get_adv_group_file
+    "#{current_user.network.name}_Block_Advertisers_group_#{Date.today.strftime('%Y-%m-%d')}.xls"
   end
 
 end

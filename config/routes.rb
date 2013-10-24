@@ -20,7 +20,8 @@ Reachui::Application.routes.draw do
     resources :audience_groups
     resources :block_sites do
       collection do
-        get 'export'
+        get 'export_sites'
+        get 'export_adv_and_group'
       end
     end
     resources :media_contacts
