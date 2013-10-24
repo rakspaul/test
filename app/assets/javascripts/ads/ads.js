@@ -78,7 +78,6 @@
         sum_ad_imps += imps;
       });
       if(sum_ad_imps > li_imps) {
-        alert("Add impressions must not exceed line item impressions. Please correct this and save your order");
         this.$el.find('.volume .errors_container').html("Ad Impressions exceed Line Item Impressions for Contract Line Item");
         var volumeEl = this.$el.find('.volume');
         volumeEl.css('height', '');
