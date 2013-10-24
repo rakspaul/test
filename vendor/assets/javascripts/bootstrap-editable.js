@@ -5185,8 +5185,6 @@ Editableform based on Twitter Bootstrap 2
 				date.getDate() == today.getDate()) {
 				cls.push('today');
 			}
-console.log(date);
-console.log(this.date);
 			if (date.getDate() == this.date.getDate() && date.getMonth() == this.date.getMonth()) {
 				cls.push('active');
 			}
@@ -6691,12 +6689,12 @@ $(function(){
             
             //apply typeahead
             this.$input.typeahead(this.options.typeahead);
-            
+          
             //patch some methods in typeahead
-            var ta = this.$input.data('typeahead');
-            ta.render = $.proxy(this.typeaheadRender, ta);
-            ta.select = $.proxy(this.typeaheadSelect, ta);
-            ta.move = $.proxy(this.typeaheadMove, ta);
+            //var ta = this.$input.data('typeahead');
+            //ta.render = $.proxy(this.typeaheadRender, ta);
+            //ta.select = $.proxy(this.typeaheadSelect, ta);
+            //ta.move = $.proxy(this.typeaheadMove, ta);
 
             this.renderClear();
             this.setClass();
