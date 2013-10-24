@@ -1,5 +1,6 @@
 $text_color: #005c97;
-$bg_color: #c0e2f9;
+$bg_color: #a5ccf9;
+$ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: #ff7d78;
 $magenta_color: #d02898;
@@ -300,6 +301,10 @@ $magenta_color: #d02898;
 
     > div[class^="pure-u"] {
       padding:10px 0;
+      &:nth-child(2) {
+        border-right: 2px solid white;
+        @include box-sizing(border-box);
+      }
     }
 
     .li-number {
@@ -332,6 +337,13 @@ $magenta_color: #d02898;
   }
 
   .ads-container {
+    background-color: $ad_bg_color;
+    border-top: 2px solid white;
+    border-bottom: 5px solid white;
+    .ad {
+      border-bottom: 2px solid white;
+    }
+
     div[class^="pure-u"] {
       padding-top: 5px;
     }
@@ -340,6 +352,9 @@ $magenta_color: #d02898;
       text-align: center;
       color: $text_color;
       font-weight: bold;
+      background-color: $bg_color;
+      border-right: 2px solid white;
+      @include box-sizing(border-box);
 
       .dfp-success {
         background: url(asset-path('dfp_icon.png')) 0px 0px no-repeat;

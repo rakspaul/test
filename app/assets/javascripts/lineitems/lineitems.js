@@ -188,7 +188,7 @@
       this.renderTargetingDialog();
 
       // align height of lineitem's li-number div
-      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').outerHeight() + 'px' ) });
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -250,7 +250,7 @@
         ReachUI.showCondensedTargetingOptions.apply(this);
 
         // align height of lineitem's li-number div
-        _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+        _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').outerHeight() + 'px' ) });
       }
     },
 
