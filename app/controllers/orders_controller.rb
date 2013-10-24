@@ -344,7 +344,6 @@ private
 
       if li_update
         lineitem.creatives.delete(*_delete_creatives_ids) if !_delete_creatives_ids.blank?
-
         li_saved = lineitem.save
         lineitem.save_creatives(li_creatives) if li_saved
       end

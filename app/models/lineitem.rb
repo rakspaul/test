@@ -22,8 +22,12 @@ class Lineitem < ActiveRecord::Base
   validates :rate, numericality: { greater_than_or_equal_to: 0 }
   validates :ad_sizes, ad_size: true
   validate :flight_dates_with_in_order_range
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.to_i != li.start_date.to_i || li.new_record? }
-  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.to_i != li.end_date.to_i || li.new_record? }
+  
+  # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
+  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
+
+  # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
+  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? } 
 
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes, :move_end_date_time
@@ -54,11 +58,11 @@ class Lineitem < ActiveRecord::Base
   private
 
     def flight_dates_with_in_order_range
-      if(self.start_date < self.order.start_date)
+      if(self.start_date.to_date < self.order.start_date.to_date)
         errors.add(:start_date, "can not be before start date of order")
       end
 
-      if self.end_date > self.order.end_date
+      if self.end_date.to_date > self.order.end_date.to_date
         errors.add(:end_date, "can not be after end date of order")
       end
     end
