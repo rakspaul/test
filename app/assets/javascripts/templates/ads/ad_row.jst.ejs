@@ -19,7 +19,7 @@
       <%= ad.start_date %>
     </span>
     <div class="errors_container">
-      <% if (moment().format("YYYY-MM-DD") > ad.start_date) { %>
+      <% if (!ad.order_id && moment().format("YYYY-MM-DD") > ad.start_date) { %>
         Can not be in past
       <% } %>
     </div>
@@ -30,7 +30,7 @@
       <%= ad.end_date %>
     </span>
     <div class="errors_container">
-      <% if (moment().format("YYYY-MM-DD") > ad.end_date) { %>
+      <% if (!ad.order_id && moment().format("YYYY-MM-DD") > ad.end_date) { %>
         Can not be in past
       <% } %>
     </div>
@@ -62,8 +62,8 @@
 <div class="pure-u-1-3 name">
   <span class="editable" data-type="textarea" data-pk="1" data-name="description">
     <%= ad.description %>
-    <div class="errors_container" style="clear:both"></div>
   </span>
+  <div class="errors_container" style="clear:both"></div>
   <br/>
   <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
   <div class="targeting_options_condensed" style="clear:both"></div>

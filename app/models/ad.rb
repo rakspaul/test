@@ -12,11 +12,12 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :description, uniqueness: { message: "The following Ads have duplicate names. Please ensure the Ad names are unique", scope: :order_id }
-  validates :start_date, future_date: true
-  validates_dates_range :end_date, after: :start_date
+  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.to_i != li.start_date.to_i || li.new_record? }
+  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.to_i != li.end_date.to_i || li.new_record? }
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
+  before_save :move_end_date_time
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
@@ -66,5 +67,10 @@ class Ad < ActiveRecord::Base
   def sanitize_attributes
     # https://github.com/collectivemedia/reachui/issues/136
     self[:description] = description[0..254]
+  end
+
+  def move_end_date_time
+    begining_of_day = new_record? || self.end_date_was.strftime('%H:%M:%S') == '00:00:00'
+    self.end_date = (self.end_date + 1.day - 1.second) if (self.end_date_was != self.end_date || begining_of_day)
   end
 end
