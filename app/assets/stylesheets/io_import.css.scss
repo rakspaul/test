@@ -316,7 +316,7 @@ $magenta_color: #d02898;
 
     .number-field {
       text-align: right;
-      .editable {
+      .editable, .number-value {
         margin-right: 10px;
       }
     }
@@ -334,6 +334,10 @@ $magenta_color: #d02898;
       color: $text_color;
       cursor: pointer;
     }
+  }
+
+  .start-date .editable, .end-date .editable {
+    margin-left: 10px;
   }
 
   .ads-container {
