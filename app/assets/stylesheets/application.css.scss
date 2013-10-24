@@ -40,6 +40,12 @@ $light-background: #f7f7f7;
   padding: 50px 20px 0;
 }
 
+@mixin box-sizing($value) {
+  -webkit-box-sizing: $value;
+  -moz-box-sizing: $value;
+  box-sizing: $value;
+}
+
 html, body, form, fieldset, table, tr, td, input, button, select, textarea, optgroup, option {
   font-family: 'Armata', Arial, sans-serif;
 }
