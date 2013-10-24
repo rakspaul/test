@@ -17,6 +17,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
+  before_save :move_end_date_time
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
@@ -66,5 +67,10 @@ class Ad < ActiveRecord::Base
   def sanitize_attributes
     # https://github.com/collectivemedia/reachui/issues/136
     self[:description] = description[0..254]
+  end
+
+  def move_end_date_time
+    begining_of_day = new_record? || self.end_date_was.strftime('%H:%M:%S') == '00:00:00'
+    self.end_date = (self.end_date + 1.day - 1.second) if (self.end_date_was != self.end_date || begining_of_day)
   end
 end

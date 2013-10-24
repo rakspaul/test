@@ -2,8 +2,8 @@ json.array! @order.ads do |ad|
   json.ad do
     json.id ad.try(:id)
     json.description ad.description
-    json.start_date ad.start_date
-    json.end_date ad.end_date
+    json.start_date format_date(ad.start_date)
+    json.end_date format_date(ad.end_date)
     json.order_id ad.order_id
     json.size ad.size
     json.source_id ad.source_id

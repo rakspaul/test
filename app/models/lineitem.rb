@@ -26,7 +26,7 @@ class Lineitem < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.to_i != li.end_date.to_i || li.new_record? }
 
   before_create :generate_alt_ad_id
-  before_save :sanitize_ad_sizes
+  before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
 
@@ -74,6 +74,11 @@ class Lineitem < ActiveRecord::Base
 
       # https://github.com/collectivemedia/reachui/issues/136
       self[:name] = name[0..499]
+    end
+
+    def move_end_date_time
+      begining_of_day = new_record? || self.end_date_was.strftime('%H:%M:%S') == '00:00:00'
+      self.end_date = (self.end_date + 1.day - 1.second) if self.end_date_was != self.end_date || begining_of_day
     end
 
     def create_nielsen_pricing

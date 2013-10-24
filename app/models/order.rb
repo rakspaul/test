@@ -25,6 +25,7 @@ class Order < ActiveRecord::Base
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
   before_destroy :check_could_be_deleted
+  before_save :move_end_date_time
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -83,6 +84,11 @@ class Order < ActiveRecord::Base
       if(self.start_date >= self.end_date)
         errors.add :end_date, "can not be before start date"
       end
+    end
+
+    def move_end_date_time
+      begining_of_day = new_record? || self.end_date_was.strftime('%H:%M:%S') == '00:00:00'
+      self.end_date = (self.end_date + 1.day - 1.second) if (self.end_date_was != self.end_date || begining_of_day)
     end
 
     def create_random_source_id

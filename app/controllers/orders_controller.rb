@@ -380,17 +380,21 @@ private
             end
           end
 
-          #if ad_object.update_attributes(ad[:ad])
-          ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
-
-          ad_pricing.rate = ad[:ad][:rate]
-          ad_pricing.quantity = ad_quantity
-          ad_pricing.value = ad_value
-
-          valid_pricing = ad_pricing.valid?
-          if ad_object.valid? && valid_pricing
+          if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
-            ad_pricing.save
+
+            #if ad_object.update_attributes(ad[:ad])
+            ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
+
+            ad_pricing.rate = ad[:ad][:rate]
+            ad_pricing.quantity = ad_quantity
+            ad_pricing.value = ad_value
+
+            if !ad_pricing.save
+              li_errors[i] ||= {:ads => {}}
+              li_errors[i][:ads][j] = ad_pricing.errors
+            end
+                                                                
 
             sum_of_ad_impressions += ad_pricing.quantity
             if sum_of_ad_impressions > lineitem.volume
@@ -405,7 +409,6 @@ private
             li_errors[i] ||= {}
             li_errors[i][:ads] ||= {}
             li_errors[i][:ads][j] = ad_object.errors.to_hash
-            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.errors
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
@@ -443,7 +446,7 @@ private
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       valid_li = lineitem.valid?
-      li_saved = valid_order && valid_li
+      li_saved = valid_order && valid_li && lineitem.save
 
       lineitem.save_creatives(li_creatives) if li_saved && li_creatives
       unless valid_li
@@ -474,11 +477,10 @@ private
 
           ad_object.save_targeting(ad_targeting)
 
-          #if ad_object.save
-          ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
-
           if ad_object.valid? && li_saved
             ad_object.save
+            #if ad_object.save
+            ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
 
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
