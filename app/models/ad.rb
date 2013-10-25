@@ -28,14 +28,15 @@ class Ad < ActiveRecord::Base
     creatives_params.to_a.each do |params|
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
+      end_date = Time.zone.parse(cparams[:end_date]).end_of_day
 
       creative = self.lineitem.creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       # updating creative's attributes should be done on lineitem level
       if creative
         if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
-          ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: cparams[:end_date])
+          ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
         else
-          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: cparams[:end_date], network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
         end
       end
     end
