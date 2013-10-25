@@ -547,7 +547,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
-          start_date: li_creative.get('start_date')
+          start_date: li_creative.get('start_date'),
+          creative_type: li_creative.get('creative_type')
         });
         li_creatives.push(cloned_creative);
       });
