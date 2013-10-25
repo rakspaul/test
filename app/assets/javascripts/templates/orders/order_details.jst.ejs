@@ -133,6 +133,8 @@
           <div class="errors_container">
           <% if(order.sales_person_unknown) { %>
             This sales person is not associated with current Reach Client
+          <% } else if(order.sales_person_name == "") { %>
+            Validation failed: Name can't be blank
           <% } %>
           </div>
         </div>
@@ -156,7 +158,11 @@
             <% } %>
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (order.media_contact_name == "") { %>
+            Validation failed: Name can't be blank
+          <% } %>
+          </div>
         </div>
 
         <div class="field media-contact-company">
@@ -188,6 +194,8 @@
           <div class="errors_container">
           <% if(order.account_contact_unknown) { %>
             This account manager is not associated with current Reach Client
+          <% } else if(order.account_contact_name == "") { %>
+            Validation failed: Name can't be blank
           <% } %>
           </div>
         </div>
@@ -211,7 +219,11 @@
             <% } %>
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name"><%= order.billing_contact_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (order.billing_contact_name == "") { %>
+            Validation failed: Name can't be blank
+          <% } %>
+          </div>
         </div>
         <div class="field billing-contact-company">
           <p>Company</p>

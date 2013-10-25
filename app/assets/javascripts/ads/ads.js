@@ -77,13 +77,20 @@
         var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
         sum_ad_imps += imps;
       });
+
+      var li_errors_container = this.options.parent_view.$el.find('.volume .errors_container')[0];
+
       if(sum_ad_imps > li_imps) {
-        this.$el.find('.volume .errors_container').html("Ad Impressions exceed Line Item Impressions for Contract Line Item");
-        var volumeEl = this.$el.find('.volume');
-        volumeEl.css('height', '');
-        this.$el.find('.name').css('height', volumeEl.height());
-        ReachUI.alignAdsDivs();
+        $(li_errors_container).html("Ad Impressions exceed Line Item Impressions");
+      } else {
+        $(li_errors_container).html("");
       }
+
+      var volumeEl = this.options.parent_view.$el.find('.volume')[0];
+      $(volumeEl).css('height', '');
+      var nameEl = this.options.parent_view.$el.find('.name')[0];
+      $(nameEl).css('height', $(volumeEl).height());
+      ReachUI.alignAdsDivs();
     },
 
     _recalculateMediaCost: function() {
@@ -192,6 +199,7 @@
       }
 
       this.renderCreatives();
+      this._validateAdImpressions();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {

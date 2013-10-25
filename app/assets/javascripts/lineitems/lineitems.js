@@ -97,7 +97,7 @@
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function(){
+    onRender: function() {
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
