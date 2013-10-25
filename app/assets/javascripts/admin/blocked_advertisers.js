@@ -23,6 +23,11 @@
       'click #export_btn' : '_onExportClick'
     },
 
+    ui: {
+      block_advt_tabs : '#block_advt_tabs',
+      searchResultsView: '#searchResultsView'
+    },
+
     _onTabClick: function(event) {
        event.preventDefault();
       $(event.target).tab('show');
@@ -31,8 +36,16 @@
 
     _onExportClick: function(event){
       event.preventDefault();
-      this.trigger('ExportAdvertisers');
-    }
+
+      var selectedTab = this.ui.block_advt_tabs.find('li.active').attr('data-name');
+      var selectedTabsPane = this.ui.block_advt_tabs.find('li.active a').attr('href').slice(1);
+      var selectedVals= $('#'+selectedTabsPane).find('#list').val();
+      var excludedSites = this.ui.searchResultsView.find('select option').val();
+
+      if(selectedVals && excludedSites){
+        window.location = '/admin/block_sites/export_adv_and_group.xls?block_list='+selectedVals+'&type='+selectedTab
+      }
+    },
 
   });
 
@@ -230,7 +243,6 @@
       this.detailRegion = new BlockedAdvertisers.DetailRegion();
       this.layout = new BlockedAdvertisers.Layout();
       this.layout.on('TabChange', this._onTabChange, this);
-      this.layout.on('ExportAdvertisers', this._onExportAdvertisers, this);
       this.detailRegion.show(this.layout);
     },
 
@@ -260,18 +272,6 @@
       this.searchResults.reset();
       this.advertiserSearchView.resetListSelection();
       this.advertiserGroupSearchView.resetListSelection();
-    },
-
-    _onExportAdvertisers: function() {
-      var selectedTab = $('#block_advt_tabs li.active').attr('data-name');
-      var selectedTabsPane = $('#block_advt_tabs li.active a').attr('href').slice(1);
-
-      var selectedVals= $('#'+selectedTabsPane).find('#list').val();
-
-      if(selectedVals){
-        window.location = '/admin/block_sites/export_adv_and_group.xls?block_list='+selectedVals+'&type='+selectedTab
-      }
-
     },
 
     _fetchAdvertisers: function(items) {
