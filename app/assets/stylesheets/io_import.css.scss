@@ -5,6 +5,8 @@ $li_number_bg: #007ac9;
 $error_color: #ff7d78;
 $magenta_color: #d02898;
 
+$wide_input_width: 480px;
+
 .clearfix { clear:both }
 
 .field_with_errors {
@@ -129,6 +131,10 @@ $magenta_color: #d02898;
 
     .editable-input input, .uneditable-input input {
       width: 105px !important;
+    }
+
+    .editable-input input.wide-editable-text {
+      width: $wide-input-width !important;
     }
 
     .editable-input input.input-small, .uneditable-input input.input-small {
@@ -688,4 +694,8 @@ table.creatives-content {
       }
     }
   }
+}
+
+.wide-editable-text {
+  width: $wide-input-width;
 }
