@@ -75,6 +75,7 @@ class BlockAdvertiserAndGroupExport
       row_no += 1
 
       sites_data = @sheet.row(row_no)
+      sites_data.set_format(0, @format)
       sites_data[col_no] = blocked['sites_name'].join(',')
 
       row_no += 2
@@ -89,7 +90,8 @@ class BlockAdvertiserAndGroupExport
   def create_sheet(name)
     Spreadsheet.client_encoding = 'UTF-8'
 
-    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10, :pattern_fg_color => :Gray, :pattern => 1
+    @format = Spreadsheet::Format.new :color => :black, :size => 10
+    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
 
     @book = Spreadsheet::Workbook.new
     @sheet = @book.create_worksheet :name => name

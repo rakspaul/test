@@ -108,7 +108,7 @@ class BlockSitesExport
     Spreadsheet.client_encoding = 'UTF-8'
 
     @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
-    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 1
+    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
 
     @book = Spreadsheet::Workbook.new
     @sheet = @book.create_worksheet :name => SITES_SHEET
