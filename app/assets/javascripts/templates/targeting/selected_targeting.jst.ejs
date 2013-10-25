@@ -27,9 +27,11 @@
     <div class="zip-codes-icon" title="Zip codes"></div>
     <p>
     <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
-      var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
-      if(!is_current_zip_code_valid) {
-        errors_in_zips = true;
+      if(selected_zip_codes[i].match(/^\s*$/) == null) {
+        var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
+        if(!is_current_zip_code_valid) {
+          errors_in_zips = true;
+        }
       }
       var html_for_zip = '<span ' + (is_current_zip_code_valid ? '' : 'class="invalid-zip"') + '>' + selected_zip_codes[i] + '</span>';
       zips.push( html_for_zip );

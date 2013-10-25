@@ -86,10 +86,7 @@
         $(li_errors_container).html("");
       }
 
-      var volumeEl = this.options.parent_view.$el.find('.volume')[0];
-      $(volumeEl).css('height', '');
-      var nameEl = this.options.parent_view.$el.find('.name')[0];
-      $(nameEl).css('height', $(volumeEl).height());
+      ReachUI.alignLINumberDiv();
       ReachUI.alignAdsDivs();
     },
 
