@@ -379,6 +379,13 @@ private
             end
           end
 
+          sum_of_ad_impressions += ad_quantity.to_i
+          if sum_of_ad_impressions > lineitem.volume
+            li_errors[i] ||= {}
+            li_errors[i][:lineitems] ||= {}
+            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
+          end
+
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
 
@@ -392,15 +399,7 @@ private
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_pricing.errors
-            end
-                                                                
-
-            sum_of_ad_impressions += ad_pricing.quantity
-            if sum_of_ad_impressions > lineitem.volume
-              li_errors[i] ||= {}
-              li_errors[i][:lineitems] ||= {}
-              li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-            end
+            end          
 
             ad_object.save_creatives(ad_creatives)
           else
@@ -451,7 +450,8 @@ private
       unless valid_li
         Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
         li_errors[i] ||= {}
-        li_errors[i][:lineitems] = lineitem.errors
+        li_errors[i][:lineitems] ||= {}
+        li_errors[i][:lineitems].merge!(lineitem.errors)
       end
 
       li[:ads].to_a.each_with_index do |ad, j|
@@ -476,6 +476,13 @@ private
 
           ad_object.save_targeting(ad_targeting)
 
+          sum_of_ad_impressions += ad_quantity.to_i
+          if sum_of_ad_impressions > lineitem.volume
+            li_errors[i] ||= {}
+            li_errors[i][:lineitems] ||= {}
+            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
+          end
+
           if ad_object.valid? && li_saved
             ad_object.save
             #if ad_object.save
@@ -484,12 +491,6 @@ private
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_pricing.errors
-            end
-            sum_of_ad_impressions += ad_pricing.quantity
-            if sum_of_ad_impressions > lineitem.volume
-              li_errors[i] ||= {}
-              li_errors[i][:lineitems] ||= {}
-              li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
             end
 
             ad_object.save_creatives(ad_creatives)
