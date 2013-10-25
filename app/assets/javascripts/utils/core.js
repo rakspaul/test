@@ -88,6 +88,12 @@ ReachUI.alignAdsDivs = function() {
     $(el).css('height', (parseInt($(el).siblings('.name').height()) + padding) + 'px' ) });
 };
 
+// align height of lineitem's li-number div
+ReachUI.alignLINumberDiv = function() {
+  var highest_div = _.max([$('.lineitem > .name').outerHeight(), $('.lineitem > .volume').outerHeight()]);
+  _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', highest_div+'px' ) });
+};
+
 ReachUI.checkOrderStatus = function(order_id) {
   var current_order_state = $('.current-io-status-top .io-status').html().trim();
   current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
