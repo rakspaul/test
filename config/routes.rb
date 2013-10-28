@@ -30,6 +30,11 @@ Reachui::Application.routes.draw do
     resources :blocked_advertiser_groups, :controller => "block_sites", :type => "BlockedAdvertiserGroup"
     resources :blocked_advertisers
     post 'block_sites/commit' => 'block_sites#commit'
+    resources :default_block_list do
+      collection do
+        get 'export'
+      end
+    end
   end
 
   resources :users do

@@ -11,6 +11,8 @@
             = link_to 'Block Sites', admin_block_sites_path
           %li{class: ('active' if controller.class.name == 'Admin::BlockedAdvertisersController')}
             = link_to 'Blocked Advertisers', admin_blocked_advertisers_path
+          %li{class: ('active' if controller.class.name == 'Admin::DefaultBlockListController')}
+            = link_to 'Default Blocks', admin_default_block_list_index_path
     .pure-u.admin-right
       .admin-content
         = yield

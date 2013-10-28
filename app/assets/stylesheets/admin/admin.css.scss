@@ -521,3 +521,66 @@
   }
 
 }
+
+.default-block-list{
+  background:#F7F7F7;
+  border-radius:5px;
+  padding:10px;
+  margin-bottom:10px;
+
+  .action-buttons{
+    text-align:left;
+
+    .export-btn{
+      float:right;
+      margin-right:7.5%;
+    }
+  }
+
+
+  .search-sites-control{
+    margin-bottom:10px;
+    input{
+      width:88%;
+    }
+  }
+
+  .default-block-control{
+    margin-bottom:10px;
+
+    .controls{
+      position:relative;
+      margin-bottom:19px;
+
+      select{
+        width: 85%;
+        height:500px;
+        font-size:13px;
+        padding:2px;
+
+        option.strike{
+          text-decoration:line-through
+        }
+      }
+
+      .loading-div{
+        width:85%;
+        height:500px;
+
+        .loading-img{
+          margin-top:240px;
+        }
+      }
+
+    }
+  }
+
+  .add-btn{
+    float:right;
+    position:relative;
+    top:-305px;
+    margin-right:10px;
+  }
+
+
+}
