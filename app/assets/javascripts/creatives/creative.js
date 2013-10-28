@@ -243,7 +243,12 @@
     },
 
     _addCreative: function() {
-      var creative = new ReachUI.Creatives.Creative();
+      var startDate = $('.order-details .start-date .editable.date').html();
+      var endDate = $('.order-details .end-date .editable.date').html();
+      var creative = new ReachUI.Creatives.Creative({
+        start_date: startDate,
+        end_date  : endDate
+      });
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});
       this.ui.creatives.append(creativeView.render().el);
 
