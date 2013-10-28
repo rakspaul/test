@@ -12,12 +12,14 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :description, uniqueness: { message: "The following Ads have duplicate names. Please ensure the Ad names are unique", scope: :order_id }
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.to_i != li.start_date.to_i || li.new_record? }
-  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.to_i != li.end_date.to_i || li.new_record? }
+
+  validates :start_date, future_date: true, :if => lambda {|ad| ad.start_date_was.try(:to_date) != ad.start_date.to_date || ad.new_record? }
+  validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
   before_save :move_end_date_time
+  before_validation :check_flight_dates_within_li_flight_dates
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
@@ -72,5 +74,17 @@ class Ad < ActiveRecord::Base
 
   def move_end_date_time
     self.end_date = self.end_date.end_of_day
+  end
+
+  def check_flight_dates_within_li_flight_dates
+    if self.lineitem
+      if self.start_date < self.lineitem.start_date
+        self.errors.add(:start_date, "couldn't be before lineitem's start date")
+      end
+
+      if self.end_date > self.lineitem.end_date
+        self.errors.add(:start_date, "couldn't be after lineitem's end date")
+      end
+    end
   end
 end
