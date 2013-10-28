@@ -39,6 +39,43 @@ class Admin::DefaultBlockListController < ApplicationController
   end
 
   def export
+    default_site_blocks = DefaultSiteBlocks.of_network(current_network)
+    create_sheet
 
+    row_no = 0
+
+    header = @sheet.row(row_no)
+    header.default_format=(@format_color)
+    header[0] = "Default Block sites"
+
+    default_site_blocks.each do |dsb|
+      row_no +=1
+      site_data = @sheet.row(row_no)
+      site_data[0] = dsb.site.name
+    end
+
+    spreadsheet = StringIO.new
+    @book.write spreadsheet
+
+    send_data spreadsheet.string, :filename => get_default_block_site_name, :x_sendfile => true, :type => "application/vnd.ms-excel"
+
+  rescue => e
+    render json: { errors: e.message }, status: :unprocessable_entity
   end
+
+  private
+    def create_sheet
+      Spreadsheet.client_encoding = 'UTF-8'
+
+      @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
+      @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
+
+      @book = Spreadsheet::Workbook.new
+      @sheet = @book.create_worksheet :name => "Default Blocked Sites"
+    end
+
+    def get_default_block_site_name
+      "#{@current_user.network.name}_Default_Blocked_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
+    end
+
 end
