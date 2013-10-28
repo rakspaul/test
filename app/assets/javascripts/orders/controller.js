@@ -386,6 +386,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    var ordersController = this;
     this.orderDetailsLayout.top.show(detailOrderView);
 
     //turn x-editable plugin to inline mode
@@ -406,6 +407,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       success: function(response, newValue) {
         order.set($(this).data('name'), newValue); //update backbone model;
         $('.new-order-header .heading').html(newValue);
+        $(this).parent().removeClass('field_with_errors');
         $(this).siblings('.errors_container').html('');
       }
     });

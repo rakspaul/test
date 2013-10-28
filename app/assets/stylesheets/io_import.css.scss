@@ -2,25 +2,25 @@ $text_color: #005c97;
 $bg_color: #a5ccf9;
 $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
-$error_color: #ff7d78;
+$error_color: red;
 $magenta_color: #d02898;
 
 $wide_input_width: 480px;
 
 .clearfix { clear:both }
 
-.field_with_errors {
-  border-bottom:1px solid $error_color;
-  border-left: 1px solid $error_color;
-  border-right: 1px solid $error_color;
+.field_with_errors .editable {
+  color: $error_color;
 }
 
 .errors_container {
-  background-color: $error_color;
+  color: $error_color;
   margin-top:0;
   float: none;
-  text-align: center;
+  text-align: left;
+  font-size:12px;
   clear:both;
+  padding-left: 5px;
 }
 
 .pushing-errors-order-level {
@@ -142,8 +142,10 @@ $wide_input_width: 480px;
     }
 
     .advertiser-unknown {
-      background: $error_color;
       padding: 5px 2px 35px 2px;
+      .tt-query {
+        border: 1px solid $error_color;
+      }
     }
 
     .advertiser-unknown:after {
@@ -152,6 +154,7 @@ $wide_input_width: 480px;
       position: relative;
       top: -5px;
       left: 7px;
+      color: $error_color;
     }
 
     .contact-unknown {
@@ -240,6 +243,12 @@ $wide_input_width: 480px;
         width:100%;
         margin-top:0;
       }
+    }
+
+    .errors_container {
+      width: 60%;
+      margin-left: 40%;
+      padding-left: 10px;
     }
   }
 

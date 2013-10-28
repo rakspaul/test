@@ -317,18 +317,20 @@
                 _.each(error, function(li_errors, li_k) {
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
+                    var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
 
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                      .find(fieldSelector + ' .errors_container:first')
-                      .addClass('field_with_errors').html(errorMsg);
+                    field.addClass('field_with_errors');
+                    field.find(' .errors_container:first').html(errorMsg);
                   });
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     _.each(ad_errors, function(errorMsg, fieldName) {
                       var fieldSelector = errors_fields_correspondence.ads[fieldName];
-                      $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                        .find('.ad:nth(' + ad_k + ') ' + fieldSelector  + ' .errors_container')
-                        .addClass('field_with_errors').html(errorMsg);
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
+                        
+                      field.addClass('field_with_errors');
+                      field.find('.errors_container').html(errorMsg);
                       ReachUI.alignAdsDivs();
                     });
                   });
