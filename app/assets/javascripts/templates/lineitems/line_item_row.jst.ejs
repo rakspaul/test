@@ -3,23 +3,25 @@
 <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
 <span>Contract LI<br/><%= lineitem.alt_ad_id || lineitem.itemIndex %></span></div>
 
-<div class="pure-u-1-12 start-date">
+<% wrong_start_date = !lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.start_date %>
+<div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
   <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.start_date %>
   </span>
   <div class="errors_container">
-    <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.start_date) { %>
+    <% if (wrong_start_date) { %>
     Can not be in past
     <% } %>
   </div>
 </div>
 
-<div class="pure-u-1-12 end-date">
+<% wrong_end_date = !lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.end_date %>
+<div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
   <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
     <%= lineitem.end_date %>
   </span>
   <div class="errors_container">
-    <% if (!lineitem.order_id && moment().format("YYYY-MM-DD") > lineitem.end_date) { %>
+    <% if (wrong_end_date) { %>
     Can not be in past
     <% } %>
   </div>
