@@ -97,7 +97,7 @@
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function(){
+    onRender: function() {
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -187,9 +187,7 @@
       }
           
       this.renderTargetingDialog();
-
-      // align height of lineitem's li-number div
-      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').outerHeight() + 'px' ) });
+      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -249,9 +247,7 @@
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-
-        // align height of lineitem's li-number div
-        _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').outerHeight() + 'px' ) });
+        ReachUI.alignLINumberDiv()
       }
     },
 

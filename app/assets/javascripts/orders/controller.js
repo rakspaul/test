@@ -289,6 +289,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("media_contact_email", el.email);
       order.set("media_contact_id", el.id);
       order.set("media_contact_phone", el.phone);
+
+      ordersController._clearErrorsOn(".media-contact-name");
     });
 
     $('.billing-contact-name .typeahead').editable({
@@ -309,6 +311,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("billing_contact_email", el.email);
       order.set("billing_contact_phone", el.phone);
       order.set("billing_contact_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-name");
     });
 
     //-------------------------------------------------------------------------------
@@ -462,6 +466,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
+  _calculateRemainingImpressions: function(li) {
+    var remaining_impressions = li.get('volume');
+
+    _.each(li.ads, function(ad) {
+      remaining_impressions -= ad.get('volume');
+    });
+
+    return remaining_impressions;
+  },
+
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
   // Client Short Name + Client Advertiser Name + Quarter + Year + "GEO" (if DMA or Zips are included for the Ad) + "RON" (if NO Key Values are selected for the Ad) + "BTCT" (if Key Values ARE selected for the Ad) + Creative Sizes.
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
@@ -514,7 +528,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li = li_view.model;
 
       var ad_name = ordersController._generateAdName(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes')});
+      var remaining_impressions = ordersController._calculateRemainingImpressions(li);
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
@@ -534,7 +549,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
-          start_date: li_creative.get('start_date')
+          start_date: li_creative.get('start_date'),
+          creative_type: li_creative.get('creative_type')
         });
         li_creatives.push(cloned_creative);
       });
