@@ -305,6 +305,10 @@
               end_date:    ' .end-date',
               description: ' .name',
               volume:      ' .volume'
+            },
+            creatives: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date'
             }
           };
           if(response.status == "error") {
@@ -319,15 +323,36 @@
                     field.find(' .errors_container:first').html(errorMsg);
                   });
 
+                  _.each(li_errors["creatives"], function(creative_errors, creative_k) {
+                    _.each(creative_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                      field.addClass('field_with_errors');
+                      field.find('.errors_container').html(errorMsg);
+                    });
+                  });
+
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     _.each(ad_errors, function(errorMsg, fieldName) {
                       var fieldSelector = errors_fields_correspondence.ads[fieldName];
                       var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
-                        
                       field.addClass('field_with_errors');
                       field.find('.errors_container').html(errorMsg);
                       ReachUI.alignAdsDivs();
+
+                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                        _.each(creative_errors, function(errorMsg, fieldName) {
+                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                          field.addClass('field_with_errors');
+                          field.find('.errors_container').html(errorMsg);
+                        });
+                      });
                     });
                   });
                 });

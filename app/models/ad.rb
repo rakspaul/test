@@ -27,7 +27,9 @@ class Ad < ActiveRecord::Base
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create or update any Creatives here
   def save_creatives(creatives_params)
-    creatives_params.to_a.each do |params|
+    creatives_errors = {}
+
+    creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
@@ -36,12 +38,19 @@ class Ad < ActiveRecord::Base
       # updating creative's attributes should be done on lineitem level
       if creative
         if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
-          ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
+          if !ad_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
+            creatives_errors[i] = ad_assignment.errors.messages
+          end
         else
-          AdAssignment.create ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id))
+          if !ad_assignment.errors.messages.blank?
+            creatives_errors[i] = ad_assignment.errors.messages
+          end
         end
       end
     end
+
+    creatives_errors
   end
 
   def save_targeting(targeting)

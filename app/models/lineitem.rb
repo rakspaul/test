@@ -35,7 +35,9 @@ class Lineitem < ActiveRecord::Base
   after_create :create_nielsen_pricing
 
   def save_creatives(creatives_params)
-    creatives_params.to_a.each do |params|
+    creatives_errors = {}
+
+    creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
       creative_type = cparams[:creative_type] == "CustomCreative" ? "CustomCreative" : "InternalRedirectCreative"
       
@@ -48,12 +50,19 @@ class Lineitem < ActiveRecord::Base
       if cparams[:id]
         creative = Creative.find cparams[:id]
         creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network_id: self.order.network_id)
-        creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
+        if !creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
+          creatives_errors[i] = creative.lineitem_assignment.errors.messages
+        end
       else
         creative = Creative.create name: ad_name(cparams), network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network_id: self.order.network_id, data_source_id: 1
-        LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+        li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+        if !li_assignment.errors.messages.blank?
+          creatives_errors[i] = li_assignment.errors.messages
+        end
       end
     end
+
+    creatives_errors
   end
 
   private

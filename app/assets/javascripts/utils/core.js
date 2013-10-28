@@ -83,9 +83,11 @@ ReachUI.showCondensedTargetingOptions = function() {
 
 // align height of ad's subdivs with the largest one ('.name')
 ReachUI.alignAdsDivs = function() {
+  var highest_div = _.max(_.map($('.ad > div[class^="pure-u-"]'), function(el) { return $(el).outerHeight() } ));
   _.each($('.ad > div[class^="pure-u-"]'), function(el) {
     var padding = $(el).css('box-sizing') == 'border-box' ? parseInt($(el).css('padding-top')) : 0;
-    $(el).css('height', (parseInt($(el).siblings('.name').height()) + padding) + 'px' ) });
+    $(el).css('height', (highest_div + padding + 'px') ) 
+  });
 };
 
 // align height of lineitem's li-number div
