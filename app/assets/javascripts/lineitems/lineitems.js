@@ -316,7 +316,7 @@
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
 
                     field.addClass('field_with_errors');
-                    field.find(' .errors_container:first').html(errorMsg);
+                    field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
@@ -326,14 +326,14 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         
                       field.addClass('field_with_errors');
-                      field.find('.errors_container').html(errorMsg);
+                      field.find('.errors_container').html(ReachUI.humanize(errorMsg));
                       ReachUI.alignAdsDivs();
                     });
                   });
                 });
               } else {
                 var field_class = errors_fields_correspondence[key];
-                $(field_class + ' .errors_container').html(error);
+                $(field_class + ' .errors_container').html(ReachUI.humanize(error));
                 $(field_class).addClass('field_with_errors');
               }
             });

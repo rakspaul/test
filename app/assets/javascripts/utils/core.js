@@ -31,6 +31,13 @@ ReachUI.getQuarter = function(d) {
   return Math.ceil((d.getMonth() + 1) / 3);
 };
 
+ReachUI.humanize = function(msg) {
+  if (_.isArray(msg) && msg[0]) {
+    msg = msg[0];
+  }
+  return msg.charAt(0).toUpperCase() + msg.slice(1);
+};
+
 // returns string like "Option, option + 5 more"
 ReachUI.truncateArray = function(arr, attr) {
   var result = "";
@@ -90,8 +97,12 @@ ReachUI.alignAdsDivs = function() {
 
 // align height of lineitem's li-number div
 ReachUI.alignLINumberDiv = function() {
-  var highest_div = _.max([$('.lineitem > .name').outerHeight(), $('.lineitem > .volume').outerHeight()]);
-  _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', highest_div+'px' ) });
+  _.each($('.lineitem'), function(li) {
+    var height = _.max(_.map($(li).children('div[class^="pure-u-"]'), function(col) {
+      return $(col).outerHeight();
+    }));
+    $(li).find('.li-number').css('height', height +'px');
+  });
 };
 
 ReachUI.checkOrderStatus = function(order_id) {
