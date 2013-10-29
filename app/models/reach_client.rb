@@ -32,7 +32,7 @@ class ReachClient < ActiveRecord::Base
   end
 
   def validate_sales_person_account_manager
-    unless sales_person_id.nil? && sales_person_id.nil? && trafficking_contact_id.nil?
+    unless sales_person_id.nil? && sales_person_id.nil?
       sales_person = Network.find(self.network_id).users.exists?(sales_person_id)
       account_manager = Network.find(self.network_id).users.exists?(account_manager_id)
 
