@@ -78,7 +78,7 @@ class Ad < ActiveRecord::Base
 
   def sanitize_attributes
     # https://github.com/collectivemedia/reachui/issues/136
-    self[:description] = description[0..254]
+    self[:description] = description.strip[0..254]
   end
 
   def move_end_date_time
