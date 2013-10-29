@@ -91,9 +91,17 @@
 
             if(update_creative_model_from_li) {
               var clone_creative_to_li = false;
-
               _.each(this_li.get('creatives').models, function(c) {
-                if(c.get('id') == view.model.get('id')) {
+
+                if(c.get('id') && view.model.get('id')) {
+                  if(c.get('id') == view.model.get('id')) {
+                    c.attributes = view.model.attributes;
+                    this_li_view.renderCreatives();
+                    return;
+                  } else {
+                    clone_creative_to_li = true;
+                  }
+                } else if (c.cid == view.model.get('parent_cid')) { // not persisted creative
                   c.attributes = view.model.attributes;
                   this_li_view.renderCreatives();
                   return;
@@ -105,6 +113,7 @@
               // create new one with new attributes (copy-on-write)
               if(clone_creative_to_li) {
                 view.options.parent_view.options.parent_view.model.get('creatives').add(view.model);
+                this_li_view.renderCreatives();
               }
             }
           }
