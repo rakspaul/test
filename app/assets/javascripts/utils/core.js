@@ -113,7 +113,7 @@ ReachUI.checkOrderStatus = function(order_id) {
           clearInterval(statusCheckTimer);
 
           ReachUI.Orders.router.options.controller.orderList.remove(order_id);
-          Backbone.history.loadUrl();
+          ReachUI.Orders.router.navigate('/'+order_id, {trigger: true});
         }
       });
     }, 4000);

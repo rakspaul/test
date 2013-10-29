@@ -250,6 +250,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-company");
     });
 
     $('.salesperson-name .typeahead').editable({
