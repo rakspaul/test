@@ -250,6 +250,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-company");
     });
 
     $('.salesperson-name .typeahead').editable({
@@ -545,6 +547,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
+          id: li_creative.get('id'),
           client_ad_id: li_creative.get('client_ad_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),

@@ -172,20 +172,7 @@
         }
       });
   
-      // rendering template for Creatives Dialog layout
-      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: view});
-      this.ui.creatives_container.html(creatives_list_view.render().el);
-
-      // rendering each Creative
-      if(this.model.get('creatives')) {
-        _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
-          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
-          creatives_list_view.ui.creatives.append(creativeView.render().el);
-        });
-      }
-          
+      this.renderCreatives();    
       this.renderTargetingDialog();
       ReachUI.alignLINumberDiv();
 
@@ -211,6 +198,24 @@
       ReachUI.alignAdsDivs();
     },
 
+    renderCreatives: function() {
+      var view = this;
+
+      // rendering template for Creatives Dialog layout
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: this});
+      this.ui.creatives_container.html(creatives_list_view.render().el);
+
+      // rendering each Creative
+      if(this.model.get('creatives')) {
+        _.each(this.model.get('creatives').models, function(creative) {
+          creative.set('order_id', view.model.get('order_id'));
+          creative.set('lineitem_id', view.model.get('id'));
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+      }
+    },
+
     _updateCreativesCaption: function() {
       var self = this,
           creatives_sizes = [],
@@ -222,7 +227,8 @@
 
       var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
       self.ui.lineitem_sizes.html(uniq_creative_sizes);
-      self.model.set('ad_sizes', uniq_creative_sizes);
+      self.model.attributes.ad_sizes = uniq_creative_sizes;
+      $(self.$el.find('.lineitem-sizes')[0]).html(uniq_creative_sizes);
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -305,6 +311,10 @@
               end_date:    ' .end-date',
               description: ' .name',
               volume:      ' .volume'
+            },
+            creatives: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date'
             }
           };
           if(response.status == "error") {
@@ -319,15 +329,36 @@
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
 
+                  _.each(li_errors["creatives"], function(creative_errors, creative_k) {
+                    _.each(creative_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                      field.addClass('field_with_errors');
+                      field.find('.errors_container').html(errorMsg);
+                    });
+                  });
+
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     _.each(ad_errors, function(errorMsg, fieldName) {
                       var fieldSelector = errors_fields_correspondence.ads[fieldName];
                       var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
-                        
                       field.addClass('field_with_errors');
                       field.find('.errors_container').html(ReachUI.humanize(errorMsg));
                       ReachUI.alignAdsDivs();
+
+                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                        _.each(creative_errors, function(errorMsg, fieldName) {
+                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                          field.addClass('field_with_errors');
+                          field.find('.errors_container').html(errorMsg);
+                        });
+                      });
                     });
                   });
                 });

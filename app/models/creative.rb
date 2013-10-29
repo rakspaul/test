@@ -1,7 +1,7 @@
 class Creative < ActiveRecord::Base
   belongs_to :advertiser, foreign_key: :network_advertiser_id
 
-  has_one :lineitem_assignment
+  has_one :lineitem_assignment, dependent: :destroy
   has_one :lineitem, through: :lineitem_assignments
 
   has_many :ad_assignments, dependent: :destroy

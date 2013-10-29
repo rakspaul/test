@@ -15,7 +15,7 @@ describe IoImport do
     sales = FactoryGirl.create :user, first_name: "Eric", last_name: "Burns", phone_number: "919-604-4451", email: "eric@collective.com", :network => collective_network
     sales.roles << sales_role
     sales.save
-    ReachClient.create name: "Time Warner Cable", abbr: "TWC", address: "New York", network_id: collective_network.id
+    ReachClient.create name: "Time Warner Cable", abbr: "TWC", network_id: collective_network.id
     AdSize.create size: "300x250", width: 300, height: 250, network_id: collective_network.id
     AdSize.create size: "728x90", width: 728, height: 90, network_id: collective_network.id
     AdSize.create size: "160x600", width: 160, height: 600, network_id: collective_network.id

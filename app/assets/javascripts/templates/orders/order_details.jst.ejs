@@ -228,7 +228,11 @@
         <div class="field billing-contact-company">
           <p>Company</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company"><%= order.reach_client_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (_.isEmpty(order.reach_client_name)) { %>
+            should be specified
+          <% } %>
+          </div>
         </div>
         <div class="field billing-contact-phone">
           <p>Phone</p>
