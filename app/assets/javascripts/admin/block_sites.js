@@ -179,6 +179,10 @@
       return model;
     },
 
+    comparator: function(model) {
+      return model.get('site_name');
+    },
+
     // parse method will convert the data in tree format
     parse: function(response) {
       this.reset();
@@ -200,11 +204,17 @@
     },
 
     _createSite: function(site) {
-      return {
+      var object = {
         site_id: site.site_id,
         site_name: site.site_name,
         advertisers: new BlockSites.BlockedAdvertiserList()
       }
+
+      object.advertisers.comparator = function(model) {
+        return model.get('advertiser_name')
+      };
+
+      return object;
     },
 
     _createAdvertiser: function(advertiser) {
@@ -276,6 +286,10 @@
       return model;
     },
 
+    comparator: function(model) {
+      return model.get('site_name')
+    },
+
     parse: function(response) {
       this.reset();
       for (var i = 0; i < response.length; i++) {
@@ -296,11 +310,17 @@
     },
 
     _createSite: function(site) {
-      return {
+      var object = {
         site_id: site.site_id,
         site_name: site.site_name,
         advertiserGroups: new BlockSites.BlockedAdvertiserGroupList()
-      }
+      };
+
+      object.advertiserGroups.comparator = function(model) {
+        return model.get('advertiser_group_name');
+      };
+
+      return object;
     },
 
     _createAdvertiserGroup: function(advertiser_group) {
@@ -418,6 +438,7 @@
 
     initialize: function() {
       this.collection = this.model.get('advertisers');
+      this.collection.on('sort', this.render, this);
     },
 
   });
@@ -433,6 +454,10 @@
 
     ui: {
       blocked_advertiser_list: '#blockedAdvertiserList',
+    },
+
+    initialize: function() {
+      this.collection.on('sort', this.render, this);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -496,6 +521,7 @@
 
     initialize: function() {
       this.collection = this.model.get('advertiserGroups');
+      this.collection.on('sort', this.render, this);
     },
   });
 
@@ -510,6 +536,10 @@
 
     ui: {
       blocked_advertiser_group_list: '#blockedAdvertiserGroupList',
+    },
+
+    initialize: function() {
+      this.collection.on('sort', this.render, this);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -860,9 +890,15 @@
     },
 
     _fetchSiteBlocks: function() {
+      var self = this;
       this.siteToUnblock = [];
-      this.blockedAdvertiserList.fetch({reset:true});
-      this.blockedAdvertiserGroupList.fetch({reset:true});
+      this.blockedAdvertiserList.fetch({reset:true}).then(function() {
+        self.blockedAdvertiserList.sort();
+      });
+
+      this.blockedAdvertiserGroupList.fetch({reset:true}).then(function() {
+        self.blockedAdvertiserGroupList.sort();
+      });
     },
 
     _showAdvertiserModalView: function() {
