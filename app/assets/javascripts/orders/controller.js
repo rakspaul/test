@@ -548,6 +548,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
           id: li_creative.get('id'),
+          parent_cid: li_creative.cid, // need to identify same Creative on both Ad and LI levels
           client_ad_id: li_creative.get('client_ad_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
