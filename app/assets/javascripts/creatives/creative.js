@@ -187,6 +187,10 @@
       // only delete Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
       if(this_ad) {
+        if(!this.options.parent_view.options.parent_view) {
+          return;
+        }
+
         var this_li = this.options.parent_view.options.parent_view.model;    
 
         var ads_except_current = _.filter(this_li.ads, function(el) {
