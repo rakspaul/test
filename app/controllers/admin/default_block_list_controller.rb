@@ -7,7 +7,7 @@ class Admin::DefaultBlockListController < ApplicationController
   add_crumb("Default Blocks") {|instance| instance.send :admin_default_block_list_index_path}
 
   def index
-    @default_site_blocks = DefaultSiteBlocks.of_network(current_network)
+    @default_site_blocks = DefaultSiteBlocks.joins(:site).of_network(current_network).order("Sites.name asc")
     respond_with(@default_site_blocks)
   end
 
@@ -39,7 +39,7 @@ class Admin::DefaultBlockListController < ApplicationController
   end
 
   def export
-    default_site_blocks = DefaultSiteBlocks.of_network(current_network)
+    default_site_blocks = DefaultSiteBlocks.joins(:site).of_network(current_network).order("Sites.name asc")
     create_sheet
 
     row_no = 0

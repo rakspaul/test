@@ -77,9 +77,14 @@
 
   BlockedAdvertisers.Site = Backbone.Model.extend({});
 
-  BlockedAdvertisers.SiteBlock = Backbone.Model.extend({});
+  BlockedAdvertisers.SiteList = Backbone.Collection.extend({
+    model: BlockedAdvertisers.Site,
+    comparator: function(model) {
+      return model.get('site_name');
+    },
+  });
 
-  BlockedAdvertisers.SiteList = Backbone.Collection.extend({});
+  BlockedAdvertisers.SiteBlock = Backbone.Model.extend({});
 
   BlockedAdvertisers.SiteBlockList = Backbone.Collection.extend({
     url: function(){
@@ -93,6 +98,10 @@
 
     setIds: function(ids) {
       this._ids = ids;
+    },
+
+    comparator: function(model) {
+      return model.get('name');
     },
 
     parse: function(response) {
@@ -227,6 +236,10 @@
         multiple: 'multiple',
     },
     itemView: BlockedAdvertisers.SearchResultGroupView,
+
+    initialize: function() {
+      this.collection.on('sort', this.render, this);
+    },
   });
 
 // --------------------/ Controller /------------------------------------
@@ -277,13 +290,19 @@
     _fetchAdvertisers: function(items) {
       this.searchResults.setUrl('/admin/blocked_advertiser.json?advertiser_id=');
       this.searchResults.setIds(items);
-      this.searchResults.fetch();
+      var self =this;
+      this.searchResults.fetch().then(function() {
+        self.searchResults.sort();
+      });
     },
 
     _fetchAdvertiserGroups: function(items) {
       this.searchResults.setUrl('/admin/blocked_advertiser_groups.json?advertiser_group_id=');
       this.searchResults.setIds(items);
-      this.searchResults.fetch();
+      var self =this;
+      this.searchResults.fetch().then(function() {
+        self.searchResults.sort();
+      });
     },
 
   });

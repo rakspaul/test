@@ -46,12 +46,15 @@
     defaults:{
       status:'',
     },
-
   });
 
   DefaultBlockList.BlockedSiteList = Backbone.Collection.extend({
     url: '/admin/default_block_list.json',
     model: DefaultBlockList.BlockedSite,
+
+    comparator: function(model) {
+      return model.get('site_name');
+    },
 
     fetch: function(){
       this.trigger("fetch", this);
@@ -200,6 +203,7 @@
 
     initialize: function() {
       _.bindAll(this);
+      this.collection.on('sort', this.render, this);
     },
 
     events:{
