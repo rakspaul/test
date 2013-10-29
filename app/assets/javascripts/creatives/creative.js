@@ -46,7 +46,6 @@
     initialize: function(){
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
-      //this.model.bind('change', this.updateLiCreative);
     },
 
     events: {
@@ -64,7 +63,8 @@
       var this_ad = this.options.parent_view.model;
       if(this_ad) {
         if(this.options.parent_view.options.parent_view) {
-          var this_li = this.options.parent_view.options.parent_view.model;    
+          var this_li_view = this.options.parent_view.options.parent_view;
+          var this_li = this_li_view.model;    
 
           if(this_li) {
             var ads_except_current = _.filter(this_li.ads, function(el) {
@@ -72,7 +72,7 @@
                 return el;
               }
             });
-           
+
             // collect all creative attributes from LI's Ads except current one
             var creatives_urls = [], start_dates = [], end_dates = [], ad_sizes = [];
             _.each(ads_except_current, function(ad) { 
@@ -93,12 +93,9 @@
               var clone_creative_to_li = false;
 
               _.each(this_li.get('creatives').models, function(c) {
-                if(c.get('redirect_url') == view.model.get('redirect_url') && 
-                  c.get('start_date') == view.model.get('start_date') &&
-                  c.get('end_date') == view.model.get('end_date') &&
-                  c.get('ad_size') == view.model.get('ad_size')) 
-                {
+                if(c.get('id') == view.model.get('id')) {
                   c.attributes = view.model.attributes;
+                  this_li_view.renderCreatives();
                   return;
                 } else {
                   clone_creative_to_li = true;
@@ -149,7 +146,7 @@
         }
       });
 
-      //this.updateLiCreative();
+      this.updateLiCreative();
     },
 
     _showDeleteBtn: function(e) {
@@ -172,6 +169,8 @@
         this.$el.find('.image-url span').editable('enable');
         this.model.attributes.creative_type = "InternalRedirectCreative";
       }
+
+      this.updateLiCreative();
     },
 
     _destroyCreative: function(e) {
