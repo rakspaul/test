@@ -63,10 +63,32 @@
 
   DefaultBlockList.SiteListItemView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= name%>'),
-    tagName: 'option',
+    tagName: 'li',
+    className: 'draggble',
     attributes: function() {
       return {value: this.model.id};
     },
+
+    onRender: function(){
+      this.$el.draggable({
+        revert: 'invalid',
+        helper: this._dragHelper,
+        appendTo: 'body',
+        containment: 'body'
+      });
+    },
+
+    _dragHelper: function(){
+      var selected = $('#sitesList li.selected');
+      if (selected.length <= 1) {
+        $('#sitesList li').removeClass('selected');
+        selected = $(this).addClass('selected');
+      }
+      var container = $('<ul class="select-keyvals" />');
+      container.append(selected.clone());
+      return container;
+    }
+
   }),
 
   DefaultBlockList.SiteListView = Backbone.Marionette.CompositeView.extend({
@@ -76,7 +98,8 @@
     events: {
       'click #search_button': 'onSearch',
       'keypress #search_input': 'onSearch',
-      'click #addSiteBlock' : 'addSiteBlock'
+      'click #addSiteBlock' : 'addSiteBlock',
+      'click #sitesList li' : '_onSiteItemClick'
     },
 
     ui:{
@@ -119,18 +142,33 @@
     },
 
     getSelectedSites: function() {
-      var selectedSites = this.ui.site_list.val();
+      var selectedSites = this.ui.site_list.find('.selected');
       if(selectedSites && selectedSites.length>0) {
         var sites = []
         for (var i = 0; i < selectedSites.length; i++) {
-          var site = this.collection.get(selectedSites[i]);
+          var site = $(selectedSites[i]).attr('value');
           sites.push(site)
         }
         return sites;
       } else {
         return [];
       }
-    }
+    },
+
+    _onSiteItemClick: function(event){
+      this.curr = $(event.target).index();
+
+      if(event.ctrlKey || event.metaKey){
+        this.prev = this.curr;
+        $(event.target).toggleClass('selected');
+      } else if(event.shiftKey && this.prev > -1){
+        this.ui.site_list.find('li').slice(Math.min(this.prev, this.curr), 1 + Math.max(this.prev, this.curr)).addClass('selected');
+      } else {
+        this.prev = this.curr;
+        this.ui.site_list.find('li').removeClass('selected');
+        $(event.target).toggleClass('selected');
+      }
+    },
 
   });
 
@@ -149,6 +187,7 @@
     onRender:function() {
       if (this.model.get('status') === 'deleted') {
         this.$el.addClass('strike');
+        this.$el.attr('disabled','disabled');
       }
     }
 
@@ -158,6 +197,10 @@
     template: JST['templates/admin/default_block_list/block_list_view'],
     itemView: DefaultBlockList.BlockedSiteListItemView,
     itemViewContainer: '#blockedSiteList',
+
+    initialize: function() {
+      _.bindAll(this);
+    },
 
     events:{
       'click #btnRemove' : 'onRemove',
@@ -177,6 +220,29 @@
             item.set({status: 'deleted'});
           }
         };
+      }
+    },
+
+    onRender: function(){
+      this.$el.droppable({
+        accept: ".draggble", tolerance: "pointer", drop: this._onDrop
+      });
+    },
+
+    _onDrop: function(event, ui){
+      var newItems = $(ui.helper).find('li').clone(false),
+        dropItems = [];
+      $(newItems).each(function(){
+        dropItems.push($(this).attr('value'));
+      });
+
+      $('#sitesList li.selected').removeClass('selected');
+      this._addDropItems(dropItems);
+    },
+
+    _addDropItems: function(dropItems) {
+      if(dropItems) {
+        this.trigger('Add:Sites', dropItems);
       }
     },
 
@@ -212,14 +278,16 @@
       this.blockedSiteList = new DefaultBlockList.BlockedSiteList();
       this.blockedSiteList.fetch({reset:true});
       this.blockedSiteListView = new DefaultBlockList.BlockedSiteListView({collection: this.blockedSiteList});
+      this.blockedSiteListView.on('Add:Sites', this._blockSites, this);
       this.layout.blockedSiteListView.show(this.blockedSiteListView);
     },
 
-    _blockSites: function(sites) {
+    _blockSites: function(sites){
       for (var i = 0; i < sites.length; i++) {
-        var found = this.blockedSiteList.findWhere({site_id: sites[i].id});
+        var site = this.siteList.get({ id: sites[i] });
+        var found = this.blockedSiteList.findWhere({site_id: site.id});
         if(!found) {
-          this.blockedSiteList.add(this._createBlockedSiteVO(sites[i]));
+          this.blockedSiteList.add(this._createBlockedSiteVO(site));
         }
       }
     },

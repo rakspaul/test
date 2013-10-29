@@ -537,7 +537,6 @@
     }
   }
 
-
   .search-sites-control{
     margin-bottom:10px;
     input{
@@ -556,10 +555,10 @@
         width: 85%;
         height:500px;
         font-size:13px;
-        padding:2px;
+        padding:2px 0px;
 
         option.strike{
-          text-decoration:line-through
+          color:#ccc;
         }
       }
 
@@ -573,14 +572,67 @@
       }
 
     }
+
+    .site-list-content{
+      position:relative;
+
+      .site-list{
+        font-size:13px;
+        width:308px;
+        height:500px;
+        background:#fff;
+        border:1px solid #ccc;
+        margin:0 0px 5px 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        ul{
+          margin:0;
+          padding:2px;
+          list-style-type: none;
+        }
+
+        ul li{
+          background: #fff;
+          width:290px;
+        }
+
+        ul li.selected{
+          color:#fff;
+          background:#008DD1;
+        }
+      }
+
+      .loading-div{
+        width:308px;
+        height:500px;
+
+        .loading-img{
+          margin-top:240px;
+        }
+      }
+    }
+
   }
 
   .add-btn{
     float:right;
     position:relative;
-    top:-305px;
-    margin-right:10px;
+    margin:-285px 10px 0 0;
   }
 
+}
+
+ul.select-keyvals{
+  font-size:12px;
+  list-style-type: none;
+
+  li{
+    color:#fff;
+    background:#008DD1;
+    border-bottom: 1px solid #f2f2f2;
+    width:300px;
+    padding:2px;
+  }
 
 }
