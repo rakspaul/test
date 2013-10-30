@@ -134,15 +134,14 @@
     },
 
     _toggleTargetingDialog: function() {
+      $('.ad > .name').height('');
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
       this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-
-        // align height of ad's subdivs with the largest one ('.name')
-        _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+        ReachUI.alignAdsDivs();
       }
     },
 
