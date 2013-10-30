@@ -296,6 +296,7 @@ private
 
   def update_lineitems_with_ads(params)
     li_errors = {}
+    ads = []
 
     params.each_with_index do |li, i|
       sum_of_ad_impressions = 0
@@ -403,10 +404,15 @@ private
             li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
           end
 
+          unique_description_error = nil
+          if ads.any?{|ad| ad.description == ad_object.description}
+            unique_description_error = { description: 'Ad name is not unique'}
+          end
+          ads << ad_object
+
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
 
-            #if ad_object.update_attributes(ad[:ad])
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
 
             ad_pricing.rate = ad[:ad][:rate]
@@ -430,6 +436,7 @@ private
             li_errors[i] ||= {}
             li_errors[i][:ads] ||= {}
             li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
@@ -446,6 +453,7 @@ private
 
   def save_lineitems_with_ads(params, valid_order = true)
     li_errors = {}
+    ads = []
 
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
@@ -514,7 +522,13 @@ private
             li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
           end
 
-          if ad_object.valid? && li_saved
+          unique_description_error = nil
+          if ads.any?{|ad| ad.description == ad_object.description}
+            unique_description_error = { description: 'Ad name is not unique'}
+          end
+          ads << ad_object
+
+          if ad_object.valid? && li_saved && !unique_description_error
             ad_object.save
             #if ad_object.save
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
@@ -537,7 +551,8 @@ private
            li_errors[i] ||= {}
            li_errors[i][:ads] ||= {}
            li_errors[i][:ads][j] = ad_object.errors.to_hash
-           li_errors[i][:ads][j].merge(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)          
+           li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
+           li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
