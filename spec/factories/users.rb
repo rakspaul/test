@@ -6,7 +6,7 @@ FactoryGirl.define do
     f.email { Faker::Internet.email }
     f.company_id 81
     f.client_type "Network"
-    network
+    network { FactoryGirl.singleton :network }
   end
 end
 
