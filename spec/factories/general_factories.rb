@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :advertiser do
     name "TWCAuto"
-    network
+    network { FactoryGirl.singleton :network }
     source_id "R_#{SecureRandom.uuid}"
     data_source_id 1
   end
@@ -10,9 +10,22 @@ FactoryGirl.define do
     name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977" 
     start_date (Time.current + 1.day)
     end_date (Time.current + 22.days)
-    network
+    network { FactoryGirl.singleton :network }
   end
 
+  factory :order_with_lineitem, :parent => :order do
+    lineitem { FactoryGirl.create(:lineitem_with_ad) }
+  end
+        
+  factory :io_detail do
+  end
+            
+  factory :reach_client do
+    name "Test Reach Client Name"
+    abbr "TRCN"
+    network { FactoryGirl.singleton :network }
+  end
+                            
   factory :lineitem do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON"
     start_date (Time.current + 1.day)
@@ -23,6 +36,10 @@ FactoryGirl.define do
     ad_sizes "160x600, 300x250, 728x90"
     alt_ad_id "1"
     targeted_zipcodes "12345, 56789" 
+  end
+
+  factory :lineitem_with_ad, :parent => :lineitem do
+    ad { FactoryGirl.create(:ad) }
   end
 
   factory :ad do

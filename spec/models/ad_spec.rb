@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Ad do
   let(:user) { FactoryGirl.create :user }
-  let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
+  let(:advertiser) { FactoryGirl.create :advertiser }
 
   context "wrong flight dates" do
     before do
