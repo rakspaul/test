@@ -385,6 +385,8 @@ private
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
+          ad_object.ad_type  = "STANDARD"
+          ad_object.network_id = current_network.id
           ad_object.cost_type = "CPM"
 
           if li_saved
@@ -511,6 +513,8 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
+          ad_object.ad_type   = "STANDARD"
+          ad_object.network_id = current_network.id
           ad_object.alt_ad_id = lineitem.alt_ad_id
 
           ad_object.save_targeting(ad_targeting)
