@@ -182,6 +182,15 @@
       this.updateLiCreative();
     },
 
+    _markCreativeForDeletion : function(li) {
+      // mark this creative to be deleted on back-end side
+      if(this.model.get('id')) {
+        var delete_creatives = this.options.parent_view.model.get('_delete_creatives');
+        delete_creatives.push(this.model.get('id'));
+        li.get('_delete_creatives', delete_creatives);
+      }
+    },
+
     _destroyCreative: function(e) {
       e.stopPropagation();
       var view = this,
@@ -195,11 +204,7 @@
 
       // only delete Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
-      if(this_ad) {
-        if(!this.options.parent_view.options.parent_view) {
-          return;
-        }
-
+      if(this_ad && this.options.parent_view.options.parent_view) {
         var this_li = this.options.parent_view.options.parent_view.model;    
 
         var ads_except_current = _.filter(this_li.ads, function(el) {
@@ -226,14 +231,12 @@
               c.destroy();
             }
           });
-  
-          // mark this creative to be deleted on back-end side
-          if(view.model.get('id')) {
-            var delete_creatives = view.options.parent_view.model.get('_delete_creatives');
-            delete_creatives.push(view.model.get('id'));
-            this_li.get('_delete_creatives', delete_creatives);
-          }
+
+          view._markCreativeForDeletion(this_li);
         }
+      } else { // this is lineitem's creative
+        var this_li = this.options.parent_view.model;  
+        this._markCreativeForDeletion(this_li);
       }
     }
   });

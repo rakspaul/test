@@ -9,7 +9,7 @@ class Lineitem < ActiveRecord::Base
   has_one :nielsen_pricing, autosave: true, dependent: :destroy
 
   has_many :ads, foreign_key: 'io_lineitem_id', dependent: :destroy
-  has_many :lineitem_assignments, foreign_key: :io_lineitem_id
+  has_many :lineitem_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :creatives, through: :lineitem_assignments
 
   has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id

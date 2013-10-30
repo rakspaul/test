@@ -1,6 +1,6 @@
 class LineitemAssignment < ActiveRecord::Base
   belongs_to :lineitem, foreign_key: :io_lineitem_id
-  belongs_to :creative, dependent: :destroy
+  belongs_to :creative
 
   before_validation :check_flight_dates_within_li_flight_dates
 
