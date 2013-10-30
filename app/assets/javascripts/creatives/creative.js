@@ -261,8 +261,10 @@
       var parentModel = this.options.parent_view.model;
       var creative = new ReachUI.Creatives.Creative({
         start_date: parentModel.get('start_date'),
-        end_date:   parentModel.get('end_date')
+        end_date:   parentModel.get('end_date'),
+        creative_type: "CustomCreative"
       });
+
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});
       this.ui.creatives.append(creativeView.render().el);
 
