@@ -132,6 +132,7 @@ class IoImport
         @inreds.select{|ir| ir[:placement] == li.name}.map! do |creative|
           creative[:start_date] = li.start_date
           creative[:end_date]   = li.end_date
+          creative[:creative_type] = "CustomCreative"
           creative
         end
       end

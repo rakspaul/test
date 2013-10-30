@@ -317,6 +317,7 @@ private
       li[:ads].to_a.each do |ad|
         delete_ads.delete(ad[:ad][:id]) if ad[:ad][:id]
       end
+
       if !delete_ads.empty?
         Ad.find(delete_ads).each do |ad_to_delete|
           ad_to_delete.destroy if !ad_to_delete.pushed_to_dfp?
@@ -344,7 +345,16 @@ private
       li_saved = nil
 
       if li_update
-        lineitem.creatives.delete(*_delete_creatives_ids) if !_delete_creatives_ids.blank?
+        # delete lineitem_assignments for selected creatives and if there are no ads associated
+        # with this creative delete the creative itself
+        if !_delete_creatives_ids.blank?
+          _delete_creatives_ids.each do |delete_creative_id|
+            creative = Creative.find delete_creative_id
+            lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
+            creative.destroy if creative.ads.empty?
+          end
+        end
+
         li_saved = lineitem.save
 
         if li_saved
@@ -375,6 +385,8 @@ private
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
+          ad_object.ad_type  = "STANDARD"
+          ad_object.network_id = current_network.id
           ad_object.cost_type = "CPM"
 
           if li_saved
@@ -501,6 +513,8 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
+          ad_object.ad_type   = "STANDARD"
+          ad_object.network_id = current_network.id
           ad_object.alt_ad_id = lineitem.alt_ad_id
 
           ad_object.save_targeting(ad_targeting)
