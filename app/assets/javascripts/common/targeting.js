@@ -23,7 +23,7 @@
 
     initialize: function() {
       _.bindAll(this, "render");
-      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+      this.model.bind('change', this.render);
     },
 
     serializeData: function(){
@@ -112,7 +112,7 @@
       this.$el.find('.tab.zip-codes').show();
     },
 
-    _renderSelectedTargetingOptions: function(e) {
+    _renderSelectedTargetingOptions: function() {
       var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes') };
       var html = JST['templates/targeting/selected_targeting'](dict);     
       this.$el.find('.selected-targeting').html(html);
@@ -216,6 +216,61 @@
       
     },
 
+    _showRemoveTgtBtn: function(e) {
+      $(e.currentTarget).find('.remove-btn').show();
+    },
+
+    _hideRemoveTgtBtn: function(e) {
+      $(e.currentTarget).find('.remove-btn').hide();
+    },
+
+    _removeKVFromSelected: function(e) {
+      var audience_group_id = $(e.currentTarget).data('ag-id'),
+          select = this.$el.find('.key-values .chosen-select')[0];
+
+      for(var i = 0; i < select.options.length; i++) {
+        if(select.options[i].value == audience_group_id) {  
+          $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
+          this._removeKVFromSelectedKeyValues(parseInt(audience_group_id));
+          break;
+        }
+      }
+
+      $(select).trigger("chosen:updated");
+      $(select).trigger("change");
+      this._renderSelectedTargetingOptions();
+    },
+
+    _removeDmaFromSelected: function(e) {
+      var dma_id = $(e.currentTarget).data('dma-id'),
+          select = this.$el.find('.dmas .chosen-select')[0];
+
+      for(var i = 0; i < select.options.length; i++) {
+        if(select.options[i].value == dma_id) {  
+          $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
+          this._removeDmaFromSelectedDmas(parseInt(dma_id));
+          break;
+        }
+      }
+
+      $(select).trigger("chosen:updated");
+      $(select).trigger("change");
+      this._renderSelectedTargetingOptions();
+    },
+
+    _removeZipFromSelected: function(e) {
+      var zip_code_to_delete = $(e.currentTarget).data('zip');
+
+      this.model.attributes.selected_zip_codes = _.filter(this.model.attributes.selected_zip_codes, function(el) { 
+        if(el.trim() != zip_code_to_delete) {
+          return el.trim();
+        }
+      });
+
+      this._renderSelectedTargetingOptions();
+      this.$el.find('.tab.zip-codes textarea').val(this.model.attributes.selected_zip_codes.join(', '));
+    },
+
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
       'click .dmas .dmas-checkboxes-container input:checkbox': '_handleDmasCheckboxes',
@@ -224,7 +279,12 @@
       'click .nav-tabs > .dmas': '_showDMAsTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
-      'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues'
+      'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
+      'mouseenter .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
+      'mouseleave .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',
+      'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
+      'click .tgt-item-dma-container .remove-btn': '_removeDmaFromSelected',
+      'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected'
     }
   });
 })(ReachUI.namespace("Targeting"));

@@ -1,31 +1,38 @@
 <h4>Targeting</h4>
 
 <div class="account-contact-icon" title="Key Value Targeting"></div>
-
 <div class="age-targeting">
-  <p>
-    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { kv.push(selected_key_values[i]['title']); } %>
-    <%= kv.join(', ') %>
-  </p>
+  <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { 
+    var item = '<div class="tgt-item-kv-container">';
+    item += ' <span class="tgt-item-caption">'+selected_key_values[i]['title']+'</span>';
+    item += ' <span class="remove-btn" data-ag-id="' + selected_key_values[i]['id'] + '" style="display:none"></span>';
+    item += '</div>';
+    kv.push(item);
+  } %>
+  <%= kv.join('<div style="float:left">,</div>') %>
 </div>
 
+<div style="clear:both"></div>
 <div class="dma-targeting-icon" title="DMAs"></div>
-
 <div class="dma-targeting">
-  <p>
-    <% if(selected_dmas.length > 0) { %>
-    <b>DMAs:</b>
-    <% } %>
-    <% var dmas = []; for (var i = 0; i < selected_dmas.length; i++) { dmas.push(selected_dmas[i].title); } %>
-    <%= dmas.join(', ') %>
-  </p>
+  <% if(selected_dmas.length > 0) { %>
+  <div style="float:left"><b>DMAs:</b></div>
+  <% } %>
+  <% var dmas = []; for (var i = 0; i < selected_dmas.length; i++) {
+    var item = '<div class="tgt-item-dma-container">';
+    item += ' <span class="tgt-item-caption">'+selected_dmas[i]['title']+'</span>';
+    item += ' <span class="remove-btn" data-dma-id="' + selected_dmas[i]['id'] + '" style="display:none"></span>';
+    item += '</div>';
+    dmas.push(item); 
+  } %>
+  <%= dmas.join('<div style="float:left">,</div>') %>
 </div>
 
-<div class="zip-codes-targeting">
-  
+<div style="clear:both"></div>
+<div class="zip-codes-targeting"> 
   <% if(selected_zip_codes.length > 0) { %>
     <div class="zip-codes-icon" title="Zip codes"></div>
-    <p>
+    
     <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
       if(selected_zip_codes[i].match(/^\s*$/) == null) {
         var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
@@ -33,16 +40,19 @@
           errors_in_zips = true;
         }
       }
-      var html_for_zip = '<span ' + (is_current_zip_code_valid ? '' : 'class="invalid-zip"') + '>' + selected_zip_codes[i] + '</span>';
-      zips.push( html_for_zip );
+      var item = '<div class="tgt-item-zip-container">';
+      item += '<span class="tgt-item-caption ' + (is_current_zip_code_valid ? '' : 'invalid-zip') + '">' + selected_zip_codes[i] + '</span>';
+      item += ' <span class="remove-btn" data-zip="' + selected_zip_codes[i] + '" style="display:none"></span>';
+      item += '</div>';
+      zips.push(item);
     } %>
 
-    <b>Zip Codes:</b><%= zips.join(', ') %>
+    <div style="float:left"><b>Zip Codes:</b></div>
+    <%= zips.join('<div style="float:left">,</div>') %>
 
     <% if(errors_in_zips) { %>
     <div style="clear:both"></div>
     <div class="errors-container">Underlined zip codes are not valid. Please edit them.</div>
     <% } %>
-    </p>
   <% } %>
 </div>
