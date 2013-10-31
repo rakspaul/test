@@ -16,7 +16,7 @@ json.array! @order.ads do |ad|
   end
 
   json.creatives do
-    json.array! ad.creatives do |creative|
+    json.array! ad.creatives.order("start_date ASC, size ASC") do |creative|
       json.partial! 'creatives/creative.json.jbuilder', creative: creative
     end
   end
