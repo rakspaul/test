@@ -13,16 +13,19 @@ class Order < ActiveRecord::Base
 
   has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
   has_many :io_assets, dependent: :destroy
-  has_many :ads
+  has_many :ads, dependent: :destroy
   has_many :order_notes
+  has_many :io_logs
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
   validate :validate_start_date, on: :create
-  validates :name, uniqueness: { message: "The order name is already used.", score: :network_id }, presence: true
+  validates :name, uniqueness: { message: "The order name is already used.", scope: :network_id }, presence: true
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :set_data_source, :make_order_inactive
+  before_destroy :check_could_be_deleted
+  before_save :move_end_date_time
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -52,6 +55,14 @@ class Order < ActiveRecord::Base
     self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
   end
 
+  def dfp_url
+    "#{ network.try(:dfp_url) }/OrderDetail/orderId=#{ source_id }"
+  end
+
+  def pushed_to_dfp?
+    self.source_id.to_i != 0
+  end
+
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)
@@ -75,6 +86,10 @@ class Order < ActiveRecord::Base
       end
     end
 
+    def move_end_date_time
+      self.end_date = self.end_date.end_of_day
+    end
+
     def create_random_source_id
       self.source_id = "R_#{SecureRandom.uuid}"
     end
@@ -86,5 +101,10 @@ class Order < ActiveRecord::Base
     def make_order_inactive
       self.active = false
       true
+    end
+
+    # order could not be deleted after it was pushed to DFP
+    def check_could_be_deleted
+      pushed_to_dfp? ? false : true
     end
 end

@@ -1,24 +1,37 @@
 <div class="pure-u-1-24 delete-btn-container">
+  <% if(isNaN(parseInt(creative.source_id))) { %>
   <div class="delete-btn" style="display:none;" title="Delete"></div>
+  <% } else { %>
+  <div class="dfp-success"></div>
+  <% } %>
 </div>
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
+  <div class="creative-<%= creative.id %> pushing_status" style="clear:both">
+    <% if(!isNaN(parseInt(creative.source_id))) { %>
+      <%= creative.source_id %>
+    <% } %>
+  </div>
+  <div class="errors_container"></div>
 </div>
 
 <div class="pure-u-1-12 end-date">
   <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
+  <div class="errors_container"></div>
 </div>
 
-<div class="pure-u-1-6 size">
-  <span class="editable custom typeahead" data-type="typeahead" data-name="ad_size" data-pk="1">
-    <%= creative.ad_size %>
-  </span>
+<div class="pure-u-1-6 size number-field" style="width:12%">
+  <span class="editable custom typeahead" data-type="typeahead" data-name="ad_size" data-pk="1"><%= creative.ad_size %></span>
   <div class="errors" style="clear:both"></div>
 </div>
 
 <div class="pure-u-1-2 image-url">
-  <span class="editable" data-type="text" data-pk="1" data-name="redirect_url"><%= creative.redirect_url %></span>
+  <span class="editable" <%= creative.creative_type == "CustomCreative" ? 'data-disabled="true"' : '' %> data-type="text" data-pk="1" data-name="redirect_url" data-inputclass="wide-editable-text"><%= creative.redirect_url %></span>
+</div>
+
+<div class="pure-u-1-24 creative-type">
+  <input type="checkbox" name="creative_type" <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> <%= isNaN(parseInt(creative.source_id)) ? '' : 'disabled="disabled"' %> /> 
 </div>
   
-<div class="pure-u-1-12 client-ad-id"><span><%= creative.client_ad_id %></span></div>
+<div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>

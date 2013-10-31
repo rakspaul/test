@@ -2,7 +2,7 @@ json.array! @lineitems do |lineitem|
   json.partial! 'lineitem.json.builder', lineitem: lineitem
 
   json.creatives do
-    json.array! lineitem.creatives do |creative|
+    json.array! lineitem.creatives.order("start_date ASC, size ASC") do |creative|
       json.partial! 'creatives/creative.json.jbuilder', creative: creative
     end
   end

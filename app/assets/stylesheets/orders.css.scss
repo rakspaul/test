@@ -49,6 +49,13 @@
       cursor: pointer;
     }
 
+    .advertiser-name {
+      .tt-dropdown-menu {
+        max-height: 222px;
+        overflow-y: auto;
+      }
+    }
+
   }
 
 }

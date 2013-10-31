@@ -77,10 +77,17 @@
         var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
         sum_ad_imps += imps;
       });
+
+      var li_errors_container = this.options.parent_view.$el.find('.volume .errors_container')[0];
+
       if(sum_ad_imps > li_imps) {
-        alert("Add impressions must not exceed line item impressions. Please correct this and save your order");
-        this.$el.find('.volume .errors_container').html("Ad Impressions exceed Line Item Impressions for Contract Line Item");
+        $(li_errors_container).html("Ad Impressions exceed Line Item Impressions");
+      } else {
+        $(li_errors_container).html("");
       }
+
+      ReachUI.alignLINumberDiv();
+      ReachUI.alignAdsDivs();
     },
 
     _recalculateMediaCost: function() {
@@ -127,15 +134,14 @@
     },
 
     _toggleTargetingDialog: function() {
+      $('.ad > .name').height('');
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
       this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-
-        // align height of ad's subdivs with the largest one ('.name')
-        _.each($('.ad > div[class^="pure-u-"]'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+        ReachUI.alignAdsDivs();
       }
     },
 
@@ -175,23 +181,29 @@
 
       if(this.model.get('targeting').attributes.dmas_list.length == 0) {
         var dmas = new ReachUI.DMA.List();
-        dmas.fetch({
-          success: function(collection, response, options) {
-            self.model.get('targeting').set('dmas_list', _.map(collection.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} }) );
-            self.renderTargetingDialog();
-          }
+        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+
+        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
+          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+         
+          self.model.get('targeting').set('dmas_list', dmas_list);
+          self.model.get('targeting').set('audience_groups', ags.attributes);
+          self.renderTargetingDialog();
         });
       } else {
         self.renderTargetingDialog();
       }
 
       this.renderCreatives();
+      this._validateAdImpressions();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
+
+      ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {

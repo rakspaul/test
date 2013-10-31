@@ -2,11 +2,13 @@ json.array! @order.ads do |ad|
   json.ad do
     json.id ad.try(:id)
     json.description ad.description
-    json.start_date ad.start_date
-    json.end_date ad.end_date
+    json.start_date format_date(ad.start_date)
+    json.end_date format_date(ad.end_date)
     json.order_id ad.order_id
     json.size ad.size
-    json.rate ad.ad_pricing.try(:rate).to_i
+    json.source_id ad.source_id
+    json.dfp_url ad.dfp_url
+    json.rate ad.ad_pricing.try(:rate).to_f
     json.volume ad.ad_pricing.try(:quantity).to_i
     json.value ad.ad_pricing.try(:value).to_i
     json.io_lineitem_id ad.io_lineitem_id
@@ -14,7 +16,7 @@ json.array! @order.ads do |ad|
   end
 
   json.creatives do
-    json.array! ad.creatives do |creative|
+    json.array! ad.creatives.order("start_date ASC, size ASC") do |creative|
       json.partial! 'creatives/creative.json.jbuilder', creative: creative
     end
   end

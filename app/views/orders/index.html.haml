@@ -219,7 +219,7 @@
     } else {
       var orderNames = [];
       $('.ordersCheckbox:checked').each(function() {
-        orderNames.push($.trim($(this).parent().nextAll().find('.order-title').html()));
+        orderNames.push($.trim($(this).parent().nextAll().find('.order-title a').html()));
       });
       var cfm = confirm("Are you sure you want to delete the following Orders: \n\n" + orderNames.join("\n"));
       if(cfm === true) {

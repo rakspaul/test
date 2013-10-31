@@ -250,6 +250,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-company");
     });
 
     $('.salesperson-name .typeahead').editable({
@@ -289,6 +291,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("media_contact_email", el.email);
       order.set("media_contact_id", el.id);
       order.set("media_contact_phone", el.phone);
+
+      ordersController._clearErrorsOn(".media-contact-name");
     });
 
     $('.billing-contact-name .typeahead').editable({
@@ -309,6 +313,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("billing_contact_email", el.email);
       order.set("billing_contact_phone", el.phone);
       order.set("billing_contact_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-name");
     });
 
     //-------------------------------------------------------------------------------
@@ -374,7 +380,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name'
+      valueKey: 'name',
+      limit: 20
     });
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
@@ -385,6 +392,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    var ordersController = this;
     this.orderDetailsLayout.top.show(detailOrderView);
 
     //turn x-editable plugin to inline mode
@@ -405,6 +413,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       success: function(response, newValue) {
         order.set($(this).data('name'), newValue); //update backbone model;
         $('.new-order-header .heading').html(newValue);
+        $(this).parent().removeClass('field_with_errors');
+        $(this).siblings('.errors_container').html('');
       }
     });
     $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
@@ -414,6 +424,22 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
     this._setupTypeaheadFields(order);
     this._setupOrderDateFields(order);
+  },
+
+  _showPushErrors: function(errors_list, order) {
+    _.each(errors_list, function(error) {
+      if("order" == error.type) {
+        $('.pushing-errors-order-level').html(error.message);
+      } else if("ad" == error.type) {
+        $('.ad-'+error.ad_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.ad-'+error.ad_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Ad]: "+error.message);
+      } else if("creative" == error.type) {
+        $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Creative]: "+error.message);
+      }
+    });
   },
 
   _showLineitemList: function(order) {
@@ -440,6 +466,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this._liSetCallbacksAndShow(this.lineItemList);
       this._showNotesView(order);
     }
+  },
+
+  _calculateRemainingImpressions: function(li) {
+    var remaining_impressions = li.get('volume');
+
+    _.each(li.ads, function(ad) {
+      remaining_impressions -= ad.get('volume');
+    });
+
+    return remaining_impressions;
   },
 
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
@@ -494,7 +530,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li = li_view.model;
 
       var ad_name = ordersController._generateAdName(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes')});
+      var remaining_impressions = ordersController._calculateRemainingImpressions(li);
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
@@ -510,11 +547,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
+          id: li_creative.get('id'),
+          parent_cid: li_creative.cid, // need to identify same Creative on both Ad and LI levels
           client_ad_id: li_creative.get('client_ad_id'),
           ad_size: li_creative.get('ad_size'),
           end_date: li_creative.get('end_date'),
           redirect_url: li_creative.get('redirect_url'),
-          start_date: li_creative.get('start_date')
+          start_date: li_creative.get('start_date'),
+          creative_type: li_creative.get('creative_type')
         });
         li_creatives.push(cloned_creative);
       });
@@ -531,7 +571,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(lineItemList.order.id) {
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
 
       // set targeting for existing Order
       var itemIndex = 1;
@@ -545,9 +584,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
         
-        $.when.apply($, dmas_ags_complete).done(function() {
+        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-
+         
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
           li_view.renderTargetingDialog();
         });
@@ -581,6 +620,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               }
             });
             lineItemList._recalculateLiImpressionsMediaCost();
+
+            if(lineItemList.order.get('pushing_errors').length > 0) {
+              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
+            }
           },
           function(model, response, options) {
             console.log('error while getting ads list');
@@ -591,9 +634,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else { // not persisted Order/Lineitems
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
-      var dmas_ags_complete = _.invoke([dmas, ags], 'fetch');
 
-      $.when.apply($, dmas_ags_complete).done(function() {
+      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
         var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
         var itemIndex = 1;
 

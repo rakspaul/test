@@ -1,5 +1,6 @@
 json.id                       order.id
 json.source_id                order.source_id
+json.dfp_url                  order.dfp_url
 json.name                     order.name
 json.active                   order.active
 
@@ -10,7 +11,7 @@ json.advertiser_unknown       order.advertiser.blank?
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.order_status             io_detail.try(:state).to_s.capitalize.humanize
+json.order_status             io_detail.try(:state).to_s.capitalize
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
 json.sales_person_phone       io_detail.sales_person_phone

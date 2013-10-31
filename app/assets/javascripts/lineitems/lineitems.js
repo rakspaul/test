@@ -97,7 +97,7 @@
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function(){
+    onRender: function() {
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -117,7 +117,8 @@
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
-          $('.order-details .start-date .date').html(min_date).editable('option', 'value', new Date(min_date));
+          
+          $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
         datepicker: {
@@ -141,7 +142,7 @@
           // order's end date should be highest of all related LIs
           var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
           _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
-          $('.order-details .end-date .date').html(max_date).editable('option', 'value', new Date(max_date));
+          $('.order-details .end-date .date').html(max_date).editable('option', 'value', moment(max_date)._d);
           view.model.collection.order.set("end_date", max_date); //update backbone model
         },
         datepicker: {
@@ -171,27 +172,9 @@
         }
       });
   
-      // rendering template for Creatives Dialog layout
-      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: view});
-      this.ui.creatives_container.html(creatives_list_view.render().el);
-
-      // rendering each Creative
-      if(this.model.get('creatives')) {
-        _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
-          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
-          creatives_list_view.ui.creatives.append(creativeView.render().el);
-        });
-      }
-      
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);    
-      
-      ReachUI.showCondensedTargetingOptions.apply(this);
-
-      // align height of lineitem's li-number div
-      _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+      this.renderCreatives();    
+      this.renderTargetingDialog();
+      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -215,6 +198,24 @@
       ReachUI.alignAdsDivs();
     },
 
+    renderCreatives: function() {
+      var view = this;
+
+      // rendering template for Creatives Dialog layout
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: this});
+      this.ui.creatives_container.html(creatives_list_view.render().el);
+
+      // rendering each Creative
+      if(this.model.get('creatives')) {
+        _.each(this.model.get('creatives').models, function(creative) {
+          creative.set('order_id', view.model.get('order_id'));
+          creative.set('lineitem_id', view.model.get('id'));
+          var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
+          creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+      }
+    },
+
     _updateCreativesCaption: function() {
       var self = this,
           creatives_sizes = [],
@@ -226,7 +227,8 @@
 
       var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
       self.ui.lineitem_sizes.html(uniq_creative_sizes);
-      self.model.set('ad_sizes', uniq_creative_sizes);
+      self.model.attributes.ad_sizes = uniq_creative_sizes;
+      $(self.$el.find('.lineitem-sizes')[0]).html(uniq_creative_sizes);
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -251,9 +253,7 @@
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-
-        // align height of lineitem's li-number div
-        _.each($('.lineitem > .li-number'), function(el) { $(el).css('height', $(el).siblings('.name').height() + 'px' ) });
+        ReachUI.alignLINumberDiv()
       }
     },
 
@@ -281,13 +281,13 @@
     template: JST['templates/lineitems/line_item_table'],
     className: 'lineitems-container',
 
-    _saveOrder: function(ev) {
+    _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;
       var self = this;
 
       // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models}, {
+      this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -299,97 +299,136 @@
             media_contact: '.order-details .media-contact-name',
             sales_person: '.order-details .salesperson-name',
             account_manager: '.order-details .account-contact-name',
-            trafficking_contact: '.order-details .trafficker-container'
+            trafficking_contact: '.order-details .trafficker-container',
+            lineitems: {
+              start_date: ' .start-date',
+              end_date:   ' .end-date',
+              name:       ' .name',
+              volume:     ' .volume'
+            },
+            ads: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date',
+              description: ' .name',
+              volume:      ' .volume'
+            },
+            creatives: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date'
+            }
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {            
+            _.each(response.errors, function(error, key) {   
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
-                  
-                  var li_errors_list = [];
-                  _.each(li_errors.lineitems, function(val, k) { 
-                    li_errors_list.push(k + ' ' + val);
+                  _.each(li_errors.lineitems, function(errorMsg, fieldName) {
+                    var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
+                    var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
+
+                    field.addClass('field_with_errors');
+                    field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
 
-                  if(li_errors_list.length > 0) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find(' .name .errors_container').addClass('field_with_errors').html(li_errors_list.join('; '));
-                  }
+                  _.each(li_errors["creatives"], function(creative_errors, creative_k) {
+                    _.each(creative_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                      field.addClass('field_with_errors');
+                      field.find('.errors_container').html(errorMsg);
+                    });
+                  });
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
-                    var ad_errors_list = [];
-                    _.each(ad_errors, function(val, k) {
-                      ad_errors_list.push('['+k+']: '+val);
+                    _.each(ad_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.ads[fieldName];
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
+                      field.addClass('field_with_errors');
+                      field.find('.errors_container').html(ReachUI.humanize(errorMsg));
+                      ReachUI.alignAdsDivs();
+
+                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                        _.each(creative_errors, function(errorMsg, fieldName) {
+                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+
+                          field.addClass('field_with_errors');
+                          field.find('.errors_container').html(errorMsg);
+                        });
+                      });
                     });
-                    $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors').addClass('field_with_errors').html(ad_errors_list.join('; '));
-                    ReachUI.alignAdsDivs();
                   });
                 });
               } else {
                 var field_class = errors_fields_correspondence[key];
-                $(field_class + ' .errors_container').html(error);
+                $(field_class + ' .errors_container').html(ReachUI.humanize(error));
                 $(field_class).addClass('field_with_errors');
               }
             });
-            $('#save-order-dialog .modal-body').html('There was an error while saving an order');
-            $('#save-order-dialog').modal('show');
+            noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
           } else if(response.status == "success") {
-            $('#save-order-dialog .modal-body').html('Saved successfully');
-            $('#save-order-dialog').modal('show').on('hidden', function () {
+            $('.current-io-status-top .io-status').html(response.state);
+
+            if(response.state.match(/pushing/i)) {
+              noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
+              ReachUI.checkOrderStatus(response.order_id);
+            } else if(response.state.match(/draft/i)) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
-            })
+              noty({text: "Your order has been saved", type: 'success', timeout: 5000})
+            } else if(response.state.match(/ready for am/i)) {
+              noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
+            } else if(response.state.match(/ready for trafficker/i)) {
+              noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
+            }
           }
         },
         error: function(model, xhr, options) {
-          alert('There was an error while saving Order.');
+          noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
           console.log(xhr.responseJSON);
         }
       });
     },
 
-    _changeStatus: function(status) {
-      var order_id = this.collection.order.get('id');
-      var url = '/orders/'+order_id+'/change_status';
-      if(order_id) {
-        jQuery.post(url, {status: status}).done(function(resp) {
-          if(resp.status == 'success') {
-            $('#change-order-status-dialog').modal('show').on('hidden', function () {
-              $('.current-io-status-top').html(resp.state);
-              if(resp.state == 'Pushing') {
-                ReachUI.checkOrderStatus(order_id);
-              }
-            });
-          } else {
-            $('#change-order-status-dialog .modal-body p').html(resp.message);
-            $('#change-order-status-dialog').modal('show');
-          }
+    _pushOrder: function() {
+      var self = this;
+
+      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
+        $('#push-confirmation-dialog .cancel-btn').click(function() { 
+          $('#push-confirmation-dialog').modal('hide');
         });
+        $('#push-confirmation-dialog .push-btn').click(function() { 
+          $('#push-confirmation-dialog').modal('hide');
+          self._saveOrderWithStatus('pushing');
+        });
+        $('#push-confirmation-dialog').modal('show');
       } else {
-        $('#change-order-status-dialog .modal-body p').html("Please save order before changing it status");
-        $('#change-order-status-dialog').modal('show');
+        this._saveOrderWithStatus('pushing');
       }
     },
 
-    _pushOrder: function() {
-      //$('#push-confirmation-dialog').modal('show');
-      this._changeStatus('pushing');
-    },
-
-    _revertOrderToDraft: function() {
-      this._changeStatus('draft');
-    },
-
     _submitOrderToAm: function() {
-      this._changeStatus('submit_to_am');
+      this._saveOrderWithStatus('ready_for_am');
     },
 
     _submitOrderToTrafficker: function() {
-      this._changeStatus('submit_to_trafficker');
+      this._saveOrderWithStatus('ready_for_trafficker');
+    },
+
+    _saveOrderDraft: function() {
+      this._saveOrderWithStatus('draft');
+    },
+
+    _saveOrderWithStatus: function(status) {
+      this.status = status;
+      this._saveOrder();
     },
 
     events: {
-      'click .save-order-btn':        '_saveOrder',
+      'click .save-order-btn':        '_saveOrderDraft',
       'click .push-order-btn':        '_pushOrder',
-      'click .revert-draft-btn':      '_revertOrderToDraft',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },

@@ -1,7 +1,7 @@
 <div id="push-confirmation-dialog" class="modal hide fade">
   <div class="modal-body">
     <p class="heading">Sure you want to push? This will overwrite the whole order in DFP.</p>
-    <div class="btns">
+    <div class="btns">     
       <div class="cancel-btn">Cancel</div>
       <div class="push-btn">Push to Ad Server</div>
     </div>
@@ -40,9 +40,18 @@
     <p class="adv-name"><%= order.reach_client_name %></p>
   </div>
 
-  <div class="current-io-status-top">
-    <%= order.order_status %>
+  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id))) { %> pushed-status <% } %>">
+    <span class="io-status"><%= order.order_status %></span>
+    <% if(!isNaN(parseInt(order.source_id))) { %>
+      <div class="current-io-source-id">
+        <a href="<%= order.dfp_url %>"><%= order.source_id %></a>
+      </div>
+    <% } %>
   </div>
+
+  <div class="clearfix"></div>
+
+  <div class="pushing-errors-order-level"></div>
 
   <div class="clearfix"></div>
 
@@ -82,9 +91,9 @@
           <p>Client's Advertiser Name</p>
           <span><%= order.client_advertiser_name %></span>
         </div>
-        <div class="field order-name">
+        <div class="field order-name<% if (order.order_name_dup) { %> field_with_errors<% } %>">
           <p>Order Name</p>
-          <span class="editable custom" data-type="text" data-pk="1" data-name="name"><%= order.name %></span>
+          <span class="editable custom" data-type="text" data-pk="1" data-name="name" data-mode="popup" data-inputclass="wide-editable-text"><%= order.name %></span>
           <div class="errors_container">
           <% if (order.order_name_dup) { %>
             This order name is already used
@@ -124,6 +133,8 @@
           <div class="errors_container">
           <% if(order.sales_person_unknown) { %>
             This sales person is not associated with current Reach Client
+          <% } else if(order.sales_person_name == "") { %>
+            Validation failed: Name can't be blank
           <% } %>
           </div>
         </div>
@@ -147,7 +158,11 @@
             <% } %>
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (order.media_contact_name == "") { %>
+            Validation failed: Name can't be blank
+          <% } %>
+          </div>
         </div>
 
         <div class="field media-contact-company">
@@ -179,6 +194,8 @@
           <div class="errors_container">
           <% if(order.account_contact_unknown) { %>
             This account manager is not associated with current Reach Client
+          <% } else if(order.account_contact_name == "") { %>
+            Validation failed: Name can't be blank
           <% } %>
           </div>
         </div>
@@ -202,12 +219,20 @@
             <% } %>
           </p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name"><%= order.billing_contact_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (order.billing_contact_name == "") { %>
+            Validation failed: Name can't be blank
+          <% } %>
+          </div>
         </div>
         <div class="field billing-contact-company">
           <p>Company</p>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_company"><%= order.reach_client_name %></span>
-          <div class="errors_container"></div>
+          <div class="errors_container">
+          <% if (_.isEmpty(order.reach_client_name)) { %>
+            should be specified
+          <% } %>
+          </div>
         </div>
         <div class="field billing-contact-phone">
           <p>Phone</p>
