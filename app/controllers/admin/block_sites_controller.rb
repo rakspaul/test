@@ -19,7 +19,15 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def blocked_advertiser_sites(model, advertiser_id)
-    model.constantize.of_network(current_network).where(advertiser_id: advertiser_id.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    advertiser_id = advertiser_id.split(",").map(&:to_i)
+
+    blocked_advertiser_sites = model.constantize.of_network(current_network).where(advertiser_id: advertiser_id).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+
+    advertiser_with_blocks = blocked_advertiser_sites.pluck("advertiser_id").uniq
+    #find advertisers who don’t have any block rule (advertisers requested minus advertisers found)
+    advertiser_with_no_blocks = advertiser_id - advertiser_with_blocks
+
+    return blocked_advertiser_sites + get_default_site_blocks_for_advertisers(advertiser_with_no_blocks)
   end
 
   def blocked_advertiser_group_sites(model, advertiser_group_id)
@@ -38,6 +46,16 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def block_advertisers(blocked_advertisers)
+    advertisers_for_default_blocks = []
+    # if any block rule is not there for advertiser then apply default block.
+    blocked_advertisers.each do |advertiser|
+      if BlockedAdvertiser.where(:advertiser_id => advertiser["advertiser_id"], state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :network_id => current_network.id).length < 1
+        advertisers_for_default_blocks.push(advertiser["advertiser_id"])
+      end
+    end
+
+    blocked_advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
+
     blocked_advertisers.each do |advertiser|
        ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
        ba.user = current_user
@@ -155,6 +173,25 @@ private
 
   def get_adv_group_file
     "#{current_user.network.name}_Block_Advertisers_group_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  end
+
+  # this function will take advertisers ids as parameter and will apply default blocks to them.
+  def get_default_site_blocks_for_advertisers(advertiser_ids)
+    advertiser_with_default_blocks = []
+    default_sites = DefaultSiteBlocks.of_network(current_network)
+
+    advertiser_ids.each do |id|
+      advertiser = Advertiser.find(id)
+      if advertiser
+        default_sites.each do |site|
+          # default_block = true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
+          ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => site.site, :default_block => true)
+          advertiser_with_default_blocks.push(ba)
+        end
+      end
+    end
+
+    return advertiser_with_default_blocks
   end
 
 end

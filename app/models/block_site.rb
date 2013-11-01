@@ -1,7 +1,7 @@
 class BlockSite < ActiveRecord::Base
   self.table_name = "reach_sites_block"
 
-  attr_writer :visited
+  attr_writer :visited, :default_block
 
   PENDING_BLOCK   = 'PENDING_BLOCK'
   PENDING_UNBLOCK = 'PENDING_UNBLOCK'
@@ -21,6 +21,10 @@ class BlockSite < ActiveRecord::Base
 
   def visited
     @visited || false
+  end
+
+  def default_block
+    @default_block || false
   end
 
 end

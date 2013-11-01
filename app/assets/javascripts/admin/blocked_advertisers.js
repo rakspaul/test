@@ -140,6 +140,7 @@
     _createChildNode: function(child) {
       return {
         site_name: child.site_name,
+        default_block: child.default_block,
       };
     },
 
@@ -215,7 +216,7 @@
 
   BlockedAdvertisers.SearchResultItemView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= site_name%>'),
+    template: _.template('<%= site_name%> <% if(default_block === true) {%> (Default Block)<%}%>'),
   });
 
   BlockedAdvertisers.SearchResultGroupView = Backbone.Marionette.CollectionView.extend({

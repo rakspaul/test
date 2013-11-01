@@ -10,4 +10,5 @@ json.array! @blocked_sites do |blocked_site|
     json.advertiser_group_name blocked_site.advertiser_block.name
   end
   json.state blocked_site.state
+  json.default_block blocked_site.default_block
 end
