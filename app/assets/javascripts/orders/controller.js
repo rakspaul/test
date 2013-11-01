@@ -345,7 +345,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/users/search.json?search_by=name",
       typeahead: {
-        minLength: 1,
+        minLength: 0,
         remote: '/users/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -358,7 +358,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $('.account-contact-email span').removeClass('editable-empty').html(el.email);
 
       ordersController._clearErrorsOn(".account-contact-name");
-    });
+    })
 
     $('.media-contact-email .typeahead').editable({
       source: "/media_contacts/search.json?search_by=email",

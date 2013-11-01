@@ -1,5 +1,5 @@
 /*!
- * typeahead.js 0.9.3
+ * typeahead.js 0.9.3 [patched by dsamoilov version]
  * https://github.com/twitter/typeahead
  * Copyright 2013 Twitter, Inc. and other contributors; Licensed MIT
  */
@@ -521,10 +521,12 @@
             },
             getSuggestions: function(query, cb) {
                 var that = this, terms, suggestions, cacheHit = false;
-                if (query.length < this.minLength) {
-                    return;
-                }
+                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
+                //if (query.length < this.minLength) {
+                //    return;
+                //}
                 terms = utils.tokenizeQuery(query);
+
                 suggestions = this._getLocalSuggestions(terms).slice(0, this.limit);
                 if (suggestions.length < this.limit && this.transport) {
                     cacheHit = this.transport.get(query, processRemoteData);
@@ -954,6 +956,8 @@
             },
             _clearHint: function() {
                 this.inputView.setHintValue("");
+                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
+                this._getSuggestions();
             },
             _clearSuggestions: function() {
                 this.dropdownView.clearSuggestions();
@@ -966,6 +970,10 @@
                 this.inputView.setInputValue(suggestion.value, true);
             },
             _openDropdown: function() {
+                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
+                if(utils.isBlankString(this.inputView.getInputValue())) {
+                  this._getSuggestions();
+                }
                 this.dropdownView.open();
             },
             _closeDropdown: function(e) {
@@ -988,9 +996,10 @@
             },
             _getSuggestions: function() {
                 var that = this, query = this.inputView.getQuery();
-                if (utils.isBlankString(query)) {
-                    return;
-                }
+                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
+                //if (utils.isBlankString(query)) {
+                //    return;
+                //}
                 utils.each(this.datasets, function(i, dataset) {
                     dataset.getSuggestions(query, function(suggestions) {
                         if (query === that.inputView.getQuery()) {
