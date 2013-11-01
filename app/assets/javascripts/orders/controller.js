@@ -388,6 +388,27 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("advertiser_id", el.id);
       order.set("advertiser_name", el.name);
     });
+
+    $('.advertiser-name input').on('focus', function() {
+      var predefined_values = ['123 College', 'TWCAuto'];
+
+      if($('.advertiser-name input.tt-query').val() == "") {
+        var suggestions_block = '<div class="tt-dataset-advertiser-names" style="display: block;">\
+          <span class="tt-suggestions" style="display: block;">\
+            <div class="tt-suggestion" style="white-space: nowrap; cursor: pointer;">';
+        _.each(predefined_values, function(el) {
+          suggestions_block += '<p style="white-space: normal;">'+el+'</p>';
+        });
+        suggestions_block += '    </div>\
+          </span>\
+        </div>';
+        $('.advertiser-name span .tt-dropdown-menu').html(suggestions_block).show();
+      }
+    });
+
+    /*$('.advertiser-name input').on('blur', function() {
+      $('.advertiser-name span .tt-dropdown-menu').hide();
+    });*/
   },
 
   _showOrderDetails: function(order) {
