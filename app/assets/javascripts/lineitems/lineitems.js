@@ -148,7 +148,42 @@
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
         }
-      }); 
+      });
+
+
+      this.$el.find('.lineitem-sizes .editable').editable({
+        inputclass: 'input-large',
+        select2: {
+          tags: true,
+          tokenSeparators: [",", " "],
+          initSelection : function (element, callback) {
+              var data = [];
+              $(element.val().split(",")).each(function () {
+                  data.push({id: this, text: this});
+              });
+              callback(data);
+          },
+          ajax: {
+            url: "/ad_sizes.json",
+            dataType: "json",
+            data: function(term, page) {
+              return {
+                search: term
+              };
+            },
+            results: function(data, page) {
+              return {
+                results: _.map(data, function(result) {
+                  return { id: result.size, text: result.size }
+                })
+              }
+            }
+          },
+        },
+        success: function(response, newValue) {
+          view.model.set('ad_sizes', newValue.join(', '));
+        }
+      });
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
@@ -216,7 +251,7 @@
       }
     },
 
-    _updateCreativesCaption: function() {
+    /*_updateCreativesCaption: function() {
       var self = this,
           creatives_sizes = [],
           creatives = this.model.get('creatives').models;
@@ -229,7 +264,7 @@
       self.ui.lineitem_sizes.html(uniq_creative_sizes);
       self.model.attributes.ad_sizes = uniq_creative_sizes;
       $(self.$el.find('.lineitem-sizes')[0]).html(uniq_creative_sizes);
-    },
+    },*/
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
@@ -237,7 +272,7 @@
       var self = this,
           creatives = this.model.get('creatives').models;
 
-      this._updateCreativesCaption();      
+      //this._updateCreativesCaption();      
 
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';

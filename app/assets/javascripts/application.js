@@ -23,6 +23,7 @@
 //= require bootstrap-popup-tooltip.js
 //= require twitter/bootstrap/tab
 //= require bootstrap-editable.js
+//= require select2.min.js
 //= require jquery-fileupload/basic
 //= require moment.min
 //= require mousetrap.min
