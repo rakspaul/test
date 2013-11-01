@@ -106,7 +106,6 @@ class IoImport
 
       @reader.lineitems do |lineitem|
         li = Lineitem.new(lineitem)
-        li.name = [@advertiser.try(:name), li.name].compact.join(' | ')
         li.order = @order
         li.user = @current_user
         @lineitems << li
@@ -129,11 +128,16 @@ class IoImport
       end
 
       @lineitems.to_a.each do |li|
-        @inreds.select{|ir| ir[:placement] == li.name}.map! do |creative|
-          creative[:start_date] = li.start_date
-          creative[:end_date]   = li.end_date
-          creative[:creative_type] = "CustomCreative"
-          creative
+        li_inreds = @inreds.select{|ir| ir[:placement] == li.name}
+        if li_inreds.empty?
+          li.ad_sizes
+        else
+          li_inreds.map! do |creative|
+            creative[:start_date] = li.start_date
+            creative[:end_date]   = li.end_date
+            creative[:creative_type] = "CustomCreative"
+            creative
+          end
         end
       end
     end
