@@ -32,7 +32,13 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      json.array! @io_import.inreds.select{|ir| ir[:placement] == lineitem.name} do |inred|
+      li_creatives = @io_import.inreds.select{|ir| ir[:placement] == lineitem.name}
+
+      li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr| 
+        arr.sort_by{|c| c[:ad_size]}
+      end
+
+      json.array! li_creatives_sorted_by_date_and_size.flatten do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
     end
