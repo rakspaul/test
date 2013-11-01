@@ -39,3 +39,6 @@
 
     .app_content
       = content_for?(:content) ? yield(:content) : yield
+
+  :javascript
+    window.current_user_name = "#{current_user.try(:full_name)}";

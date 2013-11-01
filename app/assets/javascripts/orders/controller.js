@@ -11,8 +11,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
-    this._initializeLineItemController();
-
     var search = new ReachUI.Search.SearchQuery(),
       searchView = new ReachUI.Search.SearchQueryView({model: search}),
       searchOrderListView = new ReachUI.Orders.ListView({el: '.order-search-result', collection: this.orderList});
@@ -37,7 +35,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
 
-    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView', '_onSaveOrderSuccess');
+    _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
     this._bindKeys();
   },
 
@@ -68,9 +66,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    //this.orderList.fetch();
-    //this.orderDetailsLayout.top.close();
-    //this.orderDetailsLayout.bottom.close();
     var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
@@ -80,7 +75,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
-    //this.orderDetailsLayout.bottom.show(view);
+    this.orderDetailsLayout.bottom.reset();
   },
 
   newOrder: function() {
@@ -96,9 +91,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.show(view);
     view.on('order:save', this._saveOrder, this);
-    view.on('order:close', function() {
-      window.history.back();
-    });
   },
 
   editOrder: function(id) {
@@ -117,84 +109,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
-
-    view.on('order:save', this._saveOrder, this);
-    view.on('order:close', function() {
-      window.history.back();
-    });
   },
 
   _ioUploaded: function(orderModel, lineItems) {
-    this.orderList.unshift(orderModel);
-    // view order
-    if(orderModel.id) {
-      ReachUI.Orders.router.navigate('/' + orderModel.id, {trigger: true});
-    } else {
-      // just uploaded model (w/o id, source_id)
-      this._showOrderDetails(orderModel);
-      lineItems.setOrder(orderModel);
-      this._liSetCallbacksAndShow(lineItems);
-    }
-  },
-
-  _saveOrder: function(args) {
-    var model = args.model,
-      view = args.view,
-      isNew = model.isNew();;
-
-    var _order = {
-      name: view.ui.name.val(),
-      start_date: view.ui.start_date.val(),
-      end_date: view.ui.end_date.val(),
-      advertiser_id: view.ui.advertiser_id.val(),
-      sales_person_id: view.ui.sales_person_id.val()
-    };
-
-    // get all the error labels and clear them
-    _.keys(view.ui)
-      .filter(function(val) {
-        return /_error$/.test(val);
-      })
-      .forEach(function(val) {
-        view.ui[val].text("");
-      });
-
-    var self = this;
-
-    model.save(_order, {
-      success: this._onSaveOrderSuccess,
-      error: this._onSaveOrderFailure,
-      view: view,
-      isNew: isNew
-    });
-  },
-
-  _onSaveOrderSuccess: function(model, response, options) {
-    // add order at beginning
-    this.orderList.unshift(model);
-    if(options.isNew) {
-      // view order
-      ReachUI.Orders.router.navigate('/' + model.id, {trigger: true});
-    } else {
-      window.history.back();
-    }
-  },
-
-  _onSaveOrderFailure: function(model, xhr, options) {
-    if(xhr.responseJSON && xhr.responseJSON.errors) {
-      var formErrors = [];
-
-      _.each(xhr.responseJSON.errors, function(value, key) {
-        var errorLabel = options.view.ui[key + "_error"];
-        if(errorLabel) {
-          errorLabel.text(value[0]);
-        } else {
-          formErrors.push(value);
-        }
-      });
-
-      alert("Error saving order. \n" + formErrors.join("\n"));
-    }
+    // just uploaded model (w/o id, source_id)
+    orderModel.lineItemList = lineItems;
+    this._showOrderDetails(orderModel);
+    lineItems.setOrder(orderModel);
+    this._liSetCallbacksAndShow(lineItems);
+    this._showNotesView(orderModel);
   },
 
   orderDetails: function(id) {
@@ -243,22 +166,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
-  _initializeLineItemController: function() {
-    this.lineItemController = new ReachUI.LineItems.LineItemController({
-                                    mainRegion: this.orderDetailsLayout.bottom
-                                  });
-    this.lineItemController.on("lineitem:saved", this._navigateToSelectedOrder, this);
-    this.lineItemController.on("lineitem:close", this._navigateToSelectedOrder, this);
-  },
-
-  _navigateToSelectedOrder: function(lineitem) {
-    if(lineitem) {
-      this.lineItemList.add(lineitem);
-    }
-
-    ReachUI.Orders.router.navigate('/'+ this.selectedOrder.id, {trigger: true});
-  },
-
   _fetchOrder: function(id) {
     var self = this;
     this.selectedOrder = new ReachUI.Orders.Order({'id': id});
@@ -288,21 +195,69 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
+    ReachUI.checkOrderStatus(order.id);
   },
 
   _showNewLineItemView: function(order) {
     order.select();
     this._showOrderDetails(order);
-
     var newLineItem = new ReachUI.LineItems.LineItem({'order_id': order.id});
     this.lineItemController.show(newLineItem);
   },
 
+  _setupOrderDateFields: function(order) {
+    $('.order-details .start-date .editable.date').editable({
+      success: function(response, newValue) {
+        var start_date = moment(newValue).format("YYYY-MM-DD");
+        order.set("start_date", start_date); //update backbone model
+        $('.order-details .start-date .errors_container').html('');
+        $('.order-details .start-date').removeClass('field_with_errors');
+      },
+      datepicker: {
+        startDate: moment().format("YYYY-MM-DD")
+      }
+    });
+
+    $('.order-details .end-date .editable.date').editable({
+      success: function(response, newValue) {
+        var end_date = moment(newValue).format("YYYY-MM-DD");
+        order.set("end_date", end_date); //update backbone model
+        $('.order-details .end-date .errors_container').html('');
+        $('.order-details .end-date').removeClass('field_with_errors');
+      },
+      datepicker: {
+        startDate: moment().format("YYYY-MM-DD")
+      }
+    });
+  },
+
+  _clearErrorsOn: function(field_class) {
+    $(field_class + ' .errors_container').html('');
+    $(field_class).removeClass('field_with_errors');
+  },
+
   _setupTypeaheadFields: function(order) {
+    var ordersController = this;
+
+    $('.billing-contact-company .typeahead').editable({
+      source: "/reach_clients/search.json",
+      typeahead: {
+        minLength: 1,
+        remote: '/reach_clients/search.json?search=%QUERY',
+        valueKey: 'name'
+      }
+    });
+    $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
+      order.set("reach_client_name", el.name);//update backbone model
+      order.set("reach_client_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-company");
+    });
+
     $('.salesperson-name .typeahead').editable({
       source: "/users/search.json?search_by=name&sales=true",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/users/search.json?search=%QUERY&search_by=name&sales=true',
         valueKey: 'name'
       }
@@ -310,9 +265,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.salesperson-name').on('typeahead:selected', function(ev, el) {
       order.set("sales_person_name", el.name);//update backbone model
       order.set("sales_person_email", el.email);
+      order.set("sales_person_id", el.id);
       order.set("sales_person_phone", el.phone);
-      $('.salesperson-phone span').html(el.phone);
-      $('.salesperson-email span').html(el.email);
+      $('.salesperson-phone span').removeClass('editable-empty').html(el.phone);
+      $('.salesperson-email span').removeClass('editable-empty').html(el.email);
+
+      ordersController._clearErrorsOn(".salesperson-name");
     });
 
     $('.media-contact-name .typeahead').editable({
@@ -321,10 +279,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/media_contacts/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/media_contacts/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
+    });
+    $('.media-contact-name').on('typeahead:selected', function(ev, el) {
+      $('.media-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.media-contact-email span').removeClass('editable-empty').html(el.email);
+      order.set("media_contact_name", el.name);//update backbone model
+      order.set("media_contact_email", el.email);
+      order.set("media_contact_id", el.id);
+      order.set("media_contact_phone", el.phone);
+
+      ordersController._clearErrorsOn(".media-contact-name");
     });
 
     $('.billing-contact-name .typeahead').editable({
@@ -333,19 +301,51 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       source: "/billing_contacts/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
     });
+    $('.billing-contact-name').on('typeahead:selected', function(ev, el) {
+      $('.billing-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.billing-contact-email span').removeClass('editable-empty').html(el.email);
+      order.set("billing_contact_name", el.name);//update backbone model
+      order.set("billing_contact_email", el.email);
+      order.set("billing_contact_phone", el.phone);
+      order.set("billing_contact_id", el.id);
 
+      ordersController._clearErrorsOn(".billing-contact-name");
+    });
+
+    //-------------------------------------------------------------------------------
+    // trafficking contact
+    $('.trafficker-container .typeahead').editable({
+      success: function(response, newValue) {
+        order.set("trafficking_contact_name", newValue); //update backbone model
+      },
+      source: "/users/search.json?search_by=name",
+      typeahead: {
+        minLength: 1,
+        remote: '/users/search.json?search=%QUERY&search_by=name',
+        valueKey: 'name'
+      }
+    });
+    $('.trafficker-container').on('typeahead:selected', function(ev, el) {
+      $('.trafficker-container span').removeClass('editable-empty');
+      ordersController._clearErrorsOn(".trafficker-container");
+      order.set("trafficking_contact_id", el.id);//update backbone model
+      order.set("trafficking_contact_name", el.name);
+    });
+
+    //--------------------------------------------------------------------------------
+    // account contact
     $('.account-contact-name .typeahead').editable({
       success: function(response, newValue) {
         order.set("account_contact_name", newValue); //update backbone model
       },
       source: "/users/search.json?search_by=name",
       typeahead: {
-        minLength: 2,
+        minLength: 1,
         remote: '/users/search.json?search=%QUERY&search_by=name',
         valueKey: 'name'
       }
@@ -354,22 +354,25 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("account_contact_name", el.name);//update backbone model
       order.set("account_contact_email", el.email);
       order.set("account_contact_phone", el.phone);
-      $('.account-contact-phone span').html(el.phone);
-      $('.account-contact-email span').html(el.email);
+      $('.account-contact-phone span').removeClass('editable-empty').html(el.phone);
+      $('.account-contact-email span').removeClass('editable-empty').html(el.email);
+
+      ordersController._clearErrorsOn(".account-contact-name");
     });
 
     $('.media-contact-email .typeahead').editable({
       source: "/media_contacts/search.json?search_by=email",
-      typeahead: { 
-        minLength: 2,
+      typeahead: {
+        minLength: 1,
         remote: '/media_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
       }
     });
+
     $('.billing-contact-email .typeahead').editable({
       source: "/billing_contacts/search.json?search_by=email",
-      typeahead: { 
-        minLength: 2,
+      typeahead: {
+        minLength: 1,
         remote: '/billing_contacts/search.json?search=%QUERY&search_by=email',
         valueKey: 'email'
       }
@@ -377,7 +380,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name'
+      valueKey: 'name',
+      limit: 20
     });
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
@@ -388,55 +392,273 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
-    detailOrderView.on('order:edit', function(args) {
-      var order = args.model;
-      ReachUI.Orders.router.navigate('/'+ order.id +'/edit', {trigger: true});
-    });
-    detailOrderView.on('order:export', function(args) {
-      var order = args.model;
-      window.location.href = '/orders/'+ order.id +'/export.xls';
-    });
+    var ordersController = this;
     this.orderDetailsLayout.top.show(detailOrderView);
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
     $.fn.editable.defaults.ajaxOptions = {type: "PATCH", dataType: 'json'};
-    
-    $('.total-media-cost .editable.custom').editable({
+
+    $('.general-info-container .total-media-cost .editable.custom').editable({
+      success: function(response, newValue) {
+        order.set("total_media_cost", newValue); //update backbone model
+      },
       validate: function(value) {
         if(value.match(/[^\d\.,]+/)) {
           return 'This field should contain only digits';
         }
       }
     });
-    $('.editable:not(.typeahead):not(.custom)').editable();
+    $('.general-info-container .order-name .editable').editable({
+      success: function(response, newValue) {
+        order.set($(this).data('name'), newValue); //update backbone model;
+        $('.new-order-header .heading').html(newValue);
+        $(this).parent().removeClass('field_with_errors');
+        $(this).siblings('.errors_container').html('');
+      }
+    });
+    $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
+      success: function(response, newValue) {
+        order.set($(this).data('name'), newValue); //update backbone model;
+      }
+    });
     this._setupTypeaheadFields(order);
+    this._setupOrderDateFields(order);
+  },
+
+  _showPushErrors: function(errors_list, order) {
+    _.each(errors_list, function(error) {
+      if("order" == error.type) {
+        $('.pushing-errors-order-level').html(error.message);
+      } else if("ad" == error.type) {
+        $('.ad-'+error.ad_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.ad-'+error.ad_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Ad]: "+error.message);
+      } else if("creative" == error.type) {
+        $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Creative]: "+error.message);
+      }
+    });
   },
 
   _showLineitemList: function(order) {
+    var self = this;
     if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);
-      this.lineItemList.fetch();
+      this.lineItemList.fetch().then(
+        function(collection, response, options) {
+          _.each(self.lineItemList.models, function(li, index) {
+            li.set('creatives', new ReachUI.Creatives.CreativesList(collection[index].creatives));
+          });
+          order.lineItemList = self.lineItemList;
+          self._liSetCallbacksAndShow(self.lineItemList);
+          self._showNotesView(order);
+        },
+        function(model, response, options) {
+          console.log('error while getting lineitems list');
+          console.log(response);
+        }
+      );
+    } else {
+      this.lineItemList.setOrder(order);
+      this._liSetCallbacksAndShow(this.lineItemList);
+      this._showNotesView(order);
     }
-
-    this.lineItemList.setOrder(order);
-    this._liSetCallbacksAndShow(this.lineItemList);
   },
 
+  _calculateRemainingImpressions: function(li) {
+    var remaining_impressions = li.get('volume');
+
+    _.each(li.ads, function(ad) {
+      remaining_impressions -= ad.get('volume');
+    });
+
+    return remaining_impressions;
+  },
+
+  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
+  // Client Short Name + Client Advertiser Name + Quarter + Year + "GEO" (if DMA or Zips are included for the Ad) + "RON" (if NO Key Values are selected for the Ad) + "BTCT" (if Key Values ARE selected for the Ad) + Creative Sizes.
+  // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
+  _generateAdName: function(li) {
+    var start_date = new Date(li.attributes.start_date);
+    var start_quarter = ReachUI.getQuarter(start_date);
+    var start_year = start_date.getFullYear() % 100;
+
+    var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_dmas').length != 0);
+    var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
+
+    var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
+    ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+    ad_name_parts.push('Q'+start_quarter+start_year);
+    if(isGeo) {
+      ad_name_parts.push("GEO");
+    }
+    if(hasKeyValues) {
+      ad_name_parts.push("BTCT");
+    } else {
+      ad_name_parts.push("RON");
+    }
+    ad_name_parts.push(li.attributes.ad_sizes);
+    ad_name = ad_name_parts.join(' ');
+
+    // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
+    var same_ad_names = 1;
+    _.each(li.ads, function(ad) {
+      var name_regexp = new RegExp("^"+RegExp.escape(ad_name));
+      if(ad.get('description').match(name_regexp)) {
+        same_ad_names += 1;
+      }
+    });
+
+    if(same_ad_names > 1) {
+      ad_name += " ("+same_ad_names+")";
+    }
+
+    return ad_name;
+  },
+
+  /////////////////////////////////////////////////////////////////////////////////////////
+  // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+    var ordersController = this;
 
-    lineItemListView.on('lineitem:create', function(args) {
-      ReachUI.Orders.router.navigate('/'+ order.id +'/lineitems/new', {trigger: true});
-    }, this);
+    // adding Ad under certain lineitem
+    lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
+      var li = li_view.model;
 
-    lineItemListView.on('itemview:lineitem:add_ad', function(view) {
-      var ad = new ReachUI.Ads.Ad();
-      var adsView = new ReachUI.Ads.AdView({model: ad});
-      view.ui.ads_list.append(adsView.render().el);
+      var ad_name = ordersController._generateAdName(li);
+      var remaining_impressions = ordersController._calculateRemainingImpressions(li);
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions});
+      var ad = new ReachUI.Ads.Ad(attrs);
+
+      var li_targeting = new ReachUI.Targeting.Targeting({
+        selected_key_values: li.get('targeting').get('selected_key_values'),
+        selected_dmas: li.get('targeting').get('selected_dmas'),
+        dmas_list: li.get('targeting').get('dmas_list'),
+        selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
+        audience_groups: li.get('targeting').get('audience_groups')
+      });
+
+      ad.set('targeting', li_targeting);
+
+      var li_creatives = [];
+      _.each(li.get('creatives').models, function(li_creative) {
+        var cloned_creative = new ReachUI.Creatives.Creative({
+          id: li_creative.get('id'),
+          parent_cid: li_creative.cid, // need to identify same Creative on both Ad and LI levels
+          client_ad_id: li_creative.get('client_ad_id'),
+          ad_size: li_creative.get('ad_size'),
+          end_date: li_creative.get('end_date'),
+          redirect_url: li_creative.get('redirect_url'),
+          start_date: li_creative.get('start_date'),
+          creative_type: li_creative.get('creative_type')
+        });
+        li_creatives.push(cloned_creative);
+      });
+
+      ad.set('creatives', new ReachUI.Creatives.CreativesList(li_creatives))
+
+      li.pushAd(ad);
+      li_view.renderAd(ad);
     });
 
     this.orderDetailsLayout.bottom.show(lineItemListView);
-  }
+
+    // only if `show` action
+    if(lineItemList.order.id) {
+      var dmas = new ReachUI.DMA.List();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+
+      // set targeting for existing Order
+      var itemIndex = 1;
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        var li            = li_view.model;
+
+        li.set('itemIndex', itemIndex);
+        itemIndex += 1;
+
+        var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+        var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+        var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+        
+        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
+          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+         
+          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes}));
+          li_view.renderTargetingDialog();
+        });
+      });
+
+      // show Ads for each LI
+      _.each(lineItemListView.children._views, function(li_view, li_name) {
+        li_view.model.ads = new ReachUI.Ads.AdList();
+        li_view.model.ads.setOrder(lineItemList.order);
+
+        // show condensed targeting options
+        ReachUI.showCondensedTargetingOptions.apply(li_view);
+
+        // fetch ads for each lineitem and append then to the view of this lineitem
+        li_view.model.ads.fetch().then(
+          function(collection, response, options) {
+            li_view.model.ads = [];
+            _.each(collection, function(attrs) {
+              // push and render Ad only under particular lineitem
+              if(li_view.model.get('id') == attrs.ad.io_lineitem_id) {
+                attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
+                attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
+
+                var ad = new ReachUI.Ads.Ad(attrs.ad);
+
+                ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
+                ad.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: attrs.ad.targeted_zipcodes, selected_dmas: attrs.selected_dmas, selected_key_values: attrs.selected_key_values, dmas_list: li_view.model.get('targeting').get('dmas_list'), audience_groups: li_view.model.get('targeting').get('audience_groups')}));
+
+                li_view.model.pushAd(ad);
+                li_view.renderAd(ad);
+              }
+            });
+            lineItemList._recalculateLiImpressionsMediaCost();
+
+            if(lineItemList.order.get('pushing_errors').length > 0) {
+              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
+            }
+          },
+          function(model, response, options) {
+            console.log('error while getting ads list');
+            console.log(response);
+          }
+        );
+      });
+    } else { // not persisted Order/Lineitems
+      var dmas = new ReachUI.DMA.List();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+
+      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
+        var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+        var itemIndex = 1;
+
+        _.each(lineItemListView.children._views, function(li_view, li_name) {
+          var li   = li_view.model;
+
+          li.set('itemIndex', itemIndex);
+          itemIndex += 1;
+
+          li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes}));
+          li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
+        });
+        lineItemList._recalculateLiImpressionsMediaCost();
+      });
+    }
+  },
+
+  _showNotesView: function(order) {
+    this.notesRegion = new ReachUI.Orders.NotesRegion();
+    this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
+    this.noteList.setOrder(order);
+    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order});
+    this.notesRegion.show(notes_list_view);
+  },
 });

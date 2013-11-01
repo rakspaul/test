@@ -1,0 +1,16 @@
+#order_layout.pure-g
+  #details.pure-u
+    .content
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.Orders.OrderController();
+    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    
+    Backbone.history.start({
+      pushState: true,
+      root: "/orders"
+    });
+  });

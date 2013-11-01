@@ -1,0 +1,64 @@
+<div class="targeting-options">
+  <h4>Targeting options</h4>
+
+  <ul class="nav nav-tabs">
+    <li class="active key-values">
+      <a href="javascript:void(0)">Key Values</a>
+    </li>
+    <li class="dmas"><a href="javascript:void(0)">DMAs</a></li>
+    <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
+  </ul>
+
+  <% var selected_kv_ids = [] %>
+  <% for(var prop in selected_key_values) { selected_kv_ids.push(parseInt(selected_key_values[prop].id)); } %>
+
+  <div class="tab key-values">
+    <select multiple class="chosen-select" name="keyvalues" data-placeholder="Select Audience Groups..." style="width:95%;">
+      <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <option value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
+      <% } %>
+    </select>
+    <div style="clear:both"></div>
+
+    <div class="key-values-checkboxes-container">
+      <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
+      <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
+      <% } %>
+      </div>
+  </div>
+
+  <% var selected_dmas_ids = [] %>
+  <% for(var prop in selected_dmas) { selected_dmas_ids.push(parseInt(selected_dmas[prop].id)); } %>
+
+  <div class="tab dmas" style="display:none">
+    <select multiple class="chosen-select" name="dmas" data-placeholder="Select DMAs..." style="width:95%;">
+      <% for (var i = 0; i < dmas_list.length; i++) { %>
+      <option value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
+      <% } %>
+    </select>
+    <div style="clear:both"></div>
+
+    <div class="dmas-checkboxes-container">
+      <% for (var i = 0; i < dmas_list.length; i++) { %>
+      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>checked="checked"<% } %> /> <%= dmas_list[i].name %><br/>
+      <% } %>
+    </div>
+  </div>
+
+  <div class="tab zip-codes" style="display:none">
+    <textarea rows="7" placeholder="Please type/paste list of zip codes in this field comma separated or one zip code per line."><%= selected_zip_codes.join(', ') %></textarea>
+  </div>
+</div>
+
+<div class="selected-targeting">
+</div>
+
+<!--div class="custom-regular-keyvalue-btn pull-right">
+  <span>Custom K/V</span>
+</div-->
+
+<div style="clear:both"></div>
+
+<div class="pull-right">
+  <div class="save-targeting-btn">Done</div>
+</div>

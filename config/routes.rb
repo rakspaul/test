@@ -50,12 +50,25 @@ Reachui::Application.routes.draw do
         get 'ads'
       end
     end
-    resources :lineitems
+
+    resources :lineitems do
+      resources :creatives, :only => [:destroy]
+    end
+
+    resources :ads, :only => [:index]
+
+    member do
+      post 'change_status'
+      get 'status'
+    end
 
     collection do
       get 'search'
+      delete 'delete'
     end
     get 'export' => 'io_export#export'
+
+    resources :notes, controller: 'order_notes'
   end
 
   resources :kendoui
@@ -67,6 +80,12 @@ Reachui::Application.routes.draw do
     end
   end
   resources :sales_people, only: [:index]
+
+  resources :reach_clients do
+    collection do
+      get :search
+    end
+  end
 
   resources :billing_contacts do
     collection do

@@ -1,5 +1,12 @@
 class IoDetail < ActiveRecord::Base
-  attr_accessor :overall_status, :trafficking_status, :account_manager_status
+  STATUS = {
+    failure: "Failure",
+    pushing: "Pushing",
+    pushed: "Pushed",
+    draft: "Draft",
+    ready_for_am: "Ready for AM",
+    ready_for_trafficker: "Ready for Trafficker"
+  }
 
   has_paper_trail ignore: [:updated_at]
 
@@ -11,85 +18,29 @@ class IoDetail < ActiveRecord::Base
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'User'
   belongs_to :order
 
-  state_machine :trafficking_status, initial: :unreviewed, namespace: "trafficking" do
-    state :unreviewed
-    state :reviewing
-    state :rejected
-    state :reviewed
+  validates :reach_client_id, presence: true
 
-    event :review do
-      transition [:unreviewed, :rejected] => :reviewing
-    end
+  after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.state=~ /pushing/i }
 
-    event :reject do
-      transition :reviewing => :rejected
-    end
+private
 
-    event :reviewed do
-      transition :reviewing => :reviewed
-    end
-  end
+  def enqueue_for_push
+    require 'bunny'
 
-  state_machine :account_manager_status, initial: :unreviewed, namespace: "account_manager" do
-    state :unreviewed
-    state :reviewing
-    state :rejected
-    state :reviewed
+    conn = Bunny.new(:host => '127.0.0.1', :vhost => "/", :user => "reach", :password => "asd234f#dg")
+    conn.start
 
-    event :review do
-      transition [:unreviewed, :rejected] => :reviewing
-    end
+    ch   = conn.create_channel
+    q    = ch.queue("reach.io.push", :durable => true)
+    Rails.logger.warn "Sending...#{q.name}, order id: #{self.order.id}"
+    msg  = self.order.id.to_s
 
-    event :reject do
-      transition :reviewing => :rejected
-    end
+    q.publish(msg, :persistent => true)
+    Rails.logger.warn " [reach.io.push] Sent #{msg}"
 
-    event :reviewed do
-      transition :reviewing => :reviewed
-    end
-  end
-
-  state_machine :overall_status, initial: :draft do
-    state :draft
-    state :saved
-    state :reviewing
-    state :rejected
-    state :ready_for_push
-    state :pushing
-    state :failure
-    state :active
-
-    event :review do
-      transition [:saved] => [:reviewing]
-    end
-
-    event :approved_by_account_manager do
-      transition [:reviewed_by_trafficking, :reviewed_by_account_manager] => :ready_for_push
-    end
-
-    event :approved_by_trafficking do
-      transition [:reviewed_by_trafficking, :reviewed_by_account_manager] => :ready_for_push
-    end
-
-    event :revert_to_draft do
-      transition [:running, :saved] => :draft
-    end
-
-    event :push do
-      transition :ready_for_push => :pushing
-    end
-
-    event :success do
-      transition :pushing => :active
-    end
-
-    event :failure do
-      transition :pushing => :failure
-    end
-  end
-
-  # state_machine's related
-  def initialize(*args)
-    super(*args)
+    conn.close
+  rescue => e
+    Rails.logger.warn e.message.inspect
+    self.update_attribute :state, STATUS[:failure]
   end
 end

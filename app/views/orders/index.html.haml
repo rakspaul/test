@@ -2,99 +2,161 @@
   #details.pure-u
     .content
 
-.order-table-content
-  .pure-g.header-filter-container
-    .pure-u
-      .delete-button
-        %button.btn
-          Delete
-    .pure-u-1-5
-      %label Status
-      %select
-        %option draft
-        %option active
-    .pure-u-1-5
-      %label Account Manager
-      %select
-        - @users.each do |user|
-          %option= "#{user.first_name} #{user.last_name}"
-    .pure-u-1-5
-      %label Trafficker
-      %select
-        - @users.each do |user|
-          %option= "#{user.first_name} #{user.last_name}"
-    .pure-u-1-5
+.orders-content
+  .orders-header
+    .pure-g.header-filter
+      %form.filter-form
+        .pure-u
+          .control-group.search-control
+            .input-append
+              %input{type: "text", placeholder: "Search", id: "get_search_query", :value => session[:search_query]}
+              %a.btn.add-on#btn_search_orders Search
+        .pure-u
+          .control-group.orders-control
+            %label.control-label
+              Orders
+            .controls
+              %select.filter-orders#orders_by_user
+                %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
+                %option{:value => "all_orders", :selected => session[:orders_by_user] == "all_orders"} All Orders
+        .pure-u
+          .control-group.status-control
+            %label.control-label
+              Status
+            .controls
+              %select.filter-orders.status
+                %option{:value => "all", :selected => session[:order_status] == ""} All
+                %option{:value => "draft", :selected => session[:order_status] == "draft"} Draft
+                %option{:value => "ready_for_trafficker", :selected => session[:order_status] == "ready_for_trafficker"} Ready for Trafficker
+                %option{:value => "ready_for_am", :selected => session[:order_status] == "ready_for_am"} Ready for AM
+                %option{:value => "pushing", :selected => session[:order_status] == "pushing"} Pushing
+                %option{:value => "pushed", :selected => session[:order_status] == "pushed"} Pushed
+                %option{:value => "failure", :selected => session[:order_status] == "failure"} Failure
 
-  %table.order-table
-    %thead
-      %tr
-        %th
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                ID
-            .pure-u
-              #id.actions-container
-                %i.icon-sort
-        %th.order-name
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Order Name
-            .pure-u
-              #order_name.actions-container
-                %i.icon-sort-by-attributes
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Client
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Advertiser
-            .pure-u
-              #advertiser.actions-container
-                %i.icon-sort
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Abbr
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                AM
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Trafficker
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                Start Date
-            .pure-u
-              #start_date.actions-container
-                %i.icon-sort
-        %th
-          .pure-g.header-container
-            .pure-u.title-container
-              .title
-                End Date
-            .pure-u
-              #end_date.actions-container
-                %i.icon-sort
+        .pure-u
+          .control-group
+            %label.control-label
+              Account Manager
+            .controls
+              %select.filter-orders.am
+                %option Select
+                - @users.each do |user|
+                  %option{:value => user.id, :selected => session[:am] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
+        .pure-u
+          .control-group
+            %label.control-label
+              Trafficker
+            .controls
+              %select.filter-orders.trafficker
+                %option Select
+                - @users.each do |user|
+                  %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
 
-    %tbody{:id => "orders"}
-      =render "order_table" ,:orders => @orders,:users => @users
+    .pure-g.btn-delete
+      .pure-u
+        %button.btn#btn_delete_orders{type: "button"} Delete
 
-  .paginator{:id => "paginator"}
-    = paginate @orders,:remote => :true
+  .orders-list
+    %table.orders-table
+      %thead
+        %tr
+          %th
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  Status
+          %th
+            .pure-g.header-container
+              .pure-u.title-container.medium
+                .title
+                  AMP Id / DFP Id
+              .pure-u.actions-container#id
+                - if session[:sort_column] == "id"
+                  - if session[:sort_direction] == "asc"
+                    %i.icon-sort-by-attributes
+                  - else
+                    %i.icon-sort-by-attributes-alt
+                - else
+                  %i.icon-sort
+          %th.order-name
+            .pure-g.header-container
+              .pure-u.title-container.medium
+                .title
+                  Order Name
+              .pure-u.actions-container#order_name
+                - if session[:sort_column] == "name"
+                  - if session[:sort_direction] == "asc"
+                    %i.icon-sort-by-attributes
+                  - else
+                    %i.icon-sort-by-attributes-alt
+                - else
+                  %i.icon-sort
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  Client
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  Advertiser
+              .pure-u.actions-container#advertiser
+                - if session[:sort_column] == "io_details.client_advertiser_name"
+                  - if session[:sort_direction] == "asc"
+                    %i.icon-sort-by-attributes
+                  - else
+                    %i.icon-sort-by-attributes-alt
+                - else
+                  %i.icon-sort
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  Abbr
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  AM
+          %th
+            .pure-g.header-container
+              .pure-u.title-container
+                .title
+                  Trafficker
+          %th
+            .pure-g.header-container
+              .pure-u.title-container.small
+                .title
+                  Start Date
+              .pure-u.actions-container#start_date
+                - if session[:sort_column] == "start_date"
+                  - if session[:sort_direction] == "asc"
+                    %i.icon-sort-by-attributes
+                  - else
+                    %i.icon-sort-by-attributes-alt
+                - else
+                  %i.icon-sort
+          %th
+            .pure-g.header-container
+              .pure-u.title-container.small
+                .title
+                  End Date
+              .pure-u.actions-container#end_date
+                - if session[:sort_column] == "end_date"
+                  - if session[:sort_direction] == "asc"
+                    %i.icon-sort-by-attributes
+                  - else
+                    %i.icon-sort-by-attributes-alt
+                - else
+                  %i.icon-sort
+
+      %tbody{:id => "orders"}
+        =render "order_table" ,:orders => @orders,:users => @users
+
+    .paginator{:id => "paginator"}
+      = paginate @orders,:remote => :true
 
 :javascript
   $(document).ready(function() {
@@ -103,11 +165,18 @@
     var controller = new ReachUI.Orders.OrderController();
     ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
 
+    $('body').tooltip({
+      selector: '[rel=tooltip]'
+    });
+
     Backbone.history.start({
       pushState: true,
       root: "/orders"
     });
+  });
 
+  $(window).bind("load", function() {
+   var request = $.ajax({url:'/orders', data:{}, dataType: 'script'});
   });
 
   $('.actions-container i').click(function(event) {
@@ -125,5 +194,117 @@
       $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
     }
 
+    var filterParams = getFilterParams();
+    var searchParams = getSearchParams();
+    $.extend(para, filterParams, searchParams);
+
     var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
   });
+
+  $('#btn_delete_orders').click(function(event) {
+    var para = {};
+
+    var checkedValues = $('.ordersCheckbox:checked').map(function() {return this.value;}).get().join(',');
+    para.chkVals = checkedValues;
+    var sortColumn = $('.actions-container i.icon-sort-by-attributes');
+    if(!sortColumn.length) sortColumn = $('.actions-container i.icon-sort-by-attributes-alt');
+
+    if(sortColumn){
+      para.sort_column = sortColumn.parent().attr('id');
+      para.sort_direction = sortColumn.hasClass('icon-sort-by-attributes') ? "asc" : "desc";
+    }
+
+    if(checkedValues == '') {
+      alert("No order selected");
+    } else {
+      var orderNames = [];
+      $('.ordersCheckbox:checked').each(function() {
+        orderNames.push($.trim($(this).parent().nextAll().find('.order-title a').html()));
+      });
+      var cfm = confirm("Are you sure you want to delete the following Orders: \n\n" + orderNames.join("\n"));
+      if(cfm === true) {
+        var request = $.ajax({url:'/orders/delete.json', type:'DELETE', data:"ids="+checkedValues});
+        request.done(function(data){
+          var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
+        });
+
+        request.fail(function(){
+          alert( "Request failed");
+        });
+      }
+    }
+  });
+
+  $('.filter-orders').change(function(event) {
+   sendRequest();
+  });
+
+  $('#btn_search_orders').click(function(event) {
+    sendRequest();
+  });
+
+  $('#get_search_query').keypress(function(e) {
+    if ( e.which == 13 ) {
+      e.preventDefault();
+      sendRequest();
+    }
+  });
+
+  function sendRequest(){
+    var para = {};
+    para = getFilterParams();
+    var sortParams = getSortParams();
+    var searchParams = getSearchParams();
+    $.extend(para, sortParams, searchParams);
+
+    var request = $.ajax({url:'/orders', data:para, dataType: 'script'});
+  }
+
+  function getFilterParams(){
+    var filterParams = {},
+        status= $('.status').val().toLowerCase(),
+        am = $('.am').val(),
+        trafficker = $('.trafficker').val();
+
+    if(status === "all") { status = null }
+    if(am === "Select") { am = null }
+    if(trafficker == "Select") { trafficker = null }
+
+    if(status){
+      filterParams.order_status = status;
+    }
+    if(am){
+      filterParams.am = am;
+    }
+    if(trafficker){
+      filterParams.trafficker = trafficker;
+    }
+
+    orders_by_user = $('#orders_by_user').val();
+    filterParams.orders_by_user = orders_by_user;
+
+    return filterParams;
+  }
+
+  function getSortParams(){
+    var sortParams = {};
+    var sortColumn = $('.actions-container i.icon-sort-by-attributes');
+    if(!sortColumn.length) sortColumn = $('.actions-container i.icon-sort-by-attributes-alt');
+
+    if(sortColumn){
+      sortParams.sort_column = sortColumn.parent().attr('id');
+      sortParams.sort_direction = sortColumn.hasClass('icon-sort-by-attributes') ? "asc" : "desc";
+    }
+
+    return sortParams;
+  }
+
+  function getSearchParams(){
+    var para = {};
+    _search_query = $('#get_search_query').val();
+    if(_search_query) {
+      para.search_query = _search_query;
+    }
+
+    return para;
+  }

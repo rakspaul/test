@@ -8,6 +8,7 @@ class LineitemsController < ApplicationController
   # GET orders/{order_id}/lineitems
   def index
     @order = Order.find(params[:order_id])
+    @lineitems = @order.lineitems.order('alt_ad_id ASC')
   end
 
   # GET orders/{order_id}/lineitems/new
@@ -31,7 +32,7 @@ class LineitemsController < ApplicationController
   # POST orders/{order_id}/lineitems
   def create
     @order = Order.find(params[:order_id])
-    p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :volume, :rate, :ad_sizes)
+    p = params.require(:lineitem).permit(:name, :active, :start_date, :end_date, :value, :volume, :rate, :ad_sizes)
     @lineitem = @order.lineitems.build(p)
     @lineitem.user = current_user
 

@@ -6,4 +6,8 @@ class Network < ActiveRecord::Base
 
   has_many :ad_sizes
   has_many :users, :foreign_key => "company_id"
+
+  def dfp_url
+    "https://www.google.com/dfp/#{ dart_id }#delivery"
+  end
 end

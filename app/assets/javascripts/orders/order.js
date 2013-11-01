@@ -41,6 +41,35 @@
     }
   });
 
+  Orders.Note = Backbone.Model.extend({
+    url: function() {
+      if(this.isNew()) {
+        return '/orders/' + this.order.id + '/notes';
+      }
+    },
+
+    setOrder: function(order) {
+      this.order = order;
+    },
+
+    toJSON: function() {
+      return _.clone(this.attributes);
+    }
+  });
+
+  Orders.NoteList = Backbone.Collection.extend({
+    url: function() {
+      return '/orders/' + this.order.id + '/notes.json';
+    },
+
+    model: Orders.Note,
+
+    setOrder: function(order) {
+      this.order = order;
+    },
+
+  });
+
   Orders.EmptyView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_search_empty'],
     className: 'no-order-found'
@@ -117,141 +146,6 @@
     }
   });
 
-  /*Orders.EditView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/orders/edit_order'],
-    className: 'edit-order-region',
-    ui: {
-      name: "#name",
-      active: "#active",
-      flight: '#flight',
-      flight_container: '.flight-input',
-      start_date: '#start_date',
-      end_date: '#end_date',
-      advertiser_id: '#advertiser_id',
-      sales_person_id: '#sales_person_id',
-      network_advertiser_id_error: '#network_advertiser_id_error',
-      name_error: '#name_error',
-      sales_person_id_error: '#sales_person_id_error'
-    },
-
-    triggers: {
-      'click .save-order': 'order:save',
-      'click .close-order': 'order:close'
-    },
-
-    initialize: function() {
-      _.bindAll(this, '_close_form');
-      Mousetrap.bind(['esc'], this._close_form);
-    },
-
-    onDomRefresh: function() {
-      // initial flight values
-      this.ui.start_date.val(this.model.get("start_date"));
-      this.ui.end_date.val(this.model.get("end_date"));
-
-      var self = this;
-      this.ui.flight_container.daterangepicker({
-          format: 'YYYY-MM-DD',
-          separator: ' to ',
-          startDate: this.ui.start_date.val(),
-          endDate: this.ui.end_date.val()
-        },
-        function(start, end) {
-          if(start) {
-            self.ui.start_date.val(start.format("YYYY-MM-DD"));
-            self.ui.end_date.val(end.format("YYYY-MM-DD"));
-            self.ui.flight.text(self.ui.start_date.val() + " to " + self.ui.end_date.val());
-          }
-        });
-
-      this.ui.flight.text(this.ui.start_date.val() + " to " + this.ui.end_date.val());
-      this._initialize_advertiser();
-      this._initialize_sales_person();
-    },
-
-    onClose: function() {
-      Mousetrap.unbind('esc');
-    },
-
-    _close_form: function() {
-      this.trigger('order:close');
-    },
-
-    _initialize_advertiser: function() {
-      var advertiser_data = [],
-        self = this;
-      this.$('#advertiser_name').typeahead({
-        source: function (query, process) {
-          return $.get('/advertisers.json', { search: query }, function (data) {
-            advertiser_data = data;
-            return process(_.pluck(data, 'id'));
-          });
-        },
-
-        updater: function(item) {
-          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
-          self.$('#advertiser_id').val(item);
-          return adv.name;
-        },
-
-        sorter: function(items) {
-          return items;
-        },
-
-        matcher: function (item) {
-          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
-          return ~adv.name.toLowerCase().indexOf(this.query.toLowerCase())
-        },
-
-        highlighter: function (item) {
-          var adv = _.find(advertiser_data, function(adv) { return adv.id == item; });
-          var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-          return adv.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>'
-          })
-        },
-        minLength: 1
-      });
-    },
-
-    _initialize_sales_person: function() {
-      var sales_person_data = [],
-        self = this;
-      this.$('#sales_person_name').typeahead({
-        source: function (query, process) {
-          return $.get('/sales_people.json', { search: query }, function (data) {
-            sales_person_data = data;
-            return process(_.pluck(data, 'id'));
-          });
-        },
-
-        updater: function(item) {
-          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
-          self.$('#sales_person_id').val(item);
-          return sp.name;
-        },
-
-        sorter: function(items) {
-          return items;
-        },
-
-        matcher: function (item) {
-          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
-          return ~sp.name.toLowerCase().indexOf(this.query.toLowerCase())
-        },
-
-        highlighter: function (item) {
-          var sp = _.find(sales_person_data, function(sp) { return sp.id == item; });
-          var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&')
-          return sp.name.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-            return '<strong>' + match + '</strong>'
-          })
-        },
-        minLength: 1
-      });
-    }
-  });*/
-
   Orders.UploadView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/upload_order'],
 
@@ -276,6 +170,19 @@
         done: this._uploadSuccess,
         fail: this._uploadFailed
       });
+
+      // IE double click fix
+      if (navigator.userAgent.indexOf("MSIE") > 0) {
+        this.ui.io_fileupload.bind('mousedown',function(event) {
+          if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            $(this).get(0).dispatchEvent(e);
+          } else {
+            $(this).trigger("click");
+          }
+        });
+      }
     },
 
     _uploadStarted: function(e) {
@@ -288,6 +195,9 @@
       this.ui.upload_status.html("<h4>Successfully uploaded.</h4>");
       var orderModel = new Orders.Order(data.result.order);
       var lineItems  = new ReachUI.LineItems.LineItemList(data.result.lineitems);
+      _.each(lineItems.models, function(li, index) {
+        li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
+      });
       this.trigger('io:uploaded', orderModel, lineItems);
     },
 
@@ -314,4 +224,74 @@
       this.ui.upload_status.addClass('alert alert-error');
     }
   });
+
+  ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
+    el: "#order-notes"
+  });
+
+  ReachUI.Orders.NoteView = Backbone.Marionette.ItemView.extend({
+    tagName:'tr',
+    template: JST['templates/orders/note_list_item'],
+  });
+
+  ReachUI.Orders.NoteListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/orders/note_list'],
+    itemView: ReachUI.Orders.NoteView,
+
+    events: {
+      'keypress #note_input' : 'saveNote',
+      'click #btnSave' : 'saveNote'
+    },
+
+    ui: {
+      note_input: '#note_input',
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+    },
+
+    appendHtml: function(collectionView, itemView){
+        collectionView.$("tbody").append(itemView.el);
+    },
+
+    saveNote: function(event) {
+      if (event.type === 'keypress' && event.keyCode != 13) {
+        return;
+      }
+
+      if(this.ui.note_input.val().trim() == "") {
+        return;
+      }
+
+      var prop = {
+        note: this.ui.note_input.val().trim(),
+        created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+        username: window.current_user_name
+      }
+
+      this.model = new ReachUI.Orders.Note(prop);
+      this.model.setOrder(this.options.order);
+      this.collection.unshift(this.model);
+
+      this.options.order.set('notes', this.collection);
+
+      if(this.model.isNew()) {
+        this._onSaveSuccess();
+      } else {
+        this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+      }
+    },
+
+    _onSaveSuccess: function(event) {
+      this.ui.note_input.val('');
+      this.render();
+    },
+
+    _onSaveFailure: function() {
+
+    }
+
+  });
+
 })(ReachUI.namespace("Orders"));
