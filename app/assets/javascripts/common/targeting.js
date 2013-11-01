@@ -54,7 +54,7 @@
 
         // sync select w/ checkboxes
         self.$el.find('.dmas .dmas-checkboxes-container input:checkbox').each(function(index) {
-          if(selected_values.indexOf(String(this.value)) >= 0) {
+          if(selected_values != null && selected_values.indexOf(String(this.value)) >= 0) {
             this.checked = true;
           } else {
             this.checked = false;
@@ -78,7 +78,7 @@
 
         // sync select w/ checkboxes
         self.$el.find('.key-values .key-values-checkboxes-container input:checkbox').each(function(index) {
-          if(selected_values.indexOf(String(this.value)) >= 0) {
+          if(selected_values != null && selected_values.indexOf(String(this.value)) >= 0) {
             this.checked = true;
           } else {
             this.checked = false;
