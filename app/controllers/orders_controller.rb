@@ -389,7 +389,6 @@ private
           ad_object.order_id = @order.id
           ad_object.ad_type  = "STANDARD"
           ad_object.network_id = current_network.id
-          ad_object.keyvalue_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.cost_type = "CPM"
 
           if li_saved
@@ -417,6 +416,7 @@ private
 
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
+            ad_object.update_attribute(:keyvalue_targeting, ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
 
