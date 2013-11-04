@@ -24,6 +24,7 @@
     initialize: function() {
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
+      this.custom_key_values = false;
     },
 
     serializeData: function(){
@@ -70,7 +71,11 @@
 
         for(var i = 0; i < this.options.length; i++) {
           if(this.options[i].selected) {
-            selected.push({id: this.options[i].value, title: this.options[i].text});
+            var value = this.options[i].value,
+                audience_group = _.find(self.model.get('audience_groups'), function(el) {
+                  return el.id == value;
+                });
+            selected.push({id: value, title: this.options[i].text, key_values: audience_group.key_values});
           }
         }
 
@@ -113,8 +118,8 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes') };
-      var html = JST['templates/targeting/selected_targeting'](dict);     
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), custom_key_values: this.custom_key_values };
+      var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
     },
 
@@ -130,6 +135,10 @@
       });
     },
 
+    _addCustomKV: function(e) {
+      this.$el.find('.add-custom-keyvalue-btn').html('<input type="text" name="custom_kvs" class="custom-kvs-field"/>')
+    },
+
     _handleKVCheckboxes: function(e) {
       var select = this.$el.find('.key-values .chosen-select')[0],
           checked_value = e.currentTarget.value,
@@ -140,7 +149,10 @@
           checked_text = select.options[i].text;
           if(e.currentTarget.checked) {
             $(select.options[i]).attr('selected', 'selected'); // sync checkboxes with select
-            this._addKVToSelectedKeyValues({id: checked_value, title: checked_text});
+            var audience_group = _.find(this.model.get('audience_groups'), function(el) {
+              return el.id == checked_value;
+            });
+            this._addKVToSelectedKeyValues({id: checked_value, title: checked_text, key_values: audience_group.key_values});
           } else {
             $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
             this._removeKVFromSelectedKeyValues(checked_value);
@@ -188,20 +200,6 @@
       this._renderSelectedTargetingOptions();
     },
 
-    /*_toggleKeyValuesTargeting: function(e) {
-      var targeting = e.currentTarget.value;
-      var kv = this.model.attributes.selected_key_values;
-
-      if(e.currentTarget.checked == true) {
-        kv.push(targeting);
-      } else {
-        var index = kv.indexOf(targeting);
-        kv.splice(index, 1);
-      }
-      
-      this._renderSelectedTargetingOptions();
-    },*/
-
     _updateZipCodes: function(e) {
       var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
       this.model.attributes.selected_zip_codes = _.collect(zip_codes, function(el) { return el.trim() } );
@@ -213,7 +211,13 @@
     },
 
     _toggleCustomRegularKeyValues: function() {
-      
+      if(this.custom_key_values) {
+        this.ui.kv_type_switch.html('Custom K/V')
+      } else {
+        this.ui.kv_type_switch.html('Regular K/V')
+      }
+      this.custom_key_values = ! this.custom_key_values;
+      this._renderSelectedTargetingOptions();
     },
 
     _showRemoveTgtBtn: function(e) {
@@ -271,6 +275,10 @@
       this.$el.find('.tab.zip-codes textarea').val(this.model.attributes.selected_zip_codes.join(', '));
     },
 
+    ui: {
+      kv_type_switch: '.custom-regular-keyvalue-btn span'
+    },
+
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
       'click .dmas .dmas-checkboxes-container input:checkbox': '_handleDmasCheckboxes',
@@ -278,6 +286,7 @@
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .dmas': '_showDMAsTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
+      'click .add-custom-keyvalue-btn': '_addCustomKV',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
       'mouseenter .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_showRemoveTgtBtn',

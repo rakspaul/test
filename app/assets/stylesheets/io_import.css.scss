@@ -556,13 +556,44 @@ $wide_input_width: 480px;
     width: 38%;
     float: left;
     padding-left: 25px;
+    
+    .custom-kvs-field {
+      border:2px $text_color solid;
+      border-top:0px;
+      width: 520px;
+      border-radius: 0px;
+    }
+
+    .add-custom-keyvalue-btn {
+      color: $text_color;
+      cursor: pointer;
+      margin-top:10px;
+    }
+
+    .custom-kv-container {
+      margin-top:10px;
+    }
 
     .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container {
       float:left;
       margin-left: 5px;
 
+      span.custom-kvs {
+        clear: both;
+        float: left;
+        width: 520px;
+        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
+        white-space: -pre-wrap;      /* Opera 4-6 */
+        white-space: -o-pre-wrap;    /* Opera 7 */
+        white-space: pre-wrap;       /* css-3 */
+        word-wrap: break-word;       /* Internet Explorer 5.5+ */
+        word-break: break-all;
+        white-space: normal;
+      }
+
       .tgt-item-caption {
-        float:left
+        float:left;
+        color: $text_color;
       }
 
       .remove-btn {
