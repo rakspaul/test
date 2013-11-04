@@ -111,7 +111,7 @@ ReachUI.checkOrderStatus = function(order_id) {
   var current_order_state = $('.current-io-status-top .io-status').html().trim();
   current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
 
-  if(current_order_state.trim() == "Pushing") {
+  if(current_order_state == "Pushing") {
     // pulsate the 'Pushing' status
     $('.current-io-status-top').effect('pulsate', {duration: 9000000, times: 10000}); // 25h
 
@@ -120,7 +120,8 @@ ReachUI.checkOrderStatus = function(order_id) {
       $.get('/orders/'+order_id+'/status', function(resp) {
         if(resp.status != "Pushing") {
           $('.current-io-status-top').stop(true, true); // stop current running animation
-          $('.current-io-status-top').css('opacity', 1).html(resp.status)
+          $('.current-io-status-top').css('opacity', 1);
+          $('.current-io-status-top .io-status').html(resp.status);
           clearInterval(statusCheckTimer);
 
           ReachUI.Orders.router.options.controller.orderList.remove(order_id);
