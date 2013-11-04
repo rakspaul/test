@@ -8,7 +8,8 @@
         selected_dmas: [],
         dmas_list: [],
         audience_groups: [],
-        selected_zip_codes: []
+        selected_zip_codes: [],
+        keyvalue_targeting: ''
       }
     },
 
@@ -34,6 +35,7 @@
       data.selected_dmas = this.model.get('selected_dmas');
       data.selected_zip_codes = this.model.get('selected_zip_codes');
       data.audience_groups = this.model.get('audience_groups');
+      data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       return data;
     },
 
@@ -118,7 +120,7 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), custom_key_values: this.custom_key_values };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), custom_key_values: this.custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
     },
@@ -136,7 +138,8 @@
     },
 
     _addCustomKV: function(e) {
-      this.$el.find('.add-custom-keyvalue-btn').html('<input type="text" name="custom_kvs" class="custom-kvs-field"/>')
+      this.$el.find('.add-custom-keyvalue-btn').toggle();
+      this.$el.find('.custom-kvs-field').toggle();
     },
 
     _handleKVCheckboxes: function(e) {
@@ -206,16 +209,16 @@
       this._renderSelectedTargetingOptions();
     },
 
+    _updateCustomKVs: function(e) {
+      this.model.attributes.keyvalue_targeting = e.currentTarget.value;
+    },
+
     _closeTargetingDialog: function() {
       this.options.parent_view._toggleTargetingDialog();    
     },
 
     _toggleCustomRegularKeyValues: function() {
-      if(this.custom_key_values) {
-        this.ui.kv_type_switch.html('Custom K/V')
-      } else {
-        this.ui.kv_type_switch.html('Regular K/V')
-      }
+      this.ui.kv_type_switch.html(this.custom_key_values ? 'Custom K/V' : 'Regular K/V')
       this.custom_key_values = ! this.custom_key_values;
       this._renderSelectedTargetingOptions();
     },
@@ -288,6 +291,7 @@
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'click .add-custom-keyvalue-btn': '_addCustomKV',
       'keyup .zip-codes textarea': '_updateZipCodes',
+      'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
       'mouseenter .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
       'mouseleave .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',

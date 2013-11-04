@@ -12,6 +12,7 @@ json.array! @order.ads do |ad|
     json.volume ad.ad_pricing.try(:quantity).to_i
     json.value ad.ad_pricing.try(:value).to_i
     json.io_lineitem_id ad.io_lineitem_id
+    json.keyvalue_targeting ad.keyvalue_targeting
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
   end
 
