@@ -15,11 +15,13 @@
   } %>
   <% var separator = custom_key_values ? '<div style="float:left"></div>' : '<div style="float:left">,</div>' %>
   <%= kv.join(separator) %>
-  <% if(custom_key_values){ %>
+
+  <% if(custom_key_values) { %>
   <div style="clear:both"></div>
-  <div class="add-custom-keyvalue-btn">
+  <div class="add-custom-keyvalue-btn" <%= keyvalue_targeting ? 'style="display:none"' : '' %>>
   + Add Custom K/V
   </div>
+  <input type="text" name="custom_kvs" value="<%= keyvalue_targeting %>" class="custom-kvs-field" <%= keyvalue_targeting ? '' : 'style="display:none"' %> />
   <% } %>
 </div>
 <% } %>
