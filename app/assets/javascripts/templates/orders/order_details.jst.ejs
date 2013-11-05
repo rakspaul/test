@@ -44,7 +44,7 @@
     <span class="io-status"><%= order.order_status %></span>
     <% if(!isNaN(parseInt(order.source_id))) { %>
       <div class="current-io-source-id">
-        <a href="<%= order.dfp_url %>"><%= order.source_id %></a>
+        <a href="<%= order.dfp_url %>" target="_blank"><%= order.source_id %></a>
       </div>
     <% } %>
   </div>
