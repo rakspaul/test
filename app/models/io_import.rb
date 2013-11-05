@@ -246,6 +246,7 @@ class IOExcelFileReader
   REACH_CLIENT_CELL               = ['G', 18]
 
   INREDS_SPREADSHEET_PAGE         = 1
+  INREDS_SPREADSHEET_NAME         = 'InRed Creation'
   INREDS_START_ROW                = 4
   INREDS_AD_ID_COLUMN             = 'E'
   INREDS_PLACEMENT_COLUMN         = 'G'
@@ -368,8 +369,9 @@ class IOExcelFileReader
   end
 
   def inreds
+    return if @spreadsheet.sheets[INREDS_SPREADSHEET_PAGE] != INREDS_SPREADSHEET_NAME
     row = INREDS_START_ROW
-    
+
     change_sheet INREDS_SPREADSHEET_PAGE do
       while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
         yield({
