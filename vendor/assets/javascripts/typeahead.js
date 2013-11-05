@@ -1,5 +1,5 @@
 /*!
- * typeahead.js 0.9.3 [patched by dsamoilov version]
+ * typeahead.js 0.9.3
  * https://github.com/twitter/typeahead
  * Copyright 2013 Twitter, Inc. and other contributors; Licensed MIT
  */
@@ -521,12 +521,10 @@
             },
             getSuggestions: function(query, cb) {
                 var that = this, terms, suggestions, cacheHit = false;
-                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
-                //if (query.length < this.minLength) {
-                //    return;
-                //}
+                if (query.length < this.minLength) {
+                    return;
+                }
                 terms = utils.tokenizeQuery(query);
-
                 suggestions = this._getLocalSuggestions(terms).slice(0, this.limit);
                 if (suggestions.length < this.limit && this.transport) {
                     cacheHit = this.transport.get(query, processRemoteData);
@@ -912,11 +910,11 @@
             $hint = this.$node.find(".tt-hint");
             this.dropdownView = new DropdownView({
                 menu: $menu
-            }).on("suggestionSelected", this._handleSelection).on("cursorMoved", this._clearHint).on("cursorMoved", this._setInputValueToSuggestionUnderCursor).on("cursorRemoved", this._setInputValueToQuery).on("cursorRemoved", this._updateHint).on("closed", this._clearHint).on("opened closed", this._propagateEvent); //on("opened", this._updateHint).on("suggestionsRendered", this._updateHint)
+            }).on("suggestionSelected", this._handleSelection).on("cursorMoved", this._clearHint).on("cursorMoved", this._setInputValueToSuggestionUnderCursor).on("cursorRemoved", this._setInputValueToQuery).on("cursorRemoved", this._updateHint).on("suggestionsRendered", this._updateHint).on("opened", this._updateHint).on("closed", this._clearHint).on("opened closed", this._propagateEvent);
             this.inputView = new InputView({
                 input: $input,
                 hint: $hint
-            }).on("focused", this._openDropdown).on("blured", this._closeDropdown).on("blured", this._setInputValueToQuery).on("enterKeyed tabKeyed", this._handleSelection).on("queryChanged", this._clearHint).on("queryChanged", this._clearSuggestions).on("queryChanged", this._getSuggestions).on("queryChanged whitespaceChanged", this._openDropdown).on("queryChanged whitespaceChanged", this._setLanguageDirection).on("escKeyed", this._closeDropdown).on("escKeyed", this._setInputValueToQuery).on("tabKeyed upKeyed downKeyed", this._managePreventDefault).on("upKeyed downKeyed", this._moveDropdownCursor).on("upKeyed downKeyed", this._openDropdown).on("tabKeyed leftKeyed rightKeyed", this._autocomplete); // .on("whitespaceChanged", this._updateHint)
+            }).on("focused", this._openDropdown).on("blured", this._closeDropdown).on("blured", this._setInputValueToQuery).on("enterKeyed tabKeyed", this._handleSelection).on("queryChanged", this._clearHint).on("queryChanged", this._clearSuggestions).on("queryChanged", this._getSuggestions).on("whitespaceChanged", this._updateHint).on("queryChanged whitespaceChanged", this._openDropdown).on("queryChanged whitespaceChanged", this._setLanguageDirection).on("escKeyed", this._closeDropdown).on("escKeyed", this._setInputValueToQuery).on("tabKeyed upKeyed downKeyed", this._managePreventDefault).on("upKeyed downKeyed", this._moveDropdownCursor).on("upKeyed downKeyed", this._openDropdown).on("tabKeyed leftKeyed rightKeyed", this._autocomplete);
         }
         utils.mixin(TypeaheadView.prototype, EventTarget, {
             _managePreventDefault: function(e) {
@@ -968,10 +966,6 @@
                 this.inputView.setInputValue(suggestion.value, true);
             },
             _openDropdown: function() {
-                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
-                if(utils.isBlankString(this.inputView.getInputValue())) {
-                  this._getSuggestions();
-                }
                 this.dropdownView.open();
             },
             _closeDropdown: function(e) {
@@ -994,10 +988,9 @@
             },
             _getSuggestions: function() {
                 var that = this, query = this.inputView.getQuery();
-                // [https://github.com/collectivemedia/reachui/issues/19] Add drop down lists for DFP Advertisers and Contacts
-                //if (utils.isBlankString(query)) {
-                //    return;
-                //}
+                if (utils.isBlankString(query)) {
+                    return;
+                }
                 utils.each(this.datasets, function(i, dataset) {
                     dataset.getSuggestions(query, function(suggestions) {
                         if (query === that.inputView.getQuery()) {
