@@ -3,8 +3,8 @@ Reach UI
 
 Current deployed locations:
 -
-* http://qa-ampapp1.collective-media.net:8080/
-* http://stg-ampapp1.collective-media.net:8080/
+* https://qa-reach.collective.com
+* https://reach.collective.com
 
 How to deploy:
 -
