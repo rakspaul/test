@@ -21,7 +21,7 @@ set :deploy_via, :remote_cache
 set :git_enable_submodules, true
 set :branch, :master
 
-set :stages, %w(stg qa)
+set :stages, %w(stg qa production)
 set :default_stage, "qa"
 
 set :reachui_user,  "amp"
