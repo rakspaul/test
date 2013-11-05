@@ -20,8 +20,8 @@
 //= require backbone.marionette
 //= require typeahead
 //= require twitter/bootstrap/modal
-//= require bootstrap-popup-tooltip.js
 //= require twitter/bootstrap/tab
+//= require bootstrap-popup-tooltip.js
 //= require bootstrap-editable.js
 //= require select2.min.js
 //= require jquery-fileupload/basic
