@@ -8,13 +8,17 @@ FactoryGirl.define do
 
   factory :order do
     name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977" 
-    start_date (Time.current + 1.day)
-    end_date (Time.current + 22.days)
+    start_date 1.day.from_now
+    end_date   22.day.from_now
     network { FactoryGirl.singleton :network }
+    advertiser
+    user
   end
 
   factory :order_with_lineitem, :parent => :order do
-    lineitem { FactoryGirl.create(:lineitem_with_ad) }
+    after(:create) do |ord|
+      create_list(:lineitem_with_ad, order: ord)
+    end
   end
         
   factory :io_detail do
@@ -28,18 +32,21 @@ FactoryGirl.define do
                             
   factory :lineitem do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON"
-    start_date (Time.current + 1.day)
-    end_date (Time.current + 22.days)
+    start_date 1.day.from_now
+    end_date   22.day.from_now
     volume  300_000
     rate  2.22
     value 666.00
     ad_sizes "160x600, 300x250, 728x90"
     alt_ad_id "1"
-    targeted_zipcodes "12345, 56789" 
+    targeted_zipcodes "12345, 56789"
+    user
   end
 
   factory :lineitem_with_ad, :parent => :lineitem do
-    ad { FactoryGirl.create(:ad) }
+    after(:create) do |li|
+      create_list(:ad, lineitem: li)
+    end
   end
 
   factory :ad do
@@ -48,9 +55,10 @@ FactoryGirl.define do
     size  "160x600"
     rate  2.22
     cost_type "CPM"
-    start_date (Time.current - 1.day)
-    end_date (Time.current + 2.days)
+    start_date 1.day.from_now
+    end_date   22.day.from_now
     alt_ad_id "1"
-    keyvalue_targeting "12345, 56789" 
+    keyvalue_targeting "12345, 56789"
+    order
   end
 end
