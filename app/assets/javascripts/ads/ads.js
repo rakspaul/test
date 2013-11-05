@@ -118,9 +118,6 @@
         // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
         self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
 
-        // update caption with Ad sizes for LI
-        self.options.parent_view._updateCreativesCaption(); // this invokes rerendering of this AdView
-
         // update caption with Ad size for this Ad
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
@@ -185,7 +182,7 @@
 
         $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-         
+
           self.model.get('targeting').set('dmas_list', dmas_list);
           self.model.get('targeting').set('audience_groups', ags.attributes);
           self.renderTargetingDialog();
@@ -235,7 +232,7 @@
       e.stopPropagation();
       this.$el.find('.delete-btn').hide();
     },
-    
+
     _destroyAd: function(e) {
       var li_ads = this.options.parent_view.model.ads;
       var cid = this.model.cid;
