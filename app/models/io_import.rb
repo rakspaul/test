@@ -135,7 +135,7 @@ class IoImport
           li_inreds.map! do |creative|
             creative[:start_date] = li.start_date
             creative[:end_date]   = li.end_date
-            creative[:creative_type] = "CustomCreative"
+            creative[:creative_type] = "InternalRedirectCreative"
             creative
           end
         end

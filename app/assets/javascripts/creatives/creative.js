@@ -242,7 +242,7 @@
       var creative = new ReachUI.Creatives.Creative({
         start_date: parentModel.get('start_date'),
         end_date:   parentModel.get('end_date'),
-        creative_type: "CustomCreative"
+        creative_type: "InternalRedirectCreative"
       });
 
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});
