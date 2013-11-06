@@ -410,7 +410,8 @@
             if (response.state.match(/pushing/i)) {
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
-            } else if(response.state.match(/draft/i)) {
+            } else if(response.state.match(/draft/i) ||
+                                  (response.state.match(/failure/i) && response.order_id)) {              
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
