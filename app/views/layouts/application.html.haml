@@ -42,15 +42,15 @@
     .app_content
       = content_for?(:content) ? yield(:content) : yield
 
-:javascript
-  $(document).ready(function() {
-  // If application is loaded in IFrame then hide the header (Flex loads this application in IFrame).
-    var isInIFrame = (window.location != window.parent.location) ? true : false;
-    if(isInIFrame) {
-      $('#app_header').hide();
-      $('#breadcrumbs').hide();
-    }
-  });
+    :javascript
+      $(document).ready(function() {
+      // If application is loaded in IFrame then hide the header (Flex loads this application in IFrame).
+        var isInIFrame = (window.location != window.parent.location) ? true : false;
+        if(isInIFrame) {
+          $('#app_header').hide();
+          $('#breadcrumbs').hide();
+        }
+      });
 
-  window.current_user_name = "#{current_user.try(:full_name)}";
+      window.current_user_name = "#{current_user.try(:full_name)}";
 

@@ -8,6 +8,12 @@ FactoryGirl.define do
     f.client_type "Network"
     network { FactoryGirl.singleton :network }
   end
+
+  factory :default_user, :parent => :user do |f|
+    id 1
+    first_name "Sean"
+    last_name  "Durnan"
+  end
 end
 
 

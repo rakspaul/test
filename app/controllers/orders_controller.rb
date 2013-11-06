@@ -23,7 +23,6 @@ class OrdersController < ApplicationController
   end
 
   def create
-    puts params[:order].inspect
     reach_client = ReachClient.find_by id: params[:order][:reach_client_id]
     errors_list = {}
 

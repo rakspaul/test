@@ -25,9 +25,13 @@ FactoryGirl.define do
   end
             
   factory :reach_client do
+    id 1
     name "Test Reach Client Name"
     abbr "TRCN"
     network { FactoryGirl.singleton :network }
+    user_id { FactoryGirl.singleton(:user).id }
+    sales_person    { FactoryGirl.create :user }
+    account_manager { FactoryGirl.create :user }
   end
                             
   factory :lineitem do
