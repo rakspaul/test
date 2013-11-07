@@ -75,13 +75,6 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
-    #@order.valid?
-
-    #if !errors_list.blank?
-    #  render json: {status: 'error', errors: errors_list.merge(@order.errors)}
-    #  return
-    #end
-
     respond_to do |format|
       Order.transaction do
         order_valid = @order.valid?

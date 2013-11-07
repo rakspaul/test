@@ -11,7 +11,7 @@ FactoryGirl.define do
     start_date 1.day.from_now
     end_date   22.day.from_now
     network { FactoryGirl.singleton :network }
-    advertiser
+    advertiser { FactoryGirl.singleton :advertiser }
     user
   end
 

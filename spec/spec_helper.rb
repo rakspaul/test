@@ -7,6 +7,8 @@ require 'authlogic/test_case'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 
+require File.dirname(__FILE__) + "/controller_macros"
+
 include Authlogic::TestCase
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -40,7 +42,8 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  config.include(ControllerMacros, :type => :controller)
 end
 
 Capybara.javascript_driver = :poltergeist
-
