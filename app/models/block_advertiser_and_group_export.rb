@@ -24,7 +24,7 @@ class BlockAdvertiserAndGroupExport
 
         sites_hash = {
           "adv_name" => adv_name,
-          "sites_name" => sites_arr.compact
+          "sites_name" => sites_arr.sort.compact
         }
 
         blocked_adv_arr << sites_hash
@@ -51,7 +51,7 @@ class BlockAdvertiserAndGroupExport
 
         sites_hash = {
           "adv_group_name" => adv_group_name,
-          "sites_name" => sites_arr.compact
+          "sites_name" => sites_arr.sort.compact
         }
 
         blocked_adv_group_arr << sites_hash
