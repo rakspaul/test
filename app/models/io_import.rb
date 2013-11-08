@@ -1,4 +1,5 @@
 require 'roo'
+require 'pdf-reader'
 
 class IoImport
   include ActiveModel::Validations
@@ -12,7 +13,8 @@ class IoImport
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
 
-    @reader               = IOExcelFileReader.new(file)
+    @reader               = file =~ /\.pdf$/ ? IOPdfFileReader.new(file) : IOExcelFileReader.new(file)
+
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
@@ -428,3 +430,160 @@ class IOExcelFileReader
     end
 end
 
+class IOPdfFileReader
+  def initialize(file_object)
+    @file = file_object
+    parse_file
+  end
+
+  def open
+  end
+
+  def change_sheet(num, &block)
+    yield
+  end
+
+  def client_order_id
+    @client_order_id.to_i
+  end
+
+  def reach_client_name
+    @reach_client_name.to_s.strip
+  end
+
+  def advertiser_name
+    @advertiser_name.to_s.strip   
+  end
+
+  def account_contact
+    {
+      phone_number: @account_contact.to_s.strip,
+      email: @account_contact_email.to_s.strip
+    }.merge split_name(@account_contact_name.to_s.strip)
+  end
+
+  def media_contact
+    {
+      name: @media_contact_name.to_s.strip,
+      phone: @media_contact_phone.to_s.strip,
+      email: @contact_media_email.to_s.strip
+    }
+  end
+
+  def trafficking_contact
+    {
+      phone_number: @account_contact_email.to_s.strip,
+      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
+  end
+
+  def sales_person
+    {
+      account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
+      phone_number: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
+      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
+    }.merge split_name(@spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip)
+  end
+
+  def billing_contact
+    {
+      name: @billing_contact_name.to_s.strip,
+      phone: @billing_contact_phone.to_s.strip,
+      email: @billing_contact_email.to_s.strip
+    }
+  end
+
+  def order
+    {
+      name: @order_name.to_s.strip
+    }
+  end
+
+  def start_flight_date
+    parse_date(@end_date)
+  end
+
+  def finish_flight_date
+    parse_date(@end_date)
+  end
+
+  def lineitems 
+    yield({
+      start_date: parse_date(@li_start_date),
+      end_date: parse_date(@li_end_date),
+      ad_sizes: @ad_sizes.join(',').strip.downcase,
+      name: @li_name.to_s.strip,
+      volume: @impressions.to_i,
+      rate: @rate.to_f
+    })
+  end
+
+  def find_notes
+    ""
+  end
+
+  def inreds
+    yield({})
+  end
+
+private
+
+  def parse_file
+    reader = PDF::Reader.new(@file)
+    text = reader.pages[0].text.split("\n").map(&:strip).reject(&:empty?)
+
+    i = 0
+
+    while i < text.length
+      line = text[i]
+  
+      lineitem_regexp = /(?<li_name>.+)\s+(?<li_id>\d+)+\s+Site:(.+)\s+(?<start_date>\d{1,2}\/\d{1,2}\/\d{4})(?<end_date>\d{1,2}\/\d{1,2}\/\d{4})\s+(?<impressions>[\d,\.]+)\s+(?<type>\w+)\s+\$(?<rate>[\d\.]+)\s+\$(?<total>[\d\.]+)/
+
+      case line.strip
+      when /Advertiser/
+        matches = line.match(/Advertiser\s+(.+)Bill To\s+(.+)/)
+        @client_advertiser_name = matches[1].strip
+      when /Campaign Name/
+        matches = line.match(/Campaign Name\s+(.+)Frequency\s+(.+)/)
+        @order_name = matches[1].strip
+      when /Account Manager\s+(.+)Phone\s+(.+)/
+        matches = line.match(/Account Manager\s+(.+)Phone\s+(.+)/)
+        @media_contact = matches[1].strip
+      when /Account Manager Email\s+(.+)Address\s+(.+)/
+        matches = line.match(/Account Manager Email\s+(.+)Address\s+(.+)/)
+        @media_contact_email = matches[1].strip
+      when /AM Phone/
+
+      when /Billing Contact/
+
+      when /Billing Email/
+
+      when /Billing Phone/
+
+      when /ad size\(s\):/mi
+        matches = text[i].match(/ad size\(s\):\s+(\d+x\d+)/mi)    
+        @ad_sizes = [matches[1].strip]
+        i += 1
+      
+        while text[i].to_s.strip != ""
+          matches = text[i].scan(/\d+x\d+/mi)
+          matches.each { |ad_size| @ad_sizes << ad_size.strip }
+          i += 1
+        end
+        @ad_sizes = ad_sizes
+      when lineitem_regexp
+        matches     = line.match(lineitem_regexp)
+
+        @li_end_date    = matches[:end_date]
+        @li_start_date  = matches[:start_date]
+        @li_name        = matches[:li_name].strip
+        @li_id          = matches[:li_id].to_i
+        @impressions    = matches[:impressions]
+        @rate           = matches[:rate]
+        @type           = matches[:type]
+        @total          = matches[:total]
+      end
+      i += 1
+    end
+  end
+end

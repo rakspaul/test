@@ -55,6 +55,9 @@ gem 'aasm'
 # Easy to use, feature complete Ruby client for RabbitMQ 2.0 and later versions.
 gem 'bunny'
 
+# Extract text from PDFs
+gem 'pdf-reader'
+
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
   gem 'shoulda', '~> 3.5.0'
