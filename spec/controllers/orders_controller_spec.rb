@@ -118,6 +118,18 @@ describe OrdersController do
         data = json_parse(response.body)
         expect(data[:errors]).to include(:name)
       end
+
+      it "return lineitems errors" do
+        order = FactoryGirl.create(:order)
+        params['order']['lineitems'].each do |li|
+          li['lineitem']['start_date'] = 21.day.ago.strftime('%Y-%m-%d')
+          li['lineitem']['end_date']   = 1.day.ago.strftime('%Y-%m-%d')
+        end
+        post :create, params
+
+        data = json_parse(response.body)
+        expect(data[:errors][:lineitems]['0'][:lineitems]).to include(:start_date)
+      end
     end
   end
 
