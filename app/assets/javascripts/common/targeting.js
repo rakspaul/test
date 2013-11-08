@@ -93,7 +93,8 @@
         });
     
         self._renderSelectedTargetingOptions();
-      });    
+      });
+      this.$el.find('.key-values .chosen-choices input').width('200px');
 
       this._renderSelectedTargetingOptions();
     },
