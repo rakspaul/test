@@ -369,6 +369,47 @@
 
     }
 
+    .site-list-content{
+      position:relative;
+
+      .site-list{
+        font-size:13px;
+        width:320px;
+        height:497px;
+        background:#fff;
+        border:1px solid #ccc;
+        margin:0 0px 5px 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        ul{
+          margin:0;
+          padding:2px;
+          list-style-type: none;
+        }
+
+        ul li{
+          cursor: pointer;
+          background: #fff;
+          width:301px;
+        }
+
+        ul li.selected{
+          color:#fff;
+          background:#008DD1;
+        }
+      }
+
+      .loading-div{
+        width:308px;
+        height:500px;
+
+        .loading-img{
+          margin-top:240px;
+        }
+      }
+    }
+
   }
 
 }
