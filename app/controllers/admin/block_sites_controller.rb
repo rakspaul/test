@@ -143,22 +143,14 @@ class Admin::BlockSitesController < ApplicationController
 private
 
   def enqueue_for_push
-    require 'bunny'
-
-    connection = Bunny.new(:host => '127.0.0.1', :vhost => "/", :user => "reach", :password => "asd234f#dg")
-    connection.start
-
-    channel = connection.create_channel
-    queue = channel.queue("reach.sites.block", :durable => true)
+    queue_name = "reach.sites.block"
+    rmq = RabbitMQWrapper.new :queue => queue_name 
 
     Rails.logger.warn "Block Site: Commit started by User: #{current_user.account_login} (Name: #{current_user.full_name}, Email: #{current_user.email}) of Network: #{current_network.name} at #{Time.now}"
     msg = current_user.id.to_s
 
-    queue.publish(msg, :persistent => true)
-    Rails.logger.warn " [reach.sites.block] Sent #{msg}"
-
-    connection.close
-
+    rmq.publish(msg)
+    rmq.close
   rescue => e
     Rails.logger.warn "Block Site error: #{e.message.inspect}"
   end
