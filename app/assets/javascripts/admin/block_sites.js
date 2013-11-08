@@ -76,7 +76,11 @@
 
 // --------------------/ Models /------------------------------------
 
-  BlockSites.Site = Backbone.Model.extend({});
+  BlockSites.Site = Backbone.Model.extend({
+    defaults:{
+      selected: false,
+    }
+  });
 
   BlockSites.SiteList = Backbone.Collection.extend({
     url: '/sites/search.json',
@@ -339,20 +343,38 @@
 
   BlockSites.SiteListItemView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= name%>'),
-    tagName: 'option',
+    tagName: 'li',
     attributes: function() {
       return {value: this.model.id};
     },
+
+    triggers:{
+      'click' : 'selected'
+    },
+
+    initialize: function() {
+      this.model.on('change:selected', this.render, this);
+    },
+
+    onRender: function() {
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
+
+    }
   }),
 
   BlockSites.SiteListView = Backbone.Marionette.CompositeView.extend({
     template: JST['templates/admin/block_sites/site_list_view'],
     itemView: BlockSites.SiteListItemView,
+    itemViewContainer: '#sitesList',
 
     events: {
       'click #search_button': 'onSearch',
       'keypress #search_input': 'onSearch',
-      'change #sitesList' : 'onSiteListChange',
+      'click #reset_button' : 'onResetClick',
     },
 
     ui:{
@@ -363,10 +385,12 @@
 
     initialize: function() {
       this.collection = new BlockSites.SiteList();
+      this.selectedSites = new BlockSites.SiteList();
       this.collection.fetch({reset: true});
 
       this.collection.on("fetch", this.onFetch, this);
       this.collection.on("reset", this.onReset, this);
+      this.on('itemview:selected', this.onSiteItemClick, this);
     },
 
     onFetch: function() {
@@ -375,10 +399,7 @@
 
     onReset: function() {
       this.ui.loading_div.hide();
-    },
-
-    appendHtml: function(collectionView, itemView){
-      collectionView.$("#sitesList").append(itemView.el);
+      this.setSelectedItems(true);
     },
 
     onSearch: function(event) {
@@ -389,30 +410,52 @@
       this.collection.fetch({data:{search: searchString}, reset: true});
     },
 
+    onResetClick: function() {
+      this.setSelectedItems(false)
+      this.selectedSites.reset();
+      this.trigger('Get:SiteBlocks', []);
+    },
+
     getSelectedSites: function() {
-      var selectedSites = this.ui.site_list.val();
-      if(selectedSites && selectedSites.length>0) {
-        var sites = []
-        for (var i = 0; i < selectedSites.length; i++) {
-          var site = this.collection.get(selectedSites[i]);
-          sites.push(site)
-        }
-        return sites;
+      if(this.selectedSites && this.selectedSites.length > 0) {
+        return this.selectedSites.models
       } else {
         return [];
       }
     },
 
-    onSiteListChange: function(event) {
-      var selectedSites = this.ui.site_list.val();
-      if(selectedSites && selectedSites.length>0) {
-        this.trigger('Get:SiteBlocks', selectedSites)
+    onSiteItemClick: function(event){
+      var selectedItem = event.model,
+      vo = this.selectedSites.get(event.model.id);
+
+      if (vo) {
+        this.selectedSites.remove(vo);
+        selectedItem.set({selected: false});
+      } else {
+        this.selectedSites.add(event.model);
+        selectedItem.set({selected: true});
+      }
+
+      if(this.selectedSites) {
+        this.trigger('Get:SiteBlocks', this.selectedSites.pluck('id'))
       }
     },
 
+    setSelectedItems: function(value) {
+      this.selectedSites.each(function(site) {
+        var vo = this.collection.get(site.id);
+        if(vo) {
+          vo.set({selected: value});
+        }
+      }, this);
+    },
+
     getSelectedSiteIds: function() {
-      var selectedSites = this.ui.site_list.val();
-      return selectedSites;
+      if(this.selectedSites && this.selectedSites.length > 0) {
+        return this.selectedSites.pluck('id');
+      } else {
+        return [];
+      }
     },
 
   });
@@ -884,9 +927,14 @@
 
     // When user selects the site this method will fetch the blocked advertisers and advertiser blocks
     _getSiteBlocks: function(sites) {
-      this.blockedAdvertiserList.setSites(sites);
-      this.blockedAdvertiserGroupList.setSites(sites);
-      this._fetchSiteBlocks();
+      if(sites && sites.length > 0 ) {
+        this.blockedAdvertiserList.setSites(sites);
+        this.blockedAdvertiserGroupList.setSites(sites);
+        this._fetchSiteBlocks();
+      } else {
+        this.blockedAdvertiserList.reset();
+        this.blockedAdvertiserGroupList.reset();
+      }
     },
 
     _fetchSiteBlocks: function() {
