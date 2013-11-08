@@ -2,8 +2,8 @@ require 'bunny'
 
 RABBITMQ_HOST     = ENV['rabbitmq_host']      || '127.0.0.1'
 RABBITMQ_VHOST    = ENV['rabbitmq_vhost']     || "/"
-RABBITMQ_USER     = ENV['rabbitmq_user']      || "reach"
-RABBITMQ_PASSWORD = ENV['rabbitmq_password']  || "asd234f#dg"
+RABBITMQ_USER     = ENV['rabbitmq_user']      || "guest"
+RABBITMQ_PASSWORD = ENV['rabbitmq_password']  || "guest"
 
 class RabbitMQWrapper
   def initialize(options)
