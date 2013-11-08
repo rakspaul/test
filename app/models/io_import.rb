@@ -13,14 +13,13 @@ class IoImport
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
 
-    @reader               = file =~ /\.pdf$/ ? IOPdfFileReader.new(file) : IOExcelFileReader.new(file)
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
 
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
-    @trafficking_contact  = Struct.new(:name, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
     @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
   end
@@ -34,7 +33,6 @@ class IoImport
     read_media_contact
     read_billing_contact
     read_sales_person
-    read_trafficking_contact
 
     read_order_and_details
     read_lineitems
@@ -62,10 +60,6 @@ class IoImport
 
     def read_media_contact
       @media_contact = @reader.media_contact
-    end
-
-    def read_trafficking_contact
-      @trafficking_contact = @reader.trafficking_contact
     end
 
     def read_sales_person
@@ -167,6 +161,7 @@ class IoImport
     end
 
     def find_trafficking_contact
+      @trafficking_contact = {name: @current_user.full_name, email: @current_user.email, phone: @current_user.phone_number}
       @current_user
     end
 
@@ -207,11 +202,39 @@ class IoImport
     end
 end
 
-class IOExcelFileReader
-  LINE_ITEM_START_ROW = 29
-  
+class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
+
+  def split_name name
+    parts = name.split(/\W+/)
+    case parts.length
+    when 0..1
+      {first_name: name}
+    when 2
+      {first_name: parts[0], last_name: parts[1]}
+    else
+      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
+    end
+  end
+
+  def parse_date str
+    return str if str.is_a?(Date)
+
+    if str.index('-')
+      Date.strptime(str.strip)
+    elsif str.index('.')
+      Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
+    else
+      Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+    end
+  rescue
+    nil
+  end
+end
+
+class IOExcelFileReader < IOReader
+  LINE_ITEM_START_ROW = 29
 
   ADVERTISER_LABEL_CELL           = ['A', 18]
   ADVERTISER_CELL                 = ['C', 18]
@@ -307,13 +330,6 @@ class IOExcelFileReader
     }
   end
 
-  def trafficking_contact
-    {
-      phone_number: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
-      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
-    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
-  end
-
   def sales_person
     {
       account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
@@ -389,48 +405,22 @@ class IOExcelFileReader
     end
   end
 
-  private
+private
 
-    def parse_date str
-      return str if str.is_a?(Date)
-
-      if str.index('-')
-        Date.strptime(str.strip)
-      elsif str.index('.')
-        Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
-      else
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
-      end
-    rescue
-      nil
+  def open_based_on_file_extension
+    ext = File.extname(@file.original_filename)
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
+      Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
     end
-
-    def open_based_on_file_extension
-      ext = File.extname(@file.original_filename)
-      case ext
-      when '.xls'
-        Roo::Excel.new(@file.path, nil, :ignore)
-      when '.xlsx'
-        Roo::Excelx.new(@file.path, nil, :ignore)
-      else
-        raise "Unknown file type: #{@file.original_filename}"
-      end
-    end
-
-    def split_name name
-      parts = name.split(/\W+/)
-      case parts.length
-      when 0..1
-        {first_name: name}
-      when 2
-        {first_name: parts[0], last_name: parts[1]}
-      else
-        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
-      end
-    end
+  end
 end
 
-class IOPdfFileReader
+class IOPdfFileReader < IOReader
   def initialize(file_object)
     @file = file_object
     parse_file
@@ -470,19 +460,11 @@ class IOPdfFileReader
     }
   end
 
-  def trafficking_contact
-    {
-      phone_number: @account_contact_email.to_s.strip,
-      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
-    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
-  end
-
   def sales_person
     {
-      account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
-      phone_number: @spreadsheet.cell(*SALES_PERSON_PHONE_CELL).to_s.strip,
-      email: @spreadsheet.cell(*SALES_PERSON_EMAIL_CELL).to_s.strip
-    }.merge split_name(@spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip)
+      phone_number: @account_contact.to_s.strip,
+      email: @account_contact_email.to_s.strip
+    }.merge split_name(@account_contact_name.to_s.strip)
   end
 
   def billing_contact
@@ -570,7 +552,6 @@ private
           matches.each { |ad_size| @ad_sizes << ad_size.strip }
           i += 1
         end
-        @ad_sizes = ad_sizes
       when lineitem_regexp
         matches     = line.match(lineitem_regexp)
 
