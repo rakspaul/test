@@ -56,10 +56,9 @@ set(:unicorn_env) { rails_env }
 set(:app_env)     { rails_env }
 
 require 'capistrano-unicorn'
-after 'deploy:update_code', 'deploy:copy_rabbitmq_config'
 after 'deploy:restart', 'unicorn:reload' # app IS NOT preloaded
 after 'deploy:restart', 'unicorn:restart'  # app preloaded
-after "deploy:finalize_update", "deploy:file_store_symlink"
+after 'deploy:finalize_update', 'deploy:file_store_symlink', 'deploy:copy_rabbitmq_config'
 
 task :display_branch, :except => {:no_release => true} do
   puts "\nDEPLOYING #{branch} branch of #{application} to #{stage}\n\n"
