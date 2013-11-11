@@ -4,7 +4,7 @@ class DesignatedMarketAreasController < ApplicationController
   respond_to :json
 
   def index
-    @dmas = DesignatedMarketArea.all
+    @dmas = DesignatedMarketArea.all order: :name
 
     respond_with(@dmas)
   end

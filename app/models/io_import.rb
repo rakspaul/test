@@ -208,6 +208,8 @@ end
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
   
+  DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
+
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
@@ -396,6 +398,8 @@ class IOExcelFileReader
         Date.strptime(str.strip)
       elsif str.index('.')
         Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
+      elsif str.split('/').try(:last).try(:length) == 2
+        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
       else
         Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
       end
