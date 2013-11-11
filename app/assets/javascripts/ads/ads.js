@@ -119,12 +119,16 @@
         self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
 
         // update caption with Ad size for this Ad
-        _.each(creatives, function(el) {
-          creatives_sizes.push(el.get('ad_size'));
-        });
+        if (creatives.length > 0) {
+          _.each(creatives, function(el) {
+            creatives_sizes.push(el.get('ad_size'));
+          });
 
-        var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-        self.ui.ads_sizes.html(uniq_creative_sizes);
+          var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
+          if (uniq_creative_sizes) {
+            self.ui.ads_sizes.html(uniq_creative_sizes);
+          }
+        }
 
         self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
       });
