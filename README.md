@@ -68,4 +68,37 @@ class RailsModel < ActiveRecord::Base
 end
 ```
 
+Testing:
+-
 
+There're used rspec for server side tests and Jasmine for frontend specs.
+
+###Setup environment
+
+For running frontend tests without browser need to install phantomjs headless browser:
+
+* http://phantomjs.org/download.html
+
+To prepare test db:
+
+    rake db:test:prepare
+
+###To run the tests:
+
+For running guard is used that allow to watch for files changes and running changed specs
+
+Run all tests (rspec and jasmine)
+
+    guard
+
+Run only frontend tests
+
+    guard -g frontend
+
+Run only frontend tests
+
+    guard -g backend
+
+Run all Jasmine specs once:
+
+    rake guard:jasmine
