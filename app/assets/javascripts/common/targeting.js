@@ -25,7 +25,7 @@
     initialize: function() {
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
-      this.custom_key_values = false;
+      this.show_custom_key_values = false;
     },
 
     serializeData: function(){
@@ -120,7 +120,7 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), custom_key_values: this.custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
     },
@@ -140,6 +140,7 @@
     _addCustomKV: function(e) {
       this.$el.find('.add-custom-keyvalue-btn').toggle();
       this.$el.find('.custom-kvs-field').toggle();
+      this.$el.find('span.keyvalue_targeting').toggle();
     },
 
     _handleKVCheckboxes: function(e) {
@@ -214,12 +215,13 @@
     },
 
     _closeTargetingDialog: function() {
-      this.options.parent_view._toggleTargetingDialog();    
+      this.options.parent_view._toggleTargetingDialog();
+      this._renderSelectedTargetingOptions();    
     },
 
     _toggleCustomRegularKeyValues: function() {
-      this.ui.kv_type_switch.html(this.custom_key_values ? 'Custom K/V' : 'Regular K/V')
-      this.custom_key_values = ! this.custom_key_values;
+      this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
+      this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
     },
 
