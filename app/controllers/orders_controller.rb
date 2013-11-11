@@ -249,7 +249,15 @@ private
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order("first_name, last_name")
+    @users = []
+    all_users = User.of_network(current_network).where("email like ?", "%@collective.com%").order("first_name, last_name")
+    all_users.each do|user|
+      user.roles.each do|role|
+        if role.name == 'reachui users'
+          @users << user
+        end
+      end
+    end
   end
 
   def find_account_manager(params)
