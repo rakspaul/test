@@ -26,6 +26,7 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
+      this.errors_in_kv = false;
     },
 
     serializeData: function(){
@@ -211,12 +212,33 @@
     },
 
     _updateCustomKVs: function(e) {
-      this.model.attributes.keyvalue_targeting = e.currentTarget.value;
+      var custom_kv = e.currentTarget.value, self = this;
+      this.model.attributes.keyvalue_targeting = custom_kv;
+      
+      this.errors_in_kv = false;
+
+      if(custom_kv.trim() != "") {
+        _.each(custom_kv.split(','), function(el) {
+          if(el.trim().match(/^(\w+)=([\w\.]+)$/) == null) {
+            self.errors_in_kv = true;
+          }
+        });
+      }
+
+      if(this.errors_in_kv) {
+        this.$el.find('span.custom-kv-errors').html('There are errors in specified key/values');
+        this.$el.find('.save-targeting-btn').css({backgroundColor: 'grey'});
+      } else {
+        this.$el.find('span.custom-kv-errors').html('');
+        this.$el.find('.save-targeting-btn').css({backgroundColor: '#005c97'})
+      }
     },
 
     _closeTargetingDialog: function() {
-      this.options.parent_view._toggleTargetingDialog();
-      this._renderSelectedTargetingOptions();    
+      if(! this.errors_in_kv) {
+        this.options.parent_view._toggleTargetingDialog();
+        this._renderSelectedTargetingOptions();
+      }
     },
 
     _toggleCustomRegularKeyValues: function() {

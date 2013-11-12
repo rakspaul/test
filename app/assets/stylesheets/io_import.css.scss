@@ -505,6 +505,7 @@ $wide_input_width: 480px;
   height: 16px;
   float: left;
   margin-right: 5px;
+  margin-left: 3px;
 }
 
 .dma-targeting-icon {
@@ -513,6 +514,14 @@ $wide_input_width: 480px;
   height: 16px;
   float: left;
   margin-right: 5px;
+}
+
+.custom-kv-icon {
+  content: url(asset-path('custom_kv_icon.png')) no-repeat;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 5px;
 }
 
 .zip-codes-icon {
