@@ -29,5 +29,6 @@ json.pushing_errors do
     json.message error.message
     json.creative_id error.creative_id
     json.ad_id   error.ad_id
+    json.assignment_id error.assignment_id
   end
 end

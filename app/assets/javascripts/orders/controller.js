@@ -438,6 +438,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);
+      } else if("assignment" == error.type) {
+console.log('.assignment-'+error.assignment_id+'.pushing-status');
+        $('.assignment-'+error.assignment_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.assignment-'+error.assignment_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       }
     });
   },
