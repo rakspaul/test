@@ -8,7 +8,7 @@
 
 <div class="pure-u-1-12 start-date">
   <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
-  <div class="creative-<%= creative.id %> pushing_status" style="clear:both">
+  <div class="creative-<%= creative.id %> assignment-<%= creative.li_assignment_id %> assignment-<%= creative.ad_assignment_id %> pushing-status" style="clear:both;margin-top:5px;">
     <% if(!isNaN(parseInt(creative.source_id))) { %>
       <%= creative.source_id %>
     <% } %>

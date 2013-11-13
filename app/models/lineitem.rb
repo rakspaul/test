@@ -41,7 +41,7 @@ class Lineitem < ActiveRecord::Base
       cparams = params[:creative]
       creative_type = cparams[:creative_type] == "CustomCreative" ? "CustomCreative" : "InternalRedirectCreative"
       
-      url       = cparams[:redirect_url].gsub('/ad/', '/adj/')
+      url       = cparams[:redirect_url].try(:gsub, '/ad/', '/adj/').to_s
       html_code = '<script language="JavaScript" src="'+url+';click=%%CLICK_URL_UNESC%%;ord=%%CACHEBUSTER%%?" type="text/javascript"></script>'
 
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)

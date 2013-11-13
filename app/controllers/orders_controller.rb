@@ -242,7 +242,7 @@ private
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order("first_name, last_name")
+    @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
   end
 
   def find_account_manager(params)
@@ -377,6 +377,7 @@ private
           else
             ad[:ad][:size].split(/,/).first.strip
           end
+          ad[:ad].delete(:source_id)
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
@@ -420,7 +421,7 @@ private
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_pricing.errors
-            end          
+            end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
             if !creatives_errors.blank?
