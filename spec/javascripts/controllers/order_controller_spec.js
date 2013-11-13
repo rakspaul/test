@@ -62,5 +62,19 @@ describe('OrderController', function() {
         expect(routeSpy.called).toBeTruthy();*/
       });
     });
+
+    describe('#index', function() {
+      beforeEach(function() {
+        this.controller = new ReachUI.Orders.OrderController();
+      });
+
+      xit("should unselect selected order", function() {
+
+      });
+
+      xit("should show upload view at the top", function() {
+
+      });
+    });
   });
 });
