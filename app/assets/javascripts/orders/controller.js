@@ -353,16 +353,58 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'email'
       }
     });
+
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
       remote: '/advertisers.json?search=%QUERY',
       valueKey: 'name',
-      limit: 20
+      limit: 20,
+      footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
     });
+
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
       order.set("advertiser_id", el.id);
       order.set("advertiser_name", el.name);
+    });
+
+    $('.advertiser-name').on('click','#create_advertiser', function(ev){
+      ev.preventDefault();
+      var name = $('.advertiser-name input').next().text();
+      var createAdvertiserInput = '<div class="input-append">';
+          createAdvertiserInput += '<input type="text" placeholder="Create Advertiser" id="create_advertiser_input" value='+name+'>';
+          createAdvertiserInput += '<a class="btn add-on" id="create_advertiser_btn">Create</a>';
+          createAdvertiserInput += '</div>';
+      $('.advertiser-name').find('.create-advertiser').html(createAdvertiserInput);
+      $('#create_advertiser_input').val(name);
+    });
+
+    $('.advertiser-name input').on('typeahead:closed', function(ev, el) {
+      $('.advertiser-name').find('.create-advertiser').html('<a href="#" id="create_advertiser" >Create Advertiser</a>');
+      $('.advertiser-name').find('.tt-dropdown-menu').hide();
+    });
+
+    $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
+      var advertiserName = $('#create_advertiser_input').val();
+      var para = { name: advertiserName };
+
+      $('.advertiser-name input').val(advertiserName);
+      $('.advertiser-name input').trigger('typeahead:closed');
+
+      $.ajax({
+        type: "POST", url: '/advertisers', data: para, dataType: 'json',
+        success:function(ev){
+          if(ev.advertisers){
+            alert('Advertiser already exists.');
+          } else{
+            order.set("advertiser_id", ev.id);
+            order.set("advertiser_name", ev.name);
+          }
+        },
+        error:function(ev){
+          alert('Error in creating advertiser.');
+        }
+      });
     });
   },
 
@@ -564,10 +606,9 @@ console.log('.assignment-'+error.assignment_id+'.pushing-status');
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
-        
+
         $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-         
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting') }));
           li_view.renderTargetingDialog();
         });

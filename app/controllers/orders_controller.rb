@@ -377,7 +377,6 @@ private
           else
             ad[:ad][:size].split(/,/).first.strip
           end
-          ad[:ad].delete(:source_id)
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
