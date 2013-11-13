@@ -61,7 +61,7 @@
       }, 0.0);
 
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
-  
+
       $('.lineitems-summary-container .total-impressions').html(accounting.formatNumber(sum_impressions));
       $('.lineitems-summary-container .total-media-cost').html(accounting.formatMoney(sum_media_cost));
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
@@ -79,7 +79,7 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       this.creatives_visible = {};
-      
+
       if(! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
@@ -113,11 +113,11 @@
           }
 
           view.model.set($(this).data('name'), date); //update backbone model;
-          
+
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
-          
+
           $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
@@ -206,8 +206,8 @@
           view.model.set($(this).data('name'), newValue); //update backbone model;
         }
       });
-  
-      this.renderCreatives();    
+
+      this.renderCreatives();
       this.renderTargetingDialog();
       ReachUI.alignLINumberDiv();
 
@@ -272,7 +272,7 @@
       var self = this,
           creatives = this.model.get('creatives').models;
 
-      //this._updateCreativesCaption();      
+      //this._updateCreativesCaption();
 
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
@@ -353,7 +353,7 @@
             }
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {   
+            _.each(response.errors, function(error, key) {
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
@@ -410,7 +410,7 @@
             if (response.state.match(/pushing/i)) {
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
-            } else if(response.state.match(/draft/i) {
+            } else if(response.state.match(/draft/i)) {
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
@@ -433,10 +433,10 @@
       var self = this;
 
       if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() { 
+        $('#push-confirmation-dialog .cancel-btn').click(function() {
           $('#push-confirmation-dialog').modal('hide');
         });
-        $('#push-confirmation-dialog .push-btn').click(function() { 
+        $('#push-confirmation-dialog .push-btn').click(function() {
           $('#push-confirmation-dialog').modal('hide');
           self._saveOrderWithStatus('pushing');
         });
