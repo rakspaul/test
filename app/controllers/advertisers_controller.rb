@@ -33,4 +33,18 @@ class AdvertisersController < ApplicationController
     Advertiser.of_network(current_network).where(:name => advertisers)
   end
 
+  def create
+    advertiser = Advertiser.find_by_name(params[:name])
+
+    if advertiser.blank?
+      advertiser = Advertiser.new
+      advertiser.name = params[:name]
+      advertiser.network = current_network
+
+      advertiser.save
+      respond_with(advertiser, location: nil)
+    else
+      render json: { advertisers: 'already exist' }
+    end
+  end
 end

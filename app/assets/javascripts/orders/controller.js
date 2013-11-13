@@ -392,8 +392,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("advertiser_name", el.name);
     });
 
-    $(document).on('click','#create_advertiser', function(e){
-      e.preventDefault();
+    $('.advertiser-name').on('click','#create_advertiser', function(ev){
+      ev.preventDefault();
       var name = $('.advertiser-name input').next().text();
       var createAdvertiserInput = '<div class="input-append">';
           createAdvertiserInput += '<input type="text" placeholder="Create Advertiser" id="create_advertiser_input" value='+name+'>';
@@ -408,12 +408,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $('.advertiser-name').find('.tt-dropdown-menu').hide();
     });
 
-    $(document).on('click', '#create_advertiser_btn', function(e){
+    $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
       var advertiserName = $('#create_advertiser_input').val();
+      var para = { name: advertiserName };
+
       $('.advertiser-name input').val(advertiserName);
       $('.advertiser-name input').trigger('typeahead:closed');
-    });
 
+      $.ajax({
+        type: "POST", url: '/advertisers', data: para, dataType: 'json',
+        success:function(ev){
+          if(ev.advertisers){
+            alert(ev.advertisers);
+          } else{
+            order.set("advertiser_id", ev.id);
+            order.set("advertiser_name", ev.name);
+          }
+        },
+        error:function(ev){
+          alert('error');
+        }
+      });
+    });
   },
 
   _showOrderDetails: function(order) {
