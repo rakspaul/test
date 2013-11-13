@@ -419,14 +419,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         type: "POST", url: '/advertisers', data: para, dataType: 'json',
         success:function(ev){
           if(ev.advertisers){
-            alert(ev.advertisers);
+            alert('Advertiser already exists.');
           } else{
             order.set("advertiser_id", ev.id);
             order.set("advertiser_name", ev.name);
           }
         },
         error:function(ev){
-          alert('error');
+          alert('Error in creating advertiser.');
         }
       });
     });
