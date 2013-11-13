@@ -238,6 +238,7 @@
       if(! this.errors_in_kv) {
         this.options.parent_view._toggleTargetingDialog();
         this._renderSelectedTargetingOptions();
+        this.ui.kv_type_switch.html('+ Add Custom K/V');
       }
     },
 
@@ -245,6 +246,12 @@
       this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
+    
+      // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
+      if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
+        this.$el.find('span.keyvalue_targeting').hide();
+        this.$el.find('input.custom-kvs-field').show();
+      }
     },
 
     _showRemoveTgtBtn: function(e) {
