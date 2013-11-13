@@ -31,38 +31,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       view.render();
     });
 
+
     $(".order-new").click(function() {
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
-    this._bindKeys();
-  },
-
-  _bindKeys: function() {
-    var self = this;
-    Mousetrap.bind(['c o'], function(e) {
-      ReachUI.Orders.router.navigate('/new', {trigger: true});
-      return false;
-    });
-
-    Mousetrap.bind(['e o'], function(e) {
-      if(self.selectedOrder) {
-        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/edit', {trigger: true});
-        return false;
-      }
-    });
-
-    Mousetrap.bind(['c l'], function(e) {
-      if(self.selectedOrder) {
-        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/lineitems/new', {trigger: true});
-        return false;
-      }
-    });
-
-    Mousetrap.bind(['?'], function(e) {
-      $("#shortcut_help_modal").modal("show");
-    });
   },
 
   index: function() {
@@ -80,7 +54,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   newOrder: function() {
     var order = new ReachUI.Orders.Order();
-    var view = new ReachUI.Orders.EditView({model: order});
+    // TODO We don't have EditView view and probably we don't need new Order functionality
+    //var view = new ReachUI.Orders.EditView({model: order});
     var uploadView = new ReachUI.Orders.UploadView();
 
     if(this.selectedOrder) {
@@ -89,8 +64,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
-    this.orderDetailsLayout.bottom.show(view);
-    view.on('order:save', this._saveOrder, this);
+    //this.orderDetailsLayout.bottom.show(view);
+    //view.on('order:save', this._saveOrder, this);
   },
 
   editOrder: function(id) {
@@ -105,6 +80,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showEditOrder: function(order) {
     order.select();
+    console.log('SHOW edit order');
 
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
@@ -188,7 +164,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       function() {
         alert('Lineitem not found. Id: ' + id);
-      });
+      });ReachUI.Orders.router
   },
 
   _showOrderDetailsAndLineItems: function(order) {
