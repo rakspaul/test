@@ -26,6 +26,7 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
+      this.errors_in_kv = false;
     },
 
     serializeData: function(){
@@ -212,18 +213,46 @@
     },
 
     _updateCustomKVs: function(e) {
-      this.model.attributes.keyvalue_targeting = e.currentTarget.value;
+      var custom_kv = e.currentTarget.value, self = this;
+      this.model.attributes.keyvalue_targeting = custom_kv;
+      
+      this.errors_in_kv = false;
+
+      if(custom_kv.trim() != "") {
+        _.each(custom_kv.split(','), function(el) {
+          if(el.trim().match(/^(\w+)=([\w\.]+)$/) == null) {
+            self.errors_in_kv = true;
+          }
+        });
+      }
+
+      if(this.errors_in_kv) {
+        this.$el.find('span.custom-kv-errors').html('There are errors in specified key/values');
+        this.$el.find('.save-targeting-btn').css({backgroundColor: 'grey'});
+      } else {
+        this.$el.find('span.custom-kv-errors').html('');
+        this.$el.find('.save-targeting-btn').css({backgroundColor: '#005c97'})
+      }
     },
 
     _closeTargetingDialog: function() {
-      this.options.parent_view._toggleTargetingDialog();
-      this._renderSelectedTargetingOptions();    
+      if(! this.errors_in_kv) {
+        this.options.parent_view._toggleTargetingDialog();
+        this._renderSelectedTargetingOptions();
+        this.ui.kv_type_switch.html('+ Add Custom K/V');
+      }
     },
 
     _toggleCustomRegularKeyValues: function() {
       this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
+    
+      // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
+      if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
+        this.$el.find('span.keyvalue_targeting').hide();
+        this.$el.find('input.custom-kvs-field').show();
+      }
     },
 
     _showRemoveTgtBtn: function(e) {

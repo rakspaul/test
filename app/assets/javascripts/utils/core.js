@@ -82,6 +82,13 @@ ReachUI.showCondensedTargetingOptions = function() {
     targeting_options.push('</div>');
   } 
 
+  var custom_key_values = targeting.get('keyvalue_targeting');      
+  if(custom_key_values) {   
+    targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
+    targeting_options.push('<div style="float:left">'+custom_key_values+'</div>');
+  } 
+
+
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
   // selected (including Ads' ones), so we need to limit this only to first matching element
   var toptions = this.$el.find('.targeting_options_condensed')[0];
