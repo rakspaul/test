@@ -401,6 +401,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           createAdvertiserInput += '</div>';
       $('.advertiser-name').find('.create-advertiser').html(createAdvertiserInput);
       $('#create_advertiser_input').val(name);
+
+      var advertiser_input = $('#create_advertiser_input');
+      advertiser_input.focus();
+      advertiser_input[0].setSelectionRange(name.length, name.length);
     });
 
     $('.advertiser-name input').on('typeahead:closed', function(ev, el) {
@@ -411,24 +415,27 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
       var advertiserName = $('#create_advertiser_input').val();
       var para = { name: advertiserName };
-
-      $('.advertiser-name input').val(advertiserName);
-      $('.advertiser-name input').trigger('typeahead:closed');
+      $('#create_advertiser_btn').text('Creating');
 
       $.ajax({
         type: "POST", url: '/advertisers', data: para, dataType: 'json',
         success:function(ev){
-          if(ev.advertisers){
-            alert('Advertiser already exists.');
-          } else{
-            order.set("advertiser_id", ev.id);
-            order.set("advertiser_name", ev.name);
-          }
+          order.set("advertiser_id", ev.id);
+          order.set("advertiser_name", ev.name);
+          $('.advertiser-name input').val(advertiserName);
+          $('#create_advertiser_btn').text('Create');
+          $('.advertiser-name input').trigger('typeahead:closed');
         },
         error:function(ev){
           alert('Error in creating advertiser.');
+          $('#create_advertiser_btn').text('Create');
         }
       });
+    });
+
+    $('.advertiser-name').on('keydown', '#create_advertiser_input', function(ev){
+      if(ev.which === 27 || ev.keyCode === 27)
+        $('.advertiser-name input').trigger('typeahead:closed');
     });
   },
 

@@ -34,7 +34,7 @@ class AdvertisersController < ApplicationController
   end
 
   def create
-    advertiser = Advertiser.find_by_name(params[:name])
+    advertiser = Advertiser.where('name ilike ?',"#{params[:name]}")
 
     if advertiser.blank?
       advertiser = Advertiser.new
@@ -42,9 +42,7 @@ class AdvertisersController < ApplicationController
       advertiser.network = current_network
 
       advertiser.save
-      respond_with(advertiser, location: nil)
-    else
-      render json: { advertisers: 'already exist' }
     end
+    render json: advertiser
   end
 end
