@@ -128,7 +128,11 @@ class IoImport
       end
 
       @lineitems.to_a.each do |li|
-        li_inreds = @inreds.select{|ir| ir[:placement] == li.name}
+        li_inreds = @inreds.select do |ir|
+          ir[:placement] == li.name && 
+          ir[:start_date] == li.start_date.to_date &&
+          ir[:end_date]   == li.end_date.to_date
+        end
         if li_inreds.empty?
           li.ad_sizes
         else
@@ -375,6 +379,8 @@ class IOExcelFileReader
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
           ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
+          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
+          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
           click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
