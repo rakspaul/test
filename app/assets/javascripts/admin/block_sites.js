@@ -195,7 +195,7 @@
           var site = this._createSite(response[i]);
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
-                if(site.site_id === response[k].site_id) {
+                if(site.site_id === response[k].site_id && response[k].id !== null) {
                   site.advertisers.add(this._createAdvertiser(response[k]));
                   delete response[k];
                 }
@@ -301,7 +301,7 @@
           var site = this._createSite(response[i]);
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
-                if(site.site_id === response[k].site_id) {
+                if(site.site_id === response[k].site_id && response[k].id !== null) {
                   site.advertiserGroups.add(this._createAdvertiserGroup(response[k]));
                   delete response[k];
                 }
@@ -529,10 +529,6 @@
           unblockedAdvertisers.push(advertiser);
         }
 
-        if(site.getAdvertisers().size() < 1) {
-          this.collection.removeSite(site.get('site_id'));
-        }
-
         this.trigger('UnBlock:Advertiser', unblockedAdvertisers);
       }
 
@@ -609,10 +605,6 @@
           var site = this.collection.findWhere({site_id: selectedAdvertiserGroups[i].site_id}),
           advertiser_group = site.removeAdvertiserGroup(selectedAdvertiserGroups[i].advertiser_group_id);
           unblockedAdvertiserGroups.push(advertiser_group);
-        }
-
-        if(site.getAdvertiserGroups().size() < 1) {
-          this.collection.removeSite(site.get('site_id'));
         }
 
         this.trigger('UnBlock:AdvertiserGroups', unblockedAdvertiserGroups);
