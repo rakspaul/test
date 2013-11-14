@@ -119,19 +119,12 @@ class Admin::BlockSitesController < ApplicationController
   def export_adv_and_group
     blocked_type = params[:type]
     blocked_list = params[:block_list]
+    block_advertiser_and_group_export = BlockAdvertiserAndGroupExport.new(current_user)
 
     if blocked_type == BlockSite::BLOCKED_ADVERTISER && !blocked_list.nil?
-      blocked_adv = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :advertiser_id => blocked_list.split(',')).order(:id)
-      adv_export = BlockAdvertiserAndGroupExport.new(current_user)
-
-      send_data adv_export.export_advertiser(blocked_adv), :filename => adv_export.get_adv_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
-
+      send_data block_advertiser_and_group_export.export_advertiser(blocked_advertiser_sites(blocked_type, blocked_list)), :filename => block_advertiser_and_group_export.get_adv_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
     elsif blocked_type == BlockSite::BLOCKED_ADVERTISER_GROUP && !blocked_list.nil?
-      blocked_adv_grp = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :advertiser_group_id => blocked_list.split(',')).order(:id)
-      adv_grp_export = BlockAdvertiserAndGroupExport.new(current_user)
-
-      send_data adv_grp_export.export_advertiser_group(blocked_adv_grp), :filename => adv_grp_export.get_adv_group_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
-
+      send_data block_advertiser_and_group_export.export_advertiser_group(blocked_advertiser_group_sites(blocked_type, blocked_list)), :filename => block_advertiser_and_group_export.get_adv_group_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
     else
       render json: {status: 'error', message: 'No advertisers and groups selected to export.'}
     end
