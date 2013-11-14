@@ -378,7 +378,7 @@ class IOExcelFileReader
       while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
+          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).to_s.strip.downcase,
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
           click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
