@@ -15,7 +15,12 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def site_blocks(model, site_ids)
-    model.constantize.of_network(current_network).where(site_id: site_ids.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    site_ids = site_ids.split(",").map(&:to_i)
+    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    blocked_site_ids = site_blocks.pluck("site_id").uniq
+    site_with_no_blocks = site_ids - blocked_site_ids
+
+    return site_blocks + get_sites_with_no_blocks(model, site_with_no_blocks)
   end
 
   def blocked_advertiser_sites(model, advertiser_id)
@@ -177,6 +182,16 @@ private
     end
 
     return advertiser_with_default_blocks
+  end
+
+  def get_sites_with_no_blocks(model, site_ids)
+    sites = Site.find(site_ids)
+    blocks = []
+    sites.each do |site|
+      block = model.constantize.new({:site => site});
+      blocks.push(block);
+    end
+    return blocks;
   end
 
 end
