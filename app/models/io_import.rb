@@ -380,15 +380,17 @@ class IOExcelFileReader
 
     change_sheet INREDS_SPREADSHEET_PAGE do
       while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
+        ad_size = @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row)
+
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).to_s.strip.downcase,
           start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
           end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
+          ad_size: ad_size.strip.downcase,
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
           click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
-        })
+        }) if ! ad_size.blank?
 
         row += 1
       end
