@@ -336,8 +336,8 @@
             account_manager: '.order-details .account-contact-name',
             trafficking_contact: '.order-details .trafficker-container',
             lineitems: {
-              start_date: ' .start-date',
-              end_date:   ' .end-date',
+              start_date: ' > .start-date',
+              end_date:   ' > .end-date',
               name:       ' .name',
               volume:     ' .volume'
             },
@@ -360,6 +360,9 @@
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
 
+                    if (li_errors["creatives"] && li_errors["creatives"][li_k]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click');
+                    }
                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
@@ -377,22 +380,28 @@
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     _.each(ad_errors, function(errorMsg, fieldName) {
-                      var fieldSelector = errors_fields_correspondence.ads[fieldName];
-                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                      if (fieldName != 'creatives') {
+                        var fieldSelector = errors_fields_correspondence.ads[fieldName];
+                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
-                      field.addClass('field_with_errors');
-                      field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                      ReachUI.alignAdsDivs();
+                        field.addClass('field_with_errors');
+                        field.find('.errors_container').html(ReachUI.humanize(errorMsg));
+                        ReachUI.alignAdsDivs();
 
-                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
-                        _.each(creative_errors, function(errorMsg, fieldName) {
-                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
-                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+                        if (ad_errors["creatives"] && ad_errors["creatives"][li_k]) {
+                          $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                            .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click');
+                        }
+                      }
+                    });
 
+                    _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                      _.each(creative_errors, function(errorMsg, fieldName) {
+                        var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                  .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
                           field.addClass('field_with_errors');
-                          field.find('.errors_container').html(errorMsg);
-                        });
+                        field.find('.errors_container').html(errorMsg);
                       });
                     });
                   });
@@ -476,7 +485,7 @@
 
     _clearAllErrors: function() {
       $('.errors_container').html('');
-      $('.field').removeClass('field_with_errors');
+      $('.field, .lineitems-container .field_with_errors').removeClass('field_with_errors');
     }
   });
 
