@@ -16,9 +16,15 @@
   <div class="errors_container"></div>
 </div>
 
+<% wrong_end_date = creative.start_date > creative.end_date %>
+
 <div class="pure-u-1-12 end-date">
   <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
-  <div class="errors_container"></div>
+  <div class="errors_container">
+    <% if (wrong_end_date) { %>
+    couldn't be before start date
+    <% } %>
+  </div>
 </div>
 
 <div class="pure-u-1-6 size number-field" style="width:12%">
