@@ -104,10 +104,28 @@
 
       $.fn.editable.defaults.mode = 'popup';
 
-      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+      this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set($(this).data('name'), date); //update backbone model
+          var end_date = moment(newValue).format("YYYY-MM-DD");
+          self.model.set('end_date', end_date); //update backbone model
+
+          if(end_date < self.model.get('start_date')) {
+            self.$el.find('.end-date .errors_container').html('End date cannot be before start date')
+          }
+        },
+        datepicker: {
+          startDate: moment().format("YYYY-MM-DD")
+        }
+      });
+
+      this.$el.find('.start-date .editable.custom').editable({
+        success: function(response, newValue) {
+          var start_date = moment(newValue).format("YYYY-MM-DD");
+          self.model.set('start_date', start_date); //update backbone model
+
+          if(start_date > self.model.get('end_date')) {
+            self.$el.find('.end-date .errors_container').html('End date cannot be before start date')
+          }
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
