@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   def search
-    @users = User.of_network(current_network).limit(25)
+    @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(25)
 
     @users = if params[:search_by] == 'email'
       @users.where("email ilike ?", "#{params[:search]}%")
