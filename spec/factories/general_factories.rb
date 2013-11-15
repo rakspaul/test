@@ -11,6 +11,8 @@ FactoryGirl.define do
     start_date (Time.current + 1.day)
     end_date (Time.current + 22.days)
     network { FactoryGirl.singleton :network }
+    advertiser { FactoryGirl.singleton :advertiser }
+    user
   end
 
   factory :order_with_lineitem, :parent => :order do
@@ -52,5 +54,11 @@ FactoryGirl.define do
     end_date (Time.current + 2.days)
     alt_ad_id "1"
     keyvalue_targeting "12345, 56789" 
+  end
+
+  factory :io_asset do
+    order
+    asset_upload_name "Collective_IO.xlsx"
+    asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
   end
 end
