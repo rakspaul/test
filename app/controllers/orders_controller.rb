@@ -479,13 +479,16 @@ private
       valid_li = lineitem.valid?
       li_saved = valid_order && valid_li && lineitem.save
 
+      creatives_errors = []
       if li_saved && li_creatives
         creatives_errors = lineitem.save_creatives(li_creatives)
+      else
+        creatives_errors = validate_creatives(li_creatives, lineitem, 'lineitem')
+      end
 
-        if !creatives_errors.empty?
-          li_errors[i] ||= {}
-          li_errors[i][:creatives] = creatives_errors
-        end
+      if !creatives_errors.empty?
+        li_errors[i] ||= {}
+        li_errors[i][:creatives] = creatives_errors
       end
 
       unless valid_li
@@ -557,6 +560,8 @@ private
            li_errors[i][:ads][j] = ad_object.errors.to_hash
            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
            li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
+           ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad')
+           li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
@@ -570,4 +575,20 @@ private
     li_errors
   end
 
+  def validate_creatives(creatives, parent, type)
+    creatives_errors = []
+    creatives.each_with_index do |creative_params, index|
+      creative = creative_params[:creative]
+      creative_errors = {}
+      if creative[:start_date].to_date == parent.start_date.to_date
+        creative_errors[:start_date] = "couldn't be before #{type}'s start date"
+      end
+
+      if creative[:end_date].to_date == parent.end_date.to_date
+        creative_errors[:end_date] = "couldn't be after #{type}'s end date"
+      end
+      creatives_errors[index] = creative_errors unless creative_errors.empty?
+    end
+    creatives_errors
+  end
 end
