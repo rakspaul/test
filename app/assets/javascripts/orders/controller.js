@@ -412,8 +412,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $.ajax({
         type: "POST", url: '/advertisers', data: para, dataType: 'json',
         success:function(ev){
-          order.set("advertiser_id", ev.id);
-          order.set("advertiser_name", ev.name);
+          order.set("advertiser_id", ev[0].id);
+          order.set("advertiser_name", ev[0].name);
           $('.advertiser-name input').val(advertiserName);
           $('#create_advertiser_btn').text('Create');
           $('.advertiser-name input').trigger('typeahead:closed');
