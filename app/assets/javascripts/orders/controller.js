@@ -380,21 +380,37 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     $('.advertiser-name input').typeahead({
       name: 'advertiser-names',
-      remote: '/advertisers.json?search=%QUERY',
+      remote: {
+        url: '/advertisers.json?search=%QUERY',
+        filter: function(parsedResponse){
+          if(parsedResponse.length == 0){
+            parsedResponse.push({
+              name: "Advertiser not found"
+            });
+          }
+
+          return parsedResponse;
+        }
+      },
       valueKey: 'name',
       limit: 20,
       footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
     });
 
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
-      $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
-      order.set("advertiser_id", el.id);
-      order.set("advertiser_name", el.name);
+      if(el.name != 'Advertiser not found'){
+        $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+        order.set("advertiser_id", el.id);
+        order.set("advertiser_name", el.name);
+      }
+      else{
+        $(this).typeahead('setQuery',order.get("advertiser_name"));
+      }
     });
 
     $('.advertiser-name').on('click','#create_advertiser', function(ev){
       ev.preventDefault();
-      var name = $('.advertiser-name input').next().text();
+      var name = $('.advertiser-name input.tt-query').val();
       var createAdvertiserInput = '<div class="input-append">';
           createAdvertiserInput += '<input type="text" placeholder="Create Advertiser" id="create_advertiser_input" value='+name+'>';
           createAdvertiserInput += '<a class="btn add-on" id="create_advertiser_btn">Create</a>';
@@ -433,9 +449,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     });
 
-    $('.advertiser-name').on('keydown', '#create_advertiser_input', function(ev){
+    $('.advertiser-name input').on('keyup', function(ev){
       if(ev.which === 27 || ev.keyCode === 27)
-        $('.advertiser-name input').trigger('typeahead:closed');
+        $(this).typeahead('setQuery',order.get("advertiser_name"));
+      else
+        $('#create_advertiser_input').val($(this).val());
+    });
+
+    $('.advertiser-name').on('keyup', '#create_advertiser_input', function(ev){
+      if(ev.which === 27 || ev.keyCode === 27){
+        $('.advertiser-name').find('.create-advertiser').html('<a href="#" id="create_advertiser" >Create Advertiser</a>');
+        $('.advertiser-name input').focus();
+      }
     });
   },
 
