@@ -74,6 +74,26 @@
 
   });
 
+  BlockSites.SiteLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/admin/block_sites/site_layout'],
+
+    regions: {
+      blacklistedSitesSearchView : '#blacklistedSitesSearchView',
+      whitelistedSitesSearchView : '#whitelistedSitesSearchView'
+    },
+
+    events:{
+      'click #sitesTab' : '_onTabClick',
+    },
+
+    _onTabClick: function(event) {
+      event.preventDefault();
+      $(event.target).tab('show');
+      this.trigger('Change:SiteTab', event.target.id);
+    },
+
+  });
+
 // --------------------/ Models /------------------------------------
 
   BlockSites.Site = Backbone.Model.extend({
@@ -84,6 +104,26 @@
 
   BlockSites.SiteList = Backbone.Collection.extend({
     url: '/sites/search.json',
+    model: BlockSites.Site,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+  });
+
+  BlockSites.BlacklistedSiteList = Backbone.Collection.extend({
+    url: '/sites/blacklisted_sites.json',
+    model: BlockSites.Site,
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+  });
+
+  BlockSites.WhitelistedSiteList = Backbone.Collection.extend({
+    url: '/admin/default_block_list/whitelisted_sites.json',
     model: BlockSites.Site,
 
     fetch: function(){
@@ -384,7 +424,6 @@
     },
 
     initialize: function() {
-      this.collection = new BlockSites.SiteList();
       this.selectedSites = new BlockSites.SiteList();
       this.collection.fetch({reset: true});
 
@@ -411,6 +450,10 @@
     },
 
     onResetClick: function() {
+      this.resetSelection();
+    },
+
+    resetSelection: function() {
       this.setSelectedItems(false)
       this.selectedSites.reset();
       this.trigger('Get:SiteBlocks', []);
@@ -497,14 +540,25 @@
 
     ui: {
       blocked_advertiser_list: '#blockedAdvertiserList',
+      lblTabName: '#lblTabName',
     },
 
     initialize: function() {
+      this.tab_name = 'Blacklisted Advertisers'
       this.collection.on('sort', this.render, this);
     },
 
     appendHtml: function(collectionView, itemView){
       collectionView.$("#blockedAdvertiserList").append(itemView.el);
+    },
+
+    onRender: function() {
+      this.ui.lblTabName.text(this.tab_name);
+    },
+
+    setText: function(tab_name) {
+      this.tab_name = tab_name;
+      this.ui.lblTabName.text(this.tab_name);
     },
 
     _onAddAdvertiserClick: function(event) {
@@ -575,14 +629,37 @@
 
     ui: {
       blocked_advertiser_group_list: '#blockedAdvertiserGroupList',
+      lblTabName: '#lblTabName'
     },
 
     initialize: function() {
+      this.tab_name = 'Blacklisted Advertiser Groups';
+      this.disabled = false;
       this.collection.on('sort', this.render, this);
     },
 
     appendHtml: function(collectionView, itemView){
      collectionView.$("#blockedAdvertiserGroupList").append(itemView.el);
+    },
+
+    onRender: function() {
+      this.ui.lblTabName.text(this.tab_name);
+      this.$el.find('*').attr('disabled', this.disabled);
+    },
+
+    setText: function(tab_name) {
+      this.tab_name = tab_name;
+      this.ui.lblTabName.text(this.tab_name);
+    },
+
+    disable: function() {
+      this.disabled = true;
+      this.$el.find('*').attr('disabled', this.disabled);
+    },
+
+    enable: function() {
+      this.disabled = false;
+      this.$el.find('*').attr('disabled', this.disabled);
     },
 
     _onAddAdvertiserGroupClick: function(event) {
@@ -865,310 +942,64 @@
 
   });
 
-  BlockSites.BlockSitesController = Marionette.Controller.extend({
+  BlockSites.SitesController = Marionette.Controller.extend({
     initialize: function() {
+      this.mainRegion = this.options.mainRegion;
       this._initializeLayout();
-      this._initializeSiteListView();
-      this._initializeBlockedAdvertiserListView();
-      this._initializeBlockedAdvertiserGroupListView();
-      _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError');
+      this._initializeBlacklistedSitesSearchView();
+      this._initializeWhitelistedSitesSearchView();
+    },
+
+    getSelectedSites: function() {
+      var selectedblacklistedSites = this.blacklistedSitesSearchView.getSelectedSites(),
+      selectedwhitelistedSites = this.whitelistedSitesSearchView.getSelectedSites();
+
+      if (selectedblacklistedSites && selectedblacklistedSites.length > 0) {
+        return selectedblacklistedSites;
+      } else if(selectedwhitelistedSites && selectedwhitelistedSites.length > 0) {
+        return selectedwhitelistedSites;
+      }
+    },
+
+    getSelectedSiteIds: function() {
+      var selectedblacklistedSiteIds = this.blacklistedSitesSearchView.getSelectedSiteIds(),
+      selectedwhitelistedSiteIds = this.whitelistedSitesSearchView.getSelectedSiteIds();
+
+      if (selectedblacklistedSiteIds && selectedblacklistedSiteIds.length > 0) {
+        return selectedblacklistedSiteIds;
+      } else if(selectedwhitelistedSiteIds && selectedwhitelistedSiteIds.length > 0) {
+        return selectedwhitelistedSiteIds;
+      }
     },
 
     _initializeLayout: function() {
-      this.detailRegion = new BlockSites.DetailRegion();
-
-      this.layout = new BlockSites.Layout();
-      this.layout.on('Save:SiteBlock', this._onSaveSiteBlock, this);
-      this.layout.on('Commit:SiteBlock', this._onCommitSiteBlock, this);
-      this.layout.on('Export:SiteBlock', this._onExportSiteBlock, this);
-
-      this.detailRegion.show(this.layout);
-      this.layout.addRegions({'modal': new BlockSites.ModalRegion({el:'#modal'})});
+      this.layout = new BlockSites.SiteLayout();
+      this.layout.on('Change:SiteTab',this._onSiteTabChange, this);
+      this.mainRegion.show(this.layout);
     },
 
-    _initializeSiteListView: function() {
-      this.siteListView = new BlockSites.SiteListView();
-      this.siteListView.on('Get:SiteBlocks', this._getSiteBlocks, this);
-      this.layout.siteListView.show(this.siteListView);
+    _initializeBlacklistedSitesSearchView: function() {
+      this.blacklistedSitesCollection = new BlockSites.BlacklistedSiteList();
+      this.blacklistedSitesSearchView = new BlockSites.SiteListView({collection: this.blacklistedSitesCollection});
+      this.blacklistedSitesSearchView.on('Get:SiteBlocks', this._getSiteBlocks, this);
+      this.layout.blacklistedSitesSearchView.show(this.blacklistedSitesSearchView);
     },
 
-    _initializeBlockedAdvertiserListView: function() {
-      this.blockedAdvertiserList = new BlockSites.BlockedAdvertiserList();
-      this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
-      this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
-      this.blockedAdvertiserListView.on('UnBlock:Advertiser', this._onUnblockAdvertiser, this);
-      this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
+    _initializeWhitelistedSitesSearchView: function() {
+      this.WhitelistedSitesCollection = new BlockSites.WhitelistedSiteList();
+      this.whitelistedSitesSearchView = new BlockSites.SiteListView({collection: this.WhitelistedSitesCollection});
+      this.whitelistedSitesSearchView.on('Get:SiteBlocks', this._getSiteBlocks, this);
+      this.layout.whitelistedSitesSearchView.show(this.whitelistedSitesSearchView);
     },
 
-    _initializeBlockedAdvertiserGroupListView: function() {
-      this.blockedAdvertiserGroupList = new BlockSites.BlockedAdvertiserGroupList();
-      this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
-      this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
-      this.blockedAdvertiserGroupListView.on('UnBlock:AdvertiserGroups', this._onUnblockAdvertiserGroup, this);
-      this.layout.blockedAdvertiserGroupListView.show(this.blockedAdvertiserGroupListView);
+    _onSiteTabChange: function(tabName) {
+      this.blacklistedSitesSearchView.resetSelection();
+      this.whitelistedSitesSearchView.resetSelection();
+      this.trigger('Change:SiteTab', tabName);
     },
 
-    _showAdvertiserGroupModalView:function() {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        this.advertiserGroupListModalView = new BlockSites.AdvertiserGroupListModalView();
-        this.advertiserGroupListModalView.on('Block:AdvertiserGroup', this._onBlockAdvertiserGroup, this);
-        this.layout.modal.show(this.advertiserGroupListModalView);
-      }
-    },
-
-    // When user selects the site this method will fetch the blocked advertisers and advertiser blocks
     _getSiteBlocks: function(sites) {
-      if(sites && sites.length > 0 ) {
-        this.blockedAdvertiserList.setSites(sites);
-        this.blockedAdvertiserGroupList.setSites(sites);
-        this._fetchSiteBlocks();
-      } else {
-        this.blockedAdvertiserList.reset();
-        this.blockedAdvertiserGroupList.reset();
-      }
-    },
-
-    _fetchSiteBlocks: function() {
-      var self = this;
-      this.siteToUnblock = [];
-      this.blockedAdvertiserList.fetch({reset:true}).then(function() {
-        self.blockedAdvertiserList.sort();
-      });
-
-      this.blockedAdvertiserGroupList.fetch({reset:true}).then(function() {
-        self.blockedAdvertiserGroupList.sort();
-      });
-    },
-
-    _showAdvertiserModalView: function() {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        this.advertiserListModalController = new BlockSites.AdvertiserListModalController({
-          mainRegion: this.layout.modal
-        });
-
-        this.advertiserListModalController.on('Block:Advertiser', this._onBlockAdvertiser, this);
-      }
-    },
-
-    // When user selects advertiser to block
-    // First check if that site exists in the list
-    // If No create new object and add it to the list
-    // If Yes add selected advertiser to the list
-
-    _onBlockAdvertiser: function(vos) {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        for (var i = 0; i < selectedSites.length; i++) {
-          // check for the site exist in block site list
-          var selectedSite = selectedSites[i],
-          blockedAdvertisers = this._createAdvertiserModelArray(vos, selectedSite.id),
-          site = this.blockedAdvertiserList.findWhere({site_id: selectedSite.id});
-
-          if(!site) {
-            // site is not there add to blockedAdvertiserList collection
-            var blockedAdvertiser = this._createNewBlockedAdvertiser(selectedSite.id, selectedSite.get('name'), blockedAdvertisers)
-            this.blockedAdvertiserList.add(blockedAdvertiser);
-          } else {
-            // site exist need to check if user is adding same advertisers or new one
-            blockedAdvertisers.each(function(blockedAdvertiser) {
-              if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
-                site.addAdvertiser(blockedAdvertiser);
-              }
-            }, this);
-          }
-        }
-      }
-    },
-
-    _createNewBlockedAdvertiser: function(site_id, site_name, advertisers) {
-      var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({
-        site_id: site_id,
-        site_name: site_name,
-        advertisers: advertisers
-      });
-      return newBlockedAdvertiser;
-    },
-
-    _createAdvertiserModelArray: function(vos, site_id) {
-      var advertisers = new BlockSites.AdvertiserList();
-      for (var i = 0; i < vos.length; i++) {
-        var advertiser = this._createAdvertiserModel(vos[i], site_id);
-        advertisers.add(advertiser);
-      }
-      return advertisers;
-    },
-
-    _createAdvertiserModel: function(advertiser, site_id) {
-      var advertiser_id = advertiser.id,
-      name = advertiser.get('name');
-
-      return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name})
-    },
-
-    _onUnblockAdvertiser: function(advertisers) {
-      this.siteToUnblock = this.siteToUnblock.concat(advertisers);
-    },
-
-    _onUnblockAdvertiserGroup: function(advertiser_groups) {
-      this.siteToUnblock = this.siteToUnblock.concat(advertiser_groups);
-    },
-
-    // When user selects advertiser block to block
-    // First check if that site exists in the list
-    // If No create new object and add it to the list
-    // If Yes add selected advertiser block to the list
-
-    _onBlockAdvertiserGroup: function(vos) {
-      var selectedSites = this.siteListView.getSelectedSites();
-      if (selectedSites && selectedSites.length > 0) {
-        for (var i = 0; i < selectedSites.length; i++) {
-          // check for the site exist in block site list
-          var selectedSite = selectedSites[i],
-          blockedAdvertiserGroups = this._createAdvertiserGroupModelArray(vos, selectedSite.id),
-          site = this.blockedAdvertiserGroupList.findWhere({site_id: selectedSite.id});
-
-          if(!site) {
-            // site is not there add to blockedAdvertiserBlockList collection
-            var blockedAdvertiserGroup = this._createNewBlockedAdvertiserGroup(selectedSite.id, selectedSite.get('name'), blockedAdvertiserGroups);
-            this.blockedAdvertiserGroupList.add(blockedAdvertiserGroup);
-          } else {
-            // site exist need to check if user is adding same advertisers or new one
-            blockedAdvertiserGroups.each(function(blockedAdvertiserGroup) {
-              if(!site.hasAdvertiserGroup(blockedAdvertiserGroup.get('advertiser_group_id'))) {
-                site.addAdvertiserGroup(blockedAdvertiserGroup);
-              }
-            }, this);
-          }
-        }
-      }
-    },
-
-    _createNewBlockedAdvertiserGroup: function(site_id, site_name, blockedAdvertiserGroups) {
-      var newBlockedAdvertiserGroup = new BlockSites.BlockedAdvertiserGroup({
-        site_id: site_id,
-        site_name: site_name,
-        advertiserGroups: blockedAdvertiserGroups
-      });
-      return newBlockedAdvertiserGroup;
-    },
-
-    _createAdvertiserGroupModelArray: function(vos, site_id) {
-      var blockedAdvertiserGroups = new BlockSites.BlockedAdvertiserGroupList();
-      for (var i = 0; i < vos.length; i++) {
-        var blockedAdvertiserGroup = this._createAdvertiserGroupModel(vos[i], site_id);
-        blockedAdvertiserGroups.push(blockedAdvertiserGroup);
-      }
-      return blockedAdvertiserGroups;
-    },
-
-    _createAdvertiserGroupModel: function(advertiser_group, site_id) {
-      var advertiser_group_id = advertiser_group.id,
-      name = advertiser_group.get('name');
-
-      return new BlockSites.AdvertiserGroup({site_id: site_id, advertiser_group_id: advertiser_group_id, advertiser_group_name: name})
-    },
-
-
-    // Check the collection for new object using backbone's isNew() method
-    _onSaveSiteBlock: function(event) {
-      var para = {};
-      var blockedAdvertisers = this._blockAdvertiser(),
-      blockedAdvertiserGroups = this._blockAdvertiserGroup(),
-      unblockedSites = this._unblockedSites();
-
-      if (blockedAdvertisers.length > 0 ) {
-        para.blocked_advertisers = JSON.stringify(blockedAdvertisers);
-      }
-
-      if (blockedAdvertiserGroups.length > 0) {
-        para.blocked_advertiser_groups = JSON.stringify(blockedAdvertiserGroups);
-      }
-
-      if (unblockedSites.length > 0) {
-        para.unblocked_sites = JSON.stringify(unblockedSites);
-      }
-
-      if (blockedAdvertisers.length > 0 || blockedAdvertiserGroups.length > 0 || unblockedSites.length > 0) {
-        this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
-        $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
-      }
-
-    },
-
-    _blockAdvertiser: function() {
-      var newBlockedAdvertisers = [];
-
-      this.blockedAdvertiserList.each(function(site) {
-        site.getAdvertisers().each(function(advertiser) {
-          if(advertiser.isNew()) {
-            newBlockedAdvertisers.push(advertiser.toJSON());
-          }
-        })
-      }, this);
-
-      return newBlockedAdvertisers;
-    },
-
-    _blockAdvertiserGroup: function(fetch_records) {
-      // find out newly added advertisers
-      var newBlockedAdvertiserGroup = [];
-
-      this.blockedAdvertiserGroupList.each(function(site) {
-        site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.isNew()) {
-            newBlockedAdvertiserGroup.push(advertiser_group.toJSON());
-          }
-        })
-      }, this);
-
-      return newBlockedAdvertiserGroup;
-    },
-
-    _unblockedSites: function() {
-      var array = this.siteToUnblock,
-      unblock = [];
-
-      if (array && array.length > 0) {
-        for (var i = 0; i < array.length; i++) {
-          if (!array[i].isNew()) {
-            unblock.push(array[i]);
-          }
-        }
-      }
-
-      return unblock;
-    },
-
-    _onSuccess: function(event) {
-      this.layout.ui.saveBlock.text('Save').removeAttr('disabled');
-      this._fetchSiteBlocks();
-      alert('Your changes were successfully saved.');
-    },
-
-    _onError: function(event) {
-      this.layout.ui.saveBlock.text('Save').removeAttr('disabled');
-      alert('An error occurred while saving your changes.');
-    },
-
-    _onCommitSiteBlock: function(event) {
-      $.ajax({type: "POST", url: '/admin/block_sites/commit.json', success: this._onCommitSuccess, error: this._onCommitError, dataType: 'json'});
-    },
-
-    _onExportSiteBlock: function(event) {
-      var selectedSiteIds = this.siteListView.getSelectedSiteIds();
-      if (selectedSiteIds && selectedSiteIds.length > 0) {
-        window.location = '/admin/block_sites/export_sites.xls?site_ids='+selectedSiteIds.join(',');
-      }
-    },
-
-    _onCommitSuccess: function(event) {
-      alert(event.message);
-    },
-
-    _onCommitError: function(event) {
-      alert('An error occurred while committing your changes.');
+      this.trigger('Get:SiteBlocks', sites);
     },
 
   });

@@ -63,6 +63,17 @@ class Admin::DefaultBlockListController < ApplicationController
     render json: { errors: e.message }, status: :unprocessable_entity
   end
 
+
+  def whitelisted_sites
+    search_query = params[:search]
+    @default_site_blocks = DefaultSiteBlocks.of_network(current_network).joins(:site).limit(500).order("Sites.name  asc")
+    unless search_query.blank?
+      @default_site_blocks = @default_site_blocks.where("lower(Sites.name) ilike lower(?)", "%#{search_query}%")
+    end
+
+    respond_with(@default_site_blocks)
+  end
+
   private
     def create_sheet
       Spreadsheet.client_encoding = 'UTF-8'

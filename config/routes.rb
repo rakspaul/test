@@ -33,6 +33,7 @@ Reachui::Application.routes.draw do
     resources :default_block_list do
       collection do
         get 'export'
+        get 'whitelisted_sites'
       end
     end
   end
@@ -118,6 +119,7 @@ Reachui::Application.routes.draw do
   resources :sites do
     collection do
       get 'search'
+      get 'blacklisted_sites'
     end
   end
 
