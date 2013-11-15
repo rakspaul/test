@@ -30,8 +30,8 @@ FactoryGirl.define do
     abbr "TRCN"
     network { FactoryGirl.singleton :network }
     user_id { FactoryGirl.singleton(:user).id }
-    sales_person    { FactoryGirl.create :user }
-    account_manager { FactoryGirl.create :user }
+    sales_person    { FactoryGirl.singleton :user }
+    account_manager { FactoryGirl.singleton :user }
   end
                             
   factory :lineitem do
