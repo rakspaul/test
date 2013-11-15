@@ -44,6 +44,8 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include(ControllerMacros, :type => :controller)
+
+  config.render_views = true
 end
 
 Capybara.javascript_driver = :poltergeist
