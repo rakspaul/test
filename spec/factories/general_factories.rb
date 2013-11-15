@@ -65,4 +65,10 @@ FactoryGirl.define do
     keyvalue_targeting "12345, 56789"
     order
   end
+
+  factory :io_asset do
+    order
+    asset_upload_name "Collective_IO.xlsx"
+    asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
+  end
 end

@@ -58,7 +58,11 @@
   <div class="imported-file-name">
     <div class="name">
       Imported File
-      <span><%= order.io_asset_filename %></span>
+      <% if (order.id && order.io_asset_filename) { %>
+        <span><a href="/io_assets/<%= order.id %>"><%= order.io_asset_filename %></a></span>
+      <% } else { %>
+        <span><%= order.io_asset_filename %></span>
+      <% } %>
     </div>
     <div class="timestamp">
       <%= order.io_asset_created_at %>
