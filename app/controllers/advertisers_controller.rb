@@ -42,6 +42,7 @@ class AdvertisersController < ApplicationController
       advertiser.network = current_network
 
       advertiser.save
+      advertiser = Array(advertiser)
     end
     render json: advertiser
   end
