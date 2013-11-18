@@ -70,12 +70,10 @@
     _onSiteTabChange: function(tab_name) {
       if (tab_name === 'blacklistedSitesView') {
         this.blockedAdvertiserListView.setText('Blacklisted Advertisers');
-        this.blockedAdvertiserGroupListView.setText('Blacklisted Advertiser Groups');
-        this.blockedAdvertiserGroupListView.enable();
+        this.blockedAdvertiserGroupListView.show();
       } else{
         this.blockedAdvertiserListView.setText('Whitelisted Advertisers');
-        this.blockedAdvertiserGroupListView.setText('Whitelisted Advertiser Groups');
-        this.blockedAdvertiserGroupListView.disable();
+        this.blockedAdvertiserGroupListView.hide();
       }
     },
 
