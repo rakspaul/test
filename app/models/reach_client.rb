@@ -9,7 +9,7 @@ class ReachClient < ActiveRecord::Base
 
   validates :name, :abbr, presence: true
 
-  validates :network_id, :user_id, :sales_person_id, :account_manager_id, presence: true, numericality: { only_integer: true }
+  validates :network_id, :user_id, presence: true, numericality: { only_integer: true }
 
   validates :media_contact_id, :billing_contact_id, presence: true, numericality: { only_integer: true }, on: :update
 
@@ -24,15 +24,15 @@ class ReachClient < ActiveRecord::Base
   end
 
   def validate_sales_person
-    errors.add :sales_person_id, "is invalid" unless User.exists?(self.sales_person_id)
+    errors.add :sales_person_id, "not selected" unless User.exists?(self.sales_person_id)
   end
 
   def validate_account_manager
-    errors.add :account_manager_id, "is invalid" unless User.exists?(self.account_manager_id)
+    errors.add :account_manager_id, "not selected" unless User.exists?(self.account_manager_id)
   end
 
   def validate_sales_person_account_manager
-    unless sales_person_id.nil? && sales_person_id.nil?
+    if !sales_person_id.nil? && !account_manager_id.nil?
       sales_person = Network.find(self.network_id).users.exists?(sales_person_id)
       account_manager = Network.find(self.network_id).users.exists?(account_manager_id)
 

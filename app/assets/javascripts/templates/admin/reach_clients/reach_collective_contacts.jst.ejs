@@ -5,6 +5,7 @@
     <label for="sales_person" class="control-label">Sales Person</label>
     <div class="controls">
       <select id="sales_person">
+        <option selected value="">Select</option>
         <% salesPerson.each(function(item){ %>
           <% if(selected_sales_person_id && item.id === selected_sales_person_id) { %>
             <option selected value="<%= item.id %>"> <%= item.get('name') %> - <%= item.get('email') %> </option>
@@ -13,6 +14,7 @@
           <% } %>
         <%}); %>
       </select>
+      <label class="help-inline form-error" id="sales_person_id_error"></label>
     </div>
   </div>
 
@@ -20,6 +22,7 @@
     <label for="account_manager" class="control-label">Account Manager</label>
     <div class="controls">
       <select id="account_manager">
+        <option selected value="">Select</option>
         <% accountManager.each(function(item){ %>
           <% if(selected_account_manager_id && item.id === selected_account_manager_id) { %>
             <option selected value="<%= item.id %>"> <%= item.get('name') %> - <%= item.get('email') %></option>
@@ -28,5 +31,6 @@
           <% } %>
         <%}); %>
       </select>
+      <label class="help-inline form-error" id="account_manager_id_error"></label>
     </div>
   </div>
