@@ -413,8 +413,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         type: "POST", url: '/advertisers', data: para, dataType: 'json',
         success:function(ev){
           $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
-          order.set("advertiser_id", ev[0].id);
-          order.set("advertiser_name", ev[0].name);
+          order.set("advertiser_id", ev.id);
+          order.set("advertiser_name", ev.name);
           $('.advertiser-name input').val(advertiserName);
           $('#create_advertiser_btn').removeAttr('disabled');
           $('.advertiser-name input').trigger('typeahead:closed');
