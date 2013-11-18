@@ -268,7 +268,7 @@
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function() {
+    _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives = this.model.get('creatives').models;
 
@@ -276,9 +276,17 @@
 
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
-      this.ui.creatives_container.toggle('slow', function() {
-        self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
-      });
+      if (showed) {
+        if (!is_visible) {
+          this.ui.creatives_container.show('slow', function() {
+            self.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+          });
+        }
+      } else {
+        this.ui.creatives_container.toggle('slow', function() {
+          self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+        });
+      }
     },
 
     _toggleTargetingDialog: function() {
@@ -361,7 +369,7 @@
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
 
                     if (li_errors["creatives"] && li_errors["creatives"][li_k]) {
-                      $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click');
+                      $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
                     }
                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
@@ -390,7 +398,7 @@
 
                         if (ad_errors["creatives"] && ad_errors["creatives"][li_k]) {
                           $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                            .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click');
+                            .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
                         }
                       }
                     });
