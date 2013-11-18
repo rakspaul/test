@@ -634,7 +634,6 @@
 
     initialize: function() {
       this.tab_name = 'Blacklisted Advertiser Groups';
-      this.disabled = false;
       this.collection.on('sort', this.render, this);
     },
 
@@ -652,14 +651,12 @@
       this.ui.lblTabName.text(this.tab_name);
     },
 
-    disable: function() {
-      this.disabled = true;
-      this.$el.find('*').attr('disabled', this.disabled);
+    hide: function() {
+      this.$el.hide();
     },
 
-    enable: function() {
-      this.disabled = false;
-      this.$el.find('*').attr('disabled', this.disabled);
+    show: function() {
+      this.$el.show();
     },
 
     _onAddAdvertiserGroupClick: function(event) {
