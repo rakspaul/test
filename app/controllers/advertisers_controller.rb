@@ -34,7 +34,7 @@ class AdvertisersController < ApplicationController
   end
 
   def create
-    advertiser = Advertiser.where('name ilike ?',"#{params[:name]}")
+    advertiser = Advertiser.where('name ilike ?',"#{params[:name]}").first
 
     if advertiser.blank?
       advertiser = Advertiser.new
