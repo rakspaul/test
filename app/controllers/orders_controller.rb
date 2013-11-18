@@ -482,7 +482,7 @@ private
       creatives_errors = []
       if li_saved && li_creatives
         creatives_errors = lineitem.save_creatives(li_creatives)
-      else
+      elsif li_creatives
         creatives_errors = validate_creatives(li_creatives, lineitem, 'lineitem')
       end
 
@@ -554,14 +554,16 @@ private
               li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
             end
           else
-           Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
-           li_errors[i] ||= {}
-           li_errors[i][:ads] ||= {}
-           li_errors[i][:ads][j] = ad_object.errors.to_hash
-           li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
-           li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
-           ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad')
-           li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
+            Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
+            li_errors[i] ||= {}
+            li_errors[i][:ads] ||= {}
+            li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
+            li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
+            if (li_creatives)
+              ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad')
+              li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
+            end
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
