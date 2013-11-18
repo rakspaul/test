@@ -157,6 +157,8 @@
     ui: {
       sales_person: '#sales_person',
       account_manager: '#account_manager',
+      sales_person_id_error: '#sales_person_id_error',
+      account_manager_id_error: '#account_manager_id_error'
     },
 
     initialize: function() {
@@ -520,9 +522,9 @@
         var uiControls = {};
 
         if (this.clientContactsView) {
-          uiControls = $.extend(this.clientDetailsView.ui, this.clientContactsView.ui);
+          uiControls = $.extend(this.clientDetailsView.ui, this.clientContactsView.ui, this.collectiveContactsView.ui);
         } else {
-          uiControls = this.clientDetailsView.ui
+          uiControls = $.extend(this.clientDetailsView.ui, this.collectiveContactsView.ui);
         }
         _.each(xhr.responseJSON.errors, function(value, key) {
           var errorLabel = uiControls[key + "_error"];
