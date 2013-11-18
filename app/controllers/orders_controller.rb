@@ -580,13 +580,18 @@ private
     creatives.each_with_index do |creative_params, index|
       creative = creative_params[:creative]
       creative_errors = {}
-      if creative[:start_date].to_date == parent.start_date.to_date
+      if creative[:start_date].to_date < parent.start_date.to_date
         creative_errors[:start_date] = "couldn't be before #{type}'s start date"
       end
 
-      if creative[:end_date].to_date == parent.end_date.to_date
+      if creative[:end_date].to_date > parent.end_date.to_date
         creative_errors[:end_date] = "couldn't be after #{type}'s end date"
       end
+
+      if creative[:end_date].to_date < creative[:start_date].to_date
+        creative_errors[:end_date] = "couldn't be before start date"
+      end
+
       creatives_errors[index] = creative_errors unless creative_errors.empty?
     end
     creatives_errors
