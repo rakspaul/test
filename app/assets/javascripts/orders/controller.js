@@ -407,20 +407,21 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
       var advertiserName = $('#create_advertiser_input').val();
       var para = { name: advertiserName };
-      $('#create_advertiser_btn').text('Creating');
+      $('#create_advertiser_btn').attr('disabled','disabled');
 
       $.ajax({
         type: "POST", url: '/advertisers', data: para, dataType: 'json',
         success:function(ev){
+          $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
           order.set("advertiser_id", ev[0].id);
           order.set("advertiser_name", ev[0].name);
           $('.advertiser-name input').val(advertiserName);
-          $('#create_advertiser_btn').text('Create');
+          $('#create_advertiser_btn').removeAttr('disabled');
           $('.advertiser-name input').trigger('typeahead:closed');
         },
         error:function(ev){
           alert('Error in creating advertiser.');
-          $('#create_advertiser_btn').text('Create');
+          $('#create_advertiser_btn').removeAttr('disabled');
         }
       });
     });
