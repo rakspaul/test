@@ -15,7 +15,7 @@
 
       this.layout = new BlockSites.Layout();
       this.layout.on('Save:SiteBlock', this._onSaveSiteBlock, this);
-      this.layout.on('Commit:SiteBlock', this._onCommitSiteBlock, this);
+      this.layout.on('Commit:SiteBlock', this._showCommitSummary, this);
       this.layout.on('Export:SiteBlock', this._onExportSiteBlock, this);
 
       this.detailRegion.show(this.layout);
@@ -300,15 +300,15 @@
       alert('An error occurred while saving your changes.');
     },
 
-    _onCommitSiteBlock: function(event) {
-      $.ajax({type: "POST", url: '/admin/block_sites/commit.json', success: this._onCommitSuccess, error: this._onCommitError, dataType: 'json'});
+    _showCommitSummary: function(event) {
+      this.commitOverviewController = new BlockSites.CommitOverviewController({
+        mainRegion: this.layout.modal
+      });
+      this.commitOverviewController.on('Commit:SiteBlock', this._onCommitSiteBlock, this);
     },
 
-    _onExportSiteBlock: function(event) {
-      var selectedSiteIds = this.sitesController.getSelectedSiteIds();
-      if (selectedSiteIds && selectedSiteIds.length > 0) {
-        window.location = '/admin/block_sites/export_sites.xls?site_ids='+selectedSiteIds.join(',');
-      }
+    _onCommitSiteBlock: function(event) {
+      $.ajax({type: "POST", url: '/admin/block_sites/commit.json', success: this._onCommitSuccess, error: this._onCommitError, dataType: 'json'});
     },
 
     _onCommitSuccess: function(event) {
@@ -317,6 +317,13 @@
 
     _onCommitError: function(event) {
       alert('An error occurred while committing your changes.');
+    },
+
+    _onExportSiteBlock: function(event) {
+      var selectedSiteIds = this.sitesController.getSelectedSiteIds();
+      if (selectedSiteIds && selectedSiteIds.length > 0) {
+        window.location = '/admin/block_sites/export_sites.xls?site_ids='+selectedSiteIds.join(',');
+      }
     },
 
   });
