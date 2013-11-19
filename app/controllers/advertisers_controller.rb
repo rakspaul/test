@@ -30,7 +30,7 @@ class AdvertisersController < ApplicationController
   end
 
   def create
-    advertiser = find_advertisers(params[:name])
+    advertiser = find_advertisers(params[:name]).first
     if advertiser.blank?
       advertiser = Advertiser.new
       advertiser.name = params[:name]
