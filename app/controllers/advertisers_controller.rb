@@ -29,13 +29,8 @@ class AdvertisersController < ApplicationController
     render json: {advertisers: advertisers_found, missing_advertisers: missing_advertisers.join('&#xA;').to_s}
   end
 
-  def find_advertisers(advertisers)
-    Advertiser.of_network(current_network).where(:name => advertisers)
-  end
-
   def create
-    advertiser = Advertiser.where('name ilike ?',"#{params[:name]}").first
-
+    advertiser = find_advertisers(params[:name])
     if advertiser.blank?
       advertiser = Advertiser.new
       advertiser.name = params[:name]
@@ -45,4 +40,10 @@ class AdvertisersController < ApplicationController
     end
     render json: advertiser
   end
+
+  private
+    def find_advertisers(advertisers)
+      Advertiser.of_network(current_network).where(:name => advertisers)
+    end
+
 end
