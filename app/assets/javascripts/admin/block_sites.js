@@ -94,6 +94,27 @@
 
   });
 
+  BlockSites.CommitOverviewLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/admin/block_sites/commit_overview_layout'],
+    className: 'modal',
+
+    events: {
+      'click #btnCommit' : 'onCommit',
+    },
+
+    regions: {
+      blacklistedAdvertisersOverviewView : '#blacklistedAdvertisersOverviewView',
+      blacklistedAdvertiserGroupsOverviewView : '#blacklistedAdvertiserGroupsOverviewView',
+      whitelistedAdvertisersOverviewView : '#whitelistedAdvertisersOverviewView',
+      whitelistedAdvertiserGroupsOverviewView : '#whitelistedAdvertiserGroupsOverviewView',
+    },
+
+    onCommit: function() {
+      this.trigger('Commit:SiteBlock');
+      $('#close_modal').trigger('click');
+    },
+  });
+
 // --------------------/ Models /------------------------------------
 
   BlockSites.Site = Backbone.Model.extend({
@@ -377,6 +398,26 @@
       }
     },
 
+  });
+
+  BlockSites.AdvertiserCommitSummary = Backbone.Collection.extend({
+    url: function() {
+      return '/admin/blocked_advertiser/commit_summary.json?state=' + this.state
+    },
+
+    setState: function(state) {
+      this.state = state;
+    },
+  });
+
+    BlockSites.AdvertiserGroupCommitSummary = Backbone.Collection.extend({
+    url: function() {
+      return '/admin/blocked_advertiser_groups/commit_summary.json?state=' + this.state
+    },
+
+    setState: function(state) {
+      this.state = state;
+    },
   });
 
 // --------------------/ Views /------------------------------------
@@ -906,6 +947,36 @@
 
   });
 
+  BlockSites.EmptyView = Backbone.Marionette.ItemView.extend({
+    tagName: 'tr',
+    template: _.template('<td colspan="4" style="text-align:center;"> No records found. </td>'),
+  });
+
+  BlockSites.AdvertisersOverviewItemView = Backbone.Marionette.ItemView.extend({
+    tagName: 'tr',
+    template: JST['templates/admin/block_sites/advertiser_overview_row_view'],
+  });
+
+  BlockSites.AdvertiserGroupsOverviewItemView = Backbone.Marionette.ItemView.extend({
+    tagName: 'tr',
+    template: JST['templates/admin/block_sites/advertiser_group_overview_row_view'],
+  });
+
+  BlockSites.AdvertisersOverviewView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/advertiser_overview_view'],
+    itemView: BlockSites.AdvertisersOverviewItemView,
+    itemViewContainer: 'tbody',
+    emptyView: BlockSites.EmptyView
+  });
+
+  BlockSites.AdvertiserGroupsOverviewView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/advertiser_group_overview_view'],
+    itemView: BlockSites.AdvertiserGroupsOverviewItemView,
+    itemViewContainer: 'tbody',
+    emptyView: BlockSites.EmptyView
+  });
+
+
 // --------------------/ Controller /------------------------------------
 
   BlockSites.AdvertiserListModalController = Marionette.Controller.extend({
@@ -997,6 +1068,61 @@
 
     _getSiteBlocks: function(sites) {
       this.trigger('Get:SiteBlocks', sites);
+    },
+
+  });
+
+  BlockSites.CommitOverviewController = Marionette.Controller.extend({
+    initialize: function() {
+      this.mainRegion = this.options.mainRegion;
+      this._initializeLayout();
+      this._initializeBlacklistedAdvertisersOverviewView();
+      this._initializeBlacklistedAdvertiserGroupsOverviewView();
+      this._initializeWhitelistedAdvertisersOverviewView();
+      this._initializeWhitelistedAdvertiserGroupsOverviewView();
+    },
+
+    _initializeLayout: function() {
+      this.layout = new BlockSites.CommitOverviewLayout();
+      this.layout.on('Commit:SiteBlock', this._onCommit, this)
+      this.mainRegion.show(this.layout);
+    },
+
+
+    _initializeBlacklistedAdvertisersOverviewView: function() {
+      this.blacklistedAdvertiserList = new BlockSites.AdvertiserCommitSummary();
+      this.blacklistedAdvertiserList.setState('PENDING_BLOCK');
+      this.blacklistedAdvertisersOverviewView = new BlockSites.AdvertisersOverviewView({collection: this.blacklistedAdvertiserList});
+      this.layout.blacklistedAdvertisersOverviewView.show(this.blacklistedAdvertisersOverviewView);
+      this.blacklistedAdvertiserList.fetch();
+    },
+
+    _initializeBlacklistedAdvertiserGroupsOverviewView: function() {
+      this.blacklistedAdvertiserGroupList = new BlockSites.AdvertiserGroupCommitSummary();
+      this.blacklistedAdvertiserGroupList.setState('PENDING_BLOCK');
+      this.blacklistedAdvertiserGroupsOverviewView = new BlockSites.AdvertiserGroupsOverviewView({collection: this.blacklistedAdvertiserGroupList});
+      this.layout.blacklistedAdvertiserGroupsOverviewView.show(this.blacklistedAdvertiserGroupsOverviewView);
+      this.blacklistedAdvertiserGroupList.fetch();
+    },
+
+    _initializeWhitelistedAdvertisersOverviewView: function() {
+      this.whitelistedAdvertiserList = new BlockSites.AdvertiserCommitSummary();
+      this.whitelistedAdvertiserList.setState('PENDING_UNBLOCK');
+      this.whitelistedAdvertisersOverviewView = new BlockSites.AdvertisersOverviewView({collection: this.whitelistedAdvertiserList});
+      this.layout.whitelistedAdvertisersOverviewView.show(this.whitelistedAdvertisersOverviewView);
+      this.whitelistedAdvertiserList.fetch();
+    },
+
+    _initializeWhitelistedAdvertiserGroupsOverviewView: function() {
+      this.whitelistedAdvertiserGroupList = new BlockSites.AdvertiserGroupCommitSummary();
+      this.whitelistedAdvertiserGroupList.setState('PENDING_UNBLOCK');
+      this.whitelistedAdvertiserGroupsOverviewView = new BlockSites.AdvertiserGroupsOverviewView({collection: this.whitelistedAdvertiserGroupList});
+      this.layout.whitelistedAdvertiserGroupsOverviewView.show(this.whitelistedAdvertiserGroupsOverviewView);
+      this.whitelistedAdvertiserGroupList.fetch();
+    },
+
+    _onCommit: function() {
+      this.trigger('Commit:SiteBlock');
     },
 
   });

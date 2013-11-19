@@ -138,11 +138,19 @@ class Admin::BlockSitesController < ApplicationController
      render json: { errors: e.message }, status: :unprocessable_entity
   end
 
+  def commit_summary
+    model = params['type']
+    if params['type'].present? && params['state'].present?
+      @site_blocks = model.constantize.of_network(current_network).joins(:site).where(user: current_user).where(state: params['state'].split(",")).order('Sites.name asc')
+      respond_with(@site_blocks)
+    end
+  end
+
 private
 
   def enqueue_for_push
     queue_name = "reach.sites.block"
-    rmq = RabbitMQWrapper.new :queue => queue_name 
+    rmq = RabbitMQWrapper.new :queue => queue_name
 
     Rails.logger.warn "Block Site: Commit started by User: #{current_user.account_login} (Name: #{current_user.full_name}, Email: #{current_user.email}) of Network: #{current_network.name} at #{Time.now}"
     msg = current_user.id.to_s
