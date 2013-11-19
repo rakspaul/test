@@ -123,9 +123,7 @@ ReachUI.checkOrderStatus = function(order_id) {
           $('.current-io-status-top').css('opacity', 1);
           $('.current-io-status-top .io-status').html(resp.status);
           clearInterval(statusCheckTimer);
-
-          ReachUI.Orders.router.options.controller.orderList.remove(order_id);
-          ReachUI.Orders.router.navigate('/'+order_id, {trigger: true});
+          location.reload();
         }
       });
     }, 4000);
