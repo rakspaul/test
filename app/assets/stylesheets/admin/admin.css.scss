@@ -464,6 +464,9 @@
       select{
         width:85%;
         height:540px;
+        option.italics {
+         font-style: italic;
+        }
       }
     }
 

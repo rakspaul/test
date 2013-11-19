@@ -217,6 +217,11 @@
   BlockedAdvertisers.SearchResultItemView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
     template: _.template('<%= site_name%> <% if(default_block === true) {%> (Default Block)<%}%>'),
+    className: function() {
+      if (this.model.get('default_block')) {
+        return 'italics';
+      }
+    },
   });
 
   BlockedAdvertisers.SearchResultGroupView = Backbone.Marionette.CollectionView.extend({
