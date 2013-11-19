@@ -539,7 +539,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_dmas: li.get('targeting').get('selected_dmas'),
         dmas_list: li.get('targeting').get('dmas_list'),
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
-        audience_groups: li.get('targeting').get('audience_groups')
+        audience_groups: li.get('targeting').get('audience_groups'),
+        keyvalue_targeting: li.get('targeting').get('keyvalue_targeting')
       });
 
       ad.set('targeting', li_targeting);

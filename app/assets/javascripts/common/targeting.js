@@ -216,7 +216,7 @@
           }
         });
 
-        if(custom_kv.trim().match(/(\w+)=([\w\.]+)\s+[^,]*\s+(\w+)=([\w\.]+)/)) {
+        if(custom_kv.trim().match(/(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/)) {
           this.errors_in_kv = "Key values should be comma separated";
         }
       }
@@ -252,8 +252,9 @@
       if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
         this.$el.find('span.keyvalue_targeting').hide();
         this.$el.find('input.custom-kvs-field').show();
-        this.validateCustomKV();
       }
+
+      this.validateCustomKV();
     },
 
     _showRemoveTgtBtn: function(e) {

@@ -29,8 +29,9 @@
 
   <% if(show_custom_key_values) { %>
   <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= keyvalue_targeting %>" class="custom-kvs-field" <%= keyvalue_targeting ? 'style="display:none"' : '' %>/>
-  <span class="custom-kv-errors errors_container"></span>
   <% } %>
+  <div style="clear:both"></div>
+  <span class="custom-kv-errors errors_container"></span>
 </div>
 
 <div style="clear:both"></div>
