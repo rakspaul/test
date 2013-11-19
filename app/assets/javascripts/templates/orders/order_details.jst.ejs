@@ -1,7 +1,7 @@
 <div id="push-confirmation-dialog" class="modal hide fade">
   <div class="modal-body">
     <p class="heading">Sure you want to push? This will overwrite the whole order in DFP.</p>
-    <div class="btns">     
+    <div class="btns">
       <div class="cancel-btn">Cancel</div>
       <div class="push-btn">Push to Ad Server</div>
     </div>
@@ -36,7 +36,7 @@
 
 <div class="new-order-header">
   <div style="float:left">
-    <p class="heading"><%= order.name %></p> 
+    <p class="heading"><%= order.name %></p>
     <p class="adv-name"><%= order.reach_client_name %></p>
   </div>
 
@@ -87,9 +87,13 @@
         </div>
         <div class="field advertiser-name">
           <p>Advertiser Name</p>
-          <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
-            <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>
-          </span>
+          <% if(order.source_id) { %>
+            <span><%= order.advertiser_name %></span>
+          <% } else { %>
+            <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
+              <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>
+            </span>
+          <% } %>
         </div>
         <div class="field client-advertiser-name">
           <p>Client's Advertiser Name</p>
@@ -253,4 +257,4 @@
   <div class="toggle-general-info-button">
     ^ Hide General Information ^
   </div>
-</div>  
+</div>

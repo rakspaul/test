@@ -354,24 +354,26 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
 
-    $('.advertiser-name input').typeahead({
-      name: 'advertiser-names',
-      remote: {
-        url: '/advertisers.json?search=%QUERY',
-        filter: function(parsedResponse){
-          if(parsedResponse.length == 0){
-            parsedResponse.push({
-              name: "Advertiser not found"
-            });
-          }
+    if(!order.get("source_id")){
+      $('.advertiser-name input').typeahead({
+        name: 'advertiser-names',
+        remote: {
+          url: '/advertisers.json?search=%QUERY',
+          filter: function(parsedResponse){
+            if(parsedResponse.length == 0){
+              parsedResponse.push({
+                name: "Advertiser not found"
+              });
+            }
 
-          return parsedResponse;
-        }
-      },
-      valueKey: 'name',
-      limit: 20,
-      footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
-    });
+            return parsedResponse;
+          }
+        },
+        valueKey: 'name',
+        limit: 20,
+        footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
+      });
+    }
 
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
       if(el.name != 'Advertiser not found'){
