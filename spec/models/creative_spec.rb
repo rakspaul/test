@@ -16,12 +16,12 @@ describe Creative do
       @li = Lineitem.create order_id: @order.id, user_id: user.id, start_date: (Time.current + 5.day), end_date: (Time.current + 12.days), name: "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON", volume: 300_000, rate: 2.22, value: 666.00, ad_sizes: "160x600, 300x250, 728x90"
       @li.errors.messages.should == {}
 
-      @ad = Ad.create order_id: @order.id, io_lineitem_id: @li.id, size: "160x600", start_date: @li.start_date, end_date: @li.end_date, description: "Test description"
+      @ad = Ad.create order_id: @order.id, io_lineitem_id: @li.id, size: "160x600", start_date: @li.start_date, end_date: @li.end_date, description: "Test description", network: user.network
       @ad.errors.messages.should == {}
     end
 
     it "start/end date should be within ad's start/end date range" do
-      creative = Creative.create name: "Test creative", size: "160x600", width: 160, height: 600, redirect_url: "http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600", network_advertiser_id: advertiser.id
+      creative = Creative.create name: "Test creative", size: "160x600", width: 160, height: 600, redirect_url: "http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600", network_advertiser_id: advertiser.id, network: user.network
       creative.errors.messages.should == {}
 
       assignment = AdAssignment.new creative_id: creative.id, ad_id: @ad.id, start_date: (@ad.start_date - 6.days), end_date: (@ad.end_date - 3.days), network_id: @order.network.id
@@ -36,7 +36,7 @@ describe Creative do
     end
 
     it "start/end date should be within lineitem's start/end date range" do
-      creative = Creative.create name: "Test creative", size: "160x600", width: 160, height: 600, redirect_url: "http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600", network_advertiser_id: advertiser.id
+      creative = Creative.create name: "Test creative", size: "160x600", width: 160, height: 600, redirect_url: "http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600", network_advertiser_id: advertiser.id, network: user.network
       creative.errors.messages.should == {}
 
       assignment = LineitemAssignment.new creative_id: creative.id, io_lineitem_id: @li.id, start_date: (@li.start_date - 6.days), end_date: (@li.end_date - 3.days), network_id: @order.network.id
