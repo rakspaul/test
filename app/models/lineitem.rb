@@ -46,15 +46,16 @@ class Lineitem < ActiveRecord::Base
 
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
+      creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
 
       if cparams[:id]
         creative = Creative.find cparams[:id]
-        creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network_id: self.order.network_id)
+        creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
         if !creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
           creatives_errors[i] = creative.lineitem_assignment.errors.messages
         end
       else
-        creative = Creative.create name: ad_name(cparams), network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network_id: self.order.network_id, data_source_id: 1
+        creative = Creative.create name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
         li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
         if !li_assignment.errors.messages.blank?
           creatives_errors[i] = li_assignment.errors.messages
@@ -63,6 +64,17 @@ class Lineitem < ActiveRecord::Base
     end
 
     creatives_errors
+  end
+
+  def ad_name(start_date, ad_size)
+    start_date = Date.parse(start_date) if start_date.is_a?(String)
+    quarter = ((start_date.month - 1) / 3) + 1
+
+    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
+    "Q#{ quarter }#{ start_date.strftime('%y') } " \
+    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
+    "#{ ad_size }"
   end
 
   private
@@ -103,16 +115,5 @@ class Lineitem < ActiveRecord::Base
         max_alt_id = Lineitem.where(order_id: order_id).pluck('alt_ad_id').map{|s| s.to_i}.max || 0
         self.alt_ad_id = max_alt_id + 1
       end
-    end
-
-    def ad_name(params)
-      start_date = Date.parse params[:start_date]
-      quarter = ((start_date.month - 1) / 3) + 1
-
-      "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-      "Q#{ quarter }#{ start_date.strftime('%y') } " \
-      "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-      "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
-      "#{ params[:ad_size] }"
     end
 end

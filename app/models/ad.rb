@@ -20,6 +20,7 @@ class Ad < ActiveRecord::Base
   before_create :create_random_source_id
   before_save :move_end_date_time
   before_validation :check_flight_dates_within_li_flight_dates
+  after_save :update_creatives_name
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
@@ -94,6 +95,13 @@ class Ad < ActiveRecord::Base
       if self.end_date.to_date > self.lineitem.end_date.to_date
         self.errors.add(:start_date, "couldn't be after lineitem's end date")
       end
+    end
+  end
+
+  def update_creatives_name
+    self.creatives.each do |creative|
+      creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
+      creative.update_attribute :name, creative_name
     end
   end
 end
