@@ -97,6 +97,7 @@
       });    
 
       this._renderSelectedTargetingOptions();
+      this.validateCustomKV();
     },
 
     _showKeyValuesTab: function() {
@@ -212,7 +213,7 @@
       if(custom_kv.trim() != "") {
         _.each(custom_kv.split(','), function(el) {
           if(el.trim().match(/^(\w+)=([\w\.]+)$/) == null) {
-            self.errors_in_kv = "Key value format should be [your key]=[your value]";
+            self.errors_in_kv = "Key value format should be [key]=[value]";
           }
         });
 
