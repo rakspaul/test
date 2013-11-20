@@ -368,12 +368,13 @@
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
 
-                    if (li_errors["creatives"] && li_errors["creatives"][li_k]) {
-                      $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
-                    }
                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
+
+                  if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
+                  }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
                     _.each(creative_errors, function(errorMsg, fieldName) {
@@ -395,23 +396,25 @@
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
                         ReachUI.alignAdsDivs();
-
-                        if (ad_errors["creatives"] && ad_errors["creatives"][li_k]) {
-                          $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                            .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
-                        }
                       }
                     });
 
-                    _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
-                      _.each(creative_errors, function(errorMsg, fieldName) {
-                        var fieldSelector = errors_fields_correspondence.creatives[fieldName];
-                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                                  .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-                          field.addClass('field_with_errors');
-                        field.find('.errors_container').html(errorMsg);
+                    if (ad_errors && ad_errors["creatives"]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                        .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
+                    }
+
+                    if (ad_errors && ad_errors["creatives"]) {
+                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                        _.each(creative_errors, function(errorMsg, fieldName) {
+                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+                            field.addClass('field_with_errors');
+                          field.find('.errors_container').html(errorMsg);
+                        });
                       });
-                    });
+                    }
                   });
                 });
               } else {

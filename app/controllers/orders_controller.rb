@@ -428,8 +428,8 @@ private
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
             if !creatives_errors.blank?
-              li_errors[i] ||= {:ads => {}}
-              li_errors[i]
+              li_errors[i] ||= {}
+              li_errors[i][:ads] ||= {}
               li_errors[i][:ads][j] ||= {}
               li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
             end
@@ -440,12 +440,12 @@ private
             li_errors[i][:ads][j] = ad_object.errors.to_hash
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
-        rescue => e
-          Rails.logger.warn 'e.message - ' + e.message.inspect
-          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-          li_errors[i] ||= {}
-          li_errors[i][:ads] ||= {}
-          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+        #rescue => e
+        #  Rails.logger.warn 'e.message - ' + e.message.inspect
+        #  Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+        #  li_errors[i] ||= {}
+        #  li_errors[i][:ads] ||= {}
+        #  li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
     end
@@ -535,9 +535,10 @@ private
           end
           ads << ad_object
 
-          if ad_object.valid? && li_saved && !unique_description_error
+          ad_creatives_errors = []
+          ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad') if li_creatives
+          if ad_object.valid? && li_saved && !unique_description_error && ad_creatives_errors.empty?
             ad_object.save
-            #if ad_object.save
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
 
             if !ad_pricing.save
@@ -560,10 +561,7 @@ private
             li_errors[i][:ads][j] = ad_object.errors.to_hash
             li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
-            if (li_creatives)
-              ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad')
-              li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
-            end
+            li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
