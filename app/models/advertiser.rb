@@ -6,7 +6,9 @@ class Advertiser < ActiveRecord::Base
 
   has_many :orders
   has_many :creatives
+
   before_create :create_random_source_id, :set_data_source, :make_advertiser_active
+  before_save :set_data_source
 
   def self.of_network(network)
     where(:network => network)

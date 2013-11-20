@@ -23,9 +23,9 @@ class Order < ActiveRecord::Base
   validates :name, uniqueness: { message: "The order name is already used.", scope: :network_id }, presence: true
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
-  before_create :create_random_source_id, :set_data_source, :make_order_inactive
+  before_create :create_random_source_id, :make_order_inactive
   before_destroy :check_could_be_deleted
-  before_save :move_end_date_time
+  before_save :move_end_date_time, :set_data_source
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }

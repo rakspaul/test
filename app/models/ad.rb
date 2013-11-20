@@ -1,6 +1,8 @@
 class Ad < ActiveRecord::Base
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
+  belongs_to :data_source
+  belongs_to :network
 
   has_one :ad_pricing, dependent: :destroy
 
@@ -18,7 +20,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time
+  before_save :move_end_date_time, :set_data_source
   before_validation :check_flight_dates_within_li_flight_dates
 
   def dfp_url
@@ -42,7 +44,7 @@ class Ad < ActiveRecord::Base
             creatives_errors[i] = ad_assignment.errors.messages
           end
         else
-          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id))
+          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network: self.network)
           if !ad_assignment.errors.messages.blank?
             creatives_errors[i] = ad_assignment.errors.messages
           end
@@ -70,6 +72,10 @@ class Ad < ActiveRecord::Base
 
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
+  end
+
+  def set_data_source
+    self.data_source = self.network.data_source
   end
 
   def pushed_to_dfp?

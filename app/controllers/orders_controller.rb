@@ -381,7 +381,7 @@ private
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.ad_type  = "STANDARD"
-          ad_object.network_id = current_network.id
+          ad_object.network = current_network
           ad_object.cost_type = "CPM"
 
           if li_saved
@@ -411,7 +411,7 @@ private
             ad_object.update_attributes(ad[:ad])
             ad_object.update_attribute(:keyvalue_targeting, ad_targeting[:targeting][:keyvalue_targeting])
 
-            ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
+            ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
             ad_pricing.rate = ad[:ad][:rate]
             ad_pricing.quantity = ad_quantity
@@ -537,7 +537,7 @@ private
           if ad_object.valid? && li_saved && !unique_description_error
             ad_object.save
             #if ad_object.save
-            ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+            ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
