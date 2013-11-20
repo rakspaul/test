@@ -26,8 +26,6 @@
 //= require select2.min.js
 //= require jquery-fileupload/basic
 //= require moment.min
-//= require moment-timezone.min
-//= require moment-timezone-data
 //= require mousetrap.min
 //= require daterangepicker
 //= require accounting.min
