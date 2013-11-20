@@ -3,10 +3,17 @@ class AdAssignment < ActiveRecord::Base
 
   belongs_to :ad, foreign_key: :ad_id
   belongs_to :creative
+  belongs_to :data_source
+  belongs_to :network
 
   before_validation :check_flight_dates_within_ad_flight_dates
+  before_save :set_data_source
 
 private
+
+  def set_data_source
+    self.data_source = self.network.data_source
+  end
 
   def check_flight_dates_within_ad_flight_dates
     if self.start_date.to_date < self.ad.start_date.to_date
