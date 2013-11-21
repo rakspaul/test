@@ -1,13 +1,14 @@
 require 'bunny'
 require 'yaml'
 
-config  = YAML.load_file Rails.root.join('config', 'rabbitmq.yml')
+rabbitmq_conf = Rails.root.join('config', 'rabbitmq.yml')
+config  = YAML.load_file(rabbitmq_conf) if File.exist?(rabbitmq_conf)
 env     = Rails.env.to_s
 
-RABBITMQ_HOST     = config[env]["host"]     || ENV['rabbitmq_host']      || '127.0.0.1'
-RABBITMQ_VHOST    = config[env]["vhost"]    || ENV['rabbitmq_vhost']     || "/"
-RABBITMQ_USER     = config[env]["username"] || ENV['rabbitmq_user']      || "guest"
-RABBITMQ_PASSWORD = config[env]["password"] || ENV['rabbitmq_password']  || "guest"
+RABBITMQ_HOST     = config && config[env]["host"]     || ENV['rabbitmq_host']      || '127.0.0.1'
+RABBITMQ_VHOST    = config && config[env]["vhost"]    || ENV['rabbitmq_vhost']     || "/"
+RABBITMQ_USER     = config && config[env]["username"] || ENV['rabbitmq_user']      || "guest"
+RABBITMQ_PASSWORD = config && config[env]["password"] || ENV['rabbitmq_password']  || "guest"
 
 class RabbitMQWrapper
   def initialize(options)

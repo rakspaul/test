@@ -68,6 +68,16 @@ describe OrdersController do
         }.to change(Creative, :count).by(3)
       end
 
+      it "saves creatives with name = ad description + creative's ad_size" do
+        post :create, io_request_w_ads
+        Order.last.ads.each do |ad|
+          ad.creatives.each do |creative|
+            ad_description = ad.description.gsub(/\s*\d+x\d+,?/, '')
+            expect(creative.name).to start_with(ad_description)
+          end
+        end
+      end
+
       it "create a new order note" do
         expect{
           post :create, io_request
@@ -154,6 +164,41 @@ private
       li['lineitem']['creatives'].each do |creative|
         creative['creative']['start_date'] = start_date
         creative['creative']['end_date']   = end_date
+      end
+    end
+
+   { :format => 'json' }.merge params
+  end
+
+  def io_request_w_ads
+    params = JSON.parse(File.read( Rails.root.join('spec', 'fixtures', 'requests', 'valid_io_w_ads.json')))
+
+    user_name = "#{user.first_name} #{user.last_name}"
+    start_date = 1.day.from_now.strftime('%Y-%m-%d')
+    end_date   = 22.day.from_now.strftime('%Y-%m-%d')
+
+    params['order']['reach_client_id']        = reach_client.id
+    params['order']['trafficking_contact_id'] = user.id
+    params['order']['sales_person_name']      = user_name
+    params['order']['account_contact_name']   = user_name
+    params['order']['start_date'] = start_date
+    params['order']['end_date'] = end_date
+    params['order']['advertiser_id'] = advertiser.id
+    params['order']['lineitems'].each do |li|
+      li['lineitem']['start_date'] = start_date
+      li['lineitem']['end_date']   = end_date
+      li['lineitem']['creatives'].each do |creative|
+        creative['creative']['start_date'] = start_date
+        creative['creative']['end_date']   = end_date
+      end
+
+      li['ads'].each do |ad|
+        ad['ad']['start_date'] = start_date
+        ad['ad']['end_date'] = end_date
+        ad['ad']['creatives'].each do |creative|
+          creative['creative']['start_date'] = start_date
+          creative['creative']['end_date']   = end_date
+        end
       end
     end
 
