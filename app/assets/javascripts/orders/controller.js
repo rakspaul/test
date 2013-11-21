@@ -43,10 +43,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
-    if(this.selectedOrder) {
-      this.selectedOrder.unselect();
-    }
-
+    this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
@@ -58,10 +55,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     //var view = new ReachUI.Orders.EditView({model: order});
     var uploadView = new ReachUI.Orders.UploadView();
 
-    if(this.selectedOrder) {
-      this.selectedOrder.unselect();
-    }
-
+    this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     //this.orderDetailsLayout.bottom.show(view);
@@ -75,6 +69,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       promise.then(this._showEditOrder);
     } else {
       this._showEditOrder(this.selectedOrder);
+    }
+  },
+
+  _unselectOrder: function() {
+    if (this.selectedOrder) {
+      this.selectedOrder.unselect();
     }
   },
 
@@ -464,7 +464,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       } else if("assignment" == error.type) {
-console.log('.assignment-'+error.assignment_id+'.pushing-status');
         $('.assignment-'+error.assignment_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.assignment-'+error.assignment_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);

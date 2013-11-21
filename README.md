@@ -117,6 +117,8 @@ For testing used following libs:
 
 [Sinon](http://sinonjs.org/) - standalone test spies, stubs and mocks for JavaScript.
 
+[jasmine-matchers](https://github.com/JamieMason/Jasmine-Matchers) - provides many different matchers.
+
 Additional libraries could be included in spec/javascripts/helpers/spec_helper.js in following way:
 
     //= require jasmine-jquery
