@@ -335,7 +335,13 @@ private
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
-      lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
+      if !custom_kv_errors
+        lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      else
+        li_errors[i] ||= {}
+        li_errors[i][:targeting] = custom_kv_errors
+      end
 
       li_saved = nil
 
@@ -409,7 +415,10 @@ private
 
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
-            ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting])
+
+            custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
+
+            ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
 
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
@@ -423,11 +432,12 @@ private
             end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
-            if !creatives_errors.blank?
+            if !creatives_errors.blank? || custom_kv_errors
               li_errors[i] ||= {}
               li_errors[i][:ads] ||= {}
               li_errors[i][:ads][j] ||= {}
-              li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
+              li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash if !creatives_errors.blank?
+              li_errors[i][:ads][j][:targeting] = custom_kv_errors if custom_kv_errors
             else
               ad_object.update_creatives_name
             end
@@ -474,7 +484,13 @@ private
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
-      lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
+      if !custom_kv_errors
+        lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      else
+        li_errors[i] ||= {}
+        li_errors[i][:targeting] = custom_kv_errors
+      end
 
       valid_li = lineitem.valid?
       li_saved = valid_order && valid_li && lineitem.save
@@ -521,6 +537,8 @@ private
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
 
+          custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
+
           ad_object.save_targeting(ad_targeting)
 
           sum_of_ad_impressions += ad_quantity.to_i
@@ -538,7 +556,8 @@ private
 
           ad_creatives_errors = []
           ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad') if li_creatives
-          if ad_object.valid? && li_saved && !unique_description_error && ad_creatives_errors.empty?
+
+          if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
@@ -563,6 +582,7 @@ private
             li_errors[i][:ads][j] = ad_object.errors.to_hash
             li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
+            li_errors[i][:ads][j][:targeting] = custom_kv_errors if custom_kv_errors
             li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
           end
         rescue => e
@@ -605,5 +625,23 @@ private
       creatives_errors[index] = creative_errors unless creative_errors.empty?
     end
     creatives_errors
+  end
+
+  def validate_custom_keyvalues(custom_kv)
+    errors_in_kv = false
+
+    if !custom_kv.strip.blank?
+      custom_kv.split(',').each do |el|
+        if ! el.strip.match /^(\w+)=([\w\.]+)$/
+          errors_in_kv = "Key value format should be [key]=[value]"
+        end
+      end
+
+      if custom_kv.strip.match /(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/
+        errors_in_kv = "Key values should be comma separated"
+      end
+    end
+
+    errors_in_kv
   end
 end
