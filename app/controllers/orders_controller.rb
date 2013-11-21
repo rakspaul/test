@@ -409,7 +409,7 @@ private
 
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
-            ad_object.update_attribute(:keyvalue_targeting, ad_targeting[:targeting][:keyvalue_targeting])
+            ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
@@ -518,7 +518,7 @@ private
           ad_object.cost_type = "CPM"
           ad_object.ad_type   = "STANDARD"
           ad_object.network_id = current_network.id
-          ad_object.keyvalue_targeting = ad_targeting[:targeting][:keyvalue_targeting]
+          ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
 
           ad_object.save_targeting(ad_targeting)
