@@ -65,16 +65,28 @@ describe('OrderController', function() {
 
     describe('#index', function() {
       beforeEach(function() {
-        this.controller = new ReachUI.Orders.OrderController();
+        controller = new ReachUI.Orders.OrderController();
+        layout = controller.orderDetailsLayout;
       });
 
-      xit("should unselect selected order", function() {
-
+      it("should unselect selected order", function() {
+        controller.selectedOrder = { unselect: function () {}};
+        var selectSpy = sinon.spy(controller.selectedOrder, 'unselect');
+        controller.index();
+        expect(selectSpy.calledOnce).toBeTruthy();
       });
 
-      xit("should show upload view at the top", function() {
+      it("should show upload view at the top", function() {
+        controller.index();
+        expect(layout.top.currentView.$el.find('div:first')).toHaveClass('upload-io-region');
+      });
 
+      it("should reset layout bottom", function() {
+        controller.index();
+        expect(layout.bottom.$el).toBeUndefined();
       });
     });
+
   });
 });
+
