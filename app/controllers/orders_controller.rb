@@ -428,6 +428,8 @@ private
               li_errors[i][:ads] ||= {}
               li_errors[i][:ads][j] ||= {}
               li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
+            else
+              ad_object.update_creatives_name
             end
           else
             Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
@@ -546,12 +548,13 @@ private
             end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
-
             if !creatives_errors.blank?
               li_errors[i] ||= {:ads => {}}
               li_errors[i]
               li_errors[i][:ads][j] ||= {}
               li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
+            else
+              ad_object.update_creatives_name
             end
           else
             Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
