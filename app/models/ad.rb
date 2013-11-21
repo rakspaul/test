@@ -106,6 +106,7 @@ class Ad < ActiveRecord::Base
   end
 
   def update_creatives_name
+    self.reload # update relations
     self.creatives.each do |creative|
       creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
       creative.update_attribute :name, creative_name
