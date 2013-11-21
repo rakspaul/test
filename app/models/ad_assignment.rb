@@ -24,6 +24,20 @@ private
     if self.end_date.to_date > self.ad.end_date.to_date
       self.errors.add(:end_date, "couldn't be after ad's end date")
     end
+
+    if self.end_date.to_date < self.ad.start_date.to_date
+      self.errors.add(:start_date, "couldn't be before ad's start date")
+    end
+
+    if self.start_date.to_date > self.ad.end_date.to_date
+      self.errors.add(:end_date, "couldn't be after ad's end date")
+    end
+  end
+
+  def check_end_date_after_start_date
+    if self.end_date.to_date < self.start_date.to_date
+      self.errors.add(:end_date, "couldn't be before start date")
+    end
   end
 
   def check_end_date_after_start_date
