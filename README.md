@@ -102,3 +102,26 @@ Run only frontend tests
 Run all Jasmine specs once:
 
     rake guard:jasmine
+
+###Frontend tests:
+
+Tests are located in spec/javascript directory.
+For testing used following libs:
+
+[Jasmine](http://pivotal.github.com/jasmine/)
+
+[jasmine-jquery](https://github.com/velesin/jasmine-jquery) - provides two extensions for [Jasmine](http://pivotal.github.com/jasmine/) JavaScript Testing Framework:
+
+- a set of custom matchers for jQuery framework
+- an API for handling HTML, CSS, and JSON fixtures in your specs
+
+[Sinon](http://sinonjs.org/) - standalone test spies, stubs and mocks for JavaScript.
+
+Additional libraries could be included in spec/javascripts/helpers/spec_helper.js in following way:
+
+    //= require jasmine-jquery
+    //= require sinon
+
+###RoR specs:
+
+rspec, factory girl, shoulda
