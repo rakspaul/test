@@ -129,7 +129,7 @@ class IoImport
 
       @lineitems.to_a.each do |li|
         li_inreds = @inreds.select do |ir|
-          ir[:placement] == li.name && 
+          ir[:placement] == li.name &&
           ir[:start_date] == li.start_date.to_date &&
           ir[:end_date]   == li.end_date.to_date
         end
@@ -211,7 +211,7 @@ end
 
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
-  
+
   DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
 
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
@@ -403,13 +403,13 @@ class IOExcelFileReader
       return str if str.is_a?(Date)
 
       if str.index('-')
-        Date.strptime(str.strip)
+        Date.strptime(str.squish)
       elsif str.index('.')
-        Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
-      elsif str.split('/').try(:last).try(:length) == 2
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+      elsif str.squish.split('/').try(:last).try(:length) == 2
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
       else
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
       end
     rescue
       nil
