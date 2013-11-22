@@ -444,6 +444,8 @@
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
+            } else if (response.state.match(/incomplete_push/i)) {
+              noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
             }
             if (response.order_id) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
