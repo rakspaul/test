@@ -558,7 +558,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("RON");
     }
     ad_name_parts.push('Q'+start_quarter+start_year);
-    ad_name_parts.push(li.attributes.ad_sizes.replace(/,/g, ''));
+    ad_name_parts.push(li.attributes.ad_sizes.replace(/,/g, ' '));
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
