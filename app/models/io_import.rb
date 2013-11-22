@@ -207,7 +207,7 @@ end
 
 class IOExcelFileReader
   LINE_ITEM_START_ROW = 29
-  
+
   DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
 
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
@@ -371,7 +371,7 @@ class IOExcelFileReader
 
   def inreds
     row = INREDS_START_ROW
-    
+
     change_sheet INREDS_SPREADSHEET_PAGE do
       while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
         yield({
@@ -393,13 +393,13 @@ class IOExcelFileReader
       return str if str.is_a?(Date)
 
       if str.index('-')
-        Date.strptime(str.strip)
+        Date.strptime(str.squish)
       elsif str.index('.')
-        Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
-      elsif str.split('/').try(:last).try(:length) == 2
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+      elsif str.squish.split('/').try(:last).try(:length) == 2
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
       else
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
       end
     rescue
       nil
