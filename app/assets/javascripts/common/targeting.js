@@ -43,6 +43,8 @@
     onRender: function() {
       var self = this;
 
+      this.show_custom_key_values = false;
+
       this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "97%"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
         var selected_values = $(this).val();
@@ -126,6 +128,8 @@
       var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
+
+      this.validateCustomKV();
     },
 
     _addKVToSelectedKeyValues: function(selected) {

@@ -377,7 +377,7 @@
                   }
 
                   if (li_errors["targeting"]) {
-                    $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').html(li_errors["targeting"]);
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
                   }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
