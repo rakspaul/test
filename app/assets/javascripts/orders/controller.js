@@ -535,8 +535,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     return remaining_impressions;
   },
 
-  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
-  // Client Short Name + Client Advertiser Name + Quarter + Year + "GEO" (if DMA or Zips are included for the Ad) + "RON" (if NO Key Values are selected for the Ad) + "BTCT" (if Key Values ARE selected for the Ad) + Creative Sizes.
+  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
+  // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
   _generateAdName: function(li) {
     var start_date = new Date(li.attributes.start_date);
@@ -548,16 +548,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
     ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
-    ad_name_parts.push('Q'+start_quarter+start_year);
+    
     if(isGeo) {
       ad_name_parts.push("GEO");
     }
     if(hasKeyValues) {
-      ad_name_parts.push("BTCT");
+      ad_name_parts.push("BT/CT");
     } else {
       ad_name_parts.push("RON");
     }
-    ad_name_parts.push(li.attributes.ad_sizes);
+    ad_name_parts.push('Q'+start_quarter+start_year);
+    ad_name_parts.push(li.attributes.ad_sizes.replace(/,/g, ''));
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
