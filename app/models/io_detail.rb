@@ -3,6 +3,7 @@ class IoDetail < ActiveRecord::Base
     failure: "Failure",
     pushing: "Pushing",
     pushed: "Pushed",
+    incomplete_push: "Incomplete Push",
     draft: "Draft",
     ready_for_am: "Ready for AM",
     ready_for_trafficker: "Ready for Trafficker"
