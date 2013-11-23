@@ -11,7 +11,7 @@ json.advertiser_unknown       order.advertiser.blank?
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.order_status             io_detail.try(:state).to_s.capitalize
+json.order_status             IoDetail::STATUS[io_detail.try(:state).to_sym]
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
 json.sales_person_phone       io_detail.sales_person_phone
