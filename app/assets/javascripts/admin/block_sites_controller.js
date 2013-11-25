@@ -150,9 +150,10 @@
 
     _createAdvertiserModel: function(advertiser, site_id) {
       var advertiser_id = advertiser.id,
-      name = advertiser.get('name');
+      name = advertiser.get('name'),
+      default_block = advertiser.get('default_block');
 
-      return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name})
+      return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name, default_block: default_block})
     },
 
     _onUnblockAdvertiser: function(advertisers) {

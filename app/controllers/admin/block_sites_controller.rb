@@ -146,6 +146,15 @@ class Admin::BlockSitesController < ApplicationController
     end
   end
 
+  def default_block_for_advertiser
+    if params['advertiser_id'].present?
+      advertiser_ids = params['advertiser_id'].split(",").map(&:to_i)
+      ba = BlockedAdvertiser.of_network(current_network).where(advertiser_id: advertiser_ids.split(',')).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+      advertiser_with_default_blocks = advertiser_ids - ba.pluck("advertiser_id").uniq
+      render json: {default_block: advertiser_with_default_blocks}
+    end
+  end
+
 private
 
   def enqueue_for_push

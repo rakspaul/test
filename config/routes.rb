@@ -22,6 +22,7 @@ Reachui::Application.routes.draw do
       collection do
         get 'export_sites'
         get 'export_adv_and_group'
+        get 'default_block_for_advertiser'
       end
     end
     resources :media_contacts
