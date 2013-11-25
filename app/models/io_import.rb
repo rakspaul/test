@@ -456,15 +456,18 @@ class IOPdfFileReader < IOReader
     {
       name: @media_contact_name.to_s.strip,
       phone: @media_contact_phone.to_s.strip,
-      email: @contact_media_email.to_s.strip
+      email: @media_contact_email.to_s.strip
     }
   end
 
   def sales_person
+    user = User.find_by first_name: "Peter", last_name: "Fernquist"
     {
-      phone_number: @account_contact.to_s.strip,
-      email: @account_contact_email.to_s.strip
-    }.merge split_name(@account_contact_name.to_s.strip)
+      phone_number: user.phone_number,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name
+    }
   end
 
   def billing_contact
@@ -501,7 +504,7 @@ class IOPdfFileReader < IOReader
   end
 
   def find_notes
-    ""
+    @notes
   end
 
   def inreds
@@ -511,60 +514,113 @@ class IOPdfFileReader < IOReader
 private
 
   def parse_file
-    reader = PDF::Reader.new(@file)
-    text = reader.pages[0].text.split("\n").map(&:strip).reject(&:empty?)
+    @advertiser_name = "COX"
+    @reach_client_name = "Cox AM"
 
-    i = 0
+    reader = PDF::Reader::Turtletext.new(@file)
 
-    while i < text.length
-      line = text[i]
-  
-      lineitem_regexp = /(?<li_name>.+)\s+(?<li_id>\d+)+\s+Site:(.+)\s+(?<start_date>\d{1,2}\/\d{1,2}\/\d{4})(?<end_date>\d{1,2}\/\d{1,2}\/\d{4})\s+(?<impressions>[\d,\.]+)\s+(?<type>\w+)\s+\$(?<rate>[\d\.]+)\s+\$(?<total>[\d\.]+)/
-
-      case line.strip
-      when /Advertiser/
-        matches = line.match(/Advertiser\s+(.+)Bill To\s+(.+)/)
-        @client_advertiser_name = matches[1].strip
-      when /Campaign Name/
-        matches = line.match(/Campaign Name\s+(.+)Frequency\s+(.+)/)
-        @order_name = matches[1].strip
-      when /Account Manager\s+(.+)Phone\s+(.+)/
-        matches = line.match(/Account Manager\s+(.+)Phone\s+(.+)/)
-        @media_contact = matches[1].strip
-      when /Account Manager Email\s+(.+)Address\s+(.+)/
-        matches = line.match(/Account Manager Email\s+(.+)Address\s+(.+)/)
-        @media_contact_email = matches[1].strip
-      when /AM Phone/
-
-      when /Billing Contact/
-
-      when /Billing Email/
-
-      when /Billing Phone/
-
-      when /ad size\(s\):/mi
-        matches = text[i].match(/ad size\(s\):\s+(\d+x\d+)/mi)    
-        @ad_sizes = [matches[1].strip]
-        i += 1
-      
-        while text[i].to_s.strip != ""
-          matches = text[i].scan(/\d+x\d+/mi)
-          matches.each { |ad_size| @ad_sizes << ad_size.strip }
-          i += 1
-        end
-      when lineitem_regexp
-        matches     = line.match(lineitem_regexp)
-
-        @li_end_date    = matches[:end_date]
-        @li_start_date  = matches[:start_date]
-        @li_name        = matches[:li_name].strip
-        @li_id          = matches[:li_id].to_i
-        @impressions    = matches[:impressions]
-        @rate           = matches[:rate]
-        @type           = matches[:type]
-        @total          = matches[:total]
-      end
-      i += 1
+    textangle = reader.bounding_box do
+      page 1
+      right_of /advertiser/i
+      left_of /bill to/i
+      below /campaign information/i
+      above /campaign name/i
     end
+    @client_advertiser_name = textangle.text[0][0]
+    Rails.logger.warn '@client_advertiser_name - ' + @client_advertiser_name.inspect
+      
+    textangle = reader.bounding_box do
+      page 1
+      below /advertiser/i
+      above /campaign io number/i
+      left_of /frequency/i
+      right_of /campaign name/i
+    end
+    @order_name = textangle.text[0][0]
+    Rails.logger.warn '@order_name - ' + @order_name.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /io version number/i
+      above /account manager email/i
+      right_of /account manager/i
+    end
+    @media_contact_name = textangle.text[0][0]
+    Rails.logger.warn '@media_contact_name =  ' + @media_contact_name.inspect
+   
+    textangle = reader.bounding_box do
+      page 1
+      below /account manager/i
+      above /am phone/i
+      left_of /address/i
+    end
+    @media_contact_email = textangle.text[0][1]
+    Rails.logger.warn '@media_contact_email =  ' + @media_contact_email.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /account manager email/i
+      above "AM Fax"
+      right_of "AM Phone"
+    end
+    @media_contact_phone = textangle.text[1][0]
+    Rails.logger.warn '@media_contact_phone =  ' + @media_contact_phone.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /frequency/i
+      right_of /billing contact/i
+    end
+    @billing = textangle.text
+    @billing_contact_name = @billing[0][0]
+    @billing_contact_email = @billing[1][0]
+    @billing_contact_phone = @billing[2][0]
+    Rails.logger.warn '@billing =  ' + @billing.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /placement name/mi
+      left_of /proposal/i
+    end
+    @placement = textangle.text
+    Rails.logger.warn '@placement =  ' + @placement.inspect
+    @placement_name = @placement[1][0]
+    @placement_name += @placement[2][0] if @placement[2]
+    @li_id = @placement[1][1]
+    Rails.logger.warn '@placement_name =  ' + @placement_name.inspect
+    Rails.logger.warn '@li_id =  ' + @li_id.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /Start/
+      right_of /site:/i
+    end
+    @dates = textangle.text
+    Rails.logger.warn '@dates = ' + @dates.inspect
+    @li_start_date = @dates[0][0]
+    @li_end_date   = @dates[0][1]
+    @impressions   = @dates[0][2].gsub(/,/, '')
+    @rate          = @dates[0][4].gsub(/,|\$/,'')
+    @type          = @dates[0][3]
+    @total         = @dates[0][5].gsub(/,|\$/,'')
+    @notes         = @dates[0][6]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /section:/i
+    end
+    @ad_sizes = []
+    matches = textangle.text.flatten.join.scan(/\d+x\d+/mi)
+    matches.each{|ad_size| @ad_sizes << ad_size.strip}
+    Rails.logger.warn '@ad_sizes - ' + @ad_sizes.inspect
+
+    textangle = reader.bounding_box do
+      page 1
+      below /campaign (tertiary )?goal/i
+      above /Placement Name/
+    end
+    Rails.logger.warn 'textangle.text - ' + textangle.text.inspect
+    @li_name = textangle.text.flatten.try(:first).to_s
+    Rails.logger.warn '@li_name - ' + @li_name.inspect
   end
 end
