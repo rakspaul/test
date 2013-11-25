@@ -3,6 +3,7 @@ class IoDetail < ActiveRecord::Base
     failure: "Failure",
     pushing: "Pushing",
     pushed: "Pushed",
+    incomplete_push: "Incomplete Push",
     draft: "Draft",
     ready_for_am: "Ready for AM",
     ready_for_trafficker: "Ready for Trafficker"
@@ -25,20 +26,14 @@ class IoDetail < ActiveRecord::Base
 private
 
   def enqueue_for_push
-    require 'bunny'
+    queue_name = "reach.io.push"
+    rmq = RabbitMQWrapper.new :queue => queue_name 
 
-    conn = Bunny.new(:host => '127.0.0.1', :vhost => "/", :user => "reach", :password => "asd234f#dg")
-    conn.start
-
-    ch   = conn.create_channel
-    q    = ch.queue("reach.io.push", :durable => true)
-    Rails.logger.warn "Sending...#{q.name}, order id: #{self.order.id}"
+    Rails.logger.warn "Sending...#{queue_name}, order id: #{self.order.id}"
     msg  = self.order.id.to_s
 
-    q.publish(msg, :persistent => true)
-    Rails.logger.warn " [reach.io.push] Sent #{msg}"
-
-    conn.close
+    rmq.publish(msg)
+    rmq.close
   rescue => e
     Rails.logger.warn e.message.inspect
     self.update_attribute :state, STATUS[:failure]

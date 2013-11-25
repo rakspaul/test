@@ -63,6 +63,12 @@ group :development, :test do
   gem 'shoulda', '~> 3.5.0'
   gem 'factory_girl_rails', '~> 4.2.1'
   gem 'debugger', '~> 1.6.0'
+
+  gem 'guard-rspec'
+  gem 'jasmine-rails'
+  gem 'jasmine-jquery-rails'
+  gem 'sinon-rails'
+  gem 'guard-jasmine'
 end
 
 group :development do

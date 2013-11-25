@@ -56,12 +56,31 @@ set(:unicorn_env) { rails_env }
 set(:app_env)     { rails_env }
 
 require 'capistrano-unicorn'
+
+before 'deploy:update_code', 'run_tests'
+
 after 'deploy:restart', 'unicorn:reload' # app IS NOT preloaded
 after 'deploy:restart', 'unicorn:restart'  # app preloaded
-after "deploy:finalize_update", "deploy:file_store_symlink"
+after 'deploy:finalize_update', 'deploy:file_store_symlink', 'deploy:copy_rabbitmq_config'
 
 task :display_branch, :except => {:no_release => true} do
   puts "\nDEPLOYING #{branch} branch of #{application} to #{stage}\n\n"
+end
+
+set :test_log, "log/capistrano.test.log"
+
+task :run_tests do
+  puts "--> Running tests"
+  client = HipChat::Client.new(hipchat_token)
+  if system("bundle exec rspec > #{test_log}")
+    puts "----> Tests successfully passed"
+    client[hipchat_room_name].send('Deploy', 'Tests successfully passed', :color => hipchat_color)
+    system("rm #{test_log}")
+  else
+    puts "----> Tests failed"
+    client[hipchat_room_name].send('Deploy', 'Tests failed', :color => hipchat_failed_color)
+    exit
+  end
 end
 
 # require "whenever/capistrano"
@@ -74,5 +93,9 @@ end
 namespace :deploy do
   task :file_store_symlink do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
+  end
+
+  task :copy_rabbitmq_config do
+    run "ln -nfs #{shared_path}/rabbitmq.yml #{current_release}/config/rabbitmq.yml"
   end
 end

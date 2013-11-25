@@ -1,6 +1,8 @@
 class Ad < ActiveRecord::Base
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
+  belongs_to :data_source
+  belongs_to :network
 
   has_one :ad_pricing, dependent: :destroy
 
@@ -18,8 +20,9 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time
+  before_save :move_end_date_time, :set_data_source
   before_validation :check_flight_dates_within_li_flight_dates
+  after_save :update_creatives_name
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
@@ -42,7 +45,7 @@ class Ad < ActiveRecord::Base
             creatives_errors[i] = ad_assignment.errors.messages
           end
         else
-          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id))
+          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network: self.network)
           if !ad_assignment.errors.messages.blank?
             creatives_errors[i] = ad_assignment.errors.messages
           end
@@ -72,6 +75,10 @@ class Ad < ActiveRecord::Base
     self.source_id = "R_#{SecureRandom.uuid}"
   end
 
+  def set_data_source
+    self.data_source = self.network.data_source
+  end
+
   def pushed_to_dfp?
     self.source_id.to_i != 0
   end
@@ -79,6 +86,7 @@ class Ad < ActiveRecord::Base
   def sanitize_attributes
     # https://github.com/collectivemedia/reachui/issues/136
     self[:description] = description.strip[0..254]
+    self[:source_id]   = self.source_id_was unless new_record?
   end
 
   def move_end_date_time
@@ -92,8 +100,16 @@ class Ad < ActiveRecord::Base
       end
 
       if self.end_date.to_date > self.lineitem.end_date.to_date
-        self.errors.add(:start_date, "couldn't be after lineitem's end date")
+        self.errors.add(:end_date, "couldn't be after lineitem's end date")
       end
+    end
+  end
+
+  def update_creatives_name
+    self.reload # update relations
+    self.creatives.each do |creative|
+      creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
+      creative.update_attribute :name, creative_name
     end
   end
 end

@@ -61,7 +61,7 @@
       }, 0.0);
 
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
-  
+
       $('.lineitems-summary-container .total-impressions').html(accounting.formatNumber(sum_impressions));
       $('.lineitems-summary-container .total-media-cost').html(accounting.formatMoney(sum_media_cost));
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
@@ -79,7 +79,7 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       this.creatives_visible = {};
-      
+
       if(! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting();
         this.model.set('targeting', targeting);
@@ -113,11 +113,11 @@
           }
 
           view.model.set($(this).data('name'), date); //update backbone model;
-          
+
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
-          
+
           $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
@@ -206,8 +206,8 @@
           view.model.set($(this).data('name'), newValue); //update backbone model;
         }
       });
-  
-      this.renderCreatives();    
+
+      this.renderCreatives();
       this.renderTargetingDialog();
       ReachUI.alignLINumberDiv();
 
@@ -268,17 +268,25 @@
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function() {
+    _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives = this.model.get('creatives').models;
 
-      //this._updateCreativesCaption();      
+      //this._updateCreativesCaption();
 
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
-      this.ui.creatives_container.toggle('slow', function() {
-        self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
-      });
+      if (showed) {
+        if (!is_visible) {
+          this.ui.creatives_container.show('slow', function() {
+            self.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+          });
+        }
+      } else {
+        this.ui.creatives_container.toggle('slow', function() {
+          self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
+        });
+      }
     },
 
     _toggleTargetingDialog: function() {
@@ -336,8 +344,8 @@
             account_manager: '.order-details .account-contact-name',
             trafficking_contact: '.order-details .trafficker-container',
             lineitems: {
-              start_date: ' .start-date',
-              end_date:   ' .end-date',
+              start_date: ' > .start-date',
+              end_date:   ' > .end-date',
               name:       ' .name',
               volume:     ' .volume'
             },
@@ -353,7 +361,7 @@
             }
           };
           if(response.status == "error") {
-            _.each(response.errors, function(error, key) {   
+            _.each(response.errors, function(error, key) {
               if(key == 'lineitems') {
                 _.each(error, function(li_errors, li_k) {
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
@@ -363,6 +371,14 @@
                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
+
+                  if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
+                  }
+
+                  if (li_errors["targeting"]) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
+                  }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
                     _.each(creative_errors, function(errorMsg, fieldName) {
@@ -377,24 +393,36 @@
 
                   _.each(li_errors["ads"], function(ad_errors, ad_k) {
                     _.each(ad_errors, function(errorMsg, fieldName) {
-                      var fieldSelector = errors_fields_correspondence.ads[fieldName];
-                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                      if (fieldName != 'creatives') {
+                        var fieldSelector = errors_fields_correspondence.ads[fieldName];
+                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
-                      field.addClass('field_with_errors');
-                      field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                      ReachUI.alignAdsDivs();
+                        field.addClass('field_with_errors');
+                        field.find('.errors_container').html(ReachUI.humanize(errorMsg));
+                        ReachUI.alignAdsDivs();
+                      }
+                    });
 
+                    if (ad_errors && ad_errors["creatives"]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                        .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
+                    }
+
+                    if (ad_errors["targeting"]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
+                    }
+
+                    if (ad_errors && ad_errors["creatives"]) {
                       _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
                         _.each(creative_errors, function(errorMsg, fieldName) {
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-
-                          field.addClass('field_with_errors');
+                            field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
                       });
-                    });
+                    }
                   });
                 });
               } else {
@@ -411,12 +439,16 @@
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
             } else if(response.state.match(/draft/i)) {
-              ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
+            } else if (response.state.match(/incomplete_push/i)) {
+              noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
+            }
+            if (response.order_id) {
+              ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
         },
@@ -431,10 +463,10 @@
       var self = this;
 
       if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() { 
+        $('#push-confirmation-dialog .cancel-btn').click(function() {
           $('#push-confirmation-dialog').modal('hide');
         });
-        $('#push-confirmation-dialog .push-btn').click(function() { 
+        $('#push-confirmation-dialog .push-btn').click(function() {
           $('#push-confirmation-dialog').modal('hide');
           self._saveOrderWithStatus('pushing');
         });
@@ -474,7 +506,7 @@
 
     _clearAllErrors: function() {
       $('.errors_container').html('');
-      $('.field').removeClass('field_with_errors');
+      $('.field, .lineitems-container .field_with_errors').removeClass('field_with_errors');
     }
   });
 

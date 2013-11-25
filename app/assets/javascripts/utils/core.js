@@ -82,6 +82,13 @@ ReachUI.showCondensedTargetingOptions = function() {
     targeting_options.push('</div>');
   } 
 
+  var custom_key_values = targeting.get('keyvalue_targeting');      
+  if(custom_key_values) {   
+    targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
+    targeting_options.push('<div style="float:left">'+custom_key_values+'</div>');
+  } 
+
+
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
   // selected (including Ads' ones), so we need to limit this only to first matching element
   var toptions = this.$el.find('.targeting_options_condensed')[0];
@@ -123,9 +130,7 @@ ReachUI.checkOrderStatus = function(order_id) {
           $('.current-io-status-top').css('opacity', 1);
           $('.current-io-status-top .io-status').html(resp.status);
           clearInterval(statusCheckTimer);
-
-          ReachUI.Orders.router.options.controller.orderList.remove(order_id);
-          ReachUI.Orders.router.navigate('/'+order_id, {trigger: true});
+          location.reload();
         }
       });
     }, 4000);
@@ -135,3 +140,20 @@ ReachUI.checkOrderStatus = function(order_id) {
 RegExp.escape= function(s) {
     return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
 };
+
+ReachUI.currentTimeWithOffset = function(offset) {
+    // create Date object for current location
+    var d = new Date();
+    
+    // convert to msec
+    // add local time zone offset 
+    // get UTC time in msec
+    var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    
+    // create new Date object for different city
+    // using supplied offset
+    var nd = new Date(utc + (3600000*parseInt(offset)));
+    
+    // return time
+    return nd;
+}

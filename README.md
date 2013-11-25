@@ -68,4 +68,62 @@ class RailsModel < ActiveRecord::Base
 end
 ```
 
+Testing:
+-
 
+There're used rspec for server side tests and Jasmine for frontend specs.
+
+###Setup environment
+
+For running frontend tests without browser need to install phantomjs headless browser:
+
+* http://phantomjs.org/download.html
+
+To prepare test db:
+
+    rake db:test:prepare
+
+###To run the tests:
+
+For running guard is used that allow to watch for files changes and running changed specs
+
+Run all tests (rspec and jasmine)
+
+    guard
+
+Run only frontend tests
+
+    guard -g frontend
+
+Run only frontend tests
+
+    guard -g backend
+
+Run all Jasmine specs once:
+
+    rake guard:jasmine
+
+###Frontend tests:
+
+Tests are located in spec/javascript directory.
+For testing used following libs:
+
+[Jasmine](http://pivotal.github.com/jasmine/)
+
+[jasmine-jquery](https://github.com/velesin/jasmine-jquery) - provides two extensions for [Jasmine](http://pivotal.github.com/jasmine/) JavaScript Testing Framework:
+
+- a set of custom matchers for jQuery framework
+- an API for handling HTML, CSS, and JSON fixtures in your specs
+
+[Sinon](http://sinonjs.org/) - standalone test spies, stubs and mocks for JavaScript.
+
+[jasmine-matchers](https://github.com/JamieMason/Jasmine-Matchers) - provides many different matchers.
+
+Additional libraries could be included in spec/javascripts/helpers/spec_helper.js in following way:
+
+    //= require jasmine-jquery
+    //= require sinon
+
+###RoR specs:
+
+rspec, factory girl, shoulda

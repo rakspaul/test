@@ -1,5 +1,4 @@
 <div class="control-group search-sites-control">
-  <label>Sites</label>
   <div class="controls">
     <div class="input-append">
       <input id="search_input" class="input-medium" placeholder="Sites" type="text">
@@ -11,11 +10,13 @@
 </div>
 
 <div class="control-group block-site-control">
-  <div class="controls">
-    <select id="sitesList" multiple="multiple">
-    </select>
+  <div class="site-list-content">
+    <div class="site-list">
+      <ul id="sitesList"></ul>
+    </div>
     <div id="loading_div" class="loading-div">
       <span class="loading-img"></span>
     </div>
   </div>
 </div>
+<button class="btn pull-left" id="reset_button">Reset</button>

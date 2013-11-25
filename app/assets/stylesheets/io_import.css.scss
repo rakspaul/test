@@ -505,6 +505,7 @@ $wide_input_width: 480px;
   height: 16px;
   float: left;
   margin-right: 5px;
+  margin-left: 3px;
 }
 
 .dma-targeting-icon {
@@ -513,6 +514,14 @@ $wide_input_width: 480px;
   height: 16px;
   float: left;
   margin-right: 5px;
+}
+
+.custom-kv-icon {
+  content: url(asset-path('custom_kv_icon.png')) no-repeat;
+  width: 16px;
+  height: 16px;
+  float: left;
+  margin: 0 5px;
 }
 
 .zip-codes-icon {
@@ -553,10 +562,14 @@ $wide_input_width: 480px;
   }
 
   .selected-targeting {
-    width: 38%;
+    width: 34%;
     float: left;
     padding-left: 25px;
     
+    .dma-targeting {
+      margin-top:10px;
+    }
+
     .custom-kvs-field {
       border:2px $text_color solid;
       border-top:0px;
@@ -569,6 +582,11 @@ $wide_input_width: 480px;
       color: $text_color;
       cursor: pointer;
       margin-top:10px;
+      margin-left:5px;
+    }
+
+    span.keyvalue_targeting {
+      margin-left: 5px;
     }
 
     .custom-kv-container {
@@ -623,9 +641,8 @@ $wide_input_width: 480px;
     padding-right: 10px;
     cursor: pointer;
 
-    span:before {
-      content: url(asset-path('custom_kv_icon.png'));
-      vertical-align:text-top;
+    span {
+      color: $text_color;
     }
   }
 

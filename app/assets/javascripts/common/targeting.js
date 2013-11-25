@@ -25,7 +25,8 @@
     initialize: function() {
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
-      this.custom_key_values = false;
+      this.show_custom_key_values = false;
+      this.errors_in_kv = false;
     },
 
     serializeData: function(){
@@ -41,6 +42,8 @@
 
     onRender: function() {
       var self = this;
+
+      this.show_custom_key_values = false;
 
       this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "97%"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
@@ -93,9 +96,11 @@
         });
     
         self._renderSelectedTargetingOptions();
-      });    
+      });
+      this.$el.find('.key-values .chosen-choices input').width('200px');
 
       this._renderSelectedTargetingOptions();
+      this.validateCustomKV();
     },
 
     _showKeyValuesTab: function() {
@@ -120,9 +125,11 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), custom_key_values: this.custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
+
+      this.validateCustomKV();
     },
 
     _addKVToSelectedKeyValues: function(selected) {
@@ -135,11 +142,6 @@
           return el;
         }
       });
-    },
-
-    _addCustomKV: function(e) {
-      this.$el.find('.add-custom-keyvalue-btn').toggle();
-      this.$el.find('.custom-kvs-field').toggle();
     },
 
     _handleKVCheckboxes: function(e) {
@@ -209,18 +211,56 @@
       this._renderSelectedTargetingOptions();
     },
 
+    validateCustomKV: function(e) {
+      var custom_kv = this.model.get('keyvalue_targeting'), self = this;
+      this.errors_in_kv = false;
+
+      if(custom_kv.trim() != "") {
+        _.each(custom_kv.split(','), function(el) {
+          if(el.trim().match(/^(\w+)=([\w\.]+)$/) == null) {
+            self.errors_in_kv = "Key value format should be [key]=[value]";
+          }
+        });
+
+        if(custom_kv.trim().match(/(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/)) {
+          this.errors_in_kv = "Key values should be comma separated";
+        }
+      }
+
+      if(this.errors_in_kv) {
+        this.$el.find('span.custom-kv-errors').html(this.errors_in_kv);
+        this.$el.find('.save-targeting-btn').css({backgroundColor: 'grey'});
+      } else {
+        this.$el.find('span.custom-kv-errors').html('');
+        this.$el.find('.save-targeting-btn').css({backgroundColor: '#005c97'})
+      }
+    },
+
     _updateCustomKVs: function(e) {
       this.model.attributes.keyvalue_targeting = e.currentTarget.value;
+      this.validateCustomKV();
     },
 
     _closeTargetingDialog: function() {
-      this.options.parent_view._toggleTargetingDialog();    
+      if(! this.errors_in_kv) {
+        this.options.parent_view._toggleTargetingDialog();
+        this._renderSelectedTargetingOptions();
+        this.ui.kv_type_switch.html('+ Add Custom K/V');
+      }
     },
 
     _toggleCustomRegularKeyValues: function() {
-      this.ui.kv_type_switch.html(this.custom_key_values ? 'Custom K/V' : 'Regular K/V')
-      this.custom_key_values = ! this.custom_key_values;
+      this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
+      this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
+    
+      // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
+      if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
+        this.$el.find('span.keyvalue_targeting').hide();
+        this.$el.find('input.custom-kvs-field').show();
+      }
+
+      this.validateCustomKV();
     },
 
     _showRemoveTgtBtn: function(e) {
@@ -289,7 +329,6 @@
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .dmas': '_showDMAsTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
-      'click .add-custom-keyvalue-btn': '_addCustomKV',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',

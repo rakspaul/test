@@ -124,7 +124,11 @@ class IoImport
       end
 
       @lineitems.to_a.each do |li|
-        li_inreds = @inreds.select{|ir| ir[:placement] == li.name}
+        li_inreds = @inreds.select do |ir|
+          ir[:placement] == li.name &&
+          ir[:start_date] == li.start_date.to_date &&
+          ir[:end_date]   == li.end_date.to_date
+        end
         if li_inreds.empty?
           li.ad_sizes
         else
@@ -391,14 +395,18 @@ class IOExcelFileReader < IOReader
     row = INREDS_START_ROW
 
     change_sheet INREDS_SPREADSHEET_PAGE do
-      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
+
+      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.blank?
+        ad_size = @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row)
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
+          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
+          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
+          ad_size: ad_size.strip.downcase,
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
           click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
-        })
+        }) if ! ad_size.blank?
 
         row += 1
       end
@@ -416,6 +424,21 @@ private
       Roo::Excelx.new(@file.path, nil, :ignore)
     else
       raise "Unknown file type: #{@file.original_filename}"
+    end
+  end
+
+  def parse_date(str)
+    if str.index('-')
+        Date.strptime(str.squish)
+      elsif str.index('.')
+        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+      elsif str.squish.split('/').try(:last).try(:length) == 2
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+      else
+        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
+      end
+    rescue
+      nil
     end
   end
 end
@@ -527,7 +550,6 @@ private
       above /campaign name/i
     end
     @client_advertiser_name = textangle.text[0][0]
-    Rails.logger.warn '@client_advertiser_name - ' + @client_advertiser_name.inspect
       
     textangle = reader.bounding_box do
       page 1
@@ -537,7 +559,6 @@ private
       right_of /campaign name/i
     end
     @order_name = textangle.text[0][0]
-    Rails.logger.warn '@order_name - ' + @order_name.inspect
 
     textangle = reader.bounding_box do
       page 1
@@ -546,7 +567,6 @@ private
       right_of /account manager/i
     end
     @media_contact_name = textangle.text[0][0]
-    Rails.logger.warn '@media_contact_name =  ' + @media_contact_name.inspect
    
     textangle = reader.bounding_box do
       page 1
@@ -555,7 +575,6 @@ private
       left_of /address/i
     end
     @media_contact_email = textangle.text[0][1]
-    Rails.logger.warn '@media_contact_email =  ' + @media_contact_email.inspect
 
     textangle = reader.bounding_box do
       page 1
@@ -564,7 +583,6 @@ private
       right_of "AM Phone"
     end
     @media_contact_phone = textangle.text[1][0]
-    Rails.logger.warn '@media_contact_phone =  ' + @media_contact_phone.inspect
 
     textangle = reader.bounding_box do
       page 1
@@ -575,7 +593,6 @@ private
     @billing_contact_name = @billing[0][0]
     @billing_contact_email = @billing[1][0]
     @billing_contact_phone = @billing[2][0]
-    Rails.logger.warn '@billing =  ' + @billing.inspect
 
     textangle = reader.bounding_box do
       page 1
@@ -583,12 +600,10 @@ private
       left_of /proposal/i
     end
     @placement = textangle.text
-    Rails.logger.warn '@placement =  ' + @placement.inspect
+
     @placement_name = @placement[1][0]
     @placement_name += @placement[2][0] if @placement[2]
     @li_id = @placement[1][1]
-    Rails.logger.warn '@placement_name =  ' + @placement_name.inspect
-    Rails.logger.warn '@li_id =  ' + @li_id.inspect
 
     textangle = reader.bounding_box do
       page 1
@@ -596,7 +611,7 @@ private
       right_of /site:/i
     end
     @dates = textangle.text
-    Rails.logger.warn '@dates = ' + @dates.inspect
+
     @li_start_date = @dates[0][0]
     @li_end_date   = @dates[0][1]
     @impressions   = @dates[0][2].gsub(/,/, '')
@@ -612,15 +627,13 @@ private
     @ad_sizes = []
     matches = textangle.text.flatten.join.scan(/\d+x\d+/mi)
     matches.each{|ad_size| @ad_sizes << ad_size.strip}
-    Rails.logger.warn '@ad_sizes - ' + @ad_sizes.inspect
+
 
     textangle = reader.bounding_box do
       page 1
       below /campaign (tertiary )?goal/i
       above /Placement Name/
     end
-    Rails.logger.warn 'textangle.text - ' + textangle.text.inspect
     @li_name = textangle.text.flatten.try(:first).to_s
-    Rails.logger.warn '@li_name - ' + @li_name.inspect
   end
 end

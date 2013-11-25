@@ -335,8 +335,6 @@
     }
   }
 
-
-
   .search-sites-control{
     margin-bottom:10px;
     input{
@@ -369,8 +367,60 @@
 
     }
 
+    .site-list-content{
+      position:relative;
+
+      .site-list{
+        font-size:13px;
+        width:320px;
+        height:497px;
+        background:#fff;
+        border:1px solid #ccc;
+        margin:0 0px 5px 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        ul{
+          margin:0;
+          padding:2px;
+          list-style-type: none;
+        }
+
+        ul li{
+          cursor: pointer;
+          background: #fff;
+          width:301px;
+        }
+
+        ul li.selected{
+          color:#fff;
+          background:#008DD1;
+        }
+      }
+
+      .loading-div{
+        width:308px;
+        height:500px;
+
+        .loading-img{
+          margin-top:240px;
+        }
+      }
+    }
+
   }
 
+  .black-white-list-tab{
+    width:320px;
+  }
+
+  .blocked-advertiser-list{
+    padding-top:30px;
+  }
+
+  .blocked-advertiser-groups{
+    padding-top:30px;
+  }
 }
 
 .block-sites-modal{
@@ -464,6 +514,9 @@
       select{
         width:85%;
         height:540px;
+        option.italics {
+         font-style: italic;
+        }
       }
     }
 
@@ -673,4 +726,126 @@ ul.select-keyvals{
     width:300px;
     padding:2px;
   }
+}
+
+.admin-commit-table {
+  width: 100%;
+  table-layout: fixed;
+  word-wrap: break-word;
+
+  tbody > tr:hover {
+    background-color: #f8f8f8;
+  }
+
+  th {
+    background: none repeat scroll 0 0 #F7F7F7;
+    border-left: 1px solid #ededed;
+    color: #4094C3;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    text-align: left;
+    vertical-align: middle;
+    border-radius: 0;
+    border-top: 1px solid #ededed;
+    padding:5px;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+
+    .header-container {
+      padding-left: 20px;
+    }
+
+    .title-container {
+      width: 100%;
+      margin-left: -20px;
+
+      .title {
+        padding: 7px;
+      }
+    }
+
+    .actions-container {
+      text-align: right;
+      width: 18px;
+      border-left: 1px solid #f1f1f1;
+      color: #B3B3B3;
+
+      i {
+        padding: 9px 3px 8px;
+        display: inline-block;
+
+        &:hover {
+          background-color: #e8e8e8;
+        }
+      }
+    }
+  }
+
+  td {
+    font-size: 12px;
+    line-height: 16px;
+    padding: 5px;
+    border-top: 1px solid #ededed;
+    border-left: 1px solid #ededed;
+
+    &:last-child {
+      border-right: 1px solid #ededed;
+    }
+
+    .key-values{
+      word-wrap:break-word;
+    }
+  }
+
+  tr:last-child > td {
+    border-bottom: 1px solid #ededed;
+  }
+
+  .group-name{
+    width:30%;
+  }
+
+}
+
+.commit-overview-content{
+  legend{
+    font-size:16px;
+    line-height:30px;
+    padding:10px 10px 5px;
+    margin:0px;
+  }
+  h2{
+    font-size:16px;
+    line-height:20px;
+    font-weight:normal;
+    padding:0px;
+    margin:0 0 10px;
+  }
+  h3{
+    font-size:15px;
+    line-height:20px;
+    font-weight:normal;
+    padding:0px;
+    margin:0 0 10px;
+  }
+
+  .blacklisted-advertisers{
+    margin: 0 0 10px;
+  }
+
+  .whitelisted-advertisers{
+    margin: 0 0 10px;
+  }
+
+  .blacklisted-advertisers-group{
+    margin: 0 0 15px;
+  }
+
+  .whitelisted-advertisers-group{
+    margin: 0 0 15px;
+  }
+
 }

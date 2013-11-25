@@ -4,3 +4,8 @@
 require File.expand_path('../config/application', __FILE__)
 
 Reachui::Application.load_tasks
+
+if Rails.env.development? || Rails.env.test?
+  require 'guard/jasmine/task'
+  Guard::JasmineTask.new
+end

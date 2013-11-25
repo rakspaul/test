@@ -31,48 +31,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       view.render();
     });
 
+
     $(".order-new").click(function() {
       ReachUI.Orders.router.navigate('/new', {trigger: true});
     });
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
-    this._bindKeys();
-  },
-
-  _bindKeys: function() {
-    var self = this;
-    Mousetrap.bind(['c o'], function(e) {
-      ReachUI.Orders.router.navigate('/new', {trigger: true});
-      return false;
-    });
-
-    Mousetrap.bind(['e o'], function(e) {
-      if(self.selectedOrder) {
-        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/edit', {trigger: true});
-        return false;
-      }
-    });
-
-    Mousetrap.bind(['c l'], function(e) {
-      if(self.selectedOrder) {
-        ReachUI.Orders.router.navigate('/' + self.selectedOrder.id + '/lineitems/new', {trigger: true});
-        return false;
-      }
-    });
-
-    Mousetrap.bind(['?'], function(e) {
-      $("#shortcut_help_modal").modal("show");
-    });
   },
 
   index: function() {
     var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
-    if(this.selectedOrder) {
-      this.selectedOrder.unselect();
-    }
-
+    this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
@@ -80,17 +51,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   newOrder: function() {
     var order = new ReachUI.Orders.Order();
-    var view = new ReachUI.Orders.EditView({model: order});
+    // TODO We don't have EditView view and probably we don't need new Order functionality
+    //var view = new ReachUI.Orders.EditView({model: order});
     var uploadView = new ReachUI.Orders.UploadView();
 
-    if(this.selectedOrder) {
-      this.selectedOrder.unselect();
-    }
-
+    this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
-    this.orderDetailsLayout.bottom.show(view);
-    view.on('order:save', this._saveOrder, this);
+    //this.orderDetailsLayout.bottom.show(view);
+    //view.on('order:save', this._saveOrder, this);
   },
 
   editOrder: function(id) {
@@ -103,8 +72,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
   },
 
+  _unselectOrder: function() {
+    if (this.selectedOrder) {
+      this.selectedOrder.unselect();
+    }
+  },
+
   _showEditOrder: function(order) {
     order.select();
+    console.log('SHOW edit order');
 
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
@@ -188,7 +164,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       function() {
         alert('Lineitem not found. Id: ' + id);
-      });
+      });ReachUI.Orders.router
   },
 
   _showOrderDetailsAndLineItems: function(order) {
@@ -377,16 +353,93 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'email'
       }
     });
-    $('.advertiser-name input').typeahead({
-      name: 'advertiser-names',
-      remote: '/advertisers.json?search=%QUERY',
-      valueKey: 'name',
-      limit: 20
-    });
+
+    if(!order.get("source_id")){
+      $('.advertiser-name input').typeahead({
+        name: 'advertiser-names',
+        remote: {
+          url: '/advertisers.json?search=%QUERY',
+          filter: function(parsedResponse){
+            if(parsedResponse.length == 0){
+              parsedResponse.push({
+                name: "Advertiser not found"
+              });
+            }
+
+            return parsedResponse;
+          }
+        },
+        valueKey: 'name',
+        limit: 20,
+        footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
+      });
+    }
+
     $('.advertiser-name input').on('typeahead:selected', function(ev, el) {
-      $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
-      order.set("advertiser_id", el.id);
-      order.set("advertiser_name", el.name);
+      if(el.name != 'Advertiser not found'){
+        $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+        order.set("advertiser_id", el.id);
+        order.set("advertiser_name", el.name);
+      }
+      else{
+        $(this).typeahead('setQuery',order.get("advertiser_name"));
+      }
+    });
+
+    $('.advertiser-name').on('click','#create_advertiser', function(ev){
+      ev.preventDefault();
+      var name = $('.advertiser-name input.tt-query').val();
+      var createAdvertiserInput = '<div class="input-append">';
+          createAdvertiserInput += '<input type="text" placeholder="Create Advertiser" id="create_advertiser_input" value='+name+'>';
+          createAdvertiserInput += '<a class="btn add-on" id="create_advertiser_btn">Create</a>';
+          createAdvertiserInput += '</div>';
+      $('.advertiser-name').find('.create-advertiser').html(createAdvertiserInput);
+      $('#create_advertiser_input').val(name);
+
+      var advertiser_input = $('#create_advertiser_input');
+      advertiser_input.focus();
+      advertiser_input[0].setSelectionRange(name.length, name.length);
+    });
+
+    $('.advertiser-name input').on('typeahead:closed', function(ev, el) {
+      $('.advertiser-name').find('.create-advertiser').html('<a href="#" id="create_advertiser" >Create Advertiser</a>');
+      $('.advertiser-name').find('.tt-dropdown-menu').hide();
+    });
+
+    $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
+      var advertiserName = $('#create_advertiser_input').val();
+      var para = { name: advertiserName };
+      $('#create_advertiser_btn').attr('disabled','disabled');
+
+      $.ajax({
+        type: "POST", url: '/advertisers', data: para, dataType: 'json',
+        success:function(ev){
+          $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+          order.set("advertiser_id", ev.id);
+          order.set("advertiser_name", ev.name);
+          $('.advertiser-name input').val(advertiserName);
+          $('#create_advertiser_btn').removeAttr('disabled');
+          $('.advertiser-name input').trigger('typeahead:closed');
+        },
+        error:function(ev){
+          alert('Error in creating advertiser.');
+          $('#create_advertiser_btn').removeAttr('disabled');
+        }
+      });
+    });
+
+    $('.advertiser-name input').on('keyup', function(ev){
+      if(ev.which === 27 || ev.keyCode === 27)
+        $(this).typeahead('setQuery',order.get("advertiser_name"));
+      else
+        $('#create_advertiser_input').val($(this).val());
+    });
+
+    $('.advertiser-name').on('keyup', '#create_advertiser_input', function(ev){
+      if(ev.which === 27 || ev.keyCode === 27){
+        $('.advertiser-name').find('.create-advertiser').html('<a href="#" id="create_advertiser" >Create Advertiser</a>');
+        $('.advertiser-name input').focus();
+      }
     });
   },
 
@@ -438,6 +491,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);
+      } else if("assignment" == error.type) {
+        $('.assignment-'+error.assignment_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.assignment-'+error.assignment_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
+        $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       }
     });
   },
@@ -478,8 +535,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     return remaining_impressions;
   },
 
-  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/89]
-  // Client Short Name + Client Advertiser Name + Quarter + Year + "GEO" (if DMA or Zips are included for the Ad) + "RON" (if NO Key Values are selected for the Ad) + "BTCT" (if Key Values ARE selected for the Ad) + Creative Sizes.
+  // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
+  // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
   _generateAdName: function(li) {
     var start_date = new Date(li.attributes.start_date);
@@ -491,16 +548,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
     ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
-    ad_name_parts.push('Q'+start_quarter+start_year);
+    
     if(isGeo) {
       ad_name_parts.push("GEO");
     }
     if(hasKeyValues) {
-      ad_name_parts.push("BTCT");
+      ad_name_parts.push("BT/CT");
     } else {
       ad_name_parts.push("RON");
     }
-    ad_name_parts.push(li.attributes.ad_sizes);
+    ad_name_parts.push('Q'+start_quarter+start_year);
+    ad_name_parts.push(li.attributes.ad_sizes.replace(/,/g, ' '));
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
@@ -539,7 +597,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_dmas: li.get('targeting').get('selected_dmas'),
         dmas_list: li.get('targeting').get('dmas_list'),
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
-        audience_groups: li.get('targeting').get('audience_groups')
+        audience_groups: li.get('targeting').get('audience_groups'),
+        keyvalue_targeting: li.get('targeting').get('keyvalue_targeting')
       });
 
       ad.set('targeting', li_targeting);
@@ -583,10 +642,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
         var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
         var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
-        
+
         $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
           var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-         
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting') }));
           li_view.renderTargetingDialog();
         });

@@ -22,12 +22,12 @@ class Lineitem < ActiveRecord::Base
   validates :rate, numericality: { greater_than_or_equal_to: 0 }
   validates :ad_sizes, ad_size: true
   validate :flight_dates_with_in_order_range
-  
+
   # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
   validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
 
   # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
-  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? } 
+  validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
 
   before_create :generate_alt_ad_id
   before_save :sanitize_ad_sizes, :move_end_date_time
@@ -40,21 +40,21 @@ class Lineitem < ActiveRecord::Base
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
       creative_type = cparams[:creative_type] == "CustomCreative" ? "CustomCreative" : "InternalRedirectCreative"
-      
-      url       = cparams[:redirect_url].gsub('/ad/', '/adj/')
+      url       = cparams[:redirect_url].try(:gsub, '/ad/', '/adj/').to_s
       html_code = '<script language="JavaScript" src="'+url+';click=%%CLICK_URL_UNESC%%;ord=%%CACHEBUSTER%%?" type="text/javascript"></script>'
 
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
+      creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
 
       if cparams[:id]
         creative = Creative.find cparams[:id]
-        creative.update_attributes(size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network_id: self.order.network_id)
+        creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
         if !creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
           creatives_errors[i] = creative.lineitem_assignment.errors.messages
         end
       else
-        creative = Creative.create name: ad_name(cparams), network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network_id: self.order.network_id, data_source_id: 1
+        creative = Creative.create name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
         li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
         if !li_assignment.errors.messages.blank?
           creatives_errors[i] = li_assignment.errors.messages
@@ -105,14 +105,14 @@ class Lineitem < ActiveRecord::Base
       end
     end
 
-    def ad_name(params)
-      start_date = Date.parse params[:start_date]
+    def ad_name(start_date, ad_size)
+      start_date = Date.parse(start_date) if start_date.is_a?(String)
       quarter = ((start_date.month - 1) / 3) + 1
 
       "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-      "Q#{ quarter }#{ start_date.strftime('%y') } " \
       "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-      "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
-      "#{ params[:ad_size] }"
+      "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
+      "Q#{ quarter }#{ start_date.strftime('%y') } " \
+      "#{ ad_size.gsub(/,/, ' ') }"
     end
 end

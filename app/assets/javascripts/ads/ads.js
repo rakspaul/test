@@ -106,7 +106,7 @@
 
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div for Ads (could be called both from Ads level and from Creatives level: 'Done' button)
-    _toggleCreativesDialog: function() {
+    _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives_sizes = [],
           creatives = this.model.get('creatives').models;
@@ -114,20 +114,31 @@
       var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
 
-      this.ui.creatives_container.toggle('slow', function() {
-        // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
-        self.options.parent_view.creatives_visible[self.model.cid] = !self.options.parent_view.creatives_visible[self.model.cid];
+      // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
+      this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];
 
-        // update caption with Ad size for this Ad
+      if (creatives.length > 0) {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
         });
 
         var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-        self.ui.ads_sizes.html(uniq_creative_sizes);
+        if (uniq_creative_sizes) {
+          this.ui.ads_sizes.html(uniq_creative_sizes);
+        }
+      }
 
-        self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
-      });
+      if (showed) {
+        if (!creatives_visible) {
+          this.ui.creatives_container.show('slow', function() {
+            self.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+          });
+        }
+      } else {
+        this.ui.creatives_container.toggle('slow', function() {
+          self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
+        });
+      }
     },
 
     _toggleTargetingDialog: function() {

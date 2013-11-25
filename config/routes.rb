@@ -26,13 +26,22 @@ Reachui::Application.routes.draw do
     end
     resources :media_contacts
     resources :billing_contacts
-    resources :blocked_advertiser, :controller => "block_sites", :type => "BlockedAdvertiser"
-    resources :blocked_advertiser_groups, :controller => "block_sites", :type => "BlockedAdvertiserGroup"
+    resources :blocked_advertiser, :controller => "block_sites", :type => "BlockedAdvertiser" do
+      collection do
+        get 'commit_summary'
+      end
+    end
+    resources :blocked_advertiser_groups, :controller => "block_sites", :type => "BlockedAdvertiserGroup" do
+      collection do
+        get 'commit_summary'
+      end
+    end
     resources :blocked_advertisers
     post 'block_sites/commit' => 'block_sites#commit'
     resources :default_block_list do
       collection do
         get 'export'
+        get 'whitelisted_sites'
       end
     end
   end
@@ -73,7 +82,7 @@ Reachui::Application.routes.draw do
 
   resources :kendoui
   resources :ad_sizes, only: [:index]
-  resources :advertisers, only: [:index] do
+  resources :advertisers, only: [:index, :create] do
     collection do
       get 'search'
       post 'validate'
@@ -108,6 +117,7 @@ Reachui::Application.routes.draw do
   resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
   resources :users
+  get 'io_assets/:order_id' => 'io_assets#serve'
 
   resources :segments do
     collection do
@@ -118,6 +128,7 @@ Reachui::Application.routes.draw do
   resources :sites do
     collection do
       get 'search'
+      get 'blacklisted_sites'
     end
   end
 
@@ -180,4 +191,6 @@ Reachui::Application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
 end

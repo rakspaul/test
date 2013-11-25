@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.state =~ /failure/i ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.state =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
     respond_to do |format|
       format.html
@@ -74,13 +74,6 @@ class OrdersController < ApplicationController
     @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
     @order.user = current_user
-
-    #@order.valid?
-
-    #if !errors_list.blank?
-    #  render json: {status: 'error', errors: errors_list.merge(@order.errors)}
-    #  return
-    #end
 
     respond_to do |format|
       Order.transaction do
@@ -249,7 +242,7 @@ private
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).where("email like ?", "%@collective.com%").order("first_name, last_name")
+    @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
   end
 
   def find_account_manager(params)
@@ -342,7 +335,13 @@ private
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
-      lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
+      if !custom_kv_errors
+        lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      else
+        li_errors[i] ||= {}
+        li_errors[i][:targeting] = custom_kv_errors
+      end
 
       li_saved = nil
 
@@ -388,7 +387,7 @@ private
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.ad_type  = "STANDARD"
-          ad_object.network_id = current_network.id
+          ad_object.network = current_network
           ad_object.cost_type = "CPM"
 
           if li_saved
@@ -416,9 +415,12 @@ private
 
           if ad_object.valid?
             ad_object.update_attributes(ad[:ad])
-            ad_object.update_attribute(:keyvalue_targeting, ad_targeting[:targeting][:keyvalue_targeting])
 
-            ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network_id: @order.network_id))
+            custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
+
+            ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
+
+            ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
             ad_pricing.rate = ad[:ad][:rate]
             ad_pricing.quantity = ad_quantity
@@ -427,14 +429,17 @@ private
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
               li_errors[i][:ads][j] = ad_pricing.errors
-            end          
+            end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
-            if !creatives_errors.blank?
-              li_errors[i] ||= {:ads => {}}
-              li_errors[i]
+            if !creatives_errors.blank? || custom_kv_errors
+              li_errors[i] ||= {}
+              li_errors[i][:ads] ||= {}
               li_errors[i][:ads][j] ||= {}
-              li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
+              li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash if !creatives_errors.blank?
+              li_errors[i][:ads][j][:targeting] = custom_kv_errors if custom_kv_errors
+            else
+              ad_object.update_creatives_name
             end
           else
             Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
@@ -443,12 +448,12 @@ private
             li_errors[i][:ads][j] = ad_object.errors.to_hash
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
-        rescue => e
-          Rails.logger.warn 'e.message - ' + e.message.inspect
-          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-          li_errors[i] ||= {}
-          li_errors[i][:ads] ||= {}
-          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+        #rescue => e
+        #  Rails.logger.warn 'e.message - ' + e.message.inspect
+        #  Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+        #  li_errors[i] ||= {}
+        #  li_errors[i][:ads] ||= {}
+        #  li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
     end
@@ -479,18 +484,27 @@ private
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
-      lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
+      if !custom_kv_errors
+        lineitem.keyvalue_targeting = li_targeting[:targeting][:keyvalue_targeting]
+      else
+        li_errors[i] ||= {}
+        li_errors[i][:targeting] = custom_kv_errors
+      end
 
       valid_li = lineitem.valid?
       li_saved = valid_order && valid_li && lineitem.save
 
+      creatives_errors = []
       if li_saved && li_creatives
         creatives_errors = lineitem.save_creatives(li_creatives)
+      elsif li_creatives
+        creatives_errors = validate_creatives(li_creatives, lineitem, 'lineitem')
+      end
 
-        if !creatives_errors.empty?
-          li_errors[i] ||= {}
-          li_errors[i][:creatives] = creatives_errors
-        end
+      if !creatives_errors.empty?
+        li_errors[i] ||= {}
+        li_errors[i][:creatives] = creatives_errors
       end
 
       unless valid_li
@@ -520,8 +534,10 @@ private
           ad_object.cost_type = "CPM"
           ad_object.ad_type   = "STANDARD"
           ad_object.network_id = current_network.id
-          ad_object.keyvalue_targeting = ad_targeting[:targeting][:keyvalue_targeting]
+          ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
+
+          custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
           ad_object.save_targeting(ad_targeting)
 
@@ -538,10 +554,12 @@ private
           end
           ads << ad_object
 
-          if ad_object.valid? && li_saved && !unique_description_error
+          ad_creatives_errors = []
+          ad_creatives_errors = validate_creatives(li_creatives, ad_object, 'ad') if li_creatives
+
+          if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
-            #if ad_object.save
-            ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network_id: @order.network_id
+            ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
             if !ad_pricing.save
               li_errors[i] ||= {:ads => {}}
@@ -549,20 +567,23 @@ private
             end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
-
             if !creatives_errors.blank?
               li_errors[i] ||= {:ads => {}}
               li_errors[i]
               li_errors[i][:ads][j] ||= {}
               li_errors[i][:ads][j][:creatives] = creatives_errors.to_hash
+            else
+              ad_object.update_creatives_name
             end
           else
-           Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
-           li_errors[i] ||= {}
-           li_errors[i][:ads] ||= {}
-           li_errors[i][:ads][j] = ad_object.errors.to_hash
-           li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
-           li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
+            Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
+            li_errors[i] ||= {}
+            li_errors[i][:ads] ||= {}
+            li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j].merge!(ad_pricing.errors.to_hash) if ad_pricing.try(:errors)
+            li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
+            li_errors[i][:ads][j][:targeting] = custom_kv_errors if custom_kv_errors
+            li_errors[i][:ads][j][:creatives] = ad_creatives_errors unless ad_creatives_errors.empty?
           end
         rescue => e
           Rails.logger.warn 'e.message - ' + e.message.inspect
@@ -576,4 +597,51 @@ private
     li_errors
   end
 
+  def validate_creatives(creatives, parent, type)
+    creatives_errors = []
+    creatives.each_with_index do |creative_params, index|
+      creative = creative_params[:creative]
+      creative_errors = {}
+      if creative[:start_date].to_date < parent.start_date.to_date
+        creative_errors[:start_date] = "couldn't be before #{type}'s start date"
+      end
+
+      if creative[:end_date].to_date > parent.end_date.to_date
+        creative_errors[:end_date] = "couldn't be after #{type}'s end date"
+      end
+
+      if creative[:end_date].to_date < parent.start_date.to_date
+        creative_errors[:end_date] = "couldn't be before #{type}'s start date"
+      end
+
+      if creative[:start_date].to_date > parent.end_date.to_date
+        creative_errors[:start_date] = "couldn't be after #{type}'s end date"
+      end
+
+      if creative[:end_date].to_date < creative[:start_date].to_date
+        creative_errors[:end_date] = "couldn't be before start date"
+      end
+
+      creatives_errors[index] = creative_errors unless creative_errors.empty?
+    end
+    creatives_errors
+  end
+
+  def validate_custom_keyvalues(custom_kv)
+    errors_in_kv = false
+
+    if !custom_kv.strip.blank?
+      custom_kv.split(',').each do |el|
+        if ! el.strip.match /^(\w+)=([\w\.]+)$/
+          errors_in_kv = "Key value format should be [key]=[value]"
+        end
+      end
+
+      if custom_kv.strip.match /(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/
+        errors_in_kv = "Key values should be comma separated"
+      end
+    end
+
+    errors_in_kv
+  end
 end

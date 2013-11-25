@@ -18,7 +18,7 @@ describe AccountSessionsController do
       AccountSession.create(account)
 
       get :new
-      response.should redirect_to reports_reports_path
+      response.should redirect_to orders_path
     end
   end
 
@@ -30,7 +30,7 @@ describe AccountSessionsController do
     context "valid user" do
       it "should login user" do
         post :create, {:login => @account.login, :password => @account.password}
-        response.should redirect_to(reports_reports_path)
+        response.should redirect_to(orders_path)
         account_session = AccountSession.find
         account_session.should_not be_nil
       end
