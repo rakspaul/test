@@ -8,7 +8,8 @@ describe IoImport do
   let(:io) { IoImport.new file, current_user }
 
   before do
-    @adv = Advertiser.create network_id: collective_network.id, name: "Otterbein University", source_id: '12345'
+    advertiser_type = AdvertiserType.create name: 'ADVERTISER', network: collective_network
+    @adv = Advertiser.create network_id: collective_network.id, name: "Otterbein University", source_id: '12345', advertiser_type: advertiser_type
     sales_role = Role.create name: 'Sales'
     FactoryGirl.create :user, first_name: "Ronnie", last_name: "Wallace", phone_number: "646-442-8220", email: "ops@collective.com", :network => collective_network
     FactoryGirl.create :user, first_name: "Alexandra", last_name: "Piechota", phone_number: "646-786-6701", email: "ampnetwork@collective.com", :network => collective_network
@@ -20,7 +21,7 @@ describe IoImport do
     AdSize.create size: "728x90", width: 728, height: 90, network_id: collective_network.id
     AdSize.create size: "160x600", width: 160, height: 600, network_id: collective_network.id
   end
- 
+
   it "doesn't creates order and io_detail" do
     lambda {
       lambda {
@@ -31,7 +32,7 @@ describe IoImport do
 
   context "IO imported" do
     before { io.import }
- 
+
     it "reads advertiser correctly" do
       io.advertiser.should == @adv
     end
