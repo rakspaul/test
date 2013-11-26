@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe IoImport do
   let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx') }
+  let(:file_video_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_video_li.xlsx') }
   let(:data_source) { DataSource.create name: "Test Source", ident: "source ident" }
   let(:collective_network) { Network.create name: 'Collective', :data_source => data_source }
   let(:current_user) { FactoryGirl.create(:user, :network => collective_network) }
   let(:io) { IoImport.new file, current_user }
+  let(:io_video_li) { IoImport.new file_video_li, current_user }
 
   before do
     @adv = Advertiser.create network_id: collective_network.id, name: "Otterbein University", source_id: '12345'
@@ -54,4 +56,26 @@ describe IoImport do
       io.order.network.should == current_user.network
     end
   end
+
+  context "lineitems" do
+
+    it "read all lineitems" do
+      io.import
+
+      expect(io).to have(2).lineitems
+    end
+
+    it "read display lineitems" do
+      io.import
+
+      expect(io.lineitems.select{|li| li.type == 'Display'}.length).to eq(2)
+    end
+
+    it "read video lineitems" do
+      io_video_li.import
+
+      expect(io_video_li.lineitems.select{|li| li.type == 'Video'}.length).to eq(2)
+    end
+  end
 end
+

@@ -217,6 +217,8 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
+  LINEITEMS_TYPE = { 'Video' => [ /^pre[ -]roll/i ]}
+
   ADVERTISER_LABEL_CELL           = ['A', 18]
   ADVERTISER_CELL                 = ['C', 18]
   ORDER_NAME_CELL                 = ['C', 19]
@@ -359,7 +361,8 @@ class IOExcelFileReader
         ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
         name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
-        rate: @spreadsheet.cell('G', row).to_f
+        rate: @spreadsheet.cell('G', row).to_f,
+        type: determine_lineitem_type(@spreadsheet.cell('C', row).strip.downcase)
       })
 
       row += 1
@@ -397,46 +400,53 @@ class IOExcelFileReader
     end
   end
 
-  private
+private
 
-    def parse_date str
-      return str if str.is_a?(Date)
+  def parse_date str
+    return str if str.is_a?(Date)
 
-      if str.index('-')
-        Date.strptime(str.squish)
-      elsif str.index('.')
-        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
-      elsif str.squish.split('/').try(:last).try(:length) == 2
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
-      else
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
-      end
-    rescue
-      nil
+    if str.index('-')
+      Date.strptime(str.squish)
+    elsif str.index('.')
+      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+    elsif str.squish.split('/').try(:last).try(:length) == 2
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+    else
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
     end
+  rescue
+    nil
+  end
 
-    def open_based_on_file_extension
-      ext = File.extname(@file.original_filename)
-      case ext
-      when '.xls'
-        Roo::Excel.new(@file.path, nil, :ignore)
-      when '.xlsx'
-        Roo::Excelx.new(@file.path, nil, :ignore)
-      else
-        raise "Unknown file type: #{@file.original_filename}"
-      end
+  def open_based_on_file_extension
+    ext = File.extname(@file.original_filename)
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
+      Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
     end
+  end
 
-    def split_name name
-      parts = name.split(/\W+/)
-      case parts.length
-      when 0..1
-        {first_name: name}
-      when 2
-        {first_name: parts[0], last_name: parts[1]}
-      else
-        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
-      end
+  def split_name name
+    parts = name.split(/\W+/)
+    case parts.length
+    when 0..1
+      {first_name: name}
+    when 2
+      {first_name: parts[0], last_name: parts[1]}
+    else
+      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
     end
+  end
+
+  def determine_lineitem_type(ad_format)
+    type = LINEITEMS_TYPE.find do |type, formats|
+      formats.any?{ |format| ad_format =~ format }
+    end
+    type ? type[0] : 'Display'
+  end 
 end
 
