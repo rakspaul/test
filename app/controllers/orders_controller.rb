@@ -82,7 +82,7 @@ class OrdersController < ApplicationController
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
           params[:order][:notes].to_a.each do |note|
-            OrderNote.create note: note[:note], user: current_user, order: @order
+            OrderNote.create note: note[:note], user: current_user, order: @order, created_at: note[:created_at]
           end
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
@@ -132,7 +132,7 @@ class OrdersController < ApplicationController
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
-          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
+          OrderNote.create(note: note[:note], user: current_user, order: @order, created_at: note[:created_at]) if note[:id].blank?
         end
 
         if li_ads_errors.blank?
