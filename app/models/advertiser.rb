@@ -1,5 +1,6 @@
 class Advertiser < ActiveRecord::Base
   self.table_name = "network_advertisers"
+  default_scope { joins(:advertiser_type).where(advertiser_types: {name: AdvertiserType::ADVERTISER_TYPE}) }
 
   belongs_to :network
   belongs_to :data_source
@@ -10,8 +11,6 @@ class Advertiser < ActiveRecord::Base
 
   before_create :create_random_source_id, :set_data_source, :make_advertiser_active
   before_save :set_data_source
-
-  scope :ofType, lambda { |network| joins(:advertiser_type).where("advertiser_types.name" => AdvertiserType::ADVERTISER_TYPE, "advertiser_types.network_id" => network) }
 
   def self.of_network(network)
     where(:network => network)
