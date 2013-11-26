@@ -6,6 +6,9 @@ gem 'rails', '~> 4.0.0'
 # Use Postgresql as the database for Active Record
 gem 'pg'
 
+# roo want's this
+gem 'rubyzip', '< 1.0.0'
+
 # HAML template engine
 gem 'haml-rails', '~> 0.4'
 
@@ -16,7 +19,7 @@ gem 'authlogic', '~> 3.3.0'
 gem 'sass-rails', '~> 4.0.0'
 
 # Twitter bootstrap
-gem 'bootstrap-sass-rails'
+gem 'bootstrap-sass-rails', '~> 2.3.2'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'

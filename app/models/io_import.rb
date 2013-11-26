@@ -226,11 +226,13 @@ class IOReader
     return str if str.is_a?(Date)
 
     if str.index('-')
-      Date.strptime(str.strip)
+      Date.strptime(str.squish)
     elsif str.index('.')
-      Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
+      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+    elsif str.squish.split('/').try(:last).try(:length) == 2
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
     else
-      Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
     end
   rescue
     nil
@@ -426,21 +428,6 @@ private
       raise "Unknown file type: #{@file.original_filename}"
     end
   end
-
-  def parse_date(str)
-    if str.index('-')
-        Date.strptime(str.squish)
-      elsif str.index('.')
-        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
-      elsif str.squish.split('/').try(:last).try(:length) == 2
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
-      else
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
-      end
-    rescue
-      nil
-    end
-  end
 end
 
 class IOPdfFileReader < IOReader
@@ -485,12 +472,16 @@ class IOPdfFileReader < IOReader
 
   def sales_person
     user = User.find_by first_name: "Peter", last_name: "Fernquist"
-    {
-      phone_number: user.phone_number,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name
-    }
+    if user
+      {
+        phone_number: user.phone_number,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    else
+      { phone_number: "", email: "", first_name: "", last_name: "" }
+    end
   end
 
   def billing_contact
@@ -508,7 +499,7 @@ class IOPdfFileReader < IOReader
   end
 
   def start_flight_date
-    parse_date(@end_date)
+    parse_date(@start_date)
   end
 
   def finish_flight_date
@@ -612,8 +603,11 @@ private
     end
     @dates = textangle.text
 
-    @li_start_date = @dates[0][0]
-    @li_end_date   = @dates[0][1]
+    @start_date    = @dates[0][0]
+    @end_date      = @dates[0][1]
+    
+    @li_start_date = @start_date
+    @li_end_date   = @end_date
     @impressions   = @dates[0][2].gsub(/,/, '')
     @rate          = @dates[0][4].gsub(/,|\$/,'')
     @type          = @dates[0][3]
@@ -628,12 +622,11 @@ private
     matches = textangle.text.flatten.join.scan(/\d+x\d+/mi)
     matches.each{|ad_size| @ad_sizes << ad_size.strip}
 
-
     textangle = reader.bounding_box do
       page 1
       below /campaign (tertiary )?goal/i
       above /Placement Name/
     end
-    @li_name = textangle.text.flatten.try(:first).to_s
+    @li_name = textangle.text.flatten.try(:last).to_s
   end
 end
