@@ -1,4 +1,5 @@
 require 'roo'
+require 'pdf-reader'
 
 class IoImport
   include ActiveModel::Validations
@@ -12,13 +13,13 @@ class IoImport
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
 
-    @reader               = IOExcelFileReader.new(file)
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
+
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
-    @trafficking_contact  = Struct.new(:name, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
     @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
   end
@@ -32,7 +33,6 @@ class IoImport
     read_media_contact
     read_billing_contact
     read_sales_person
-    read_trafficking_contact
 
     read_order_and_details
     read_lineitems
@@ -60,10 +60,6 @@ class IoImport
 
     def read_media_contact
       @media_contact = @reader.media_contact
-    end
-
-    def read_trafficking_contact
-      @trafficking_contact = @reader.trafficking_contact
     end
 
     def read_sales_person
@@ -169,6 +165,7 @@ class IoImport
     end
 
     def find_trafficking_contact
+      @trafficking_contact = {name: @current_user.full_name, email: @current_user.email, phone: @current_user.phone_number}
       @current_user
     end
 
@@ -209,13 +206,41 @@ class IoImport
     end
 end
 
-class IOExcelFileReader
-  LINE_ITEM_START_ROW = 29
-
-  DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
-
+class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
+
+  def split_name name
+    parts = name.split(/\W+/)
+    case parts.length
+    when 0..1
+      {first_name: name}
+    when 2
+      {first_name: parts[0], last_name: parts[1]}
+    else
+      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
+    end
+  end
+
+  def parse_date str
+    return str if str.is_a?(Date)
+
+    if str.index('-')
+      Date.strptime(str.squish)
+    elsif str.index('.')
+      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+    elsif str.squish.split('/').try(:last).try(:length) == 2
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+    else
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
+    end
+  rescue
+    nil
+  end
+end
+
+class IOExcelFileReader < IOReader
+  LINE_ITEM_START_ROW = 29
 
   ADVERTISER_LABEL_CELL           = ['A', 18]
   ADVERTISER_CELL                 = ['C', 18]
@@ -311,13 +336,6 @@ class IOExcelFileReader
     }
   end
 
-  def trafficking_contact
-    {
-      phone_number: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
-      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
-    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
-  end
-
   def sales_person
     {
       account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
@@ -397,46 +415,218 @@ class IOExcelFileReader
     end
   end
 
-  private
+private
 
-    def parse_date str
-      return str if str.is_a?(Date)
-
-      if str.index('-')
-        Date.strptime(str.squish)
-      elsif str.index('.')
-        Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
-      elsif str.squish.split('/').try(:last).try(:length) == 2
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
-      else
-        Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
-      end
-    rescue
-      nil
+  def open_based_on_file_extension
+    ext = File.extname(@file.original_filename)
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
+      Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
     end
-
-    def open_based_on_file_extension
-      ext = File.extname(@file.original_filename)
-      case ext
-      when '.xls'
-        Roo::Excel.new(@file.path, nil, :ignore)
-      when '.xlsx'
-        Roo::Excelx.new(@file.path, nil, :ignore)
-      else
-        raise "Unknown file type: #{@file.original_filename}"
-      end
-    end
-
-    def split_name name
-      parts = name.split(/\W+/)
-      case parts.length
-      when 0..1
-        {first_name: name}
-      when 2
-        {first_name: parts[0], last_name: parts[1]}
-      else
-        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
-      end
-    end
+  end
 end
 
+class IOPdfFileReader < IOReader
+  def initialize(file_object)
+    @file = file_object
+    parse_file
+  end
+
+  def open
+  end
+
+  def change_sheet(num, &block)
+    yield
+  end
+
+  def client_order_id
+    @client_order_id.to_i
+  end
+
+  def reach_client_name
+    @reach_client_name.to_s.strip
+  end
+
+  def advertiser_name
+    @advertiser_name.to_s.strip   
+  end
+
+  def account_contact
+    {
+      phone_number: @account_contact.to_s.strip,
+      email: @account_contact_email.to_s.strip
+    }.merge split_name(@account_contact_name.to_s.strip)
+  end
+
+  def media_contact
+    {
+      name: @media_contact_name.to_s.strip,
+      phone: @media_contact_phone.to_s.strip,
+      email: @media_contact_email.to_s.strip
+    }
+  end
+
+  def sales_person
+    user = User.find_by first_name: "Peter", last_name: "Fernquist"
+    if user
+      {
+        phone_number: user.phone_number,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    else
+      { phone_number: "", email: "", first_name: "", last_name: "" }
+    end
+  end
+
+  def billing_contact
+    {
+      name: @billing_contact_name.to_s.strip,
+      phone: @billing_contact_phone.to_s.strip,
+      email: @billing_contact_email.to_s.strip
+    }
+  end
+
+  def order
+    {
+      name: @order_name.to_s.strip
+    }
+  end
+
+  def start_flight_date
+    parse_date(@start_date)
+  end
+
+  def finish_flight_date
+    parse_date(@end_date)
+  end
+
+  def lineitems 
+    yield({
+      start_date: parse_date(@li_start_date),
+      end_date: parse_date(@li_end_date),
+      ad_sizes: @ad_sizes.join(',').strip.downcase,
+      name: @li_name.to_s.strip,
+      volume: @impressions.to_i,
+      rate: @rate.to_f
+    })
+  end
+
+  def find_notes
+    @notes
+  end
+
+  def inreds
+    yield({})
+  end
+
+private
+
+  def parse_file
+    @advertiser_name = "COX"
+    @reach_client_name = "Cox AM"
+
+    reader = PDF::Reader::Turtletext.new(@file)
+
+    textangle = reader.bounding_box do
+      page 1
+      right_of /advertiser/i
+      left_of /bill to/i
+      below /campaign information/i
+      above /campaign name/i
+    end
+    @client_advertiser_name = textangle.text[0][0]
+      
+    textangle = reader.bounding_box do
+      page 1
+      below /advertiser/i
+      above /campaign io number/i
+      left_of /frequency/i
+      right_of /campaign name/i
+    end
+    @order_name = textangle.text[0][0]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /io version number/i
+      above /account manager email/i
+      right_of /account manager/i
+    end
+    @media_contact_name = textangle.text[0][0]
+   
+    textangle = reader.bounding_box do
+      page 1
+      below /account manager/i
+      above /am phone/i
+      left_of /address/i
+    end
+    @media_contact_email = textangle.text[0][1]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /account manager email/i
+      above "AM Fax"
+      right_of "AM Phone"
+    end
+    @media_contact_phone = textangle.text[1][0]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /frequency/i
+      right_of /billing contact/i
+    end
+    @billing = textangle.text
+    @billing_contact_name = @billing[0][0]
+    @billing_contact_email = @billing[1][0]
+    @billing_contact_phone = @billing[2][0]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /placement name/mi
+      left_of /proposal/i
+    end
+    @placement = textangle.text
+
+    @placement_name = @placement[1][0]
+    @placement_name += @placement[2][0] if @placement[2]
+    @li_id = @placement[1][1]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /Start/
+      right_of /site:/i
+    end
+    @dates = textangle.text
+
+    @start_date    = @dates[0][0]
+    @end_date      = @dates[0][1]
+    
+    @li_start_date = @start_date
+    @li_end_date   = @end_date
+    @impressions   = @dates[0][2].gsub(/,/, '')
+    @rate          = @dates[0][4].gsub(/,|\$/,'')
+    @type          = @dates[0][3]
+    @total         = @dates[0][5].gsub(/,|\$/,'')
+    @notes         = @dates[0][6]
+
+    textangle = reader.bounding_box do
+      page 1
+      below /section:/i
+    end
+    @ad_sizes = []
+    matches = textangle.text.flatten.join.scan(/\d+x\d+/mi)
+    matches.each{|ad_size| @ad_sizes << ad_size.strip}
+
+    textangle = reader.bounding_box do
+      page 1
+      below /campaign (tertiary )?goal/i
+      above /Placement Name/
+    end
+    @li_name = textangle.text.flatten.try(:last).to_s
+  end
+end

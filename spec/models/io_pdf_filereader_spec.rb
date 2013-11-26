@@ -1,0 +1,72 @@
+require 'spec_helper'
+require 'io_import.rb'
+
+describe IOPdfFileReader do
+  subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder.pdf')) }
+
+  context "opened io pdf file" do
+    before do
+      FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
+    end
+
+    it "has advertiser name" do
+      subject.advertiser_name.should == "COX"
+    end
+
+    it "has start flight dates" do
+      subject.start_flight_date.should == Date.strptime("09/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+    end
+
+    it "has finish flight date" do
+      subject.finish_flight_date.should == Date.strptime("09/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+    end
+
+    #it "has account contact name, phone and email" do
+    #  subject.account_contact[:first_name].should == "Alexandra"
+    #  subject.account_contact[:last_name].should == "Piechota" 
+    #  subject.account_contact[:phone_number].should == "646-786-6701"
+    #  subject.account_contact[:email].should == "ampnetwork@collective.com"
+    #end
+
+    it "has media contact name, company, address, phone and email" do
+      subject.media_contact[:name].should == "Holly Rodiger"
+      subject.media_contact[:phone].should == "2125882851"
+      subject.media_contact[:email].should == "hrodiger@coxds.com"
+    end
+
+    it "has sales person's name, email and phone" do
+      subject.sales_person[:first_name].should == "Peter"
+      subject.sales_person[:last_name].should == "Fernquist"
+      subject.sales_person[:phone_number].should == "1111"
+      subject.sales_person[:email].should == "peter.f@collective.com"
+    end
+
+    it "has billing contact name, phone and email" do
+      subject.billing_contact[:name].should == "CDS Billing (Mary Ann Lynch)"
+      subject.billing_contact[:phone].should == "212-588-2828"
+      subject.billing_contact[:email].should == "SiteInquiries@coxds.com"
+    end
+
+    context "lineitems" do
+      before do 
+        @lineitems = []
+        subject.lineitems{|li| @lineitems << li}
+      end
+
+      it "has 1 lineitems" do
+        @lineitems.count.should == 1
+      end
+
+      it "has first lineitem with correct options" do
+        li = @lineitems.first
+
+        li[:start_date].should == Date.strptime("9/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+        li[:end_date].should == Date.strptime("9/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "Chick-Fil-A_Denver Breakfast 2013_9/14-9/28: 9/14/2013- 9/28/2013"
+        li[:volume].should == 10350
+        li[:rate].should == 0.01
+      end
+    end
+  end
+end
