@@ -59,7 +59,8 @@ gem 'aasm'
 gem 'bunny'
 
 # Extract text from PDFs
-gem 'pdf-reader-turtletext', :github => "german/pdf-reader-turtletext"
+gem 'pdf-reader', :git => "git://github.com/german/pdf-reader.git", :branch => 'turtletext_patch'
+gem 'pdf-reader-turtletext', :git => "git://github.com/german/pdf-reader-turtletext.git"
 
 group :development, :test do
   gem 'rspec-rails', '~> 2.13.2'
