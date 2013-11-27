@@ -10,7 +10,7 @@ class IoImportController < ApplicationController
 
     @io_details = @io_import.io_details
     @lineitems  = @io_import.lineitems
-    @notes      = @io_import.notes
+    @notes      = @io_import.notes.sort_by{|e| DateTime.parse(e[:created_at]) }.reverse
 
     # Fix for browsers which don't support application/json content type with iframe based uploads
     # https://github.com/blueimp/jQuery-File-Upload/wiki/Setup#content-type-negotiation
