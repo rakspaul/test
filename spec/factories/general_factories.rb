@@ -44,7 +44,13 @@ FactoryGirl.define do
     ad_sizes "160x600, 300x250, 728x90"
     alt_ad_id "1"
     targeted_zipcodes "12345, 56789"
+    type "Display"
     user
+  end
+
+  factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
+    name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON; Video"
+    ad_sizes ""
   end
 
   factory :lineitem_with_ad, :parent => :lineitem do

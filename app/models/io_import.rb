@@ -218,6 +218,7 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
   LINEITEMS_TYPE = { 'Video' => [ /^pre[ -]roll/i ]}
+  AD_SIZE_REGEXP = /\d+x\d+/i
 
   ADVERTISER_LABEL_CELL           = ['A', 18]
   ADVERTISER_CELL                 = ['C', 18]
@@ -355,14 +356,16 @@ class IOExcelFileReader
   def lineitems
     row = LINE_ITEM_START_ROW
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
+      ad_sizes = @spreadsheet.cell('C', row).strip.downcase
+      type = determine_lineitem_type(ad_sizes)
       yield({
         start_date: parse_date(@spreadsheet.cell('A', row)),
         end_date: parse_date(@spreadsheet.cell('B', row)),
-        ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
+        ad_sizes: type != 'Display' ? parse_ad_sizes(ad_sizes) : ad_sizes,
         name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
         rate: @spreadsheet.cell('G', row).to_f,
-        type: determine_lineitem_type(@spreadsheet.cell('C', row).strip.downcase)
+        type: type
       })
 
       row += 1
@@ -448,5 +451,8 @@ private
     end
     type ? type[0] : 'Display'
   end 
-end
 
+  def parse_ad_sizes(str)
+    ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+  end
+end

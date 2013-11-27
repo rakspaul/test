@@ -58,23 +58,27 @@ describe IoImport do
   end
 
   context "lineitems" do
+    before { io.import }
 
     it "read all lineitems" do
-      io.import
-
       expect(io).to have(2).lineitems
     end
 
     it "read display lineitems" do
-      io.import
-
       expect(io.lineitems.select{|li| li.type == 'Display'}.length).to eq(2)
     end
 
-    it "read video lineitems" do
-      io_video_li.import
+    context "video" do
+      before { io_video_li.import }
 
-      expect(io_video_li.lineitems.select{|li| li.type == 'Video'}.length).to eq(2)
+      it "read video lineitems" do
+        expect(io_video_li.lineitems.select{|li| li.type == 'Video'}.length).to eq(2)
+      end
+
+      it "read video ad sizes" do
+        lineitem = io_video_li.lineitems[0]
+        expect(lineitem.ad_sizes).to eq('1x1,300x250')
+      end
     end
   end
 end

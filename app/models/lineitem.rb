@@ -87,7 +87,7 @@ class Lineitem < ActiveRecord::Base
       self[:volume] = volume_before_typecast.gsub(/,|\./, '') if volume_before_typecast.is_a?(String)
 
       # https://github.com/collectivemedia/reachui/issues/136
-      self[:name] = name[0..499]
+      self[:name] = name[0..499] if name
     end
 
     def move_end_date_time
