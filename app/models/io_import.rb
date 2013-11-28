@@ -507,14 +507,16 @@ class IOPdfFileReader < IOReader
   end
 
   def lineitems 
-    yield({
-      start_date: parse_date(@li_start_date),
-      end_date: parse_date(@li_end_date),
-      ad_sizes: @ad_sizes.join(',').strip.downcase,
-      name: @li_name.to_s.strip,
-      volume: @impressions.to_i,
-      rate: @rate.to_f
-    })
+    @lineitems.each do |li|
+      yield({
+        start_date: parse_date(li[:start_date]),
+        end_date: parse_date(li[:end_date]),
+        ad_sizes:  li[:ad_sizes].join(',').strip.downcase,
+        name: li[:name].to_s.strip,
+        volume: li[:impressions].to_i,
+        rate: li[:rate].to_f
+      })
+    end
   end
 
   def find_notes
@@ -527,13 +529,13 @@ class IOPdfFileReader < IOReader
 
 private
 
-  def parse_file
-    @advertiser_name = "COX"
-    @reach_client_name = "Cox AM"
+  def parse_file 
+    @reach_client_name = "Cox Digital Solutions"
 
-    reader = PDF::Reader::Turtletext.new(@file)
+    @reader = PDF::Reader::Turtletext.new @file, { :y_precision => 5 }
+    @raw_reader = PDF::Reader.new @file
 
-    textangle = reader.bounding_box do
+    textangle = @reader.bounding_box do
       page 1
       right_of /advertiser/i
       left_of /bill to/i
@@ -541,8 +543,9 @@ private
       above /campaign name/i
     end
     @client_advertiser_name = textangle.text[0][0]
-      
-    textangle = reader.bounding_box do
+    @advertiser_name = @client_advertiser_name
+
+    textangle = @reader.bounding_box do
       page 1
       below /advertiser/i
       above /campaign io number/i
@@ -551,7 +554,7 @@ private
     end
     @order_name = textangle.text[0][0]
 
-    textangle = reader.bounding_box do
+    textangle = @reader.bounding_box do
       page 1
       below /io version number/i
       above /account manager email/i
@@ -559,7 +562,7 @@ private
     end
     @media_contact_name = textangle.text[0][0]
    
-    textangle = reader.bounding_box do
+    textangle = @reader.bounding_box do
       page 1
       below /account manager/i
       above /am phone/i
@@ -567,15 +570,15 @@ private
     end
     @media_contact_email = textangle.text[0][1]
 
-    textangle = reader.bounding_box do
+    textangle = @reader.bounding_box do
       page 1
       below /account manager email/i
       above "AM Fax"
       right_of "AM Phone"
     end
-    @media_contact_phone = textangle.text[1][0]
+    @media_contact_phone = textangle.text[0][0]
 
-    textangle = reader.bounding_box do
+    textangle = @reader.bounding_box do
       page 1
       below /frequency/i
       right_of /billing contact/i
@@ -585,48 +588,112 @@ private
     @billing_contact_email = @billing[1][0]
     @billing_contact_phone = @billing[2][0]
 
-    textangle = reader.bounding_box do
-      page 1
-      below /placement name/mi
-      left_of /proposal/i
+     
+    @lineitems = merge(search_for_placement_and_li_id, search_for_dates)
+    @lineitems = merge(@lineitems, search_for_ad_sizes)
+
+    # find out order's flight dates based on LIs' flight dates
+    @start_date = @lineitems[0][:start_date]
+    @end_date   = @lineitems[0][:end_date]
+    @lineitems.each do |li|
+      @start_date = li[:start_date] if li[:start_date] < @start_date
+      @end_date = li[:end_date] if li[:end_date] > @end_date
+    end   
+  end
+
+  def merge(hash1, hash2)
+    hash1.each.with_index do |h, i|
+      hash2[i].merge! h
     end
-    @placement = textangle.text
+    hash2
+  end
 
-    @placement_name = @placement[1][0]
-    @placement_name += @placement[2][0] if @placement[2]
-    @li_id = @placement[1][1]
-
-    textangle = reader.bounding_box do
-      page 1
-      below /Start/
-      right_of /site:/i
+  def search_for_dates
+    dates = []
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /Start/
+        right_of /site:/i
+      end
+      dates += textangle.text
     end
-    @dates = textangle.text
 
-    @start_date    = @dates[0][0]
-    @end_date      = @dates[0][1]
+    lineitems = []
+    dates.each_with_index do |line, i|
+      li = {}
+      if line.first =~ /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        li[:start_date]    = line[0]
+        li[:end_date]      = line[1]
+        li[:impressions]   = line[2].gsub(/,/, '')
+        li[:rate]          = line[4].gsub(/,|\$/,'')
+        li[:type]          = line[3]
+        li[:total]         = line[5].gsub(/,|\$/,'')
+        li[:notes]         = line[6]
+        lineitems << li
+      else
+        line = ' ' + line.join(' ')
+        lineitems.last[:notes] += line if line !~ /Page \d+ of \d+/
+      end     
+    end
+
+    lineitems
+  end
+
+  def search_for_placement_and_li_id
+    placements = []
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /End/
+        left_of /site:/i
+      end
+      placements += textangle.text
+    end
+
+    lineitems = []
+    split_index = placements.index(["Contracts Totals"])
+    all_lineitems = split_index ? placements[0...split_index] : placements
+    all_lineitems.reject{|t| [["ID"], ["Line Item"]].include?(t)}.each do |line|
+      li = {}
+      if line[1] && line[1].match(/^\d+$/)
+        li[:name] = line[0]
+        li[:li_id] = line[1]
+        lineitems << li
+      else
+        lineitems.last[:name] += line.join(' ')
+      end
+    end
+    lineitems
+  end
+
+  def search_for_ad_sizes
+    ad_sizes_raw = []
+
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /section:/i
+      end
+      ad_sizes_raw += textangle.text
+    end
+    ad_sizes_raw = ad_sizes_raw.flatten.reject{|size| size !~ /\d+x\d+/mi}
     
-    @li_start_date = @start_date
-    @li_end_date   = @end_date
-    @impressions   = @dates[0][2].gsub(/,/, '')
-    @rate          = @dates[0][4].gsub(/,|\$/,'')
-    @type          = @dates[0][3]
-    @total         = @dates[0][5].gsub(/,|\$/,'')
-    @notes         = @dates[0][6]
-
-    textangle = reader.bounding_box do
-      page 1
-      below /section:/i
+    lineitems = []
+    ad_sizes_raw.each do |line|
+      li = {}
+      if line =~ /Ad Size\(s\):/
+        li[:ad_sizes] = line.scan(/\d+x\d+/mi)
+        lineitems << li
+      elsif line =~ /[\dx\s,]/mi
+        lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi)
+      end
     end
-    @ad_sizes = []
-    matches = textangle.text.flatten.join.scan(/\d+x\d+/mi)
-    matches.each{|ad_size| @ad_sizes << ad_size.strip}
 
-    textangle = reader.bounding_box do
-      page 1
-      below /campaign (tertiary )?goal/i
-      above /Placement Name/
+    lineitems.map do |ad_sizes|
+      ad_sizes[:ad_sizes].uniq!
     end
-    @li_name = textangle.text.flatten.try(:last).to_s
+
+    lineitems
   end
 end
