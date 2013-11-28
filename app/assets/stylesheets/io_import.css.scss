@@ -467,28 +467,30 @@ $wide_input_width: 480px;
   }
 }
 
+.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
+  background-color: $text_color;
+  color: white;
+  width: 50px;
+  float: right;
+  text-align: center;
+  padding: 5px;
+  text-decoration: none;
+  margin-right: 10px;
+  font-family: 'Armata', sans-serif;
+  font-size: 14px;
+
+  &:hover{
+    background: lighten($text_color, 10%);
+    cursor: pointer;
+  }
+}
+
 .status-btn-container {
   margin-right:10px;
   margin-top:20px;
   padding:10px;
   text-align:right;
   font-family: 'Armata', sans-serif;
-
-  .save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
-    background-color: $text_color;
-    color: white;
-    width: 50px;
-    float: right;
-    text-align: center;
-    padding: 5px;
-    text-decoration:none;
-    margin-right:10px;
-
-    &:hover{
-      background: lighten($text_color, 10%);
-      cursor: pointer;
-    }
-  }
 
   .push-order-btn {
     background-color: $magenta_color;
@@ -725,4 +727,81 @@ table.creatives-content {
 
 .wide-editable-text {
   width: $wide-input-width;
+}
+
+.order-notes {
+  .activity-log-header {
+    background-color: $bg_color;
+    float: left;
+    width: 100%;
+    padding: 5px;
+  }
+
+  .activity-log-title {
+    color: $text_color;
+    width: 20%;
+    float: left;
+
+    &:before {
+      content: url(asset-path('activity_log_icon.png')) 0px 0px no-repeat;
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-right: 5px;
+    }
+  }
+
+  .save-note-btn:before {
+    content: url(asset-path('attachment_icon.png')) 0px 0px no-repeat;
+    width: 14px;
+    height: 16px;
+    float: left;
+  }
+
+  .notify-by-email:before {
+    content: url(asset-path('email_icon.png')) 0px 0px no-repeat;
+    width: 16px;
+    height: 12px;
+    float: left;
+    margin-right: 5px;
+    margin-left: 5px;
+  }
+
+  .notify-users-list {
+    color: grey;
+    float: left;
+    width: 80%;
+
+    .top {
+      float:left;
+      width:100%;
+    
+      input {
+        float: left;
+      }
+    }
+  }
+
+  .ordersnotes input {
+    background-color: $bg_color;
+  }
+
+  .users-to-notify {
+    em {
+      float: left;
+    }
+
+    .add-user-to-notify-list {
+      float: left;
+      margin-left: 10px;
+    }
+
+    .add-user-to-notify-list:before {
+      content: url(asset-path('x_btn.png')) 0px 0px no-repeat;
+      width: 18px;
+      height: 18px;
+      -webkit-transform: rotate(45deg);
+      float: left;
+    }
+  }
 }

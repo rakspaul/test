@@ -240,7 +240,8 @@
 
     events: {
       'keypress #note_input' : 'saveNote',
-      'click #btnSave' : 'saveNote'
+      'click #btnSave' : 'saveNote',
+      'click .notify-users-switch' : 'toggleNotifyUsersDialog'
     },
 
     ui: {
@@ -249,10 +250,17 @@
 
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+      this.notify_users_dialog_active = false;
     },
 
     appendHtml: function(collectionView, itemView){
         collectionView.$("tbody").append(itemView.el);
+    },
+
+    toggleNotifyUsersDialog: function() {
+      this.notify_users_dialog_active = !this.notify_users_dialog_active;
+      var color = this.notify_users_dialog_active ? 'black' : 'grey';
+      this.$el.find('.notify-users-list').css({'color': color});
     },
 
     saveNote: function(event) {
