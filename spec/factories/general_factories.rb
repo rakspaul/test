@@ -7,7 +7,7 @@ FactoryGirl.define do
   end
 
   factory :order do
-    name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977" 
+    name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977"
     start_date 1.day.from_now
     end_date   22.day.from_now
     network { FactoryGirl.singleton :network }
@@ -20,10 +20,10 @@ FactoryGirl.define do
       create_list(:lineitem_with_ad, order: ord)
     end
   end
-        
+
   factory :io_detail do
   end
-            
+
   factory :reach_client do
     id 1
     name "Test Reach Client Name"
@@ -33,7 +33,7 @@ FactoryGirl.define do
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
   end
-                            
+
   factory :lineitem do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON"
     start_date 1.day.from_now
@@ -70,5 +70,14 @@ FactoryGirl.define do
     order
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
+  end
+
+  factory :blocked_advertiser do
+    # advertiser_id 1
+    # site_id 1
+    # state 'BLOCK'
+    # type 'BlockedAdvertiser'
+    # network { FactoryGirl.singleton :network }
+    # user_id { FactoryGirl.singleton(:user).id }
   end
 end
