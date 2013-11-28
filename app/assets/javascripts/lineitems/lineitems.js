@@ -434,7 +434,7 @@
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.state);
-
+            self.trigger('ordernote:reload');
             if (response.state.match(/pushing/i)) {
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
@@ -461,6 +461,7 @@
 
     _pushOrder: function() {
       var self = this;
+      this._setOrderPushNote();
 
       if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
         $('#push-confirmation-dialog .cancel-btn').click(function() {
@@ -474,6 +475,16 @@
       } else {
         this._saveOrderWithStatus('pushing');
       }
+    },
+
+    _setOrderPushNote: function() {
+       var prop = {
+        note: "Pushed Order",
+        created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+        order: this.collection.order.id,
+        username: window.current_user_name
+      }
+      this.collection.order.get('notes').push(prop, {silent: true});
     },
 
     _submitOrderToAm: function() {
