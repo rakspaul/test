@@ -2,15 +2,15 @@ require 'spec_helper'
 require 'io_import.rb'
 
 describe IOPdfFileReader do
-  subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder.pdf')) }
+  context "opened io pdf file with 1 lineitem" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder.pdf')) }
 
-  context "opened io pdf file" do
     before do
       FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
     end
 
     it "has advertiser name" do
-      subject.advertiser_name.should == "COX"
+      subject.advertiser_name.should == "Chick-Fil-A"
     end
 
     it "has start flight dates" do
@@ -63,9 +63,51 @@ describe IOPdfFileReader do
         li[:start_date].should == Date.strptime("9/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:ad_sizes].should == "160x600,300x250,728x90"
-        li[:name].should == "Chick-Fil-A_Denver Breakfast 2013_9/14-9/28: 9/14/2013- 9/28/2013"
+        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver_300x250,160x600,728x90_9/14-9/28"
         li[:volume].should == 10350
         li[:rate].should == 0.01
+      end
+    end
+  end
+
+  context "opened io pdf file with 3 lineitems on different pages" do
+   subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
+
+    before do
+      FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
+    end
+
+    it "has advertiser name" do
+      subject.advertiser_name.should == "LexisNexis"
+    end
+
+    it "has start flight dates" do
+      subject.start_flight_date.should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+    end
+
+    it "has finish flight date" do
+      subject.finish_flight_date.should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+    end
+
+    context "lineitems" do
+      before do 
+        @lineitems = []
+        subject.lineitems{|li| @lineitems << li}
+      end
+
+      it "has 3 lineitems" do
+        @lineitems.count.should == 3
+      end
+
+      it "has first lineitem with correct options" do
+        li = @lineitems.first
+
+        li[:start_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+        li[:end_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "Canceled_Run of News, Business, andTechnology & Computing"
+        li[:volume].should == 1
+        li[:rate].should == 4.00
       end
     end
   end
