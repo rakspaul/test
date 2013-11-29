@@ -34,6 +34,9 @@ class Lineitem < ActiveRecord::Base
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
 
+  def video?()   type == 'Video'; end
+  def display?() type == 'Display'; end
+
   def save_creatives(creatives_params)
     creatives_errors = {}
 

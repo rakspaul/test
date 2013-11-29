@@ -72,7 +72,15 @@
   LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
     tagName: 'div',
     className: 'lineitem pure-g',
-    template: JST['templates/lineitems/line_item_row'],
+
+    getTemplate: function() {
+      var type = this.model.get('type').toLowerCase();
+      if (type == 'display') {
+        return JST['templates/lineitems/line_item_row'];
+      } else {
+        return JST['templates/lineitems/line_item_' + type + '_row'];
+      }
+    },
 
     initialize: function(){
       _.bindAll(this, "render");
@@ -183,6 +191,20 @@
         success: function(response, newValue) {
           view.model.set('ad_sizes', newValue.join(', '));
         }
+      });
+
+      // select Creative size from the drop-down autocomplete
+      this.$el.find('.size .editable.custom').editable({
+        source: '/ad_sizes.json',
+        typeahead: {
+          minLength: 1,
+          remote: '/ad_sizes.json?search=%QUERY',
+          valueKey: 'size'
+        },
+      });
+      this.$el.find('.size').on('typeahead:selected', function(ev, el) {
+        var name = $(this).find('.editable').data('name');
+        view.model.set(name, el.size);
       });
 
       this.$el.find('.rate .editable.custom').editable({
