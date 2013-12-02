@@ -246,11 +246,37 @@
 
     ui: {
       note_input: '#note_input',
+      creatives_fileupload: '#creatives_fileupload'
     },
 
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
       this.notify_users_dialog_active = false;
+    },
+
+    onDomRefresh: function() {
+      this.ui.creatives_fileupload.fileupload({
+        dataType: 'json',
+        url: '/creatives_import.json',
+        dropZone: this.ui.creatives_fileupload,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._uploadSuccess,
+        fail: this._uploadFailed
+      });
+
+      // IE double click fix
+      if (navigator.userAgent.indexOf("MSIE") > 0) {
+        this.ui.creatives_fileupload.bind('mousedown',function(event) {
+          if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            $(this).get(0).dispatchEvent(e);
+          } else {
+            $(this).trigger("click");
+          }
+        });
+      }
     },
 
     appendHtml: function(collectionView, itemView){

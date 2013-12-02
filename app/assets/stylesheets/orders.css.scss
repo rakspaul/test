@@ -242,14 +242,22 @@
     }
 
     .ordersnotes {
-      width: 100%;
-      border-bottom: 1px dashed #93CEF2;
+      width: 60%;
+      float: left;
     }
 
     .notetimestamp {
+      float: right;
       min-width: 125px;
       text-align: right;
-      border-bottom: 1px dashed #93CEF2;
+
+      a {
+        margin-right: 5px;
+      }
+
+      a.attachment-btn {
+        margin-right: 25px;
+      }
     }
   }
 
@@ -263,7 +271,7 @@
       min-width:70px;
     }
 
-    input{
+    input[type="text"]{
       margin:0 10px 20px 0;
       border:none;
       font-size:11px;

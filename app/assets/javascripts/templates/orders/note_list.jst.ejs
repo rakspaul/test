@@ -1,9 +1,11 @@
 <div class="activity-log-header">
-  <div class="activity-log-title">Activity Log</div>
+  <div class="activity-log-title">
+    Activity Log
+    <input type="checkbox" class="notify-users-switch"/>
+  </div>
 
   <div class="notify-users-list">
     <div class="top">
-      <input type="checkbox" class="notify-users-switch"/>
       <div class="notify-by-email">Notify by email:</div>
     </div>
 
@@ -13,31 +15,28 @@
       <em>Sam Fisher, Peter Parker</em>
       <span class="add-user-to-notify-list">Add</span>
     </div> 
-  </div>
 
-<table class="order-notes-table">
-  <thead>
-    <tr class="note-input-control">
-      <th class="username">
-        <label class="control-label"></label>
-      </th>
-      <th class="ordersnotes">
-        <input type="text" id="note_input" placeholder="Note" />
-      </th>
-      <th class="notetimestamp">
-        <a class="save-note-btn" id="btnSave">File</a>
-      </th>
-    </tr>
-    <tr>
-      <th>&nbsp;</th>
-      <th>
+    <div class="order-notes-table">
+      <div class="note-input-control">
+        <div class="username">
+          <label class="control-label"></label>
+        </div>
+        <div class="ordersnotes">
+          <input type="text" id="note_input" placeholder="Note" />
+        </div>
+        <div class="notetimestamp">
+          <a class="attachment-btn">File</a>
+          <input id="creatives_fileupload" type="file" name="io_creatives" style="width:96px;border:0;height:25px;position:absolute;cursor:pointer;" class="cox-creatives-btn"><a href="javascript:void(0)">Creatives TXT</a>
+        </div>
+      </div>
+
+      <div style="clear:both"></div>
+
+      <div>
+        <div class="save-note-btn" id="btnSave">&bnsp;</div>
         <div class="submit-trafficker-btn" style="width:156px">Submit to Trafficker</div>
         <div class="submit-am-btn" style="width:100px">Submit to AM</div>
-      </th>
-      <th>&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
-
+      </div>
+    </div>
+  </div>
 </div>

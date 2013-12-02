@@ -467,11 +467,11 @@ $wide_input_width: 480px;
   }
 }
 
-.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
+.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn, .save-note-btn {
   background-color: $text_color;
   color: white;
   width: 50px;
-  float: right;
+  float: left;
   text-align: center;
   padding: 5px;
   text-decoration: none;
@@ -485,10 +485,17 @@ $wide_input_width: 480px;
   }
 }
 
+.save-note-btn {
+  content: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
+  width: 16px;
+  height: 16px;
+  /*float: left;
+  margin-right: 5px;*/
+}
+
 .status-btn-container {
-  margin-right:10px;
-  margin-top:20px;
-  padding:10px;
+  margin: 0 10px 0 20px;
+  padding:0px;
   text-align:right;
   font-family: 'Armata', sans-serif;
 
@@ -731,7 +738,7 @@ table.creatives-content {
 
 .order-notes {
   .activity-log-header {
-    background-color: $bg_color;
+    background-color: $ad_bg_color;
     float: left;
     width: 100%;
     padding: 5px;
@@ -751,11 +758,19 @@ table.creatives-content {
     }
   }
 
-  .save-note-btn:before {
+  .attachment-btn:before {
     content: url(asset-path('attachment_icon.png')) 0px 0px no-repeat;
     width: 14px;
     height: 16px;
-    float: left;
+    margin-right: 5px;
+  }
+
+  .cox-creatives-btn:before {
+    content: url(asset-path('clone_btn.png')) 0px 0px no-repeat;
+    width: 16px;
+    height: 16px;
+    position: relative;
+    left: -20px;
   }
 
   .notify-by-email:before {
@@ -783,7 +798,7 @@ table.creatives-content {
   }
 
   .ordersnotes input {
-    background-color: $bg_color;
+    background-color: $ad_bg_color;
   }
 
   .users-to-notify {
@@ -793,11 +808,12 @@ table.creatives-content {
 
     .add-user-to-notify-list {
       float: left;
-      margin-left: 10px;
+      margin-left: 20px;
     }
 
     .add-user-to-notify-list:before {
       content: url(asset-path('x_btn.png')) 0px 0px no-repeat;
+      margin-right: 4px;
       width: 18px;
       height: 18px;
       -webkit-transform: rotate(45deg);
