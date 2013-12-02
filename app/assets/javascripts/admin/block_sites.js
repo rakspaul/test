@@ -548,7 +548,7 @@
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_name%> <% if(default_block){%> (Default Block) <%}%>'),
+    template: _.template('<%= pending_block_indicator %> <%= advertiser_name%> <%= default_block_indicator %>'),
 
     attributes: function() {
       return {
@@ -560,6 +560,14 @@
     className: function() {
       if (this.model.get('default_block')) {
         return 'italics'
+      }
+    },
+
+    serializeData: function() {
+      return {
+        pending_block_indicator : this.model.get('state') == "PENDING_BLOCK" ? ' * ': '',
+        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
+        advertiser_name : this.model.get('advertiser_name')
       }
     },
 
@@ -802,7 +810,7 @@
         var para = {};
         this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
         para.advertiser_id = selectedAdvertiser.join(',')
-        $.ajax({type: "GET", url: '/admin/block_sites/default_block_for_advertiser.json', data: para, success: this._onSuccess, error: this._onError});
+        $.ajax({type: "GET", url: '/admin/block_sites/advertisers_with_default_blocks.json', data: para, success: this._onSuccess, error: this._onError});
       }
     },
 
@@ -864,8 +872,8 @@
       if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
         var para = {};
         this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
-        para.advertiser_id = this.pluck(this._advertisers, 'id').join(',')
-        $.ajax({type: "GET", url: '/admin/block_sites/default_block_for_advertiser.json', data: para, success: this._onSuccess, error: this._onError});
+        para.advertiser_id = _.pluck(this._advertisers, 'id').join(',')
+        $.ajax({type: "GET", url: '/admin/block_sites/advertisers_with_default_blocks.json', data: para, success: this._onSuccess, error: this._onError});
       }
     },
 
@@ -894,14 +902,6 @@
     _onError: function(event) {
       this.ui.btnBlock.text('Add').removeAttr('disabled');
       alert('An error occurred while saving your changes.');
-    },
-
-    pluck: function(array, prop) {
-      var arrayOfProp = [];
-      for (var i = 0; i < array.length; i++) {
-        arrayOfProp.push(array[i].get(prop))
-      }
-      return arrayOfProp;
     },
 
     onValidate: function(event) {
@@ -951,6 +951,7 @@
     _onValidateAdvertiserError: function(event) {
       this.ui.btnValidate.text('Validate').removeAttr('disabled');
       if(event.responseJSON && event.responseJSON.errors) {
+        alert('An error occurred while saving your changes.');
       }
     },
 

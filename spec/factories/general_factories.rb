@@ -73,11 +73,11 @@ FactoryGirl.define do
   end
 
   factory :blocked_advertiser do
-    # advertiser_id 1
-    # site_id 1
-    # state 'BLOCK'
-    # type 'BlockedAdvertiser'
-    # network { FactoryGirl.singleton :network }
-    # user_id { FactoryGirl.singleton(:user).id }
+    advertiser_id 1
+    site_id 1
+    state 'BLOCK'
+    type 'BlockedAdvertiser'
+    network { FactoryGirl.singleton :network }
+    user { FactoryGirl.singleton :user }
   end
 end

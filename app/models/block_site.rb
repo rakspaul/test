@@ -19,6 +19,18 @@ class BlockSite < ActiveRecord::Base
     where(:network => network)
   end
 
+  def self.block_or_pending_block
+    where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+  end
+
+  def self.for_advertiser(advertiser_ids)
+    where(advertiser_id: advertiser_ids)
+  end
+
+  def self.for_advertiser_group(advertiser_group_ids)
+    where(advertiser_group_id: advertiser_group_ids)
+  end
+
   def visited
     @visited || false
   end
