@@ -484,15 +484,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       if("order" == error.type) {
         $('.pushing-errors-order-level').html(error.message);
       } else if("ad" == error.type) {
-        $('.ad-'+error.ad_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.ad-'+error.ad_id+'.pushing-status').html('<div class="push-failed pull-left"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.ad-'+error.ad_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Ad]: "+error.message);
       } else if("creative" == error.type) {
-        $('.creative-'+error.creative_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.creative-'+error.creative_id+'.pushing-status').html('<div class="push-failed pull-left"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.creative-'+error.creative_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       } else if("assignment" == error.type) {
-        $('.assignment-'+error.assignment_id+'.pushing-status').html('<div class="dfp-failure"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
+        $('.assignment-'+error.assignment_id+'.pushing-status').html('<div class="push-failed pull-left"></div> <span class="failed">Push Failed</span> <span class="reason">Why?</span>');
         $('.assignment-'+error.assignment_id+'.pushing-status span.reason').attr('title', error.message).click(function() { alert(error.message) });
         $('.pushing-errors-order-level').html("[Creative]: "+error.message);
       }

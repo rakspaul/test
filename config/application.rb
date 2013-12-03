@@ -27,5 +27,7 @@ module Reachui
     config.action_dispatch.default_headers.clear()
 
     config.autoload_paths += %W(#{config.root}/app/models/lineitems)
+
+    config.compass.css_dir = "public/stylesheets"
   end
 end

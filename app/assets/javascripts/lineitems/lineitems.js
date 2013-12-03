@@ -336,7 +336,7 @@
     },
 
     triggers: {
-      'click .li-command-btns': 'lineitem:add_ad'
+      'click .li-command-btn': 'lineitem:add_ad'
     }
   });
 
