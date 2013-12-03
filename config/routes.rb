@@ -82,7 +82,7 @@ Reachui::Application.routes.draw do
 
   resources :kendoui
   resources :ad_sizes, only: [:index]
-  resources :advertisers, only: [:index, :create] do
+  resources :advertisers, only: [:index] do
     collection do
       get 'search'
       post 'validate'
