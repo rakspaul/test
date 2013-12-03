@@ -149,7 +149,7 @@ class Admin::BlockSitesController < ApplicationController
   def advertisers_with_default_blocks
     if params['advertiser_id'].present?
       advertiser_ids = params['advertiser_id'].split(",").map(&:to_i)
-      ba = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids.split(',')).block_or_pending_block
+      ba = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).block_or_pending_block
       advertiser_with_default_blocks = advertiser_ids - ba.pluck("advertiser_id").uniq
       render json: {default_block: advertiser_with_default_blocks}
     end
