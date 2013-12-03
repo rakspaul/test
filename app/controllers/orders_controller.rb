@@ -75,14 +75,17 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
+    order_notes = params[:order][:notes]
+    order_notes << {note: "Imported Order", created_at: Time.current.to_s(:db) , username: current_user }
+
     respond_to do |format|
       Order.transaction do
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
-          params[:order][:notes].to_a.each do |note|
-            OrderNote.create note: note[:note], user: current_user, order: @order, created_at: note[:created_at]
+          order_notes.to_a.each do |note|
+            OrderNote.create note: note[:note], user: current_user, order: @order
           end
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
@@ -127,12 +130,17 @@ class OrdersController < ApplicationController
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.state                  = order_param[:order_status] || "draft"
 
+    order_notes = params[:order][:notes]
+    if(io_details.state == 'pushing')
+      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
+    end
+
     respond_to do |format|
       Order.transaction do
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
-        params[:order][:notes].to_a.each do |note|
-          OrderNote.create(note: note[:note], user: current_user, order: @order, created_at: note[:created_at]) if note[:id].blank?
+        order_notes.to_a.each do |note|
+          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
         end
 
         if li_ads_errors.blank?
