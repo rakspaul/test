@@ -24,8 +24,8 @@ describe Advertiser do
 
   it 'return only ADVERTISER type of Advertisers' do
     adv = Advertiser.all
-    adv.size == 1
-    adv.first.advertiser_type.name == 'ADVERTISER'
+    adv.size.should == 1
+    adv.first.advertiser_type.name.should == 'ADVERTISER'
   end
 
 end
