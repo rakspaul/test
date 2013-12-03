@@ -7,7 +7,7 @@ FactoryGirl.define do
   end
 
   factory :order do
-    name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977" 
+    name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977"
     start_date 1.day.from_now
     end_date   22.day.from_now
     network { FactoryGirl.singleton :network }
@@ -20,10 +20,10 @@ FactoryGirl.define do
       create_list(:lineitem_with_ad, order: ord)
     end
   end
-        
+
   factory :io_detail do
   end
-            
+
   factory :reach_client do
     id 1
     name "Test Reach Client Name"
@@ -33,7 +33,7 @@ FactoryGirl.define do
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
   end
-                            
+
   factory :lineitem do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON"
     start_date 1.day.from_now
@@ -64,6 +64,7 @@ FactoryGirl.define do
     alt_ad_id "1"
     keyvalue_targeting "12345, 56789"
     order
+    network { FactoryGirl.singleton :network }
   end
 
   factory :io_asset do
