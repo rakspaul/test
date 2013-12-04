@@ -65,6 +65,7 @@ FactoryGirl.define do
     alt_ad_id "1"
     keyvalue_targeting "12345, 56789"
     order
+    network { FactoryGirl.singleton :network }
   end
 
   factory :io_asset do
