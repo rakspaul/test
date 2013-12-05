@@ -11,10 +11,12 @@ class Parsers::CoxCreative < Parsers::Base
   def parse
     content = File.read @tempfile
     creatives = content.split(CREATIVES_SEPARATOR).delete_if(&:empty?)
-    @creatives_errors = {}
+    @creatives_errors = []
     @creatives = []
 
     creatives.each_with_index { |creative, i| parse_creative(creative, i) }
+
+    @creatives_errors.push("#{@creatives_errors.count} of #{creatives.count} were not imported") if !@creatives_errors.empty?
 
     [@creatives, @creatives_errors]
   end
@@ -29,17 +31,19 @@ class Parsers::CoxCreative < Parsers::Base
 
   def parse_creative(creative_txt, index)
     begin
-      placement_name  = creative_txt.match(CREATIVE_NAME)[1].to_s.strip
+      placement_name_match  = creative_txt.match(CREATIVE_NAME)
 
-      return if placement_name.nil?
+      return if placement_name_match.nil?
 
+      placement_name  = placement_name_match[1].to_s.strip
       start_date      = start_date(creative_txt)
       end_date        = end_date(creative_txt)
       javascript_code = creative_txt.match(CREATIVE_HTML_CODE)[1].to_s.strip
       ad_size         = javascript_code.match(/{ "size" : "(\d+x\d+)"/)[1].to_s.strip
       width, height   = ad_size.split('x')
     rescue => e
-      @creatives_errors[index] = "#{placement_name}: Error parsing creative's text: #{e.message}"
+      Rails.logger.warn e.backtrace.inspect
+      @creatives_errors << "#{placement_name}: Error parsing creative's text: #{e.message}"
       return
     end
 
@@ -50,12 +54,13 @@ class Parsers::CoxCreative < Parsers::Base
         li_assignment = LineitemAssignment.create lineitem: li, creative: creative, start_date: start_date, end_date: end_date, network_id: li.order.network_id, data_source_id: li.order.network.try(:data_source_id)
 
         if !li_assignment.errors.messages.blank?
-          @creatives_errors[index] = li_assignment.errors.messages
-          raise ActiveRecord::Rollback
+          @creatives_errors << li_assignment.errors.messages
         else
           @creatives << creative
         end
       end
+    else
+      @creatives_errors << "#{index}: Lineitem with name #{placement_name} not found"
     end
   end
 end

@@ -254,6 +254,28 @@
       this.notify_users_dialog_active = false;
     },
 
+    _importCreativesCallback: function(e, data) {
+      $('#import-creatives-dialog').modal('show');
+
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      messages.push("<h4>" + resp.pop().error + "</h4>");
+      messages.push("<ul>");
+      if(resp) {      
+        _.each(resp, function(msg) {
+          messages.push("<li>");
+          messages.push(msg.error);
+          messages.push("</li>");
+        });
+      } else {
+        messages.push(data.jqXHR.responseText);
+      }
+      messages.push("</ul>");
+
+      $('#import-creatives-dialog .modal-body p').html(messages.join(""));
+    },
+
     onDomRefresh: function() {
       this.ui.creatives_fileupload.fileupload({
         dataType: 'json',
@@ -261,8 +283,8 @@
         dropZone: this.ui.creatives_fileupload,
         pasteZone: null,
         start: this._uploadStarted,
-        done: this._uploadSuccess,
-        fail: this._uploadFailed
+        done: this._importCreativesCallback,
+        fail: this._importCreativesCallback
       });
 
       // IE double click fix
