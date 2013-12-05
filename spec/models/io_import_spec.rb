@@ -65,19 +65,49 @@ describe IoImport do
     end
 
     it "read display lineitems" do
-      expect(io.lineitems.select{|li| li.type == 'Display'}.length).to eq(2)
+      expect(io.lineitems.select{|li| li.type == 'Display'}).to have(2).items
     end
 
     context "video" do
       before { io_video_li.import }
 
       it "read video lineitems" do
-        expect(io_video_li.lineitems.select{|li| li.type == 'Video'}.length).to eq(2)
+        expect(io_video_li.lineitems.select{|li| li.type == 'Video'}).to have(2).items
       end
 
       it "read video ad sizes" do
         lineitem = io_video_li.lineitems[0]
         expect(lineitem.ad_sizes).to eq('1x1,300x250')
+      end
+    end
+
+    context "facebook" do
+      let(:file_facebook_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_facebook_li.xlsx') }
+      let(:io_facebook_li) { IoImport.new file_facebook_li, current_user }
+
+      before { io_facebook_li.import }
+
+      it "read facebook lineitems" do
+        expect(io_facebook_li.lineitems.select{|li| li.type == 'Facebook'}).to have(2).items
+      end
+
+      it "should have facebook ad sizes" do
+        expect(io_facebook_li.lineitems.select{|li| Facebook::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+      end
+    end
+
+    context "mobile" do
+      let(:file_mobile_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_mobile_li.xlsx') }
+      let(:io_mobile_li) { IoImport.new file_mobile_li, current_user }
+
+      before { io_mobile_li.import }
+
+      it "read mobile lineitems" do
+        expect(io_mobile_li.lineitems.select{|li| li.type == 'Mobile'}).to have(2).items
+      end
+
+      it "should have mobile ad sizes" do
+        expect(io_mobile_li.lineitems.select{|li| Mobile::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
       end
     end
   end

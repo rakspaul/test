@@ -27,10 +27,12 @@
   </div>
 </div>
 
-<div class="pure-u-1-6 lineitem-sizes">
-  <span class="display-icon pull-left"></span>
-  <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-    <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
+<div class="pure-u-1-6">
+  <span class="mobile-icon pull-left"></span>
+  <span class="size">
+    <span class="editable custom typeahead" data-type="typeahead" data-name="ad_sizes" data-pk="1">
+      <%= lineitem.ad_sizes %>
+    </span>
   </span>
   <br/>
   <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>

@@ -217,7 +217,10 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
-  LINEITEMS_TYPE = { 'Video' => [ /^pre[ -]roll/i ]}
+  LINEITEMS_TYPE = { 'Video'    => [ /^pre[ -]roll/i ],
+    'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i }.push(/mobile/i),
+    'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
+
   AD_SIZE_REGEXP = /\d+x\d+/i
 
   ADVERTISER_LABEL_CELL           = ['A', 18]
@@ -361,7 +364,7 @@ class IOExcelFileReader
       yield({
         start_date: parse_date(@spreadsheet.cell('A', row)),
         end_date: parse_date(@spreadsheet.cell('B', row)),
-        ad_sizes: type != 'Display' ? parse_ad_sizes(ad_sizes) : ad_sizes,
+        ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
         rate: @spreadsheet.cell('G', row).to_f,
@@ -452,7 +455,14 @@ private
     type ? type[0] : 'Display'
   end 
 
-  def parse_ad_sizes(str)
-    ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+  def parse_ad_sizes(str, type)
+    case type 
+    when 'Display'
+      str    
+    when 'Video'
+      ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+    else
+      str.scan(AD_SIZE_REGEXP).first
+    end
   end
 end

@@ -318,6 +318,15 @@ $wide_input_width: 480px;
     .video-icon {
       margin-top: 4px;
     }
+
+    .pencil-icon {
+      float: left;
+      margin-top: 3px;
+    }
+
+    .size .typeahead {
+      background-color: transparent;
+    }
   }
 
   .start-date .editable, .end-date .editable {
@@ -351,6 +360,10 @@ $wide_input_width: 480px;
         float: left;
         margin-top: 3px;
         margin-left: 15px;
+      }
+
+      .centered-icon {
+        margin: 5px auto;
       }
     }
 

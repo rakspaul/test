@@ -204,8 +204,15 @@
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
-        view.model.set(name, el.size);
-        view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + view.model.get('companion_ad_size'));
+        var type = view.model.get('type');
+        //view.model.set(name, el.size);
+        if (type == 'Video') {
+          view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + view.model.get('companion_ad_size'));
+        } else {
+          console.log('AD SIZES');
+          console.log(view.model.get('ad_sizes'));
+          //view.model.set('ad_sizes', 
+        }
       });
 
       this.$el.find('.rate .editable.custom').editable({
@@ -298,7 +305,7 @@
       //this._updateCreativesCaption();
 
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
+      var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
       if (showed) {
         if (!is_visible) {
           this.ui.creatives_container.show('slow', function() {
