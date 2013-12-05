@@ -76,7 +76,11 @@ class OrdersController < ApplicationController
     @order.user = current_user
 
     order_notes = params[:order][:notes]
+    order_status = params[:order][:order_status]
     order_notes << {note: "Imported Order", created_at: Time.current.to_s(:db) , username: current_user }
+    if order_status == 'pushing'
+      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
+    end
 
     respond_to do |format|
       Order.transaction do
