@@ -9,6 +9,7 @@ describe OrdersController do
   let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
                      FactoryGirl.create(:ad_size_300x250),
                      FactoryGirl.create(:ad_size_728x90) ] }
+  let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before :each do
     account = FactoryGirl.create(:account)
@@ -176,6 +177,24 @@ describe OrdersController do
           expect(data[:errors][:lineitems]['0'][:targeting]).to include(error_response)
         end
       end
+    end
+  end
+
+  describe "DELETE 'destroy'" do
+    before :each do
+      @order = FactoryGirl.create(:order)
+      @order.io_detail = io_detail
+    end
+
+    it "returns http success" do
+      delete :delete, ids: @order
+      response.should be_success
+    end
+
+    it "deletes the order" do
+      expect{
+        delete :delete, ids: @order
+      }.to change(Order,:count).by(-1)
     end
   end
 

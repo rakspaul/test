@@ -175,7 +175,8 @@ class OrdersController < ApplicationController
 
       orders_by_adv = Order.where(:network_advertiser_id => order.network_advertiser_id)
       if orders_by_adv.length == 0
-        Advertiser.destroy(order.network_advertiser_id)
+        adv = Advertiser.find(order.network_advertiser_id)
+        adv.destroy
       end
     end
 
@@ -658,6 +659,9 @@ private
       advertiser = Advertiser.new
       advertiser.name = name
       advertiser.network = current_network
+
+      advertiser_type = AdvertiserType.where(:name => AdvertiserType::ADVERTISER_TYPE, :network => current_network)
+      advertiser.advertiser_type_id = advertiser_type.first.id
       advertiser.save
     end
 
