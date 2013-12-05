@@ -70,7 +70,6 @@ class OrdersController < ApplicationController
 
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
-    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
     @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
     @order.user = current_user
@@ -84,6 +83,9 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
+        advertiser = create_advertiser(params[:order][:advertiser_name])
+        @order.network_advertiser_id = advertiser.id
+
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
@@ -182,6 +184,12 @@ class OrdersController < ApplicationController
     params[:ids].split(',').each do |id|
       order = Order.find(id)
       order.destroy if order && order.io_detail && order.source_id.to_i.zero?
+
+      orders_by_adv = Order.where(:network_advertiser_id => order.network_advertiser_id)
+      if orders_by_adv.length == 0
+        adv = Advertiser.find(order.network_advertiser_id)
+        adv.destroy
+      end
     end
 
     render json: {status: 'success'}
@@ -656,4 +664,20 @@ private
 
     errors_in_kv
   end
+
+  def create_advertiser(name)
+    advertiser = Advertiser.of_network(current_network).where(:name => name).first
+    if advertiser.blank?
+      advertiser = Advertiser.new
+      advertiser.name = name
+      advertiser.network = current_network
+
+      advertiser_type = AdvertiserType.where(:name => AdvertiserType::ADVERTISER_TYPE, :network => current_network)
+      advertiser.advertiser_type_id = advertiser_type.first.id
+      advertiser.save
+    end
+
+    advertiser
+  end
+
 end

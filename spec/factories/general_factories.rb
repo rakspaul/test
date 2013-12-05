@@ -23,6 +23,11 @@ FactoryGirl.define do
   end
 
   factory :io_detail do
+    client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
+    order_id  1
+    media_contact_id 1
+    billing_contact_id 1
+    reach_client { FactoryGirl.singleton :reach_client }
   end
 
   factory :reach_client do
