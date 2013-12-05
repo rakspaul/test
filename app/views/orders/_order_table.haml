@@ -20,12 +20,7 @@
           %span.dfp-id{:title => "DFP Order ID"}
             = link_to order.source_id, order.dfp_url, target: '_blank'
         .import-datetime
-          -if order.try(:io_detail).try(:state).to_s == 'pushed'
-            %span{ :title => "Pushed Date"}
-              = format_date(order.order_notes.where(note: 'Pushed Order').last.try(:created_at))
-          -else
-            %span{ :title => "Imported Date"}
-              = format_date(order.order_notes.where(note: 'Imported Order').first.try(:created_at))
+          = format_date(order.latest_import_or_push_note.try(:created_at))
       %td
         .order-title
           = link_to order.name, order_path(order)

@@ -235,7 +235,7 @@ private
     session[:trafficker] = trafficker
     session[:search_query] = search_query
 
-    order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
