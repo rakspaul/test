@@ -17,7 +17,7 @@ class AudienceGroup < ActiveRecord::Base
   end
 
   def key_value_list
-    unless key_values.empty?
+    unless key_values.blank?
       segments_values = []
       contexts_values = []
 
