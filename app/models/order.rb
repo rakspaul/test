@@ -26,6 +26,7 @@ class Order < ActiveRecord::Base
   before_create :create_random_source_id, :make_order_inactive
   before_destroy :check_could_be_deleted
   before_save :move_end_date_time, :set_data_source
+  after_create :set_import_note
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -106,5 +107,9 @@ class Order < ActiveRecord::Base
     # order could not be deleted after it was pushed to DFP
     def check_could_be_deleted
       pushed_to_dfp? ? false : true
+    end
+
+    def set_import_note
+      self.order_notes.create(:note => "Imported Order", :user => self.user, :order => self)
     end
 end
