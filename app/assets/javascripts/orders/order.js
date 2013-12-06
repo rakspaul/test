@@ -240,19 +240,75 @@
 
     events: {
       'keypress #note_input' : 'saveNote',
-      'click #btnSave' : 'saveNote'
+      'click #btnSave' : 'saveNote',
+      'click .notify-users-switch' : 'toggleNotifyUsersDialog'
     },
 
     ui: {
       note_input: '#note_input',
+      creatives_fileupload: '#creatives_fileupload'
     },
 
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+      this.notify_users_dialog_active = false;
+    },
+
+    _importCreativesCallback: function(e, data) {
+      $('#import-creatives-dialog').modal('show');
+
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      messages.push("<h4>" + resp.pop().error + "</h4>");
+      messages.push("<ul>");
+      if(resp) {      
+        _.each(resp, function(msg) {
+          messages.push("<li>");
+          messages.push(msg.error);
+          messages.push("</li>");
+        });
+      } else {
+        messages.push(data.jqXHR.responseText);
+      }
+      messages.push("</ul>");
+
+      $('#import-creatives-dialog .modal-body p').html(messages.join(""));
+    },
+
+    onDomRefresh: function() {
+      this.ui.creatives_fileupload.fileupload({
+        dataType: 'json',
+        url: '/creatives_import.json',
+        dropZone: this.ui.creatives_fileupload,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._importCreativesCallback,
+        fail: this._importCreativesCallback
+      });
+
+      // IE double click fix
+      if (navigator.userAgent.indexOf("MSIE") > 0) {
+        this.ui.creatives_fileupload.bind('mousedown',function(event) {
+          if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            $(this).get(0).dispatchEvent(e);
+          } else {
+            $(this).trigger("click");
+          }
+        });
+      }
     },
 
     appendHtml: function(collectionView, itemView){
         collectionView.$("tbody").append(itemView.el);
+    },
+
+    toggleNotifyUsersDialog: function() {
+      this.notify_users_dialog_active = !this.notify_users_dialog_active;
+      var color = this.notify_users_dialog_active ? 'black' : 'grey';
+      this.$el.find('.notify-users-list').css({'color': color});
     },
 
     saveNote: function(event) {
