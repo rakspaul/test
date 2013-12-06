@@ -49,7 +49,7 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       if( !this.model.get('targeting') ) {
-        var targeting = new ReachUI.Targeting.Targeting();
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
     },

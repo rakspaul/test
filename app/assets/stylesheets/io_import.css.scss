@@ -496,6 +496,13 @@ $wide_input_width: 480px;
     .tab.zip-codes textarea {
       width: 95%;
     }
+
+    .mobile-targeting {
+      color: $error_color;
+      font-size: 10px;
+      font-weight: normal;
+      font-style: italic;
+    }
   }
 
   .save-targeting-btn {

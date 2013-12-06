@@ -9,7 +9,8 @@
         dmas_list: [],
         audience_groups: [],
         selected_zip_codes: [],
-        keyvalue_targeting: ''
+        keyvalue_targeting: '',
+        type: 'Display'
       }
     },
 
@@ -37,6 +38,7 @@
       data.selected_zip_codes = this.model.get('selected_zip_codes');
       data.audience_groups = this.model.get('audience_groups');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
+      data.type = this.model.get('type');
       return data;
     },
 
