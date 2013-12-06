@@ -1,5 +1,9 @@
 <div class="targeting-options">
-  <h4>Targeting options</h4>
+  <h4>Targeting options
+  <% if (type == 'Mobile') { %>
+    <span class="mobile-targeting">*Targeting options added for mobile ads will not push to DFP</span>
+  <% } %>
+  </h4>
 
   <ul class="nav nav-tabs">
     <li class="active key-values">

@@ -89,7 +89,7 @@
       this.creatives_visible = {};
 
       if(! this.model.get('targeting')) {
-        var targeting = new ReachUI.Targeting.Targeting();
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
     },
@@ -205,13 +205,8 @@
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
         var type = view.model.get('type');
-        //view.model.set(name, el.size);
         if (type == 'Video') {
           view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + view.model.get('companion_ad_size'));
-        } else {
-          console.log('AD SIZES');
-          console.log(view.model.get('ad_sizes'));
-          //view.model.set('ad_sizes', 
         }
       });
 

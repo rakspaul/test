@@ -373,7 +373,7 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
-          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url].each{ |v| ad[:ad].delete(v) }
+          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url, :type ].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -520,6 +520,7 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
+          ad[:ad].delete(:type)
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
           # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
