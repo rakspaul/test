@@ -1,6 +1,9 @@
 class AudienceGroup < ActiveRecord::Base
   self.table_name = "reach_audience_groups"
 
+  class_attribute :config
+  self.config = Reachui::Application.config
+
   belongs_to :network
   belongs_to :user
 
@@ -51,7 +54,7 @@ class AudienceGroup < ActiveRecord::Base
   end
 
   def validate_segments(segments_to_search)
-    networks = Rails.application.config.search_segments_in_network.split(',')
+    networks = config.search_segments_in_network.split(',')
 
     segments_found = Segment.of_networks(networks).where(:name => segments_to_search).pluck(:name)
     missing_segments = segments_to_search - segments_found
@@ -59,7 +62,7 @@ class AudienceGroup < ActiveRecord::Base
   end
 
   def validate_contexts(contexts_to_search)
-    networks = Rails.application.config.search_contexts_in_network.split(',')
+    networks = config.search_contexts_in_network.split(',')
 
     contexts_found = Context.of_networks(networks).where(:name => contexts_to_search).pluck(:name)
     missing_contexts = contexts_to_search - contexts_found
