@@ -657,6 +657,23 @@ $wide_input_width: 480px;
   }
 }
 
+#import-creatives-dialog {
+  border: 0px;
+  
+  .import-creatives-border {
+    border: 2px dashed red;  
+  }
+
+  .modal-body {
+    max-height: 300px;
+  }
+
+  a {
+    width: 120px;
+    margin: 20px 35%;
+  }
+}
+
 .creatives-list-view {
   background-color: white;
   padding: 10px 0 8px;

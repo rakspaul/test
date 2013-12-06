@@ -48,6 +48,8 @@ class Parsers::CoxCreative < Parsers::Base
     end
 
     if li = Lineitem.find_by(name: placement_name)
+      old_creatives = li.creatives
+
       Creative.transaction do
         creative = Creative.create name: li.ad_name(start_date, ad_size), network_advertiser_id: li.order.network_advertiser_id, size: ad_size, width: width, height: height, creative_type: CREATIVE_TYPE, redirect_url: "", html_code: javascript_code, network_id: li.order.network_id, data_source_id: 1
 
@@ -57,10 +59,11 @@ class Parsers::CoxCreative < Parsers::Base
           @creatives_errors << li_assignment.errors.messages
         else
           @creatives << creative
+          old_creatives.delete_all # if creation of new creative was successfull then delete old ones
         end
       end
     else
-      @creatives_errors << "#{index}: Lineitem with name #{placement_name} not found"
+      @creatives_errors << "#{index}: Lineitem with name \"#{placement_name}\" not found"
     end
   end
 end
