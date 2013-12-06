@@ -27,6 +27,7 @@ class Order < ActiveRecord::Base
   before_destroy :check_could_be_deleted
   before_save :move_end_date_time, :set_data_source
   after_create :set_import_note
+  after_update :set_push_note
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -110,6 +111,12 @@ class Order < ActiveRecord::Base
     end
 
     def set_import_note
-      self.order_notes.create(:note => "Imported Order", :user => self.user, :order => self)
+      self.order_notes.create note: "Imported Order", user: self.user, order: self
+    end
+
+    def set_push_note
+      if self.io_detail.state == 'pushing'
+        self.order_notes.create note: "Pushed Order", user: self.user, order: self
+      end
     end
 end

@@ -133,16 +133,12 @@ class OrdersController < ApplicationController
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.state                  = order_param[:order_status] || "draft"
 
-    order_notes = params[:order][:notes]
-    if(io_details.state == 'pushing')
-      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
-    end
 
     respond_to do |format|
       Order.transaction do
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
-        order_notes.to_a.each do |note|
+        params[:order][:notes].to_a.each do |note|
           OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
         end
 
