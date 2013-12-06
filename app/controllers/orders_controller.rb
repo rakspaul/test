@@ -186,10 +186,8 @@ class OrdersController < ApplicationController
       order.destroy if order && order.io_detail && order.source_id.to_i.zero?
 
       orders_by_adv = Order.where(:network_advertiser_id => order.network_advertiser_id)
-      if orders_by_adv.length == 0
-        adv = Advertiser.find(order.network_advertiser_id)
-        adv.destroy
-      end
+      adv = Advertiser.find(order.network_advertiser_id)
+      adv.destroy if orders_by_adv.length == 0 && adv.source_id.to_i.zero?
     end
 
     render json: {status: 'success'}
