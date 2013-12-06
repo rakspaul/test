@@ -182,12 +182,12 @@ describe OrdersController do
 
   describe "DELETE 'destroy'" do
     before :each do
-      @order = FactoryGirl.create(:order)
-      @order.io_detail = io_detail
+      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail
     end
 
     it "returns http success" do
       delete :delete, ids: @order
+
       response.should be_success
     end
 
@@ -195,6 +195,21 @@ describe OrdersController do
       expect{
         delete :delete, ids: @order
       }.to change(Order,:count).by(-1)
+    end
+
+    it "deletes the advertiser" do
+      expect{
+        delete :delete, ids: @order
+      }.to change(Advertiser,:count).by(-1)
+    end
+
+    it "should not delete advertiser if more than one orders associated" do
+      order_one = FactoryGirl.create :order, name: 'order_one', network_advertiser_id: advertiser.id, io_detail: io_detail
+      order_two = FactoryGirl.create :order, name: 'order_two', network_advertiser_id: advertiser.id, io_detail: io_detail
+
+      expect{
+        delete :delete, ids: order_one
+      }.to change(Advertiser,:count).by(0)
     end
   end
 
