@@ -1,0 +1,2 @@
+class Display < Lineitem
+end

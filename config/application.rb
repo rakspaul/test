@@ -25,5 +25,9 @@ module Reachui
     # because of this application will not load if the parent application and child application are from different domains.
     # http://stackoverflow.com/questions/16573411/fix-rails-oauth-facebook-x-frame-options-sameorigin-error
     config.action_dispatch.default_headers.clear()
+
+    config.autoload_paths += %W(#{config.root}/app/models/lineitems)
+
+    config.compass.css_dir = "public/stylesheets"
   end
 end

@@ -112,7 +112,7 @@
           creatives = this.model.get('creatives').models;
 
       var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = 'Edit Creatives (' + creatives.length + ')';
+      var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
       this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];

@@ -55,7 +55,7 @@ $wide_input_width: 480px;
     margin-right: 5px;
   }
 
-  .dfp-failure {
+  .push-failed {
     background: url(asset-path('push_failed_icon.png')) 0px 0px no-repeat; 
     width: 16px;
     height: 16px;
@@ -155,46 +155,6 @@ $wide_input_width: 480px;
       top: -5px;
       left: 7px;
       color: $error_color;
-    }
-
-    .contact-unknown {
-      background: url(asset-path('contact_unknown.png'));
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .billing-contact-icon {
-      background: url(asset-path('billing_contact_icon.png'));
-      width: 16px;
-      height: 16px;
-      float: right;
-      margin-right: 5px;
-    }
-
-    .account-contact-icon {
-      background: url(asset-path('account_contact_icon.png'));
-      width: 16px;
-      height: 16px;
-      float: right;
-      margin-right: 5px;
-    }
-
-    .media-contact-icon {
-      background: url(asset-path('media_contact_icon.png'));
-      width: 16px;
-      height: 16px;
-      float: right;
-      margin-right: 5px;
-    }
-
-    .salesperson-icon {
-      background: url(asset-path('salesperson_icon.png'));
-      width: 16px;
-      height: 16px;
-      float: right;
-      margin-right: 5px;
     }
   }
 
@@ -346,18 +306,26 @@ $wide_input_width: 480px;
       }
     }
 
-    .li-command-btns {
-      background: url(asset-path('expand_li_btn.png')) no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
+    .li-command-btn {
       margin-left: -25px;
-      cursor: pointer;
     }
 
     span.operation {
       color: $text_color;
       cursor: pointer;
+    }
+
+    .video-icon {
+      margin-top: 4px;
+    }
+
+    .pencil-icon {
+      float: left;
+      margin-top: 3px;
+    }
+
+    .size .typeahead {
+      background-color: transparent;
     }
   }
 
@@ -393,6 +361,10 @@ $wide_input_width: 480px;
         margin-top: 3px;
         margin-left: 15px;
       }
+
+      .centered-icon {
+        margin: 5px auto;
+      }
     }
 
     .buttons-container {
@@ -401,18 +373,10 @@ $wide_input_width: 480px;
       cursor: pointer;
 
       .clone-btn {
-        background: url(asset-path('clone_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
-        float: left;
         margin: 0 5px;
       }
       
       .delete-btn {
-        background: url(asset-path('delete_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
-        float: left;
         margin: 10px 5px 0 5px;
       }
     }
@@ -500,36 +464,19 @@ $wide_input_width: 480px;
 }
 
 .account-contact-icon {
-  background: url(asset-path('account_contact_icon.png')) no-repeat;
-  width: 16px;
-  height: 16px;
-  float: left;
-  margin-right: 5px;
   margin-left: 3px;
 }
 
 .dma-targeting-icon {
-  background: url(asset-path('dma_targeting_icon.png')) no-repeat;
-  width: 16px;
-  height: 16px;
   float: left;
-  margin-right: 5px;
 }
 
 .custom-kv-icon {
-  content: url(asset-path('custom_kv_icon.png')) no-repeat;
-  width: 16px;
-  height: 16px;
   float: left;
-  margin: 0 5px;
 }
 
 .zip-codes-icon {
-  background: url(asset-path('zip_codes_icon.png')) no-repeat;
-  width: 12px;
-  height: 16px;
   float: left;
-  margin: 0 5px;
 }
 
 .targeting-container {
@@ -616,12 +563,7 @@ $wide_input_width: 480px;
       }
 
       .remove-btn {
-        background: url(asset-path('remove_tgt_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
-        float: right;
         margin-left: 3px;
-        cursor: pointer;
       }
     }
 
@@ -752,7 +694,6 @@ table.creatives-content {
           cursor: pointer;
 
           .delete-btn {
-            background: url(asset-path('delete_btn.png')) no-repeat;
             width: 14px;
             height: 14px;
             margin-right: 5px;

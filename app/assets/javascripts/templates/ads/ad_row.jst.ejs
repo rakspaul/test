@@ -1,13 +1,14 @@
 <div class="pure-u-1-24 buttons-container">
-  <div class="clone-btn" title="Clone"></div>
+  <div class="clone-btn pull-left" title="Clone"></div>
   <br/>
   <% if(isNaN(parseInt(ad.source_id))) { %>
-  <div class="delete-btn" style="display:none;" title="Delete"/>
+  <div class="delete-btn pull-left" style="display:none;" title="Delete"/>
   <% } %>
 </div>
 
 <div class="pure-u-1-24 ad-name">
   Ad
+  <span class="<%=ad.type.toLowerCase() %>-icon centered-icon"></span>
   <% if(!isNaN(parseInt(ad.source_id))) { %>
     <div class="dfp-success"></div>
   <% } %>
@@ -50,7 +51,7 @@
 <div class="pure-u-1-6 size">
   <span class="ads-sizes"><%= ad.size %></span>
   <br/>
-  <span class="toggle-ads-creatives-btn operation">Edit Creatives (<%= ad.creatives.length %>)</span>
+  <span class="toggle-ads-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= ad.creatives.length %>)</span>
 </div>
 
 <div class="pure-u-1-3 name">

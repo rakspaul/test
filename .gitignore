@@ -21,3 +21,5 @@
 /.powrc
 
 config/rabbitmq.yml
+
+app/assets/images/icons-*

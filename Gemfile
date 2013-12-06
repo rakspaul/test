@@ -17,6 +17,7 @@ gem 'authlogic', '~> 3.3.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
+gem 'compass-rails', '~> 2.0.alpha.0'
 
 # Twitter bootstrap
 gem 'bootstrap-sass-rails', '~> 2.3.2'
@@ -50,7 +51,7 @@ gem 'roo', '~> 1.11.2'
 gem 'jquery-fileupload-rails', '~> 0.4.1'
 
 # For audit logs
-gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git', :branch => 'rails4'
+gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git'#, :branch => 'rails4'
 
 # State machine
 gem 'aasm'

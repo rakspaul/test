@@ -160,3 +160,29 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
   margin-top: 100px;
   max-width: 470px;
 }
+
+@mixin image-size($path){
+  width: image-width($path);
+  height: image-height($path);
+}
+
+@mixin sized-sprite($map, $sprite){
+  background: sprite($map, $sprite) no-repeat;
+  @include image-size(sprite-file($map, $sprite));
+}
+
+@each $icon in $icon_names {
+  .#{$icon}-icon {
+    @include sized-sprite($images, $icon);
+    display: block;
+    margin-right: 5px;
+  }
+}
+
+@each $btn in $btn_names {
+  .#{$btn} {
+    @include sized-sprite($images, $btn);
+    display: block;
+    cursor: pointer;
+  }
+}

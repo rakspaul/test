@@ -210,6 +210,12 @@ class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
+  LINEITEMS_TYPE = { 'Video'    => [ /^pre[ -]roll/i ],
+    'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i }.push(/mobile/i),
+    'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
+
+  AD_SIZE_REGEXP = /\d+x\d+/i
+
   def split_name name
     parts = name.split(/\W+/)
     case parts.length
@@ -236,6 +242,24 @@ class IOReader
     end
   rescue
     nil
+  end
+
+  def determine_lineitem_type(ad_format)
+    type = LINEITEMS_TYPE.find do |type, formats|
+      formats.any?{ |format| ad_format =~ format }
+    end
+    type ? type[0] : 'Display'
+  end 
+
+  def parse_ad_sizes(str, type)
+    case type 
+    when 'Display'
+      str    
+    when 'Video'
+      ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+    else
+      str.scan(AD_SIZE_REGEXP).first
+    end
   end
 end
 
@@ -371,13 +395,16 @@ class IOExcelFileReader < IOReader
   def lineitems
     row = LINE_ITEM_START_ROW
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
+      ad_sizes = @spreadsheet.cell('C', row).strip.downcase
+      type = determine_lineitem_type(ad_sizes)
       yield({
         start_date: parse_date(@spreadsheet.cell('A', row)),
         end_date: parse_date(@spreadsheet.cell('B', row)),
-        ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
+        ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
-        rate: @spreadsheet.cell('G', row).to_f
+        rate: @spreadsheet.cell('G', row).to_f,
+        type: type
       })
 
       row += 1

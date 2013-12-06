@@ -32,4 +32,10 @@ FactoryGirl.define do
     height 90
   end
 
+  factory :ad_size_1x1, :parent => :ad_size do
+    size '1x1'
+    width  1
+    height 1
+  end
+
 end
