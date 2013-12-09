@@ -21,7 +21,7 @@ class Parsers::CoxCreative < Parsers::Base
     @creatives_errors.push("#{@creatives_errors.count} of #{creatives.count} were not imported") if !@creatives_errors.empty?
 
     @old_li_creatives.each do |li, creatives|
-      creatives.delete_all if !creatives.blank?
+      creatives.each{ |creative| creative.delete }
     end
 
     [@creatives, @creatives_errors]
