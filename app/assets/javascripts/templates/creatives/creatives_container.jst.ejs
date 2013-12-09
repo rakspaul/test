@@ -7,9 +7,13 @@
         <div class="pure-u-1-12">Start Date</div>
         <div class="pure-u-1-12">End Date</div>
         <div class="pure-u-1-6" style="width:12%">Ad Format / Size</div>
+        <% if(is_cox_creative) { %>
+        <div class="pure-u-1-2">Javascript Code</div>
+        <% } else { %>
         <div class="pure-u-1-2">Inred Image URL</div>
         <div class="pure-u-1-24">HTML</div>
         <div class="pure-u-1-12">Client Ad Id</div>
+        <% } %>
       </div>
       <hr/>
     </div>

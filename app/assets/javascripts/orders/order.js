@@ -88,8 +88,13 @@
       });
     },
 
+    _reloadPage: function() {
+      window.location.href = window.location.href;
+    },
+
     events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo'
+      'click .toggle-general-info-button': '_toggleGeneralInfo',
+      'click .import-creatives-border a': '_reloadPage'
     },
 
     triggers: {
@@ -260,10 +265,10 @@
       var resp = data.jqXHR.responseJSON,
         messages = [];
 
-      messages.push("<h4>" + resp.pop().error + "</h4>");
+      messages.push("<h4>" + resp.errors.pop().error + "</h4>");
       messages.push("<ul>");
       if(resp) {      
-        _.each(resp, function(msg) {
+        _.each(resp.errors, function(msg) {
           messages.push("<li>");
           messages.push(msg.error);
           messages.push("</li>");
