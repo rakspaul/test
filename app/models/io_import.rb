@@ -535,13 +535,16 @@ class IOPdfFileReader < IOReader
 
   def lineitems 
     @lineitems.each do |li|
+      ad_sizes = li[:ad_sizes].join(',').strip.downcase
+      type = determine_lineitem_type(ad_sizes)
       yield({
         start_date: parse_date(li[:start_date]),
         end_date: parse_date(li[:end_date]),
-        ad_sizes:  li[:ad_sizes].join(',').strip.downcase,
+        ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: li[:name].to_s.strip,
         volume: li[:impressions].to_i,
-        rate: li[:rate].to_f
+        rate: li[:rate].to_f,
+        type: type
       })
     end
   end

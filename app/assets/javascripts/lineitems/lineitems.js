@@ -285,21 +285,6 @@
       }
     },
 
-    /*_updateCreativesCaption: function() {
-      var self = this,
-          creatives_sizes = [],
-          creatives = this.model.get('creatives').models;
-
-      _.each(creatives, function(el) {
-        creatives_sizes.push(el.get('ad_size'));
-      });
-
-      var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-      self.ui.lineitem_sizes.html(uniq_creative_sizes);
-      self.model.attributes.ad_sizes = uniq_creative_sizes;
-      $(self.$el.find('.lineitem-sizes')[0]).html(uniq_creative_sizes);
-    },*/
-
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
