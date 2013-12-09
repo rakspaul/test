@@ -74,7 +74,7 @@
     className: 'lineitem pure-g',
 
     getTemplate: function() {
-      var type = this.model.get('type').toLowerCase();
+      var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
       if (type == 'display') {
         return JST['templates/lineitems/line_item_row'];
       } else {
