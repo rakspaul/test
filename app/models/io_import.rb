@@ -1,4 +1,5 @@
 require 'roo'
+require 'pdf-reader'
 
 class IoImport
   include ActiveModel::Validations
@@ -12,13 +13,13 @@ class IoImport
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
 
-    @reader               = IOExcelFileReader.new(file)
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
+
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
-    @trafficking_contact  = Struct.new(:name, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
     @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
   end
@@ -32,7 +33,6 @@ class IoImport
     read_media_contact
     read_billing_contact
     read_sales_person
-    read_trafficking_contact
 
     read_order_and_details
     read_lineitems
@@ -60,10 +60,6 @@ class IoImport
 
     def read_media_contact
       @media_contact = @reader.media_contact
-    end
-
-    def read_trafficking_contact
-      @trafficking_contact = @reader.trafficking_contact
     end
 
     def read_sales_person
@@ -128,14 +124,18 @@ class IoImport
       end
 
       @lineitems.to_a.each do |li|
-        li_inreds = @inreds.select{|ir| ir[:placement] == li.name}
+        li_inreds = @inreds.select do |ir|
+          ir[:placement] == li.name &&
+          ir[:start_date] == li.start_date.to_date &&
+          ir[:end_date]   == li.end_date.to_date
+        end
         if li_inreds.empty?
           li.ad_sizes
         else
           li_inreds.map! do |creative|
             creative[:start_date] = li.start_date
             creative[:end_date]   = li.end_date
-            creative[:creative_type] = "CustomCreative"
+            creative[:creative_type] = "InternalRedirectCreative"
             creative
           end
         end
@@ -165,6 +165,7 @@ class IoImport
     end
 
     def find_trafficking_contact
+      @trafficking_contact = {name: @current_user.full_name, email: @current_user.email, phone: @current_user.phone_number}
       @current_user
     end
 
@@ -205,11 +206,65 @@ class IoImport
     end
 end
 
-class IOExcelFileReader
-  LINE_ITEM_START_ROW = 29
-  
+class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
+
+  LINEITEMS_TYPE = { 'Video'    => [ /^pre[ -]roll/i ],
+    'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i },
+    'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
+
+  AD_SIZE_REGEXP = /\d+x\d+/i
+
+  def split_name name
+    parts = name.split(/\W+/)
+    case parts.length
+    when 0..1
+      {first_name: name}
+    when 2
+      {first_name: parts[0], last_name: parts[1]}
+    else
+      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
+    end
+  end
+
+  def parse_date str
+    return str if str.is_a?(Date)
+
+    if str.index('-')
+      Date.strptime(str.squish)
+    elsif str.index('.')
+      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
+    elsif str.squish.split('/').try(:last).try(:length) == 2
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
+    else
+      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
+    end
+  rescue
+    nil
+  end
+
+  def determine_lineitem_type(ad_format)
+    type = LINEITEMS_TYPE.find do |type, formats|
+      formats.any?{ |format| ad_format =~ format }
+    end
+    type ? type[0] : 'Display'
+  end 
+
+  def parse_ad_sizes(str, type)
+    case type 
+    when 'Display'
+      str    
+    when 'Video'
+      ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+    else
+      str.scan(AD_SIZE_REGEXP).first
+    end
+  end
+end
+
+class IOExcelFileReader < IOReader
+  LINE_ITEM_START_ROW = 29
 
   ADVERTISER_LABEL_CELL           = ['A', 18]
   ADVERTISER_CELL                 = ['C', 18]
@@ -246,6 +301,7 @@ class IOExcelFileReader
   REACH_CLIENT_CELL               = ['G', 18]
 
   INREDS_SPREADSHEET_PAGE         = 1
+  INREDS_SPREADSHEET_NAME         = 'InRed Creation'
   INREDS_START_ROW                = 4
   INREDS_AD_ID_COLUMN             = 'E'
   INREDS_PLACEMENT_COLUMN         = 'G'
@@ -304,13 +360,6 @@ class IOExcelFileReader
     }
   end
 
-  def trafficking_contact
-    {
-      phone_number: @spreadsheet.cell(*TRAFFICKING_CONTACT_PHONE_CELL).to_s.strip,
-      email: @spreadsheet.cell(*TRAFFICKING_CONTACT_EMAIL_CELL).to_s.strip
-    }.merge split_name(@spreadsheet.cell(*TRAFFICKING_CONTACT_NAME_CELL).to_s.strip)
-  end
-
   def sales_person
     {
       account_login: @spreadsheet.cell(*SALES_PERSON_NAME_CELL).to_s.strip.downcase.delete(" "),
@@ -346,13 +395,16 @@ class IOExcelFileReader
   def lineitems
     row = LINE_ITEM_START_ROW
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
+      ad_sizes = @spreadsheet.cell('C', row).strip.downcase
+      type = determine_lineitem_type(ad_sizes)
       yield({
         start_date: parse_date(@spreadsheet.cell('A', row)),
         end_date: parse_date(@spreadsheet.cell('B', row)),
-        ad_sizes: @spreadsheet.cell('C', row).strip.downcase,
+        ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: @spreadsheet.cell('D', row).to_s.strip,
         volume: @spreadsheet.cell('F', row).to_i,
-        rate: @spreadsheet.cell('G', row).to_f
+        rate: @spreadsheet.cell('G', row).to_f,
+        type: type
       })
 
       row += 1
@@ -368,17 +420,22 @@ class IOExcelFileReader
   end
 
   def inreds
+    return if @spreadsheet.sheets[INREDS_SPREADSHEET_PAGE] != INREDS_SPREADSHEET_NAME
     row = INREDS_START_ROW
-    
+
     change_sheet INREDS_SPREADSHEET_PAGE do
-      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.empty?
+
+      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.blank?
+        ad_size = @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row)
         yield({
           ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          ad_size: @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row).strip.downcase,
+          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
+          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
+          ad_size: ad_size.strip.downcase,
           placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
           image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
           click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
-        })
+        }) if ! ad_size.blank?
 
         row += 1
       end
@@ -581,42 +638,92 @@ private
     hash2
   end
 
-
-  def parse_date str
-    return str if str.is_a?(Date)
-
-    if str.index('-')
-      Date.strptime(str.strip)
-    elsif str.index('.')
-      Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
-    else
-      Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+  def search_for_dates
+    dates = []
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /Start/
+        right_of /site:/i
+      end
+      dates += textangle.text
     end
-  rescue
-    nil
+
+    lineitems = []
+    dates.each_with_index do |line, i|
+      li = {}
+      if line.first =~ /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        li[:start_date]    = line[0]
+        li[:end_date]      = line[1]
+        li[:impressions]   = line[2].gsub(/,/, '')
+        li[:rate]          = line[4].gsub(/,|\$/,'')
+        li[:type]          = line[3]
+        li[:total]         = line[5].gsub(/,|\$/,'')
+        li[:notes]         = line[6]
+        lineitems << li
+      else
+        line = ' ' + line.join(' ')
+        lineitems.last[:notes] += line if line !~ /Page \d+ of \d+/
+      end     
+    end
+
+    lineitems
   end
 
-  def open_based_on_file_extension
-    ext = File.extname(@file.original_filename)
-    case ext
-    when '.xls'
-      Roo::Excel.new(@file.path, nil, :ignore)
-    when '.xlsx'
-      Roo::Excelx.new(@file.path, nil, :ignore)
-    else
-      raise "Unknown file type: #{@file.original_filename}"
+  def search_for_placement_and_li_id
+    placements = []
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /End/
+        left_of /site:/i
+      end
+      placements += textangle.text
     end
+
+    lineitems = []
+    split_index = placements.index(["Contracts Totals"])
+    all_lineitems = split_index ? placements[0...split_index] : placements
+    all_lineitems.reject{|t| [["ID"], ["Line Item"]].include?(t)}.each do |line|
+      li = {}
+      if line[1] && line[1].match(/^\d+$/)
+        li[:name] = line[0]
+        li[:li_id] = line[1]
+        lineitems << li
+      else
+        lineitems.last[:name] += line.join(' ')
+      end
+    end
+    lineitems
   end
 
-  def split_name name
-    parts = name.split(/\W+/)
-    case parts.length
-    when 0..1
-      {first_name: name}
-    when 2
-      {first_name: parts[0], last_name: parts[1]}
-    else
-      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
+  def search_for_ad_sizes
+    ad_sizes_raw = []
+
+    @raw_reader.pages.count.times do |i|
+      textangle = @reader.bounding_box do
+        page (i+1)
+        below /section:/i
+      end
+      ad_sizes_raw += textangle.text
     end
+    ad_sizes_raw = ad_sizes_raw.flatten.reject{|size| size !~ /\d+x\d+/mi}
+    
+    lineitems = []
+    ad_sizes_raw.each do |line|
+      li = {}
+      if line =~ /Ad Size\(s\):/
+        li[:ad_sizes] = line.scan(/\d+x\d+/mi)
+        lineitems << li
+      elsif line =~ /[\dx\s,]/mi
+        lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi)
+      end
+    end
+
+    lineitems.map do |ad_sizes|
+      ad_sizes[:ad_sizes].uniq!
+    end
+
+    lineitems
   end
 end
