@@ -74,7 +74,7 @@
     className: 'lineitem pure-g',
 
     getTemplate: function() {
-      var type = this.model.get('type').toLowerCase();
+      var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
       if (type == 'display') {
         return JST['templates/lineitems/line_item_row'];
       } else {
@@ -259,10 +259,19 @@
     },
 
     renderCreatives: function() {
-      var view = this;
+      var view = this, is_cox_creative = false;
+      
+      // check whether there are Cox Creatives
+      if(this.model.get('creatives')) {
+        _.each(this.model.get('creatives').models, function(creative) {
+          if(creative.get('html_code')) {
+            is_cox_creative = true;
+          }
+        })
+      }
 
       // rendering template for Creatives Dialog layout
-      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: this});
+      var creatives_list_view = new ReachUI.Creatives.CreativesListView({parent_view: this, is_cox_creative: is_cox_creative});
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative

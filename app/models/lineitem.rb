@@ -68,6 +68,28 @@ class Lineitem < ActiveRecord::Base
     creatives_errors
   end
 
+  def ad_name(start_date, ad_size)
+    start_date = Date.parse(start_date) if start_date.is_a?(String)
+    quarter = ((start_date.month - 1) / 3) + 1
+
+    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
+    "Q#{ quarter }#{ start_date.strftime('%y') } " \
+    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
+    "#{ ad_size }"
+  end
+
+  def ad_name(start_date, ad_size)
+    start_date = Date.parse(start_date) if start_date.is_a?(String)
+    quarter = ((start_date.month - 1) / 3) + 1
+
+    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
+    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
+    "Q#{ quarter }#{ start_date.strftime('%y') } " \
+    "#{ ad_size.gsub(/,/, ' ') }"
+  end
+
   private
 
     def flight_dates_with_in_order_range
@@ -106,16 +128,5 @@ class Lineitem < ActiveRecord::Base
         max_alt_id = Lineitem.where(order_id: order_id).pluck('alt_ad_id').map{|s| s.to_i}.max || 0
         self.alt_ad_id = max_alt_id + 1
       end
-    end
-
-    def ad_name(start_date, ad_size)
-      start_date = Date.parse(start_date) if start_date.is_a?(String)
-      quarter = ((start_date.month - 1) / 3) + 1
-
-      "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-      "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-      "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
-      "Q#{ quarter }#{ start_date.strftime('%y') } " \
-      "#{ ad_size.gsub(/,/, ' ') }"
     end
 end

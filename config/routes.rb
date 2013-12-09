@@ -117,6 +117,8 @@ Reachui::Application.routes.draw do
 
   resources :dmas, controller: 'designated_market_areas', only: [:index]
   resource :io_import, controller: 'io_import'
+  resource :creatives_import, controller: 'creatives_import'
+
   resources :users
   get 'io_assets/:order_id' => 'io_assets#serve'
 

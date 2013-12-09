@@ -246,6 +246,12 @@
     className: 'creatives-content',
     tagName: 'table',
 
+    serializeData: function(){
+      var data = {};
+      data.is_cox_creative = this.options.is_cox_creative;
+      return data;
+    },
+
     ui: {
       creatives: '.creatives-container'
     },
