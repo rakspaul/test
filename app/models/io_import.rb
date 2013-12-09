@@ -385,44 +385,238 @@ class IOExcelFileReader
     end
   end
 
-  private
+private
 
-    def parse_date str
-      return str if str.is_a?(Date)
-
-      if str.index('-')
-        Date.strptime(str.strip)
-      elsif str.index('.')
-        Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
-      else
-        Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
-      end
-    rescue
-      nil
+  def open_based_on_file_extension
+    ext = File.extname(@file.original_filename)
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
+      Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
     end
-
-    def open_based_on_file_extension
-      ext = File.extname(@file.original_filename)
-      case ext
-      when '.xls'
-        Roo::Excel.new(@file.path, nil, :ignore)
-      when '.xlsx'
-        Roo::Excelx.new(@file.path, nil, :ignore)
-      else
-        raise "Unknown file type: #{@file.original_filename}"
-      end
-    end
-
-    def split_name name
-      parts = name.split(/\W+/)
-      case parts.length
-      when 0..1
-        {first_name: name}
-      when 2
-        {first_name: parts[0], last_name: parts[1]}
-      else
-        {first_name: parts[0], last_name: parts[1..-1].join(' ') }
-      end
-    end
+  end
 end
 
+class IOPdfFileReader < IOReader
+  def initialize(file_object)
+    @file = file_object
+    parse_file
+  end
+
+  def open
+  end
+
+  def change_sheet(num, &block)
+    yield
+  end
+
+  def client_order_id
+    @client_order_id.to_i
+  end
+
+  def reach_client_name
+    @reach_client_name.to_s.strip
+  end
+
+  def advertiser_name
+    @advertiser_name.to_s.strip   
+  end
+
+  def account_contact
+    {
+      phone_number: @account_contact.to_s.strip,
+      email: @account_contact_email.to_s.strip
+    }.merge split_name(@account_contact_name.to_s.strip)
+  end
+
+  def media_contact
+    {
+      name: @media_contact_name.to_s.strip,
+      phone: @media_contact_phone.to_s.strip,
+      email: @media_contact_email.to_s.strip
+    }
+  end
+
+  def sales_person
+    user = User.find_by first_name: "Peter", last_name: "Fernquist"
+    if user
+      {
+        phone_number: user.phone_number,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name
+      }
+    else
+      { phone_number: "", email: "", first_name: "", last_name: "" }
+    end
+  end
+
+  def billing_contact
+    {
+      name: @billing_contact_name.to_s.strip,
+      phone: @billing_contact_phone.to_s.strip,
+      email: @billing_contact_email.to_s.strip
+    }
+  end
+
+  def order
+    {
+      name: @order_name.to_s.strip
+    }
+  end
+
+  def start_flight_date
+    parse_date(@start_date)
+  end
+
+  def finish_flight_date
+    parse_date(@end_date)
+  end
+
+  def lineitems 
+    @lineitems.each do |li|
+      ad_sizes = li[:ad_sizes].join(',').strip.downcase
+      type = determine_lineitem_type(ad_sizes)
+      yield({
+        start_date: parse_date(li[:start_date]),
+        end_date: parse_date(li[:end_date]),
+        ad_sizes: parse_ad_sizes(ad_sizes, type),
+        name: li[:name].to_s.strip,
+        volume: li[:impressions].to_i,
+        rate: li[:rate].to_f,
+        type: type
+      })
+    end
+  end
+
+  def find_notes
+    @notes
+  end
+
+  def inreds
+    yield({})
+  end
+
+private
+
+  def parse_file 
+    @reach_client_name = "Cox Digital Solutions"
+
+    @reader = PDF::Reader::Turtletext.new @file, { :y_precision => 5 }
+    @raw_reader = PDF::Reader.new @file
+
+    textangle = @reader.bounding_box do
+      page 1
+      right_of /advertiser/i
+      left_of /bill to/i
+      below /campaign information/i
+      above /campaign name/i
+    end
+    @client_advertiser_name = textangle.text[0][0]
+    @advertiser_name = @client_advertiser_name
+
+    textangle = @reader.bounding_box do
+      page 1
+      below /advertiser/i
+      above /campaign io number/i
+      left_of /frequency/i
+      right_of /campaign name/i
+    end
+    @order_name = textangle.text[0][0]
+
+    textangle = @reader.bounding_box do
+      page 1
+      below /io version number/i
+      above /account manager email/i
+      right_of /account manager/i
+    end
+    @media_contact_name = textangle.text[0][0]
+   
+    textangle = @reader.bounding_box do
+      page 1
+      below /account manager/i
+      above /am phone/i
+      left_of /address/i
+    end
+    @media_contact_email = textangle.text[0][1]
+
+    textangle = @reader.bounding_box do
+      page 1
+      below /account manager email/i
+      above "AM Fax"
+      right_of "AM Phone"
+    end
+    @media_contact_phone = textangle.text[0][0]
+
+    textangle = @reader.bounding_box do
+      page 1
+      below /frequency/i
+      right_of /billing contact/i
+    end
+    @billing = textangle.text
+    @billing_contact_name = @billing[0][0]
+    @billing_contact_email = @billing[1][0]
+    @billing_contact_phone = @billing[2][0]
+
+     
+    @lineitems = merge(search_for_placement_and_li_id, search_for_dates)
+    @lineitems = merge(@lineitems, search_for_ad_sizes)
+
+    # find out order's flight dates based on LIs' flight dates
+    @start_date = @lineitems[0][:start_date]
+    @end_date   = @lineitems[0][:end_date]
+    @lineitems.each do |li|
+      @start_date = li[:start_date] if li[:start_date] < @start_date
+      @end_date = li[:end_date] if li[:end_date] > @end_date
+    end   
+  end
+
+  def merge(hash1, hash2)
+    hash1.each.with_index do |h, i|
+      hash2[i].merge! h
+    end
+    hash2
+  end
+
+
+  def parse_date str
+    return str if str.is_a?(Date)
+
+    if str.index('-')
+      Date.strptime(str.strip)
+    elsif str.index('.')
+      Date.strptime(str.strip, DATE_FORMAT_WITH_DOT)
+    else
+      Date.strptime(str.strip, DATE_FORMAT_WITH_SLASH)
+    end
+  rescue
+    nil
+  end
+
+  def open_based_on_file_extension
+    ext = File.extname(@file.original_filename)
+    case ext
+    when '.xls'
+      Roo::Excel.new(@file.path, nil, :ignore)
+    when '.xlsx'
+      Roo::Excelx.new(@file.path, nil, :ignore)
+    else
+      raise "Unknown file type: #{@file.original_filename}"
+    end
+  end
+
+  def split_name name
+    parts = name.split(/\W+/)
+    case parts.length
+    when 0..1
+      {first_name: name}
+    when 2
+      {first_name: parts[0], last_name: parts[1]}
+    else
+      {first_name: parts[0], last_name: parts[1..-1].join(' ') }
+    end
+  end
+end
