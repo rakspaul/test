@@ -13,10 +13,16 @@ class Parsers::CoxCreative < Parsers::Base
     creatives = content.split(CREATIVES_SEPARATOR).delete_if(&:empty?)
     @creatives_errors = []
     @creatives = []
+    @old_li_creatives = {}
+    creatives.each {|creative| find_old_creatives(creative) }
 
     creatives.each_with_index { |creative, i| parse_creative(creative, i) }
 
     @creatives_errors.push("#{@creatives_errors.count} of #{creatives.count} were not imported") if !@creatives_errors.empty?
+
+    @old_li_creatives.each do |li, creatives|
+      creatives.delete_all if !creatives.blank?
+    end
 
     [@creatives, @creatives_errors]
   end
@@ -27,6 +33,16 @@ class Parsers::CoxCreative < Parsers::Base
 
   def end_date(creative_txt)
     Date.strptime(creative_txt.match(CREATIVE_END_DATE)[1].to_s.strip, '%m/%d/%Y')
+  end
+
+  def find_old_creatives(creative_txt)
+    placement_name_match  = creative_txt.match(CREATIVE_NAME)
+    return if placement_name_match.nil?
+    placement_name  = placement_name_match[1].to_s.strip
+    if li = Lineitem.find_by(name: placement_name)
+      @old_li_creatives[li.id] = []
+      @old_li_creatives[li.id] += li.creatives if !li.creatives.blank?
+    end
   end
 
   def parse_creative(creative_txt, index)
@@ -48,8 +64,6 @@ class Parsers::CoxCreative < Parsers::Base
     end
 
     if li = Lineitem.find_by(name: placement_name)
-      old_creatives = li.creatives
-
       Creative.transaction do
         creative = Creative.create name: li.ad_name(start_date, ad_size), network_advertiser_id: li.order.network_advertiser_id, size: ad_size, width: width, height: height, creative_type: CREATIVE_TYPE, redirect_url: "", html_code: javascript_code, network_id: li.order.network_id, data_source_id: 1
 
@@ -59,7 +73,6 @@ class Parsers::CoxCreative < Parsers::Base
           @creatives_errors << li_assignment.errors.messages
         else
           @creatives << creative
-          old_creatives.delete_all # if creation of new creative was successfull then delete old ones
         end
       end
     else
