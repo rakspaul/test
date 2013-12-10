@@ -691,7 +691,7 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        lineitems.last[:name] += line.join(' ')
+        lineitems.last[:name] += ' ' + line.join(' ')
       end
     end
     lineitems
