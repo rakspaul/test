@@ -7,7 +7,7 @@ class ReachClient < ActiveRecord::Base
   belongs_to :sales_person, :foreign_key => 'sales_person_id', :class_name => "User"
   belongs_to :account_manager, :foreign_key => 'account_manager_id', :class_name => "User"
 
-  validates :name, :abbr, presence: true
+  validates :name, :abbr, presence: true, uniqueness: { case_sensitive: false, scope: :network_id }
 
   validates :network_id, :user_id, presence: true, numericality: { only_integer: true }
 
