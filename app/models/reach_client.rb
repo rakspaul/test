@@ -15,6 +15,8 @@ class ReachClient < ActiveRecord::Base
 
   validate :validate_network_id, :validate_user_id, :validate_sales_person, :validate_account_manager, :validate_sales_person_account_manager
 
+  before_validation :compact_attr
+
   def validate_network_id
     errors.add :network_id, "is invalid" unless Network.exists?(self.network_id)
   end
@@ -44,4 +46,9 @@ class ReachClient < ActiveRecord::Base
     where(:network => network)
   end
 
+  protected
+    def compact_attr
+      self.name = self.name.strip
+      self.abbr = self.abbr.strip
+    end
 end
