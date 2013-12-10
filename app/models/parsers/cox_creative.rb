@@ -11,6 +11,7 @@ class Parsers::CoxCreative < Parsers::Base
   def parse
     content = File.read @tempfile
     creatives = content.split(CREATIVES_SEPARATOR).delete_if(&:empty?)
+    creatives.shift if creatives[0].match(/Cox Digital Solutions Ad Tags/m) # remove metainfirmation
     @creatives_errors = []
     @creatives = []
     @old_li_creatives = {}
