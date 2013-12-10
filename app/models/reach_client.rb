@@ -48,7 +48,7 @@ class ReachClient < ActiveRecord::Base
 
   protected
     def compact_attr
-      self.name = self.name.strip
-      self.abbr = self.abbr.strip
+      self.name.try(:strip!)
+      self.abbr.try(:strip!)
     end
 end
