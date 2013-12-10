@@ -468,8 +468,8 @@
 
     _onSave: function() {
       var prop = {
-        name: this.clientDetailsView.ui.name.val(),
-        abbr: this.clientDetailsView.ui.abbreviation.val(),
+        name: $.trim(this.clientDetailsView.ui.name.val()),
+        abbr: $.trim(this.clientDetailsView.ui.abbreviation.val()),
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
       }
