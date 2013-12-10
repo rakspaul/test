@@ -511,7 +511,7 @@ class IOPdfFileReader < IOReader
       yield({
         start_date: parse_date(li[:start_date]),
         end_date: parse_date(li[:end_date]),
-        ad_sizes:  li[:ad_sizes].join(',').strip.downcase,
+        ad_sizes: li[:ad_sizes].join(',').strip.downcase,
         name: li[:name].to_s.strip,
         volume: li[:impressions].to_i,
         rate: li[:rate].to_f
@@ -661,7 +661,7 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        lineitems.last[:name] += line.join(' ')
+        lineitems.last[:name] += ' ' + line.join(' ')
       end
     end
     lineitems
