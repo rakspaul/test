@@ -101,9 +101,11 @@ class IoImport
       @lineitems = []
 
       @reader.lineitems do |lineitem|
+        media_type = @current_user.network.media_types.find_by category: lineitem[:type]
         li = Lineitem.new(lineitem)
         li.order = @order
         li.user = @current_user
+        li.media_type = media_type
         @lineitems << li
       end
     end
@@ -210,7 +212,7 @@ class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
-  LINEITEMS_TYPE = { 'Video'    => [ /^pre[ -]roll/i ],
+  LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]roll/i ],
     'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i },
     'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
 

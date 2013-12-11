@@ -12,6 +12,7 @@ json.targeted_zipcodes  lineitem.targeted_zipcodes
 json.alt_ad_id          lineitem.alt_ad_id
 json.keyvalue_targeting lineitem.keyvalue_targeting
 json.type               lineitem.type
+json.media_type_id      lineitem.media_type_id
 if lineitem.video?
   json.master_ad_size    lineitem.master_ad_size
   json.companion_ad_size lineitem.companion_ad_size
