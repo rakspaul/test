@@ -72,4 +72,13 @@ FactoryGirl.define do
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
   end
+
+  factory :blocked_advertiser do
+    advertiser_id 1
+    site_id 1
+    state 'BLOCK'
+    type 'BlockedAdvertiser'
+    network { FactoryGirl.singleton :network }
+    user { FactoryGirl.singleton :user }
+  end
 end

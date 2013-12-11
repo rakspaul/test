@@ -16,7 +16,7 @@ class Admin::BlockSitesController < ApplicationController
 
   def site_blocks(model, site_ids)
     site_ids = site_ids.split(",").map(&:to_i)
-    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).block_or_pending_block
     blocked_site_ids = site_blocks.pluck("site_id").uniq
     site_with_no_blocks = site_ids - blocked_site_ids
 
@@ -26,7 +26,7 @@ class Admin::BlockSitesController < ApplicationController
   def blocked_advertiser_sites(model, advertiser_id)
     advertiser_id = advertiser_id.split(",").map(&:to_i)
 
-    blocked_advertiser_sites = model.constantize.of_network(current_network).where(advertiser_id: advertiser_id).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    blocked_advertiser_sites = model.constantize.of_network(current_network).for_advertiser(advertiser_id).block_or_pending_block
 
     advertiser_with_blocks = blocked_advertiser_sites.pluck("advertiser_id").uniq
     #find advertisers who don’t have any block rule (advertisers requested minus advertisers found)
@@ -36,7 +36,7 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def blocked_advertiser_group_sites(model, advertiser_group_id)
-    model.constantize.of_network(current_network).where(advertiser_group_id: advertiser_group_id.split(",")).where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    model.constantize.of_network(current_network).for_advertiser_group(advertiser_group_id.split(",")).block_or_pending_block
   end
 
   def create
@@ -54,7 +54,7 @@ class Admin::BlockSitesController < ApplicationController
     advertisers_for_default_blocks = []
     # if any block rule is not there for advertiser then apply default block.
     blocked_advertisers.each do |advertiser|
-      if BlockedAdvertiser.where(:advertiser_id => advertiser["advertiser_id"], state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :network_id => current_network.id).length < 1
+      if BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser["advertiser_id"]).block_or_pending_block.length < 1
         advertisers_for_default_blocks.push(advertiser["advertiser_id"])
       end
     end
@@ -109,7 +109,7 @@ class Admin::BlockSitesController < ApplicationController
     site_ids = params[:site_ids]
 
     if !site_ids.nil?
-      blocked_sites = BlockSite.of_network(current_network).where(:state => [BlockSite::PENDING_BLOCK, BlockSite::BLOCK], :site_id => site_ids.split(',')).order(:id)
+      blocked_sites = BlockSite.of_network(current_network).block_or_pending_block.where(:site_id => site_ids.split(',')).order(:id)
       bs_export = BlockSitesExport.new(blocked_sites, current_user)
 
       send_data bs_export.export_to_excel, :filename => bs_export.get_sites_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
@@ -143,6 +143,15 @@ class Admin::BlockSitesController < ApplicationController
     if params['type'].present? && params['state'].present?
       @site_blocks = model.constantize.of_network(current_network).joins(:site).where(user: current_user).where(state: params['state'].split(",")).order('Sites.name asc')
       respond_with(@site_blocks)
+    end
+  end
+
+  def advertisers_with_default_blocks
+    if params['advertiser_id'].present?
+      advertiser_ids = params['advertiser_id'].split(",").map(&:to_i)
+      ba = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).block_or_pending_block
+      advertiser_with_default_blocks = advertiser_ids - ba.pluck("advertiser_id").uniq
+      render json: {default_block: advertiser_with_default_blocks}
     end
   end
 

@@ -155,7 +155,8 @@
 
   BlockSites.Advertiser = Backbone.Model.extend({
     defaults:{
-      state: 'PENDING_BLOCK'
+      state: 'PENDING_BLOCK',
+      default_block: false
     },
   });
 
@@ -289,6 +290,7 @@
         advertiser_name: advertiser.advertiser_name,
         site_id: advertiser.site_id,
         state: advertiser.state,
+        default_block: false
       }
     },
 
@@ -546,7 +548,7 @@
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_name%>'),
+    template: _.template('<%= pending_block_indicator %> <%= advertiser_name%> <%= default_block_indicator %>'),
 
     attributes: function() {
       return {
@@ -554,6 +556,21 @@
         site_id: this.model.get('site_id')
       };
     },
+
+    className: function() {
+      if (this.model.get('default_block')) {
+        return 'italics'
+      }
+    },
+
+    serializeData: function() {
+      return {
+        pending_block_indicator : this.model.get('state') == "PENDING_BLOCK" ? ' * ': '',
+        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
+        advertiser_name : this.model.get('advertiser_name')
+      }
+    },
+
   });
 
   BlockSites.BlockedAdvertiserListItemView = Backbone.Marionette.CollectionView.extend({
@@ -754,7 +771,8 @@
     ui:{
       search_input: '#search_input',
       advertiser_list: '#advertiserList',
-      loading_div: '#loading_div'
+      loading_div: '#loading_div',
+      btnBlock: '#btnBlock'
     },
 
     initialize: function() {
@@ -763,6 +781,7 @@
 
       this.collection.on("fetch", this.onFetch, this);
       this.collection.on("reset", this.onReset, this);
+      _.bindAll(this, '_onSuccess', '_onError');
     },
 
     onFetch: function() {
@@ -788,14 +807,43 @@
     onBlock: function(event) {
       var selectedAdvertiser = this.ui.advertiser_list.val();
       if(selectedAdvertiser && selectedAdvertiser.length >0 ) {
+        var para = {};
+        this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
+        para.advertiser_id = selectedAdvertiser.join(',')
+        $.ajax({type: "GET", url: '/admin/block_sites/advertisers_with_default_blocks.json', data: para, success: this._onSuccess, error: this._onError});
+      }
+    },
+
+    _onSuccess: function(event) {
+      this.ui.btnBlock.text('Add').removeAttr('disabled');
+      var selectedAdvertiser = this.ui.advertiser_list.val();
+      if(selectedAdvertiser && selectedAdvertiser.length >0 ) {
         var vos = [];
         for (var i = 0; i < selectedAdvertiser.length; i++) {
           var item = this.collection.get(selectedAdvertiser[i]);
           vos.push(item);
         }
-      this.trigger('AdvertiserListView:Block:Advertiser', vos);
-      $('#close_modal').trigger('click');
+
+        if(event.default_block && event.default_block.length > 0) {
+          var default_blocks = event.default_block;
+          for (var i = 0; i < default_blocks.length; i++) {
+            for (var k = 0; k < vos.length; k++) {
+              if (default_blocks[i] == vos[k].id) {
+                vos[k].set({default_block: true});
+                break;
+              }
+            }
+          }
+        }
+
+        this.trigger('AdvertiserListView:Block:Advertiser', vos);
+        $('#close_modal').trigger('click');
       }
+    },
+
+    _onError: function(event) {
+      this.ui.btnBlock.text('Add').removeAttr('disabled');
+      alert('An error occurred while saving your changes.');
     },
 
   });
@@ -816,15 +864,44 @@
     },
 
     initialize: function() {
-      _.bindAll(this, '_onSuccess', '_onError');
+      _.bindAll(this, '_onSuccess', '_onError', '_onValidateAdvertiserSuccess', '_onValidateAdvertiserError');
     },
 
     onBlock: function(event) {
       var str = this.ui.textAreaAdvertiser.val();
       if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
+        var para = {};
+        this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
+        para.advertiser_id = _.pluck(this._advertisers, 'id').join(',')
+        $.ajax({type: "GET", url: '/admin/block_sites/advertisers_with_default_blocks.json', data: para, success: this._onSuccess, error: this._onError});
+      }
+    },
+
+    _onSuccess: function(event) {
+      this.ui.btnBlock.text('Add').removeAttr('disabled');
+      var str = this.ui.textAreaAdvertiser.val();
+      if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
+
+        if(event.default_block && event.default_block.length > 0) {
+          var default_blocks = event.default_block;
+          for (var i = 0; i < default_blocks.length; i++) {
+            for (var k = 0; k < this._advertisers.length; k++) {
+              if (default_blocks[i] == this._advertisers[k].id) {
+                this._advertisers[k].set({default_block: true});
+                break;
+              }
+            }
+          }
+        }
+
         this.trigger('PasteAdvertiserView:Block:Advertiser', this._advertisers);
         $('#close_modal').trigger('click');
       }
+    },
+
+    _onError: function(event) {
+      this.ui.btnBlock.text('Add').removeAttr('disabled');
+      alert('An error occurred while saving your changes.');
     },
 
     onValidate: function(event) {
@@ -847,10 +924,10 @@
         ui[val].text("");
       });
 
-      $.ajax({type: "POST", url: '/advertisers/validate', data: para, success: this._onSuccess, error: this._onError});
+      $.ajax({type: "POST", url: '/advertisers/validate', data: para, success: this._onValidateAdvertiserSuccess, error: this._onValidateAdvertiserError});
     },
 
-    _onSuccess: function(event) {
+    _onValidateAdvertiserSuccess: function(event) {
       var advertisers = event.advertisers,
       advertiserNames = [];
       this._advertisers = [];
@@ -871,9 +948,10 @@
       this.ui.advertisers_error.html(event.missing_advertisers)
     },
 
-    _onError: function(event) {
+    _onValidateAdvertiserError: function(event) {
       this.ui.btnValidate.text('Validate').removeAttr('disabled');
       if(event.responseJSON && event.responseJSON.errors) {
+        alert('An error occurred while saving your changes.');
       }
     },
 
