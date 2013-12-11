@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe Parsers::CoxCreative do
   let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_creatives.txt') }
-  let(:io_creatives) { Parsers::CoxCreative.new file }
   let(:user) { FactoryGirl.create :user }
   let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
 
@@ -29,6 +28,8 @@ describe Parsers::CoxCreative do
       @li = Lineitem.create order_id: @order.id, user_id: user.id, start_date: (Time.current + 5.day), end_date: (Time.current + 12.days), name: "CDS Added Value_Run of Network_ZipTargeted to 30 Mile Radius of Mtn View_12/1-12/15", volume: 300_000, rate: 2.22, value: 666.00, ad_sizes: "160x600, 300x250, 728x90"
       @li.errors.messages.should == {}
     end
+
+    let(:io_creatives) { Parsers::CoxCreative.new file, @order.id }
 
     it 'should parse text document' do
       Parsers::CoxCreative.any_instance.stub(:start_date).and_return(Time.current + 5.day)

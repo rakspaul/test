@@ -40,7 +40,7 @@ class Parsers::CoxCreative < Parsers::Base
     placement_name_match  = creative_txt.match(CREATIVE_NAME)
     return if placement_name_match.nil?
     placement_name  = placement_name_match[1].to_s.strip
-    if li = Lineitem.find_by(name: placement_name)
+    if li = Lineitem.find_by(name: placement_name, order_id: @order_id)
       @old_li_creatives[li.id] = []
       @old_li_creatives[li.id] += li.creatives if !li.creatives.blank?
     end
@@ -64,7 +64,7 @@ class Parsers::CoxCreative < Parsers::Base
       return
     end
 
-    if li = Lineitem.find_by(name: placement_name)
+    if li = Lineitem.find_by(name: placement_name, order_id: @order_id)
       Creative.transaction do
         creative = Creative.create name: li.ad_name(start_date, ad_size), network_advertiser_id: li.order.network_advertiser_id, size: ad_size, width: width, height: height, creative_type: CREATIVE_TYPE, redirect_url: "", html_code: javascript_code, network_id: li.order.network_id, data_source_id: 1
 
