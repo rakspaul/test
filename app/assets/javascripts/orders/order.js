@@ -265,25 +265,29 @@
       var resp = data.jqXHR.responseJSON,
         messages = [];
 
-      messages.push("<h4>" + resp.errors.pop().error + "</h4>");
-      messages.push("<ul>");
-      if(resp) {      
-        _.each(resp.errors, function(msg) {
-          messages.push("<li>");
-          messages.push(msg.error);
-          messages.push("</li>");
-        });
+      if(resp.errors.length == 0) {
+        messages.push("<h4>All Creatives were imported successfully.</h4>");
       } else {
-        messages.push(data.jqXHR.responseText);
+        messages.push("<h4>" + resp.errors.pop().error + "</h4>");
+        messages.push("<ul>");
+        if(resp) {      
+          _.each(resp.errors, function(msg) {
+            messages.push("<li>" + msg.error + "</li>");
+          });
+        } else {
+          messages.push(data.jqXHR.responseText);
+        }
+        messages.push("</ul>");
       }
-      messages.push("</ul>");
 
       $('#import-creatives-dialog .modal-body p').html(messages.join(""));
     },
 
     onDomRefresh: function() {
+      var self = this;
       this.ui.creatives_fileupload.fileupload({
         dataType: 'json',
+        formData: {order_id: self.options.order.id},
         url: '/creatives_import.json',
         dropZone: this.ui.creatives_fileupload,
         pasteZone: null,
