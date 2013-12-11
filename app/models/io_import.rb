@@ -260,7 +260,7 @@ class IOReader
     when 'Video'
       ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
     else
-      str.scan(AD_SIZE_REGEXP).first
+      str.scan(AD_SIZE_REGEXP).join(',')
     end
   end
 end
