@@ -5,6 +5,7 @@ class Lineitem < ActiveRecord::Base
 
   belongs_to :order
   belongs_to :user
+  belongs_to :media_type
 
   has_one :nielsen_pricing, autosave: true, dependent: :destroy
 

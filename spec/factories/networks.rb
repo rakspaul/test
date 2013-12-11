@@ -14,6 +14,22 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
   end
 
+  factory :media_type do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :video_media_type, :parent => :media_type do
+    category 'Video'
+  end
+
+  factory :mobile_media_type, :parent => :media_type do
+    category 'Mobile'
+  end
+
+  factory :facebook_media_type, :parent => :media_type do
+    category 'Facebook'
+  end
+
   factory :ad_size_160x600, :parent => :ad_size do
     size '160x600'
     width  160

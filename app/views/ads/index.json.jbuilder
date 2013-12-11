@@ -15,6 +15,7 @@ json.array! @order.ads do |ad|
     json.keyvalue_targeting ad.reach_custom_kv_targeting
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
     json.type ad.lineitem.type
+    json.media_type_id ad.lineitem.media_type_id
   end
 
   json.creatives do

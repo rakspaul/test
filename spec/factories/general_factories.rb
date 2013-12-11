@@ -45,12 +45,14 @@ FactoryGirl.define do
     alt_ad_id "1"
     targeted_zipcodes "12345, 56789"
     type "Display"
+    media_type
     user
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON; Video"
     ad_sizes ""
+    media_type { FactoryGirl.singleton :video_media_type }
   end
 
   factory :lineitem_with_ad, :parent => :lineitem do
