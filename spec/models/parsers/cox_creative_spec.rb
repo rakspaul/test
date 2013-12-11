@@ -33,6 +33,7 @@ describe Parsers::CoxCreative do
 
     it 'should parse text document' do
       Parsers::CoxCreative.any_instance.stub(:start_date).and_return(Time.current + 5.day)
+      Parsers::CoxCreative.any_instance.stub(:end_date).and_return(Time.current + 12.day)
 
       expect {
         expect {
