@@ -219,7 +219,7 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
-  LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]roll/i ],
+  LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
     'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i },
     'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
 
@@ -462,7 +462,8 @@ private
     when 'Display'
       str    
     when 'Video'
-      ([ Video::DEFAULT_MASTER_ADSIZE ] + str.scan(AD_SIZE_REGEXP)).join(',')
+      ([ Video::DEFAULT_MASTER_ADSIZE ] +
+        str.scan(AD_SIZE_REGEXP).select{ |size| !size.match(/#{Video::DEFAULT_MASTER_ADSIZE}/i) }).join(',')
     else
       str.scan(AD_SIZE_REGEXP).join(',')
     end
