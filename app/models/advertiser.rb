@@ -4,8 +4,8 @@ class Advertiser < ActiveRecord::Base
   belongs_to :network
   belongs_to :data_source
 
-  has_many :orders
-  has_many :creatives
+  has_many :orders, foreign_key: :network_advertiser_id
+  has_many :creatives, foreign_key: :network_advertiser_id
 
   before_create :create_random_source_id, :set_data_source, :make_advertiser_active
   before_save :set_data_source
