@@ -548,7 +548,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
     ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
-    
+
     if(isGeo) {
       ad_name_parts.push("GEO");
     }
@@ -710,6 +710,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
+
+    // order note reload
+    lineItemListView.on('ordernote:reload', function(){
+      ordersController.noteList.fetch({reset: true});
+    });
   },
 
   _showNotesView: function(order) {
