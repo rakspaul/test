@@ -235,8 +235,9 @@
   });
 
   ReachUI.Orders.NoteView = Backbone.Marionette.ItemView.extend({
-    tagName:'tr',
-    template: JST['templates/orders/note_list_item'],
+    tagName: 'div',
+    className: 'note-container',
+    template: JST['templates/orders/note_list_item']
   });
 
   ReachUI.Orders.NoteListView = Backbone.Marionette.CompositeView.extend({
@@ -246,7 +247,8 @@
     events: {
       'keypress #note_input' : 'saveNote',
       'click #btnSave' : 'saveNote',
-      'click .notify-users-switch' : 'toggleNotifyUsersDialog'
+      'click .notify-users-switch' : 'toggleNotifyUsersDialog',
+      'click .add-user-to-notify-list' : 'showAddUsersSelectBox'
     },
 
     ui: {
@@ -257,6 +259,27 @@
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
       this.notify_users_dialog_active = false;
+      this.user_ids = [];
+      this.user_names = [];
+    },
+
+    showAddUsersSelectBox: function() {
+      $('#add-users-notifications-dialog').modal('show');
+
+      var self = this;
+
+      this.$el.find('.users-to-notify div.typeahead-container').html('<input autocomplete="off"/>');
+      this.$el.find('.users-to-notify div.typeahead-container input').typeahead({
+        name: 'user-names',
+        remote: '/users/search.json?search_by=name&search=%QUERY',
+        valueKey: 'name',
+        limit: 20
+      }).on('typeahead:selected', function(ev, el) {
+        self.$el.find('.users-to-notify div.typeahead-container input').hide();
+        self.user_ids.push(el.id);
+        self.user_names.push(el.name);
+        self.$el.find('.users-to-notify em').html(self.user_names.join(', '));      
+      });
     },
 
     _importCreativesCallback: function(e, data) {
@@ -311,7 +334,7 @@
     },
 
     appendHtml: function(collectionView, itemView){
-        collectionView.$("tbody").append(itemView.el);
+      collectionView.$("div.notes-list").append(itemView.el);
     },
 
     toggleNotifyUsersDialog: function() {
@@ -332,7 +355,8 @@
       var prop = {
         note: this.ui.note_input.val().trim(),
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
-        username: window.current_user_name
+        username: window.current_user_name,
+        notify_users: this.user_ids
       }
 
       this.model = new ReachUI.Orders.Note(prop);
@@ -340,16 +364,15 @@
       this.collection.unshift(this.model);
 
       this.options.order.set('notes', this.collection);
-
-      if(this.model.isNew()) {
-        this._onSaveSuccess();
-      } else {
-        this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
-      }
+      this.$el.find('.save-note-btn').css({'content': 'url("/assets/select2-spinner.gif") 0px 0px no-repeat'});
+      this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
     _onSaveSuccess: function(event) {
       this.ui.note_input.val('');
+      this.user_ids = [];
+      this.user_names = [];
+      this.$el.find('.save-note-btn').css({'content': 'url("/assets/activity_log_white_icon.png") 0px 0px no-repeat'});
       this.render();
     },
 
