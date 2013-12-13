@@ -74,11 +74,11 @@
     className: 'lineitem pure-g',
 
     getTemplate: function() {
-      var type = this.model.get('type').toLowerCase();
-      if (type == 'display') {
+      var type = this.model.get('type');
+      if (!type || type.toLowerCase() == 'display') {
         return JST['templates/lineitems/line_item_row'];
       } else {
-        return JST['templates/lineitems/line_item_' + type + '_row'];
+        return JST['templates/lineitems/line_item_' + type.toLowerCase() + '_row'];
       }
     },
 
@@ -157,7 +157,6 @@
           startDate: moment().format("YYYY-MM-DD")
         }
       });
-
 
       this.$el.find('.lineitem-sizes .editable').editable({
         inputclass: 'input-large',
@@ -239,6 +238,9 @@
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
+        if (!ad.get('creatives').length) {
+          ad.set('size', view.model.get('ad_sizes'));
+        }
         view.renderAd(ad);
       });
     },
