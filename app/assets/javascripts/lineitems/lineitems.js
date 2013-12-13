@@ -158,7 +158,6 @@
         }
       });
 
-
       this.$el.find('.lineitem-sizes .editable').editable({
         inputclass: 'input-large',
         select2: {
@@ -239,6 +238,9 @@
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
+        if (!ad.get('creatives').length) {
+          ad.set('size', view.model.get('ad_sizes'));
+        }
         view.renderAd(ad);
       });
     },

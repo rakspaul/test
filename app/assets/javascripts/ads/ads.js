@@ -117,16 +117,7 @@
       // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
       this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];
 
-      if (creatives.length > 0) {
-        _.each(creatives, function(el) {
-          creatives_sizes.push(el.get('ad_size'));
-        });
-
-        var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
-        if (uniq_creative_sizes) {
-          this.ui.ads_sizes.html(uniq_creative_sizes);
-        }
-      }
+      this._getCreativesSizes();
 
       if (showed) {
         if (!creatives_visible) {
@@ -153,9 +144,27 @@
       }
     },
 
+    _getCreativesSizes: function() {
+      var creatives_sizes = [],
+          creatives = this.model.get('creatives').models;
+
+      if (creatives.length > 0) {
+        _.each(creatives, function(el) {
+          creatives_sizes.push(el.get('ad_size'));
+        });
+
+        var uniq_creative_sizes = _.uniq(creatives_sizes).join(', ');
+        if (uniq_creative_sizes) {
+          this.ui.ads_sizes.html(uniq_creative_sizes);
+        }
+      }
+    },
+
     onRender: function() {
       var self = this;
       $.fn.editable.defaults.mode = 'popup';
+
+      this._getCreativesSizes();
 
       this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
         success: function(response, newValue) {
