@@ -4,6 +4,7 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     source_id "R_#{SecureRandom.uuid}"
     data_source_id 1
+    advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
   factory :order do
@@ -72,4 +73,10 @@ FactoryGirl.define do
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
   end
+
+  factory :advertiser_type do
+    name "ADVERTISER"
+    network { FactoryGirl.singleton :network }
+  end
+
 end
