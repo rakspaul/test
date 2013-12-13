@@ -203,9 +203,11 @@
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
+        view.model.set(name, el.size);
         var type = view.model.get('type');
         if (type == 'Video') {
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + view.model.get('companion_ad_size'));
+          var companion_ad_size = view.model.get('companion_ad_size');
+          view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + companion_ad_size);
         }
       });
 

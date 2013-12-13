@@ -28,7 +28,11 @@
 </div>
 
 <div class="pure-u-1-6">
-  <span><span class="video-icon pull-left"></span>Pre-roll with Companion</span>
+  <span><span class="video-icon pull-left"></span><span class="ads-sizes">Pre-roll
+    <% if (lineitem.companion_ad_size) { %>
+    with Companion <%= lineitem.companion_ad_size %>
+    <% } %>
+  </span></span><br/>
   <span class="size">
     <span class="editable custom typeahead" data-type="typeahead" data-name="master_ad_size" data-pk="1">
       <%= lineitem.master_ad_size %>
