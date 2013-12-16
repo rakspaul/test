@@ -853,6 +853,23 @@ table.creatives-content {
       float: left;
     }
 
+    .notify-user-container {
+      float:left;
+
+      .notify-user-caption {
+        float: left;
+      }
+
+      .remove-btn {
+        background: url(asset-path('remove_tgt_btn.png')) no-repeat;
+        width: 16px;
+        height: 16px;
+        float: right;
+        margin-left: 3px;
+        cursor: pointer;
+      }
+    }
+
     .typeahead-container {
       width: 200px;
       float: left;
@@ -865,19 +882,25 @@ table.creatives-content {
       padding: 8px 5px;
     }
 
-    .add-user-to-notify-list {
+    .add-user-to-notify-list, .close-users-notify-list {
       float: left;
-      margin-left: 20px;
+      margin-left: 4px;
       cursor: pointer;
     }
-
-    .add-user-to-notify-list:before {
+    
+    .add-user-to-notify-list-btn, .close-users-notify-list-btn {
       content: url(asset-path('x_btn.png')) 0px 0px no-repeat;
       margin-right: 4px;
       width: 18px;
       height: 18px;
+      margin-left: 16px;
       -webkit-transform: rotate(45deg);
       float: left;
+      cursor: pointer;
+    }
+
+    .close-users-notify-list-btn {
+      -webkit-transform: rotate(0deg);
     }
   }
 }
