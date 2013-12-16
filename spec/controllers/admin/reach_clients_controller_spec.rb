@@ -88,6 +88,8 @@ describe Admin::ReachClientsController do
 
     it "updates reach client" do
       params[:id] = reach_client.id
+      params[:media_contact_id] = FactoryGirl.create(:media_contact).id
+      params[:billing_contact_id] = FactoryGirl.create(:billing_contact).id
       put :update, params
       assigns(:reach_client).should eq(reach_client)
     end
@@ -118,7 +120,7 @@ private
         name: reach_client.name,
         abbr: reach_client.abbr,
         sales_person_id: reach_client.sales_person_id,
-        account_manager_id: reach_client.account_manager_id
+        account_manager_id: reach_client.account_manager_id,
       }
     }
     { :format => 'json' }.merge params

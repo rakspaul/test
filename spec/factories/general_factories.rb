@@ -31,7 +31,6 @@ FactoryGirl.define do
   end
 
   factory :reach_client do
-    id 1
     name "Test Reach Client Name"
     abbr "TRCN"
     network { FactoryGirl.singleton :network }
@@ -88,18 +87,13 @@ FactoryGirl.define do
     name "Marsha Lowe"
     phone "7049737452"
     email "digital.services@twcable.com"
-    reach_client_id { FactoryGirl.singleton(:reach_client).id }
-    created_at 1.day.from_now
-    updated_at 22.day.from_now
+    reach_client_id 1
   end
 
   factory :billing_contact do
     name "Addy Earles"
     email "aearles@schurz.com"
     phone "3174027206"
-    reach_client_id { FactoryGirl.singleton(:reach_client).id }
-    created_at 1.day.from_now
-    updated_at 22.day.from_now
+    reach_client_id 1
   end
-
 end
