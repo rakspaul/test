@@ -791,6 +791,11 @@ table.creatives-content {
     width: 20%;
     float: left;
 
+    input {
+      margin-top: -3px;
+      margin-left: 6px;
+    }
+
     &:before {
       content: url(asset-path('activity_log_icon.png')) 0px 0px no-repeat;
       width: 16px;
