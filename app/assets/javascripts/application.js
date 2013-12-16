@@ -21,6 +21,7 @@
 //= require typeahead
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/tab
+//= require twitter/bootstrap/dropdown
 //= require bootstrap-popup-tooltip.js
 //= require bootstrap-editable.js
 //= require select2.min.js

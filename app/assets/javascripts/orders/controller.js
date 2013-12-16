@@ -583,12 +583,21 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var ordersController = this;
 
     // adding Ad under certain lineitem
-    lineItemListView.on('itemview:lineitem:add_ad', function(li_view) {
+    lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
+      var type = args.type || li_view.model.get('type');
 
       var ad_name = ordersController._generateAdName(li);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions});
+      var ad_size = li.get('ad_sizes');
+      if (li.get('type') == 'Video') {
+        if (type == 'Video') {
+          ad_size = li.get('master_ad_size');
+        } else {
+          ad_size = li.get('companion_ad_size');
+        }
+      }
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: ad_size, volume: remaining_impressions, type: type});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
@@ -598,7 +607,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
         audience_groups: li.get('targeting').get('audience_groups'),
         keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
-        type: li.get('type')
+        type: type
       });
 
       ad.set('targeting', li_targeting);

@@ -329,6 +329,11 @@
       }
     },
 
+    _addTypedAd: function(ev) {
+      var type = $(ev.currentTarget).data('type');
+      this.trigger('lineitem:add_ad', { "type": type });
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -339,7 +344,8 @@
 
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-creatives-btn': '_toggleCreativesDialog'
+      'click .toggle-creatives-btn': '_toggleCreativesDialog',
+      'click .li-add-ad-btn': '_addTypedAd'
     },
 
     triggers: {
