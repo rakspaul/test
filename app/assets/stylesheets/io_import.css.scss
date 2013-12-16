@@ -489,8 +489,10 @@ $wide_input_width: 480px;
   content: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
   width: 16px;
   height: 16px;
-  /*float: left;
-  margin-right: 5px;*/
+}
+
+.save-note-btn.spinner {
+  content: url(asset-path('select2-spinner.gif')) 0px 0px no-repeat
 }
 
 .status-btn-container {

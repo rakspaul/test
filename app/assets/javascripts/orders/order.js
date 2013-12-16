@@ -268,14 +268,15 @@
 
       var self = this;
 
-      this.$el.find('.users-to-notify div.typeahead-container').html('<input autocomplete="off"/>');
+      this.$el.find('.users-to-notify div.typeahead-container').show().html('<input autocomplete="off"/>');
       this.$el.find('.users-to-notify div.typeahead-container input').typeahead({
         name: 'user-names',
         remote: '/users/search.json?search_by=name&search=%QUERY',
         valueKey: 'name',
         limit: 20
       }).on('typeahead:selected', function(ev, el) {
-        self.$el.find('.users-to-notify div.typeahead-container input').hide();
+        self.$el.find('.users-to-notify div.typeahead-container').hide();
+        //self.$el.find('.users-to-notify div.typeahead-container input').hide();
         self.user_ids.push(el.id);
         self.user_names.push(el.name);
         self.$el.find('.users-to-notify em').html(self.user_names.join(', '));      
@@ -364,7 +365,7 @@
       this.collection.unshift(this.model);
 
       this.options.order.set('notes', this.collection);
-      this.$el.find('.save-note-btn').css({'content': 'url("/assets/select2-spinner.gif") 0px 0px no-repeat'});
+      this.$el.find('.save-note-btn').addClass('spinner');
       this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
@@ -372,7 +373,7 @@
       this.ui.note_input.val('');
       this.user_ids = [];
       this.user_names = [];
-      this.$el.find('.save-note-btn').css({'content': 'url("/assets/activity_log_white_icon.png") 0px 0px no-repeat'});
+      this.$el.find('.save-note-btn').removeClass('spinner');
       this.render();
     },
 
