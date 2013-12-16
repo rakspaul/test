@@ -13,13 +13,25 @@ class OrderNotesController < ApplicationController
   # POST orders/{order_id}/notes
   def create
     order = Order.find(params[:order_id])
-    p = params.require(:note).permit(:note)
+    p = params.require(:order_note).permit(:note)
+    users_ids = params[:notify_users]
+
     @note = OrderNote.new(p)
     @note.order = order
     @note.user = current_user
     @note.save
 
+    notify_users(users_ids) if !users_ids.blank?
+
     respond_with(@note, location: nil)
   end
 
+private
+
+  def notify_users(users_ids)
+    users = User.find(users_ids)
+    users.each do |user|
+      NotificationsMailer.notification_email(user, @note).deliver
+    end
+  end
 end

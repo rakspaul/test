@@ -453,8 +453,10 @@ $wide_input_width: 480px;
   content: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
   width: 16px;
   height: 16px;
-  /*float: left;
-  margin-right: 5px;*/
+}
+
+.save-note-btn.spinner {
+  content: url(asset-path('select2-spinner.gif')) 0px 0px no-repeat
 }
 
 .status-btn-container {
@@ -758,10 +760,40 @@ table.creatives-content {
     padding: 5px;
   }
 
+  .note-container {
+    clear: both;
+    width: 100%;
+    float: left;
+    margin-top: 6px;
+
+    .username {
+      float: left;
+      width: 20%;
+      text-align: right;
+      margin-right: 10px;
+      color: $text_color;
+    }
+
+    .ordersnotes {
+      float: left;
+      width: 53%;
+    }
+
+    .notetimestamp {
+      float: left;
+      font-size: 11px;
+    }
+  }
+
   .activity-log-title {
     color: $text_color;
     width: 20%;
     float: left;
+
+    input {
+      margin-top: -3px;
+      margin-left: 6px;
+    }
 
     &:before {
       content: url(asset-path('activity_log_icon.png')) 0px 0px no-repeat;
@@ -821,9 +853,22 @@ table.creatives-content {
       float: left;
     }
 
+    .typeahead-container {
+      width: 200px;
+      float: left;
+      margin: -5px 14px 0 14px;
+    }
+
+    .twitter-typeahead input.tt-query {
+      height: 11px;
+      font-size: 14px;
+      padding: 8px 5px;
+    }
+
     .add-user-to-notify-list {
       float: left;
       margin-left: 20px;
+      cursor: pointer;
     }
 
     .add-user-to-notify-list:before {
