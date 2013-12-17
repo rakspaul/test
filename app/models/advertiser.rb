@@ -1,6 +1,5 @@
 class Advertiser < ActiveRecord::Base
   self.table_name = "network_advertisers"
-  default_scope { joins(:advertiser_type).where(advertiser_types: {name: AdvertiserType::ADVERTISER_TYPE}).readonly(false) }
 
   belongs_to :network
   belongs_to :data_source
@@ -18,6 +17,11 @@ class Advertiser < ActiveRecord::Base
 
   def self.find_by_name_or_id_or_source_id(search)
     where("network_advertisers.name ilike :name or network_advertisers.id = :id or source_id = :id_s", name: "%#{search}%", id: search.to_i, id_s: search)
+  end
+
+  def self.of_type_advertiser
+    joins(:advertiser_type)
+      .where(advertiser_types: {name: AdvertiserType::ADVERTISER_TYPE})
   end
 
   def create_random_source_id

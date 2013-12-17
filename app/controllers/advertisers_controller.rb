@@ -6,6 +6,7 @@ class AdvertisersController < ApplicationController
   def index
     search_query = params[:search]
     @advertisers = Advertiser.of_network(current_network)
+      .of_type_advertiser
       .find_by_name_or_id_or_source_id(search_query)
       .order(:name)
     render json: @advertisers.select('network_advertisers.id, source_id, network_advertisers.name').limit(15)
@@ -13,7 +14,10 @@ class AdvertisersController < ApplicationController
 
   def search
     search_query = params[:search]
-    @advertisers = Advertiser.of_network(current_network).limit(50).order("name  asc")
+    @advertisers = Advertiser.of_network(current_network)
+      .of_type_advertiser
+      .limit(50)
+      .order("name  asc")
     unless search_query.blank?
       @advertisers = @advertisers.where("lower(network_advertisers.name) ilike lower(?)", "%#{search_query}%")
     end
@@ -31,7 +35,7 @@ class AdvertisersController < ApplicationController
 
   private
     def find_advertisers(advertisers)
-      Advertiser.of_network(current_network).where(:name => advertisers)
+      Advertiser.of_network(current_network).of_type_advertiser.where(:name => advertisers)
     end
 
 end
