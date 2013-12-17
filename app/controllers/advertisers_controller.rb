@@ -6,7 +6,7 @@ class AdvertisersController < ApplicationController
   def index
     search_query = params[:search]
     @advertisers = Advertiser.of_network(current_network)
-      .find_by_name_or_id_or_source_id(search_query)
+      .find_by_name(search_query)
       .order(:name)
     render json: @advertisers.select('network_advertisers.id, source_id, network_advertisers.name').limit(15)
   end
@@ -23,15 +23,10 @@ class AdvertisersController < ApplicationController
 
   def validate
     advertisers = params[:advertisers].split(/[\n\t\,]+/).map(&:strip).uniq.join(',').split(',')
-    advertisers_found = find_advertisers(advertisers)
+    advertisers_found = Advertiser.of_network(current_network).where(:name => advertisers)
     missing_advertisers = advertisers - advertisers_found.pluck('network_advertisers.name')
 
     render json: {advertisers: advertisers_found, missing_advertisers: missing_advertisers.join('&#xA;').to_s}
   end
-
-  private
-    def find_advertisers(advertisers)
-      Advertiser.of_network(current_network).where(:name => advertisers)
-    end
 
 end
