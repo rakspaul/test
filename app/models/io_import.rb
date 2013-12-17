@@ -546,6 +546,7 @@ class IOPdfFileReader < IOReader
         ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: li[:name].to_s.strip,
         volume: li[:impressions].to_i,
+        notes: li[:notes].to_s.strip,
         rate: li[:rate].to_f,
         type: type
       })
