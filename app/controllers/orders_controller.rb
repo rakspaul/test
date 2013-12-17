@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
   include Authenticator
 
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
+  before_filter :get_network_media_types, :only => [ :create, :update ]
 
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
@@ -386,7 +387,9 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
-          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url, :type ].each{ |v| ad[:ad].delete(v) }
+          media_type_id = @media_types[ad[:ad].delete(:type)]
+          ad[:ad][:media_type_id] = media_type_id
+          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -427,7 +430,7 @@ private
           ads << ad_object
 
           if ad_object.valid?
-            ad_object.update_attributes(ad[:ad])
+            ad_object.save && ad_object.update_attributes(ad[:ad])
 
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
@@ -461,12 +464,12 @@ private
             li_errors[i][:ads][j] = ad_object.errors.to_hash
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
-        #rescue => e
-        #  Rails.logger.warn 'e.message - ' + e.message.inspect
-        #  Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
-        #  li_errors[i] ||= {}
-        #  li_errors[i][:ads] ||= {}
-        #  li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
+        rescue => e
+          Rails.logger.warn 'e.message - ' + e.message.inspect
+          Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
+          li_errors[i] ||= {}
+          li_errors[i][:ads] ||= {}
+          li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
     end
@@ -533,7 +536,8 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
-          ad[:ad].delete(:type)
+          media_type_id = @media_types[ad[:ad].delete(:type)]
+          ad[:ad][:media_type_id] = media_type_id
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
           # for this phase, assign ad size from creatives (or self ad_size if creatives are empty)
@@ -674,4 +678,9 @@ private
     advertiser
   end
 
+  def get_network_media_types
+    @media_types = {}
+    current_network.media_types.each{|t| @media_types[t.category] = t.id }
+    @media_types['Companion'] = @media_types['Display']
+  end
 end

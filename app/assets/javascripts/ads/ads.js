@@ -146,9 +146,12 @@
 
     _getCreativesSizes: function() {
       var creatives_sizes = [],
-          creatives = this.model.get('creatives').models;
+          type = this.model.get('type'),
+          creatives = this.model.get('creatives').models,
+          li = this.options.parent_view.model,
+          li_type = li.get('type');
 
-      if (creatives.length > 0) {
+      if (creatives.length > 0 && type != 'Video') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
         });
@@ -157,6 +160,12 @@
         if (uniq_creative_sizes) {
           this.ui.ads_sizes.html(uniq_creative_sizes);
         }
+      } else {
+        var ad_sizes = li.get('ad_sizes');
+        if (li_type == 'Video' && type != 'Video') {
+          ad_sizes = li.get('companion_ad_size');
+        }
+        this.ui.ads_sizes.html(ad_sizes);
       }
     },
 

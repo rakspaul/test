@@ -306,8 +306,16 @@ $wide_input_width: 480px;
       }
     }
 
-    .li-command-btn {
+    .li-command-btn, .li-commands-btn {
       margin-left: -25px;
+    }
+
+    .li-commands-btn {
+      background: sprite($images, li-command-btn) no-repeat;
+      width: 16px;
+      height: 16px;
+      display: block;
+      cursor: pointer;
     }
 
     span.operation {
@@ -326,6 +334,19 @@ $wide_input_width: 480px;
 
     .size .typeahead {
       background-color: transparent;
+    }
+
+    .types-dropdown {
+      left: -16px;
+      letter-spacing: normal;
+      border: solid #fff 1px;
+      border-radius: 0;
+      margin: 0;
+      padding: 0;
+      background-color: $bg_color;
+      .li-add-ad-btn {
+        padding: 3px 10px;
+      }
     }
   }
 
