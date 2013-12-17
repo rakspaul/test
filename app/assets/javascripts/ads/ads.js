@@ -146,9 +146,10 @@
 
     _getCreativesSizes: function() {
       var creatives_sizes = [],
+          type = this.model.get('type'),
           creatives = this.model.get('creatives').models;
 
-      if (creatives.length > 0) {
+      if (creatives.length > 0 && type != 'Video') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
         });

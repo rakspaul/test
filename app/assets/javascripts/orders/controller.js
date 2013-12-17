@@ -592,12 +592,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad_size = li.get('ad_sizes');
       if (li.get('type') == 'Video') {
         if (type == 'Video') {
-          ad_size = li.get('master_ad_size');
+          ad_size = li.get('ad_sizes');
         } else {
           ad_size = li.get('companion_ad_size');
         }
       }
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes'), {description: ad_name, io_lineitem_id: li.get('id'), size: ad_size, volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size'), {description: ad_name, io_lineitem_id: li.get('id'), size: ad_size, volume: remaining_impressions, type: type});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
