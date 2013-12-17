@@ -40,81 +40,89 @@ describe Admin::ReachClientsController do
   end
 
   describe "POST 'create'" do
-    context "valid reach client params" do
+    context "post with valid params" do
       it "creates a new reach client" do
         expect{
-          post :create, reach_client_params
+          post :create, valid_params
           }.to change(ReachClient,:count).by(1)
       end
     end
 
-    context "invalid reach client params" do
-      let(:params) { reach_client_params }
+    context "post with invalid params" do
+      let(:params) { invalid_params }
 
-      it "name error" do
-        params[:reachClient][:name] =''
-        post :create, params
+      it "checks validation errors" do
+        post :create, invalid_params
         data = json_parse(response.body)
+
         expect(data[:errors]).to include(:name)
-      end
-
-      it "abbr error" do
-        params[:reachClient][:abbr] =''
-        post :create, params
-        data = json_parse(response.body)
         expect(data[:errors]).to include(:abbr)
-      end
-
-      it "sales_person_id error" do
-        params[:reachClient][:sales_person_id] = ''
-        post :create, params
-
-        data = json_parse(response.body)
         expect(data[:errors]).to include(:sales_person_id)
-      end
-
-      it "account_manager_id error" do
-        params[:reachClient][:account_manager_id] = ''
-        post :create, params
-
-        data = json_parse(response.body)
         expect(data[:errors]).to include(:account_manager_id)
       end
     end
   end
 
   describe "PUT 'update'" do
-    let(:params) { reach_client_params }
+    context "update with valid params" do
+      let(:params) { valid_params }
 
-    it "updates reach client" do
-      params[:id] = reach_client.id
-      params[:media_contact_id] = FactoryGirl.create(:media_contact).id
-      params[:billing_contact_id] = FactoryGirl.create(:billing_contact).id
-      put :update, params
-      assigns(:reach_client).should eq(reach_client)
-    end
+      before do
+        params[:id] = reach_client.id
+        params[:reachClient].merge! media_billing_params[:reachClient]
+      end
 
-    it "reach clients count" do
-      params[:id] = reach_client.id
-      expect{
+      it "updates reach client" do
         put :update, params
-        }.to change(ReachClient,:count).by(0)
+        assigns(:reach_client).should eq(reach_client)
+      end
     end
 
-    it "updates reach client with diff attr" do
-      params[:id] = reach_client.id
-      params[:reachClient][:name] = "Test Reach Client Name New"
-      params[:reachClient][:abbr] = "TRCNN"
+    context "updates with diff params" do
+      let(:params) { diff_attr_params }
 
-      put :update, params
-      assigns(:reach_client).name.should eq("Test Reach Client Name New")
-      assigns(:reach_client).abbr.should eq("TRCNN")
+      before do
+        params[:id] = reach_client.id
+        params[:reachClient].merge! diff_media_billing_params[:reachClient]
+      end
+
+      it "updates reach client with diff attr" do
+        put :update, params
+
+        assigns(:reach_client).name.should eq(params[:reachClient][:name])
+        assigns(:reach_client).abbr.should eq(params[:reachClient][:abbr])
+        assigns(:reach_client).sales_person_id.should eq(params[:reachClient][:sales_person_id])
+        assigns(:reach_client).account_manager_id.should eq(params[:reachClient][:account_manager_id])
+        assigns(:reach_client).media_contact_id.should eq(params[:reachClient][:media_contact_id])
+        assigns(:reach_client).billing_contact_id.should eq(params[:reachClient][:billing_contact_id])
+      end
+    end
+
+    context "update with invalid params" do
+      let(:params) { invalid_params }
+
+      before do
+        params[:id] = reach_client.id
+        params[:reachClient].merge! invalid_media_billing_params[:reachClient]
+      end
+
+      it "checks validation errors" do
+        put :update, params
+        data = json_parse(response.body)
+
+        expect(data[:errors]).to include(:name)
+        expect(data[:errors]).to include(:abbr)
+        expect(data[:errors]).to include(:sales_person_id)
+        expect(data[:errors]).to include(:account_manager_id)
+        expect(data[:errors]).to include(:media_contact_id)
+        expect(data[:errors]).to include(:billing_contact_id)
+      end
     end
   end
 end
 
 private
-  def reach_client_params
+  def valid_params
     params = {
       reachClient: {
         name: reach_client.name,
@@ -124,4 +132,55 @@ private
       }
     }
     { :format => 'json' }.merge params
+  end
+
+  def invalid_params
+    params = {
+      reachClient: {
+        name: '',
+        abbr: '',
+        sales_person_id: '',
+        account_manager_id: '',
+      }
+    }
+    { :format => 'json' }.merge params
+  end
+
+  def diff_attr_params
+    params = {
+      reachClient: {
+        name: "_#{reach_client.name}",
+        abbr: "_#{reach_client.abbr}",
+        sales_person_id: 2,
+        account_manager_id: 2,
+      }
+    }
+    { :format => 'json' }.merge params
+  end
+
+  def media_billing_params
+    params = {
+      reachClient:{
+        media_contact_id: FactoryGirl.singleton(:media_contact).id,
+        billing_contact_id: FactoryGirl.singleton(:billing_contact).id
+      }
+    }
+  end
+
+  def invalid_media_billing_params
+    params = {
+      reachClient:{
+        media_contact_id: '',
+        billing_contact_id: ''
+      }
+    }
+  end
+
+  def diff_media_billing_params
+    params = {
+      reachClient:{
+        media_contact_id: 2,
+        billing_contact_id: 2
+      }
+    }
   end
