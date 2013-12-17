@@ -305,9 +305,9 @@ $wide_input_width: 480px;
       float: left;
 
       .close-btn {
-        content: url(asset-path('remove_tgt_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
+        content: url(asset-path('x_btn.png')) no-repeat;
+        width: 18px;
+        height: 18px;
         margin-left: 5px;
         cursor: pointer;
       }
@@ -911,9 +911,9 @@ table.creatives-content {
       }
 
       .remove-btn {
-        background: url(asset-path('remove_tgt_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
+        background: url(asset-path('x_btn.png')) no-repeat;
+        width: 18px;
+        height: 18px;
         float: right;
         margin-left: 3px;
         cursor: pointer;
