@@ -256,7 +256,7 @@ class IOReader
   def parse_ad_sizes(str, type)
     case type 
     when 'Display'
-      str    
+      str.scan(AD_SIZE_REGEXP).join(', ')
     when 'Video'
       ([ Video::DEFAULT_MASTER_ADSIZE ] +
         str.scan(AD_SIZE_REGEXP).select{ |size| !size.match(/#{Video::DEFAULT_MASTER_ADSIZE}/i) }).join(',')
