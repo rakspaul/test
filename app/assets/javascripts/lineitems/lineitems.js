@@ -188,7 +188,11 @@
           },
         },
         success: function(response, newValue) {
-          view.model.set('ad_sizes', newValue.join(', '));
+          if (view.model.type = 'Video') {
+            view.model.set('companion_ad_size', newValue.join(', '));
+          } else {
+            view.model.set('ad_sizes', newValue.join(', '));
+          }
         }
       });
 
@@ -200,6 +204,14 @@
           remote: '/ad_sizes.json?search=%QUERY',
           valueKey: 'size'
         },
+        validate: function(value) {
+          var name = $(this).data('name');
+          var size = value;
+          if (name == 'master_ad_size' &&
+              !value.match(/^\d+x\d+$/i)) {
+            return 'Only one master ad size is allowed';
+          }
+        }
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
@@ -323,6 +335,11 @@
       }
     },
 
+    _addTypedAd: function(ev) {
+      var type = $(ev.currentTarget).data('type');
+      this.trigger('lineitem:add_ad', { "type": type });
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -333,7 +350,8 @@
 
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-creatives-btn': '_toggleCreativesDialog'
+      'click .toggle-creatives-btn': '_toggleCreativesDialog',
+      'click .li-add-ad-btn': '_addTypedAd'
     },
 
     triggers: {

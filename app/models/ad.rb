@@ -3,6 +3,7 @@ class Ad < ActiveRecord::Base
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
   belongs_to :data_source
   belongs_to :network
+  belongs_to :media_type
 
   has_one :ad_pricing, dependent: :destroy
 
@@ -26,6 +27,11 @@ class Ad < ActiveRecord::Base
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
+  end
+
+  def type
+    return 'Companion' if media_type.category == 'Display' && lineitem.type == 'Video'
+    media_type.category
   end
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create or update any Creatives here
