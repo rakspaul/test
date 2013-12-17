@@ -11,3 +11,4 @@ json.order_id           lineitem.order.id
 json.targeted_zipcodes  lineitem.targeted_zipcodes
 json.alt_ad_id          lineitem.alt_ad_id
 json.keyvalue_targeting lineitem.keyvalue_targeting
+json.notes              lineitem.try(:notes)

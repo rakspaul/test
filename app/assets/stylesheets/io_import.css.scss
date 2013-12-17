@@ -332,6 +332,35 @@ $wide_input_width: 480px;
       }
     }
 
+    .name .expand-notes {
+      content: url(asset-path('activity_log_icon.png')) no-repeat;
+      width: 16px;
+      height: 16px;
+      float: none;
+      cursor: pointer;
+    }
+
+    .name .notes {
+      margin-top:10px;
+      float: left;
+
+      .close-btn {
+        content: url(asset-path('remove_tgt_btn.png')) no-repeat;
+        width: 16px;
+        height: 16px;
+        margin-left: 5px;
+        cursor: pointer;
+      }
+    }
+
+    .name .notes:before {
+      content: url(asset-path('activity_log_icon.png')) no-repeat;
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-right: 5px;
+    }
+
     .li-number {
       text-align:center;
       color:white;

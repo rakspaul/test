@@ -514,6 +514,7 @@ class IOPdfFileReader < IOReader
         ad_sizes: li[:ad_sizes].join(',').strip.downcase,
         name: li[:name].to_s.strip,
         volume: li[:impressions].to_i,
+        notes: li[:notes].to_s.strip,
         rate: li[:rate].to_f
       })
     end
