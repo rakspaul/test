@@ -31,20 +31,11 @@
     _onTabClick: function(event) {
        event.preventDefault();
       $(event.target).tab('show');
-      this.trigger('TabChange');
+      this.trigger('TabChange', event.target.id);
     },
 
     _onExportClick: function(event){
-      event.preventDefault();
-
-      var selectedTab = this.ui.block_advt_tabs.find('li.active').attr('data-name');
-      var selectedTabsPane = this.ui.block_advt_tabs.find('li.active a').attr('href').slice(1);
-      var selectedVals= $('#'+selectedTabsPane).find('#list').val();
-      var excludedSites = this.ui.searchResultsView.find('select option').val();
-
-      if(selectedVals && excludedSites){
-        window.location = '/admin/block_sites/export_adv_and_group.xls?block_list='+selectedVals+'&type='+selectedTab
-      }
+      this.trigger('Export');
     },
 
   });
@@ -111,7 +102,7 @@
           var parent = this._createParentNode(response[i]);
             for (var k = 0; k < response.length; k++) {
               if (response[k] != undefined) {
-                if(parent.id === this._findId(response[k])) {
+                if(parent.id === this._findId(response[k]) && response[k].site_id !== null) {
                   parent.childs.add(this._createChildNode(response[k]));
                   delete response[k];
                 }
@@ -163,57 +154,6 @@
     },
   });
 
-  BlockedAdvertisers.SearchView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/blocked_advertisers/search_blocked_advertisers'],
-    itemView: BlockedAdvertisers.SearchItemView,
-    itemViewContainer: '#list',
-
-    events: {
-      'click #search_button': 'onSearch',
-      'keypress #search_input': 'onSearch',
-      'change #list' : 'onListChange',
-    },
-
-    ui: {
-      search_input: '#search_input',
-      list: '#list',
-      loading_div: '#loading_div'
-    },
-
-    initialize: function(){
-      this.collection.on("fetch", this.onFetch, this);
-      this.collection.on("reset", this.onReset, this);
-    },
-
-    onFetch: function() {
-      this.ui.loading_div.show();
-    },
-
-    onReset: function() {
-      this.ui.loading_div.hide();
-    },
-
-    onSearch: function(event) {
-      if (event.type === 'keypress' && event.keyCode != 13) {
-        return;
-      }
-      var searchString = this.ui.search_input.val().trim();
-      this.collection.fetch({data:{search: searchString}, reset: true});
-    },
-
-    onListChange: function(event) {
-      var selectedItems = this.ui.list.val();
-      if(selectedItems && selectedItems.length > 0) {
-        this.trigger('ItemChange', selectedItems);
-      }
-    },
-
-    resetListSelection: function() {
-      this.ui.list.val([]);
-    }
-  });
-
-
   BlockedAdvertisers.SearchResultItemView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
     template: _.template('<%= site_name%> <% if(default_block === true) {%> (Default Block)<%}%>'),
@@ -256,27 +196,31 @@
       this._initializeAdvertiserSearchView();
       this._initializeAdvertiserGroupSearchView();
       this._initializeSearchResultsView();
+      this.selectedTab = 'advertisers';
     },
 
     _initializeLayout: function() {
       this.detailRegion = new BlockedAdvertisers.DetailRegion();
       this.layout = new BlockedAdvertisers.Layout();
       this.layout.on('TabChange', this._onTabChange, this);
+      this.layout.on('Export', this._onExport, this);
       this.detailRegion.show(this.layout);
     },
 
     _initializeAdvertiserSearchView: function() {
       this.advertiserList = new BlockedAdvertisers.AdvertisersList();
-      this.advertiserSearchView = new BlockedAdvertisers.SearchView({collection: this.advertiserList});
-      this.advertiserSearchView.on('ItemChange', this._fetchAdvertisers, this);
+      this.advertiserSearchView = new ReachUI.BlockToolComponents.SearchList({collection: this.advertiserList, placeholder:'Advertisers'});
+      this.advertiserSearchView.on('SearchList:ItemClick', this._fetchAdvertisers, this);
+      this.advertiserSearchView.on('SearchList:SelectedItemReset', this._clearResults, this);
       this.layout.advertiserSearchView.show(this.advertiserSearchView);
       this.advertiserList.fetch({reset: true});
     },
 
     _initializeAdvertiserGroupSearchView: function() {
       this.advertiserGroupList = new BlockedAdvertisers.AdvertisersGroupsList();
-      this.advertiserGroupSearchView = new BlockedAdvertisers.SearchView({collection: this.advertiserGroupList});
-      this.advertiserGroupSearchView.on('ItemChange', this._fetchAdvertiserGroups, this);
+      this.advertiserGroupSearchView = new ReachUI.BlockToolComponents.SearchList({collection: this.advertiserGroupList, placeholder:'Advertiser Groups'});
+      this.advertiserGroupSearchView.on('SearchList:ItemClick', this._fetchAdvertiserGroups, this);
+      this.advertiserGroupSearchView.on('SearchList:SelectedItemReset', this._clearResults, this);
       this.layout.advertiserGroupSearchView.show(this.advertiserGroupSearchView);
       this.advertiserGroupList.fetch({reset: true});
     },
@@ -287,15 +231,28 @@
       this.layout.searchResultsView.show(this.searchResultView);
     },
 
-    _onTabChange: function() {
+    _onTabChange: function(tab_id) {
+      this.selectedTab = tab_id;
+      this._clearResults();
+      this.advertiserSearchView.resetSelection();
+      this.advertiserGroupSearchView.resetSelection();
+    },
+
+    _clearResults: function() {
       this.searchResults.reset();
-      this.advertiserSearchView.resetListSelection();
-      this.advertiserGroupSearchView.resetListSelection();
+    },
+
+    _onExport: function() {
+      if (this.selectedTab === 'advertisers' && this.advertiserSearchView.getSelectedItemIds().length > 0) {
+        window.location = '/admin/blocked_advertisers/export_blocked_sites_on_advertisers.xls?advertiser_id='+this.advertiserSearchView.getSelectedItemIds().join(',');
+      } else if (this.selectedTab === 'advertiser_groups' && this.advertiserGroupSearchView.getSelectedItemIds().length > 0) {
+        window.location = '/admin/blocked_advertisers/export_blocked_sites_on_advertiser_groups.xls?advertiser_group_id='+this.advertiserGroupSearchView.getSelectedItemIds().join(',');
+      }
     },
 
     _fetchAdvertisers: function(items) {
-      this.searchResults.setUrl('/admin/blocked_advertiser.json?advertiser_id=');
-      this.searchResults.setIds(items);
+      this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser.json?advertiser_id=');
+      this.searchResults.setIds(items.pluck('id'));
       var self =this;
       this.searchResults.fetch().then(function() {
         self.searchResults.sort();
@@ -303,8 +260,8 @@
     },
 
     _fetchAdvertiserGroups: function(items) {
-      this.searchResults.setUrl('/admin/blocked_advertiser_groups.json?advertiser_group_id=');
-      this.searchResults.setIds(items);
+      this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser_group.json?advertiser_group_id=');
+      this.searchResults.setIds(items.pluck('id'));
       var self =this;
       this.searchResults.fetch().then(function() {
         self.searchResults.sort();

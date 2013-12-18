@@ -7,6 +7,7 @@
       this._initializeSiteListView();
       this._initializeBlockedAdvertiserListView();
       this._initializeBlockedAdvertiserGroupListView();
+      this._siteMode = 'Blacklisted_Site_Mode';
       _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError');
     },
 
@@ -27,11 +28,12 @@
         mainRegion: this.layout.siteListView
       });
       this.sitesController.on('Get:SiteBlocks', this._getSiteBlocks, this);
+      this.sitesController.on('SelectedItemReset', this._onSiteSelectedItemReset, this);
       this.sitesController.on('Change:SiteTab', this._onSiteTabChange, this);
     },
 
     _initializeBlockedAdvertiserListView: function() {
-      this.blockedAdvertiserList = new BlockSites.BlockedAdvertiserList();
+      this.blockedAdvertiserList = new BlockSites.AdvertiserBlockList();
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
       this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
       this.blockedAdvertiserListView.on('UnBlock:Advertiser', this._onUnblockAdvertiser, this);
@@ -39,7 +41,7 @@
     },
 
     _initializeBlockedAdvertiserGroupListView: function() {
-      this.blockedAdvertiserGroupList = new BlockSites.BlockedAdvertiserGroupList();
+      this.blockedAdvertiserGroupList = new BlockSites.AdvertiserGroupBlockList();
       this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
       this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
       this.blockedAdvertiserGroupListView.on('UnBlock:AdvertiserGroups', this._onUnblockAdvertiserGroup, this);
@@ -67,8 +69,14 @@
       }
     },
 
-    _onSiteTabChange: function(tab_name) {
-      if (tab_name === 'blacklistedSitesView') {
+    _onSiteSelectedItemReset: function() {
+      this.blockedAdvertiserList.reset();
+      this.blockedAdvertiserGroupList.reset();
+    },
+
+    _onSiteTabChange: function(siteMode) {
+      this._siteMode = siteMode;
+      if (this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
         this.blockedAdvertiserListView.setText('Blacklisted Advertisers');
         this.blockedAdvertiserGroupListView.show();
       } else{
@@ -79,21 +87,30 @@
 
     _fetchSiteBlocks: function() {
       var self = this;
-      this.siteToUnblock = [];
-      this.blockedAdvertiserList.fetch({reset:true}).then(function() {
-        self.blockedAdvertiserList.sort();
-      });
+      this._removedAdvertisers = [];
+      this._removedAdvertiserGroups = [];
 
-      this.blockedAdvertiserGroupList.fetch({reset:true}).then(function() {
-        self.blockedAdvertiserGroupList.sort();
-      });
+      if (this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+        this.blockedAdvertiserList.fetchBlacklistedAdvertisers().then(function() {
+          self.blockedAdvertiserList.sort();
+        });
+
+        this.blockedAdvertiserGroupList.fetch({reset:true}).then(function() {
+          self.blockedAdvertiserGroupList.sort();
+        });
+      } else {
+        this.blockedAdvertiserList.fetchWhitelistedAdvertisers().then(function() {
+          self.blockedAdvertiserList.sort();
+        });
+      }
     },
 
     _showAdvertiserModalView: function() {
       var selectedSites = this.sitesController.getSelectedSites();
       if (selectedSites && selectedSites.length > 0) {
         this.advertiserListModalController = new BlockSites.AdvertiserListModalController({
-          mainRegion: this.layout.modal
+          mainRegion: this.layout.modal,
+          siteMode: this._siteMode
         });
 
         this.advertiserListModalController.on('Block:Advertiser', this._onBlockAdvertiser, this);
@@ -151,17 +168,24 @@
     _createAdvertiserModel: function(advertiser, site_id) {
       var advertiser_id = advertiser.id,
       name = advertiser.get('name'),
-      default_block = advertiser.get('default_block');
+      default_block = advertiser.get('default_block'),
+      state = this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE ? 'PENDING_BLOCK' : 'PENDING_UNBLOCK';
 
-      return new BlockSites.Advertiser({site_id: site_id, advertiser_id: advertiser_id, advertiser_name: name, default_block: default_block})
+      return new BlockSites.Advertiser({
+        site_id: site_id,
+        advertiser_id: advertiser_id,
+        advertiser_name: name,
+        default_block: default_block,
+        state: state
+      })
     },
 
     _onUnblockAdvertiser: function(advertisers) {
-      this.siteToUnblock = this.siteToUnblock.concat(advertisers);
+      this._removedAdvertisers = this._removedAdvertisers.concat(advertisers);
     },
 
     _onUnblockAdvertiserGroup: function(advertiser_groups) {
-      this.siteToUnblock = this.siteToUnblock.concat(advertiser_groups);
+      this._removedAdvertiserGroups = this._removedAdvertiserGroups.concat(advertiser_groups);
     },
 
     // When user selects advertiser block to block
@@ -204,7 +228,7 @@
     },
 
     _createAdvertiserGroupModelArray: function(vos, site_id) {
-      var blockedAdvertiserGroups = new BlockSites.BlockedAdvertiserGroupList();
+      var blockedAdvertiserGroups = new BlockSites.AdvertiserGroupBlockList();
       for (var i = 0; i < vos.length; i++) {
         var blockedAdvertiserGroup = this._createAdvertiserGroupModel(vos[i], site_id);
         blockedAdvertiserGroups.push(blockedAdvertiserGroup);
@@ -222,72 +246,109 @@
 
     // Check the collection for new object using backbone's isNew() method
     _onSaveSiteBlock: function(event) {
-      var para = {};
-      var blockedAdvertisers = this._blockAdvertiser(),
-      blockedAdvertiserGroups = this._blockAdvertiserGroup(),
-      unblockedSites = this._unblockedSites();
+      var para = {},
+      blacklistedAdvertisers = [],
+      blacklistedAdvertiserGroups = [],
+      whitelistedAdvertisers = [],
+      whitelistedAdvertiserGroups = [];
 
-      if (blockedAdvertisers.length > 0 ) {
-        para.blocked_advertisers = JSON.stringify(blockedAdvertisers);
+      if(this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+        blacklistedAdvertisers = this._getNewAdvertisers();
+        blacklistedAdvertiserGroups = this._getNewAdvertiserGroups();
+        whitelistedAdvertisers = this._getRemovedAdvertisers();
+        whitelistedAdvertiserGroups = this._getRemovedAdvertiserGroups();
+
+        if (blacklistedAdvertisers.length > 0 ) {
+          para.blacklistedAdvertisers = JSON.stringify(blacklistedAdvertisers);
+        }
+
+        if (blacklistedAdvertiserGroups.length > 0) {
+          para.blacklistedAdvertiserGroups = JSON.stringify(blacklistedAdvertiserGroups);
+        }
+
+        if (whitelistedAdvertisers.length > 0) {
+          para.whitelistedAdvertisers = JSON.stringify(whitelistedAdvertisers);
+        }
+
+        if (whitelistedAdvertiserGroups.length > 0) {
+          para.whitelistedAdvertiserGroups = JSON.stringify(whitelistedAdvertiserGroups);
+        }
+      } else {
+        blacklistedAdvertisers = this._getRemovedAdvertisers();
+        whitelistedAdvertisers = this._getNewAdvertisers();
+
+        if (blacklistedAdvertisers.length > 0 ) {
+          para.blacklistedAdvertisers = JSON.stringify(blacklistedAdvertisers);
+        }
+
+        if (whitelistedAdvertisers.length > 0) {
+          para.whitelistedAdvertisers = JSON.stringify(whitelistedAdvertisers);
+        }
+
       }
 
-      if (blockedAdvertiserGroups.length > 0) {
-        para.blocked_advertiser_groups = JSON.stringify(blockedAdvertiserGroups);
-      }
 
-      if (unblockedSites.length > 0) {
-        para.unblocked_sites = JSON.stringify(unblockedSites);
-      }
-
-      if (blockedAdvertisers.length > 0 || blockedAdvertiserGroups.length > 0 || unblockedSites.length > 0) {
+      if (blacklistedAdvertisers.length > 0 || blacklistedAdvertiserGroups.length > 0 || whitelistedAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0) {
         this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
         $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
       }
 
     },
 
-    _blockAdvertiser: function() {
-      var newBlockedAdvertisers = [];
-
+    _getNewAdvertisers: function() {
+      var newAdvertiser = [];
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
           if(advertiser.isNew()) {
-            newBlockedAdvertisers.push(advertiser.toJSON());
+            newAdvertiser.push(advertiser.toJSON());
           }
         })
       }, this);
-
-      return newBlockedAdvertisers;
+      return newAdvertiser;
     },
 
-    _blockAdvertiserGroup: function(fetch_records) {
-      // find out newly added advertisers
-      var newBlockedAdvertiserGroup = [];
+    _getRemovedAdvertisers: function() {
+      var advertisers = this._removedAdvertisers,
+      removedAdvertisers = [];
 
-      this.blockedAdvertiserGroupList.each(function(site) {
-        site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.isNew()) {
-            newBlockedAdvertiserGroup.push(advertiser_group.toJSON());
-          }
-        })
-      }, this);
-
-      return newBlockedAdvertiserGroup;
-    },
-
-    _unblockedSites: function() {
-      var array = this.siteToUnblock,
-      unblock = [];
-
-      if (array && array.length > 0) {
-        for (var i = 0; i < array.length; i++) {
-          if (!array[i].isNew()) {
-            unblock.push(array[i]);
+      if (advertisers && advertisers.length > 0) {
+        for (var i = 0; i < advertisers.length; i++) {
+          if (!advertisers[i].isNew()) {
+            removedAdvertisers.push(advertisers[i]);
           }
         }
       }
 
-      return unblock;
+      return removedAdvertisers;
+    },
+
+    _getNewAdvertiserGroups: function() {
+      var newAdvertiserGroups = [];
+
+      this.blockedAdvertiserGroupList.each(function(site) {
+        site.getAdvertiserGroups().each(function(advertiser_group) {
+          if(advertiser_group.isNew()) {
+            newAdvertiserGroups.push(advertiser_group.toJSON());
+          }
+        })
+      }, this);
+
+      return newAdvertiserGroups;
+    },
+
+    _getRemovedAdvertiserGroups: function() {
+      var advertiserGroups = this._removedAdvertiserGroups,
+      removedAdvertisers = [];
+
+      if (advertiserGroups && advertiserGroups.length > 0) {
+        for (var i = 0; i < advertiserGroups.length; i++) {
+          if (!advertiserGroups[i].isNew()) {
+            removedAdvertisers.push(advertiserGroups[i]);
+          }
+        }
+      }
+
+      return removedAdvertisers;
     },
 
     _onSuccess: function(event) {
@@ -323,7 +384,11 @@
     _onExportSiteBlock: function(event) {
       var selectedSiteIds = this.sitesController.getSelectedSiteIds();
       if (selectedSiteIds && selectedSiteIds.length > 0) {
-        window.location = '/admin/block_sites/export_sites.xls?site_ids='+selectedSiteIds.join(',');
+        if(this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+          window.location = '/admin/block_sites/export_blacklisted_advertisers_and_groups.xls?site_ids='+selectedSiteIds.join(',');
+        } else {
+          window.location = '/admin/block_sites/export_whitelisted_advertisers.xls?site_ids='+selectedSiteIds.join(',');
+        }
       }
     },
 

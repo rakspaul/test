@@ -20,6 +20,7 @@
     triggers:{
       'click #btnSave' : 'Save:SiteBlocks',
       'click #btnExport' : 'Export:SiteBlocks',
+      'click #addSiteBlock' : 'Add:SiteBlocks'
     },
 
     ui: {
@@ -63,117 +64,6 @@
   });
 
 // --------------------/ Views /------------------------------------
-
-  DefaultBlockList.SiteListItemView = Backbone.Marionette.ItemView.extend({
-    template: _.template('<%= name%>'),
-    tagName: 'li',
-    className: 'draggble',
-    attributes: function() {
-      return {value: this.model.id};
-    },
-
-    onRender: function(){
-      this.$el.draggable({
-        revert: 'invalid',
-        helper: this._dragHelper,
-        appendTo: 'body',
-        containment: 'body'
-      });
-    },
-
-    _dragHelper: function(){
-      var selected = $('#sitesList li.selected');
-      if (selected.length <= 1) {
-        $('#sitesList li').removeClass('selected');
-        selected = $(this).addClass('selected');
-      }
-      var container = $('<ul class="select-keyvals" />');
-      container.append(selected.clone());
-      return container;
-    }
-
-  }),
-
-  DefaultBlockList.SiteListView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/default_block_list/site_list_view'],
-    itemView: DefaultBlockList.SiteListItemView,
-
-    events: {
-      'click #search_button': 'onSearch',
-      'keypress #search_input': 'onSearch',
-      'click #addSiteBlock' : 'addSiteBlock',
-      'click #sitesList li' : '_onSiteItemClick'
-    },
-
-    ui:{
-      search_input: '#search_input',
-      site_list: '#sitesList',
-      loading_div: '#loading_div',
-    },
-
-    initialize: function() {
-      this.collection.fetch({reset: true});
-      this.collection.on("fetch", this.onFetch, this);
-      this.collection.on("reset", this.onReset, this);
-    },
-
-    onFetch: function() {
-      this.ui.loading_div.show();
-    },
-
-    onReset: function() {
-      this.ui.loading_div.hide();
-    },
-
-    appendHtml: function(collectionView, itemView){
-      collectionView.$("#sitesList").append(itemView.el);
-    },
-
-    onSearch: function(event) {
-      if (event.type === 'keypress' && event.keyCode != 13) {
-        return;
-      }
-      var searchString = this.ui.search_input.val().trim();
-      this.collection.fetch({data:{search: searchString}, reset: true});
-    },
-
-    addSiteBlock: function() {
-      var selectedSites = this.getSelectedSites();
-      if(selectedSites && selectedSites.length>0) {
-        this.trigger('Add:Sites', selectedSites);
-      }
-    },
-
-    getSelectedSites: function() {
-      var selectedSites = this.ui.site_list.find('.selected');
-      if(selectedSites && selectedSites.length>0) {
-        var sites = []
-        for (var i = 0; i < selectedSites.length; i++) {
-          var site = $(selectedSites[i]).attr('value');
-          sites.push(site)
-        }
-        return sites;
-      } else {
-        return [];
-      }
-    },
-
-    _onSiteItemClick: function(event){
-      this.curr = $(event.target).index();
-
-      if(event.ctrlKey || event.metaKey){
-        this.prev = this.curr;
-        $(event.target).toggleClass('selected');
-      } else if(event.shiftKey && this.prev > -1){
-        this.ui.site_list.find('li').slice(Math.min(this.prev, this.curr), 1 + Math.max(this.prev, this.curr)).addClass('selected');
-      } else {
-        this.prev = this.curr;
-        this.ui.site_list.find('li').removeClass('selected');
-        $(event.target).toggleClass('selected');
-      }
-    },
-
-  });
 
   DefaultBlockList.BlockedSiteListItemView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= site_name%>'),
@@ -268,12 +158,13 @@
       this.layout = new DefaultBlockList.Layout();
       this.layout.on('Save:SiteBlocks', this._onSaveSiteBlocks, this);
       this.layout.on('Export:SiteBlocks', this._onExportSiteBlocks, this);
+      this.layout.on('Add:SiteBlocks', this._onAddSiteBlocks, this);
       this.detailRegion.show(this.layout);
     },
 
     _initializeSiteListView: function() {
       this.siteList = new DefaultBlockList.SiteList();
-      this.siteListView = new DefaultBlockList.SiteListView({collection: this.siteList});
+      this.siteListView = new ReachUI.BlockToolComponents.SearchList({collection: this.siteList, draggable: true, placeholder:'Sites'});
       this.siteListView.on('Add:Sites', this._blockSites, this);
       this.layout.siteListView.show(this.siteListView);
     },
@@ -343,7 +234,13 @@
 
     _onExportSiteBlocks: function() {
       window.location = '/admin/default_block_list/export';
-    }
+    },
+
+    _onAddSiteBlocks: function() {
+      var selectedSitesIds = this.siteListView.getSelectedItemIds();
+      this._blockSites(selectedSitesIds);
+      this.siteListView.resetSelection();
+    },
 
   });
 

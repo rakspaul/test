@@ -18,27 +18,31 @@ Reachui::Application.routes.draw do
   namespace :admin do
     resources :reach_clients
     resources :audience_groups
-    resources :block_sites do
-      collection do
-        get 'export_sites'
-        get 'export_adv_and_group'
-        get 'default_block_for_advertiser'
-      end
-    end
     resources :media_contacts
     resources :billing_contacts
-    resources :blocked_advertiser, :controller => "block_sites", :type => "BlockedAdvertiser" do
+
+    resources :block_sites do
       collection do
-        get 'commit_summary'
+        post 'commit' => 'block_sites#commit'
+        get 'blacklisted_advertisers' => 'block_sites#get_blacklisted_advertisers'
+        get 'blacklisted_advertiser_groups' => 'block_sites#get_blacklisted_advertiser_groups'
+        get 'whitelisted_advertisers' => 'block_sites#get_whitelisted_advertiser'
+        get 'whitelisted_advertiser_groups' => 'block_sites#get_whitelisted_advertiser_groups'
+        get 'export_blacklisted_advertisers_and_groups'
+        get 'export_whitelisted_advertisers'
+        get 'advertisers_with_default_blocks'
       end
     end
-    resources :blocked_advertiser_groups, :controller => "block_sites", :type => "BlockedAdvertiserGroup" do
+
+    resources :blocked_advertisers do
       collection do
-        get 'commit_summary'
+        get 'get_blocked_sites_on_advertiser'
+        get 'get_blocked_sites_on_advertiser_group'
+        get 'export_blocked_sites_on_advertisers'
+        get 'export_blocked_sites_on_advertiser_groups'
       end
     end
-    resources :blocked_advertisers
-    post 'block_sites/commit' => 'block_sites#commit'
+
     resources :default_block_list do
       collection do
         get 'export'

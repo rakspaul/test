@@ -10,13 +10,33 @@ class BlockSitesExport
     @current_user = current_user
   end
 
-  def export_to_excel
-    separate_advs_and_groups
+  def export_blacklisted_advertisers_and_groups
+    prepare_data
 
-    write_to_excel
+    write_to_file(true)
   end
 
-  def separate_advs_and_groups
+  def export_whitelisted_advertisers
+    prepare_data
+
+    write_to_file(false)
+  end
+
+  def get_file
+    "#{@current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  end
+
+  def create_sheet
+    Spreadsheet.client_encoding = 'UTF-8'
+
+    @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
+    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
+
+    @book = Spreadsheet::Workbook.new
+    @sheet = @book.create_worksheet :name => SITES_SHEET
+  end
+
+  def prepare_data
     @blocked_sites_arr = []
 
     @blocked_sites.each do |block_site|
@@ -47,11 +67,13 @@ class BlockSitesExport
     end
   end
 
-  def write_to_excel
+  def write_to_file(export_advertiser_groups)
     create_sheet
 
     row_no = 0
     col_no = 0
+    advertiser_row_count = 0
+    advertiser_group_count = 0
 
     @blocked_sites_arr.each do |bs|
       row_count = row_no + HEADER_ROW
@@ -61,41 +83,18 @@ class BlockSitesExport
 
       site_header = @sheet.row(row_no)
       site_header.default_format=(@format_color)
-
       site_header[col_no] = bs['site_name']
 
       row_no += 1
       adv_header_row = @sheet.row(row_no)
-      adv_header_row.set_format(0, @format)
-      adv_header_row[col_no] = ADVERTISER_HEADER
+      advertiser_row_count = write_advertisers(@format, @sheet, bs, adv_header_row, row_no, 0)
+      advertiser_group_count = write_advertiser_groups(@format, @sheet, bs, adv_header_row, row_no, 1) if export_advertiser_groups
 
-      col_no += 1
-      adv_header_row.set_format(1, @format)
-      adv_header_row[col_no] = ADVERTISER_GROUP_HEADER
-
-      col_no -= 1
-      bs['adv_name'].each do |adv|
-        row_no += 1
-        adv_data = @sheet.row(row_no)
-        adv_data[col_no] = adv
+      if advertiser_row_count > advertiser_group_count
+        row_no = row_count + advertiser_row_count
+      elsif advertiser_row_count <= advertiser_group_count
+        row_no = row_count + advertiser_group_count
       end
-
-      col_no += 1
-      row_no -= adv_len - 1
-      bs['adv_grp_name'].each do |adv_grp|
-        adv_grp_data = @sheet.row(row_no)
-        adv_grp_data[col_no] = adv_grp
-        row_no += 1
-      end
-
-      if adv_len > adv_grp_len
-        row_no = row_count + adv_len
-      elsif adv_len <= adv_grp_len
-        row_no = row_count + adv_grp_len
-      end
-
-      col_no -= 1
-      row_no += 1
     end
 
     spreadsheet = StringIO.new
@@ -104,18 +103,28 @@ class BlockSitesExport
     spreadsheet.string
   end
 
-  def create_sheet
-    Spreadsheet.client_encoding = 'UTF-8'
+  def write_advertisers(format, sheet, bs, adv_header_row, row_no, col_no)
+    adv_header_row.set_format(0, format)
+    adv_header_row[col_no] = ADVERTISER_HEADER
 
-    @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
-    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
-
-    @book = Spreadsheet::Workbook.new
-    @sheet = @book.create_worksheet :name => SITES_SHEET
+    bs['adv_name'].each do |adv|
+      row_no += 1
+      adv_data = sheet.row(row_no)
+      adv_data[col_no] = adv
+    end
+    return row_no;
   end
 
-  def get_sites_file
-    "#{@current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  def write_advertiser_groups(format, sheet, bs, adv_header_row, row_no, col_no)
+    adv_header_row.set_format(1, format)
+    adv_header_row[col_no] = ADVERTISER_GROUP_HEADER
+
+    bs['adv_grp_name'].each do |adv_grp|
+      row_no += 1
+      adv_grp_data = sheet.row(row_no)
+      adv_grp_data[col_no] = adv_grp
+    end
+    return row_no;
   end
 
 end
