@@ -177,6 +177,27 @@ describe OrdersController do
         end
       end
     end
+
+    context "ads" do
+      let(:params) { io_request_w_ads }
+
+      it "create new ads" do
+        expect{
+          post :create, params
+        }.to change(Ad, :count).by(1)
+      end
+
+      it "create companion ad for video lineitem" do
+        params['order']['lineitems'].each do |li|
+          li['ads'].each do |ad|
+            ad['ad']['type'] = 'Companion'
+          end
+        end
+        media_type = user.network.media_types.where(:category => 'Display').first
+        post :create, params
+        expect(Ad.last.media_type_id).to eq(media_type.id)
+      end
+    end
   end
 
 private
@@ -235,6 +256,7 @@ private
           creative['creative']['start_date'] = start_date
           creative['creative']['end_date']   = end_date
         end
+        ad['ad']['type'] = 'Video'
       end
     end
 
