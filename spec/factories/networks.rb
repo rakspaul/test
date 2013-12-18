@@ -8,6 +8,10 @@ FactoryGirl.define do
     id 81
     name "Test network"
     data_source
+    media_types { [ FactoryGirl.create(:display_media_type),
+                    FactoryGirl.create(:video_media_type),
+                    FactoryGirl.create(:mobile_media_type),
+                    FactoryGirl.create(:facebook_media_type) ] }
   end
 
   factory :ad_size do
@@ -16,6 +20,10 @@ FactoryGirl.define do
 
   factory :media_type do
     network { FactoryGirl.singleton :network }
+  end
+
+  factory :display_media_type, :parent => :media_type do
+    category 'Display'
   end
 
   factory :video_media_type, :parent => :media_type do
