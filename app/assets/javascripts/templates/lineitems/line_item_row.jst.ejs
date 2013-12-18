@@ -42,10 +42,11 @@
   </span>
 
   <% if(lineitem.notes) { %>
-  <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>>&nbsp;</span>
+  <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
   <div style="clear:both"></div>
   <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
-    <%= lineitem.notes %><span class="close-btn">&nbsp;</span>
+    <%= lineitem.notes %>
+    <span class="close-btn"></span>
   </span>
   <% } %>
 

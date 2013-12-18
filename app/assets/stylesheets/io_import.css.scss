@@ -293,11 +293,12 @@ $wide_input_width: 480px;
     }
 
     .name .expand-notes {
-      content: url(asset-path('activity_log_icon.png'));
+      background: url(asset-path('activity_log_icon.png')) 0 0 no-repeat;
       width: 16px;
       height: 16px;
       float: none;
       cursor: pointer;
+      display: inline-block;
     }
 
     .name .notes {
@@ -308,10 +309,13 @@ $wide_input_width: 480px;
         background: url(asset-path('x_btn.png')) 0 0 no-repeat;
         width: 18px;
         height: 18px;
-        margin-left: 5px;
+        float: none;
         cursor: pointer;
+        display: inline-block;
       }
     }
+
+    
 
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
