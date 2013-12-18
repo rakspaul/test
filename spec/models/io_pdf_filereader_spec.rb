@@ -128,7 +128,7 @@ describe IOPdfFileReader do
 
         li[:start_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
-        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:ad_sizes].should == "160x600, 300x250, 728x90"
         li[:name].should == "Canceled_Retargeting_300x250, 160x600, 728x90"
         li[:volume].should == 1
         li[:rate].should == 1.50
