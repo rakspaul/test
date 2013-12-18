@@ -4,6 +4,7 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     source_id "R_#{SecureRandom.uuid}"
     data_source_id 1
+    advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
   factory :order do
@@ -22,6 +23,11 @@ FactoryGirl.define do
   end
 
   factory :io_detail do
+    client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
+    order_id  { FactoryGirl.singleton(:order).id }
+    media_contact_id  { FactoryGirl.singleton(:media_contact).id }
+    billing_contact_id { FactoryGirl.singleton(:billing_contact).id }
+    reach_client { FactoryGirl.singleton :reach_client }
   end
 
   factory :reach_client do
@@ -81,4 +87,28 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     user { FactoryGirl.singleton :user }
   end
+
+  factory :advertiser_type do
+    name "ADVERTISER"
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :media_contact do
+    name "Marsha Lowe"
+    phone "7049737452"
+    email "digital.services@twcable.com"
+    reach_client_id { FactoryGirl.singleton(:reach_client).id }
+    created_at 1.day.from_now
+    updated_at 22.day.from_now
+  end
+
+  factory :billing_contact do
+    name "Addy Earles"
+    email "aearles@schurz.com"
+    phone "3174027206"
+    reach_client_id { FactoryGirl.singleton(:reach_client).id }
+    created_at 1.day.from_now
+    updated_at 22.day.from_now
+  end
+
 end

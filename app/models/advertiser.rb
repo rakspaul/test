@@ -3,6 +3,7 @@ class Advertiser < ActiveRecord::Base
 
   belongs_to :network
   belongs_to :data_source
+  belongs_to :advertiser_type
 
   has_many :orders, foreign_key: :network_advertiser_id
   has_many :creatives, foreign_key: :network_advertiser_id
@@ -15,7 +16,12 @@ class Advertiser < ActiveRecord::Base
   end
 
   def self.find_by_name_or_id_or_source_id(search)
-    where("name ilike :name or id = :id or source_id = :id_s", name: "%#{search}%", id: search.to_i, id_s: search)
+    where("network_advertisers.name ilike :name or network_advertisers.id = :id or source_id = :id_s", name: "%#{search}%", id: search.to_i, id_s: search)
+  end
+
+  def self.of_type_advertiser
+    joins(:advertiser_type)
+      .where(advertiser_types: {name: AdvertiserType::ADVERTISER_TYPE})
   end
 
   def create_random_source_id
