@@ -1,0 +1,11 @@
+  json.id blocked_advertiser.try("id")
+  json.site_id blocked_advertiser.try("site_id")
+  json.site_name blocked_advertiser.try("site").try("name")
+  json.advertiser_id blocked_advertiser.try("advertiser_id")
+  json.advertiser_name blocked_advertiser.try("advertiser").try("name")
+  json.state blocked_advertiser.try("state")
+  json.default_block blocked_advertiser.try("default_block")
+
+  json.username blocked_advertiser.try("user").try("full_name")
+  json.updated_at format_datetime(blocked_advertiser.updated_at)
+  json.created_at format_datetime(blocked_advertiser.created_at)

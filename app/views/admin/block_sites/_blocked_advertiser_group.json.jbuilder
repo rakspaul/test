@@ -1,0 +1,11 @@
+  json.id blocked_advertiser_group.try("id")
+  json.site_id blocked_advertiser_group.try("site_id")
+  json.site_name blocked_advertiser_group.try("site").try("name")
+  json.advertiser_group_id blocked_advertiser_group.try("advertiser_group_id")
+  json.advertiser_group_name blocked_advertiser_group.try("advertiser_block").try("name")
+  json.state blocked_advertiser_group.try("state")
+  json.default_block blocked_advertiser_group.try("default_block")
+
+  json.username blocked_advertiser_group.try("user").try("full_name")
+  json.updated_at format_datetime(blocked_advertiser_group.updated_at)
+  json.created_at format_datetime(blocked_advertiser_group.created_at)

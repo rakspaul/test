@@ -7,14 +7,28 @@ class Admin::BlockSitesController < ApplicationController
   add_crumb("Block Sites") {|instance| instance.send :admin_block_sites_path}
 
   def index
-    @blocked_sites = site_blocks(params['type'], params['site_id']) if params['type'].present? && params['site_id'].present?
-    @blocked_sites = blocked_advertiser_sites(params['type'], params['advertiser_id']) if params['type'].present? && params['advertiser_id'].present?
-    @blocked_sites = blocked_advertiser_group_sites(params['type'], params['advertiser_group_id']) if params['type'].present? && params['advertiser_group_id'].present?
-
-    respond_with(@blocked_sites)
   end
 
-  def site_blocks(model, site_ids)
+  def get_blacklisted_advertisers
+    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_block
+    @blacklisted_advertisers = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
+  end
+
+  def get_blacklisted_advertiser_groups
+    @blacklisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_block
+    @blacklisted_advertiser_groups = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiserGroup', params['site_id']) if params['site_id'].present?
+  end
+
+  def get_whitelisted_advertiser
+    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_unblock
+    @whitelisted_advertisers = get_whitelisted_advertiser_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
+  end
+
+  def get_whitelisted_advertiser_groups
+    @whitelisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_unblock
+  end
+
+  def get_blacklisted_advertiser_and_groups_on_site(model, site_ids)
     site_ids = site_ids.split(",").map(&:to_i)
     site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).block_or_pending_block
     blocked_site_ids = site_blocks.pluck("site_id").uniq
@@ -23,26 +37,20 @@ class Admin::BlockSitesController < ApplicationController
     return site_blocks + get_sites_with_no_blocks(model, site_with_no_blocks)
   end
 
-  def blocked_advertiser_sites(model, advertiser_id)
-    advertiser_id = advertiser_id.split(",").map(&:to_i)
+  def get_whitelisted_advertiser_on_site(model, site_ids)
+    site_ids = site_ids.split(",").map(&:to_i)
+    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).unblock_or_pending_unblock
+    blocked_site_ids = site_blocks.pluck("site_id").uniq
+    site_with_no_blocks = site_ids - blocked_site_ids
 
-    blocked_advertiser_sites = model.constantize.of_network(current_network).for_advertiser(advertiser_id).block_or_pending_block
-
-    advertiser_with_blocks = blocked_advertiser_sites.pluck("advertiser_id").uniq
-    #find advertisers who don’t have any block rule (advertisers requested minus advertisers found)
-    advertiser_with_no_blocks = advertiser_id - advertiser_with_blocks
-
-    return blocked_advertiser_sites + get_default_site_blocks_for_advertisers(advertiser_with_no_blocks)
-  end
-
-  def blocked_advertiser_group_sites(model, advertiser_group_id)
-    model.constantize.of_network(current_network).for_advertiser_group(advertiser_group_id.split(",")).block_or_pending_block
+    return site_blocks + get_sites_with_no_blocks(model, site_with_no_blocks)
   end
 
   def create
-    block_advertisers(ActiveSupport::JSON.decode(params['blocked_advertisers'])) if params['blocked_advertisers'].present?
-    block_advertiser_group(ActiveSupport::JSON.decode(params['blocked_advertiser_groups'])) if params['blocked_advertiser_groups'].present?
-    unblock_sites(ActiveSupport::JSON.decode(params['unblocked_sites'])) if params['unblocked_sites'].present?
+    create_blacklisted_advertisers(ActiveSupport::JSON.decode(params['blacklistedAdvertisers'])) if params['blacklistedAdvertisers'].present?
+    create_blacklisted_advertiser_groups(ActiveSupport::JSON.decode(params['blacklistedAdvertiserGroups'])) if params['blacklistedAdvertiserGroups'].present?
+    create_whitelisted_advertisers(ActiveSupport::JSON.decode(params['whitelistedAdvertisers'])) if params['whitelistedAdvertisers'].present?
+    create_whitelisted_advertiser_groups(ActiveSupport::JSON.decode(params['whitelistedAdvertiserGroups'])) if params['whitelistedAdvertiserGroups'].present?
 
     render json: {status: 'success'}
 
@@ -50,44 +58,50 @@ class Admin::BlockSitesController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def block_advertisers(blocked_advertisers)
+  def create_blacklisted_advertisers(advertisers)
     advertisers_for_default_blocks = []
     # if any block rule is not there for advertiser then apply default block.
-    blocked_advertisers.each do |advertiser|
+    advertisers.each do |advertiser|
       if BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser["advertiser_id"]).block_or_pending_block.length < 1
         advertisers_for_default_blocks.push(advertiser["advertiser_id"])
       end
     end
 
-    blocked_advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
+    advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
 
-    blocked_advertisers.each do |advertiser|
+    advertisers.each do |advertiser|
        ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
-       ba.user = current_user
-       ba.network = current_network
        ba.state = BlockedAdvertiser::PENDING_BLOCK
+       ba.user = current_user
        ba.save
     end
   end
 
-  def block_advertiser_group(blocked_advertiser_groups)
-    blocked_advertiser_groups.each do |advertiser_group|
+  def create_blacklisted_advertiser_groups(advertiser_groups)
+    advertiser_groups.each do |advertiser_group|
       bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
-      bag.user = current_user
-      bag.network = current_network
       bag.state = BlockedAdvertiserGroup::PENDING_BLOCK
+      bag.user = current_user
       bag.save
     end
   end
 
-  def unblock_sites(unblocked_sites)
-    unblocked_sites.each do |block|
-      bs = BlockSite.find(block['id'])
-      if bs
-        bs.state = BlockSite::PENDING_UNBLOCK
-        bs.user = current_user
-        bs.save
-      end
+  def create_whitelisted_advertisers(advertisers)
+    advertisers.each do |advertiser|
+       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
+       ba.user = current_user
+       ba.network = current_network
+       ba.state = BlockedAdvertiser::PENDING_UNBLOCK
+       ba.save
+    end
+  end
+
+  def create_whitelisted_advertiser_groups(advertiser_groups)
+    advertiser_groups.each do |advertiser_group|
+      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"],:site_id => advertiser_group["site_id"], :network_id => current_network.id)
+      bag.state = BlockSite::PENDING_UNBLOCK
+      bag.user = current_user
+      bag.save
     end
   end
 
@@ -105,14 +119,14 @@ class Admin::BlockSitesController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def export_sites
+  def export_blacklisted_advertisers_and_groups
     site_ids = params[:site_ids]
 
     if !site_ids.nil?
       blocked_sites = BlockSite.of_network(current_network).block_or_pending_block.where(:site_id => site_ids.split(',')).order(:id)
       bs_export = BlockSitesExport.new(blocked_sites, current_user)
 
-      send_data bs_export.export_to_excel, :filename => bs_export.get_sites_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+      send_data bs_export.export_blacklisted_advertisers_and_groups, :filename => bs_export.get_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
     else
       render json: {status: 'error', message: 'No sites selected to export.'}
     end
@@ -121,29 +135,20 @@ class Admin::BlockSitesController < ApplicationController
       render json: { errors: e.message }, status: :unprocessable_entity
   end
 
-  def export_adv_and_group
-    blocked_type = params[:type]
-    blocked_list = params[:block_list]
-    block_advertiser_and_group_export = BlockAdvertiserAndGroupExport.new(current_user)
+  def export_whitelisted_advertisers
+    site_ids = params[:site_ids]
 
-    if blocked_type == BlockSite::BLOCKED_ADVERTISER && !blocked_list.nil?
-      send_data block_advertiser_and_group_export.export_advertiser(blocked_advertiser_sites(blocked_type, blocked_list)), :filename => block_advertiser_and_group_export.get_adv_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
-    elsif blocked_type == BlockSite::BLOCKED_ADVERTISER_GROUP && !blocked_list.nil?
-      send_data block_advertiser_and_group_export.export_advertiser_group(blocked_advertiser_group_sites(blocked_type, blocked_list)), :filename => block_advertiser_and_group_export.get_adv_group_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+    if !site_ids.nil?
+      blocked_sites = BlockedAdvertiser.of_network(current_network).unblock_or_pending_unblock.where(:site_id => site_ids.split(',')).order(:id)
+      bs_export = BlockSitesExport.new(blocked_sites, current_user)
+
+      send_data bs_export.export_whitelisted_advertisers, :filename => bs_export.get_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
     else
-      render json: {status: 'error', message: 'No advertisers and groups selected to export.'}
+      render json: {status: 'error', message: 'No sites selected to export.'}
     end
 
   rescue => e
-     render json: { errors: e.message }, status: :unprocessable_entity
-  end
-
-  def commit_summary
-    model = params['type']
-    if params['type'].present? && params['state'].present?
-      @site_blocks = model.constantize.of_network(current_network).joins(:site).where(user: current_user).where(state: params['state'].split(",")).order('Sites.name asc')
-      respond_with(@site_blocks)
-    end
+      render json: { errors: e.message }, status: :unprocessable_entity
   end
 
   def advertisers_with_default_blocks
@@ -168,18 +173,6 @@ private
     rmq.close
   rescue => e
     Rails.logger.warn "Block Site error: #{e.message.inspect}"
-  end
-
-  def get_sites_file
-    "#{current_user.network.name}_Block_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
-  end
-
-  def get_adv_file
-    "#{current_user.network.name}_Block_Advertisers_#{Date.today.strftime('%Y-%m-%d')}.xls"
-  end
-
-  def get_adv_group_file
-    "#{current_user.network.name}_Block_Advertisers_group_#{Date.today.strftime('%Y-%m-%d')}.xls"
   end
 
   # this function will take advertisers ids as parameter and will apply default blocks to them.

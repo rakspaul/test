@@ -65,3 +65,4 @@
 //= require ./admin/block_sites_controller.js
 //= require ./admin/blocked_advertisers.js
 //= require ./admin/default_block_list.js
+//= require ./admin/block_tool_components.js
