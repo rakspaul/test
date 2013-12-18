@@ -13,6 +13,14 @@ describe IOPdfFileReader do
       subject.advertiser_name.should == "Chick-Fil-A"
     end
 
+    it "has correct campaign name" do
+      subject.order[:name].should == "Chick-Fil-A_Denver Breakfast 2013_9/14-9/28"
+    end
+
+    it "has correct campaign IO number" do
+      subject.client_order_id.should == 169905
+    end
+
     it "has start flight dates" do
       subject.start_flight_date.should == Date.strptime("09/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
     end
@@ -70,8 +78,20 @@ describe IOPdfFileReader do
     end
   end
 
+  context "opened io pdf file with campaign name spread between multiple lines" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'IO_campaign_name_multiple_lines.pdf')) }
+
+    before do
+      FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
+    end
+
+    it "properly reads campaign name" do
+      subject.order[:name].should == "Temecula Valley CVB_LA&Orange County_11/27- 1/4/14"
+    end
+  end
+
   context "opened io pdf file with 3 lineitems on different pages" do
-   subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
 
     before do
       FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
