@@ -15,7 +15,7 @@ class NielsenAdGroupPricingService
         nielsen_pricing.cpp = ocr_lineitem['cpp'].to_f
         nielsen_pricing.trp = ocr_lineitem['trp'].to_f
 
-        lineitem.save!
+        lineitem.save!(validate: false)
       end
     end
   end
@@ -24,7 +24,7 @@ class NielsenAdGroupPricingService
     def find_or_build_by_alt_ad_id(alt_ad_id)
       lineitem = @order.lineitems.where(name: alt_ad_id).first
       if lineitem.nil?
-        ads = @order.ads.where(alt_ad_id: alt_ad_id).select('id, start_date, end_date, size').includes(:ad_pricing)
+        ads = @order.ads.where(alt_ad_id: alt_ad_id).includes(:ad_pricing)
         lineitem = build_lineitem(alt_ad_id, ads) unless ads.empty?
       else
         # unassign ads that no longer have alt_ad_id same as lineitem
