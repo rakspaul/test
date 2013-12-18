@@ -43,6 +43,7 @@
 
   <% if(lineitem.notes) { %>
   <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>>&nbsp;</span>
+  <div style="clear:both"></div>
   <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
     <%= lineitem.notes %><span class="close-btn">&nbsp;</span>
   </span>
