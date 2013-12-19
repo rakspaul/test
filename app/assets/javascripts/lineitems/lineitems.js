@@ -190,7 +190,9 @@
         },
         success: function(response, newValue) {
           if (view.model.type = 'Video') {
-            view.model.set('companion_ad_size', newValue.join(', '));
+            var value = newValue.join(', ');
+            view.model.set('companion_ad_size', value);
+            view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + value);
           } else {
             view.model.set('ad_sizes', newValue.join(', '));
           }
