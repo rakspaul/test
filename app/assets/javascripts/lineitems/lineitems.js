@@ -346,6 +346,13 @@
       this.trigger('lineitem:add_ad', { "type": type });
     },
 
+    _changeMediaType: function(ev) {
+      var type = $(ev.currentTarget).data('type');
+      this.model.set('type', type)
+      console.log(this.model.get('type'));
+      console.log(type);
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -357,7 +364,8 @@
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
-      'click .li-add-ad-btn': '_addTypedAd'
+      'click .li-add-ad-btn': '_addTypedAd',
+      'click .change-media-type': '_changeMediaType'
     },
 
     triggers: {

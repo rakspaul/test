@@ -35,7 +35,18 @@
 </div>
 
 <div class="pure-u-1-6">
-  <span><span class="video-icon pull-left"></span><span class="ads-sizes">Pre-roll
+  <span>
+    <div class="dropdown">
+      <div class="video-icon pull-left" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+      </div>
+      <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
+      </ul>
+    </div>
+    <span class="ads-sizes">Pre-roll
     <% if (lineitem.companion_ad_size) { %>
     with Companion <%= lineitem.companion_ad_size %>
     <% } %>
