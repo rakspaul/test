@@ -347,6 +347,7 @@ $wide_input_width: 480px;
       
       &:hover {
         border: 2px dashed $bg_color;
+        @include box-sizing(border-box);
       }
 
       .number {
