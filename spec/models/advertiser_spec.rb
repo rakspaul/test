@@ -8,7 +8,7 @@ describe Advertiser do
   it { should have_many(:orders).with_foreign_key(:network_advertiser_id) }
   it { should have_many(:creatives).with_foreign_key(:network_advertiser_id) }
 
-  describe "default scope" do
+  describe "search by advertiser type" do
     let(:advertiser_type) { FactoryGirl.create(:advertiser_type) }
 
     before do
@@ -21,7 +21,7 @@ describe Advertiser do
     end
 
     it "should only return advertisers of type ADVERTISER" do
-      adv = Advertiser.all
+      adv = Advertiser.of_type_advertiser.all
       adv.size.should == 1
       adv.first.advertiser_type.should == advertiser_type
     end
