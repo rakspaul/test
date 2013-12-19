@@ -292,6 +292,39 @@ $wide_input_width: 480px;
       }
     }
 
+    .name .expand-notes {
+      background: url(asset-path('activity_log_icon.png')) 0 0 no-repeat;
+      width: 16px;
+      height: 16px;
+      float: none;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .name .notes {
+      margin-top:10px;
+      float: left;
+
+      .close-btn {
+        background: url(asset-path('x_btn.png')) 0 0 no-repeat;
+        width: 18px;
+        height: 18px;
+        float: none;
+        cursor: pointer;
+        display: inline-block;
+      }
+    }
+
+    
+
+    .name .notes:before {
+      content: url(asset-path('activity_log_icon.png'));
+      width: 16px;
+      height: 16px;
+      float: left;
+      margin-right: 5px;
+    }
+
     .li-number {
       text-align:center;
       color:white;
@@ -504,6 +537,9 @@ $wide_input_width: 480px;
 }
 
 .custom-kv-icon {
+  content: url(asset-path('custom_kv_icon.png'));
+  width: 16px;
+  height: 16px;
   float: left;
 }
 
@@ -817,7 +853,7 @@ table.creatives-content {
     }
 
     &:before {
-      content: url(asset-path('activity_log_icon.png')) 0px 0px no-repeat;
+      content: url(asset-path('activity_log_icon.png'));
       width: 16px;
       height: 16px;
       float: left;
@@ -826,14 +862,14 @@ table.creatives-content {
   }
 
   .attachment-btn:before {
-    content: url(asset-path('attachment_icon.png')) 0px 0px no-repeat;
+    content: url(asset-path('attachment_icon.png'));
     width: 14px;
     height: 16px;
     margin-right: 5px;
   }
 
   .cox-creatives-btn:before {
-    content: url(asset-path('upload_creatives_btn.png')) 0px 0px no-repeat;
+    content: url(asset-path('upload_creatives_btn.png'));
     width: 16px;
     height: 16px;
     position: relative;
@@ -842,7 +878,7 @@ table.creatives-content {
   }
 
   .notify-by-email:before {
-    content: url(asset-path('email_icon.png')) 0px 0px no-repeat;
+    content: url(asset-path('email_icon.png'));
     width: 16px;
     height: 12px;
     float: left;
@@ -882,9 +918,9 @@ table.creatives-content {
       }
 
       .remove-btn {
-        background: url(asset-path('remove_tgt_btn.png')) no-repeat;
-        width: 16px;
-        height: 16px;
+        background: url(asset-path('x_btn.png')) no-repeat;
+        width: 18px;
+        height: 18px;
         float: right;
         margin-left: 3px;
         cursor: pointer;
@@ -910,7 +946,7 @@ table.creatives-content {
     }
     
     .add-user-to-notify-list-btn, .close-users-notify-list-btn {
-      content: url(asset-path('x_btn.png')) 0px 0px no-repeat;
+      content: url(asset-path('x_btn.png'));
       margin-right: 4px;
       width: 18px;
       height: 18px;

@@ -575,7 +575,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var type = args.type || li_view.model.get('type');
       var ad_name = ordersController._generateAdName(li);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({

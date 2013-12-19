@@ -87,6 +87,7 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       this.creatives_visible = {};
+      this.li_notes_collapsed = false;
 
       if(! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
@@ -340,6 +341,26 @@
       this.trigger('lineitem:add_ad', { "type": type });
     },
 
+    serializeData: function(){
+      var data = this.model.toJSON();
+      data.li_notes_collapsed = this.li_notes_collapsed;
+      return data;
+    },
+
+    collapseLINotes: function(e) {
+      this.li_notes_collapsed = true;
+      this.$el.find('.name .notes').hide();
+      this.$el.find('.expand-notes').show();
+      this.render();
+    },
+
+    expandLINotes: function(e) {
+      this.li_notes_collapsed = false;
+      this.$el.find('.name .notes').show();
+      this.$el.find('.expand-notes').hide();
+      this.render();
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -351,7 +372,9 @@
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
-      'click .li-add-ad-btn': '_addTypedAd'
+      'click .li-add-ad-btn': '_addTypedAd',
+      'click .name .notes .close-btn': 'collapseLINotes',
+      'click .name .expand-notes': 'expandLINotes'
     },
 
     triggers: {

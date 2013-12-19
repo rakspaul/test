@@ -256,7 +256,7 @@ class IOReader
   def parse_ad_sizes(str, type)
     case type 
     when 'Display'
-      str    
+      str.scan(AD_SIZE_REGEXP).join(', ')
     when 'Video'
       ([ Video::DEFAULT_MASTER_ADSIZE ] +
         str.scan(AD_SIZE_REGEXP).select{ |size| !size.match(/#{Video::DEFAULT_MASTER_ADSIZE}/i) }).join(',')
@@ -522,6 +522,10 @@ class IOPdfFileReader < IOReader
     }
   end
 
+  def client_order_id
+    @order_id.to_i
+  end
+
   def order
     {
       name: @order_name.to_s.strip
@@ -546,6 +550,7 @@ class IOPdfFileReader < IOReader
         ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: li[:name].to_s.strip,
         volume: li[:impressions].to_i,
+        notes: "Proposal lineitem ID: #{li[:li_id]}. " + li[:notes].to_s.strip,
         rate: li[:rate].to_f,
         type: type
       })
@@ -585,7 +590,16 @@ private
       left_of /frequency/i
       right_of /campaign name/i
     end
-    @order_name = textangle.text[0][0]
+    @order_name = textangle.text.try(:join, ' ')
+
+    textangle = @reader.bounding_box do
+      page 1
+      below /campaign name/i
+      above /io version number/i
+      left_of /billing contact/i
+      right_of /campaign io number/i
+    end
+    @order_id = textangle.text.try(:join, '')
 
     textangle = @reader.bounding_box do
       page 1
@@ -643,11 +657,14 @@ private
 
   def search_for_dates
     dates = []
-    @raw_reader.pages.count.times do |i|
+    total_pages = @raw_reader.pages.count
+
+    total_pages.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
         below /Start/
         right_of /site:/i
+        above(/Contracts Totals/) if (i+1) == total_pages
       end
       dates += textangle.text
     end

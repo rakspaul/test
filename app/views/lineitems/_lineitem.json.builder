@@ -17,3 +17,4 @@ if lineitem.video?
   json.master_ad_size    lineitem.master_ad_size
   json.companion_ad_size lineitem.companion_ad_size
 end
+json.notes              lineitem.try(:notes)
