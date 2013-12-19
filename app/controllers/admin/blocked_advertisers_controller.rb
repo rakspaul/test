@@ -71,10 +71,13 @@ private
     advertiser_ids.each do |id|
       advertiser = Advertiser.find(id)
       if advertiser
-        default_sites.each do |site|
-          # default_block = true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
-          ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => site.site, :default_block => true)
-          advertiser_with_default_blocks.push(ba)
+        default_sites.each do |default_site|
+          advertiser_whitelisted = BlockedAdvertiser.of_network(current_network).where(:advertiser => advertiser, :site => default_site.site).unblock_or_pending_unblock.first
+          if !advertiser_whitelisted
+            # default_block => true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
+            ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => default_site.site, :default_block => true)
+            advertiser_with_default_blocks.push(ba)
+          end
         end
       end
     end

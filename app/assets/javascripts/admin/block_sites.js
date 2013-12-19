@@ -460,7 +460,7 @@
 
     serializeData: function() {
       return {
-        pending_block_indicator : this.model.get('state') == "PENDING_BLOCK" ? ' * ': '',
+        pending_block_indicator : (this.model.get('state') == "PENDING_BLOCK" || this.model.get('state') == "PENDING_UNBLOCK")? ' * ': '',
         default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
         advertiser_name : this.model.get('advertiser_name')
       }
