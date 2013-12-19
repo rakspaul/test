@@ -107,7 +107,7 @@ ReachUI.alignAdsDivs = function() {
 // align height of lineitem's li-number div
 ReachUI.alignLINumberDiv = function() {
   _.each($('.lineitem'), function(li) {
-    var height = _.max(_.map($(li).children('div[class^="pure-u-"]'), function(col) {
+    var height = _.max(_.map($(li).find('div div[class^="pure-u-"]'), function(col) {
       return $(col).outerHeight();
     }));
     $(li).find('.li-number').css('height', height +'px');

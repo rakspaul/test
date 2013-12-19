@@ -277,6 +277,20 @@ $wide_input_width: 480px;
     }
   }
 
+  .copy-targeting-btn, .paste-targeting-btn {
+    border: 1px dashed $bg_color;
+    float: left;
+    padding: 4px;
+    color: $text_color;
+    cursor: pointer;
+    letter-spacing: 0px;
+    margin-bottom: 7px;
+  }
+
+  .paste-targeting-btn {
+    margin-left: 10px;
+  }
+
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;
@@ -330,6 +344,20 @@ $wide_input_width: 480px;
       color:white;
       font-weight:bold;
       background: $li_number_bg;
+      
+      &:hover {
+        border: 2px dashed $bg_color;
+      }
+
+      .number {
+        display: inline-block;
+        padding: 10px;
+      }
+
+      .number.selected {
+        border: 2px dashed white;
+        border-radius: 22px;
+      }
     }
 
     .number-field {

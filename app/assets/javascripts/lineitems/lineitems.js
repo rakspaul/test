@@ -363,6 +363,25 @@
       this.render();
     },
 
+    _toggleLISelection: function() {
+      this.selected = true;
+      this.$el.find('.li-number .number').toggleClass('selected');
+      this.$el.find('.copy-targeting-btn').toggle();
+      if(window.copied_targeting) {
+        this.$el.find('.paste-targeting-btn').show();
+      }
+    },
+
+    copyTargeting: function() {
+      window.copied_targeting = this.model.get('targeting');
+      noty({text: 'Targeting copied', type: 'success', timeout: 3000});
+    },
+
+    pasteTargeting: function() {
+      this.model.set('targeting', window.copied_targeting);
+      this.render();
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -376,7 +395,10 @@
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
       'click .li-add-ad-btn': '_addTypedAd',
       'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes'
+      'click .name .expand-notes': 'expandLINotes',
+      'click .li-number': '_toggleLISelection',
+      'click .copy-targeting-btn': 'copyTargeting',
+      'click .paste-targeting-btn': 'pasteTargeting'
     },
 
     triggers: {
