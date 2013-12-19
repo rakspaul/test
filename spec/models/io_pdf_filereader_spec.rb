@@ -70,8 +70,8 @@ describe IOPdfFileReader do
 
         li[:start_date].should == Date.strptime("9/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
-        li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver _300x250,160x600,728x90_9/14-9/28"
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver _300x250,160x600,728x90_9/14-9/28 - 269771556"
         li[:volume].should == 10350
         li[:rate].should == 0.01
       end
@@ -124,11 +124,11 @@ describe IOPdfFileReader do
 
         li[:start_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
-        li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "Canceled_Run of News, Business, and Technology & Computing"
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "Canceled_Run of News, Business, and Technology & Computing - 249147746"
         li[:volume].should == 1
         li[:rate].should == 4.00
-        li[:notes].should == "Proposal lineitem ID: 249147746. Run of News, Business, and Technology & Computing vertical site lists"
+        li[:notes].should == "Run of News, Business, and Technology & Computing vertical site lists"
       end
 
       it "has second lineitem with correct options" do
@@ -136,11 +136,11 @@ describe IOPdfFileReader do
 
         li[:start_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
-        li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "Canceled_LexisNexis Custom Audience Segment_300x250, 160x600, 728x90"
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "Canceled_LexisNexis Custom Audience Segment_300x250, 160x600, 728x90 - 249147756"
         li[:volume].should == 1
         li[:rate].should == 5.50
-        li[:notes].should == "Proposal lineitem ID: 249147756. Management and Business #2081, Sales and Sales Management #3281, Management #1146281, Sales #1151181, Account Management #1151281, Exec/Upper Management #1220981, Sales & Marketing #1222681, Sales #1382781, Executive #1384581, Management #1384981, Management #1796581, Sales/Marketing #1796781, Management #1829781, Sales & Marketing #1829981, Sales Leadership #1832781, Management & Corporate Operations #1927581, Management and Business #1989981, Sales and Sales Management #1990181, Executive #2019881"
+        li[:notes].should == "Management and Business #2081, Sales and Sales Management #3281, Management #1146281, Sales #1151181, Account Management #1151281, Exec/Upper Management #1220981, Sales & Marketing #1222681, Sales #1382781, Executive #1384581, Management #1384981, Management #1796581, Sales/Marketing #1796781, Management #1829781, Sales & Marketing #1829981, Sales Leadership #1832781, Management & Corporate Operations #1927581, Management and Business #1989981, Sales and Sales Management #1990181, Executive #2019881"
       end
 
       it "has third lineitem with correct options" do
@@ -148,11 +148,11 @@ describe IOPdfFileReader do
 
         li[:start_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/3/2013", IOReader::DATE_FORMAT_WITH_SLASH)
-        li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "Canceled_Retargeting_300x250, 160x600, 728x90"
+        li[:ad_sizes].should == "160x600,300x250,728x90"
+        li[:name].should == "Canceled_Retargeting_300x250, 160x600, 728x90 - 249147766"
         li[:volume].should == 1
         li[:rate].should == 1.50
-        li[:notes].should == "Proposal lineitem ID: 249147766. "
+        li[:notes].should == ""
       end
     end
   end

@@ -548,9 +548,9 @@ class IOPdfFileReader < IOReader
         start_date: parse_date(li[:start_date]),
         end_date: parse_date(li[:end_date]),
         ad_sizes: parse_ad_sizes(ad_sizes, type),
-        name: li[:name].to_s.strip,
+        name: li[:name].to_s.strip + " - #{li[:li_id]}",
         volume: li[:impressions].to_i,
-        notes: "Proposal lineitem ID: #{li[:li_id]}. " + li[:notes].to_s.strip,
+        notes: li[:notes].to_s.strip,
         rate: li[:rate].to_f,
         type: type
       })
@@ -599,7 +599,7 @@ private
       left_of /billing contact/i
       right_of /campaign io number/i
     end
-    @order_id = textangle.text.try(:join, '')
+    @order_id = textangle.text.flatten.select{|o| o.match(/^\d+$/)}.try(:join, '')
 
     textangle = @reader.bounding_box do
       page 1
@@ -696,7 +696,7 @@ private
       textangle = @reader.bounding_box do
         page (i+1)
         below /End/
-        left_of /site:/i
+        left_of /site:|section:/i
       end
       placements += textangle.text
     end
