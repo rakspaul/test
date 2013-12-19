@@ -409,6 +409,10 @@ $wide_input_width: 480px;
         padding: 3px 10px;
       }
     }
+
+    > div.lineitem-sizes .editable, > div.li-sizes .editable{
+      padding-right: 7px;
+    }
   }
 
   .start-date .editable, .end-date .editable {
