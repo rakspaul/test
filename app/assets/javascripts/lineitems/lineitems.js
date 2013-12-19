@@ -364,22 +364,52 @@
     },
 
     _toggleLISelection: function() {
-      this.selected = true;
       this.$el.find('.li-number .number').toggleClass('selected');
+      this.selected = this.$el.find('.li-number .number').hasClass('selected');
       this.$el.find('.copy-targeting-btn').toggle();
+
+      if(window.selected_lis === undefined) {
+        window.selected_lis = [];
+      }
+      if(this.selected) {
+        window.selected_lis.push(this); // add current LI to selected LIs
+      } else {
+        window.selected_lis.splice(this, 1); // remove current LI from selected LIs
+      }
+
       if(window.copied_targeting) {
-        this.$el.find('.paste-targeting-btn').show();
+        $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').show();
       }
     },
 
     copyTargeting: function() {
       window.copied_targeting = this.model.get('targeting');
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
+      this._deselectAllLIs();
+    },
+
+    _deselectAllLIs: function() {
+      var self = this;
+      $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+      _.each(window.selected_lis, function(li) {
+        li.selected = false;
+        li.$el.find('.li-number .number').removeClass('selected');
+        li.render();
+      });
+      window.selected_lis = [];
     },
 
     pasteTargeting: function() {
-      this.model.set('targeting', window.copied_targeting);
-      this.render();
+      _.each(window.selected_lis, function(li) {
+        li.model.set('targeting', window.copied_targeting);
+        li.render();
+      });
+    },
+
+    cancelTargeting: function() {
+      this._deselectAllLIs();
+      window.copied_targeting = null;
     },
 
     ui: {
@@ -398,7 +428,8 @@
       'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
       'click .copy-targeting-btn': 'copyTargeting',
-      'click .paste-targeting-btn': 'pasteTargeting'
+      'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting'
     },
 
     triggers: {

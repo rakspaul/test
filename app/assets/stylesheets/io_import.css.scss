@@ -277,7 +277,7 @@ $wide_input_width: 480px;
     }
   }
 
-  .copy-targeting-btn, .paste-targeting-btn {
+  .copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn {
     border: 1px dashed $bg_color;
     float: left;
     padding: 4px;
@@ -287,7 +287,7 @@ $wide_input_width: 480px;
     margin-bottom: 7px;
   }
 
-  .paste-targeting-btn {
+  .paste-targeting-btn, .cancel-targeting-btn {
     margin-left: 10px;
   }
 
