@@ -2,6 +2,8 @@
   <h4>Targeting options
   <% if (type == 'Mobile') { %>
     <span class="mobile-targeting">*Targeting options added for mobile ads will not push to DFP</span>
+  <% } else if (type == 'Facebook') { %>
+    <span class="mobile-targeting">*Targeting options added for FB ads will not push to DFP</span>
   <% } %>
   </h4>
 
