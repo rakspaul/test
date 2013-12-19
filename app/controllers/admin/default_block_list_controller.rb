@@ -13,7 +13,7 @@ class Admin::DefaultBlockListController < ApplicationController
 
   def create
     create_new_site_blocks(ActiveSupport::JSON.decode(params['newSiteBlocks'])) if params['newSiteBlocks'].present?
-    delete_new_site_blocks(ActiveSupport::JSON.decode(params['siteBlocksToDelete'])) if params['siteBlocksToDelete'].present?
+    delete_site_blocks(ActiveSupport::JSON.decode(params['siteBlocksToDelete'])) if params['siteBlocksToDelete'].present?
 
     render json: {status: 'success'}
 
@@ -25,11 +25,11 @@ class Admin::DefaultBlockListController < ApplicationController
     sites.each do |site|
       dsb = DefaultSiteBlocks.find_or_initialize_by(:site_id => site["site_id"], :network_id => current_network.id)
       dsb.user = current_user
-      dsb.save
+      block_advertisers_on_site(dsb.site_id) if dsb.save
     end
   end
 
-  def delete_new_site_blocks(sites)
+  def delete_site_blocks(sites)
     sites.each do |site|
       dsb = DefaultSiteBlocks.find(site['id'])
       if dsb
@@ -75,18 +75,29 @@ class Admin::DefaultBlockListController < ApplicationController
   end
 
   private
-    def create_sheet
-      Spreadsheet.client_encoding = 'UTF-8'
 
-      @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
-      @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
-
-      @book = Spreadsheet::Workbook.new
-      @sheet = @book.create_worksheet :name => "Default Blocked Sites"
+  def block_advertisers_on_site(site_id)
+    blocked_advertisers = BlockedAdvertiser.select(:advertiser_id).of_network(current_network).block_or_pending_block.distinct
+    blocked_advertisers.each do |blocked_advertiser|
+      ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => blocked_advertiser.advertiser_id,:site_id => site_id, :network_id => current_network.id)
+      ba.state = BlockedAdvertiser::PENDING_BLOCK
+      ba.user = current_user
+      ba.save
     end
+  end
 
-    def get_default_block_site_name
-      "#{@current_user.network.name}_Default_Blocked_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
-    end
+  def create_sheet
+    Spreadsheet.client_encoding = 'UTF-8'
+
+    @format = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 10
+    @format_color = Spreadsheet::Format.new :color => :black, :weight => :bold, :size => 11, :pattern_fg_color => :Gray, :pattern => 2
+
+    @book = Spreadsheet::Workbook.new
+    @sheet = @book.create_worksheet :name => "Default Blocked Sites"
+  end
+
+  def get_default_block_site_name
+    "#{@current_user.network.name}_Default_Blocked_Sites_#{Date.today.strftime('%Y-%m-%d')}.xls"
+  end
 
 end
