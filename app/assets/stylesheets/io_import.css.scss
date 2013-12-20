@@ -291,6 +291,10 @@ $wide_input_width: 480px;
     margin-left: 10px;
   }
 
+  .lineitem.highlighted {
+    background-color: yellow;
+  }
+
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;

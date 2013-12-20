@@ -110,6 +110,8 @@
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
+      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
@@ -364,6 +366,11 @@
     },
 
     _toggleLISelection: function() {
+      // if there is no copied targeting then exclusive select, otherwise accumulative
+      if(!window.copied_targeting) {
+        this._deselectAllLIs({'except_current': true});
+      }
+
       this.$el.find('.li-number .number').toggleClass('selected');
       this.selected = this.$el.find('.li-number .number').hasClass('selected');
       this.$el.find('.copy-targeting-btn').toggle();
@@ -379,7 +386,7 @@
 
       if(window.copied_targeting) {
         $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').show();
+        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
       }
     },
 
@@ -389,21 +396,29 @@
       this._deselectAllLIs();
     },
 
-    _deselectAllLIs: function() {
+    _deselectAllLIs: function(options) {
       var self = this;
-      $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-      _.each(window.selected_lis, function(li) {
+      if(options && options['except_current']) {
+        var lis_to_deselect = _.filter(window.selected_lis, function(el) {return el != self});
+      } else {
+        var lis_to_deselect = window.selected_lis;
+      }
+
+      _.each(lis_to_deselect, function(li) {
         li.selected = false;
         li.$el.find('.li-number .number').removeClass('selected');
+        li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
         li.render();
       });
       window.selected_lis = [];
     },
 
     pasteTargeting: function() {
+      noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
       _.each(window.selected_lis, function(li) {
         li.model.set('targeting', window.copied_targeting);
         li.render();
+        li.$el.addClass('highlighted');
       });
     },
 
