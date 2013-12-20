@@ -106,6 +106,7 @@ class IoImport
         li.order = @order
         li.user = @current_user
         li.media_type = media_type
+        li.keyvalue_targeting = Mobile::DEFAULT_TARGETING if lineitem[:type] == 'Mobile'
         @lineitems << li
       end
     end
