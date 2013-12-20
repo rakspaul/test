@@ -703,7 +703,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           li.set('itemIndex', itemIndex);
           itemIndex += 1;
 
-          li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes, type: li_view.model.get('type')}));
+          li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li_view.model.get('keyvalue_targeting'), type: li_view.model.get('type')}));
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
         });
