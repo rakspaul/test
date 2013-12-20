@@ -396,7 +396,8 @@
               start_date: ' > .start-date',
               end_date:   ' > .end-date',
               name:       ' .name',
-              volume:     ' .volume'
+              volume:     ' .volume',
+              ad_sizes:   ' .li-sizes, .lineitem-sizes'
             },
             ads: {
               start_date:  ' .start-date',
