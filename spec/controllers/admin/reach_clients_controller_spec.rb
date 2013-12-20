@@ -40,44 +40,24 @@ describe Admin::ReachClientsController do
   end
 
   describe "POST 'create'" do
-    context "post with valid params" do
-      it "creates a new reach client" do
-        expect{
-          post :create, valid_params
-          }.to change(ReachClient,:count).by(1)
-      end
+    it "creates new reach client" do
+      expect{
+        post :create, valid_params
+        }.to change(ReachClient,:count).by(1)
     end
 
-    context "post with invalid params" do
-      let(:params) { invalid_params }
+    it "checks validation errors" do
+      post :create, invalid_params
+      data = json_parse(response.body)
 
-      it "checks validation errors" do
-        post :create, invalid_params
-        data = json_parse(response.body)
-
-        expect(data[:errors]).to include(:name)
-        expect(data[:errors]).to include(:abbr)
-        expect(data[:errors]).to include(:sales_person_id)
-        expect(data[:errors]).to include(:account_manager_id)
-      end
+      expect(data[:errors]).to include(:name)
+      expect(data[:errors]).to include(:abbr)
+      expect(data[:errors]).to include(:sales_person_id)
+      expect(data[:errors]).to include(:account_manager_id)
     end
   end
 
   describe "PUT 'update'" do
-    context "update with valid params" do
-      let(:params) { valid_params }
-
-      before do
-        params[:id] = reach_client.id
-        params[:reachClient].merge! media_billing_params[:reachClient]
-      end
-
-      it "updates reach client" do
-        put :update, params
-        assigns(:reach_client).should eq(reach_client)
-      end
-    end
-
     context "updates with diff params" do
       let(:params) { diff_attr_params }
 
@@ -86,7 +66,7 @@ describe Admin::ReachClientsController do
         params[:reachClient].merge! diff_media_billing_params[:reachClient]
       end
 
-      it "updates reach client with diff attr" do
+      it "checks reach client update" do
         put :update, params
 
         assigns(:reach_client).name.should eq(params[:reachClient][:name])
@@ -98,7 +78,7 @@ describe Admin::ReachClientsController do
       end
     end
 
-    context "update with invalid params" do
+    context "updates with invalid params" do
       let(:params) { invalid_params }
 
       before do
@@ -119,7 +99,6 @@ describe Admin::ReachClientsController do
       end
     end
   end
-end
 
 private
   def valid_params
@@ -149,10 +128,10 @@ private
   def diff_attr_params
     params = {
       reachClient: {
-        name: "_#{reach_client.name}",
-        abbr: "_#{reach_client.abbr}",
-        sales_person_id: 2,
-        account_manager_id: 2,
+        name: Faker::Lorem.word,
+        abbr: Faker::Lorem.word,
+        sales_person_id: rand(1000..2000),
+        account_manager_id: rand(1000..2000),
       }
     }
     { :format => 'json' }.merge params
@@ -179,8 +158,9 @@ private
   def diff_media_billing_params
     params = {
       reachClient:{
-        media_contact_id: 2,
-        billing_contact_id: 2
+        media_contact_id: rand(1000..2000),
+        billing_contact_id: rand(1000..2000)
       }
     }
   end
+end

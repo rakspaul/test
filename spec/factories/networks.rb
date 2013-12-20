@@ -5,9 +5,10 @@ FactoryGirl.define do
   end
 
   factory :network do
-    id 81
+    id 6
     name "Test network"
     data_source
+    net_prefix "cm"
   end
 
   factory :ad_size do
