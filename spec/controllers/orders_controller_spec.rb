@@ -198,6 +198,16 @@ describe OrdersController do
         post :create, params
         expect(Ad.last.media_type_id).to eq(media_type.id)
       end
+
+      it "create ad with SPONSORSHIP ad type for mobile ad" do
+        params['order']['lineitems'].each do |li|
+          li['ads'].each do |ad|
+            ad['ad']['type'] = 'Mobile'
+          end
+        end
+        post :create, params
+        expect(Ad.last.ad_type).to eq('SPONSORSHIP')
+      end
     end
   end
 

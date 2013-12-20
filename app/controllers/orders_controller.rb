@@ -387,7 +387,8 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
-          media_type_id = @media_types[ad[:ad].delete(:type)]
+          media_type   = ad[:ad].delete(:type)
+          media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
           [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
 
@@ -402,7 +403,7 @@ private
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
-          ad_object.ad_type  = "STANDARD"
+          ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
 
@@ -536,7 +537,8 @@ private
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
-          media_type_id = @media_types[ad[:ad].delete(:type)]
+          media_type   = ad[:ad].delete(:type)
+          media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -550,7 +552,7 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
-          ad_object.ad_type   = "STANDARD"
+          ad_object.ad_type   = ([ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD')
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
