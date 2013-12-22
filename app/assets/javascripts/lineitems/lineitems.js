@@ -390,8 +390,17 @@
       }
     },
 
-    copyTargeting: function() {
-      window.copied_targeting = this.model.get('targeting');
+    copyTargeting: function(e) {
+      e.stopPropagation();
+      var li_t = this.model.get('targeting');
+      window.copied_targeting = new ReachUI.Targeting.Targeting({
+        selected_key_values: _.clone(li_t.get('selected_key_values')),
+        selected_dmas: _.clone(li_t.get('selected_dmas')),
+        dmas_list: _.clone(li_t.get('dmas_list')),
+        selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
+        audience_groups: _.clone(li_t.get('audience_groups')),
+        keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
+      });
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
       this._deselectAllLIs();
     },
@@ -408,23 +417,25 @@
         li.selected = false;
         li.$el.find('.li-number .number').removeClass('selected');
         li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        li.render();
+        li.renderTargetingDialog();
       });
       window.selected_lis = [];
     },
 
-    pasteTargeting: function() {
+    pasteTargeting: function(e) {
+      e.stopPropagation();
       noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
       _.each(window.selected_lis, function(li) {
         li.model.set('targeting', window.copied_targeting);
-        li.render();
+        li.renderTargetingDialog();
         li.$el.addClass('highlighted');
       });
     },
 
-    cancelTargeting: function() {
-      this._deselectAllLIs();
+    cancelTargeting: function(e) {
+      e.stopPropagation();
       window.copied_targeting = null;
+      this._deselectAllLIs();
     },
 
     ui: {
