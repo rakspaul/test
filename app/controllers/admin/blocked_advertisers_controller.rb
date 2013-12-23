@@ -70,12 +70,13 @@ private
 
     advertiser_ids.each do |id|
       advertiser = Advertiser.find(id)
+      default_block = !is_unblocked_on_default_blocks(id, default_sites)
       if advertiser
         default_sites.each do |default_site|
           advertiser_whitelisted = BlockedAdvertiser.of_network(current_network).where(:advertiser => advertiser, :site => default_site.site).unblock_or_pending_unblock.first
           if !advertiser_whitelisted
             # default_block => true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
-            ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => default_site.site, :default_block => true)
+            ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => default_site.site, :default_block => default_block)
             advertiser_with_default_blocks.push(ba)
           end
         end
@@ -83,6 +84,15 @@ private
     end
 
     return advertiser_with_default_blocks
+  end
+
+  def is_unblocked_on_default_blocks (advertiser_id, default_sites)
+    unblocked_advertisers_on_default_sites_count = BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser_id, :site_id => default_sites.pluck("site_id")).unblock_or_pending_unblock.count
+    default_block = false
+    if unblocked_advertisers_on_default_sites_count > 0
+      default_block = true
+    end
+    return default_block
   end
 
   def get_advertiser_groups_with_no_blocks(advertiser_group_ids)

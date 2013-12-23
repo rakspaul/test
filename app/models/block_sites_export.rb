@@ -112,7 +112,7 @@ class BlockSitesExport
       adv_data = sheet.row(row_no)
       adv_data[col_no] = adv
     end
-    return row_no;
+    return bs['adv_name'].length + 1;
   end
 
   def write_advertiser_groups(format, sheet, bs, adv_header_row, row_no, col_no)
@@ -124,7 +124,7 @@ class BlockSitesExport
       adv_grp_data = sheet.row(row_no)
       adv_grp_data[col_no] = adv_grp
     end
-    return row_no;
+    return bs['adv_grp_name'].length + 1;
   end
 
 end
