@@ -164,6 +164,16 @@
       td {
         border: 1px solid #f2f2f2;
         padding: 3px 10px;
+
+        .lineitem-ads{
+          padding-left:100px;
+
+          .ads-name{
+            margin-left:-100px;
+            width:100%;
+            display:inline-block;
+          }
+        }
       }
 
       &:hover {
