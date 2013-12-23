@@ -96,7 +96,7 @@
 
   BlockSites.CommitOverviewLayout = Backbone.Marionette.Layout.extend({
     template: JST['templates/admin/block_sites/commit_overview_layout'],
-    className: 'modal',
+    className: 'modal commit-overview-modal',
 
     events: {
       'click #btnCommit' : 'onCommit',

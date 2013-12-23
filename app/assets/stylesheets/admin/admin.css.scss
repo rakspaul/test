@@ -111,6 +111,10 @@
         margin-left:20px;
       }
 
+      .commit-overview-modal{
+        width:625px;
+        margin-left:-312px;
+      }
     }
 
   }
@@ -335,8 +339,6 @@
     }
   }
 
-
-
   .black-white-list-tab{
     width:320px;
   }
@@ -437,6 +439,7 @@
 
   .controls{
     margin-left:65px;
+    margin-bottom:0px;
   }
 
   .search-control{
@@ -751,8 +754,13 @@ ul.select-keyvals{
   legend{
     font-size:16px;
     line-height:30px;
-    padding:10px 10px 5px;
+    padding:10px 0px 5px;
     margin:0px;
+
+    span{
+      padding:0 10px;
+      display:inline-block;
+    }
   }
   h2{
     font-size:16px;
