@@ -18,3 +18,4 @@ if lineitem.video?
   json.companion_ad_size lineitem.companion_ad_size
 end
 json.notes              lineitem.try(:notes)
+json.li_id              lineitem.try(:li_id)

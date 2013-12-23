@@ -3,6 +3,8 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
+  attr_accessor :li_id
+
   belongs_to :order
   belongs_to :user
   belongs_to :media_type
