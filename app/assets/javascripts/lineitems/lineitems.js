@@ -403,6 +403,7 @@
       });
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
       this._deselectAllLIs();
+      this.$el.addClass('copied-targeting-from');
     },
 
     _deselectAllLIs: function(options) {
@@ -435,6 +436,7 @@
     cancelTargeting: function(e) {
       e.stopPropagation();
       window.copied_targeting = null;
+      $('.lineitem').removeClass('copied-targeting-from');
       this._deselectAllLIs();
     },
 

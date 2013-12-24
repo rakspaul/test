@@ -295,6 +295,20 @@ $wide_input_width: 480px;
     background-color: yellow;
   }
 
+  .lineitem.copied-targeting-from {
+    background-color: aquamarine;
+  }
+
+  .lineitem.copied-targeting-from:before {
+    content: "Copied Targeting";
+    font-size: 10px;
+    position: absolute;
+    left: 55px;
+    letter-spacing: 0px;
+    background-color: white;
+    margin-top: 60px;
+  }
+
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;
