@@ -63,6 +63,16 @@
     <span class="editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text">
       <%= lineitem.name %>
     </span>
+
+    <% if(lineitem.notes) { %>
+    <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
+    <div style="clear:both"></div>
+    <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
+      <%= lineitem.notes %>
+      <span class="close-btn"></span>
+    </span>
+    <% } %>
+
     <div class="errors_container" style="clear:both">
       <% if(lineitem.name.length > 500) { %>
       Lineitem name should be less than 500 characters
