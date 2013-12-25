@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::MediaContactsController do
   setup :activate_authlogic
-  let(:media_contact) { FactoryGirl.create(:media_contact) }
+  let!(:media_contact) { FactoryGirl.create(:media_contact) }
 
   before :each do
     account = FactoryGirl.create(:account)
@@ -11,16 +11,21 @@ describe Admin::MediaContactsController do
 
   describe "GET 'index'" do
     it "returns http success" do
-      get 'index', :id => media_contact.id, :format => 'json'
+      get 'index', :id => media_contact.reach_client_id, :format => 'json'
       response.should be_success
+    end
+
+    it "gets media contacts" do
+      get 'index', :id => media_contact.reach_client_id, :format => 'json'
+      assigns(:media_contacts).should eq([media_contact])
     end
   end
 
   describe "POST 'create'" do
     it "creates new media contact" do
-      # expect{
-      #   post :create, valid_params
-      #   }.to change(mediaContact,:count).by(1)
+      expect{
+        post :create, valid_params
+        }.to change(MediaContact,:count).by(1)
     end
 
     it "checks validation errors" do

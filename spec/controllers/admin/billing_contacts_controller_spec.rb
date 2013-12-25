@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Admin::BillingContactsController do
   setup :activate_authlogic
-  let(:billing_contact) { FactoryGirl.create(:billing_contact) }
+  let!(:billing_contact) { FactoryGirl.create(:billing_contact) }
 
   before :each do
     account = FactoryGirl.create(:account)
@@ -11,16 +11,21 @@ describe Admin::BillingContactsController do
 
   describe "GET 'index'" do
     it "returns http success" do
-      get 'index', :id => billing_contact.id, :format => 'json'
+      get 'index', :id => billing_contact.reach_client_id, :format => 'json'
       response.should be_success
+    end
+
+    it "gets billing contacts" do
+      get 'index', :id => billing_contact.reach_client_id, :format => 'json'
+      assigns(:billing_contacts).should eq([billing_contact])
     end
   end
 
   describe "POST 'create'" do
     it "creates new billing contact" do
-      # expect{
-      #   post :create, valid_params
-      #   }.to change(BillingContact,:count).by(1)
+      expect{
+        post :create, valid_params
+        }.to change(BillingContact,:count).by(1)
     end
 
     it "checks validation errors" do
@@ -94,7 +99,7 @@ describe Admin::BillingContactsController do
     def diff_params
       params = {
         billingContact: {
-          name: "Bryan Snyder",
+          name: "Addy Earles",
           phone: "7049737346",
           email: "digital.services@twcable.com",
         }

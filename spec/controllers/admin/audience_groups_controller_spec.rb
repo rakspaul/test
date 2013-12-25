@@ -69,7 +69,7 @@ describe Admin::AudienceGroupsController do
 
   describe "PUT 'update'" do
     context "updates with diff params" do
-      let(:params) { valid_params_diff }
+      let(:params) { diff_params }
 
       before do
         params[:id] = audience_group.id
@@ -135,7 +135,7 @@ private
     { :format => 'json' }.merge params
   end
 
-  def valid_params_diff
+  def diff_params
     params = {
       audienceGroup: {
         name: Faker::Lorem.word,

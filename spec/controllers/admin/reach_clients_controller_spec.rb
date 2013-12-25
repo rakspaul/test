@@ -59,7 +59,7 @@ describe Admin::ReachClientsController do
 
   describe "PUT 'update'" do
     context "updates with diff params" do
-      let(:params) { diff_attr_params }
+      let(:params) { diff_params }
 
       before do
         params[:id] = reach_client.id
@@ -125,7 +125,7 @@ private
     { :format => 'json' }.merge params
   end
 
-  def diff_attr_params
+  def diff_params
     params = {
       reachClient: {
         name: Faker::Lorem.word,
