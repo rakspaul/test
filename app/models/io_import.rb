@@ -2,11 +2,10 @@ require 'roo'
 
 class IoImport
   include ActiveModel::Validations
-
-  attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
+ attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
-:trafficking_contact_unknown, :notes
+:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users
 
   def initialize(file, current_user)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
@@ -16,6 +15,7 @@ class IoImport
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
+    @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @trafficking_contact  = Struct.new(:name, :phone, :email)
@@ -83,6 +83,14 @@ class IoImport
       @order_name_dup = Order.exists?(name: @order.name)
 
       @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
+
+      if @reach_client
+        @billing_contacts = BillingContact.for_user(@reach_client.id).all
+        @media_contacts = MediaContact.for_user(@reach_client.id).all
+      else
+        @billing_contacts = []
+        @media_contacts = []
+      end
 
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.advertiser_name

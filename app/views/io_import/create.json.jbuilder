@@ -25,6 +25,27 @@ json.order do
       json.created_at format_datetime(note[:created_at])
     end
   end
+
+  json.billing_contacts do
+    json.array! @io_import.billing_contacts do |bc|
+      json.id bc.id
+      json.name bc.name
+    end
+  end
+
+  json.media_contacts do
+    json.array! @io_import.media_contacts do |mc|
+      json.id mc.id
+      json.name mc.name
+    end
+  end
+
+  json.reachui_users do
+    json.array! @io_import.reachui_users do |u|
+      json.id u.id
+      json.name u.full_name
+    end
+  end
 end
 
 json.lineitems do
