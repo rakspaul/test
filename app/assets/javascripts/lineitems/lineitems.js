@@ -491,8 +491,8 @@
             account_manager: '.order-details .account-contact-name',
             trafficking_contact: '.order-details .trafficker-container',
             lineitems: {
-              start_date: ' > .start-date',
-              end_date:   ' > .end-date',
+              start_date: 'div > .start-date',
+              end_date:   'div > .end-date',
               name:       ' .name',
               volume:     ' .volume',
               ad_sizes:   ' .li-sizes, .lineitem-sizes'
