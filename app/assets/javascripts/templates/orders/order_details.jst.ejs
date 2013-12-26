@@ -153,7 +153,7 @@
             <% }); %>
           </select>
           <% } else { %>
-          <span class="<% if(order.sales_person_unknown) { %>editable typeahead<% } %>" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
+          <span class="editable typeahead" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
           <% } %>
           <div class="errors_container">
           <% if(order.sales_person_unknown) { %>
@@ -166,12 +166,12 @@
 
         <div class="field salesperson-phone">
           <p>Phone</p>
-          <span data-type="text" data-pk="1" data-name="sales_person_phone"><%= order.sales_person_phone %></span>
+          <span class="editable" data-type="text" data-pk="1" data-name="sales_person_phone"><%= order.sales_person_phone %></span>
         </div>
 
         <div class="field salesperson-email">
           <p>Email</p>
-          <span data-type="typeahead" data-pk="1" data-name="sales_person_email"><%= order.sales_person_email %></span>
+          <span class="editable" data-type="typeahead" data-pk="1" data-name="sales_person_email"><%= order.sales_person_email %></span>
         </div>
 
         <div class="field media-contact-name">
@@ -231,7 +231,7 @@
             <% }); %>
           </select>
           <% } else { %>
-          <span class="<% if(order.account_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
+          <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
           <% } %>
 
           <div class="errors_container">
@@ -245,12 +245,12 @@
 
         <div class="field account-contact-phone">
           <p>Phone</p>
-          <span data-type="text" data-pk="1" data-name="account_contact_phone"><%= order.account_contact_phone %></span>
+          <span class="editable" data-type="text" data-pk="1" data-name="account_contact_phone"><%= order.account_contact_phone %></span>
         </div>
 
         <div class="field account-contact-email">
           <p>Email</p>
-          <span data-type="typeahead" data-pk="1" data-name="account_contact_email"><%= order.account_contact_email %></span>
+          <span class="editable" data-type="typeahead" data-pk="1" data-name="account_contact_email"><%= order.account_contact_email %></span>
         </div>
 
         <div class="field billing-contact-name">

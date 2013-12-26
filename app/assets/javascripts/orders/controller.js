@@ -258,7 +258,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("sales_person_phone", sc_phone);
       order.set("sales_person_id", sc_id);
 
-      ordersController._clearErrorsOn(".media-contact-name");
+      ordersController._clearErrorsOn(".salesperson-name");
     });
 
     $('.media-contact-name .typeahead').editable({
