@@ -93,6 +93,7 @@ GEM
     debugger-linecache (1.2.0)
     debugger-ruby_core_source (1.2.3)
     diff-lcs (1.2.4)
+    docile (1.1.1)
     draper (1.2.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -259,6 +260,11 @@ GEM
     shoulda-context (1.1.4)
     shoulda-matchers (2.1.0)
       activesupport (>= 3.0.0)
+    simplecov (0.8.2)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     sinon-rails (1.7.3)
       railties (>= 3.1)
     slop (3.4.6)
@@ -344,6 +350,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.0)
   shoulda (~> 3.5.0)
   shoulda-matchers (~> 2.1.0)
+  simplecov
   sinon-rails
   spreadsheet
   therubyracer

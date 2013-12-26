@@ -13,15 +13,22 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     advertiser { FactoryGirl.singleton :advertiser }
     user
+    after(:create) do |ord|
+      create_list(:io_detail, 1, order: ord)
+    end
   end
 
   factory :order_with_lineitem, :parent => :order do
     after(:create) do |ord|
-      create_list(:lineitem_with_ad, order: ord)
+      create_list(:lineitem_with_ad, 1, order: ord)
     end
   end
 
   factory :io_detail do
+    state 'draft'
+    reach_client { FactoryGirl.singleton :reach_client }
+    media_contact
+    billing_contact
   end
 
   factory :reach_client do
@@ -32,6 +39,20 @@ FactoryGirl.define do
     user_id { FactoryGirl.singleton(:user).id }
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
+  end
+
+  factory :contact do
+    sequence(:email) { |n| "test#{n}@test.dev" }
+    phone '888-555-5555'
+    reach_client_id 1
+  end
+
+  factory :media_contact, :parent => :contact, :class => 'MediaContact' do
+    name "Test Media Contact"
+  end
+
+  factory :billing_contact, :parent => :contact, :class => 'BillingContact' do
+    name "Test Billing Contact"
   end
 
   factory :lineitem do
@@ -57,7 +78,7 @@ FactoryGirl.define do
 
   factory :lineitem_with_ad, :parent => :lineitem do
     after(:create) do |li|
-      create_list(:ad, lineitem: li)
+      create_list(:ad, 1, lineitem: li)
     end
   end
 

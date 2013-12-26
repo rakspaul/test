@@ -3,7 +3,7 @@ require 'spec_helper'
 describe OrdersController do
   setup :activate_authlogic
 
-  let(:reach_client) { FactoryGirl.create(:reach_client) }
+  let(:reach_client) { FactoryGirl.singleton(:reach_client) }
   let(:user) { FactoryGirl.singleton(:user) }
   let(:advertiser) { FactoryGirl.singleton(:advertiser) }
   let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
@@ -207,6 +207,15 @@ describe OrdersController do
         post :create, params
         expect(Ad.last.ad_type).to eq('SPONSORSHIP')
       end
+    end
+  end
+
+  describe "GET 'show'" do
+    let(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order show test') }
+
+    it "returns http success" do
+      get 'show', { id: order.id }
+      response.should be_success
     end
   end
 
