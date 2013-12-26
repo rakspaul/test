@@ -140,7 +140,7 @@
           <% if(order.reachui_users) { %>
           <select>
             <% _.each(order.reachui_users, function(u) { %>
-            <option value="<%= u.id %>" <%= u.name == order.sales_person_name ? 'selected="selected"' : '' %>><%= u.name %></option>
+            <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.sales_person_name ? 'selected="selected"' : '' %>><%= u.name %></option>
             <% }); %>
           </select>
           <% } else { %>
@@ -176,7 +176,7 @@
           <% if(order.media_contacts) { %>
           <select>
             <% _.each(order.media_contacts, function(mc) { %>
-            <option value="<%= mc.id %>" <%= mc.name == order.media_contact_name ? 'selected="selected"' : '' %>><%= mc.name %></option>
+            <option value="<%= mc.id %>|<%= mc.email %>|<%= mc.phone %>" <%= mc.name == order.media_contact_name ? 'selected="selected"' : '' %>><%= mc.name %></option>
             <% }); %>
           </select>
           <% } else { %>
@@ -218,7 +218,7 @@
           <% if(order.reachui_users) { %>
           <select>
             <% _.each(order.reachui_users, function(u) { %>
-            <option value="<%= u.id %>" <%= u.name == order.account_contact_name ? 'selected="selected"' : '' %>><%= u.name %></option>
+            <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.account_contact_name ? 'selected="selected"' : '' %>><%= u.name %></option>
             <% }); %>
           </select>
           <% } else { %>
@@ -255,7 +255,7 @@
           <% if(order.billing_contacts) { %>
           <select>
             <% _.each(order.billing_contacts, function(bc) { %>
-            <option value="<%= bc.id %>" <%= bc.name == order.billing_contact_name ? 'selected="selected"' : '' %>><%= bc.name %></option>
+            <option value="<%= bc.id %>|<%= bc.email %>|<%= bc.phone %>" <%= bc.name == order.billing_contact_name ? 'selected="selected"' : '' %>><%= bc.name %></option>
             <% }); %>
           </select>
           <% } else { %>

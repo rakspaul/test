@@ -30,6 +30,8 @@ json.order do
     json.array! @io_import.billing_contacts do |bc|
       json.id bc.id
       json.name bc.name
+      json.email bc.email
+      json.phone bc.phone
     end
   end
 
@@ -37,6 +39,8 @@ json.order do
     json.array! @io_import.media_contacts do |mc|
       json.id mc.id
       json.name mc.name
+      json.email mc.email
+      json.phone mc.phone
     end
   end
 
@@ -44,6 +48,8 @@ json.order do
     json.array! @io_import.reachui_users do |u|
       json.id u.id
       json.name u.full_name
+      json.email u.email
+      json.phone u.phone_number
     end
   end
 end
