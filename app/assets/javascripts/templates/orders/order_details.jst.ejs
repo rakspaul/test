@@ -146,7 +146,15 @@
             <span class="contact-unknown-icon pull-left" title="Sales person is not found in existing contacts"></span>
             <% } %>
           </p>
+          <% if(order.reachui_users) { %>
+          <select>
+            <% _.each(order.reachui_users, function(u) { %>
+            <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.sales_person_name ? 'selected="selected"' : '' %>><%= u.name %></option>
+            <% }); %>
+          </select>
+          <% } else { %>
           <span class="<% if(order.sales_person_unknown) { %>editable typeahead<% } %>" data-name="sales_person_name" data-pk="1" data-type="typeahead"><%= order.sales_person_name %></span>
+          <% } %>
           <div class="errors_container">
           <% if(order.sales_person_unknown) { %>
             This sales person is not associated with current Reach Client
@@ -174,7 +182,15 @@
             <span class="contact-unknown-icon pull-left" title="Media Contact is not found in existing contacts"></span>
             <% } %>
           </p>
+          <% if(order.media_contacts) { %>
+          <select>
+            <% _.each(order.media_contacts, function(mc) { %>
+            <option value="<%= mc.id %>|<%= mc.email %>|<%= mc.phone %>" <%= mc.name == order.media_contact_name ? 'selected="selected"' : '' %>><%= mc.name %></option>
+            <% }); %>
+          </select>
+          <% } else { %>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="media_contact_name"><%= order.media_contact_name %></span>
+          <% } %>
           <div class="errors_container">
           <% if (order.media_contact_name == "") { %>
             Validation failed: Name can't be blank
@@ -207,7 +223,17 @@
             <span class="contact-unknown-icon pull-left" title="Account Manager is not found in existing contacts"></span>
             <% } %>
           </p>
+
+          <% if(order.reachui_users) { %>
+          <select>
+            <% _.each(order.reachui_users, function(u) { %>
+            <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.account_contact_name ? 'selected="selected"' : '' %>><%= u.name %></option>
+            <% }); %>
+          </select>
+          <% } else { %>
           <span class="<% if(order.account_contact_unknown) { %>editable typeahead<% } %>" data-type="typeahead" data-pk="1" data-name="account_contact_name"><%= order.account_contact_name %></span>
+          <% } %>
+
           <div class="errors_container">
           <% if(order.account_contact_unknown) { %>
             This account manager is not associated with current Reach Client
@@ -235,7 +261,15 @@
             <span class="contact-unknown-icon pull-left" title="Billing Contact is not found in existing contacts"></span>
             <% } %>
           </p>
+          <% if(order.billing_contacts) { %>
+          <select>
+            <% _.each(order.billing_contacts, function(bc) { %>
+            <option value="<%= bc.id %>|<%= bc.email %>|<%= bc.phone %>" <%= bc.name == order.billing_contact_name ? 'selected="selected"' : '' %>><%= bc.name %></option>
+            <% }); %>
+          </select>
+          <% } else { %>
           <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="billing_contact_name"><%= order.billing_contact_name %></span>
+          <% } %>
           <div class="errors_container">
           <% if (order.billing_contact_name == "") { %>
             Validation failed: Name can't be blank

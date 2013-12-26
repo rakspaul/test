@@ -214,7 +214,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _setupTypeaheadFields: function(order) {
     var ordersController = this;
 
-    $('.billing-contact-company .typeahead').editable({
+    $('.billing-contact-company .typeahead, .media-contact-company .typeahead').editable({
       source: "/reach_clients/search.json",
       typeahead: {
         minLength: 1,
@@ -222,11 +222,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         valueKey: 'name'
       }
     });
-    $('.billing-contact-company').on('typeahead:selected', function(ev, el) {
+    $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
 
       ordersController._clearErrorsOn(".billing-contact-company");
+      ordersController._clearErrorsOn(".media-contact-company");
     });
 
     $('.salesperson-name .typeahead').editable({
@@ -246,6 +247,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $('.salesperson-email span').removeClass('editable-empty').html(el.email);
 
       ordersController._clearErrorsOn(".salesperson-name");
+    }).on('change', function(e) {
+      var sc_name = $('.salesperson-name option:selected').text();
+      var sc_parts = e.target.value.split('|');
+      var sc_id = sc_parts[0], sc_email = sc_parts[1], sc_phone = sc_parts[2];
+      $('.salesperson-phone span').removeClass('editable-empty').html(sc_phone);
+      $('.salesperson-email span').removeClass('editable-empty').html(sc_email);
+      order.set("sales_person_name", sc_name); //update backbone model
+      order.set("sales_person_email", sc_email);
+      order.set("sales_person_phone", sc_phone);
+      order.set("sales_person_id", sc_id);
+
+      ordersController._clearErrorsOn(".media-contact-name");
     });
 
     $('.media-contact-name .typeahead').editable({
@@ -268,6 +281,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("media_contact_phone", el.phone);
 
       ordersController._clearErrorsOn(".media-contact-name");
+    }).on('change', function(e) {
+      var mc_name = $('.media-contact-name option:selected').text();
+      var mc_parts = e.target.value.split('|');
+      var mc_id = mc_parts[0], mc_email = mc_parts[1], mc_phone = mc_parts[2];
+      $('.media-contact-phone span').removeClass('editable-empty').html(mc_phone);
+      $('.media-contact-email span').removeClass('editable-empty').html(mc_email);
+      order.set("media_contact_name", mc_name); //update backbone model
+      order.set("media_contact_email", mc_email);
+      order.set("media_contact_phone", mc_phone);
+      order.set("media_contact_id", mc_id);
+
+      ordersController._clearErrorsOn(".media-contact-name");
     });
 
     $('.billing-contact-name .typeahead').editable({
@@ -288,6 +313,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("billing_contact_email", el.email);
       order.set("billing_contact_phone", el.phone);
       order.set("billing_contact_id", el.id);
+
+      ordersController._clearErrorsOn(".billing-contact-name");
+    }).on('change', function(e) {
+      var bc_name = $('.billing-contact-name option:selected').text();
+      var bc_parts = e.target.value.split('|');
+      var bc_id = bc_parts[0], bc_email = bc_parts[1], bc_phone = bc_parts[2];
+      $('.billing-contact-phone span').removeClass('editable-empty').html(bc_phone);
+      $('.billing-contact-email span').removeClass('editable-empty').html(bc_email);
+      order.set("billing_contact_name", bc_name);//update backbone model
+      order.set("billing_contact_email", bc_email);
+      order.set("billing_contact_phone", bc_phone);
+      order.set("billing_contact_id", bc_id);
 
       ordersController._clearErrorsOn(".billing-contact-name");
     });
@@ -333,7 +370,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       $('.account-contact-email span').removeClass('editable-empty').html(el.email);
 
       ordersController._clearErrorsOn(".account-contact-name");
-    })
+    }).on('change', function(e) {
+      var ac_name = $('.account-contact-name option:selected').text();
+      var ac_parts = e.target.value.split('|');
+      var ac_id = ac_parts[0], ac_email = ac_parts[1], ac_phone = ac_parts[2];
+      $('.account-contact-phone span').removeClass('editable-empty').html(ac_phone);
+      $('.account-contact-email span').removeClass('editable-empty').html(ac_email);
+      order.set("account_contact_name", ac_name); //update backbone model
+      order.set("account_contact_email", ac_email);
+      order.set("account_contact_phone", ac_phone);
+      order.set("account_contact_id", ac_id);
+
+      ordersController._clearErrorsOn(".account-contact-name");
+    });
 
     $('.media-contact-email .typeahead').editable({
       source: "/media_contacts/search.json?search_by=email",
