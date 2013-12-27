@@ -21,6 +21,7 @@ describe OrderNotesController do
     it "creates new note successfully" do
       expect {
         xhr :post, :create, {note: @note_body, username: "Amol Brid", order_id: @order.id, order_note: {note: "test"}}
+        OrderNote.count
       }.to change(OrderNote, :count).by(1)
     end
 
