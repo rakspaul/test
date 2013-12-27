@@ -28,7 +28,7 @@ describe OrderNotesController do
     it "creates new note and notifies user" do
       expect {
         expect {
-          xhr :post, :create, {note: @note_body, username: "Amol Brid", notify_users: [@user_to_notify.id], order_id: @order.id, order_note: {note: "test"}}
+          xhr :post, :create, {note: @note_body, username: "Amol Brid", notify_users: [@user_to_notify.email], order_id: @order.id, order_note: {note: "test"}}
         }.to change(OrderNote, :count).by(1)
       }.to change(ActionMailer::Base.deliveries, :count).by(1)
 
