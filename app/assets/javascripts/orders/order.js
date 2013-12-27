@@ -249,10 +249,8 @@
       'click #btnSave' : 'saveNote',
       'click .notify-users-switch' : 'toggleNotifyUsersDialog',
       'click .add-user-to-notify-list, .add-user-to-notify-list-btn' : 'showAddUsersSelectBox',
-      'click .close-users-notify-list, .close-users-notify-list-btn': 'hideAddUsersSelectBox', 
-      'mouseenter .notify-user-container': '_showRemoveUserBtn',
-      'mouseleave .notify-user-container': '_hideRemoveUserBtn',
-      'click .notify-user-container .remove-btn': '_removeUserFromSelectedUsers',
+      'click .close-users-notify-list, .close-users-notify-list-btn': 'hideAddUsersSelectBox',
+      'change .users-to-notify div.typeahead-container textarea': 'onChangeEmailsList'
     },
 
     ui: {
@@ -265,58 +263,28 @@
       this.notify_users_dialog_active = false;
       this.selected_users = [];
     },
- 
-    _showRemoveUserBtn: function(e) {
-      $(e.currentTarget).find('.remove-btn').show();
-    },
-
-    _hideRemoveUserBtn: function(e) {
-      $(e.currentTarget).find('.remove-btn').hide();
-    },
-
-    _removeUserFromSelectedUsers: function(e) {
-      var user_id = $(e.currentTarget).data('user-id'),
-          notify_user_container = $(e.currentTarget).parent();
-
-      this.selected_users = _.filter(this.selected_users, function(el) {
-        if(parseInt(el.id) != parseInt(user_id)) {
-          return el;
-        }
-      });
-
-      this.displayNotifyUsersList();
-    },
 
     displayNotifyUsersList: function() {
-      var items = []; 
-      for (var i = 0; i < this.selected_users.length; i++) { 
-        var item = '<div class="notify-user-container">';
-        item += ' <span class="notify-user-caption">'+this.selected_users[i]['name']+'</span>';
-        item += ' <span class="remove-btn" data-user-id="' + this.selected_users[i]['id'] + '" style="display:none"></span>';
-        item += '</div>';
-        items.push(item);
+      var items = [];
+      for (var i = 0; i < this.selected_users.length; i++) {
+        items.push(this.selected_users[i]);
       }
-      this.$el.find('.users-to-notify em').html(items.join('<div style="float:left">,</div>'));
+      this.$el.find('.users-to-notify div.typeahead-container textarea').html(items.join(','));
+    },
+
+    onChangeEmailsList: function(e) {
+      var emails = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
+      this.selected_users = _.collect(emails, function(el) { return el.trim() } );
     },
 
     showAddUsersSelectBox: function() {
       $('#add-users-notifications-dialog').modal('show');
   
       var self = this;
-      this.$el.find('.users-to-notify div.typeahead-container').show().html('<input autocomplete="off"/>');
+      this.$el.find('.users-to-notify div.typeahead-container').show().html('<textarea></textarea>');
       this.$el.find('.add-user-to-notify-list, .add-user-to-notify-list-btn').hide();
       this.$el.find('.close-users-notify-list, .close-users-notify-list-btn').show();
-
-      this.$el.find('.users-to-notify div.typeahead-container input').typeahead({
-        name: 'user-names',
-        remote: '/users/search.json?search_by=name&search=%QUERY',
-        valueKey: 'name',
-        limit: 20
-      }).on('typeahead:selected', function(ev, el) {
-        self.hideAddUsersSelectBox();
-        self.selected_users.push({id: el.id, name: el.name});
-        self.displayNotifyUsersList();
-      });
+      this.displayNotifyUsersList();
     },
 
     hideAddUsersSelectBox: function() {
@@ -386,9 +354,15 @@
       this.$el.find('.notify-users-list').css({'color': color});
 
       // show trafficking and account managers contacts
-      this.selected_users.push({id: current_trafficker_id, name: current_trafficker_name});
-      this.selected_users.push({id: current_am_id, name: current_am_name});
-      this.displayNotifyUsersList();
+      this.selected_users.push(current_trafficker_email);
+      this.selected_users.push(current_am_email);
+      this.selected_users = _.uniq(this.selected_users);
+
+      if(this.notify_users_dialog_active) {
+        this.showAddUsersSelectBox();
+      } else {
+        this.hideAddUsersSelectBox();
+      }
     },
 
     saveNote: function(event) {
@@ -404,7 +378,7 @@
         note: this.ui.note_input.val().trim(),
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
         username: window.current_user_name,
-        notify_users: _.map(this.selected_users, function(el) { return el.id})
+        notify_users: this.selected_users
       }
 
       this.model = new ReachUI.Orders.Note(prop);
