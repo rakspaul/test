@@ -20,7 +20,7 @@ describe OrdersController do
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.should be_success
+      expect(response).to be_success
     end
   end
 
@@ -29,7 +29,7 @@ describe OrdersController do
       it "returns http success" do
         post :create, io_request
 
-        response.should be_success
+        expect(response).to be_success
       end
 
       it "create a new order" do
@@ -215,7 +215,78 @@ describe OrdersController do
 
     it "returns http success" do
       get 'show', { id: order.id }
-      response.should be_success
+      expect(response).to be_success
+    end
+  end
+
+  describe "PUT 'update'" do
+    context "valid order" do
+      let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order update test') }
+      let!(:params) { io_request_w_ads }
+
+      before do
+        params['id'] = order.id
+        params['order']['lineitems'].each do |li|
+          li_id = order.lineitems.first.id
+          li['lineitem']['id'] = li_id
+          li['lineitem']['order_id'] = order.id
+          li['ads'].each do |ad|
+            ad['ad']['id'] = order.lineitems.first.ads.first.id
+            ad['ad']['order_id'] = order.id
+            ad['ad']['io_lineitem_id'] = li_id
+          end
+        end
+      end
+
+      it "returns http success" do
+        put :update, params
+
+        expect(response).to be_success
+      end
+    end
+  end
+
+  describe "DELETE 'delete'" do
+    let!(:order) { FactoryGirl.create(:order, name: 'order delete test') }
+    let!(:order2) { FactoryGirl.create(:order_with_lineitem, name: 'order delete test 2') }
+
+    it "returns http success" do
+      delete 'delete', { ids: order.id }
+      expect(response).to be_success
+    end
+
+    it "delete several orders" do
+      expect{
+        delete 'delete', { ids: "#{order.id},#{order2.id}" }
+      }.to change(Order, :count).by(-2)
+    end
+  end
+
+  describe "GET 'search'" do
+    let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order search test') }
+
+    it "returns http success" do
+      get 'search', { format: 'json', search: 'search' }
+      expect(response).to be_success
+    end
+
+    it "returns http success" do
+      get 'search', { format: 'json', search: 'search' }
+      expect(response).to be_success
+    end
+
+    it "search order by search param" do
+      get 'search', { format: 'json', search: 'search' }
+
+      data = json_parse(response.body)
+      expect(data[0]['name']).to eq('order search test')
+    end
+
+    it "empty search returns last updated" do
+      get 'search', { format: 'json' }
+
+      data = json_parse(response.body)
+      expect(data[0]['name']).to eq('order search test')
     end
   end
 

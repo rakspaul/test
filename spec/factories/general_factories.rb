@@ -15,12 +15,14 @@ FactoryGirl.define do
     user
     after(:create) do |ord|
       create_list(:io_detail, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
     end
   end
 
   factory :order_with_lineitem, :parent => :order do
     after(:create) do |ord|
       create_list(:lineitem_with_ad, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
     end
   end
 
