@@ -53,7 +53,5 @@
       });
 
       window.current_user_name        = "#{current_user.try(:full_name)}";
-      window.current_trafficker_id    = "#{@order.try(:io_detail).try(:trafficking_contact).try(:id)}";
-      window.current_trafficker_name  = "#{@order.try(:io_detail).try(:trafficking_contact).try(:full_name)}";
-      window.current_am_id            = "#{@order.try(:io_detail).try(:account_manager).try(:id)}";
-      window.current_am_name          = "#{@order.try(:io_detail).try(:account_manager).try(:full_name)}";
+      window.current_trafficker_email = "#{@order.try(:io_detail).try(:trafficking_contact).try(:email)}";
+      window.current_am_email         = "#{@order.try(:io_detail).try(:account_manager).try(:email)}";

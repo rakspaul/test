@@ -979,9 +979,13 @@ table.creatives-content {
     }
 
     .typeahead-container {
-      width: 200px;
+      width: 300px;
       float: left;
       margin: -5px 14px 0 14px;
+
+      textarea {
+        width: 300px;
+      }
     }
 
     .twitter-typeahead input.tt-query {
