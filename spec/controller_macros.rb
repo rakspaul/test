@@ -2,7 +2,7 @@ module ControllerMacros
   def json_parse(json_str)
     json = JSON.parse(json_str)
     if json.kind_of?(Array)
-      json.each { |a| a.with_indifferent_access }
+      json.map { |a| a.with_indifferent_access }
     else
       json.with_indifferent_access
     end

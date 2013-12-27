@@ -10,11 +10,24 @@ describe OrdersController do
                      FactoryGirl.create(:ad_size_300x250),
                      FactoryGirl.create(:ad_size_728x90) ] }
 
+  before do
+    path = "/tmp/IO_asset1385031164"
+    path2 = "/tmp/IO_asset1383656012"
+    file = mock('file')
+    file.stub(:read)
+    file.stub(:close)
+    file.stub(:path).and_return(path)
+    File.stub(:open).and_call_original
+    File.stub(:open).with(path).and_return(file)
+    File.stub(:open).with(path2).and_return(file)
+    File.stub(:unlink).and_call_original
+    File.stub(:unlink).with(path).and_return(file)
+    File.stub(:unlink).with(path2).and_return(file)
+  end
+
   before :each do
     account = FactoryGirl.create(:account)
     AccountSession.create(account)
-
-    controller.stub(:store_io_asset).and_return(true)
   end
 
   describe "GET 'index'" do
@@ -104,12 +117,46 @@ describe OrdersController do
         expect(data[:errors]).to include(:trafficking_contact)
       end
 
+      it "return error on wrong billing contact" do
+        params['order'].delete('billing_contact_name')
+        post :create, params
+
+        data = json_parse(response.body)
+        expect(data[:errors]).to include(:billing_contact)
+      end
+
+      it "return error on wrong media contact" do
+        params['order'].delete('media_contact_name')
+        post :create, params
+
+        data = json_parse(response.body)
+        expect(data[:errors]).to include(:media_contact)
+      end
+
+      it "return sales person error for invalid record" do
+        params['order']['sales_person_name'] = 'wrong name'
+        controller.stub(:find_sales_person).and_raise(ActiveRecord::RecordInvalid.new(user))
+        post :create, params
+
+        data = json_parse(response.body)
+        expect(data[:errors]).to include(:sales_person)
+      end
+
       it "return sales person error" do
         params['order']['sales_person_name'] = ''
         post :create, params
 
         data = json_parse(response.body)
-        expect(data[:errors]).to include(:sales_person)
+        expect(data[:errors][:sales_person]).to eq("this sales person was not found, please select another one")
+      end
+
+      it "return account manager error for invalid account" do
+        params['order']['account_contact_name'] = 'wrong name'
+        controller.stub(:find_account_manager).and_raise(ActiveRecord::RecordInvalid.new(user))
+        post :create, params
+
+        data = json_parse(response.body)
+        expect(data[:errors]).to include(:account_manager)
       end
 
       it "return account manager error" do
@@ -117,7 +164,7 @@ describe OrdersController do
         post :create, params
 
         data = json_parse(response.body)
-        expect(data[:errors]).to include(:account_manager)
+        expect(data[:errors][:account_manager]).to eq("this account manager was not found, please select another one")
       end
 
       it "return order name error" do
@@ -279,14 +326,30 @@ describe OrdersController do
       get 'search', { format: 'json', search: 'search' }
 
       data = json_parse(response.body)
-      expect(data[0]['name']).to eq('order search test')
+      expect(data[0][:name]).to eq('order search test')
     end
 
     it "empty search returns last updated" do
       get 'search', { format: 'json' }
 
       data = json_parse(response.body)
-      expect(data[0]['name']).to eq('order search test')
+      expect(data[0][:name]).to eq('order search test')
+    end
+  end
+
+  describe "GET 'status'" do
+    let(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order show test') }
+
+    it "returns http success" do
+      get 'status', { id: order.id }
+      expect(response).to be_success
+    end
+
+    it "returns order status" do
+      get 'status', { id: order.id }
+
+      data = json_parse(response.body)
+      expect(data[:status]).to eq('Draft')
     end
   end
 
