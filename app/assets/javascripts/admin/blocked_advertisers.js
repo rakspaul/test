@@ -48,6 +48,11 @@
     url: '/advertisers/search.json',
     model: BlockedAdvertisers.Advertiser,
 
+    comparator: function(model) {
+      return model.get('name');
+    },
+
+
     fetch: function(){
       this.trigger("fetch", this);
       return Backbone.Collection.prototype.fetch.apply( this, arguments );
@@ -59,6 +64,10 @@
   BlockedAdvertisers.AdvertisersGroupsList = Backbone.Collection.extend({
     url: '/advertiser_blocks/search.json',
     model: BlockedAdvertisers.AdvertisersGroup,
+
+    comparator: function(model) {
+      return model.get('name');
+    },
 
     fetch: function(){
       this.trigger("fetch", this);
@@ -87,12 +96,16 @@
       this._url = url;
     },
 
-    setIds: function(ids) {
-      this._ids = ids;
+    comparator: function(model) {
+      if(model.has('advertiser_name')) {
+        return model.get('advertiser_name');
+      } else {
+        return model.get('advertiser_group_name');
+      }
     },
 
-    comparator: function(model) {
-      return model.get('name');
+    setIds: function(ids) {
+      this._ids = ids;
     },
 
     parse: function(response) {
