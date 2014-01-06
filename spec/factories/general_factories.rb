@@ -31,7 +31,6 @@ FactoryGirl.define do
   end
 
   factory :reach_client do
-    id 1
     name "Test Reach Client Name"
     abbr "TRCN"
     network { FactoryGirl.singleton :network }
@@ -88,18 +87,44 @@ FactoryGirl.define do
     name "Marsha Lowe"
     phone "7049737452"
     email "digital.services@twcable.com"
-    reach_client_id { FactoryGirl.singleton(:reach_client).id }
-    created_at 1.day.from_now
-    updated_at 22.day.from_now
+    reach_client_id 1
   end
 
   factory :billing_contact do
     name "Addy Earles"
     email "aearles@schurz.com"
     phone "3174027206"
-    reach_client_id { FactoryGirl.singleton(:reach_client).id }
-    created_at 1.day.from_now
-    updated_at 22.day.from_now
+    reach_client_id 1
   end
 
+  factory :audience_group do
+    name "Auto"
+    key_values "btg=cm.auto_h,btg=cm.auto_l,contx=adult,contx=auto"
+    network { FactoryGirl.singleton :network }
+    user
+  end
+
+  factory :segment do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :segment1, :parent => :segment do
+    name "cm.auto_h"
+  end
+
+  factory :segment2, :parent => :segment do
+    name "cm.auto_l"
+  end
+
+  factory :context do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :context1, :parent => :context do
+    name "cm.auto"
+  end
+
+  factory :context2, :parent => :context do
+    name "cm.adult"
+  end
 end
