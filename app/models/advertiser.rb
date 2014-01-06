@@ -15,8 +15,8 @@ class Advertiser < ActiveRecord::Base
     where(:network => network)
   end
 
-  def self.find_by_name_or_id_or_source_id(search)
-    where("network_advertisers.name ilike :name or network_advertisers.id = :id or source_id = :id_s", name: "%#{search}%", id: search.to_i, id_s: search)
+  def self.find_by_name(search)
+    where("network_advertisers.name ilike :name", name: "%#{search}%")
   end
 
   def self.of_type_advertiser

@@ -43,23 +43,15 @@ describe Advertiser do
     end
   end
 
-  context "search either by name, id and source_id" do
+  context "search by name" do
     before do
-      @advertiser_one = FactoryGirl.create :advertiser, name: 'adveriser_one'
-      @advertiser_two = FactoryGirl.create :advertiser
-      @advertiser_two.update(source_id: '12345')
+      @advertiser = FactoryGirl.create :advertiser, name: 'adveriser_one'
     end
 
     it "should search by name" do
-      adv = Advertiser.find_by_name_or_id_or_source_id 'one'
+      adv = Advertiser.find_by_name 'one'
       adv.should_not be_nil
-      adv.should == [@advertiser_one]
-    end
-
-    it "should search by source_id" do
-      adv = Advertiser.find_by_name_or_id_or_source_id '12345'
-      adv.should_not be_nil
-      adv.should == [@advertiser_two]
+      adv.should == [@advertiser]
     end
   end
 end
