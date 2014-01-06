@@ -21,23 +21,6 @@ class Admin::DefaultBlockListController < ApplicationController
     respond_with(e.message, status: :service_unavailable)
   end
 
-  def create_new_site_blocks(sites)
-    sites.each do |site|
-      dsb = DefaultSiteBlocks.find_or_initialize_by(:site_id => site["site_id"], :network_id => current_network.id)
-      dsb.user = current_user
-      block_advertisers_on_site(dsb.site_id) if dsb.save
-    end
-  end
-
-  def delete_site_blocks(sites)
-    sites.each do |site|
-      dsb = DefaultSiteBlocks.find(site['id'])
-      if dsb
-        dsb.delete
-      end
-    end
-  end
-
   def export
     default_site_blocks = DefaultSiteBlocks.joins(:site).of_network(current_network).order("Sites.name asc")
     create_sheet
@@ -63,7 +46,6 @@ class Admin::DefaultBlockListController < ApplicationController
     render json: { errors: e.message }, status: :unprocessable_entity
   end
 
-
   def whitelisted_sites
     search_query = params[:search]
     @default_site_blocks = DefaultSiteBlocks.of_network(current_network).joins(:site).limit(500).order("Sites.name  asc")
@@ -75,6 +57,23 @@ class Admin::DefaultBlockListController < ApplicationController
   end
 
   private
+
+  def create_new_site_blocks(sites)
+    sites.each do |site|
+      dsb = DefaultSiteBlocks.find_or_initialize_by(:site_id => site["site_id"], :network_id => current_network.id)
+      dsb.user = current_user
+      block_advertisers_on_site(dsb.site_id) if dsb.save
+    end
+  end
+
+  def delete_site_blocks(sites)
+    sites.each do |site|
+      dsb = DefaultSiteBlocks.find(site['id'])
+      if dsb
+        dsb.delete
+      end
+    end
+  end
 
   def block_advertisers_on_site(site_id)
     blocked_advertisers = BlockedAdvertiser.select(:advertiser_id).of_network(current_network).block_or_pending_block.distinct

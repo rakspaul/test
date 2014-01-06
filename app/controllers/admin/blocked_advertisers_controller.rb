@@ -20,7 +20,7 @@ class Admin::BlockedAdvertisersController < ApplicationController
     if params['advertiser_group_id'].present?
       advertiser_group_ids = params['advertiser_group_id'].split(",").map(&:to_i)
       @blocked_sites = blocked_sites_on_advertiser_group(advertiser_group_ids);
-      advertiser_groups_with_blocks = @blocked_sites.pluck("advertiser_id").uniq
+      advertiser_groups_with_blocks = @blocked_sites.pluck("advertiser_group_id").uniq
       advertiser_groups_with_no_blocks = advertiser_group_ids - advertiser_groups_with_blocks
       @blocked_sites = @blocked_sites + get_advertiser_groups_with_no_blocks(advertiser_groups_with_no_blocks)
     end
@@ -31,7 +31,10 @@ class Admin::BlockedAdvertisersController < ApplicationController
       advertiser_ids = params['advertiser_id'].split(",").map(&:to_i)
       block_advertiser_and_group_export = BlockAdvertiserAndGroupExport.new(current_user)
       send_data block_advertiser_and_group_export.export_advertiser(blocked_sites_on_advertiser(advertiser_ids)), :filename => block_advertiser_and_group_export.get_adv_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+    else
+      render json: {status: 'error', message: 'No advertisers selected to export.'}
     end
+
     rescue => e
       render json: { errors: e.message }, status: :unprocessable_entity
   end
@@ -41,7 +44,10 @@ class Admin::BlockedAdvertisersController < ApplicationController
       advertiser_group_ids = params['advertiser_group_id'].split(",").map(&:to_i)
       block_advertiser_and_group_export = BlockAdvertiserAndGroupExport.new(current_user)
       send_data block_advertiser_and_group_export.export_advertiser_group(blocked_sites_on_advertiser_group(advertiser_group_ids)), :filename => block_advertiser_and_group_export.get_adv_group_file, :x_sendfile => true, :type => "application/vnd.ms-excel"
+    else
+      render json: {status: 'error', message: 'No advertiser groups selected to export.'}
     end
+
     rescue => e
       render json: { errors: e.message }, status: :unprocessable_entity
   end

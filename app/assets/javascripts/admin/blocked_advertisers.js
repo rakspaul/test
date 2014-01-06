@@ -92,6 +92,11 @@
     },
     model: BlockedAdvertisers.SiteBlock,
 
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+
     setUrl: function(url) {
       this._url = url;
     },
@@ -189,16 +194,32 @@
     },
   });
 
-  BlockedAdvertisers.SearchResultsView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'select',
-    attributes: {
-        multiple: 'multiple',
-    },
+  BlockedAdvertisers.SearchResultsView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/blocked_advertisers/search_results_view'],
     itemView: BlockedAdvertisers.SearchResultGroupView,
+    itemViewContainer: 'select',
+
+    ui: {
+      loading_div: '#loading_div'
+    },
 
     initialize: function() {
       this.collection.on('sort', this.render, this);
+
+      this.collection.on("fetch", this._onFetch, this);
+      this.collection.on("reset", this._onReset, this);
     },
+
+    _onFetch: function() {
+      console.log("start");
+      this.ui.loading_div.show();
+    },
+
+    _onReset: function() {
+      console.log("end");
+      this.ui.loading_div.hide();
+    },
+
   });
 
 // --------------------/ Controller /------------------------------------
@@ -267,7 +288,7 @@
       this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser.json?advertiser_id=');
       this.searchResults.setIds(items.pluck('id'));
       var self =this;
-      this.searchResults.fetch().then(function() {
+      this.searchResults.fetch({reset:true}).then(function() {
         self.searchResults.sort();
       });
     },
@@ -276,7 +297,7 @@
       this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser_group.json?advertiser_group_id=');
       this.searchResults.setIds(items.pluck('id'));
       var self =this;
-      this.searchResults.fetch().then(function() {
+      this.searchResults.fetch({reset:true}).then(function() {
         self.searchResults.sort();
       });
     },
