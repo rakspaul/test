@@ -92,6 +92,11 @@
     },
     model: BlockedAdvertisers.SiteBlock,
 
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+
     setUrl: function(url) {
       this._url = url;
     },
@@ -145,6 +150,7 @@
       return {
         site_name: child.site_name,
         default_block: child.default_block,
+        state: child.state,
       };
     },
 
@@ -159,22 +165,23 @@
 
 // --------------------/ Views /------------------------------------
 
-  BlockedAdvertisers.SearchItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'option',
-    template: _.template('<%= name %>'),
-    attributes: function() {
-      return {value: this.model.id};
-    },
-  });
-
   BlockedAdvertisers.SearchResultItemView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= site_name%> <% if(default_block === true) {%> (Default Block)<%}%>'),
+    template: _.template('<%= pending_block_indicator %> <%= site_name%> <%= default_block_indicator %>'),
     className: function() {
       if (this.model.get('default_block')) {
         return 'italics';
       }
     },
+
+    serializeData: function() {
+      return {
+        pending_block_indicator : this.model.get('state') === "PENDING_BLOCK" ? ' * ': '',
+        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
+        site_name : this.model.get('site_name')
+      }
+    },
+
   });
 
   BlockedAdvertisers.SearchResultGroupView = Backbone.Marionette.CollectionView.extend({
@@ -189,16 +196,30 @@
     },
   });
 
-  BlockedAdvertisers.SearchResultsView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'select',
-    attributes: {
-        multiple: 'multiple',
-    },
+  BlockedAdvertisers.SearchResultsView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/blocked_advertisers/search_results_view'],
     itemView: BlockedAdvertisers.SearchResultGroupView,
+    itemViewContainer: 'select',
+
+    ui: {
+      loading_div: '#loading_div'
+    },
 
     initialize: function() {
       this.collection.on('sort', this.render, this);
+
+      this.collection.on("fetch", this._onFetch, this);
+      this.collection.on("reset", this._onReset, this);
     },
+
+    _onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    _onReset: function() {
+      this.ui.loading_div.hide();
+    },
+
   });
 
 // --------------------/ Controller /------------------------------------
@@ -267,7 +288,7 @@
       this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser.json?advertiser_id=');
       this.searchResults.setIds(items.pluck('id'));
       var self =this;
-      this.searchResults.fetch().then(function() {
+      this.searchResults.fetch({reset:true}).then(function() {
         self.searchResults.sort();
       });
     },
@@ -276,7 +297,7 @@
       this.searchResults.setUrl('/admin/blocked_advertisers/get_blocked_sites_on_advertiser_group.json?advertiser_group_id=');
       this.searchResults.setIds(items.pluck('id'));
       var self =this;
-      this.searchResults.fetch().then(function() {
+      this.searchResults.fetch({reset:true}).then(function() {
         self.searchResults.sort();
       });
     },

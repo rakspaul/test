@@ -234,6 +234,11 @@
       return this._url + this.sites.join(',');
     },
 
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
+    },
+
     fetchBlacklistedAdvertisers: function() {
       this._url = '/admin/block_sites/blacklisted_advertisers.json?site_id=';
       return this.fetch({reset:true});
@@ -350,6 +355,11 @@
     model: BlockSites.AdvertiserGroupBlock,
     url: function() {
       return '/admin/block_sites/blacklisted_advertiser_groups.json?site_id='+ this.sites.join(',');
+    },
+
+    fetch: function(){
+      this.trigger("fetch", this);
+      return Backbone.Collection.prototype.fetch.apply( this, arguments );
     },
 
     setSites: function(sites) {
@@ -494,11 +504,15 @@
     ui: {
       blocked_advertiser_list: '#blockedAdvertiserList',
       lblTabName: '#lblTabName',
+      loading_div: '#loading_div'
     },
 
     initialize: function() {
       this.tab_name = 'Blacklisted Advertisers'
       this.collection.on('sort', this.render, this);
+
+      this.collection.on("fetch", this._onFetch, this);
+      this.collection.on("reset", this._onReset, this);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -543,7 +557,15 @@
 
     _isAdvertiserSelected: function() {
       return (this.ui.blocked_advertiser_list.val() && this.ui.blocked_advertiser_list.val().length > 0);
-    }
+    },
+
+    _onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    _onReset: function() {
+      this.ui.loading_div.hide();
+    },
 
   });
 
@@ -582,12 +604,16 @@
 
     ui: {
       blocked_advertiser_group_list: '#blockedAdvertiserGroupList',
-      lblTabName: '#lblTabName'
+      lblTabName: '#lblTabName',
+      loading_div: '#loading_div'
     },
 
     initialize: function() {
       this.tab_name = 'Blacklisted Advertiser Groups';
       this.collection.on('sort', this.render, this);
+
+      this.collection.on("fetch", this._onFetch, this);
+      this.collection.on("reset", this._onReset, this);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -641,7 +667,15 @@
 
     _isAdvertiserGroupSelected: function() {
       return (this.ui.blocked_advertiser_group_list.val() && this.ui.blocked_advertiser_group_list.val().length > 0 )
-    }
+    },
+
+    _onFetch: function() {
+      this.ui.loading_div.show();
+    },
+
+    _onReset: function() {
+      this.ui.loading_div.hide();
+    },
 
   });
 

@@ -92,7 +92,26 @@ FactoryGirl.define do
     state 'BLOCK'
     type 'BlockedAdvertiser'
     network { FactoryGirl.singleton :network }
-    user { FactoryGirl.singleton :user }
+  end
+
+  factory :blocked_advertiser_group do
+    advertiser_group_id 1
+    site_id 1
+    state 'BLOCK'
+    type 'BlockedAdvertiserGroup'
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :site do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :advertiser_block do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :default_site_blocks do
+    network { FactoryGirl.singleton :network }
   end
 
   factory :advertiser_type do
