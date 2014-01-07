@@ -110,7 +110,7 @@ class Admin::BlockSitesController < ApplicationController
 
     if vos && vos.size > 0
       enqueue_for_push
-      render json: {status: 'success', message: 'Your changes were committed successfully.'}
+      render json: {status: 'success', message: 'Your changes are being processed.'}
     else
       render json: {status: 'error', message: 'There are no changes to commit.'}
     end

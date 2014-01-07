@@ -150,6 +150,7 @@
       return {
         site_name: child.site_name,
         default_block: child.default_block,
+        state: child.state,
       };
     },
 
@@ -164,22 +165,23 @@
 
 // --------------------/ Views /------------------------------------
 
-  BlockedAdvertisers.SearchItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'option',
-    template: _.template('<%= name %>'),
-    attributes: function() {
-      return {value: this.model.id};
-    },
-  });
-
   BlockedAdvertisers.SearchResultItemView = Backbone.Marionette.ItemView.extend({
     tagName:'option',
-    template: _.template('<%= site_name%> <% if(default_block === true) {%> (Default Block)<%}%>'),
+    template: _.template('<%= pending_block_indicator %> <%= site_name%> <%= default_block_indicator %>'),
     className: function() {
       if (this.model.get('default_block')) {
         return 'italics';
       }
     },
+
+    serializeData: function() {
+      return {
+        pending_block_indicator : this.model.get('state') === "PENDING_BLOCK" ? ' * ': '',
+        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
+        site_name : this.model.get('site_name')
+      }
+    },
+
   });
 
   BlockedAdvertisers.SearchResultGroupView = Backbone.Marionette.CollectionView.extend({
@@ -211,12 +213,10 @@
     },
 
     _onFetch: function() {
-      console.log("start");
       this.ui.loading_div.show();
     },
 
     _onReset: function() {
-      console.log("end");
       this.ui.loading_div.hide();
     },
 
