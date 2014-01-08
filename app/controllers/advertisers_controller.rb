@@ -16,7 +16,7 @@ class AdvertisersController < ApplicationController
     search_query = params[:search]
     @advertisers = Advertiser.of_network(current_network)
       .of_type_advertiser
-      .limit(50)
+      .limit(500)
       .order("name  asc")
     unless search_query.blank?
       @advertisers = @advertisers.where("lower(network_advertisers.name) ilike lower(?)", "%#{search_query}%")
