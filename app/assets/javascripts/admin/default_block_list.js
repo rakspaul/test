@@ -54,7 +54,7 @@
     model: DefaultBlockList.BlockedSite,
 
     comparator: function(model) {
-      return model.get('site_name');
+      return model.get('site_name').toLowerCase();
     },
 
     fetch: function(){

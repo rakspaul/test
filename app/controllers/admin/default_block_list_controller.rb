@@ -79,7 +79,7 @@ class Admin::DefaultBlockListController < ApplicationController
     blocked_advertisers = BlockedAdvertiser.select(:advertiser_id).of_network(current_network).block_or_pending_block.distinct
     blocked_advertisers.each do |blocked_advertiser|
       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => blocked_advertiser.advertiser_id,:site_id => site_id, :network_id => current_network.id)
-      ba.state = BlockedAdvertiser::PENDING_BLOCK
+      ba.state = BlockedAdvertiser::BLOCK
       ba.user = current_user
       ba.save
     end

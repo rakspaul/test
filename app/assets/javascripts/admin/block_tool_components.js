@@ -13,7 +13,10 @@
     },
 
     attributes: function() {
-      return {value: this.model.id};
+      return {
+        value: this.model.id,
+        title: this.model.get('name')
+      };
     },
 
     triggers:{
