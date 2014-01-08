@@ -262,7 +262,7 @@
     },
 
     comparator: function(model) {
-      return model.get('site_name');
+      return model.get('site_name').toLowerCase();
     },
 
     // parse method will convert the data in tree format
@@ -293,7 +293,7 @@
       }
 
       object.advertisers.comparator = function(model) {
-        return model.get('advertiser_name')
+        return model.get('advertiser_name').toLowerCase();
       };
 
       return object;
@@ -375,7 +375,7 @@
     },
 
     comparator: function(model) {
-      return model.get('site_name')
+      return model.get('site_name').toLowerCase();
     },
 
     parse: function(response) {
@@ -405,7 +405,7 @@
       };
 
       object.advertiserGroups.comparator = function(model) {
-        return model.get('advertiser_group_name');
+        return model.get('advertiser_group_name').toLowerCase();
       };
 
       return object;

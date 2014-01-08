@@ -49,7 +49,7 @@
     model: BlockedAdvertisers.Advertiser,
 
     comparator: function(model) {
-      return model.get('name');
+      return model.get('name').toLowerCase();
     },
 
 
@@ -66,7 +66,7 @@
     model: BlockedAdvertisers.AdvertisersGroup,
 
     comparator: function(model) {
-      return model.get('name');
+      return model.get('name').toLowerCase();
     },
 
     fetch: function(){
@@ -80,7 +80,7 @@
   BlockedAdvertisers.SiteList = Backbone.Collection.extend({
     model: BlockedAdvertisers.Site,
     comparator: function(model) {
-      return model.get('site_name');
+      return model.get('site_name').toLowerCase();
     },
   });
 
@@ -103,9 +103,9 @@
 
     comparator: function(model) {
       if(model.has('advertiser_name')) {
-        return model.get('advertiser_name');
+        return model.get('advertiser_name').toLowerCase();
       } else {
-        return model.get('advertiser_group_name');
+        return model.get('advertiser_group_name').toLowerCase();
       }
     },
 
