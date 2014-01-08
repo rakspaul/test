@@ -89,7 +89,7 @@ class IoImport
       end
 
       @io_details = IoDetail.new
-      @io_details.client_advertiser_name = @reader.advertiser_name
+      @io_details.client_advertiser_name = @reader.client_advertiser_name
       @io_details.order = @order
       @io_details.state = "draft"
       @io_details.reach_client          = reach_client
@@ -350,6 +350,10 @@ class IOExcelFileReader < IOReader
   end
 
   def advertiser_name
+    ""
+  end
+
+  def client_advertiser_name
     if @spreadsheet.cell(*ADVERTISER_LABEL_CELL).to_s.strip =~ /advertiser name/i
       @spreadsheet.cell(*ADVERTISER_CELL).to_s.strip
     end
@@ -490,8 +494,13 @@ class IOPdfFileReader < IOReader
     @reach_client_name.to_s.strip
   end
 
+  def client_advertiser_name
+    @client_advertiser_name.to_s.strip
+  end
+
   def advertiser_name
-    @advertiser_name.to_s.strip   
+    "" # https://github.com/collectivemedia/reachui/issues/327
+    # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.   
   end
 
   def account_contact
@@ -591,7 +600,6 @@ private
       above /campaign name/i
     end
     @client_advertiser_name = textangle.text[0][0]
-    @advertiser_name = @client_advertiser_name
 
     textangle = @reader.bounding_box do
       page 1
