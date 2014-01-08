@@ -409,7 +409,13 @@
       ul li{
         cursor: pointer;
         background: #fff;
-        width:301px;
+        width:300px;
+        height:22px;
+        overflow: hidden;
+        white-space:nowrap;
+        word-wrap:break-word;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
       }
 
       ul li.selected{
