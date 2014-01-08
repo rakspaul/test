@@ -295,10 +295,6 @@ $wide_input_width: 480px;
     background-color: yellow;
   }
 
-  .lineitem.copied-targeting-from {
-    background-color: aquamarine;
-  }
-
   .lineitem.copied-targeting-from:before {
     content: "Copied Targeting";
     font-size: 10px;
@@ -366,6 +362,7 @@ $wide_input_width: 480px;
       &:hover {
         border: 2px dashed $bg_color;
         @include box-sizing(border-box);
+        cursor: pointer;
       }
 
       .number {
@@ -494,6 +491,15 @@ $wide_input_width: 480px;
 
     span {
       border-bottom: 1px dashed $text_color;
+    }
+
+    .targeting-options {
+      float: left;
+    }
+
+    .targeting-options.highlighted {
+        background-color: yellow;
+        padding: 2px;
     }
   }
 }

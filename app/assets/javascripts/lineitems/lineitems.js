@@ -429,7 +429,7 @@
       _.each(window.selected_lis, function(li) {
         li.model.set('targeting', window.copied_targeting);
         li.renderTargetingDialog();
-        li.$el.addClass('highlighted');
+        li.$el.find('.targeting_options_condensed .targeting-options').eq(0).addClass('highlighted');
       });
     },
 
