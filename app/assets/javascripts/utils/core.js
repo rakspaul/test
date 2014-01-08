@@ -66,12 +66,12 @@ ReachUI.showCondensedTargetingOptions = function() {
 
   var dmas = targeting.attributes.selected_dmas;
   if(dmas.length > 0) {
-    targeting_options.push('<div class="dma-targeting-icon pull-left" title="DMAs"></div>', '<div style="float:left">', ReachUI.truncateArray(dmas, "title"), '</div>');
+    targeting_options.push('<div class="dma-targeting-icon pull-left" title="DMAs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(dmas, "title"), '</div>');
   }
 
   var zips = targeting.attributes.selected_zip_codes;
   if(zips.length > 0) {
-    targeting_options.push('<div class="zip-codes-icon pull-left" title="Zip codes"></div>', '<div style="float:left">', ReachUI.truncateArray(zips), '</div>');
+    targeting_options.push('<div class="zip-codes-icon pull-left" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
   }
  
   var key_values = targeting.attributes.selected_key_values;      
@@ -85,7 +85,7 @@ ReachUI.showCondensedTargetingOptions = function() {
   var custom_key_values = targeting.get('keyvalue_targeting');      
   if(custom_key_values) {   
     targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
-    targeting_options.push('<div style="float:left">'+custom_key_values+'</div>');
+    targeting_options.push('<div class="targeting-options">'+custom_key_values+'</div>');
   } 
 
 
