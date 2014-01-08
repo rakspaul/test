@@ -35,10 +35,6 @@ describe IoImport do
   context "IO imported" do
     before { io.import }
 
-    it "reads advertiser correctly" do
-      io.advertiser.should == @adv
-    end
-
     it "have access to xls filename" do
       io.original_filename.should == "Collective_IO.xlsx"
     end

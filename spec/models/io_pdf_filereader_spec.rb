@@ -10,7 +10,7 @@ describe IOPdfFileReader do
     end
 
     it "has advertiser name" do
-      subject.advertiser_name.should == "Chick-Fil-A"
+      subject.client_advertiser_name.should == "Chick-Fil-A"
     end
 
     it "has correct campaign name" do
@@ -96,10 +96,6 @@ describe IOPdfFileReader do
 
     before do
       FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
-    end
-
-    it "has advertiser name" do
-      subject.advertiser_name.should == "LexisNexis"
     end
 
     it "has start flight dates" do

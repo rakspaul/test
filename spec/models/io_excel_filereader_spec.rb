@@ -12,7 +12,7 @@ describe IOExcelFileReader do
     before { subject.open }
 
     it "has advertiser name" do
-      subject.advertiser_name.should == "Otterbein University"
+      subject.client_advertiser_name.should == "Otterbein University"
     end
 
     it "has start flight dates" do
