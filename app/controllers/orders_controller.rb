@@ -531,6 +531,13 @@ private
         li_errors[i][:lineitems].merge!(lineitem.errors)
       end
 
+      if (ad_sizes = li["lineitem"]["ad_sizes"].split(',')) && ad_sizes.include?("0x0")
+        Rails.logger.warn 'lineitem.errors - ' + lineitem.errors.inspect
+        li_errors[i] ||= {}
+        li_errors[i][:lineitems] ||= {}
+        li_errors[i][:lineitems].merge!({'ad_sizes' => '0x0 is invalid ad size'})
+      end
+
       li[:ads].to_a.each_with_index do |ad, j|
         begin
           ad_targeting = ad[:ad].delete(:targeting)

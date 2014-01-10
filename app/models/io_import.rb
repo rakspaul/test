@@ -758,8 +758,8 @@ private
       end
     end
 
-    lineitems.map do |ad_sizes|
-      ad_sizes[:ad_sizes].uniq!
+    lineitems.map do |ad_size|
+      ad_size[:ad_sizes].uniq!
     end
 
     lineitems
