@@ -191,7 +191,7 @@
           },
         },
         success: function(response, newValue) {
-          if (view.model.type = 'Video') {
+          if (view.model.type == 'Video') {
             var value = newValue.join(', ');
             view.model.set('companion_ad_size', value);
             view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + value);
