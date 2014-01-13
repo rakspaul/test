@@ -74,6 +74,8 @@ group :development, :test do
   gem 'jasmine-jquery-rails'
   gem 'sinon-rails'
   gem 'guard-jasmine'
+
+  gem 'simplecov'
 end
 
 group :development do

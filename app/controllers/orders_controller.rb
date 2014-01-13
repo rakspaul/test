@@ -217,7 +217,7 @@ private
       end
 
       if !session[:sort_direction].blank?
-        sort_direction = session[:sort_direction]
+          sort_direction = session[:sort_direction]
       end
 
       if !session[:order_status].blank?

@@ -14,15 +14,23 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     advertiser { FactoryGirl.singleton :advertiser }
     user
+    after(:create) do |ord|
+      create_list(:io_detail, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
+    end
   end
 
   factory :order_with_lineitem, :parent => :order do
     after(:create) do |ord|
-      create_list(:lineitem_with_ad, order: ord)
+      create_list(:lineitem_with_ad, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
     end
   end
 
   factory :io_detail do
+    state 'draft'
+    #media_contact
+    #billing_contact
     client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
     order_id  { FactoryGirl.singleton(:order).id }
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
@@ -37,6 +45,20 @@ FactoryGirl.define do
     user_id { FactoryGirl.singleton(:user).id }
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
+  end
+
+  factory :contact do
+    sequence(:email) { |n| "test#{n}@twcable.com" }
+    phone '888-555-5555'
+    reach_client_id 1
+  end
+
+  factory :media_contact, :parent => :contact, :class => 'MediaContact' do
+    name "Marsha Lowe"
+  end
+
+  factory :billing_contact, :parent => :contact, :class => 'BillingContact' do
+    name "Addy Earles"
   end
 
   factory :lineitem do
@@ -62,7 +84,7 @@ FactoryGirl.define do
 
   factory :lineitem_with_ad, :parent => :lineitem do
     after(:create) do |li|
-      create_list(:ad, lineitem: li)
+      create_list(:ad, 1, lineitem: li)
     end
   end
 
@@ -117,20 +139,6 @@ FactoryGirl.define do
   factory :advertiser_type do
     name "ADVERTISER"
     network { FactoryGirl.singleton :network }
-  end
-
-  factory :media_contact do
-    name "Marsha Lowe"
-    phone "7049737452"
-    email "digital.services@twcable.com"
-    reach_client_id 1
-  end
-
-  factory :billing_contact do
-    name "Addy Earles"
-    email "aearles@schurz.com"
-    phone "3174027206"
-    reach_client_id 1
   end
 
   factory :audience_group do
