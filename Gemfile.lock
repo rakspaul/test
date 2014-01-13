@@ -123,7 +123,7 @@ GEM
     factory_girl_rails (4.2.1)
       factory_girl (~> 4.2.0)
       railties (>= 3.0.0)
-    faker (1.1.2)
+    faker (1.2.0)
       i18n (~> 0.5)
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
@@ -342,7 +342,7 @@ DEPENDENCIES
   draper (~> 1.2.1)
   ejs
   factory_girl_rails (~> 4.2.1)
-  faker (~> 1.1.2)
+  faker (~> 1.2.0)
   guard-jasmine
   guard-rspec
   haml-rails (~> 0.4)
