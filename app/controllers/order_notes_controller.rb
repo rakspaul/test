@@ -3,6 +3,13 @@ class OrderNotesController < ApplicationController
 
   respond_to :json
 
+  def index
+    if params[:order_id]
+      @notes = OrderNote.for_order(params[:order_id]).order('created_at desc')
+      respond_with(@notes)
+    end
+  end
+
   # POST orders/{order_id}/notes
   def create
     order = Order.find(params[:order_id])

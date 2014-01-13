@@ -25,7 +25,7 @@
   Ocr.AdView = Backbone.Marionette.ItemView.extend({
     tagName: 'tr',
     className: 'ad',
-    template: _.template('<td><%= id %></td><td><%= name %></td>')
+    template: _.template('<td><%= id %></td><td class="name"><%= name %></td><td><%= nielsen_campaign_id %></td>')
   });
 
   Ocr.Lineitem = Backbone.Model.extend({

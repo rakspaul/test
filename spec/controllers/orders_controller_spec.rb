@@ -9,6 +9,7 @@ describe OrdersController do
   let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
                      FactoryGirl.create(:ad_size_300x250),
                      FactoryGirl.create(:ad_size_728x90) ] }
+  let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before do
     path = "/tmp/IO_asset1385031164"
@@ -94,7 +95,7 @@ describe OrdersController do
       it "create a new order note" do
         expect{
           post :create, io_request
-        }.to change(OrderNote, :count).by(1)
+        }.to change(OrderNote, :count).by(2)
       end
     end
 
@@ -350,6 +351,39 @@ describe OrdersController do
 
       data = json_parse(response.body)
       expect(data[:status]).to eq('Draft')
+    end
+  end
+
+  describe "DELETE 'destroy'" do
+    before :each do
+      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail
+    end
+
+    it "returns http success" do
+      delete :delete, ids: @order
+
+      response.should be_success
+    end
+
+    it "deletes the order" do
+      expect{
+        delete :delete, ids: @order
+      }.to change(Order,:count).by(-1)
+    end
+
+    it "deletes the advertiser" do
+      expect{
+        delete :delete, ids: @order
+      }.to change(Advertiser,:count).by(-1)
+    end
+
+    it "should not delete advertiser if more than one orders associated" do
+      order_one = FactoryGirl.create :order, name: 'order_one', network_advertiser_id: advertiser.id, io_detail: io_detail
+      order_two = FactoryGirl.create :order, name: 'order_two', network_advertiser_id: advertiser.id, io_detail: io_detail
+
+      expect{
+        delete :delete, ids: order_one
+      }.to change(Advertiser,:count).by(0)
     end
   end
 
