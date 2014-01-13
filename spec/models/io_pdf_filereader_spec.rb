@@ -98,7 +98,7 @@ describe IOPdfFileReader do
       @lineitems = []
       subject.lineitems{|li| @lineitems << li}
       @lineitems[19][:ad_sizes].should == "1x1"
-      @lineitems[0][:ad_sizes].should == "160x600,300x250,728x90"
+      @lineitems[0][:ad_sizes].should == "160x600, 300x250, 728x90"
     end
   end
 
