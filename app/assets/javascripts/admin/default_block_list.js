@@ -79,7 +79,7 @@
 
     onRender:function() {
       if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('strike');
+        this.$el.addClass('disabled');
         this.$el.attr('disabled','disabled');
       }
     }
@@ -106,7 +106,6 @@
 
     onRemove: function() {
       var selectedBlockedSites = this.ui.blockedSiteList.val();
-
       if (selectedBlockedSites) {
         for (var i = 0; i < selectedBlockedSites.length; i++) {
           var item = this.collection.findWhere({site_id: parseInt(selectedBlockedSites[i])});
@@ -114,6 +113,7 @@
             item.set({status: 'deleted'});
           }
         };
+        this.ui.blockedSiteList.val([]);
       }
     },
 

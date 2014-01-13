@@ -156,7 +156,8 @@
   BlockSites.Advertiser = Backbone.Model.extend({
     defaults:{
       state: 'PENDING_BLOCK',
-      default_block: false
+      default_block: false,
+      status: ''
     },
   });
 
@@ -173,7 +174,8 @@
 
   BlockSites.AdvertiserGroup = Backbone.Model.extend({
     defaults:{
-      state: 'PENDING_BLOCK'
+      state: 'PENDING_BLOCK',
+      status: ''
     },
   });
 
@@ -195,6 +197,11 @@
 
     getAdvertisers: function() {
       return this.get('advertisers');
+    },
+
+    getAdvertiser: function(advertiser_id) {
+      var model = this.getAdvertisers().findWhere({advertiser_id: advertiser_id});
+      return model;
     },
 
     removeAdvertiser: function(advertiser_id) {
@@ -306,7 +313,8 @@
         advertiser_name: advertiser.advertiser_name,
         site_id: advertiser.site_id,
         state: advertiser.state,
-        default_block: false
+        default_block: false,
+        status:''
       }
     },
 
@@ -319,6 +327,11 @@
 
     getAdvertiserGroups: function() {
       return this.get('advertiserGroups');
+    },
+
+    getAdvertiserGroup: function(advertiser_group_id) {
+      var model = this.getAdvertiserGroups().findWhere({advertiser_group_id: advertiser_group_id});
+      return model;
     },
 
     removeAdvertiserGroup: function(advertiser_group_id) {
@@ -418,6 +431,7 @@
         advertiser_group_name: advertiser_group.advertiser_group_name,
         site_id: advertiser_group.site_id,
         state: advertiser_group.state,
+        status:'',
       }
     },
 
@@ -462,6 +476,10 @@
       };
     },
 
+    initialize: function() {
+      this.model.on('change', this.render, this);
+    },
+
     className: function() {
       if (this.model.get('default_block')) {
         return 'italics'
@@ -473,6 +491,13 @@
         pending_block_indicator : (this.model.get('state') == "PENDING_BLOCK" || this.model.get('state') == "PENDING_UNBLOCK")? ' * ': '',
         default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
         advertiser_name : this.model.get('advertiser_name')
+      }
+    },
+
+    onRender: function() {
+      if (this.model.get('status') === 'deleted') {
+        this.$el.addClass('disabled');
+        this.$el.attr('disabled','disabled');
       }
     },
 
@@ -533,24 +558,22 @@
     },
 
     _onRemoveAdvertiserClick: function(event) {
-      var selectedAdvertisers = [],
-      unblockedAdvertisers = [];
+      var self = this;
 
       if (this._isAdvertiserSelected()) {
 
         $( "#blockedAdvertiserList option:selected" ).each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
-          advertiser_id = parseInt($( this ).val());
-          selectedAdvertisers.push({site_id: site_id, advertiser_id: advertiser_id});
+          advertiser_id = parseInt($( this ).val()),
+          site = self.collection.findWhere({site_id: site_id});
+          if (site) {
+            var advertiser = site.getAdvertiser(advertiser_id);
+            if(advertiser) {
+              advertiser.set({status: 'deleted'});
+            }
+          }
         });
-
-        for (var i = 0; i < selectedAdvertisers.length; i++) {
-          var site = this.collection.findWhere({site_id: selectedAdvertisers[i].site_id}),
-          advertiser = site.removeAdvertiser(selectedAdvertisers[i].advertiser_id);
-          unblockedAdvertisers.push(advertiser);
-        }
-
-        this.trigger('UnBlock:Advertiser', unblockedAdvertisers);
+        this.ui.blocked_advertiser_list.val([]);
       }
 
     },
@@ -576,6 +599,17 @@
       return {
         value: this.model.get('advertiser_group_id'),
         site_id: this.model.get('site_id')
+      }
+    },
+
+    initialize: function() {
+      this.model.on('change', this.render, this);
+    },
+
+    onRender: function() {
+      if (this.model.get('status') === 'deleted') {
+        this.$el.addClass('disabled');
+        this.$el.attr('disabled','disabled');
       }
     },
   });
@@ -643,24 +677,22 @@
     },
 
     _onRemoveAdvertiserGroupClick: function(event) {
-      var selectedAdvertiserGroups = [],
-      unblockedAdvertiserGroups = [];
+      var self = this;
 
       if (this._isAdvertiserGroupSelected()) {
 
         $( "#blockedAdvertiserGroupList option:selected" ).each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
-          advertiser_group_id = parseInt($( this ).val());
-          selectedAdvertiserGroups.push({site_id: site_id, advertiser_group_id: advertiser_group_id});
+          advertiser_group_id = parseInt($( this ).val()),
+          site = self.collection.findWhere({site_id: site_id});
+          if (site) {
+            var advertiser_group = site.getAdvertiserGroup(advertiser_group_id);
+            if (advertiser_group) {
+              advertiser_group.set({status: 'deleted'});
+            }
+          }
         });
-
-        for (var i = 0; i < selectedAdvertiserGroups.length; i++) {
-          var site = this.collection.findWhere({site_id: selectedAdvertiserGroups[i].site_id}),
-          advertiser_group = site.removeAdvertiserGroup(selectedAdvertiserGroups[i].advertiser_group_id);
-          unblockedAdvertiserGroups.push(advertiser_group);
-        }
-
-        this.trigger('UnBlock:AdvertiserGroups', unblockedAdvertiserGroups);
+        this.ui.blocked_advertiser_group_list.val([]);
       }
 
     },

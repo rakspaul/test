@@ -376,6 +376,10 @@
       }
     }
 
+    option.disabled{
+      color:#ccc;
+    }
+
     .loading-div{
       width:85%;
       height:500px;
@@ -633,7 +637,7 @@ ul.select-keyvals{
         font-size:13px;
         padding:2px 0px;
 
-        option.strike{
+        option.disabled{
           color:#ccc;
         }
       }
