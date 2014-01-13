@@ -91,6 +91,17 @@ describe IOPdfFileReader do
     end
   end
 
+  context "ad sizes in different cells" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'elements_cherry_hill.pdf')) }
+
+    it "should parse ad sizes only from 'Targeting' column" do
+      @lineitems = []
+      subject.lineitems{|li| @lineitems << li}
+      @lineitems[19][:ad_sizes].should == "1x1"
+      @lineitems[0][:ad_sizes].should == "160x600,300x250,728x90"
+    end
+  end
+
   context "opened io pdf file with 3 lineitems on different pages" do
     subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
 

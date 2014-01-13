@@ -751,10 +751,11 @@ private
     ad_sizes_raw.each do |line|
       li = {}
       if line =~ /Ad Size\(s\):/
-        li[:ad_sizes] = line.scan(/\s+\d+x\d+\s?/mi)
+        li[:ad_sizes] = line.scan(/\d+x\d+\s?/mi)
         lineitems << li
-      elsif line =~ /\s+[\dx\s,]\s?/mi
-        lineitems.last[:ad_sizes] += line.scan(/\s+\d+x\d+\s?/mi)
+      # elsif there are no symbols in the line (except 'x', which is a separator in ad size)
+      elsif (line !~ /[a-wyz]+/mi) && (line =~ /[\dx\s,]/mi)
+        lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi).map(&:strip)
       end
     end
 
