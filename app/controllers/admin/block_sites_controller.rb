@@ -10,22 +10,22 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def get_blacklisted_advertisers
-    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_block
+    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block
     @blacklisted_advertisers = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
   end
 
   def get_blacklisted_advertiser_groups
-    @blacklisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_block
+    @blacklisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_block
     @blacklisted_advertiser_groups = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiserGroup', params['site_id']) if params['site_id'].present?
   end
 
   def get_whitelisted_advertiser
-    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_unblock
+    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock
     @whitelisted_advertisers = get_whitelisted_advertiser_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
   end
 
   def get_whitelisted_advertiser_groups
-    @whitelisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site).where(user: current_user).order('Sites.name asc').pending_unblock
+    @whitelisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_unblock
   end
 
   def get_blacklisted_advertiser_and_groups_on_site(model, site_ids)

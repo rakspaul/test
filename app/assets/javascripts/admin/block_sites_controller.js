@@ -36,7 +36,6 @@
       this.blockedAdvertiserList = new BlockSites.AdvertiserBlockList();
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
       this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
-      this.blockedAdvertiserListView.on('UnBlock:Advertiser', this._onUnblockAdvertiser, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
 
@@ -44,7 +43,6 @@
       this.blockedAdvertiserGroupList = new BlockSites.AdvertiserGroupBlockList();
       this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
       this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
-      this.blockedAdvertiserGroupListView.on('UnBlock:AdvertiserGroups', this._onUnblockAdvertiserGroup, this);
       this.layout.blockedAdvertiserGroupListView.show(this.blockedAdvertiserGroupListView);
     },
 
@@ -87,8 +85,6 @@
 
     _fetchSiteBlocks: function() {
       var self = this;
-      this._removedAdvertisers = [];
-      this._removedAdvertiserGroups = [];
 
       if (this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
         this.blockedAdvertiserList.fetchBlacklistedAdvertisers().then(function() {
@@ -131,29 +127,13 @@
           blockedAdvertisers = this._createAdvertiserModelArray(vos, selectedSite.id),
           site = this.blockedAdvertiserList.findWhere({site_id: selectedSite.id});
 
-          if(!site) {
-            // site is not there add to blockedAdvertiserList collection
-            var blockedAdvertiser = this._createNewBlockedAdvertiser(selectedSite.id, selectedSite.get('name'), blockedAdvertisers)
-            this.blockedAdvertiserList.add(blockedAdvertiser);
-          } else {
-            // site exist need to check if user is adding same advertisers or new one
-            blockedAdvertisers.each(function(blockedAdvertiser) {
-              if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
-                site.addAdvertiser(blockedAdvertiser);
-              }
-            }, this);
-          }
+          blockedAdvertisers.each(function(blockedAdvertiser) {
+            if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
+              site.addAdvertiser(blockedAdvertiser);
+            }
+          }, this);
         }
       }
-    },
-
-    _createNewBlockedAdvertiser: function(site_id, site_name, advertisers) {
-      var newBlockedAdvertiser = new BlockSites.BlockedAdvertiser({
-        site_id: site_id,
-        site_name: site_name,
-        advertisers: advertisers
-      });
-      return newBlockedAdvertiser;
     },
 
     _createAdvertiserModelArray: function(vos, site_id) {
@@ -180,14 +160,6 @@
       })
     },
 
-    _onUnblockAdvertiser: function(advertisers) {
-      this._removedAdvertisers = this._removedAdvertisers.concat(advertisers);
-    },
-
-    _onUnblockAdvertiserGroup: function(advertiser_groups) {
-      this._removedAdvertiserGroups = this._removedAdvertiserGroups.concat(advertiser_groups);
-    },
-
     // When user selects advertiser block to block
     // First check if that site exists in the list
     // If No create new object and add it to the list
@@ -202,29 +174,13 @@
           blockedAdvertiserGroups = this._createAdvertiserGroupModelArray(vos, selectedSite.id),
           site = this.blockedAdvertiserGroupList.findWhere({site_id: selectedSite.id});
 
-          if(!site) {
-            // site is not there add to blockedAdvertiserBlockList collection
-            var blockedAdvertiserGroup = this._createNewBlockedAdvertiserGroup(selectedSite.id, selectedSite.get('name'), blockedAdvertiserGroups);
-            this.blockedAdvertiserGroupList.add(blockedAdvertiserGroup);
-          } else {
-            // site exist need to check if user is adding same advertisers or new one
-            blockedAdvertiserGroups.each(function(blockedAdvertiserGroup) {
-              if(!site.hasAdvertiserGroup(blockedAdvertiserGroup.get('advertiser_group_id'))) {
-                site.addAdvertiserGroup(blockedAdvertiserGroup);
-              }
-            }, this);
-          }
+          blockedAdvertiserGroups.each(function(blockedAdvertiserGroup) {
+            if(!site.hasAdvertiserGroup(blockedAdvertiserGroup.get('advertiser_group_id'))) {
+              site.addAdvertiserGroup(blockedAdvertiserGroup);
+            }
+          }, this);
         }
       }
-    },
-
-    _createNewBlockedAdvertiserGroup: function(site_id, site_name, blockedAdvertiserGroups) {
-      var newBlockedAdvertiserGroup = new BlockSites.BlockedAdvertiserGroup({
-        site_id: site_id,
-        site_name: site_name,
-        advertiserGroups: blockedAdvertiserGroups
-      });
-      return newBlockedAdvertiserGroup;
     },
 
     _createAdvertiserGroupModelArray: function(vos, site_id) {
@@ -291,6 +247,8 @@
       if (blacklistedAdvertisers.length > 0 || blacklistedAdvertiserGroups.length > 0 || whitelistedAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0) {
         this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
         $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
+      } else {
+        this._fetchSiteBlocks();
       }
 
     },
@@ -299,7 +257,7 @@
       var newAdvertiser = [];
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
-          if(advertiser.isNew()) {
+          if(advertiser.isNew() && advertiser.get('status') !== 'deleted') {
             newAdvertiser.push(advertiser.toJSON());
           }
         })
@@ -308,16 +266,15 @@
     },
 
     _getRemovedAdvertisers: function() {
-      var advertisers = this._removedAdvertisers,
-      removedAdvertisers = [];
+      var removedAdvertisers = [];
 
-      if (advertisers && advertisers.length > 0) {
-        for (var i = 0; i < advertisers.length; i++) {
-          if (!advertisers[i].isNew()) {
-            removedAdvertisers.push(advertisers[i]);
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if(!advertiser.isNew() && advertiser.get('status') === 'deleted') {
+            removedAdvertisers.push(advertiser.toJSON());
           }
-        }
-      }
+        })
+      }, this);
 
       return removedAdvertisers;
     },
@@ -327,7 +284,7 @@
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.isNew()) {
+          if(advertiser_group.isNew() && advertiser_group.get('status') !== 'deleted') {
             newAdvertiserGroups.push(advertiser_group.toJSON());
           }
         })
@@ -337,16 +294,15 @@
     },
 
     _getRemovedAdvertiserGroups: function() {
-      var advertiserGroups = this._removedAdvertiserGroups,
-      removedAdvertisers = [];
+      var removedAdvertisers = [];
 
-      if (advertiserGroups && advertiserGroups.length > 0) {
-        for (var i = 0; i < advertiserGroups.length; i++) {
-          if (!advertiserGroups[i].isNew()) {
-            removedAdvertisers.push(advertiserGroups[i]);
+      this.blockedAdvertiserGroupList.each(function(site) {
+        site.getAdvertiserGroups().each(function(advertiser_group) {
+          if(!advertiser_group.isNew() && advertiser_group.get('status') === 'deleted') {
+            removedAdvertisers.push(advertiser_group.toJSON());
           }
-        }
-      }
+        })
+      }, this);
 
       return removedAdvertisers;
     },
