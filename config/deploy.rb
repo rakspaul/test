@@ -72,14 +72,12 @@ set :test_log, "log/capistrano.test.log"
 task :run_tests do
   puts "--> Running tests"
   client = HipChat::Client.new(hipchat_token)
-  tests_output = `bundle exec rspec > #{test_log}`
-  if tests_output.match(/\s?0 failures\s?/m)
+  if system("bundle exec rspec > #{test_log}")
     puts "----> Tests successfully passed"
     client[hipchat_room_name].send('Deploy', 'Tests successfully passed', :color => hipchat_color)
     system("rm #{test_log}")
   else
-    puts "----> Tests failed: "
-    puts tests_output
+    puts "----> Tests failed, please check #{test_log}"
     client[hipchat_room_name].send('Deploy', 'Tests failed', :color => hipchat_failed_color)
     exit
   end
