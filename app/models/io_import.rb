@@ -751,17 +751,16 @@ private
     ad_sizes_raw.each do |line|
       li = {}
       if line =~ /Ad Size\(s\):/
-        li[:ad_sizes] = line.scan(/\d+x\d+/mi)
+        li[:ad_sizes] = line.scan(/\s+\d+x\d+\s?/mi)
         lineitems << li
-      elsif line =~ /[\dx\s,]/mi
-        lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi)
+      elsif line =~ /\s+[\dx\s,]\s?/mi
+        lineitems.last[:ad_sizes] += line.scan(/\s+\d+x\d+\s?/mi)
       end
     end
 
     lineitems.map do |ad_size|
       ad_size[:ad_sizes].uniq!
     end
-
     lineitems
   end
 end
