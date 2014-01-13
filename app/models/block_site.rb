@@ -7,6 +7,8 @@ class BlockSite < ActiveRecord::Base
   PENDING_UNBLOCK = 'PENDING_UNBLOCK'
   BLOCK           = 'BLOCK'
   UNBLOCK         = 'UNBLOCK'
+  COMMIT_BLOCK    = 'COMMIT_BLOCK'
+  COMMIT_UNBLOCK  = 'COMMIT_UNBLOCK'
 
   BLOCKED_ADVERTISER = 'BlockedAdvertiser'
   BLOCKED_ADVERTISER_GROUP = 'BlockedAdvertiserGroup'
@@ -20,7 +22,7 @@ class BlockSite < ActiveRecord::Base
   end
 
   def self.block_or_pending_block
-    where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK])
+    where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK, BlockSite::COMMIT_BLOCK])
   end
 
   def self.pending_block
@@ -28,7 +30,7 @@ class BlockSite < ActiveRecord::Base
   end
 
   def self.unblock_or_pending_unblock
-    where(state: [BlockSite::PENDING_UNBLOCK, BlockSite::UNBLOCK])
+    where(state: [BlockSite::PENDING_UNBLOCK, BlockSite::UNBLOCK, BlockSite::COMMIT_UNBLOCK ])
   end
 
   def self.pending_unblock
