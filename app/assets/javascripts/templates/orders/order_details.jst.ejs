@@ -149,6 +149,9 @@
           <% if(order.reachui_users) { %>
           <select>
             <option value=""></option>
+            <% if(order.sales_person_unknown) { %>
+              <option value="" selected="selected"><%= order.sales_person_name %></option>
+            <% } %>
             <% _.each(order.reachui_users, function(u) { %>
             <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.sales_person_name ? 'selected="selected"' : '' %>><%= u.name %></option>
             <% }); %>
@@ -186,6 +189,9 @@
           <% if(order.media_contacts) { %>
           <select>
             <option value=""></option>
+            <% if(order.media_contact_unknown) { %>
+              <option value="" selected="selected"><%= order.media_contact_name %></option>
+            <% } %>
             <% _.each(order.media_contacts, function(mc) { %>
             <option value="<%= mc.id %>|<%= mc.email %>|<%= mc.phone %>" <%= mc.name == order.media_contact_name ? 'selected="selected"' : '' %>><%= mc.name %></option>
             <% }); %>
@@ -229,6 +235,9 @@
           <% if(order.reachui_users) { %>
           <select>
             <option value=""></option>
+            <% if(order.account_contact_unknown) { %>
+              <option value="" selected="selected"><%= order.account_contact_name %></option>
+            <% } %>
             <% _.each(order.reachui_users, function(u) { %>
             <option value="<%= u.id %>|<%= u.email %>|<%= u.phone %>" <%= u.name == order.account_contact_name ? 'selected="selected"' : '' %>><%= u.name %></option>
             <% }); %>
@@ -267,6 +276,9 @@
           <% if(order.billing_contacts) { %>
           <select>
             <option value=""></option>
+            <% if(order.billing_contact_unknown) { %>
+              <option value="" selected="selected"><%= order.billing_contact_name %></option>
+            <% } %>
             <% _.each(order.billing_contacts, function(bc) { %>
             <option value="<%= bc.id %>|<%= bc.email %>|<%= bc.phone %>" <%= bc.name == order.billing_contact_name ? 'selected="selected"' : '' %>><%= bc.name %></option>
             <% }); %>
