@@ -109,6 +109,7 @@ class Admin::BlockSitesController < ApplicationController
     vos = BlockSite.of_network(current_network).where(state: [BlockSite::PENDING_BLOCK, BlockSite::PENDING_UNBLOCK])
 
     if vos && vos.size > 0
+      update_commit_status
       enqueue_for_push
       render json: {status: 'success', message: 'Your changes are being processed.'}
     else
@@ -205,6 +206,21 @@ private
       blocks.push(block);
     end
     return blocks;
+  end
+
+  def update_commit_status
+    blocks = BlockSite.of_network(current_network).where(user: current_user).pending_block
+    unblocks = BlockSite.of_network(current_network).where(user: current_user).pending_unblock
+
+    blocks.each do |block|
+      block.state = BlockSite::COMMIT_BLOCK
+      block.save
+    end
+
+    unblocks.each do |unblock|
+      unblock.state = BlockSite::COMMIT_UNBLOCK
+      unblock.save
+    end
   end
 
 end
