@@ -164,6 +164,29 @@ describe Admin::BlockSitesController do
 
   end
 
+  describe "POST 'commit'" do
+    before :each do
+      @advertiser_block_1 = FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_1, state: 'PENDING_BLOCK', user: @account.user)
+      @advertiser_block_2 = FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_2, site: site_1, state: 'PENDING_UNBLOCK', user: @account.user)
+
+      @advertiser_group_block_1 = FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_1, site: site_2, state: 'PENDING_BLOCK', user: @account.user)
+      @advertiser_group_block_2 = FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_2, site: site_2, state: 'PENDING_UNBLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      post :commit
+      expect(response).to be_success
+    end
+
+    it "changes status code" do
+      post :commit
+      (expect(BlockedAdvertiser.find(@advertiser_block_1.id).state).to eq BlockSite::COMMIT_BLOCK) &&
+      (expect(BlockedAdvertiser.find(@advertiser_block_2.id).state).to eq BlockSite::COMMIT_UNBLOCK) &&
+      (expect(BlockedAdvertiserGroup.find(@advertiser_group_block_1.id).state).to eq BlockSite::COMMIT_BLOCK) &&
+      (expect(BlockedAdvertiserGroup.find(@advertiser_group_block_2.id).state).to eq BlockSite::COMMIT_UNBLOCK)
+    end
+  end
+
   describe "GET 'export_blacklisted_advertisers_and_groups'" do
     before :each do
       FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_1, state: 'PENDING_BLOCK', user: @account.user)
