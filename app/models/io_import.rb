@@ -81,8 +81,8 @@ class IoImport
       @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
 
       if @reach_client
-        @billing_contacts = BillingContact.for_user(@reach_client.id).all
-        @media_contacts = MediaContact.for_user(@reach_client.id).all
+        @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
+        @media_contacts = MediaContact.for_user(@reach_client.id).order(:name).all
       else
         @billing_contacts = []
         @media_contacts = []

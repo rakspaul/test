@@ -17,6 +17,10 @@ class OrdersController < ApplicationController
 
     @pushing_errors = @order.io_detail.state =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
+    @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    @reachui_users    = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
+
     respond_to do |format|
       format.html
       format.json

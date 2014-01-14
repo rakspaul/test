@@ -23,6 +23,33 @@ json.notes do
   end
 end
 
+json.billing_contacts do
+  json.array! @billing_contacts do |bc|
+    json.id bc.id
+    json.name bc.name
+    json.email bc.email
+    json.phone bc.phone
+  end
+end
+
+json.media_contacts do
+  json.array! @media_contacts do |mc|
+    json.id mc.id
+    json.name mc.name
+    json.email mc.email
+    json.phone mc.phone
+  end
+end
+
+json.reachui_users do
+  json.array! @reachui_users do |u|
+    json.id u.id
+    json.name u.full_name
+    json.email u.email
+    json.phone u.phone_number
+  end
+end
+
 json.pushing_errors do
   json.array! @pushing_errors do |error|
     json.type    error.type
