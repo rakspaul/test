@@ -56,7 +56,7 @@
       }, 0);
 
       var sum_media_cost = _.inject(this.models, function(sum, el) {
-        sum += parseFloat(el.get('value'));
+        sum += Math.round(parseFloat(el.get('value')) * 100) / 100;
         return sum;
       }, 0.0);
 
