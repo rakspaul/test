@@ -151,7 +151,7 @@
           li = this.options.parent_view.model,
           li_type = li.get('type');
 
-      if (creatives.length > 0 && type != 'Video') {
+      if (creatives.length > 0 && type != 'Video' && type != 'Companion') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
         });
