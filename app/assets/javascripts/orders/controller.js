@@ -408,23 +408,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
       var advertiserName = $('#create_advertiser_input').val();
       var para = { name: advertiserName };
-      $('#create_advertiser_btn').attr('disabled','disabled');
-
-      $.ajax({
-        type: "POST", url: '/advertisers', data: para, dataType: 'json',
-        success:function(ev){
-          $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
-          order.set("advertiser_id", ev.id);
-          order.set("advertiser_name", ev.name);
-          $('.advertiser-name input').val(advertiserName);
-          $('#create_advertiser_btn').removeAttr('disabled');
-          $('.advertiser-name input').trigger('typeahead:closed');
-        },
-        error:function(ev){
-          alert('Error in creating advertiser.');
-          $('#create_advertiser_btn').removeAttr('disabled');
-        }
-      });
+      $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
+      $('.advertiser-name input').val(advertiserName);
+      $('.advertiser-name input').trigger('typeahead:closed');
+      order.set("advertiser_name", advertiserName);
     });
 
     $('.advertiser-name input').on('keyup', function(ev){
@@ -547,7 +534,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
     ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
-    
+
     if(isGeo) {
       ad_name_parts.push("GEO");
     }
@@ -710,6 +697,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
+
+    // order note reload
+    lineItemListView.on('ordernote:reload', function(){
+      ordersController.noteList.fetch({reset: true});
+    });
   },
 
   _showNotesView: function(order) {

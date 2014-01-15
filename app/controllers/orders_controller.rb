@@ -71,18 +71,26 @@ class OrdersController < ApplicationController
 
     p = params.require(:order).permit(:name, :start_date, :end_date)
     @order = Order.new(p)
-    @order.network_advertiser_id = params[:order][:advertiser_id].to_i
     @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
     @order.user = current_user
 
+    order_notes = params[:order][:notes]
+    order_status = params[:order][:order_status]
+    if order_status == 'pushing'
+      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
+    end
+
     respond_to do |format|
       Order.transaction do
+        advertiser = create_advertiser(params[:order][:advertiser_name])
+        @order.network_advertiser_id = advertiser.id
+
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
-          params[:order][:notes].to_a.each do |note|
+          order_notes.to_a.each do |note|
             OrderNote.create note: note[:note], user: current_user, order: @order
           end
 
@@ -128,6 +136,7 @@ class OrdersController < ApplicationController
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.state                  = order_param[:order_status] || "draft"
 
+
     respond_to do |format|
       Order.transaction do
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
@@ -171,6 +180,10 @@ class OrdersController < ApplicationController
     params[:ids].split(',').each do |id|
       order = Order.find(id)
       order.destroy if order && order.io_detail && order.source_id.to_i.zero?
+
+      orders_by_adv = Order.where(:network_advertiser_id => order.network_advertiser_id)
+      adv = Advertiser.find(order.network_advertiser_id)
+      adv.destroy if orders_by_adv.length == 0 && adv.source_id.to_i.zero?
     end
 
     render json: {status: 'success'}
@@ -204,7 +217,7 @@ private
       end
 
       if !session[:sort_direction].blank?
-        sort_direction = session[:sort_direction]
+          sort_direction = session[:sort_direction]
       end
 
       if !session[:order_status].blank?
@@ -236,7 +249,7 @@ private
     session[:trafficker] = trafficker
     session[:search_query] = search_query
 
-    order_array = Order.includes(:advertiser).joins(:io_detail).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
@@ -650,6 +663,21 @@ private
     end
 
     errors_in_kv
+  end
+
+  def create_advertiser(name)
+    advertiser = Advertiser.of_network(current_network).where(:name => name).first
+    if advertiser.blank?
+      advertiser = Advertiser.new
+      advertiser.name = name
+      advertiser.network = current_network
+
+      advertiser_type = AdvertiserType.where(:name => AdvertiserType::ADVERTISER_TYPE, :network => current_network)
+      advertiser.advertiser_type_id = advertiser_type.first.id
+      advertiser.save
+    end
+
+    advertiser
   end
 
   def get_network_media_types

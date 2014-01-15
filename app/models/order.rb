@@ -14,7 +14,7 @@ class Order < ActiveRecord::Base
   has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
   has_many :io_assets, dependent: :destroy
   has_many :ads, dependent: :destroy
-  has_many :order_notes
+  has_many :order_notes, -> { order('created_at desc') }
   has_many :io_logs
 
   validates :start_date, :end_date, presence: true
@@ -26,6 +26,8 @@ class Order < ActiveRecord::Base
   before_create :create_random_source_id, :make_order_inactive
   before_destroy :check_could_be_deleted
   before_save :move_end_date_time, :set_data_source
+  after_create :set_import_note
+  after_update :set_push_note
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -61,6 +63,10 @@ class Order < ActiveRecord::Base
 
   def pushed_to_dfp?
     self.source_id.to_i != 0
+  end
+
+  def latest_import_or_push_note
+    self.order_notes.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
   end
 
   private
@@ -106,5 +112,15 @@ class Order < ActiveRecord::Base
     # order could not be deleted after it was pushed to DFP
     def check_could_be_deleted
       pushed_to_dfp? ? false : true
+    end
+
+    def set_import_note
+      self.order_notes.create note: "Imported Order", user: self.user, order: self
+    end
+
+    def set_push_note
+      if self.io_detail.state == 'pushing'
+        self.order_notes.create note: "Pushed Order", user: self.user, order: self
+      end
     end
 end

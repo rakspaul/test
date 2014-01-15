@@ -4,6 +4,7 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     source_id "R_#{SecureRandom.uuid}"
     data_source_id 1
+    advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
   factory :order do
@@ -13,25 +14,51 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     advertiser { FactoryGirl.singleton :advertiser }
     user
+    after(:create) do |ord|
+      create_list(:io_detail, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
+    end
   end
 
   factory :order_with_lineitem, :parent => :order do
     after(:create) do |ord|
-      create_list(:lineitem_with_ad, order: ord)
+      create_list(:lineitem_with_ad, 1, order: ord)
+      create_list(:io_asset, 1, order: ord)
     end
   end
 
   factory :io_detail do
+    state 'draft'
+    #media_contact
+    #billing_contact
+    client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
+    order_id  { FactoryGirl.singleton(:order).id }
+    media_contact_id  { FactoryGirl.singleton(:media_contact).id }
+    billing_contact_id { FactoryGirl.singleton(:billing_contact).id }
+    reach_client { FactoryGirl.singleton :reach_client }
   end
 
   factory :reach_client do
-    id 1
     name "Test Reach Client Name"
     abbr "TRCN"
     network { FactoryGirl.singleton :network }
     user_id { FactoryGirl.singleton(:user).id }
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
+  end
+
+  factory :contact do
+    sequence(:email) { |n| "test#{n}@twcable.com" }
+    phone '888-555-5555'
+    reach_client_id 1
+  end
+
+  factory :media_contact, :parent => :contact, :class => 'MediaContact' do
+    name "Marsha Lowe"
+  end
+
+  factory :billing_contact, :parent => :contact, :class => 'BillingContact' do
+    name "Addy Earles"
   end
 
   factory :lineitem do
@@ -57,7 +84,7 @@ FactoryGirl.define do
 
   factory :lineitem_with_ad, :parent => :lineitem do
     after(:create) do |li|
-      create_list(:ad, lineitem: li)
+      create_list(:ad, 1, lineitem: li)
     end
   end
 
@@ -79,5 +106,41 @@ FactoryGirl.define do
     order
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
+  end
+
+  factory :advertiser_type do
+    name "ADVERTISER"
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :audience_group do
+    name "Auto"
+    key_values "btg=cm.auto_h,btg=cm.auto_l,contx=adult,contx=auto"
+    network { FactoryGirl.singleton :network }
+    user
+  end
+
+  factory :segment do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :segment1, :parent => :segment do
+    name "cm.auto_h"
+  end
+
+  factory :segment2, :parent => :segment do
+    name "cm.auto_l"
+  end
+
+  factory :context do
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :context1, :parent => :context do
+    name "cm.auto"
+  end
+
+  factory :context2, :parent => :context do
+    name "cm.adult"
   end
 end
