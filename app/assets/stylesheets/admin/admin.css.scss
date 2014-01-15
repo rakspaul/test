@@ -426,6 +426,19 @@
         color:#fff;
         background:#008DD1;
       }
+
+
+    }
+
+    .advertiser-list{
+      width:400px;
+      height:280px;
+
+      ul{
+        li{
+          width:380px;
+        }
+      }
     }
 
     .loading-div{
@@ -500,6 +513,11 @@
   .modal-body{
     max-height:515px !important;
     height:515px !important;
+  }
+
+  .modal-body-adv-group{
+    max-height:480px !important;
+    height:480px !important;
   }
 
   legend{

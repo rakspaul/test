@@ -1,36 +1,41 @@
-<div class="modal-body block-sites-modal">
+<div class="modal block-sites-modal">
+  <div class="modal-body modal-body-adv-group">
+    <form class="form-horizontal" onsubmit="return false">
+      <legend>Advertiser Groups</legend>
 
-  <form class="form-horizontal" onsubmit="return false">
-    <legend>Advertiser Groups</legend>
-
-    <fieldset>
-      <div class="control-group search-control">
-        <div class="controls">
-          <div class="input-append">
-            <input id="search_input" placeholder="Advertiser Groups" type="text">
-            <div class="btn-group">
-              <button class="btn" id="search_button">Search</button>
+      <fieldset>
+        <div class="control-group search-control">
+          <div class="controls">
+            <div class="input-append">
+              <input id="search_input" placeholder="Advertiser Groups" type="text">
+              <div class="btn-group">
+                <button class="btn" id="search_button">Search</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="control-group select-control">
-        <div class="controls">
-          <select id="advertiserGroupList" multiple="multiple">
-          </select>
-          <div id="loading_div" class="loading-div">
-            <span class="loading-img"></span>
+        <div class="control-group block-site-control select-control">
+          <div class="controls">
+            <div class="site-list-content">
+              <div class="site-list advertiser-list">
+                <ul id="advertiserGroupList" ></ul>
+              </div>
+
+              <div id="loading_div" class="loading-div">
+                <span class="loading-img"></span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-    </fieldset>
-  </form>
+      </fieldset>
+    </form>
 
-</div>
-
-<div class="modal-footer">
-  <button type= "button" id="btnBlock" class="btn btn-primary">Add</button>
-  <button id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <div class="modal-footer">
+      <button type="button" id="reset_button" class="btn pull-left">Reset</button>
+      <button type= "button" id="btnBlock" class="btn btn-primary">Add</button>
+      <button id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
+  </div>
 </div>

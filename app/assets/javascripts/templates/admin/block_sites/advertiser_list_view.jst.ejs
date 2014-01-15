@@ -13,10 +13,14 @@
 
     <div class="control-group block-site-control select-control">
       <div class="controls">
-        <select id="advertiserList" multiple="multiple">
-        </select>
-        <div id="loading_div" class="loading-div">
-          <span class="loading-img"></span>
+        <div class="site-list-content">
+          <div class="site-list advertiser-list">
+            <ul id="advertiserList" ></ul>
+          </div>
+
+          <div id="loading_div" class="loading-div">
+            <span class="loading-img"></span>
+          </div>
         </div>
       </div>
     </div>
@@ -24,6 +28,7 @@
 </form>
 
 <div class="modal-footer">
+  <button type="button" id="reset_button" class="btn pull-left">Reset</button>
   <button type="button" id="btnBlock" class="btn btn-primary">Add</button>
   <button type="button" id="close_modal" class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 </div>
