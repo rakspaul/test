@@ -462,6 +462,8 @@
     },
   });
 
+  BlockSites.SelectedItems = Backbone.Collection.extend({})
+
 
 // --------------------/ Views /------------------------------------
 
@@ -713,10 +715,27 @@
 
   BlockSites.AdvertiserView = Backbone.Marionette.ItemView.extend({
     template: _.template('<%= name%>'),
-    tagName: 'option',
+    tagName: 'li',
     attributes: function() {
       return {value: this.model.id}
     },
+
+    triggers:{
+      'click' : 'selected'
+    },
+
+    initialize: function() {
+      this.model.on('change:selected', this.render, this);
+    },
+
+    onRender: function() {
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
+    },
+
   });
 
   BlockSites.AdvertiserListView = Backbone.Marionette.CompositeView.extend({
@@ -727,6 +746,7 @@
       'click #search_button' : 'onSearch',
       'keypress #search_input' : 'onSearch',
       'click #btnBlock' : 'onBlock',
+      'click #reset_button' : '_onResetClick'
     },
 
     ui:{
@@ -741,6 +761,9 @@
       this.collection.fetch({reset: true});
       this._siteMode = this.options.siteMode;
 
+      this.selectedItems = new BlockSites.SelectedItems();
+      this.on('itemview:selected', this._onItemClick, this);
+
       this.collection.on("fetch", this.onFetch, this);
       this.collection.on("reset", this.onReset, this);
       _.bindAll(this, '_onSuccess', '_onError');
@@ -752,6 +775,7 @@
 
     onReset: function() {
       this.ui.loading_div.hide();
+      this.setSelectedItems(true);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -767,7 +791,7 @@
     },
 
     onBlock: function(event) {
-      var selectedAdvertiserIds = this.ui.advertiser_list.val();
+      var selectedAdvertiserIds = this.selectedItems.pluck('id');
       if(selectedAdvertiserIds && selectedAdvertiserIds.length >0 ) {
         if (this._siteMode === 'Blacklisted_Site_Mode') {
           var para = {};
@@ -775,7 +799,7 @@
           para.advertiser_id = selectedAdvertiserIds.join(',')
           $.ajax({type: "GET", url: '/admin/block_sites/advertisers_with_default_blocks.json', data: para, success: this._onSuccess, error: this._onError});
         } else {
-          this.trigger('AdvertiserListView:Block:Advertiser', this._getSelectedAdvertiserModels(selectedAdvertiserIds));
+          this.trigger('AdvertiserListView:Block:Advertiser', this.selectedItems.models);
           $('#close_modal').trigger('click');
         }
       }
@@ -783,9 +807,9 @@
 
     _onSuccess: function(event) {
       this.ui.btnBlock.text('Add').removeAttr('disabled');
-      var selectedAdvertiserIds = this.ui.advertiser_list.val();
+      var selectedAdvertiserIds = this.selectedItems.pluck('id');
       if(selectedAdvertiserIds && selectedAdvertiserIds.length >0 ) {
-        var vos = this._getSelectedAdvertiserModels(selectedAdvertiserIds);
+        var vos = this.selectedItems.models;
 
         if(event.default_block && event.default_block.length > 0) {
           var default_blocks = event.default_block;
@@ -818,6 +842,37 @@
         }
         return vos;
       }
+    },
+
+    _onItemClick: function(event){
+      var selectedItem = event.model,
+      vo = this.selectedItems.get(event.model.id);
+
+      if (vo) {
+        this.selectedItems.remove(vo);
+        selectedItem.set({selected: false});
+      } else {
+        this.selectedItems.add(event.model);
+        selectedItem.set({selected: true});
+      }
+    },
+
+    setSelectedItems: function(value) {
+      this.selectedItems.each(function(item) {
+        var vo = this.collection.get(item.id);
+        if(vo) {
+          vo.set({selected: value});
+        }
+      }, this);
+    },
+
+    _onResetClick:function(){
+      this.resetSelection();
+    },
+
+     resetSelection: function() {
+      this.setSelectedItems(false)
+      this.selectedItems.reset();
     },
 
   });
@@ -938,11 +993,28 @@
   });
 
   BlockSites.AdvertiserGroupView = Backbone.Marionette.ItemView.extend({
-    tagName: 'option',
+    tagName: 'li',
     template: _.template('<%= name%>'),
     attributes: function() {
       return {value: this.model.id};
     },
+
+    triggers:{
+      'click' : 'selected'
+    },
+
+    initialize: function() {
+      this.model.on('change:selected', this.render, this);
+    },
+
+    onRender: function() {
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
+    },
+
   });
 
   BlockSites.AdvertiserGroupListModalView = Backbone.Marionette.CompositeView.extend({
@@ -954,6 +1026,7 @@
       'click #search_button': 'onSearch',
       'keypress #search_input': 'onSearch',
       'click #btnBlock': 'onBlock',
+      'click #reset_button' : '_onResetClick'
     },
 
     ui:{
@@ -966,6 +1039,9 @@
       this.collection = new BlockSites.AdvertiserGroupList();
       this.collection.fetch({reset: true});
 
+      this.selectedItems = new BlockSites.SelectedItems();
+      this.on('itemview:selected', this._onItemClick, this);
+
       this.collection.on("fetch", this.onFetch, this);
       this.collection.on("reset", this.onReset, this);
     },
@@ -976,6 +1052,7 @@
 
     onReset: function() {
       this.ui.loading_div.hide();
+      this.setSelectedItems(true);
     },
 
     appendHtml: function(collectionView, itemView){
@@ -991,7 +1068,7 @@
     },
 
     onBlock: function(event) {
-      var selectedAdvertiserGroups = this.ui.blocked_advertiser_group_list.val();
+      var selectedAdvertiserGroups = this.selectedItems.pluck('id');
       if(selectedAdvertiserGroups && selectedAdvertiserGroups.length >0 ) {
         var vos = [];
         for (var i = 0; i < selectedAdvertiserGroups.length; i++) {
@@ -1001,6 +1078,37 @@
       this.trigger('Block:AdvertiserGroup', vos);
       $('#close_modal').trigger('click');
       }
+    },
+
+    _onItemClick: function(event){
+      var selectedItem = event.model,
+      vo = this.selectedItems.get(event.model.id);
+
+      if (vo) {
+        this.selectedItems.remove(vo);
+        selectedItem.set({selected: false});
+      } else {
+        this.selectedItems.add(event.model);
+        selectedItem.set({selected: true});
+      }
+    },
+
+    setSelectedItems: function(value) {
+      this.selectedItems.each(function(item) {
+        var vo = this.collection.get(item.id);
+        if(vo) {
+          vo.set({selected: value});
+        }
+      }, this);
+    },
+
+    _onResetClick:function(){
+      this.resetSelection();
+    },
+
+     resetSelection: function() {
+      this.setSelectedItems(false)
+      this.selectedItems.reset();
     },
 
   });
