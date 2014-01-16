@@ -1,3 +1,5 @@
-<%= @user.full_name %>, new note was added to the order #<%= @note.order_id %> by user <%= @note.user.full_name %>:
-
+<%= url_for order_url(@note.order.id) %>
+<br/><br/>
 <%= @note.note %>
+<br/><br/>
+<%= @note.user.full_name %>
