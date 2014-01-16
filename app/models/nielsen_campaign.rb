@@ -1,9 +1,9 @@
 class NielsenCampaign < ActiveRecord::Base
   GENDER = %w(male female both)
   VALID_START_AGE = %w(2 18 25 35 45 55 65)
-  VALID_END_AGE = %w(PLUS 24 34 44 54 64)
+  VALID_END_AGE = %w(PLUS 24 34 44 49 54 64)
   COST_TYPES = %w(imps cpp)
-  AGE_RANGES = %w(2-PLUS 18-24 18-34 18-44 18-54 25-34 25-44 25-54 25-64 35-44 35-54 35-64 45-54 45-64 55-64 65-PLUS)
+  AGE_RANGES = %w(2-PLUS 18-24 18-34 18-44 18-49 18-54 25-34 25-44 25-54 25-64 35-44 35-54 35-64 45-54 45-64 55-64 65-PLUS)
 
   belongs_to :order
   belongs_to :user
