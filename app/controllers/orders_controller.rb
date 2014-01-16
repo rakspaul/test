@@ -406,6 +406,7 @@ private
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
+          ad_object.alt_ad_id = lineitem.alt_ad_id
 
           if li_saved
             ad_object.save_targeting(ad_targeting)
