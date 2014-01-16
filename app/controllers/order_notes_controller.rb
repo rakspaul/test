@@ -30,8 +30,7 @@ private
 
   def notify_users(users_emails)
     users_emails.each do |user_email|
-      u = User.find_by(email: user_email)
-      NotificationsMailer.notification_email(u, @note).deliver if u
+      NotificationsMailer.notification_email(user_email.strip, @note).deliver
     end
   end
 end
