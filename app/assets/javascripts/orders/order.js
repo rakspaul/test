@@ -261,7 +261,7 @@
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
       this.notify_users_dialog_active = false;
-      this.selected_users = [];
+      this.selected_users = [window.current_trafficker_email, window.current_am_email];
     },
 
     displayNotifyUsersList: function() {
@@ -281,9 +281,11 @@
       $('#add-users-notifications-dialog').modal('show');
   
       var self = this;
-      this.$el.find('.users-to-notify div.typeahead-container').show().html('<textarea></textarea>');
+      this.$el.find('.users-to-notify div.typeahead-container').show();
+      this.$el.find('.users-to-notify div.typeahead-container textarea').show();
       this.$el.find('.add-user-to-notify-list, .add-user-to-notify-list-btn').hide();
       this.$el.find('.close-users-notify-list, .close-users-notify-list-btn').show();
+
       this.displayNotifyUsersList();
     },
 
@@ -291,6 +293,7 @@
       this.$el.find('.add-user-to-notify-list, .add-user-to-notify-list-btn').show();
       this.$el.find('.close-users-notify-list, .close-users-notify-list-btn').hide();
       this.$el.find('.users-to-notify div.typeahead-container').hide();
+      $('.notify-users-list .notify-by-email').html("Notify by email: " + this.selected_users.join(', '));
     },
 
     _importCreativesCallback: function(e, data) {
@@ -317,8 +320,57 @@
       $('#import-creatives-dialog .modal-body p').html(messages.join(""));
     },
 
+    onRender: function() {
+      var self = this;
+
+      this.displayNotifyUsersList();
+
+      this.$el.find('.users-to-notify .typeahead-container textarea').editable({
+        inputclass: 'input-extralarge',
+        showbuttons: false,
+        mode: 'inline',
+        select2: {
+          tags: true,  
+          tokenSeparators: [",", " "],
+          initSelection: function (element, callback) {
+            var data = [];
+            $(element.val().split(',')).each(function () {
+              data.push({id: this, text: this});
+            });
+            callback(data);
+          },
+          createSearchChoice: function(term) {
+            return { id: term, text: term }
+          },
+          ajax: {
+            url: "/users/search",
+            dataType: "json",
+            data: function(term, page) {
+              return {
+                search: term
+              };
+            },
+            results: function(data, page) {
+              return {
+                results: _.map(data, function(result) {
+                  return { id: result.email, text: result.name+' <'+result.email+'>' }
+                })
+              }
+            }
+          }
+        },
+        success: function(response, newValue) {
+          self.selected_users = newValue;
+          self.displayNotifyUsersList();
+        }
+      });
+    },
+
     onDomRefresh: function() {
       var self = this;
+
+      $('.notify-users-list .notify-by-email').html("Notify by email: " + self.selected_users.join(', '));
+
       this.ui.creatives_fileupload.fileupload({
         dataType: 'json',
         formData: {order_id: self.options.order.id},
@@ -352,11 +404,6 @@
       this.notify_users_dialog_active = !this.notify_users_dialog_active;
       var color = this.notify_users_dialog_active ? 'black' : 'grey';
       this.$el.find('.notify-users-list').css({'color': color});
-
-      // show trafficking and account managers contacts
-      this.selected_users.push(current_trafficker_email);
-      this.selected_users.push(current_am_email);
-      this.selected_users = _.uniq(this.selected_users);
 
       if(this.notify_users_dialog_active) {
         this.showAddUsersSelectBox();
@@ -392,7 +439,7 @@
 
     _onSaveSuccess: function(event) {
       this.ui.note_input.val('');
-      this.selected_users = [];
+      this.selected_users = [window.current_trafficker_email, window.current_am_email];
       this.$el.find('.save-note-btn').removeClass('spinner');
       this.render();
     },

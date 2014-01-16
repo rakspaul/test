@@ -54,6 +54,10 @@ Reachui::Application.configure do
   # comma separated string of network ids
   config.search_contexts_in_network = '6,176'
 
+  config.action_mailer.default_url_options = {
+    host: "http://qa-reach.collective.com"
+  }
+
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
   config.action_mailer.default :charset => "utf-8"

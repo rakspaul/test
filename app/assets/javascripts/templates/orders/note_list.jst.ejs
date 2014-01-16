@@ -13,7 +13,9 @@
 
     <div class="users-to-notify">
       <em></em>
-      <div class="typeahead-container"></div>
+      <div class="typeahead-container">
+        <textarea data-type="select2" data-name="selected_user" data-pk="1" style="display:none"></textarea>
+      </div>
       <span class="add-user-to-notify-list-btn">&nbsp;</span>
       <span class="add-user-to-notify-list">Edit</span>
       <span class="close-users-notify-list-btn" style="display:none">&nbsp;</span>
@@ -31,7 +33,7 @@
           <input type="text" id="note_input" placeholder="Note" />
         </div>
         <div class="notetimestamp">
-          <a class="attachment-btn">File</a>
+          <!--a class="attachment-btn">File</a-->
           <input id="creatives_fileupload" type="file" name="io_creatives" style="width:96px;border:0;height:25px;position:absolute;cursor:pointer;" class="cox-creatives-btn"><a href="javascript:void(0)">Creatives TXT</a>
         </div>
       </div>
@@ -39,7 +41,7 @@
       <div style="clear:both"></div>
 
       <div>
-        <div class="save-note-btn" id="btnSave">&bnsp;</div>
+        <div class="save-note-btn" title="Add Note" id="btnSave">&bnsp;</div>
         <div class="submit-trafficker-btn" style="width:156px">Submit to Trafficker</div>
         <div class="submit-am-btn" style="width:100px">Submit to AM</div>
       </div>

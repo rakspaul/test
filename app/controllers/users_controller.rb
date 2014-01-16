@@ -15,6 +15,8 @@ class UsersController < ApplicationController
       @users.where("email ilike ?", "#{params[:search]}%")
     elsif params[:search_by] == 'name'
       @users.where("(first_name || ' ' || last_name) ilike ?", "#{params[:search]}%")
+    else
+      @users.where("email ilike :term OR (first_name || ' ' || last_name) ilike :term", {:term => "#{params[:search]}%"})
     end
 
     respond_with(@users)

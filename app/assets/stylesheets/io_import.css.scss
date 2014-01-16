@@ -878,8 +878,13 @@ table.creatives-content {
       float: left;
       margin: -5px 14px 0 14px;
 
-      textarea {
+      .input-extralarge {
         width: 300px;
+      }
+
+      textarea {
+        width: 295px;
+        height: 60px;
       }
     }
 
