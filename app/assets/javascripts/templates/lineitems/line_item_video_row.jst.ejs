@@ -1,4 +1,12 @@
-<div class="pull-left" title="Create Ad"></div>
+<div class="dropdown">
+  <div class="li-commands-btn pull-left" title="Create Ad" id="adTypeDropdown" data-toggle="dropdown">
+  </div>
+  <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Create Video Ad</a></li>
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Companion">Create Companion Ad</a></li>
+  </ul>
+</div>
+
 <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
 <span>Contract LI<br/><%= lineitem.alt_ad_id || lineitem.itemIndex %></span></div>
 
