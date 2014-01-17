@@ -675,14 +675,14 @@ private
 
   def search_for_dates
     dates = []
-    total_pages = @raw_reader.pages.count
 
-    total_pages.times do |i|
+    @raw_reader.pages.count.times do |i|
+      page_contains_contracts_totals = @raw_reader.page(i+1).text.match(/\nContracts Totals\n/)
       textangle = @reader.bounding_box do
         page (i+1)
         below /Start/
         right_of /site:/i
-        above(/Contracts Totals/) if (i+1) == total_pages
+        above(/Contracts Totals/) if page_contains_contracts_totals
       end
       dates += textangle.text
     end
