@@ -684,7 +684,16 @@ private
         right_of /site:/i
         above(/Contracts Totals/) if page_contains_contracts_totals
       end
-      dates += textangle.text
+
+      # if there is no text on page except in 'Notes' column (for example long list of Zips) extract only notes
+      if [] == textangle.text
+        textangle = @reader.bounding_box do
+          page (i+1)
+          below /Notes/
+          above(/Contracts Totals/) if page_contains_contracts_totals
+        end
+      end
+      dates += textangle.text if !textangle.text.blank?
     end
 
     lineitems = []
@@ -701,7 +710,7 @@ private
         lineitems << li
       else
         line = ' ' + line.join(' ')
-        lineitems.last[:notes] += line if line !~ /Page \d+ of \d+/
+        lineitems.last[:notes] += line if line !~ /(Page \d+ of \d+)|(Line Item)|(ID)/
       end     
     end
 
