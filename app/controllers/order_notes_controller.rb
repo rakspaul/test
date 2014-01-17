@@ -21,16 +21,8 @@ class OrderNotesController < ApplicationController
     @note.user = current_user
     @note.save
 
-    notify_users(users_emails) if !users_emails.blank?
+    NotificationsMailer.notification_email(users_emails, @note).deliver if !users_emails.blank?
 
     respond_with(@note, location: nil)
-  end
-
-private
-
-  def notify_users(users_emails)
-    users_emails.each do |user_email|
-      NotificationsMailer.notification_email(user_email.strip, @note).deliver
-    end
   end
 end
