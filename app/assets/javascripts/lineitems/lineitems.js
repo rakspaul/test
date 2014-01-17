@@ -56,7 +56,7 @@
       }, 0);
 
       var sum_media_cost = _.inject(this.models, function(sum, el) {
-        sum += parseFloat(el.get('value'));
+        sum += Math.round(parseFloat(el.get('value')) * 100) / 100;
         return sum;
       }, 0.0);
 
@@ -89,7 +89,7 @@
       this.creatives_visible = {};
 
       if(! this.model.get('targeting')) {
-        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
         this.model.set('targeting', targeting);
       }
     },
@@ -188,8 +188,10 @@
           },
         },
         success: function(response, newValue) {
-          if (view.model.type = 'Video') {
-            view.model.set('companion_ad_size', newValue.join(', '));
+          if (view.model.get('type') == 'Video') {
+            var value = newValue.join(', ');
+            view.model.set('companion_ad_size', value);
+            view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + value);
           } else {
             view.model.set('ad_sizes', newValue.join(', '));
           }
@@ -219,7 +221,7 @@
         var type = view.model.get('type');
         if (type == 'Video') {
           var companion_ad_size = view.model.get('companion_ad_size');
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + companion_ad_size);
+          view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + companion_ad_size);
         }
       });
 
@@ -402,7 +404,8 @@
               start_date: ' > .start-date',
               end_date:   ' > .end-date',
               name:       ' .name',
-              volume:     ' .volume'
+              volume:     ' .volume',
+              ad_sizes:   ' .li-sizes, .lineitem-sizes'
             },
             ads: {
               start_date:  ' .start-date',
@@ -489,10 +492,10 @@
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.state);
-
             if (response.state.match(/pushing/i)) {
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
+              self.trigger('ordernote:reload');
             } else if(response.state.match(/draft/i)) {
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {

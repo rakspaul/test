@@ -47,20 +47,22 @@
       </ul>
     </div>
     <span class="ads-sizes">Pre-roll
-    <% if (lineitem.companion_ad_size) { %>
-    with Companion <%= lineitem.companion_ad_size %>
-    <% } %>
-  </span></span><br/>
+      <% if (lineitem.companion_ad_size) { %>
+      with Companion
+      <% } %>
+    </span>
+  </span><br/>
   <span class="size">
     <span class="editable custom typeahead" data-type="typeahead" data-name="master_ad_size" data-pk="1">
-      <%= lineitem.master_ad_size %>
-    </span>
-  </span>,
-  <span class="lineitem-sizes">
-    <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-        <%= lineitem.companion_ad_size %>
+      <%= lineitem.master_ad_size.replace(/,/gi, ', ') %>
     </span>
   </span>
+  <span class="lineitem-sizes">
+    <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+        <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
+    </span>
+  </span>
+  <div class="errors_container"></div>
   <br/>
   <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
 </div>

@@ -19,13 +19,14 @@
           &frasl;
           %span.dfp-id{:title => "DFP Order ID"}
             = link_to order.source_id, order.dfp_url, target: '_blank'
+        .import-datetime
+          = format_date(order.latest_import_or_push_note.try(:created_at))
       %td
         .order-title
           = link_to order.name, order_path(order)
         - if order.order_notes.last.try(:note)
           .order-note{:title => order.order_notes.order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
             = order.order_notes.order(:created_at).last.try(:note)
-
 
       %td= order.io_detail.try(:reach_client).try(:name)
       %td= order.try(:io_detail).client_advertiser_name

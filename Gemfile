@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 4.0.0'
+gem 'rails', '~> 4.0.1'
 
 # Use Postgresql as the database for Active Record
 gem 'pg'
@@ -14,7 +14,7 @@ gem 'authlogic', '~> 3.3.0'
 
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.0'
-gem 'compass-rails', '~> 2.0.alpha.0'
+gem 'compass-rails', '~> 1.1.3' #'~> 2.0.alpha.0'
 
 # Twitter bootstrap
 gem 'bootstrap-sass-rails'
@@ -67,6 +67,8 @@ group :development, :test do
   gem 'jasmine-jquery-rails'
   gem 'sinon-rails'
   gem 'guard-jasmine'
+
+  gem 'simplecov'
 end
 
 group :development do
@@ -79,7 +81,7 @@ end
 
 group :test do
   gem 'shoulda-matchers', '~> 2.1.0'
-  gem 'faker', '~> 1.1.2'
+  gem 'faker', '~> 1.2.0'
   gem 'capybara', '~> 2.1.0'
   gem 'poltergeist', '~> 1.3.0'
 end
