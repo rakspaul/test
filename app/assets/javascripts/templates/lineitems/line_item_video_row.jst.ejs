@@ -47,7 +47,9 @@
   </span>
   <span class="lineitem-sizes">
     <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+      <% if (lineitem.companion_ad_siae) { %>
         <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
+      <% } %>
     </span>
   </span>
   <div class="errors_container"></div>
