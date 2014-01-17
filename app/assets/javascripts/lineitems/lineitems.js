@@ -449,6 +449,9 @@
         this.model.set('companion_ad_size', this.model.get('ad_sizes'));
       }
       this.model.set('type', type);
+      _.each(this.model.ads, function(ad) {
+        ad.set('type', type);
+      });
     },
 
     ui: {
