@@ -103,13 +103,13 @@ Reachui::Application.routes.draw do
 
   resources :billing_contacts do
     collection do
-      get :search
+      get :search, :for_reach_client
     end
   end
 
   resources :media_contacts do
     collection do
-      get :search
+      get :search, :for_reach_client
     end
   end
 

@@ -10,4 +10,8 @@ class MediaContactsController < ApplicationController
 
     render json: @media_contacts.select('id, name, email, phone').limit(8)
   end
+
+  def for_reach_client
+    render json: MediaContact.for_user(params[:client_id]).order(:name).all
+  end
 end
