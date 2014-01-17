@@ -38,12 +38,24 @@
     </div>
   </div>
 
-  <div class="pure-u-1-6 li-sizes">
-    <span><span class="video-icon pull-left"></span><span class="ads-sizes">Pre-roll
-      <% if (lineitem.companion_ad_size) { %>
-      with Companion
-      <% } %>
-    </span></span><br/>
+  <div class="pure-u-1-6">
+    <span>
+      <div class="dropdown">
+        <div class="video-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+        </div>
+        <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
+        </ul>
+      </div>
+      <span class="ads-sizes">Pre-roll
+        <% if (lineitem.companion_ad_size) { %>
+        with Companion
+        <% } %>
+      </span>
+    </span><br/>
     <span class="size">
       <span class="editable custom typeahead" data-type="typeahead" data-name="master_ad_size" data-pk="1">
         <%= lineitem.master_ad_size.replace(/,/gi, ', ') %>
@@ -51,9 +63,9 @@
     </span>
     <span class="lineitem-sizes">
       <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-      <% if (lineitem.companion_ad_siae) { %>
-        <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
-      <% } %>
+        <% if (lineitem.companion_ad_size) { %>
+          <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
+        <% } %>
       </span>
     </span>
     <div class="errors_container" style="clear:both"></div>

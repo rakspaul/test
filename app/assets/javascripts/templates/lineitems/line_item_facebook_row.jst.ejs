@@ -32,11 +32,20 @@
   </div>
 
   <div class="pure-u-1-6 lineitem-sizes">
-    <span class="facebook-icon pull-left"></span>
+    <div class="dropdown">
+      <div class="facebook-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+      </div>
+        <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
+        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
+      </ul>
+    </div>
     <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
       <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
     </span>
-    <div class="errors_container" style="clear:both"></div>
+    <div class="errors_container"></div>
     <br/>
     <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
   </div>

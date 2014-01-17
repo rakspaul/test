@@ -440,6 +440,17 @@
       this._deselectAllLIs();
     },
 
+    _changeMediaType: function(ev) {
+      var type = $(ev.currentTarget).data('type');
+      if (type == 'Video' && !this.model.get('master_ad_size')) {
+        this.model.set('master_ad_size', '1x1');
+      }
+      if (type == 'Video') {
+        this.model.set('companion_ad_size', this.model.get('ad_sizes'));
+      }
+      this.model.set('type', type);
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -457,7 +468,8 @@
       'click .li-number': '_toggleLISelection',
       'click .copy-targeting-btn': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting'
+      'click .cancel-targeting-btn': 'cancelTargeting',
+      'click .change-media-type': '_changeMediaType'
     },
 
     triggers: {
