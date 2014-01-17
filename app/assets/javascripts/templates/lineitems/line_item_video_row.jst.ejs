@@ -37,7 +37,7 @@
 <div class="pure-u-1-6">
   <span>
     <div class="dropdown">
-      <div class="video-icon pull-left" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+      <div class="video-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
       </div>
       <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
         <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
@@ -59,7 +59,7 @@
   </span>
   <span class="lineitem-sizes">
     <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-      <% if (lineitem.companion_ad_siae) { %>
+      <% if (lineitem.companion_ad_size) { %>
         <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
       <% } %>
     </span>

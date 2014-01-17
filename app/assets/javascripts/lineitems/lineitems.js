@@ -350,9 +350,13 @@
 
     _changeMediaType: function(ev) {
       var type = $(ev.currentTarget).data('type');
-      this.model.set('type', type)
-      console.log(this.model.get('type'));
-      console.log(type);
+      if (type == 'Video' && !this.model.get('master_ad_size')) {
+        this.model.set('master_ad_size', '1x1');
+      }
+      if (type == 'Video') {
+        this.model.set('companion_ad_size', this.model.get('ad_sizes'));
+      }
+      this.model.set('type', type);
     },
 
     ui: {
