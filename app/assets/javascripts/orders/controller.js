@@ -211,6 +211,24 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $(field_class).removeClass('field_with_errors');
   },
 
+  // fill media/billing contact selects with usernames related to the selected ReachClient
+  _changeBillingAndMediaContacts: function(reach_client_id) {
+    $.getJSON("/billing_contacts/for_reach_client?client_id="+reach_client_id, function(response) {
+      var billing_contact_options = ['<option value=""></option>'];
+      _.each(response, function(el) {
+        billing_contact_options.push('<option value="'+el.id+'|'+el.email+'|'+el.phone+'">'+el.name+'</option>');
+      });
+      $('.billing-contact-name select').html(billing_contact_options);
+    });
+    $.getJSON("/media_contacts/for_reach_client?client_id="+reach_client_id, function(response) {
+      var media_contact_options = ['<option value=""></option>'];
+      _.each(response, function(el) {
+        media_contact_options.push('<option value="'+el.id+'|'+el.email+'|'+el.phone+'">'+el.name+'</option>');
+      });
+      $('.media-contact-name select').html(media_contact_options);
+    });
+  },
+
   _setupTypeaheadFields: function(order) {
     var ordersController = this;
 
@@ -226,6 +244,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
 
+      ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
       ordersController._clearErrorsOn(".media-contact-company");
     });

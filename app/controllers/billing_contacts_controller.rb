@@ -10,4 +10,8 @@ class BillingContactsController < ApplicationController
 
     render json: @billing_contacts.select('id, name, email, phone').limit(8)
   end
+
+  def for_reach_client
+    render json: BillingContact.for_user(params[:client_id]).order(:name).all
+  end
 end
