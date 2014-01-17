@@ -31,12 +31,10 @@
     </div>
   </div>
 
-  <div class="pure-u-1-6 li-sizes">
+  <div class="pure-u-1-6 lineitem-sizes">
     <span class="mobile-icon pull-left"></span>
-    <span class="size">
-      <span class="editable custom typeahead" data-type="typeahead" data-name="ad_sizes" data-pk="1">
-        <%= lineitem.ad_sizes %>
-      </span>
+    <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+      <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
     </span>
     <div class="errors_container" style="clear:both"></div>
     <br/>
