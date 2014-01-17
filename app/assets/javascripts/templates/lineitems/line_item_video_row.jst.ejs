@@ -42,12 +42,12 @@
   </span></span><br/>
   <span class="size">
     <span class="editable custom typeahead" data-type="typeahead" data-name="master_ad_size" data-pk="1">
-      <%= lineitem.master_ad_size %>
-    </span>,
+      <%= lineitem.master_ad_size.replace(/,/gi, ', ') %>
+    </span>
   </span>
   <span class="lineitem-sizes">
     <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-        <%= lineitem.companion_ad_size %>
+        <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
     </span>
   </span>
   <div class="errors_container"></div>

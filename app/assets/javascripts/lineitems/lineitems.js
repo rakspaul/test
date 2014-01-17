@@ -191,7 +191,7 @@
           if (view.model.get('type') == 'Video') {
             var value = newValue.join(', ');
             view.model.set('companion_ad_size', value);
-            view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + value);
+            view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + value);
           } else {
             view.model.set('ad_sizes', newValue.join(', '));
           }
@@ -221,7 +221,7 @@
         var type = view.model.get('type');
         if (type == 'Video') {
           var companion_ad_size = view.model.get('companion_ad_size');
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ',' + companion_ad_size);
+          view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + companion_ad_size);
         }
       });
 
