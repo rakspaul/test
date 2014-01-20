@@ -215,11 +215,25 @@ private
     blocks.each do |block|
       block.state = BlockSite::COMMIT_BLOCK
       block.save
+      BlockLog.create(
+        :site_id => block.try("site_id"),
+        :advertiser_id => block.try("advertiser_id"),
+        :advertiser_group_id => block.try("advertiser_group_block"),
+        :status => "Pending",
+        :action => "Block",
+        :user => current_user);
     end
 
     unblocks.each do |unblock|
       unblock.state = BlockSite::COMMIT_UNBLOCK
       unblock.save
+      BlockLog.create(
+        :site_id => unblock.try("site_id"),
+        :advertiser_id => unblock.try("advertiser_id"),
+        :advertiser_group_id => unblock.try("advertiser_group_block"),
+        :status => "Pending",
+        :action => "Unblock",
+        :user => current_user);
     end
   end
 

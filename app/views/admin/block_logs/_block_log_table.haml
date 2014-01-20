@@ -1,0 +1,9 @@
+- @block_logs.each do |block_log|
+  %tr
+    %td= block_log.try(:site).try(:name)
+    %td= block_log.try(:advertiser).try(:name)
+    %td= block_log.try(:advertiser_block).try(:name)
+    %td= block_log.action
+    %td= block_log.status
+    %td= block_log.try(:user).try(:full_name)
+    %td= format_datetime(block_log.created_at)
