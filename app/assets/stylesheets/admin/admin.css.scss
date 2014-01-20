@@ -121,7 +121,7 @@
 
 }
 
-.admin-reach-table {
+.admin-reach-table, .admin-block-logs-table {
   width: 100%;
   table-layout: fixed;
   word-wrap: break-word;
@@ -200,6 +200,9 @@
     width:30%;
   }
 
+  .status-error{
+    color:red;
+  }
 }
 
 #audience_groups_details{

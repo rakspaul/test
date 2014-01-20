@@ -4,6 +4,11 @@
     %td= block_log.try(:advertiser).try(:name)
     %td= block_log.try(:advertiser_block).try(:name)
     %td= block_log.action
-    %td= block_log.status
+    %td
+      -if block_log.status.downcase == 'error'
+        %span.status-error{:title => block_log.message, :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
+          = block_log.status
+      -else
+        = block_log.status
     %td= block_log.try(:user).try(:full_name)
     %td= format_datetime(block_log.created_at)

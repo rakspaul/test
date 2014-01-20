@@ -82,3 +82,11 @@
     var request = $.ajax({url:'/admin/block_logs', data:para, dataType: 'script'});
 
   });
+
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    $('body').tooltip({
+      selector: '[rel=tooltip]'
+    });
+  });
