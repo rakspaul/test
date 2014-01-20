@@ -13,6 +13,8 @@
             = link_to 'View Blocked Sites on Adv', admin_blocked_advertisers_path
           %li{class: ('active' if controller.class.name == 'Admin::DefaultBlockListController')}
             = link_to 'Default Blocks', admin_default_block_list_index_path
+          %li{class: ('active' if controller.class.name == 'Admin::BlockLogsController')}
+            = link_to 'Block Push Log', admin_block_logs_path
     .pure-u.admin-right
       .admin-content
         = yield

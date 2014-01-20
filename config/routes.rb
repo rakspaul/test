@@ -49,6 +49,7 @@ Reachui::Application.routes.draw do
         get 'whitelisted_sites'
       end
     end
+    resources :block_logs
   end
 
   resources :users do

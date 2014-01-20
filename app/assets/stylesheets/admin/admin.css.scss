@@ -121,7 +121,7 @@
 
 }
 
-.admin-reach-table {
+.admin-reach-table, .admin-block-logs-table {
   width: 100%;
   table-layout: fixed;
   word-wrap: break-word;
@@ -200,6 +200,9 @@
     width:30%;
   }
 
+  .status-error{
+    color:red;
+  }
 }
 
 #audience_groups_details{
@@ -451,6 +454,52 @@
     }
   }
 
+  .admin-tree-list{
+    font-size: 13px;
+    height: 500px;
+    padding: 2px;
+    width: 85%;
+    background:#fff;
+    overflow-y:scroll;
+    border:1px solid #ccc;
+    margin:0px 0 10px 0;
+    padding:2px;
+
+    li{
+      label{
+        font-style:italic;
+        font-weight:bold;
+        height:20px;
+        margin:0;
+        overflow:hidden;
+        white-space:nowrap;
+        word-wrap:break-word;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+      }
+
+      ul{
+        margin: 0 0 2px 0;
+        list-style-type:none;
+
+        li{
+          padding-left:20px;
+          font-style:normal;
+          font-weight:normal;
+          cursor:pointer;
+
+          &.selected{
+            background:#008DD1;
+            color:#fff;
+          }
+
+          &.disabled{
+            color:#ccc;
+          }
+        }
+      }
+    }
+  }
 }
 
 .block-sites-modal{
