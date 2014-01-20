@@ -320,6 +320,11 @@ private
       li[:lineitem].delete(:selected_key_values)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
+      if li[:type] = 'Video'
+        li[:lineitem].delete(:master_ad_size)
+        li[:lineitem].delete(:companion_ad_size)
+      end
+
       lineitem = @order.lineitems.find(li[:lineitem][:id])
       li[:lineitem].delete(:id)
 
@@ -494,6 +499,11 @@ private
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
+
+      if li[:type] = 'Video'
+        li[:lineitem].delete(:master_ad_size)
+        li[:lineitem].delete(:companion_ad_size)
+      end
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
