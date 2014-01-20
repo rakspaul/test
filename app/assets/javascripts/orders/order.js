@@ -269,7 +269,7 @@
       for (var i = 0; i < this.selected_users.length; i++) {
         items.push(this.selected_users[i]);
       }
-      this.$el.find('.users-to-notify div.typeahead-container textarea').html(items.join(','));
+      this.$el.find('.notify-users-list .notify-by-email').html('Notify by email: ' + items.join(', '));
     },
 
     onChangeEmailsList: function(e) {
@@ -282,7 +282,7 @@
   
       var self = this;
       this.$el.find('.users-to-notify div.typeahead-container').show();
-      this.$el.find('.users-to-notify div.typeahead-container textarea').show();
+      this.$el.find('.users-to-notify div.typeahead-container div.select2-container').show();
       this.$el.find('.add-user-to-notify-list, .add-user-to-notify-list-btn').hide();
       this.$el.find('.close-users-notify-list, .close-users-notify-list-btn').show();
 
@@ -325,44 +325,42 @@
 
       this.displayNotifyUsersList();
 
-      this.$el.find('.users-to-notify .typeahead-container textarea').editable({
-        inputclass: 'input-extralarge',
-        showbuttons: false,
-        mode: 'inline',
-        select2: {
-          tags: true,  
-          tokenSeparators: [",", " "],
-          initSelection: function (element, callback) {
-            var data = [];
-            $(element.val().split(',')).each(function () {
-              data.push({id: this, text: this});
-            });
-            callback(data);
+      this.$el.find('.users-to-notify .typeahead-container input').val(window.current_trafficker_email+','+window.current_am_email);
+
+      this.$el.find('.users-to-notify .typeahead-container input').select2({
+        tags: true,  
+        tokenSeparators: [",", " "],
+        initSelection: function (element, callback) {
+          var data = [];
+          $(element.val().split(',')).each(function () {
+            data.push({id: this, text: this});
+          });
+          callback(data);
+        },
+        createSearchChoice: function(term) {
+          return { id: term, text: term }
+        },
+        ajax: {
+          url: "/users/search",
+          dataType: "json",
+          data: function(term, page) {
+            return {
+              search: term
+            };
           },
-          createSearchChoice: function(term) {
-            return { id: term, text: term }
-          },
-          ajax: {
-            url: "/users/search",
-            dataType: "json",
-            data: function(term, page) {
-              return {
-                search: term
-              };
-            },
-            results: function(data, page) {
-              return {
-                results: _.map(data, function(result) {
-                  return { id: result.email, text: result.name+' <'+result.email+'>' }
-                })
-              }
+          results: function(data, page) {
+            return {
+              results: _.map(data, function(result) {
+                return { id: result.email, text: result.name+' <'+result.email+'>' }
+              })
             }
           }
-        },
-        success: function(response, newValue) {
-          self.selected_users = newValue;
-          self.displayNotifyUsersList();
         }
+      });
+
+      this.$el.find('.users-to-notify .typeahead-container input').on("change", function(e)  {
+        self.selected_users = e.currentTarget.value.split(',');
+        self.displayNotifyUsersList();
       });
     },
 
