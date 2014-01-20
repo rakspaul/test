@@ -468,7 +468,7 @@
 // --------------------/ Views /------------------------------------
 
   BlockSites.BlockedAdvertiserView = Backbone.Marionette.ItemView.extend({
-    tagName:'option',
+    tagName:'li',
     template: _.template('<%= pending_block_indicator %> <%= advertiser_name%> <%= default_block_indicator %>'),
 
     attributes: function() {
@@ -480,6 +480,10 @@
 
     initialize: function() {
       this.model.on('change', this.render, this);
+    },
+
+    events:{
+      'click' : '_onClick',
     },
 
     className: function() {
@@ -497,24 +501,67 @@
     },
 
     onRender: function() {
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
       if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled');
-        this.$el.attr('disabled','disabled');
+        this.$el.addClass('disabled').removeClass('selected');
       }
     },
 
+    _onClick:function() {
+      if (this.model.get('status') != 'deleted') {
+        this.trigger('selected');
+      }
+    },
   });
 
-  BlockSites.BlockedAdvertiserListItemView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'optgroup',
+  BlockSites.BlockedAdvertiserListItemView = Backbone.Marionette.CompositeView.extend({
+    template: _.template('<label title="<%= site_name %>"><%= site_name %></label><ul></ul>'),
     itemView: BlockSites.BlockedAdvertiserView,
-    attributes: function() {
-      return {label: this.model.get('site_name')};
-    },
+    itemViewContainer: 'ul',
+    tagName: 'li',
 
     initialize: function() {
       this.collection = this.model.get('advertisers');
       this.collection.on('sort', this.render, this);
+      this.selectedItems = new BlockSites.SelectedItems();
+      this.on('itemview:selected', this._onItemClick, this);
+      this.collection.on("reset", this.onReset, this);
+    },
+
+    serializeData: function(){
+      return {
+        'site_name': this.model.get('site_name')
+      }
+    },
+
+    onReset: function(){
+      this.setSelectedItems(true);
+    },
+
+    _onItemClick: function(event){
+      var selectedItem = event.model,
+      vo = this.selectedItems.get(event.model.id);
+
+      if (vo) {
+        this.selectedItems.remove(vo);
+        selectedItem.set({selected: false});
+      } else {
+        this.selectedItems.add(event.model);
+        selectedItem.set({selected: true});
+      }
+    },
+
+    setSelectedItems: function(value) {
+      this.selectedItems.each(function(item) {
+        var vo = this.collection.get(item.id);
+        if(vo) {
+          vo.set({selected: value});
+        }
+      }, this);
     },
 
   });
@@ -563,8 +610,7 @@
       var self = this;
 
       if (this._isAdvertiserSelected()) {
-
-        $( "#blockedAdvertiserList option:selected" ).each(function() {
+        $( "#blockedAdvertiserList li.selected" ).each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
           advertiser_id = parseInt($( this ).val()),
           site = self.collection.findWhere({site_id: site_id});
@@ -575,13 +621,11 @@
             }
           }
         });
-        this.ui.blocked_advertiser_list.val([]);
       }
-
     },
 
     _isAdvertiserSelected: function() {
-      return (this.ui.blocked_advertiser_list.val() && this.ui.blocked_advertiser_list.val().length > 0);
+      return (this.ui.blocked_advertiser_list.find('.selected').length > 0);
     },
 
     _onFetch: function() {
@@ -595,8 +639,9 @@
   });
 
   BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.ItemView.extend({
-    tagName:'option',
+    tagName:'li',
     template: _.template(' <% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_group_name%>'),
+
     attributes: function() {
       return {
         value: this.model.get('advertiser_group_id'),
@@ -608,25 +653,75 @@
       this.model.on('change', this.render, this);
     },
 
+    events:{
+      'click' : '_onClick',
+    },
+
     onRender: function() {
+      if (this.model.get('selected')) {
+        this.$el.addClass('selected');
+      } else {
+        this.$el.removeClass('selected');
+      }
       if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled');
-        this.$el.attr('disabled','disabled');
+        this.$el.addClass('disabled').removeClass('selected');
       }
     },
+
+    _onClick:function() {
+      if (this.model.get('status') != 'deleted') {
+        this.trigger('selected');
+      }
+    },
+
   });
 
-  BlockSites.BlockedAdvertiserGroupListItemView = Backbone.Marionette.CollectionView.extend({
-    tagName: 'optgroup',
+  BlockSites.BlockedAdvertiserGroupListItemView = Backbone.Marionette.CompositeView.extend({
+    template: _.template('<label title="<%= site_name %>"><%= site_name %></label><ul></ul>'),
     itemView: BlockSites.BlockedAdvertiserGroupView,
-    attributes: function() {
-      return {label: this.model.get('site_name')};
-    },
+    itemViewContainer: 'ul',
+    tagName: 'li',
 
     initialize: function() {
       this.collection = this.model.get('advertiserGroups');
       this.collection.on('sort', this.render, this);
+      this.selectedItems = new BlockSites.SelectedItems();
+      this.on('itemview:selected', this._onItemClick, this);
+      this.collection.on("reset", this.onReset, this);
     },
+
+    serializeData: function(){
+      return {
+        'site_name': this.model.get('site_name')
+      }
+    },
+
+    onReset: function(){
+      this.setSelectedItems(true);
+    },
+
+    _onItemClick: function(event){
+      var selectedItem = event.model,
+      vo = this.selectedItems.get(event.model.id);
+
+      if (vo) {
+        this.selectedItems.remove(vo);
+        selectedItem.set({selected: false});
+      } else {
+        this.selectedItems.add(event.model);
+        selectedItem.set({selected: true});
+      }
+    },
+
+    setSelectedItems: function(value) {
+      this.selectedItems.each(function(item) {
+        var vo = this.collection.get(item.id);
+        if(vo) {
+          vo.set({selected: value});
+        }
+      }, this);
+    },
+
   });
 
   BlockSites.BlockedAdvertiserGroupListView = Backbone.Marionette.CompositeView.extend({
@@ -683,7 +778,7 @@
 
       if (this._isAdvertiserGroupSelected()) {
 
-        $( "#blockedAdvertiserGroupList option:selected" ).each(function() {
+        $( "#blockedAdvertiserGroupList li.selected").each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
           advertiser_group_id = parseInt($( this ).val()),
           site = self.collection.findWhere({site_id: site_id});
@@ -694,13 +789,11 @@
             }
           }
         });
-        this.ui.blocked_advertiser_group_list.val([]);
       }
-
     },
 
     _isAdvertiserGroupSelected: function() {
-      return (this.ui.blocked_advertiser_group_list.val() && this.ui.blocked_advertiser_group_list.val().length > 0 )
+      return (this.ui.blocked_advertiser_group_list.find('.selected').length > 0 )
     },
 
     _onFetch: function() {
