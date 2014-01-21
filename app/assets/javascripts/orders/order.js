@@ -327,6 +327,10 @@
 
       this.$el.find('.users-to-notify .typeahead-container input').val(window.current_trafficker_email+','+window.current_am_email);
 
+      if(this.notify_users_dialog_active) {
+        this.$el.find('.notify-users-switch').attr('checked', 'checked');
+      }
+
       this.$el.find('.users-to-notify .typeahead-container input').select2({
         tags: true,  
         tokenSeparators: [",", " "],
@@ -440,6 +444,7 @@
       this.selected_users = [window.current_trafficker_email, window.current_am_email];
       this.$el.find('.save-note-btn').removeClass('spinner');
       this.render();
+      this.showAddUsersSelectBox();
     },
 
     _onSaveFailure: function() {
