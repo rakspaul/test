@@ -480,19 +480,19 @@ $wide_input_width: 480px;
   font-size: 14px;
 
   &:hover{
-    background: lighten($text_color, 10%);
+    background-color: lighten($text_color, 10%);
     cursor: pointer;
   }
 }
 
 .save-note-btn {
-  content: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
+  background: url(asset-path('activity_log_white_icon.png')) $text_color 0px 0px no-repeat;
   width: 16px;
   height: 20px;
 }
 
 .save-note-btn.spinner {
-  content: url(asset-path('select2-spinner.gif')) 0px 0px no-repeat
+  background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
 }
 
 .status-btn-container {
