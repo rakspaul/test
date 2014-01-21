@@ -1,3 +1,28 @@
+.header-filter
+  %form.filter-form
+    .pure-u
+      #block_log_date_picker.block-log-date-picker
+        %i.icon-calendar
+        %span
+        %i.icon-caret-down
+    .pure-u
+      .control-group.search-control
+        .controls
+          %input{type: "text", placeholder: "Search Site", id: "search_site"}
+    .pure-u
+      .control-group.search-control
+        .controls
+          %input{type: "text", placeholder: "Search Advertiser", id: "search_advertiser"}
+    .pure-u
+      .control-group.search-control
+        .controls
+          %input{type: "text", placeholder: "Search Advertiser Group", id: "search_advertiser_group"}
+    .pure-u
+      %a.btn#btn_search Search
+    .pure-u.pull-right
+      %a.btn#btn_export
+        %i.icon-download-alt
+          Export
 %table.admin-block-logs-table
   %thead
     %tr
@@ -89,4 +114,28 @@
     $('body').tooltip({
       selector: '[rel=tooltip]'
     });
+
+    $('#block_log_date_picker span').html(moment().subtract('days', 6).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
+
+     $('#block_log_date_picker').daterangepicker({
+      ranges: {
+         'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+         'Last 7 Days': [moment().subtract('days', 6), moment()],
+         'Last 30 Days': [moment().subtract('days', 29), moment()],
+         'This Month': [moment().startOf('month'), moment().endOf('month')],
+         'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+      },
+      format: 'YYYY-MM-DD',
+      separator: ' to ',
+      startDate: moment().subtract('days', 6),
+      endDate: moment(),
+      showWeekNumbers: true,
+      dateLimit: false,
+      locale: {
+        clearLabel: 'Close'
+      }
+      },
+      function(start, end) {
+        $('#block_log_date_picker span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+      })
   });
