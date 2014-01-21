@@ -49,7 +49,11 @@ Reachui::Application.routes.draw do
         get 'whitelisted_sites'
       end
     end
-    resources :block_logs
+    resources :block_logs do
+      collection do
+        get 'export'
+      end
+    end
   end
 
   resources :users do

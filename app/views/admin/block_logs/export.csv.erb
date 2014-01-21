@@ -1,0 +1,18 @@
+Site, Advertiser, Advertiser Group, Action, Status, User, Date/Time
+<%
+  require 'csv'
+  csv_string = CSV.generate do |csv|
+    @block_logs.each do |block_log|
+      csv << [
+              block_log.try(:site).try(:name),
+              block_log.try(:advertiser).try(:name),
+              block_log.try(:advertiser_block).try(:name),
+              block_log.action,
+              block_log.status,
+              block_log.try(:user).try(:full_name),
+              format_datetime(block_log.created_at)
+            ]
+    end
+  end
+-%>
+<%= raw csv_string %>
