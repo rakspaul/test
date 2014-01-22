@@ -921,7 +921,7 @@ table.creatives-content {
 
     input {
       margin-top: -3px;
-      margin-left: 6px;
+      margin-left: 3px;
     }
 
     &:before {
@@ -1027,18 +1027,15 @@ table.creatives-content {
     }
     
     .add-user-to-notify-list-btn, .close-users-notify-list-btn {
-      content: url(asset-path('x_btn.png'));
       margin-right: 4px;
-      width: 18px;
-      height: 18px;
       margin-left: 16px;
-      -webkit-transform: rotate(45deg);
+      @include rotate(45deg);
       float: left;
       cursor: pointer;
     }
 
     .close-users-notify-list-btn {
-      -webkit-transform: rotate(0deg);
+      @include rotate(0deg);
     }
   }
 }
