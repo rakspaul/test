@@ -1,6 +1,9 @@
 <div class="username">
   <%= username %>
 </div>
+<% if(sent) { %>
+<div class="sent-via-email"></div>
+<% } %>
 <div class="ordersnotes">
   <%= note %>
 </div>

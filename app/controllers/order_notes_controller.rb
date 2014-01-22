@@ -19,6 +19,7 @@ class OrderNotesController < ApplicationController
     @note = OrderNote.new(p)
     @note.order = order
     @note.user = current_user
+    @note.sent = !users_emails.blank?
     @note.save
 
     NotificationsMailer.notification_email(users_emails, @note).deliver if !users_emails.blank?

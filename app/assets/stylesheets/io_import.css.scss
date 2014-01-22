@@ -891,6 +891,13 @@ table.creatives-content {
       color: $text_color;
     }
 
+    .sent-via-email {
+      content: url(asset-path('email_sent.png'));
+      width: 16px;
+      height: 12px;
+      position: relative;
+    }
+
     .ordersnotes {
       float: left;
       width: 53%;
