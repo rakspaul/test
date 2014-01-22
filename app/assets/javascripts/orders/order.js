@@ -261,7 +261,7 @@
     initialize: function() {
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
       this.notify_users_dialog_active = false;
-      this.selected_users = [window.current_trafficker_email, window.current_am_email];
+      this.selected_users = this.defaultUsersToNotify();
     },
 
     displayNotifyUsersList: function() {
@@ -324,8 +324,8 @@
       var self = this;
 
       this.displayNotifyUsersList();
-
-      this.$el.find('.users-to-notify .typeahead-container input').val(window.current_trafficker_email+','+window.current_am_email);
+      
+      this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
 
       if(this.notify_users_dialog_active) {
         this.$el.find('.notify-users-switch').attr('checked', 'checked');
@@ -423,9 +423,15 @@
         return;
       }
 
+      if(this.options.order.id == null) {
+        alert("The order is not persisted yet, so the note couldn't be added");
+        return;
+      }
+
       var prop = {
         note: this.ui.note_input.val().trim(),
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+        sent: this.notify_users_dialog_active,
         username: window.current_user_name,
         notify_users: this.selected_users
       }
@@ -439,9 +445,20 @@
       this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
+    defaultUsersToNotify: function() {
+      var default_values = [];
+      if(window.current_trafficker_email)
+        default_values.push(window.current_trafficker_email);
+      if(window.current_am_email)
+        default_values.push(window.current_am_email);
+
+      return default_values;
+    },
+
     _onSaveSuccess: function(event) {
       this.ui.note_input.val('');
-      this.selected_users = [window.current_trafficker_email, window.current_am_email];
+
+      this.selected_users = this.defaultUsersToNotify();
       this.$el.find('.save-note-btn').removeClass('spinner');
       this.render();
       this.showAddUsersSelectBox();
