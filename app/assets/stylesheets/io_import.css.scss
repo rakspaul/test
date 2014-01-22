@@ -548,7 +548,7 @@ $wide_input_width: 480px;
   }
 }
 
-.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn, .save-note-btn {
+.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
   background-color: $text_color;
   color: white;
   width: 50px;
@@ -566,8 +566,20 @@ $wide_input_width: 480px;
   }
 }
 
+.save-note {
+  background-color: $text_color;
+  float: left;
+  padding: 5px;
+  margin-right: 10px;
+
+  &:hover{
+    background-color: lighten($text_color, 10%);
+    cursor: pointer;
+  }
+}
+
 .save-note-btn {
-  background: url(asset-path('activity_log_white_icon.png')) $text_color 0px 0px no-repeat;
+  background: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
   width: 16px;
   height: 20px;
 }
