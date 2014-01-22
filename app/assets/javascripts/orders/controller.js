@@ -588,7 +588,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         type: type
       });
 
-      ad.set('targeting', li_targeting);
+      if (type != 'Companion') {
+        ad.set('targeting', li_targeting);
+      }
 
       var li_creatives = [];
       _.each(li.get('creatives').models, function(li_creative) {
