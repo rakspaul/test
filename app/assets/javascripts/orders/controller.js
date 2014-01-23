@@ -601,7 +601,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
-    ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+
+    if(li.collection.order.attributes.reach_client_abbr == "TWC" || li.collection.order.attributes.reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+    } else {
+      ad_name_parts.push(li.collection.order.attributes.name);
+    }
 
     if(isGeo) {
       ad_name_parts.push("GEO");
