@@ -10,7 +10,7 @@ json.array! @order.ads do |ad|
     json.dfp_url ad.dfp_url
     json.rate ad.ad_pricing.try(:rate).to_f
     json.volume ad.ad_pricing.try(:quantity).to_i
-    json.value ad.ad_pricing.try(:value).to_i
+    json.value ad.ad_pricing.try(:value).to_f
     json.io_lineitem_id ad.io_lineitem_id
     json.keyvalue_targeting ad.reach_custom_kv_targeting
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
