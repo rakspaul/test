@@ -14,7 +14,7 @@ class OrderNotesController < ApplicationController
   def create
     order = Order.find(params[:order_id])
     p = params.require(:order_note).permit(:note)
-    users_emails = params[:notify_users]
+    users_emails = params[:notify_users].nil? ? nil : params[:notify_users].reject(&:blank?)
 
     @note = OrderNote.new(p)
     @note.order = order

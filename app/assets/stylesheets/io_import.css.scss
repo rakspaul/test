@@ -908,6 +908,8 @@ table.creatives-content {
       width: 16px;
       height: 12px;
       position: relative;
+      margin: 4px 5px 0 -3px;
+      float: left;
     }
 
     .ordersnotes {
@@ -916,7 +918,7 @@ table.creatives-content {
     }
 
     .notetimestamp {
-      float: left;
+      float: right;
       font-size: 11px;
     }
   }

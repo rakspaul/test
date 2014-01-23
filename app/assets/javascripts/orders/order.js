@@ -433,7 +433,7 @@
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
         sent: this.notify_users_dialog_active,
         username: window.current_user_name,
-        notify_users: this.selected_users
+        notify_users: (this.notify_users_dialog_active ? this.selected_users : null)
       }
 
       this.model = new ReachUI.Orders.Note(prop);
