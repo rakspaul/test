@@ -949,13 +949,24 @@ table.creatives-content {
     margin-right: 5px;
   }
 
-  .cox-creatives-btn:before {
-    content: url(asset-path('upload_creatives_btn.png'));
-    width: 16px;
-    height: 16px;
-    position: relative;
-    left: -20px;
-    top: -3px;
+  .creatives-fileupload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    width: 115px;
+    filter: alpha(opacity=0);
+  }
+
+    ::-webkit-file-upload-button { cursor:pointer; }
+
+  .upload-creatives-btn {
+    float: left;
+    overflow: hidden;
   }
 
   .notify-by-email:before {
