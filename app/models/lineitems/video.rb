@@ -1,6 +1,10 @@
 class Video < Lineitem
 
   DEFAULT_MASTER_ADSIZE = '1x1'
+  AD_TYPE = 'STANDARD'
+  PRIORITY = 6
+  COMPANION_AD_TYPE = 'SPONSORSHIP'
+  COMPANION_PRIORITY = 1
 
   before_validation :set_ad_sizes, :if => :new_record?
 
