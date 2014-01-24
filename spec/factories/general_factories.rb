@@ -80,6 +80,7 @@ FactoryGirl.define do
     name "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON; Video"
     ad_sizes ""
     media_type { FactoryGirl.singleton :video_media_type }
+    type "Video"
   end
 
   factory :lineitem_with_ad, :parent => :lineitem do
@@ -100,6 +101,7 @@ FactoryGirl.define do
     keyvalue_targeting "12345, 56789"
     order
     network { FactoryGirl.singleton :network }
+    media_type { FactoryGirl.singleton :display_media_type }
   end
 
   factory :io_asset do

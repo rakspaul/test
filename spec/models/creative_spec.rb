@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Creative do
   let(:user) { FactoryGirl.create :user }
   let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
+  let(:media_type) { FactoryGirl.singleton :display_media_type }
 
   context "wrong flight dates" do
     before do
@@ -16,7 +17,7 @@ describe Creative do
       @li = Lineitem.create order_id: @order.id, user_id: user.id, start_date: (Time.current + 5.day), end_date: (Time.current + 12.days), name: "Family, Home Owners, Mid HHI ($60k-$150k); Dallas RON", volume: 300_000, rate: 2.22, value: 666.00, ad_sizes: "160x600, 300x250, 728x90"
       @li.errors.messages.should == {}
 
-      @ad = Ad.create order_id: @order.id, io_lineitem_id: @li.id, size: "160x600", start_date: @li.start_date, end_date: @li.end_date, description: "Test description", network: user.network
+      @ad = Ad.create order_id: @order.id, io_lineitem_id: @li.id, size: "160x600", start_date: @li.start_date, end_date: @li.end_date, description: "Test description", network: user.network, media_type: media_type
       @ad.errors.messages.should == {}
     end
 

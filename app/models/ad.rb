@@ -21,7 +21,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source
+  before_save :move_end_date_time, :set_data_source, :set_type_params
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -83,6 +83,20 @@ class Ad < ActiveRecord::Base
 
   def set_data_source
     self.data_source = self.network.data_source
+  end
+
+  def set_type_params
+    if type == 'Companion'
+      self.ad_type  = Video::COMPANION_AD_TYPE
+      self.priority = Video::COMPANION_PRIORITY
+    end and return
+
+    self.ad_type  = "#{media_type.category}::AD_TYPE".constantize
+    if type == 'Display' && audience_groups.size > 0
+      self.priority = "#{media_type.category}::HIGH_PRIORITY".constantize
+    else
+      self.priority = "#{media_type.category}::PRIORITY".constantize
+    end
   end
 
   def pushed_to_dfp?

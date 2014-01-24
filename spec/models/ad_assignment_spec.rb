@@ -1,6 +1,13 @@
 require 'spec_helper'
 
 describe AdAssignment do
+  let(:order) { FactoryGirl.create(:order, name: 'AdAssignment test order') }
+  let(:lineitem) { FactoryGirl.create(:lineitem, order: order) }
+  let(:media_type) { FactoryGirl.singleton :display_media_type }
+  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_1x1),
+                      FactoryGirl.create(:ad_size_160x600),
+                      FactoryGirl.create(:ad_size_300x250),
+                      FactoryGirl.create(:ad_size_728x90) ] }
   it { should belong_to (:ad) }
   it { should belong_to (:creative) }
   it { should belong_to (:data_source) }
@@ -8,7 +15,7 @@ describe AdAssignment do
 
   describe "validations" do
     before do
-      ad = FactoryGirl.build(:ad, start_date: 1.day.from_now, end_date: 10.day.from_now)
+      ad = FactoryGirl.build(:ad, lineitem: lineitem, start_date: 1.day.from_now, end_date: 10.day.from_now, media_type: media_type)
       creative = FactoryGirl.build(:creative)
       @ad_assignment = AdAssignment.new(ad: ad, creative: creative, start_date: 1.day.from_now, end_date: 10.day.from_now)
     end
@@ -36,7 +43,7 @@ describe AdAssignment do
   end
 
   it "should assign network data source" do
-    ad = FactoryGirl.create(:ad, start_date: 1.day.from_now, end_date: 10.day.from_now)
+    ad = FactoryGirl.create(:ad, lineitem: lineitem, start_date: 1.day.from_now, end_date: 10.day.from_now, media_type: media_type)
     creative = FactoryGirl.create(:creative)
     ad_assignment = AdAssignment.create(ad: ad, creative: creative, network: ad.network, start_date: 1.day.from_now, end_date: 10.day.from_now)
     ad_assignment.data_source.should == ad.network.data_source

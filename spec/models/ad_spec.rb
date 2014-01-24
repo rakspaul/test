@@ -31,4 +31,102 @@ describe Ad do
       ad.errors.messages.should == {}
     end
   end
+
+  context "media type" do
+    let(:order) { FactoryGirl.create(:order) }
+    let(:lineitem) { FactoryGirl.create(:lineitem, :order => order) }
+    let(:lineitem_video) { FactoryGirl.create(:lineitem_video, :order => order) }
+    let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_1x1),
+                        FactoryGirl.create(:ad_size_160x600),
+                        FactoryGirl.create(:ad_size_300x250),
+                        FactoryGirl.create(:ad_size_728x90) ] }
+
+    let(:network) { FactoryGirl.singleton(:network) }
+    let(:display_type)  { FactoryGirl.create(:display_media_type) }
+    let(:video_type)    { FactoryGirl.create(:video_media_type) }
+    let(:mobile_type)   { FactoryGirl.create(:mobile_media_type) }
+    let(:facebook_type) { FactoryGirl.create(:facebook_media_type) }
+    let!(:segment1) { FactoryGirl.create(:segment1) }
+    let!(:segment2) { FactoryGirl.create(:segment2) }
+    let!(:context1) { FactoryGirl.create(:context1) }
+    let!(:context2) { FactoryGirl.create(:context2) }
+    let(:audience_group) { FactoryGirl.create(:audience_group) }
+
+    let(:ad) { Ad.new order: order,
+                      lineitem: lineitem,
+                      size: "160x600",
+                      network: network,
+                      start_date: lineitem.start_date,
+                      end_date:   lineitem.end_date,
+                      description: "Test description" }
+
+    it "set display ad type" do
+      ad.media_type = display_type
+      ad.save
+      expect(ad.ad_type).to eq(Display::AD_TYPE)
+    end
+
+    it "set display priority" do
+      ad.media_type = display_type
+      ad.save
+      expect(ad.priority).to eq(Display::PRIORITY)
+    end
+
+    it "set display high priority" do
+      ad.media_type = display_type
+      ad.audience_groups << audience_group
+      ad.save
+      expect(ad.priority).to eq(Display::HIGH_PRIORITY)
+    end
+
+    it "set video ad type" do
+      ad.media_type = video_type
+      ad.save
+      expect(ad.ad_type).to eq(Video::AD_TYPE)
+    end
+
+    it "set video priority" do
+      ad.media_type = video_type
+      ad.save
+      expect(ad.priority).to eq(Video::PRIORITY)
+    end
+
+    it "set companion ad type" do
+      ad.lineitem = lineitem_video
+      ad.media_type = display_type
+      ad.save
+      expect(ad.ad_type).to eq(Video::COMPANION_AD_TYPE)
+    end
+
+    it "set companion priority" do
+      ad.lineitem = lineitem_video
+      ad.media_type = display_type
+      ad.save
+      expect(ad.priority).to eq(Video::COMPANION_PRIORITY)
+    end
+
+    it "set facebook ad type" do
+      ad.media_type = facebook_type
+      ad.save
+      expect(ad.ad_type).to eq(Facebook::AD_TYPE)
+    end
+
+    it "set facebook priority" do
+      ad.media_type = facebook_type
+      ad.save
+      expect(ad.priority).to eq(Facebook::PRIORITY)
+    end
+
+    it "set mobile ad type" do
+      ad.media_type = mobile_type
+      ad.save
+      expect(ad.ad_type).to eq(Mobile::AD_TYPE)
+    end
+
+    it "set mobile priority" do
+      ad.media_type = mobile_type
+      ad.save
+      expect(ad.priority).to eq(Mobile::PRIORITY)
+    end
+  end
 end
