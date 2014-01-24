@@ -167,7 +167,9 @@
         } else if (li_type == 'Video') {
           ad_sizes = li.get('master_ad_size') + ', ' + li.get('companion_ad_size');
         }
-        this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
+        if(ad_sizes) {
+          this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
+        }
       }
     },
 
