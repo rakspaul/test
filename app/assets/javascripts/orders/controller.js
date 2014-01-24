@@ -524,7 +524,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
   // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
-  _generateAdName: function(li) {
+  _generateAdName: function(li, ad_type) {
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
@@ -544,7 +544,24 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("RON");
     }
     ad_name_parts.push('Q'+start_quarter+start_year);
-    ad_name_parts.push(li.attributes.ad_sizes.replace(/,/g, ' '));
+
+    if("Companion" == ad_type) {
+      ad_name_parts.push("Companion");
+    } else if("Video" == ad_type) {
+      ad_name_parts.push("Preroll");
+    }
+
+    if("Video" == ad_type) {
+      ad_name_parts.push(li.get('master_ad_size'));
+    } else if("Companion" == ad_type) {
+      ad_name_parts.push(li.get('companion_ad_size'));
+    } else {
+      ad_name_parts.push(li.get('ad_sizes').replace(/,/g, ' '));
+    }
+
+    if("Facebook" == ad_type) {
+      ad_name_parts.push("FBX");
+    }
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
@@ -573,7 +590,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li_view.model.get('type');
-      var ad_name = ordersController._generateAdName(li);
+      var ad_name = ordersController._generateAdName(li, type);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
       var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
       var ad = new ReachUI.Ads.Ad(attrs);
