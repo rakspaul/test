@@ -53,5 +53,6 @@ json.reach_client_abbr        reach_client_abbr
 json.io_file_path             io_file_path
 json.client_order_id          io_detail.try(:client_order_id)
 
-json.trafficking_contact_name io_detail.try(:trafficking_contact).try(:full_name)
-json.trafficking_contact_id   io_detail.try(:trafficking_contact).try(:id)
+json.trafficking_contact_email io_detail.try(:trafficking_contact).try(:email)
+json.trafficking_contact_name  io_detail.try(:trafficking_contact).try(:full_name)
+json.trafficking_contact_id    io_detail.try(:trafficking_contact).try(:id)

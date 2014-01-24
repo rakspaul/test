@@ -90,6 +90,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
     this._showOrderDetails(orderModel);
+
+    // set default AM's and Trafficker's emails and names (in order to show emails in Notify Users box)
+    window.current_am_email         = orderModel.get('account_contact_email');
+    window.current_am_name          = orderModel.get('account_contact_name');
+    window.current_trafficker_email = orderModel.get('trafficking_contact_email');
+    window.current_trafficker_name  = orderModel.get('trafficking_contact_name');
+
     lineItems.setOrder(orderModel);
     this._liSetCallbacksAndShow(lineItems);
     this._showNotesView(orderModel);
@@ -366,6 +373,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ordersController._clearErrorsOn(".trafficker-container");
       order.set("trafficking_contact_id", el.id);//update backbone model
       order.set("trafficking_contact_name", el.name);
+
+      // update current trafficker's email and name so info in 'Notify users by email' dialog would be up-to-date
+      window.current_trafficker_email = el.email;
+      window.current_trafficker_name = el.name;
     });
 
     //--------------------------------------------------------------------------------
@@ -399,6 +410,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order.set("account_contact_email", ac_email);
       order.set("account_contact_phone", ac_phone);
       order.set("account_contact_id", ac_id);
+
+      // update current AM's email and name so info in 'Notify users by email' dialog would be up-to-date
+      window.current_am_email = ac_email;
+      window.current_am_name = ac_name;
 
       ordersController._clearErrorsOn(".account-contact-name");
     });
