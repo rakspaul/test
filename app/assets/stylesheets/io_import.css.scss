@@ -962,7 +962,9 @@ table.creatives-content {
     filter: alpha(opacity=0);
   }
 
-    ::-webkit-file-upload-button { cursor:pointer; }
+  ::-webkit-file-upload-button {
+    cursor:pointer ;
+  }
 
   .upload-creatives-btn {
     float: left;
