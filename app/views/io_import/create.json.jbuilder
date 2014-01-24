@@ -22,6 +22,7 @@ json.order do
     json.array! @notes do |note|
       json.username note[:username]
       json.note note[:note]
+      json.sent false
       json.created_at format_datetime(note[:created_at])
     end
   end
