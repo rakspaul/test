@@ -136,7 +136,8 @@
     defaults:{
       state: 'PENDING_BLOCK',
       default_block: false,
-      status: ''
+      isModified: false,
+      isDeleted: false,
     },
   });
 
@@ -154,7 +155,9 @@
   BlockSites.AdvertiserGroup = Backbone.Model.extend({
     defaults:{
       state: 'PENDING_BLOCK',
-      status: ''
+      status: '',
+      isModified: false,
+      isDeleted: false,
     },
   });
 
@@ -293,7 +296,7 @@
         site_id: advertiser.site_id,
         state: advertiser.state,
         default_block: false,
-        status:''
+        isModified:false
       }
     },
 
@@ -433,6 +436,7 @@
     },
 
     initialize: function() {
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
       this.model.on('change', this.render, this);
     },
 
@@ -442,16 +446,31 @@
 
     className: function() {
       if (this.model.get('default_block')) {
-        return 'italics'
+        return 'italics';
       }
     },
 
     serializeData: function() {
-      return {
-        pending_block_indicator : (this.model.get('state') == "PENDING_BLOCK" || this.model.get('state') == "PENDING_UNBLOCK")? ' * ': '',
-        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
-        advertiser_name : this.model.get('advertiser_name')
+      var data = {};
+
+      if (this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if (this.model.get('state') == "COMMIT_BLOCK" || this.model.get('state') === "COMMIT_UNBLOCK") {
+        data.pending_block_indicator = ' * ';
+      } else {
+        data.pending_block_indicator = ''
       }
+
+      data.default_block_indicator = this.model.get('default_block') ? '(Default Block)' : '';
+      data.advertiser_name = this.model.get('advertiser_name');
+
+      return data;
     },
 
     onRender: function() {
@@ -460,14 +479,33 @@
       } else {
         this.$el.removeClass('selected');
       }
-      if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled').removeClass('selected');
-      }
+
+      // if (this.model.get('status') === 'deleted') {
+      //   this.$el.removeClass('selected');
+      // }
+      this._applyCssClass();
     },
 
     _onClick:function() {
-      if (this.model.get('status') != 'deleted') {
+      if (!this.model.get('isDeleted')) {
         this.trigger('selected');
+      }
+    },
+
+    _applyCssClass: function() {
+      if (this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('greenText');
+      } else if(this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('redText');
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('greenText');
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('redText');
+      } else if (this.model.get('isDeleted')) {
+        this.$el.addClass('disabled');
+      } else {
+        this.$el.removeClass('redText');
+        this.$el.removeClass('greenText');
       }
     },
   });
@@ -477,6 +515,11 @@
     itemView: BlockSites.BlockedAdvertiserView,
     itemViewContainer: 'ul',
     tagName: 'li',
+    itemViewOptions: function(model, index) {
+      return {
+        isBlacklistedSiteMode: this.options.isBlacklistedSiteMode
+      };
+    },
 
     initialize: function() {
       this.collection = this.model.get('advertisers');
@@ -498,7 +541,7 @@
 
     _onItemClick: function(event){
       var selectedItem = event.model,
-      vo = this.selectedItems.get(event.model.id);
+      vo = this.selectedItems.findWhere({advertiser_id: event.model.get('advertiser_id'), site_id: event.model.get('site_id')});
 
       if (vo) {
         this.selectedItems.remove(vo);
@@ -523,6 +566,11 @@
   BlockSites.BlockedAdvertiserListView  = Backbone.Marionette.CompositeView.extend({
     template: JST['templates/admin/block_sites/blocked_advertiser_list_view'],
     itemView: BlockSites.BlockedAdvertiserListItemView,
+    itemViewOptions: function(model, index) {
+      return {
+        isBlacklistedSiteMode: this._isBlacklistedSiteMode,
+      };
+    },
 
     events: {
       'click #btnAdd' : '_onAddAdvertiserClick',
@@ -541,6 +589,7 @@
 
       this.collection.on("fetch", this._onFetch, this);
       this.collection.on("reset", this._onReset, this);
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
     },
 
     appendHtml: function(collectionView, itemView){
@@ -549,6 +598,11 @@
 
     onRender: function() {
       this.ui.lblTabName.text(this.tab_name);
+    },
+
+    setSiteMode: function(isBlacklistedSiteMode) {
+      this._isBlacklistedSiteMode = isBlacklistedSiteMode;
+      this.render();
     },
 
     setText: function(tab_name) {
@@ -571,7 +625,30 @@
           if (site) {
             var advertiser = site.getAdvertiser(advertiser_id);
             if(advertiser) {
-              advertiser.set({status: 'deleted'});
+              advertiser.set({selected: false});
+              if(self._isBlacklistedSiteMode) {
+                if (advertiser.get('state') == 'BLOCK') {
+                  advertiser.set({state: 'PENDING_UNBLOCK'});
+                  advertiser.set({isModified: true});
+                } else if(advertiser.get('state') == 'PENDING_BLOCK') {
+                  advertiser.set({state: ''});
+                  advertiser.set({isDeleted: true});
+                } else if (advertiser.get('state') == 'PENDING_UNBLOCK') {
+                  advertiser.set({state: 'BLOCK'});
+                  advertiser.set({isModified: true});
+                }
+              } else {
+                if (advertiser.get('state') == 'UNBLOCK') {
+                  advertiser.set({state: 'PENDING_BLOCK'});
+                  advertiser.set({isModified: true});
+                } else if(advertiser.get('state') == 'PENDING_UNBLOCK') {
+                  advertiser.set({state: ''});
+                  advertiser.set({isDeleted: true});
+                } else if (advertiser.get('state') == 'PENDING_BLOCK') {
+                  advertiser.set({state: 'UNBLOCK'});
+                  advertiser.set({isModified: true});
+                }
+              }
             }
           }
         });
@@ -594,13 +671,30 @@
 
   BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.ItemView.extend({
     tagName:'li',
-    template: _.template(' <% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_group_name%>'),
+    template: _.template(' <%= pending_block_indicator %> <%= advertiser_group_name%>'),
 
     attributes: function() {
       return {
         value: this.model.get('advertiser_group_id'),
         site_id: this.model.get('site_id')
       }
+    },
+
+    serializeData: function() {
+      var data = {};
+
+      if (this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if (this.model.get('state') == "COMMIT_BLOCK" || this.model.get('state') === "COMMIT_UNBLOCK") {
+        data.pending_block_indicator = ' * ';
+      } else {
+        data.pending_block_indicator = ''
+      }
+      data.advertiser_group_name = this.model.get('advertiser_group_name');
+
+      return data;
     },
 
     initialize: function() {
@@ -617,13 +711,28 @@
       } else {
         this.$el.removeClass('selected');
       }
-      if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled').removeClass('selected');
+      // if (this.model.get('status') === 'deleted') {
+      //   this.$el.addClass('disabled').removeClass('selected');
+      // }
+
+      this._applyCssClass();
+    },
+
+    _applyCssClass: function() {
+      if (this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('greenText');
+      } else if(this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('redText');
+      } else if (this.model.get('isDeleted')) {
+        this.$el.addClass('disabled');
+      } else {
+        this.$el.removeClass('redText');
+        this.$el.removeClass('greenText');
       }
     },
 
     _onClick:function() {
-      if (this.model.get('status') != 'deleted') {
+      if (!this.model.get('isDeleted')) {
         this.trigger('selected');
       }
     },
@@ -656,7 +765,7 @@
 
     _onItemClick: function(event){
       var selectedItem = event.model,
-      vo = this.selectedItems.get(event.model.id);
+      vo = this.selectedItems.findWhere({advertiser_group_id: event.model.get('advertiser_group_id'), site_id: event.model.get('site_id')});
 
       if (vo) {
         this.selectedItems.remove(vo);
@@ -731,7 +840,6 @@
       var self = this;
 
       if (this._isAdvertiserGroupSelected()) {
-
         $( "#blockedAdvertiserGroupList li.selected").each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
           advertiser_group_id = parseInt($( this ).val()),
@@ -739,7 +847,17 @@
           if (site) {
             var advertiser_group = site.getAdvertiserGroup(advertiser_group_id);
             if (advertiser_group) {
-              advertiser_group.set({status: 'deleted'});
+              advertiser_group.set({selected: false});
+              if (advertiser_group.get('state') == 'BLOCK') {
+                advertiser_group.set({state: 'PENDING_UNBLOCK'});
+                advertiser_group.set({isModified: true});
+              } else if(advertiser_group.get('state') == 'PENDING_BLOCK') {
+                advertiser_group.set({state: ''});
+                advertiser_group.set({isDeleted: true});
+              } else if (advertiser_group.get('state') == 'PENDING_UNBLOCK') {
+                advertiser_group.set({state: 'BLOCK'});
+                advertiser_group.set({isModified: true});
+              }
             }
           }
         });
@@ -806,7 +924,7 @@
     initialize: function() {
       this.collection = new BlockSites.AdvertiserList();
       this.collection.fetch({reset: true});
-      this._siteMode = this.options.siteMode;
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
 
       this.selectedItems = new BlockSites.SelectedItems();
       this.on('itemview:selected', this._onItemClick, this);
@@ -840,7 +958,7 @@
     onBlock: function(event) {
       var selectedAdvertiserIds = this.selectedItems.pluck('id');
       if(selectedAdvertiserIds && selectedAdvertiserIds.length >0 ) {
-        if (this._siteMode === 'Blacklisted_Site_Mode') {
+        if (this._isBlacklistedSiteMode) {
           var para = {};
           this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
           para.advertiser_id = selectedAdvertiserIds.join(',')
@@ -940,14 +1058,14 @@
     },
 
     initialize: function() {
-      this._siteMode = this.options.siteMode;
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
       _.bindAll(this, '_onSuccess', '_onError', '_onValidateAdvertiserSuccess', '_onValidateAdvertiserError');
     },
 
     onBlock: function(event) {
       var str = this.ui.textAreaAdvertiser.val();
       if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
-        if (this._siteMode === 'Blacklisted_Site_Mode') {
+        if (this._isBlacklistedSiteMode === 'Blacklisted_Site_Mode') {
           var para = {};
           this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
           para.advertiser_id = _.pluck(this._advertisers, 'id').join(',')

@@ -419,6 +419,7 @@
       option.italics {
        font-style: italic;
       }
+
     }
 
     option.disabled{
@@ -432,6 +433,10 @@
       .loading-img{
         margin-top:240px;
       }
+    }
+    .block-site-help-block {
+      display: block;
+      margin-bottom: 2px;
     }
 
   }
@@ -532,11 +537,23 @@
 
           &.selected{
             background:#008DD1;
-            color:#fff;
+            color:#fff !important;
           }
 
           &.disabled{
             color:#ccc;
+          }
+
+          &.italics{
+            font-style: italic
+          }
+
+          &.redText{
+            color: red;
+          }
+
+          &.greenText {
+            color: green;
           }
         }
       }
