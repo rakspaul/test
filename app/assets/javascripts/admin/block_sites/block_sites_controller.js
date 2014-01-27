@@ -3,11 +3,12 @@
 
   BlockSites.BlockSitesController = Marionette.Controller.extend({
     initialize: function() {
+      this._isBlacklistedSiteMode = true;
+
       this._initializeLayout();
       this._initializeSiteListView();
       this._initializeBlockedAdvertiserListView();
       this._initializeBlockedAdvertiserGroupListView();
-      this._siteMode = 'Blacklisted_Site_Mode';
       _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError');
     },
 
@@ -34,7 +35,7 @@
 
     _initializeBlockedAdvertiserListView: function() {
       this.blockedAdvertiserList = new BlockSites.AdvertiserBlockList();
-      this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList});
+      this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList, isBlacklistedSiteMode: this._isBlacklistedSiteMode});
       this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
@@ -73,20 +74,22 @@
     },
 
     _onSiteTabChange: function(siteMode) {
-      this._siteMode = siteMode;
-      if (this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+      if (siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+        this._isBlacklistedSiteMode = true;
         this.blockedAdvertiserListView.setText('Blacklisted Advertisers');
         this.blockedAdvertiserGroupListView.show();
       } else{
+        this._isBlacklistedSiteMode = false;
         this.blockedAdvertiserListView.setText('Whitelisted Advertisers');
         this.blockedAdvertiserGroupListView.hide();
       }
+      this.blockedAdvertiserListView.setSiteMode(this._isBlacklistedSiteMode);
     },
 
     _fetchSiteBlocks: function() {
       var self = this;
 
-      if (this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+      if (this._isBlacklistedSiteMode) {
         this.blockedAdvertiserList.fetchBlacklistedAdvertisers().then(function() {
           self.blockedAdvertiserList.sort();
         });
@@ -106,7 +109,7 @@
       if (selectedSites && selectedSites.length > 0) {
         this.advertiserListModalController = new BlockSites.AdvertiserListModalController({
           mainRegion: this.layout.modal,
-          siteMode: this._siteMode
+          isBlacklistedSiteMode: this._isBlacklistedSiteMode
         });
 
         this.advertiserListModalController.on('Block:Advertiser', this._onBlockAdvertiser, this);
@@ -149,7 +152,7 @@
       var advertiser_id = advertiser.id,
       name = advertiser.get('name'),
       default_block = advertiser.get('default_block'),
-      state = this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE ? 'PENDING_BLOCK' : 'PENDING_UNBLOCK';
+      state = this._isBlacklistedSiteMode ? 'PENDING_BLOCK' : 'PENDING_UNBLOCK';
 
       return new BlockSites.Advertiser({
         site_id: site_id,
@@ -204,47 +207,80 @@
     _onSaveSiteBlock: function(event) {
       var para = {},
       blacklistedAdvertisers = [],
-      blacklistedAdvertiserGroups = [],
       whitelistedAdvertisers = [],
-      whitelistedAdvertiserGroups = [];
 
-      if(this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
-        blacklistedAdvertisers = this._getNewAdvertisers();
-        blacklistedAdvertiserGroups = this._getNewAdvertiserGroups();
-        whitelistedAdvertisers = this._getRemovedAdvertisers();
-        whitelistedAdvertiserGroups = this._getRemovedAdvertiserGroups();
+      deletedWhitelistedAdvertisers = [],
+      deletedBlacklistedAdvertisers = [],
 
-        if (blacklistedAdvertisers.length > 0 ) {
-          para.blacklistedAdvertisers = JSON.stringify(blacklistedAdvertisers);
-        }
+      blockedAdvertisers = [],
+      unblockAdvertisers = [],
 
-        if (blacklistedAdvertiserGroups.length > 0) {
-          para.blacklistedAdvertiserGroups = JSON.stringify(blacklistedAdvertiserGroups);
-        }
+      blacklistedAdvertiserGroups = [],
+      whitelistedAdvertiserGroups = [],
 
-        if (whitelistedAdvertisers.length > 0) {
-          para.whitelistedAdvertisers = JSON.stringify(whitelistedAdvertisers);
-        }
+      deletedAdvertiserGroups = [],
+      blockedAdvertiserGroups = [],
 
-        if (whitelistedAdvertiserGroups.length > 0) {
-          para.whitelistedAdvertiserGroups = JSON.stringify(whitelistedAdvertiserGroups);
-        }
-      } else {
-        blacklistedAdvertisers = this._getRemovedAdvertisers();
-        whitelistedAdvertisers = this._getNewAdvertisers();
 
-        if (blacklistedAdvertisers.length > 0 ) {
-          para.blacklistedAdvertisers = JSON.stringify(blacklistedAdvertisers);
-        }
+      whitelistedAdvertisers = this._getWhitelistedAdvertisers();
+      blacklistedAdvertisers = this._getBlacklistedAdvertisers();
 
-        if (whitelistedAdvertisers.length > 0) {
-          para.whitelistedAdvertisers = JSON.stringify(whitelistedAdvertisers);
-        }
+      deletedBlacklistedAdvertisers = this._getDeletedBlacklistedAdvertisers();
+      deletedWhitelistedAdvertisers = this._getDeletedWhitelistedAdvertisers();
 
+      blockedAdvertisers = this._getBlockedAdvertisers();
+      unblockAdvertisers = this._getUnblockedAdvertisers();
+
+      whitelistedAdvertiserGroups = this._getWhitelistedAdvertiserGroups();
+      blacklistedAdvertiserGroups = this._getBlacklistedAdvertiserGroups();
+
+      deletedAdvertiserGroups = this._getDeletedAdvertiserGroups();
+      blockedAdvertiserGroups = this._getBlockedAdvertiserGroups();
+
+      if (this._isBlacklistedSiteMode && deletedBlacklistedAdvertisers.length > 0) {
+        para.deletedBlacklistedAdvertisers = JSON.stringify(deletedBlacklistedAdvertisers);
+      } else if (deletedWhitelistedAdvertisers.length > 0) {
+        para.deletedWhitelistedAdvertisers = JSON.stringify(deletedWhitelistedAdvertisers);
       }
 
+      if (whitelistedAdvertisers.length > 0) {
+        para.whitelistedAdvertisers = JSON.stringify(whitelistedAdvertisers);
+      }
 
-      if (blacklistedAdvertisers.length > 0 || blacklistedAdvertiserGroups.length > 0 || whitelistedAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0) {
+      if (blacklistedAdvertisers.length > 0 ) {
+        para.blacklistedAdvertisers = JSON.stringify(blacklistedAdvertisers);
+      }
+
+      if (blockedAdvertisers.length > 0 ) {
+        para.blockedAdvertisers = JSON.stringify(blockedAdvertisers);
+      }
+
+      if (unblockAdvertisers.length > 0 ) {
+        para.unblockAdvertisers = JSON.stringify(unblockAdvertisers);
+      }
+
+      if (whitelistedAdvertiserGroups.length > 0) {
+        para.whitelistedAdvertiserGroups = JSON.stringify(whitelistedAdvertiserGroups);
+      }
+
+      if (blacklistedAdvertiserGroups.length > 0) {
+        para.blacklistedAdvertiserGroups = JSON.stringify(blacklistedAdvertiserGroups);
+      }
+
+      if (deletedAdvertiserGroups.length > 0) {
+        para.deletedAdvertiserGroups = JSON.stringify(deletedAdvertiserGroups);
+      }
+
+      if (blockedAdvertiserGroups.length > 0) {
+        para.blockedAdvertiserGroups = JSON.stringify(blockedAdvertiserGroups);
+      }
+
+      if (blacklistedAdvertisers.length > 0 || blacklistedAdvertiserGroups.length > 0 ||
+          whitelistedAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0 ||
+          deletedBlacklistedAdvertisers.length > 0 || deletedWhitelistedAdvertisers.length > 0 ||
+          blockedAdvertisers.length > 0 || unblockAdvertisers.length > 0 ||
+          whitelistedAdvertiserGroups.length > 0 || blacklistedAdvertiserGroups.length > 0 ||
+          deletedAdvertiserGroups.length > 0 || blockedAdvertiserGroups.length > 0) {
         this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
         $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
       } else {
@@ -253,58 +289,151 @@
 
     },
 
-    _getNewAdvertisers: function() {
-      var newAdvertiser = [];
-      this.blockedAdvertiserList.each(function(site) {
-        site.getAdvertisers().each(function(advertiser) {
-          if(advertiser.isNew() && advertiser.get('status') !== 'deleted') {
-            newAdvertiser.push(advertiser.toJSON());
-          }
-        })
-      }, this);
-      return newAdvertiser;
-    },
-
-    _getRemovedAdvertisers: function() {
-      var removedAdvertisers = [];
+    _getWhitelistedAdvertisers: function() {
+      var advertisers = [],
+      self = this;
 
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
-          if(!advertiser.isNew() && advertiser.get('status') === 'deleted') {
-            removedAdvertisers.push(advertiser.toJSON());
+          if (self._isBlacklistedSiteMode) {
+            if (advertiser.get('isModified') && advertiser.get('state') === 'PENDING_UNBLOCK') {
+              advertisers.push(advertiser);
+            }
+          } else {
+            if (advertiser.isNew() && advertiser.get('state') === 'PENDING_UNBLOCK') {
+              advertisers.push(advertiser);
+            }
+          }
+        })
+      }, this);
+      return advertisers;
+    },
+
+    _getBlacklistedAdvertisers: function() {
+      var advertisers = [],
+      self = this;
+
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if (self._isBlacklistedSiteMode) {
+            if (advertiser.isNew() && advertiser.get('state') === 'PENDING_BLOCK') {
+              advertisers.push(advertiser);
+            }
+          } else {
+            if (advertiser.get('isModified') && advertiser.get('state') === 'PENDING_BLOCK') {
+              advertisers.push(advertiser);
+            }
           }
         })
       }, this);
 
-      return removedAdvertisers;
+      return advertisers;
     },
 
-    _getNewAdvertiserGroups: function() {
-      var newAdvertiserGroups = [];
+    _getDeletedWhitelistedAdvertisers: function() {
+      var advertisers = [];
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if (!advertiser.isNew() && advertiser.get('isDeleted')) {
+            advertisers.push(advertiser);
+          }
+        })
+      }, this);
+      return advertisers;
+    },
+
+    _getDeletedBlacklistedAdvertisers: function() {
+      var advertisers = [];
+
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if (!advertiser.isNew() && advertiser.get('isDeleted')) {
+            advertisers.push(advertiser);
+          }
+        })
+      }, this);
+      return advertisers;
+    },
+
+    _getBlockedAdvertisers: function() {
+      var advertisers = [];
+
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if (advertiser.get('isModified') && advertiser.get('state') === 'BLOCK') {
+            advertisers.push(advertiser);
+          }
+        })
+      }, this);
+      return advertisers;
+    },
+
+    _getUnblockedAdvertisers: function() {
+      var advertisers = [];
+
+      this.blockedAdvertiserList.each(function(site) {
+        site.getAdvertisers().each(function(advertiser) {
+          if (advertiser.get('isModified') && advertiser.get('state') === 'UNBLOCK') {
+            advertisers.push(advertiser);
+          }
+        })
+      }, this);
+      return advertisers;
+    },
+
+    _getWhitelistedAdvertiserGroups: function() {
+      var advertiserGroups = [];
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.isNew() && advertiser_group.get('status') !== 'deleted') {
-            newAdvertiserGroups.push(advertiser_group.toJSON());
+          if(advertiser_group.get('isModified') && advertiser_group.get('state') === 'PENDING_UNBLOCK') {
+            advertiserGroups.push(advertiser_group.toJSON());
           }
         })
       }, this);
 
-      return newAdvertiserGroups;
+      return advertiserGroups;
     },
 
-    _getRemovedAdvertiserGroups: function() {
-      var removedAdvertisers = [];
+    _getBlacklistedAdvertiserGroups: function() {
+      var advertiserGroups = [];
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(!advertiser_group.isNew() && advertiser_group.get('status') === 'deleted') {
-            removedAdvertisers.push(advertiser_group.toJSON());
+          if(advertiser_group.isNew() && advertiser_group.get('state') === 'PENDING_BLOCK') {
+            advertiserGroups.push(advertiser_group.toJSON());
           }
         })
       }, this);
 
-      return removedAdvertisers;
+      return advertiserGroups;
+    },
+
+    _getDeletedAdvertiserGroups: function() {
+      var advertiserGroups = [];
+
+      this.blockedAdvertiserGroupList.each(function(site) {
+        site.getAdvertiserGroups().each(function(advertiser_group) {
+          if(!advertiser_group.isNew() && advertiser_group.get('isDeleted')) {
+            advertiserGroups.push(advertiser_group.toJSON());
+          }
+        })
+      }, this);
+      return advertiserGroups;
+    },
+
+    _getBlockedAdvertiserGroups: function() {
+      var advertiserGroups = [];
+
+      this.blockedAdvertiserGroupList.each(function(site) {
+        site.getAdvertiserGroups().each(function(advertiser_group) {
+          if(advertiser_group.get('isModified') && advertiser_group.get('state') === 'BLOCK') {
+            advertiserGroups.push(advertiser_group.toJSON());
+          }
+        })
+      }, this);
+
+      return advertiserGroups;
     },
 
     _onSuccess: function(event) {
@@ -330,7 +459,9 @@
     },
 
     _onCommitSuccess: function(event) {
+      this._fetchSiteBlocks();
       alert(event.message);
+
     },
 
     _onCommitError: function(event) {
@@ -340,7 +471,7 @@
     _onExportSiteBlock: function(event) {
       var selectedSiteIds = this.sitesController.getSelectedSiteIds();
       if (selectedSiteIds && selectedSiteIds.length > 0) {
-        if(this._siteMode === this.sitesController.BLACKLISTED_SITE_MODE) {
+        if(this._isBlacklistedSiteMode) {
           window.location = '/admin/block_sites/export_blacklisted_advertisers_and_groups.xls?site_ids='+selectedSiteIds.join(',');
         } else {
           window.location = '/admin/block_sites/export_whitelisted_advertisers.xls?site_ids='+selectedSiteIds.join(',');

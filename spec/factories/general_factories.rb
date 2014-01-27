@@ -127,10 +127,13 @@ FactoryGirl.define do
   end
 
   factory :site do
+    name "WRAL"
+    source_id 1
     network { FactoryGirl.singleton :network }
   end
 
   factory :advertiser_block do
+    name "CPG"
     network { FactoryGirl.singleton :network }
   end
 
@@ -172,5 +175,17 @@ FactoryGirl.define do
 
   factory :context2, :parent => :context do
     name "cm.adult"
+  end
+
+  factory :block_log do
+    action "Block"
+    status "Pending"
+    message "test message"
+    site
+    advertiser
+    advertiser_group_id { FactoryGirl.singleton(:advertiser_block).id }
+    user
+    created_at 1.day.from_now
+    updated_at 1.day.from_now
   end
 end

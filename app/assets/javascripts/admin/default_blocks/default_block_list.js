@@ -10,7 +10,7 @@
 // --------------------/ Layout /------------------------------------
 
   DefaultBlockList.Layout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/admin/default_block_list/default_block_list_layout'],
+    template: JST['templates/admin/default_blocks/default_block_list_layout'],
 
     regions: {
       siteListView : '#siteListView',
@@ -87,7 +87,7 @@
   }),
 
   DefaultBlockList.BlockedSiteListView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/default_block_list/block_list_view'],
+    template: JST['templates/admin/default_blocks/block_list_view'],
     itemView: DefaultBlockList.BlockedSiteListItemView,
     itemViewContainer: '#blockedSiteList',
 
