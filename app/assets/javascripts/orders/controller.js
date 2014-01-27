@@ -549,6 +549,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("Companion");
     } else if("Video" == ad_type) {
       ad_name_parts.push("Preroll");
+    } else if("Mobile" == ad_type) {
+      ad_name_parts.push("^Mob");
     }
 
     if("Video" == ad_type) {
