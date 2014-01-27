@@ -110,7 +110,8 @@ class IoImport
         li.order = @order
         li.user = @current_user
         li.media_type = media_type
-        li.keyvalue_targeting = Mobile::DEFAULT_TARGETING if lineitem[:type] == 'Mobile'
+        default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
+        li.keyvalue_targeting = default_targeting if default_targeting
         @lineitems << li
       end
     end
