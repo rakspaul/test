@@ -79,32 +79,44 @@ describe IoImport do
     end
 
     context "facebook" do
-      let(:file_facebook_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_facebook_li.xlsx') }
-      let(:io_facebook_li) { IoImport.new file_facebook_li, current_user }
+      let(:file_facebook_io) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_facebook_li.xlsx') }
+      let(:io_facebook) { IoImport.new file_facebook_io, current_user }
 
-      before { io_facebook_li.import }
+      before { io_facebook.import }
 
       it "read facebook lineitems" do
-        expect(io_facebook_li.lineitems.select{|li| li.type == 'Facebook'}).to have(2).items
+        expect(io_facebook.lineitems.select{|li| li.type == 'Facebook'}).to have(2).items
       end
 
       it "should have facebook ad sizes" do
-        expect(io_facebook_li.lineitems.select{|li| Facebook::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+        expect(io_facebook.lineitems.select{|li| Facebook::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+      end
+
+      it "should have facebook ad sizes" do
+        expect(io_facebook.lineitems.select{|li| Facebook::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+      end
+
+      it "has default custrom key value" do
+        expect(io_facebook.lineitems[0].keyvalue_targeting).to eq(Facebook::DEFAULT_TARGETING)
       end
     end
 
     context "mobile" do
-      let(:file_mobile_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_mobile_li.xlsx') }
-      let(:io_mobile_li) { IoImport.new file_mobile_li, current_user }
+      let(:file_mobile_io) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_mobile_li.xlsx') }
+      let(:io_mobile) { IoImport.new file_mobile_io, current_user }
 
-      before { io_mobile_li.import }
+      before { io_mobile.import }
 
       it "read mobile lineitems" do
-        expect(io_mobile_li.lineitems.select{|li| li.type == 'Mobile'}).to have(2).items
+        expect(io_mobile.lineitems.select{|li| li.type == 'Mobile'}).to have(2).items
       end
 
       it "should have mobile ad sizes" do
-        expect(io_mobile_li.lineitems.select{|li| Mobile::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+        expect(io_mobile.lineitems.select{|li| Mobile::DEFAULT_ADSIZES.include?(li.ad_sizes)}).to have(2).items
+      end
+
+      it "has default custrom key value" do
+        expect(io_mobile.lineitems[0].keyvalue_targeting).to eq(Mobile::DEFAULT_TARGETING)
       end
     end
   end
