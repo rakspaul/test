@@ -221,7 +221,7 @@ class IOExcelFileReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
-  LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
+  LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]*roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
     'Mobile'   => Mobile::DEFAULT_ADSIZES.map{|size| /#{size}/i },
     'Facebook' => Facebook::DEFAULT_ADSIZES.map{|size| /#{size}/i } }
 
