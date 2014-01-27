@@ -194,7 +194,7 @@
           if (view.model.get('type') == 'Video') {
             var value = newValue.join(', ');
             view.model.set('companion_ad_size', value);
-            view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + value);
+            view.model.set('ad_sizes', view.model.get('master_ad_size') + (value ? ', ' + value : ''));
           } else {
             view.model.set('ad_sizes', newValue.join(', '));
           }
