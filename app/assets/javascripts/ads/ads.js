@@ -169,6 +169,7 @@
           ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
+          this.model.set('size', ad_sizes);
           this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
         }
       }
