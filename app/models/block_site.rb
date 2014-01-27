@@ -25,12 +25,20 @@ class BlockSite < ActiveRecord::Base
     where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK, BlockSite::COMMIT_BLOCK])
   end
 
+  def self.block_or_pending_block_or_pending_unblock
+    where(state: [BlockSite::PENDING_BLOCK, BlockSite::BLOCK, BlockSite::COMMIT_BLOCK, BlockSite::PENDING_UNBLOCK ])
+  end
+
   def self.pending_block
     where(state: [BlockSite::PENDING_BLOCK])
   end
 
   def self.unblock_or_pending_unblock
     where(state: [BlockSite::PENDING_UNBLOCK, BlockSite::UNBLOCK, BlockSite::COMMIT_UNBLOCK ])
+  end
+
+  def self.unblock_or_pending_unblock_pending_block
+    where(state: [BlockSite::PENDING_UNBLOCK, BlockSite::UNBLOCK, BlockSite::COMMIT_UNBLOCK, BlockSite::PENDING_BLOCK ])
   end
 
   def self.pending_unblock

@@ -30,7 +30,7 @@ class Admin::BlockSitesController < ApplicationController
 
   def get_blacklisted_advertiser_and_groups_on_site(model, site_ids)
     site_ids = site_ids.split(",").map(&:to_i)
-    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).block_or_pending_block
+    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).block_or_pending_block_or_pending_unblock
     blocked_site_ids = site_blocks.pluck("site_id").uniq
     site_with_no_blocks = site_ids - blocked_site_ids
 
@@ -39,7 +39,7 @@ class Admin::BlockSitesController < ApplicationController
 
   def get_whitelisted_advertiser_on_site(model, site_ids)
     site_ids = site_ids.split(",").map(&:to_i)
-    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).unblock_or_pending_unblock
+    site_blocks = model.constantize.of_network(current_network).where(site_id: site_ids).unblock_or_pending_unblock_pending_block
     blocked_site_ids = site_blocks.pluck("site_id").uniq
     site_with_no_blocks = site_ids - blocked_site_ids
 
@@ -48,9 +48,16 @@ class Admin::BlockSitesController < ApplicationController
 
   def create
     create_blacklisted_advertisers(ActiveSupport::JSON.decode(params['blacklistedAdvertisers'])) if params['blacklistedAdvertisers'].present?
-    create_blacklisted_advertiser_groups(ActiveSupport::JSON.decode(params['blacklistedAdvertiserGroups'])) if params['blacklistedAdvertiserGroups'].present?
     create_whitelisted_advertisers(ActiveSupport::JSON.decode(params['whitelistedAdvertisers'])) if params['whitelistedAdvertisers'].present?
+    block_advertisers(ActiveSupport::JSON.decode(params['blockedAdvertisers'])) if params['blockedAdvertisers'].present?
+    unblock_advertisers(ActiveSupport::JSON.decode(params['unblockAdvertisers'])) if params['unblockAdvertisers'].present?
+    delete_blacklisted_advertisers(ActiveSupport::JSON.decode(params['deletedBlacklistedAdvertisers'])) if params['deletedBlacklistedAdvertisers'].present?
+    delete_whitelisted_advertisers(ActiveSupport::JSON.decode(params['deletedWhitelistedAdvertisers'])) if params['deletedWhitelistedAdvertisers'].present?
+
+    create_blacklisted_advertiser_groups(ActiveSupport::JSON.decode(params['blacklistedAdvertiserGroups'])) if params['blacklistedAdvertiserGroups'].present?
     create_whitelisted_advertiser_groups(ActiveSupport::JSON.decode(params['whitelistedAdvertiserGroups'])) if params['whitelistedAdvertiserGroups'].present?
+    block_advertiser_group(ActiveSupport::JSON.decode(params['blockedAdvertiserGroups'])) if params['blockedAdvertiserGroups'].present?
+    delete_advertiser_group(ActiveSupport::JSON.decode(params['deletedAdvertiserGroups'])) if params['deletedAdvertiserGroups'].present?
 
     render json: {status: 'success'}
 
@@ -102,6 +109,61 @@ class Admin::BlockSitesController < ApplicationController
       bag.state = BlockSite::PENDING_UNBLOCK
       bag.user = current_user
       bag.save
+    end
+  end
+
+  def block_advertisers(advertisers)
+    advertisers.each do |advertiser|
+       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
+       ba.state = BlockedAdvertiser::BLOCK
+       ba.user = current_user
+       ba.save
+    end
+  end
+
+  def unblock_advertisers(advertisers)
+    advertisers.each do |advertiser|
+       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
+       ba.state = BlockedAdvertiser::UNBLOCK
+       ba.user = current_user
+       ba.save
+    end
+  end
+
+  def delete_blacklisted_advertisers(advertisers)
+    default_sites = DefaultSiteBlocks.of_network(current_network)
+
+    advertisers.each do |advertiser|
+      ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
+      if ba
+        ba.delete
+        if BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser["advertiser_id"]).where.not(:site_id => default_sites.pluck("site_id")).length < 1
+          delete_default_blocks(advertiser["advertiser_id"])
+         end
+      end
+    end
+  end
+
+  def delete_whitelisted_advertisers(advertisers)
+    advertisers.each do |advertiser|
+       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
+        ba.delete if ba
+    end
+  end
+
+  def block_advertiser_group(advertiser_groups)
+    advertiser_groups.each do |advertiser_group|
+      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
+      bag.state = BlockedAdvertiserGroup::BLOCK
+      bag.user = current_user
+      bag.save
+    end
+  end
+
+  def delete_advertiser_group(advertiser_groups)
+    advertiser_groups.each do |advertiser_group|
+      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
+      bag.delete if bag
     end
   end
 
@@ -234,6 +296,18 @@ private
         :status => "Pending",
         :action => "Unblock",
         :user => current_user);
+    end
+  end
+
+  def delete_default_blocks(advertiser_id)
+    default_sites = DefaultSiteBlocks.of_network(current_network)
+    advertiser_with_default_blocks = BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser_id, :site_id => default_sites.pluck("site_id")).pending_block
+    if advertiser_with_default_blocks.length == default_sites.length
+      advertiser_with_default_blocks.each do |advertiser|
+        if advertiser
+          advertiser.delete
+        end
+      end
     end
   end
 

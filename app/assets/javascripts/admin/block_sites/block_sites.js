@@ -94,27 +94,6 @@
 
   });
 
-  BlockSites.CommitOverviewLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/admin/block_sites/commit_overview_layout'],
-    className: 'modal commit-overview-modal',
-
-    events: {
-      'click #btnCommit' : 'onCommit',
-    },
-
-    regions: {
-      blacklistedAdvertisersOverviewView : '#blacklistedAdvertisersOverviewView',
-      blacklistedAdvertiserGroupsOverviewView : '#blacklistedAdvertiserGroupsOverviewView',
-      whitelistedAdvertisersOverviewView : '#whitelistedAdvertisersOverviewView',
-      whitelistedAdvertiserGroupsOverviewView : '#whitelistedAdvertiserGroupsOverviewView',
-    },
-
-    onCommit: function() {
-      this.trigger('Commit:SiteBlock');
-      $('#close_modal').trigger('click');
-    },
-  });
-
 // --------------------/ Models /------------------------------------
 
   BlockSites.Site = Backbone.Model.extend({
@@ -157,7 +136,8 @@
     defaults:{
       state: 'PENDING_BLOCK',
       default_block: false,
-      status: ''
+      isModified: false,
+      isDeleted: false,
     },
   });
 
@@ -175,7 +155,9 @@
   BlockSites.AdvertiserGroup = Backbone.Model.extend({
     defaults:{
       state: 'PENDING_BLOCK',
-      status: ''
+      status: '',
+      isModified: false,
+      isDeleted: false,
     },
   });
 
@@ -314,7 +296,7 @@
         site_id: advertiser.site_id,
         state: advertiser.state,
         default_block: false,
-        status:''
+        isModified:false
       }
     },
 
@@ -437,31 +419,6 @@
 
   });
 
-  BlockSites.BlacklistedAdvertisers = Backbone.Collection.extend({
-    url: function() {
-      return '/admin/block_sites/blacklisted_advertisers.json';
-    },
-  });
-
-  BlockSites.BlacklistedAdvertiserGroups = Backbone.Collection.extend({
-    url: function() {
-      return '/admin/block_sites/blacklisted_advertiser_groups.json';
-    },
-  });
-
-
-  BlockSites.WhitelistedAdvertisers = Backbone.Collection.extend({
-    url: function() {
-      return '/admin/block_sites/whitelisted_advertisers.json';
-    },
-  });
-
-  BlockSites.WhitelistedAdvertiserGroups = Backbone.Collection.extend({
-    url: function() {
-      return '/admin/block_sites/whitelisted_advertiser_groups.json';
-    },
-  });
-
   BlockSites.SelectedItems = Backbone.Collection.extend({})
 
 
@@ -479,6 +436,7 @@
     },
 
     initialize: function() {
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
       this.model.on('change', this.render, this);
     },
 
@@ -488,16 +446,31 @@
 
     className: function() {
       if (this.model.get('default_block')) {
-        return 'italics'
+        return 'italics';
       }
     },
 
     serializeData: function() {
-      return {
-        pending_block_indicator : (this.model.get('state') == "PENDING_BLOCK" || this.model.get('state') == "PENDING_UNBLOCK")? ' * ': '',
-        default_block_indicator : this.model.get('default_block') ? '(Default Block)' : '',
-        advertiser_name : this.model.get('advertiser_name')
+      var data = {};
+
+      if (this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if (this.model.get('state') == "COMMIT_BLOCK" || this.model.get('state') === "COMMIT_UNBLOCK") {
+        data.pending_block_indicator = ' * ';
+      } else {
+        data.pending_block_indicator = ''
       }
+
+      data.default_block_indicator = this.model.get('default_block') ? '(Default Block)' : '';
+      data.advertiser_name = this.model.get('advertiser_name');
+
+      return data;
     },
 
     onRender: function() {
@@ -506,14 +479,33 @@
       } else {
         this.$el.removeClass('selected');
       }
-      if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled').removeClass('selected');
-      }
+
+      // if (this.model.get('status') === 'deleted') {
+      //   this.$el.removeClass('selected');
+      // }
+      this._applyCssClass();
     },
 
     _onClick:function() {
-      if (this.model.get('status') != 'deleted') {
+      if (!this.model.get('isDeleted')) {
         this.trigger('selected');
+      }
+    },
+
+    _applyCssClass: function() {
+      if (this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('greenText');
+      } else if(this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('redText');
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('greenText');
+      } else if(!this._isBlacklistedSiteMode && this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('redText');
+      } else if (this.model.get('isDeleted')) {
+        this.$el.addClass('disabled');
+      } else {
+        this.$el.removeClass('redText');
+        this.$el.removeClass('greenText');
       }
     },
   });
@@ -523,6 +515,11 @@
     itemView: BlockSites.BlockedAdvertiserView,
     itemViewContainer: 'ul',
     tagName: 'li',
+    itemViewOptions: function(model, index) {
+      return {
+        isBlacklistedSiteMode: this.options.isBlacklistedSiteMode
+      };
+    },
 
     initialize: function() {
       this.collection = this.model.get('advertisers');
@@ -544,7 +541,7 @@
 
     _onItemClick: function(event){
       var selectedItem = event.model,
-      vo = this.selectedItems.get(event.model.id);
+      vo = this.selectedItems.findWhere({advertiser_id: event.model.get('advertiser_id'), site_id: event.model.get('site_id')});
 
       if (vo) {
         this.selectedItems.remove(vo);
@@ -569,6 +566,11 @@
   BlockSites.BlockedAdvertiserListView  = Backbone.Marionette.CompositeView.extend({
     template: JST['templates/admin/block_sites/blocked_advertiser_list_view'],
     itemView: BlockSites.BlockedAdvertiserListItemView,
+    itemViewOptions: function(model, index) {
+      return {
+        isBlacklistedSiteMode: this._isBlacklistedSiteMode,
+      };
+    },
 
     events: {
       'click #btnAdd' : '_onAddAdvertiserClick',
@@ -587,6 +589,7 @@
 
       this.collection.on("fetch", this._onFetch, this);
       this.collection.on("reset", this._onReset, this);
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
     },
 
     appendHtml: function(collectionView, itemView){
@@ -595,6 +598,11 @@
 
     onRender: function() {
       this.ui.lblTabName.text(this.tab_name);
+    },
+
+    setSiteMode: function(isBlacklistedSiteMode) {
+      this._isBlacklistedSiteMode = isBlacklistedSiteMode;
+      this.render();
     },
 
     setText: function(tab_name) {
@@ -617,7 +625,30 @@
           if (site) {
             var advertiser = site.getAdvertiser(advertiser_id);
             if(advertiser) {
-              advertiser.set({status: 'deleted'});
+              advertiser.set({selected: false});
+              if(self._isBlacklistedSiteMode) {
+                if (advertiser.get('state') == 'BLOCK') {
+                  advertiser.set({state: 'PENDING_UNBLOCK'});
+                  advertiser.set({isModified: true});
+                } else if(advertiser.get('state') == 'PENDING_BLOCK') {
+                  advertiser.set({state: ''});
+                  advertiser.set({isDeleted: true});
+                } else if (advertiser.get('state') == 'PENDING_UNBLOCK') {
+                  advertiser.set({state: 'BLOCK'});
+                  advertiser.set({isModified: true});
+                }
+              } else {
+                if (advertiser.get('state') == 'UNBLOCK') {
+                  advertiser.set({state: 'PENDING_BLOCK'});
+                  advertiser.set({isModified: true});
+                } else if(advertiser.get('state') == 'PENDING_UNBLOCK') {
+                  advertiser.set({state: ''});
+                  advertiser.set({isDeleted: true});
+                } else if (advertiser.get('state') == 'PENDING_BLOCK') {
+                  advertiser.set({state: 'UNBLOCK'});
+                  advertiser.set({isModified: true});
+                }
+              }
             }
           }
         });
@@ -640,13 +671,30 @@
 
   BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.ItemView.extend({
     tagName:'li',
-    template: _.template(' <% if(state == "PENDING_BLOCK"){%> * <%}%> <%= advertiser_group_name%>'),
+    template: _.template(' <%= pending_block_indicator %> <%= advertiser_group_name%>'),
 
     attributes: function() {
       return {
         value: this.model.get('advertiser_group_id'),
         site_id: this.model.get('site_id')
       }
+    },
+
+    serializeData: function() {
+      var data = {};
+
+      if (this.model.get('state') == "PENDING_BLOCK") {
+        data.pending_block_indicator = ' + ';
+      } else if(this.model.get('state') == "PENDING_UNBLOCK") {
+        data.pending_block_indicator = ' - ';
+      } else if (this.model.get('state') == "COMMIT_BLOCK" || this.model.get('state') === "COMMIT_UNBLOCK") {
+        data.pending_block_indicator = ' * ';
+      } else {
+        data.pending_block_indicator = ''
+      }
+      data.advertiser_group_name = this.model.get('advertiser_group_name');
+
+      return data;
     },
 
     initialize: function() {
@@ -663,13 +711,28 @@
       } else {
         this.$el.removeClass('selected');
       }
-      if (this.model.get('status') === 'deleted') {
-        this.$el.addClass('disabled').removeClass('selected');
+      // if (this.model.get('status') === 'deleted') {
+      //   this.$el.addClass('disabled').removeClass('selected');
+      // }
+
+      this._applyCssClass();
+    },
+
+    _applyCssClass: function() {
+      if (this.model.get('state') == "PENDING_BLOCK") {
+        this.$el.addClass('greenText');
+      } else if(this.model.get('state') == "PENDING_UNBLOCK") {
+        this.$el.addClass('redText');
+      } else if (this.model.get('isDeleted')) {
+        this.$el.addClass('disabled');
+      } else {
+        this.$el.removeClass('redText');
+        this.$el.removeClass('greenText');
       }
     },
 
     _onClick:function() {
-      if (this.model.get('status') != 'deleted') {
+      if (!this.model.get('isDeleted')) {
         this.trigger('selected');
       }
     },
@@ -702,7 +765,7 @@
 
     _onItemClick: function(event){
       var selectedItem = event.model,
-      vo = this.selectedItems.get(event.model.id);
+      vo = this.selectedItems.findWhere({advertiser_group_id: event.model.get('advertiser_group_id'), site_id: event.model.get('site_id')});
 
       if (vo) {
         this.selectedItems.remove(vo);
@@ -777,7 +840,6 @@
       var self = this;
 
       if (this._isAdvertiserGroupSelected()) {
-
         $( "#blockedAdvertiserGroupList li.selected").each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
           advertiser_group_id = parseInt($( this ).val()),
@@ -785,7 +847,17 @@
           if (site) {
             var advertiser_group = site.getAdvertiserGroup(advertiser_group_id);
             if (advertiser_group) {
-              advertiser_group.set({status: 'deleted'});
+              advertiser_group.set({selected: false});
+              if (advertiser_group.get('state') == 'BLOCK') {
+                advertiser_group.set({state: 'PENDING_UNBLOCK'});
+                advertiser_group.set({isModified: true});
+              } else if(advertiser_group.get('state') == 'PENDING_BLOCK') {
+                advertiser_group.set({state: ''});
+                advertiser_group.set({isDeleted: true});
+              } else if (advertiser_group.get('state') == 'PENDING_UNBLOCK') {
+                advertiser_group.set({state: 'BLOCK'});
+                advertiser_group.set({isModified: true});
+              }
             }
           }
         });
@@ -852,7 +924,7 @@
     initialize: function() {
       this.collection = new BlockSites.AdvertiserList();
       this.collection.fetch({reset: true});
-      this._siteMode = this.options.siteMode;
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
 
       this.selectedItems = new BlockSites.SelectedItems();
       this.on('itemview:selected', this._onItemClick, this);
@@ -886,7 +958,7 @@
     onBlock: function(event) {
       var selectedAdvertiserIds = this.selectedItems.pluck('id');
       if(selectedAdvertiserIds && selectedAdvertiserIds.length >0 ) {
-        if (this._siteMode === 'Blacklisted_Site_Mode') {
+        if (this._isBlacklistedSiteMode) {
           var para = {};
           this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
           para.advertiser_id = selectedAdvertiserIds.join(',')
@@ -986,14 +1058,14 @@
     },
 
     initialize: function() {
-      this._siteMode = this.options.siteMode;
+      this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
       _.bindAll(this, '_onSuccess', '_onError', '_onValidateAdvertiserSuccess', '_onValidateAdvertiserError');
     },
 
     onBlock: function(event) {
       var str = this.ui.textAreaAdvertiser.val();
       if(str && str.trim() != "" && this._advertisers && this._advertisers.length > 0) {
-        if (this._siteMode === 'Blacklisted_Site_Mode') {
+        if (this._isBlacklistedSiteMode === 'Blacklisted_Site_Mode') {
           var para = {};
           this.ui.btnBlock.text('Adding...').attr('disabled','disabled');
           para.advertiser_id = _.pluck(this._advertisers, 'id').join(',')
@@ -1202,202 +1274,6 @@
      resetSelection: function() {
       this.setSelectedItems(false)
       this.selectedItems.reset();
-    },
-
-  });
-
-  BlockSites.EmptyView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    template: _.template('<td colspan="4" style="text-align:center;"> No records found. </td>'),
-  });
-
-  BlockSites.AdvertisersOverviewItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    template: JST['templates/admin/block_sites/advertiser_overview_row_view'],
-  });
-
-  BlockSites.AdvertiserGroupsOverviewItemView = Backbone.Marionette.ItemView.extend({
-    tagName: 'tr',
-    template: JST['templates/admin/block_sites/advertiser_group_overview_row_view'],
-  });
-
-  BlockSites.AdvertisersOverviewView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/block_sites/advertiser_overview_view'],
-    itemView: BlockSites.AdvertisersOverviewItemView,
-    itemViewContainer: 'tbody',
-    emptyView: BlockSites.EmptyView
-  });
-
-  BlockSites.AdvertiserGroupsOverviewView = Backbone.Marionette.CompositeView.extend({
-    template: JST['templates/admin/block_sites/advertiser_group_overview_view'],
-    itemView: BlockSites.AdvertiserGroupsOverviewItemView,
-    itemViewContainer: 'tbody',
-    emptyView: BlockSites.EmptyView
-  });
-
-
-// --------------------/ Controller /------------------------------------
-
-  BlockSites.AdvertiserListModalController = Marionette.Controller.extend({
-    initialize: function() {
-      this.mainRegion = this.options.mainRegion;
-      this._initializeLayout();
-      this._initializeAdvertiserSearchView();
-      this._initializeAdvertiserPasteView();
-    },
-
-    _initializeLayout: function() {
-      this.layout = new BlockSites.AdvertiserListModalLayout();
-      this.mainRegion.show(this.layout);
-    },
-
-    _initializeAdvertiserSearchView: function() {
-      this.advertiserListView = new BlockSites.AdvertiserListView({siteMode: this.options.siteMode});
-      this.advertiserListView.on('AdvertiserListView:Block:Advertiser', this._onBlockAdvertiser , this)
-      this.layout.advertiserSearchView.show(this.advertiserListView);
-    },
-
-    _initializeAdvertiserPasteView: function() {
-      this.pasteAdvertiserView = new BlockSites.PasteAdvertiserView({siteMode: this.options.siteMode});
-      this.pasteAdvertiserView.on('PasteAdvertiserView:Block:Advertiser', this._onBlockAdvertiser, this)
-      this.layout.advertiserPasteView.show(this.pasteAdvertiserView);
-    },
-
-    _onBlockAdvertiser: function(vos) {
-      this.trigger('Block:Advertiser', vos);
-    },
-
-  });
-
-  BlockSites.SitesController = Marionette.Controller.extend({
-    initialize: function() {
-      this.BLACKLISTED_SITE_MODE = 'Blacklisted_Site_Mode';
-      this.WHITELISTED_SITE_MODE = 'Whitelisted_Site_Mode';
-
-      this.siteMode = this.BLACKLISTED_SITE_MODE;
-      this.mainRegion = this.options.mainRegion;
-      this._initializeLayout();
-      this._initializeBlacklistedSitesSearchView();
-      this._initializeWhitelistedSitesSearchView();
-    },
-
-    getSelectedSites: function() {
-      var selectedblacklistedSites = this.blacklistedSitesSearchView.getSelectedItems(),
-      selectedwhitelistedSites = this.whitelistedSitesSearchView.getSelectedItems();
-
-      if (selectedblacklistedSites && selectedblacklistedSites.length > 0) {
-        return selectedblacklistedSites;
-      } else if(selectedwhitelistedSites && selectedwhitelistedSites.length > 0) {
-        return selectedwhitelistedSites;
-      }
-    },
-
-    getSelectedSiteIds: function() {
-      var selectedblacklistedSiteIds = this.blacklistedSitesSearchView.getSelectedItemIds(),
-      selectedwhitelistedSiteIds = this.whitelistedSitesSearchView.getSelectedItemIds();
-
-      if (selectedblacklistedSiteIds && selectedblacklistedSiteIds.length > 0) {
-        return selectedblacklistedSiteIds;
-      } else if(selectedwhitelistedSiteIds && selectedwhitelistedSiteIds.length > 0) {
-        return selectedwhitelistedSiteIds;
-      }
-    },
-
-    getSiteMode: function() {
-      return this.siteMode;
-    },
-
-    _initializeLayout: function() {
-      this.layout = new BlockSites.SiteLayout();
-      this.layout.on('Change:SiteTab',this._onSiteTabChange, this);
-      this.mainRegion.show(this.layout);
-    },
-
-    _initializeBlacklistedSitesSearchView: function() {
-      this.blacklistedSitesCollection = new BlockSites.BlacklistedSiteList();
-      this.blacklistedSitesSearchView = new ReachUI.BlockToolComponents.SearchList({collection: this.blacklistedSitesCollection, placeholder:'Sites'});
-      this.blacklistedSitesSearchView.on('SearchList:ItemClick', this._getSiteBlocks, this);
-      this.blacklistedSitesSearchView.on('SearchList:SelectedItemReset', this._onSelectedItemReset, this);
-      this.layout.blacklistedSitesSearchView.show(this.blacklistedSitesSearchView);
-    },
-
-    _initializeWhitelistedSitesSearchView: function() {
-      this.WhitelistedSitesCollection = new BlockSites.WhitelistedSiteList();
-      this.whitelistedSitesSearchView = new ReachUI.BlockToolComponents.SearchList({collection: this.WhitelistedSitesCollection, placeholder:'Sites'});
-      this.whitelistedSitesSearchView.on('SearchList:ItemClick', this._getSiteBlocks, this);
-      this.whitelistedSitesSearchView.on('SearchList:SelectedItemReset', this._onSelectedItemReset, this);
-      this.layout.whitelistedSitesSearchView.show(this.whitelistedSitesSearchView);
-    },
-
-    _onSiteTabChange: function(tabName) {
-      if (tabName === 'blacklistedSitesView') {
-        this.siteMode = this.BLACKLISTED_SITE_MODE;
-      } else {
-        this.siteMode = this.WHITELISTED_SITE_MODE;
-      }
-
-      this.blacklistedSitesSearchView.resetSelection();
-      this.whitelistedSitesSearchView.resetSelection();
-      this.trigger('Change:SiteTab', this.siteMode);
-    },
-
-    _getSiteBlocks: function(sites) {
-      this.trigger('Get:SiteBlocks', sites.pluck("id"));
-    },
-
-    _onSelectedItemReset: function() {
-      this.trigger('SelectedItemReset');
-    },
-
-  });
-
-  BlockSites.CommitOverviewController = Marionette.Controller.extend({
-    initialize: function() {
-      this.mainRegion = this.options.mainRegion;
-      this._initializeLayout();
-      this._initializeBlacklistedAdvertisersOverviewView();
-      this._initializeBlacklistedAdvertiserGroupsOverviewView();
-      this._initializeWhitelistedAdvertisersOverviewView();
-      this._initializeWhitelistedAdvertiserGroupsOverviewView();
-    },
-
-    _initializeLayout: function() {
-      this.layout = new BlockSites.CommitOverviewLayout();
-      this.layout.on('Commit:SiteBlock', this._onCommit, this)
-      this.mainRegion.show(this.layout);
-    },
-
-
-    _initializeBlacklistedAdvertisersOverviewView: function() {
-      this.blacklistedAdvertiserList = new BlockSites.BlacklistedAdvertisers();
-      this.blacklistedAdvertisersOverviewView = new BlockSites.AdvertisersOverviewView({collection: this.blacklistedAdvertiserList});
-      this.layout.blacklistedAdvertisersOverviewView.show(this.blacklistedAdvertisersOverviewView);
-      this.blacklistedAdvertiserList.fetch();
-    },
-
-    _initializeBlacklistedAdvertiserGroupsOverviewView: function() {
-      this.blacklistedAdvertiserGroupList = new BlockSites.BlacklistedAdvertiserGroups();
-      this.blacklistedAdvertiserGroupsOverviewView = new BlockSites.AdvertiserGroupsOverviewView({collection: this.blacklistedAdvertiserGroupList});
-      this.layout.blacklistedAdvertiserGroupsOverviewView.show(this.blacklistedAdvertiserGroupsOverviewView);
-      this.blacklistedAdvertiserGroupList.fetch();
-    },
-
-    _initializeWhitelistedAdvertisersOverviewView: function() {
-      this.whitelistedAdvertiserList = new BlockSites.WhitelistedAdvertisers();
-      this.whitelistedAdvertisersOverviewView = new BlockSites.AdvertisersOverviewView({collection: this.whitelistedAdvertiserList});
-      this.layout.whitelistedAdvertisersOverviewView.show(this.whitelistedAdvertisersOverviewView);
-      this.whitelistedAdvertiserList.fetch();
-    },
-
-    _initializeWhitelistedAdvertiserGroupsOverviewView: function() {
-      this.whitelistedAdvertiserGroupList = new BlockSites.WhitelistedAdvertiserGroups();
-      this.whitelistedAdvertiserGroupsOverviewView = new BlockSites.AdvertiserGroupsOverviewView({collection: this.whitelistedAdvertiserGroupList});
-      this.layout.whitelistedAdvertiserGroupsOverviewView.show(this.whitelistedAdvertiserGroupsOverviewView);
-      this.whitelistedAdvertiserGroupList.fetch();
-    },
-
-    _onCommit: function() {
-      this.trigger('Commit:SiteBlock');
     },
 
   });
