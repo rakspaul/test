@@ -467,9 +467,10 @@
       }
       targeting.set('keyvalue_targeting', custom_key_values.join(','));
       this.renderTargetingDialog();
-      /*_.each(this.model.ads, function(ad) {
+
+      _.each(this.model.ads, function(ad) {
         ad.set('type', type);
-      });*/
+      });
     },
 
     ui: {
