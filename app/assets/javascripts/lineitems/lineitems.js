@@ -2,6 +2,11 @@
   'use strict';
 
   LineItems.LineItem = Backbone.Model.extend({
+    _default_keyvalue_targeting: {
+      "Facebook": "fbx=_default",
+      "Mobile":   "mob=_default"
+    },
+
     initialize: function() {
       this.ads = [];
       this.creatives = [];
@@ -449,6 +454,19 @@
         this.model.set('companion_ad_size', this.model.get('ad_sizes'));
       }
       this.model.set('type', type);
+
+      var targeting = this.model.get('targeting'),
+          custom_key_values = targeting.get('keyvalue_targeting'),
+          default_key_values = this.model._default_keyvalue_targeting;
+
+      custom_key_values = custom_key_values ? custom_key_values.split(',') : [];
+      custom_key_values = _.difference(custom_key_values, _.values(default_key_values));
+
+      if (default_key_values[type]) {
+        custom_key_values.push(default_key_values[type]);
+      }
+      targeting.set('keyvalue_targeting', custom_key_values.join(','));
+      this.renderTargetingDialog();
       /*_.each(this.model.ads, function(ad) {
         ad.set('type', type);
       });*/
