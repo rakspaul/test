@@ -915,6 +915,7 @@ table.creatives-content {
     .ordersnotes {
       float: left;
       width: 53%;
+      word-wrap: break-word;
     }
 
     .notetimestamp {
@@ -995,7 +996,7 @@ table.creatives-content {
     }
   }
 
-  .ordersnotes input {
+  .ordersnotes textarea {
     background-color: $ad_bg_color;
   }
 
