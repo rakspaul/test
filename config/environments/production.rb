@@ -93,6 +93,20 @@ Reachui::Application.configure do
   config.search_contexts_in_network = '6,176'
 
   config.action_mailer.default_url_options = {
-    host: "http://reach.collective.com"
+    host: "https://reach.collective.com"
+  }
+
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "west.exch023.serverdata.net",
+    :port => "587",
+    :domain => "collective.com",
+    :authentication => :login,
+    :user_name => "support@collective.com",
+    :password => "T4idav2wo5mP"
   }
 end
