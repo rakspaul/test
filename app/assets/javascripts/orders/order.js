@@ -245,7 +245,6 @@
     itemView: ReachUI.Orders.NoteView,
 
     events: {
-      'keypress #note_input' : 'saveNote',
       'click #btnSave' : 'saveNote',
       'click .notify-users-switch' : 'toggleNotifyUsersDialog',
       'click .add-user-to-notify-list, .add-user-to-notify-list-btn' : 'showAddUsersSelectBox',
@@ -415,10 +414,6 @@
     },
 
     saveNote: function(event) {
-      if (event.type === 'keypress' && event.keyCode != 13) {
-        return;
-      }
-
       if(this.ui.note_input.val().trim() == "") {
         return;
       }
