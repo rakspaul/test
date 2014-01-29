@@ -280,8 +280,8 @@ private
       BlockLog.create(
         :site_id => block.try("site_id"),
         :advertiser_id => block.try("advertiser_id"),
-        :advertiser_group_id => block.try("advertiser_group_block"),
-        :status => "Pending",
+        :advertiser_group_id => block.try("advertiser_group_id"),
+        :status => "PENDING",
         :action => "Block",
         :user => current_user);
     end
@@ -292,8 +292,8 @@ private
       BlockLog.create(
         :site_id => unblock.try("site_id"),
         :advertiser_id => unblock.try("advertiser_id"),
-        :advertiser_group_id => unblock.try("advertiser_group_block"),
-        :status => "Pending",
+        :advertiser_group_id => unblock.try("advertiser_group_id"),
+        :status => "PENDING",
         :action => "Unblock",
         :user => current_user);
     end
