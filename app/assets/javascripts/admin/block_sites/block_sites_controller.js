@@ -4,6 +4,8 @@
   BlockSites.BlockSitesController = Marionette.Controller.extend({
     initialize: function() {
       this._isBlacklistedSiteMode = true;
+      this._deletedAdvertisers = [];
+      this._deletedAdvertiserGroups = [];
 
       this._initializeLayout();
       this._initializeSiteListView();
@@ -37,6 +39,7 @@
       this.blockedAdvertiserList = new BlockSites.AdvertiserBlockList();
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList, isBlacklistedSiteMode: this._isBlacklistedSiteMode});
       this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
+      this.blockedAdvertiserListView.on('Delete:Advertiser', this._onAdvertiserDelete, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
 
@@ -44,6 +47,7 @@
       this.blockedAdvertiserGroupList = new BlockSites.AdvertiserGroupBlockList();
       this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
       this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
+      this.blockedAdvertiserGroupListView.on('Delete:AdvertiserGroup', this._onAdvertiserGroupDelete, this);
       this.layout.blockedAdvertiserGroupListView.show(this.blockedAdvertiserGroupListView);
     },
 
@@ -83,11 +87,17 @@
         this.blockedAdvertiserListView.setText('Whitelisted Advertisers');
         this.blockedAdvertiserGroupListView.hide();
       }
+
+      this._deletedAdvertisers = [];
+      this._deletedAdvertiserGroups = [];
       this.blockedAdvertiserListView.setSiteMode(this._isBlacklistedSiteMode);
     },
 
     _fetchSiteBlocks: function() {
       var self = this;
+
+      this._deletedAdvertisers = [];
+      this._deletedAdvertiserGroups = [];
 
       if (this._isBlacklistedSiteMode) {
         this.blockedAdvertiserList.fetchBlacklistedAdvertisers().then(function() {
@@ -102,6 +112,14 @@
           self.blockedAdvertiserList.sort();
         });
       }
+    },
+
+    _onAdvertiserDelete: function(advertiser) {
+      this._deletedAdvertisers.push(advertiser);
+    },
+
+    _onAdvertiserGroupDelete: function(advertiserGroup) {
+      this._deletedAdvertiserGroups.push(advertiserGroup);
     },
 
     _showAdvertiserModalView: function() {
@@ -209,8 +227,7 @@
       blacklistedAdvertisers = [],
       whitelistedAdvertisers = [],
 
-      deletedWhitelistedAdvertisers = [],
-      deletedBlacklistedAdvertisers = [],
+      deletedAdvertisers = [],
 
       blockedAdvertisers = [],
       unblockAdvertisers = [],
@@ -225,8 +242,7 @@
       whitelistedAdvertisers = this._getWhitelistedAdvertisers();
       blacklistedAdvertisers = this._getBlacklistedAdvertisers();
 
-      deletedBlacklistedAdvertisers = this._getDeletedBlacklistedAdvertisers();
-      deletedWhitelistedAdvertisers = this._getDeletedWhitelistedAdvertisers();
+      deletedAdvertisers = this._getDeletedAdvertisers();
 
       blockedAdvertisers = this._getBlockedAdvertisers();
       unblockAdvertisers = this._getUnblockedAdvertisers();
@@ -237,10 +253,10 @@
       deletedAdvertiserGroups = this._getDeletedAdvertiserGroups();
       blockedAdvertiserGroups = this._getBlockedAdvertiserGroups();
 
-      if (this._isBlacklistedSiteMode && deletedBlacklistedAdvertisers.length > 0) {
-        para.deletedBlacklistedAdvertisers = JSON.stringify(deletedBlacklistedAdvertisers);
-      } else if (deletedWhitelistedAdvertisers.length > 0) {
-        para.deletedWhitelistedAdvertisers = JSON.stringify(deletedWhitelistedAdvertisers);
+      if (this._isBlacklistedSiteMode && deletedAdvertisers.length > 0) {
+        para.deletedBlacklistedAdvertisers = JSON.stringify(deletedAdvertisers);
+      } else if (deletedAdvertisers.length > 0) {
+        para.deletedWhitelistedAdvertisers = JSON.stringify(deletedAdvertisers);
       }
 
       if (whitelistedAdvertisers.length > 0) {
@@ -277,10 +293,10 @@
 
       if (blacklistedAdvertisers.length > 0 || blacklistedAdvertiserGroups.length > 0 ||
           whitelistedAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0 ||
-          deletedBlacklistedAdvertisers.length > 0 || deletedWhitelistedAdvertisers.length > 0 ||
-          blockedAdvertisers.length > 0 || unblockAdvertisers.length > 0 ||
-          whitelistedAdvertiserGroups.length > 0 || blacklistedAdvertiserGroups.length > 0 ||
-          deletedAdvertiserGroups.length > 0 || blockedAdvertiserGroups.length > 0) {
+          deletedAdvertisers.length > 0 || blockedAdvertisers.length > 0 ||
+          unblockAdvertisers.length > 0 || whitelistedAdvertiserGroups.length > 0 ||
+          blacklistedAdvertiserGroups.length > 0 || deletedAdvertiserGroups.length > 0 ||
+          blockedAdvertiserGroups.length > 0) {
         this.layout.ui.saveBlock.text('Saving...').attr('disabled','disabled');
         $.ajax({type: "POST", url: '/admin/block_sites', data: para, success: this._onSuccess, error: this._onError, dataType: 'json'});
       } else {
@@ -296,11 +312,11 @@
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
           if (self._isBlacklistedSiteMode) {
-            if (advertiser.get('isModified') && advertiser.get('state') === 'PENDING_UNBLOCK') {
+            if (advertiser.isModified() && advertiser.isPendingUnBlock()) {
               advertisers.push(advertiser);
             }
           } else {
-            if (advertiser.isNew() && advertiser.get('state') === 'PENDING_UNBLOCK') {
+            if (advertiser.isNew() && advertiser.isPendingUnBlock()) {
               advertisers.push(advertiser);
             }
           }
@@ -316,11 +332,11 @@
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
           if (self._isBlacklistedSiteMode) {
-            if (advertiser.isNew() && advertiser.get('state') === 'PENDING_BLOCK') {
+            if (advertiser.isNew() && advertiser.isPendingBlock()) {
               advertisers.push(advertiser);
             }
           } else {
-            if (advertiser.get('isModified') && advertiser.get('state') === 'PENDING_BLOCK') {
+            if (advertiser.isModified() && advertiser.isPendingBlock()) {
               advertisers.push(advertiser);
             }
           }
@@ -330,28 +346,15 @@
       return advertisers;
     },
 
-    _getDeletedWhitelistedAdvertisers: function() {
-      var advertisers = [];
-      this.blockedAdvertiserList.each(function(site) {
-        site.getAdvertisers().each(function(advertiser) {
-          if (!advertiser.isNew() && advertiser.get('isDeleted')) {
-            advertisers.push(advertiser);
-          }
-        })
-      }, this);
-      return advertisers;
-    },
-
-    _getDeletedBlacklistedAdvertisers: function() {
+    _getDeletedAdvertisers: function() {
       var advertisers = [];
 
-      this.blockedAdvertiserList.each(function(site) {
-        site.getAdvertisers().each(function(advertiser) {
-          if (!advertiser.isNew() && advertiser.get('isDeleted')) {
+      for (var i = 0; i < this._deletedAdvertisers.length; i++) {
+        var advertiser = this._deletedAdvertisers[i];
+          if (!advertiser.isNew()) {
             advertisers.push(advertiser);
           }
-        })
-      }, this);
+      }
       return advertisers;
     },
 
@@ -360,7 +363,7 @@
 
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
-          if (advertiser.get('isModified') && advertiser.get('state') === 'BLOCK') {
+          if (advertiser.isModified() && advertiser.isBlocked()) {
             advertisers.push(advertiser);
           }
         })
@@ -373,7 +376,7 @@
 
       this.blockedAdvertiserList.each(function(site) {
         site.getAdvertisers().each(function(advertiser) {
-          if (advertiser.get('isModified') && advertiser.get('state') === 'UNBLOCK') {
+          if (advertiser.isModified() && advertiser.isUnBlocked()) {
             advertisers.push(advertiser);
           }
         })
@@ -386,7 +389,7 @@
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.get('isModified') && advertiser_group.get('state') === 'PENDING_UNBLOCK') {
+          if(advertiser_group.isModified() && advertiser_group.isPendingUnBlock()) {
             advertiserGroups.push(advertiser_group.toJSON());
           }
         })
@@ -400,7 +403,7 @@
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.isNew() && advertiser_group.get('state') === 'PENDING_BLOCK') {
+          if(advertiser_group.isNew() && advertiser_group.isPendingBlock()) {
             advertiserGroups.push(advertiser_group.toJSON());
           }
         })
@@ -412,13 +415,20 @@
     _getDeletedAdvertiserGroups: function() {
       var advertiserGroups = [];
 
-      this.blockedAdvertiserGroupList.each(function(site) {
-        site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(!advertiser_group.isNew() && advertiser_group.get('isDeleted')) {
+      for (var i = 0; i < this._deletedAdvertiserGroups.length; i++) {
+        var advertiser_group = this._deletedAdvertiserGroups[i];
+          if(!advertiser_group.isNew()) {
             advertiserGroups.push(advertiser_group.toJSON());
           }
-        })
-      }, this);
+      };
+
+      // this.blockedAdvertiserGroupList.each(function(site) {
+      //   site.getAdvertiserGroups().each(function(advertiser_group) {
+      //     if(!advertiser_group.isNew() && advertiser_group.isDeleted()) {
+      //       advertiserGroups.push(advertiser_group.toJSON());
+      //     }
+      //   })
+      // }, this);
       return advertiserGroups;
     },
 
@@ -427,7 +437,7 @@
 
       this.blockedAdvertiserGroupList.each(function(site) {
         site.getAdvertiserGroups().each(function(advertiser_group) {
-          if(advertiser_group.get('isModified') && advertiser_group.get('state') === 'BLOCK') {
+          if(advertiser_group.isModified() && advertiser_group.isBlocked()) {
             advertiserGroups.push(advertiser_group.toJSON());
           }
         })
