@@ -49,13 +49,16 @@ class Admin::BlockSitesController < ApplicationController
   def create
     create_blacklisted_advertisers(ActiveSupport::JSON.decode(params['blacklistedAdvertisers'])) if params['blacklistedAdvertisers'].present?
     create_whitelisted_advertisers(ActiveSupport::JSON.decode(params['whitelistedAdvertisers'])) if params['whitelistedAdvertisers'].present?
+
     block_advertisers(ActiveSupport::JSON.decode(params['blockedAdvertisers'])) if params['blockedAdvertisers'].present?
     unblock_advertisers(ActiveSupport::JSON.decode(params['unblockAdvertisers'])) if params['unblockAdvertisers'].present?
+
     delete_blacklisted_advertisers(ActiveSupport::JSON.decode(params['deletedBlacklistedAdvertisers'])) if params['deletedBlacklistedAdvertisers'].present?
     delete_whitelisted_advertisers(ActiveSupport::JSON.decode(params['deletedWhitelistedAdvertisers'])) if params['deletedWhitelistedAdvertisers'].present?
 
     create_blacklisted_advertiser_groups(ActiveSupport::JSON.decode(params['blacklistedAdvertiserGroups'])) if params['blacklistedAdvertiserGroups'].present?
     create_whitelisted_advertiser_groups(ActiveSupport::JSON.decode(params['whitelistedAdvertiserGroups'])) if params['whitelistedAdvertiserGroups'].present?
+
     block_advertiser_group(ActiveSupport::JSON.decode(params['blockedAdvertiserGroups'])) if params['blockedAdvertiserGroups'].present?
     delete_advertiser_group(ActiveSupport::JSON.decode(params['deletedAdvertiserGroups'])) if params['deletedAdvertiserGroups'].present?
 
@@ -76,57 +79,32 @@ class Admin::BlockSitesController < ApplicationController
 
     advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
 
-    advertisers.each do |advertiser|
-       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
-       ba.state = BlockedAdvertiser::PENDING_BLOCK
-       ba.user = current_user
-       ba.save
-    end
+    create_or_update_advertisers(advertisers, BlockedAdvertiser::PENDING_BLOCK)
   end
 
   def create_blacklisted_advertiser_groups(advertiser_groups)
-    advertiser_groups.each do |advertiser_group|
-      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
-      bag.state = BlockedAdvertiserGroup::PENDING_BLOCK
-      bag.user = current_user
-      bag.save
-    end
+    create_or_update_advertiser_groups(advertiser_groups, BlockedAdvertiserGroup::PENDING_BLOCK)
   end
 
   def create_whitelisted_advertisers(advertisers)
-    advertisers.each do |advertiser|
-       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
-       ba.user = current_user
-       ba.network = current_network
-       ba.state = BlockedAdvertiser::PENDING_UNBLOCK
-       ba.save
-    end
+    create_or_update_advertisers(advertisers, BlockedAdvertiser::PENDING_UNBLOCK)
   end
 
   def create_whitelisted_advertiser_groups(advertiser_groups)
-    advertiser_groups.each do |advertiser_group|
-      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"],:site_id => advertiser_group["site_id"], :network_id => current_network.id)
-      bag.state = BlockSite::PENDING_UNBLOCK
-      bag.user = current_user
-      bag.save
-    end
+    create_or_update_advertiser_groups(advertiser_groups, BlockedAdvertiserGroup::PENDING_UNBLOCK)
   end
 
   def block_advertisers(advertisers)
-    advertisers.each do |advertiser|
-       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
-       ba.state = BlockedAdvertiser::BLOCK
-       ba.user = current_user
-       ba.save
-    end
+    create_or_update_advertisers(advertisers, BlockedAdvertiser::BLOCK)
   end
 
   def unblock_advertisers(advertisers)
     advertisers.each do |advertiser|
-       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
-       ba.state = BlockedAdvertiser::UNBLOCK
-       ba.user = current_user
-       ba.save
+      create_or_update_advertiser(advertiser["advertiser_id"], advertiser["site_id"], BlockedAdvertiser::UNBLOCK)
+      default_sites = DefaultSiteBlocks.of_network(current_network).where.not(:site_id => advertiser["site_id"])
+      if BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser["advertiser_id"]).where.not(:site_id => default_sites.pluck("site_id")).block_or_pending_block.length < 1
+        delete_default_blocks(advertiser["advertiser_id"], advertiser["site_id"])
+      end
     end
   end
 
@@ -137,7 +115,7 @@ class Admin::BlockSitesController < ApplicationController
       ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser["advertiser_id"],:site_id => advertiser["site_id"], :network_id => current_network.id)
       if ba
         ba.delete
-        if BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser["advertiser_id"]).where.not(:site_id => default_sites.pluck("site_id")).length < 1
+        if BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser["advertiser_id"]).where.not(:site_id => default_sites.pluck("site_id")).block_or_pending_block.length < 1
           delete_default_blocks(advertiser["advertiser_id"])
          end
       end
@@ -152,12 +130,7 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def block_advertiser_group(advertiser_groups)
-    advertiser_groups.each do |advertiser_group|
-      bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group["advertiser_group_id"], :site_id => advertiser_group["site_id"], :network_id => current_network.id)
-      bag.state = BlockedAdvertiserGroup::BLOCK
-      bag.user = current_user
-      bag.save
-    end
+    create_or_update_advertiser_groups(advertiser_groups, BlockedAdvertiserGroup::BLOCK)
   end
 
   def delete_advertiser_group(advertiser_groups)
@@ -299,8 +272,8 @@ private
     end
   end
 
-  def delete_default_blocks(advertiser_id)
-    default_sites = DefaultSiteBlocks.of_network(current_network)
+  def delete_default_blocks(advertiser_id, exclude_site = [])
+    default_sites = DefaultSiteBlocks.of_network(current_network).where.not(:site_id => exclude_site)
     advertiser_with_default_blocks = BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser_id, :site_id => default_sites.pluck("site_id")).pending_block
     if advertiser_with_default_blocks.length == default_sites.length
       advertiser_with_default_blocks.each do |advertiser|
@@ -310,5 +283,31 @@ private
       end
     end
   end
+
+  def create_or_update_advertisers(advertisers, state)
+    advertisers.each do |advertiser|
+      create_or_update_advertiser(advertiser["advertiser_id"], advertiser["site_id"], state)
+    end
+  end
+
+  def create_or_update_advertiser(advertiser_id, site_id, state)
+    ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser_id,:site_id => site_id, :network_id => current_network.id)
+    ba.state = state
+    ba.user = current_user
+    ba.save
+  end
+
+  def create_or_update_advertiser_groups(advertiser_groups, state)
+    advertiser_groups.each do |advertiser_group|
+      create_or_update_advertiser_group(advertiser_group["advertiser_group_id"], advertiser_group["site_id"], state)
+    end
+  end
+
+  def create_or_update_advertiser_group(advertiser_group_id, site_id, state)
+    bag = BlockedAdvertiserGroup.find_or_initialize_by(:advertiser_group_id => advertiser_group_id, :site_id => site_id, :network_id => current_network.id)
+    bag.state = state
+    bag.user = current_user
+    bag.save
+end
 
 end
