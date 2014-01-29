@@ -181,11 +181,29 @@
 
       this._getCreativesSizes();
 
-      this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
+      this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
           self.model.set($(this).data('name'), newValue); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
+        }
+      });
+
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(resp, newValue) {
+          self.model.attributes.volume = newValue; //update backbone model;
+
+          self._recalculateMediaCost();
+          self._validateAdImpressions();
+
+          // https://github.com/collectivemedia/reachui/issues/358
+          // Catch ads with 0 impressions rather than throw an error
+          var $errors_container = $(this).siblings('.errors_container');
+          if($(this).data('name') == "volume" && parseInt(newValue) == 0) {
+            $errors_container.html('Volume is too low. Please correct it.')
+          } else {
+            $errors_container.html('')
+          }
         }
       });
 
