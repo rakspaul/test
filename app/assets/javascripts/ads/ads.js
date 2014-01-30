@@ -97,6 +97,15 @@
 
       this.model.set('value', media_cost);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+
+      // https://github.com/collectivemedia/reachui/issues/358
+      // Catch ads with 0 impressions rather than throw an error
+      var $errors_container = this.$el.find('.volume .editable').siblings('.errors_container');
+      if(imps == 0) {
+        $errors_container.html('Volume is too low. Please correct it.');
+      } else {
+        $errors_container.html('');
+      }
     },
 
     renderTargetingDialog: function() {
@@ -195,15 +204,6 @@
 
           self._recalculateMediaCost();
           self._validateAdImpressions();
-
-          // https://github.com/collectivemedia/reachui/issues/358
-          // Catch ads with 0 impressions rather than throw an error
-          var $errors_container = $(this).siblings('.errors_container');
-          if($(this).data('name') == "volume" && parseInt(newValue) == 0) {
-            $errors_container.html('Volume is too low. Please correct it.')
-          } else {
-            $errors_container.html('')
-          }
         }
       });
 
