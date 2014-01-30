@@ -53,8 +53,7 @@ class Lineitem < ActiveRecord::Base
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
       creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
 
-      if cparams[:id]
-        creative = Creative.find cparams[:id]
+      if cparams[:id] && creative = Creative.find_by_id(cparams[:id])
         creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
         if !creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
           creatives_errors[i] = creative.lineitem_assignment.errors.messages
