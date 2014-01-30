@@ -1,4 +1,4 @@
-json.array! @order.ads do |ad|
+json.array! @ads do |ad|
   json.ad do
     json.id ad.try(:id)
     json.description ad.description
@@ -32,7 +32,7 @@ json.array! @order.ads do |ad|
   end
 
   json.selected_key_values do
-    json.array! ad.audience_groups do |ag| 
+    json.array! ad.audience_groups do |ag|
       json.id ag.id
       json.title ag.name
       json.key_values ag.key_values
