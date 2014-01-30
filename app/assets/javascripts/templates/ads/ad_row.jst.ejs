@@ -1,6 +1,4 @@
 <div class="pure-u-1-24 buttons-container">
-  <div class="clone-btn pull-left" title="Clone"></div>
-  <br/>
   <% if(isNaN(parseInt(ad.source_id))) { %>
   <div class="delete-btn pull-left" style="display:none;" title="Delete"/>
   <% } %>
@@ -42,7 +40,7 @@
 
   <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
     <% if(!isNaN(parseInt(ad.source_id))) { %>
-      <div class="dfp-success"></div> 
+      <div class="dfp-success"></div>
       <a href="<%= ad.dfp_url %>" target="_blank"><%= ad.source_id %></a>
     <% } %>
   </div>
@@ -65,7 +63,7 @@
   <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
   <div class="targeting_options_condensed" style="clear:both"></div>
 </div>
-  
+
 <div class="pure-u-1-12 volume number-field">
   <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
     <%= accounting.formatNumber(ad.volume) %>
