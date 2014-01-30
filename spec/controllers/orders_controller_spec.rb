@@ -291,6 +291,17 @@ describe OrdersController do
 
         expect(response).to be_success
       end
+
+      it "update ad start date" do
+        li = order.lineitems.first
+        ad = order.lineitems.first.ads.first
+        ad.update_attribute(:start_date, li.start_date - 1.day)
+
+        params['order']['lineitems'][0]['ads'][0]['start_date'] = li.start_date.strftime('%Y-%m-%d')
+
+        put :update, params
+        expect(json_parse(response.body)).not_to include(:errors)
+      end
     end
   end
 
