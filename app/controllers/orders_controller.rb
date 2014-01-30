@@ -397,6 +397,8 @@ private
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
+          ad_start_date = ad[:ad].delete(:start_date)
+          ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
           [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
@@ -416,6 +418,8 @@ private
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
+          ad_object.start_date = ad_start_date
+          ad_object.end_date = ad_end_date
 
           if li_saved
             ad_object.save_targeting(ad_targeting)
