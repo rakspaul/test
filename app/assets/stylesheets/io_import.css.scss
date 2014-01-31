@@ -239,10 +239,20 @@ $wide_input_width: 320px;
       color: $text_color;
       width: 72%;
 
+      label{
+        font-size:12px;
+        display:inline-block;
+        float:left;
+      }
+
       span {
         text-decoration: underline;
         color: black;
         font-family: 'Arial', sans-serif;
+        display:inline-block;
+        width:260px;
+        float:left;
+        margin-left:10px;
       }
     }
 
@@ -379,7 +389,7 @@ $wide_input_width: 320px;
     }
 
     .number-field {
-      text-align: right;
+      text-align: center;
       .editable, .number-value {
         margin-right: 10px;
       }
@@ -516,6 +526,7 @@ $wide_input_width: 320px;
   color:black;
   font-weight:normal;
   font-size:normal;
+  width:97%;
 
   .summary {
     margin-top:20px;
@@ -527,6 +538,7 @@ $wide_input_width: 320px;
     .totals-label, .total-cpm, .total-media-cost, .total-impressions {
       font-weight:bold;
       font-size:14px;
+      text-align:center;
     }
 
     .li-button {
@@ -608,15 +620,19 @@ $wide_input_width: 320px;
 }
 
 .dma-targeting-icon {
+  margin-left: 3px;
   float: left;
 }
 
 .custom-kv-icon {
+  margin-left: 3px;
   float: left;
 }
 
 .zip-codes-icon {
+  margin-left: 3px;
   float: left;
+  width:16px !important;
 }
 
 .targeting-container {
@@ -661,7 +677,11 @@ $wide_input_width: 320px;
     padding-left: 25px;
 
     .dma-targeting {
-      margin-top:10px;
+      margin-top:0px;
+    }
+
+    .custom-targeting{
+      height:1px;
     }
 
     .custom-kvs-field {
