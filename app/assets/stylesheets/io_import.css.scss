@@ -37,7 +37,7 @@ $wide_input_width: 480px;
   margin-top: 40px;
   color: $text_color;
   width: 160px;
-  
+
   span.failed {
     color: red;
   }
@@ -56,7 +56,7 @@ $wide_input_width: 480px;
   }
 
   .push-failed {
-    background: url(asset-path('push_failed_icon.png')) 0px 0px no-repeat; 
+    background: url(asset-path('push_failed_icon.png')) 0px 0px no-repeat;
     width: 16px;
     height: 16px;
     float: left;
@@ -239,10 +239,20 @@ $wide_input_width: 480px;
       color: $text_color;
       width: 72%;
 
+      label{
+        font-size:12px;
+        display:inline-block;
+        float:left;
+      }
+
       span {
         text-decoration: underline;
         color: black;
         font-family: 'Arial', sans-serif;
+        display:inline-block;
+        width:260px;
+        float:left;
+        margin-left:10px;
       }
     }
 
@@ -345,7 +355,7 @@ $wide_input_width: 480px;
       }
     }
 
-    
+
 
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
@@ -360,7 +370,7 @@ $wide_input_width: 480px;
       color:white;
       font-weight:bold;
       background: $li_number_bg;
-      
+
       &:hover {
         border: 2px dashed $bg_color;
         @include box-sizing(border-box);
@@ -379,7 +389,7 @@ $wide_input_width: 480px;
     }
 
     .number-field {
-      text-align: right;
+      text-align: center;
       .editable, .number-value {
         margin-right: 10px;
       }
@@ -483,7 +493,7 @@ $wide_input_width: 480px;
       .clone-btn {
         margin: 0 5px;
       }
-      
+
       .delete-btn {
         margin: 10px 5px 0 5px;
       }
@@ -516,6 +526,7 @@ $wide_input_width: 480px;
   color:black;
   font-weight:normal;
   font-size:normal;
+  width:97%;
 
   .summary {
     margin-top:20px;
@@ -527,6 +538,7 @@ $wide_input_width: 480px;
     .totals-label, .total-cpm, .total-media-cost, .total-impressions {
       font-weight:bold;
       font-size:14px;
+      text-align:center;
     }
 
     .li-button {
@@ -608,15 +620,19 @@ $wide_input_width: 480px;
 }
 
 .dma-targeting-icon {
+  margin-left: 3px;
   float: left;
 }
 
 .custom-kv-icon {
+  margin-left: 3px;
   float: left;
 }
 
 .zip-codes-icon {
+  margin-left: 3px;
   float: left;
+  width:16px !important;
 }
 
 .targeting-container {
@@ -659,9 +675,13 @@ $wide_input_width: 480px;
     width: 34%;
     float: left;
     padding-left: 25px;
-    
+
     .dma-targeting {
-      margin-top:10px;
+      margin-top:0px;
+    }
+
+    .custom-targeting{
+      height:1px;
     }
 
     .custom-kvs-field {
@@ -690,6 +710,7 @@ $wide_input_width: 480px;
     .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container {
       float:left;
       margin-left: 5px;
+      height:25px;
 
       span.custom-kvs {
         clear: both;
@@ -788,9 +809,9 @@ $wide_input_width: 480px;
 
 #import-creatives-dialog {
   border: 0px;
-  
+
   .import-creatives-border {
-    border: 2px dashed red;  
+    border: 2px dashed red;
   }
 
   .modal-body {
@@ -989,7 +1010,7 @@ table.creatives-content {
     .top {
       float:left;
       width:100%;
-    
+
       input {
         float: left;
       }
@@ -1048,7 +1069,7 @@ table.creatives-content {
       margin-left: 4px;
       cursor: pointer;
     }
-    
+
     .add-user-to-notify-list-btn, .close-users-notify-list-btn {
       margin-right: 4px;
       margin-left: 16px;
