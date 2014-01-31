@@ -761,10 +761,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       order_ads.fetch().then(
         function(collection, response, options) {
           _.each(lineItemListView.children._views, function(li_view, li_name) {
-
-            // show condensed targeting options
-            //ReachUI.showCondensedTargetingOptions.apply(li_view);
-
             li_view.model.ads = [];
             _.each(collection, function(attrs) {
               // push and render Ad only under particular lineitem
