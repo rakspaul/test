@@ -731,44 +731,44 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.orderDetailsLayout.bottom.show(lineItemListView);
 
     // only if `show` action
-    if(lineItemList.order.id) {
+    if (lineItemList.order.id) {
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-      // set targeting for existing Order
-      var itemIndex = 1;
-      _.each(lineItemListView.children._views, function(li_view, li_name) {
-        var li            = li_view.model;
+      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
+        var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
 
-        li.set('itemIndex', itemIndex);
-        itemIndex += 1;
+        // set targeting for existing Order
+        var itemIndex = 1;
+        _.each(lineItemListView.children._views, function(li_view, li_name) {
+          var li            = li_view.model;
 
-        var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
-        var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
-        var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+          li.set('itemIndex', itemIndex);
+          itemIndex += 1;
 
-        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+          var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+          var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+          var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting'), type: li.get('type') }));
           li_view.renderTargetingDialog();
         });
       });
 
+      order_ads = new ReachUI.Ads.AdList();
+      order_ads.setOrder(lineItemList.order);
       // show Ads for each LI
-      _.each(lineItemListView.children._views, function(li_view, li_name) {
-        li_view.model.ads = new ReachUI.Ads.AdList();
-        li_view.model.ads.setOrder(lineItemList.order);
+      order_ads.fetch().then(
+        function(collection, response, options) {
+          _.each(lineItemListView.children._views, function(li_view, li_name) {
 
-        // show condensed targeting options
-        ReachUI.showCondensedTargetingOptions.apply(li_view);
+            // show condensed targeting options
+            ReachUI.showCondensedTargetingOptions.apply(li_view);
 
-        // fetch ads for each lineitem and append then to the view of this lineitem
-        li_view.model.ads.fetch().then(
-          function(collection, response, options) {
             li_view.model.ads = [];
             _.each(collection, function(attrs) {
               // push and render Ad only under particular lineitem
-              if(li_view.model.get('id') == attrs.ad.io_lineitem_id) {
+              if (li_view.model.get('id') == attrs.ad.io_lineitem_id) {
                 attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
                 attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
 
@@ -780,19 +780,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 li_view.model.pushAd(ad);
                 li_view.renderAd(ad);
               }
-            });
-            lineItemList._recalculateLiImpressionsMediaCost();
+              
+              lineItemList._recalculateLiImpressionsMediaCost();
 
-            if(lineItemList.order.get('pushing_errors').length > 0) {
-              ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
-            }
-          },
-          function(model, response, options) {
-            console.log('error while getting ads list');
-            console.log(response);
-          }
-        );
-      });
+              if(lineItemList.order.get('pushing_errors').length > 0) {
+                ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
+              }
+            });
+          });
+        },
+        function(model, response, options) {
+          console.log('error while getting ads list');
+          console.log(response);
+        }
+      );
     } else { // not persisted Order/Lineitems
       var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
