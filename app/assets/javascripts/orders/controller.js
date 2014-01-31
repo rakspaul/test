@@ -763,7 +763,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           _.each(lineItemListView.children._views, function(li_view, li_name) {
 
             // show condensed targeting options
-            ReachUI.showCondensedTargetingOptions.apply(li_view);
+            //ReachUI.showCondensedTargetingOptions.apply(li_view);
 
             li_view.model.ads = [];
             _.each(collection, function(attrs) {
