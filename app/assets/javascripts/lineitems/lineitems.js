@@ -510,6 +510,21 @@
       var lineitems = this.collection;
       var self = this;
 
+      var lineitemsWithoutAds = [];
+      lineitems.each(function(li) {
+        if (!li.ads.length) {
+          console.log(li);
+          lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
+        }
+      });
+      console.log(lineitemsWithoutAds);
+      if (lineitemsWithoutAds.length > 0) {
+        var modal = $('#save-confirmation-dialog');
+        var liList = modal.find('.li-without-ads');
+        liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
+        modal.modal('show');
+      }
+
       // store Order and Lineitems in one POST request
       this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
