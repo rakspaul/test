@@ -55,12 +55,16 @@ class Lineitem < ActiveRecord::Base
 
       if cparams[:id] && creative = Creative.find_by_id(cparams[:id])
         creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
+      else
+        creative = Creative.create name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
+      end
+
+      if creative.lineitem_assignment
         if !creative.lineitem_assignment.update_attributes(start_date: cparams[:start_date], end_date: end_date)
           creatives_errors[i] = creative.lineitem_assignment.errors.messages
         end
       else
-        creative = Creative.create name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
-        li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+        li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)          
         if !li_assignment.errors.messages.blank?
           creatives_errors[i] = li_assignment.errors.messages
         end
