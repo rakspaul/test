@@ -92,7 +92,7 @@ class Ad < ActiveRecord::Base
     end and return
 
     self.ad_type  = "#{media_type.category}::AD_TYPE".constantize
-    if type == 'Display' && audience_groups.size > 0
+    if type == 'Display' && (audience_groups.size > 0 || !reach_custom_kv_targeting.blank?)
       self.priority = "#{media_type.category}::HIGH_PRIORITY".constantize
     else
       self.priority = "#{media_type.category}::PRIORITY".constantize
