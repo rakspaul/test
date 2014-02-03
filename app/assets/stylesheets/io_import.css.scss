@@ -767,7 +767,7 @@ $wide_input_width: 320px;
   }
 }
 
-#push-confirmation-dialog, #import-creatives-dialog {
+#push-confirmation-dialog, #import-creatives-dialog, #save-confirmation-dialog {
   border: 2px dashed $bg_color;
 
   p.heading {
@@ -795,7 +795,7 @@ $wide_input_width: 320px;
     float: left;
   }
 
-  .push-btn {
+  .push-btn, .save-btn {
     background-color: $text_color;
     color: white;
     width: 140px;
@@ -804,6 +804,10 @@ $wide_input_width: 320px;
     cursor: pointer;
     margin: 5px;
     float: left;
+  }
+
+  .li-without-ads {
+    list-style-type: none;
   }
 }
 
