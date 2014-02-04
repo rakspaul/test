@@ -102,7 +102,7 @@
       // Catch ads with 0 impressions rather than throw an error
       var $errors_container = this.$el.find('.volume .editable').siblings('.errors_container');
       if(imps == 0) {
-        $errors_container.html('Volume is too low. Please correct it.');
+        $errors_container.html("Impressions must be greater than 0.");
       } else {
         $errors_container.html('');
       }

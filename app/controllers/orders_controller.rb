@@ -416,7 +416,7 @@ private
             li_errors[i] ||= {:ads => {}}
             li_errors[i]
             li_errors[i][:ads][j] ||= {}
-            li_errors[i][:ads][j][:volume] = "Volume is too low. Please correct it."
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
           end
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
@@ -586,7 +586,7 @@ private
             li_errors[i] ||= {:ads => {}}
             li_errors[i]
             li_errors[i][:ads][j] ||= {}
-            li_errors[i][:ads][j][:volume] = "Volume is too low. Please correct it."
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
           end
 
           ad_object = lineitem.ads.build(ad[:ad])
