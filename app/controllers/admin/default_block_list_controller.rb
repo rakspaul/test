@@ -62,7 +62,7 @@ class Admin::DefaultBlockListController < ApplicationController
     sites.each do |site|
       dsb = DefaultSiteBlocks.find_or_initialize_by(:site_id => site["site_id"], :network_id => current_network.id)
       dsb.user = current_user
-      block_advertisers_on_site(dsb.site_id) if dsb.save
+      block_site_on_advertisers_having_default_blocks(dsb.site_id) if dsb.save
     end
   end
 
@@ -75,13 +75,19 @@ class Admin::DefaultBlockListController < ApplicationController
     end
   end
 
-  def block_advertisers_on_site(site_id)
-    blocked_advertisers = BlockedAdvertiser.select(:advertiser_id).of_network(current_network).block_or_pending_block.distinct
-    blocked_advertisers.each do |blocked_advertiser|
-      ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => blocked_advertiser.advertiser_id,:site_id => site_id, :network_id => current_network.id)
-      ba.state = BlockedAdvertiser::BLOCK
-      ba.user = current_user
-      ba.save
+  def block_site_on_advertisers_having_default_blocks(site_id)
+    default_sites = DefaultSiteBlocks.of_network(current_network).where.not(:site_id => site_id)
+
+    blocked_advertiser_ids = BlockedAdvertiser.of_network(current_network).block_or_pending_block.pluck("advertiser_id").uniq
+    blocked_advertiser_ids.each do |advertiser_id|
+      blocked_advertisers_on_default_sites = BlockedAdvertiser.of_network(current_network).where(:advertiser_id => advertiser_id, :site_id => default_sites.pluck("site_id")).block_or_pending_block
+
+      if blocked_advertisers_on_default_sites.length == default_sites.length
+        ba = BlockedAdvertiser.find_or_initialize_by(:advertiser_id => advertiser_id,:site_id => site_id, :network_id => current_network.id)
+        ba.state = BlockedAdvertiser::BLOCK
+        ba.user = current_user
+        ba.save
+      end
     end
   end
 

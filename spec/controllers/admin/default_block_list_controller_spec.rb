@@ -13,7 +13,7 @@ describe Admin::DefaultBlockListController do
     AccountSession.create(account)
 
     @default_block = FactoryGirl.create(:default_site_blocks, site: site_1, user: account.user)
-    FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_2, state: 'PENDING_BLOCK', user: account.user)
+    FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_1, state: 'PENDING_BLOCK', user: account.user)
   end
 
   describe "GET 'index'" do
