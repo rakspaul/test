@@ -30,8 +30,9 @@ class Ad < ActiveRecord::Base
   end
 
   def type
+    return 'Display' if media_type.nil?
     return 'Companion' if media_type.category == 'Display' && lineitem.type == 'Video'
-    media_type.category
+    return media_type.category
   end
 
   # since all Creatives on Ad level are already present or created on LI level => no need to create or update any Creatives here
