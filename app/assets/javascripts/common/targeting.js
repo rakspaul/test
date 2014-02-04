@@ -208,12 +208,7 @@
     },
 
     _updateZipCodes: function(e) {
-      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
-      zip_codes = zip_codes.filter(function(v){ return v!=='' });
-      zip_codes.forEach(function(elem, index) {
-        zip_codes.splice(index,1,elem.match(/.{1,5}/g))
-      });
-      zip_codes = _.flatten(zip_codes);
+      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n| +|,/mi);
 
       this.model.attributes.selected_zip_codes = _.collect(zip_codes, function(el) { return el.trim() } );
       this._renderSelectedTargetingOptions();
