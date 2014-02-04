@@ -282,6 +282,9 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       ReachUI.alignAdsDivs();
+      if(0 == ad.get('volume')) {
+        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
+      }
     },
 
     renderCreatives: function() {
@@ -601,7 +604,7 @@
                         .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
                     }
 
-                    if (ad_errors["targeting"]) {
+                    if (ad_errors && ad_errors["targeting"]) {
                       $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
                     }
 
