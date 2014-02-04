@@ -256,13 +256,14 @@
       this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
+      this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
 
       // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
       if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
         this.$el.find('span.keyvalue_targeting').hide();
         this.$el.find('input.custom-kvs-field').show();
-      }
 
+      }
       this.validateCustomKV();
     },
 
