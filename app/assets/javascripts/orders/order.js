@@ -322,6 +322,8 @@
     onRender: function() {
       var self = this;
 
+      this.$el.find('textarea#note_input').autosize();
+
       this.displayNotifyUsersList();
       
       this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
