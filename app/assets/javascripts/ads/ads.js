@@ -204,6 +204,11 @@
 
           self._recalculateMediaCost();
           self._validateAdImpressions();
+        },
+        validate: function(value) {
+          if($.trim(value) == '') {
+            return 'This field is required';
+          }
         }
       });
 
