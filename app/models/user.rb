@@ -21,5 +21,9 @@ class User < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}"
   end
+
+  def agency_user?
+    roles.where(roles: { name: Role::REACHUI_USER}).size == 1
+  end
 end
 
