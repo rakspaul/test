@@ -153,6 +153,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
           li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting'), type: li.get('type') }));
           li_view.renderTargetingDialog();
         });
+        lineItemList._recalculateLiImpressionsMediaCost();
       });
     } else { // not persisted Order/Lineitems
       var dmas = new ReachUI.DMA.List();
