@@ -38,9 +38,7 @@
     }
   });
 
-  Creatives.CreativeView = Backbone.Marionette.ItemView.extend({
-    tagName: 'div',
-    className: 'creative pure-g',
+  Creatives.CreativeView = Creatives.BasicCreativeView.extend({
     template: JST['templates/creatives/creatives_row'],
 
     initialize: function(){
@@ -239,22 +237,9 @@
     }
   });
 
-  Creatives.CreativesListView = Backbone.Marionette.CompositeView.extend({
+  Creatives.CreativesListView = Creatives.BasicCreativesListView.extend({
     itemView: Creatives.CreativeView,
-    itemViewContainer: '.creatives-list-view',
     template: JST['templates/creatives/creatives_container'],
-    className: 'creatives-content',
-    tagName: 'table',
-
-    serializeData: function(){
-      var data = {};
-      data.is_cox_creative = this.options.is_cox_creative;
-      return data;
-    },
-
-    ui: {
-      creatives: '.creatives-container'
-    },
 
     events: {
       'click .add-creative-btn': '_addCreative',

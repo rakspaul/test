@@ -34,3 +34,10 @@ ReachUI.Orders.Router = Backbone.Marionette.AppRouter.extend({
   }*/
 });
 
+ReachUI.Orders.RestrictedRouter = Backbone.Marionette.AppRouter.extend({
+  appRoutes: {
+    '': 'index',
+    ':id': 'orderDetails',
+    ':id/lineitems/:lineitem_id': 'showLineItem'
+  }
+});

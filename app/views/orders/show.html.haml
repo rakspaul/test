@@ -7,6 +7,9 @@
     ReachUI.SetupGlobalErrorHandler();
 
     var controller = new ReachUI.Orders.OrderController();
+    //var controller = new ReachUI.Orders.OrderRestrictedController();
+
+    //ReachUI.Orders.router = new ReachUI.Orders.RestrictedRouter({controller: controller});
     ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
     
     Backbone.history.start({
