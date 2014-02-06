@@ -13,4 +13,9 @@ class AdvertiserBlocksController < ApplicationController
     respond_with(@advertiser_blocks)
   end
 
+  def show
+    advertiser_blocks = AdvertiserBlock.of_network(current_network).find(params[:id])
+    @advertisers = advertiser_blocks.try(:advertisers).order("network_advertisers.name  asc")
+  end
+
 end

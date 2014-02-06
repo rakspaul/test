@@ -282,6 +282,9 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       ReachUI.alignAdsDivs();
+      if(0 == ad.get('volume')) {
+        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
+      }
     },
 
     renderCreatives: function() {

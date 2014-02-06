@@ -321,7 +321,7 @@ private
       format: 'json',
       whitelistedAdvertiserGroups: ActiveSupport::JSON.encode(
         [
-          {advertiser_id: advertiser_1.id.to_s, site_id: site_1.id.to_s}
+          {advertiser_group_id: advertiser_group_1.id.to_s, site_id: site_1.id.to_s}
         ]
       )
     }

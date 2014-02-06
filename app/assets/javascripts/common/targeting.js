@@ -227,14 +227,9 @@
     },
 
     _updateZipCodes: function(e) {
-      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
-      zip_codes = zip_codes.filter(function(v){ return v!=='' });
-      zip_codes.forEach(function(elem, index) {
-        zip_codes.splice(index,1,elem.match(/.{1,5}/g))
-      });
-      zip_codes = _.flatten(zip_codes);
-
+      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n| +|,/mi);
       this.model.attributes.selected_zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
+
       this._renderSelectedTargetingOptions();
     },
 
@@ -280,13 +275,14 @@
       this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
+      this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
 
       // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
       if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
         this.$el.find('span.keyvalue_targeting').hide();
         this.$el.find('input.custom-kvs-field').show();
-      }
 
+      }
       this.validateCustomKV();
     },
 

@@ -1,8 +1,9 @@
 <h4>Targeting</h4>
 
-<div class="age-targeting">
+<div class="pure-g age-targeting">
   <% if(selected_key_values.length > 0) { %>
   <div class="account-contact-icon pull-left" title="Key Value Targeting"></div>
+  <div class="pull-left pure-u-11-12">
     <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) {
       var item = '<div class="tgt-item-kv-container ' + (show_custom_key_values ? 'custom-kv-container' : '') + '">';
       item += ' <span class="tgt-item-caption">'+selected_key_values[i]['title']+'</span>';
@@ -16,14 +17,18 @@
 
     <% var separator = show_custom_key_values ? '<div style="float:left"></div>' : '<div style="float:left">,</div>' %>
     <%= kv.join(separator) %>
+   </div>
   <% } %>
+
+  <div style="clear:both"></div>
 </div>
 
-<div style="clear:both"></div>
 
-<div class="custom-targeting">
+
+<div class="pure-g custom-targeting">
   <% if(keyvalue_targeting || show_custom_key_values) { %>
-  <div class="add-custom-keyvalue-btn">Custom K/V</div>
+  <div class="custom-kv-icon pull-left"></div>
+  <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
   <% } %>
 
   <% if(keyvalue_targeting && !show_custom_key_values) { %>
@@ -34,10 +39,12 @@
   <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= keyvalue_targeting %>" class="custom-kvs-field"/>
   <% } %>
   <div style="clear:both"></div>
-  <span class="custom-kv-errors errors_container"></span>
+  <span class="custom-kv-errors errors_container pure-u"></span>
+
+  <div style="clear:both"></div>
 </div>
 
-<div style="clear:both"></div>
+
 
 <% if(selected_geos.length > 0) { %>
 <div class="dma-targeting">
@@ -49,15 +56,16 @@
     item += '</div>';
     geos.push(item);
   } %>
+
   <%= geos.join('<div style="float:left">,</div>') %>
 </div>
 <% } %>
 
-<div style="clear:both"></div>
-<div class="zip-codes-targeting">
+
+<div class="pure-g zip-codes-targeting">
   <% if(selected_zip_codes.length > 0) { %>
     <div class="zip-codes-icon" title="Zip codes"></div>
-
+    <div class="pull-left pure-u-11-12">
     <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
       if(selected_zip_codes[i].match(/^\s*$/) == null) {
         var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
@@ -78,5 +86,6 @@
     <div style="clear:both"></div>
     <div class="errors-container">Underlined zip codes are not valid. Please edit them.</div>
     <% } %>
+  </div>
   <% } %>
 </div>
