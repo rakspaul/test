@@ -52,8 +52,13 @@
           if(geos.length > 0) {
             var geos_html = '';
             for (var i = 0; i < geos.length; i++) {
-
-              //(_.indexOf(selected_dmas_ids, geos[i].id) >= 0 && geos[i].type == selected ? 'checked="checked"' : '')
+              var is_checked = false;
+              _.each(self.model.get('selected_geos'), function(selected_geo) {
+                if(selected_geo.id == geos[i].id && selected_geo.type == geos[i].type.toLowerCase()) {
+                  is_checked = true;
+                }
+              });
+              
               var title = [];
               title.push(geos[i].name);
               if(geos[i].region_name) {
@@ -62,7 +67,7 @@
               if(geos[i].country_code) {
                 title.push(geos[i].country_code);
               }
-              geos_html += '<input type="checkbox" name="geo" value="'+geos[i].id+'|'+geos[i].type.toLowerCase()+'|'+title.join('/')+'"/>';
+              geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type.toLowerCase()+'|'+title.join('/')+'"/>';
               geos_html += geos[i].name;
 
               if(geos[i].region_name && geos[i].country_code) {
@@ -187,7 +192,7 @@
 
     _removeGeoFromSelectedGeos: function(geo_id, geo_type) {
       this.model.attributes.selected_geos = _.filter(this.model.get('selected_geos'), function(el) {
-        if(parseInt(el.id) != geo_id && el.type != geo_type) {
+        if(!(parseInt(el.id) == parseInt(geo_id) && el.type == geo_type)) {
           return el;
         }
       });
@@ -199,7 +204,23 @@
       if(e.currentTarget.checked) {
         this._addGeoToSelectedGeos({id: val[0], title: val[2], type: val[1]});
       } else {
-        this._removeDmaFromSelectedDmas(val[0], val[1]);
+        this._removeGeoFromSelectedGeos(val[0], val[1]);
+      }
+
+      this._renderSelectedTargetingOptions();
+    },
+
+    _removeGeoFromSelected: function(e) {
+      var geo_id = $(e.currentTarget).data('geo-id'),
+          geo_type = $(e.currentTarget).data('geo-type'),
+          selected_geos = this.model.get('selected_geos');
+
+      for(var i = 0; i < selected_geos.length; i++) {
+        if(selected_geos[i].id == geo_id && selected_geos[i].type == geo_type) {
+          this.$el.find('input[value^="'+geo_id+'|'+geo_type+'"]').removeAttr('checked'); // sync w/ checkboxes
+          this._removeGeoFromSelectedGeos(parseInt(geo_id), geo_type);
+          break;
+        }
       }
 
       this._renderSelectedTargetingOptions();
@@ -291,22 +312,6 @@
 
       $(select).trigger("chosen:updated");
       $(select).trigger("change");
-      this._renderSelectedTargetingOptions();
-    },
-
-    _removeGeoFromSelected: function(e) {
-      var geo_id = $(e.currentTarget).data('geo-id'),
-          geo_type = $(e.currentTarget).data('geo-type'),
-          selected_geos = this.model.get('selected_geos');
-
-      for(var i = 0; i < selected_geos.length; i++) {
-        if(selected_geos[i].id == geo_id && selected_geos[i].type == geo_type) {
-          this.$el.find('input[value^="'+geo_id+'|'+geo_type+'"]').removeAttr('checked'); // sync w/ checkboxes
-          this._removeGeoFromSelectedGeos(parseInt(geo_id));
-          break;
-        }
-      }
-
       this._renderSelectedTargetingOptions();
     },
 
