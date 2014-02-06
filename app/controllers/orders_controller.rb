@@ -427,13 +427,6 @@ private
             end
           end
 
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-          end
-
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}
             unique_description_error = { description: 'Ad name is not unique'}
@@ -582,13 +575,6 @@ private
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
           ad_object.save_targeting(ad_targeting)
-
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-          end
 
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}
