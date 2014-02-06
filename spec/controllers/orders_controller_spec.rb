@@ -24,6 +24,10 @@ describe OrdersController do
     File.stub(:unlink).and_call_original
     File.stub(:unlink).with(path).and_return(file)
     File.stub(:unlink).with(path2).and_return(file)
+    us = FactoryGirl.create(:country)
+    FactoryGirl.create(:state, name: "Alabama", country: us)
+    FactoryGirl.create(:designated_market_area, name: "Lexington", code: 541)
+    FactoryGirl.create(:city, name: "Ala", country_code: "IT", region_name: "Trento")
   end
 
   before :each do
@@ -96,6 +100,40 @@ describe OrdersController do
         expect{
           post :create, io_request
         }.to change(OrderNote, :count).by(2)
+      end
+    end
+
+    context "vaild order w/ City and State and DMA targeting" do
+      it "creates correct links between city/dma/state targeting and Lineitems" do
+        us = Country.where(['abbr = ?', 'US']).first
+        expect(us).to be
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        expect {
+          expect {
+            expect {
+              post :create, io_request
+            }.to change(state.lineitems, :count).by(1)
+          }.to change(city.lineitems, :count).by(1)
+        }.to change(dma.lineitems, :count).by(1)
+      end
+
+      it "creates correct links between city/dma/state targeting and Ads" do
+        us = Country.where(['abbr = ?', 'US']).first
+        expect(us).to be
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        expect {
+          expect {
+            expect {
+              post :create, io_request_w_ads
+            }.to change(state.ads, :count).by(1)
+          }.to change(city.ads, :count).by(1)
+        }.to change(dma.ads, :count).by(1)
       end
     end
 
@@ -421,8 +459,17 @@ private
         creative['creative']['end_date']   = end_date
       end
     end
+    li = params['order']['lineitems'].first
+    if li
+      us = Country.where(['abbr = ?', 'US']).first
+      alabama = State.find_by name: "Alabama", country_id: us.id
+      ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+      dma = DesignatedMarketArea.find_by name: "Lexington"
 
-   { :format => 'json' }.merge params
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "city"}, {id: alabama.id, title: "Alabama/United States", type: "state"}, {id: dma.id, title: "Lexington", type: "dma"}]
+    end
+
+    { :format => 'json' }.merge params
   end
 
   def io_request_w_ads
@@ -455,6 +502,16 @@ private
           creative['creative']['end_date']   = end_date
         end
         ad['ad']['type'] = 'Video'
+      end
+
+      ad = li['ads'].first
+      if ad
+        us = Country.where(['abbr = ?', 'US']).first
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "city"}, {id: state.id, title: "Alabama/United States", type: "state"}, {id: dma.id, title: "Lexington", type: "dma"}]
       end
     end
 

@@ -315,7 +315,7 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:targeted_zipcodes)
-      li[:lineitem].delete(:selected_dmas)
+      li[:lineitem].delete(:selected_geos)
       li[:lineitem].delete(:itemIndex)
       li[:lineitem].delete(:selected_key_values)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
@@ -348,10 +348,8 @@ private
       end
 
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
 
-      lineitem.designated_market_areas = []
-      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
+      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -401,7 +399,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -519,8 +517,8 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
-      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
+      
+      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])

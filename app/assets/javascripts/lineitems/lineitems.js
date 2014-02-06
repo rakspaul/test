@@ -400,7 +400,7 @@
       var li_t = this.model.get('targeting');
       window.copied_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: _.clone(li_t.get('selected_key_values')),
-        selected_dmas: _.clone(li_t.get('selected_dmas')),
+        selected_geos: _.clone(li_t.get('selected_geos')),
         dmas_list: _.clone(li_t.get('dmas_list')),
         selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
         audience_groups: _.clone(li_t.get('audience_groups')),
@@ -602,7 +602,7 @@
                           .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
                       }
 
-                      if (ad_errors["targeting"]) {
+                      if (ad_errors && ad_errors["targeting"]) {
                         $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
                       }
 

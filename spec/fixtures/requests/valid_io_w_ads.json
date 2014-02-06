@@ -168,7 +168,7 @@
           "targeting" : {
             "targeting" : {
               "selected_key_values" : null, 
-              "selected_dmas" : null, 
+              "selected_geos" : [], 
               "selected_zip_codes" : null, 
               "keyvalue_targeting" : ""
             }
