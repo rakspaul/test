@@ -54,7 +54,7 @@
             for (var i = 0; i < geos.length; i++) {
               var is_checked = false;
               _.each(self.model.get('selected_geos'), function(selected_geo) {
-                if(selected_geo.id == geos[i].id && selected_geo.type == geos[i].type.toLowerCase()) {
+                if(selected_geo.id == geos[i].id && selected_geo.type == geos[i].type) {
                   is_checked = true;
                 }
               });
@@ -64,16 +64,12 @@
               if(geos[i].region_name) {
                 title.push(geos[i].region_name);
               }
-              if(geos[i].country_code) {
-                title.push(geos[i].country_code);
-              }
-              geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type.toLowerCase()+'|'+title.join('/')+'"/>';
+              
+              geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type+'|'+title.join('/')+'"/>';
               geos_html += geos[i].name;
 
-              if(geos[i].region_name && geos[i].country_code) {
-                geos_html += '<span style="color:grey">, '+geos[i].region_name+', '+geos[i].country_code+'</span>';
-              } else if(geos[i].country_code) {
-                geos_html += '<span style="color:grey">, '+geos[i].country_code+'</span>';
+              if(geos[i].region_name) {
+                geos_html += '<span style="color:grey">, '+geos[i].region_name+'</span>';
               }
 
               geos_html += ' <span class="'+geos[i].type.toLowerCase()+'_type">'+geos[i].type+'</span> <br/>';
