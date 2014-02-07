@@ -1,0 +1,64 @@
+json = @lineitems.map do |lineitem|
+  li = {
+    id:                 lineitem.id,
+    name:               lineitem.name,
+    active:             lineitem.active,
+    start_date:         format_date(lineitem.start_date),
+    end_date:           format_date(lineitem.end_date),
+    volume:             lineitem.volume,
+    rate:               lineitem.rate,
+    value:              lineitem.value,
+    ad_sizes:           lineitem.ad_sizes,
+    order_id:           lineitem.order.id,
+    targeted_zipcodes:  lineitem.targeted_zipcodes,
+    alt_ad_id:          lineitem.alt_ad_id,
+    keyvalue_targeting: lineitem.keyvalue_targeting,
+    type:               lineitem.type,
+    media_type_id:      lineitem.media_type_id,
+    notes:              lineitem.try(:notes),
+    li_id:              lineitem.try(:li_id),
+    creatives:          [],
+    selected_dmas:      [],
+    selected_key_values: []
+  }
+
+  if lineitem.video?
+    li[:master_ad_size]    = lineitem.master_ad_size
+    li[:companion_ad_size] = lineitem.companion_ad_size
+  end
+
+  li[:creatives] = lineitem.creatives.map do |creative|
+    {
+      id:             creative.try(:id),
+      ad_size:        creative[:ad_size] || creative.size,
+      start_date:     format_date(creative[:start_date] || creative.lineitem_assignment.try(:start_date)),
+      end_date:       format_date(creative[:end_date] || creative.lineitem_assignment.try(:end_date)),
+      redirect_url:   creative[:image_url] || creative.redirect_url,
+      client_ad_id:   creative[:ad_id] || creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1),
+      source_id:      creative.try(:source_id),
+      html_code:      excerpt(creative.try(:html_code), '"id" :', radius: 22),
+      creative_type:  creative[:creative_type] || creative.try(:creative_type),
+      io_lineitem_id: creative.try(:lineitem_assignment).try(:io_lineitem_id),
+      ad_id:          creative.try(:ad_assignment).try(:ad_id),
+      li_assignment_id: creative.try(:lineitem_assignment).try(:id),
+      ad_assignment_id: creative.try(:ad_assignments).try(:first).try(:id)
+    }
+  end
+
+  li[:selected_dmas] = lineitem.designated_market_areas.map do |dma|
+    {
+      id:    dma.code,
+      title: dma.name
+    }
+  end
+
+  li[:selected_key_values] = lineitem.audience_groups.map do |ag| 
+    {
+      id:    ag.id,
+      title: ag.name,
+      key_values: ag.key_values
+    }
+  end
+
+  li
+end
