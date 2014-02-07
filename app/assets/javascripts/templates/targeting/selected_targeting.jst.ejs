@@ -51,7 +51,7 @@
   <div class="dma-targeting-icon pull-left" title="GEOs"></div>
   <% var geos = []; for (var i = 0; i < selected_geos.length; i++) {
     var item = '<div class="tgt-item-geo-container">';
-    item += ' <span class="tgt-item-caption">'+selected_geos[i]['title']+'</span>';
+    item += ' <span class="tgt-item-caption">'+selected_geos[i]['title']+' ('+selected_geos[i]['type']+')</span>';
     item += ' <span class="remove-btn pull-right" data-geo-type="'+selected_geos[i]['type']+'" data-geo-id="'+selected_geos[i]['id']+'" style="display:none"></span>';
     item += '</div>';
     geos.push(item);

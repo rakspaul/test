@@ -6,6 +6,9 @@ class State < ActiveRecord::Base
 
   before_create :create_random_source_id
 
+  scope :in_us, -> { includes(:country).where('countries.abbr = ?', 'US')}
+  scope :xfp_present, -> { where('states.xfp_id IS NOT NULL') }
+
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
   end

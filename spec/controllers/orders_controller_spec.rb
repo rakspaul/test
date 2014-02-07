@@ -466,7 +466,7 @@ private
       ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
       dma = DesignatedMarketArea.find_by name: "Lexington"
 
-      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "city"}, {id: alabama.id, title: "Alabama/United States", type: "state"}, {id: dma.code, title: "Lexington", type: "dma"}]
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
     end
 
     { :format => 'json' }.merge params
@@ -511,7 +511,7 @@ private
         city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
         dma = DesignatedMarketArea.find_by name: "Lexington"
 
-        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "city"}, {id: state.id, title: "Alabama/United States", type: "state"}, {id: dma.code, title: "Lexington", type: "dma"}]
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
       end
     end
 

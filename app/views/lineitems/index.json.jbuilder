@@ -13,13 +13,13 @@ json.array! @lineitems do |lineitem|
       case geo.class.to_s
       when "DesignatedMarketArea"
         json.title "#{geo.name} (DMA)"
-        json.type "dma"
+        json.type "DMA"
       when "State"
         json.title "#{geo.name}/#{geo.country.try(:name)} (State)"
-        json.type "state"
+        json.type "State"
       when "City"
         json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code} (City)"
-        json.type "city"
+        json.type "City"
       end
     end
   end
