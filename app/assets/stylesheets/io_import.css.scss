@@ -442,6 +442,14 @@ $wide_input_width: 480px;
   }
 
   .ads-container {
+    display: table;
+    border-collapse: collapse;
+    .ad {
+      display: table-row;
+      > div {
+        display: table-cell;
+      }
+    }
     background-color: $ad_bg_color;
     border-top: 2px solid white;
     border-bottom: 5px solid white;

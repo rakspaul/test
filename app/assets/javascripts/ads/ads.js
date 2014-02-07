@@ -87,7 +87,7 @@
       }
 
       ReachUI.alignLINumberDiv();
-      ReachUI.alignAdsDivs();
+      //ReachUI.alignAdsDivs();
     },
 
     _recalculateMediaCost: function() {
@@ -140,7 +140,7 @@
 
       if(is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignAdsDivs();
+        //ReachUI.alignAdsDivs();
       }
     },
 
@@ -235,7 +235,7 @@
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
 
-      ReachUI.alignAdsDivs();
+      //ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {

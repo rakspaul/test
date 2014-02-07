@@ -281,7 +281,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      ReachUI.alignAdsDivs();
+      //ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {
@@ -581,7 +581,7 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        ReachUI.alignAdsDivs();
+                        //ReachUI.alignAdsDivs();
                       }
                     });
 
