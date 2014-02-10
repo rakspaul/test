@@ -54,6 +54,8 @@ Reachui::Application.routes.draw do
         get 'export'
       end
     end
+
+    resources :block_violations
   end
 
   resources :users do
