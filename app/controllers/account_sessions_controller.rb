@@ -25,7 +25,13 @@ class AccountSessionsController < ApplicationController
     respond_with(@account_session) do |format|
       format.html do
         if @account_session.errors.empty? then
-          redirect_back_or_default orders_path
+          if is_network_login(@account_session.account.user) || is_agency_login(@account_session.account.user)
+            redirect_back_or_default orders_path
+          else
+            @account_session.destroy
+            @account_session.errors.add(:base, "Invalid username/password" )
+            render :action => 'new'
+          end
         else
           render :action => 'new'
         end
@@ -53,5 +59,12 @@ class AccountSessionsController < ApplicationController
       end
     end
 
+    def is_network_login(user)
+      return (user.is_client_type(User::CLIENT_TYPE_NETWORK) && user.has_roles([Role::REACH_UI]))
+    end
+
+    def is_agency_login(user)
+      return (user.is_client_type(User::CLIENT_TYPE_AGENCY) && user.has_roles([Role::REACH_UI])) && user.try(:agency).try(:reach_clients).length > 0
+    end
 end
 
