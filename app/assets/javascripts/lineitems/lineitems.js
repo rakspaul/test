@@ -273,6 +273,9 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       ReachUI.alignAdsDivs();
+      if(0 == ad.get('volume')) {
+        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
+      }
     },
 
     renderCreatives: function() {
@@ -439,12 +442,11 @@
     _changeMediaType: function(ev) {
       var type = $(ev.currentTarget).data('type');
       if (type == 'Video' && !this.model.get('master_ad_size')) {
-        this.model.set('master_ad_size', '1x1');
+        this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
       }
       if (type == 'Video') {
-        this.model.set('companion_ad_size', this.model.get('ad_sizes'));
+        this.model.set({ 'companion_ad_size': this.model.get('ad_sizes') }, { silent: true });
       }
-      this.model.set('type', type);
 
       var targeting = this.model.get('targeting'),
           custom_key_values = targeting.get('keyvalue_targeting'),
@@ -456,12 +458,24 @@
       if (default_key_values[type]) {
         custom_key_values.push(default_key_values[type]);
       }
-      targeting.set('keyvalue_targeting', custom_key_values.join(','));
-      this.renderTargetingDialog();
+      custom_key_values = custom_key_values.join(',');
 
       _.each(this.model.ads, function(ad) {
-        ad.set('type', type);
+        ad.get('targeting').set('keyvalue_targeting', custom_key_values);
+        ad.set({ 'type': type }, { silent: true });
       });
+
+      targeting.set('keyvalue_targeting', custom_key_values);
+
+      var targeting_options = [];
+      if (custom_key_values) {
+        targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
+        targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
+      } 
+      var toptions = this.$el.find('.targeting_options_condensed')[0];
+      $(toptions).html(targeting_options.join(' '));
+
+      this.model.set({ 'type': type });
     },
 
     ui: {
@@ -579,7 +593,7 @@
                         .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
                     }
 
-                    if (ad_errors["targeting"]) {
+                    if (ad_errors && ad_errors["targeting"]) {
                       $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
                     }
 

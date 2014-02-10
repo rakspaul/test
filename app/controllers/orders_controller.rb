@@ -411,6 +411,13 @@ private
             ad[:ad][:size].split(/,/).first.strip
           end
 
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
+          end
+
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
@@ -570,6 +577,13 @@ private
             ad_creatives[0][:creative][:ad_size].try(:strip)
           else
             ad[:ad][:size].split(/,/).first.strip
+          end
+
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
           end
 
           ad_object = lineitem.ads.build(ad[:ad])

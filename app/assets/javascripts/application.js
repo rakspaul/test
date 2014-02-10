@@ -26,6 +26,7 @@
 //= require bootstrap-editable.js
 //= require select2.min.js
 //= require jquery-fileupload/basic
+//= require jquery.autosize
 //= require moment.min
 //= require mousetrap.min
 //= require daterangepicker
