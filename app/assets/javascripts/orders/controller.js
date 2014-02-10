@@ -1,6 +1,6 @@
-ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
+/*ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
   el: "#details .content"
-});
+});*/
 
 ReachUI.Orders.OrderController = Marionette.Controller.extend({
   initialize: function() {
@@ -10,31 +10,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemList = new ReachUI.LineItems.LineItemList();
 
     this.orderDetailRegion.show(this.orderDetailsLayout);
-
-    var search = new ReachUI.Search.SearchQuery(),
-      searchView = new ReachUI.Search.SearchQueryView({model: search}),
-      searchOrderListView = new ReachUI.Orders.ListView({el: '.order-search-result', collection: this.orderList});
-
-    search.on('change:query', function(model) {
-      this.orderList.fetch({data: {search: model.get('query')}});
-    }, this);
-
-    searchView.bindShortcutKey('s');
-
-    searchOrderListView.on("itemview:selected", function(view) {
-      ReachUI.Orders.router.navigate('/' + view.model.id, {trigger: true});
-    });
-
-    searchOrderListView.listenTo(this.orderList, 'change', function(model) {
-      // update the order view in list when order is edited and saved.
-      var view = searchOrderListView.children.findByModel(model);
-      view.render();
-    });
-
-
-    $(".order-new").click(function() {
-      ReachUI.Orders.router.navigate('/new', {trigger: true});
-    });
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
   },
@@ -624,17 +599,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push(li.collection.order.attributes.name.replace(/RE \w{1,4}\s+/, '').replace(/\s+Q\d{1,4}/, ''));
     }
 
-    if(isGeo) {
+    if (isGeo) {
       ad_name_parts.push("GEO");
     }
-    if(hasKeyValues) {
+    if (hasKeyValues) {
       ad_name_parts.push("BT/CT");
     } else {
       ad_name_parts.push("RON");
     }
     ad_name_parts.push('Q'+start_quarter+start_year);
 
-    if("Companion" == ad_type) {
+    if ("Companion" == ad_type) {
       ad_name_parts.push("Companion");
     } else if("Video" == ad_type) {
       ad_name_parts.push("Preroll");
@@ -642,7 +617,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("^Mob");
     }
 
-    if("Video" == ad_type) {
+    if ("Video" == ad_type) {
       ad_name_parts.push(li.get('master_ad_size'));
     } else if("Companion" == ad_type) {
       ad_name_parts.push(li.get('companion_ad_size'));
@@ -650,7 +625,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push(li.get('ad_sizes').replace(/,/g, ' '));
     }
 
-    if("Facebook" == ad_type) {
+    if ("Facebook" == ad_type) {
       ad_name_parts.push("FBX");
     }
     ad_name = ad_name_parts.join(' ');
@@ -672,9 +647,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var extracted_li_id = notes ? notes.match(/Proposal Line Item ID: (\d+)/) : '';
     var li_id = li.get('li_id') ? li.get('li_id') : (extracted_li_id ? extracted_li_id[1] : '');
 
-    ad_name += ' ' + li_id;
-
-    return ad_name;
+    return ad_name + ' ' + li_id;
   },
 
   /////////////////////////////////////////////////////////////////////////////////////////

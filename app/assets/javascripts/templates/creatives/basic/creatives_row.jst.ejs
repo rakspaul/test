@@ -1,0 +1,39 @@
+<div class="pure-u-1-24">
+  <% if(!isNaN(parseInt(creative.source_id))) { %>
+  <div class="dfp-success"></div>
+  <% } %>
+</div>
+
+<div class="pure-u-1-12 start-date">
+  <span class="editable date"><%= creative.start_date %></span>
+  <div class="creative-<%= creative.id %> assignment-<%= creative.li_assignment_id %> assignment-<%= creative.ad_assignment_id %> pushing-status" style="clear:both;margin-top:5px;">
+    <% if(!isNaN(parseInt(creative.source_id))) { %>
+      <%= creative.source_id %>
+    <% } %>
+  </div>
+</div>
+
+<div class="pure-u-1-12 end-date">
+  <span class="editable date"><%= creative.end_date %></span>
+</div>
+
+<div class="pure-u-1-6 size number-field" style="width:12%">
+  <span class="editable"><%= creative.ad_size %></span>
+  <div class="errors" style="clear:both"></div>
+</div>
+
+<% if(creative.html_code){ %>
+<div class="pure-u-1-2 javascript-code">
+  <span><%= creative.html_code %></span>
+</div>
+<% } else { %>
+<div class="pure-u-1-2 image-url">
+  <span class="editable"><%= creative.redirect_url %></span>
+</div>
+
+<div class="pure-u-1-24 creative-type">
+  <input type="checkbox" name="creative_type" disabled <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> /> 
+</div>
+  
+<div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>
+<% } %>
