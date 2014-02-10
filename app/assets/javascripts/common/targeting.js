@@ -209,7 +209,7 @@
 
     _updateZipCodes: function(e) {
       var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
-      this.model.attributes.selected_zip_codes = _.collect(zip_codes, function(el) { return el.trim() } );
+      this.model.attributes.selected_zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
       this._renderSelectedTargetingOptions();
     },
 
