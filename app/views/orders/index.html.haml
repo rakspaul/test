@@ -43,7 +43,7 @@
                 %option Select
                 - @users.each do |user|
                   %option{:value => user.id, :selected => session[:am] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
-        -if @agency_user
+        -if !@agency_user
           .pure-u
             .control-group
               %label.control-label
@@ -72,7 +72,7 @@
             .pure-g.header-container
               .pure-u.title-container.medium
                 .title
-                  -if @agency_user
+                  -if !@agency_user
                     AMP Id / DFP Id
                   -else
                     AMP Id
@@ -115,7 +115,7 @@
                     %i.icon-sort-by-attributes-alt
                 - else
                   %i.icon-sort
-          -if @agency_user
+          -if !@agency_user
             %th
               .pure-g.header-container
                 .pure-u.title-container
@@ -126,7 +126,7 @@
               .pure-u.title-container
                 .title
                   AM
-          -if @agency_user
+          -if !@agency_user
             %th
               .pure-g.header-container
                 .pure-u.title-container
@@ -169,7 +169,7 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    if("#{@agency_user}" === "true"){
+    if("#{!@agency_user}" === "true"){
       var controller = new ReachUI.Orders.OrderController();
       ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
     }

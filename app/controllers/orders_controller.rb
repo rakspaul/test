@@ -261,7 +261,7 @@ private
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
-    @agency_user = current_user.agency_user?
+    @agency_user = current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
   end
 
   def find_account_manager(params)
