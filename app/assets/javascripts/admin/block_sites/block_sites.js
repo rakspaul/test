@@ -733,9 +733,20 @@
 
   });
 
-  BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.ItemView.extend({
+  BlockSites.GroupAdvertiserView = Backbone.Marionette.CompositeView.extend({
+    template: _.template('<%= name%>'),
     tagName:'li',
-    template: _.template(' <%= pending_block_indicator %> <%= advertiser_group_name%>'),
+    triggers : {
+      'click' : 'selected'
+    }
+  });
+
+  BlockSites.BlockedAdvertiserGroupView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/admin/block_sites/blocked_advertiser_group_view'],
+    tagName:'li',
+    itemViewContainer: 'ul',
+    itemView: BlockSites.GroupAdvertiserView,
+
 
     attributes: function() {
       return {
@@ -756,17 +767,29 @@
       } else {
         data.pending_block_indicator = ''
       }
+
+      data.expand_indicator = this.isExpanded ? 'icon-sort-down' : 'icon-sort-up';
+
       data.advertiser_group_name = this.model.get('advertiser_group_name');
 
       return data;
     },
 
+    ui: {
+      advertiserList: '#advertiserList',
+      expand_indicator: '#expand_indicator'
+    },
+
     initialize: function() {
+      this.collection = new BlockSites.AdvertiserList();
       this.model.on('change', this.render, this);
+      this.on('itemview:selected', this._onItemClick, this);
+      this.isExpanded = false;
     },
 
     events:{
-      'click' : '_onClick',
+      'click #advertiser_group_name' : '_onClick',
+      'click #expand_indicator' : '_onExpandClick'
     },
 
     onRender: function() {
@@ -774,6 +797,12 @@
         this.$el.addClass('selected');
       } else {
         this.$el.removeClass('selected');
+      }
+
+      if (!this.isExpanded) {
+        this.ui.advertiserList.hide();
+      } else {
+        this.ui.advertiserList.show();
       }
 
       this._applyCssClass();
@@ -798,10 +827,31 @@
       }
     },
 
+    _onExpandClick: function(event) {
+      this.isExpanded = !this.isExpanded;
+      if (this.isExpanded) {
+        this.ui.expand_indicator.removeClass('icon-sort-up').addClass('icon-sort-down')
+        if(this.collection.length < 1) {
+          this.collection.url = '/advertiser_blocks/'+this.model.get('advertiser_group_id')+'.json'
+          this.collection.fetch();
+        }
+        this.ui.advertiserList.slideDown();
+      } else {
+        this.ui.expand_indicator.removeClass('icon-sort-down').addClass('icon-sort-up')
+        this.ui.advertiserList.slideUp();
+      }
+    },
+
+    _onItemClick: function() {
+      if (!this.model.isDeleted()) {
+        this.trigger('selected');
+      }
+    },
+
   });
 
   BlockSites.BlockedAdvertiserGroupListItemView = Backbone.Marionette.CompositeView.extend({
-    template: _.template('<label title="<%= site_name %>"><%= site_name %></label><ul></ul>'),
+    template: _.template('<label title="<%= site_name %>"><%= site_name %></label><ul class="admin-list-inner"></ul>'),
     itemView: BlockSites.BlockedAdvertiserGroupView,
     itemViewContainer: 'ul',
     tagName: 'li',
