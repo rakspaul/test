@@ -257,7 +257,6 @@
 
       this.renderCreatives();
       this.renderTargetingDialog();
-      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -281,7 +280,6 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      //ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {
@@ -339,9 +337,8 @@
       this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignLINumberDiv()
       }
     },
 
@@ -581,7 +578,6 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        //ReachUI.alignAdsDivs();
                       }
                     });
 

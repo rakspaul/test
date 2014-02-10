@@ -102,7 +102,7 @@ ReachUI.showCondensedTargetingOptions = function() {
     var padding = $(el).css('box-sizing') == 'border-box' ? parseInt($(el).css('padding-top')) : 0;
     $(el).css('height', (highest_div + padding + 'px') ) 
   });
-};*/
+};
 
 // align height of lineitem's li-number div
 ReachUI.alignLINumberDiv = function() {
@@ -112,7 +112,7 @@ ReachUI.alignLINumberDiv = function() {
     }));
     $(li).find('.li-number').css('height', height +'px');
   });
-};
+};*/
 
 ReachUI.checkOrderStatus = function(order_id) {
   var current_order_state = $('.current-io-status-top .io-status').html().trim();

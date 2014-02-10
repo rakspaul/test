@@ -85,9 +85,6 @@
       } else {
         $(li_errors_container).html("");
       }
-
-      ReachUI.alignLINumberDiv();
-      //ReachUI.alignAdsDivs();
     },
 
     _recalculateMediaCost: function() {
@@ -138,9 +135,8 @@
       this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        //ReachUI.alignAdsDivs();
       }
     },
 
@@ -234,8 +230,6 @@
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
-
-      //ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {
