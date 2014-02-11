@@ -766,6 +766,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             type: li.get('type') })
           }, { silent: true });
 
+          li_view.renderTargetingDialog();
+
           itemIndex += 1;
 
           li_view.model.ads = [];
