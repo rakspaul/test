@@ -1,4 +1,4 @@
-json.array! @geos.shuffle[0..18].sort_by(&:name) do |geo|
+json.array! @geos do |geo|
   json.name geo.name
 
   if geo.class.to_s == "City"
