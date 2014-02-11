@@ -322,6 +322,8 @@
     onRender: function() {
       var self = this;
 
+      this.$el.find('textarea#note_input').autosize();
+
       this.displayNotifyUsersList();
       
       this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
@@ -424,7 +426,7 @@
       }
 
       var prop = {
-        note: this.ui.note_input.val().trim(),
+        note: this.ui.note_input.val().trim().replace(/\n/gm, "<br/>"),
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
         sent: this.notify_users_dialog_active,
         username: window.current_user_name,

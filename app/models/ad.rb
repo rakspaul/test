@@ -57,6 +57,13 @@ class Ad < ActiveRecord::Base
             creatives_errors[i] = ad_assignment.errors.messages
           end
         end
+
+        unless creative.lineitem_assignment
+          li_assignment = LineitemAssignment.create lineitem: lineitem, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+          if !li_assignment.errors.messages.blank?
+            creatives_errors[i] = li_assignment.errors.messages
+          end
+        end
       end
     end
 
@@ -93,7 +100,7 @@ class Ad < ActiveRecord::Base
     end and return
 
     self.ad_type  = "#{media_type.category}::AD_TYPE".constantize
-    if type == 'Display' && audience_groups.size > 0
+    if type == 'Display' && (audience_groups.size > 0 || !reach_custom_kv_targeting.blank?)
       self.priority = "#{media_type.category}::HIGH_PRIORITY".constantize
     else
       self.priority = "#{media_type.category}::PRIORITY".constantize

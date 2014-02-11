@@ -96,7 +96,7 @@
             this.checked = false;
           }
         });
-    
+
         self._renderSelectedTargetingOptions();
       });
       this.$el.find('.key-values .chosen-choices input').width('200px');
@@ -208,8 +208,9 @@
     },
 
     _updateZipCodes: function(e) {
-      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n|,/mi);
-      this.model.attributes.selected_zip_codes = _.collect(zip_codes, function(el) { return el.trim() } );
+      var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n| +|,/mi);
+      this.model.attributes.selected_zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
+
       this._renderSelectedTargetingOptions();
     },
 
@@ -255,13 +256,14 @@
       this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
-    
+      this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
+
       // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
       if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
         this.$el.find('span.keyvalue_targeting').hide();
         this.$el.find('input.custom-kvs-field').show();
-      }
 
+      }
       this.validateCustomKV();
     },
 
@@ -278,7 +280,7 @@
           select = this.$el.find('.key-values .chosen-select')[0];
 
       for(var i = 0; i < select.options.length; i++) {
-        if(select.options[i].value == audience_group_id) {  
+        if(select.options[i].value == audience_group_id) {
           $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
           this._removeKVFromSelectedKeyValues(parseInt(audience_group_id));
           break;
@@ -295,7 +297,7 @@
           select = this.$el.find('.dmas .chosen-select')[0];
 
       for(var i = 0; i < select.options.length; i++) {
-        if(select.options[i].value == dma_id) {  
+        if(select.options[i].value == dma_id) {
           $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
           this._removeDmaFromSelectedDmas(parseInt(dma_id));
           break;
@@ -310,7 +312,7 @@
     _removeZipFromSelected: function(e) {
       var zip_code_to_delete = $(e.currentTarget).data('zip');
 
-      this.model.attributes.selected_zip_codes = _.filter(this.model.attributes.selected_zip_codes, function(el) { 
+      this.model.attributes.selected_zip_codes = _.filter(this.model.attributes.selected_zip_codes, function(el) {
         if(el.trim() != zip_code_to_delete) {
           return el.trim();
         }

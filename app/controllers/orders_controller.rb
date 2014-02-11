@@ -410,6 +410,13 @@ private
             ad[:ad][:size].split(/,/).first.strip
           end
 
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
+          end
+
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
@@ -425,13 +432,6 @@ private
                 ad_assignment.destroy if !creative.pushed_to_dfp?
               end
             end
-          end
-
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
           end
 
           unique_description_error = nil
@@ -571,6 +571,13 @@ private
             ad[:ad][:size].split(/,/).first.strip
           end
 
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
+          end
+
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
@@ -582,13 +589,6 @@ private
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
           ad_object.save_targeting(ad_targeting)
-
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-          end
 
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}

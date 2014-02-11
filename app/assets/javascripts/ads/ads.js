@@ -94,6 +94,15 @@
 
       this.model.set('value', media_cost);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+
+      // https://github.com/collectivemedia/reachui/issues/358
+      // Catch ads with 0 impressions rather than throw an error
+      var $errors_container = this.$el.find('.volume .editable').siblings('.errors_container');
+      if(imps == 0) {
+        $errors_container.html("Impressions must be greater than 0.");
+      } else {
+        $errors_container.html('');
+      }
     },
 
     renderTargetingDialog: function() {
@@ -177,11 +186,25 @@
 
       this._getCreativesSizes();
 
-      this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
+      this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
           self.model.set($(this).data('name'), newValue); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
+        }
+      });
+
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(resp, newValue) {
+          self.model.attributes.volume = newValue; //update backbone model;
+
+          self._recalculateMediaCost();
+          self._validateAdImpressions();
+        },
+        validate: function(value) {
+          if($.trim(value) == '') {
+            return 'This field is required';
+          }
         }
       });
 
