@@ -6,8 +6,13 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    var controller = new ReachUI.Orders.OrderController();
-    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    if (#{@agency_user}) {
+      var controller = new ReachUI.Orders.OrderRestrictedController();
+      ReachUI.Orders.router = new ReachUI.Orders.RestrictedRouter({controller: controller});
+    } else {
+      var controller = new ReachUI.Orders.OrderController();
+      ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    }
     
     Backbone.history.start({
       pushState: true,
