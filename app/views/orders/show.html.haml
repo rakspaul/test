@@ -6,7 +6,7 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    if (#{@agency_user}) {
+    if (#{@agency_user} || true) {
       var controller = new ReachUI.Orders.OrderRestrictedController();
       ReachUI.Orders.router = new ReachUI.Orders.RestrictedRouter({controller: controller});
     } else {
