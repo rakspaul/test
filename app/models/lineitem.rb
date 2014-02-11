@@ -14,6 +14,8 @@ class Lineitem < ActiveRecord::Base
   has_many :ads, foreign_key: 'io_lineitem_id', dependent: :destroy
   has_many :lineitem_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :creatives, through: :lineitem_assignments
+  has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
+  has_many :video_creatives, through: :lineitem_video_assignments
 
   has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
   has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id
@@ -53,13 +55,27 @@ class Lineitem < ActiveRecord::Base
       html_code = '<script language="JavaScript" src="'+url+';click=%%CLICK_URL_UNESC%%;ord=%%CACHEBUSTER%%?" type="text/javascript"></script>'
 
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
+
+      if 1 == width && 1 == height
+        is_video_creative = true
+        creative_model = VideoCreative
+        lineitem_assignment_model = LineitemVideoAssignment
+      else
+        is_video_creative = false
+        creative_model = Creative
+        lineitem_assignment_model = LineitemAssignment
+      end
+
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
       creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
 
-      if cparams[:id] && creative = Creative.find_by_id(cparams[:id])
-        creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, creative_type: creative_type, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
+      if cparams[:id] && creative = creative_model.find_by_id(cparams[:id])
+        creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
+        creative.update_attribute(:creative_type, creative_type) if creative.class.to_s == Creative
       else
-        creative = Creative.create name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, creative_type: creative_type, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
+        creative = creative_model.new name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
+        creative.creative_type = creative_type if creative.class.to_s == Creative
+        creative.save
       end
 
       if creative.lineitem_assignment
@@ -67,7 +83,15 @@ class Lineitem < ActiveRecord::Base
           creatives_errors[i] = creative.lineitem_assignment.errors.messages
         end
       else
-        li_assignment = LineitemAssignment.create lineitem: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)          
+        li_assignment = lineitem_assignment_model.new lineitem: self, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+
+        if is_video_creative
+          li_assignment.video_creative = creative
+        else
+          li_assignment.creative = creative
+        end
+        li_assignment.save
+
         if !li_assignment.errors.messages.blank?
           creatives_errors[i] = li_assignment.errors.messages
         end

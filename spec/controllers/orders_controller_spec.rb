@@ -80,10 +80,16 @@ describe OrdersController do
         }.to change(Lineitem, :count).by(1)
       end
 
-      it "create a new creatives" do
-        expect{
-          post :create, io_request
-        }.to change(Creative, :count).by(3)
+      it "creates a new video and regular creatives" do
+        expect {
+          expect {
+            expect {
+              expect {
+                post :create, io_request
+              }.to change(Creative, :count).by(2)
+            }.to change(VideoCreative, :count).by(1)
+          }.to change(LineitemAssignment, :count).by(2)
+        }.to change(LineitemVideoAssignment, :count).by(1)
       end
 
       it "saves creatives with name = ad description + creative's ad_size" do
@@ -271,6 +277,30 @@ describe OrdersController do
         expect{
           post :create, params
         }.to change(Ad, :count).by(1)
+      end
+
+      it "creates new regular and video creatives" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(Creative, :count).by(2)
+        }.to change(VideoCreative, :count).by(1)
+      end
+
+      it "creates video and regular lineitem assignments" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(LineitemVideoAssignment, :count).by(1)
+        }.to change(LineitemAssignment, :count).by(2)
+      end
+
+      it "creates video and regular ad assignments" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(AdAssignment, :count).by(2)
+        }.to change(VideoAdAssignment, :count).by(1)
       end
 
       it "create companion ad for video lineitem" do
@@ -467,6 +497,9 @@ private
       dma = DesignatedMarketArea.find_by name: "Lexington"
 
       li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+
+      creative = li['lineitem']['creatives'].first
+      creative['creative']['ad_size'] = "1x1"
     end
 
     { :format => 'json' }.merge params
@@ -512,7 +545,15 @@ private
         dma = DesignatedMarketArea.find_by name: "Lexington"
 
         ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+        creative = ad['ad']['creatives'].first
+        creative['creative']['ad_size'] = "1x1"
       end
+    end
+
+    li = params['order']['lineitems'].first
+    if li
+      creative = li['lineitem']['creatives'].first
+      creative['creative']['ad_size'] = "1x1"
     end
 
    { :format => 'json' }.merge params

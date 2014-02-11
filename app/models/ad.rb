@@ -10,6 +10,9 @@ class Ad < ActiveRecord::Base
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
 
+  has_many :video_ad_assignments
+  has_many :video_creatives, through: :video_ad_assignments
+
   has_and_belongs_to_many :zipcodes, join_table: :zipcode_targeting
   has_and_belongs_to_many :designated_market_areas, join_table: :dma_targeting, association_foreign_key: :dma_id
   has_and_belongs_to_many :states, join_table: :state_targeting, association_foreign_key: :state_id
@@ -44,9 +47,22 @@ class Ad < ActiveRecord::Base
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
       width, height = cparams[:ad_size].split(/x/).map(&:to_i)
+
+      if 1 == width && 1 == height
+        is_video_creative = true
+        ad_assignment_model = VideoAdAssignment
+        li_assignment_model = LineitemVideoAssignment
+        creatives = self.lineitem.video_creatives
+      else
+        is_video_creative = false
+        ad_assignment_model = AdAssignment
+        li_assignment_model = LineitemAssignment
+        creatives = self.lineitem.creatives
+      end
+
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
 
-      creative = self.lineitem.creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
+      creative = creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       # updating creative's attributes should be done on lineitem level
       if creative
         if ad_assignment = creative.ad_assignments.find_by(ad_id: self.id)
@@ -54,14 +70,20 @@ class Ad < ActiveRecord::Base
             creatives_errors[i] = ad_assignment.errors.messages
           end
         else
-          ad_assignment = AdAssignment.create(ad: self, creative: creative, start_date: cparams[:start_date], end_date: end_date, network: self.network)
+          ad_assignment = ad_assignment_model.new(ad: self, start_date: cparams[:start_date], end_date: end_date, network: self.network)
+          if is_video_creative
+            ad_assignment.video_creative = creative
+          else
+            ad_assignment.creative = creative
+          end
+          ad_assignment.save
           if !ad_assignment.errors.messages.blank?
             creatives_errors[i] = ad_assignment.errors.messages
           end
         end
 
         unless creative.lineitem_assignment
-          li_assignment = LineitemAssignment.create lineitem: lineitem, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
+          li_assignment = li_assignment_model.create lineitem: lineitem, creative: creative, start_date: cparams[:start_date], end_date: end_date, network_id: self.order.network_id, data_source_id: self.order.network.try(:data_source_id)
           if !li_assignment.errors.messages.blank?
             creatives_errors[i] = li_assignment.errors.messages
           end
