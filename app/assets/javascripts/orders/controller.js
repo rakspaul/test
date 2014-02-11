@@ -781,7 +781,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               'creatives': new ReachUI.Creatives.CreativesList(attrs.creatives),
               'targeting': new ReachUI.Targeting.Targeting({
               selected_zip_codes: attrs.ad.targeted_zipcodes,
-              selected_dmas: attrs.selected_dmas,
+              selected_geos: attrs.selected_geos,
               selected_key_values: attrs.selected_key_values,
               dmas_list: li_view.model.get('targeting').get('dmas_list'),
               audience_groups: li_view.model.get('targeting').get('audience_groups'),
