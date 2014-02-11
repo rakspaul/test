@@ -172,7 +172,6 @@
     },
 
     onRender: function() {
-      console.log('on ad render');
       var self = this;
       $.fn.editable.defaults.mode = 'popup';
 
