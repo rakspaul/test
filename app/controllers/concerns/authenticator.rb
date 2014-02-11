@@ -4,7 +4,7 @@ module Authenticator
   included do
     if self.to_s != 'AccountSessionsController'
       before_action :require_user
-      if self.to_s != 'OrdersController'
+      if self.to_s != 'OrdersController' && self.to_s != 'LineitemsController'
         around_action :check_user_type
       end
     end
