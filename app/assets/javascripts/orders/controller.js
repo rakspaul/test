@@ -752,23 +752,23 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
-          li.set('itemIndex', itemIndex);
-          itemIndex += 1;
-
           var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
           var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
           var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
 
-          li.set('targeting', new ReachUI.Targeting.Targeting({
+          li.set({
+            'itemIndex': itemIndex,
+            'targeting': new ReachUI.Targeting.Targeting({
             selected_zip_codes: zipcodes,
             selected_dmas: selected_dmas,
             selected_key_values: kv,
             dmas_list: dmasResult[0],
             audience_groups: ags.attributes,
             keyvalue_targeting: li.get('keyvalue_targeting'),
-            type: li.get('type') }));
+            type: li.get('type') })
+          }, { silent: true });
 
-          li_view.renderTargetingDialog();
+          itemIndex += 1;
 
           li_view.model.ads = [];
           _.each(li_ads[li_view.model.get('id')], function(attrs) {
@@ -818,6 +818,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
+    this.orderDetailsLayout.bottom.show(lineItemListView);
 
     // order note reload
     lineItemListView.on('ordernote:reload', function(){
