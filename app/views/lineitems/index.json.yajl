@@ -18,7 +18,7 @@ json = @lineitems.map do |lineitem|
     notes:              lineitem.try(:notes),
     li_id:              lineitem.try(:li_id),
     creatives:          [],
-    selected_dmas:      [],
+    selected_geos:      [],
     selected_key_values: []
   }
 
@@ -45,11 +45,18 @@ json = @lineitems.map do |lineitem|
     }
   end
 
-  li[:selected_dmas] = lineitem.designated_market_areas.map do |dma|
-    {
-      id:    dma.code,
-      title: dma.name
-    }
+  li[:selected_geos] = (lineitem.designated_market_areas+lineitem.cities+lineitem.states).map do |geo|
+    h = { id: (geo.respond_to?(:code) ? geo.code : geo.id) }
+
+    case geo.class.to_s
+    when "DesignatedMarketArea"
+      h.merge!({title: "#{geo.name}", type: "DMA"})
+    when "State"
+      h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
+    when "City"
+      h.merge!({title: "#{geo.name}/#{geo.region_name}/#{geo.country_code}", type: "City"})
+    end
+    h
   end
 
   li[:selected_key_values] = lineitem.audience_groups.map do |ag| 
