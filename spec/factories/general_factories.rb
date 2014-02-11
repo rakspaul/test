@@ -196,4 +196,8 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
   end
 
+  factory :role do
+    name "reach_ui"
+  end
+
 end
