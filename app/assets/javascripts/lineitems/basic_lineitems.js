@@ -37,7 +37,6 @@
 
       this.renderCreatives();
       this.renderTargetingDialog();
-      ReachUI.alignLINumberDiv();
     },
 
     renderTargetingDialog: function() {

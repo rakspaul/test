@@ -1,109 +1,109 @@
 <div class="li-command-btn pull-left" title="Create Ad"></div>
 
-<div style="width:100%;float:left;">
-  <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
-    <span>Contract LI<span>
-    <div style="clear:both"></div>
-    <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
-  </div>
-
-  <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
-  <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
-    <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
-      <%= lineitem.start_date %>
-    </span>
-    <div class="errors_container">
-      <% if (wrong_start_date) { %>
-      Start date cannot be in the past
-      <% } %>
+<div class="li-table">
+  <div class="li-row">
+    <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
+      <span>Contract LI<span>
+      <div style="clear:both"></div>
+      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
     </div>
-  </div>
 
-  <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
-  <div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
-    <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
-      <%= lineitem.end_date %>
-    </span>
-    <div class="errors_container">
-      <% if (wrong_end_date) { %>
-      End date cannot be in the past
-      <% } %>
-    </div>
-  </div>
-
-  <div class="pure-u-1-6 lineitem-sizes">
-    <div class="dropdown">
-      <div class="facebook-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+    <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
+    <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
+      <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <%= lineitem.start_date %>
+      </span>
+      <div class="errors_container">
+        <% if (wrong_start_date) { %>
+        Start date cannot be in the past
+        <% } %>
       </div>
-        <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
-        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
-        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
-        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
-        <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
-      </ul>
     </div>
-    <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-      <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
-    </span>
-    <div class="errors_container"></div>
-    <br/>
-    <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
-  </div>
 
-  <div class="pure-u-1-3 name">
-    <span class="editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text">
-      <%= lineitem.name %>
-    </span>
+    <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
+    <div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
+      <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <%= lineitem.end_date %>
+      </span>
+      <div class="errors_container">
+        <% if (wrong_end_date) { %>
+        End date cannot be in the past
+        <% } %>
+      </div>
+    </div>
 
-    <% if(lineitem.notes) { %>
-    <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
-    <div style="clear:both"></div>
-    <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
-      <%= lineitem.notes %>
-      <span class="close-btn"></span>
-    </span>
-    <% } %>
+    <div class="pure-u-1-6 lineitem-sizes">
+      <div class="dropdown">
+        <div class="facebook-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+        </div>
+          <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
+          <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
+        </ul>
+      </div>
+      <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+        <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
+      </span>
+      <div class="errors_container"></div>
+      <br/>
+      <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
+    </div>
 
-    <div class="errors_container" style="clear:both">
-      <% if(lineitem.name.length > 500) { %>
-      Lineitem name should be less than 500 characters
+    <div class="pure-u-1-3 name">
+      <span class="editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text">
+        <%= lineitem.name %>
+      </span>
+
+      <% if(lineitem.notes) { %>
+      <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
+      <div style="clear:both"></div>
+      <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
+        <%= lineitem.notes %>
+        <span class="close-btn"></span>
+      </span>
       <% } %>
+
+      <div class="errors_container" style="clear:both">
+        <% if(lineitem.name.length > 500) { %>
+        Lineitem name should be less than 500 characters
+        <% } %>
+      </div>
+      <br/>
+      <span class="toggle-targeting-btn operation">+ Add Targeting</span>
+      <div class="targeting_options_condensed" style="clear:both"></div>
     </div>
-    <br/>
-    <span class="toggle-targeting-btn operation">+ Add Targeting</span>
-    <div class="targeting_options_condensed" style="clear:both"></div>
-  </div>
-    
-  <div class="pure-u-1-12 volume number-field">
-    <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
-      <%= accounting.formatNumber(lineitem.volume) %>
-    </span>
-    <div class="errors_container"></div>
-  </div>
-  <div class="pure-u-1-12 rate number-field">
-    $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
-      <%= accounting.formatMoney(lineitem.rate, '') %>
-    </span>
-    <div class="errors_container"></div>
-  </div>
+      
+    <div class="pure-u-1-12 volume number-field">
+      <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
+        <%= accounting.formatNumber(lineitem.volume) %>
+      </span>
+      <div class="errors_container"></div>
+    </div>
+    <div class="pure-u-1-12 rate number-field">
+      $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
+        <%= accounting.formatMoney(lineitem.rate, '') %>
+      </span>
+      <div class="errors_container"></div>
+    </div>
 
-  <div class="pure-u-1-12 media-cost number-field">
-    <span class="number-value">
-      $<span><%= accounting.formatMoney(lineitem.value, '') %></span>
-    </span>
-    <div class="errors_container"></div>
+    <div class="pure-u-1-12 media-cost number-field">
+      <span class="number-value">
+        $<span><%= accounting.formatMoney(lineitem.value, '') %></span>
+      </span>
+      <div class="errors_container"></div>
+    </div>
   </div>
-  <div style="clear:both"></div>
-
-  <div class="targeting-container" style="display:none"></div>
-  <div style="clear:both"></div>
-
-  <div class="creatives-list-view" style="display:none"></div>
-  <div style="clear:both"></div>
-
-  <div class="ads-container"></div>
 </div>
 
+<div class="targeting-container" style="display:none"></div>
+<div style="clear:both"></div>
+
+<div class="creatives-list-view" style="display:none"></div>
+<div style="clear:both"></div>
+
+<div class="ads-container"></div>
 <div style="clear:both"></div>
 
 <div class="copy-targeting-btn" style="display:none">Copy Targeting</div>

@@ -12,6 +12,8 @@ class Creative < ActiveRecord::Base
   before_create :create_random_source_id
   before_save :set_data_source
 
+  scope :ordered_by_dates, lambda{ includes([ :lineitem_assignment, :ad_assignments ]).order("start_date ASC, size ASC") }
+
   def create_random_source_id
     self.source_id = "R_#{SecureRandom.uuid}"
   end

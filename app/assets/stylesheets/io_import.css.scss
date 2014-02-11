@@ -320,15 +320,33 @@ $wide_input_width: 320px;
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;
-    background-color: $bg_color;
+    background-color: white;
     padding:0;
     clear:both;
+    .li-table {
+      display: table;
+      width: 100%;
+      .li-row {
+        display: table-row;
+        background-color: $bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
 
     > div[class^="pure-u"] {
       padding:10px 0;
       &:nth-child(2) {
         border-right: 2px solid white;
         @include box-sizing(border-box);
+      }
+    }
+
+    .video-dropdown {
+      position: absolute;
+      .dropdown-menu {
+        top: 0;
       }
     }
 
@@ -452,7 +470,19 @@ $wide_input_width: 320px;
   }
 
   .ads-container {
-    background-color: $ad_bg_color;
+    .ad-table {
+      display: table;
+      border-collapse: collapse;
+      width: 100%;
+      .ad-row {
+        display: table-row;
+        background-color: $ad_bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
+    background-color: white;
     border-top: 2px solid white;
     border-bottom: 5px solid white;
     .ad {

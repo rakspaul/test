@@ -95,9 +95,9 @@
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
 
-      if(! this.model.get('targeting')) {
+      if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
-        this.model.set('targeting', targeting);
+        this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },
 
@@ -248,13 +248,12 @@
 
       this.renderCreatives();
       this.renderTargetingDialog();
-      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
-          ad.set('size', view.model.get('ad_sizes'));
+          ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         view.renderAd(ad);
       });
@@ -272,8 +271,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      ReachUI.alignAdsDivs();
-      if(0 == ad.get('volume')) {
+      if (0 == ad.get('volume')) {
         ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
     },
@@ -282,9 +280,9 @@
       var view = this, is_cox_creative = false;
       
       // check whether there are Cox Creatives
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          if(creative.get('html_code')) {
+          if (creative.get('html_code')) {
             is_cox_creative = true;
           }
         })
@@ -295,10 +293,11 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
+          creative.set({
+            'order_id': view.model.get('order_id'),
+            'lineitem_id': view.model.get('id')}, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
@@ -333,9 +332,8 @@
       this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignLINumberDiv()
       }
     },
 
@@ -581,7 +579,6 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        ReachUI.alignAdsDivs();
                       }
                     });
 
