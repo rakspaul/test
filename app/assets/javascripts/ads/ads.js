@@ -165,13 +165,14 @@
           ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
-          this.model.set('size', ad_sizes);
+          this.model.set({ 'size': ad_sizes }, { silent: true });
           this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
         }
       }
     },
 
     onRender: function() {
+      console.log('on ad render');
       var self = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -207,7 +208,7 @@
         }
       });
 
-      if(this.model.get('targeting').attributes.dmas_list.length == 0) {
+      if (this.model.get('targeting').attributes.dmas_list.length == 0) {
         var dmas = new ReachUI.DMA.List();
         var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
 
@@ -244,8 +245,10 @@
       // rendering each Creative
       if (this.model.get('creatives').models) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', li_view.model.get('order_id'));
-          creative.set('lineitem_id', li_view.model.get('id'));
+          creative.set({
+            'order_id': li_view.model.get('order_id'),
+            'lineitem_id': li_view.model.get('id')
+          }, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });

@@ -728,8 +728,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       li_view.renderAd(ad);
     });
 
-    this.orderDetailsLayout.bottom.show(lineItemListView);
-
     // only if `show` action
     if (lineItemList.order.id) {
       var dmas = new ReachUI.DMA.List();
@@ -777,15 +775,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
             var ad = new ReachUI.Ads.Ad(attrs.ad);
 
-            ad.set('creatives', new ReachUI.Creatives.CreativesList(attrs.creatives));
-            ad.set('targeting', new ReachUI.Targeting.Targeting({
+            ad.set({
+              'creatives': new ReachUI.Creatives.CreativesList(attrs.creatives),
+              'targeting': new ReachUI.Targeting.Targeting({
               selected_zip_codes: attrs.ad.targeted_zipcodes,
               selected_dmas: attrs.selected_dmas,
               selected_key_values: attrs.selected_key_values,
               dmas_list: li_view.model.get('targeting').get('dmas_list'),
               audience_groups: li_view.model.get('targeting').get('audience_groups'),
               keyvalue_targeting: attrs.ad.keyvalue_targeting,
-              type: li_view.model.get('type')}));
+              type: li_view.model.get('type')})});
 
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);

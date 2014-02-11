@@ -55,6 +55,14 @@
       'click .creative-type input': '_changeCreativeType'
     },
 
+    modelEvents: {
+      'change': 'updateLiCreative'
+    },
+
+    collectionEvents: {
+      'add': 'updateLiCreative'
+    },
+
     updateLiCreative: function() {
       var view = this,
           update_creative_model_from_li = true,
@@ -62,12 +70,12 @@
 
       // only update Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
-      if(this_ad) {
+      if (this_ad) {
         if(this.options.parent_view.options.parent_view) {
           var this_li_view = this.options.parent_view.options.parent_view;
           var this_li = this_li_view.model;    
 
-          if(this_li) {
+          if (this_li) {
             var ads_except_current = _.filter(this_li.ads, function(el) {
               if(el.cid != this_ad.cid) {
                 return el;
@@ -81,7 +89,7 @@
                 // then copy new attributes to LI level creative
                 c.attributes = current_creative.attributes;
                 this_li_view.renderCreatives();
-                clone_creative_to_li = false;               
+                clone_creative_to_li = false;
               } else if (c.cid == current_creative.get('parent_cid')) { // not persisted creative
                 c.attributes = current_creative.attributes;
                 this_li_view.renderCreatives();
@@ -150,8 +158,6 @@
           self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
-
-      this.updateLiCreative();
     },
 
     _showDeleteBtn: function(e) {
