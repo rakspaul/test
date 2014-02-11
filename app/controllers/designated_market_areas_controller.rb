@@ -14,5 +14,6 @@ class DesignatedMarketAreasController < ApplicationController
     @geos += DesignatedMarketArea.order(:name).where(['name ilike ?', "#{params[:search]}%"]).limit(10)
     @geos += State.in_us.xfp_present.order('states.name').includes(:country).where(['states.name ilike ?', "#{params[:search]}%"]).limit(10)
     @geos += City.in_us.xfp_present.order(:name).where(['name ilike ?', "#{params[:search]}%"]).limit(10)
+    @geos = @geos[0..19]
   end
 end
