@@ -60,11 +60,11 @@ class AccountSessionsController < ApplicationController
     end
 
     def is_network_login(user)
-      return (user.is_client_type(User::CLIENT_TYPE_NETWORK) && user.has_roles([Role::REACH_UI]))
+      return (user.is_client_type(User::CLIENT_TYPE_NETWORK) && user.has_roles?([Role::REACH_UI]))
     end
 
     def is_agency_login(user)
-      return (user.is_client_type(User::CLIENT_TYPE_AGENCY) && user.has_roles([Role::REACH_UI])) && user.try(:agency).try(:reach_clients).length > 0
+      return (user.is_client_type(User::CLIENT_TYPE_AGENCY) && user.has_roles?([Role::REACH_UI])) && user.try(:agency).try(:reach_clients).length > 0
     end
 end
 
