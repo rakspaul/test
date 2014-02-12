@@ -596,7 +596,6 @@
                                       .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                          ReachUI.alignAdsDivs();
                         }
                       });
 
