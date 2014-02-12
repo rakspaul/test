@@ -98,7 +98,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   showLineItem: function(orderId, lineItemId) {
     this.selectedOrder = this.orderList.get(orderId);
-    if(!this.selectedOrder) {
+    if (!this.selectedOrder) {
       var self = this;
       this._fetchOrder(orderId).then(function(order) {
         order.select();
@@ -145,7 +145,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       },
       function() {
         alert('Lineitem not found. Id: ' + id);
-      });ReachUI.Orders.router
+      });
   },
 
   _showOrderDetailsAndLineItems: function(order) {
@@ -545,7 +545,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     var self = this;
-    if(!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
+    if (!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);
       this.lineItemList.fetch().then(
@@ -782,12 +782,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(lineItemListView.children._views, function(li_view, li_name) {
           var li   = li_view.model;
 
-          li.set('itemIndex', itemIndex);
-          itemIndex += 1;
+          li.set({
+            'itemIndex': itemIndex,
+            'targeting': new ReachUI.Targeting.Targeting({
+              dmas_list: dmas_list,
+              audience_groups: ags.attributes,
+              keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
+              type: li_view.model.get('type')})
+          }, { silent: true });
 
-          li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li_view.model.get('keyvalue_targeting'), type: li_view.model.get('type')}));
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
+
+          itemIndex += 1;
         });
         lineItemList._recalculateLiImpressionsMediaCost();
       });
