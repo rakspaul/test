@@ -3,6 +3,7 @@ class OrdersController < ApplicationController
 
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
+  before_filter :set_current_user
 
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
@@ -706,5 +707,9 @@ private
     @media_types = {}
     current_network.media_types.each{|t| @media_types[t.category] = t.id }
     @media_types['Companion'] = @media_types['Display']
+  end
+
+  def set_current_user
+    Order.current_user = current_user
   end
 end
