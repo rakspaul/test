@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   CLIENT_TYPE_NETWORK = "Network"
 
   belongs_to :network, :foreign_key => 'company_id'
+  belongs_to :agency
 
   has_one :account
   has_one :reach_client
