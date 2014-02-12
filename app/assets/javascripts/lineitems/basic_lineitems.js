@@ -15,9 +15,9 @@
 
       this.creatives_visible = {};
 
-      if(! this.model.get('targeting')) {
+      if (!this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
-        this.model.set('targeting', targeting);
+        this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },
 
@@ -62,8 +62,10 @@
       // rendering each Creative
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
+          creative.set({
+            'order_id': view.model.get('order_id'),
+            'lineitem_id': view.model.get('id')
+          });
           var creativeView = new ReachUI.Creatives.BasicCreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
