@@ -257,16 +257,17 @@
     },
 
     events: {
-      'click .add-creative-btn': '_addCreative',
+      'click .add-typed-creative-btn': '_addCreative',
       'click .done-creative-btn': '_closeCreativeDialog'
     },
 
-    _addCreative: function() {
+    _addCreative: function(ev) {
+      var type = $(ev.currentTarget).data('type');
       var parentModel = this.options.parent_view.model;
       var creative = new ReachUI.Creatives.Creative({
         start_date: parentModel.get('start_date'),
         end_date:   parentModel.get('end_date'),
-        creative_type: "InternalRedirectCreative"
+        creative_type: type
       });
 
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});

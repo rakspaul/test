@@ -42,7 +42,7 @@
 </div>
 
 <div class="pure-u-1-24 creative-type">
-  <input type="checkbox" name="creative_type" <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> <%= isNaN(parseInt(creative.source_id)) ? '' : 'disabled="disabled"' %> /> 
+  <span><%= creative.creative_type == "ThirdPartyCreative" ? "Third Party" : "Inred" %></span>
 </div>
   
 <div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>
