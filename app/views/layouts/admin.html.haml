@@ -16,7 +16,7 @@
           %li{class: ('active' if controller.class.name == 'Admin::BlockLogsController')}
             = link_to 'Block Push Log', admin_block_logs_path
           %li{class: ('active' if controller.class.name == 'Admin::BlockViolationsController')}
-            = link_to 'Block Violations Reports', admin_block_violations_path
+            = link_to 'Block Validation Report', admin_block_violations_path
     .pure-u.admin-right
       .admin-content
         = yield
