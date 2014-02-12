@@ -523,174 +523,163 @@
       var self = this;
 
       // function that store Order and Lineitems in one POST request
-      var storeOrder = function() {
-        self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
-          success: function(model, response, options) {
-            // error handling
-            var errors_fields_correspondence = {
-              reach_client: '.order-details .billing-contact-company',
-              name: '.order-details .order-name',
-              start_date: '.order-details .start-date',
-              end_date: '.order-details .end-date',
-              billing_contact: '.order-details .billing-contact-name',
-              media_contact: '.order-details .media-contact-name',
-              sales_person: '.order-details .salesperson-name',
-              account_manager: '.order-details .account-contact-name',
-              trafficking_contact: '.order-details .trafficker-container',
-              lineitems: {
-                start_date: 'div > .start-date',
-                end_date:   'div > .end-date',
-                name:       ' .name',
-                volume:     ' .volume',
-                ad_sizes:   ' .li-sizes, .lineitem-sizes'
-              },
-              ads: {
-                start_date:  ' .start-date',
-                end_date:    ' .end-date',
-                description: ' .name',
-                volume:      ' .volume'
-              },
-              creatives: {
-                start_date:  ' .start-date',
-                end_date:    ' .end-date'
-              }
-            };
-            if(response.status == "error") {
-              _.each(response.errors, function(error, key) {
-                if(key == 'lineitems') {
-                  _.each(error, function(li_errors, li_k) {
-                    _.each(li_errors.lineitems, function(errorMsg, fieldName) {
-                      var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
-                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
+      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+        success: function(model, response, options) {
+          // error handling
+          var errors_fields_correspondence = {
+            reach_client: '.order-details .billing-contact-company',
+            name: '.order-details .order-name',
+            start_date: '.order-details .start-date',
+            end_date: '.order-details .end-date',
+            billing_contact: '.order-details .billing-contact-name',
+            media_contact: '.order-details .media-contact-name',
+            sales_person: '.order-details .salesperson-name',
+            account_manager: '.order-details .account-contact-name',
+            trafficking_contact: '.order-details .trafficker-container',
+            lineitems: {
+              start_date: 'div > .start-date',
+              end_date:   'div > .end-date',
+              name:       ' .name',
+              volume:     ' .volume',
+              ad_sizes:   ' .li-sizes, .lineitem-sizes'
+            },
+            ads: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date',
+              description: ' .name',
+              volume:      ' .volume'
+            },
+            creatives: {
+              start_date:  ' .start-date',
+              end_date:    ' .end-date'
+            }
+          };
+          if(response.status == "error") {
+            _.each(response.errors, function(error, key) {
+              if(key == 'lineitems') {
+                _.each(error, function(li_errors, li_k) {
+                  _.each(li_errors.lineitems, function(errorMsg, fieldName) {
+                    var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
+                    var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
+                     field.addClass('field_with_errors');
+                    field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
+                  });
+                  if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
+                  }
+                  if (li_errors["targeting"]) {
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
+                  }
+
+                  _.each(li_errors["creatives"], function(creative_errors, creative_k) {
+                    _.each(creative_errors, function(errorMsg, fieldName) {
+                      var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                      var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.creative:nth(' + creative_k + ') ' + fieldSelector);
 
                       field.addClass('field_with_errors');
-                      field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
-                    });
-
-                    if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
-                      $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
-                    }
-
-                    if (li_errors["targeting"]) {
-                      $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
-                    }
-
-                    _.each(li_errors["creatives"], function(creative_errors, creative_k) {
-                      _.each(creative_errors, function(errorMsg, fieldName) {
-                        var fieldSelector = errors_fields_correspondence.creatives[fieldName];
-                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                                      .find('.creative:nth(' + creative_k + ') ' + fieldSelector);
-
-                        field.addClass('field_with_errors');
-
-                        field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                      });
-
-                    });
-
-                    _.each(li_errors["ads"], function(ad_errors, ad_k) {
-                      _.each(ad_errors, function(errorMsg, fieldName) {
-                        if (fieldName != 'creatives') {
-                          var fieldSelector = errors_fields_correspondence.ads[fieldName];
-                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                                      .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
-                          field.addClass('field_with_errors');
-                          field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        }
-                      });
-
-                      if (ad_errors && ad_errors["creatives"]) {
-                        $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                          .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
-                      }
-
-                      if (ad_errors && ad_errors["targeting"]) {
-                        $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
-                      }
-
-                      if (ad_errors && ad_errors["creatives"]) {
-                        _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
-                          _.each(creative_errors, function(errorMsg, fieldName) {
-                            var fieldSelector = errors_fields_correspondence.creatives[fieldName];
-                            var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
-                                      .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-                              field.addClass('field_with_errors');
-                            field.find('.errors_container').html(errorMsg);
-                          });
-                        });
-                      }
+                      field.find('.errors_container').html(errorMsg);
                     });
                   });
-                } else {
-                  var field_class = errors_fields_correspondence[key];
-                  $(field_class + ' .errors_container').html(ReachUI.humanize(error));
-                  $(field_class).addClass('field_with_errors');
-                }
-              });
-              noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
-            } else if(response.status == "success") {
-              $('.current-io-status-top .io-status').html(response.state);
-              if (response.state.match(/pushing/i)) {
-                noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
-                ReachUI.checkOrderStatus(response.order_id);
-                self.trigger('ordernote:reload');
-              } else if(response.state.match(/draft/i)) {
-                noty({text: "Your order has been saved", type: 'success', timeout: 5000})
-              } else if(response.state.match(/ready for am/i)) {
-                noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
-              } else if(response.state.match(/ready for trafficker/i)) {
-                noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
-              } else if (response.state.match(/incomplete_push/i)) {
-                noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
-              }
-              if (response.order_id) {
-                ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
-              }
-            }
-          },
-          error: function(model, xhr, options) {
-            noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
-            console.log(xhr.responseJSON);
-          }
-        });
-      };
 
+                  _.each(li_errors["ads"], function(ad_errors, ad_k) {
+                    _.each(ad_errors, function(errorMsg, fieldName) {
+                      if (fieldName != 'creatives') {
+                        var fieldSelector = errors_fields_correspondence.ads[fieldName];
+                        var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
+                        field.addClass('field_with_errors');
+                        field.find('.errors_container').html(ReachUI.humanize(errorMsg));
+                      }
+                    });
+
+                    if (ad_errors && ad_errors["creatives"]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                        .find('.ad:nth(' + ad_k + ') .toggle-ads-creatives-btn').trigger('click', true);
+                    }
+
+                    if (ad_errors && ad_errors["targeting"]) {
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
+                    }
+
+                    if (ad_errors && ad_errors["creatives"]) {
+                      _.each(ad_errors["creatives"], function(creative_errors, creative_k) {
+                        _.each(creative_errors, function(errorMsg, fieldName) {
+                          var fieldSelector = errors_fields_correspondence.creatives[fieldName];
+                          var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
+                                    .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
+ 
+                          field.addClass('field_with_errors');
+                          field.find('.errors_container').html(errorMsg);
+                        });
+                      });
+                    }
+                  });
+                });
+              } else {
+                var field_class = errors_fields_correspondence[key];
+                $(field_class + ' .errors_container').html(ReachUI.humanize(error));
+                $(field_class).addClass('field_with_errors');
+              }
+            });
+            noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
+          } else if(response.status == "success") {
+            $('.current-io-status-top .io-status').html(response.state);
+            if (response.state.match(/pushing/i)) {
+              noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
+              ReachUI.checkOrderStatus(response.order_id);
+              self.trigger('ordernote:reload');
+            } else if(response.state.match(/draft/i)) {
+              noty({text: "Your order has been saved", type: 'success', timeout: 5000})
+            } else if(response.state.match(/ready for am/i)) {
+              noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
+            } else if(response.state.match(/ready for trafficker/i)) {
+              noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
+            } else if (response.state.match(/incomplete_push/i)) {
+              noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
+            }
+            if (response.order_id) {
+              ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
+            }
+          }
+        },
+        error: function(model, xhr, options) {
+          noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
+          console.log(xhr.responseJSON);
+        }
+      });
+    },
+
+    _pushOrder: function() {
+      var self = this;
+      var lineitems = this.collection;
       var lineitemsWithoutAds = [];
+
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
         }
       });
 
-      if (lineitemsWithoutAds.length > 0) {
-        var modal = $('#save-confirmation-dialog');
-        var liList = modal.find('.li-without-ads');
-        liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
-        modal.modal('show');
-        modal.find('.cancel-btn').click(function() {
-          modal.modal('hide');
+      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status')) ||
+        (lineitemsWithoutAds.length > 0)) {
+        var dialog = $('#push-confirmation-dialog');
+        var liList = dialog.find('.li-without-ads');
+        if (lineitemsWithoutAds.length > 0) {
+          dialog.find('.missed-ads-heading').show();
+          liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
+        } else {
+          dialog.find('.missed-ads-heading').hide();
+          liList.html();
+        }
+        dialog.find('.cancel-btn').click(function() {
+          dialog.modal('hide');
         });
-        modal.find('.save-btn').click(function() {
-          modal.modal('hide');
-          storeOrder();
-        });
-      } else {
-        storeOrder();
-      }
-    },
-
-    _pushOrder: function() {
-      var self = this;
-
-      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
-        });
-        $('#push-confirmation-dialog .push-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+        dialog.find('.push-btn').click(function() {
+          dialog.modal('hide');
           self._saveOrderWithStatus('pushing');
         });
-        $('#push-confirmation-dialog').modal('show');
+        dialog.modal('show');
       } else {
         this._saveOrderWithStatus('pushing');
       }
