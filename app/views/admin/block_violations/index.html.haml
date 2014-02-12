@@ -5,7 +5,7 @@
         .pure-g.header-container
           .pure-u.title-container
             .title
-              Job Start date
+              Job Ran Date
           .pure-u
             .actions-container
               %i.icon-sort
@@ -76,3 +76,5 @@
   %tbody{:id => "block_violations"}
     =render "block_violations_table",:block_violations => @block_violations
 
+.paginator{:id => "paginator"}
+  = paginate @block_violations,:remote => :true
