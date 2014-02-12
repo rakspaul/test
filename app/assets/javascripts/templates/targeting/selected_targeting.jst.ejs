@@ -46,19 +46,18 @@
 
 
 
-<% if(selected_dmas.length > 0) { %>
-<div class="pure-g dma-targeting">
-  <div class="dma-targeting-icon pull-left" title="DMAs"></div>
-  <div class="pull-left pure-u-11-12">
-  <% var dmas = []; for (var i = 0; i < selected_dmas.length; i++) {
-    var item = '<div class="tgt-item-dma-container">';
-    item += ' <span class="tgt-item-caption">'+selected_dmas[i]['title']+'</span>';
-    item += ' <span class="remove-btn pull-right" data-dma-id="' + selected_dmas[i]['id'] + '" style="display:none"></span>';
+<% if(selected_geos.length > 0) { %>
+<div class="dma-targeting">
+  <div class="dma-targeting-icon pull-left" title="GEOs"></div>
+  <% var geos = []; for (var i = 0; i < selected_geos.length; i++) {
+    var item = '<div class="tgt-item-geo-container">';
+    item += ' <span class="tgt-item-caption">'+selected_geos[i]['title']+' ('+selected_geos[i]['type']+')</span>';
+    item += ' <span class="remove-btn pull-right" data-geo-type="'+selected_geos[i]['type']+'" data-geo-id="'+selected_geos[i]['id']+'" style="display:none"></span>';
     item += '</div>';
-    dmas.push(item);
+    geos.push(item);
   } %>
-  <%= dmas.join('<div style="float:left">,</div>') %>
-  </div>
+
+  <%= geos.join('<div style="float:left">,</div>') %>
 
   <div style="clear:both"></div>
 </div>

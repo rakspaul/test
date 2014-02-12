@@ -7,10 +7,20 @@ json.array! @lineitems do |lineitem|
     end
   end
 
-  json.selected_dmas do
-    json.array! lineitem.designated_market_areas do |dma|
-      json.id dma.code
-      json.title dma.name
+  json.selected_geos do
+    json.array! lineitem.designated_market_areas+lineitem.cities+lineitem.states do |geo|
+      json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+      case geo.class.to_s
+      when "DesignatedMarketArea"
+        json.title "#{geo.name}"
+        json.type "DMA"
+      when "State"
+        json.title "#{geo.name}/#{geo.country.try(:name)}"
+        json.type "State"
+      when "City"
+        json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+        json.type "City"
+      end
     end
   end
 

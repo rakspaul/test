@@ -612,7 +612,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
 
-    var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_dmas').length != 0);
+    var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_geos').length != 0);
     var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
@@ -695,7 +695,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       var li_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: li.get('targeting').get('selected_key_values'),
-        selected_dmas: li.get('targeting').get('selected_dmas'),
+        selected_geos: li.get('targeting').get('selected_geos'),
         dmas_list: li.get('targeting').get('dmas_list'),
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
         audience_groups: li.get('targeting').get('audience_groups'),
@@ -750,7 +750,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
-          var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+          var selected_geos = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
           var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
 
@@ -758,7 +758,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
             selected_zip_codes: zipcodes,
-            selected_dmas: selected_dmas,
+            selected_geos: selected_geos,
             selected_key_values: kv,
             dmas_list: dmasResult[0],
             audience_groups: ags.attributes,
