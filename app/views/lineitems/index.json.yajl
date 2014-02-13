@@ -27,7 +27,7 @@ json = @lineitems.map do |lineitem|
     li[:companion_ad_size] = lineitem.companion_ad_size
   end
 
-  li[:creatives] = lineitem.creatives.map do |creative|
+  li[:creatives] = (lineitem.creatives+lineitem.video_creatives).map do |creative|
     {
       id:             creative.try(:id),
       ad_size:        creative[:ad_size] || creative.size,
