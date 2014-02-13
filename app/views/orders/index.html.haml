@@ -56,13 +56,15 @@
 
     .pure-g.btn-delete
       .pure-u
-        %button.btn#btn_delete_orders{type: "button"} Delete
+        - if !@agency_user
+          %button.btn#btn_delete_orders{type: "button"} Delete
 
   .orders-list
     %table.orders-table
       %thead
         %tr
-          %th
+          - if !@agency_user
+            %th
           %th
             .pure-g.header-container
               .pure-u.title-container
