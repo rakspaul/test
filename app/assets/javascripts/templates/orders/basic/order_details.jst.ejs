@@ -1,16 +1,10 @@
 <div class="new-order-header">
   <div style="float:left">
     <p class="heading"><%= order.name %></p>
-    <p class="adv-name"><%= order.reach_client_name %></p>
   </div>
 
   <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id))) { %> pushed-status <% } %>">
     <span class="io-status"><%= order.order_status %></span>
-    <% if(!isNaN(parseInt(order.source_id))) { %>
-      <div class="current-io-source-id">
-        <a href="<%= order.dfp_url %>" target="_blank"><%= order.source_id %></a>
-      </div>
-    <% } %>
   </div>
 
   <div class="clearfix"></div>
@@ -27,11 +21,6 @@
     <div class="timestamp">
       <%= order.io_asset_created_at %>
     </div>
-  </div>
-
-  <div class="field trafficker-container">
-    <p>Trafficker</p>
-    <span><%= order.trafficking_contact_name %></span>
   </div>
 
   <div class="clearfix"></div>
