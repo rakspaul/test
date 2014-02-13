@@ -303,6 +303,12 @@ describe OrdersController do
         }.to change(VideoAdAssignment, :count).by(1)
       end
 
+      it "should set creative_type attribute of created creative" do
+        post :create, params
+        creative = Creative.last
+        expect(creative.creative_type).to eq("InternalRedirectCreative")
+      end
+
       it "create companion ad for video lineitem" do
         params['order']['lineitems'].each do |li|
           li['ads'].each do |ad|

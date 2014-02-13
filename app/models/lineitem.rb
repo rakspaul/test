@@ -71,10 +71,10 @@ class Lineitem < ActiveRecord::Base
 
       if cparams[:id] && creative = creative_model.find_by_id(cparams[:id])
         creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
-        creative.update_attribute(:creative_type, creative_type) if creative.class.to_s == Creative
+        creative.update_attribute(:creative_type, creative_type) if creative.class.to_s == "Creative"
       else
         creative = creative_model.new name: creative_name, network_advertiser_id: self.order.network_advertiser_id, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network: self.order.network
-        creative.creative_type = creative_type if creative.class.to_s == Creative
+        creative.creative_type = creative_type if creative.class.to_s == "Creative"
         creative.save
       end
 
