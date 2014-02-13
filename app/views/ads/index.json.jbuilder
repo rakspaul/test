@@ -19,19 +19,25 @@ json.array! @ads do |ad|
   end
 
   json.creatives do
-    json.array! ad.ad_assignments do |ad_assignment|
-      json.id             ad_assignment.creative.try(:id)
-      json.ad_size        ad_assignment.creative.size
+    json.array! (ad.ad_assignments + ad.video_ad_assignments) do |ad_assignment|
+      creative = if ad_assignment.class.to_s == "VideoAdAssignment"
+        ad_assignment.video_creative
+      else
+        ad_assignment.creative
+      end
+
+      json.id             creative.try(:id)
+      json.ad_size        creative.size
       json.start_date     format_date(ad_assignment.try(:start_date))
       json.end_date       format_date(ad_assignment.try(:end_date))
-      json.redirect_url   ad_assignment.creative[:image_url] || ad_assignment.creative.redirect_url
-      json.client_ad_id   ad_assignment.creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
-      json.source_id      ad_assignment.creative.try(:source_id)
-      json.html_code      excerpt(ad_assignment.creative.try(:html_code), '"id" :', radius: 22)
-      json.creative_type  ad_assignment.creative.try(:creative_type)
+      json.redirect_url   creative[:image_url] || creative.try(:redirect_url)
+      json.client_ad_id   creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
+      json.source_id      creative.try(:source_id)
+      json.html_code      excerpt(creative.try(:html_code), '"id" :', radius: 22)
+      json.creative_type  creative.try(:creative_type)
       json.io_lineitem_id ad.io_lineitem_id
       json.ad_id          ad.id
-      json.li_assignment_id ad.lineitem.try(:id)
+      json.li_assignment_id creative.try(:lineitem_assignment).try(:id)
       json.ad_assignment_id ad_assignment.id
     end
   end
