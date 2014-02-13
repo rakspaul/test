@@ -668,6 +668,11 @@
           dialog.modal('hide');
           self._saveOrderWithStatus('pushing');
         });
+        if (!isNaN(parseInt(this.collection.order.source_id))) {
+          dialog.find('.confirm-push-message').show();
+        } else {
+          dialog.find('.confirm-push-message').hide();
+        }
         dialog.modal('show');
       } else {
         this._saveOrderWithStatus('pushing');
