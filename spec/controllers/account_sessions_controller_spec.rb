@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe AccountSessionsController do
 
+  let(:role) { FactoryGirl.create(:role) }
+  let(:agency) { FactoryGirl.create(:agency) }
+  let(:agency_user) { FactoryGirl.create(:user, client_type: "Agency") }
+
   describe "GET #new" do
     before :each do
       activate_authlogic
@@ -24,19 +28,14 @@ describe AccountSessionsController do
 
   describe "POST #create" do
     before :each do
-      @role = FactoryGirl.create(:role)
+      FactoryGirl.create(:reach_client, agency: agency)
 
-      @agency = FactoryGirl.create(:agency)
-      @agency_user = FactoryGirl.create(:user, client_type: "Agency")
-      @agency.users << @agency_user
-
-      @reach_client = FactoryGirl.create(:reach_client, agency: @agency)
-
+      agency.users << agency_user
       @account = FactoryGirl.create(:account)
-      @agency_account = FactoryGirl.create(:account, user: @agency_user)
+      @agency_account = FactoryGirl.create(:account, user: agency_user)
 
-      @role.users << @account.user
-      @role.users << @agency_account.user
+      role.users << @account.user
+      role.users << @agency_account.user
     end
 
     context "valid user" do
