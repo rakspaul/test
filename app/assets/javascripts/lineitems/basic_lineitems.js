@@ -36,12 +36,7 @@
       var view = this;
 
       this.renderCreatives();
-      this.renderTargetingDialog();
       ReachUI.alignLINumberDiv();
-    },
-
-    renderTargetingDialog: function() {
-      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     renderCreatives: function() {
