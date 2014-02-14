@@ -126,7 +126,8 @@ $wide_input_width: 320px;
     }
 
     > span {
-      text-align:left;
+      text-align: left;
+      display: table-cell;
     }
 
     .editable-input input, .uneditable-input input {
