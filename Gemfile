@@ -32,7 +32,8 @@ gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 1.5.0'
+gem 'jbuilder'#, '~> 1.5.0'
+gem 'yajl-ruby'
 
 # decorator for presentation logic
 gem 'draper', '~> 1.2.1'
