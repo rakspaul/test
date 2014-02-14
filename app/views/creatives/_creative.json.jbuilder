@@ -6,7 +6,7 @@ json.redirect_url   creative[:image_url] || creative.redirect_url
 json.client_ad_id   creative[:ad_id] || creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
 json.source_id      creative.try(:source_id)
 json.html_code_excerpt      excerpt(creative.try(:html_code), '"id" :', radius: 22)
-json.html_code      creative.try(:html_code).gsub(/</mi, '&lt;').gsub(/>/mi, '&gt;').gsub(/"/mi, '&quot;')
+json.html_code      creative.try(:html_code).try(:gsub, /</mi, '&lt;').try(:gsub, />/mi, '&gt;').try(:gsub, /"/mi, '&quot;')
 json.creative_type  creative[:creative_type] || creative.try(:creative_type)
 json.io_lineitem_id creative.try(:lineitem_assignment).try(:io_lineitem_id)
 json.ad_id          creative.try(:ad_assignment).try(:ad_id)
