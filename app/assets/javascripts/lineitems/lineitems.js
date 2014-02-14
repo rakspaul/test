@@ -669,6 +669,11 @@
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
         if (lineitemsWithoutAds.length > 0) {
+          if (!isNaN(parseInt(this.collection.order.source_id))) {
+            dialog.find('.confirm-push-message').show();
+          } else {
+            dialog.find('.confirm-push-message').hide();
+          }
           dialog.find('.missed-ads-heading').show();
           liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
         } else {
@@ -682,11 +687,6 @@
           dialog.modal('hide');
           self._saveOrderWithStatus('pushing');
         });
-        if (!isNaN(parseInt(this.collection.order.source_id))) {
-          dialog.find('.confirm-push-message').show();
-        } else {
-          dialog.find('.confirm-push-message').hide();
-        }
         dialog.modal('show');
       } else {
         this._saveOrderWithStatus('pushing');
