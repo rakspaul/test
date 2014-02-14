@@ -6,7 +6,7 @@ class Parsers::CoxCreative < Parsers::Base
   CREATIVE_START_DATE = /Placement Start Date:(.*)/
   CREATIVE_END_DATE   = /Placement End Date:(.*)/
   
-  CREATIVE_TYPE       = "CustomCreative"
+  CREATIVE_TYPE       = "ThirdPartyCreative"
 
   def parse
     content = File.read @tempfile

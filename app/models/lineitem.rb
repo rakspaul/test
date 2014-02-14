@@ -45,8 +45,8 @@ class Lineitem < ActiveRecord::Base
 
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
-      creative_type = cparams[:creative_type] == "CustomCreative" ? "CustomCreative" : "InternalRedirectCreative"
-      if creative_type == "CustomCreative"
+      creative_type = cparams[:creative_type] == "ThirdPartyCreative" ? "ThirdPartyCreative" : "InternalRedirectCreative"
+      if creative_type == "ThirdPartyCreative"
         html_code = cparams[:html_code]
       else
         url       = cparams[:redirect_url].try(:gsub, '/ad/', '/adj/').to_s

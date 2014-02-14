@@ -32,18 +32,18 @@
   <div class="errors" style="clear:both"></div>
 </div>
 
-<% if(creative.html_code){ %>
+<% if(creative.html_code && creative.html_code_excerpt){ %>
 <div class="pure-u-1-2 javascript-code">
   <span class="editable custom" data-type="textarea" data-rows="10" data-value="<%= creative.html_code %>"><%= creative.html_code_excerpt %></span>
 </div>
 <% } else { %>
 <div class="pure-u-1-2 image-url">
-  <span class="editable" <%= creative.creative_type == "CustomCreative" ? 'data-disabled="true"' : '' %> data-type="text" data-pk="1" data-name="redirect_url" data-inputclass="wide-editable-text"><%= creative.redirect_url %></span>
+  <span class="editable" data-type="text" data-pk="1" data-name="redirect_url" data-inputclass="wide-editable-text"><%= creative.redirect_url %></span>
 </div>
+<% } %>
 
 <div class="pure-u-1-24 creative-type">
-  <span><%= creative.creative_type == "ThirdPartyCreative" ? "Third Party" : "Inred" %></span>
+  <span class="editable" data-name="creative_type" data-type="select" data-source="[{value: 'ThirdPartyCreative', text: 'Third Party'}, {value: 'InternalRedirectCreative', text: 'Inred'}]" data-value="<%= creative.creative_type %>"><%= creative.creative_type == "ThirdPartyCreative" ? "Third Party" : "Inred" %></span>
 </div>
   
 <div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>
-<% } %>

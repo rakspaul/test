@@ -180,7 +180,7 @@
 
       if($(e.currentTarget).is(':checked')) {
         this.$el.find('.image-url span').editable('disable');
-        this.model.attributes.creative_type = "CustomCreative";
+        this.model.attributes.creative_type = "ThirdPartyCreative";
       } else {
         this.$el.find('.image-url span').editable('enable');
         this.model.attributes.creative_type = "InternalRedirectCreative";
