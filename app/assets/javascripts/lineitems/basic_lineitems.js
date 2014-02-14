@@ -36,11 +36,6 @@
       var view = this;
 
       this.renderCreatives();
-      this.renderTargetingDialog();
-    },
-
-    renderTargetingDialog: function() {
-      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     renderCreatives: function() {

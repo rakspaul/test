@@ -157,8 +157,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
               type: li.get('type') })
           }, { silent: true });
 
-          li_view.renderTargetingDialog();
-
           itemIndex += 1;
         });
         lineItemList._recalculateLiImpressionsMediaCost();
@@ -183,7 +181,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
               type: li_view.model.get('type')})
           }, { silent: true });
 
-          li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
 
           itemIndex += 1;
