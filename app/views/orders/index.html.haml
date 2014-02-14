@@ -17,7 +17,8 @@
               Orders
             .controls
               %select.filter-orders#orders_by_user
-                %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
+                - if !@agency_user
+                  %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
                 %option{:value => "all_orders", :selected => session[:orders_by_user] == "all_orders"} All Orders
         .pure-u
           .control-group.status-control

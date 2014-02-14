@@ -207,7 +207,7 @@ private
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
+    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -241,7 +241,7 @@ private
       end
 
       if !session[:orders_by_user].blank?
-        orders_by_user = session[:orders_by_user]
+        orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
       end
     end
 
@@ -261,7 +261,7 @@ private
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
-    @agency_user = current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
+    @agency_user = is_agency_user?
   end
 
   def find_account_manager(params)
@@ -708,4 +708,9 @@ private
     current_network.media_types.each{|t| @media_types[t.category] = t.id }
     @media_types['Companion'] = @media_types['Display']
   end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
+  end
+
 end
