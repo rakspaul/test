@@ -4,9 +4,6 @@ module Authenticator
   included do
     if self.to_s != 'AccountSessionsController'
       before_action :require_user
-      if self.to_s != 'OrdersController' && self.to_s != 'LineitemsController'
-        around_action :check_user_type
-      end
     end
 
     helper_method :current_user, :current_network
@@ -47,16 +44,5 @@ module Authenticator
   def redirect_back_or_default(default)
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
-  end
-
-  def check_user_type
-    if current_user.agency_user?
-      store_location
-      redirect_to root_path
-      return false
-    else
-      yield
-      return true
-    end
   end
 end

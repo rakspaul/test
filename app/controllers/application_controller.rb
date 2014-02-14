@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  before_action :check_authorization
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -12,6 +13,16 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html { render :not_found }
         format.json { render json: "Record not found", status: :unprocessable_entity }
+      end
+    end
+
+  private
+    def check_authorization
+      if (current_user && current_user.agency_user? &&
+        params[:controller] != 'orders' &&
+        params[:controller] != 'lineitems' &&
+        params[:controller] != 'account_sessions')
+        redirect_to root_path
       end
     end
 end
