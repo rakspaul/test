@@ -898,6 +898,10 @@ table.creatives-content {
       .creative {
         margin-top:7px;
 
+        .javascript-code textarea {
+          width: 450px;
+        }
+
         .creative-type {
           text-align: center;
         }

@@ -34,7 +34,7 @@
 
 <% if(creative.html_code){ %>
 <div class="pure-u-1-2 javascript-code">
-  <span><%= creative.html_code %></span>
+  <span class="editable custom" data-type="textarea" data-rows="10" data-value="<%= creative.html_code %>"><%= creative.html_code_excerpt %></span>
 </div>
 <% } else { %>
 <div class="pure-u-1-2 image-url">

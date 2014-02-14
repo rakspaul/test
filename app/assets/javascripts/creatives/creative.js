@@ -132,6 +132,17 @@
         }
       });
 
+      this.$el.find('.javascript-code .editable.custom').editable({
+        success: function(response, newValue) {
+          self.model.attributes.html_code = newValue;
+        },
+        display: function(value, sourceData) {
+          var start_pos = value.indexOf('"id" :');
+          var val = value.substr(start_pos - 22, 47);
+          $(this).html(val);
+        }
+      });
+
       // select Creative size from the drop-down autocomplete
       this.$el.find('.size .editable.custom').editable({
         source: '/ad_sizes.json',
