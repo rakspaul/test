@@ -655,7 +655,7 @@
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
         if (lineitemsWithoutAds.length > 0) {
-          if (!isNaN(parseInt(this.collection.order.source_id))) {
+          if (!isNaN(parseInt(this.collection.order.get('source_id')))) {
             dialog.find('.confirm-push-message').show();
           } else {
             dialog.find('.confirm-push-message').hide();
