@@ -1,2 +1,2 @@
-$('#validation_reports').html('<%= escape_javascript render "block_violations" %>');
+$('#block_violations').html('<%= escape_javascript render "block_violations_table" %>');
 $('#paginator').html('<%= escape_javascript(paginate(@block_violations, :remote => true).to_s) %>');

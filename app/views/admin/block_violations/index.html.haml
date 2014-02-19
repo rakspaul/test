@@ -7,15 +7,15 @@
             .title
               Job Ran Date
           .pure-u
-            .actions-container
-              %i.icon-sort
+            #job_ran_date.actions-container
+              %i.icon-sort-by-attributes-alt
       %th
         .pure-g.header-container
           .pure-u.title-container
             .title
               Advertiser
           .pure-u
-            .actions-container
+            #advertiser.actions-container
               %i.icon-sort
       %th
         .pure-g.header-container
@@ -23,7 +23,7 @@
             .title
               Site Name
           .pure-u
-            .actions-container
+            #site.actions-container
               %i.icon-sort
       %th
         .pure-g.header-container
@@ -31,7 +31,7 @@
             .title
               Blocktool Status
           .pure-u
-            .actions-container
+            #block_tool_state.actions-container
               %i.icon-sort
       %th
         .pure-g.header-container
@@ -39,15 +39,15 @@
             .title
               DFP Status
           .pure-u
-            .actions-container
+            #dfp_state.actions-container
               %i.icon-sort
       %th
         .pure-g.header-container
           .pure-u.title-container
             .title
-              Ad
+              Ad Name
           .pure-u
-            .actions-container
+            #ad.actions-container
               %i.icon-sort
       %th
         .pure-g.header-container
@@ -55,26 +55,51 @@
             .title
               Ad ID
           .pure-u
-            .actions-container
-              %i.icon-sort
-      %th
-        .pure-g.header-container
-          .pure-u.title-container
-            .title
-              Order
-          .pure-u
-            .actions-container
-              %i.icon-sort
-      %th
-        .pure-g.header-container
-          .pure-u.title-container
-            .title
-              Order ID
-          .pure-u
-            .actions-container
+            #ad_id.actions-container
               %i.icon-sort
   %tbody{:id => "block_violations"}
     =render "block_violations_table",:block_violations => @block_violations
 
 .paginator{:id => "paginator"}
   = paginate @block_violations,:remote => :true
+
+:javascript
+  $('.actions-container i').click(function(event) {
+
+    var class_name = $(event.target).attr('class');
+
+    if(class_name==='icon-sort' || class_name==='icon-sort-by-attributes-alt') {
+      $('.admin-block-violations-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
+      $(event.target).removeClass('icon-sort-by-attributes-alt icon-sort').addClass('icon-sort-by-attributes');
+    } else if(class_name==='icon-sort-by-attributes') {
+      $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
+    }
+
+    filterRecords();
+  });
+
+  function filterRecords() {
+    var sortParams = getSortParams();
+    $('.loader').show();
+
+    $.ajax({url:'/admin/block_violations', data: sortParams, dataType: 'script'})
+    .done(function(){
+      $('.loader').hide();
+    });
+  };
+
+  function getSortParams() {
+    var params = {},
+    sortColumn = $('.actions-container i.icon-sort-by-attributes');
+
+    if(!sortColumn.length) {
+      sortColumn = $('.actions-container i.icon-sort-by-attributes-alt');
+    }
+
+    if(sortColumn){
+      params.sort_column = sortColumn.parent().attr('id');
+      params.sort_direction = sortColumn.hasClass('icon-sort-by-attributes') ? "asc" : "desc";
+    }
+
+    return params;
+  };
