@@ -1,5 +1,4 @@
 class ApplicationController < ActionController::Base
-  before_action :check_authorization
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -17,11 +16,14 @@ class ApplicationController < ActionController::Base
     end
 
   private
-    def check_authorization
-      if (current_user && current_user.agency_user? &&
-        params[:controller] != 'orders' &&
-        params[:controller] != 'lineitems' &&
-        params[:controller] != 'account_sessions')
+    def require_client_type_network_or_agency
+      if (current_user && !current_user.agency_user? && !current_user.network_user?)
+        redirect_to root_path
+      end
+    end
+
+    def require_client_type_network
+      if (current_user && !current_user.network_user?)
         redirect_to root_path
       end
     end

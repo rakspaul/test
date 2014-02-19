@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   include Authenticator
 
+  before_filter :require_client_type_network_or_agency
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
 
