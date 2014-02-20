@@ -419,6 +419,7 @@ private
           end
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
+          ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
@@ -511,7 +512,7 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      
+
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
