@@ -108,6 +108,9 @@
 
       this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
 
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
+
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");

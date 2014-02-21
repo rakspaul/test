@@ -66,6 +66,10 @@
           update_creative_model_from_li = true,
           current_creative = view.model;
 
+      if(!this.options.parent_view) {
+        return;
+      }
+
       // only update Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
       if (this_ad) {
