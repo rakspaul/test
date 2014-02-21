@@ -4,6 +4,8 @@ class Admin::BlockedAdvertisersController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :require_client_type_network
+
   add_crumb("Blocked Advertisers") {|instance| instance.send :admin_blocked_advertisers_path}
 
   def index

@@ -5,6 +5,8 @@ class Admin::AudienceGroupsController < ApplicationController
   respond_to :html, :json
   respond_to :csv, :only => :index
 
+  before_filter :require_client_type_network
+
   add_crumb("Audience Groups") {|instance| instance.send :admin_audience_groups_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_audience_group_path}
 

@@ -4,6 +4,8 @@ class Admin::ReachClientsController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :require_client_type_network
+
   add_crumb("Reach Clients") {|instance| instance.send :admin_reach_clients_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_reach_client_path}
 

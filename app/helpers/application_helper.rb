@@ -22,6 +22,13 @@ module ApplicationHelper
     }
   }
 
+  APP_NAVIGATION_BAR_AGENCY = {
+    "Orders" => {
+      controllers: ["OrdersController","LineitemsController"],
+      path: :orders
+    }
+  }
+
   def format_date(date)
     tz = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
     I18n.localize(date.in_time_zone(tz), :format => :short) unless date.nil?
