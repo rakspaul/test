@@ -420,6 +420,7 @@ private
           end
 
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
+          ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
