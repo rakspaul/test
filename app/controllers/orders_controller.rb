@@ -215,34 +215,32 @@ private
       sort_column = "io_details.client_advertiser_name"
     end
 
-    if params[:sort_column].blank?
-      if !session[:sort_column].blank?
-        sort_column = session[:sort_column]
-      end
+    if !sort_column && !session[:sort_column].blank?
+      sort_column = session[:sort_column]
+    end
 
-      if !session[:sort_direction].blank?
-          sort_direction = session[:sort_direction]
-      end
+    if !sort_direction && !session[:sort_direction].blank?
+        sort_direction = session[:sort_direction]
+    end
 
-      if !session[:order_status].blank?
-        order_status = session[:order_status]
-      end
+    if !order_status && !session[:order_status].blank?
+      order_status = session[:order_status]
+    end
 
-      if !session[:am].blank?
-        am = session[:am]
-      end
+    if !am && !session[:am].blank?
+      am = session[:am]
+    end
 
-      if !session[:trafficker].blank?
-        trafficker = session[:trafficker]
-      end
+    if !trafficker && !session[:trafficker].blank?
+      trafficker = session[:trafficker]
+    end
 
-      if !session[:search_query].blank?
-        search_query = session[:search_query]
-      end
+    if !search_query && !session[:search_query].blank?
+      search_query = session[:search_query]
+    end
 
-      if !session[:orders_by_user].blank?
-        orders_by_user = session[:orders_by_user]
-      end
+    if !orders_by_user && !session[:orders_by_user].blank?
+      orders_by_user = session[:orders_by_user]
     end
 
     session[:sort_column] = sort_column
@@ -257,6 +255,7 @@ private
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
+                  .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)

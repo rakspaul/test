@@ -36,6 +36,7 @@ class Order < ActiveRecord::Base
   scope :filterByLoggingUser, lambda { |user, orders_by_user| where("user_id = '#{user.id}'") unless orders_by_user.blank? || orders_by_user == "all_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or name ILIKE ? or source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?",
                                                              "%#{query}%", "%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
+  scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
 
   def self.of_network(network)
     where(:network => network)
