@@ -653,16 +653,16 @@
         }
       });
 
-      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status')) ||
+      if(_.include(["Pushed", "Failure", "Incomplete Push"], this.collection.order.get('order_status')) ||
         (lineitemsWithoutAds.length > 0)) {
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
+        if (!isNaN(parseInt(this.collection.order.get('source_id')))) {
+          dialog.find('.confirm-push-message').show();
+        } else {
+          dialog.find('.confirm-push-message').hide();
+        }
         if (lineitemsWithoutAds.length > 0) {
-          if (!isNaN(parseInt(this.collection.order.get('source_id')))) {
-            dialog.find('.confirm-push-message').show();
-          } else {
-            dialog.find('.confirm-push-message').hide();
-          }
           dialog.find('.missed-ads-heading').show();
           liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
         } else {
