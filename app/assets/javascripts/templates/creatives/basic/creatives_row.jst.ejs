@@ -19,18 +19,18 @@
   <div class="errors" style="clear:both"></div>
 </div>
 
-<% if(creative.html_code){ %>
+<% if (creative.html_code && creative.html_code_excerpt) { %>
 <div class="pure-u-1-2 javascript-code">
-  <span><%= creative.html_code %></span>
+  <span><%= creative.html_code_excerpt %></span>
 </div>
 <% } else { %>
 <div class="pure-u-1-2 image-url">
   <span class="editable"><%= creative.redirect_url %></span>
 </div>
+<% } %>
 
 <div class="pure-u-1-24 creative-type">
-  <input type="checkbox" name="creative_type" disabled <%= creative.creative_type == "CustomCreative" ? 'checked="checked"' : '' %> /> 
+  <span><%= creative.creative_type == "ThirdPartyCreative" ? "Third Party" : "Inred" %></span>
 </div>
-  
+
 <div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>
-<% } %>

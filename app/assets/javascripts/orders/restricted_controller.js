@@ -128,8 +128,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.BasicLineItemListView({collection: lineItemList});
 
-    this.orderDetailsLayout.bottom.show(lineItemListView);
-
     // only if `show` action
     if (lineItemList.order.id) {
       var dmas = new ReachUI.DMA.List();
@@ -190,7 +188,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
-
     this.orderDetailsLayout.bottom.show(lineItemListView);
   },
 });
