@@ -11,7 +11,7 @@
     <li class="active key-values">
       <a href="javascript:void(0)">Key Values</a>
     </li>
-    <li class="dmas"><a href="javascript:void(0)">DMAs</a></li>
+    <li class="geo"><a href="javascript:void(0)">GEO</a></li>
     <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
   </ul>
 
@@ -33,21 +33,10 @@
       </div>
   </div>
 
-  <% var selected_dmas_ids = [] %>
-  <% for(var prop in selected_dmas) { selected_dmas_ids.push(parseInt(selected_dmas[prop].id)); } %>
-
-  <div class="tab dmas" style="display:none">
-    <select multiple class="chosen-select" name="dmas" data-placeholder="Select DMAs..." style="width:95%;">
-      <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <option value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>selected="selected"<% } %> ><%= dmas_list[i].name %></option>
-      <% } %>
-    </select>
+  <div class="tab geo" style="display:none">
+    <input type="text" autocomplete="off" class="geo-search" name="geo-search" value=""/>
     <div style="clear:both"></div>
-
-    <div class="dmas-checkboxes-container">
-      <% for (var i = 0; i < dmas_list.length; i++) { %>
-      <input type="checkbox" name="dma" value="<%= dmas_list[i].code %>" <% if(_.indexOf(selected_dmas_ids, dmas_list[i].code) >= 0) { %>checked="checked"<% } %> /> <%= dmas_list[i].name %><br/>
-      <% } %>
+    <div class="geo-checkboxes-container">
     </div>
   </div>
 

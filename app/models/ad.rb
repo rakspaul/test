@@ -12,6 +12,8 @@ class Ad < ActiveRecord::Base
 
   has_and_belongs_to_many :zipcodes, join_table: :zipcode_targeting
   has_and_belongs_to_many :designated_market_areas, join_table: :dma_targeting, association_foreign_key: :dma_id
+  has_and_belongs_to_many :states, join_table: :state_targeting, association_foreign_key: :state_id
+  has_and_belongs_to_many :cities, join_table: :city_targeting, association_foreign_key: :city_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
@@ -76,8 +78,19 @@ class Ad < ActiveRecord::Base
     end
     self.zipcodes = zipcodes.compact if !zipcodes.blank?
 
-    dmas = targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
+    geo_targeting = targeting[:targeting][:selected_geos].to_a
+
+    dmas = geo_targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
+    self.designated_market_areas = []
     self.designated_market_areas = dmas.compact if !dmas.blank?
+
+    cities = geo_targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
+    self.cities = []
+    self.cities = cities.compact if !cities.blank?
+
+    states = geo_targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
+    self.states = []
+    self.states = states.compact if !states.blank?
 
     selected_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
       AudienceGroup.find_by(id: group_name[:id])

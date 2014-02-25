@@ -1,6 +1,11 @@
 <div id="push-confirmation-dialog" class="modal hide fade">
   <div class="modal-body">
     <p class="heading">Sure you want to push? This will overwrite the whole order in DFP.</p>
+    <p class="missed-ads-heading">
+      The following line items are missing ads:
+      <ul class="li-without-ads">
+      </ul>
+    </p>
     <div class="btns">
       <div class="cancel-btn">Cancel</div>
       <div class="push-btn">Push to Ad Server</div>
@@ -14,19 +19,6 @@
       <p></p>
     </div>
     <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">OK</a>
-  </div>
-</div>
-
-<div id="save-order-dialog" class="modal hide fade">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h4>Order</h4>
-  </div>
-  <div class="modal-body">
-    <p>Saved successfully</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" data-dismiss="modal" aria-hidden="true" class="btn btn-primary">Close</a>
   </div>
 </div>
 

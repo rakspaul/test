@@ -392,7 +392,7 @@
       var li_t = this.model.get('targeting');
       window.copied_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: _.clone(li_t.get('selected_key_values')),
-        selected_dmas: _.clone(li_t.get('selected_dmas')),
+        selected_geos: _.clone(li_t.get('selected_geos')),
         dmas_list: _.clone(li_t.get('dmas_list')),
         selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
         audience_groups: _.clone(li_t.get('audience_groups')),
@@ -511,8 +511,8 @@
       var lineitems = this.collection;
       var self = this;
 
-      // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      // function that store Order and Lineitems in one POST request
+      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -550,15 +550,12 @@
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
-
-                    field.addClass('field_with_errors');
+                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
-
                   if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
                   }
-
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
                   }
@@ -600,7 +597,8 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-                            field.addClass('field_with_errors');
+ 
+                          field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
                       });
@@ -643,16 +641,34 @@
 
     _pushOrder: function() {
       var self = this;
+      var lineitems = this.collection;
+      var lineitemsWithoutAds = [];
 
-      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+      lineitems.each(function(li) {
+        if (!li.ads.length) {
+          lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
+        }
+      });
+
+      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status')) ||
+        (lineitemsWithoutAds.length > 0)) {
+        var dialog = $('#push-confirmation-dialog');
+        var liList = dialog.find('.li-without-ads');
+        if (lineitemsWithoutAds.length > 0) {
+          dialog.find('.missed-ads-heading').show();
+          liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
+        } else {
+          dialog.find('.missed-ads-heading').hide();
+          liList.html();
+        }
+        dialog.find('.cancel-btn').click(function() {
+          dialog.modal('hide');
         });
-        $('#push-confirmation-dialog .push-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+        dialog.find('.push-btn').click(function() {
+          dialog.modal('hide');
           self._saveOrderWithStatus('pushing');
         });
-        $('#push-confirmation-dialog').modal('show');
+        dialog.modal('show');
       } else {
         this._saveOrderWithStatus('pushing');
       }

@@ -36,10 +36,20 @@ json.array! @ads do |ad|
     end
   end
 
-  json.selected_dmas do
-    json.array! ad.designated_market_areas do |dma|
-      json.id dma.code
-      json.title dma.name
+  json.selected_geos do
+    json.array! ad.designated_market_areas+ad.cities+ad.states do |geo|
+      json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+      case geo.class.to_s
+      when "DesignatedMarketArea"
+        json.title "#{geo.name}"
+        json.type "DMA"
+      when "State"
+        json.title "#{geo.name}/#{geo.country.try(:name)}"
+        json.type "State"
+      when "City"
+        json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+        json.type "City"
+      end
     end
   end
 

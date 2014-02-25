@@ -52,6 +52,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
+      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
     },
 
     events: {
@@ -88,9 +89,8 @@
     },
 
     _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
-      var cpm  = parseFloat(this.model.get('rate'));
-      var media_cost = (imps / 1000.0) * cpm;
+      var imps = this.getImressions();
+      var media_cost = this.getMediaCost();
 
       this.model.set('value', media_cost);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
@@ -103,6 +103,15 @@
       } else {
         $errors_container.html('');
       }
+    },
+
+    getImressions: function() {
+      return parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+    },
+
+    getMediaCost: function() {
+      var cpm  = parseFloat(this.model.get('rate'));
+      return (this.getImressions() / 1000.0) * cpm;
     },
 
     renderTargetingDialog: function() {

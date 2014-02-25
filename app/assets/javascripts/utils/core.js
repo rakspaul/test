@@ -64,9 +64,9 @@ ReachUI.showCondensedTargetingOptions = function() {
   var targeting_options = [];
   var targeting = this.model.get('targeting');
 
-  var dmas = targeting.attributes.selected_dmas;
-  if(dmas.length > 0) {
-    targeting_options.push('<div class="dma-targeting-icon pull-left" title="DMAs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(dmas, "title"), '</div>');
+  var geos = targeting.attributes.selected_geos;
+  if(geos.length > 0) {
+    targeting_options.push('<div class="dma-targeting-icon pull-left" title="GEOs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(geos, "title"), '</div>');
   }
 
   var zips = targeting.attributes.selected_zip_codes;
@@ -86,8 +86,7 @@ ReachUI.showCondensedTargetingOptions = function() {
   if(custom_key_values) {   
     targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
     targeting_options.push('<div class="targeting-options">'+custom_key_values+'</div>');
-  } 
-
+  }
 
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
   // selected (including Ads' ones), so we need to limit this only to first matching element

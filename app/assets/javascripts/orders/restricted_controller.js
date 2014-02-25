@@ -141,7 +141,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
         _.each(lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
-          var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+          var selected_geos = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
           var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
 
@@ -149,7 +149,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
               selected_zip_codes: zipcodes,
-              selected_dmas: selected_dmas,
+              selected_geos: selected_geos,
               selected_key_values: kv,
               dmas_list: dmas_list,
               audience_groups: ags.attributes,
