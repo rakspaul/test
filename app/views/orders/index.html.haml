@@ -169,7 +169,7 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    if("#{!@agency_user}" === "true"){
+    if (!#{@agency_user}){
       var controller = new ReachUI.Orders.OrderController();
       ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
     }
