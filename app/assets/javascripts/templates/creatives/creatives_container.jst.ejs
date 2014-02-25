@@ -7,20 +7,25 @@
         <div class="pure-u-1-12">Start Date</div>
         <div class="pure-u-1-12">End Date</div>
         <div class="pure-u-1-6" style="width:12%">Ad Format / Size</div>
-        <% if(is_cox_creative) { %>
-        <div class="pure-u-1-2">Javascript Code</div>
-        <% } else { %>
-        <div class="pure-u-1-2">Inred Image URL</div>
-        <div class="pure-u-1-24">HTML</div>
+        <div class="pure-u-1-2">Tag</div>
+        <div class="pure-u-1-24">Type</div>
         <div class="pure-u-1-12">Client Ad Id</div>
-        <% } %>
       </div>
       <hr/>
     </div>
 
     <div class="pure-g">
-      <div class="pure-u-1-12 add-creative-btn">+ Add</div>
-      <div class="pure-u-1-12 pull-right done-creative-btn">Done</div>
+      <div class="pure-u-1-12 dropdown">
+        <div class="add-creative-btn" data-toggle="dropdown" id="addCreativeDropdown">+ Add</div>
+        <ul class="dropdown-menu tags-dropdown list-inline" role="menu" aria-labelledby="addCreativeDropdown">
+          <li role="presentation"><a class="add-typed-creative-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="InternalRedirectCreative">Inred</a></li>
+          <li role="presentation"><a class="add-typed-creative-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="ThirdPartyCreative">Third Party</a></li>
+        </ul>
+      </div>
+
+
+      <div class="pure-u-1-12 pull-right done-creative-btn" >Done</div>
+
     </div>
   </td>
 </tr>
