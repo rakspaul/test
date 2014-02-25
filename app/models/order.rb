@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+  cattr_accessor :current_user
 
   has_paper_trail ignore: [:updated_at]
 
@@ -115,12 +116,12 @@ class Order < ActiveRecord::Base
     end
 
     def set_import_note
-      self.order_notes.create note: "Imported Order", user: self.user, order: self
+      self.order_notes.create note: "Imported Order", user: current_user, order: self
     end
 
     def set_push_note
       if self.io_detail.state == 'pushing'
-        self.order_notes.create note: "Pushed Order", user: self.user, order: self
+        self.order_notes.create note: "Pushed Order", user: current_user, order: self
       end
     end
 end

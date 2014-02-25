@@ -146,11 +146,12 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
           li.set('itemIndex', itemIndex);
           itemIndex += 1;
 
-          var selected_dmas = li.get('selected_dmas') ? li.get('selected_dmas') : [];
+          var selected_geos = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
           var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
 
-          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_dmas: selected_dmas, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting'), type: li.get('type') }));
+          li.set('targeting', new ReachUI.Targeting.Targeting({selected_zip_codes: zipcodes, selected_geos: selected_geos, selected_key_values: kv, dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li.get('keyvalue_targeting'), type: li.get('type') }));
+          li_view.renderTargetingDialog();
         });
         lineItemList._recalculateLiImpressionsMediaCost();
       });
@@ -169,6 +170,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
           itemIndex += 1;
 
           li.set('targeting', new ReachUI.Targeting.Targeting({dmas_list: dmas_list, audience_groups: ags.attributes, keyvalue_targeting: li_view.model.get('keyvalue_targeting'), type: li_view.model.get('type')}));
+          li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
         });
         lineItemList._recalculateLiImpressionsMediaCost();

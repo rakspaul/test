@@ -167,7 +167,7 @@ GEM
       jasmine-core (~> 1.3)
       rails (>= 3.1.0)
       sprockets-rails
-    jbuilder (1.5.3)
+    jbuilder (2.0.2)
       activesupport (>= 3.0.0)
       multi_json (>= 1.2.0)
     jquery-fileupload-rails (0.4.1)
@@ -194,7 +194,7 @@ GEM
     mime-types (1.25.1)
     mini_portile (0.5.2)
     minitest (4.7.5)
-    multi_json (1.8.2)
+    multi_json (1.8.4)
     multi_xml (0.5.5)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -319,6 +319,7 @@ GEM
       chronic (>= 0.6.3)
     xpath (2.0.0)
       nokogiri (~> 1.3)
+    yajl-ruby (1.2.0)
 
 PLATFORMS
   ruby
@@ -349,7 +350,7 @@ DEPENDENCIES
   hipchat (~> 0.12.0)
   jasmine-jquery-rails
   jasmine-rails
-  jbuilder (~> 1.5.0)
+  jbuilder
   jquery-fileupload-rails (~> 0.4.1)
   jquery-rails
   json (~> 1.8.0)
@@ -376,3 +377,4 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   unicorn
   whenever
+  yajl-ruby

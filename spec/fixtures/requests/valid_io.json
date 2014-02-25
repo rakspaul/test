@@ -121,7 +121,7 @@
             "targeting": {
               "targeting": {
                 "selected_key_values": [ ],
-                "selected_dmas": [ ],
+                "selected_geos": [ ],
                 "selected_zip_codes": [ ],
                 "keyvalue_targeting": ""
               }

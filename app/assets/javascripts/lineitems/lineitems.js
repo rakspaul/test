@@ -95,9 +95,9 @@
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
 
-      if(! this.model.get('targeting')) {
+      if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
-        this.model.set('targeting', targeting);
+        this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },
 
@@ -248,13 +248,12 @@
 
       this.renderCreatives();
       this.renderTargetingDialog();
-      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
-          ad.set('size', view.model.get('ad_sizes'));
+          ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         view.renderAd(ad);
       });
@@ -272,8 +271,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      ReachUI.alignAdsDivs();
-      if(0 == ad.get('volume')) {
+      if (0 == ad.get('volume')) {
         ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
     },
@@ -282,9 +280,9 @@
       var view = this, is_cox_creative = false;
       
       // check whether there are Cox Creatives
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          if(creative.get('html_code')) {
+          if (creative.get('html_code')) {
             is_cox_creative = true;
           }
         })
@@ -295,10 +293,11 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
+          creative.set({
+            'order_id': view.model.get('order_id'),
+            'lineitem_id': view.model.get('id')}, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
@@ -333,9 +332,8 @@
       this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignLINumberDiv()
       }
     },
 
@@ -394,7 +392,7 @@
       var li_t = this.model.get('targeting');
       window.copied_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: _.clone(li_t.get('selected_key_values')),
-        selected_dmas: _.clone(li_t.get('selected_dmas')),
+        selected_geos: _.clone(li_t.get('selected_geos')),
         dmas_list: _.clone(li_t.get('dmas_list')),
         selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
         audience_groups: _.clone(li_t.get('audience_groups')),
@@ -513,8 +511,8 @@
       var lineitems = this.collection;
       var self = this;
 
-      // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      // function that store Order and Lineitems in one POST request
+      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -552,15 +550,12 @@
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
-
-                    field.addClass('field_with_errors');
+                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
-
                   if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
                   }
-
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
                   }
@@ -584,7 +579,6 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        ReachUI.alignAdsDivs();
                       }
                     });
 
@@ -603,7 +597,8 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-                            field.addClass('field_with_errors');
+ 
+                          field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
                       });
@@ -646,16 +641,34 @@
 
     _pushOrder: function() {
       var self = this;
+      var lineitems = this.collection;
+      var lineitemsWithoutAds = [];
 
-      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+      lineitems.each(function(li) {
+        if (!li.ads.length) {
+          lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
+        }
+      });
+
+      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status')) ||
+        (lineitemsWithoutAds.length > 0)) {
+        var dialog = $('#push-confirmation-dialog');
+        var liList = dialog.find('.li-without-ads');
+        if (lineitemsWithoutAds.length > 0) {
+          dialog.find('.missed-ads-heading').show();
+          liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
+        } else {
+          dialog.find('.missed-ads-heading').hide();
+          liList.html();
+        }
+        dialog.find('.cancel-btn').click(function() {
+          dialog.modal('hide');
         });
-        $('#push-confirmation-dialog .push-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+        dialog.find('.push-btn').click(function() {
+          dialog.modal('hide');
           self._saveOrderWithStatus('pushing');
         });
-        $('#push-confirmation-dialog').modal('show');
+        dialog.modal('show');
       } else {
         this._saveOrderWithStatus('pushing');
       }
