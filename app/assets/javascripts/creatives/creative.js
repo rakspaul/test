@@ -141,9 +141,13 @@
           self.model.attributes.html_code = newValue;
         },
         display: function(value, sourceData) {
-          var start_pos = value.indexOf('"id" :');
-          var val = value.substr(start_pos - 22, 47);
-          $(this).html(val);
+          var start_pos = value.indexOf('"id" :'), val;
+          if(start_pos == -1) {
+            val = value.substr(0, 60);
+          } else {
+            val = value.substr(start_pos - 22, 47);
+          }
+          $(this).text(val);
         }
       });
 
