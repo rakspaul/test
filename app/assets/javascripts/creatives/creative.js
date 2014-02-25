@@ -169,6 +169,14 @@
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         self.model.set("ad_size", el.size);
       });
+      this.$el.find('.size').on('shown', function(ev, el) {
+        self.previousSize = self.$el.find('.size span').html();
+      });
+      this.$el.find('.size').on('hidden', function(ev, el) {
+        if (self.previousSize) {
+          self.$el.find('.size span').html(self.previousSize);
+        }
+      });
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
