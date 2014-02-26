@@ -446,16 +446,20 @@ class IOExcelFileReader < IOReader
   def inreds(&block)
     return if @spreadsheet.sheets[INREDS_SPREADSHEET_PAGE] != INREDS_SPREADSHEET_NAME
     row = INREDS_START_ROW
+    blank_rows_counter = 0
+    
+    change_sheet INREDS_SPREADSHEET_PAGE do      
+      while blank_rows_counter < 10
+        cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)
 
-    change_sheet INREDS_SPREADSHEET_PAGE do
-      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.blank?
-        yield_inreds_from(row, block)
-        row += 1
-      end
+        if cell.blank?
+          blank_rows_counter += 1
+          row += 1
+          next
+        else
+          blank_rows_counter = 0
+        end
 
-      # now check pre-roll creatives
-      row += 3
-      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.blank?
         yield_inreds_from(row, block)
         row += 1
       end
