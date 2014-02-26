@@ -517,6 +517,13 @@
     template: JST['templates/lineitems/line_item_table'],
     className: 'lineitems-container',
 
+    onRender: function() {
+      if (this.collection.order.get('order_status') == 'Pushing') {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      }
+    },
+
     _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;
@@ -708,8 +715,8 @@
     },
 
     events: {
-      'click .save-order-btn':        '_saveOrderDraft',
-      'click .push-order-btn':        '_pushOrder',
+      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },

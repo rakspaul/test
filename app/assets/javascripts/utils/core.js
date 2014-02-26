@@ -128,6 +128,8 @@ ReachUI.checkOrderStatus = function(order_id) {
           $('.current-io-status-top').stop(true, true); // stop current running animation
           $('.current-io-status-top').css('opacity', 1);
           $('.current-io-status-top .io-status').html(resp.status);
+          $('.save-order-btn').removeClass('disabled');
+          $('.push-order-btn').removeClass('disabled');
           clearInterval(statusCheckTimer);
           location.reload();
         }
