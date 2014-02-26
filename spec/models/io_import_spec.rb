@@ -52,6 +52,10 @@ describe IoImport do
     it "associates order's network with current user's network" do
       io.order.network.should == current_user.network
     end
+
+    it "strip client advertiser name" do
+      expect(io.io_details.client_advertiser_name).to eq('Otterbein University')
+    end
   end
 
   context "lineitems" do
