@@ -15,19 +15,41 @@ json.array! @ads do |ad|
     json.keyvalue_targeting ad.reach_custom_kv_targeting
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
     json.type ad.type
-    json.media_type_id ad.lineitem.media_type_id
+    json.media_type_id ad.media_type_id
   end
 
   json.creatives do
-    json.array! ad.creatives.order("start_date ASC, size ASC") do |creative|
-      json.partial! 'creatives/creative.json.jbuilder', creative: creative
+    json.array! ad.ad_assignments do |ad_assignment|
+      json.id             ad_assignment.creative.try(:id)
+      json.ad_size        ad_assignment.creative.size
+      json.start_date     format_date(ad_assignment.try(:start_date))
+      json.end_date       format_date(ad_assignment.try(:end_date))
+      json.redirect_url   ad_assignment.creative[:image_url] || ad_assignment.creative.redirect_url
+      json.client_ad_id   ad_assignment.creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
+      json.source_id      ad_assignment.creative.try(:source_id)
+      json.html_code      excerpt(ad_assignment.creative.try(:html_code), '"id" :', radius: 22)
+      json.creative_type  ad_assignment.creative.try(:creative_type)
+      json.io_lineitem_id ad.io_lineitem_id
+      json.ad_id          ad.id
+      json.li_assignment_id ad_assignment.creative.try(:lineitem_assignment).try(:id)
+      json.ad_assignment_id ad_assignment.id
     end
   end
 
-  json.selected_dmas do
-    json.array! ad.designated_market_areas do |dma|
-      json.id dma.code
-      json.title dma.name
+  json.selected_geos do
+    json.array! ad.designated_market_areas+ad.cities+ad.states do |geo|
+      json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+      case geo.class.to_s
+      when "DesignatedMarketArea"
+        json.title "#{geo.name}"
+        json.type "DMA"
+      when "State"
+        json.title "#{geo.name}/#{geo.country.try(:name)}"
+        json.type "State"
+      when "City"
+        json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+        json.type "City"
+      end
     end
   end
 
