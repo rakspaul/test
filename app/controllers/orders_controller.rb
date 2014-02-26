@@ -1,8 +1,10 @@
 class OrdersController < ApplicationController
   include Authenticator
 
+  before_filter :require_client_type_network_or_agency
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
+  before_filter :set_current_user
 
   add_crumb("Orders") {|instance| instance.send :orders_path}
 
@@ -207,7 +209,7 @@ private
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
+    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -240,7 +242,7 @@ private
     end
 
     if !orders_by_user && !session[:orders_by_user].blank?
-      orders_by_user = session[:orders_by_user]
+      orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
     end
 
     session[:sort_column] = sort_column
@@ -260,6 +262,7 @@ private
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
+    @agency_user = is_agency_user?
   end
 
   def find_account_manager(params)
@@ -314,7 +317,7 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:targeted_zipcodes)
-      li[:lineitem].delete(:selected_dmas)
+      li[:lineitem].delete(:selected_geos)
       li[:lineitem].delete(:itemIndex)
       li[:lineitem].delete(:selected_key_values)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
@@ -347,10 +350,8 @@ private
       end
 
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
 
-      lineitem.designated_market_areas = []
-      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
+      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -396,9 +397,11 @@ private
           ad_quantity  = ad[:ad].delete(:volume)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
+          ad_start_date = ad[:ad].delete(:start_date)
+          ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_dmas, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -409,12 +412,21 @@ private
             ad[:ad][:size].split(/,/).first.strip
           end
 
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
+          end
+
           ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
+          ad_object.start_date = ad_start_date
+          ad_object.end_date = ad_end_date
 
           if li_saved
             ad_object.save_targeting(ad_targeting)
@@ -424,13 +436,6 @@ private
                 ad_assignment.destroy if !creative.pushed_to_dfp?
               end
             end
-          end
-
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
           end
 
           unique_description_error = nil
@@ -507,8 +512,8 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      dmas = li_targeting[:targeting][:selected_dmas].to_a.collect{|dma| DesignatedMarketArea.find_by(code: dma[:id])}
-      lineitem.designated_market_areas = dmas.compact if !dmas.blank?
+
+      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -570,6 +575,13 @@ private
             ad[:ad][:size].split(/,/).first.strip
           end
 
+          if 0 == ad_quantity.to_i
+            li_errors[i] ||= {:ads => {}}
+            li_errors[i]
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
+          end
+
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
@@ -581,13 +593,6 @@ private
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
           ad_object.save_targeting(ad_targeting)
-
-          sum_of_ad_impressions += ad_quantity.to_i
-          if sum_of_ad_impressions > lineitem.volume
-            li_errors[i] ||= {}
-            li_errors[i][:lineitems] ||= {}
-            li_errors[i][:lineitems].merge!({volume: "Sum of Ad Impressions exceed Line Item Impressions"})
-          end
 
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}
@@ -705,5 +710,13 @@ private
     @media_types = {}
     current_network.media_types.each{|t| @media_types[t.category] = t.id }
     @media_types['Companion'] = @media_types['Display']
+  end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
+  end
+
+  def set_current_user
+    Order.current_user = current_user
   end
 end

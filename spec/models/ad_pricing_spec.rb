@@ -5,15 +5,6 @@ describe AdPricing do
   it { should belong_to(:data_source) }
   it { should belong_to(:network) }
 
-  it "should validate quantity" do
-    lineitem = FactoryGirl.build(:lineitem, volume: 100)
-    ad = FactoryGirl.build(:ad, lineitem: lineitem)
-    ad_pricing = FactoryGirl.build(:ad_pricing, ad: ad, quantity: 101)
-
-    ad_pricing.valid?
-    ad_pricing.errors.messages[:quantity].should include "Ad Impressions exceed Line Item Impressions"
-  end
-
   describe "callbacks" do
     before do
       FactoryGirl.create(:ad_size_160x600)

@@ -52,6 +52,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
+      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
     },
 
     events: {
@@ -85,18 +86,32 @@
       } else {
         $(li_errors_container).html("");
       }
-
-      ReachUI.alignLINumberDiv();
-      ReachUI.alignAdsDivs();
     },
 
     _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
-      var cpm  = parseFloat(this.model.get('rate'));
-      var media_cost = (imps / 1000.0) * cpm;
+      var imps = this.getImressions();
+      var media_cost = this.getMediaCost();
 
       this.model.set('value', media_cost);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+
+      // https://github.com/collectivemedia/reachui/issues/358
+      // Catch ads with 0 impressions rather than throw an error
+      var $errors_container = this.$el.find('.volume .editable').siblings('.errors_container');
+      if(imps == 0) {
+        $errors_container.html("Impressions must be greater than 0.");
+      } else {
+        $errors_container.html('');
+      }
+    },
+
+    getImressions: function() {
+      return parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+    },
+
+    getMediaCost: function() {
+      var cpm  = parseFloat(this.model.get('rate'));
+      return (this.getImressions() / 1000.0) * cpm;
     },
 
     renderTargetingDialog: function() {
@@ -138,9 +153,8 @@
       this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignAdsDivs();
       }
     },
 
@@ -169,7 +183,7 @@
           ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
-          this.model.set('size', ad_sizes);
+          this.model.set({ 'size': ad_sizes }, { silent: true });
           this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
         }
       }
@@ -181,11 +195,25 @@
 
       this._getCreativesSizes();
 
-      this.$el.find('.rate .editable.custom, .volume .editable.custom').editable({
+      this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
           self.model.set($(this).data('name'), newValue); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
+        }
+      });
+
+      this.$el.find('.volume .editable.custom').editable({
+        success: function(resp, newValue) {
+          self.model.attributes.volume = newValue; //update backbone model;
+
+          self._recalculateMediaCost();
+          self._validateAdImpressions();
+        },
+        validate: function(value) {
+          if($.trim(value) == '') {
+            return 'This field is required';
+          }
         }
       });
 
@@ -211,7 +239,7 @@
         }
       });
 
-      if(this.model.get('targeting').attributes.dmas_list.length == 0) {
+      if (this.model.get('targeting').attributes.dmas_list.length == 0) {
         var dmas = new ReachUI.DMA.List();
         var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
 
@@ -234,8 +262,6 @@
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
-
-      ReachUI.alignAdsDivs();
     },
 
     renderCreatives: function() {
@@ -250,8 +276,10 @@
       // rendering each Creative
       if (this.model.get('creatives').models) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', li_view.model.get('order_id'));
-          creative.set('lineitem_id', li_view.model.get('id'));
+          creative.set({
+            'order_id': li_view.model.get('order_id'),
+            'lineitem_id': li_view.model.get('id')
+          }, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });

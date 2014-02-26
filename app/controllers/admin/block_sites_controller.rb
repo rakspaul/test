@@ -4,6 +4,8 @@ class Admin::BlockSitesController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :require_client_type_network
+
   add_crumb("Block Sites") {|instance| instance.send :admin_block_sites_path}
 
   def index

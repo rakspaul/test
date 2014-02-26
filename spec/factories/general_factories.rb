@@ -178,6 +178,28 @@ FactoryGirl.define do
     name "cm.adult"
   end
 
+  factory :city do
+    name "Ala"
+    region_name "Trento"
+    country_code "IT"
+  end
+
+  factory :country do
+    abbr "US"
+    name "United States"
+  end
+
+  factory :state do
+    abbr "US"
+    name "United States"
+    country
+  end
+
+  factory :designated_market_area do
+    code 541
+    name "Lexington"
+  end
+
   factory :block_log do
     action "Block"
     status "Pending"
@@ -194,6 +216,10 @@ FactoryGirl.define do
     name "Agency"
     source_id "R_#{SecureRandom.uuid}"
     network { FactoryGirl.singleton :network }
+  end
+
+  factory :role do
+    name "reach_ui"
   end
 
 end
