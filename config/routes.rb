@@ -124,7 +124,12 @@ Reachui::Application.routes.draw do
     end
   end
 
-  resources :dmas, controller: 'designated_market_areas', only: [:index]
+  resources :dmas, controller: 'designated_market_areas', only: [:index] do
+    collection do
+      get :search_geo
+    end
+  end
+
   resource :io_import, controller: 'io_import'
   resource :creatives_import, controller: 'creatives_import'
 
@@ -155,6 +160,8 @@ Reachui::Application.routes.draw do
       get 'search'
     end
   end
+
+  resources :agency
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

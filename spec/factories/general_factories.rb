@@ -45,6 +45,7 @@ FactoryGirl.define do
     user_id { FactoryGirl.singleton(:user).id }
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
+    agency { FactoryGirl.singleton(:agency) }
   end
 
   factory :contact do
@@ -177,6 +178,28 @@ FactoryGirl.define do
     name "cm.adult"
   end
 
+  factory :city do
+    name "Ala"
+    region_name "Trento"
+    country_code "IT"
+  end
+
+  factory :country do
+    abbr "US"
+    name "United States"
+  end
+
+  factory :state do
+    abbr "US"
+    name "United States"
+    country
+  end
+
+  factory :designated_market_area do
+    code 541
+    name "Lexington"
+  end
+
   factory :block_log do
     action "Block"
     status "Pending"
@@ -188,4 +211,15 @@ FactoryGirl.define do
     created_at 1.day.from_now
     updated_at 1.day.from_now
   end
+
+  factory :agency do
+    name "Agency"
+    source_id "R_#{SecureRandom.uuid}"
+    network { FactoryGirl.singleton :network }
+  end
+
+  factory :role do
+    name "reach_ui"
+  end
+
 end
