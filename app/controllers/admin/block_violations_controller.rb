@@ -14,7 +14,7 @@ class Admin::BlockViolationsController < ApplicationController
       sort_column = "network_advertisers.name"
     elsif sort_column == "ad"
       sort_column = "ads.description"
-    elsif sort_column == "job_ran_date"
+    elsif sort_column == "job_run_date"
       sort_column = "reach_block_violations.created_at"
     end
 
