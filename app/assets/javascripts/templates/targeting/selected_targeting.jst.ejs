@@ -1,9 +1,10 @@
 <h4>Targeting</h4>
 
-<div class="age-targeting">
+<div class="pure-g age-targeting">
   <% if(selected_key_values.length > 0) { %>
   <div class="account-contact-icon pull-left" title="Key Value Targeting"></div>
-    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) { 
+  <div class="pull-left pure-u-11-12">
+    <% var kv  = []; for (var i = 0; i < selected_key_values.length; i++) {
       var item = '<div class="tgt-item-kv-container ' + (show_custom_key_values ? 'custom-kv-container' : '') + '">';
       item += ' <span class="tgt-item-caption">'+selected_key_values[i]['title']+'</span>';
       item += ' <span class="remove-btn pull-right" data-ag-id="' + selected_key_values[i]['id'] + '" style="display:none"></span>';
@@ -16,14 +17,18 @@
 
     <% var separator = show_custom_key_values ? '<div style="float:left"></div>' : '<div style="float:left">,</div>' %>
     <%= kv.join(separator) %>
+   </div>
   <% } %>
+
+  <div style="clear:both"></div>
 </div>
 
-<div style="clear:both"></div>
 
-<div class="custom-targeting">
+
+<div class="pure-g custom-targeting">
   <% if(keyvalue_targeting || show_custom_key_values) { %>
-  <div class="add-custom-keyvalue-btn">Custom K/V</div>
+  <div class="custom-kv-icon pull-left"></div>
+  <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
   <% } %>
 
   <% if(keyvalue_targeting && !show_custom_key_values) { %>
@@ -34,31 +39,35 @@
   <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= keyvalue_targeting %>" class="custom-kvs-field"/>
   <% } %>
   <div style="clear:both"></div>
-  <span class="custom-kv-errors errors_container"></span>
+  <span class="custom-kv-errors errors_container pure-u"></span>
+
+  <div style="clear:both"></div>
 </div>
 
-<div style="clear:both"></div>
 
-<% if(selected_dmas.length > 0) { %>
+
+<% if(selected_geos.length > 0) { %>
 <div class="dma-targeting">
-  <div class="dma-targeting-icon pull-left" title="DMAs"></div>
-  <div style="float:left"><b>DMAs:</b></div>
-  <% var dmas = []; for (var i = 0; i < selected_dmas.length; i++) {
-    var item = '<div class="tgt-item-dma-container">';
-    item += ' <span class="tgt-item-caption">'+selected_dmas[i]['title']+'</span>';
-    item += ' <span class="remove-btn pull-right" data-dma-id="' + selected_dmas[i]['id'] + '" style="display:none"></span>';
+  <div class="dma-targeting-icon pull-left" title="GEOs"></div>
+  <% var geos = []; for (var i = 0; i < selected_geos.length; i++) {
+    var item = '<div class="tgt-item-geo-container">';
+    item += ' <span class="tgt-item-caption">'+selected_geos[i]['title']+' ('+selected_geos[i]['type']+')</span>';
+    item += ' <span class="remove-btn pull-right" data-geo-type="'+selected_geos[i]['type']+'" data-geo-id="'+selected_geos[i]['id']+'" style="display:none"></span>';
     item += '</div>';
-    dmas.push(item); 
+    geos.push(item);
   } %>
-  <%= dmas.join('<div style="float:left">,</div>') %>
+
+  <%= geos.join('<div style="float:left">,</div>') %>
+
+  <div style="clear:both"></div>
 </div>
 <% } %>
 
-<div style="clear:both"></div>
-<div class="zip-codes-targeting"> 
+
+<div class="pure-g zip-codes-targeting">
   <% if(selected_zip_codes.length > 0) { %>
     <div class="zip-codes-icon" title="Zip codes"></div>
-    
+    <div class="pull-left pure-u-11-12">
     <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
       if(selected_zip_codes[i].match(/^\s*$/) == null) {
         var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
@@ -73,12 +82,12 @@
       zips.push(item);
     } %>
 
-    <div style="float:left"><b>Zip Codes:</b></div>
     <%= zips.join('<div style="float:left">,</div>') %>
 
     <% if(errors_in_zips) { %>
     <div style="clear:both"></div>
     <div class="errors-container">Underlined zip codes are not valid. Please edit them.</div>
     <% } %>
+  </div>
   <% } %>
 </div>

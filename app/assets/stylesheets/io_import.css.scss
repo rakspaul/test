@@ -239,10 +239,20 @@ $wide_input_width: 320px;
       color: $text_color;
       width: 72%;
 
+      label{
+        font-size:12px;
+        display:inline-block;
+        float:left;
+      }
+
       span {
         text-decoration: underline;
         color: black;
         font-family: 'Arial', sans-serif;
+        display:inline-block;
+        width:260px;
+        float:left;
+        margin-left:10px;
       }
     }
 
@@ -310,15 +320,33 @@ $wide_input_width: 320px;
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;
-    background-color: $bg_color;
+    background-color: white;
     padding:0;
     clear:both;
+    .li-table {
+      display: table;
+      width: 100%;
+      .li-row {
+        display: table-row;
+        background-color: $bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
 
     > div[class^="pure-u"] {
       padding:10px 0;
       &:nth-child(2) {
         border-right: 2px solid white;
         @include box-sizing(border-box);
+      }
+    }
+
+    .video-dropdown {
+      position: absolute;
+      .dropdown-menu {
+        top: 0;
       }
     }
 
@@ -442,7 +470,19 @@ $wide_input_width: 320px;
   }
 
   .ads-container {
-    background-color: $ad_bg_color;
+    .ad-table {
+      display: table;
+      border-collapse: collapse;
+      width: 100%;
+      .ad-row {
+        display: table-row;
+        background-color: $ad_bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
+    background-color: white;
     border-top: 2px solid white;
     border-bottom: 5px solid white;
     .ad {
@@ -504,8 +544,12 @@ $wide_input_width: 320px;
     }
 
     .targeting-options.highlighted {
-        background-color: yellow;
-        padding: 2px;
+      background-color: yellow;
+      padding: 2px;
+    }
+
+    .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
+      margin-left:10px;
     }
   }
 }
@@ -516,6 +560,7 @@ $wide_input_width: 320px;
   color:black;
   font-weight:normal;
   font-size:normal;
+  width:96.5%;
 
   .summary {
     margin-top:20px;
@@ -527,6 +572,7 @@ $wide_input_width: 320px;
     .totals-label, .total-cpm, .total-media-cost, .total-impressions {
       font-weight:bold;
       font-size:14px;
+      text-align:right;
     }
 
     .li-button {
@@ -604,19 +650,23 @@ $wide_input_width: 320px;
 }
 
 .account-contact-icon {
-  margin-left: 3px;
+  margin:1px 0 0 3px;
 }
 
 .dma-targeting-icon {
+  margin:2px 0 0 3px;
   float: left;
 }
 
 .custom-kv-icon {
+  margin:2px 0 0 3px;
   float: left;
 }
 
 .zip-codes-icon {
+  margin:2px 0 0 3px;
   float: left;
+  width:16px !important;
 }
 
 .targeting-container {
@@ -628,6 +678,7 @@ $wide_input_width: 320px;
   background-color: white;
   letter-spacing: 0;
   clear:both;
+  position:relative;
 
   .targeting-options {
     width: 50%;
@@ -635,6 +686,12 @@ $wide_input_width: 320px;
 
     .tab.zip-codes textarea {
       width: 95%;
+    }
+
+    .tab.geo input.geo-search {
+      width: 98%;
+      background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
+      padding-left:20px;
     }
 
     .mobile-targeting {
@@ -656,26 +713,39 @@ $wide_input_width: 320px;
   }
 
   .selected-targeting {
-    width: 34%;
+    width: 38%;
     float: left;
     padding-left: 25px;
 
+    .age-targeting{
+      max-height:150px;
+      overflow:auto;
+      margin-bottom:10px;
+    }
+
     .dma-targeting {
-      margin-top:10px;
+      margin-bottom:10px;
+    }
+
+    .custom-targeting{
+      .custom-kv-errors{
+        display:block;
+        margin-bottom:10px;
+      }
     }
 
     .custom-kvs-field {
       border:2px $text_color solid;
       border-top:0px;
-      width: 520px;
+      width: 100%;
       border-radius: 0px;
       margin-top: 15px;
+      margin-bottom: 0;
     }
 
     .add-custom-keyvalue-btn {
       color: $text_color;
       cursor: pointer;
-      margin-top:10px;
       margin-left:5px;
     }
 
@@ -684,17 +754,17 @@ $wide_input_width: 320px;
     }
 
     .custom-kv-container {
-      margin-top:10px;
+      margin-top:0px;
     }
 
-    .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container {
+    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container {
       float:left;
       margin-left: 5px;
 
       span.custom-kvs {
         clear: both;
         float: left;
-        width: 520px;
+        width: 100%;
         white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
         white-space: -pre-wrap;      /* Opera 4-6 */
         white-space: -o-pre-wrap;    /* Opera 7 */
@@ -721,14 +791,16 @@ $wide_input_width: 320px;
 
       .errors-container {
         border-bottom: 1px dashed $error_color;
+        margin-left:5px;
       }
     }
   }
 
   .custom-regular-keyvalue-btn {
-    padding-top: 35px;
-    padding-right: 10px;
     cursor: pointer;
+    position:absolute;
+    top:30px;
+    right:10px;
 
     span {
       color: $text_color;
@@ -743,10 +815,36 @@ $wide_input_width: 320px;
     padding-left: 5px;
     border: 1px solid;
     margin-top: 5px;
+
+    input[type="checkbox"]{
+      margin:0px;
+    }
+  }
+
+  .geo-checkboxes-container {
+    border: 1px solid #ccc;
+    width: 99%;
+    height: auto;
+    min-height: 200px;
+    padding-top: 5px;
+    padding-left: 5px;
+
+    .dma_type {
+      color: $magenta_color;
+    }
+
+    .state_type {
+      color: green;
+    }
+
+    input {
+      margin-top: 0px;
+      margin-right: 10px;
+    }
   }
 }
 
-#push-confirmation-dialog, #import-creatives-dialog {
+#push-confirmation-dialog, #import-creatives-dialog, #save-confirmation-dialog {
   border: 2px dashed $bg_color;
 
   p.heading {
@@ -774,7 +872,7 @@ $wide_input_width: 320px;
     float: left;
   }
 
-  .push-btn {
+  .push-btn, .save-btn {
     background-color: $text_color;
     color: white;
     width: 140px;
@@ -783,6 +881,11 @@ $wide_input_width: 320px;
     cursor: pointer;
     margin: 5px;
     float: left;
+  }
+
+  .li-without-ads {
+    list-style-type: none;
+    color: red;
   }
 }
 
