@@ -611,6 +611,11 @@ $wide_input_width: 320px;
     background-color: lighten($text_color, 10%);
     cursor: pointer;
   }
+
+  &.disabled {
+    background-color: gray;
+    cursor: default;
+  }
 }
 
 .save-note {
@@ -646,6 +651,11 @@ $wide_input_width: 320px;
 
     &:hover{
       background: lighten($magenta_color, 10%);
+    }
+
+    &.disabled {
+      background-color: gray;
+      cursor: default;
     }
   }
 }

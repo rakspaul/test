@@ -26,6 +26,10 @@ class User < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
+  def network_user?
+    is_client_type(User::CLIENT_TYPE_NETWORK)
+  end
+
   def agency_user?
     is_client_type(User::CLIENT_TYPE_AGENCY)
   end
@@ -36,10 +40,6 @@ class User < ActiveRecord::Base
 
   def is_client_type(type)
     client_type == type
-  end
-
-  def network_user?
-    is_client_type(User::CLIENT_TYPE_NETWORK)
   end
 end
 
