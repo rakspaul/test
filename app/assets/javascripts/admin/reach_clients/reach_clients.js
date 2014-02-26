@@ -73,16 +73,42 @@
     model: ReachClient.User,
   });
 
+  ReachClient.Agency = Backbone.Model.extend({});
+
+  ReachClient.AgencyList = Backbone.Collection.extend({
+    url: '/agency.json',
+    model: ReachClient.Agency,
+  });
 
   ReachClient.ReachClientDetailsView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/admin/reach_clients/reach_client_details'],
 
     ui: {
+      agency: '#agency',
       name: '#name',
       abbreviation: '#abbreviation',
+      agency_id_error: '#agency_id_error',
       name_error: '#name_error',
       abbr_error: '#abbr_error',
     },
+
+    initialize: function() {
+      var self = this;
+      this.agencies = new ReachClient.AgencyList();
+      this.agencies.fetch().then(function() {
+        self.render();
+      });
+    },
+
+    serializeData: function() {
+      return {
+        name: this.model.get('name'),
+        abbr: this.model.get('abbr'),
+        agencies: this.agencies,
+        selected_agency_id: this.model.get('agency_id'),
+      }
+    },
+
   });
 
   ReachClient.ReachClientContactsView = Backbone.Marionette.ItemView.extend({
@@ -472,6 +498,7 @@
         abbr: this.clientDetailsView.ui.abbreviation.val(),
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
+        agency_id: this.clientDetailsView.ui.agency.val(),
       }
 
       if(this.clientContactsView) {

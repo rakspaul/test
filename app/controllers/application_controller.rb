@@ -14,4 +14,17 @@ class ApplicationController < ActionController::Base
         format.json { render json: "Record not found", status: :unprocessable_entity }
       end
     end
+
+  private
+    def require_client_type_network_or_agency
+      if (current_user && !current_user.agency_user? && !current_user.network_user?)
+        redirect_to root_path
+      end
+    end
+
+    def require_client_type_network
+      if (current_user && !current_user.network_user?)
+        redirect_to root_path
+      end
+    end
 end
