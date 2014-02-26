@@ -664,7 +664,7 @@
         }
       });
 
-      if(_.include(["Pushed", "Failure", "Incomplete Push", "Draft"], this.collection.order.get('order_status')) ||
+      if(_.include(["Pushed", "Failure", "Incomplete Push"], this.collection.order.get('order_status')) ||
         (lineitemsWithoutAds.length > 0)) {
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
