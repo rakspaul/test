@@ -2,9 +2,26 @@
 
 <fieldset>
   <div class="control-group">
+    <label for="agency" class="control-label">Agency</label>
+    <div class="controls">
+      <select id="agency">
+        <option selected value="">Select</option>
+        <% agencies.each(function(item){ %>
+          <% if(selected_agency_id && item.id === selected_agency_id) { %>
+            <option selected value="<%= item.id %>"> <%= item.get('name') %> </option>
+          <% } else { %>
+            <option value="<%= item.id %>"> <%= item.get('name') %></option>
+          <% } %>
+        <%}); %>
+      </select>
+      <label class="help-inline form-error" id="agency_id_error"></label>
+    </div>
+  </div>
+
+  <div class="control-group">
     <label for="name" class="control-label">Name</label>
     <div class="controls">
-      <input type="text" required="" value="<%= reachClient.name%>" placeholder="Name" id="name">
+      <input type="text" required="" value="<%= name%>" placeholder="Name" id="name">
       <label class="help-inline form-error" id="name_error"></label>
     </div>
   </div>
@@ -12,7 +29,7 @@
   <div class="control-group">
     <label for="abbreviation" class="control-label">Abbreviation</label>
     <div class="controls">
-      <input type="text" required="" value="<%= reachClient.abbr%>" placeholder="Abbreviation" id="abbreviation">
+      <input type="text" required="" value="<%= abbr%>" placeholder="Abbreviation" id="abbreviation">
       <label class="help-inline form-error" id="abbr_error"></label>
     </div>
   </div>

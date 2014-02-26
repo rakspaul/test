@@ -6,14 +6,15 @@ class ReachClient < ActiveRecord::Base
 
   belongs_to :sales_person, :foreign_key => 'sales_person_id', :class_name => "User"
   belongs_to :account_manager, :foreign_key => 'account_manager_id', :class_name => "User"
+  belongs_to :agency, :foreign_key => 'agency_id'
 
   validates :name, :abbr, presence: true, uniqueness: { case_sensitive: false, scope: :network_id }
 
-  validates :network_id, :user_id, presence: true, numericality: { only_integer: true }
+  validates :network_id, :user_id, :agency_id, presence: true, numericality: { only_integer: true }
 
   validates :media_contact_id, :billing_contact_id, presence: true, numericality: { only_integer: true }, on: :update
 
-  validate :validate_network_id, :validate_user_id, :validate_sales_person, :validate_account_manager, :validate_sales_person_account_manager
+  validate :validate_network_id, :validate_user_id, :validate_sales_person, :validate_account_manager, :validate_sales_person_account_manager, :validate_agency
 
   before_validation :compact_attr
 
@@ -40,6 +41,10 @@ class ReachClient < ActiveRecord::Base
 
       errors.add :error, "sales person, account manager must belong to same network" unless sales_person && account_manager
     end
+  end
+
+  def validate_agency
+    errors.add :agency_id, "not selected" unless Agency.exists?(self.agency_id)
   end
 
   def self.of_network(network)

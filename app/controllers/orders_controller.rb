@@ -1,6 +1,7 @@
 class OrdersController < ApplicationController
   include Authenticator
 
+  before_filter :require_client_type_network_or_agency
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
@@ -208,7 +209,7 @@ private
     am = params[:am]? params[:am] : ""
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : "my_orders"
+    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -216,34 +217,32 @@ private
       sort_column = "io_details.client_advertiser_name"
     end
 
-    if params[:sort_column].blank?
-      if !session[:sort_column].blank?
-        sort_column = session[:sort_column]
-      end
+    if !sort_column && !session[:sort_column].blank?
+      sort_column = session[:sort_column]
+    end
 
-      if !session[:sort_direction].blank?
-          sort_direction = session[:sort_direction]
-      end
+    if !sort_direction && !session[:sort_direction].blank?
+        sort_direction = session[:sort_direction]
+    end
 
-      if !session[:order_status].blank?
-        order_status = session[:order_status]
-      end
+    if !order_status && !session[:order_status].blank?
+      order_status = session[:order_status]
+    end
 
-      if !session[:am].blank?
-        am = session[:am]
-      end
+    if !am && !session[:am].blank?
+      am = session[:am]
+    end
 
-      if !session[:trafficker].blank?
-        trafficker = session[:trafficker]
-      end
+    if !trafficker && !session[:trafficker].blank?
+      trafficker = session[:trafficker]
+    end
 
-      if !session[:search_query].blank?
-        search_query = session[:search_query]
-      end
+    if !search_query && !session[:search_query].blank?
+      search_query = session[:search_query]
+    end
 
-      if !session[:orders_by_user].blank?
-        orders_by_user = session[:orders_by_user]
-      end
+    if !orders_by_user && !session[:orders_by_user].blank?
+      orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
     end
 
     session[:sort_column] = sort_column
@@ -258,10 +257,12 @@ private
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
+                  .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
+    @agency_user = is_agency_user?
   end
 
   def find_account_manager(params)
@@ -710,6 +711,10 @@ private
     @media_types = {}
     current_network.media_types.each{|t| @media_types[t.category] = t.id }
     @media_types['Companion'] = @media_types['Display']
+  end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
   end
 
   def set_current_user
