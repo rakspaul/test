@@ -693,7 +693,7 @@ private
   end
 
   def create_advertiser(name)
-    advertiser = Advertiser.of_network(current_network).where(:name => name).first
+    advertiser = Advertiser.of_network(current_network).where("name ilike ?", name).first
     if advertiser.blank?
       advertiser = Advertiser.new
       advertiser.name = name
