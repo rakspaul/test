@@ -452,7 +452,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }
         },
         valueKey: 'name',
-        limit: 20,
+        limit: 100,
         footer: '<div class="create-advertiser"><a href="#" id="create_advertiser" >Create Advertiser</a></div>'
       });
     }
