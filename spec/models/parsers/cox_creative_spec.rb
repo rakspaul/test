@@ -4,10 +4,11 @@ describe Parsers::CoxCreative do
   let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_creatives.txt') }
   let(:user) { FactoryGirl.create :user }
   let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
+  let(:agency) { FactoryGirl.create :agency, network: user.network }
 
   context "create 1 creative under 1 correct LI" do
     before do
-      reach_client = ReachClient.create name: "COX", abbr: "COX", network: user.network, sales_person_id: user.id, account_manager_id: user.id, user_id: user.id
+      reach_client = ReachClient.create name: "COX", abbr: "COX", network: user.network, sales_person_id: user.id, account_manager_id: user.id, user_id: user.id, agency_id: agency.id
       mc = MediaContact.create name: "test", phone: '1234567', email: 'test@example.com', reach_client_id: reach_client.id
       bc = BillingContact.create name: "test", phone: '1234567', email: 'test@example.com', reach_client_id: reach_client.id
 

@@ -20,9 +20,14 @@
             = image_tag "cm_logo.jpg"
 
           %ul.nav
-            - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
-              %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
-                = link_to key, value[:path]
+            -if !current_user.agency_user?
+              - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
+                %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
+                  = link_to key, value[:path]
+            -else
+              - ApplicationHelper::APP_NAVIGATION_BAR_AGENCY.each do |key, value|
+                %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
+                  = link_to key, value[:path]
 
           %ul.nav.pull-right
             %li.user-info

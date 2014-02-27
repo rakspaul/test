@@ -17,7 +17,8 @@
               Orders
             .controls
               %select.filter-orders#orders_by_user
-                %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
+                - if !@agency_user
+                  %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
                 %option{:value => "all_orders", :selected => session[:orders_by_user] == "all_orders"} All Orders
         .pure-u
           .control-group.status-control
@@ -43,25 +44,28 @@
                 %option Select
                 - @users.each do |user|
                   %option{:value => user.id, :selected => session[:am] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
-        .pure-u
-          .control-group
-            %label.control-label
-              Trafficker
-            .controls
-              %select.filter-orders.trafficker
-                %option Select
-                - @users.each do |user|
-                  %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
+        -if !@agency_user
+          .pure-u
+            .control-group
+              %label.control-label
+                Trafficker
+              .controls
+                %select.filter-orders.trafficker
+                  %option Select
+                  - @users.each do |user|
+                    %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
 
     .pure-g.btn-delete
       .pure-u
-        %button.btn#btn_delete_orders{type: "button"} Delete
+        - if !@agency_user
+          %button.btn#btn_delete_orders{type: "button"} Delete
 
   .orders-list
     %table.orders-table
       %thead
         %tr
-          %th
+          - if !@agency_user
+            %th
           %th
             .pure-g.header-container
               .pure-u.title-container
@@ -71,7 +75,10 @@
             .pure-g.header-container
               .pure-u.title-container.medium
                 .title
-                  AMP Id / DFP Id
+                  -if !@agency_user
+                    AMP Id / DFP Id
+                  -else
+                    AMP Id
               .pure-u.actions-container#id
                 - if session[:sort_column] == "id"
                   - if session[:sort_direction] == "asc"
@@ -111,21 +118,23 @@
                     %i.icon-sort-by-attributes-alt
                 - else
                   %i.icon-sort
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  Abbr
+          -if !@agency_user
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Abbr
           %th
             .pure-g.header-container
               .pure-u.title-container
                 .title
                   AM
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  Trafficker
+          -if !@agency_user
+            %th
+              .pure-g.header-container
+                .pure-u.title-container
+                  .title
+                    Trafficker
           %th
             .pure-g.header-container
               .pure-u.title-container.small
@@ -163,8 +172,10 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    var controller = new ReachUI.Orders.OrderController();
-    ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    if("#{!@agency_user}" === "true"){
+      var controller = new ReachUI.Orders.OrderController();
+      ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
+    }
 
     $('body').tooltip({
       selector: '[rel=tooltip]'

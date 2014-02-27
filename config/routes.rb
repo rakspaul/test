@@ -54,6 +54,8 @@ Reachui::Application.routes.draw do
         get 'export'
       end
     end
+
+    resources :block_violations
   end
 
   resources :users do
@@ -160,6 +162,8 @@ Reachui::Application.routes.draw do
       get 'search'
     end
   end
+
+  resources :agency
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
