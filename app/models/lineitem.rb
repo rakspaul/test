@@ -47,7 +47,7 @@ class Lineitem < ActiveRecord::Base
       cparams = params[:creative]
       creative_type = cparams[:creative_type] == "ThirdPartyCreative" ? "ThirdPartyCreative" : "InternalRedirectCreative"
       if creative_type == "ThirdPartyCreative"
-        html_code = cparams[:html_code]
+        html_code = html_unescape(cparams[:html_code])
       else
         url       = cparams[:redirect_url].try(:gsub, '/ad/', '/adj/').to_s
         html_code = '<script language="JavaScript" src="'+url+';click=%%CLICK_URL_UNESC%%;ord=%%CACHEBUSTER%%?" type="text/javascript"></script>'
@@ -138,5 +138,9 @@ class Lineitem < ActiveRecord::Base
         max_alt_id = Lineitem.where(order_id: order_id).pluck('alt_ad_id').map{|s| s.to_i}.max || 0
         self.alt_ad_id = max_alt_id + 1
       end
+    end
+
+    def html_unescape(str)
+      str.gsub(/&amp;/m, '&').gsub(/&gt;/m, '>').gsub(/&lt;/m, '<').gsub(/&quot;/m, '"').gsub(/&#39;/m, "'")
     end
 end

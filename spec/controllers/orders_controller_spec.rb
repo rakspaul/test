@@ -82,6 +82,12 @@ describe OrdersController do
         }.to change(Creative, :count).by(3)
       end
 
+      it "creates new creative with correct html_code attribute (not escaped)" do
+        post :create, io_request
+        creative = Creative.where(creative_type: "ThirdPartyCreative").first
+        expect(creative.html_code).to eq("<iframe frameborder='1' scrolling='no' width='728' height='90' marginwidth='0' marginheight='0'  src='http://greatlakes.placelocal.com/adtag_frame.php?clientID=ab1a4d0dd4d48a2ba1077c4494791306&campaignID=308888&adWidth=728&adHeight=90&campaign_api=dispCamp.getNextCampaign&api_url=api.placelocal.com&domain_name=greatlakes.placelocal.com&tracking_url=tracking.placelocal.com&animationTime=30&clickTag=${CLICKURLENC}&random=${REQUESTID}&landing_page=http%3A%2F%2Fcarzonesales.com'><a href='${CLICKURL}http://greatlakes.placelocal.com/tracking/click.php?campaign_id=308888&invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&url=http%3A%2F%2Fcarzonesales.com' target='_blank' style='display:inline-block'><img src='http://assets.placelocal.com/backup_image.php?campaign_id=308888&width=728&height=90&invocation_code=ab1a4d0dd4d48a2ba1077c4494791306' border='0' /></a></iframe>")
+      end
+
       it "saves creatives with name = ad description + creative's ad_size" do
         post :create, io_request_w_ads
         Order.last.ads.each do |ad|
