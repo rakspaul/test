@@ -33,7 +33,9 @@ describe('ReachUI.LineItems.LineItemList', function() {
 
   describe('should calculate on collection', function() {
     beforeEach(function() {
+      var order = new ReachUI.Orders.Order();
       var lineitemsList = new ReachUI.LineItems.LineItemList();
+      lineitemsList.setOrder(order);
       lineitemsList.add(new ReachUI.LineItems.LineItem({
         name: 'Pre-roll Video Line Item',
         volume: 300124,
