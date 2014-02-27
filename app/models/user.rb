@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  CLIENT_TYPE_NETWORK = "Network"
+
   belongs_to :network, :foreign_key => 'company_id'
 
   has_one :account
@@ -21,5 +23,8 @@ class User < ActiveRecord::Base
   def full_name
     "#{first_name} #{last_name}"
   end
-end
 
+  def self.with_counts
+    group(column_names.map {|c| "users.#{c}"}.join(', ')).having("COUNT(*) = 2")
+  end
+end

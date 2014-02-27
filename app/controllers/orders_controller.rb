@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
 
     @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
     @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
-    @reachui_users    = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
+    @reachui_users = load_users.limit(50)
 
     respond_to do |format|
       format.html
@@ -261,7 +261,13 @@ private
                   .filterByIdOrNameOrAdvertiser(search_query)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
+    @users = load_users
+  end
+
+  def load_users
+    User.of_network(current_network).joins(:roles)
+    .where(roles: { name: [Role::REACH_UI, Role::REACHUI_USER]}, client_type: User::CLIENT_TYPE_NETWORK)
+    .with_counts.order("first_name, last_name")
   end
 
   def find_account_manager(params)
@@ -511,7 +517,7 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-      
+
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
