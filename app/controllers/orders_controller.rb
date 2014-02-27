@@ -21,7 +21,7 @@ class OrdersController < ApplicationController
 
     @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
     @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
-    @reachui_users    = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
+    @reachui_users = load_users.limit(50)
 
     respond_to do |format|
       format.html
@@ -263,6 +263,13 @@ private
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = User.of_network(current_network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name")
     @agency_user = is_agency_user?
+    @users = load_users
+  end
+
+  def load_users
+    User.of_network(current_network).joins(:roles)
+    .where(roles: { name: [Role::REACH_UI, Role::REACHUI_USER]}, client_type: User::CLIENT_TYPE_NETWORK)
+    .with_counts.order("first_name, last_name")
   end
 
   def find_account_manager(params)
