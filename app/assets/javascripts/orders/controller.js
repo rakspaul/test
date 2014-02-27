@@ -506,14 +506,21 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       }
     });
+
     $('.general-info-container .order-name .editable').editable({
       success: function(response, newValue) {
-        order.set($(this).data('name'), newValue); //update backbone model;
-        $('.new-order-header .heading').html(newValue);
+        var value = newValue.replace(/^\s+|\s+$/g,'');
+        order.set($(this).data('name'), value); //update backbone model;
+        $('.new-order-header .heading').html(value);
         $(this).parent().removeClass('field_with_errors');
         $(this).siblings('.errors_container').html('');
       }
     });
+    $('.general-info-container .order-name .editable').on('hidden', function(e, reason) {
+      var value = $(e.currentTarget).editable('getValue');
+      $(e.currentTarget).editable('setValue', value.name.replace(/^\s+|\s+$/g,''));
+    });
+
     $('.general-info-container .editable:not(.typeahead):not(.custom)').editable({
       success: function(response, newValue) {
         order.set($(this).data('name'), newValue); //update backbone model;
