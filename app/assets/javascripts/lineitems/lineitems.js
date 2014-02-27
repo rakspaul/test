@@ -622,27 +622,35 @@
               }
             });
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
+            self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.state);
             if (response.state.match(/pushing/i)) {
+              self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
               self.trigger('ordernote:reload');
             } else if(response.state.match(/draft/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.state.match(/incomplete_push/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
             }
             if (response.order_id) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
+          self._toggleSavePushbuttons({ hide: false });
         },
         error: function(model, xhr, options) {
+          self._toggleSavePushbuttons({ hide: false });
           noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
           console.log(xhr.responseJSON);
         }
@@ -681,10 +689,12 @@
         });
         dialog.find('.push-btn').click(function() {
           dialog.modal('hide');
+          self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
         });
         dialog.modal('show');
       } else {
+        this._toggleSavePushbuttons({ hide: true });
         this._saveOrderWithStatus('pushing');
       }
     },
@@ -704,6 +714,16 @@
     _saveOrderWithStatus: function(status) {
       this.status = status;
       this._saveOrder();
+    },
+
+    _toggleSavePushbuttons: function(params) {
+      if (params.hide) {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      } else {
+        this.$el.find('.save-order-btn').removeClass('disabled');
+        this.$el.find('.push-order-btn').removeClass('disabled');
+      }
     },
 
     events: {
