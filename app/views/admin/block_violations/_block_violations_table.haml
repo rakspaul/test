@@ -6,4 +6,4 @@
     %td= block_violations.block_tool_state
     %td= block_violations.dfp_state
     %td= block_violations.try(:ad).try(:description)
-    %td= block_violations.ad_id
+    %td= block_violations.try(:ad).try(:source_id)
