@@ -714,7 +714,7 @@ private
   end
 
   def is_agency_user?
-    current_user.agency_user? && current_user.has_roles?([Role::REACHUI_USER])
+    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
   end
 
   def set_current_user
