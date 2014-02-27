@@ -144,16 +144,12 @@
 
       this.$el.find('.javascript-code .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.attributes.html_code = newValue;
+          self.model.attributes.html_code = self._encodeHTML(newValue);
+          self.model.attributes.html_code_excerpt = self._encodeHTML(self._excerptFromHtmlCode(newValue));
+          self.updateLiCreative(); // since there are no re-rendering of the views
         },
         display: function(value, sourceData) {
-          var start_pos = value.indexOf('"id" :'), val;
-          if(start_pos == -1) {
-            val = value.substr(0, 60);
-          } else {
-            val = value.substr(start_pos - 22, 47);
-          }
-          $(this).text(val);
+          $(this).text(self._excerptFromHtmlCode(value));
         }
       });
 
@@ -183,6 +179,20 @@
           self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
+    },
+
+    _encodeHTML: function(code) {
+      return code.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    },
+
+    _excerptFromHtmlCode: function(html_code) {
+      var start_pos = html_code.indexOf('"id" :'), excerpt;
+      if(start_pos == -1) {
+        excerpt = html_code.substr(0, 60);
+      } else {
+        excerpt = html_code.substr(start_pos - 22, 47);
+      }
+      return excerpt;
     },
 
     _showDeleteBtn: function(e) {
