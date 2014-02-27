@@ -87,7 +87,7 @@
         }
       });
     },
-
+ 
     _reloadPage: function() {
       window.location.href = window.location.href;
     },
