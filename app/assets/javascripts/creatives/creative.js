@@ -38,9 +38,7 @@
     }
   });
 
-  Creatives.CreativeView = Backbone.Marionette.ItemView.extend({
-    tagName: 'div',
-    className: 'creative pure-g',
+  Creatives.CreativeView = Creatives.BasicCreativeView.extend({
     template: JST['templates/creatives/creatives_row'],
 
     initialize: function(){
@@ -67,6 +65,10 @@
       var view = this,
           update_creative_model_from_li = true,
           current_creative = view.model;
+
+      if(!this.options.parent_view) {
+        return;
+      }
 
       // only update Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
@@ -140,6 +142,17 @@
         }
       });
 
+      this.$el.find('.javascript-code .editable.custom').editable({
+        success: function(response, newValue) {
+          self.model.attributes.html_code = newValue;
+        },
+        display: function(value, sourceData) {
+          var start_pos = value.indexOf('"id" :');
+          var val = value.substr(start_pos - 22, 47);
+          $(this).html(val);
+        }
+      });
+
       // select Creative size from the drop-down autocomplete
       this.$el.find('.size .editable.custom').editable({
         source: '/ad_sizes.json',
@@ -175,7 +188,7 @@
 
       if($(e.currentTarget).is(':checked')) {
         this.$el.find('.image-url span').editable('disable');
-        this.model.attributes.creative_type = "CustomCreative";
+        this.model.attributes.creative_type = "ThirdPartyCreative";
       } else {
         this.$el.find('.image-url span').editable('enable');
         this.model.attributes.creative_type = "InternalRedirectCreative";
@@ -245,34 +258,22 @@
     }
   });
 
-  Creatives.CreativesListView = Backbone.Marionette.CompositeView.extend({
+  Creatives.CreativesListView = Creatives.BasicCreativesListView.extend({
     itemView: Creatives.CreativeView,
-    itemViewContainer: '.creatives-list-view',
     template: JST['templates/creatives/creatives_container'],
-    className: 'creatives-content',
-    tagName: 'table',
-
-    serializeData: function(){
-      var data = {};
-      data.is_cox_creative = this.options.is_cox_creative;
-      return data;
-    },
-
-    ui: {
-      creatives: '.creatives-container'
-    },
 
     events: {
-      'click .add-creative-btn': '_addCreative',
+      'click .add-typed-creative-btn': '_addCreative',
       'click .done-creative-btn': '_closeCreativeDialog'
     },
 
-    _addCreative: function() {
+    _addCreative: function(ev) {
+      var type = $(ev.currentTarget).data('type');
       var parentModel = this.options.parent_view.model;
       var creative = new ReachUI.Creatives.Creative({
         start_date: parentModel.get('start_date'),
         end_date:   parentModel.get('end_date'),
-        creative_type: "InternalRedirectCreative"
+        creative_type: type
       });
 
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});

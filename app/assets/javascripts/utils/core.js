@@ -115,9 +115,11 @@ ReachUI.alignLINumberDiv = function() {
 
 ReachUI.checkOrderStatus = function(order_id) {
   var current_order_state = $('.current-io-status-top .io-status').html().trim();
-  current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
+  if (current_order_state) {
+    current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
+  }
 
-  if(current_order_state == "Pushing") {
+  if (current_order_state == "Pushing") {
     // pulsate the 'Pushing' status
     $('.current-io-status-top').effect('pulsate', {duration: 9000000, times: 10000}); // 25h
 

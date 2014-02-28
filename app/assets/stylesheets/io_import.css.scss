@@ -126,7 +126,8 @@ $wide_input_width: 320px;
     }
 
     > span {
-      text-align:left;
+      text-align: left;
+      display: table-cell;
     }
 
     .editable-input input, .uneditable-input input {
@@ -940,6 +941,15 @@ table.creatives-content {
       margin:5px;
     }
 
+    .tags-dropdown {
+      letter-spacing: normal;
+      border: dashed #000 1px;
+      border-radius: 0;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+
     .creatives-container {
       padding-top: 15px;
       padding-bottom: 15px;
@@ -951,6 +961,10 @@ table.creatives-content {
 
       .creative {
         margin-top:7px;
+
+        .javascript-code textarea {
+          width: 450px;
+        }
 
         .creative-type {
           text-align: center;

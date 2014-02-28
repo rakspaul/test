@@ -75,26 +75,12 @@
     className: 'no-order-found'
   });
 
-  Orders.DetailView = Backbone.Marionette.ItemView.extend({
+  //Orders.DetailView = Backbone.Marionette.ItemView.extend({
+  Orders.DetailView = Orders.BasicDetailView.extend({
     template: JST['templates/orders/order_details'],
-    className: 'order-details',
-
-    _toggleGeneralInfo: function() {
-      $('.general-info-container .columns').slideToggle({
-        complete: function() {
-          var general_info_visible = ($(this).css('display') == 'block');
-          $('.toggle-general-info-button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
-        }
-      });
-    },
-
-    _reloadPage: function() {
-      window.location.href = window.location.href;
-    },
 
     events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo',
-      'click .import-creatives-border a': '_reloadPage'
+      'click .toggle-general-info-button': '_toggleGeneralInfo'
     },
 
     triggers: {
@@ -140,6 +126,10 @@
         collectionView.$el.append(itemView.el);
       }
     }
+  });
+
+  ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
+    el: "#details .content"
   });
 
   Orders.OrderDetailLayout = Backbone.Marionette.Layout.extend({
@@ -314,6 +304,22 @@
           messages.push(data.jqXHR.responseText);
         }
         messages.push("</ul>");
+      }
+
+      if(resp.imported_creatives.length > 0) {
+        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){ 
+          return creative['io_lineitem_id']; 
+        });
+
+        _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
+          $('.lineitem-'+li_id+' .creatives-container .creative').remove();
+          _.each(li_creatives, function(li_creative) {
+            var creative = new ReachUI.Creatives.Creative(li_creative);
+            var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
+            var $li_creatives_area = $('.lineitem-'+li_id+' .creatives-container');
+            $li_creatives_area.append(creativeView.render().el);
+          });
+        });
       }
 
       $('#import-creatives-dialog .modal-body p').html(messages.join(""));

@@ -74,7 +74,8 @@
     }
   });
 
-  LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
+  //LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
+  LineItems.LineItemView = LineItems.BasicLineItemView.extend({
     tagName: 'div',
     className: 'lineitem pure-g',
 
@@ -100,22 +101,15 @@
       }
     },
 
-    _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
-      var cpm  = parseFloat(this.model.get('rate'));
-
-      var media_cost = (imps / 1000.0) * cpm;
-      this.model.set('value', media_cost);
-      var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost span');
-      $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
-    },
-
     // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
       this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
@@ -511,11 +505,9 @@
     }
   });
 
-  LineItems.LineItemListView = Backbone.Marionette.CompositeView.extend({
+  LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
-    itemViewContainer: '.lineitems-container',
     template: JST['templates/lineitems/line_item_table'],
-    className: 'lineitems-container',
 
     _saveOrder: function() {
       this._clearAllErrors();
