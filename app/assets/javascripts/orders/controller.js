@@ -489,7 +489,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     $('.advertiser-name').on('click', '#create_advertiser_btn', function(ev){
-      var advertiserName = $('#create_advertiser_input').val();
+      var advertiserName = $('#create_advertiser_input').val().replace(/^\s+|\s+$/g,'');
       var para = { name: advertiserName };
       $('.advertiser-name span.advertiser-unknown').toggleClass('advertiser-unknown');
       $('.advertiser-name input').val(advertiserName);
