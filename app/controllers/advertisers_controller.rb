@@ -8,8 +8,12 @@ class AdvertisersController < ApplicationController
     @advertisers = Advertiser.of_network(current_network)
       .find_by_name(search_query)
       .of_type_advertiser
-      .order(:name)
-    render json: @advertisers.select('network_advertisers.id, source_id, network_advertisers.name').limit(15)
+      .order("CASE WHEN network_advertisers.name like '#{search_query}%' THEN 0
+               WHEN network_advertisers.name like '% %#{search_query}% %' THEN 1
+               WHEN network_advertisers.name like '%#{search_query}' THEN 2
+               ELSE 3
+          END, network_advertisers.name")
+    render json: @advertisers.select('network_advertisers.id, source_id, network_advertisers.name').limit(100)
   end
 
   def search
