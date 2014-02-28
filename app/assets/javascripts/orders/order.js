@@ -326,6 +326,9 @@
         });
 
         _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
+          // update creatives count under li
+          $('.lineitem-'+li_id+' .toggle-creatives-btn').html('<span class="pencil-icon"></span>Edit Creatives (' + li_creatives.length + ')');
+
           $('.lineitem-'+li_id+' .creatives-container .creative').remove();
           _.each(li_creatives, function(li_creative) {
             var creative = new ReachUI.Creatives.Creative(li_creative);
