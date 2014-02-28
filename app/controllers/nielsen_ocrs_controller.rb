@@ -3,6 +3,8 @@ class NielsenOcrsController < ApplicationController
 
   respond_to :json, only: :search
 
+  before_filter :require_client_type_network
+
   def index
   end
 

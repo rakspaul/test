@@ -4,6 +4,8 @@ class Admin::DefaultBlockListController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :require_client_type_network
+
   add_crumb("Default Blocks") {|instance| instance.send :admin_default_block_list_index_path}
 
   def index
