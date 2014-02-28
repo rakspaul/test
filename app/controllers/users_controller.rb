@@ -24,8 +24,8 @@ class UsersController < ApplicationController
   private
   def set_users
     @users = User.of_network(current_network).joins(:roles)
-             .where(roles: { name: [Role::REACH_UI, Role::REACHUI_USER]}, client_type: User::CLIENT_TYPE_NETWORK)
-             .with_counts.order("first_name, last_name")
+             .where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK)
+             .order("first_name, last_name")
   end
 
 end

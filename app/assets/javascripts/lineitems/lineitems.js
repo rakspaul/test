@@ -642,12 +642,13 @@
             } else if (response.state.match(/incomplete_push/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
+            } else {
+              self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
-          self._toggleSavePushbuttons({ hide: false });
         },
         error: function(model, xhr, options) {
           self._toggleSavePushbuttons({ hide: false });
