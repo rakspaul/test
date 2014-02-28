@@ -42,7 +42,4 @@ class User < ActiveRecord::Base
     client_type == type
   end
 
-  def self.with_counts
-    group(column_names.map {|c| "users.#{c}"}.join(', ')).having("COUNT(*) = 2")
-  end
 end
