@@ -339,7 +339,12 @@
       this.$el.find('textarea#note_input').autosize();
 
       this.displayNotifyUsersList();
-      
+
+      // if order is not yet persisted then hide 'Creatives TXT' button
+      if(this.options.order.id == null) {
+        $(this.$el.find('.notetimestamp')[0]).remove()
+      }
+
       this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
 
       if(this.notify_users_dialog_active) {
