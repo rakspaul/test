@@ -790,10 +790,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
-              
-            lineItemList._recalculateLiImpressionsMediaCost();
           });
         });
+
+        lineItemList._recalculateLiImpressionsMediaCost();
         if(lineItemList.order.get('pushing_errors').length > 0) {
           ordersController._showPushErrors(lineItemList.order.get('pushing_errors'), lineItemList.order);
         }
