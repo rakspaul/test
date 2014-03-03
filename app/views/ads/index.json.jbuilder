@@ -31,9 +31,12 @@ json.array! @ads do |ad|
       json.start_date     format_date(ad_assignment.try(:start_date))
       json.end_date       format_date(ad_assignment.try(:end_date))
       json.redirect_url   creative[:image_url] || creative.try(:redirect_url)
-      json.client_ad_id   creative.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1)
+
+      json.client_ad_id   creative.client_ad_id
       json.source_id      creative.try(:source_id)
-      json.html_code      excerpt(creative.try(:html_code), '"id" :', radius: 22)
+      json.html_code      h(creative.try(:html_code))
+      json.html_code_excerpt html_code_excerpt(creative)
+
       json.creative_type  creative.try(:creative_type)
       json.io_lineitem_id ad.io_lineitem_id
       json.ad_id          ad.id

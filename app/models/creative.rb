@@ -25,4 +25,8 @@ class Creative < ActiveRecord::Base
   def set_data_source
     self.data_source = self.network.data_source
   end
+
+  def client_ad_id
+    self.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1) || self.html_code.try(:match, /"id"\s*:\s*"(\d+)"/).try(:[], 1)
+  end
 end
