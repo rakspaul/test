@@ -669,11 +669,12 @@
         }
       });
 
-      if(_.include(["Pushed", "Failure", "Incomplete Push"], this.collection.order.get('order_status')) ||
+      var orderStatus = this.collection.order.get('order_status');
+      if(_.include(["Pushed", "Failure", "Incomplete Push"], orderStatus) ||
         (lineitemsWithoutAds.length > 0)) {
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
-        if (!isNaN(parseInt(this.collection.order.get('source_id')))) {
+        if (!isNaN(parseInt(this.collection.order.get('source_id'))) || orderStatus == 'Incomplete Push') {
           dialog.find('.confirm-push-message').show();
         } else {
           dialog.find('.confirm-push-message').hide();
