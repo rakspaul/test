@@ -71,13 +71,13 @@ class Parsers::CoxCreative < Parsers::Base
         li_assignment = LineitemAssignment.create lineitem: li, creative: creative, start_date: start_date, end_date: end_date, network_id: li.order.network_id, data_source_id: li.order.network.try(:data_source_id)
 
         if !li_assignment.errors.messages.blank?
-          @creatives_errors << li_assignment.errors.full_messages.join('; ')
+          @creatives_errors << "#{index+1}: "+li_assignment.errors.full_messages.join('; ')
         else
           @creatives << creative
         end
       end
     else
-      @creatives_errors << "#{index}: Lineitem with name \"#{placement_name}\" not found"
+      @creatives_errors << "#{index+1}: Lineitem with name \"#{placement_name}\" not found"
     end
   end
 end
