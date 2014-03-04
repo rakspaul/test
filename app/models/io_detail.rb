@@ -21,7 +21,7 @@ class IoDetail < ActiveRecord::Base
 
   validates :reach_client_id, presence: true
 
-  after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.state=~ /pushing/i }
+  after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.state=~ /pushing|incomplete/i }
 
 private
 
