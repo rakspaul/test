@@ -41,5 +41,5 @@ class User < ActiveRecord::Base
   def is_client_type(type)
     client_type == type
   end
-end
 
+end

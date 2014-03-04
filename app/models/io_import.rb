@@ -17,7 +17,7 @@ class IoImport
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
-    @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
+    @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK).order("first_name, last_name").limit(50)
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
