@@ -509,6 +509,13 @@
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
 
+    onRender: function() {
+      if (this.collection.order.get('order_status') == 'Pushing') {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      }
+    },
+
     _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;
@@ -615,20 +622,28 @@
               }
             });
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
+            self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.state);
             if (response.state.match(/pushing/i)) {
+              self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
               self.trigger('ordernote:reload');
             } else if(response.state.match(/draft/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.state.match(/incomplete_push/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
+            } else {
+              self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
@@ -636,6 +651,7 @@
           }
         },
         error: function(model, xhr, options) {
+          self._toggleSavePushbuttons({ hide: false });
           noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
           console.log(xhr.responseJSON);
         }
@@ -653,11 +669,12 @@
         }
       });
 
-      if(_.include(["Pushed", "Failure", "Incomplete Push"], this.collection.order.get('order_status')) ||
+      var orderStatus = this.collection.order.get('order_status');
+      if(_.include(["Pushed", "Failure", "Incomplete Push"], orderStatus) ||
         (lineitemsWithoutAds.length > 0)) {
         var dialog = $('#push-confirmation-dialog');
         var liList = dialog.find('.li-without-ads');
-        if (!isNaN(parseInt(this.collection.order.get('source_id')))) {
+        if (!isNaN(parseInt(this.collection.order.get('source_id'))) || orderStatus == 'Incomplete Push') {
           dialog.find('.confirm-push-message').show();
         } else {
           dialog.find('.confirm-push-message').hide();
@@ -674,10 +691,12 @@
         });
         dialog.find('.push-btn').click(function() {
           dialog.modal('hide');
+          self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
         });
         dialog.modal('show');
       } else {
+        this._toggleSavePushbuttons({ hide: true });
         this._saveOrderWithStatus('pushing');
       }
     },
@@ -699,9 +718,19 @@
       this._saveOrder();
     },
 
+    _toggleSavePushbuttons: function(params) {
+      if (params.hide) {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      } else {
+        this.$el.find('.save-order-btn').removeClass('disabled');
+        this.$el.find('.push-order-btn').removeClass('disabled');
+      }
+    },
+
     events: {
-      'click .save-order-btn':        '_saveOrderDraft',
-      'click .push-order-btn':        '_pushOrder',
+      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },
