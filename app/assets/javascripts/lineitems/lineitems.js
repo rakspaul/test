@@ -245,7 +245,7 @@
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
         }
       });
 
