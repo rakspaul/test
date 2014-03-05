@@ -24,18 +24,18 @@
 </div>
 
 
+<% if(keyvalue_targeting && !show_custom_key_values) { %>
+<span class="keyvalue_targeting">
+  <span class="custom-kv-icon"></span>
+  <%= keyvalue_targeting %>
+</span>
+<% } %>
+
 
 <div class="pure-g custom-targeting">
-  <% if(keyvalue_targeting || show_custom_key_values) { %>
+  <% if(show_custom_key_values) { %>
   <div class="custom-kv-icon pull-left"></div>
   <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
-  <% } %>
-
-  <% if(keyvalue_targeting && !show_custom_key_values) { %>
-  <span class="keyvalue_targeting"><%= keyvalue_targeting %></span>
-  <% } %>
-
-  <% if(show_custom_key_values) { %>
   <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= keyvalue_targeting %>" class="custom-kvs-field"/>
   <% } %>
   <div style="clear:both"></div>

@@ -10,6 +10,7 @@ class Advertiser < ActiveRecord::Base
 
   before_create :create_random_source_id, :set_data_source, :make_advertiser_active
   before_save :set_data_source
+  validates :name, uniqueness: { case_sensitive: false, scope: :network }
 
   def self.of_network(network)
     where(:network => network)

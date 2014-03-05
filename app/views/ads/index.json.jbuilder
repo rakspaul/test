@@ -36,6 +36,7 @@ json.array! @ads do |ad|
       json.source_id      creative.try(:source_id)
       json.html_code      h(creative.try(:html_code))
       json.html_code_excerpt html_code_excerpt(creative)
+
       json.creative_type  creative.try(:creative_type)
       json.io_lineitem_id ad.io_lineitem_id
       json.ad_id          ad.id

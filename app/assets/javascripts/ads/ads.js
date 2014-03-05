@@ -249,9 +249,11 @@
           self.model.get('targeting').set('dmas_list', dmas_list);
           self.model.get('targeting').set('audience_groups', ags.attributes);
           self.renderTargetingDialog();
+          ReachUI.showCondensedTargetingOptions.apply(self);
         });
       } else {
         self.renderTargetingDialog();
+        ReachUI.showCondensedTargetingOptions.apply(this);
       }
 
       this.renderCreatives();
