@@ -285,7 +285,7 @@
       $('.notify-users-list .notify-by-email').html("Notify by email: " + this.selected_users.join(', '));
     },
 
-    _importCreativesCallback: function(e, data) {
+    _importCreativesCallback: function(e, data, li_views) {
       $('#import-creatives-dialog').modal('show');
 
       var resp = data.jqXHR.responseJSON,
@@ -312,16 +312,25 @@
         });
 
         _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
-          // update creatives count under li
-          $('.lineitem-'+li_id+' .toggle-creatives-btn').html('<span class="pencil-icon"></span>Edit Creatives (' + li_creatives.length + ')');
+          var current_li, current_li_view;
+
+          _.each(li_views.children._views, function(li_view, li_key) {
+            if(li_id == li_view.model.id) {
+              current_li_view = li_view;
+              current_li = li_view.model;
+            }
+          });
 
           $('.lineitem-'+li_id+' .creatives-container .creative').remove();
+          var new_creatives = [];
           _.each(li_creatives, function(li_creative) {
             var creative = new ReachUI.Creatives.Creative(li_creative);
-            var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
-            var $li_creatives_area = $('.lineitem-'+li_id+' .creatives-container');
-            $li_creatives_area.append(creativeView.render().el);
+            new_creatives.push(creative);
           });
+
+          current_li.set('creatives', new ReachUI.Creatives.CreativesList(new_creatives));
+
+          current_li_view.renderCreatives();
         });
       }
 
@@ -395,8 +404,8 @@
         dropZone: this.ui.creatives_fileupload,
         pasteZone: null,
         start: this._uploadStarted,
-        done: this._importCreativesCallback,
-        fail: this._importCreativesCallback
+        done: function(e, data) { self._importCreativesCallback(e, data, self.options.li_view) },
+        fail: function(e, data) { self._importCreativesCallback(e, data, self.options.li_view) }
       });
 
       // IE double click fix
