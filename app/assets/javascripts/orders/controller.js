@@ -74,7 +74,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     lineItems.setOrder(orderModel);
     this._liSetCallbacksAndShow(lineItems);
-    this._showNotesView(orderModel);
   },
 
   orderDetails: function(id) {
@@ -562,7 +561,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           });
           order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
-          self._showNotesView(order);
         },
         function(model, response, options) {
           console.log('error while getting lineitems list');
@@ -572,7 +570,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this.lineItemList.setOrder(order);
       this._liSetCallbacksAndShow(this.lineItemList);
-      this._showNotesView(order);
     }
   },
 
@@ -661,6 +658,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+
     var ordersController = this;
 
     // adding Ad under certain lineitem
@@ -814,13 +812,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
     });
+
+    this._showNotesView(lineItemList.order, lineItemListView);
   },
 
-  _showNotesView: function(order) {
+  _showNotesView: function(order, li_view) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
-    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order});
+    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
     this.notesRegion.show(notes_list_view);
   },
 });
