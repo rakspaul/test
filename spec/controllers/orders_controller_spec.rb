@@ -405,7 +405,8 @@ describe OrdersController do
 
   describe "DELETE 'destroy'" do
     before :each do
-      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail
+      advertiser = FactoryGirl.create :advertiser, name: 'testAdvertiser'
+      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail, advertiser: advertiser
     end
 
     it "returns http success" do

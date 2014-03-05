@@ -204,7 +204,7 @@ FactoryGirl.define do
     status "Pending"
     message "test message"
     site
-    advertiser
+    advertiser { FactoryGirl.singleton(:advertiser) }
     advertiser_group_id { FactoryGirl.singleton(:advertiser_block).id }
     user
     created_at 1.day.from_now
