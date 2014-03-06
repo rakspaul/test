@@ -263,7 +263,6 @@
       if(! this.errors_in_kv) {
         this.options.parent_view._toggleTargetingDialog();
         this._renderSelectedTargetingOptions();
-        this.ui.kv_type_switch.html('+ Add Custom K/V');
       }
     },
 
