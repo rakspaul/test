@@ -114,10 +114,9 @@ class Ad < ActiveRecord::Base
     self.states = []
     self.states = states.compact if !states.blank?
 
-    selected_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+    self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
       AudienceGroup.find_by(id: group_name[:id])
     end
-    self.audience_groups = selected_groups if !selected_groups.blank?
   end
 
   def create_random_source_id
