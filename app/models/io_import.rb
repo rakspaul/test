@@ -759,7 +759,16 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        lineitems.last[:name] += ' ' + line.join(' ')
+        joint_symbol = if lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^_/)
+          ''
+        elsif lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^[A-Z]/)
+          ' '
+        elsif lineitems.last[:name][-1].match(/[A-Z_-]$/) && line.first.match(/^[_A-Z]/)
+          ''
+        else
+          ' '
+        end
+        lineitems.last[:name] += joint_symbol + line.join(joint_symbol)
       end
     end
     lineitems

@@ -71,7 +71,7 @@ describe IOPdfFileReader do
         li[:start_date].should == Date.strptime("9/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver _300x250,160x600,728x90_9/14-9/28"
+        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver_300x250,160x600,728x90_9/14-9/28"
         li[:volume].should == 10350
         li[:rate].should == 0.01
         li[:notes].should == "Proposal Line Item ID: 269771556 - Added Value RON- DMA Denver"
