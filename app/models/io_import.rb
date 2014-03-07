@@ -748,7 +748,7 @@ private
     @raw_reader.pages.count.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
-        below /End/
+        below /End|Flight Dates/
         left_of /site:|section:/i
       end
       placements += textangle.text
