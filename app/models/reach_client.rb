@@ -14,9 +14,13 @@ class ReachClient < ActiveRecord::Base
 
   validates :media_contact_id, :billing_contact_id, presence: true, numericality: { only_integer: true }, on: :update
 
+  validates :client_buffer, presence: true, numericality: true
+
   validate :validate_network_id, :validate_user_id, :validate_sales_person, :validate_account_manager, :validate_sales_person_account_manager, :validate_agency
 
   before_validation :compact_attr
+
+  before_save :client_buffer_val
 
   def validate_network_id
     errors.add :network_id, "is invalid" unless Network.exists?(self.network_id)
@@ -51,9 +55,21 @@ class ReachClient < ActiveRecord::Base
     where(:network => network)
   end
 
-  protected
+
+
+  private
     def compact_attr
       self.name.try(:strip!)
       self.abbr.try(:strip!)
+    end
+
+    def client_buffer_val
+      val = self.client_buffer
+      self.client_buffer = round_decimals(val, 1)
+    end
+
+    def round_decimals(val, exp = 0)
+      multiplier = 10 ** exp
+      return ((val * multiplier).floor).to_f/multiplier.to_f
     end
 end
