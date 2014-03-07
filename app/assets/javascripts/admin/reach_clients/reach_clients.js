@@ -12,6 +12,10 @@
 
     toJSON: function() {
       return { reachClient: _.clone(this.attributes) };
+    },
+
+    defaults: {
+      client_buffer: 0
     }
   });
 
@@ -87,9 +91,11 @@
       agency: '#agency',
       name: '#name',
       abbreviation: '#abbreviation',
+      client_buffer: '#client_buffer',
       agency_id_error: '#agency_id_error',
       name_error: '#name_error',
       abbr_error: '#abbr_error',
+      client_buffer_error: '#client_buffer_error',
     },
 
     initialize: function() {
@@ -106,6 +112,23 @@
         abbr: this.model.get('abbr'),
         agencies: this.agencies,
         selected_agency_id: this.model.get('agency_id'),
+        client_buffer: this.model.get('client_buffer')
+      }
+    },
+
+    events: {
+      'keyup #client_buffer': '_clientBufferValue'
+    },
+
+    _clientBufferValue: function(){
+      var val = this.ui.client_buffer.val();
+
+      if(val.indexOf('.')!=-1){
+        if(val.split(".")[1].length > 1){
+          if( isNaN( parseFloat(val) ) ) return;
+          this.ui.client_buffer.val(Math.floor(parseFloat(val) * 10) / 10);
+          return;
+        }
       }
     },
 
@@ -499,6 +522,7 @@
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
         agency_id: this.clientDetailsView.ui.agency.val(),
+        client_buffer: this.clientDetailsView.ui.client_buffer.val(),
       }
 
       if(this.clientContactsView) {

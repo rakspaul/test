@@ -39,7 +39,7 @@ class Admin::ReachClientsController < ApplicationController
   end
 
   def create
-    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :agency_id)
+    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :agency_id, :client_buffer)
     @reach_client = ReachClient.new(p)
     @reach_client.network_id = current_network.id
     @reach_client.user_id = current_user.id
@@ -59,7 +59,7 @@ class Admin::ReachClientsController < ApplicationController
 
   def update
     @reach_client = ReachClient.find(params[:id])
-    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id, :billing_contact_id, :agency_id)
+    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id, :billing_contact_id, :agency_id, :client_buffer)
     @reach_client.update_attributes(p)
     @reach_client.save
 
