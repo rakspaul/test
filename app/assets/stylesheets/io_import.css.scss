@@ -977,6 +977,16 @@ table.creatives-content {
           width: 450px;
         }
 
+        .image-url span{
+          width:450PX;
+          display:inline-block;
+          overflow:hidden;
+          white-space:nowrap;
+          word-wrap:break-word;
+          text-overflow: ellipsis;
+          -o-text-overflow: ellipsis;
+        }
+
         .creative-type {
           text-align: center;
         }
