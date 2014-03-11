@@ -164,7 +164,7 @@ ReachUI.currentTimeWithOffset = function(offset) {
 ReachUI.initialStartDate = function(startDate) {
   var initialStartDate = moment().format("YYYY-MM-DD");
   if (moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > startDate) {
-    initialStartDate = moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD");
+    initialStartDate = moment(window.server_time).format("YYYY-MM-DD");
   }
   return initialStartDate;
 }
