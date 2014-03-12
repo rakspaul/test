@@ -102,6 +102,30 @@ describe IOPdfFileReader do
     end
   end
 
+  context "whole world water pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'InsertionOrder_www.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "CDS_AudienceNetwork_ADDEDVALUE:Run of AudienceNetwork_National_300x250,728x90_3/17-3/22"
+    end
+  end
+
+  context "Dunkin Donuts pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'DunkinDonuts.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "Cox Digital Solutions_Added Value_Geo-Targeted to Burlington, VT_300x250,728x90,160x600_3/3-5/31"
+    end
+  end
+
+  context "Dunkin Donuts second pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'DunkinDonuts2.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "CDS_AddedValueRONLocalNewsSites_DMATargetBinghamton_300x250, 728x90,160x600_3/3-3/30"
+    end
+  end
+
   context "opened io pdf file with 3 lineitems on different pages" do
     subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
 
