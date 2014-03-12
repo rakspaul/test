@@ -113,3 +113,12 @@ form fieldset {
 .lineitem-sizes {
   word-wrap: break-word;
 }
+
+.li-row {
+  .dropdown-menu > li > a {
+    padding: 3px 20px 3px 5px;
+    span {
+      line-height: 20px;
+    }
+  }
+}
