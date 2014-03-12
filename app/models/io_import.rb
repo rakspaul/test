@@ -768,7 +768,7 @@ private
           ''
         elsif lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^[A-Z]/)
           ' '
-        elsif lineitems.last[:name][-1].match(/[A-Z_-]$/) && line.first.match(/^[_A-Z]/)
+        elsif lineitems.last[:name][-1].match(/[0-9A-Z_-]$/) && line.first.match(/^[_A-Z0-9]/)
           ''
         else
           ' '
