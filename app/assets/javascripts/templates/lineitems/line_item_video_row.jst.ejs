@@ -45,10 +45,18 @@
           <div class="video-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
           </div>
           <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
-            <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Display</a></li>
-            <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Video</a></li>
-            <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile">Mobile</a></li>
-            <li role="presentation"><a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook">Facebook</a></li>
+            <li role="presentation">
+              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display"><span class="display-icon pull-left"></span>Display</a>
+            </li>
+            <li role="presentation">
+              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video"><span class="video-icon pull-left"></span>Video</a>
+            </li>
+            <li role="presentation">
+              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile"><span class="mobile-icon pull-left"></span>Mobile</a>
+            </li>
+            <li role="presentation">
+              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook"><span class="facebook-icon pull-left"></span>Facebook</a>
+            </li>
           </ul>
         </div>
         <span class="ads-sizes">Pre-roll
@@ -69,6 +77,7 @@
           <% } %>
         </span>
       </span>
+
       <div class="errors_container" style="clear:both"></div>
       <br/>
       <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>

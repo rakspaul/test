@@ -132,7 +132,7 @@
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
         datepicker: {
-          startDate: moment().format("YYYY-MM-DD")
+          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
         }
       });
 

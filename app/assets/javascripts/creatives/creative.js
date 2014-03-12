@@ -138,7 +138,7 @@
           }
         },
         datepicker: {
-          startDate: moment().format("YYYY-MM-DD")
+          startDate: ReachUI.initialStartDate(self.model.get('start_date'))
         }
       });
 

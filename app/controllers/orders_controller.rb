@@ -359,10 +359,9 @@ private
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
-      selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+      lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
-      lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -719,11 +718,11 @@ private
     @media_types['Companion'] = @media_types['Display']
   end
 
-  def is_agency_user?
-    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
-  end
-
   def set_current_user
     Order.current_user = current_user
+  end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
   end
 end
