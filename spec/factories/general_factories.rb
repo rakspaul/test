@@ -46,6 +46,7 @@ FactoryGirl.define do
     sales_person    { FactoryGirl.singleton :user }
     account_manager { FactoryGirl.singleton :user }
     agency { FactoryGirl.singleton(:agency) }
+    client_buffer 5.5
   end
 
   factory :contact do
