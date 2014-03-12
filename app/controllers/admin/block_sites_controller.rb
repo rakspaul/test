@@ -73,11 +73,15 @@ class Admin::BlockSitesController < ApplicationController
   def create_blacklisted_advertisers(advertisers)
     advertisers_for_default_blocks = []
     # if any block rule is not there for advertiser then apply default block.
+
+    advertiser_ids = []
     advertisers.each do |advertiser|
-      if BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser["advertiser_id"]).block_or_pending_block.length < 1
-        advertisers_for_default_blocks.push(advertiser["advertiser_id"])
-      end
+      advertiser_ids.push(advertiser["advertiser_id"])
     end
+
+    blocked_advertiser_ids = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).block_or_pending_block.pluck("advertiser_id").uniq
+
+    advertisers_for_default_blocks = advertiser_ids - blocked_advertiser_ids
 
     advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
 
