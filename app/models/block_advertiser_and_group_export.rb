@@ -22,9 +22,12 @@ class BlockAdvertiserAndGroupExport
           end
         end
 
+        sites_arr = sites_arr.sort.compact
+        sites_arr.map! { |site|  "/#{@current_user.network.dart_id}/#{site}"}
+
         sites_hash = {
           "adv_name" => adv_name,
-          "sites_name" => sites_arr.sort.compact
+          "sites_name" => sites_arr
         }
 
         blocked_adv_arr << sites_hash
@@ -49,9 +52,12 @@ class BlockAdvertiserAndGroupExport
           end
         end
 
+        sites_arr = sites_arr.sort.compact
+        sites_arr.map! { |site|  "/#{@current_user.network.dart_id}/#{site}"}
+
         sites_hash = {
           "adv_group_name" => adv_group_name,
-          "sites_name" => sites_arr.sort.compact
+          "sites_name" => sites_arr
         }
 
         blocked_adv_group_arr << sites_hash
