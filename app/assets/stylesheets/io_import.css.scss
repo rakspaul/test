@@ -977,8 +977,8 @@ table.creatives-content {
           width: 450px;
         }
 
-        .image-url span{
-          width:450px;
+        .image-url span, .javascript-code span{
+          width:85%;
           display:inline-block;
           overflow:hidden;
           white-space:nowrap;
