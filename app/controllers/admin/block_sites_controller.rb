@@ -12,7 +12,7 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def get_blacklisted_advertisers
-    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block
+    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block.limit(500)
     @blacklisted_advertisers = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
   end
 
@@ -22,7 +22,7 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def get_whitelisted_advertiser
-    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock
+    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock.limit(500)
     @whitelisted_advertisers = get_whitelisted_advertiser_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
   end
 
@@ -79,10 +79,11 @@ class Admin::BlockSitesController < ApplicationController
       advertiser_ids.push(advertiser["advertiser_id"])
     end
 
+    # find any advertiser is blocked on any site or not
     blocked_advertiser_ids = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).block_or_pending_block.pluck("advertiser_id").uniq
-
+    # remove already blocked advertisers
     advertisers_for_default_blocks = advertiser_ids - blocked_advertiser_ids
-
+    # get default blocks for advertisers not blocked on any site
     advertisers += get_default_site_blocks_for_advertisers(advertisers_for_default_blocks.uniq)
 
     create_or_update_advertisers(advertisers, BlockedAdvertiser::PENDING_BLOCK)
@@ -222,19 +223,15 @@ private
     advertiser_with_default_blocks = []
     default_sites = DefaultSiteBlocks.of_network(current_network)
 
-    advertiser_ids.each do |id|
-      advertiser = Advertiser.find(id)
-      if advertiser
-        default_sites.each do |default_site|
-          advertiser_whitelisted = BlockedAdvertiser.of_network(current_network).where(:advertiser => advertiser, :site => default_site.site).unblock_or_pending_unblock.first
-          if !advertiser_whitelisted
-            # default_block => true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
-            ba =  BlockedAdvertiser.new(:advertiser => advertiser, :site => default_site.site, :default_block => true)
-            advertiser_with_default_blocks.push(ba)
-          end
-      end
+    default_sites.each do |default_site|
+        whitelisted_advertisers_ids = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).where(:site_id => default_site.site_id).unblock_or_pending_unblock.pluck("advertiser_id").uniq
+        advertisers_for_default_blocks = advertiser_ids - whitelisted_advertisers_ids
+        advertisers_for_default_blocks.each do |advertiser_id|
+          # default_block => true, will append (Default Block) text next to site name like '123 Greetings (Default Block)'
+          ba =  BlockedAdvertiser.new(:advertiser_id => advertiser_id, :site_id => default_site.site_id, :default_block => true)
+          advertiser_with_default_blocks.push(ba)
+        end
     end
-  end
 
     return advertiser_with_default_blocks
   end
@@ -253,28 +250,24 @@ private
     blocks = BlockSite.of_network(current_network).where(user: current_user).pending_block
     unblocks = BlockSite.of_network(current_network).where(user: current_user).pending_unblock
 
-    blocks.each do |block|
-      block.state = BlockSite::COMMIT_BLOCK
-      block.save
-      BlockLog.create(
-        :site_id => block.try("site_id"),
-        :advertiser_id => block.try("advertiser_id"),
-        :advertiser_group_id => block.try("advertiser_group_id"),
-        :status => "PENDING",
-        :action => "Block",
-        :user => current_user);
+    blocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_BLOCK}' where id IN(#{blocks.pluck('id').join(',')})"
+    create_block_logs_sql = "insert into reach_block_logs(action, status, site_id, advertiser_id, advertiser_group_id, user_id, created_at, updated_at)
+      SELECT 'Block', 'PENDING', site_id, advertiser_id, advertiser_group_id, #{current_user.id}, now(), now()
+      from reach_sites_block where (user_id = #{current_user.id} AND state = '#{BlockSite::PENDING_BLOCK}')"
+
+    if blocks.length > 0
+      ActiveRecord::Base.connection.execute create_block_logs_sql
+      ActiveRecord::Base.connection.execute blocks_to_update_sql
     end
 
-    unblocks.each do |unblock|
-      unblock.state = BlockSite::COMMIT_UNBLOCK
-      unblock.save
-      BlockLog.create(
-        :site_id => unblock.try("site_id"),
-        :advertiser_id => unblock.try("advertiser_id"),
-        :advertiser_group_id => unblock.try("advertiser_group_id"),
-        :status => "PENDING",
-        :action => "Unblock",
-        :user => current_user);
+    unblocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_UNBLOCK}' where id IN(#{unblocks.pluck('id').join(',')})"
+    create_unblock_logs_sql = "insert into reach_block_logs(action, status, site_id, advertiser_id, advertiser_group_id, user_id, created_at, updated_at)
+      SELECT 'Unblock', 'PENDING', site_id, advertiser_id, advertiser_group_id, #{current_user.id}, now(), now()
+      from reach_sites_block where (user_id = #{current_user.id} AND state = '#{BlockSite::PENDING_UNBLOCK}')"
+
+    if unblocks.length > 0
+      ActiveRecord::Base.connection.execute create_unblock_logs_sql
+      ActiveRecord::Base.connection.execute unblocks_to_update_sql
     end
   end
 
@@ -291,9 +284,25 @@ private
   end
 
   def create_or_update_advertisers(advertisers, state)
+    # If record exit update it or create new one, since PostgreSQL does not support update or insert
+    # delete the existing records and create new one with updated attributes.
+    blocks_to_delete = []
+    inserts = []
     advertisers.each do |advertiser|
-      create_or_update_advertiser(advertiser["advertiser_id"], advertiser["site_id"], state)
+      blocks_to_delete.push "(advertiser_id = #{advertiser["advertiser_id"]} AND site_id = #{advertiser["site_id"]} AND network_id = #{current_network.id})"
+      inserts.push "(#{advertiser["advertiser_id"]}, #{advertiser["site_id"]}, '#{state}', 'BlockedAdvertiser', #{current_network.id}, #{current_user.id}, now(), now())"
     end
+    delete_sql = "select id from reach_sites_block where(#{blocks_to_delete.join(" OR ")})"
+    sql_for_delete_existing_advertiser_blocks = "Delete from reach_sites_block where id IN(#{delete_sql})"
+
+    ActiveRecord::Base.connection.execute sql_for_delete_existing_advertiser_blocks
+    sql_for_insert_advertiser_blocks = "INSERT INTO reach_sites_block(advertiser_id, site_id, state, type, network_id, user_id, created_at, updated_at)
+          VALUES #{inserts.join(', ')}"
+
+    ActiveRecord::Base.connection.execute sql_for_insert_advertiser_blocks
+  rescue => e
+    Rails.logger.warn "Block Site error: #{e.message.inspect}"
+    respond_with(e.message, status: :service_unavailable)
   end
 
   def create_or_update_advertiser(advertiser_id, site_id, state)
