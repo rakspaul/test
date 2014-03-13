@@ -5,6 +5,8 @@ class Admin::BlockLogsController < ApplicationController
   respond_to :html
   respond_to :csv, :only => :export
 
+  before_filter :require_client_type_network
+
   add_crumb("Block Push Log") {|instance| instance.send :admin_block_logs_path}
 
   def index

@@ -24,6 +24,10 @@ describe OrdersController do
     File.stub(:unlink).and_call_original
     File.stub(:unlink).with(path).and_return(file)
     File.stub(:unlink).with(path2).and_return(file)
+    us = FactoryGirl.create(:country)
+    FactoryGirl.create(:state, name: "Alabama", country: us)
+    FactoryGirl.create(:designated_market_area, name: "Lexington", code: 541)
+    FactoryGirl.create(:city, name: "Ala", country_code: "IT", region_name: "Trento")
   end
 
   before :each do
@@ -76,10 +80,22 @@ describe OrdersController do
         }.to change(Lineitem, :count).by(1)
       end
 
-      it "create a new creatives" do
-        expect{
-          post :create, io_request
-        }.to change(Creative, :count).by(3)
+      it "creates a new video and regular creatives" do
+        expect {
+          expect {
+            expect {
+              expect {
+                post :create, io_request
+              }.to change(Creative, :count).by(2)
+            }.to change(VideoCreative, :count).by(1)
+          }.to change(LineitemAssignment, :count).by(2)
+        }.to change(LineitemVideoAssignment, :count).by(1)
+      end
+
+      it "creates new creative with correct html_code attribute (not escaped)" do
+        post :create, io_request
+        creative = Creative.where(creative_type: "ThirdPartyCreative").first
+        expect(creative.html_code).to eq("<iframe frameborder='1' scrolling='no' width='728' height='90' marginwidth='0' marginheight='0'  src='http://greatlakes.placelocal.com/adtag_frame.php?clientID=ab1a4d0dd4d48a2ba1077c4494791306&campaignID=308888&adWidth=728&adHeight=90&campaign_api=dispCamp.getNextCampaign&api_url=api.placelocal.com&domain_name=greatlakes.placelocal.com&tracking_url=tracking.placelocal.com&animationTime=30&clickTag=${CLICKURLENC}&random=${REQUESTID}&landing_page=http%3A%2F%2Fcarzonesales.com'><a href='${CLICKURL}http://greatlakes.placelocal.com/tracking/click.php?campaign_id=308888&invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&url=http%3A%2F%2Fcarzonesales.com' target='_blank' style='display:inline-block'><img src='http://assets.placelocal.com/backup_image.php?campaign_id=308888&width=728&height=90&invocation_code=ab1a4d0dd4d48a2ba1077c4494791306' border='0' /></a></iframe>")
       end
 
       it "saves creatives with name = ad description + creative's ad_size" do
@@ -96,6 +112,40 @@ describe OrdersController do
         expect{
           post :create, io_request
         }.to change(OrderNote, :count).by(2)
+      end
+    end
+
+    context "vaild order w/ City and State and DMA targeting" do
+      it "creates correct links between city/dma/state targeting and Lineitems" do
+        us = Country.where(['abbr = ?', 'US']).first
+        expect(us).to be
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        expect {
+          expect {
+            expect {
+              post :create, io_request
+            }.to change(state.lineitems, :count).by(1)
+          }.to change(city.lineitems, :count).by(1)
+        }.to change(dma.lineitems, :count).by(1)
+      end
+
+      it "creates correct links between city/dma/state targeting and Ads" do
+        us = Country.where(['abbr = ?', 'US']).first
+        expect(us).to be
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        expect {
+          expect {
+            expect {
+              post :create, io_request_w_ads
+            }.to change(state.ads, :count).by(1)
+          }.to change(city.ads, :count).by(1)
+        }.to change(dma.ads, :count).by(1)
       end
     end
 
@@ -235,6 +285,36 @@ describe OrdersController do
         }.to change(Ad, :count).by(1)
       end
 
+      it "creates new regular and video creatives" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(Creative, :count).by(2)
+        }.to change(VideoCreative, :count).by(1)
+      end
+
+      it "creates video and regular lineitem assignments" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(LineitemVideoAssignment, :count).by(1)
+        }.to change(LineitemAssignment, :count).by(2)
+      end
+
+      it "creates video and regular ad assignments" do
+        expect {
+          expect {
+            post :create, params
+          }.to change(AdAssignment, :count).by(2)
+        }.to change(VideoAdAssignment, :count).by(1)
+      end
+
+      it "should set creative_type attribute of created creative" do
+        post :create, params
+        creative = Creative.last
+        expect(creative.creative_type).to eq("InternalRedirectCreative")
+      end
+
       it "create companion ad for video lineitem" do
         params['order']['lineitems'].each do |li|
           li['ads'].each do |ad|
@@ -290,6 +370,17 @@ describe OrdersController do
         put :update, params
 
         expect(response).to be_success
+      end
+
+      it "update ad start date" do
+        li = order.lineitems.first
+        ad = order.lineitems.first.ads.first
+        ad.update_attribute(:start_date, li.start_date - 1.day)
+
+        params['order']['lineitems'][0]['ads'][0]['start_date'] = li.start_date.strftime('%Y-%m-%d')
+
+        put :update, params
+        expect(json_parse(response.body)).not_to include(:errors)
       end
     end
   end
@@ -356,7 +447,8 @@ describe OrdersController do
 
   describe "DELETE 'destroy'" do
     before :each do
-      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail
+      advertiser = FactoryGirl.create :advertiser, name: 'testAdvertiser'
+      @order = FactoryGirl.create :order, name: 'testOrder', io_detail: io_detail, advertiser: advertiser
     end
 
     it "returns http success" do
@@ -410,8 +502,20 @@ private
         creative['creative']['end_date']   = end_date
       end
     end
+    li = params['order']['lineitems'].first
+    if li
+      us = Country.where(['abbr = ?', 'US']).first
+      alabama = State.find_by name: "Alabama", country_id: us.id
+      ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+      dma = DesignatedMarketArea.find_by name: "Lexington"
 
-   { :format => 'json' }.merge params
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+
+      creative = li['lineitem']['creatives'].first
+      creative['creative']['ad_size'] = "1x1"
+    end
+
+    { :format => 'json' }.merge params
   end
 
   def io_request_w_ads
@@ -445,6 +549,24 @@ private
         end
         ad['ad']['type'] = 'Video'
       end
+
+      ad = li['ads'].first
+      if ad
+        us = Country.where(['abbr = ?', 'US']).first
+        state = State.find_by name: "Alabama", country_id: us.id
+        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
+        dma = DesignatedMarketArea.find_by name: "Lexington"
+
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+        creative = ad['ad']['creatives'].first
+        creative['creative']['ad_size'] = "1x1"
+      end
+    end
+
+    li = params['order']['lineitems'].first
+    if li
+      creative = li['lineitem']['creatives'].first
+      creative['creative']['ad_size'] = "1x1"
     end
 
    { :format => 'json' }.merge params

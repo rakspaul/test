@@ -74,7 +74,8 @@
     }
   });
 
-  LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
+  //LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
+  LineItems.LineItemView = LineItems.BasicLineItemView.extend({
     tagName: 'div',
     className: 'lineitem pure-g',
 
@@ -94,20 +95,10 @@
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
 
-      if(! this.model.get('targeting')) {
+      if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
-        this.model.set('targeting', targeting);
+        this.model.set({ 'targeting': targeting }, { silent: true });
       }
-    },
-
-    _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
-      var cpm  = parseFloat(this.model.get('rate'));
-
-      var media_cost = (imps / 1000.0) * cpm;
-      this.model.set('value', media_cost);
-      var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost span');
-      $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -116,6 +107,9 @@
       $.fn.editable.defaults.mode = 'popup';
 
       this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
@@ -251,19 +245,18 @@
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
         }
       });
 
       this.renderCreatives();
       this.renderTargetingDialog();
-      ReachUI.alignLINumberDiv();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
-          ad.set('size', view.model.get('ad_sizes'));
+          ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         view.renderAd(ad);
       });
@@ -281,8 +274,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      ReachUI.alignAdsDivs();
-      if(0 == ad.get('volume')) {
+      if (0 == ad.get('volume')) {
         ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
     },
@@ -291,9 +283,9 @@
       var view = this, is_cox_creative = false;
       
       // check whether there are Cox Creatives
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          if(creative.get('html_code')) {
+          if (creative.get('html_code')) {
             is_cox_creative = true;
           }
         })
@@ -304,10 +296,11 @@
       this.ui.creatives_container.html(creatives_list_view.render().el);
 
       // rendering each Creative
-      if(this.model.get('creatives')) {
+      if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
-          creative.set('order_id', view.model.get('order_id'));
-          creative.set('lineitem_id', view.model.get('id'));
+          creative.set({
+            'order_id': view.model.get('order_id'),
+            'lineitem_id': view.model.get('id')}, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
@@ -342,9 +335,8 @@
       this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
       $(this.ui.targeting).toggle('slow');
 
-      if(is_visible) {
+      if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
-        ReachUI.alignLINumberDiv()
       }
     },
 
@@ -403,7 +395,7 @@
       var li_t = this.model.get('targeting');
       window.copied_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: _.clone(li_t.get('selected_key_values')),
-        selected_dmas: _.clone(li_t.get('selected_dmas')),
+        selected_geos: _.clone(li_t.get('selected_geos')),
         dmas_list: _.clone(li_t.get('dmas_list')),
         selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
         audience_groups: _.clone(li_t.get('audience_groups')),
@@ -434,8 +426,17 @@
     pasteTargeting: function(e) {
       e.stopPropagation();
       noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
+
       _.each(window.selected_lis, function(li) {
-        li.model.set('targeting', window.copied_targeting);
+        var copied_li_t = new ReachUI.Targeting.Targeting({
+            selected_key_values: _.clone(window.copied_targeting.get('selected_key_values')),
+            selected_geos: _.clone(window.copied_targeting.get('selected_geos')),
+            dmas_list: _.clone(window.copied_targeting.get('dmas_list')),
+            selected_zip_codes: _.clone(window.copied_targeting.get('selected_zip_codes')),
+            audience_groups: _.clone(window.copied_targeting.get('audience_groups')),
+            keyvalue_targeting: _.clone(window.copied_targeting.get('keyvalue_targeting'))
+        });
+        li.model.set('targeting', copied_li_t);
         li.renderTargetingDialog();
         li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
       });
@@ -513,19 +514,24 @@
     }
   });
 
-  LineItems.LineItemListView = Backbone.Marionette.CompositeView.extend({
+  LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
-    itemViewContainer: '.lineitems-container',
     template: JST['templates/lineitems/line_item_table'],
-    className: 'lineitems-container',
+
+    onRender: function() {
+      if (this.collection.order.get('order_status') == 'Pushing') {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      }
+    },
 
     _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;
       var self = this;
 
-      // store Order and Lineitems in one POST request
-      this.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      // function that store Order and Lineitems in one POST request
+      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -563,15 +569,12 @@
                   _.each(li_errors.lineitems, function(errorMsg, fieldName) {
                     var fieldSelector = errors_fields_correspondence.lineitems[fieldName];
                     var field = $('.lineitems-container .lineitem:nth(' + li_k + ')').find(fieldSelector);
-
-                    field.addClass('field_with_errors');
+                     field.addClass('field_with_errors');
                     field.find(' .errors_container:first').html(ReachUI.humanize(errorMsg));
                   });
-
                   if (li_errors["creatives"]) {// && li_errors["creatives"][li_k]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .toggle-creatives-btn').trigger('click', true);
                   }
-
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
                   }
@@ -595,7 +598,6 @@
                                     .find('.ad:nth(' + ad_k + ') ' + fieldSelector);
                         field.addClass('field_with_errors');
                         field.find('.errors_container').html(ReachUI.humanize(errorMsg));
-                        ReachUI.alignAdsDivs();
                       }
                     });
 
@@ -614,7 +616,8 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
-                            field.addClass('field_with_errors');
+ 
+                          field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
                       });
@@ -628,20 +631,28 @@
               }
             });
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
+            self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.state);
             if (response.state.match(/pushing/i)) {
+              self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
               self.trigger('ordernote:reload');
             } else if(response.state.match(/draft/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.state.match(/incomplete_push/i)) {
+              self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
+            } else {
+              self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
@@ -649,6 +660,7 @@
           }
         },
         error: function(model, xhr, options) {
+          self._toggleSavePushbuttons({ hide: false });
           noty({text: 'There was an error while saving Order.', type: 'error', timeout: 5000})
           console.log(xhr.responseJSON);
         }
@@ -657,17 +669,43 @@
 
     _pushOrder: function() {
       var self = this;
+      var lineitems = this.collection;
+      var lineitemsWithoutAds = [];
 
-      if(_.include(["Pushed", "Failure"], this.collection.order.get('order_status'))) {
-        $('#push-confirmation-dialog .cancel-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+      lineitems.each(function(li) {
+        if (!li.ads.length) {
+          lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
+        }
+      });
+
+      var orderStatus = this.collection.order.get('order_status');
+      if(_.include(["Pushed", "Failure", "Incomplete Push"], orderStatus) ||
+        (lineitemsWithoutAds.length > 0)) {
+        var dialog = $('#push-confirmation-dialog');
+        var liList = dialog.find('.li-without-ads');
+        if (!isNaN(parseInt(this.collection.order.get('source_id'))) || orderStatus == 'Incomplete Push') {
+          dialog.find('.confirm-push-message').show();
+        } else {
+          dialog.find('.confirm-push-message').hide();
+        }
+        if (lineitemsWithoutAds.length > 0) {
+          dialog.find('.missed-ads-heading').show();
+          liList.html(_.map(lineitemsWithoutAds, function(el) { return '<li>Contract LI ' + el + '</li>' }).join(' '));
+        } else {
+          dialog.find('.missed-ads-heading').hide();
+          liList.html('');
+        }
+        dialog.find('.cancel-btn').click(function() {
+          dialog.modal('hide');
         });
-        $('#push-confirmation-dialog .push-btn').click(function() {
-          $('#push-confirmation-dialog').modal('hide');
+        dialog.find('.push-btn').click(function() {
+          dialog.modal('hide');
+          self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
         });
-        $('#push-confirmation-dialog').modal('show');
+        dialog.modal('show');
       } else {
+        this._toggleSavePushbuttons({ hide: true });
         this._saveOrderWithStatus('pushing');
       }
     },
@@ -689,9 +727,19 @@
       this._saveOrder();
     },
 
+    _toggleSavePushbuttons: function(params) {
+      if (params.hide) {
+        this.$el.find('.save-order-btn').addClass('disabled');
+        this.$el.find('.push-order-btn').addClass('disabled');
+      } else {
+        this.$el.find('.save-order-btn').removeClass('disabled');
+        this.$el.find('.push-order-btn').removeClass('disabled');
+      }
+    },
+
     events: {
-      'click .save-order-btn':        '_saveOrderDraft',
-      'click .push-order-btn':        '_pushOrder',
+      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
     },

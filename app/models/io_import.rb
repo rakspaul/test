@@ -17,7 +17,7 @@ class IoImport
     @current_user         = current_user
     @original_filename    = file.original_filename
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
-    @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACHUI_USER}).order("first_name, last_name").limit(50)
+    @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK).order("first_name, last_name").limit(50)
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
@@ -220,6 +220,7 @@ end
 
 class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
+  DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
   LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]*roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
@@ -370,8 +371,6 @@ class IOExcelFileReader < IOReader
   def media_contact
     {
       name: @spreadsheet.cell(*MEDIA_CONTACT_NAME_CELL).to_s.strip,
-      #company: @spreadsheet.cell(*MEDIA_CONTACT_COMPANY_CELL).to_s.strip,
-      #address: @spreadsheet.cell(*MEDIA_CONTACT_ADDRESS_CELL).to_s.strip,
       phone: @spreadsheet.cell(*MEDIA_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*MEDIA_CONTACT_EMAIL_CELL).to_s.strip
     }
@@ -388,8 +387,6 @@ class IOExcelFileReader < IOReader
   def billing_contact
     {
       name: @spreadsheet.cell(*BILLING_CONTACT_NAME_CELL).to_s.strip,
-      #company: @spreadsheet.cell(*BILLING_CONTACT_COMPANY_CELL).to_s.strip,
-      #address: @spreadsheet.cell(*BILLING_CONTACT_ADDRESS_CELL).to_s.strip,
       phone: @spreadsheet.cell(*BILLING_CONTACT_PHONE_CELL).to_s.strip,
       email: @spreadsheet.cell(*BILLING_CONTACT_EMAIL_CELL).to_s.strip
     }
@@ -409,23 +406,34 @@ class IOExcelFileReader < IOReader
     parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
   end
 
-  def lineitems
+  def lineitems(&block)
     row = LINE_ITEM_START_ROW
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
-      ad_sizes = @spreadsheet.cell('C', row).strip.downcase
-      type = determine_lineitem_type(ad_sizes)
-      yield({
-        start_date: parse_date(@spreadsheet.cell('A', row)),
-        end_date: parse_date(@spreadsheet.cell('B', row)),
-        ad_sizes: parse_ad_sizes(ad_sizes, type),
-        name: @spreadsheet.cell('D', row).to_s.strip,
-        volume: @spreadsheet.cell('F', row).to_i,
-        rate: @spreadsheet.cell('G', row).to_f,
-        type: type
-      })
-
+      yield_li_from_row(row, block)
       row += 1
     end
+
+    row += 1
+
+    # now check pre-roll LIs
+    while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
+      yield_li_from_row(row, block)
+      row += 1
+    end
+  end
+
+  def yield_li_from_row(row, block)
+    ad_sizes = @spreadsheet.cell('C', row).strip.downcase
+    type = determine_lineitem_type(ad_sizes)
+    block.call({
+      start_date: parse_date(@spreadsheet.cell('A', row)),
+      end_date: parse_date(@spreadsheet.cell('B', row)),
+      ad_sizes: parse_ad_sizes(ad_sizes, type),
+      name: @spreadsheet.cell('D', row).to_s.strip,
+      volume: @spreadsheet.cell('F', row).to_i,
+      rate: @spreadsheet.cell('G', row).to_f,
+      type: type
+    })
   end
 
   def find_notes
@@ -436,27 +444,40 @@ class IOExcelFileReader < IOReader
     @spreadsheet.cell('B', row)
   end
 
-  def inreds
+  def inreds(&block)
     return if @spreadsheet.sheets[INREDS_SPREADSHEET_PAGE] != INREDS_SPREADSHEET_NAME
     row = INREDS_START_ROW
+    blank_rows_counter = 0
+    
+    change_sheet INREDS_SPREADSHEET_PAGE do      
+      while blank_rows_counter < 10
+        cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)
 
-    change_sheet INREDS_SPREADSHEET_PAGE do
+        if cell.blank?
+          blank_rows_counter += 1
+          row += 1
+          next
+        else
+          blank_rows_counter = 0
+        end
 
-      while (cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)) && !cell.blank?
-        ad_size = @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row)
-        yield({
-          ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
-          start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
-          end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
-          ad_size: ad_size.strip.downcase,
-          placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
-          image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
-          click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
-        }) if ! ad_size.blank?
-
+        yield_inreds_from(row, block)
         row += 1
       end
     end
+  end
+
+  def yield_inreds_from(row, block)
+    ad_size = @spreadsheet.cell(INREDS_AD_SIZE_COLUMN, row)
+    block.call({
+      ad_id: @spreadsheet.cell(INREDS_AD_ID_COLUMN, row).to_i,
+      start_date: parse_date(@spreadsheet.cell(INREDS_START_DATE_COLUMN, row)),
+      end_date: parse_date(@spreadsheet.cell(INREDS_END_DATE_COLUMN, row)),
+      ad_size: ad_size.strip.downcase,
+      placement: @spreadsheet.cell(INREDS_PLACEMENT_COLUMN, row).to_s.strip,
+      image_url: @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row).to_s.strip,
+      click_url: @spreadsheet.cell(INREDS_CLICK_URL_COLUMN, row).to_s.strip
+    }) if ! ad_size.blank?
   end
 
 private
@@ -681,7 +702,7 @@ private
       page_contains_contracts_totals = @raw_reader.page(i+1).text.match(/\nContracts Totals\n/)
       textangle = @reader.bounding_box do
         page (i+1)
-        below /Start/
+        below /Start|Flight Dates/
         right_of /site:/i
         above(/Contracts Totals/) if page_contains_contracts_totals
       end
@@ -701,6 +722,10 @@ private
     dates.each_with_index do |line, i|
       li = {}
       if line.first =~ /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        if line[0] =~ /\d{1,2}\/\d{1,2}\/\d{2,4}[ \-]+\d{1,2}\/\d{1,2}\/\d{2,4}/
+          line[0] = line[0].split(/[ \-]+/)
+          line.flatten!
+        end
         li[:start_date]    = line[0]
         li[:end_date]      = line[1]
         li[:impressions]   = line[2].gsub(/,/, '')
@@ -723,7 +748,7 @@ private
     @raw_reader.pages.count.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
-        below /End/
+        below /End|Flight Dates/
         left_of /site:|section:/i
       end
       placements += textangle.text
@@ -739,7 +764,16 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        lineitems.last[:name] += ' ' + line.join(' ')
+        joint_symbol = if lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^_/)
+          ''
+        elsif lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^[A-Z]/)
+          ' '
+        elsif lineitems.last[:name][-1].match(/[A-Z_-]$/) && line.first.match(/^[_A-Z]/)
+          ''
+        else
+          ' '
+        end
+        lineitems.last[:name] += joint_symbol + line.join(joint_symbol)
       end
     end
     lineitems

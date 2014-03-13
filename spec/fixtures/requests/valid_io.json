@@ -106,10 +106,12 @@
                 "ad_size": "728x90",
                 "start_date": "2013-11-05",
                 "end_date": "2013-11-30",
-                "redirect_url": "http://ad.doubleclick.net/ad/.collective;adid=;sz=728x90",
+                "redirect_url": "",
                 "client_ad_id": 0,
                 "source_id": null,
-                "creative_type": "CustomCreative",
+                "html_code_excerpt": "&lt;iframe frameborder=&#39;1&#39; scrolling=&#39;no&#39; width=&#39;728&#39; height=&#39;90", 
+                "html_code": "&lt;iframe frameborder=&#39;1&#39; scrolling=&#39;no&#39; width=&#39;728&#39; height=&#39;90&#39; marginwidth=&#39;0&#39; marginheight=&#39;0&#39;  src=&#39;http://greatlakes.placelocal.com/adtag_frame.php?clientID=ab1a4d0dd4d48a2ba1077c4494791306&amp;campaignID=308888&amp;adWidth=728&amp;adHeight=90&amp;campaign_api=dispCamp.getNextCampaign&amp;api_url=api.placelocal.com&amp;domain_name=greatlakes.placelocal.com&amp;tracking_url=tracking.placelocal.com&amp;animationTime=30&amp;clickTag=${CLICKURLENC}&amp;random=${REQUESTID}&amp;landing_page=http%3A%2F%2Fcarzonesales.com&#39;&gt;&lt;a href=&#39;${CLICKURL}http://greatlakes.placelocal.com/tracking/click.php?campaign_id=308888&amp;invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&amp;url=http%3A%2F%2Fcarzonesales.com&#39; target=&#39;_blank&#39; style=&#39;display:inline-block&#39;&gt;&lt;img src=&#39;http://assets.placelocal.com/backup_image.php?campaign_id=308888&amp;width=728&amp;height=90&amp;invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&#39; border=&#39;0&#39; /&gt;&lt;/a&gt;&lt;/iframe&gt;", 
+                "creative_type": "ThirdPartyCreative",
                 "io_lineitem_id": null,
                 "ad_id": null,
                 "order_id": null,
@@ -121,7 +123,7 @@
             "targeting": {
               "targeting": {
                 "selected_key_values": [ ],
-                "selected_dmas": [ ],
+                "selected_geos": [ ],
                 "selected_zip_codes": [ ],
                 "keyvalue_targeting": ""
               }
@@ -168,10 +170,12 @@
                       "ad_size": "728x90",
                       "start_date": "2013-11-05",
                       "end_date": "2013-11-30",
-                      "redirect_url": "http://ad.doubleclick.net/ad/.collective;adid=;sz=728x90",
+                      "redirect_url": "",
                       "client_ad_id": 0,
                       "source_id": null,
-                      "creative_type": "CustomCreative",
+                      "html_code_excerpt": "&lt;iframe frameborder=&#39;1&#39; scrolling=&#39;no&#39; width=&#39;728&#39; height=&#39;90", 
+                      "html_code": "&lt;iframe frameborder=&#39;1&#39; scrolling=&#39;no&#39; width=&#39;728&#39; height=&#39;90&#39; marginwidth=&#39;0&#39; marginheight=&#39;0&#39;  src=&#39;http://greatlakes.placelocal.com/adtag_frame.php?clientID=ab1a4d0dd4d48a2ba1077c4494791306&amp;campaignID=308888&amp;adWidth=728&amp;adHeight=90&amp;campaign_api=dispCamp.getNextCampaign&amp;api_url=api.placelocal.com&amp;domain_name=greatlakes.placelocal.com&amp;tracking_url=tracking.placelocal.com&amp;animationTime=30&amp;clickTag=${CLICKURLENC}&amp;random=${REQUESTID}&amp;landing_page=http%3A%2F%2Fcarzonesales.com&#39;&gt;&lt;a href=&#39;${CLICKURL}http://greatlakes.placelocal.com/tracking/click.php?campaign_id=308888&amp;invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&amp;url=http%3A%2F%2Fcarzonesales.com&#39; target=&#39;_blank&#39; style=&#39;display:inline-block&#39;&gt;&lt;img src=&#39;http://assets.placelocal.com/backup_image.php?campaign_id=308888&amp;width=728&amp;height=90&amp;invocation_code=ab1a4d0dd4d48a2ba1077c4494791306&#39; border=&#39;0&#39; /&gt;&lt;/a&gt;&lt;/iframe&gt;", 
+                      "creative_type": "ThirdPartyCreative",
                       "io_lineitem_id": null,
                       "ad_id": null,
                       "order_id": null,

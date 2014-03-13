@@ -4,6 +4,8 @@ class Admin::ReachClientsController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :require_client_type_network
+
   add_crumb("Reach Clients") {|instance| instance.send :admin_reach_clients_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_reach_client_path}
 
@@ -37,7 +39,7 @@ class Admin::ReachClientsController < ApplicationController
   end
 
   def create
-    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id)
+    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :agency_id, :client_buffer)
     @reach_client = ReachClient.new(p)
     @reach_client.network_id = current_network.id
     @reach_client.user_id = current_user.id
@@ -57,7 +59,7 @@ class Admin::ReachClientsController < ApplicationController
 
   def update
     @reach_client = ReachClient.find(params[:id])
-    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id, :billing_contact_id)
+    p = params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id, :billing_contact_id, :agency_id, :client_buffer)
     @reach_client.update_attributes(p)
     @reach_client.save
 

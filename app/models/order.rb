@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+  cattr_accessor :current_user
 
   has_paper_trail ignore: [:updated_at]
 
@@ -36,6 +37,7 @@ class Order < ActiveRecord::Base
   scope :filterByLoggingUser, lambda { |user, orders_by_user| where("user_id = '#{user.id}'") unless orders_by_user.blank? || orders_by_user == "all_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or name ILIKE ? or source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?",
                                                              "%#{query}%", "%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
+  scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
 
   def self.of_network(network)
     where(:network => network)
@@ -115,12 +117,12 @@ class Order < ActiveRecord::Base
     end
 
     def set_import_note
-      self.order_notes.create note: "Imported Order", user: self.user, order: self
+      self.order_notes.create note: "Imported Order", user: current_user, order: self
     end
 
     def set_push_note
       if self.io_detail.state == 'pushing'
-        self.order_notes.create note: "Pushed Order", user: self.user, order: self
+        self.order_notes.create note: "Pushed Order", user: current_user, order: self
       end
     end
 end

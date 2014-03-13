@@ -75,7 +75,8 @@
     className: 'no-order-found'
   });
 
-  Orders.DetailView = Backbone.Marionette.ItemView.extend({
+  //Orders.DetailView = Backbone.Marionette.ItemView.extend({
+  Orders.DetailView = Orders.BasicDetailView.extend({
     template: JST['templates/orders/order_details'],
     className: 'order-details',
 
@@ -87,14 +88,13 @@
         }
       });
     },
-
+ 
     _reloadPage: function() {
       window.location.href = window.location.href;
     },
 
     events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo',
-      'click .import-creatives-border a': '_reloadPage'
+      'click .toggle-general-info-button': '_toggleGeneralInfo'
     },
 
     triggers: {
@@ -140,6 +140,10 @@
         collectionView.$el.append(itemView.el);
       }
     }
+  });
+
+  ReachUI.Orders.DetailRegion = Backbone.Marionette.Region.extend({
+    el: "#details .content"
   });
 
   Orders.OrderDetailLayout = Backbone.Marionette.Layout.extend({
@@ -295,7 +299,7 @@
       $('.notify-users-list .notify-by-email').html("Notify by email: " + this.selected_users.join(', '));
     },
 
-    _importCreativesCallback: function(e, data) {
+    _importCreativesCallback: function(e, data, li_views) {
       $('#import-creatives-dialog').modal('show');
 
       var resp = data.jqXHR.responseJSON,
@@ -316,6 +320,34 @@
         messages.push("</ul>");
       }
 
+      if(resp.imported_creatives.length > 0) {
+        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){ 
+          return creative['io_lineitem_id']; 
+        });
+
+        _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
+          var current_li, current_li_view;
+
+          _.each(li_views.children._views, function(li_view, li_key) {
+            if(li_id == li_view.model.id) {
+              current_li_view = li_view;
+              current_li = li_view.model;
+            }
+          });
+
+          $('.lineitem-'+li_id+' .creatives-container .creative').remove();
+          var new_creatives = [];
+          _.each(li_creatives, function(li_creative) {
+            var creative = new ReachUI.Creatives.Creative(li_creative);
+            new_creatives.push(creative);
+          });
+
+          current_li.set('creatives', new ReachUI.Creatives.CreativesList(new_creatives));
+
+          current_li_view.renderCreatives();
+        });
+      }
+
       $('#import-creatives-dialog .modal-body p').html(messages.join(""));
     },
 
@@ -325,7 +357,12 @@
       this.$el.find('textarea#note_input').autosize();
 
       this.displayNotifyUsersList();
-      
+
+      // if order is not yet persisted then hide 'Creatives TXT' button
+      if(this.options.order.id == null) {
+        $(this.$el.find('.notetimestamp')[0]).remove()
+      }
+
       this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
 
       if(this.notify_users_dialog_active) {
@@ -381,8 +418,8 @@
         dropZone: this.ui.creatives_fileupload,
         pasteZone: null,
         start: this._uploadStarted,
-        done: this._importCreativesCallback,
-        fail: this._importCreativesCallback
+        done: function(e, data) { self._importCreativesCallback(e, data, self.options.li_view) },
+        fail: function(e, data) { self._importCreativesCallback(e, data, self.options.li_view) }
       });
 
       // IE double click fix

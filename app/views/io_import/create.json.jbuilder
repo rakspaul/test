@@ -73,6 +73,6 @@ json.lineitems do
       json.array! li_creatives_sorted_by_date_and_size.flatten do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
-    end unless lineitem.type == 'Video'
+    end
   end
 end

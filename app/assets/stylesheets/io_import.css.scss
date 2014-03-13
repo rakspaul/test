@@ -126,7 +126,8 @@ $wide_input_width: 320px;
     }
 
     > span {
-      text-align:left;
+      text-align: left;
+      display: table-cell;
     }
 
     .editable-input input, .uneditable-input input {
@@ -320,15 +321,33 @@ $wide_input_width: 320px;
   .lineitem {
     margin-bottom:10px;
     margin-top:10px;
-    background-color: $bg_color;
+    background-color: white;
     padding:0;
     clear:both;
+    .li-table {
+      display: table;
+      width: 100%;
+      .li-row {
+        display: table-row;
+        background-color: $bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
 
     > div[class^="pure-u"] {
       padding:10px 0;
       &:nth-child(2) {
         border-right: 2px solid white;
         @include box-sizing(border-box);
+      }
+    }
+
+    .video-dropdown {
+      position: absolute;
+      .dropdown-menu {
+        top: 0;
       }
     }
 
@@ -452,7 +471,19 @@ $wide_input_width: 320px;
   }
 
   .ads-container {
-    background-color: $ad_bg_color;
+    .ad-table {
+      display: table;
+      border-collapse: collapse;
+      width: 100%;
+      .ad-row {
+        display: table-row;
+        background-color: $ad_bg_color;
+        > div {
+          display: table-cell;
+        }
+      }
+    }
+    background-color: white;
     border-top: 2px solid white;
     border-bottom: 5px solid white;
     .ad {
@@ -580,6 +611,11 @@ $wide_input_width: 320px;
     background-color: lighten($text_color, 10%);
     cursor: pointer;
   }
+
+  &.disabled {
+    background-color: gray;
+    cursor: default;
+  }
 }
 
 .save-note {
@@ -615,6 +651,11 @@ $wide_input_width: 320px;
 
     &:hover{
       background: lighten($magenta_color, 10%);
+    }
+
+    &.disabled {
+      background-color: gray;
+      cursor: default;
     }
   }
 }
@@ -656,6 +697,12 @@ $wide_input_width: 320px;
 
     .tab.zip-codes textarea {
       width: 95%;
+    }
+
+    .tab.geo input.geo-search {
+      width: 98%;
+      background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
+      padding-left:20px;
     }
 
     .mobile-targeting {
@@ -715,13 +762,14 @@ $wide_input_width: 320px;
 
     span.keyvalue_targeting {
       margin-left: 5px;
+      letter-spacing: normal;
     }
 
     .custom-kv-container {
       margin-top:0px;
     }
 
-    .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container {
+    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container {
       float:left;
       margin-left: 5px;
 
@@ -784,9 +832,31 @@ $wide_input_width: 320px;
       margin:0px;
     }
   }
+
+  .geo-checkboxes-container {
+    border: 1px solid #ccc;
+    width: 99%;
+    height: auto;
+    min-height: 200px;
+    padding-top: 5px;
+    padding-left: 5px;
+
+    .dma_type {
+      color: $magenta_color;
+    }
+
+    .state_type {
+      color: green;
+    }
+
+    input {
+      margin-top: 0px;
+      margin-right: 10px;
+    }
+  }
 }
 
-#push-confirmation-dialog, #import-creatives-dialog {
+#push-confirmation-dialog, #import-creatives-dialog, #save-confirmation-dialog {
   border: 2px dashed $bg_color;
 
   p.heading {
@@ -814,7 +884,7 @@ $wide_input_width: 320px;
     float: left;
   }
 
-  .push-btn {
+  .push-btn, .save-btn {
     background-color: $text_color;
     color: white;
     width: 140px;
@@ -823,6 +893,11 @@ $wide_input_width: 320px;
     cursor: pointer;
     margin: 5px;
     float: left;
+  }
+
+  .li-without-ads {
+    list-style-type: none;
+    color: red;
   }
 }
 
@@ -877,6 +952,15 @@ table.creatives-content {
       margin:5px;
     }
 
+    .tags-dropdown {
+      letter-spacing: normal;
+      border: dashed #000 1px;
+      border-radius: 0;
+      margin: 0;
+      padding: 0;
+      background-color: white;
+    }
+
     .creatives-container {
       padding-top: 15px;
       padding-bottom: 15px;
@@ -888,6 +972,10 @@ table.creatives-content {
 
       .creative {
         margin-top:7px;
+
+        .javascript-code textarea {
+          width: 450px;
+        }
 
         .creative-type {
           text-align: center;

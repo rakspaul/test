@@ -150,9 +150,11 @@
 
           blockedAdvertisers.each(function(blockedAdvertiser) {
             if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
-              site.addAdvertiser(blockedAdvertiser);
+              site.get('advertisers').add(blockedAdvertiser, {silent: 'true'});
             }
           }, this);
+
+          this.blockedAdvertiserList.trigger('reset');
         }
       }
     },

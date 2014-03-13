@@ -5,7 +5,7 @@
     defaults: function() {
       return {
         selected_key_values: [],
-        selected_dmas: [],
+        selected_geos: [],
         dmas_list: [],
         audience_groups: [],
         selected_zip_codes: [],
@@ -34,7 +34,7 @@
       var data = this.model.toJSON();
       data.dmas_list = this.model.get('dmas_list');
       data.selected_key_values = this.model.get('selected_key_values');
-      data.selected_dmas = this.model.get('selected_dmas');
+      data.selected_geos = this.model.get('selected_geos');
       data.selected_zip_codes = this.model.get('selected_zip_codes');
       data.audience_groups = this.model.get('audience_groups');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
@@ -46,29 +46,39 @@
       var self = this;
 
       this.show_custom_key_values = false;
+      
+      this.$el.find('.tab.geo input').on('keyup', function(ev) {
+        $.getJSON('/dmas/search_geo.json?search='+$(this).val(), function(geos) {
+          if(geos.length > 0) {
+            var geos_html = '';
+            for (var i = 0; i < geos.length; i++) {
+              var is_checked = false;
+              _.each(self.model.get('selected_geos'), function(selected_geo) {
+                if(selected_geo.id == geos[i].id && selected_geo.type == geos[i].type) {
+                  is_checked = true;
+                }
+              });
+              
+              var title = [];
+              title.push(geos[i].name);
+              if(geos[i].region_name) {
+                title.push(geos[i].region_name);
+              }
+              
+              geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type+'|'+title.join('/')+'"/>';
+              geos_html += geos[i].name;
 
-      this.$el.find('.dmas .chosen-select').chosen({no_results_text: "Select DMAs here", width: "97%"}).change(function(e, el) {
-        // since here we couln't handle unselect option event, must be processed all at once
-        var selected_values = $(this).val();
-        var selected = []
+              if(geos[i].region_name) {
+                geos_html += '<span style="color:grey">, '+geos[i].region_name+'</span>';
+              }
 
-        for(var i = 0; i < this.options.length; i++) {
-          if(this.options[i].selected) {
-            selected.push({id: this.options[i].value, title: this.options[i].text});
-          }
-        }
-
-        self.model.attributes.selected_dmas = selected;
-
-        // sync select w/ checkboxes
-        self.$el.find('.dmas .dmas-checkboxes-container input:checkbox').each(function(index) {
-          if(selected_values != null && selected_values.indexOf(String(this.value)) >= 0) {
-            this.checked = true;
+              geos_html += ' <span class="'+geos[i].type.toLowerCase()+'_type">'+geos[i].type+'</span> <br/>';
+            }
+            self.$el.find('.geo-checkboxes-container').html(geos_html);
           } else {
-            this.checked = false;
+            self.$el.find('.geo-checkboxes-container').html('No Cities/DMA/States where found');
           }
         });
-        self._renderSelectedTargetingOptions();
       });
 
       this.$el.find('.key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "97%"}).change(function(e, el) {
@@ -112,11 +122,11 @@
       this.$el.find('.tab.key-values').show();
     },
 
-    _showDMAsTab: function() {
+    _showGEOTab: function() {
       this.$el.find('.tab').hide();
       this.$el.find('.nav-tabs li').removeClass('active');
-      this.$el.find('.nav-tabs li.dmas').addClass('active');
-      this.$el.find('.tab.dmas').show();
+      this.$el.find('.nav-tabs li.geo').addClass('active');
+      this.$el.find('.tab.geo').show();
     },
 
     _showZipCodesTab: function() {
@@ -127,7 +137,7 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_dmas: this.model.get('selected_dmas'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
@@ -172,38 +182,43 @@
       this._renderSelectedTargetingOptions();
     },
 
-    _addDmaToSelectedDmas: function(selected) {
-      this.model.attributes.selected_dmas.push(selected);
+    _addGeoToSelectedGeos: function(selected) {
+      this.model.attributes.selected_geos.push(selected);
     },
 
-    _removeDmaFromSelectedDmas: function(dma_id) {
-      this.model.attributes.selected_dmas = _.filter(this.model.get('selected_dmas'), function(el) {
-        if(parseInt(el.id) != dma_id) {
+    _removeGeoFromSelectedGeos: function(geo_id, geo_type) {
+      this.model.attributes.selected_geos = _.filter(this.model.get('selected_geos'), function(el) {
+        if(!(parseInt(el.id) == parseInt(geo_id) && el.type == geo_type)) {
           return el;
         }
       });
     },
 
-    _handleDmasCheckboxes: function(e) {
-      var select = this.$el.find('.dmas .chosen-select')[0],
-          checked_value = e.currentTarget.value,
-          checked_text;
+    _handleGeoCheckboxes: function(e) {
+      var val = e.currentTarget.value.split('|');
 
-      for(var i = 0; i < select.options.length; i++) {
-        if(select.options[i].value == checked_value) {
-          checked_text = select.options[i].text;
-          if(e.currentTarget.checked) {
-            $(select.options[i]).attr('selected', 'selected'); // sync checkboxes with select
-            this._addDmaToSelectedDmas({id: checked_value, title: checked_text});
-          } else {
-            $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
-            this._removeDmaFromSelectedDmas(checked_value);
-          }
+      if(e.currentTarget.checked) {
+        this._addGeoToSelectedGeos({id: val[0], title: val[2], type: val[1]});
+      } else {
+        this._removeGeoFromSelectedGeos(val[0], val[1]);
+      }
+
+      this._renderSelectedTargetingOptions();
+    },
+
+    _removeGeoFromSelected: function(e) {
+      var geo_id = $(e.currentTarget).data('geo-id'),
+          geo_type = $(e.currentTarget).data('geo-type'),
+          selected_geos = this.model.get('selected_geos');
+
+      for(var i = 0; i < selected_geos.length; i++) {
+        if(selected_geos[i].id == geo_id && selected_geos[i].type == geo_type) {
+          this.$el.find('input[value^="'+geo_id+'|'+geo_type+'"]').removeAttr('checked'); // sync w/ checkboxes
+          this._removeGeoFromSelectedGeos(parseInt(geo_id), geo_type);
           break;
         }
       }
 
-      $(select).trigger("chosen:updated");
       this._renderSelectedTargetingOptions();
     },
 
@@ -248,7 +263,6 @@
       if(! this.errors_in_kv) {
         this.options.parent_view._toggleTargetingDialog();
         this._renderSelectedTargetingOptions();
-        this.ui.kv_type_switch.html('+ Add Custom K/V');
       }
     },
 
@@ -292,23 +306,6 @@
       this._renderSelectedTargetingOptions();
     },
 
-    _removeDmaFromSelected: function(e) {
-      var dma_id = $(e.currentTarget).data('dma-id'),
-          select = this.$el.find('.dmas .chosen-select')[0];
-
-      for(var i = 0; i < select.options.length; i++) {
-        if(select.options[i].value == dma_id) {
-          $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
-          this._removeDmaFromSelectedDmas(parseInt(dma_id));
-          break;
-        }
-      }
-
-      $(select).trigger("chosen:updated");
-      $(select).trigger("change");
-      this._renderSelectedTargetingOptions();
-    },
-
     _removeZipFromSelected: function(e) {
       var zip_code_to_delete = $(e.currentTarget).data('zip');
 
@@ -328,18 +325,18 @@
 
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
-      'click .dmas .dmas-checkboxes-container input:checkbox': '_handleDmasCheckboxes',
+      'click .tab.geo .geo-checkboxes-container input:checkbox': '_handleGeoCheckboxes',
       'click .key-values .key-values-checkboxes-container input:checkbox': '_handleKVCheckboxes',
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
-      'click .nav-tabs > .dmas': '_showDMAsTab',
+      'click .nav-tabs > .geo': '_showGEOTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
-      'mouseenter .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
-      'mouseleave .tgt-item-kv-container, .tgt-item-dma-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',
+      'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
+      'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
-      'click .tgt-item-dma-container .remove-btn': '_removeDmaFromSelected',
+      'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected'
     }
   });

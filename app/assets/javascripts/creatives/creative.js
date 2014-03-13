@@ -38,9 +38,7 @@
     }
   });
 
-  Creatives.CreativeView = Backbone.Marionette.ItemView.extend({
-    tagName: 'div',
-    className: 'creative pure-g',
+  Creatives.CreativeView = Creatives.BasicCreativeView.extend({
     template: JST['templates/creatives/creatives_row'],
 
     initialize: function(){
@@ -55,19 +53,31 @@
       'click .creative-type input': '_changeCreativeType'
     },
 
+    modelEvents: {
+      'change': 'updateLiCreative'
+    },
+
+    collectionEvents: {
+      'add': 'updateLiCreative'
+    },
+
     updateLiCreative: function() {
       var view = this,
           update_creative_model_from_li = true,
           current_creative = view.model;
 
+      if(!this.options.parent_view) {
+        return;
+      }
+
       // only update Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
-      if(this_ad) {
+      if (this_ad) {
         if(this.options.parent_view.options.parent_view) {
           var this_li_view = this.options.parent_view.options.parent_view;
           var this_li = this_li_view.model;    
 
-          if(this_li) {
+          if (this_li) {
             var ads_except_current = _.filter(this_li.ads, function(el) {
               if(el.cid != this_ad.cid) {
                 return el;
@@ -81,7 +91,7 @@
                 // then copy new attributes to LI level creative
                 c.attributes = current_creative.attributes;
                 this_li_view.renderCreatives();
-                clone_creative_to_li = false;               
+                clone_creative_to_li = false;
               } else if (c.cid == current_creative.get('parent_cid')) { // not persisted creative
                 c.attributes = current_creative.attributes;
                 this_li_view.renderCreatives();
@@ -132,6 +142,17 @@
         }
       });
 
+      this.$el.find('.javascript-code .editable.custom').editable({
+        success: function(response, newValue) {
+          self.model.attributes.html_code = self._encodeHTML(newValue);
+          self.model.attributes.html_code_excerpt = self._encodeHTML(self._excerptFromHtmlCode(newValue));
+          self.updateLiCreative(); // since there are no re-rendering of the views
+        },
+        display: function(value, sourceData) {
+          $(this).text(self._excerptFromHtmlCode(value));
+        }
+      });
+
       // select Creative size from the drop-down autocomplete
       this.$el.find('.size .editable.custom').editable({
         source: '/ad_sizes.json',
@@ -144,14 +165,34 @@
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         self.model.set("ad_size", el.size);
       });
+      this.$el.find('.size').on('shown', function(ev, el) {
+        self.previousSize = self.$el.find('.size span').html();
+      });
+      this.$el.find('.size').on('hidden', function(ev, el) {
+        if (self.previousSize) {
+          self.$el.find('.size span').html(self.previousSize);
+        }
+      });
 
       this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
         success: function(response, newValue) {
           self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
+    },
 
-      this.updateLiCreative();
+    _encodeHTML: function(code) {
+      return code.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+    },
+
+    _excerptFromHtmlCode: function(html_code) {
+      var start_pos = html_code.indexOf('"id" :'), excerpt;
+      if(start_pos == -1) {
+        excerpt = html_code.substr(0, 60);
+      } else {
+        excerpt = html_code.substr(start_pos - 22, 47);
+      }
+      return excerpt;
     },
 
     _showDeleteBtn: function(e) {
@@ -169,7 +210,7 @@
 
       if($(e.currentTarget).is(':checked')) {
         this.$el.find('.image-url span').editable('disable');
-        this.model.attributes.creative_type = "CustomCreative";
+        this.model.attributes.creative_type = "ThirdPartyCreative";
       } else {
         this.$el.find('.image-url span').editable('enable');
         this.model.attributes.creative_type = "InternalRedirectCreative";
@@ -239,34 +280,22 @@
     }
   });
 
-  Creatives.CreativesListView = Backbone.Marionette.CompositeView.extend({
+  Creatives.CreativesListView = Creatives.BasicCreativesListView.extend({
     itemView: Creatives.CreativeView,
-    itemViewContainer: '.creatives-list-view',
     template: JST['templates/creatives/creatives_container'],
-    className: 'creatives-content',
-    tagName: 'table',
-
-    serializeData: function(){
-      var data = {};
-      data.is_cox_creative = this.options.is_cox_creative;
-      return data;
-    },
-
-    ui: {
-      creatives: '.creatives-container'
-    },
 
     events: {
-      'click .add-creative-btn': '_addCreative',
+      'click .add-typed-creative-btn': '_addCreative',
       'click .done-creative-btn': '_closeCreativeDialog'
     },
 
-    _addCreative: function() {
+    _addCreative: function(ev) {
+      var type = $(ev.currentTarget).data('type');
       var parentModel = this.options.parent_view.model;
       var creative = new ReachUI.Creatives.Creative({
         start_date: parentModel.get('start_date'),
         end_date:   parentModel.get('end_date'),
-        creative_type: "InternalRedirectCreative"
+        creative_type: type
       });
 
       var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: this.options.parent_view});
