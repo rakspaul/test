@@ -654,7 +654,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var extracted_li_id = notes ? notes.match(/Proposal Line Item ID: (\d+)/) : '';
     var li_id = li.get('li_id') ? li.get('li_id') : (extracted_li_id ? extracted_li_id[1] : '');
 
-    return ad_name + ' ' + li_id;
+    return ad_name + ' - ' + li_id;
   },
 
   /////////////////////////////////////////////////////////////////////////////////////////
