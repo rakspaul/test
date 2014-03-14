@@ -220,6 +220,7 @@ end
 
 class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
+  DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
   LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]*roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
@@ -701,7 +702,7 @@ private
       page_contains_contracts_totals = @raw_reader.page(i+1).text.match(/\nContracts Totals\n/)
       textangle = @reader.bounding_box do
         page (i+1)
-        below /Start/
+        below /Start|Flight Dates/
         right_of /site:/i
         above(/Contracts Totals/) if page_contains_contracts_totals
       end
@@ -721,6 +722,10 @@ private
     dates.each_with_index do |line, i|
       li = {}
       if line.first =~ /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        if line[0] =~ /\d{1,2}\/\d{1,2}\/\d{2,4}[ \-]+\d{1,2}\/\d{1,2}\/\d{2,4}/
+          line[0] = line[0].split(/[ \-]+/)
+          line.flatten!
+        end
         li[:start_date]    = line[0]
         li[:end_date]      = line[1]
         li[:impressions]   = line[2].gsub(/,/, '')
@@ -743,7 +748,7 @@ private
     @raw_reader.pages.count.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
-        below /End/
+        below /End|Flight Dates/
         left_of /site:|section:/i
       end
       placements += textangle.text

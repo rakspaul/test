@@ -8,6 +8,8 @@ describe ReachClient do
   it { should validate_presence_of(:name) }
   it { should validate_presence_of(:abbr) }
   it { should validate_presence_of(:network_id) }
+  it { should validate_presence_of(:client_buffer) }
+  it { should validate_numericality_of(:client_buffer) }
 
   context "Validations" do
     before do
