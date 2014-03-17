@@ -16,6 +16,8 @@ class IoAssetsController < ApplicationController
       respond_with do |format|
         format.xls { send_file io_asset.asset_path, type: Mime::Type.lookup_by_extension(:xls),
                      filename: io_asset.asset_upload_name, stream: false }
+        format.pdf { send_file io_asset.asset_path, type: Mime::PDF,
+                     filename: io_asset.asset_upload_name, stream: false }
         format.text { send_file io_asset.asset_path, type: Mime::TEXT,
                      filename: io_asset.asset_upload_name, stream: false }
       end
