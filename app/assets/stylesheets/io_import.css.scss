@@ -244,6 +244,7 @@ $wide_input_width: 320px;
         font-size:12px;
         display:inline-block;
         float:left;
+        width: 95px;
       }
 
       span {
@@ -251,9 +252,12 @@ $wide_input_width: 320px;
         color: black;
         font-family: 'Arial', sans-serif;
         display:inline-block;
-        width:260px;
+        width:250px;
         float:left;
         margin-left:10px;
+        &.creative_name {
+          margin-left: 105px;
+        }
       }
     }
 

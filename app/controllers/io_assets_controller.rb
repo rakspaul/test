@@ -5,11 +5,18 @@ class IoAssetsController < ApplicationController
 
   def serve
     order = Order.of_network(current_network).includes(:advertiser).find(params[:order_id])
-    io_asset = order.io_assets.first
-    io_asset.inspect
+
+    if params[:io_asset_id]
+      io_asset = order.io_assets.find_by_id params[:io_asset_id]
+    else
+      io_asset = order.io_assets.details.first
+    end
+
     if io_asset
       respond_with do |format|
         format.xls { send_file io_asset.asset_path, type: Mime::Type.lookup_by_extension(:xls),
+                     filename: io_asset.asset_upload_name, stream: false }
+        format.text { send_file io_asset.asset_path, type: Mime::TEXT,
                      filename: io_asset.asset_upload_name, stream: false }
       end
     else

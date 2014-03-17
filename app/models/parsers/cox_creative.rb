@@ -29,7 +29,7 @@ class Parsers::CoxCreative < Parsers::Base
     if @creatives_errors.empty?
       order = Order.find_by_id @order_id
       file = File.open @tempfile
-      writer = IOFileWriter.new("file_store/io_imports", file, @original_filename, order, 'creative')
+      writer = IOFileWriter.new("file_store/io_imports", file, @original_filename, order, 'creatives')
       writer.write
       file.close
       File.unlink(file.path)
