@@ -332,6 +332,8 @@ $wide_input_width: 320px;
         background-color: $bg_color;
         > div {
           display: table-cell;
+          @include word-break(break-all);
+          word-wrap: break-word;
         }
       }
     }
