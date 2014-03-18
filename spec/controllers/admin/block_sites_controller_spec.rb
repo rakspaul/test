@@ -164,7 +164,7 @@ describe Admin::BlockSitesController do
 
     it "should block_advertisers" do
       post :create, block_advertisers_params
-      expect(BlockedAdvertiser.find(@blocked_advertiser_2.id).state).to eq BlockSite::BLOCK
+      expect(BlockedAdvertiser.where(advertiser_id: advertiser_6.id.to_s, site_id: site_4.id.to_s).first.state).to eq BlockSite::BLOCK
     end
 
     it "should unblock an advertiser" do
