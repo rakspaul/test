@@ -84,6 +84,9 @@ Reachui::Application.configure do
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
 
+  # Set the reporting server url
+  config.report_service_uri = 'http://cm.ssp.collective-media.net/export'
+
   # audience group segment search
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
