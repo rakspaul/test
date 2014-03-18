@@ -654,7 +654,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var extracted_li_id = notes ? notes.match(/Proposal Line Item ID: (\d+)/) : '';
     var li_id = li.get('li_id') ? li.get('li_id') : (extracted_li_id ? extracted_li_id[1] : '');
 
-    return ad_name + ' ' + li_id;
+    var is_cox = false;
+    if (li.collection.order.attributes.reach_client_abbr == "RE CD") {
+      is_cox = true;
+    }
+
+    return ad_name + (li_id ? (is_cox ? ' - ' : ' ') + li_id : '');
   },
 
   /////////////////////////////////////////////////////////////////////////////////////////
