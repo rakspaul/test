@@ -128,8 +128,8 @@ class IoImport
       else
         min_start, max_end = [@lineitems[0].start_date, @lineitems[0].end_date]
         @lineitems.each do |li|
-          min_start = li.start_date if li.start_date < min_start
-          max_end   = li.end_date   if li.end_date > max_end
+          min_start = li.start_date if li.start_date && li.start_date < min_start
+          max_end   = li.end_date   if li.end_date && li.end_date > max_end
         end
         @order.start_date = min_start
         @order.end_date   = max_end
