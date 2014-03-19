@@ -227,7 +227,7 @@ $wide_input_width: 320px;
   }
 
   .imported-file-name {
-    width:500px;
+    width:630px;
     border:1px dashed $text_color;
     float:left;
     padding:3px;
@@ -238,12 +238,12 @@ $wide_input_width: 320px;
       float:left;
       padding-left:10px;
       color: $text_color;
-      width: 72%;
 
       label{
         font-size:12px;
         display:inline-block;
         float:left;
+        width: 95px;
       }
 
       span {
@@ -251,17 +251,66 @@ $wide_input_width: 320px;
         color: black;
         font-family: 'Arial', sans-serif;
         display:inline-block;
-        width:260px;
+        width:250px;
         float:left;
         margin-left:10px;
+        &.creative_name {
+          margin-left: 105px;
+        }
       }
     }
 
     .timestamp {
       color: $text_color;
-      float:right;
+      float:left;
       font-size:12px;
     }
+
+    .creatives-txt-uploader {
+      float: right;
+      margin: 5px;
+      min-width: 115px;
+      text-align: right;
+      position: relative;
+
+      a {
+        margin-right: 5px;
+      }
+
+      a.attachment-btn {
+        margin-right: 25px;
+      }
+    }
+
+    .attachment-btn:before {
+      content: url(asset-path('attachment_icon.png'));
+      width: 14px;
+      height: 16px;
+      margin-right: 5px;
+    }
+
+    .creatives-fileupload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      width: 115px;
+      filter: alpha(opacity=0);
+    }
+
+    ::-webkit-file-upload-button {
+      cursor:pointer ;
+    }
+
+    .upload-creatives-btn {
+      float: left;
+      overflow: hidden;
+    }
+
   }
 
   .trafficker-container {
@@ -332,6 +381,8 @@ $wide_input_width: 320px;
         background-color: $bg_color;
         > div {
           display: table-cell;
+          @include word-break(break-all);
+          word-wrap: break-word;
         }
       }
     }
@@ -461,7 +512,7 @@ $wide_input_width: 320px;
       }
     }
 
-    > div div.lineitem-sizes .editable, > div div.li-sizes .editable, div .ads-container .ads-sizes {
+    > div div.lineitem-sizes, > div div.li-sizes .editable, div .ads-container .ads-sizes {
       padding-right: 7px;
     }
   }
@@ -1079,35 +1130,6 @@ table.creatives-content {
       float: left;
       margin-right: 5px;
     }
-  }
-
-  .attachment-btn:before {
-    content: url(asset-path('attachment_icon.png'));
-    width: 14px;
-    height: 16px;
-    margin-right: 5px;
-  }
-
-  .creatives-fileupload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    width: 115px;
-    filter: alpha(opacity=0);
-  }
-
-  ::-webkit-file-upload-button {
-    cursor:pointer ;
-  }
-
-  .upload-creatives-btn {
-    float: left;
-    overflow: hidden;
   }
 
   .notify-by-email:before {
