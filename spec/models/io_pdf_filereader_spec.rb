@@ -110,6 +110,14 @@ describe IOPdfFileReader do
     end
   end
 
+  context "Nyserda pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'nyserda_io.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "CDS_AddedValueRON_NYStateNOTNYCandLI_300x250,728x90_3/1-6/30"
+    end
+  end
+
   context "Dunkin Donuts pdf IO" do
     subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'DunkinDonuts.pdf')) }
 
