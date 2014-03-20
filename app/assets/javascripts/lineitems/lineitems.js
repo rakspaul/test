@@ -240,18 +240,20 @@
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
-          // TODO update ad impression not LI
-          var name = $(this).data('name');
-          var imps = parseInt(String(view.model.get('volume')).replace(/,|\./, ''));
-          var buffer  = parseFloat(newValue);
+          var name = $(this).data('name'), adImps;
           if (name == 'buffer') {
-            imps = imps * ( 100 + buffer) / 100;
-          }
-          _.each(ads, function(ad) {
-            ad.set('volume', imps);
-          });
+            var prevBuffer = parseFloat(view.model.get('buffer')),
+                newBuffer = parseFloat(newValue),
+                ratio = (100 + newBuffer) / (100 + prevBuffer);
 
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+            _.each(ads, function(ad) {
+              adImps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+              adImps = adImps * ratio;
+              ad.set('volume', adImps);
+            });
+          }
+
+          view.model.set(name, newValue); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
         }
