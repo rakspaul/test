@@ -246,15 +246,18 @@ class IOReader
 
     if str.index('-')
       Date.strptime(str.squish)
-    elsif str.index('.')
-      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
-    elsif str.squish.split('/').try(:last).try(:length) == 2
-      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
     else
-      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
+      date_regexp = /([\d]+)[\.\-\/]+([\d]+)[\.\-\/]+([\d]+)/
+      date = date_regexp.match(str.squish)
+
+      if date
+        # month: date[1], day: date[2], year: date[3]
+        date_format = date[3].length <= 2 ? DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR : DATE_FORMAT_WITH_SLASH
+        Date.strptime(date[1..3].join('/'), date_format)
+      end
     end
   rescue
-    nil
+    raise "Date is not valid: #{str}"
   end
 
   def determine_lineitem_type(ad_format)
