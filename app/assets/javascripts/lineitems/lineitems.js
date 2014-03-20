@@ -15,6 +15,7 @@
     defaults: function() {
       return {
         volume: 0,
+        buffer: 0,
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
@@ -235,8 +236,21 @@
         }
       });
 
+      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
+          // TODO update ad impression not LI
+          var name = $(this).data('name');
+          var imps = parseInt(String(view.model.get('volume')).replace(/,|\./, ''));
+          var buffer  = parseFloat(newValue);
+          if (name == 'buffer') {
+            imps = imps * ( 100 + buffer) / 100;
+          }
+          _.each(ads, function(ad) {
+            ad.set('volume', imps);
+          });
+
           view.model.set($(this).data('name'), newValue); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
@@ -253,7 +267,7 @@
       this.renderTargetingDialog();
 
       this.ui.ads_list.html('');
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      //var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
