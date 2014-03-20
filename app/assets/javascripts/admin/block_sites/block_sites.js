@@ -653,6 +653,7 @@
 
       this.collection.on("fetch", this._onFetch, this);
       this.collection.on("reset", this._onReset, this);
+      this.collection.on("renderAdvertisers", this.render, this);
       this._isBlacklistedSiteMode = this.options.isBlacklistedSiteMode;
     },
 
@@ -919,6 +920,7 @@
 
       this.collection.on("fetch", this._onFetch, this);
       this.collection.on("reset", this._onReset, this);
+      this.collection.on("renderAdvertiserGroups", this.render, this);
     },
 
     appendHtml: function(collectionView, itemView){
