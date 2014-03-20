@@ -254,12 +254,10 @@ class IOReader
         # month: date[1], day: date[2], year: date[3]
         date_format = date[3].length <= 2 ? DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR : DATE_FORMAT_WITH_SLASH
         Date.strptime(date[1..3].join('/'), date_format)
-      else
-        nil
       end
     end
   rescue
-    nil
+    raise "Date is not valid: #{str}"
   end
 
   def determine_lineitem_type(ad_format)
