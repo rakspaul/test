@@ -210,6 +210,7 @@ private
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
     orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
+    rc = params[:rc]? params[:rc] : ""
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -245,6 +246,10 @@ private
       orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
     end
 
+    if !rc && !session[:rc].blank?
+      rc = session[:rc]
+    end
+
     session[:sort_column] = sort_column
     session[:sort_direction] = sort_direction
     session[:order_status] = order_status
@@ -252,16 +257,19 @@ private
     session[:am] = am
     session[:trafficker] = trafficker
     session[:search_query] = search_query
+    session[:rc] = rc
 
-    order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
+                  .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = load_users
+    @rc = ReachClient.select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
   end
 
