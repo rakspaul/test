@@ -244,7 +244,8 @@
           if (name == 'buffer') {
             var prevBuffer = parseFloat(view.model.get('buffer')),
                 newBuffer = parseFloat(newValue),
-                ratio = (100 + newBuffer) / (100 + prevBuffer);
+                ratio = (100 + newBuffer) / (100 + prevBuffer),
+                ads = view.model.ads.models || view.model.ads.collection || view.model.ads;
 
             _.each(ads, function(ad) {
               adImps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
@@ -269,7 +270,7 @@
       this.renderTargetingDialog();
 
       this.ui.ads_list.html('');
-      //var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
