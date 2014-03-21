@@ -38,6 +38,7 @@ class Lineitem < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
 
   before_create :generate_alt_ad_id
+  before_create :set_default_buffer
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
@@ -179,6 +180,10 @@ class Lineitem < ActiveRecord::Base
         max_alt_id = Lineitem.where(order_id: order_id).pluck('alt_ad_id').map{|s| s.to_i}.max || 0
         self.alt_ad_id = max_alt_id + 1
       end
+    end
+
+    def set_default_buffer
+      self.buffer = order.io_detail && order.io_detail.reach_client ? order.io_detail.reach_client.client_buffer : 0
     end
 
     def html_unescape(str)

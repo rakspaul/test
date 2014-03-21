@@ -15,6 +15,7 @@
     defaults: function() {
       return {
         volume: 0,
+        buffer: 0,
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
@@ -235,9 +236,25 @@
         }
       });
 
+      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          var name = $(this).data('name'), adImps;
+          if (name == 'buffer') {
+            var prevBuffer = parseFloat(view.model.get('buffer')),
+                newBuffer = parseFloat(newValue),
+                ratio = (100 + newBuffer) / (100 + prevBuffer),
+                ads = view.model.ads.models || view.model.ads.collection || view.model.ads;
+
+            _.each(ads, function(ad) {
+              adImps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+              adImps = adImps * ratio;
+              ad.set('volume', adImps);
+            });
+          }
+
+          view.model.set(name, newValue); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
         }

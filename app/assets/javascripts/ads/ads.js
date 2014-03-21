@@ -205,10 +205,22 @@
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(resp, newValue) {
+          var sum_ad_imps = 0,
+            imps = self.options.parent_view.model.get('volume');
+
           self.model.attributes.volume = newValue; //update backbone model;
+
+          _.each(self.options.parent_view.model.ads, function(ad) {
+            var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+            sum_ad_imps += imps;
+          });
 
           self._recalculateMediaCost();
           self._validateAdImpressions();
+
+          var buffer = self.options.parent_view.model.get('buffer');
+          buffer = (sum_ad_imps / imps * 100) - 100;
+          self.options.parent_view.model.set({ 'buffer': buffer });
         },
         validate: function(value) {
           if($.trim(value) == '') {
