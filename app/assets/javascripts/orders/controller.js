@@ -600,7 +600,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if(li.collection.order.attributes.reach_client_abbr == "TWC" || li.collection.order.attributes.reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
       ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     } else {
-      // remove reach client abbreviation and quarter/year
       ad_name_parts.push(li.collection.order.attributes.name);
     }
 
@@ -613,7 +612,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("RON");
     }
 
-    if(li.collection.order.attributes.reach_client_abbr != "TWC" && li.collection.order.attributes.reach_client_abbr != "RE CD" && li.collection.order.attributes.reach_client_abbr != "RE TW") {
+    if(li.collection.order.attributes.reach_client_abbr != "TWC" && li.collection.order.attributes.reach_client_abbr != "RE CD" && li.collection.order.attributes.reach_client_abbr != "RE TW" && !li.collection.order.attributes.name.match(/RE \w{1,4}/)) {
       ad_name_parts.push('Q'+start_quarter+start_year);
     }
 
