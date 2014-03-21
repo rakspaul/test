@@ -160,7 +160,7 @@ class Lineitem < ActiveRecord::Base
     def sanitize_attributes
       # number of impressions could come in format like 11,234 which would be just 11 after the typecast
       volume_before_typecast = self.read_attribute_before_type_cast('volume')
-      self[:volume] = volume_before_typecast.gsub(/,|\./, '') if volume_before_typecast.is_a?(String)
+      self[:volume] = volume_before_typecast.gsub(/,/, '').to_f.round if volume_before_typecast.is_a?(String)
 
       # https://github.com/collectivemedia/reachui/issues/136
       self[:name] = name[0..499] if name
