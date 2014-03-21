@@ -407,7 +407,8 @@ private
         begin
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
-          ad_quantity  = ad[:ad].delete(:volume).gsub(/,/, '').to_f.round
+          ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           ad_start_date = ad[:ad].delete(:start_date)
@@ -575,7 +576,8 @@ private
         begin
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
-          ad_quantity  = ad[:ad].delete(:volume).gsub(/,/, '').to_f.round
+          ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           media_type_id = @media_types[media_type]
@@ -649,6 +651,7 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
+          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
