@@ -110,6 +110,9 @@
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(lineitem.volume) %>
       </span>
+      <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
+        <%= accounting.formatNumber(lineitem.buffer, 2) %>
+      </span>%
       <div class="errors_container"></div>
     </div>
     <div class="pure-u-1-12 rate number-field">
