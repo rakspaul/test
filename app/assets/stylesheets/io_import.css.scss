@@ -542,6 +542,7 @@ $wide_input_width: 320px;
 
     .targeting-options {
       float: left;
+      height:18px;
     }
 
     .targeting-options.highlighted {
@@ -675,7 +676,7 @@ $wide_input_width: 320px;
 }
 
 .zip-codes-icon {
-  margin:2px 0 0 3px;
+  margin:2px 0 0 5px;
   float: left;
   width:16px !important;
 }
@@ -760,9 +761,13 @@ $wide_input_width: 320px;
       margin-left:5px;
     }
 
-    span.keyvalue_targeting {
-      margin-left: 5px;
+    .keyvalue_targeting {
       letter-spacing: normal;
+      @include word-break(break-all);
+
+      .custom-kv{
+        margin-left:5px;
+      }
     }
 
     .custom-kv-container {
@@ -777,13 +782,7 @@ $wide_input_width: 320px;
         clear: both;
         float: left;
         width: 100%;
-        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        white-space: pre-wrap;       /* css-3 */
-        word-wrap: break-word;       /* Internet Explorer 5.5+ */
-        word-break: break-all;
-        white-space: normal;
+        @include word-break(break-all);
       }
 
       .tgt-item-caption {
@@ -794,6 +793,10 @@ $wide_input_width: 320px;
       .remove-btn {
         margin-left: 3px;
       }
+    }
+
+    .tgt-item-zip-container{
+      margin-left:3px;
     }
 
     .zip-codes-targeting {
