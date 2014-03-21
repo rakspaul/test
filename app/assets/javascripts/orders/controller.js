@@ -224,6 +224,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+      order.set("reach_client_abbr", el.abbr);
 
       ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
@@ -597,14 +598,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var ad_name_parts = [];
 
-    if(li.collection.order.attributes.name.indexOf(li.collection.order.attributes.reach_client_abbr) < 0) {
-      ad_name_parts.push(li.collection.order.attributes.reach_client_abbr);
-    }
+    var reach_client_abbr = li.collection.order.get("reach_client_abbr") || li.collection.order.attributes.reach_client_abbr;
 
-    if(li.collection.order.attributes.reach_client_abbr == "TWC" || li.collection.order.attributes.reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+    if(reach_client_abbr == "TWC") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name); 
+    } else if (reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);  
     } else {
-      ad_name_parts.push(li.collection.order.attributes.name);
+      ad_name_parts.push(li.collection.order.attributes.name);    
     }
 
     if (isGeo) {
@@ -616,7 +619,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("RON");
     }
 
-    if(li.collection.order.attributes.reach_client_abbr != "TWC" && li.collection.order.attributes.reach_client_abbr != "RE CD" && li.collection.order.attributes.reach_client_abbr != "RE TW" && !li.collection.order.attributes.name.match(/RE \w{1,4}/)) {
+    if(reach_client_abbr == "TWC" || reach_client_abbr == "RE CD" || reach_client_abbr == "RE TW") {
       ad_name_parts.push('Q'+start_quarter+start_year);
     }
 
