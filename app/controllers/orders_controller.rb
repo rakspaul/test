@@ -407,7 +407,7 @@ private
         begin
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
-          ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad[:ad].delete(:volume).gsub(/,/, '').to_f.round
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           ad_start_date = ad[:ad].delete(:start_date)
@@ -575,7 +575,7 @@ private
         begin
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
-          ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad[:ad].delete(:volume).gsub(/,/, '').to_f.round
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           media_type_id = @media_types[media_type]
