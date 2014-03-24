@@ -817,6 +817,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     this._showNotesView(lineItemList.order, lineItemListView);
+
+    var orderDetailsView = this.orderDetailsLayout.top.currentView;
+    orderDetailsView.setLineItemView(lineItemListView);
   },
 
   _showNotesView: function(order, li_view) {

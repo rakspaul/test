@@ -58,9 +58,10 @@
 
   <div class="imported-file-name">
     <div class="name">
-      <label>Imported File</label>
+      <label>Imported Files</label>
       <% if (order.id && order.io_asset_filename) { %>
-        <span><a href="/io_assets/<%= order.id %>.xls"><%= order.io_asset_filename %></a></span>
+        <% var io_asset_ext = order.io_asset_filename.substr(order.io_asset_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls' %>
+        <span><a href="/io_assets/<%= order.id %>.<%= io_asset_ext %>"><%= order.io_asset_filename %></a></span>
       <% } else { %>
         <span><%= order.io_asset_filename %></span>
       <% } %>
@@ -68,6 +69,26 @@
     <div class="timestamp">
       <%= order.io_asset_created_at %>
     </div>
+
+    <div class="creatives-txt-uploader">
+      <!--a class="attachment-btn">File</a-->
+      <input id="creatives_fileupload" type="file" name="io_creatives" class="creatives-fileupload" disabled>
+      <a href="javascript:void(0)">
+        <span class="upload-creatives-btn"></span>
+        Creatives TXT
+      </a>
+    </div>
+
+    <% if (order.id && order.io_creatives) { %>
+      <% _.each(order.io_creatives, function(c) { %>
+        <div class="name">
+          <span class="creative_name"><a href="/io_assets/<%= order.id %>/creatives/<%= c.asset_id %>.txt"><%= c.original_filename %></a></span>
+        </div>
+        <div class="timestamp">
+          <%= c.asset_created_at %>
+        </div>
+      <% }); %>
+    <% } %>
   </div>
 
   <div class="field trafficker-container">

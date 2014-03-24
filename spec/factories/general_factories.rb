@@ -108,6 +108,7 @@ FactoryGirl.define do
 
   factory :io_asset do
     order
+    asset_type "io"
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
   end

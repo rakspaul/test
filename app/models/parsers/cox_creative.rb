@@ -10,6 +10,7 @@ class Parsers::CoxCreative < Parsers::Base
 
   def parse
     content = File.read @tempfile
+
     creatives = content.split(CREATIVES_SEPARATOR).delete_if(&:empty?)
     creatives.shift if creatives[0].match(/Cox Digital Solutions Ad Tags/m) # remove metainfirmation
     @creatives_errors = []
@@ -23,6 +24,15 @@ class Parsers::CoxCreative < Parsers::Base
 
     @old_li_creatives.each do |li, creatives|
       creatives.each{ |creative| creative.delete }
+    end
+
+    if @creatives_errors.empty?
+      order = Order.find_by_id @order_id
+      file = File.open @tempfile
+      writer = IOFileWriter.new("file_store/io_imports", file, @original_filename, order, 'creatives')
+      writer.write
+      file.close
+      File.unlink(file.path)
     end
 
     [@creatives, @creatives_errors]
