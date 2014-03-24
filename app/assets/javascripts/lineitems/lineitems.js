@@ -248,7 +248,7 @@
                 ads = view.model.ads.models || view.model.ads.collection || view.model.ads;
 
             _.each(ads, function(ad) {
-              adImps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+              adImps = parseInt(String(ad.get('volume')).replace(/,/, ''));
               adImps = adImps * ratio;
               ad.set('volume', adImps);
             });
