@@ -8,7 +8,7 @@
   BlockSites.Pagination = Backbone.Model.extend({
     defaults: {
       total_records: 0,
-      page_size: 250,
+      page_size: 500,
       current_page: 0,
     },
 
