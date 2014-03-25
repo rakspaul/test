@@ -224,6 +224,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+      order.set("reach_client_abbr", el.abbr);
 
       ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
@@ -595,13 +596,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var hasCustomKeyValues = li.get('targeting').get('keyvalue_targeting').length > 0;
     var hasKeyValues       = li.get('targeting').get('selected_key_values').length > 0;
 
-    var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
+    var ad_name_parts = [];
 
-    if(li.collection.order.attributes.reach_client_abbr == "TWC" || li.collection.order.attributes.reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+    var reach_client_abbr = li.collection.order.get("reach_client_abbr") || li.collection.order.attributes.reach_client_abbr;
+
+    if(reach_client_abbr == "TWC") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name); 
+    } else if (reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);  
     } else {
-      // remove reach client abbreviation and quarter/year
-      ad_name_parts.push(li.collection.order.attributes.name);
+      ad_name_parts.push(li.collection.order.attributes.name);    
     }
 
     if (isGeo) {
@@ -613,7 +619,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("RON");
     }
 
-    if(li.collection.order.attributes.reach_client_abbr != "TWC" && li.collection.order.attributes.reach_client_abbr != "RE CD" && li.collection.order.attributes.reach_client_abbr != "RE TW") {
+    if(reach_client_abbr == "TWC" || reach_client_abbr == "RE CD" || reach_client_abbr == "RE TW") {
       ad_name_parts.push('Q'+start_quarter+start_year);
     }
 
