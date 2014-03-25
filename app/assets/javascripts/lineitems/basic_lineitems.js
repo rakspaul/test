@@ -22,7 +22,7 @@
     },
 
     _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
       var cpm  = parseFloat(this.model.get('rate'));
 
       var media_cost = (imps / 1000.0) * cpm;
