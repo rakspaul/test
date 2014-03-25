@@ -592,7 +592,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var start_year = start_date.getFullYear() % 100;
 
     var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_geos').length != 0);
-    var hasKeyValues = li.get('targeting').get('keyvalue_targeting').length > 0;
+    var hasCustomKeyValues = li.get('targeting').get('keyvalue_targeting').length > 0;
+    var hasKeyValues       = li.get('targeting').get('selected_key_values').length > 0;
 
     var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
 
@@ -606,7 +607,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if (isGeo) {
       ad_name_parts.push("GEO");
     }
-    if (hasKeyValues) {
+    if (hasCustomKeyValues || hasKeyValues) {
       ad_name_parts.push("BT/CT");
     } else {
       ad_name_parts.push("RON");
