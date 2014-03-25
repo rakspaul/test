@@ -244,6 +244,8 @@ class IOReader
   def parse_date str
     return str if str.is_a?(Date)
 
+    str = str.to_s.strip
+
     if str.index('-')
       Date.strptime(str.squish)
     else
