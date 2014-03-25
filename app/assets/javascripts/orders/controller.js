@@ -605,12 +605,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     if(reach_client_abbr == "TWC") {
       ad_name_parts.push(reach_client_abbr);
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name); 
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     } else if (reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
       ad_name_parts.push(reach_client_abbr);
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);  
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     } else {
-      ad_name_parts.push(li.collection.order.attributes.name);    
+      ad_name_parts.push(li.collection.order.attributes.name);
     }
 
     if (isGeo) {
