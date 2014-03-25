@@ -202,7 +202,7 @@ class Admin::BlockSitesController < ApplicationController
     if params[:pagesize] == "0"
       @pagestart = 0
     else
-      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 250)
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
       @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
       @blacklisted_advertisers = @blacklisted_advertisers.limit(limit).offset(@pagestart)
     end
@@ -214,7 +214,7 @@ class Admin::BlockSitesController < ApplicationController
     if params[:pagesize] == "0"
       @pagestart = 0
     else
-      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 250)
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
       @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
       @whitelisted_advertisers = @whitelisted_advertisers.limit(limit).offset(@pagestart)
     end
@@ -226,7 +226,7 @@ class Admin::BlockSitesController < ApplicationController
     if params[:pagesize] == "0"
       @pagestart = 0
     else
-      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 250)
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
       @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
       @blacklisted_advertiser_groups = @blacklisted_advertiser_groups.limit(limit).offset(@pagestart)
     end
@@ -238,7 +238,7 @@ class Admin::BlockSitesController < ApplicationController
     if params[:pagesize] == "0"
       @pagestart = 0
     else
-      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 250)
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
       @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
       @whitelisted_advertiser_groups = @whitelisted_advertiser_groups.limit(limit).offset(@pagestart)
     end
