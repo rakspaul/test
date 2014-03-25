@@ -682,9 +682,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // adding Ad under certain lineitem
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
-      var type = args.type || li_view.model.get('type');
+      var type = args.type || li.get('type');
       var ad_name = ordersController._generateAdName(li, type);
-      var remaining_impressions = ordersController._calculateRemainingImpressions(li);
+      var buffer = 1 + li.get('buffer') / 100;
+      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li) * buffer);
       var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
 
       var ad = new ReachUI.Ads.Ad(attrs);

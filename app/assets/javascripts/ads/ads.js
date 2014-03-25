@@ -75,7 +75,7 @@
       var sum_ad_imps = 0;
 
       _.each(this.options.parent_view.model.ads, function(ad) {
-        var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+        var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         sum_ad_imps += imps;
       });
 
@@ -106,7 +106,7 @@
     },
 
     getImressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
     },
 
     getMediaCost: function() {
@@ -208,10 +208,10 @@
           var sum_ad_imps = 0,
             imps = self.options.parent_view.model.get('volume');
 
-          self.model.attributes.volume = newValue; //update backbone model;
+          self.model.set('volume', parseInt(String(newValue).replace(/,|\./g, ''))); //update backbone model;
 
           _.each(self.options.parent_view.model.ads, function(ad) {
-            var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+            var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
             sum_ad_imps += imps;
           });
 

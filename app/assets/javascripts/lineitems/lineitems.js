@@ -56,7 +56,7 @@
 
     _recalculateLiImpressionsMediaCost: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
-        var imps = parseInt(String(el.get('volume')).replace(/,|\./, ''));
+        var imps = parseInt(String(el.get('volume')).replace(/,|\./g, ''));
         sum += imps;
         return sum;
       }, 0);
@@ -240,7 +240,7 @@
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
-          var name = $(this).data('name'), adImps;
+          var name = $(this).data('name'), adImps, value;
           if (name == 'buffer') {
             var prevBuffer = parseFloat(view.model.get('buffer')),
                 newBuffer = parseFloat(newValue),
@@ -248,13 +248,16 @@
                 ads = view.model.ads.models || view.model.ads.collection || view.model.ads;
 
             _.each(ads, function(ad) {
-              adImps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+              adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
               adImps = adImps * ratio;
-              ad.set('volume', adImps);
+              ad.set('volume', parseInt(adImps));
             });
+            value = newBuffer;
+          } else {
+            value = parseInt(String(newValue).replace(/,|\./g, ''));
           }
 
-          view.model.set(name, newValue); //update backbone model;
+          view.model.set(name, value); //update backbone model;
           view._recalculateMediaCost();
           view.model.collection._recalculateLiImpressionsMediaCost();
         }
