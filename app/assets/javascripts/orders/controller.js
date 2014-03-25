@@ -578,6 +578,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
+      if (remaining_impressions < 0) {
+        remaining_impressions = 0;
+      }
     });
 
     return remaining_impressions;
