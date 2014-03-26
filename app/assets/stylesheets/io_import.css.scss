@@ -4,6 +4,7 @@ $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: red;
 $magenta_color: #d02898;
+$border_color: #0088cc;
 
 $wide_input_width: 320px;
 
@@ -1059,10 +1060,11 @@ table.creatives-content {
 
 .order-notes {
   .activity-log-header {
-    background-color: $ad_bg_color;
     float: left;
     width: 100%;
     padding: 5px;
+    border: 1px dashed $border_color;
+    margin-bottom: 5px;
   }
 
   .note-container {
@@ -1173,11 +1175,6 @@ table.creatives-content {
         @include rotate(0deg);
       }
     }
-  }
-
-  .ordersnotes textarea {
-    background-color: $ad_bg_color;
-    font-size:12px;
   }
 
   .users-to-notify {
