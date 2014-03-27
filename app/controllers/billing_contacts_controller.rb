@@ -1,4 +1,6 @@
 class BillingContactsController < ApplicationController
+  include Authenticator
+
   respond_to :json
 
   def search
