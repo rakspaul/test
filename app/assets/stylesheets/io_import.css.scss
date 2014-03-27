@@ -755,6 +755,18 @@ $wide_input_width: 320px;
       padding-left:20px;
     }
 
+    .tab.frequency-caps {
+      .frequency-impressions {
+        width: 50px;
+      }
+      .frequency-time-value {
+        width: 30px;
+      }
+      .frequency-time-type {
+        width: 100px;
+      }
+    }
+
     .mobile-targeting {
       color: $error_color;
       font-size: 10px;

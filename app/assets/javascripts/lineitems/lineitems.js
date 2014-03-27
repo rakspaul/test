@@ -96,7 +96,7 @@
       this.li_notes_collapsed = false;
 
       if (! this.model.get('targeting')) {
-        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
         this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },

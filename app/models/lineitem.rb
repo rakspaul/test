@@ -16,6 +16,7 @@ class Lineitem < ActiveRecord::Base
   has_many :creatives, through: :lineitem_assignments
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
+  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id'
 
   has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
   has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id

@@ -58,6 +58,7 @@
 //= require ./creatives/basic_creative.js
 //= require ./creatives/creative.js
 //= require ./lineitems/adsizes.js
+//= require ./common/frequency_caps.js
 //= require ./common/targeting.js
 //= require ./orders/controller.js
 //= require ./orders/restricted_controller.js

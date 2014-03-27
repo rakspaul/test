@@ -9,6 +9,7 @@
         dmas_list: [],
         audience_groups: [],
         selected_zip_codes: [],
+        frequency_caps: [],
         keyvalue_targeting: '',
         type: 'Display'
       }
@@ -37,6 +38,7 @@
       data.selected_geos = this.model.get('selected_geos');
       data.selected_zip_codes = this.model.get('selected_zip_codes');
       data.audience_groups = this.model.get('audience_groups');
+      data.frequency_caps = this.model.get('frequency_caps');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       data.type = this.model.get('type');
       return data;
@@ -111,6 +113,7 @@
       });
       this.$el.find('.key-values .chosen-choices input').width('200px');
 
+      this._renderFrequencyCaps();
       this._renderSelectedTargetingOptions();
       this.validateCustomKV();
     },
@@ -136,12 +139,30 @@
       this.$el.find('.tab.zip-codes').show();
     },
 
+    _showFrequencyCapsTab: function() {
+      this.$el.find('.tab').hide();
+      this.$el.find('.nav-tabs li').removeClass('active');
+      this.$el.find('.nav-tabs li.frequency-caps').addClass('active');
+      this.$el.find('.tab.frequency-caps').show();
+    },
+
     _renderSelectedTargetingOptions: function() {
       var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
       this.validateCustomKV();
+    },
+
+    _renderFrequencyCaps: function() {
+      var frequencyCaps = this.model.get('frequency_caps');
+      var self = this;
+
+      var view = new Targeting.FrequencyCapListView({
+        collection:  new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps),
+        parent_view: self
+      });
+      this.ui.frequency_caps.html(view.render().el);
     },
 
     _addKVToSelectedKeyValues: function(selected) {
@@ -323,7 +344,8 @@
     },
 
     ui: {
-      kv_type_switch: '.custom-regular-keyvalue-btn span'
+      kv_type_switch: '.custom-regular-keyvalue-btn span',
+      frequency_caps:  '.tab.frequency-caps'
     },
 
     events: {
@@ -333,6 +355,7 @@
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .geo': '_showGEOTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
+      'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
@@ -343,4 +366,23 @@
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected'
     }
   });
+
+  Targeting.FrequencyCapView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/targeting/frequency_cap'],
+    className: 'frequency-cap',
+        timeUnits: [ 'lifetime', 'minutes', 'hours', 'days', 'weeks', 'months' ],
+
+    initialize: function() {
+      _.bindAll(this, "render");
+      this.model.bind('change', this.render);
+    }
+  });
+
+  Targeting.FrequencyCapListView = Backbone.Marionette.CompositeView.extend({
+    itemView: Targeting.FrequencyCapView,
+    itemViewContainer: '.frequency-caps-container',
+    template: JST['templates/targeting/frequency_caps_container'],
+    className: 'frequency-caps'
+  });
+
 })(ReachUI.namespace("Targeting"));

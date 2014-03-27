@@ -9,6 +9,7 @@ class Ad < ActiveRecord::Base
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
