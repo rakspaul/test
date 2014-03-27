@@ -208,7 +208,6 @@ class IoImport
     def find_sales_person
       params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email], phone_number: @reader.sales_person[:phone_number] }
       sp = @reach_client.try(:sales_person)
-
       if sp && sp.first_name == params[:first_name] && sp.last_name == params[:last_name]
         @reach_client.sales_person
       else

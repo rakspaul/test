@@ -75,10 +75,14 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      li_creatives = @io_import.inreds.select do |ir|
-        ir[:placement]  == lineitem.name &&
-        ir[:start_date] == lineitem.start_date &&
-        ir[:end_date]   == lineitem.end_date
+      li_creatives = if @io_import.is_existing_order
+        lineitem.creatives
+      else
+        @io_import.inreds.select do |ir|
+          ir[:placement]  == lineitem.name &&
+          ir[:start_date] == lineitem.start_date &&
+          ir[:end_date]   == lineitem.end_date
+        end
       end
 
       li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr| 
