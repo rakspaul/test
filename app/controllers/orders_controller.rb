@@ -122,7 +122,6 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     order_param = params[:order]
-
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
@@ -330,10 +329,11 @@ private
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
-      li[:lineitem].delete(:targeted_zipcodes)
-      li[:lineitem].delete(:selected_geos)
-      li[:lineitem].delete(:itemIndex)
-      li[:lineitem].delete(:selected_key_values)
+          [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+:revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
+
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       if li[:type] = 'Video'

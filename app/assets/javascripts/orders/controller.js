@@ -27,14 +27,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   newOrder: function() {
     var order = new ReachUI.Orders.Order();
     // TODO We don't have EditView view and probably we don't need new Order functionality
-    //var view = new ReachUI.Orders.EditView({model: order});
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
-    //this.orderDetailsLayout.bottom.show(view);
-    //view.on('order:save', this._saveOrder, this);
   },
 
   editOrder: function(id) {
@@ -55,7 +52,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showEditOrder: function(order) {
     order.select();
-
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
@@ -73,7 +69,25 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     window.current_trafficker_name  = orderModel.get('trafficking_contact_name');
 
     lineItems.setOrder(orderModel);
+
+    // set revisions for every lineitem
+    if(orderModel.get('revisions')) {
+      _.each(orderModel.get('revisions'), function(revisions, index) {
+        lineItems.models[index].set('revised_start_date', revisions.start_date);
+        lineItems.models[index].set('revised_end_date', revisions.end_date);
+        lineItems.models[index].set('revised_name', revisions.name);
+        lineItems.models[index].set('revised_volume', revisions.volume);
+        lineItems.models[index].set('revised_rate', revisions.rate);
+
+        lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false))
+      });
+    }
+
     this._liSetCallbacksAndShow(lineItems);
+
+    if(orderModel.get('is_existing_order')) {
+      ReachUI.checkOrderStatus(orderModel.id);
+    }
   },
 
   orderDetails: function(id) {
@@ -552,6 +566,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     var self = this;
+
     if (!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);

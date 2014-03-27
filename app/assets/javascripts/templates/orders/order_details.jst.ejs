@@ -121,11 +121,11 @@
           <p>Client's Advertiser Name</p>
           <span><%= order.client_advertiser_name %></span>
         </div>
-        <div class="field order-name<% if (order.order_name_dup) { %> field_with_errors<% } %>">
+        <div class="field order-name<% if (order.order_name_dup && !order.is_existing_order) { %> field_with_errors<% } %>">
           <p>Order Name</p>
           <span class="editable custom" data-type="text" data-pk="1" data-name="name" data-mode="popup" data-inputclass="wide-editable-text"><%= order.name %></span>
           <div class="errors_container">
-          <% if (order.order_name_dup) { %>
+          <% if (order.order_name_dup && !order.is_existing_order) { %>
             This order name is already used
           <% } %>
           </div>

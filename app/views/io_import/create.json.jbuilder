@@ -2,7 +2,8 @@ json.order do
   json.partial! 'orders/order', 
   {
     order: @io_import.order,
- 
+    is_existing_order: @io_import.is_existing_order,
+    existing_order_id: @io_import.existing_order_id,
     io_original_filename: @io_import.original_filename, 
     io_created_at: Time.current.to_s, 
     io_detail: @io_details,
@@ -18,6 +19,16 @@ json.order do
     reach_client_buffer: @io_import.reach_client.try(:client_buffer),
     io_file_path: @io_import.tempfile.path
   }
+
+  json.revisions do
+    json.array! @io_import.revisions do |revision|
+      json.start_date revision[:start_date]
+      json.end_date revision[:end_date]
+      json.name revision[:name]
+      json.volume revision[:volume]
+      json.rate revision[:rate]
+    end
+  end
 
   json.notes do
     json.array! @notes do |note|
@@ -54,23 +65,31 @@ json.order do
       json.phone u.phone_number
     end
   end
+
+  json.pushing_errors do
+    json.array! []
+  end
 end
 
 json.lineitems do
-  json.array! @io_import.lineitems do |lineitem|
+  json.array! (@io_import.is_existing_order ? @io_import.existing_order.lineitems.in_standard_order : @io_import.lineitems) do |lineitem|
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      li_creatives = @io_import.inreds.select do |ir|
-        ir[:placement]  == lineitem.name &&
-        ir[:start_date] == lineitem.start_date &&
-        ir[:end_date]   == lineitem.end_date
+      li_creatives = if @io_import.is_existing_order
+        lineitem.creatives
+      else
+        @io_import.inreds.select do |ir|
+          ir[:placement]  == lineitem.name &&
+          ir[:start_date] == lineitem.start_date &&
+          ir[:end_date]   == lineitem.end_date
+        end
       end
 
       li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr| 
         arr.sort_by{|c| c[:ad_size]}
       end
-
+   
       json.array! li_creatives_sorted_by_date_and_size.flatten do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end

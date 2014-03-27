@@ -2,7 +2,7 @@
 
 <div class="li-table">
   <div class="li-row">
-    <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
+    <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
       <span>Contract LI<span>
       <div style="clear:both"></div>
       <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
@@ -13,6 +13,10 @@
       <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
         <%= lineitem.start_date %>
       </span>
+      <% if(lineitem.revised_start_date) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_start_date %></span>
+      <% } %>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -25,6 +29,10 @@
       <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
         <%= lineitem.end_date %>
       </span>
+      <% if(lineitem.revised_end_date) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_end_date %></span>
+      <% } %>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -73,6 +81,11 @@
       </span>
       <% } %>
 
+      <% if(lineitem.revised_name) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_name %></span>
+      <% } %>
+
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
         Lineitem name should be less than 500 characters
@@ -87,6 +100,10 @@
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(lineitem.volume) %>
       </span>
+      <% if(lineitem.revised_volume) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_volume %></span>
+      <% } %>
       <div class="errors_container"></div>
       <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
         <%= accounting.formatNumber(lineitem.buffer, 2) %>
@@ -96,6 +113,10 @@
       $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
         <%= accounting.formatMoney(lineitem.rate, '') %>
       </span>
+      <% if(lineitem.revised_rate) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_rate %></span>
+      <% } %>
       <div class="errors_container"></div>
     </div>
 
