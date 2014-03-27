@@ -525,6 +525,12 @@
       }
     },
 
+    serializeData: function(){
+      var data = this.collection.order.toJSON();
+      data.assignee = this.collection.order.get('assignee');
+      return data;
+    },
+
     _saveOrder: function() {
       this._clearAllErrors();
       var lineitems = this.collection;

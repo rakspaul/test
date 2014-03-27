@@ -6,7 +6,8 @@ class IoImport
  attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
-:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users
+:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
+:is_existing_order, :existing_order, :existing_order_id, :revisions
 
   def initialize(file, current_user)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
@@ -22,6 +23,8 @@ class IoImport
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
     @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
+    @revisions            = []
+    @is_existing_order    = false
   end
 
   def import
@@ -34,9 +37,16 @@ class IoImport
     read_billing_contact
     read_sales_person
 
+    if @existing_order = @reader.existing_order?
+      @is_existing_order = true
+      @existing_order_id = @existing_order.id
+    end
+
     read_order_and_details
     read_lineitems
     read_inreds
+
+    parse_revisions
 
     fix_order_flight_dates
 
@@ -91,7 +101,7 @@ class IoImport
       @io_details = IoDetail.new
       @io_details.client_advertiser_name = @reader.client_advertiser_name
       @io_details.order = @order
-      @io_details.state = "draft"
+      @io_details.state = @is_existing_order ? "revisions_proposed" : "draft"
       @io_details.reach_client          = reach_client
       @io_details.sales_person          = find_sales_person
       @io_details.sales_person_email    = @reader.sales_person[:email]
@@ -117,6 +127,37 @@ class IoImport
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
         @lineitems << li
+      end
+    end
+
+    def parse_revisions
+      existing_order = Order.find_by(name: @reader.order[:name].to_s.strip)
+
+      return if !existing_order
+
+      existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
+        local_revisions = {}
+
+        if @lineitems[index][:start_date] != existing_li.start_date
+          local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
+        end
+
+        if @lineitems[index][:end_date] != existing_li.end_date
+          local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
+        end
+
+        if @lineitems[index][:name] != existing_li.name
+          local_revisions[:name] = @lineitems[index][:name]
+        end
+
+        if @lineitems[index][:volume] != existing_li.volume
+          local_revisions[:volume] = @lineitems[index][:volume]
+        end
+
+        if @lineitems[index][:rate] != existing_li.rate
+          local_revisions[:rate] = @lineitems[index][:rate]
+        end
+        @revisions << local_revisions
       end
     end
 
@@ -262,7 +303,7 @@ class IOReader
       formats.any?{ |format| ad_format =~ format }
     end
     type ? type[0] : 'Display'
-  end 
+  end
 
   def parse_ad_sizes(str, type)
     case type 
@@ -275,6 +316,21 @@ class IOReader
       str.scan(AD_SIZE_REGEXP).join(',')
     end
   end
+
+  def existing_order?
+    @existing_order = Order.find_by(name: order[:name].to_s.strip)
+    IoDetail.find_by(client_order_id: client_order_id.to_s) && @existing_order
+  end
+
+  def advertiser_name
+    if !existing_order?
+      "" # https://github.com/collectivemedia/reachui/issues/327
+      # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet. 
+    else
+      @existing_order.advertiser.try(:name).to_s
+    end
+  end
+
 end
 
 class IOExcelFileReader < IOReader
@@ -349,10 +405,6 @@ class IOExcelFileReader < IOReader
 
   def reach_client_name
     @spreadsheet.cell(*REACH_CLIENT_CELL).to_s.strip
-  end
-
-  def advertiser_name
-    ""
   end
 
   def client_advertiser_name
@@ -518,11 +570,6 @@ class IOPdfFileReader < IOReader
 
   def client_advertiser_name
     @client_advertiser_name.to_s.strip
-  end
-
-  def advertiser_name
-    "" # https://github.com/collectivemedia/reachui/issues/327
-    # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.   
   end
 
   def account_contact

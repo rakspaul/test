@@ -344,6 +344,15 @@ $wide_input_width: 320px;
       }
     }
 
+    .revised {
+      background-color: $magenta_color !important;
+    }
+
+    .revision {
+      color: $magenta_color;
+      margin-left: 8px;
+    }
+
     .video-dropdown {
       position: absolute;
       .dropdown-menu {

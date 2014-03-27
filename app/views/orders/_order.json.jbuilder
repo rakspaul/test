@@ -1,4 +1,4 @@
-json.id                       order.id
+json.id                       order.id || existing_order_id
 json.source_id                order.source_id
 json.dfp_url                  order.dfp_url
 json.name                     order.name
@@ -11,7 +11,9 @@ json.advertiser_unknown       order.advertiser.blank?
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.order_status             IoDetail::STATUS[io_detail.try(:state).to_sym]
+json.order_status             IoDetail::STATUS[io_detail.try(:state).to_s.to_sym]
+json.state                    io_detail.try(:state).to_s
+json.is_existing_order        is_existing_order
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
 json.sales_person_phone       io_detail.sales_person_phone
@@ -19,6 +21,7 @@ json.sales_person_email       io_detail.sales_person_email
 json.sales_person_id          io_detail.try(:sales_person).nil? ? nil : io_detail.sales_person.id
 
 json.user_id                  order.user.nil? ? nil : order.user.id
+json.assignee                 order.user.try(:full_name)
 json.ocr_enabled              !order.nielsen_campaign.nil?
 json.created_at               format_datetime(order.created_at)
 json.updated_at               format_datetime(order.updated_at)
