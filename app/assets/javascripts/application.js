@@ -18,6 +18,7 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
+//= require backbone.stickit.min
 //= require typeahead
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/tab

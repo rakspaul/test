@@ -370,11 +370,22 @@
   Targeting.FrequencyCapView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/targeting/frequency_cap'],
     className: 'frequency-cap',
-        timeUnits: [ 'lifetime', 'minutes', 'hours', 'days', 'weeks', 'months' ],
+    bindings: {
+      '.frequency-impressions': 'impressions',
+      '.frequency-time-value':  'time_value',
+      '.frequency-time-unit':   'time_unit'
+    },
 
-    initialize: function() {
-      _.bindAll(this, "render");
-      this.model.bind('change', this.render);
+    events: {
+      'click .remove-btn': '_removeFrequencyCap'
+    },
+
+    onRender: function() {
+      this.stickit();
+    },
+
+    _removeFrequencyCap: function(el) {
+      this.model.destroy();
     }
   });
 
@@ -382,7 +393,21 @@
     itemView: Targeting.FrequencyCapView,
     itemViewContainer: '.frequency-caps-container',
     template: JST['templates/targeting/frequency_caps_container'],
-    className: 'frequency-caps'
+    className: 'frequency-caps',
+
+    events: {
+      'click .add-frequency-cap-link': '_addNewFrequencyCap'
+    },
+
+    _addNewFrequencyCap: function() {
+      this.collection.add(new ReachUI.FrequencyCaps.FrequencyCap());
+      this.options.parent_view.model.set({ 'frequency_caps': this.collection }, { silent: true });
+      /*var imp = [];
+      _.map(this.options.parent_view.model.get('frequency_caps').models, function(el) {
+        imp.push(el.get('impressions'));
+      });
+      console.log(imp.join(' - '));*/
+    }
   });
 
 })(ReachUI.namespace("Targeting"));
