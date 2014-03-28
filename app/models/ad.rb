@@ -13,8 +13,6 @@ class Ad < ActiveRecord::Base
     CANCELED:                  "Canceled"
   }
 
-  TEST = "TEST"
-
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
   belongs_to :data_source
