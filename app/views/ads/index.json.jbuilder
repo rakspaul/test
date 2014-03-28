@@ -16,6 +16,7 @@ json.array! @ads do |ad|
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
     json.type ad.type
     json.media_type_id ad.media_type_id
+    json.status Ad::STATUS[ad.status.to_sym]
   end
 
   json.creatives do

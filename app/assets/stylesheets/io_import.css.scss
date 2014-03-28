@@ -5,6 +5,11 @@ $li_number_bg: #007ac9;
 $error_color: red;
 $magenta_color: #d02898;
 $border_color: #0088cc;
+$color-gray: gray;
+$color-black: black;
+$color-yellow: yallow;
+$color-red: red;
+$color-green: green;
 
 $wide_input_width: 320px;
 
@@ -36,8 +41,9 @@ $wide_input_width: 320px;
 
 .pushing-status {
   margin-top: 40px;
+  margin-left:10px;
   color: $text_color;
-  width: 160px;
+  width: 150px;
 
   span.failed {
     color: red;
@@ -62,6 +68,43 @@ $wide_input_width: 320px;
     height: 16px;
     float: left;
     margin-right: 5px;
+  }
+
+  .ad-status-container{
+    margin:5px 5px 5px 2px;
+
+    .ad-status-icon{
+      width: 10px;
+      height: 10px;
+      border-radius:5px;
+      background-color: $color-gray;
+      display:inline-block;
+      margin-right:2px;
+    }
+
+    .ad-status-label{
+      color: $color-gray;
+    }
+  }
+
+  .ad-status-draft{
+    .ad-status-icon{ background-color: $color-black; }
+    .ad-status-label{ color: $color-black; }
+  }
+
+  .ad-status-ready{
+    .ad-status-icon{ background-color: $color-yellow; }
+    .ad-status-label{ color: $color-yellow; }
+  }
+
+  .ad-status-paused {
+    .ad-status-icon{ background-color: $color-red; }
+    .ad-status-label{ color: $color-red; }
+  }
+
+  .ad-status-delivering {
+    .ad-status-icon{ background-color: $color-green; }
+    .ad-status-label{ color: $color-green; }
   }
 }
 

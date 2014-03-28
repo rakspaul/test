@@ -41,15 +41,19 @@
 
       <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
         <% if(!isNaN(parseInt(ad.source_id))) { %>
-          <div class="dfp-success"></div> 
+          <div class="dfp-success"></div>
           <a href="<%= ad.dfp_url %>" target="_blank"><%= ad.source_id %></a>
+          <div class="ad-status-container ad-status-<%= adStatusClass() %>">
+            <span class="ad-status-icon"></span>
+            <span class="ad-status-label"> <%= ad.status %> </span>
+          </div>
         <% } %>
       </div>
     </div>
 
     <div class="pure-u-1-6 size">
       <span class="ads-sizes"><%= ad.size.replace(/,/gi, ', ') %></span>
-      <br/>   
+      <br/>
       <span class="toggle-ads-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= ad.creatives.length %>)</span>
     </div>
 
@@ -62,7 +66,7 @@
       <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
       <div class="targeting_options_condensed" style="clear:both"></div>
     </div>
-      
+
     <div class="pure-u-1-12 volume number-field">
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(ad.volume) %>
