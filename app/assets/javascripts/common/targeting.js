@@ -46,7 +46,7 @@
       var self = this;
 
       this.show_custom_key_values = false;
-      
+
       this.$el.find('.tab.geo input').on('keyup', function(ev) {
         $.getJSON('/dmas/search_geo.json?search='+$(this).val(), function(geos) {
           if(geos.length > 0) {
@@ -58,13 +58,13 @@
                   is_checked = true;
                 }
               });
-              
+
               var title = [];
               title.push(geos[i].name);
               if(geos[i].region_name) {
                 title.push(geos[i].region_name);
               }
-              
+
               geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type+'|'+title.join('/')+'"/>';
               geos_html += geos[i].name;
 
@@ -261,6 +261,9 @@
 
     _closeTargetingDialog: function() {
       if(! this.errors_in_kv) {
+        if(this.$el.find('.custom-kvs-field').is(':visible'))
+          this.$el.find('.custom-regular-keyvalue-btn').trigger('click');
+
         this.options.parent_view._toggleTargetingDialog();
         this._renderSelectedTargetingOptions();
       }

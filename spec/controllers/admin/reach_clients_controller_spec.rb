@@ -55,6 +55,7 @@ describe Admin::ReachClientsController do
       expect(data[:errors]).to include(:sales_person_id)
       expect(data[:errors]).to include(:account_manager_id)
       expect(data[:errors]).to include(:agency_id)
+      expect(data[:errors]).to include(:client_buffer)
     end
   end
 
@@ -77,6 +78,7 @@ describe Admin::ReachClientsController do
         assigns(:reach_client).media_contact_id.should eq(params[:reachClient][:media_contact_id])
         assigns(:reach_client).billing_contact_id.should eq(params[:reachClient][:billing_contact_id])
         assigns(:reach_client).agency_id.should eq(params[:reachClient][:agency_id])
+        assigns(:reach_client).client_buffer.should eq(params[:reachClient][:client_buffer])
       end
     end
 
@@ -99,6 +101,7 @@ describe Admin::ReachClientsController do
         expect(data[:errors]).to include(:media_contact_id)
         expect(data[:errors]).to include(:billing_contact_id)
         expect(data[:errors]).to include(:agency_id)
+        expect(data[:errors]).to include(:client_buffer)
       end
     end
   end
@@ -111,7 +114,8 @@ private
         abbr: reach_client.abbr,
         sales_person_id: reach_client.sales_person_id,
         account_manager_id: reach_client.account_manager_id,
-        agency_id: reach_client.agency_id
+        agency_id: reach_client.agency_id,
+        client_buffer: reach_client.client_buffer
       }
     }
     { :format => 'json' }.merge params
@@ -124,7 +128,8 @@ private
         abbr: '',
         sales_person_id: '',
         account_manager_id: '',
-        agency_id: ''
+        agency_id: '',
+        client_buffer: ''
       }
     }
     { :format => 'json' }.merge params
@@ -138,6 +143,7 @@ private
         sales_person_id: rand(1000..2000),
         account_manager_id: rand(1000..2000),
         agency_id: rand(1000..2000),
+        client_buffer: 50.5
       }
     }
     { :format => 'json' }.merge params

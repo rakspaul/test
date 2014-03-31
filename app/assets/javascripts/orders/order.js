@@ -80,6 +80,55 @@
     template: JST['templates/orders/order_details'],
     className: 'order-details',
 
+    ui: {
+      creatives_fileupload: '#creatives_fileupload'
+    },
+
+    events: {
+      'click .toggle-general-info-button': '_toggleGeneralInfo'
+    },
+
+    triggers: {
+      'click .edit-action':'order:edit',
+      'click .export-order':'order:export'
+    },
+
+    onRender: function() {
+      // if order is not yet persisted then hide 'Creatives TXT' button
+      if (this.model.id == null) {
+        $(this.$el.find('.creatives-txt-uploader')[0]).remove();
+      }
+    },
+
+    onDomRefresh: function() {
+      var self = this;
+
+      this.ui.creatives_fileupload.fileupload({
+        dataType: 'json',
+        formData: { order_id: self.model.id },
+        url: '/creatives_import.json',
+        dropZone: this.ui.creatives_fileupload,
+        pasteZone: null,
+        start: this._uploadStarted,
+        disabled: true,
+        done: function(e, data) { self._importCreativesCallback(e, data) },
+        fail: function(e, data) { self._importCreativesCallback(e, data) }
+      });
+
+      // IE double click fix
+      if (navigator.userAgent.indexOf("MSIE") > 0) {
+        this.ui.creatives_fileupload.bind('mousedown',function(event) {
+          if (document.createEvent) {
+            var e = document.createEvent('MouseEvents');
+            e.initEvent('click', true, true);
+            $(this).get(0).dispatchEvent(e);
+          } else {
+            $(this).trigger("click");
+          }
+        });
+      }
+    },
+
     _toggleGeneralInfo: function() {
       $('.general-info-container .columns').slideToggle({
         complete: function() {
@@ -93,13 +142,67 @@
       window.location.href = window.location.href;
     },
 
-    events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo'
+    _importCreativesCallback: function(e, data) {
+      var self = this;
+      $('#import-creatives-dialog').modal('show');
+      $('#import-creatives-dialog').on('hidden.bs.modal', function (e) {
+        self._reloadPage();
+      });
+
+
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      if(resp.errors.length == 0) {
+        messages.push("<h4>All Creatives were imported successfully.</h4>");
+      } else {
+        messages.push("<h4>" + resp.errors.pop().error + "</h4>");
+        messages.push("<ul>");
+        if(resp) {      
+          _.each(resp.errors, function(msg) {
+            messages.push("<li>" + msg.error + "</li>");
+          });
+        } else {
+          messages.push(data.jqXHR.responseText);
+        }
+        messages.push("</ul>");
+      }
+
+      if(resp.imported_creatives.length > 0) {
+        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){ 
+          return creative['io_lineitem_id']; 
+        });
+
+        _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
+          var current_li, current_li_view;
+
+          _.each(self.li_view.children._views, function(li_view, li_key) {
+            if(li_id == li_view.model.id) {
+              current_li_view = li_view;
+              current_li = li_view.model;
+            }
+          });
+
+          $('.lineitem-'+li_id+' .creatives-container .creative').remove();
+          var new_creatives = [];
+          _.each(li_creatives, function(li_creative) {
+            var creative = new ReachUI.Creatives.Creative(li_creative);
+            new_creatives.push(creative);
+          });
+
+          current_li.set('creatives', new ReachUI.Creatives.CreativesList(new_creatives));
+
+          current_li_view.renderCreatives();
+        });
+      }
+
+      $('#import-creatives-dialog .modal-body p').html(messages.join(""));
     },
 
-    triggers: {
-      'click .edit-action':'order:edit',
-      'click .export-order':'order:export'
+    setLineItemView: function(li_view) {
+      this.li_view = li_view;
+      this.ui.creatives_fileupload.fileupload('enable');
+      this.ui.creatives_fileupload.removeAttr('disabled');
     }
   });
 
@@ -257,8 +360,7 @@
     },
 
     ui: {
-      note_input: '#note_input',
-      creatives_fileupload: '#creatives_fileupload'
+      note_input: '#note_input'
     },
 
     initialize: function() {
@@ -299,60 +401,12 @@
       $('.notify-users-list .notify-by-email').html("Notify by email: " + this.selected_users.join(', '));
     },
 
-    _importCreativesCallback: function(e, data) {
-      $('#import-creatives-dialog').modal('show');
-
-      var resp = data.jqXHR.responseJSON,
-        messages = [];
-
-      if(resp.errors.length == 0) {
-        messages.push("<h4>All Creatives were imported successfully.</h4>");
-      } else {
-        messages.push("<h4>" + resp.errors.pop().error + "</h4>");
-        messages.push("<ul>");
-        if(resp) {      
-          _.each(resp.errors, function(msg) {
-            messages.push("<li>" + msg.error + "</li>");
-          });
-        } else {
-          messages.push(data.jqXHR.responseText);
-        }
-        messages.push("</ul>");
-      }
-
-      if(resp.imported_creatives.length > 0) {
-        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){ 
-          return creative['io_lineitem_id']; 
-        });
-
-        _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
-          // update creatives count under li
-          $('.lineitem-'+li_id+' .toggle-creatives-btn').html('<span class="pencil-icon"></span>Edit Creatives (' + li_creatives.length + ')');
-
-          $('.lineitem-'+li_id+' .creatives-container .creative').remove();
-          _.each(li_creatives, function(li_creative) {
-            var creative = new ReachUI.Creatives.Creative(li_creative);
-            var creativeView = new ReachUI.Creatives.CreativeView({model: creative});
-            var $li_creatives_area = $('.lineitem-'+li_id+' .creatives-container');
-            $li_creatives_area.append(creativeView.render().el);
-          });
-        });
-      }
-
-      $('#import-creatives-dialog .modal-body p').html(messages.join(""));
-    },
-
     onRender: function() {
       var self = this;
 
       this.$el.find('textarea#note_input').autosize();
 
       this.displayNotifyUsersList();
-
-      // if order is not yet persisted then hide 'Creatives TXT' button
-      if(this.options.order.id == null) {
-        $(this.$el.find('.notetimestamp')[0]).remove()
-      }
 
       this.$el.find('.users-to-notify .typeahead-container input').val(this.defaultUsersToNotify().join(','));
 
@@ -361,7 +415,7 @@
       }
 
       this.$el.find('.users-to-notify .typeahead-container input').select2({
-        tags: true,  
+        tags: true,
         tokenSeparators: [",", " "],
         initSelection: function (element, callback) {
           var data = [];
@@ -398,33 +452,10 @@
     },
 
     onDomRefresh: function() {
+      //TODO remove self
       var self = this;
 
       $('.notify-users-list .notify-by-email').html("Notify by email: " + self.selected_users.join(', '));
-
-      this.ui.creatives_fileupload.fileupload({
-        dataType: 'json',
-        formData: {order_id: self.options.order.id},
-        url: '/creatives_import.json',
-        dropZone: this.ui.creatives_fileupload,
-        pasteZone: null,
-        start: this._uploadStarted,
-        done: this._importCreativesCallback,
-        fail: this._importCreativesCallback
-      });
-
-      // IE double click fix
-      if (navigator.userAgent.indexOf("MSIE") > 0) {
-        this.ui.creatives_fileupload.bind('mousedown',function(event) {
-          if (document.createEvent) {
-            var e = document.createEvent('MouseEvents');
-            e.initEvent('click', true, true);
-            $(this).get(0).dispatchEvent(e);
-          } else {
-            $(this).trigger("click");
-          }
-        });
-      }
     },
 
     appendHtml: function(collectionView, itemView){

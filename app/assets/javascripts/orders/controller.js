@@ -74,7 +74,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     lineItems.setOrder(orderModel);
     this._liSetCallbacksAndShow(lineItems);
-    this._showNotesView(orderModel);
   },
 
   orderDetails: function(id) {
@@ -225,6 +224,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
+      order.set("reach_client_abbr", el.abbr);
 
       ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
@@ -562,7 +562,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           });
           order.lineItemList = self.lineItemList;
           self._liSetCallbacksAndShow(self.lineItemList);
-          self._showNotesView(order);
         },
         function(model, response, options) {
           console.log('error while getting lineitems list');
@@ -572,7 +571,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this.lineItemList.setOrder(order);
       this._liSetCallbacksAndShow(this.lineItemList);
-      this._showNotesView(order);
     }
   },
 
@@ -581,6 +579,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
+      if (remaining_impressions < 0) {
+        remaining_impressions = 0;
+      }
     });
 
     return remaining_impressions;
@@ -595,26 +596,35 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var start_year = start_date.getFullYear() % 100;
 
     var isGeo = (li.get('targeting').get('selected_zip_codes').length != 0) || (li.get('targeting').get('selected_geos').length != 0);
-    var hasKeyValues = li.get('targeting').get('selected_key_values').length != 0;
+    var hasCustomKeyValues = li.get('targeting').get('keyvalue_targeting').length > 0;
+    var hasKeyValues       = li.get('targeting').get('selected_key_values').length > 0;
 
-    var ad_name_parts = [li.collection.order.attributes.reach_client_abbr];
+    var ad_name_parts = [];
 
-    if(li.collection.order.attributes.reach_client_abbr == "TWC" || li.collection.order.attributes.reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
+    var reach_client_abbr = li.collection.order.get("reach_client_abbr") || li.collection.order.attributes.reach_client_abbr;
+
+    if(reach_client_abbr == "TWC") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name); 
+    } else if (reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
+      ad_name_parts.push(reach_client_abbr);
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);  
     } else {
-      // remove reach client abbreviation and quarter/year
-      ad_name_parts.push(li.collection.order.attributes.name.replace(/RE \w{1,4}\s+/, '').replace(/\s+Q\d{1,4}/, ''));
+      ad_name_parts.push(li.collection.order.attributes.name);    
     }
 
     if (isGeo) {
       ad_name_parts.push("GEO");
     }
-    if (hasKeyValues) {
+    if (hasCustomKeyValues || hasKeyValues) {
       ad_name_parts.push("BT/CT");
     } else {
       ad_name_parts.push("RON");
     }
-    ad_name_parts.push('Q'+start_quarter+start_year);
+
+    if(reach_client_abbr == "TWC" || reach_client_abbr == "RE CD" || reach_client_abbr == "RE TW") {
+      ad_name_parts.push('Q'+start_quarter+start_year);
+    }
 
     if ("Companion" == ad_type) {
       ad_name_parts.push("Companion");
@@ -654,13 +664,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     var extracted_li_id = notes ? notes.match(/Proposal Line Item ID: (\d+)/) : '';
     var li_id = li.get('li_id') ? li.get('li_id') : (extracted_li_id ? extracted_li_id[1] : '');
 
-    return ad_name + ' ' + li_id;
+    var is_cox = false;
+    if (li.collection.order.attributes.reach_client_abbr == "RE CD") {
+      is_cox = true;
+    }
+
+    return ad_name + (li_id ? (is_cox ? ' - ' : ' ') + li_id : '');
   },
 
   /////////////////////////////////////////////////////////////////////////////////////////
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
     var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+
     var ordersController = this;
 
     // adding Ad under certain lineitem
@@ -669,7 +685,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var type = args.type || li_view.model.get('type');
       var ad_name = ordersController._generateAdName(li, type);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
 
       var ad = new ReachUI.Ads.Ad(attrs);
 
@@ -814,13 +830,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
     });
+
+    this._showNotesView(lineItemList.order, lineItemListView);
+
+    var orderDetailsView = this.orderDetailsLayout.top.currentView;
+    orderDetailsView.setLineItemView(lineItemListView);
   },
 
-  _showNotesView: function(order) {
+  _showNotesView: function(order, li_view) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
-    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order});
+    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
     this.notesRegion.show(notes_list_view);
   },
 });

@@ -44,12 +44,6 @@ describe Admin::BlockSitesController do
       response.should be_success
     end
 
-    it "returns pending advertiser blocks" do
-      get 'get_blacklisted_advertisers', { format: "json" }
-      data = JSON.parse(response.body)
-      expect(data[0]["site_id"]).to eq site_1.id
-    end
-
     it "returns blacklisted advertisers" do
       get 'get_blacklisted_advertisers', { format: "json", site_id: "#{site_1.id}, #{site_2.id}" }
       data = JSON.parse(response.body)
@@ -69,12 +63,6 @@ describe Admin::BlockSitesController do
     it "returns http success" do
       get 'get_blacklisted_advertiser_groups', { format: "json" }
       response.should be_success
-    end
-
-    it "returns pending advertiser group blocks" do
-      get 'get_blacklisted_advertiser_groups', { format: "json" }
-      data = JSON.parse(response.body)
-      expect(data[0]["site_id"]).to eq site_1.id
     end
 
     it "returns blacklisted advertiser groups" do
@@ -98,38 +86,11 @@ describe Admin::BlockSitesController do
       response.should be_success
     end
 
-    it "returns pending advertiser unblocks" do
-      get "get_whitelisted_advertiser", { format: "json" }
-      data = JSON.parse(response.body)
-      expect(data[0]["site_id"]).to eq site_1.id
-    end
-
     it "returns whitelisted advertisers" do
       get "get_whitelisted_advertiser", { format: "json", site_id: "#{site_1.id}, #{site_2.id}" }
       data = JSON.parse(response.body)
       expect(data[0]["site_id"]).to eq site_1.id
       expect(data[1]["site_id"]).to eq site_2.id
-    end
-
-  end
-
-  describe "GET 'get_whitelisted_advertiser_groups'" do
-
-    before :each do
-      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_1, site: site_1, state: 'PENDING_UNBLOCK', user: @account.user)
-      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_2, site: site_2, state: 'UNBLOCK', user: @account.user)
-    end
-
-    it "returns http success" do
-      get 'get_whitelisted_advertiser_groups', { format: "json" }
-      response.should be_success
-    end
-
-    it "returns whitelisted advertiser groups" do
-      get "get_whitelisted_advertiser_groups", { format: "json" }
-      data = response.body
-      data = JSON.parse(response.body)
-      expect(data[0]["site_id"]).to eq site_1.id
     end
 
   end
@@ -164,7 +125,7 @@ describe Admin::BlockSitesController do
 
     it "should block_advertisers" do
       post :create, block_advertisers_params
-      expect(BlockedAdvertiser.find(@blocked_advertiser_2.id).state).to eq BlockSite::BLOCK
+      expect(BlockedAdvertiser.where(advertiser_id: advertiser_6.id.to_s, site_id: site_4.id.to_s).first.state).to eq BlockSite::BLOCK
     end
 
     it "should unblock an advertiser" do
@@ -278,6 +239,79 @@ describe Admin::BlockSitesController do
       expect(data["default_block"][0]).to eq advertiser_3.id
     end
 
+  end
+
+  describe "GET 'blacklisted_advertisers_to_commit'" do
+    before :each do
+      FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_1, state: 'PENDING_BLOCK', user: @account.user)
+      FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_2, site: site_2, state: 'BLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      get 'blacklisted_advertisers_to_commit', { format: "json" }
+      response.should be_success
+    end
+
+    it "returns advertiser blocks to commit" do
+      get 'blacklisted_advertisers_to_commit', { format: "json" }
+      data = JSON.parse(response.body)
+      expect(data["records"][0]["site_id"]).to eq site_1.id
+    end
+  end
+
+  describe "GET 'blacklisted_advertiser_groups_to_commit'" do
+    before :each do
+      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_1, site: site_1, state: 'PENDING_BLOCK', user: @account.user)
+      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_2, site: site_2, state: 'BLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      get 'blacklisted_advertiser_groups_to_commit', { format: "json" }
+      response.should be_success
+    end
+
+    it "returns advertiser group blocks to commit" do
+      get 'blacklisted_advertiser_groups_to_commit', { format: "json" }
+      data = JSON.parse(response.body)
+      expect(data["records"][0]["site_id"]).to eq site_1.id
+    end
+  end
+
+  describe "GET 'whitelisted_advertisers_to_commit'" do
+    before :each do
+      FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_1, site: site_1, state: 'PENDING_UNBLOCK', user: @account.user)
+      FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_2, site: site_2, state: 'UNBLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      get 'whitelisted_advertisers_to_commit', { format: "json" }
+      response.should be_success
+    end
+
+    it "returns advertiser unblocks to commit" do
+      get "whitelisted_advertisers_to_commit", { format: "json" }
+      data = JSON.parse(response.body)
+      expect(data["records"][0]["site_id"]).to eq site_1.id
+    end
+  end
+
+  describe "GET 'whitelisted_advertiser_groups_to_commit'" do
+    before :each do
+      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_1, site: site_1, state: 'PENDING_UNBLOCK', user: @account.user)
+      FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_2, site: site_2, state: 'UNBLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      get 'whitelisted_advertiser_groups_to_commit', { format: "json" }
+      response.should be_success
+    end
+
+    it "returns advertiser groups unblocks to commit" do
+      get "whitelisted_advertiser_groups_to_commit", { format: "json" }
+      data = response.body
+      data = JSON.parse(response.body)
+      expect(data["records"][0]["site_id"]).to eq site_1.id
+    end
   end
 
 private

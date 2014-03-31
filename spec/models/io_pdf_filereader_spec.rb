@@ -71,7 +71,7 @@ describe IOPdfFileReader do
         li[:start_date].should == Date.strptime("9/14/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:end_date].should == Date.strptime("9/28/2013", IOReader::DATE_FORMAT_WITH_SLASH)
         li[:ad_sizes].should == "160x600, 300x250, 728x90"
-        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver _300x250,160x600,728x90_9/14-9/28"
+        li[:name].should == "CDSNetwork_AddedValueRON_DMADenver_300x250,160x600,728x90_9/14-9/28"
         li[:volume].should == 10350
         li[:rate].should == 0.01
         li[:notes].should == "Proposal Line Item ID: 269771556 - Added Value RON- DMA Denver"
@@ -99,6 +99,30 @@ describe IOPdfFileReader do
       subject.lineitems{|li| @lineitems << li}
       @lineitems[19][:ad_sizes].should == "1x1"
       @lineitems[0][:ad_sizes].should == "160x600, 300x250, 728x90"
+    end
+  end
+
+  context "whole world water pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'InsertionOrder_www.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "CDS_AudienceNetwork_ADDEDVALUE:Run of AudienceNetwork_National_300x250,728x90_3/17-3/22"
+    end
+  end
+
+  context "Dunkin Donuts pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'DunkinDonuts.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "Cox Digital Solutions_Added Value_Geo-Targeted to Burlington, VT_300x250,728x90,160x600_3/3-5/31"
+    end
+  end
+
+  context "Dunkin Donuts second pdf IO" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'DunkinDonuts2.pdf')) }
+
+    it "parses LI name correctly" do
+      subject.send(:search_for_placement_and_li_id)[0][:name].should == "CDS_AddedValueRONLocalNewsSites_DMATargetBinghamton_300x250, 728x90,160x600_3/3-3/30"
     end
   end
 

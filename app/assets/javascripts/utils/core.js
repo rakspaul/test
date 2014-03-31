@@ -46,14 +46,27 @@ ReachUI.truncateArray = function(arr, attr) {
     if(arr.length >= 3) {
       var remaining_arr = arr.slice(2);
       var more_items_tooltip = [];
-      more_items_tooltip = _.inject(remaining_arr, function(sum, el) { 
-        attr ? sum.push(el[attr]) : sum.push(el); 
-        return sum; 
+      more_items_tooltip = _.inject(remaining_arr, function(sum, el) {
+        attr ? sum.push(el[attr]) : sum.push(el);
+        return sum;
       }, [] );
       result += ' <span title="'+more_items_tooltip.join('; ')+'">+' + remaining_arr.length + ' more</span>';
     }
   } else if(arr.length == 1) {
-    result += (attr ? arr[0][attr] : arr[0]); 
+    result += (attr ? arr[0][attr] : arr[0]);
+  }
+  return result;
+};
+
+ReachUI.truncateArrayCustom = function(arr) {
+  var result = "";
+  if(arr.length <= 2){
+    result = arr.join();
+  }
+  else{
+    var remaining_arr = arr.slice(2);
+    result = arr[0]+", "+arr[1];
+    result += ' <span title="'+ remaining_arr.join('; ')+'">+' + remaining_arr.length + ' more</span>';
   }
   return result;
 };
@@ -73,19 +86,21 @@ ReachUI.showCondensedTargetingOptions = function() {
   if(zips.length > 0) {
     targeting_options.push('<div class="zip-codes-icon pull-left" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
   }
- 
-  var key_values = targeting.attributes.selected_key_values;      
-  if(key_values.length > 0) {   
+
+  var key_values = targeting.attributes.selected_key_values;
+  if(key_values.length > 0) {
     targeting_options.push('<div class="account-contact-icon pull-left" title="Key Value Targeting"></div>');
     targeting_options.push('<div class="targeting-options">');
     targeting_options.push(ReachUI.truncateArray(key_values, "title"));
     targeting_options.push('</div>');
-  } 
+  }
 
-  var custom_key_values = targeting.get('keyvalue_targeting');      
-  if(custom_key_values) {   
+  var custom_key_values = targeting.get('keyvalue_targeting');
+  if(custom_key_values) {
     targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
-    targeting_options.push('<div class="targeting-options">'+custom_key_values+'</div>');
+    targeting_options.push('<div class="targeting-options">');
+    targeting_options.push(ReachUI.truncateArrayCustom(custom_key_values.split(','), "title"));
+    targeting_options.push('</div>');
   }
 
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
@@ -99,7 +114,7 @@ ReachUI.showCondensedTargetingOptions = function() {
   var highest_div = _.max(_.map($('.ad > div[class^="pure-u-"]'), function(el) { return $(el).height() } ));
   _.each($('.ad > div[class^="pure-u-"]'), function(el) {
     var padding = $(el).css('box-sizing') == 'border-box' ? parseInt($(el).css('padding-top')) : 0;
-    $(el).css('height', (highest_div + padding + 'px') ) 
+    $(el).css('height', (highest_div + padding + 'px') )
   });
 };
 
@@ -147,16 +162,24 @@ RegExp.escape= function(s) {
 ReachUI.currentTimeWithOffset = function(offset) {
     // create Date object for current location
     var d = new Date();
-    
+
     // convert to msec
-    // add local time zone offset 
+    // add local time zone offset
     // get UTC time in msec
     var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-    
+
     // create new Date object for different city
     // using supplied offset
     var nd = new Date(utc + (3600000*parseInt(offset)));
-    
+
     // return time
     return nd;
+};
+
+ReachUI.initialStartDate = function(startDate) {
+  var initialStartDate = moment().format("YYYY-MM-DD");
+  if (moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > startDate) {
+    initialStartDate = moment(window.server_time).format("YYYY-MM-DD");
+  }
+  return initialStartDate;
 }

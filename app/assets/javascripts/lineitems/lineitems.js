@@ -132,7 +132,7 @@
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
         datepicker: {
-          startDate: moment().format("YYYY-MM-DD")
+          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
         }
       });
 
@@ -426,8 +426,17 @@
     pasteTargeting: function(e) {
       e.stopPropagation();
       noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
+
       _.each(window.selected_lis, function(li) {
-        li.model.set('targeting', window.copied_targeting);
+        var copied_li_t = new ReachUI.Targeting.Targeting({
+            selected_key_values: _.clone(window.copied_targeting.get('selected_key_values')),
+            selected_geos: _.clone(window.copied_targeting.get('selected_geos')),
+            dmas_list: _.clone(window.copied_targeting.get('dmas_list')),
+            selected_zip_codes: _.clone(window.copied_targeting.get('selected_zip_codes')),
+            audience_groups: _.clone(window.copied_targeting.get('audience_groups')),
+            keyvalue_targeting: _.clone(window.copied_targeting.get('keyvalue_targeting'))
+        });
+        li.model.set('targeting', copied_li_t);
         li.renderTargetingDialog();
         li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
       });
@@ -690,6 +699,7 @@
           dialog.modal('hide');
         });
         dialog.find('.push-btn').click(function() {
+          dialog.find('.push-btn').off('click');
           dialog.modal('hide');
           self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');

@@ -128,8 +128,8 @@ class IoImport
       else
         min_start, max_end = [@lineitems[0].start_date, @lineitems[0].end_date]
         @lineitems.each do |li|
-          min_start = li.start_date if li.start_date < min_start
-          max_end   = li.end_date   if li.end_date > max_end
+          min_start = li.start_date if li.start_date && li.start_date < min_start
+          max_end   = li.end_date   if li.end_date && li.end_date > max_end
         end
         @order.start_date = min_start
         @order.end_date   = max_end
@@ -220,6 +220,7 @@ end
 
 class IOReader
   DATE_FORMAT_WITH_SLASH = '%m/%d/%Y'
+  DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR = '%m/%d/%y'
   DATE_FORMAT_WITH_DOT = '%m.%d.%Y'
 
   LINEITEMS_TYPE = { 'Video'    => [ /pre[ -]*roll/i, /#{Video::DEFAULT_MASTER_ADSIZE}/i ],
@@ -243,17 +244,22 @@ class IOReader
   def parse_date str
     return str if str.is_a?(Date)
 
+    str = str.to_s.strip
+
     if str.index('-')
       Date.strptime(str.squish)
-    elsif str.index('.')
-      Date.strptime(str.squish, DATE_FORMAT_WITH_DOT)
-    elsif str.squish.split('/').try(:last).try(:length) == 2
-      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR)
     else
-      Date.strptime(str.squish, DATE_FORMAT_WITH_SLASH)
+      date_regexp = /([\d]+)[\.\-\/]+([\d]+)[\.\-\/]+([\d]+)/
+      date = date_regexp.match(str.squish)
+
+      if date
+        # month: date[1], day: date[2], year: date[3]
+        date_format = date[3].length <= 2 ? DATE_FORMAT_WITH_SLASH_2DIGIT_YEAR : DATE_FORMAT_WITH_SLASH
+        Date.strptime(date[1..3].join('/'), date_format)
+      end
     end
   rescue
-    nil
+    raise "Date is not valid: #{str}"
   end
 
   def determine_lineitem_type(ad_format)
@@ -701,7 +707,7 @@ private
       page_contains_contracts_totals = @raw_reader.page(i+1).text.match(/\nContracts Totals\n/)
       textangle = @reader.bounding_box do
         page (i+1)
-        below /Start/
+        below /Start|Flight Dates/
         right_of /site:/i
         above(/Contracts Totals/) if page_contains_contracts_totals
       end
@@ -721,6 +727,10 @@ private
     dates.each_with_index do |line, i|
       li = {}
       if line.first =~ /\d{1,2}\/\d{1,2}\/\d{2,4}/
+        if line[0] =~ /\d{1,2}\/\d{1,2}\/\d{2,4}[ \-]+\d{1,2}\/\d{1,2}\/\d{2,4}/
+          line[0] = line[0].split(/[ \-]+/)
+          line.flatten!
+        end
         li[:start_date]    = line[0]
         li[:end_date]      = line[1]
         li[:impressions]   = line[2].gsub(/,/, '')
@@ -743,7 +753,7 @@ private
     @raw_reader.pages.count.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
-        below /End/
+        below /End|Flight Dates/
         left_of /site:|section:/i
       end
       placements += textangle.text
@@ -759,7 +769,16 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        lineitems.last[:name] += ' ' + line.join(' ')
+        joint_symbol = if lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^_/)
+          ''
+        elsif lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^[A-Z]/)
+          ' '
+        elsif lineitems.last[:name][-1].match(/[0-9A-Z_-]$/) && line.first.match(/^[_A-Z0-9]/)
+          ''
+        else
+          ' '
+        end
+        lineitems.last[:name] += joint_symbol + line.join(joint_symbol)
       end
     end
     lineitems

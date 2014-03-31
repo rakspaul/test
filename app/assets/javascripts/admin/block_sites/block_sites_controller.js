@@ -150,11 +150,11 @@
 
           blockedAdvertisers.each(function(blockedAdvertiser) {
             if(!site.hasAdvertiser(blockedAdvertiser.get('advertiser_id'))) {
-              site.get('advertisers').add(blockedAdvertiser, {silent: 'true'});
+              site.get('advertisers').add(blockedAdvertiser, {silent: true});
             }
           }, this);
 
-          this.blockedAdvertiserList.trigger('reset');
+          this.blockedAdvertiserList.trigger('renderAdvertisers');
         }
       }
     },
@@ -199,9 +199,11 @@
 
           blockedAdvertiserGroups.each(function(blockedAdvertiserGroup) {
             if(!site.hasAdvertiserGroup(blockedAdvertiserGroup.get('advertiser_group_id'))) {
-              site.addAdvertiserGroup(blockedAdvertiserGroup);
+              site.get('advertiserGroups').add(blockedAdvertiserGroup, { silent: true });
             }
           }, this);
+
+          this.blockedAdvertiserGroupList.trigger('renderAdvertiserGroups');
         }
       }
     },

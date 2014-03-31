@@ -1,16 +1,17 @@
 class IOFileWriter
-  def initialize(location, file_object, original_filename, order)
+  def initialize(location, file_object, original_filename, order, type = 'io')
     @location = location
     @file = file_object
     @order = order
     @original_filename = original_filename
+    @type = type
   end
 
   def write
     path = prepare_store_location
     File.open(path, "wb") {|f| f.write(@file.read) }
 
-    @order.io_assets.create({asset_upload_name: @original_filename, asset_path: path})
+    @order.io_assets.create({asset_upload_name: @original_filename, asset_path: path, asset_type: @type})
   end
 
   private
