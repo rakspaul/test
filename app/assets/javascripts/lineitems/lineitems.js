@@ -31,7 +31,15 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.get('creatives') };
+      var lineitem = _.clone(this.attributes);
+      lineitem['frequency_caps_attributes'] = [];
+      if (lineitem['targeting'].get('frequency_caps')) {
+        lineitem['frequency_caps_attributes'] = lineitem['targeting'].get('frequency_caps');
+         if (lineitem['frequency_caps_attributes'].toJSON) {
+           lineitem['frequency_caps_attributes'] = lineitem['frequency_caps_attributes'].toJSON();
+         }
+      }
+      return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
     pushAd: function(ad) {

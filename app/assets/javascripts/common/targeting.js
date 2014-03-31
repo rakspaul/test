@@ -29,6 +29,7 @@
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
+      this.original_frequency_caps = this.model.get('frequency_caps');
     },
 
     serializeData: function(){
@@ -385,7 +386,7 @@
     },
 
     _removeFrequencyCap: function(el) {
-      this.model.destroy();
+      this.model.trigger('frequency_cap:remove', this.model);
     }
   });
 
@@ -397,6 +398,15 @@
 
     events: {
       'click .add-frequency-cap-link': '_addNewFrequencyCap'
+    },
+
+    initialize: function() {
+      var self = this;
+
+      this.collection.on('frequency_cap:remove', function(el) {
+        self.collection.remove(el);
+        self.options.parent_view.model.set({ 'frequency_caps': self.collection }, { silent: true });
+      });
     },
 
     _addNewFrequencyCap: function() {

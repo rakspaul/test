@@ -1,5 +1,7 @@
 class LineitemFrequencyCap < ActiveRecord::Base
   belongs_to :lineitems, foreign_key: 'io_lineitem_id'
+  
+  alias_attribute :impressions, :cap_value
 
   LIFETIME = 0
   MINUTES  = 1

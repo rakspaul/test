@@ -70,6 +70,7 @@ json = @lineitems.map do |lineitem|
 
   li[:frequency_caps] = lineitem.frequency_caps.map do |fc|
     {
+      id:          fc.id,
       impressions: fc.cap_value,
       time_value:  fc.time_value,
       time_unit:   fc.time_unit

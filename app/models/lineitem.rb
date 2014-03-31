@@ -24,6 +24,8 @@ class Lineitem < ActiveRecord::Base
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
+
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
   validates :active, inclusion: { in: [true, false] }

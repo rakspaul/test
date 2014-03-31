@@ -126,3 +126,5 @@ gem "rjb"
 gem 'spreadsheet'
 
 gem 'kaminari'
+
+gem 'backbone-nested-attributes'
