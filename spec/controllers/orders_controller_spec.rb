@@ -525,6 +525,7 @@ private
     params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
@@ -562,8 +563,10 @@ private
 
     params['order']['reach_client_id']        = reach_client.id
     params['order']['trafficking_contact_id'] = user.id
+    params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id

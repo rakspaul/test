@@ -370,29 +370,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     //--------------------------------------------------------------------------------
     // account contact
-    $('.account-contact-name .typeahead').editable({
-      success: function(response, newValue) {
-        order.set("account_contact_name", newValue); //update backbone model
-      },
-      source: "/users/search.json?search_by=name",
-      typeahead: {
-        minLength: 0,
-        remote: '/users/search.json?search=%QUERY&search_by=name',
-        valueKey: 'name'
-      }
-    });
-    $('.account-contact-name').on('typeahead:selected', function(ev, el) {
-      order.set("account_contact_name", el.name);//update backbone model
-      order.set("account_contact_email", el.email);
-      order.set("account_contact_phone", el.phone);
-      $('.account-contact-phone span').removeClass('editable-empty').html(el.phone);
-      $('.account-contact-email span').removeClass('editable-empty').html(el.email);
-
-      ordersController._clearErrorsOn(".account-contact-name");
-    }).on('change', function(e) {
+    $('.account-contact-name').on('change', function(e) {
       var ac_name = $('.account-contact-name option:selected').text();
       var ac_parts = e.target.value.split('|');
       var ac_id = ac_parts[0], ac_email = ac_parts[1], ac_phone = ac_parts[2];
+
       $('.account-contact-phone span').removeClass('editable-empty').html(ac_phone);
       $('.account-contact-email span').removeClass('editable-empty').html(ac_email);
       order.set("account_contact_name", ac_name); //update backbone model
