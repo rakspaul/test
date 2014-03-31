@@ -1,4 +1,6 @@
 class AdsController < ActionController::Base
+  include Authenticator
+
   respond_to :json
 
   def index
