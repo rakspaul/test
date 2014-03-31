@@ -140,12 +140,13 @@ class OrdersController < ApplicationController
     io_details.sales_person_phone     = order_param[:sales_person_phone]
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
+    io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.state                  = order_param[:order_status] || "draft"
 
     if order_param[:order_status] == "ready_for_trafficker"
-      @order.user = io_details.trafficking_contact
+      @order.user_id = io_details.trafficking_contact_id
     elsif order_param[:order_status] == "ready_for_am"
-      @order.user = io_details.account_manager
+      @order.user_id = io_details.account_manager_id
     end
 
     respond_to do |format|
@@ -157,10 +158,9 @@ class OrdersController < ApplicationController
         end
 
         if li_ads_errors.blank?
-          if @order.save && io_details.save
+          if io_details.save && @order.save
             io_details.reload
             @order.reload
-
             format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[io_details.try(:state).to_s.to_sym]} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect

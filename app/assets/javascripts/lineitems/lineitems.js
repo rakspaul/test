@@ -537,7 +537,7 @@
       var self = this;
 
       // function that store Order and Lineitems in one POST request
-      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      self.collection.order.save({lineitems: lineitems.models, order_status: (self.status || self.collection.order.get('state')) }, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -724,10 +724,6 @@
       this._saveOrderWithStatus('ready_for_trafficker');
     },
 
-    _saveOrderDraft: function() {
-      this._saveOrderWithStatus('draft');
-    },
-
     _saveOrderWithStatus: function(status) {
       this.status = status;
       this._saveOrder();
@@ -744,7 +740,7 @@
     },
 
     events: {
-      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker'
