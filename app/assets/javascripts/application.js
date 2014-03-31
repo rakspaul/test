@@ -18,7 +18,6 @@
 //= require backbone
 //= require json2
 //= require backbone.marionette
-//= require backbone-nested-attributes/all
 //= require backbone.stickit.min
 //= require backbone.rorattributes
 //= require typeahead
