@@ -769,11 +769,16 @@ private
         li[:li_id] = line[1]
         lineitems << li
       else
-        joint_symbol = if lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^_/)
+        lineitem_last_char = lineitems.last[:name][-1]
+
+        # awful implementation, but how it could be improved if COX inserts line breaks randomly
+        joint_symbol = if lineitem_last_char.match(/[a-z]$/) && line.first.match(/^_/)
           ''
-        elsif lineitems.last[:name][-1].match(/[a-z]$/) && line.first.match(/^[A-Z]/)
+        elsif lineitem_last_char.match(/[a-z]$/) && line.first.match(/^[a-z]/) && !line.first.match(/^of\s*/)
+          ''
+        elsif lineitem_last_char.match(/[a-z]$/) && line.first.match(/^[A-Z]/)
           ' '
-        elsif lineitems.last[:name][-1].match(/[0-9A-Z_-]$/) && line.first.match(/^[_A-Z0-9]/)
+        elsif lineitem_last_char.match(/[0-9A-Z_-]$/) && line.first.match(/^[_A-Z0-9]/)
           ''
         else
           ' '
