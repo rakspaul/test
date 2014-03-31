@@ -20,8 +20,8 @@
     model: FrequencyCaps.FrequencyCap,
     nestedCollection: true,
 
-    initialize: function(options) {
-      this.initRORAttributes(options);
+    initialize: function(models, options) {
+      this.initRORAttributes(models);
     }
   });
 

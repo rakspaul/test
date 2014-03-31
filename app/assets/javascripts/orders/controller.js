@@ -552,6 +552,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     var self = this;
+
     if (!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);

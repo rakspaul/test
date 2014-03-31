@@ -1470,7 +1470,6 @@
       if (this.fragment === fragment) return;
       this.fragment = fragment;
       var url = this.root + fragment;
-
       // If pushState is available, we use it to set the fragment as a real URL.
       if (this._hasPushState) {
         this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);

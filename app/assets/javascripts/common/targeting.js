@@ -2,6 +2,10 @@
   'use strict';
 
   Targeting.Targeting = Backbone.Model.extend({
+    initialize: function() {
+      this.dirty = false;
+    },
+
     defaults: function() {
       return {
         selected_key_values: [],
@@ -17,6 +21,14 @@
 
     toJSON: function() {
       return { targeting: _.clone(_.omit(this.attributes, 'dmas_list', 'audience_groups')) };
+    },
+
+    setDirty: function() {
+      this.dirty = true;
+    },
+
+    isDirty: function() {
+      return this.dirty;
     }
   });
 
@@ -406,17 +418,20 @@
       this.collection.on('frequency_cap:remove', function(el) {
         self.collection.remove(el);
         self.options.parent_view.model.set({ 'frequency_caps': self.collection }, { silent: true });
+        self._setTargetingAsDirty();
       });
     },
 
     _addNewFrequencyCap: function() {
       this.collection.add(new ReachUI.FrequencyCaps.FrequencyCap());
       this.options.parent_view.model.set({ 'frequency_caps': this.collection }, { silent: true });
-      /*var imp = [];
-      _.map(this.options.parent_view.model.get('frequency_caps').models, function(el) {
-        imp.push(el.get('impressions'));
-      });
-      console.log(imp.join(' - '));*/
+      this._setTargetingAsDirty();
+    },
+
+    _setTargetingAsDirty: function() {
+      if (this.options.parent_view.model.setDirty) {
+        this.options.parent_view.model.setDirty();
+      }      
     }
   });
 

@@ -32,12 +32,9 @@
 
     toJSON: function() {
       var lineitem = _.clone(this.attributes);
-      lineitem['frequency_caps_attributes'] = [];
-      if (lineitem['targeting'].get('frequency_caps')) {
-        lineitem['frequency_caps_attributes'] = lineitem['targeting'].get('frequency_caps');
-         if (lineitem['frequency_caps_attributes'].toJSON) {
-           lineitem['frequency_caps_attributes'] = lineitem['frequency_caps_attributes'].toJSON();
-         }
+      var frequencyCaps = lineitem['targeting'].get('frequency_caps');
+      if (frequencyCaps.toNestedAttributes) {
+        lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       }
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
@@ -663,6 +660,14 @@
               self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
+              var dirty = self.collection.any(function(li) {
+                var targeting = li.get('targeting');
+                return targeting.isDirty();
+              });
+              if (dirty) {
+                self.collection.setOrder(null);
+                Backbone.history.fragment = null;
+              }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
