@@ -527,6 +527,7 @@ private
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
+      lineitem.proposal_li_id = li[:lineitem][:li_id]
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
