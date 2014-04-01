@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
   scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
   scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
-  scope :filterByLoggingUser, lambda { |user, orders_by_user| where("orders.user_id = '#{user.id}'") unless orders_by_user.blank? || orders_by_user == "all_orders" }
+  scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?",
                                                              "%#{query}%", "%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
   scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
