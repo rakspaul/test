@@ -1,12 +1,18 @@
 <div class="activity-log-header">
   <div class="activity-log-title">
     Activity Log
-    <input type="checkbox" class="notify-users-switch"/>
   </div>
 
   <div class="notify-users-list">
     <div class="top">
+      <input type="checkbox" class="notify-users-switch"/>
       <div class="notify-by-email">Notify by email:</div>
+    </div>
+    <div class="add-user-btn">
+      <span class="add-user-to-notify-list-btn x-btn">&nbsp;</span>
+      <span class="add-user-to-notify-list">Edit</span>
+      <span class="close-users-notify-list-btn x-btn" style="display:none">&nbsp;</span>
+      <span class="close-users-notify-list" style="display:none">Close</span>
     </div>
 
     <div style="clear:both"></div>
@@ -15,14 +21,10 @@
       <em></em>
       <div class="typeahead-container">
         <!--textarea data-type="select2" data-name="selected_user" data-pk="1" style="display:none"></textarea-->
-        <input value="" style="width:300px;display:none;"/>
+        <input value="" style="width:350px;display:none;"/>
       </div>
-      <span class="add-user-to-notify-list-btn x-btn">&nbsp;</span>
-      <span class="add-user-to-notify-list">Edit</span>
-      <span class="close-users-notify-list-btn x-btn" style="display:none">&nbsp;</span>
-      <span class="close-users-notify-list" style="display:none">Close</span>
     </div>
- 
+
     <div style="clear:both"></div>
 
     <div class="order-notes-table">
@@ -33,16 +35,9 @@
         <div class="ordersnotes">
           <textarea id="note_input" placeholder="Note" rows="2" cols="26"></textarea>
         </div>
-      </div>
-
-      <div style="clear:both"></div>
-
-      <div>
         <div class="save-note" title="Add Note" id="btnSave">
           <div class="save-note-btn">&nbsp;</div>
         </div>
-        <div class="submit-trafficker-btn" style="width:156px">Submit to Trafficker</div>
-        <div class="submit-am-btn" style="width:100px">Submit to AM</div>
       </div>
     </div>
   </div>
@@ -50,3 +45,5 @@
 
 <div class="notes-list">
 </div>
+
+<div style="clear:both"></div>

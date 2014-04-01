@@ -27,10 +27,13 @@ Reachui::Application.routes.draw do
         get 'blacklisted_advertisers' => 'block_sites#get_blacklisted_advertisers'
         get 'blacklisted_advertiser_groups' => 'block_sites#get_blacklisted_advertiser_groups'
         get 'whitelisted_advertisers' => 'block_sites#get_whitelisted_advertiser'
-        get 'whitelisted_advertiser_groups' => 'block_sites#get_whitelisted_advertiser_groups'
         get 'export_blacklisted_advertisers_and_groups'
         get 'export_whitelisted_advertisers'
         get 'advertisers_with_default_blocks'
+        get 'blacklisted_advertisers_to_commit' => 'block_sites#blacklisted_advertisers_to_commit'
+        get 'whitelisted_advertisers_to_commit' => 'block_sites#whitelisted_advertisers_to_commit'
+        get 'blacklisted_advertiser_groups_to_commit' => 'block_sites#blacklisted_advertiser_groups_to_commit'
+        get 'whitelisted_advertiser_groups_to_commit' => 'block_sites#whitelisted_advertiser_groups_to_commit'
       end
     end
 
