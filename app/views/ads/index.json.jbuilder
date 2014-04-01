@@ -72,6 +72,7 @@ json.array! @ads do |ad|
 
   json.frequency_caps do
     json.array! ad.frequency_caps do |fc|
+      json.id          fc.id
       json.impressions fc.cap_value
       json.time_value  fc.time_value
       json.time_unit   fc.time_unit

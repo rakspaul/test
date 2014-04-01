@@ -77,6 +77,16 @@
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
       $('.total-media-cost span').html(accounting.formatMoney(sum_media_cost));
     }
+  }, {
+    dirty: false,
+
+    setDirty: function(dirty) {
+      this.dirty = dirty;
+    },
+
+    isDirty: function() {
+      return this.dirty;
+    }
   });
 
   //LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
@@ -660,11 +670,8 @@
               self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
-              var dirty = self.collection.any(function(li) {
-                var targeting = li.get('targeting');
-                return targeting.isDirty();
-              });
-              if (dirty) {
+              if (ReachUI.LineItems.LineItemList.isDirty()) {
+                ReachUI.LineItems.LineItemList.setDirty(false);
                 self.collection.setOrder(null);
                 Backbone.history.fragment = null;
               }

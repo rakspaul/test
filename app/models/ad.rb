@@ -20,6 +20,8 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :cities, join_table: :city_targeting, association_foreign_key: :city_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
+
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
 
   validates :start_date, future_date: true, :if => lambda {|ad| ad.start_date_was.try(:to_date) != ad.start_date.to_date || ad.new_record? }

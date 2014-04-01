@@ -2,10 +2,6 @@
   'use strict';
 
   Targeting.Targeting = Backbone.Model.extend({
-    initialize: function() {
-      this.dirty = false;
-    },
-
     defaults: function() {
       return {
         selected_key_values: [],
@@ -24,12 +20,9 @@
     },
 
     setDirty: function() {
-      this.dirty = true;
+      // we set class flag dirty to reload LineItemList after save
+      ReachUI.LineItems.LineItemList.setDirty(true);
     },
-
-    isDirty: function() {
-      return this.dirty;
-    }
   });
 
   Targeting.TargetingView = Backbone.Marionette.ItemView.extend({
@@ -386,7 +379,21 @@
     bindings: {
       '.frequency-impressions': 'impressions',
       '.frequency-time-value':  'time_value',
-      '.frequency-time-unit':   'time_unit'
+      '.frequency-time-unit': {
+        observe: 'time_unit',
+        selectOptions: {
+          collection: function() {
+            return [
+              { value: 0, label: 'lifetime' },
+              { value: 1, label: 'minutes' },
+              { value: 2, label: 'hours' },
+              { value: 3, label: 'days' },
+              { value: 4, label: 'weeks' },
+              { value: 5, label: 'months'}
+            ];
+          }
+        }
+      }
     },
 
     events: {
@@ -409,7 +416,8 @@
     className: 'frequency-caps',
 
     events: {
-      'click .add-frequency-cap-link': '_addNewFrequencyCap'
+      'click .add-frequency-cap-link': '_addNewFrequencyCap',
+      'change': '_updateParentModel'
     },
 
     initialize: function() {
@@ -417,13 +425,16 @@
 
       this.collection.on('frequency_cap:remove', function(el) {
         self.collection.remove(el);
-        self.options.parent_view.model.set({ 'frequency_caps': self.collection }, { silent: true });
-        self._setTargetingAsDirty();
+        self._updateParentModel();
       });
     },
 
     _addNewFrequencyCap: function() {
       this.collection.add(new ReachUI.FrequencyCaps.FrequencyCap());
+      this._updateParentModel();
+    },
+
+    _updateParentModel: function() {
       this.options.parent_view.model.set({ 'frequency_caps': this.collection }, { silent: true });
       this._setTargetingAsDirty();
     },

@@ -1,7 +1,7 @@
     <span class="remove-btn pull-left"></span>
     <input type="text" class="frequency-impressions" name="frequency-impressions" value="<%= impressions %>"/> impressions per 
     <input type="text" class="frequency-time-value" name="frequency-time-value" value="<%= time_value %>"/>
-    <select class="frequency-time-type" name="frequency-time-type">
+    <select class="frequency-time-unit" name="frequency-time-unit">
       <% _.each([ 'lifetime', 'minutes', 'hours', 'days', 'weeks', 'months' ], function(option, key) { %>
       <option value="<%= key %>" <% if (time_unit == key) { %>selected="selected"<% } %>><%= option %>
       </option>
