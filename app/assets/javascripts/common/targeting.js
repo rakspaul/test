@@ -153,7 +153,7 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
@@ -383,14 +383,9 @@
         observe: 'time_unit',
         selectOptions: {
           collection: function() {
-            return [
-              { value: 0, label: 'lifetime' },
-              { value: 1, label: 'minutes' },
-              { value: 2, label: 'hours' },
-              { value: 3, label: 'days' },
-              { value: 4, label: 'weeks' },
-              { value: 5, label: 'months'}
-            ];
+            return _.map(ReachUI.FrequencyCaps.FrequencyCap.timeUnits, function(unit, index) {
+              return { value: index, label: unit };
+            });
           }
         }
       }

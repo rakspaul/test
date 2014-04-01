@@ -14,6 +14,8 @@
     toJSON: function() {
       return _.clone(this.attributes);
     }
+  }, {
+    timeUnits: [ 'lifetime', 'minutes', 'hours', 'days', 'weeks', 'months' ]
   });
 
   FrequencyCaps.FrequencyCapsList = Backbone.Collection.extend({
