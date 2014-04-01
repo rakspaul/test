@@ -20,7 +20,12 @@
     },
 
     toJSON: function() {
-      return { ad: _.clone(this.attributes) };
+      var ad = _.clone(this.attributes);
+      var frequencyCaps = ad['targeting'].get('frequency_caps');
+      if (frequencyCaps.toNestedAttributes) {
+        ad['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
+      }
+      return { ad: ad };
     }
   });
 

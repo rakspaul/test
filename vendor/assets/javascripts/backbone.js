@@ -601,7 +601,7 @@
     if (options.comparator !== void 0) this.comparator = options.comparator;
     this._reset();
     this.initialize.apply(this, arguments);
-    if (models) this.reset(models, _.extend({silent: true}, options));
+    if (models) this.reset(models, _.extend({silent: false}, options));
   };
 
   // Default options for `Collection#set`.
@@ -1470,7 +1470,6 @@
       if (this.fragment === fragment) return;
       this.fragment = fragment;
       var url = this.root + fragment;
-
       // If pushState is available, we use it to set the fragment as a real URL.
       if (this._hasPushState) {
         this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);

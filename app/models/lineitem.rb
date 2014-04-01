@@ -16,12 +16,15 @@ class Lineitem < ActiveRecord::Base
   has_many :creatives, through: :lineitem_assignments
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
+  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id'
 
   has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
   has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id
   has_and_belongs_to_many :states, join_table: :states_lineitems, association_foreign_key: :state_id
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
+
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
 
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true

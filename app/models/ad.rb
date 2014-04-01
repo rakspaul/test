@@ -9,6 +9,7 @@ class Ad < ActiveRecord::Base
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
@@ -18,6 +19,8 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :states, join_table: :state_targeting, association_foreign_key: :state_id
   has_and_belongs_to_many :cities, join_table: :city_targeting, association_foreign_key: :city_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
+
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
 
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
 

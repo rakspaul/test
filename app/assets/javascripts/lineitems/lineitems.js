@@ -32,7 +32,12 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.get('creatives') };
+      var lineitem = _.clone(this.attributes);
+      var frequencyCaps = lineitem['targeting'].get('frequency_caps');
+      if (frequencyCaps.toNestedAttributes) {
+        lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
+      }
+      return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
     pushAd: function(ad) {
@@ -73,6 +78,16 @@
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
       $('.total-media-cost span').html(accounting.formatMoney(sum_media_cost));
     }
+  }, {
+    dirty: false,
+
+    setDirty: function(dirty) {
+      this.dirty = dirty;
+    },
+
+    isDirty: function() {
+      return this.dirty;
+    }
   });
 
   //LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
@@ -97,7 +112,7 @@
       this.li_notes_collapsed = false;
 
       if (! this.model.get('targeting')) {
-        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
         this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },
@@ -681,6 +696,11 @@
               self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
+              if (ReachUI.LineItems.LineItemList.isDirty()) {
+                ReachUI.LineItems.LineItemList.setDirty(false);
+                self.collection.setOrder(null);
+                Backbone.history.fragment = null;
+              }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
