@@ -260,11 +260,10 @@ private
     session[:am] = am
     session[:trafficker] = trafficker
     session[:search_query] = search_query
-
     order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
+                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
 
