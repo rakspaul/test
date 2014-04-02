@@ -188,6 +188,7 @@ class Lineitem < ActiveRecord::Base
     end
 
     def set_default_buffer
+      return if self.buffer
       self.buffer = order.io_detail && order.io_detail.reach_client ? order.io_detail.reach_client.client_buffer : 0
     end
 
