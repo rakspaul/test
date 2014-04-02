@@ -51,4 +51,21 @@ describe Creative do
       assignment.errors.messages.should == {}
     end
   end
+
+  context "save" do
+    it "sanitize redirect url" do
+      creative = Creative.new name: "Test creative",
+                              size: "160x600",
+                              width: 160,
+                              height: 600,
+                              redirect_url: "http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600
+                                              ",
+                              network_advertiser_id: advertiser.id,
+                              network: user.network
+
+      creative.valid?
+
+      expect(creative.redirect_url).to eq("http://ad.doubleclick.net/ad/twc.collective;adid=83790015;sz=160x600")
+    end
+  end
 end
