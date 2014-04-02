@@ -317,7 +317,7 @@
     templateHelpers:{
       adStatusClass: function(){
         if(this.ad.status)
-          return "ad-status-"+this.ad.status.split(' ').join('-').toLowerCase();
+          return "ad-status-"+this.ad.status.toLowerCase().replace(' ','-');
       }
     },
   });

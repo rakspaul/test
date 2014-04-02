@@ -43,13 +43,12 @@
         <% if(!isNaN(parseInt(ad.source_id))) { %>
           <div class="dfp-success"></div>
           <a href="<%= ad.dfp_url %>" target="_blank"><%= ad.source_id %></a>
-
-          <% if(ad.status) { %>
-            <div class="ad-status-container <%= adStatusClass() %>">
-              <span class="ad-status-icon"></span>
-              <span class="ad-status-label"> <%= ad.status %> </span>
-            </div>
-          <% } %>
+        <% } %>
+        <% if(ad.status) { %>
+          <div class="ad-status-container <%= adStatusClass() %>">
+            <span class="ad-status-icon"></span>
+            <span class="ad-status-label"> <%= ad.status %> </span>
+          </div>
         <% } %>
       </div>
     </div>

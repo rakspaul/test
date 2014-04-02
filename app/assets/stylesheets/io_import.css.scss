@@ -5,11 +5,12 @@ $li_number_bg: #007ac9;
 $error_color: red;
 $magenta_color: #d02898;
 $border_color: #0088cc;
-$color-gray: gray;
-$color-black: black;
-$color-yellow: yellow;
-$color-red: red;
-$color-green: green;
+
+$ad_status_default_color: gray;
+$ad_status_draft_color: black;
+$ad_status_ready_color: yellow;
+$ad_status_paused_color: red;
+$ad_status_delivering_color: green;
 
 $wide_input_width: 320px;
 
@@ -77,34 +78,34 @@ $wide_input_width: 320px;
       width: 10px;
       height: 10px;
       border-radius:5px;
-      background-color: $color-gray;
+      background-color: $ad_status_default_color;
       display:inline-block;
       margin-right:2px;
     }
 
     .ad-status-label{
-      color: $color-gray;
+      color: $ad_status_default_color;
     }
   }
 
   .ad-status-draft{
-    .ad-status-icon{ background-color: $color-black; }
-    .ad-status-label{ color: $color-black; }
+    .ad-status-icon{ background-color: $ad_status_draft_color; }
+    .ad-status-label{ color: $ad_status_draft_color; }
   }
 
   .ad-status-ready{
-    .ad-status-icon{ background-color: $color-yellow; }
-    .ad-status-label{ color: $color-yellow; }
+    .ad-status-icon{ background-color: $ad_status_ready_color; }
+    .ad-status-label{ color: $ad_status_ready_color; }
   }
 
   .ad-status-paused {
-    .ad-status-icon{ background-color: $color-red; }
-    .ad-status-label{ color: $color-red; }
+    .ad-status-icon{ background-color: $ad_status_paused_color; }
+    .ad-status-label{ color: $ad_status_paused_color; }
   }
 
   .ad-status-delivering {
-    .ad-status-icon{ background-color: $color-green; }
-    .ad-status-label{ color: $color-green; }
+    .ad-status-icon{ background-color: $ad_status_delivering_color; }
+    .ad-status-label{ color: $ad_status_delivering_color; }
   }
 }
 

@@ -1,16 +1,16 @@
 class Ad < ActiveRecord::Base
   STATUS = {
-    DRAFT:                     "Draft",
-    READY:                     "Ready",
-    PAUSED:                    "Paused",
-    DELIVERING:                "Delivering",
-    DELIVERY_EXTENDED:         "Delivery Extended",
-    NEEDS_CREATIVES:           "Needs Creatives",
-    PAUSED_INVENTORY_RELEASED: "Paused Inventory Released",
-    PENDING_APPROVAL:          "Pending Approval",
-    COMPLETED:                 "Completed",
-    DISAPPROVED:               "Disapproved",
-    CANCELED:                  "Canceled"
+    draft:                     "Draft",
+    ready:                     "Ready",
+    paused:                    "Paused",
+    delivering:                "Delivering",
+    delivery_extended:         "Delivery Extended",
+    needs_creatives:           "Needs Creatives",
+    paused_inventory_released: "Paused Inventory Released",
+    pending_approval:          "Pending Approval",
+    completed:                 "Completed",
+    disapproved:               "Disapproved",
+    canceled:                  "Canceled"
   }
 
   belongs_to :order
