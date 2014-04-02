@@ -104,8 +104,12 @@ ReachUI.showCondensedTargetingOptions = function() {
   }
 
   var frequency_caps = targeting.get('frequency_caps');
+  if (frequency_caps.models) {
+    frequency_caps = frequency_caps.models;
+  }
   if (frequency_caps.length > 0) {
     var caps = _.map(frequency_caps, function(fc) {
+      fc = fc.toJSON ? fc.toJSON() : fc;
       return { title: fc.impressions + ' per ' + fc.time_value + ' ' +
                ReachUI.FrequencyCaps.FrequencyCap.timeUnits[fc.time_unit] };
     });

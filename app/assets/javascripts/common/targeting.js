@@ -35,6 +35,7 @@
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
       this.original_frequency_caps = this.model.get('frequency_caps');
+      this.frequencyCapListView = null;
     },
 
     serializeData: function(){
@@ -164,11 +165,11 @@
       var frequencyCaps = this.model.get('frequency_caps');
       var self = this;
 
-      var view = new Targeting.FrequencyCapListView({
+      this.frequencyCapListView = new Targeting.FrequencyCapListView({
         collection:  new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps),
         parent_view: self
       });
-      this.ui.frequency_caps.html(view.render().el);
+      this.ui.frequency_caps.html(this.frequencyCapListView.render().el);
     },
 
     _addKVToSelectedKeyValues: function(selected) {
@@ -349,6 +350,17 @@
       this.$el.find('.tab.zip-codes textarea').val(this.model.attributes.selected_zip_codes.join(', '));
     },
 
+    _removeFrequencyCap: function(e) {
+      var frequencyCapToDelete = $(e.currentTarget).data('frequency-cap-id');
+      var model = this.frequencyCapListView.collection.get(frequencyCapToDelete);
+
+      if (!model) {
+        model = model.getByCid(frequencyCapToDelete);
+      }
+      model.trigger('frequency_cap:remove', model);
+      this._renderSelectedTargetingOptions();
+    },
+
     ui: {
       kv_type_switch: '.custom-regular-keyvalue-btn span',
       frequency_caps:  '.tab.frequency-caps'
@@ -365,11 +377,12 @@
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
-      'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
-      'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',
+      'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_showRemoveTgtBtn',
+      'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_hideRemoveTgtBtn',
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
-      'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected'
+      'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
+      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap'
     }
   });
 
@@ -421,6 +434,7 @@
       this.collection.on('frequency_cap:remove', function(el) {
         self.collection.remove(el);
         self._updateParentModel();
+        self.options.parent_view._renderSelectedTargetingOptions();
       });
     },
 
