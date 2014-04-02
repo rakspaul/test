@@ -183,8 +183,8 @@ class Lineitem < ActiveRecord::Base
     end
 
     def set_default_buffer
-      return if self.buffer
-      self.buffer = order.io_detail && order.io_detail.reach_client ? order.io_detail.reach_client.client_buffer : 0
+      return if !new_record? || buffer_changed?
+      self.buffer = order && order.io_detail && order.io_detail.reach_client && !buffer_changed? ? order.io_detail.reach_client.client_buffer : 0
     end
 
     def html_unescape(str)
