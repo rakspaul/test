@@ -1,4 +1,18 @@
 class Ad < ActiveRecord::Base
+  STATUS = {
+    draft:                     "Draft",
+    ready:                     "Ready",
+    paused:                    "Paused",
+    delivering:                "Delivering",
+    delivery_extended:         "Delivery Extended",
+    needs_creatives:           "Needs Creatives",
+    paused_inventory_released: "Paused Inventory Released",
+    pending_approval:          "Pending Approval",
+    completed:                 "Completed",
+    disapproved:               "Disapproved",
+    canceled:                  "Canceled"
+  }
+
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
   belongs_to :data_source

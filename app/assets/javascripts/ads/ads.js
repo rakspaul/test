@@ -324,7 +324,14 @@
       this.options.parent_view.model.ads = new_ads;
 
       this.remove();
-    }
+    },
+
+    templateHelpers:{
+      adStatusClass: function(){
+        if(this.ad.status)
+          return "ad-status-"+this.ad.status.toLowerCase().replace(' ','-');
+      }
+    },
   });
 
   Ads.AdListView = Backbone.Marionette.CompositeView.extend({
