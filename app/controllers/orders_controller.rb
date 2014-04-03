@@ -331,7 +331,7 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :frequency_caps, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
+      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
 
       if li[:type] = 'Video'
         li[:lineitem].delete(:master_ad_size)
@@ -353,7 +353,6 @@ private
         end
       end
 
-      li[:lineitem][:frequency_caps_attributes] = [] unless li[:lineitem][:frequency_caps_attributes]
       li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
         li_errors[i] ||= {}
@@ -364,7 +363,6 @@ private
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
-      #lineitem.create_(li_targeting[:targeting][:selected_geos].to_a)
 
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])

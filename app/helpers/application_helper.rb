@@ -35,7 +35,7 @@ module ApplicationHelper
   end
 
   def format_datetime(datetime)
-    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)")) unless datetime.nil?
+    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)")) unless datetime.blank?
   end
 
   def html_code_excerpt(creative)
