@@ -49,6 +49,11 @@
             <span class="ad-status-icon"></span>
             <span class="ad-status-label"> <%= ad.status %> </span>
           </div>
+        <% } else { %>
+          <div class="ad-status-container ad-status-draft">
+            <span class="ad-status-icon"></span>
+            <span class="ad-status-label"> Draft </span>
+          </div>
         <% } %>
       </div>
     </div>
