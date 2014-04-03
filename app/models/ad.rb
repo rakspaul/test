@@ -40,7 +40,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -187,5 +187,9 @@ class Ad < ActiveRecord::Base
       creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
       creative.update_attribute :name, creative_name
     end
+  end
+
+  def set_default_status
+    self.status ||= "Draft"
   end
 end
