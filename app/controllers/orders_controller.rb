@@ -210,6 +210,7 @@ private
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
     orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
+    rc = params[:rc]? params[:rc] : ""
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -245,6 +246,10 @@ private
       orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
     end
 
+    if !rc && !session[:rc].blank?
+      rc = session[:rc]
+    end
+
     session[:sort_column] = sort_column
     session[:sort_direction] = sort_direction
     session[:order_status] = order_status
@@ -252,16 +257,19 @@ private
     session[:am] = am
     session[:trafficker] = trafficker
     session[:search_query] = search_query
+    session[:rc] = rc
 
-    order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
+                  .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = load_users
+    @rc = ReachClient.select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
   end
 
@@ -359,10 +367,9 @@ private
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
-      selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+      lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
-      lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -401,6 +408,7 @@ private
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           ad_start_date = ad[:ad].delete(:start_date)
@@ -569,6 +577,7 @@ private
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           media_type_id = @media_types[media_type]
@@ -642,6 +651,7 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
+          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end

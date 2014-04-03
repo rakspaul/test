@@ -34,7 +34,16 @@
                 %option{:value => "pushed", :selected => session[:order_status] == "pushed"} Pushed
                 %option{:value => "incomplete_push", :selected => session[:order_status] == "incomplete_push"} Incomplete Push
                 %option{:value => "failure", :selected => session[:order_status] == "failure"} Failure
-
+        .pure-u
+          .control-group.status-control
+            %label.control-label
+              Client
+            .controls
+              %select.filter-orders.rc
+                %option Select
+                - @rc.each do |rc|
+                  %option{:value => rc.name, :selected => session[:rc] == "#{rc.name}" }
+                    = "#{rc.name}"
         .pure-u
           .control-group
             %label.control-label
@@ -43,7 +52,8 @@
               %select.filter-orders.am
                 %option Select
                 - @users.each do |user|
-                  %option{:value => user.id, :selected => session[:am] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
+                  %option{:value => user.id, :selected => session[:am] == "#{user.id}"}
+                    = "#{user.first_name} #{user.last_name} - #{user.email}"
         -if !@agency_user
           .pure-u
             .control-group
@@ -53,7 +63,8 @@
                 %select.filter-orders.trafficker
                   %option Select
                   - @users.each do |user|
-                    %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}= "#{user.first_name} #{user.last_name} - #{user.email}"
+                    %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}
+                      = "#{user.first_name} #{user.last_name} - #{user.email}"
 
     .pure-g.btn-delete
       .pure-u
@@ -105,6 +116,7 @@
               .pure-u.title-container
                 .title
                   Client
+
           %th
             .pure-g.header-container
               .pure-u.title-container
@@ -199,7 +211,7 @@
 
     if(class_name==='icon-sort' || class_name==='icon-sort-by-attributes-alt') {
       para.sort_direction = 'asc';
-      $('.order-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
+      $('.orders-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
       $(event.target).removeClass('icon-sort-by-attributes-alt icon-sort').addClass('icon-sort-by-attributes');
     } else if(class_name==='icon-sort-by-attributes') {
       para.sort_direction = 'desc';
@@ -276,11 +288,13 @@
     var filterParams = {},
         status= $('.status').val().toLowerCase(),
         am = $('.am').val(),
-        trafficker = $('.trafficker').val();
+        trafficker = $('.trafficker').val(),
+        rc = $('.rc').val();
 
     if(status === "all") { status = null }
     if(am === "Select") { am = null }
     if(trafficker == "Select") { trafficker = null }
+    if(rc == "Select") { rc = null }
 
     if(status){
       filterParams.order_status = status;
@@ -290,6 +304,9 @@
     }
     if(trafficker){
       filterParams.trafficker = trafficker;
+    }
+    if(rc){
+      filterParams.rc = rc;
     }
 
     orders_by_user = $('#orders_by_user').val();

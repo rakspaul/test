@@ -1,6 +1,62 @@
 Reach UI
 ========
 
+##Setup development environment
+
+####Prerequisite:
+1. ssh access to ```ampdb1.collective-media.net```
+2. access to https://github.com/collectivemedia/amts repo
+3. install rvm (https://rvm.io)
+4. install postgresql and make sure it is up and running
+5. install bundler gem http://bundler.io/
+
+
+####Setup database
+
+- Create amp database
+
+```bash
+$ createdb amp
+```
+
+- Clone amts repo
+
+```bash
+$ git clone https://github.com/collectivemedia/amts
+```
+
+- Install gems
+
+```bash
+$ cd amts
+$ bundle install
+```
+
+- Get the latest snapshort of production db
+
+```bash
+$ ruby lib/amp_db.rb -s "ampdb1.collective-media.net"
+```
+
+####Setup reachui code
+
+- Clone https://github.com/collectivemedia/reachui
+```bash
+$ git clone https://github.com/collectivemedia/reachui
+```
+
+- Install gems
+```bash
+$ cd reachui
+$ bundle install
+```
+
+- Start server
+```bash
+$ rails server
+```
+
+
 Current deployed locations:
 -
 * https://qa-reach.collective.com

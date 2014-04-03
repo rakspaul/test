@@ -719,6 +719,7 @@
           dialog.modal('hide');
         });
         dialog.find('.push-btn').click(function() {
+          dialog.find('.push-btn').off('click');
           dialog.modal('hide');
           self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
