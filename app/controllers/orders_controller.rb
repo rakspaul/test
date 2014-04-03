@@ -341,7 +341,7 @@ private
 
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
-      [:targeted_zipcodes, :selected_geos, :frequency_caps, :itemIndex, :selected_key_values, :revised, 
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
       :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
         li[:lineitem].delete(param)
       end
@@ -366,7 +366,6 @@ private
         end
       end
 
-      li[:lineitem][:frequency_caps_attributes] = [] unless li[:lineitem][:frequency_caps_attributes]
       li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
         li_errors[i] ||= {}
@@ -377,7 +376,6 @@ private
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
-      #lineitem.create_(li_targeting[:targeting][:selected_geos].to_a)
 
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])

@@ -37,6 +37,7 @@
       if (frequencyCaps.toNestedAttributes) {
         lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       }
+      delete lineitem['frequency_caps'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 

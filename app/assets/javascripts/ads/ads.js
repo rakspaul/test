@@ -25,6 +25,7 @@
       if (frequencyCaps.toNestedAttributes) {
         ad['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       }
+      delete ad['frequency_caps'];
       return { ad: ad };
     }
   });
