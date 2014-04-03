@@ -24,6 +24,8 @@
       var frequencyCaps = ad['targeting'].get('frequency_caps');
       if (frequencyCaps.toNestedAttributes) {
         ad['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
+      } else if (frequencyCaps.length > 0) {
+        ad['frequency_caps_attributes'] = frequencyCaps;
       }
       delete ad['frequency_caps'];
       return { ad: ad };

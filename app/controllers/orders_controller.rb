@@ -443,7 +443,11 @@ private
             li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
           end
 
-          ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
+          ad_object = ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])
+          unless ad_object
+            ad_object = lineitem.ads.build(ad[:ad])
+            ad[:ad].delete(:frequency_caps_attributes)
+          end
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
