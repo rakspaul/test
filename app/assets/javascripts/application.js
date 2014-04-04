@@ -15,7 +15,7 @@
 //= require jquery-ui-1.10.3.custom.min
 //= require jquery.dragtable
 //= require underscore-min
-//= require backbone
+//= require backbone-min
 //= require json2
 //= require backbone.marionette
 //= require backbone.stickit.min
