@@ -135,6 +135,15 @@ $wide_input_width: 320px;
     font-family: 'Armata', sans-serif;
   }
 
+  #revised_io_fileupload {
+    cursor: pointer;
+    background: url(asset-path('upload_io_icon.png')) 0px 0px no-repeat;
+    padding-left:25px;
+    width: 65px;
+    height: 16px;
+    float: right;
+  }
+
   .field.advertiser-name p {
     height: 40px;
   }

@@ -14,6 +14,9 @@ var ReachUI = {
   }
 };
 
+EventsBus = {};
+_.extend(EventsBus, Backbone.Events);
+
 ReachUI.formatColumn = function(value, type, precision) {
   if(type === 'number') {
     return accounting.formatNumber(value, precision || 0);

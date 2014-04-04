@@ -555,12 +555,18 @@
       var self = this;
       e.stopPropagation();
 
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
+
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
         if(revision) {
           self.model.set(attr_name, revision);
+          var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
         }
       });
+
+      EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
 
       this._removeAndHideAllRevisions(e);
     },
@@ -581,6 +587,12 @@
     _acceptRevision: function(e) {
       var $target_parent = $(e.currentTarget).parent();
       var attr_name = $(e.currentTarget).data('name');
+
+      // add note to ActivityLog to log the changes
+      var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+      EventsBus.trigger('lineitem:logRevision', log_text);
+
       this.model.set(attr_name, $target_parent.siblings('.revision').text());
 
       this.model.set('revised_'+attr_name, null);
