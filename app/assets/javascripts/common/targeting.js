@@ -34,7 +34,6 @@
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
-      this.original_frequency_caps = this.model.get('frequency_caps');
       this.frequencyCapListView = null;
     },
 
