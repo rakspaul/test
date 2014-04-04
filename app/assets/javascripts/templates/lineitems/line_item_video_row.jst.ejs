@@ -20,6 +20,14 @@
       <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
         <%= lineitem.start_date %>
       </span>
+      <% if(lineitem.revised_start_date) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_start_date %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="start_date"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="start_date"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -32,6 +40,14 @@
       <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
         <%= lineitem.end_date %>
       </span>
+      <% if(lineitem.revised_end_date) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_end_date %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="end_date"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="end_date"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -97,6 +113,15 @@
       </span>
       <% } %>
 
+      <% if(lineitem.revised_name) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_name %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="name"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
+
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
         Lineitem name should be less than 500 characters
@@ -111,6 +136,14 @@
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(lineitem.volume) %>
       </span>
+      <% if(lineitem.revised_volume) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_volume %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="volume"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
       <div class="errors_container"></div>
       <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
         <%= accounting.formatNumber(lineitem.buffer, 2) %>
@@ -120,6 +153,14 @@
       $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
         <%= accounting.formatMoney(lineitem.rate, '') %>
       </span>
+      <% if(lineitem.revised_rate) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_rate %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="rate"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
       <div class="errors_container"></div>
     </div>
 
