@@ -365,28 +365,32 @@
       this.render();
     },
 
-    _toggleLISelection: function() {
-      // if there is no copied targeting then exclusive select, otherwise accumulative
-      if(!window.copied_targeting) {
-        this._deselectAllLIs({'except_current': true});
-      }
-
-      this.$el.find('.li-number .number').toggleClass('selected');
-      this.selected = this.$el.find('.li-number .number').hasClass('selected');
-      this.$el.find('.copy-targeting-btn').toggle();
-
-      if(window.selected_lis === undefined) {
-        window.selected_lis = [];
-      }
-      if(this.selected) {
-        window.selected_lis.push(this); // add current LI to selected LIs
+    _toggleLISelection: function(e) {
+      if(this.model.get('revised')) {
+        $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-      }
+        // if there is no copied targeting then exclusive select, otherwise accumulative
+        if(!window.copied_targeting) {
+          this._deselectAllLIs({'except_current': true});
+        }
 
-      if(window.copied_targeting) {
-        $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        this.$el.find('.li-number .number').toggleClass('selected');
+        this.selected = this.$el.find('.li-number .number').hasClass('selected');
+        this.$el.find('.copy-targeting-btn').toggle();
+
+        if(window.selected_lis === undefined) {
+          window.selected_lis = [];
+        }
+        if(this.selected) {
+          window.selected_lis.push(this); // add current LI to selected LIs
+        } else {
+          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
+        }
+
+        if(window.copied_targeting) {
+          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        }
       }
     },
 
@@ -496,6 +500,69 @@
       lineitem_sizes: '.lineitem-sizes'
     },
 
+    _toggleRevisionDialog: function(e) {
+      $(e.currentTarget).siblings('.revised-dialog').toggle();
+    },
+
+    _checkRevisedStatus: function() {
+      if(this.model.get('revised_start_date') || this.model.get('revised_end_date') || this.model.get('revised_name') || this.model.get('revised_volume') || this.model.get('revised_rate')) {
+        this.model.set('revised', true);
+      } else {
+        this.model.set('revised', false);
+        this.$el.find('.li-number').removeClass('revised');
+      }
+    },
+
+    _acceptAllRevisions: function(e) {
+      var self = this;
+      e.stopPropagation();
+
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        var revision = self.model.get('revised_'+attr_name);
+        if(revision) {
+          self.model.set(attr_name, revision);
+        }
+      });
+
+      this._removeAndHideAllRevisions(e);
+    },
+
+    _removeAndHideAllRevisions: function(e) {
+      e.stopPropagation();
+
+      var self = this;
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        self.model.set('revised_'+attr_name, null);
+      });
+
+      this.model.set('revised', null);
+      this._checkRevisedStatus();
+      this.$el.find('.revision, .revised-dialog').remove();
+    },
+
+    _acceptRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent();
+      var attr_name = $(e.currentTarget).data('name');
+      this.model.set(attr_name, $target_parent.siblings('.revision').text());
+
+      this.model.set('revised_'+attr_name, null);
+      this._checkRevisedStatus();
+
+      $target_parent.siblings('.revision').hide();
+      $target_parent.hide();
+    },
+
+    _declineRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent();
+      var attr_name = $(e.currentTarget).data('name');
+
+      this.model.set('revised_'+attr_name, null);
+      this._checkRevisedStatus();
+
+      $target_parent.siblings('.revision').hide();
+      $target_parent.hide();
+    },
+
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
@@ -503,6 +570,15 @@
       'click .name .notes .close-btn': 'collapseLINotes',
       'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_removeAndHideAllRevisions',
+
       'click .copy-targeting-btn': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',

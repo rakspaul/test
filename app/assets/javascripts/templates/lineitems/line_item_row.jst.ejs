@@ -6,6 +6,10 @@
       <span>Contract LI<span>
       <div style="clear:both"></div>
       <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
+      <div class="revised-dialog" style="display:none">
+        <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
+        <span class="decline-all-btn"><span class="decline-img"/>Decline All Revisions</span>
+      </div>
     </div>
 
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
@@ -16,6 +20,10 @@
       <% if(lineitem.revised_start_date) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_start_date %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="start_date"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="start_date"><span class="decline-img"/>Decline</span>
+        </div>
       <% } %>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
@@ -32,6 +40,10 @@
       <% if(lineitem.revised_end_date) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_end_date %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="end_date"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="end_date"><span class="decline-img"/>Decline</span>
+        </div>
       <% } %>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
@@ -84,6 +96,10 @@
       <% if(lineitem.revised_name) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_name %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="name"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
+        </div>
       <% } %>
 
       <div class="errors_container" style="clear:both">
@@ -103,6 +119,10 @@
       <% if(lineitem.revised_volume) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_volume %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="volume"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>
+        </div>
       <% } %>
       <div class="errors_container"></div>
     </div>
@@ -113,6 +133,10 @@
       <% if(lineitem.revised_rate) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_rate %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="rate"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
+        </div>
       <% } %>
       <div class="errors_container"></div>
     </div>

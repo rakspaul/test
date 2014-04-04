@@ -351,6 +351,10 @@ $wide_input_width: 320px;
     .revision {
       color: $magenta_color;
       margin-left: 8px;
+
+      &:hover {
+        cursor:pointer;
+      }
     }
 
     .video-dropdown {
@@ -383,7 +387,76 @@ $wide_input_width: 320px;
       }
     }
 
+    .revised-dialog {
+      position: absolute;
+      display: block;
+      border: 1px solid green;
+      background-color: white;   
 
+      .accept-all-btn {
+        clear: both;
+        color: green;
+        display: block;
+        padding: 5px;
+
+        .accept-img {
+          background: url(asset-path('check_icon.png')) no-repeat;
+          float: left;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
+      }
+
+      .accept-btn {
+        float:left;
+        color: green;
+        padding: 5px;
+
+        .accept-img {
+          background: url(asset-path('check_icon.png')) no-repeat;
+          float: left;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
+      }
+
+      .decline-btn:hover, .accept-btn:hover, .decline-all-btn:hover, .accept-all-btn:hover {
+        background-color: lightblue;
+        cursor: pointer;
+      }
+
+      .decline-btn {
+        float: right;
+        color: $text_color;
+        padding: 5px;
+
+        .decline-img {
+          background: sprite($images, delete-btn) no-repeat;
+          width: 16px;
+          height: 14px;
+          float: left;
+          margin-right: 4px;
+        }
+      }
+
+      .decline-all-btn {
+        clear: both;
+        display: block;
+        color: $text_color;
+        margin-top: 13px;
+        padding: 5px;
+
+        .decline-img {
+          background: sprite($images, delete-btn) no-repeat;
+          width: 16px;
+          height: 14px;
+          float: left;
+          margin-right: 4px;
+        }
+      }
+    }
 
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
