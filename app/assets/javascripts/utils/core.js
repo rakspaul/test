@@ -201,4 +201,18 @@ ReachUI.initialStartDate = function(startDate) {
     initialStartDate = moment(window.server_time).format("YYYY-MM-DD");
   }
   return initialStartDate;
-}
+};
+
+ReachUI.omitAttribute = function(attributes, attr) {
+  var result = [];
+  if (attributes.models) {
+    result = _.map(attributes.models, function(a) {
+      return _.omit(a.attributes, attr);
+    });
+  } else {
+    result = _.map(attributes, function(a) {
+      return _.omit(a, 'id');
+    });
+  }
+  return result;
+};
