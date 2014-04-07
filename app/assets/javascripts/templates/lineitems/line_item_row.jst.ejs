@@ -34,7 +34,7 @@
 
     <div class="pure-u-1-6 lineitem-sizes">
       <div class="dropdown">
-        <div class="display-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
+        <div class="<%= lineitem.type.toLowerCase() %>-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
         </div>
         <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
           <li role="presentation">
@@ -114,6 +114,14 @@
 <div class="ads-container"></div>
 <div style="clear:both"></div>  
 
-<div class="copy-targeting-btn" style="display:none">Copy Targeting</div>
+<div class="copy-targeting-btn dropdown" style="display:none">
+  <div data-toggle="dropdown" id="copyTargeting">Copy Targeting</div>
+    <ul class="dropdown-menu tags-dropdown list-inline" role="menu" aria-labelledby="copyTargeting">
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="key_values">KVs</a></li>
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="geo">Geo</a></li>
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="freq_cap">Freq Cap</a></li>
+    </ul>
+  </div>
+</div>
+
 <div class="paste-targeting-btn" style="display:none">Paste Targeting</div>
-<div class="cancel-targeting-btn" style="display:none">Cancel</div>

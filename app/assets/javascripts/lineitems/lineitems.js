@@ -99,10 +99,10 @@
 
     getTemplate: function() {
       var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
-      if (type == 'display') {
-        return JST['templates/lineitems/line_item_row'];
+      if (type == 'video') {
+        return JST['templates/lineitems/line_item_video_row'];
       } else {
-        return JST['templates/lineitems/line_item_' + type + '_row'];
+        return JST['templates/lineitems/line_item_row'];
       }
     },
 
@@ -410,15 +410,31 @@
 
     copyTargeting: function(e) {
       e.stopPropagation();
+
+      var type = $(e.currentTarget).data('type');
       var li_t = this.model.get('targeting');
-      window.copied_targeting = new ReachUI.Targeting.Targeting({
-        selected_key_values: _.clone(li_t.get('selected_key_values')),
-        selected_geos: _.clone(li_t.get('selected_geos')),
-        dmas_list: _.clone(li_t.get('dmas_list')),
-        selected_zip_codes: _.clone(li_t.get('selected_zip_codes')),
-        audience_groups: _.clone(li_t.get('audience_groups')),
-        keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-      });
+
+      window.copied_targeting = {};
+      switch (type) {
+        case 'key_values':
+          window.copied_targeting = {
+            selected_key_values: _.clone(li_t.get('selected_key_values')),
+            keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
+          };
+          break;
+        case 'geo':
+          window.copied_targeting = {
+            selected_geos: _.clone(li_t.get('selected_geos')),
+            selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
+          };
+          break;
+        case 'freq_cap':
+          window.copied_targeting = {
+            frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
+          };
+          break;
+      };
+
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
       this._deselectAllLIs();
       this.$el.addClass('copied-targeting-from');
@@ -446,22 +462,19 @@
       noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
 
       _.each(window.selected_lis, function(li) {
-        var copied_li_t = new ReachUI.Targeting.Targeting({
-            selected_key_values: _.clone(window.copied_targeting.get('selected_key_values')),
-            selected_geos: _.clone(window.copied_targeting.get('selected_geos')),
-            dmas_list: _.clone(window.copied_targeting.get('dmas_list')),
-            selected_zip_codes: _.clone(window.copied_targeting.get('selected_zip_codes')),
-            audience_groups: _.clone(window.copied_targeting.get('audience_groups')),
-            keyvalue_targeting: _.clone(window.copied_targeting.get('keyvalue_targeting'))
+        var liTargeting = li.model.get('targeting');
+        _.each(window.copied_targeting, function(value, key) {
+          liTargeting.set(key, _.clone(value));
         });
-        li.model.set('targeting', copied_li_t);
+
         li.renderTargetingDialog();
         li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
       });
+
+      this.cancelTargeting();
     },
 
     cancelTargeting: function(e) {
-      e.stopPropagation();
       window.copied_targeting = null;
       $('.lineitem').removeClass('copied-targeting-from');
       this._deselectAllLIs();
@@ -521,9 +534,8 @@
       'click .name .notes .close-btn': 'collapseLINotes',
       'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
-      'click .copy-targeting-btn': 'copyTargeting',
+      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType'
     },
 
