@@ -19,6 +19,7 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
+        type: 'display',
         _delete_creatives: []
       }
     },
