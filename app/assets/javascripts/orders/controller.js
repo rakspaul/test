@@ -31,6 +31,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
+    
     this.orderDetailsLayout.top.show(uploadView);
   },
 
@@ -485,6 +486,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showOrderDetails: function(order) {
     var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    detailOrderView.on('io:uploaded', this._ioUploaded, this);
+
     var ordersController = this;
     this.orderDetailsLayout.top.show(detailOrderView);
 
