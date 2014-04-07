@@ -84,6 +84,10 @@
       io_fileupload: '#revised_io_fileupload'
     },
 
+    initialize: function() {
+      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
+    },
+
     onDomRefresh: function() {
       this.ui.io_fileupload.fileupload({
         dataType: 'json',
