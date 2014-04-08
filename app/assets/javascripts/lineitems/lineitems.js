@@ -45,6 +45,9 @@
                  u.time_value  == fc.time_value  &&
                  u.time_unit   == fc.time_unit;
         });
+        if (!u.id && fc.id) {
+          u.id = fc.id;
+        }
         if (!exists) {
           uniqFrequencyCaps.push(fc);
         }
