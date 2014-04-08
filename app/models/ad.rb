@@ -190,6 +190,6 @@ class Ad < ActiveRecord::Base
   end
 
   def set_default_status
-    self.status ||= "Draft"
+    self.status ||= "DRAFT"
   end
 end
