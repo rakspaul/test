@@ -680,6 +680,7 @@
     serializeData: function(){
       var data = this.collection.order.toJSON();
       data.assignee = this.collection.order.get('assignee');
+      data.order_status = this.collection.order.get('state');
       return data;
     },
 
@@ -802,9 +803,17 @@
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.state.match(/ready for am/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current account manager
+              var assignee = $('.general-info-container .account-contact-name select option:selected').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.state.match(/ready for trafficker/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current trafficker
+              var assignee = $('.new-order-header .trafficker-container span.typeahead').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.state.match(/incomplete_push/i)) {
               self._toggleSavePushbuttons({ hide: false });
