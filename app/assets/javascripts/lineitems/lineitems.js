@@ -34,12 +34,25 @@
 
     toJSON: function() {
       var lineitem = _.clone(this.attributes);
-      var frequencyCaps = lineitem['targeting'].get('frequency_caps');
+      var frequencyCaps = lineitem['targeting'].get('frequency_caps'),
+          uniqFrequencyCaps = [];
       if (frequencyCaps.toNestedAttributes) {
         lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       } else if (frequencyCaps.length > 0) {
         lineitem['frequency_caps_attributes'] = frequencyCaps;
       }
+      _.each(lineitem['frequency_caps_attributes'], function(fc) {
+        var exists = _.any(uniqFrequencyCaps, function(u) {
+          return u.impressions == fc.impressions &&
+                 u.time_value  == fc.time_value  &&
+                 u.time_unit   == fc.time_unit;
+        });
+        if (!exists) {
+          uniqFrequencyCaps.push(fc);
+        }
+      });
+      lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
+      console.log(uniqFrequencyCaps);
       delete lineitem['frequency_caps'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
