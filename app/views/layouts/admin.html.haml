@@ -9,10 +9,10 @@
             = link_to 'Audience Groups', admin_audience_groups_path
           - if controller.class.name === 'Admin::DefaultBlockListController' || controller.class.name === 'Admin::BlockSitesController' || controller.class.name === 'Admin::BlockedAdvertisersController' || controller.class.name === 'Admin::BlockLogsController' || controller.class.name === 'Admin::BlockViolationsController'
             %li{class: 'active'}
-              = link_to 'Blook <br/>Tool'.html_safe, admin_block_sites_path
+              = link_to 'Block <br/>Tool'.html_safe, admin_block_sites_path
           - else
             %li
-              = link_to 'Blook <br/>Tool'.html_safe, admin_block_sites_path
+              = link_to 'Block <br/>Tool'.html_safe, admin_block_sites_path
 
     .pure-u.admin-right
       .admin-content
