@@ -411,33 +411,48 @@
 
     copyTargeting: function(e) {
       e.stopPropagation();
+      e.preventDefault();
 
+      var multi = e.ctrlKey;
       var type = $(e.currentTarget).data('type');
+      $(e.currentTarget).parent().addClass('active');
       var li_t = this.model.get('targeting');
 
-      window.copied_targeting = {};
+      var copiedOptions = {};
+
       switch (type) {
         case 'key_values':
-          window.copied_targeting = {
+          copiedOptions = {
             selected_key_values: _.clone(li_t.get('selected_key_values')),
             keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
           };
           break;
         case 'geo':
-          window.copied_targeting = {
+          copiedOptions = {
             selected_geos: _.clone(li_t.get('selected_geos')),
             selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
           };
           break;
         case 'freq_cap':
-          window.copied_targeting = {
+          copiedOptions = {
             frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
           };
           break;
       };
 
+      if (!multi) {
+        window.copied_targeting = copiedOptions;
+      } else {
+        if (!window.copied_targeting) {
+          window.copied_targeting = {};
+        }
+        _.each(copiedOptions, function(value, key) {
+          window.copied_targeting[key] = value;
+        });
+      }
+
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs();
+      this._deselectAllLIs({ multi: multi });
       this.$el.addClass('copied-targeting-from');
     },
 
@@ -452,7 +467,9 @@
       _.each(lis_to_deselect, function(li) {
         li.selected = false;
         li.$el.find('.li-number .number').removeClass('selected');
-        li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+        if (!options || !options['multi']) {
+          li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+        }
         li.renderTargetingDialog();
       });
       window.selected_lis = [];
