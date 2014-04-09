@@ -1,4 +1,18 @@
 class Ad < ActiveRecord::Base
+  STATUS = {
+    draft:                     "Draft",
+    ready:                     "Ready",
+    paused:                    "Paused",
+    delivering:                "Delivering",
+    delivery_extended:         "Delivery Extended",
+    needs_creatives:           "Needs Creatives",
+    paused_inventory_released: "Paused Inventory Released",
+    pending_approval:          "Pending Approval",
+    completed:                 "Completed",
+    disapproved:               "Disapproved",
+    canceled:                  "Canceled"
+  }
+
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
   belongs_to :data_source
@@ -26,7 +40,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -173,5 +187,9 @@ class Ad < ActiveRecord::Base
       creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
       creative.update_attribute :name, creative_name
     end
+  end
+
+  def set_default_status
+    self.status ||= "DRAFT"
   end
 end
