@@ -819,11 +819,12 @@
               $('.order-assignee').html('Assignee: '+assignee);
               $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
-            } else if (response.state.match(/incomplete_push/i)) {
+            } else if (response.state.match(/incomplete push/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
             } else {
               self._toggleSavePushbuttons({ hide: false });
+              noty({text: "Your order has been updated correctly", type: 'success', timeout: 5000})
             }
             if (response.order_id) {
               if (ReachUI.LineItems.LineItemList.isDirty()) {
