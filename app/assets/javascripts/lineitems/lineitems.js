@@ -45,15 +45,16 @@
                  u.time_value  == fc.time_value  &&
                  u.time_unit   == fc.time_unit;
         });
-        if (!u.id && fc.id) {
-          u.id = fc.id;
+        if (!exists.id && fc.id) {
+          exists.id = fc.id;
         }
-        if (!exists) {
+        if (fc._destroy || !exists) {
           uniqFrequencyCaps.push(fc);
         }
       });
-      lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
-      console.log(uniqFrequencyCaps);
+      if (uniqFrequencyCaps.length > 0) {
+        lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
+      }
       delete lineitem['frequency_caps'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },

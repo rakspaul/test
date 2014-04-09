@@ -353,7 +353,7 @@ private
         end
       end
 
-      li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
 
       li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
@@ -527,7 +527,7 @@ private
         li[:lineitem].delete(:companion_ad_size)
       end
 
-      li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
