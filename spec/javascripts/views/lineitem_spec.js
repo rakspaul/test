@@ -22,15 +22,39 @@ describe('Line items views', function() {
     });
 
     describe('should update model attributes', function() {
-      it('should update rate attribute', function() {
+      beforeEach(function() {
         var el = this.view.render().$el;
         $('body').append(el);
+      });
 
-        var rateEl = el.find('.rate .editable.custom');
+      it('should update name attribute', function() {
+        var name = this.view.$el.find('.name');
 
-        $(rateEl).editable('setValue', 5.3);
-        //$(rateEl).editable().submit();
+        name.find('.editable').editable('show');
+        name.find('input').val('Test lineitem name');
+        name.find('button[type=submit]').click();
 
+        expect(this.view.model.get('name')).toBe('Test lineitem name');
+      });
+
+      it('should update rate attribute', function() {
+        var rate = this.view.$el.find('.rate');
+
+        rate.find('.editable.custom').editable('show');
+        rate.find('input').val(5.3);
+        rate.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('rate'))).toBe(5.3);
+      });
+
+      it('should update volume attribute', function() {
+        var volume = this.view.$el.find('.volume');
+
+        volume.find('.editable.custom').editable('show');
+        volume.find('input').val(7.8);
+        volume.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('volume'))).toBe(7.8);
       });
     });
   });
