@@ -445,6 +445,7 @@
 
         if(window.copied_targeting) {
           $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+          $('.copy-targeting-btn li').removeClass('active');
           this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
         }
       }
