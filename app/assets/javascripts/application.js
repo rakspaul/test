@@ -26,7 +26,6 @@
 //= require twitter/bootstrap/dropdown
 //= require bootstrap-popup-tooltip.js
 //= require bootstrap-editable.js
-//= require bootstrap-select.js
 //= require select2.min.js
 //= require jquery-fileupload/basic
 //= require jquery.autosize
