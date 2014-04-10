@@ -674,6 +674,8 @@
       this.model.set('revised_'+attr_name, null);
       this._checkRevisedStatus();
 
+      $target_parent.siblings('div .editable').addClass('revision');
+
       $target_parent.siblings('.revision').hide();
       $target_parent.hide();
     },

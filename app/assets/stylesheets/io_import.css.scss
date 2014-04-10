@@ -834,6 +834,15 @@ $wide_input_width: 320px;
   text-align:right;
   font-family: 'Armata', sans-serif;
 
+  .order-status {
+    margin-top: 25px;
+  }
+
+  .order-status, .order-assignee{
+    float: left;
+    color: $text_color;
+  }
+
   .push-order-btn {
     background-color: $magenta_color;
 
