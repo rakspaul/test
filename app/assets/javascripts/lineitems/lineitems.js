@@ -560,6 +560,8 @@
       this.model.set('revised_'+attr_name, null);
       this._checkRevisedStatus();
 
+      $target_parent.siblings('div .editable').addClass('revision');
+
       $target_parent.siblings('.revision').hide();
       $target_parent.hide();
     },
@@ -616,7 +618,7 @@
     serializeData: function(){
       var data = this.collection.order.toJSON();
       data.assignee = this.collection.order.get('assignee');
-      data.order_status = this.collection.order.get('state');
+      data.order_status = this.collection.order.get('order_status');
       return data;
     },
 
