@@ -1,5 +1,8 @@
 <h4>Targeting</h4>
 
+<% var new_kv = [];
+   var dfp_kv = []; %>
+
 <div class="pure-g age-targeting">
   <% if(selected_key_values.length > 0) { %>
   <div class="account-contact-icon pull-left" title="Key Value Targeting"></div>
@@ -8,9 +11,37 @@
       var item = '<div class="tgt-item-kv-container ' + (show_custom_key_values ? 'custom-kv-container' : '') + '">';
       item += ' <span class="tgt-item-caption">'+selected_key_values[i]['title']+'</span>';
       item += ' <span class="remove-btn pull-right" data-ag-id="' + selected_key_values[i]['id'] + '" style="display:none"></span>';
+
       if(show_custom_key_values) {
-        item += '<span class="custom-kvs">'+selected_key_values[i]['key_values']+'</span>';
-      }
+        var selected_value = selected_key_values[i],
+            rom_kv = selected_value.key_values.split(','),
+            is_new = selected_key_values[i]['is_new'];
+
+        if(is_new == undefined) {
+          is_new = false;
+        }
+
+        if(!dfp_key_values && is_new) {
+          item += '<span class="custom-kvs">'+selected_key_values[i]['key_values']+'</span>';
+        } else {
+          dfp_kv = dfp_key_values.split(',');
+          var item_str = '';
+
+          rom_kv.forEach(function(kv) {
+            if($.inArray( kv , dfp_kv ) > -1) {
+              item_str += kv + ',';
+              new_kv.push(kv);
+            } else {
+              if(!is_new)
+                item_str += '<strike>'+kv+'</strike>'+',';
+              else
+                item_str += kv + ',';
+            }
+          });
+
+          item += '<span class="custom-kvs">'+item_str.slice(0,-1)+'</span>';
+        }
+     }
       item += '</div>';
       kv.push(item);
     } %>
@@ -23,7 +54,6 @@
   <div style="clear:both"></div>
 </div>
 
-
 <% if(keyvalue_targeting && !show_custom_key_values) { %>
 <div class="pure-g keyvalue_targeting">
   <div class="custom-kv-icon pull-left"></div>
@@ -33,12 +63,24 @@
 </div>
 <% } %>
 
-
 <div class="pure-g custom-targeting">
-  <% if(show_custom_key_values) { %>
+  <% if(show_custom_key_values) {
+       var cust_kv_str = '';
+
+       if(dfp_kv != '') {
+         cust_kv = keyvalue_targeting.split(',');
+         cust_kv_str = _.difference(dfp_kv, cust_kv).join(',');
+       } else {
+          cust_kv_str = keyvalue_targeting;
+       }
+
+       var cust_kv_concat = cust_kv_str + ',' +  _.difference(dfp_kv, new_kv).join(',');
+       cust_kv_concat = _.unique(cust_kv_concat.split(','));
+   %>
   <div class="custom-kv-icon pull-left"></div>
   <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
-  <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= keyvalue_targeting %>" class="custom-kvs-field"/>
+  <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= _.compact(cust_kv_concat).join(',') %>"class="custom-kvs-field"/>
+
   <% } %>
   <div style="clear:both"></div>
   <span class="custom-kv-errors errors_container pure-u"></span>
