@@ -153,7 +153,8 @@
     },
 
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps') };
+      var frequencyCaps = this.frequencyCapListView ? this.frequencyCapListView.collection : this.model.get('frequency_caps');
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: frequencyCaps };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
@@ -161,13 +162,21 @@
     },
 
     _renderFrequencyCaps: function() {
-      var frequencyCaps = this.model.get('frequency_caps');
+      var frequencyCaps = this.model.get('frequency_caps'),
+          collection = frequencyCaps;
       var self = this;
 
-      this.frequencyCapListView = new Targeting.FrequencyCapListView({
-        collection:  new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps),
-        parent_view: self
-      });
+      if (!frequencyCaps.models) {
+        collection = new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps);
+      }
+      if (this.frequencyCapListView) {
+        this.frequencyCapListView.updateCollection(frequencyCaps);
+      } else {
+        this.frequencyCapListView = new Targeting.FrequencyCapListView({
+          collection:  collection,
+          parent_view: self
+        });
+      }
       this.ui.frequency_caps.html(this.frequencyCapListView.render().el);
     },
 
@@ -435,6 +444,41 @@
         self._updateParentModel();
         self.options.parent_view._renderSelectedTargetingOptions();
       });
+    },
+
+    updateCollection: function(caps) {
+      var removeCaps = [],
+          self = this;
+      _.each(this.collection.models, function(model) {
+        var id = model.get('id'), found = false;
+        if (id) {
+          if (caps.models) {
+            found = caps.models.find(function(fc) {
+              return fc.get('id') == id;
+            });
+          } else {
+            found = _.find(caps, function(fc) {
+              return fc.id == id;
+            });
+          };
+          if (!found) {
+            removeCaps.push(id);
+          }
+        }
+      });
+      _.each(removeCaps, function(id) {
+        self.collection.remove(self.collection.get(id));
+      });
+      _.each(caps, function(fc) {
+        if (!fc.id || !self.collection.get(fc.id)) {
+          var frequencyCap = fc;
+          if (!fc.attributes) {
+            frequencyCap = new ReachUI.FrequencyCaps.FrequencyCap(fc);
+          }
+          self.collection.add(frequencyCap);
+        }
+      });
+      this._updateParentModel();
     },
 
     _addNewFrequencyCap: function() {

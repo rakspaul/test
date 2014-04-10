@@ -455,42 +455,66 @@
       e.stopPropagation();
       e.preventDefault();
 
-      var multi = e.ctrlKey;
-      var type = $(e.currentTarget).data('type');
-      $(e.currentTarget).parent().addClass('active');
-      var li_t = this.model.get('targeting');
+      var multi  = e.ctrlKey,
+          el = $(e.currentTarget),
+          parent = el.parent(),
+          type   = el.data('type'),
+          active = parent.hasClass('active'),
+          li_t   = this.model.get('targeting');
 
-      var copiedOptions = {};
+      if (!active) {
+        var copiedOptions = {};
 
-      switch (type) {
-        case 'key_values':
-          copiedOptions = {
-            selected_key_values: _.clone(li_t.get('selected_key_values')),
-            keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-          };
-          break;
-        case 'geo':
-          copiedOptions = {
-            selected_geos: _.clone(li_t.get('selected_geos')),
-            selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
-          };
-          break;
-        case 'freq_cap':
-          copiedOptions = {
-            frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
-          };
-          break;
-      };
+        parent.addClass('active');
 
-      if (!multi) {
-        window.copied_targeting = copiedOptions;
-      } else {
-        if (!window.copied_targeting) {
-          window.copied_targeting = {};
+        switch (type) {
+          case 'key_values':
+            copiedOptions = {
+              selected_key_values: _.clone(li_t.get('selected_key_values')),
+              keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
+            };
+            break;
+          case 'geo':
+            copiedOptions = {
+              selected_geos: _.clone(li_t.get('selected_geos')),
+              selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
+            };
+            break;
+          case 'freq_cap':
+            copiedOptions = {
+              frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
+            };
+            break;
+        };
+
+        if (!multi) {
+          window.copied_targeting = copiedOptions;
+        } else {
+          if (!window.copied_targeting) {
+            window.copied_targeting = {};
+          }
+          _.each(copiedOptions, function(value, key) {
+            window.copied_targeting[key] = value;
+          });
         }
-        _.each(copiedOptions, function(value, key) {
-          window.copied_targeting[key] = value;
-        });
+      } else {
+        if (window.copied_targeting) {
+          switch (type) {
+          case 'key_values':
+            delete window.copied_targeting['selected_key_values'];
+            delete window.copied_targeting['keyvalue_targeting'];
+            break;
+          case 'geo':
+            delete window.copied_targeting['selected_geos'];
+            delete window.copied_targeting['selected_zip_codes'];
+            break;
+          case 'freq_cap':
+            delete window.copied_targeting['frequency_caps'];
+            break;
+          }
+        }
+        el.blur();
+        parent.removeClass('active');
       }
 
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
@@ -535,6 +559,9 @@
     },
 
     cancelTargeting: function(e) {
+      if (e) {
+        e.stopPropagation();
+      }
       window.copied_targeting = null;
       $('.lineitem').removeClass('copied-targeting-from');
       this._deselectAllLIs();
@@ -680,6 +707,7 @@
 
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType'
     },
 
