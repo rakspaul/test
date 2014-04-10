@@ -518,6 +518,9 @@
     },
 
     cancelTargeting: function(e) {
+      if (e) {
+        e.stopPropagation();
+      }
       window.copied_targeting = null;
       $('.lineitem').removeClass('copied-targeting-from');
       this._deselectAllLIs();
@@ -579,6 +582,7 @@
       'click .li-number': '_toggleLISelection',
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType'
     },
 
