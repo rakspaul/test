@@ -702,7 +702,7 @@
     serializeData: function(){
       var data = this.collection.order.toJSON();
       data.assignee = this.collection.order.get('assignee');
-      data.order_status = this.collection.order.get('state');
+      data.order_status = this.collection.order.get('order_status');
       return data;
     },
 
