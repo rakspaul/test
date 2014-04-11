@@ -575,7 +575,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _calculateRemainingImpressions: function(li) {
-    var remaining_impressions = li.get('volume') * (100 + li.get('buffer')) / 100;
+    var remaining_impressions = li.get('volume') * (100 + parseFloat(li.get('buffer'))) / 100;
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
