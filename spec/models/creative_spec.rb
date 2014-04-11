@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Creative do
   let(:user) { FactoryGirl.create :user }
   let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
-  let(:media_type) { FactoryGirl.singleton :display_media_type }
+  let(:media_type) { MediaType.first || FactoryGirl.singleton(:display_media_type) }
 
   context "wrong flight dates" do
     before do
