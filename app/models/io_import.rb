@@ -9,7 +9,7 @@ class IoImport
 :trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
 :is_existing_order, :existing_order, :existing_order_id, :revisions
 
-  def initialize(file, current_user, revised_io_flag)
+  def initialize(file, current_user, revised_io_flag = false)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
     @revised_io_flag      = revised_io_flag
