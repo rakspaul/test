@@ -413,6 +413,12 @@ $wide_input_width: 320px;
     margin-bottom: 7px;
   }
 
+  .copy-targeting-btn .copy-targeting-dropdown .active > a {
+    background-color: $magenta_color;
+    background-image: none;
+    background-repeat: none;
+  }
+
   .copy-targeting-item {
     letter-spacing: normal;
   }
