@@ -92,3 +92,29 @@
   </div>
   <% } %>
 </div>
+
+<% if (frequency_caps.length > 0) { %>
+<div class="pure-g frequency-caps-targeting">
+  <div class="custom-kv-icon pull-left" title="Frequency Caps"></div>
+  <div class="pull-left pure-u-11-12">
+    <%
+      var frequencies = frequency_caps.toJSON ? frequency_caps.toJSON() : frequency_caps;
+      var caps = []; for (var i = 0; i < frequencies.length; i++) {
+      var cap = frequencies[i];
+      var item = '<div class="tgt-item-frequency-caps-container">';
+      item += ' <span class="tgt-item-caption">' + cap.impressions + ' per ' + cap.time_value + ' ' + ReachUI.FrequencyCaps.FrequencyCap.timeUnits[cap.time_unit] + '</span>';
+      var id = cap.id;
+      if (!cap.id && frequency_caps.models) {
+        id = frequency_caps.models[i].cid;
+      }
+      item += ' <span class="remove-btn pull-right" data-frequency-cap-id="' + id + '" style="display:none"></span>';
+      item += '</div>';
+      caps.push(item);
+    } %>
+
+    <%= caps.join('<div style="float:left">,</div>') %>
+  </div>
+
+  <div style="clear:both"></div>
+</div>
+<% } %>

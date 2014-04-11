@@ -13,6 +13,7 @@
     </li>
     <li class="geo"><a href="javascript:void(0)">GEO</a></li>
     <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
+    <li class="frequency-caps"><a href="javascript:void(0)">Frequency</a></li>
   </ul>
 
   <% var selected_kv_ids = [] %>
@@ -42,6 +43,9 @@
 
   <div class="tab zip-codes" style="display:none">
     <textarea rows="7" placeholder="Please type/paste list of zip codes in this field comma separated or one zip code per line."><%= selected_zip_codes.join(', ') %></textarea>
+  </div>
+
+  <div class="tab frequency-caps" style="display:none">
   </div>
 </div>
 
