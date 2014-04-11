@@ -5,7 +5,7 @@ class IoImportController < ApplicationController
 
   def create
     io_file = params[:io_file]
-    @io_import = IoImport.new(io_file, current_user)
+    @io_import = IoImport.new(io_file, current_user, params[:revised_io_flag])
     @io_import.import
 
     @io_details = @io_import.io_details
