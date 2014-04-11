@@ -9,10 +9,10 @@ class IoImport
 :trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
 :is_existing_order, :existing_order, :existing_order_id, :revisions
 
-  def initialize(file, current_user)
+  def initialize(file, current_user, revised_io_flag)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
-
+    @revised_io_flag      = revised_io_flag
     @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
 
     @current_user         = current_user
@@ -37,7 +37,7 @@ class IoImport
     read_billing_contact
     read_sales_person
 
-    if @existing_order = @reader.existing_order?
+    if (@existing_order = @reader.existing_order?) && @revised_io_flag
       @is_existing_order = true
       @existing_order_id = @existing_order.id
     end
@@ -133,7 +133,7 @@ class IoImport
     def parse_revisions
       existing_order = Order.find_by(name: @reader.order[:name].to_s.strip)
 
-      return if !existing_order
+      return if !existing_order || !@revised_io_flag
 
       existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
         local_revisions = {}

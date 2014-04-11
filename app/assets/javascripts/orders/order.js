@@ -81,7 +81,7 @@
     className: 'order-details',
 
     ui: {
-      io_fileupload: '#revised_io_fileupload',
+      revised_io_fileupload: '#revised_io_fileupload'
       creatives_fileupload: '#creatives_fileupload'
     },
 
@@ -120,9 +120,10 @@
         fail: function(e, data) { self._importCreativesCallback(e, data) }
       });
 
-      this.ui.io_fileupload.fileupload({
+      this.ui.revised_io_fileupload.fileupload({
         dataType: 'json',
         url: '/io_import.json',
+        formData: {revised_io_flag: true},
         dropZone: this.ui.io_fileupload,
         pasteZone: null,
         start: this._uploadStarted,
