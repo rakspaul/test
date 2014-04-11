@@ -9,6 +9,7 @@ class Creative < ActiveRecord::Base
   has_many :ad_assignments, dependent: :destroy
   has_many :ads, through: :ad_assignments
 
+  before_validation :sanitize_attributes
   before_create :create_random_source_id
   before_save :set_data_source
 
@@ -28,5 +29,11 @@ class Creative < ActiveRecord::Base
 
   def client_ad_id
     self.redirect_url.try(:match, /adid=(\d+);/).try(:[], 1) || self.html_code.try(:match, /"id"\s*:\s*"(\d+)"/).try(:[], 1)
+  end
+
+private
+
+  def sanitize_attributes
+    self.redirect_url = redirect_url.strip
   end
 end
