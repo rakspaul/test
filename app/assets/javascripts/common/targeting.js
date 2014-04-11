@@ -470,7 +470,7 @@
         self.collection.remove(self.collection.get(id));
       });
       _.each(caps, function(fc) {
-        if (!fc.id || !self.collection.get(fc.id)) {
+        if (fc && (!fc.id || !self.collection.get(fc.id))) {
           var frequencyCap = fc;
           if (!fc.attributes) {
             frequencyCap = new ReachUI.FrequencyCaps.FrequencyCap(fc);
