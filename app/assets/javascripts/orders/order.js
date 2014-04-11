@@ -81,7 +81,7 @@
     className: 'order-details',
 
     ui: {
-      revised_io_fileupload: '#revised_io_fileupload'
+      revised_io_fileupload: '#revised_io_fileupload',
       creatives_fileupload: '#creatives_fileupload'
     },
 
