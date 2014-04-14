@@ -7,16 +7,18 @@ class IoImport
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
 :trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
-:is_existing_order, :existing_order, :existing_order_id, :revisions
+:is_existing_order, :existing_order, :existing_order_id, :revisions, :revised_io_filename, :original_created_at
 
   def initialize(file, current_user, revised_io_flag = false)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
     @revised_io_flag      = revised_io_flag
-    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
 
-    @current_user         = current_user
+    @revised_io_filename = file.original_filename if @revised_io_flag
+
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
     @original_filename    = file.original_filename
+    @current_user         = current_user
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK).order("first_name, last_name").limit(50)
     @account_contact      = Struct.new(:name, :phone, :email)
@@ -40,6 +42,9 @@ class IoImport
     if (@existing_order = @reader.existing_order?) && @revised_io_flag
       @is_existing_order = true
       @existing_order_id = @existing_order.id
+
+      @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
+      @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
 
     read_order_and_details
