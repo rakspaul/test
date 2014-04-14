@@ -623,20 +623,24 @@
         this.model.set('revised', true);
       } else {
         this.model.set('revised', false);
-        this.$el.find('.li-number').removeClass('revised');
       }
     },
 
     _acceptAllRevisions: function(e) {
-      var self = this;
+      var self = this,
+          elements = {start_date: '.start-date .editable', end_date: '.end-date .editable', name: '.name .editable', volume: '.volume .editable', rate: '.rate .editable'};
       e.stopPropagation();
+
+      this.$el.find('.revision').hide();
 
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
         if(revision) {
-          self.model.set(attr_name, revision);
+          self.model.attributes[attr_name] = revision;
+          self.$el.find(elements[attr_name]).text(revision).addClass('revision');
+
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
           logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
         }
@@ -647,36 +651,42 @@
       this._removeAndHideAllRevisions(e);
     },
 
+    _declineAllRevisions: function(e) {
+      this._removeAndHideAllRevisions(e);
+      this.$el.find('.li-number').removeClass('revised');
+      this.$el.find('.revision').remove();
+    },
+
     _removeAndHideAllRevisions: function(e) {
       e.stopPropagation();
 
       var self = this;
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
-        self.model.set('revised_'+attr_name, null);
+        self.model.attributes['revised_'+attr_name] = null;
       });
 
-      this.model.set('revised', null);
-      this._checkRevisedStatus();
-      this.$el.find('.revision, .revised-dialog').remove();
+      this.model.attributes['revised'] = null;
+      this.$el.find('.revised-dialog').remove();
     },
 
     _acceptRevision: function(e) {
-      var $target_parent = $(e.currentTarget).parent();
-      var attr_name = $(e.currentTarget).data('name');
+      var $target_parent = $(e.currentTarget).parent(),
+          attr_name = $(e.currentTarget).data('name'),
+          $editable = $target_parent.siblings('div .editable'),
+          revised_value = $target_parent.siblings('.revision').text();
 
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
       EventsBus.trigger('lineitem:logRevision', log_text);
 
-      this.model.set(attr_name, $target_parent.siblings('.revision').text());
-
-      this.model.set('revised_'+attr_name, null);
-      this._checkRevisedStatus();
-
-      $target_parent.siblings('div .editable').addClass('revision');
+      this.model.attributes[attr_name] = revised_value;
+      this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
+      $editable.text(revised_value).addClass('revision');
+
+      this._checkRevisedStatus();
       $target_parent.hide();
     },
 
@@ -705,7 +715,7 @@
       'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
       'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
       'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
-      'click .li-number .revised-dialog .decline-all-btn': '_removeAndHideAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
 
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
