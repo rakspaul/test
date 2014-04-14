@@ -507,10 +507,11 @@
       _.each(window.selected_lis, function(li) {
         var liTargeting = li.model.get('targeting');
         _.each(window.copied_targeting, function(value, key) {
-          liTargeting.set(key, _.clone(value));
+          var targeting = {};
+          targeting[key] = _.clone(value);
+          liTargeting.set(targeting, { silent: true });
         });
 
-        li.renderTargetingDialog();
         li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
       });
 

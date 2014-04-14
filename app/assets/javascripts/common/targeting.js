@@ -449,28 +449,34 @@
     updateCollection: function(caps) {
       var removeCaps = [],
           self = this;
-      _.each(this.collection.models, function(model) {
-        var id = model.get('id'), found = false;
-        if (id) {
-          if (caps.models) {
-            found = caps.models.find(function(fc) {
-              return fc.get('id') == id;
-            });
-          } else {
-            found = _.find(caps, function(fc) {
-              return fc.id == id;
-            });
-          };
-          if (!found) {
-            removeCaps.push(id);
+      if (this.collection.length > 0) {
+        _.each(this.collection.models, function(model) {
+          var id = model.get('id'), found = false;
+          if (id) {
+            if (caps.models) {
+              found = caps.models.find(function(fc) {
+                return fc.get('id') == id;
+              });
+            } else {
+              found = _.find(caps, function(fc) {
+                return fc.id == id;
+              });
+            };
+            if (!found) {
+              removeCaps.push(id);
+            }
           }
-        }
-      });
-      _.each(removeCaps, function(id) {
-        self.collection.remove(self.collection.get(id));
-      });
-      _.each(caps, function(fc) {
-        if (fc && (!fc.id || !self.collection.get(fc.id))) {
+        });
+        _.each(removeCaps, function(id) {
+          self.collection.remove(self.collection.get(id));
+        });
+      }
+
+      
+      var addCaps = caps.models ? caps.models : caps;
+      _.each(addCaps, function(fc) {
+        if ((!fc.attributes && !fc.id) || (fc.attributes && !fc.get('id')) ||
+            !self.collection.get(fc.id)) {
           var frequencyCap = fc;
           if (!fc.attributes) {
             frequencyCap = new ReachUI.FrequencyCaps.FrequencyCap(fc);
