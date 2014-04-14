@@ -85,6 +85,7 @@ class IoImport
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
+      @order.source_id = @existing_order.source_id if @is_existing_order
 
       @order_name_dup = Order.exists?(name: @order.name)
 
