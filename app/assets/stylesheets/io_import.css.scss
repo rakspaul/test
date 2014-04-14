@@ -8,7 +8,7 @@ $border_color: #0088cc;
 
 $ad_status_default_color: gray;
 $ad_status_draft_color: black;
-$ad_status_ready_color: yellow;
+$ad_status_ready_color: #fd9828;
 $ad_status_paused_color: red;
 $ad_status_delivering_color: green;
 
@@ -781,6 +781,29 @@ $wide_input_width: 320px;
       padding-left:20px;
     }
 
+    .tab.frequency-caps {
+      margin-left: 10%;
+      input {
+        height: 16px;
+        line-height: 16px;
+        font-size: 13px;
+      }
+      .frequency-impressions {
+        width: 50px;
+      }
+      .frequency-time-value {
+        width: 30px;
+      }
+      .frequency-time-unit {
+        line-height: 16px;
+        font-size: 13px;
+        width: 100px;
+      }
+      .remove-btn {
+        margin: 5px 3px 0 0;
+      }
+    }
+
     .mobile-targeting {
       color: $error_color;
       font-size: 10px;
@@ -849,7 +872,7 @@ $wide_input_width: 320px;
       margin-top:0px;
     }
 
-    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container {
+    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container {
       float:left;
       margin-left: 5px;
 
@@ -931,6 +954,11 @@ $wide_input_width: 320px;
       margin-top: 0px;
       margin-right: 10px;
     }
+  }
+
+  .operation {
+    color: $text_color;
+    cursor: pointer;
   }
 }
 

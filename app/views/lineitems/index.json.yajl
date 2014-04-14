@@ -19,7 +19,8 @@ json = @lineitems.map do |lineitem|
     li_id:              lineitem.try(:li_id),
     creatives:          [],
     selected_geos:      [],
-    selected_key_values: []
+    selected_key_values: [],
+    frequency_caps:      []
   }
 
   if lineitem.video?
@@ -64,6 +65,15 @@ json = @lineitems.map do |lineitem|
       id:    ag.id,
       title: ag.name,
       key_values: ag.key_values
+    }
+  end
+
+  li[:frequency_caps] = lineitem.frequency_caps.map do |fc|
+    {
+      id:          fc.id,
+      impressions: fc.cap_value,
+      time_value:  fc.time_value,
+      time_unit:   fc.time_unit
     }
   end
 

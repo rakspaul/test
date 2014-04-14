@@ -103,6 +103,22 @@ ReachUI.showCondensedTargetingOptions = function() {
     targeting_options.push('</div>');
   }
 
+  var frequency_caps = targeting.get('frequency_caps');
+  if (frequency_caps.models) {
+    frequency_caps = frequency_caps.models;
+  }
+  if (frequency_caps.length > 0) {
+    var caps = _.map(frequency_caps, function(fc) {
+      fc = fc.toJSON ? fc.toJSON() : fc;
+      return { title: fc.impressions + ' per ' + fc.time_value + ' ' +
+               ReachUI.FrequencyCaps.FrequencyCap.timeUnits[fc.time_unit] };
+    });
+    targeting_options.push('<div class="custom-kv-icon pull-left" title="Frequency Caps Targeting"></div>');
+    targeting_options.push('<div class="targeting-options">');
+    targeting_options.push(ReachUI.truncateArray(caps, "title"));
+    targeting_options.push('</div>');
+  }
+
   // if we close Targeting Dialog in Li context then *all* .targeting_options_condensed will be
   // selected (including Ads' ones), so we need to limit this only to first matching element
   var toptions = this.$el.find('.targeting_options_condensed')[0];

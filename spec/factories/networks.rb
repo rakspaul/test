@@ -8,11 +8,13 @@ FactoryGirl.define do
     id 6
     name "Test network"
     data_source
-    media_types { [ FactoryGirl.create(:display_media_type),
-                    FactoryGirl.create(:video_media_type),
-                    FactoryGirl.create(:mobile_media_type),
-                    FactoryGirl.create(:facebook_media_type) ] }
     net_prefix "cm"
+
+    after(:create) do |network|
+      [:display_media_type, :video_media_type, :mobile_media_type, :facebook_media_type].each do |media_type|
+        FactoryGirl.create(media_type, network: network)
+      end
+    end
   end
 
   factory :ad_size do

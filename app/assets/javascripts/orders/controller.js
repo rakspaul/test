@@ -552,6 +552,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showLineitemList: function(order) {
     var self = this;
+
     if (!this.lineItemList.getOrder() || this.lineItemList.getOrder().id !== order.id) {
       this.lineItemList.reset();
       this.lineItemList.setOrder(order);
@@ -686,6 +687,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad_name = ordersController._generateAdName(li, type);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
       var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var frequency_caps = li.get('targeting').get('frequency_caps'), frequencyCaps = [];
+      if (frequency_caps.models) {
+        frequencyCaps = _.map(frequency_caps.models, function(fc) {
+          return _.omit(fc.attributes, 'id');
+        });
+      } else {
+        frequencyCaps = _.map(frequency_caps, function(fc) {
+          return _.omit(fc, 'id');
+        });
+      }
 
       var ad = new ReachUI.Ads.Ad(attrs);
 
@@ -696,6 +707,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
         audience_groups: li.get('targeting').get('audience_groups'),
         keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
+        frequency_caps: frequencyCaps,
         type: type
       });
 
@@ -748,9 +760,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
-          var selected_geos = li.get('selected_geos') ? li.get('selected_geos') : [];
-          var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
-          var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+          var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
+          var zipcodes       = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+          var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
+          var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
 
           li.set({
             'itemIndex': itemIndex,
@@ -759,6 +772,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             selected_geos: selected_geos,
             selected_key_values: kv,
             dmas_list: dmasResult[0],
+            frequency_caps: frequency_caps,
             audience_groups: ags.attributes,
             keyvalue_targeting: li.get('keyvalue_targeting'),
             type: li.get('type') })
@@ -781,6 +795,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               selected_zip_codes: attrs.ad.targeted_zipcodes,
               selected_geos: attrs.selected_geos,
               selected_key_values: attrs.selected_key_values,
+              frequency_caps: attrs.frequency_caps,
               dmas_list: li_view.model.get('targeting').get('dmas_list'),
               audience_groups: li_view.model.get('targeting').get('audience_groups'),
               keyvalue_targeting: attrs.ad.keyvalue_targeting,

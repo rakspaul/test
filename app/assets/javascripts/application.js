@@ -15,9 +15,11 @@
 //= require jquery-ui-1.10.3.custom.min
 //= require jquery.dragtable
 //= require underscore-min
-//= require backbone
+//= require backbone-min
 //= require json2
 //= require backbone.marionette
+//= require backbone.stickit.min
+//= require backbone.rorattributes
 //= require typeahead
 //= require twitter/bootstrap/modal
 //= require twitter/bootstrap/tab
@@ -58,6 +60,7 @@
 //= require ./creatives/basic_creative.js
 //= require ./creatives/creative.js
 //= require ./lineitems/adsizes.js
+//= require ./common/frequency_caps.js
 //= require ./common/targeting.js
 //= require ./orders/controller.js
 //= require ./orders/restricted_controller.js

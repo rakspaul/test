@@ -31,7 +31,32 @@
     },
 
     toJSON: function() {
-      return { lineitem: _.clone(this.attributes), ads: this.ads, creatives: this.get('creatives') };
+      var lineitem = _.clone(this.attributes);
+      var frequencyCaps = lineitem['targeting'].get('frequency_caps'),
+          uniqFrequencyCaps = [];
+      if (frequencyCaps.toNestedAttributes) {
+        lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
+      } else if (frequencyCaps.length > 0) {
+        lineitem['frequency_caps_attributes'] = frequencyCaps;
+      }
+      _.each(lineitem['frequency_caps_attributes'], function(fc) {
+        var exists = _.any(uniqFrequencyCaps, function(u) {
+          return u.impressions == fc.impressions &&
+                 u.time_value  == fc.time_value  &&
+                 u.time_unit   == fc.time_unit;
+        });
+        if (!exists.id && fc.id) {
+          exists.id = fc.id;
+        }
+        if (fc._destroy || !exists) {
+          uniqFrequencyCaps.push(fc);
+        }
+      });
+      if (uniqFrequencyCaps.length > 0) {
+        lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
+      }
+      delete lineitem['frequency_caps'];
+      return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
     pushAd: function(ad) {
@@ -72,6 +97,16 @@
       $('.lineitems-summary-container .total-cpm').html(accounting.formatMoney(cpm_total));
       $('.total-media-cost span').html(accounting.formatMoney(sum_media_cost));
     }
+  }, {
+    dirty: false,
+
+    setDirty: function(dirty) {
+      this.dirty = dirty;
+    },
+
+    isDirty: function() {
+      return this.dirty;
+    }
   });
 
   //LineItems.LineItemView = Backbone.Marionette.ItemView.extend({
@@ -96,7 +131,7 @@
       this.li_notes_collapsed = false;
 
       if (! this.model.get('targeting')) {
-        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
         this.model.set({ 'targeting': targeting }, { silent: true });
       }
     },
@@ -655,6 +690,11 @@
               self._toggleSavePushbuttons({ hide: false });
             }
             if (response.order_id) {
+              if (ReachUI.LineItems.LineItemList.isDirty()) {
+                ReachUI.LineItems.LineItemList.setDirty(false);
+                self.collection.setOrder(null);
+                Backbone.history.fragment = null;
+              }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
           }
