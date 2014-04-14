@@ -525,7 +525,7 @@
         var revision = self.model.get('revised_'+attr_name);
         if(revision) {
           self.model.attributes[attr_name] = revision;
-          self.$el.find(elements[attr_name]).text(revision).addClass('revision');
+          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
           logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
@@ -570,9 +570,9 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
-      $editable.text(revised_value).addClass('revision');
+      $editable.filter('[data-name="'+attr_name+'"]').text(revised_value).addClass('revision');
 
-      this._checkRevisedStatus();
+      //this._checkRevisedStatus();
       $target_parent.hide();
     },
 
@@ -580,8 +580,8 @@
       var $target_parent = $(e.currentTarget).parent();
       var attr_name = $(e.currentTarget).data('name');
 
-      this.model.set('revised_'+attr_name, null);
-      this._checkRevisedStatus();
+      this.model.attributes['revised_'+attr_name] = null;
+      //this._checkRevisedStatus();
 
       $target_parent.siblings('.revision').hide();
       $target_parent.hide();
