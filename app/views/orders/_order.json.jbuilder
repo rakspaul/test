@@ -28,6 +28,7 @@ json.updated_at               format_datetime(order.updated_at)
 
 json.io_asset_filename        io_original_filename
 json.io_asset_created_at      format_datetime(io_created_at)
+json.revised_io_filename      revised_io_filename
 
 json.client_advertiser_name   io_detail.client_advertiser_name
 

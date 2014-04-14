@@ -64,6 +64,11 @@
       <% } else { %>
         <span><%= order.io_asset_filename %></span>
       <% } %>
+      <% if(order.is_existing_order && order.revised_io_filename) { %>
+        <div style="clear:both"></div>
+        <label>Revised IO File</label>
+        <span><%= order.revised_io_filename %></span>
+      <% } %>
     </div>
     <div class="timestamp">
       <%= order.io_asset_created_at %>
