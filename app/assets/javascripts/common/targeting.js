@@ -161,12 +161,45 @@
                    show_custom_key_values: this.show_custom_key_values,
                    keyvalue_targeting: this.model.get('keyvalue_targeting'),
                    dfp_key_values: this.model.get('dfp_key_values'),
-                   frequency_caps: this.model.get('frequency_caps')
+                   frequency_caps: this.model.get('frequency_caps'),
+                   reach_custom_kv: this._getReachCustomKV()
                  };
 
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
+
+      this.model.attributes.keyvalue_targeting = this._getReachCustomKV().join(',');
       this.validateCustomKV();
+    },
+
+    _getReachCustomKV: function(){
+      var keyvalue_targeting = this.model.get('keyvalue_targeting'),
+          dfp_key_values = this.model.get('dfp_key_values'),
+          dfp_kv = [],
+          reach_cust_kv = [];
+
+      if(dfp_key_values) {
+        dfp_kv = dfp_key_values.split(',');
+      }
+
+      reach_cust_kv = keyvalue_targeting.split(',');
+
+      if(dfp_kv != '') {
+        var dfp_true = _.difference(dfp_kv, reach_cust_kv);
+        var dfp_false = _.difference(reach_cust_kv, dfp_kv);
+
+        reach_cust_kv = reach_cust_kv.concat(dfp_true);
+
+        dfp_false.forEach(function(kv) {
+          if($.inArray( kv , reach_cust_kv ) > -1) {
+            var index = reach_cust_kv.indexOf(kv);
+            if (index > -1) {
+              reach_cust_kv.splice(index, 1);
+            }
+          }
+        });
+      }
+      return reach_cust_kv;
     },
 
     _renderFrequencyCaps: function() {
@@ -463,7 +496,7 @@
     _setTargetingAsDirty: function() {
       if (this.options.parent_view.model.setDirty) {
         this.options.parent_view.model.setDirty();
-      }      
+      }
     }
   });
 
