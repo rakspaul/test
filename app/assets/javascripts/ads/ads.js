@@ -114,11 +114,11 @@
       }
     },
 
-    _recalculateMediaCost: function() {
+    _recalculateMediaCost: function(options) {
       var imps = this.getImressions();
       var media_cost = this.getMediaCost();
 
-      this.model.set('value', media_cost);
+      this.model.set({ 'value':  media_cost }, options);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
@@ -223,7 +223,7 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set($(this).data('name'), newValue); //update backbone model;
+          self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
         }
@@ -234,14 +234,15 @@
           var sum_ad_imps = 0,
             imps = self.options.parent_view.model.get('volume');
 
-          self.model.set('volume', parseInt(String(newValue).replace(/,|\./g, ''))); //update backbone model;
+          self.model.set({ 'volume': parseInt(String(newValue).replace(/,|\./g, '')) },
+                         { silent: true}); //update backbone model;
 
           _.each(self.options.parent_view.model.ads, function(ad) {
             var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
             sum_ad_imps += imps;
           });
 
-          self._recalculateMediaCost();
+          self._recalculateMediaCost({ silent: true });
           self._validateAdImpressions();
 
           var buffer = self.options.parent_view.model.get('buffer');

@@ -12,6 +12,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
+    this.on('lineitems:buffer_update', this._liUpdateBuffer);
   },
 
   index: function() {
@@ -83,6 +84,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false))
       });
     }
+
+    this.lineItemList = lineItems;
 
     this._liSetCallbacksAndShow(lineItems);
 
@@ -234,12 +237,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         minLength: 1,
         remote: '/reach_clients/search.json?search=%QUERY',
         valueKey: 'name'
+      },
+      success: function() {
+        ordersController.trigger('lineitems:buffer_update', order.get('reach_client_buffer'));
       }
     });
     $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
       order.set("reach_client_abbr", el.abbr);
+      if (order.get('reach_client_buffer') != el.client_buffer) {
+        order.set('reach_client_buffer', el.client_buffer);
+      }
 
       ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
@@ -842,6 +851,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
     orderDetailsView.setLineItemView(lineItemListView);
+  },
+
+  _liUpdateBuffer: function(buffer) {
+    if (this.lineItemList && this.lineItemList.length > 0) {
+      _.each(this.lineItemList.models, function(li) {
+        li.setBuffer(buffer);
+      });
+    }
   },
 
   _showNotesView: function(order, li_view) {
