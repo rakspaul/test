@@ -1,0 +1,39 @@
+******Cox Digital Solutions Ad Tags******
+
+Owner: Collective AMP Network
+Payee: Collective AMP Network
+Site Name: Collective CDS Reach
+Campaign Name: Fidelity Mountain View, CA 10/21/13-12/15/13 (Mixed)
+Agency IO: 3215523-4381122-291893-4687068
+NOT ID: 
+Proposal ID: 280395
+Advertiser: Fidelity
+Campaign Start Date: 10/21/2013
+Campaign End Date: 12/15/2013
+
+===================================================================================================
+===================================================================================================
+Placement Name: CDS Added Value_Run of Network_Zip Targeted to 30 Mile Radius of Mtn View_12/1-12/15
+Placement Start Date: 12/1/2013
+Placement End Date: 12/15/2013
+Sections: Other
+Units: 17412
+Notes: 
+
+
+JavaScript code:
+<!-- Begin Cox Digital Solutions Page Tag for [page name] on "Collective CDS Reach"-->
+<script type="text/javascript">
+	cdsTag = {  };
+	cdsTag.zones = {  };
+	cdsTag.zones.as1000011402207= { "size" : "728x90", "id" : "1000011402207"};
+	cdsTag.zones.as1000011402207.thirdPartyClickUrl = "";
+	cdsTag.zones.as1000011402207.keywords= { "sr_k5" : "exadtag_1000004232815_1000023859009" };
+	cdsTag.siteId = 1000103020580;
+	cdsTag.keywords = null;
+	cdsTag.user = null;
+	cdsTag.onLoad = function () {
+	cdsPlaceAd("as1000011402207");}
+</script>
+<script type="text/javascript" src="http://ad.afy11.net/cdsad.js"></script>
+<!-- End Cox Digital Solutions Page Tag for [page name] on "Collective CDS Reach"-->
