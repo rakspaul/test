@@ -30,22 +30,29 @@ Projects can be found under /Projects.
 
 ## 6. Restore the DB
 Run the code to get a db dump. First navigate to the directory that holds the amts code.
+
 ``
   $ ruby lib/amp_db.rb --server "ampdb1.collective-media.net"
 ``
+
 This will take some time. However, it will not be able to restore the db to the VM's DB. Navigate to reachui/vagrant and ssh into the VM.
+
 ``
   $ vagrant ssh
 ``
+
 Run the following commands to restore the DB.
+
 ``
   $ psql -d template1 -U postgres -f /Projects/amts/db/backups/<File name that ends with roles.sql>
 ``
+
 Example psql -d template1 -U postgres -f /Projects/amts/db/backups/amp_2014-04-13.03-03AM.ampdb1.roles.sql
 
 ``
   $ dropdb amp -Uamts;pg_restore -Fc -C -e -U amts -d postgres /Projects/amts/db/backups/<File name that ends with pg_restore> || echo 'Failed To Restore!!'
 ``
+
 Example dropdb amp -Uamts;pg_restore -Fc -C -e -U amts -d postgres /Projects/amts/db/backups/amp_2014-04-13.03-03AM.ampdb1.pg_restore || echo 'Failed To Restore!!'
 
 This will take some time.
