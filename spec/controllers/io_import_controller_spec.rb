@@ -41,24 +41,20 @@ describe IoImportController do
 
     context "revised order" do
       it "sets #is_existing_order flag to true" do
-        post 'create', { io_file: io_file_revised, format: :json }
+        post 'create', { io_file: io_file_revised, revised_io_flag: true, format: :json }
 
         data = JSON.parse(response.body)
         expect(data['order']['is_existing_order']).to eq(true)
       end
 
-      it "sees changes in start_date and end_date of lineitems" do
-        post 'create', { io_file: io_file_revised, format: :json }
+      it "sees changes in start_date and end_date and in impressions of lineitems" do
+        post 'create', { io_file: io_file_revised, revised_io_flag: true, format: :json }
 
         data = JSON.parse(response.body)
         expect(data['order']['revisions'][0]).to be
         expect(data['order']['revisions'][0]['start_date']).to match('2014-08-17')
         expect(data['order']['revisions'][0]['end_date']).to match('2014-08-29')
         expect(data['order']['revisions'][0]['volume']).to eq(400_000)
-      end
-
-      it "sees changes in impressions for lineitems" do
-        
       end
     end
 

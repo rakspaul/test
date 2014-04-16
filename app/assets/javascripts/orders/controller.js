@@ -79,8 +79,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_name', revisions.name);
         lineItems.models[index].set('revised_volume', revisions.volume);
         lineItems.models[index].set('revised_rate', revisions.rate);
-
-        lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false))
+        lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false));
       });
     }
 

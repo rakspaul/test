@@ -249,6 +249,9 @@
         }
       });
 
+      if(this.model.get('revised')) {
+        this.$el.find('.li-number').addClass('revised');
+      }
       this.renderCreatives();
       this.renderTargetingDialog();
 
