@@ -21,7 +21,7 @@ describe IoImportController do
     let(:user) { FactoryGirl.create :user } 
 
     before do
-      order = FactoryGirl.create :order, name: "Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361", start_date: Time.now, end_date: Time.now.advance(days: +10)
+      @order = FactoryGirl.create :order, name: "Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361", start_date: Time.now, end_date: Time.now.advance(days: +10)
       io_detail = FactoryGirl.create :io_detail, client_order_id: "7762936"
 
       ReachClient.create name: "Time Warner Cable", abbr: "TWC", network_id: collective_network.id
@@ -30,31 +30,38 @@ describe IoImportController do
       ad_size2 = AdSize.create size: "728x90", width: 728, height: 90, network_id: user.network.id
       ad_size3 = AdSize.create size: "160x600", width: 160, height: 600, network_id: user.network.id
 
-      lineitem = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +10), name: "Age 18-34 or Age 34-50 or Education; Columbus Zips", volume: 300_000, order: order, user: user
+      lineitem = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +10), name: "Age 18-34 or Age 34-50 or Education; Columbus Zips", volume: 300_000, order: @order, user: user
 
-      lineitem2 = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +5), name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: order, user: user
-      order.io_detail = io_detail
-      order.save
-      order.lineitems << lineitem
-      order.lineitems << lineitem2
+      lineitem2 = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +5), name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: @order, user: user
+      @order.io_detail = io_detail
+      @order.save
+      @order.lineitems << lineitem
+      @order.lineitems << lineitem2
     end
 
     context "revised order" do
       it "sets #is_existing_order flag to true" do
-        post 'create', { io_file: io_file_revised, revised_io_flag: true, format: :json }
+        post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
 
         data = JSON.parse(response.body)
         expect(data['order']['is_existing_order']).to eq(true)
       end
 
       it "sees changes in start_date and end_date and in impressions of lineitems" do
-        post 'create', { io_file: io_file_revised, revised_io_flag: true, format: :json }
+        post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
 
         data = JSON.parse(response.body)
         expect(data['order']['revisions'][0]).to be
         expect(data['order']['revisions'][0]['start_date']).to match('2014-08-17')
         expect(data['order']['revisions'][0]['end_date']).to match('2014-08-29')
         expect(data['order']['revisions'][0]['volume']).to eq(400_000)
+      end
+
+      it "does not change order name" do
+        post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
+
+        data = JSON.parse(response.body)
+        expect(data['order']['name']).to eq("Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361")
       end
     end
 

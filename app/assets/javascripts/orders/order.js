@@ -123,7 +123,7 @@
       this.ui.revised_io_fileupload.fileupload({
         dataType: 'json',
         url: '/io_import.json',
-        formData: {revised_io_flag: true},
+        formData: {current_order_id: self.model.get('id')},
         dropZone: this.ui.io_fileupload,
         pasteZone: null,
         start: this._uploadStarted,

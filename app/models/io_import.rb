@@ -9,14 +9,14 @@ class IoImport
 :trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
 :is_existing_order, :existing_order, :existing_order_id, :revisions, :revised_io_filename, :original_created_at
 
-  def initialize(file, current_user, revised_io_flag = false)
+  def initialize(file, current_user, current_order_id = nil)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
-    @tempfile.write File.read(file.path)
-    @revised_io_flag      = revised_io_flag
+    @tempfile.write       File.read(file.path)
+    @current_order_id     = current_order_id
 
-    @revised_io_filename = file.original_filename if @revised_io_flag
+    @revised_io_filename = file.original_filename if @current_order_id
 
-    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path, @current_order_id) : IOExcelFileReader.new(file, @current_order_id)
     @original_filename    = file.original_filename
     @current_user         = current_user
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
@@ -33,16 +33,15 @@ class IoImport
     @reader.open
 
     read_advertiser
-
     read_account_contact
     read_media_contact
     read_billing_contact
     read_sales_person
 
-    if (@existing_order = @reader.existing_order?) && @revised_io_flag
+    if @current_order_id
+      @existing_order_id = @current_order_id
       @is_existing_order = true
-      @existing_order_id = @existing_order.id
-
+      @existing_order = Order.find_by(id: @current_order_id)
       @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
       @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
@@ -90,7 +89,7 @@ class IoImport
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
-      @order.source_id = @existing_order.source_id if @is_existing_order
+      @order.source_id = @existing_order.source_id if @current_order_id
 
       @order_name_dup = Order.exists?(name: @order.name)
 
@@ -138,11 +137,9 @@ class IoImport
     end
 
     def parse_revisions
-      existing_order = Order.find_by(name: @reader.order[:name].to_s.strip)
+      return if !@current_order_id || !@existing_order
 
-      return if !existing_order || !@revised_io_flag
-
-      existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
+      @existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
         local_revisions = {}
 
         if @lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s
@@ -189,6 +186,7 @@ class IoImport
           ir[:start_date] == li.start_date.to_date &&
           ir[:end_date]   == li.end_date.to_date
         end if !@inreds.blank?
+
         if li_inreds.blank?
           li.ad_sizes
         else
@@ -329,8 +327,7 @@ class IOReader
   end
 
   def existing_order?
-    @existing_order = Order.find_by(name: order[:name].to_s.strip)
-    IoDetail.find_by(client_order_id: client_order_id.to_s) && @existing_order
+    @existing_order ||= Order.find_by(id: @current_order_id)
   end
 
   def advertiser_name
@@ -394,8 +391,9 @@ class IOExcelFileReader < IOReader
 
   attr_reader :file
 
-  def initialize(file_object)
+  def initialize(file_object, current_order_id = nil)
     @file = file_object
+    @current_order_id = current_order_id
   end
 
   def open
@@ -456,9 +454,11 @@ class IOExcelFileReader < IOReader
   end
 
   def order
-    {
-      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip
-    }
+    if @existing_order
+      { name: @existing_order.name.to_s }
+    else
+      { name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip }
+    end
   end
 
   def start_flight_date
@@ -559,8 +559,9 @@ private
 end
 
 class IOPdfFileReader < IOReader
-  def initialize(file_object)
+  def initialize(file_object, current_order_id = nil)
     @file = file_object
+    @current_order_id = current_order_id
     parse_file
   end
 
@@ -625,9 +626,7 @@ class IOPdfFileReader < IOReader
   end
 
   def order
-    {
-      name: @order_name.to_s.strip
-    }
+    { name: (@existing_order ? @existing_order.name : @order_name).to_s.strip }
   end
 
   def start_flight_date
