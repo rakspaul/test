@@ -514,6 +514,8 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
+      [:selected_geos, :selected_key_values].each{|attr_name| li[:lineitem].delete(attr_name) }
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
@@ -574,6 +576,8 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
+          [:selected_geos, :selected_key_values].each{|attr_name| ad[:ad].delete(attr_name) }
+
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
