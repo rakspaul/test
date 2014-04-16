@@ -29,15 +29,12 @@
               if($.inArray( kv , dfp_kv ) > -1) {
                 item_str += kv + ',';
               } else {
-                if(!is_new_kv)
-                  item_str += '<del>'+kv+'</del>'+',';
-                else
-                  item_str += kv + ',';
+                item_str += isAdPushed ? ('<del>'+kv+'</del>'+',') : (kv + ',');
               }
             });
             result = item_str.slice(0,-1);
         } else {
-            result = '<del>'+selected_value.key_values+'</del>';
+            result = isAdPushed ? ('<del>'+selected_value.key_values+'</del>') : (selected_value.key_values);
         }
       item += '<span class="custom-kvs">'+result+'</span>';
      }

@@ -35,6 +35,7 @@
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
+      this.validateKV = true;
     },
 
     serializeData: function(){
@@ -162,44 +163,55 @@
                    keyvalue_targeting: this.model.get('keyvalue_targeting'),
                    dfp_key_values: this.model.get('dfp_key_values'),
                    frequency_caps: this.model.get('frequency_caps'),
-                   reach_custom_kv: this._getReachCustomKV()
+                   reach_custom_kv: this._getReachCustomKV(),
+                   isAdPushed: this._getAdPushed()
                  };
 
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
-      this.model.attributes.keyvalue_targeting = this._getReachCustomKV().join(',');
+      this.model.attributes.keyvalue_targeting = this._getReachCustomKV();
+      this.model.attributes.isAdPushed = this._getAdPushed();
       this.validateCustomKV();
     },
 
-    _getReachCustomKV: function(){
-      var keyvalue_targeting = this.model.get('keyvalue_targeting'),
-          dfp_key_values = this.model.get('dfp_key_values'),
-          dfp_kv = [],
-          reach_cust_kv = [];
+    _getReachCustomKV: function() {
+      if(this.validateKV) {
+        var keyvalue_targeting = this.model.get('keyvalue_targeting'),
+            dfp_key_values = this.model.get('dfp_key_values'),
+            dfp_kv = [],
+            reach_cust_kv = [];
 
-      if(dfp_key_values) {
-        dfp_kv = dfp_key_values.split(',');
+        if(dfp_key_values && this._getAdPushed()) {
+          dfp_kv = dfp_key_values.split(',');
+        }
+
+        reach_cust_kv = keyvalue_targeting.split(',');
+
+        if(dfp_kv != '') {
+          var dfp_true = _.difference(dfp_kv, reach_cust_kv),
+              dfp_false = _.difference(reach_cust_kv, dfp_kv);
+
+          reach_cust_kv = _.difference(reach_cust_kv, dfp_false).concat(dfp_true);
+        }
+
+        if(reach_cust_kv.length) {
+          reach_cust_kv = reach_cust_kv.join(',');
+        }
+      } else {
+        reach_cust_kv = this.model.get('keyvalue_targeting');
       }
 
-      reach_cust_kv = keyvalue_targeting.split(',');
-
-      if(dfp_kv != '') {
-        var dfp_true = _.difference(dfp_kv, reach_cust_kv);
-        var dfp_false = _.difference(reach_cust_kv, dfp_kv);
-
-        reach_cust_kv = reach_cust_kv.concat(dfp_true);
-
-        dfp_false.forEach(function(kv) {
-          if($.inArray( kv , reach_cust_kv ) > -1) {
-            var index = reach_cust_kv.indexOf(kv);
-            if (index > -1) {
-              reach_cust_kv.splice(index, 1);
-            }
-          }
-        });
-      }
       return reach_cust_kv;
+    },
+
+    _getAdPushed: function() {
+      var dfp_id = this.model.get('ad_dfp_id');
+      if (dfp_id != undefined) {
+        return dfp_id.startsWith("R") ? false : true;
+      }
+
+      return null;
     },
 
     _renderFrequencyCaps: function() {
@@ -329,6 +341,7 @@
     _updateCustomKVs: function(e) {
       this.model.attributes.keyvalue_targeting = e.currentTarget.value;
       this.validateCustomKV();
+      this.validateKV = false;
     },
 
     _closeTargetingDialog: function() {
