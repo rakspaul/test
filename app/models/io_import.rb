@@ -145,11 +145,11 @@ class IoImport
       existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
         local_revisions = {}
 
-        if @lineitems[index][:start_date] != existing_li.start_date
+        if @lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s
           local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
         end
 
-        if @lineitems[index][:end_date] != existing_li.end_date
+        if @lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s
           local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
         end
 
@@ -188,8 +188,8 @@ class IoImport
           ir[:placement] == li.name &&
           ir[:start_date] == li.start_date.to_date &&
           ir[:end_date]   == li.end_date.to_date
-        end
-        if li_inreds.empty?
+        end if !@inreds.blank?
+        if li_inreds.blank?
           li.ad_sizes
         else
           li_inreds.map! do |creative|
