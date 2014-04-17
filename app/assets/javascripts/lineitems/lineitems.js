@@ -35,7 +35,7 @@
       var lineitem = _.clone(this.attributes);
       var frequencyCaps = lineitem['targeting'].get('frequency_caps'),
           uniqFrequencyCaps = [];
-      if (frequencyCaps.toNestedAttributes) {
+      if (frequencyCaps.toNestedAttributes && frequencyCaps.models.length > 0) {
         lineitem['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       } else if (frequencyCaps.length > 0) {
         lineitem['frequency_caps_attributes'] = frequencyCaps;
