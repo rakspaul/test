@@ -36,6 +36,15 @@ json.selected_geos do
   end
 end
 
+json.frequency_caps do
+  json.array! lineitem.frequency_caps.each do |fc|
+    json.id          fc.id
+    json.impressions fc.cap_value
+    json.time_value  fc.time_value
+    json.time_unit   fc.time_unit
+  end
+end
+
 json.alt_ad_id          lineitem.alt_ad_id
 json.keyvalue_targeting lineitem.keyvalue_targeting
 json.type               lineitem.type

@@ -638,9 +638,9 @@
 
     _checkRevisedStatus: function() {
       if(this.model.get('revised_start_date') || this.model.get('revised_end_date') || this.model.get('revised_name') || this.model.get('revised_volume') || this.model.get('revised_rate')) {
-        this.model.set('revised', true);
+        this.model.attributes['revised'] = true;
       } else {
-        this.model.set('revised', false);
+        this.model.attributes['revised'] = false;
       }
     },
 
@@ -704,8 +704,8 @@
       $target_parent.siblings('.revision').hide();
       $editable.filter('[data-name="'+attr_name+'"]').text(revised_value).addClass('revision');
 
-      //this._checkRevisedStatus();
-      $target_parent.hide();
+      this._checkRevisedStatus();
+      $target_parent.remove();
     },
 
     _declineRevision: function(e) {
@@ -713,10 +713,10 @@
       var attr_name = $(e.currentTarget).data('name');
 
       this.model.attributes['revised_'+attr_name] = null;
-      //this._checkRevisedStatus();
+      this._checkRevisedStatus();
 
       $target_parent.siblings('.revision').hide();
-      $target_parent.hide();
+      $target_parent.remove();
     },
 
     events: {
