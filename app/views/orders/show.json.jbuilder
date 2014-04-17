@@ -2,8 +2,8 @@ json.partial! 'orders/order',
   {
     order: @order,
     is_existing_order: false,
-    io_original_filename: @order.io_assets.try(:last).try(:asset_upload_name), 
-    io_created_at: @order.io_assets.try(:last).try(:created_at).to_s,
+    io_original_filename: @order.io_assets.details.try(:last).try(:asset_upload_name), 
+    io_created_at: @order.io_assets.details.try(:last).try(:created_at).to_s,
     revised_io_filename: nil,
     io_detail: @order.io_detail,
     reach_client_id: @order.io_detail.try(:reach_client).try(:id),
@@ -49,6 +49,14 @@ json.reachui_users do
     json.name u.full_name
     json.email u.email
     json.phone u.phone_number
+  end
+end
+
+json.io_creatives do
+  json.array! @order.io_assets.io_creatives do |io_creative|
+    json.asset_id io_creative.id
+    json.original_filename io_creative.try(:asset_upload_name)
+    json.asset_created_at format_datetime(io_creative.created_at)
   end
 end
 

@@ -16,12 +16,15 @@ class Lineitem < ActiveRecord::Base
   has_many :creatives, through: :lineitem_assignments
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
+  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id'
 
   has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
   has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id
   has_and_belongs_to_many :states, join_table: :states_lineitems, association_foreign_key: :state_id
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
+
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
 
   validates :name, :start_date, :end_date, :volume, :rate, presence: true
   validates :order, presence: true
@@ -162,7 +165,7 @@ class Lineitem < ActiveRecord::Base
     def sanitize_attributes
       # number of impressions could come in format like 11,234 which would be just 11 after the typecast
       volume_before_typecast = self.read_attribute_before_type_cast('volume')
-      self[:volume] = volume_before_typecast.gsub(/,|\./, '') if volume_before_typecast.is_a?(String)
+      self[:volume] = volume_before_typecast.gsub(/,/, '').to_f.round if volume_before_typecast.is_a?(String)
 
       # https://github.com/collectivemedia/reachui/issues/136
       self[:name] = name[0..499] if name

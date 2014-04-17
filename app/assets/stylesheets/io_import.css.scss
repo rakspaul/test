@@ -4,6 +4,13 @@ $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: red;
 $magenta_color: #d02898;
+$border_color: #0088cc;
+
+$ad_status_default_color: gray;
+$ad_status_draft_color: black;
+$ad_status_ready_color: #fd9828;
+$ad_status_paused_color: red;
+$ad_status_delivering_color: green;
 
 $wide_input_width: 320px;
 
@@ -35,8 +42,9 @@ $wide_input_width: 320px;
 
 .pushing-status {
   margin-top: 40px;
+  margin-left:10px;
   color: $text_color;
-  width: 160px;
+  width: 150px;
 
   span.failed {
     color: red;
@@ -61,6 +69,43 @@ $wide_input_width: 320px;
     height: 16px;
     float: left;
     margin-right: 5px;
+  }
+
+  .ad-status-container{
+    margin:5px 5px 5px 2px;
+
+    .ad-status-icon{
+      width: 10px;
+      height: 10px;
+      @include border-radius(5px);
+      background-color: $ad_status_default_color;
+      display:inline-block;
+      margin-right:2px;
+    }
+
+    .ad-status-label{
+      color: $ad_status_default_color;
+    }
+  }
+
+  .ad-status-draft{
+    .ad-status-icon{ background-color: $ad_status_draft_color; }
+    .ad-status-label{ color: $ad_status_draft_color; }
+  }
+
+  .ad-status-ready{
+    .ad-status-icon{ background-color: $ad_status_ready_color; }
+    .ad-status-label{ color: $ad_status_ready_color; }
+  }
+
+  .ad-status-paused {
+    .ad-status-icon{ background-color: $ad_status_paused_color; }
+    .ad-status-label{ color: $ad_status_paused_color; }
+  }
+
+  .ad-status-delivering {
+    .ad-status-icon{ background-color: $ad_status_delivering_color; }
+    .ad-status-label{ color: $ad_status_delivering_color; }
   }
 }
 
@@ -248,7 +293,7 @@ $wide_input_width: 320px;
   }
 
   .imported-file-name {
-    width:500px;
+    width:630px;
     border:1px dashed $text_color;
     float:left;
     padding:3px;
@@ -259,12 +304,12 @@ $wide_input_width: 320px;
       float:left;
       padding-left:10px;
       color: $text_color;
-      width: 72%;
 
       label{
         font-size:12px;
         display:inline-block;
         float:left;
+        width: 95px;
       }
 
       span {
@@ -272,17 +317,66 @@ $wide_input_width: 320px;
         color: black;
         font-family: 'Arial', sans-serif;
         display:inline-block;
-        width:260px;
+        width:250px;
         float:left;
         margin-left:10px;
+        &.creative_name {
+          margin-left: 105px;
+        }
       }
     }
 
     .timestamp {
       color: $text_color;
-      float:right;
+      float:left;
       font-size:12px;
     }
+
+    .creatives-txt-uploader {
+      float: right;
+      margin: 5px;
+      min-width: 115px;
+      text-align: right;
+      position: relative;
+
+      a {
+        margin-right: 5px;
+      }
+
+      a.attachment-btn {
+        margin-right: 25px;
+      }
+    }
+
+    .attachment-btn:before {
+      content: url(asset-path('attachment_icon.png'));
+      width: 14px;
+      height: 16px;
+      margin-right: 5px;
+    }
+
+    .creatives-fileupload {
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 0;
+      padding: 0;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0;
+      width: 115px;
+      filter: alpha(opacity=0);
+    }
+
+    ::-webkit-file-upload-button {
+      cursor:pointer ;
+    }
+
+    .upload-creatives-btn {
+      float: left;
+      overflow: hidden;
+    }
+
   }
 
   .trafficker-container {
@@ -645,6 +739,7 @@ $wide_input_width: 320px;
 
     .targeting-options {
       float: left;
+      height:18px;
     }
 
     .targeting-options.highlighted {
@@ -706,9 +801,10 @@ $wide_input_width: 320px;
   text-align: center;
   padding: 5px;
   text-decoration: none;
-  margin-right: 10px;
+  margin: 0 10px 5px 0;
   font-family: 'Armata', sans-serif;
   font-size: 14px;
+  clear:left;
 
   &:hover{
     background-color: lighten($text_color, 10%);
@@ -721,27 +817,7 @@ $wide_input_width: 320px;
   }
 }
 
-.save-note {
-  background-color: $text_color;
-  float: left;
-  padding: 5px;
-  margin-right: 10px;
 
-  &:hover{
-    background-color: lighten($text_color, 10%);
-    cursor: pointer;
-  }
-}
-
-.save-note-btn {
-  background: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
-  width: 16px;
-  height: 20px;
-}
-
-.save-note-btn.spinner {
-  background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
-}
 
 .status-btn-container {
   margin: 0 10px 0 20px;
@@ -787,7 +863,7 @@ $wide_input_width: 320px;
 }
 
 .zip-codes-icon {
-  margin:2px 0 0 3px;
+  margin:2px 0 0 5px;
   float: left;
   width:16px !important;
 }
@@ -815,6 +891,29 @@ $wide_input_width: 320px;
       width: 98%;
       background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
       padding-left:20px;
+    }
+
+    .tab.frequency-caps {
+      margin-left: 10%;
+      input {
+        height: 16px;
+        line-height: 16px;
+        font-size: 13px;
+      }
+      .frequency-impressions {
+        width: 50px;
+      }
+      .frequency-time-value {
+        width: 30px;
+      }
+      .frequency-time-unit {
+        line-height: 16px;
+        font-size: 13px;
+        width: 100px;
+      }
+      .remove-btn {
+        margin: 5px 3px 0 0;
+      }
     }
 
     .mobile-targeting {
@@ -872,16 +971,20 @@ $wide_input_width: 320px;
       margin-left:5px;
     }
 
-    span.keyvalue_targeting {
-      margin-left: 5px;
+    .keyvalue_targeting {
       letter-spacing: normal;
+      @include word-break(break-all);
+
+      .custom-kv{
+        margin-left:5px;
+      }
     }
 
     .custom-kv-container {
       margin-top:0px;
     }
 
-    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container {
+    .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container {
       float:left;
       margin-left: 5px;
 
@@ -889,13 +992,7 @@ $wide_input_width: 320px;
         clear: both;
         float: left;
         width: 100%;
-        white-space: -moz-pre-wrap !important;  /* Mozilla, since 1999 */
-        white-space: -pre-wrap;      /* Opera 4-6 */
-        white-space: -o-pre-wrap;    /* Opera 7 */
-        white-space: pre-wrap;       /* css-3 */
-        word-wrap: break-word;       /* Internet Explorer 5.5+ */
-        word-break: break-all;
-        white-space: normal;
+        @include word-break(break-all);
       }
 
       .tgt-item-caption {
@@ -906,6 +1003,10 @@ $wide_input_width: 320px;
       .remove-btn {
         margin-left: 3px;
       }
+    }
+
+    .tgt-item-zip-container{
+      margin-left:3px;
     }
 
     .zip-codes-targeting {
@@ -965,6 +1066,11 @@ $wide_input_width: 320px;
       margin-top: 0px;
       margin-right: 10px;
     }
+  }
+
+  .operation {
+    color: $text_color;
+    cursor: pointer;
   }
 }
 
@@ -1123,10 +1229,11 @@ table.creatives-content {
 
 .order-notes {
   .activity-log-header {
-    background-color: $ad_bg_color;
     float: left;
     width: 100%;
     padding: 5px;
+    border: 1px dashed $border_color;
+    margin-bottom: 5px;
   }
 
   .note-container {
@@ -1168,6 +1275,7 @@ table.creatives-content {
     color: $text_color;
     width: 20%;
     float: left;
+    line-height:14px;
 
     input {
       margin-top: -3px;
@@ -1183,42 +1291,17 @@ table.creatives-content {
     }
   }
 
-  .attachment-btn:before {
-    content: url(asset-path('attachment_icon.png'));
-    width: 14px;
-    height: 16px;
-    margin-right: 5px;
-  }
+  .notify-by-email{
+    line-height:22px;
 
-  .creatives-fileupload {
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
-    cursor: pointer;
-    opacity: 0;
-    width: 115px;
-    filter: alpha(opacity=0);
-  }
-
-  ::-webkit-file-upload-button {
-    cursor:pointer ;
-  }
-
-  .upload-creatives-btn {
-    float: left;
-    overflow: hidden;
-  }
-
-  .notify-by-email:before {
-    content: url(asset-path('email_icon.png'));
-    width: 16px;
-    height: 12px;
-    float: left;
-    margin-right: 5px;
-    margin-left: 5px;
+    &::before {
+      content: url(asset-path('email_icon.png'));
+      width: 16px;
+      height: 12px;
+      float: left;
+      margin-right: 5px;
+      margin-left: 5px;
+    }
   }
 
   .notify-users-list {
@@ -1226,18 +1309,41 @@ table.creatives-content {
     float: left;
     width: 80%;
 
-    .top {
+    .notify-users-switch{
       float:left;
-      width:100%;
+      width:16px;
+      margin:2px 0 0 0;
+    }
+
+    .top {
+      width:90%;
 
       input {
         float: left;
+        margin: 2px 0 0 0;
       }
     }
-  }
 
-  .ordersnotes textarea {
-    background-color: $ad_bg_color;
+    .add-user-btn{
+      margin-top:-20px;
+      float:right;
+
+      .add-user-to-notify-list, .close-users-notify-list {
+        float: left;
+        margin-left: 4px;
+        cursor: pointer;
+      }
+
+      .add-user-to-notify-list-btn, .close-users-notify-list-btn {
+        @include rotate(45deg);
+        float: left;
+        cursor: pointer;
+      }
+
+      .close-users-notify-list-btn {
+        @include rotate(0deg);
+      }
+    }
   }
 
   .users-to-notify {
@@ -1263,9 +1369,9 @@ table.creatives-content {
     }
 
     .typeahead-container {
-      width: 300px;
+      width: 350px;
       float: left;
-      margin: -5px 14px 0 14px;
+      margin: 5px 14px 5px 14px;
 
       .input-extralarge {
         width: 300px;
@@ -1275,30 +1381,19 @@ table.creatives-content {
         width: 295px;
         height: 60px;
       }
+
+      ul.select2-choices{
+        li{
+          margin: 3px 5px 3px 5px;
+          float:none;
+        }
+      }
     }
 
     .twitter-typeahead input.tt-query {
       height: 11px;
       font-size: 14px;
       padding: 8px 5px;
-    }
-
-    .add-user-to-notify-list, .close-users-notify-list {
-      float: left;
-      margin-left: 4px;
-      cursor: pointer;
-    }
-
-    .add-user-to-notify-list-btn, .close-users-notify-list-btn {
-      margin-right: 4px;
-      margin-left: 16px;
-      @include rotate(45deg);
-      float: left;
-      cursor: pointer;
-    }
-
-    .close-users-notify-list-btn {
-      @include rotate(0deg);
     }
   }
 }

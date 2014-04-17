@@ -12,22 +12,15 @@ class Admin::BlockSitesController < ApplicationController
   end
 
   def get_blacklisted_advertisers
-    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block.limit(500)
     @blacklisted_advertisers = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
   end
 
   def get_blacklisted_advertiser_groups
-    @blacklisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_block
     @blacklisted_advertiser_groups = get_blacklisted_advertiser_and_groups_on_site('BlockedAdvertiserGroup', params['site_id']) if params['site_id'].present?
   end
 
   def get_whitelisted_advertiser
-    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock.limit(500)
     @whitelisted_advertisers = get_whitelisted_advertiser_on_site('BlockedAdvertiser', params['site_id']) if params['site_id'].present?
-  end
-
-  def get_whitelisted_advertiser_groups
-    @whitelisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_unblock
   end
 
   def get_blacklisted_advertiser_and_groups_on_site(model, site_ids)
@@ -200,6 +193,54 @@ class Admin::BlockSitesController < ApplicationController
       ba = BlockedAdvertiser.of_network(current_network).for_advertiser(advertiser_ids).block_or_pending_block
       advertiser_with_default_blocks = advertiser_ids - ba.pluck("advertiser_id").uniq
       render json: {default_block: advertiser_with_default_blocks}
+    end
+  end
+
+  def blacklisted_advertisers_to_commit
+    @fullcount = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block.count
+    @blacklisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_block
+    if params[:pagesize] == "0"
+      @pagestart = 0
+    else
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
+      @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
+      @blacklisted_advertisers = @blacklisted_advertisers.limit(limit).offset(@pagestart)
+    end
+  end
+
+  def whitelisted_advertisers_to_commit
+    @fullcount = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock.count
+    @whitelisted_advertisers = BlockedAdvertiser.of_network(current_network).joins(:site, :advertiser).where(user: current_user).order('sites.name asc, network_advertisers.name asc').pending_unblock
+    if params[:pagesize] == "0"
+      @pagestart = 0
+    else
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
+      @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
+      @whitelisted_advertisers = @whitelisted_advertisers.limit(limit).offset(@pagestart)
+    end
+  end
+
+  def blacklisted_advertiser_groups_to_commit
+    @fullcount = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_block.count
+    @blacklisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_block
+    if params[:pagesize] == "0"
+      @pagestart = 0
+    else
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
+      @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
+      @blacklisted_advertiser_groups = @blacklisted_advertiser_groups.limit(limit).offset(@pagestart)
+    end
+  end
+
+  def whitelisted_advertiser_groups_to_commit
+    @fullcount = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_unblock.count
+    @whitelisted_advertiser_groups = BlockedAdvertiserGroup.of_network(current_network).joins(:site, :advertiser_block).where(user: current_user).order('sites.name asc, network_advertiser_blocks.name asc').pending_unblock
+    if params[:pagesize] == "0"
+      @pagestart = 0
+    else
+      limit      = (params[:pagesize].present? ? params[:pagesize].to_i : 500)
+      @pagestart = (params[:pagestart].present? ? params[:pagestart].to_i  : 0)
+      @whitelisted_advertiser_groups = @whitelisted_advertiser_groups.limit(limit).offset(@pagestart)
     end
   end
 

@@ -24,3 +24,10 @@
 config/rabbitmq.yml
 
 app/assets/images/icons-*
+
+/.idea
+
+# Vagrant related files
+/vagrant/.vagrant
+/vagrant/cookbooks
+/vagrant/tmp

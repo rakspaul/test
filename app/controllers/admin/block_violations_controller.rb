@@ -4,21 +4,29 @@ class Admin::BlockViolationsController < ApplicationController
   layout "admin"
   respond_to :html
 
+  add_crumb("Block Validation Report") {|instance| instance.send :admin_block_violations_path}
+
   def index
     sort_direction = params[:sort_direction] ? params[:sort_direction] : "desc"
     sort_column = params[:sort_column] ? params[:sort_column] : "reach_block_violations.created_at"
+    site = params[:site] ? params[:site] : ""
+    advertiser = params[:advertiser] ? params[:advertiser] : ""
+    start_date = params[:start_date] ? params[:start_date].to_date.beginning_of_day : (Date.today - 6.days).beginning_of_day
+    end_date = params[:end_date] ? params[:end_date].to_date.end_of_day : Date.today.end_of_day
 
     if sort_column == "site"
       sort_column = "sites.name"
     elsif sort_column == "advertiser"
       sort_column = "network_advertisers.name"
-    elsif sort_column == "ad"
-      sort_column = "ads.description"
     elsif sort_column == "job_run_date"
       sort_column = "reach_block_violations.created_at"
     end
 
-    block_violations = BlockViolations.includes(:advertiser).joins(:site, :ad).order("#{sort_column} #{sort_direction}")
+    block_violations = BlockViolations.joins(:advertiser, :site).order("#{sort_column} #{sort_direction}")
+                       .filter_by_date(start_date, end_date)
+                       .filter_by_site(site)
+                       .filter_by_advertiser(advertiser)
+
     @block_violations = Kaminari.paginate_array(block_violations).page(params[:page]).per(100);
   end
 end

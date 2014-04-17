@@ -1,3 +1,20 @@
+.header-filter
+  %form.filter-form
+    .pure-u
+      #block_violation_date_picker.block-violation-date-picker
+        %i.icon-calendar
+        %span
+        %i.icon-caret-down
+    .pure-u
+      .control-group.search-control
+        .controls
+          %input{type: "text", placeholder: "Search Advertiser", id: "search_advertiser"}
+    .pure-u
+      .control-group.search-control
+        .controls
+          %input{type: "text", placeholder: "Search Site", id: "search_site"}
+    .pure-u
+      %a.btn#btn_search Search
 %table.admin-block-violations-table
   %thead
     %tr
@@ -41,22 +58,6 @@
           .pure-u
             #dfp_state.actions-container
               %i.icon-sort
-      %th
-        .pure-g.header-container
-          .pure-u.title-container
-            .title
-              Ad Name
-          .pure-u
-            #ad.actions-container
-              %i.icon-sort
-      %th
-        .pure-g.header-container
-          .pure-u.title-container
-            .title
-              DFP Ad Id
-          .pure-u
-            #ad_id.actions-container
-              %i.icon-sort
   %tbody{:id => "block_violations"}
     =render "block_violations_table",:block_violations => @block_violations
 
@@ -78,15 +79,93 @@
     filterRecords();
   });
 
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    $('body').tooltip({
+      selector: '[rel=tooltip]'
+    });
+
+    $('#block_violation_date_picker span').html(moment().subtract('days', 6).format('YYYY-MM-DD') + ' to ' + moment().format('YYYY-MM-DD'));
+
+    $('#block_violation_date_picker').daterangepicker({
+    ranges: {
+       'Yesterday': [moment().subtract('days', 1), moment().subtract('days', 1)],
+       'Last 7 Days': [moment().subtract('days', 6), moment()],
+       'Last 30 Days': [moment().subtract('days', 29), moment()],
+       'This Month': [moment().startOf('month'), moment().endOf('month')],
+       'Last Month': [moment().subtract('month', 1).startOf('month'), moment().subtract('month', 1).endOf('month')]
+    },
+    format: 'YYYY-MM-DD',
+    separator: ' to ',
+    startDate: moment().subtract('days', 6),
+    endDate: moment(),
+    showWeekNumbers: true,
+    dateLimit: false,
+    locale: {
+      clearLabel: 'Close'
+    }
+    },
+    function(start, end) {
+      if(start && end){
+        $('#block_violation_date_picker span').html(start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+        filterRecords();
+      }
+    });
+  });
+
+  $('#search_site').keypress(function(e) {
+    if ( e.which == 13 ) {
+      e.preventDefault();
+      filterRecords();
+    }
+  });
+
+  $('#search_advertiser').keypress(function(e) {
+    if ( e.which == 13 ) {
+      e.preventDefault();
+      filterRecords();
+    }
+  });
+
+  $('#btn_search').click(function(e) {
+    filterRecords();
+  });
+
   function filterRecords() {
-    var sortParams = getSortParams();
+    var searchParams = getSearchParams(),
+    sortParams = getSortParams();
     $('.loader').show();
 
-    $.ajax({url:'/admin/block_violations', data: sortParams, dataType: 'script'})
+    $.ajax({url:'/admin/block_violations', data: $.extend(searchParams, sortParams), dataType: 'script'})
     .done(function(){
       $('.loader').hide();
     });
   };
+
+  function getSearchParams() {
+    var params = {},
+    site = $('#search_site').val().trim(),
+    advertiser = $('#search_advertiser').val().trim(),
+    daterange = $('#block_violation_date_picker span').text().split('to');
+    startDate = daterange[0].trim();
+    endDate = daterange[1].trim();
+
+    if(site) {
+      params.site = site;
+    }
+
+    if(advertiser) {
+      params.advertiser = advertiser;
+    }
+
+    if(startDate && endDate){
+      params.start_date= startDate;
+      params.end_date = endDate;
+    }
+
+    return params;
+  }
 
   function getSortParams() {
     var params = {},

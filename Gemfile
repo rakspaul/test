@@ -57,6 +57,8 @@ gem 'paper_trail', :git => 'https://github.com/airblade/paper_trail.git'#, :bran
 # State machine
 gem 'aasm'
 
+gem 'diff-lcs', require: 'diff/lcs'
+
 # Easy to use, feature complete Ruby client for RabbitMQ 2.0 and later versions.
 gem 'bunny'
 

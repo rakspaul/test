@@ -9,6 +9,7 @@
         dmas_list: [],
         audience_groups: [],
         selected_zip_codes: [],
+        frequency_caps: [],
         keyvalue_targeting: '',
         type: 'Display'
       }
@@ -16,7 +17,12 @@
 
     toJSON: function() {
       return { targeting: _.clone(_.omit(this.attributes, 'dmas_list', 'audience_groups')) };
-    }
+    },
+
+    setDirty: function() {
+      // we set class flag dirty to reload LineItemList after save
+      ReachUI.LineItems.LineItemList.setDirty(true);
+    },
   });
 
   Targeting.TargetingView = Backbone.Marionette.ItemView.extend({
@@ -28,6 +34,7 @@
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
+      this.frequencyCapListView = null;
     },
 
     serializeData: function(){
@@ -37,6 +44,7 @@
       data.selected_geos = this.model.get('selected_geos');
       data.selected_zip_codes = this.model.get('selected_zip_codes');
       data.audience_groups = this.model.get('audience_groups');
+      data.frequency_caps = this.model.get('frequency_caps');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       data.type = this.model.get('type');
       return data;
@@ -46,7 +54,7 @@
       var self = this;
 
       this.show_custom_key_values = false;
-      
+
       this.$el.find('.tab.geo input').on('keyup', function(ev) {
         $.getJSON('/dmas/search_geo.json?search='+$(this).val(), function(geos) {
           if(geos.length > 0) {
@@ -58,13 +66,13 @@
                   is_checked = true;
                 }
               });
-              
+
               var title = [];
               title.push(geos[i].name);
               if(geos[i].region_name) {
                 title.push(geos[i].region_name);
               }
-              
+
               geos_html += '<input type="checkbox" name="geo" '+(is_checked ? 'checked="checked"' : '')+' value="'+geos[i].id+'|'+geos[i].type+'|'+title.join('/')+'"/>';
               geos_html += geos[i].name;
 
@@ -111,6 +119,7 @@
       });
       this.$el.find('.key-values .chosen-choices input').width('200px');
 
+      this._renderFrequencyCaps();
       this._renderSelectedTargetingOptions();
       this.validateCustomKV();
     },
@@ -136,12 +145,30 @@
       this.$el.find('.tab.zip-codes').show();
     },
 
+    _showFrequencyCapsTab: function() {
+      this.$el.find('.tab').hide();
+      this.$el.find('.nav-tabs li').removeClass('active');
+      this.$el.find('.nav-tabs li.frequency-caps').addClass('active');
+      this.$el.find('.tab.frequency-caps').show();
+    },
+
     _renderSelectedTargetingOptions: function() {
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting') };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps') };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
       this.validateCustomKV();
+    },
+
+    _renderFrequencyCaps: function() {
+      var frequencyCaps = this.model.get('frequency_caps');
+      var self = this;
+
+      this.frequencyCapListView = new Targeting.FrequencyCapListView({
+        collection:  new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps),
+        parent_view: self
+      });
+      this.ui.frequency_caps.html(this.frequencyCapListView.render().el);
     },
 
     _addKVToSelectedKeyValues: function(selected) {
@@ -261,6 +288,9 @@
 
     _closeTargetingDialog: function() {
       if(! this.errors_in_kv) {
+        if(this.$el.find('.custom-kvs-field').is(':visible'))
+          this.$el.find('.custom-regular-keyvalue-btn').trigger('click');
+
         this.options.parent_view._toggleTargetingDialog();
         this._renderSelectedTargetingOptions();
       }
@@ -319,8 +349,20 @@
       this.$el.find('.tab.zip-codes textarea').val(this.model.attributes.selected_zip_codes.join(', '));
     },
 
+    _removeFrequencyCap: function(e) {
+      var frequencyCapToDelete = $(e.currentTarget).data('frequency-cap-id');
+      var model = this.frequencyCapListView.collection.get(frequencyCapToDelete);
+
+      if (!model) {
+        model = model.getByCid(frequencyCapToDelete);
+      }
+      model.trigger('frequency_cap:remove', model);
+      this._renderSelectedTargetingOptions();
+    },
+
     ui: {
-      kv_type_switch: '.custom-regular-keyvalue-btn span'
+      kv_type_switch: '.custom-regular-keyvalue-btn span',
+      frequency_caps:  '.tab.frequency-caps'
     },
 
     events: {
@@ -330,14 +372,86 @@
       'click .nav-tabs > .key-values': '_showKeyValuesTab',
       'click .nav-tabs > .geo': '_showGEOTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
+      'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
-      'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_showRemoveTgtBtn',
-      'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container': '_hideRemoveTgtBtn',
+      'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_showRemoveTgtBtn',
+      'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_hideRemoveTgtBtn',
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
-      'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected'
+      'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
+      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap'
     }
   });
+
+  Targeting.FrequencyCapView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/targeting/frequency_cap'],
+    className: 'frequency-cap',
+    bindings: {
+      '.frequency-impressions': 'impressions',
+      '.frequency-time-value':  'time_value',
+      '.frequency-time-unit': {
+        observe: 'time_unit',
+        selectOptions: {
+          collection: function() {
+            return _.map(ReachUI.FrequencyCaps.FrequencyCap.timeUnits, function(unit, index) {
+              return { value: index, label: unit };
+            });
+          }
+        }
+      }
+    },
+
+    events: {
+      'click .remove-btn': '_removeFrequencyCap'
+    },
+
+    onRender: function() {
+      this.stickit();
+    },
+
+    _removeFrequencyCap: function(el) {
+      this.model.trigger('frequency_cap:remove', this.model);
+    }
+  });
+
+  Targeting.FrequencyCapListView = Backbone.Marionette.CompositeView.extend({
+    itemView: Targeting.FrequencyCapView,
+    itemViewContainer: '.frequency-caps-container',
+    template: JST['templates/targeting/frequency_caps_container'],
+    className: 'frequency-caps',
+
+    events: {
+      'click .add-frequency-cap-link': '_addNewFrequencyCap',
+      'change': '_updateParentModel'
+    },
+
+    initialize: function() {
+      var self = this;
+
+      this.collection.on('frequency_cap:remove', function(el) {
+        self.collection.remove(el);
+        self._updateParentModel();
+        self.options.parent_view._renderSelectedTargetingOptions();
+      });
+    },
+
+    _addNewFrequencyCap: function() {
+      this.collection.add(new ReachUI.FrequencyCaps.FrequencyCap());
+      this._updateParentModel();
+    },
+
+    _updateParentModel: function() {
+      this.options.parent_view.model.set({ 'frequency_caps': this.collection }, { silent: true });
+      this._setTargetingAsDirty();
+    },
+
+    _setTargetingAsDirty: function() {
+      if (this.options.parent_view.model.setDirty) {
+        this.options.parent_view.model.setDirty();
+      }      
+    }
+  });
+
 })(ReachUI.namespace("Targeting"));

@@ -16,6 +16,7 @@ json.array! @ads do |ad|
     json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
     json.type ad.type
     json.media_type_id ad.media_type_id
+    json.status Ad::STATUS[ad.status.downcase.to_sym] unless ad.status.blank?
   end
 
   json.creatives do
@@ -67,6 +68,15 @@ json.array! @ads do |ad|
       json.id ag.id
       json.title ag.name
       json.key_values ag.key_values
+    end
+  end
+
+  json.frequency_caps do
+    json.array! ad.frequency_caps do |fc|
+      json.id          fc.id
+      json.impressions fc.cap_value
+      json.time_value  fc.time_value
+      json.time_unit   fc.time_unit
     end
   end
 end

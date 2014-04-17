@@ -3,7 +3,7 @@ FactoryGirl.define do
     name "TWCAuto"
     network { FactoryGirl.singleton :network }
     source_id "R_#{SecureRandom.uuid}"
-    data_source_id 1
+    data_source { DataSource.first || FactoryGirl.singleton(:data_source) }
     advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
@@ -105,11 +105,12 @@ FactoryGirl.define do
     keyvalue_targeting "12345, 56789"
     order
     network { FactoryGirl.singleton :network }
-    media_type { FactoryGirl.singleton :display_media_type }
+    media_type { MediaType.first || FactoryGirl.singleton(:display_media_type) }
   end
 
   factory :io_asset do
     order
+    asset_type "io"
     asset_upload_name "Collective_IO.xlsx"
     asset_path Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx').to_s
   end

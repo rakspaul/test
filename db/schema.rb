@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130712064652) do
+ActiveRecord::Schema.define(version: 20140320172427) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "accept_decline_creative_jobs", force: true do |t|
     t.integer  "creative_id"
@@ -54,7 +57,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "data_source_id",       default: 1, null: false
   end
 
-  add_index "activity_categories", ["network_id", "source_id"], name: "index_activity_categories_on_network_id_and_source_id", unique: true, using: :btree
+  add_index "activity_categories", ["data_source_id", "source_id", "network_id"], name: "index_activity_categories_on_trinity", unique: true, using: :btree
   add_index "activity_categories", ["type", "sub_type"], name: "index_activity_categories_on_type_and_sub_type", using: :btree
 
   create_table "ad_group_discrepency_log", force: true do |t|
@@ -72,13 +75,13 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "ad_merge_temp_1", id: false, force: true do |t|
-    t.integer "order_id"
-    t.integer "ad_id"
+    t.string  "order_id"
+    t.text    "ad_id"
     t.text    "name"
     t.string  "cost_type",   limit: 10
     t.float   "rate"
     t.integer "ad_group",    limit: 8
-    t.integer "creative_id"
+    t.string  "creative_id"
   end
 
   create_table "ad_order_adv", id: false, force: true do |t|
@@ -103,16 +106,65 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "ad_pricings", ["ad_id"], name: "ad_pricings_ad_id_unique", unique: true, using: :btree
   add_index "ad_pricings", ["ad_id"], name: "fki_ad_pricings_ad_id", using: :btree
-  add_index "ad_pricings", ["network_id", "source_id"], name: "index_ad_pricings_on_network_id_and_source_id", unique: true, using: :btree
+  add_index "ad_pricings", ["data_source_id", "source_id", "network_id"], name: "index_ad_pricings_on_trinity", unique: true, using: :btree
+
+  create_table "ad_pricings_rom", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "ad_id"
+    t.string   "pricing_type",   limit: 12
+    t.float    "rate"
+    t.integer  "quantity"
+    t.float    "value"
+    t.string   "source_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "is_flat_fee"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
+  end
+
+  create_table "ad_rm_150_upd", id: false, force: true do |t|
+    t.integer "ad_id"
+    t.integer "rich_media_type_id"
+  end
+
+  create_table "ad_rm_6", id: false, force: true do |t|
+    t.integer "ad_id"
+    t.integer "rich_media_type_id"
+  end
+
+  create_table "ad_rm_6_upd", id: false, force: true do |t|
+    t.integer "ad_id"
+    t.integer "rich_media_type_id"
+  end
+
+  create_table "adapt_payouts_backup", id: false, force: true do |t|
+    t.string  "site_name",  limit: nil
+    t.integer "site_id"
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.float   "rate"
+    t.string  "type",       limit: nil
+    t.string  "z_site",     limit: nil
+    t.string  "slot_size",  limit: 12
+  end
+
+  create_table "adcouncil_segments", id: false, force: true do |t|
+    t.text    "name"
+    t.integer "id"
+    t.integer "dp_id"
+  end
 
   create_table "adj_stg_multi_purged", id: false, force: true do |t|
     t.integer "id",                        limit: 8
     t.integer "arm_billing_period_id",     limit: 8
     t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id"
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "advertiser_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.string  "creative_name",             limit: 512
     t.string  "third_party_creative_id",   limit: 512
     t.string  "third_party_creative_name", limit: 512
@@ -141,13 +193,13 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "adjuster_data_multi", ["adjuster_data_staging_id"], name: "adjuster_data_multi_adjuster_data_staging_id_key", unique: true, using: :btree
 
   create_table "adjuster_data_staging", id: false, force: true do |t|
-    t.integer "id",                        limit: 8,   null: false
+    t.integer "id",                        limit: 8,   default: "nextval('adjuster_data_staging_id_seq'::regclass)", null: false
     t.integer "arm_billing_period_id",     limit: 8
     t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id",                         null: false
-    t.integer "order_id",                              null: false
-    t.integer "ad_id",                                 null: false
-    t.integer "creative_id",                           null: false
+    t.string  "advertiser_id",                                                                                       null: false
+    t.string  "order_id",                                                                                            null: false
+    t.string  "ad_id",                                                                                               null: false
+    t.string  "creative_id",                                                                                         null: false
     t.string  "creative_name",             limit: 512
     t.string  "third_party_creative_id",   limit: 512
     t.string  "third_party_creative_name", limit: 512
@@ -167,10 +219,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "id",                        limit: 8
     t.integer "arm_billing_period_id",     limit: 8
     t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id"
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "advertiser_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.string  "creative_name",             limit: 512
     t.string  "third_party_creative_id",   limit: 512
     t.string  "third_party_creative_name", limit: 512
@@ -189,10 +241,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "id",                        limit: 8
     t.integer "arm_billing_period_id",     limit: 8
     t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id"
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "advertiser_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.string  "creative_name",             limit: 512
     t.string  "third_party_creative_id",   limit: 512
     t.string  "third_party_creative_name", limit: 512
@@ -210,10 +262,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "id",                        limit: 8
     t.integer "arm_billing_period_id",     limit: 8
     t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id"
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "advertiser_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.string  "creative_name",             limit: 512
     t.string  "third_party_creative_id",   limit: 512
     t.string  "third_party_creative_name", limit: 512
@@ -255,41 +307,49 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "admin_categories_networks", ["network_id"], name: "index_acn_on_n_id", using: :btree
 
   create_table "ads", force: true do |t|
-    t.string   "description",                                            null: false
-    t.integer  "order_id",                                               null: false
-    t.string   "source_id",                                              null: false
+    t.string   "description",                                             null: false
+    t.integer  "order_id",                                                null: false
+    t.string   "source_id",                                               null: false
     t.string   "ad_type",                   limit: 32
-    t.string   "size",                      limit: 12,                   null: false
+    t.string   "size",                      limit: 12,                    null: false
     t.float    "rate"
     t.string   "cost_type",                 limit: 10
     t.datetime "start_date"
     t.datetime "end_date"
-    t.boolean  "delivered",                              default: false, null: false
+    t.boolean  "delivered",                               default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "designated_market_area_id"
     t.integer  "channel_id"
     t.integer  "site_region_target_id"
     t.integer  "tgt_type_id"
-    t.boolean  "active",                                 default: true,  null: false
+    t.boolean  "active",                                  default: true,  null: false
     t.integer  "geo_type_id"
     t.integer  "mkt_type_id"
-    t.boolean  "ad_group_verified",                      default: false, null: false
+    t.boolean  "ad_group_verified",                       default: false, null: false
     t.string   "alt_ad_id"
     t.integer  "priority"
     t.boolean  "site_targeting_included"
     t.integer  "ad_group_id",               limit: 8
-    t.string   "keyvalue_targeting",        limit: 9120
+    t.string   "keyvalue_targeting",        limit: 32000
     t.integer  "appnexus_id"
     t.integer  "network_id"
-    t.integer  "data_source_id",                         default: 1,     null: false
+    t.integer  "data_source_id",                          default: 1,     null: false
     t.integer  "rate_type_id"
     t.integer  "media_type_id"
+    t.integer  "io_lineitem_id"
+    t.string   "nielsen_campaign_id"
+    t.text     "reach_custom_kv_targeting"
+    t.integer  "format_type_id"
+    t.integer  "screen_type_id"
+    t.integer  "objective_id"
+    t.string   "status"
   end
 
   add_index "ads", ["ad_group_id"], name: "ads_ad_group_index", using: :btree
   add_index "ads", ["appnexus_id"], name: "unique_ads_appnexus_id", unique: true, using: :btree
-  add_index "ads", ["network_id", "source_id"], name: "index_ads_on_network_id_and_source_id", unique: true, using: :btree
+  add_index "ads", ["data_source_id", "source_id", "network_id"], name: "index_ads_on_trinity", unique: true, using: :btree
+  add_index "ads", ["io_lineitem_id"], name: "index_ads_on_io_lineitem_id", using: :btree
   add_index "ads", ["order_id"], name: "fki_ads_order_id", using: :btree
 
   create_table "ads_ad_limits", id: false, force: true do |t|
@@ -310,6 +370,65 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   add_index "ads_channels", ["ad_id", "channel_id"], name: "index_ads_channels_on_ad_id_and_channel_id", using: :btree
+
+  create_table "ads_custom", id: false, force: true do |t|
+    t.string  "description"
+    t.integer "id",                limit: 8
+    t.integer "imps",              limit: 8
+    t.integer "media_type_id_old"
+    t.integer "media_type_id_new"
+    t.string  "creative_size",     limit: 50
+  end
+
+  create_table "ads_custom_2", id: false, force: true do |t|
+    t.string  "description"
+    t.integer "id",                limit: 8
+    t.integer "media_type_id_old"
+    t.integer "media_type_id_new"
+  end
+
+  create_table "ads_reach_audience_groups", force: true do |t|
+    t.integer "ad_id",                   null: false
+    t.integer "reach_audience_group_id", null: false
+  end
+
+  add_index "ads_reach_audience_groups", ["ad_id", "reach_audience_group_id"], name: "index_ads_reach_audience_groups_on_ad_id_and_rag_id", using: :btree
+
+  create_table "ads_rom", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "description"
+    t.integer  "order_id"
+    t.string   "source_id"
+    t.string   "ad_type",                   limit: 32
+    t.string   "size",                      limit: 12
+    t.float    "rate"
+    t.string   "cost_type",                 limit: 10
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "delivered"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "designated_market_area_id"
+    t.integer  "channel_id"
+    t.integer  "site_region_target_id"
+    t.integer  "tgt_type_id"
+    t.boolean  "active"
+    t.integer  "geo_type_id"
+    t.integer  "mkt_type_id"
+    t.boolean  "ad_group_verified"
+    t.string   "alt_ad_id"
+    t.integer  "priority"
+    t.boolean  "site_targeting_included"
+    t.integer  "ad_group_id",               limit: 8
+    t.string   "keyvalue_targeting",        limit: 32000
+    t.integer  "appnexus_id"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
+    t.integer  "rate_type_id"
+    t.integer  "media_type_id"
+    t.integer  "io_lineitem_id"
+    t.string   "nielsen_campaign_id"
+  end
 
   create_table "ads_test", id: false, force: true do |t|
     t.integer  "id"
@@ -347,6 +466,21 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   add_index "adv_cats", ["network_id", "category"], name: "index_adv_cats_on_network_id_and_category", unique: true, using: :btree
+
+  create_table "adverify_orders", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name",       limit: nil
+    t.integer "adv_id"
+    t.string  "adv_name",   limit: nil
+    t.date    "start_date"
+  end
+
+  create_table "advertiser_types", force: true do |t|
+    t.string   "name",       null: false
+    t.integer  "network_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "advertisers_audience_report_meta_data", id: false, force: true do |t|
     t.integer "audience_report_meta_data_id"
@@ -634,17 +768,94 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "amp2_zones", ["source_id"], name: "index_amp2_zones_on_source_id", using: :btree
 
   create_table "amp_data_staging", id: false, force: true do |t|
-    t.integer "id",                    limit: 8, null: false
+    t.integer "id",                    limit: 8, default: "nextval('amp_data_staging_id_seq'::regclass)", null: false
     t.integer "arm_billing_period_id", limit: 8
-    t.integer "amp_ad_id",                       null: false
-    t.integer "amp_creative_id",                 null: false
-    t.integer "source_ad_id"
-    t.integer "source_creative_id"
+    t.integer "amp_ad_id",                                                                                null: false
+    t.integer "amp_creative_id",                                                                          null: false
+    t.string  "source_ad_id"
+    t.string  "source_creative_id"
     t.integer "impressions",           limit: 8
     t.integer "clicks",                limit: 8
   end
 
   add_index "amp_data_staging", ["id"], name: "amp_data_staging_id_key", unique: true, using: :btree
+
+  create_table "amp_data_tmp", id: false, force: true do |t|
+    t.date    "report_date",                null: false
+    t.integer "amp_ad_id",       limit: 8,  null: false
+    t.integer "amp_creative_id", limit: 8,  null: false
+    t.string  "impressions",     limit: 32
+    t.string  "clicks",          limit: 32
+  end
+
+  create_table "amp_order_attachments", force: true do |t|
+    t.string   "original_filename"
+    t.string   "content_type"
+    t.string   "file_hash"
+    t.string   "upload_type"
+    t.integer  "user_id"
+    t.integer  "amp_order_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  create_table "amp_order_notes", force: true do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.integer  "amp_order_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  create_table "amp_order_pixels", force: true do |t|
+    t.integer "amp_order_id", null: false
+    t.integer "pixel_id"
+    t.string  "pixel_type",   null: false
+    t.string  "pixel_text"
+  end
+
+  add_index "amp_order_pixels", ["amp_order_id", "pixel_id", "pixel_type", "pixel_text"], name: "amp_order_pixel_unique_index", unique: true, using: :btree
+  add_index "amp_order_pixels", ["amp_order_id"], name: "index_amp_order_pixels_on_amp_order_id", using: :btree
+
+  create_table "amp_orders", force: true do |t|
+    t.integer  "advertiser_id"
+    t.integer  "opportunity_id"
+    t.integer  "frequency_cap_num"
+    t.integer  "frequency_cap_every"
+    t.string   "frequency_cap_units"
+    t.string   "client_order_num"
+    t.string   "third_party_login"
+    t.string   "third_party_username"
+    t.string   "third_party_password"
+    t.string   "performance_ad_server_username"
+    t.string   "performance_ad_server_password"
+    t.text     "competitors"
+    t.text     "competitor_pricing_comparison"
+    t.text     "plan_performance_note"
+    t.string   "video_third_party_login"
+    t.string   "video_third_party_username"
+    t.string   "video_third_party_password"
+    t.string   "mobile_third_party_login"
+    t.string   "mobile_third_party_username"
+    t.string   "mobile_third_party_password"
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
+    t.string   "status",                         default: "Pending Information"
+    t.string   "roi_metric_override"
+    t.string   "roi_goal_override"
+    t.boolean  "pc_credit_override"
+    t.string   "pc_look_back_override"
+    t.boolean  "pi_credit_override"
+    t.string   "pi_look_back_override"
+    t.string   "video_roi_metric_override"
+    t.string   "video_roi_goal_override"
+    t.string   "mobile_roi_metric_override"
+    t.string   "mobile_roi_goal_override"
+    t.string   "source_id"
+    t.boolean  "advertiser_pending",             default: false,                 null: false
+  end
+
+  add_index "amp_orders", ["source_id"], name: "index_amp_orders_on_source_id", unique: true, using: :btree
 
   create_table "an_ads", id: false, force: true do |t|
     t.integer "ad_id",                   null: false
@@ -744,12 +955,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "appnexus_networks", id: false, force: true do |t|
-    t.integer  "appnexus_network_id",   null: false
-    t.string   "appnexus_network_name", null: false
-    t.integer  "amp_network_id",        null: false
-    t.boolean  "active",                null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "appnexus_network_id",                     null: false
+    t.string   "appnexus_network_name",                   null: false
+    t.integer  "amp_network_id",                          null: false
+    t.boolean  "active",                                  null: false
+    t.datetime "created_at",            default: "now()"
+    t.datetime "updated_at",            default: "now()"
     t.string   "server_url"
   end
 
@@ -773,17 +984,17 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "arm_ad_servers", id: false, force: true do |t|
-    t.integer "id",                       null: false
-    t.string  "name",         limit: 128, null: false
-    t.string  "display_name", limit: 128, null: false
+    t.integer "id",                       default: "nextval('arm_ad_servers_id_seq'::regclass)", null: false
+    t.string  "name",         limit: 128,                                                        null: false
+    t.string  "display_name", limit: 128,                                                        null: false
   end
 
   add_index "arm_ad_servers", ["id"], name: "arm_ad_servers_id_key", unique: true, using: :btree
   add_index "arm_ad_servers", ["name"], name: "arm_ad_servers_name_key", unique: true, using: :btree
 
   create_table "arm_audit_status", id: false, force: true do |t|
-    t.integer "id",                      null: false
-    t.string  "display_name", limit: 64, null: false
+    t.integer "id",                      default: "nextval('arm_audit_status_id_seq'::regclass)", null: false
+    t.string  "display_name", limit: 64,                                                          null: false
   end
 
   add_index "arm_audit_status", ["id"], name: "arm_audit_status_id_key", unique: true, using: :btree
@@ -794,8 +1005,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "arm_billing_period_statuses", id: false, force: true do |t|
-    t.integer "id",                      null: false
-    t.string  "status",       limit: 64, null: false
+    t.integer "id",                      default: "nextval('arm_billing_period_statuses_id_seq'::regclass)", null: false
+    t.string  "status",       limit: 64,                                                                     null: false
     t.string  "display_text", limit: 64
     t.string  "comments"
   end
@@ -804,53 +1015,91 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "arm_billing_period_statuses", ["status"], name: "arm_billing_period_statuses_status_key", unique: true, using: :btree
 
   create_table "arm_billing_periods", id: false, force: true do |t|
-    t.integer  "id",                  limit: 8,             null: false
-    t.integer  "network_id",                                null: false
-    t.integer  "month",               limit: 2,             null: false
-    t.integer  "year",                limit: 2,             null: false
-    t.datetime "created_at"
-    t.integer  "status_id",                     default: 1, null: false
+    t.integer  "id",                  limit: 8, default: "nextval('arm_billing_periods_id_seq'::regclass)", null: false
+    t.integer  "network_id",                                                                                null: false
+    t.integer  "month",               limit: 2,                                                             null: false
+    t.integer  "year",                limit: 2,                                                             null: false
+    t.datetime "created_at",                    default: "now()"
+    t.integer  "status_id",                     default: 1,                                                 null: false
     t.date     "data_available_upto"
-    t.datetime "updated_at"
+    t.datetime "updated_at",                    default: "now()"
   end
 
   add_index "arm_billing_periods", ["id"], name: "arm_billing_periods_id_key", unique: true, using: :btree
   add_index "arm_billing_periods", ["network_id", "month", "year"], name: "arm_billing_periods_network_id_key", unique: true, using: :btree
 
+  create_table "arm_bp_16_data", id: false, force: true do |t|
+    t.integer  "item",             limit: 8
+    t.integer  "audit_status"
+    t.integer  "discrepancy_code"
+    t.integer  "ad_server"
+    t.text     "advertiser_name"
+    t.text     "order_name"
+    t.integer  "ad_group_id",      limit: 8
+    t.text     "ad_group_name"
+    t.string   "rate_type",        limit: 10
+    t.float    "rate"
+    t.string   "tp_server",        limit: 128
+    t.string   "fp_server",        limit: 128
+    t.integer  "imps",             limit: 8
+    t.integer  "imps_1",           limit: 8
+    t.integer  "imps_2",           limit: 8
+    t.integer  "booked_imps",      limit: 8
+    t.integer  "adj_imps",         limit: 8
+    t.integer  "clks",             limit: 8
+    t.integer  "clks_1",           limit: 8
+    t.integer  "clks_2",           limit: 8
+    t.integer  "booked_clks",      limit: 8
+    t.integer  "adj_clks",         limit: 8
+    t.decimal  "rev"
+    t.decimal  "discrp"
+    t.decimal  "booked_rev"
+    t.decimal  "adj_rev"
+    t.decimal  "sor_rev"
+    t.decimal  "adj_gross_rev"
+    t.decimal  "cml_rev"
+    t.decimal  "adj_gross_rate"
+    t.integer  "sor_impressions",  limit: 8
+    t.integer  "sor_clicks",       limit: 8
+    t.float    "adj_qty"
+    t.datetime "timestamp"
+    t.string   "account_login",    limit: 100
+  end
+
   create_table "arm_coversheet_details", force: true do |t|
-    t.integer  "network_id",                             null: false
-    t.string   "advertiser",                 limit: 512, null: false
-    t.integer  "advertiser_category",                    null: false
+    t.integer  "network_id",                                               null: false
+    t.string   "advertiser",                 limit: 512,                   null: false
+    t.integer  "advertiser_category",                                      null: false
     t.integer  "agency"
-    t.integer  "dart_order",                             null: false, array: true
-    t.integer  "extended_reach",                         null: false
-    t.integer  "opportunity",                            null: false, array: true
+    t.integer  "dart_order",                                               null: false, array: true
+    t.integer  "extended_reach",                                           null: false
+    t.integer  "opportunity",                                              null: false, array: true
     t.string   "io_number",                  limit: 512
-    t.float    "net_io_value",                           null: false
-    t.integer  "campaign_type",                          null: false
-    t.integer  "rich_media",                             null: false
-    t.integer  "billing_ad_server",                      null: false, array: true
-    t.integer  "business_type",                          null: false
-    t.string   "product_desc",               limit: 512, null: false
-    t.string   "campaign_objective",         limit: 512, null: false
-    t.integer  "marketing_type",                         null: false
+    t.float    "net_io_value",                                             null: false
+    t.integer  "campaign_type",                                            null: false
+    t.integer  "rich_media",                                               null: false
+    t.integer  "billing_ad_server",                                        null: false, array: true
+    t.integer  "business_type",                                            null: false
+    t.string   "product_desc",               limit: 512,                   null: false
+    t.string   "campaign_objective",         limit: 512,                   null: false
+    t.integer  "marketing_type",                                           null: false
     t.string   "notes",                      limit: 512
-    t.integer  "third_party_research_study",             null: false
+    t.integer  "third_party_research_study",                               null: false
     t.string   "study_type",                 limit: 512
-    t.integer  "collective_salesperson",                 null: false
-    t.integer  "collective_sales_office",                null: false
-    t.integer  "collective_sales_region",                null: false
+    t.integer  "collective_salesperson",                                   null: false
+    t.integer  "collective_sales_office",                                  null: false
+    t.integer  "collective_sales_region",                                  null: false
     t.integer  "collective_billing"
     t.integer  "client_contact"
     t.integer  "client_billing_contact"
     t.integer  "client_adops_contact"
-    t.integer  "targeting_detail_id",        limit: 8,   null: false
+    t.integer  "targeting_detail_id",        limit: 8,                     null: false
     t.integer  "video_detail_id",            limit: 8
-    t.integer  "io_detail_id",                                        array: true
-    t.integer  "metrics_detail_id",                      null: false
-    t.datetime "updated_at"
-    t.integer  "billing_agency",                         null: false
-    t.integer  "crew_name",                              null: false
+    t.integer  "io_detail_id",                                                          array: true
+    t.integer  "metrics_detail_id",                                        null: false
+    t.datetime "updated_at",                             default: "now()"
+    t.integer  "billing_agency",                                           null: false
+    t.integer  "crew_name",                                                null: false
   end
 
   create_table "arm_coversheet_draft", id: false, force: true do |t|
@@ -858,15 +1107,15 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "advertiser"
     t.integer  "advertiser_category"
     t.integer  "agency"
-    t.integer  "dart_order",                             array: true
+    t.integer  "dart_order",                                               array: true
     t.integer  "extended_reach"
-    t.integer  "opportunity",                            array: true
+    t.integer  "opportunity",                                              array: true
     t.string   "io_number",                  limit: 64
     t.float    "net_io_value"
     t.integer  "solution_id"
     t.integer  "campaign_type"
     t.integer  "rich_media"
-    t.integer  "billing_ad_server",                      array: true
+    t.integer  "billing_ad_server",                                        array: true
     t.integer  "business_type"
     t.string   "product_desc",               limit: 128
     t.string   "campaign_objective",         limit: 256
@@ -883,9 +1132,9 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "client_adops_contact"
     t.integer  "targeting_detail_id",        limit: 8
     t.integer  "video_detail_id",            limit: 8
-    t.integer  "io_detail_id",                           array: true
+    t.integer  "io_detail_id",                                             array: true
     t.integer  "metrics_detail_id"
-    t.datetime "updated_at"
+    t.datetime "updated_at",                             default: "now()"
     t.integer  "billing_agency"
     t.integer  "crew_name"
     t.integer  "usr"
@@ -898,12 +1147,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   create_table "arm_cs_contacts", force: true do |t|
     t.integer  "network_id"
-    t.integer  "contact_type",             null: false
+    t.integer  "contact_type",                               null: false
     t.string   "company",      limit: 512
     t.string   "name",         limit: 512
     t.string   "email",        limit: 512
     t.string   "phone",        limit: 512
-    t.datetime "updated_at"
+    t.datetime "updated_at",               default: "now()"
   end
 
   create_table "arm_cs_finance_contacts", force: true do |t|
@@ -923,33 +1172,33 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "arm_cs_io_detail", force: true do |t|
-    t.integer  "network_id",                null: false
-    t.string   "relative_path", limit: 512, null: false
-    t.string   "title",         limit: 512, null: false
-    t.datetime "uploaded_at"
+    t.integer  "network_id",                                  null: false
+    t.string   "relative_path", limit: 512,                   null: false
+    t.string   "title",         limit: 512,                   null: false
+    t.datetime "uploaded_at",               default: "now()"
   end
 
   create_table "arm_cs_metrics_detail", force: true do |t|
-    t.integer  "roi_metric",                             null: false
+    t.integer  "roi_metric",                                               null: false
     t.string   "cpa_goal",                   limit: 512
-    t.string   "roi_goal",                   limit: 512, null: false
-    t.integer  "post_imp_credit",                        null: false
+    t.string   "roi_goal",                   limit: 512,                   null: false
+    t.integer  "post_imp_credit",                                          null: false
     t.string   "pi_lookback_window",         limit: 512
-    t.integer  "post_click_credit",                      null: false
+    t.integer  "post_click_credit",                                        null: false
     t.string   "pc_lookback_window",         limit: 512
     t.string   "other_metric_calc",          limit: 512
     t.string   "competitors",                limit: 512
     t.string   "comp_perf",                  limit: 512
     t.string   "what_works",                 limit: 512
     t.string   "cm_perf",                    limit: 512
-    t.integer  "performance_ad_server",                  null: false, array: true
+    t.integer  "performance_ad_server",                                    null: false, array: true
     t.integer  "login_avail"
     t.string   "third_party_adserver_login", limit: 512
     t.string   "third_party_adserver_pw",    limit: 512
     t.integer  "match_to_dart"
     t.integer  "auto_report"
     t.string   "metric_notes",               limit: 512
-    t.datetime "updated_at"
+    t.datetime "updated_at",                             default: "now()"
   end
 
   create_table "arm_cs_metrics_draft", id: false, force: true do |t|
@@ -965,7 +1214,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "comp_perf"
     t.string   "what_works"
     t.string   "cm_perf"
-    t.integer  "performance_ad_server",                  array: true
+    t.integer  "performance_ad_server",                                    array: true
     t.integer  "login_avail"
     t.string   "third_party_adserver_login", limit: 128
     t.string   "third_party_adserver_pw",    limit: 128
@@ -975,16 +1224,16 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "include_rt"
     t.integer  "include_er"
     t.string   "metric_notes"
-    t.datetime "updated_at"
+    t.datetime "updated_at",                             default: "now()"
     t.integer  "usr"
   end
 
   create_table "arm_cs_opportunity_detail", force: true do |t|
-    t.integer  "network_id", null: false
-    t.integer  "opp_id",     null: false
-    t.date     "start_date", null: false
-    t.date     "end_date",   null: false
-    t.datetime "updated_at"
+    t.integer  "network_id",                   null: false
+    t.integer  "opp_id",                       null: false
+    t.date     "start_date",                   null: false
+    t.date     "end_date",                     null: false
+    t.datetime "updated_at", default: "now()"
   end
 
   create_table "arm_cs_opportunity_draft", id: false, force: true do |t|
@@ -992,7 +1241,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "opp_id"
     t.date     "start_date"
     t.date     "end_date"
-    t.datetime "updated_at"
+    t.datetime "updated_at", default: "now()"
     t.integer  "usr"
   end
 
@@ -1011,22 +1260,22 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   create_table "arm_cs_order_detail", force: true do |t|
     t.integer  "order_id",   limit: 8
-    t.string   "order_name", limit: 512, null: false
-    t.datetime "updated_at"
+    t.string   "order_name", limit: 512,                   null: false
+    t.datetime "updated_at",             default: "now()"
   end
 
   create_table "arm_cs_order_draft", id: false, force: true do |t|
     t.integer  "usr"
     t.integer  "order_id",   limit: 8
     t.string   "order_name"
-    t.datetime "updated_at"
+    t.datetime "updated_at",           default: "now()"
   end
 
   create_table "arm_cs_pixel_detail", force: true do |t|
     t.string   "name",       limit: 512
     t.integer  "source_id"
     t.integer  "type_id"
-    t.datetime "updated_at"
+    t.datetime "updated_at",             default: "now()"
   end
 
   create_table "arm_cs_pixel_draft", id: false, force: true do |t|
@@ -1034,30 +1283,30 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "source_id"
     t.integer  "type_id"
     t.string   "name",         limit: 128
-    t.datetime "updated_at"
+    t.datetime "updated_at",               default: "now()"
     t.integer  "usr"
   end
 
   create_table "arm_cs_targeting_detail", force: true do |t|
-    t.integer  "type",                                   null: false, array: true
+    t.integer  "type",                                                     null: false, array: true
     t.string   "behavior_segments",          limit: 512
     t.string   "bt_data_providers",          limit: 512
     t.string   "context_segments",           limit: 512
-    t.integer  "geography_type_id",                      null: false
+    t.integer  "geography_type_id",                                        null: false
     t.string   "frequency_cap",              limit: 512
-    t.integer  "third_party_ad_verifier_id",             null: false
+    t.integer  "third_party_ad_verifier_id",                               null: false
     t.string   "targeting_notes",            limit: 512
-    t.integer  "pixel_detail_id",                                     array: true
-    t.integer  "vendor_detail_id",                       null: false
+    t.integer  "pixel_detail_id",                                                       array: true
+    t.integer  "vendor_detail_id",                                         null: false
     t.string   "block_sites",                limit: 512
     t.string   "notes",                      limit: 512
-    t.datetime "updated_at"
-    t.integer  "third_party_ver_fee",                    null: false
-    t.float    "third_party_ver_cpm",                    null: false
+    t.datetime "updated_at",                             default: "now()"
+    t.integer  "third_party_ver_fee",                                      null: false
+    t.float    "third_party_ver_cpm",                                      null: false
   end
 
   create_table "arm_cs_targeting_draft", id: false, force: true do |t|
-    t.integer  "type",                                   array: true
+    t.integer  "type",                                                     array: true
     t.string   "behavior_segments",          limit: 128
     t.string   "bt_data_providers",          limit: 128
     t.string   "context_segments",           limit: 128
@@ -1065,11 +1314,11 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "frequency_cap",              limit: 64
     t.integer  "third_party_ad_verifier_id"
     t.string   "targeting_notes",            limit: 128
-    t.integer  "pixel_detail_id",                        array: true
+    t.integer  "pixel_detail_id",                                          array: true
     t.integer  "vendor_detail_id"
     t.string   "block_sites",                limit: 512
     t.string   "notes",                      limit: 128
-    t.datetime "updated_at"
+    t.datetime "updated_at",                             default: "now()"
     t.integer  "third_party_ver_fee"
     t.float    "third_party_ver_cpm"
     t.integer  "usr"
@@ -1077,12 +1326,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   create_table "arm_cs_vendor_detail", force: true do |t|
     t.integer  "network_id"
-    t.integer  "atlas_uat",       null: false
-    t.integer  "rm_vendor_id",    null: false
+    t.integer  "atlas_uat",                         null: false
+    t.integer  "rm_vendor_id",                      null: false
     t.float    "rm_cpm"
     t.integer  "rm_fees_paid_by"
     t.integer  "rm_type_id"
-    t.datetime "updated_at"
+    t.datetime "updated_at",      default: "now()"
   end
 
   create_table "arm_cs_vendor_draft", id: false, force: true do |t|
@@ -1093,28 +1342,28 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.float    "rm_cpm"
     t.integer  "rm_fees_paid_by"
     t.integer  "rm_type_id"
-    t.datetime "updated_at"
+    t.datetime "updated_at",                   default: "now()"
     t.integer  "usr"
   end
 
   create_table "arm_cs_video_detail", force: true do |t|
-    t.date     "start_date",                             null: false
-    t.date     "end_date",                               null: false
-    t.string   "pre_roll_length",            limit: 512, null: false
-    t.integer  "companion_banners",                      null: false
-    t.string   "companion_banner_size",      limit: 512, null: false
-    t.integer  "delivery_req_id",                        null: false
-    t.integer  "targeting_type",                         null: false, array: true
+    t.date     "start_date",                                               null: false
+    t.date     "end_date",                                                 null: false
+    t.string   "pre_roll_length",            limit: 512,                   null: false
+    t.integer  "companion_banners",                                        null: false
+    t.string   "companion_banner_size",      limit: 512,                   null: false
+    t.integer  "delivery_req_id",                                          null: false
+    t.integer  "targeting_type",                                           null: false, array: true
     t.string   "bt_data_providers",          limit: 512
     t.string   "channel",                    limit: 512
-    t.integer  "geography_type_id",                      null: false
+    t.integer  "geography_type_id",                                        null: false
     t.string   "markets",                    limit: 512
     t.integer  "third_party_ad_verifier_id"
     t.string   "reporting_req",              limit: 512
     t.integer  "reporting_frequency_id"
-    t.integer  "third_party_rs",                         null: false
+    t.integer  "third_party_rs",                                           null: false
     t.string   "study_type",                 limit: 512
-    t.datetime "updated_at"
+    t.datetime "updated_at",                             default: "now()"
   end
 
   create_table "arm_cs_video_draft", id: false, force: true do |t|
@@ -1133,8 +1382,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "reporting_frequency_id"
     t.integer  "third_party_rs"
     t.string   "study_type"
-    t.datetime "updated_at"
-    t.integer  "targeting_type",                         array: true
+    t.datetime "updated_at",                             default: "now()"
+    t.integer  "targeting_type",                                           array: true
     t.integer  "usr"
   end
 
@@ -1144,41 +1393,41 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   create_table "arm_merge_ad_map", id: false, force: true do |t|
     t.integer "arm_billing_period_id",   limit: 8
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.integer "impressions",             limit: 8
     t.integer "third_party_impressions", limit: 8
     t.integer "scheduled_impressions",   limit: 8
     t.integer "clicks",                  limit: 8
     t.integer "third_party_clicks",      limit: 8
     t.integer "scheduled_clicks",        limit: 8
-    t.integer "new_ad_id"
+    t.text    "new_ad_id"
   end
 
   create_table "arm_merge_ad_map_1", id: false, force: true do |t|
     t.integer "arm_billing_period_id",   limit: 8
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.integer "impressions",             limit: 8
     t.integer "third_party_impressions", limit: 8
     t.integer "scheduled_impressions",   limit: 8
     t.integer "clicks",                  limit: 8
     t.integer "third_party_clicks",      limit: 8
     t.integer "scheduled_clicks",        limit: 8
-    t.integer "new_ad_id"
+    t.text    "new_ad_id"
   end
 
   create_table "arm_recon_data", id: false, force: true do |t|
-    t.integer "id",                       limit: 8,   null: false
+    t.integer "id",                       limit: 8,   default: "nextval('arm_recon_data_id_seq'::regclass)", null: false
     t.integer "arm_billing_period_id"
     t.integer "audit_status"
     t.integer "discrepancy_code"
     t.integer "system_of_record"
-    t.integer "advertiser_id",                        null: false
-    t.integer "order_id",                             null: false
-    t.integer "ad_id",                                null: false
+    t.string  "advertiser_id",                                                                               null: false
+    t.string  "order_id",                                                                                    null: false
+    t.string  "ad_id",                                                                                       null: false
     t.float   "rate"
     t.float   "adj_gross_rate"
     t.string  "third_party_name",         limit: 128
@@ -1207,14 +1456,14 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "arm_recon_data", ["id"], name: "arm_recon_data_id_key", unique: true, using: :btree
 
   create_table "arm_recon_data_ad_groups", id: false, force: true do |t|
-    t.integer  "id",                       limit: 8,   null: false
+    t.integer  "id",                       limit: 8,   default: "nextval('arm_recon_data_ad_groups_id_seq'::regclass)", null: false
     t.integer  "arm_billing_period_id"
     t.integer  "audit_status"
     t.integer  "discrepancy_code"
     t.integer  "system_of_record"
-    t.integer  "advertiser_id",                        null: false
-    t.integer  "order_id",                             null: false
-    t.integer  "ad_group_id",                          null: false
+    t.string   "advertiser_id",                                                                                         null: false
+    t.string   "order_id",                                                                                              null: false
+    t.integer  "ad_group_id",                                                                                           null: false
     t.float    "rate"
     t.float    "adj_gross_rate"
     t.string   "third_party_name",         limit: 128
@@ -1237,7 +1486,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.float    "adj_rev"
     t.float    "adj_gross_rev"
     t.float    "cml_rev"
-    t.datetime "last_modified"
+    t.datetime "last_modified",                        default: "now()"
     t.integer  "user_id"
   end
 
@@ -1247,8 +1496,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   create_table "arm_recon_data_ad_groups_daily", id: false, force: true do |t|
     t.integer "arm_billing_period_id"
     t.integer "system_of_record"
-    t.integer "advertiser_id",                        null: false
-    t.integer "order_id",                             null: false
+    t.string  "advertiser_id",                        null: false
+    t.string  "order_id",                             null: false
     t.integer "ad_group_id",                          null: false
     t.float   "rate"
     t.float   "adj_gross_rate"
@@ -1270,11 +1519,22 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "arm_recon_data_ad_groups_daily", ["arm_billing_period_id", "advertiser_id", "order_id", "ad_group_id"], name: "arm_recon_data_ad_groups_daily_arm_billing_period_id_key", unique: true, using: :btree
 
+  create_table "arm_recon_data_ad_groups_history", force: true do |t|
+    t.integer  "item_id",               limit: 8,                   null: false
+    t.integer  "ad_group_id",                                       null: false
+    t.integer  "arm_billing_period_id",                             null: false
+    t.string   "column_name",                                       null: false
+    t.string   "old_value"
+    t.string   "new_value"
+    t.datetime "created_at",                      default: "now()", null: false
+    t.integer  "user_id"
+  end
+
   create_table "arm_recon_data_daily", id: false, force: true do |t|
     t.integer "arm_billing_period_id"
-    t.integer "advertiser_id",                        null: false
-    t.integer "order_id",                             null: false
-    t.integer "ad_id",                                null: false
+    t.string  "advertiser_id",                        null: false
+    t.string  "order_id",                             null: false
+    t.string  "ad_id",                                null: false
     t.float   "rate"
     t.string  "third_party_name",         limit: 128
     t.string  "fourth_party_name",        limit: 128
@@ -1295,10 +1555,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "arm_billing_period_id",    limit: 8
     t.text    "third_party_name"
     t.text    "fourth_party_name"
-    t.integer "advertiser_id"
-    t.integer "order_id"
-    t.integer "ad_id"
-    t.integer "creative_id"
+    t.string  "advertiser_id"
+    t.string  "order_id"
+    t.string  "ad_id"
+    t.string  "creative_id"
     t.integer "impressions",              limit: 8
     t.decimal "third_party_impressions"
     t.decimal "fourth_party_impressions"
@@ -1322,7 +1582,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "creative_id",                null: false
     t.datetime "start_date"
     t.datetime "end_date"
-    t.integer  "network_id"
+    t.integer  "network_id",                 null: false
     t.integer  "data_source_id", default: 1, null: false
   end
 
@@ -1407,10 +1667,22 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.decimal "cloud_composition",                      default: 0.0
     t.integer "pixel_population",             limit: 8, default: 0
     t.integer "audience_report_meta_data_id"
-    t.decimal "network_affinity",                       default: 0.0
-    t.decimal "network_cloud_composition",              default: 0.0
+    t.decimal "internet_affinity",                      default: 0.0
+    t.decimal "internet_cloud_composition",             default: 0.0
     t.decimal "segment_composition",                    default: 0.0
     t.decimal "internet_segment_composition",           default: 0.0
+    t.integer "tot_actions",                  limit: 8, default: 0
+    t.decimal "ar",                                     default: 0.0
+    t.integer "interactions",                 limit: 8, default: 0
+    t.decimal "ir",                                     default: 0.0
+    t.decimal "internet_ar",                            default: 0.0
+    t.decimal "internet_ir",                            default: 0.0
+    t.decimal "click_affinity",                         default: 0.0
+    t.decimal "action_affinity",                        default: 0.0
+    t.decimal "engagement_affinity",                    default: 0.0
+    t.decimal "internet_action_affinity",               default: 0.0
+    t.decimal "internet_engagement_affinity",           default: 0.0
+    t.decimal "performance_affinity",                   default: 0.0
   end
 
   create_table "audience_report_raw_data", force: true do |t|
@@ -1460,25 +1732,33 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "audience_report_meta_data_id"
     t.decimal "cloud_composition"
     t.integer "pixel_population",                       default: 0
-    t.decimal "network_affinity",                       default: 0.0
-    t.decimal "network_cloud_composition",              default: 0.0
+    t.decimal "internet_affinity",                      default: 0.0
+    t.decimal "internet_cloud_composition",             default: 0.0
     t.decimal "segment_composition",                    default: 0.0
     t.decimal "internet_segment_composition",           default: 0.0
+    t.decimal "internet_ar",                            default: 0.0
+    t.decimal "internet_ir",                            default: 0.0
+    t.decimal "click_affinity",                         default: 0.0
+    t.decimal "action_affinity",                        default: 0.0
+    t.decimal "engagement_affinity",                    default: 0.0
+    t.decimal "internet_action_affinity",               default: 0.0
+    t.decimal "internet_engagement_affinity",           default: 0.0
+    t.decimal "performance_affinity",                   default: 0.0
   end
 
   create_table "audience_report_sections", force: true do |t|
-    t.string   "name",                                    null: false
+    t.string   "name",                                   null: false
     t.integer  "provider_id"
-    t.integer  "ui_sequence_no",     default: 0,          null: false
-    t.integer  "audience_report_id",                      null: false
-    t.integer  "user_id",                                 null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.integer  "ui_sequence_no",     default: 0,         null: false
+    t.integer  "audience_report_id",                     null: false
+    t.integer  "user_id",                                null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.boolean  "display_selected"
     t.string   "sort_field"
     t.boolean  "sort_ascending"
     t.integer  "segment_group_id"
-    t.string   "universe",           default: "internet", null: false
+    t.string   "universe",           default: "network", null: false
   end
 
   create_table "audience_report_sections_audience_report_segments", id: false, force: true do |t|
@@ -1499,14 +1779,27 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "display_index"
   end
 
-  create_table "audience_reports", force: true do |t|
-    t.string   "name",                         null: false
-    t.integer  "network_id",                   null: false
-    t.integer  "user_id",                      null: false
-    t.integer  "audience_report_meta_data_id"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+  create_table "audience_report_share_properties", force: true do |t|
+    t.string   "password"
+    t.integer  "report_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
   end
+
+  create_table "audience_reports", force: true do |t|
+    t.string   "name",                                                                   null: false
+    t.integer  "network_id",                                                             null: false
+    t.integer  "user_id",                                                                null: false
+    t.integer  "audience_report_meta_data_id"
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
+    t.string   "share_id"
+    t.integer  "imps_filter_val",              limit: 8, default: 0,                     null: false
+    t.string   "visible_columns"
+    t.string   "selected_affinity",                      default: "population_affinity"
+  end
+
+  add_index "audience_reports", ["share_id"], name: "audience_reports_share_id_key", unique: true, using: :btree
 
   create_table "background_job_descriptions", force: true do |t|
     t.string   "type"
@@ -1520,6 +1813,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "scheduled_background_job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "bad_ad_groups", id: false, force: true do |t|
+    t.integer "ad_group_id"
   end
 
   create_table "behavioral_segments", force: true do |t|
@@ -1551,12 +1848,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "billing_ad_default_groups", ["order_id", "alt_ad_id", "cost_type", "rate"], name: "ad_def_grp_unique", unique: true, using: :btree
 
   create_table "billing_ad_groups", force: true do |t|
-    t.string   "name",       limit: 280, null: false
+    t.string   "name",       limit: 280,                   null: false
     t.integer  "order_id"
     t.string   "cost_type",  limit: 10
     t.float    "rate"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",             default: "now()"
+    t.datetime "updated_at",             default: "now()"
   end
 
   create_table "billing_addresses", force: true do |t|
@@ -1568,6 +1865,19 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.text     "disclaimer"
   end
+
+  create_table "billing_contacts", force: true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone",           null: false
+    t.integer  "reach_client_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "address"
+  end
+
+  add_index "billing_contacts", ["name", "email"], name: "index_billing_contacts_on_name_and_email", unique: true, using: :btree
+  add_index "billing_contacts", ["reach_client_id"], name: "index_billing_contacts_on_reach_client_id", using: :btree
 
   create_table "billing_periods", force: true do |t|
     t.integer  "network_id"
@@ -1588,35 +1898,39 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "billing_periods", ["network_id", "month", "year"], name: "billing_periods_idx", unique: true, using: :btree
 
+  create_table "boris_test", id: false, force: true do |t|
+    t.integer "c1",                 null: false
+    t.string  "c2", default: "n/a", null: false
+  end
+
   create_table "brand_categories", force: true do |t|
-    t.string   "name",       null: false
-    t.string   "source_id",  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",                         null: false
+    t.string   "source_id",                    null: false
+    t.datetime "created_at", default: "now()"
+    t.datetime "updated_at", default: "now()"
   end
 
   add_index "brand_categories", ["name"], name: "index_brand_categories_on_name", unique: true, using: :btree
   add_index "brand_categories", ["source_id"], name: "index_brand_categories_on_source_id", unique: true, using: :btree
 
   create_table "brand_categories_networks", force: true do |t|
-    t.integer  "brand_category_id", null: false
-    t.integer  "network_id",        null: false
-    t.boolean  "banned",            null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "brand_category_id",                   null: false
+    t.integer  "network_id",                          null: false
+    t.boolean  "banned",                              null: false
+    t.datetime "created_at",        default: "now()"
+    t.datetime "updated_at",        default: "now()"
   end
 
   add_index "brand_categories_networks", ["brand_category_id", "network_id"], name: "brand_category_network_unique", unique: true, using: :btree
 
   create_table "brands", force: true do |t|
-    t.string   "name",        null: false
-    t.string   "source_id",   null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",                          null: false
+    t.string   "source_id",                     null: false
+    t.datetime "created_at",  default: "now()"
+    t.datetime "updated_at",  default: "now()"
     t.integer  "category_id"
   end
 
-  add_index "brands", ["name"], name: "index_brands_on_name", unique: true, using: :btree
   add_index "brands", ["source_id"], name: "index_brands_on_source_id", unique: true, using: :btree
 
   create_table "brands_networks", force: true do |t|
@@ -1628,12 +1942,19 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "brands_networks", ["brand_id", "network_id"], name: "index_brands_networks_on_brand_id_and_network_id", unique: true, using: :btree
   add_index "brands_networks", ["brand_id"], name: "index_brands_networks_on_brand_id", using: :btree
 
+  create_table "brands_to_update", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name"
+    t.integer "category_id"
+    t.string  "source_id"
+  end
+
   create_table "browsers", force: true do |t|
-    t.string   "name",                       null: false
-    t.string   "source_id",                  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "data_source_id", default: 1, null: false
+    t.string   "name",                             null: false
+    t.string   "source_id",                        null: false
+    t.datetime "created_at",     default: "now()"
+    t.datetime "updated_at",     default: "now()"
+    t.integer  "data_source_id", default: 1,       null: false
   end
 
   add_index "browsers", ["source_id"], name: "index_browsers_on_source_id", unique: true, using: :btree
@@ -1756,7 +2077,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "data_source_id", default: 1, null: false
   end
 
-  add_index "channels", ["source_id"], name: "index_channels_on_source_id", using: :btree
+  add_index "channels", ["data_source_id", "source_id", "network_id"], name: "index_channels_on_trinity", unique: true, using: :btree
 
   create_table "channels_sites", force: true do |t|
     t.integer  "channel_id", null: false
@@ -1773,12 +2094,21 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "cities", force: true do |t|
-    t.string  "name",                       null: false
+    t.string  "name",                                       null: false
     t.string  "region_name",    limit: nil
     t.string  "dart_region_id", limit: nil
     t.string  "country_code",   limit: nil
+    t.string  "source_id"
     t.integer "xfp_id",         limit: 8
+    t.boolean "xfp_targetable",             default: false, null: false
   end
+
+  create_table "cities_lineitems", id: false, force: true do |t|
+    t.integer "city_id"
+    t.integer "lineitem_id"
+  end
+
+  add_index "cities_lineitems", ["lineitem_id"], name: "index_cities_lineitems_on_lineitem_id", using: :btree
 
   create_table "city_targeting", id: false, force: true do |t|
     t.integer "ad_id"
@@ -1796,50 +2126,51 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "ctype"
     t.string   "style_swf_url",              limit: 256
     t.text     "disclaimer"
-    t.integer  "dart_id",                    limit: 8,   default: 0,                                             null: false
+    t.integer  "dart_id",                    limit: 8,   default: 0,                                            null: false
     t.datetime "last_opportunity_import_at",             default: '2000-01-01 00:00:00'
     t.string   "currency",                               default: "USD"
     t.string   "dart_user"
     t.string   "dart_password"
-    t.string   "server_name",                            default: "http://amp3.collective-media.net",            null: false
-    t.integer  "server_port",                            default: 80,                                            null: false
+    t.string   "server_name",                            default: "http://amp3.collective-media.net",           null: false
+    t.integer  "server_port",                            default: 80,                                           null: false
     t.string   "brand_name"
-    t.string   "background_color",                       default: "0xD9DBEB",                                    null: false
-    t.string   "controlbar_color",                       default: "0xD4D4D4",                                    null: false
-    t.string   "border_color",                           default: "0x006990",                                    null: false
-    t.string   "widget_color",                           default: "0xD9DBEB",                                    null: false
+    t.string   "background_color",                       default: "0xD9DBEB",                                   null: false
+    t.string   "controlbar_color",                       default: "0xD4D4D4",                                   null: false
+    t.string   "border_color",                           default: "0x006990",                                   null: false
+    t.string   "widget_color",                           default: "0xD9DBEB",                                   null: false
     t.string   "net_prefix",                 limit: 20
     t.string   "salesforce_username"
     t.string   "salesforce_password"
     t.string   "salesforce_token"
-    t.datetime "last_dart_sync_at",                      default: '2009-01-01 00:00:00',                         null: false
-    t.boolean  "purge_subnetworks",                      default: false,                                         null: false
+    t.datetime "last_dart_sync_at",                      default: '2009-01-01 00:00:00',                        null: false
+    t.boolean  "purge_subnetworks",                      default: false,                                        null: false
     t.string   "support_email"
-    t.boolean  "salesforce_enabled",                     default: false,                                         null: false
-    t.string   "amp2_url",                               default: "http://qa-ampapp1.collective-media.net/",     null: false
-    t.string   "brighton_url",                           default: "http://qa-ampapp1.collective-media.net/",     null: false
-    t.string   "collectivedb_url",                       default: "http://tbd.qacdb.collective-media.net/",      null: false
-    t.string   "finance_url",                            default: "http://qa-cdb1.collective-media.net/",        null: false
-    t.string   "remoting_url",                           default: "http://qa-ampapp1.collective-media.net/",     null: false
-    t.string   "util_url",                               default: "http://qa-ampapp1.collective-media.net/",     null: false
-    t.boolean  "auto_close_billing",                     default: false,                                         null: false
-    t.boolean  "skip_notifications",                     default: false,                                         null: false
-    t.string   "amts_url",                               default: "http://qa-amts.collective.com/",              null: false
-    t.boolean  "afa",                                    default: false,                                         null: false
-    t.boolean  "active",                                 default: true,                                          null: false
-    t.integer  "tz_offset",                  limit: 2,   default: -4,                                            null: false
-    t.string   "time_zone",                              default: "Eastern Time (US & Canada)",                  null: false
-    t.string   "ssp_cdb_url",                            default: "http://tbd.qa-ssp-cdb.collective-media.net/", null: false
-    t.string   "video_ad_size",              limit: 12,  default: "1x1",                                         null: false
+    t.boolean  "salesforce_enabled",                     default: false,                                        null: false
+    t.string   "amp2_url",                               default: "https://ampadmin.collective.com/",           null: false
+    t.string   "brighton_url",                           default: "http://brighton.personifi.com/",             null: false
+    t.string   "collectivedb_url",                       default: "http://tbd.cdb.collective-media.net/",       null: false
+    t.string   "finance_url",                            default: "http://prod.ftab.collective-media.net/",     null: false
+    t.string   "remoting_url",                           default: "https://amp.collective.com/api/gateway.php", null: false
+    t.string   "util_url",                               default: "https://amp.collective.com/",                null: false
+    t.boolean  "auto_close_billing",                     default: false,                                        null: false
+    t.boolean  "skip_notifications",                     default: false,                                        null: false
+    t.string   "amts_url",                               default: "https://amts.collective.com/",               null: false
+    t.boolean  "afa",                                    default: false,                                        null: false
+    t.boolean  "active",                                 default: true,                                         null: false
+    t.integer  "tz_offset",                  limit: 2,   default: -4,                                           null: false
+    t.string   "time_zone",                              default: "Eastern Time (US & Canada)",                 null: false
+    t.string   "ssp_cdb_url",                            default: "http://tbd.ssp.collective-media.net/",       null: false
+    t.string   "video_ad_size",              limit: 12,  default: "1x1",                                        null: false
     t.string   "ui_logo"
     t.string   "login_logo"
     t.string   "statement_logo"
-    t.string   "stargate_url",                           default: "https://qa-stargate.collective.com"
-    t.string   "network_type",                           default: "DFP",                                         null: false
-    t.integer  "data_source_id",                         default: 1,                                             null: false
-    t.boolean  "third_party",                            default: false,                                         null: false
-    t.string   "aa_url",                                 default: "http://aal.collective-media.net/audience"
+    t.string   "stargate_url",                           default: "https://stargate.collective.com"
+    t.string   "network_type",                           default: "DFP",                                        null: false
+    t.integer  "data_source_id",                         default: 1,                                            null: false
+    t.boolean  "third_party",                            default: false,                                        null: false
+    t.string   "aa_url",                                 default: "http://aan.collective-media.net/audience"
     t.string   "ampweb_url",                             default: "http://aa.collective.com/"
+    t.string   "reach_ui_url"
   end
 
   create_table "companies_features", id: false, force: true do |t|
@@ -1888,11 +2219,11 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "components_roles", ["role_id"], name: "index_components_roles_on_role_id", using: :btree
 
   create_table "connection_types", force: true do |t|
-    t.string   "name",                       null: false
-    t.string   "source_id",                  null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "data_source_id", default: 1, null: false
+    t.string   "name",                             null: false
+    t.string   "source_id",                        null: false
+    t.datetime "created_at",     default: "now()"
+    t.datetime "updated_at",     default: "now()"
+    t.integer  "data_source_id", default: 1,       null: false
   end
 
   add_index "connection_types", ["source_id"], name: "index_connection_types_on_source_id", unique: true, using: :btree
@@ -1937,6 +2268,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "contexts", ["telluride_id"], name: "index_contexts_on_telluride_id", using: :btree
   add_index "contexts", ["type"], name: "index_contexts_on_type", using: :btree
 
+  create_table "corr_ad_ids", id: false, force: true do |t|
+    t.integer "ad_group_id"
+  end
+
   create_table "countries", force: true do |t|
     t.string  "abbr",      limit: 2
     t.string  "name",      limit: 50, null: false
@@ -1946,6 +2281,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   add_index "countries", ["abbr"], name: "unique_country_abbr", unique: true, using: :btree
+  add_index "countries", ["xfp_id"], name: "unique_country_xfp_id", unique: true, using: :btree
 
   create_table "country_targeting", id: false, force: true do |t|
     t.integer "ad_id"
@@ -1963,6 +2299,32 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "cpd_ad_impressions", ["network_id", "ad_id", "date"], name: "index_cpd_ad_impressions_on_network_id_and_ad_id_and_date", unique: true, using: :btree
 
+  create_table "creative_previews", force: true do |t|
+    t.integer  "creative_id"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
+    t.string   "source_id"
+    t.text     "url"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.text     "dest_url"
+  end
+
+  add_index "creative_previews", ["creative_id"], name: "index_creative_previews_on_creative_id", unique: true, using: :btree
+
+  create_table "creative_sets", force: true do |t|
+    t.string   "name"
+    t.string   "source_id"
+    t.integer  "master_creative_id"
+    t.string   "master_source_id"
+    t.integer  "companion_creative_id"
+    t.string   "companion_source_id"
+    t.integer  "network_id",                        null: false
+    t.integer  "data_source_id",        default: 2, null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
   create_table "creative_site_xrefs", force: true do |t|
     t.integer  "creative_id"
     t.integer  "site_id"
@@ -1975,10 +2337,10 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   create_table "creatives", force: true do |t|
-    t.string   "name",                  limit: 256,             null: false
-    t.integer  "network_advertiser_id",                         null: false
-    t.string   "size",                  limit: 12,              null: false
-    t.string   "source_id",                                     null: false
+    t.string   "name",                  limit: 256,              null: false
+    t.integer  "network_advertiser_id",                          null: false
+    t.string   "size",                  limit: 12,               null: false
+    t.string   "source_id",                                      null: false
     t.integer  "width"
     t.integer  "height"
     t.string   "creative_type"
@@ -1986,11 +2348,13 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.string   "source_ui_creative_id"
     t.integer  "network_id"
-    t.integer  "data_source_id",                    default: 1, null: false
+    t.integer  "data_source_id",                     default: 1, null: false
+    t.string   "redirect_url",          limit: 1024
+    t.text     "html_code"
   end
 
+  add_index "creatives", ["data_source_id", "source_id", "network_id"], name: "index_creatives_on_trinity", unique: true, using: :btree
   add_index "creatives", ["network_advertiser_id"], name: "fki_creatives_network_advertiser_id", using: :btree
-  add_index "creatives", ["network_id", "source_id"], name: "index_creatives_on_network_id_and_source_id", unique: true, using: :btree
 
   create_table "cumulative_costs", force: true do |t|
     t.date    "date"
@@ -2002,8 +2366,40 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string "name"
   end
 
+  create_table "custom_finance_report", id: false, force: true do |t|
+    t.integer "ad_id",             limit: 8
+    t.float   "booked"
+    t.float   "imps"
+    t.float   "clicks"
+    t.float   "ctr"
+    t.float   "pub_payout"
+    t.float   "dp_payout"
+    t.float   "rm_payout"
+    t.float   "gross_rev"
+    t.float   "gross_ecpm"
+    t.float   "net_rev"
+    t.float   "gross_margin"
+    t.float   "completion_25"
+    t.float   "completion_50"
+    t.float   "completion_75"
+    t.float   "completion_100"
+    t.float   "complete_rate"
+    t.float   "play_rate"
+    t.float   "video_full_screen"
+    t.float   "mutes"
+    t.float   "mute_rate"
+    t.float   "pauses"
+    t.float   "video_replays"
+    t.float   "video_stops"
+  end
+
+  create_table "d_eps", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name"
+    t.integer "dp_id"
+  end
+
   create_table "dart_activity_categories", id: false, force: true do |t|
-    t.integer "network_id"
     t.string  "spot_id"
     t.string  "activity_type_id"
     t.string  "activity_type"
@@ -2011,35 +2407,43 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "activity_sub_type"
     t.string  "report_name"
     t.integer "tag_method_id"
-    t.string  "source_id"
+    t.string  "source_id",         null: false
+    t.integer "network_id",        null: false
+    t.integer "data_source_id",    null: false
   end
 
   create_table "dart_ad_pricings", id: false, force: true do |t|
-    t.string  "order_id",                                null: false
-    t.string  "ad_id",                                   null: false
-    t.string  "pricing_type", limit: 12,                 null: false
-    t.float   "rate",                                    null: false
-    t.integer "quantity",                                null: false
+    t.string  "order_id",                                  null: false
+    t.string  "ad_id",                                     null: false
+    t.string  "pricing_type",   limit: 12,                 null: false
+    t.float   "rate",                                      null: false
+    t.integer "quantity",                                  null: false
     t.float   "value"
-    t.boolean "is_flat_fee",             default: false, null: false
-    t.integer "network_id",                              null: false
+    t.boolean "is_flat_fee",               default: false, null: false
+    t.integer "network_id",                                null: false
+    t.integer "data_source_id",                            null: false
   end
 
   create_table "dart_ads", id: false, force: true do |t|
     t.string   "advertiser_id"
-    t.string   "order_id",                   null: false
-    t.string   "ad_id",                      null: false
-    t.string   "description",                null: false
-    t.string   "alt_ad_id",     limit: 32
-    t.string   "product_type",  limit: 64
-    t.string   "ad_type",       limit: 32
-    t.string   "jump_url",      limit: 1024
-    t.string   "creative_size", limit: 12
+    t.string   "order_id",                                        null: false
+    t.string   "ad_id",                                           null: false
+    t.string   "description",                                     null: false
+    t.string   "alt_ad_id",          limit: 32
+    t.string   "product_type",       limit: 64
+    t.string   "ad_type",            limit: 32
+    t.string   "jump_url",           limit: 1024
+    t.string   "creative_size",      limit: 12
     t.datetime "start_date"
     t.datetime "end_date"
-    t.integer  "network_id",                 null: false
     t.float    "rate"
     t.string   "cost_type"
+    t.integer  "network_id",                                      null: false
+    t.integer  "data_source_id",                                  null: false
+    t.string   "keyvalue_targeting", limit: nil
+    t.integer  "quantity",           limit: 8
+    t.float    "value"
+    t.boolean  "is_flat_fee",                     default: false, null: false
   end
 
   create_table "dart_api_ads", id: false, force: true do |t|
@@ -2090,17 +2494,29 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.boolean  "uses_default_url"
     t.string   "click_url",        limit: 1024
     t.integer  "network_id"
+    t.integer  "data_source_id"
   end
 
   create_table "dart_browsers", id: false, force: true do |t|
-    t.string "source_id", null: false
-    t.string "name",      null: false
+    t.string  "name",           null: false
+    t.string  "source_id",      null: false
+    t.integer "data_source_id", null: false
   end
 
   create_table "dart_connection_types", id: false, force: true do |t|
-    t.string "source_id", null: false
-    t.string "name",      null: false
-    t.string "comments"
+    t.string  "name",           null: false
+    t.string  "comments"
+    t.string  "source_id",      null: false
+    t.integer "data_source_id", null: false
+  end
+
+  create_table "dart_creative_sets", id: false, force: true do |t|
+    t.integer "id",                    limit: 8, null: false
+    t.string  "name"
+    t.integer "master_creative_id",    limit: 8
+    t.integer "companion_creative_id", limit: 8
+    t.integer "network_id",                      null: false
+    t.integer "data_source_id",                  null: false
   end
 
   create_table "dart_creatives", id: false, force: true do |t|
@@ -2116,11 +2532,29 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "click_url",      limit: 1024
     t.integer "version"
     t.integer "network_id",                  null: false
+    t.integer "data_source_id",              null: false
+    t.text    "preview_url"
+    t.text    "dest_url"
   end
 
   create_table "dart_designated_market_areas", id: false, force: true do |t|
-    t.string "source_id"
-    t.string "name"
+    t.string  "name",           null: false
+    t.string  "source_id",      null: false
+    t.integer "data_source_id", null: false
+  end
+
+  create_table "dart_geo", id: false, force: true do |t|
+    t.string  "cityname"
+    t.string  "countrycode"
+    t.integer "countryid"
+    t.string  "countryname"
+    t.integer "id"
+    t.integer "metrocode"
+    t.string  "metroname"
+    t.string  "regioncode"
+    t.integer "regionid"
+    t.string  "regionname"
+    t.boolean "targetable",  default: false, null: false
   end
 
   create_table "dart_key_vals", id: false, force: true do |t|
@@ -2128,28 +2562,39 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "keyword"
     t.integer "ordinal"
     t.integer "network_id"
+    t.integer "key_id"
+    t.integer "val_id"
+    t.string  "key_name"
+    t.string  "val_name"
   end
 
-  add_index "dart_key_vals", ["keyword", "network_id"], name: "index_dart_key_vals_on_keyword_and_network_id", using: :btree
-
   create_table "dart_network_advertisers", id: false, force: true do |t|
+    t.string  "type"
     t.string  "spot_id"
     t.string  "advertiser_id",                     null: false
     t.string  "advertiser",        default: "N/A", null: false
     t.string  "alt_advertiser_id"
     t.string  "site_id"
     t.integer "network_id",                        null: false
+    t.integer "data_source_id",                    null: false
   end
 
   create_table "dart_network_configs", id: false, force: true do |t|
-    t.integer "network_id",                          null: false
-    t.boolean "api_sync",            default: false
-    t.boolean "ftp_sync",            default: false
+    t.integer "network_id",                            null: false
+    t.boolean "api_sync",              default: false
+    t.boolean "ftp_sync",              default: false
     t.string  "ftp_user"
     t.string  "ftp_pass"
-    t.boolean "appnexus_enabled",    default: false
+    t.boolean "appnexus_enabled",      default: false
     t.date    "xfp_conversion_date"
     t.string  "dt_bucket_name"
+    t.boolean "assign_sales_channels", default: false, null: false
+  end
+
+  create_table "dart_operating_systems", id: false, force: true do |t|
+    t.string  "name",           null: false
+    t.string  "source_id",      null: false
+    t.integer "data_source_id", null: false
   end
 
   create_table "dart_order_pricings", id: false, force: true do |t|
@@ -2177,7 +2622,9 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "purchase_order", limit: 64
     t.datetime "start_date"
     t.datetime "end_date"
+    t.integer  "trafficker_id"
     t.integer  "network_id",                null: false
+    t.integer  "data_source_id",            null: false
   end
 
   create_table "dart_page_flight_costs", id: false, force: true do |t|
@@ -2192,19 +2639,20 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "pricing_flag"
     t.integer "delivered_impressions"
     t.integer "delivered_clicks"
+    t.integer "network_id",                      null: false
+    t.integer "data_source_id",                  null: false
   end
-
-  add_index "dart_page_flight_costs", ["zone_id"], name: "index_dart_page_flight_costs_on_zone_id", using: :btree
 
   create_table "dart_sites", id: false, force: true do |t|
     t.string  "id",                     null: false
     t.string  "name",                   null: false
     t.string  "key_name"
-    t.string  "description"
     t.boolean "is_explicitly_targeted"
     t.string  "advertiser_id"
-    t.integer "network_id",             null: false
     t.integer "parent_id"
+    t.integer "parent_site_id"
+    t.integer "network_id",             null: false
+    t.integer "data_source_id",         null: false
   end
 
   create_table "dart_subnetwork_advertisers", id: false, force: true do |t|
@@ -2212,12 +2660,22 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "subnetwork_id"
     t.string  "name"
     t.integer "network_id"
+    t.integer "data_source_id"
   end
 
   create_table "dart_targeted_key_values_not_used", id: false, force: true do |t|
     t.integer "ad_id",              null: false
     t.string  "keyword", limit: 80, null: false
     t.integer "ordinal",            null: false
+  end
+
+  create_table "dart_users", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name"
+    t.string  "email"
+    t.string  "role"
+    t.integer "network_id",     null: false
+    t.integer "data_source_id", null: false
   end
 
   create_table "dart_zones", id: false, force: true do |t|
@@ -2242,6 +2700,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "cpa_activity_id"
     t.string  "group_parent_id"
     t.integer "network_id",                     null: false
+    t.integer "data_source_id",                 null: false
   end
 
   create_table "data_provider_monthly_minimum_payouts", force: true do |t|
@@ -2270,7 +2729,22 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "data_provider_payouts", ["billing_period_id"], name: "index_data_provider_payouts_on_billing_period_id", using: :btree
 
-  create_table "data_provider_payouts_backup_122511", id: false, force: true do |t|
+  create_table "data_provider_payouts_4029", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "network_id"
+    t.integer  "billing_period_id"
+    t.integer  "segment_id"
+    t.integer  "ad_id",                limit: 8
+    t.date     "date"
+    t.float    "payout"
+    t.integer  "publisher_revenue_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.float    "imps"
+    t.float    "clicks"
+  end
+
+  create_table "data_provider_payouts_august2013", id: false, force: true do |t|
     t.integer  "id"
     t.integer  "network_id"
     t.integer  "billing_period_id"
@@ -2297,7 +2771,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.float    "imps"
     t.float    "clicks"
-    t.integer  "id",                             null: false
+    t.integer  "id",                             default: "nextval('data_provider_payouts_test_id_seq'::regclass)", null: false
   end
 
   create_table "data_provider_temp", id: false, force: true do |t|
@@ -2345,6 +2819,50 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   create_table "datalogix_segments", id: false, force: true do |t|
     t.integer "id"
     t.string  "name"
+    t.integer "dp_id"
+  end
+
+  create_table "datalogix_segments2", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name"
+    t.integer "dp_id"
+  end
+
+  create_table "dco_ads", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name", limit: nil
+  end
+
+  create_table "deleted_ads_103112", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "description"
+    t.integer  "order_id"
+    t.string   "source_id"
+    t.string   "ad_type",                   limit: 32
+    t.string   "size",                      limit: 12
+    t.float    "rate"
+    t.string   "cost_type",                 limit: 10
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "delivered"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "designated_market_area_id"
+    t.integer  "channel_id"
+    t.integer  "site_region_target_id"
+    t.integer  "tgt_type_id"
+    t.boolean  "active"
+    t.integer  "geo_type_id"
+    t.integer  "mkt_type_id"
+    t.boolean  "ad_group_verified"
+    t.string   "alt_ad_id"
+    t.integer  "priority"
+    t.boolean  "site_targeting_included"
+    t.integer  "ad_group_id",               limit: 8
+    t.string   "keyvalue_targeting",        limit: 9120
+    t.integer  "appnexus_id"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
   end
 
   create_table "deleted_payouts", id: false, force: true do |t|
@@ -2394,12 +2912,37 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "designated_market_areas", ["source_id"], name: "index_designated_market_areas_on_source_id", using: :btree
 
+  create_table "device_categories", force: true do |t|
+    t.string   "name",                           null: false
+    t.integer  "data_source_id",     default: 2, null: false
+    t.string   "source_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.integer  "screen_category_id"
+    t.string   "dt_name"
+  end
+
+  add_index "device_categories", ["dt_name"], name: "index_device_categories_on_dt_name", unique: true, using: :btree
+
+  create_table "dfp_temp_orders_1113", id: false, force: true do |t|
+    t.string "name"
+    t.string "imp",    limit: 10
+    t.string "clicks", limit: 10
+  end
+
   create_table "dma_targeting", id: false, force: true do |t|
     t.integer "ad_id"
     t.integer "dma_id"
   end
 
   add_index "dma_targeting", ["ad_id", "dma_id"], name: "index_dma_targeting_on_ad_id_and_dma_id", using: :btree
+
+  create_table "dmas_lineitems", id: false, force: true do |t|
+    t.integer "lineitem_id",               null: false
+    t.integer "designated_market_area_id", null: false
+  end
+
+  add_index "dmas_lineitems", ["lineitem_id", "designated_market_area_id"], name: "index_dmas_lineitems_on_lineitem_id_and_dma_id", using: :btree
 
   create_table "dmp_rules", force: true do |t|
     t.string   "name"
@@ -2418,6 +2961,14 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.date     "rule_end"
   end
 
+  create_table "domains", force: true do |t|
+    t.string   "name",       default: "collective.com", null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  add_index "domains", ["name"], name: "index_domains_on_name", unique: true, using: :btree
+
   create_table "dp_ids", id: false, force: true do |t|
     t.integer "ids"
   end
@@ -2432,6 +2983,42 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "site_id"
     t.text    "zone_keyname"
     t.string  "z_site",       limit: 50
+  end
+
+  create_table "dupe_rom_ads_2013_11_20", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "description"
+    t.integer  "order_id"
+    t.string   "source_id"
+    t.string   "ad_type",                   limit: 32
+    t.string   "size",                      limit: 12
+    t.float    "rate"
+    t.string   "cost_type",                 limit: 10
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.boolean  "delivered"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "designated_market_area_id"
+    t.integer  "channel_id"
+    t.integer  "site_region_target_id"
+    t.integer  "tgt_type_id"
+    t.boolean  "active"
+    t.integer  "geo_type_id"
+    t.integer  "mkt_type_id"
+    t.boolean  "ad_group_verified"
+    t.string   "alt_ad_id"
+    t.integer  "priority"
+    t.boolean  "site_targeting_included"
+    t.integer  "ad_group_id",               limit: 8
+    t.string   "keyvalue_targeting",        limit: 32000
+    t.integer  "appnexus_id"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
+    t.integer  "rate_type_id"
+    t.integer  "media_type_id"
+    t.integer  "io_lineitem_id"
+    t.string   "nielsen_campaign_id"
   end
 
   create_table "duplicate_payouts_removed_2012_02_13", id: false, force: true do |t|
@@ -2470,6 +3057,44 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.boolean  "apply_recon"
   end
 
+  create_table "epscilon_segments", id: false, force: true do |t|
+    t.string "name"
+    t.float  "rate"
+  end
+
+  create_table "exchange_payouts", id: false, force: true do |t|
+    t.string  "site_name",  limit: nil
+    t.integer "site_id"
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.float   "rate"
+    t.string  "type",       limit: nil
+  end
+
+  create_table "exchange_payouts_1115", id: false, force: true do |t|
+    t.string  "site_name",  limit: nil
+    t.integer "site_id"
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.float   "rate"
+    t.string  "type",       limit: nil
+  end
+
+  create_table "exchange_payouts_backup", id: false, force: true do |t|
+    t.string  "site_name",  limit: nil
+    t.integer "site_id"
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.date    "start_date"
+    t.date    "end_date"
+    t.float   "rate"
+    t.string  "type",       limit: nil
+  end
+
   create_table "features", force: true do |t|
     t.string   "name"
     t.string   "description"
@@ -2477,7 +3102,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
   end
 
-  create_table "fee_types", force: true do |t|
+  create_table "fee_types", id: false, force: true do |t|
+    t.integer  "id",                     default: "nextval('fee_types_id_seq'::regclass)", null: false
     t.string   "name",       limit: 250
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -2528,6 +3154,15 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.boolean "active",                   default: true
   end
 
+  create_table "format_types", force: true do |t|
+    t.string   "category"
+    t.integer  "network_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "format_types", ["network_id"], name: "index_format_types_on_network_id", using: :btree
+
   create_table "frequency_caps", id: false, force: true do |t|
     t.integer "ad_id"
     t.integer "cap_value"
@@ -2564,8 +3199,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "data_source_id", default: 1, null: false
   end
 
-  add_index "ignored_records", ["table_name"], name: "index_ignored_records_on_table_name", using: :btree
-  add_index "ignored_records", ["value"], name: "index_ignored_records_on_value", using: :btree
+  add_index "ignored_records", ["table_name", "data_source_id", "field", "value", "network_id"], name: "ignored_records_trinity", unique: true, using: :btree
 
   create_table "invalid_contexts", id: false, force: true do |t|
     t.integer  "times",      default: 1, null: false
@@ -2577,18 +3211,154 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "invalid_contexts", ["network_id", "name"], name: "index_invalid_contexts_on_network_id_and_name", unique: true, using: :btree
 
-  create_table "io_lineitems", force: true do |t|
-    t.string   "name",                                 null: false
-    t.boolean  "active",               default: false, null: false
-    t.datetime "start_date",                           null: false
-    t.datetime "end_date",                             null: false
-    t.integer  "volume",     limit: 8, default: 0
-    t.decimal  "rate",                 default: 0.0
-    t.decimal  "value",                default: 0.0
+  create_table "io_assets", force: true do |t|
+    t.string   "asset_upload_name", null: false
+    t.string   "asset_path",        null: false
     t.integer  "order_id"
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.string   "asset_type"
+  end
+
+  create_table "io_details", force: true do |t|
+    t.string  "client_advertiser_name"
+    t.integer "order_id",               null: false
+    t.integer "media_contact_id",       null: false
+    t.integer "billing_contact_id",     null: false
+    t.integer "reach_client_id"
+    t.integer "trafficking_contact_id"
+    t.integer "sales_person_id"
+    t.integer "account_manager_id"
+    t.string  "state"
+    t.string  "client_order_id"
+    t.string  "sales_person_email"
+    t.string  "sales_person_phone"
+    t.string  "account_manager_email"
+    t.string  "account_manager_phone"
+  end
+
+  add_index "io_details", ["account_manager_id"], name: "index_io_details_on_account_manager_id", using: :btree
+  add_index "io_details", ["billing_contact_id"], name: "index_io_details_on_billing_contact_id", using: :btree
+  add_index "io_details", ["media_contact_id"], name: "index_io_details_on_media_contact_id", using: :btree
+  add_index "io_details", ["order_id"], name: "index_io_details_on_order_id", using: :btree
+  add_index "io_details", ["reach_client_id"], name: "index_io_details_on_reach_client_id", using: :btree
+  add_index "io_details", ["sales_person_id"], name: "index_io_details_on_sales_person_id", using: :btree
+  add_index "io_details", ["state"], name: "index_io_details_on_state", using: :btree
+  add_index "io_details", ["trafficking_contact_id"], name: "index_io_details_on_trafficking_contact_id", using: :btree
+
+  create_table "io_lineitems", force: true do |t|
+    t.string   "name",                 limit: 500,                 null: false
+    t.boolean  "active",                           default: false, null: false
+    t.datetime "start_date",                                       null: false
+    t.datetime "end_date",                                         null: false
+    t.integer  "volume",               limit: 8,   default: 0
+    t.decimal  "rate",                             default: 0.0
+    t.decimal  "value",                            default: 0.0
+    t.integer  "order_id"
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
     t.string   "ad_sizes"
+    t.string   "nielsen_placement_id"
+    t.integer  "user_id"
+    t.string   "alt_ad_id"
+    t.text     "targeted_zipcodes"
+    t.text     "keyvalue_targeting"
+    t.text     "notes"
+    t.string   "type"
+    t.integer  "media_type_id"
+    t.decimal  "buffer",                           default: 0.0
+  end
+
+  create_table "issue_4807", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "network_publisher_id"
+    t.string   "creative_size",          limit: 128
+    t.integer  "zone_id"
+    t.float    "revenue_rate"
+    t.string   "revenue_type",           limit: 8
+    t.string   "slot_size",              limit: 12
+    t.integer  "channel_context_id"
+    t.integer  "network_advertiser_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "z_site",                 limit: 50
+    t.boolean  "full_regen_required"
+    t.boolean  "numbers_regen_required"
+    t.integer  "amp2_publisher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "order_id"
+    t.integer  "ad_id"
+    t.integer  "segment_id"
+    t.float    "min_cpm_rate"
+    t.boolean  "after_var_cost"
+    t.integer  "payout_type_id"
+    t.integer  "network_id"
+    t.integer  "data_provider_id"
+    t.integer  "rich_media_type_id"
+    t.integer  "parent_id"
+    t.boolean  "is_parent_payout"
+    t.boolean  "adj_report_only"
+    t.integer  "adj"
+    t.integer  "adj_type"
+    t.float    "adj_val"
+    t.boolean  "apply_recon"
+  end
+
+  create_table "issue_7200_sites", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "network_publisher_id"
+    t.string   "name"
+    t.integer  "source_ad_server_id"
+    t.string   "source_id"
+    t.string   "source_advertiser_id"
+    t.integer  "amp2_site_id"
+    t.integer  "amp2_publisher_id"
+    t.integer  "amp2_master_id"
+    t.string   "keyname"
+    t.integer  "subnetwork_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active"
+    t.integer  "site_type_id"
+    t.integer  "network_id"
+    t.boolean  "is_explicitly_targeted"
+    t.integer  "data_source_id"
+  end
+
+  create_table "issue_7200_zones", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "keyname",                     limit: 200
+    t.integer  "site_id"
+    t.string   "site",                        limit: 64
+    t.string   "context",                     limit: 40
+    t.string   "source_id"
+    t.integer  "section_id"
+    t.boolean  "always_payout_flag"
+    t.string   "z_site",                      limit: 50
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active"
+    t.integer  "zone_type_id"
+    t.integer  "order_id"
+    t.string   "site_placement"
+    t.string   "content_category"
+    t.string   "strategy"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "group_type"
+    t.string   "pricing_type"
+    t.string   "cap_cost"
+    t.integer  "purchase_qty",                limit: 8
+    t.float    "purchase_cost"
+    t.integer  "flight_activated"
+    t.integer  "activity_category_id"
+    t.string   "source_group_parent_id"
+    t.string   "source_activity_category_id"
+    t.integer  "parent_id"
+    t.float    "cumulative_cost"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
   end
 
   create_table "ixi_dp", id: false, force: true do |t|
@@ -2626,53 +3396,64 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "company_id"
   end
 
-  create_table "mandeep_recon_backup", id: false, force: true do |t|
-    t.integer  "id",                       limit: 8
-    t.integer  "arm_billing_period_id"
-    t.integer  "audit_status"
-    t.integer  "discrepancy_code"
-    t.integer  "system_of_record"
-    t.integer  "advertiser_id"
-    t.integer  "order_id"
-    t.integer  "ad_group_id"
-    t.float    "rate"
-    t.float    "adj_gross_rate"
-    t.string   "third_party_name",         limit: 128
-    t.string   "fourth_party_name",        limit: 128
-    t.integer  "impressions",              limit: 8
-    t.integer  "third_party_impressions",  limit: 8
-    t.integer  "fourth_party_impressions", limit: 8
-    t.integer  "booked_impressions",       limit: 8
-    t.integer  "adj_impressions",          limit: 8
-    t.integer  "cml_impressions",          limit: 8
-    t.integer  "sor_impressions",          limit: 8
-    t.integer  "clicks",                   limit: 8
-    t.integer  "third_party_clicks",       limit: 8
-    t.integer  "fourth_party_clicks",      limit: 8
-    t.integer  "booked_clicks",            limit: 8
-    t.integer  "adj_clicks",               limit: 8
-    t.integer  "cml_clicks",               limit: 8
-    t.integer  "sor_clicks",               limit: 8
-    t.float    "booked_rev"
-    t.float    "adj_rev"
-    t.float    "adj_gross_rev"
-    t.float    "cml_rev"
-    t.datetime "last_modified"
-    t.integer  "user_id"
+  create_table "lineitem_assignments", force: true do |t|
+    t.integer  "io_lineitem_id",             null: false
+    t.integer  "creative_id",                null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "network_id",                 null: false
+    t.integer  "data_source_id", default: 1, null: false
   end
 
-  create_table "manytomany_test", id: false, force: true do |t|
-    t.integer "account_id"
-    t.integer "user_id"
-    t.integer "role_id"
+  add_index "lineitem_assignments", ["creative_id"], name: "index_lineitem_assignments_on_creative_id", using: :btree
+  add_index "lineitem_assignments", ["io_lineitem_id", "creative_id"], name: "index_lineitem_assignments_on_io_lineitem_id_and_creative_id", using: :btree
+  add_index "lineitem_assignments", ["io_lineitem_id"], name: "index_lineitem_assignments_on_io_lineitem_id", using: :btree
+
+  create_table "lineitem_video_assignments", force: true do |t|
+    t.integer  "io_lineitem_id",                null: false
+    t.integer  "video_creative_id",             null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "network_id",                    null: false
+    t.integer  "data_source_id",    default: 1, null: false
   end
 
-  add_index "manytomany_test", ["account_id"], name: "fki_account_id", using: :btree
-  add_index "manytomany_test", ["role_id"], name: "fki_role_id", using: :btree
-  add_index "manytomany_test", ["user_id"], name: "fki_user_id", using: :btree
+  add_index "lineitem_video_assignments", ["io_lineitem_id", "video_creative_id"], name: "index_on_li_id_and_video_creative_id", unique: true, using: :btree
+  add_index "lineitem_video_assignments", ["io_lineitem_id"], name: "index_lineitem_video_assignments_on_io_lineitem_id", using: :btree
+  add_index "lineitem_video_assignments", ["video_creative_id"], name: "index_lineitem_video_assignments_on_video_creative_id", using: :btree
+
+  create_table "lineitems_reach_audience_groups", id: false, force: true do |t|
+    t.integer "lineitem_id",             null: false
+    t.integer "reach_audience_group_id", null: false
+  end
+
+  add_index "lineitems_reach_audience_groups", ["lineitem_id", "reach_audience_group_id"], name: "index_lineitems_reach_audience_groups_on_li_id_and_rag_id", using: :btree
+
+  create_table "load_ads", id: false, force: true do |t|
+    t.string "ad_source_id"
+    t.string "order_source_id"
+  end
+
+  create_table "load_amp_dfp", id: false, force: true do |t|
+    t.integer "amp_id"
+    t.string  "dfp_id"
+  end
 
 # Could not dump table "matviews" because of following StandardError
 #   Unknown type 'name' for column 'mv_name'
+
+  create_table "media_contacts", force: true do |t|
+    t.string   "name",            null: false
+    t.string   "phone",           null: false
+    t.string   "email",           null: false
+    t.integer  "reach_client_id", null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+    t.string   "address"
+  end
+
+  add_index "media_contacts", ["name", "email"], name: "index_media_contacts_on_name_and_email", unique: true, using: :btree
+  add_index "media_contacts", ["reach_client_id"], name: "index_media_contacts_on_reach_client_id", using: :btree
 
   create_table "media_types", force: true do |t|
     t.string   "category"
@@ -2681,26 +3462,34 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at", null: false
   end
 
+  add_index "media_types", ["category", "network_id"], name: "unique_media_types_categories", unique: true, using: :btree
   add_index "media_types", ["network_id"], name: "index_media_types_on_network_id", using: :btree
 
   create_table "member_primary_types", force: true do |t|
-    t.string   "name",       null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",                         null: false
+    t.datetime "created_at", default: "now()"
+    t.datetime "updated_at", default: "now()"
   end
 
   add_index "member_primary_types", ["name"], name: "index_member_primary_types_on_name", unique: true, using: :btree
 
   create_table "members_networks", force: true do |t|
-    t.integer  "member_id",  null: false
-    t.integer  "network_id", null: false
-    t.boolean  "banned",     null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "member_id",                    null: false
+    t.integer  "network_id",                   null: false
+    t.boolean  "banned",                       null: false
+    t.datetime "created_at", default: "now()"
+    t.datetime "updated_at", default: "now()"
   end
 
   add_index "members_networks", ["member_id", "network_id"], name: "index_members_networks_on_member_id_and_network_id", unique: true, using: :btree
   add_index "members_networks", ["member_id"], name: "index_members_networks_on_member_id", using: :btree
+
+  create_table "mkt_tmp", id: false, force: true do |t|
+    t.string  "order_name"
+    t.string  "mkt_cat",    limit: 50
+    t.integer "order_id"
+    t.integer "cat_id"
+  end
 
   create_table "mkt_types", force: true do |t|
     t.string   "category",   limit: 50
@@ -2726,6 +3515,17 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   create_table "month_year_map", force: true do |t|
     t.integer "month_id"
     t.integer "year"
+  end
+
+  create_table "monthly_michelle", id: false, force: true do |t|
+    t.integer "ad_id",            limit: 8
+    t.float   "adserving_payout"
+    t.float   "corporate_payout"
+    t.float   "research_payout"
+    t.float   "misc_payout"
+    t.float   "pub_payout"
+    t.float   "dp_payout"
+    t.float   "rm_payout"
   end
 
   create_table "mv_opport_daily", id: false, force: true do |t|
@@ -2775,21 +3575,23 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "post_imps_lookback",  default: 0
     t.integer  "appnexus_id"
     t.integer  "data_source_id",      default: 1,     null: false
+    t.integer  "advertiser_type_id"
   end
 
   add_index "network_advertisers", ["appnexus_id"], name: "unique_advertiser_appnexus_id", unique: true, using: :btree
+  add_index "network_advertisers", ["data_source_id", "source_id", "network_id"], name: "index_network_advertisers_on_trinity", unique: true, using: :btree
 
   create_table "network_appnexus_configs", id: false, force: true do |t|
-    t.integer  "amp_network_id",                     null: false
-    t.string   "default_ad_server_status",           null: false
-    t.string   "default_audit_type",                 null: false
-    t.string   "default_brand_status",               null: false
-    t.string   "default_category_status",            null: false
-    t.string   "default_language_status",            null: false
-    t.string   "default_member_status",              null: false
-    t.string   "default_technical_attribute_status", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.integer  "amp_network_id",                                       null: false
+    t.string   "default_ad_server_status",                             null: false
+    t.string   "default_audit_type",                                   null: false
+    t.string   "default_brand_status",                                 null: false
+    t.string   "default_category_status",                              null: false
+    t.string   "default_language_status",                              null: false
+    t.string   "default_member_status",                                null: false
+    t.string   "default_technical_attribute_status",                   null: false
+    t.datetime "created_at",                         default: "now()"
+    t.datetime "updated_at",                         default: "now()"
   end
 
   add_index "network_appnexus_configs", ["amp_network_id"], name: "index_network_appnexus_configs_on_amp_network_id", unique: true, using: :btree
@@ -2826,6 +3628,420 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string "name", null: false
   end
 
+  create_table "nielsen_campaigns", force: true do |t|
+    t.string   "name",                        null: false
+    t.string   "target_gender",               null: false
+    t.string   "cost_type",                   null: false
+    t.float    "value",         default: 0.0, null: false
+    t.float    "trp_goal",      default: 0.0, null: false
+    t.string   "start_age",                   null: false
+    t.string   "end_age",                     null: false
+    t.string   "source_id"
+    t.integer  "user_id"
+    t.integer  "order_id"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "nielsen_deliveries", id: false, force: true do |t|
+    t.date     "date",                                null: false
+    t.integer  "source_campaign_id",                  null: false
+    t.integer  "source_dma_id",                       null: false
+    t.integer  "source_demographic_id",               null: false
+    t.integer  "source_site_id",                      null: false
+    t.decimal  "reach",                 default: 0.0, null: false
+    t.decimal  "impressions",           default: 0.0, null: false
+    t.integer  "uestimate"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "campaign_reference_id"
+  end
+
+  add_index "nielsen_deliveries", ["date"], name: "index_nielsen_deliveries_on_date", using: :btree
+  add_index "nielsen_deliveries", ["source_campaign_id"], name: "index_nielsen_deliveries_on_source_campaign_id", using: :btree
+  add_index "nielsen_deliveries", ["source_demographic_id"], name: "index_nielsen_deliveries_on_source_demographic_id", using: :btree
+  add_index "nielsen_deliveries", ["source_dma_id"], name: "index_nielsen_deliveries_on_source_dma_id", using: :btree
+
+  create_table "nielsen_deliveries_2014_01_01_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_02_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_03_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_04_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_05_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_06_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_07_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_08_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_09_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_10_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_11_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_12_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_13_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_14_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_15_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_16_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_17_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_18_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_19_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_20_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_21_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_22_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_23_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_deliveries_2014_01_24_202100158", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "source_campaign_id"
+    t.integer  "source_dma_id"
+    t.integer  "source_demographic_id"
+    t.integer  "source_site_id"
+    t.decimal  "reach"
+    t.decimal  "impressions"
+    t.integer  "uestimate"
+    t.datetime "created_at"
+    t.string   "campaign_reference_id"
+  end
+
+  create_table "nielsen_demographics", force: true do |t|
+    t.integer  "source_id",    null: false
+    t.integer  "start_age"
+    t.integer  "end_age"
+    t.string   "group_gender"
+    t.string   "country"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "nielsen_demographics", ["source_id"], name: "index_nielsen_demographics_on_source_id", unique: true, using: :btree
+
+  create_table "nielsen_dma", force: true do |t|
+    t.integer  "source_id",                 null: false
+    t.string   "name"
+    t.string   "country"
+    t.integer  "designated_market_area_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  add_index "nielsen_dma", ["source_id"], name: "index_nielsen_dma_on_source_id", unique: true, using: :btree
+
+  create_table "nielsen_pricings", force: true do |t|
+    t.decimal  "cpp",         default: 0.0, null: false
+    t.decimal  "trp",         default: 0.0, null: false
+    t.integer  "lineitem_id"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+  end
+
+  create_table "nielsen_site", id: false, force: true do |t|
+    t.integer  "id",         null: false
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "nielsen_site_temp", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "name"
+    t.datetime "created_at"
+  end
+
+  create_table "nielsen_sites", force: true do |t|
+    t.integer  "source_id",  null: false
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "nielsen_sites", ["source_id"], name: "index_nielsen_sites_on_source_id", unique: true, using: :btree
+
+  create_table "nielsen_stats", id: false, force: true do |t|
+    t.date     "date"
+    t.integer  "count", limit: 8
+    t.datetime "now"
+  end
+
+  create_table "objectives", force: true do |t|
+    t.string   "name"
+    t.integer  "network_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "objectives", ["network_id"], name: "index_objectives_on_network_id", using: :btree
+
   create_table "observed_values", force: true do |t|
     t.integer  "registered_key_id"
     t.string   "value"
@@ -2835,6 +4051,16 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "observed_values", ["registered_key_id", "value"], name: "index_observed_values_on_registered_key_id_and_value", unique: true, using: :btree
   add_index "observed_values", ["registered_key_id"], name: "index_observed_values_on_registered_key_id", using: :btree
+
+  create_table "operating_systems", force: true do |t|
+    t.string   "name",           null: false
+    t.string   "source_id"
+    t.integer  "data_source_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "operating_systems", ["data_source_id", "source_id"], name: "index_operating_systems_on_data_source_id_and_source_id", unique: true, using: :btree
 
 # Could not dump table "opportunities" because of following StandardError
 #   Unknown type 'opp_type' for column 'opp_type'
@@ -2885,12 +4111,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "optimization_logs", ["optimized_datetime", "order_id"], name: "index_optimization_logs_on_optimized_datetime_and_order_id", using: :btree
 
   create_table "optimization_notifications", force: true do |t|
-    t.integer  "optimization_id",                    null: false
-    t.string   "type",            default: "notice", null: false
-    t.string   "message"
+    t.integer  "optimization_id",                null: false
+    t.text     "message"
     t.datetime "run_date"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "notification_count", default: 0, null: false
   end
 
   create_table "optimization_order_settings", force: true do |t|
@@ -2903,18 +4129,27 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.boolean "active"
   end
 
+  create_table "order_notes", force: true do |t|
+    t.text     "note"
+    t.integer  "order_id"
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "sent",       default: false
+  end
+
   create_table "order_temp", id: false, force: true do |t|
     t.string "name"
   end
 
   create_table "orders", force: true do |t|
-    t.string   "name",                                            null: false
-    t.integer  "network_advertiser_id",                           null: false
-    t.string   "source_id",                                       null: false
+    t.string   "name",                                              null: false
+    t.integer  "network_advertiser_id",                             null: false
+    t.string   "source_id",                                         null: false
     t.integer  "sales_person_id"
     t.integer  "cpm_booked",            limit: 8
     t.integer  "cpc_booked",            limit: 8
-    t.boolean  "payout_flag",                     default: true,  null: false
+    t.boolean  "payout_flag",                     default: true,    null: false
     t.float    "cpm_rate"
     t.float    "cpc_rate"
     t.float    "gross_value"
@@ -2923,24 +4158,26 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.integer  "sales_office_id"
     t.integer  "region_id"
-    t.boolean  "active",                          default: true,  null: false
+    t.boolean  "active",                          default: true,    null: false
     t.integer  "business_type_id"
     t.integer  "product_type_id"
     t.datetime "start_date"
     t.datetime "end_date"
     t.integer  "appnexus_id"
+    t.boolean  "auto_calibrate",                  default: false,   null: false
+    t.boolean  "io_revised",                      default: false,   null: false
     t.integer  "network_id"
-    t.boolean  "auto_calibrate",                  default: true,  null: false
-    t.boolean  "io_revised",                      default: false, null: false
-    t.integer  "data_source_id",                  default: 1,     null: false
+    t.integer  "data_source_id",                  default: 1,       null: false
     t.integer  "recon_status"
-    t.datetime "last_modified"
+    t.datetime "last_modified",                   default: "now()", null: false
     t.integer  "user_id"
+    t.integer  "sales_channel_id"
+    t.string   "trafficker_email"
   end
 
   add_index "orders", ["appnexus_id"], name: "unique_order_appnexus_id", unique: true, using: :btree
+  add_index "orders", ["data_source_id", "source_id", "network_id"], name: "index_orders_on_trinity", unique: true, using: :btree
   add_index "orders", ["network_advertiser_id"], name: "fki_orders_network_advertiser_id", using: :btree
-  add_index "orders", ["network_id", "source_id"], name: "index_orders_on_network_id_and_source_id", unique: true, using: :btree
 
   create_table "p_r_dedup", id: false, force: true do |t|
     t.integer  "id"
@@ -3036,7 +4273,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "network_id"
   end
 
-  add_index "page_flight_costs", ["source_id"], name: "index_page_flight_costs_on_source_id", using: :btree
+  add_index "page_flight_costs", ["data_source_id", "source_id", "network_id"], name: "index_page_flight_costs_on_trinity", using: :btree
 
   create_table "password_requests", force: true do |t|
     t.integer  "user_id",                                      null: false
@@ -3087,14 +4324,55 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "pixel_groups_pixels", ["pixel_id"], name: "index_pixel_groups_pixels_on_pixel_id", using: :btree
 
   create_table "platform_members", force: true do |t|
-    t.string   "name",                   null: false
-    t.string   "source_id",              null: false
-    t.integer  "member_primary_type_id", null: false
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name",                                     null: false
+    t.string   "source_id",                                null: false
+    t.integer  "member_primary_type_id",                   null: false
+    t.datetime "created_at",             default: "now()"
+    t.datetime "updated_at",             default: "now()"
   end
 
   add_index "platform_members", ["source_id"], name: "index_platform_members_on_source_id", unique: true, using: :btree
+
+  create_table "pricing_exception_notes", force: true do |t|
+    t.integer  "pricing_exception_id",                 null: false
+    t.string   "external_id",                          null: false
+    t.string   "title"
+    t.string   "body"
+    t.boolean  "attachment",           default: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.string   "created_by"
+  end
+
+  create_table "pricing_exceptions", force: true do |t|
+    t.integer  "network_id",                                                  null: false
+    t.integer  "opportunity_id",                                              null: false
+    t.integer  "amp_order_id"
+    t.string   "external_id",                                                 null: false
+    t.string   "name",                                                        null: false
+    t.string   "approval_status"
+    t.text     "gross_ecpm_for_exception"
+    t.text     "additional_non_std_restrictions"
+    t.boolean  "legacy_deal"
+    t.string   "legacy_amp_margin"
+    t.boolean  "rm_included"
+    t.decimal  "cog_for_collective",                 precision: 11, scale: 2
+    t.decimal  "bonus_impressions"
+    t.text     "reason_for_request"
+    t.string   "additional_parameters"
+    t.decimal  "cpm_for_additional_params",          precision: 11, scale: 2
+    t.string   "additional_research_and_cost_info"
+    t.boolean  "targeting_sold_incs_3rd_party_data"
+    t.boolean  "expandable_ads"
+    t.datetime "deleted_on"
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.string   "created_by"
+    t.string   "last_modified_by"
+    t.date     "rfp_due_date"
+    t.decimal  "cpm_for_additional_parameters"
+    t.string   "best_contact"
+  end
 
   create_table "product_types", force: true do |t|
     t.string   "name"
@@ -3141,6 +4419,42 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "rich_media_type_id"
     t.integer  "parent_id"
     t.boolean  "is_parent_payout"
+  end
+
+  create_table "pub_rev_20130109", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "network_publisher_id"
+    t.string   "creative_size",          limit: 128
+    t.integer  "zone_id"
+    t.float    "revenue_rate"
+    t.string   "revenue_type",           limit: 8
+    t.string   "slot_size",              limit: 12
+    t.integer  "channel_context_id"
+    t.integer  "network_advertiser_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "z_site",                 limit: 50
+    t.boolean  "full_regen_required"
+    t.boolean  "numbers_regen_required"
+    t.integer  "amp2_publisher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "order_id"
+    t.integer  "ad_id"
+    t.integer  "segment_id"
+    t.float    "min_cpm_rate"
+    t.boolean  "after_var_cost"
+    t.integer  "payout_type_id"
+    t.integer  "network_id"
+    t.integer  "data_provider_id"
+    t.integer  "rich_media_type_id"
+    t.integer  "parent_id"
+    t.boolean  "is_parent_payout"
+    t.boolean  "adj_report_only"
+    t.integer  "adj"
+    t.integer  "adj_type"
+    t.float    "adj_val"
+    t.boolean  "apply_recon"
   end
 
   create_table "pub_rev_66", id: false, force: true do |t|
@@ -3216,7 +4530,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "network_id"
     t.integer  "data_provider_id"
     t.integer  "rich_media_type_id"
-    t.integer  "parent_id",                          default: 0
+    t.integer  "parent_id",                          default: 0,     null: false
     t.boolean  "is_parent_payout",                   default: false, null: false
     t.boolean  "adj_report_only",                    default: false
     t.integer  "adj",                                default: 0
@@ -3235,8 +4549,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "publisher_revenues", ["type"], name: "index_publisher_revenues_on_type", using: :btree
   add_index "publisher_revenues", ["z_site"], name: "index_publisher_revenues_on_z_site", using: :btree
 
-  create_table "publisher_revenues_backup", id: false, force: true do |t|
-    t.integer  "id"
+  create_table "publisher_revenues_103112", id: false, force: true do |t|
+    t.integer  "id",                                                 null: false
     t.integer  "network_publisher_id"
     t.string   "creative_size",          limit: 128
     t.integer  "zone_id"
@@ -3255,9 +4569,23 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.integer  "order_id"
     t.integer  "ad_id"
+    t.integer  "segment_id"
+    t.float    "min_cpm_rate"
+    t.boolean  "after_var_cost",                     default: false, null: false
+    t.integer  "payout_type_id"
+    t.integer  "network_id"
+    t.integer  "data_provider_id"
+    t.integer  "rich_media_type_id"
+    t.integer  "parent_id",                          default: 0
+    t.boolean  "is_parent_payout",                   default: false, null: false
+    t.boolean  "adj_report_only",                    default: false
+    t.integer  "adj",                                default: 0
+    t.integer  "adj_type",                           default: 0
+    t.float    "adj_val"
+    t.boolean  "apply_recon",                        default: false
   end
 
-  create_table "publisher_revenues_test", id: false, force: true do |t|
+  create_table "publisher_revenues_cleanup", id: false, force: true do |t|
     t.integer  "id"
     t.integer  "network_publisher_id"
     t.string   "creative_size",          limit: 128
@@ -3277,11 +4605,60 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.integer  "order_id"
     t.integer  "ad_id"
-    t.string   "name",                   limit: 200
-    t.string   "site_source_id",         limit: 20
-    t.string   "adv_source_id",          limit: 20
-    t.string   "ord_source_id",          limit: 20
-    t.string   "ad_source_id",           limit: 20
+    t.integer  "segment_id"
+    t.float    "min_cpm_rate"
+    t.boolean  "after_var_cost"
+    t.integer  "payout_type_id"
+    t.integer  "network_id"
+    t.integer  "data_provider_id"
+    t.integer  "rich_media_type_id"
+    t.integer  "parent_id"
+    t.boolean  "is_parent_payout"
+    t.boolean  "adj_report_only"
+    t.integer  "adj"
+    t.integer  "adj_type"
+    t.float    "adj_val"
+    t.boolean  "apply_recon"
+    t.string   "type"
+    t.integer  "payout_vendor_id"
+  end
+
+  create_table "publisher_revenues_dp_adsize", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "network_publisher_id"
+    t.string   "creative_size",          limit: 128
+    t.integer  "zone_id"
+    t.float    "revenue_rate"
+    t.string   "revenue_type",           limit: 8
+    t.string   "slot_size",              limit: 12
+    t.integer  "channel_context_id"
+    t.integer  "network_advertiser_id"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "z_site",                 limit: 50
+    t.boolean  "full_regen_required"
+    t.boolean  "numbers_regen_required"
+    t.integer  "amp2_publisher_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "order_id"
+    t.integer  "ad_id"
+    t.integer  "segment_id"
+    t.float    "min_cpm_rate"
+    t.boolean  "after_var_cost"
+    t.integer  "payout_type_id"
+    t.integer  "network_id"
+    t.integer  "data_provider_id"
+    t.integer  "rich_media_type_id"
+    t.integer  "parent_id"
+    t.boolean  "is_parent_payout"
+    t.boolean  "adj_report_only"
+    t.integer  "adj"
+    t.integer  "adj_type"
+    t.float    "adj_val"
+    t.boolean  "apply_recon"
+    t.string   "type"
+    t.integer  "payout_vendor_id"
   end
 
   create_table "pushed_creatives", force: true do |t|
@@ -3315,6 +4692,138 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   add_index "rate_types", ["network_id"], name: "index_rate_types_on_network_id", using: :btree
+
+  create_table "reach_audience_groups", force: true do |t|
+    t.string   "name"
+    t.string   "key_values", limit: 32000
+    t.integer  "network_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reach_audience_groups", ["name"], name: "index_reach_audience_groups_on_name", unique: true, using: :btree
+
+  create_table "reach_block_logs", force: true do |t|
+    t.string   "action",              null: false
+    t.string   "status",              null: false
+    t.string   "message"
+    t.integer  "site_id",             null: false
+    t.integer  "advertiser_id"
+    t.integer  "advertiser_group_id"
+    t.integer  "user_id",             null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+  end
+
+  create_table "reach_block_violations", force: true do |t|
+    t.integer  "site_id"
+    t.integer  "advertiser_id"
+    t.integer  "ad_id"
+    t.string   "block_tool_state"
+    t.string   "dfp_state"
+    t.datetime "created_at"
+  end
+
+  create_table "reach_clients", force: true do |t|
+    t.string   "name",                             null: false
+    t.string   "abbr",                             null: false
+    t.integer  "network_id",                       null: false
+    t.integer  "user_id"
+    t.integer  "sales_person_id"
+    t.integer  "account_manager_id"
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+    t.integer  "media_contact_id"
+    t.integer  "billing_contact_id"
+    t.integer  "agency_id"
+    t.decimal  "client_buffer",      default: 0.0
+  end
+
+  add_index "reach_clients", ["account_manager_id"], name: "index_reach_clients_on_account_manager_id", using: :btree
+  add_index "reach_clients", ["network_id"], name: "index_reach_clients_on_network_id", using: :btree
+  add_index "reach_clients", ["sales_person_id"], name: "index_reach_clients_on_sales_person_id", using: :btree
+  add_index "reach_clients", ["user_id"], name: "index_reach_clients_on_user_id", using: :btree
+
+  create_table "reach_default_site_blocks", force: true do |t|
+    t.integer  "site_id"
+    t.integer  "user_id"
+    t.integer  "network_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "reach_io_logs", force: true do |t|
+    t.string   "message",       null: false
+    t.string   "type",          null: false
+    t.integer  "ad_id"
+    t.integer  "creative_id"
+    t.integer  "order_id",      null: false
+    t.integer  "assignment_id"
+    t.datetime "created_at",    null: false
+  end
+
+  add_index "reach_io_logs", ["ad_id"], name: "index_reach_io_logs_on_ad_id", using: :btree
+  add_index "reach_io_logs", ["assignment_id"], name: "index_reach_io_logs_on_assignment_id", using: :btree
+  add_index "reach_io_logs", ["creative_id"], name: "index_reach_io_logs_on_creative_id", using: :btree
+  add_index "reach_io_logs", ["order_id"], name: "index_reach_io_logs_on_order_id", using: :btree
+
+  create_table "reach_report_columns", force: true do |t|
+    t.string  "name"
+    t.string  "internal_name"
+    t.boolean "is_removable"
+    t.integer "index"
+    t.string  "format"
+    t.integer "precision"
+  end
+
+  create_table "reach_report_dimensions", force: true do |t|
+    t.string  "name"
+    t.string  "internal_id"
+    t.string  "default_column"
+    t.integer "index"
+  end
+
+  create_table "reach_schedule_report_history", force: true do |t|
+    t.integer  "job_id"
+    t.datetime "start_date_time"
+    t.datetime "end_date_time"
+    t.string   "url",             limit: 1000
+    t.integer  "report_id"
+  end
+
+  create_table "reach_schedule_reports", force: true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.string   "email"
+    t.boolean  "recalculate_dates"
+    t.datetime "start_date",                                           null: false
+    t.datetime "end_date",                                             null: false
+    t.string   "url",               limit: 2000
+    t.datetime "last_ran"
+    t.string   "frequency_type"
+    t.string   "frequency_value"
+    t.datetime "report_start_date",                                    null: false
+    t.datetime "report_end_date"
+    t.string   "status",                         default: "Scheduled"
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
+  end
+
+  create_table "reach_sites_block", force: true do |t|
+    t.integer  "advertiser_id"
+    t.integer  "advertiser_group_id"
+    t.integer  "site_id"
+    t.string   "state"
+    t.string   "type"
+    t.integer  "network_id"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reach_sites_block", ["advertiser_group_id", "site_id"], name: "reach_sites_block_unique_adv_grp_id_site_id", unique: true, using: :btree
+  add_index "reach_sites_block", ["advertiser_id", "site_id"], name: "reach_sites_block_unique_adv_id_site_id", unique: true, using: :btree
 
   create_table "reconciliations", force: true do |t|
     t.integer  "order_id"
@@ -3370,6 +4879,11 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
   end
 
+  create_table "reg_test", id: false, force: true do |t|
+    t.integer "id"
+    t.string  "name", limit: 50
+  end
+
   create_table "regions", force: true do |t|
     t.integer  "network_id"
     t.string   "name",       null: false
@@ -3387,24 +4901,46 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "registered_keys", ["name"], name: "index_registered_keys_on_name", unique: true, using: :btree
   add_index "registered_keys", ["network_id"], name: "index_registered_keys_on_network_id", using: :btree
 
-  create_table "report_schedule", force: true do |t|
-    t.integer  "user_id"
-    t.string   "title"
-    t.string   "email"
-    t.boolean  "recalculate_dates"
-    t.datetime "report_from",                             null: false
-    t.datetime "report_to",                               null: false
-    t.boolean  "date_calculation"
-    t.string   "last_ran"
-    t.string   "url"
-    t.integer  "frequency_flag"
-    t.string   "weekday"
-    t.integer  "quarter"
-    t.string   "status",            default: "Scheduled"
-    t.datetime "start_on",                                null: false
-    t.datetime "end_on"
+  create_table "removed_cm_default_zones_2013_08_20", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "keyname",                     limit: 200
+    t.integer  "site_id"
+    t.string   "site",                        limit: 64
+    t.string   "context",                     limit: 40
+    t.string   "source_id"
+    t.integer  "section_id"
+    t.boolean  "always_payout_flag"
+    t.string   "z_site",                      limit: 50
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "active"
+    t.integer  "zone_type_id"
+    t.integer  "order_id"
+    t.string   "site_placement"
+    t.string   "content_category"
+    t.string   "strategy"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "group_type"
+    t.string   "pricing_type"
+    t.string   "cap_cost"
+    t.integer  "purchase_qty",                limit: 8
+    t.float    "purchase_cost"
+    t.integer  "flight_activated"
+    t.integer  "activity_category_id"
+    t.string   "source_group_parent_id"
+    t.string   "source_activity_category_id"
+    t.integer  "parent_id"
+    t.float    "cumulative_cost"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
+  end
+
+  create_table "report_filters", force: true do |t|
+    t.integer "component_id",    null: false
+    t.string  "cdb_field",       null: false
+    t.integer "filterable_id",   null: false
+    t.string  "filterable_type", null: false
   end
 
   create_table "report_schedules", force: true do |t|
@@ -3424,8 +4960,132 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "expand_all",                   default: 0
     t.string   "selected_view",     limit: 45
     t.integer  "run_duration",                 default: 7776000,     null: false
-    t.datetime "run_from",                                           null: false
+    t.datetime "run_from",                     default: "now()",     null: false
     t.integer  "parent_id"
+  end
+
+  create_table "report_schedules_090113", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "user_id"
+    t.string   "report_type",       limit: 16
+    t.string   "title"
+    t.string   "email"
+    t.integer  "weekdays"
+    t.decimal  "days"
+    t.integer  "months"
+    t.integer  "recalculate_dates"
+    t.string   "date_calculation",  limit: 45
+    t.string   "last_ran",          limit: 45
+    t.string   "status",            limit: 45
+    t.string   "parameters",        limit: 45
+    t.text     "url"
+    t.integer  "expand_all"
+    t.string   "selected_view",     limit: 45
+    t.integer  "run_duration"
+    t.datetime "run_from"
+    t.integer  "parent_id"
+  end
+
+  create_table "research_request_notes", force: true do |t|
+    t.integer  "research_request_id",                 null: false
+    t.string   "external_id",                         null: false
+    t.string   "title"
+    t.string   "body"
+    t.boolean  "attachment",          default: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "created_by"
+  end
+
+  create_table "research_requests", force: true do |t|
+    t.integer  "network_id",                                    null: false
+    t.integer  "opportunity_id",                                null: false
+    t.integer  "amp_order_id"
+    t.string   "external_id",                                   null: false
+    t.string   "name",                                          null: false
+    t.string   "demo",                          default: "n/a", null: false
+    t.string   "approval_status"
+    t.string   "geographic_scope",                              null: false
+    t.string   "region_if_not_national"
+    t.date     "start_date",                                    null: false
+    t.date     "end_date",                                      null: false
+    t.decimal  "total_spend",                                   null: false
+    t.decimal  "total_impressions",                             null: false
+    t.boolean  "audience_hd"
+    t.boolean  "one_metric_survey_vizu"
+    t.boolean  "igrp"
+    t.boolean  "online_only_survey"
+    t.boolean  "audience_verification"
+    t.boolean  "mobile_one_metric_survey_vizu"
+    t.boolean  "viewability"
+    t.boolean  "mobile_only_survey"
+    t.boolean  "offline_sales_lift"
+    t.boolean  "reach_report"
+    t.boolean  "search_research"
+    t.boolean  "frequency_report"
+    t.boolean  "tv_tune_in"
+    t.boolean  "brand_lift_survey"
+    t.string   "other_research"
+    t.boolean  "tva_research_brand_lift"
+    t.boolean  "tva_research_search_research"
+    t.boolean  "display"
+    t.boolean  "rich_media"
+    t.decimal  "display_impressions"
+    t.decimal  "rich_media_impressions"
+    t.boolean  "video"
+    t.boolean  "mobile"
+    t.decimal  "video_impressions"
+    t.decimal  "mobile_impressions"
+    t.decimal  "banner_impressions"
+    t.boolean  "other"
+    t.boolean  "tablet"
+    t.boolean  "guaranteed_in_view"
+    t.boolean  "guaranteed_in_target"
+    t.integer  "percent_in_view_goal"
+    t.integer  "percent_in_target_goal"
+    t.string   "grps_reach_of_tv_schedule"
+    t.string   "reach_ratings_for_show"
+    t.boolean  "tva_high"
+    t.boolean  "tva_low"
+    t.boolean  "tva_competitive"
+    t.boolean  "tva_channels"
+    t.boolean  "tva_custom"
+    t.string   "tva_custom_specify"
+    t.string   "behavioral_demo_target_1"
+    t.string   "behavioral_demo_target_2"
+    t.string   "behavioral_demo_target_3"
+    t.boolean  "no_tva_targeting"
+    t.string   "campaign_goal_1"
+    t.string   "campaign_goal_2"
+    t.string   "campaign_goal_3"
+    t.string   "campaign_goal_4"
+    t.boolean  "brand_lift_1"
+    t.boolean  "incremental_frequency_1"
+    t.boolean  "incremental_reach_1"
+    t.boolean  "ad_viewability_1"
+    t.boolean  "audience_verification_1"
+    t.boolean  "offline_sales_impact_1"
+    t.boolean  "online_search_impact_1"
+    t.boolean  "ctr_cpa_cpx_cpe_vtc_1"
+    t.boolean  "tune_in_impact_1"
+    t.string   "other_metric_1"
+    t.boolean  "brand_lift_2"
+    t.boolean  "incremental_frequency_2"
+    t.boolean  "incremental_reach_2"
+    t.boolean  "ad_viewability_2"
+    t.boolean  "audience_verification_2"
+    t.boolean  "offline_sales_impact_2"
+    t.boolean  "online_search_impact_2"
+    t.boolean  "ctr_cpa_cpx_cpe_vtc_2"
+    t.boolean  "tune_in_impact_2"
+    t.string   "other_metric_2"
+    t.datetime "deleted_on"
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
+    t.string   "created_by"
+    t.string   "last_modified_by"
+    t.decimal  "tablet_impressions"
+    t.decimal  "other_impressions"
   end
 
   create_table "revenue_schedules", force: true do |t|
@@ -3459,20 +5119,6 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   end
 
   add_index "rich_media_payouts", ["billing_period_id"], name: "index_rich_media_payouts_on_billing_period_id", using: :btree
-
-  create_table "rich_media_payouts_122611", id: false, force: true do |t|
-    t.integer  "id"
-    t.integer  "network_id"
-    t.integer  "billing_period_id"
-    t.integer  "ad_id",                limit: 8
-    t.date     "date"
-    t.float    "payout"
-    t.integer  "publisher_revenue_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.float    "imps"
-    t.float    "clicks"
-  end
 
   create_table "rich_media_payouts_sum", id: false, force: true do |t|
     t.integer  "network_id"
@@ -3596,6 +5242,16 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string "name", limit: 100
   end
 
+  create_table "sales_channels", force: true do |t|
+    t.string   "name",       null: false
+    t.integer  "network_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "sales_channels", ["network_id", "name"], name: "index_sales_channels_on_network_id_and_name", unique: true, using: :btree
+  add_index "sales_channels", ["network_id"], name: "index_sales_channels_on_network_id", using: :btree
+
   create_table "sales_offices", force: true do |t|
     t.integer  "network_id"
     t.string   "name"
@@ -3621,8 +5277,28 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "report_id"
   end
 
+  create_table "screen_categories", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "screen_types", force: true do |t|
+    t.string   "category"
+    t.integer  "network_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "screen_types", ["network_id"], name: "index_screen_types_on_network_id", using: :btree
+
   create_table "sections", force: true do |t|
     t.string "name", limit: 64, null: false
+  end
+
+  create_table "segment_34249_payouts", id: false, force: true do |t|
+    t.integer "ad_id"
+    t.float   "payout"
   end
 
   create_table "segment_group_assignments", force: true do |t|
@@ -3784,10 +5460,11 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "network_id",                            null: false
     t.boolean  "is_explicitly_targeted"
     t.integer  "data_source_id",         default: 1,    null: false
+    t.integer  "domain_id"
   end
 
+  add_index "sites", ["data_source_id", "source_id", "network_id"], name: "index_sites_on_trinity", unique: true, using: :btree
   add_index "sites", ["network_publisher_id"], name: "index_sites_on_network_publisher_id", using: :btree
-  add_index "sites", ["source_advertiser_id"], name: "index_sites_on_source_advertiser_id", using: :btree
 
   create_table "slot_size", id: false, force: true do |t|
     t.string  "size",      limit: 10
@@ -3840,6 +5517,13 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "states", ["country_id", "abbr"], name: "states_country_id_key", unique: true, using: :btree
 
+  create_table "states_lineitems", id: false, force: true do |t|
+    t.integer "state_id"
+    t.integer "lineitem_id"
+  end
+
+  add_index "states_lineitems", ["lineitem_id"], name: "index_states_lineitems_on_lineitem_id", using: :btree
+
   create_table "status_codes", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -3854,6 +5538,8 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.datetime "updated_at"
     t.integer  "data_source_id", default: 1, null: false
   end
+
+  add_index "subnetworks", ["data_source_id", "source_id", "network_id"], name: "index_subnetworks_on_trinity", unique: true, using: :btree
 
   create_table "sync_channels", force: true do |t|
     t.string  "name"
@@ -3909,544 +5595,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "sync_content_categories_zones", ["content_category_id"], name: "index_sync_content_categories_zones_on_content_category_id", using: :btree
   add_index "sync_content_categories_zones", ["job_id"], name: "index_sync_content_categories_zones_on_job_id", using: :btree
 
-  create_table "t2703", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
+  create_table "t_arm", id: false, force: true do |t|
+    t.integer "ad_group_id"
   end
 
-  create_table "t2704", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2705", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2706", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2707", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2708", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2709", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2710", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2711", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2712", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2713", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2714", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2716", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2717", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2718", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2719", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2720", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2721", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2722", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2724", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2725", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2726", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2727", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2728", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2729", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2730", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2732", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2733", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2734", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2735", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2736", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2737", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2738", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2739", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2740", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2741", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2742", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2743", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2744", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2745", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2746", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2747", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2748", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2749", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2750", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2751", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2752", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2753", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2754", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2755", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2756", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2757", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2758", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
-  end
-
-  create_table "t2759", id: false, force: true do |t|
-    t.date    "date"
-    t.integer "ad_id",       limit: 8
-    t.integer "segment_id"
-    t.float   "impressions"
-    t.float   "clicks"
-    t.float   "dp_payout"
-    t.float   "rm_payout"
+  create_table "t_arm2", id: false, force: true do |t|
+    t.integer "ad_group_id", limit: 8
   end
 
   create_table "tag_groups", force: true do |t|
@@ -4517,6 +5671,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string  "sales_region"
   end
 
+  create_table "temp_orders_1113", id: false, force: true do |t|
+    t.string  "name"
+    t.integer "imp"
+    t.integer "clicks"
+  end
+
   create_table "temp_payout_site_list", id: false, force: true do |t|
     t.string "name"
     t.float  "revenue_rate"
@@ -4530,6 +5690,12 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.float   "clicks"
     t.float   "dp_payout"
     t.float   "rm_payout"
+  end
+
+  create_table "test1", id: false, force: true do |t|
+    t.integer  "id"
+    t.integer  "id2"
+    t.datetime "updated_at"
   end
 
   create_table "test_load", id: false, force: true do |t|
@@ -4553,24 +5719,52 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "tgt_types", ["network_id", "category"], name: "index_tgt_types_on_network_id_and_category", unique: true, using: :btree
 
+  create_table "third_party_server_assignments", force: true do |t|
+    t.string  "category",              null: false
+    t.integer "amp_order_id",          null: false
+    t.integer "third_party_server_id", null: false
+  end
+
+  add_index "third_party_server_assignments", ["amp_order_id", "category"], name: "third_party_server_assignemtns_unique_idx", unique: true, using: :btree
+  add_index "third_party_server_assignments", ["amp_order_id"], name: "index_third_party_server_assignments_on_amp_order_id", using: :btree
+  add_index "third_party_server_assignments", ["category"], name: "index_third_party_server_assignments_on_category", using: :btree
+  add_index "third_party_server_assignments", ["third_party_server_id"], name: "index_third_party_server_assignments_on_third_party_server_id", using: :btree
+
+  create_table "third_party_servers", force: true do |t|
+    t.integer  "adjuster_id"
+    t.string   "server_type"
+    t.string   "uid",                    null: false
+    t.string   "pwd",                    null: false
+    t.text     "parameters"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.string   "status"
+    t.string   "name",        limit: 32
+  end
+
+  add_index "third_party_servers", ["adjuster_id"], name: "index_third_party_servers_on_adjuster_id", unique: true, using: :btree
+  add_index "third_party_servers", ["server_type", "uid"], name: "index_third_party_servers_on_server_type_and_uid", unique: true, using: :btree
+  add_index "third_party_servers", ["server_type"], name: "index_third_party_servers_on_server_type", using: :btree
+  add_index "third_party_servers", ["uid"], name: "index_third_party_servers_on_uid", using: :btree
+
   create_table "tmplt_adjuster_data", id: false, force: true do |t|
-    t.date    "report_date",                           null: false
-    t.string  "third_party_name",          limit: 128
-    t.integer "advertiser_id",                         null: false
-    t.integer "order_id",                              null: false
-    t.integer "ad_id",                                 null: false
-    t.integer "creative_id",                           null: false
-    t.string  "creative_name",             limit: 512
-    t.string  "third_party_creative_id",   limit: 512
-    t.string  "third_party_creative_name", limit: 512
-    t.string  "impressions",               limit: 32
-    t.string  "third_party_impressions",   limit: 32
-    t.string  "contracted_impressions",    limit: 32
-    t.string  "scheduled_impressions",     limit: 32
-    t.string  "clicks",                    limit: 32
-    t.string  "third_party_clicks",        limit: 32
-    t.string  "contracted_clicks",         limit: 32
-    t.string  "scheduled_clicks",          limit: 32
+    t.date   "report_date",                           null: false
+    t.string "third_party_name",          limit: 128
+    t.string "advertiser_id",                         null: false
+    t.string "order_id"
+    t.string "ad_id",                                 null: false
+    t.string "creative_id",                           null: false
+    t.string "creative_name",             limit: 512
+    t.string "third_party_creative_id",   limit: 512
+    t.string "third_party_creative_name", limit: 512
+    t.string "impressions",               limit: 32
+    t.string "third_party_impressions",   limit: 32
+    t.string "contracted_impressions",    limit: 32
+    t.string "scheduled_impressions",     limit: 32
+    t.string "clicks",                    limit: 32
+    t.string "third_party_clicks",        limit: 32
+    t.string "contracted_clicks",         limit: 32
+    t.string "scheduled_clicks",          limit: 32
   end
 
   create_table "tmplt_amp_data", id: false, force: true do |t|
@@ -4579,6 +5773,41 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer "amp_creative_id", limit: 8,  null: false
     t.string  "impressions",     limit: 32
     t.string  "clicks",          limit: 32
+  end
+
+  create_table "updated_cm_default_zones_2013_08_20", id: false, force: true do |t|
+    t.integer  "id"
+    t.string   "keyname",                     limit: 200
+    t.integer  "site_id"
+    t.string   "site",                        limit: 64
+    t.string   "context",                     limit: 40
+    t.string   "source_id"
+    t.integer  "section_id"
+    t.boolean  "always_payout_flag"
+    t.string   "z_site",                      limit: 50
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active"
+    t.integer  "zone_type_id"
+    t.integer  "order_id"
+    t.string   "site_placement"
+    t.string   "content_category"
+    t.string   "strategy"
+    t.date     "start_date"
+    t.date     "end_date"
+    t.string   "group_type"
+    t.string   "pricing_type"
+    t.string   "cap_cost"
+    t.integer  "purchase_qty",                limit: 8
+    t.float    "purchase_cost"
+    t.integer  "flight_activated"
+    t.integer  "activity_category_id"
+    t.string   "source_group_parent_id"
+    t.string   "source_activity_category_id"
+    t.integer  "parent_id"
+    t.float    "cumulative_cost"
+    t.integer  "network_id"
+    t.integer  "data_source_id"
   end
 
   create_table "usages", force: true do |t|
@@ -4605,7 +5834,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.string   "client_type",           limit: 50,                                                       null: false
     t.integer  "network_publisher_id"
     t.integer  "network_advertiser_id"
-    t.string   "aa_url",                            default: "http://qaa.collective-media.net/audience", null: false
+    t.string   "aa_url",                            default: "http://aan.collective-media.net/audience", null: false
     t.datetime "last_login_at"
     t.integer  "agency_id"
     t.integer  "data_provider_id"
@@ -4614,7 +5843,90 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "users", ["account_login"], name: "index_users_on_account_login", unique: true, using: :btree
 
+  create_table "versions", force: true do |t|
+    t.string   "item_type",      null: false
+    t.integer  "item_id",        null: false
+    t.string   "event",          null: false
+    t.string   "whodunnit"
+    t.text     "object"
+    t.datetime "created_at"
+    t.text     "object_changes"
+  end
+
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", using: :btree
+
+  create_table "video_assignments", force: true do |t|
+    t.integer  "ad_id",                         null: false
+    t.integer  "video_creative_id",             null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.integer  "network_id",                    null: false
+    t.integer  "data_source_id",    default: 1, null: false
+  end
+
+  add_index "video_assignments", ["ad_id", "video_creative_id"], name: "index_video_assignments_on_ad_id_and_video_creative_id", unique: true, using: :btree
+  add_index "video_assignments", ["ad_id"], name: "index_video_assignments_on_ad_id", using: :btree
+  add_index "video_assignments", ["video_creative_id"], name: "index_video_assignments_on_video_creative_id", using: :btree
+
+  create_table "video_creatives", force: true do |t|
+    t.string   "name",                              null: false
+    t.integer  "network_advertiser_id",             null: false
+    t.string   "size",                              null: false
+    t.string   "source_id",                         null: false
+    t.integer  "width"
+    t.integer  "height"
+    t.string   "source_ui_creative_id"
+    t.integer  "network_id"
+    t.integer  "data_source_id",        default: 1, null: false
+    t.text     "redirect_url"
+    t.text     "html_code"
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "video_creatives", ["data_source_id", "source_id", "network_id"], name: "index_video_creatives_on_trinity", unique: true, using: :btree
+  add_index "video_creatives", ["network_advertiser_id"], name: "fki_video_creatives_network_advertiser_id", using: :btree
+
   create_table "video_dp_payouts", id: false, force: true do |t|
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.string  "order_name", limit: nil
+    t.integer "order_id"
+    t.string  "ad_name",    limit: nil
+    t.integer "ad_id"
+    t.date    "start_date"
+    t.float   "rate"
+    t.string  "dp_name",    limit: nil
+    t.integer "dp_id"
+  end
+
+  create_table "video_dp_payouts_2", id: false, force: true do |t|
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.string  "order_name", limit: nil
+    t.integer "order_id"
+    t.string  "ad_name",    limit: nil
+    t.integer "ad_id"
+    t.date    "start_date"
+    t.float   "rate"
+    t.string  "dp_name",    limit: nil
+    t.integer "dp_id"
+  end
+
+  create_table "video_dp_payouts_3", id: false, force: true do |t|
+    t.string  "adv_name",   limit: nil
+    t.integer "adv_id"
+    t.string  "order_name", limit: nil
+    t.integer "order_id"
+    t.string  "ad_name",    limit: nil
+    t.integer "ad_id"
+    t.date    "start_date"
+    t.float   "rate"
+    t.string  "dp_name",    limit: nil
+    t.integer "dp_id"
+  end
+
+  create_table "video_dp_payouts_eps", id: false, force: true do |t|
     t.string  "adv_name",   limit: nil
     t.integer "adv_id"
     t.string  "order_name", limit: nil
@@ -4673,13 +5985,50 @@ ActiveRecord::Schema.define(version: 20130712064652) do
 
   add_index "xfp_app_users", ["username", "network_id", "application_id"], name: "unique_xfp_app_users", unique: true, using: :btree
 
+  create_table "xfp_conversions", id: false, force: true do |t|
+    t.integer  "network_id",                 null: false
+    t.string   "table_name",                 null: false
+    t.integer  "old_source_id", limit: 8
+    t.integer  "new_source_id", limit: 8
+    t.integer  "amp_id",        limit: 8
+    t.string   "name",          limit: 4096
+    t.datetime "created_at"
+  end
+
+  create_table "xfp_conversions_2012_10_15", id: false, force: true do |t|
+    t.integer  "network_id"
+    t.string   "table_name"
+    t.integer  "old_source_id", limit: 8
+    t.integer  "new_source_id", limit: 8
+    t.integer  "amp_id",        limit: 8
+    t.string   "name",          limit: 4096
+    t.datetime "created_at"
+  end
+
+  create_table "xfp_conversions_syn_orig", id: false, force: true do |t|
+    t.integer  "network_id"
+    t.string   "table_name"
+    t.integer  "old_source_id", limit: 8
+    t.integer  "new_source_id", limit: 8
+    t.integer  "amp_id",        limit: 8
+    t.string   "name",          limit: 4096
+    t.datetime "created_at"
+  end
+
+  create_table "xfp_to_dfp_video_mapping", force: true do |t|
+    t.string  "xfp_action_name",       limit: 128, null: false
+    t.integer "dfp_met_event_type_id",             null: false
+    t.string  "metric_name",           limit: 256
+  end
+
+  add_index "xfp_to_dfp_video_mapping", ["xfp_action_name"], name: "xfp_to_dfp_video_mapping_xfp_action_name_key", unique: true, using: :btree
+
   create_table "zipcode_targeting", id: false, force: true do |t|
     t.integer "ad_id",      null: false
     t.integer "zipcode_id", null: false
   end
 
   add_index "zipcode_targeting", ["ad_id", "zipcode_id"], name: "index_zipcode_targeting_on_ad_id_and_zipcode_id", using: :btree
-  add_index "zipcode_targeting", ["zipcode_id"], name: "fki_zipcode_targeting_zipcode_id_fkey", using: :btree
 
   create_table "zipcodes", force: true do |t|
     t.string "zipcode",   limit: 5
@@ -4702,7 +6051,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
   add_index "zone_types", ["network_id", "category"], name: "index_zone_types_on_network_id_and_category", unique: true, using: :btree
 
   create_table "zones", force: true do |t|
-    t.string   "keyname",                     limit: 100,                 null: false
+    t.string   "keyname",                     limit: 200,                 null: false
     t.integer  "site_id",                                                 null: false
     t.string   "site",                        limit: 64
     t.string   "context",                     limit: 40
@@ -4735,7 +6084,7 @@ ActiveRecord::Schema.define(version: 20130712064652) do
     t.integer  "data_source_id",                          default: 1,     null: false
   end
 
-  add_index "zones", ["network_id", "source_id"], name: "index_zones_on_network_id_and_source_id", unique: true, using: :btree
+  add_index "zones", ["data_source_id", "source_id", "network_id"], name: "index_zones_on_trinity", unique: true, using: :btree
   add_index "zones", ["site_id"], name: "fki_zones_site_id", using: :btree
   add_index "zones", ["z_site"], name: "index_zones_on_z_site", using: :btree
 

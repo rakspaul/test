@@ -1,3 +1,5 @@
+$text_color: #005c97;
+
 #details {
   width: 100%;
   overflow: auto;
@@ -119,7 +121,7 @@
 
         .status-control{
           select{
-            width:190px;
+            width:140px;
           }
         }
 
@@ -271,28 +273,12 @@
     }
 
     .ordersnotes {
-      width: 62%;
+      width: 72%;
       float: left;
-    }
-
-    .notetimestamp {
-      float: right;
-      min-width: 115px;
-      text-align: right;
-      position: relative;
-
-      a {
-        margin-right: 5px;
-      }
-
-      a.attachment-btn {
-        margin-right: 25px;
-      }
     }
   }
 
   .note-input-control{
-
     .control-label{
       font-size:12px;
       margin-right:10px;
@@ -302,9 +288,9 @@
     }
 
     textarea {
-      margin:5px 10px 20px 0;
+      margin:5px;
       border:none;
-      font-size:11px;
+      font-size:12px;
       line-height:14px;
       padding:0 2px;
       box-shadow:none;
@@ -315,10 +301,26 @@
       min-width:100%;
     }
 
-    .save-note-btn{
-      float:left;
-      margin-left: 20px;
+    .save-note {
+      background-color: $text_color;
+      float: left;
+      padding: 5px;
+      margin-left:15px;
+
+      &:hover{
+        background-color: lighten($text_color, 10%);
+        cursor: pointer;
+      }
+    }
+
+    .save-note-btn {
+      background: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
+      width: 16px;
+      height: 16px;
+    }
+
+    .save-note-btn.spinner {
+      background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
     }
   }
-
 }

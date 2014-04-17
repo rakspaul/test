@@ -1,4 +1,18 @@
 class Ad < ActiveRecord::Base
+  STATUS = {
+    draft:                     "Draft",
+    ready:                     "Ready",
+    paused:                    "Paused",
+    delivering:                "Delivering",
+    delivery_extended:         "Delivery Extended",
+    needs_creatives:           "Needs Creatives",
+    paused_inventory_released: "Paused Inventory Released",
+    pending_approval:          "Pending Approval",
+    completed:                 "Completed",
+    disapproved:               "Disapproved",
+    canceled:                  "Canceled"
+  }
+
   belongs_to :order
   belongs_to :lineitem, foreign_key: 'io_lineitem_id'
   belongs_to :data_source
@@ -9,6 +23,7 @@ class Ad < ActiveRecord::Base
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
@@ -19,6 +34,8 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :cities, join_table: :city_targeting, association_foreign_key: :city_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
+  accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
+
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
 
   validates :start_date, future_date: true, :if => lambda {|ad| ad.start_date_was.try(:to_date) != ad.start_date.to_date || ad.new_record? }
@@ -26,7 +43,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -114,10 +131,9 @@ class Ad < ActiveRecord::Base
     self.states = []
     self.states = states.compact if !states.blank?
 
-    selected_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+    self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
       AudienceGroup.find_by(id: group_name[:id])
     end
-    self.audience_groups = selected_groups if !selected_groups.blank?
   end
 
   def create_random_source_id
@@ -174,5 +190,9 @@ class Ad < ActiveRecord::Base
       creative_name = "#{self.description.to_s.gsub(/\s*\d+x\d+,?/, '')} #{creative.size}"
       creative.update_attribute :name, creative_name
     end
+  end
+
+  def set_default_status
+    self.status ||= "DRAFT"
   end
 end

@@ -218,6 +218,7 @@ private
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
     orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
+    rc = params[:rc]? params[:rc] : ""
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -253,6 +254,10 @@ private
       orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
     end
 
+    if !rc && !session[:rc].blank?
+      rc = session[:rc]
+    end
+
     session[:sort_column] = sort_column
     session[:sort_direction] = sort_direction
     session[:order_status] = order_status
@@ -260,15 +265,19 @@ private
     session[:am] = am
     session[:trafficker] = trafficker
     session[:search_query] = search_query
-    order_array = Order.includes(:advertiser, :order_notes).joins(:io_detail).of_network(current_network)
+    session[:rc] = rc
+
+    order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
+                  .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = load_users
+    @rc = ReachClient.select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
   end
 
@@ -329,12 +338,14 @@ private
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
-          [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
 :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
         li[:lineitem].delete(param)
       end
 
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
+      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
 
       if li[:type] = 'Video'
         li[:lineitem].delete(:master_ad_size)
@@ -356,6 +367,8 @@ private
         end
       end
 
+      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+
       li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
         li_errors[i] ||= {}
@@ -367,10 +380,9 @@ private
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
 
-      selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
+      lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
-      lineitem.audience_groups = selected_groups if !selected_groups.blank?
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -409,6 +421,7 @@ private
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           ad_start_date = ad[:ad].delete(:start_date)
@@ -433,7 +446,11 @@ private
             li_errors[i][:ads][j][:volume] = "Impressions must be greater than 0."
           end
 
-          ad_object = (ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])) || lineitem.ads.build(ad[:ad])
+          ad_object = ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])
+          unless ad_object
+            ad_object = lineitem.ads.build(ad[:ad])
+            ad[:ad].delete(:frequency_caps_attributes)
+          end
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
@@ -526,6 +543,8 @@ private
         li[:lineitem].delete(:companion_ad_size)
       end
 
+      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
@@ -581,6 +600,7 @@ private
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
+          ad_quantity  = ad_quantity.gsub(/,/, '').to_f.round if ad_quantity.is_a?(String)
           ad_value     = ad[:ad].delete(:value)
           media_type   = ad[:ad].delete(:type)
           media_type_id = @media_types[media_type]
@@ -654,6 +674,7 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
+          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end

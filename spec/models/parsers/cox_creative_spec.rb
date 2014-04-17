@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Parsers::CoxCreative do
   let(:file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_creatives.txt') }
+  let(:file2) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_creatives2.txt') }
+
   let(:user) { FactoryGirl.create :user }
   let(:advertiser) { FactoryGirl.create :advertiser, network: user.network }
   let(:agency) { FactoryGirl.create :agency, network: user.network }
@@ -31,6 +33,7 @@ describe Parsers::CoxCreative do
     end
 
     let(:io_creatives) { Parsers::CoxCreative.new file, @order.id }
+    let(:io_creatives2) { Parsers::CoxCreative.new file2, @order.id }
 
     it 'should parse text document' do
       Parsers::CoxCreative.any_instance.stub(:start_date).and_return(Time.current + 5.day)
@@ -41,6 +44,17 @@ describe Parsers::CoxCreative do
           io_creatives.parse
         }.to change{ LineitemAssignment.count }.by(3)
       }.to change{ Creative.count }.by(3)
+    end
+
+    it "should find corresponding LI correctly even if hasn't some blank spaces" do
+      Parsers::CoxCreative.any_instance.stub(:start_date).and_return(Time.current + 5.day)
+      Parsers::CoxCreative.any_instance.stub(:end_date).and_return(Time.current + 12.day)
+
+      expect {
+        expect {
+          io_creatives2.parse
+        }.to change{ LineitemAssignment.count }.by(1)
+      }.to change{ Creative.count }.by(1)
     end
   end
 end
