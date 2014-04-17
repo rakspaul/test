@@ -43,7 +43,7 @@ describe AdAssignment do
   end
 
   it "should assign network data source" do
-    ad = FactoryGirl.create(:ad, lineitem: lineitem, start_date: 1.day.from_now, end_date: 10.day.from_now, media_type: media_type)
+    ad = FactoryGirl.create(:ad, lineitem: lineitem, start_date: 1.day.from_now, end_date: 10.day.from_now)
     creative = FactoryGirl.create(:creative)
     ad_assignment = AdAssignment.create(ad: ad, creative: creative, network: ad.network, start_date: 1.day.from_now, end_date: 10.day.from_now)
     ad_assignment.data_source.should == ad.network.data_source

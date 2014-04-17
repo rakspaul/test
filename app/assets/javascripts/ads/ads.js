@@ -21,11 +21,29 @@
 
     toJSON: function() {
       var ad = _.clone(this.attributes);
-      var frequencyCaps = ad['targeting'].get('frequency_caps');
+      var frequencyCaps = ad['targeting'].get('frequency_caps'),
+          uniqFrequencyCaps = [];
+
       if (frequencyCaps.toNestedAttributes) {
         ad['frequency_caps_attributes'] = frequencyCaps.toNestedAttributes();
       } else if (frequencyCaps.length > 0) {
         ad['frequency_caps_attributes'] = frequencyCaps;
+      }
+      _.each(ad['frequency_caps_attributes'], function(fc) {
+        var exists = _.any(uniqFrequencyCaps, function(u) {
+          return u.impressions == fc.impressions &&
+                 u.time_value  == fc.time_value  &&
+                 u.time_unit   == fc.time_unit;
+        });
+        if (!exists.id && fc.id) {
+          exists.id = fc.id;
+        }
+        if (fc._destroy || !exists) {
+          uniqFrequencyCaps.push(fc);
+        }
+      });
+      if (uniqFrequencyCaps.length > 0) {
+        ad['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete ad['frequency_caps'];
       return { ad: ad };
@@ -320,7 +338,14 @@
       this.options.parent_view.model.ads = new_ads;
 
       this.remove();
-    }
+    },
+
+    templateHelpers:{
+      adStatusClass: function(){
+        if(this.ad.status)
+          return "ad-status-"+this.ad.status.toLowerCase().replace(' ','-');
+      }
+    },
   });
 
   Ads.AdListView = Backbone.Marionette.CompositeView.extend({

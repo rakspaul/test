@@ -340,6 +340,7 @@ DEPENDENCIES
   crummy (~> 1.7.2)
   dalli
   debugger (~> 1.6.0)
+  diff-lcs
   draper (~> 1.2.1)
   ejs
   factory_girl_rails (~> 4.2.1)
