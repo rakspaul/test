@@ -472,8 +472,7 @@
       e.stopPropagation();
       e.preventDefault();
 
-      var multi  = e.ctrlKey,
-          el = $(e.currentTarget),
+      var el = $(e.currentTarget),
           parent = el.parent(),
           type   = el.data('type'),
           active = parent.hasClass('active'),
@@ -504,16 +503,12 @@
             break;
         };
 
-        if (!multi) {
-          window.copied_targeting = copiedOptions;
-        } else {
-          if (!window.copied_targeting) {
-            window.copied_targeting = {};
-          }
-          _.each(copiedOptions, function(value, key) {
-            window.copied_targeting[key] = value;
-          });
+        if (!window.copied_targeting) {
+          window.copied_targeting = {};
         }
+        _.each(copiedOptions, function(value, key) {
+          window.copied_targeting[key] = value;
+        });
       } else {
         if (window.copied_targeting) {
           switch (type) {
@@ -535,7 +530,7 @@
       }
 
       noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs({ multi: multi });
+      this._deselectAllLIs({ multi: true });
       this.$el.addClass('copied-targeting-from');
     },
 
