@@ -209,7 +209,7 @@
     _getAdPushed: function() {
       var dfp_id = this.model.get('ad_dfp_id');
       if (dfp_id != undefined) {
-        return dfp_id.startsWith("R") ? false : true;
+        return dfp_id.match(/^R/) ? false : true;
       }
 
       return null;
