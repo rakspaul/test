@@ -685,16 +685,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad_name = ordersController._generateAdName(li, type);
       var remaining_impressions = ordersController._calculateRemainingImpressions(li);
       var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
-      var frequency_caps = li.get('targeting').get('frequency_caps'), frequencyCaps = [];
-      if (frequency_caps.models) {
-        frequencyCaps = _.map(frequency_caps.models, function(fc) {
-          return _.omit(fc.attributes, 'id');
-        });
-      } else {
-        frequencyCaps = _.map(frequency_caps, function(fc) {
-          return _.omit(fc, 'id');
-        });
-      }
+      var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
 
