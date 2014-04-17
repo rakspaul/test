@@ -11,6 +11,7 @@ class IoImport
   def initialize(file, current_user)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
     @tempfile.write File.read(file.path)
+    @tempfile.flush
 
     @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
 
