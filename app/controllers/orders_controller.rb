@@ -342,6 +342,11 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
 
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+:revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
+
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 

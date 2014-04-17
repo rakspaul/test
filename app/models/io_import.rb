@@ -11,6 +11,7 @@ class IoImport
 
   def initialize(file, current_user, current_order_id = nil)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
+
     @tempfile.write       File.read(file.path)
     @tempfile.flush
     @current_order_id     = current_order_id

@@ -85,6 +85,10 @@
       creatives_fileupload: '#creatives_fileupload'
     },
 
+    initialize: function() {
+      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
+    },
+
     events: {
       'click .toggle-general-info-button': '_toggleGeneralInfo'
     },
@@ -108,6 +112,17 @@
     onDomRefresh: function() {
       var self = this;
 
+      this.ui.revised_io_fileupload.fileupload({
+        dataType: 'json',
+        url: '/io_import.json',
+        formData: {current_order_id: self.model.get('id')},
+        dropZone: this.ui.io_fileupload,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._uploadSuccess,
+        fail: this._uploadFailed
+      });
+
       this.ui.creatives_fileupload.fileupload({
         dataType: 'json',
         formData: { order_id: self.model.id },
@@ -118,17 +133,6 @@
         disabled: true,
         done: function(e, data) { self._importCreativesCallback(e, data) },
         fail: function(e, data) { self._importCreativesCallback(e, data) }
-      });
-
-      this.ui.revised_io_fileupload.fileupload({
-        dataType: 'json',
-        url: '/io_import.json',
-        formData: {current_order_id: self.model.get('id')},
-        dropZone: this.ui.io_fileupload,
-        pasteZone: null,
-        start: this._uploadStarted,
-        done: this._uploadSuccess,
-        fail: this._uploadFailed
       });
 
       // IE double click fix
