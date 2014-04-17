@@ -105,10 +105,6 @@
       }
     },
 
-    initialize: function() {
-      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
-    },
-
     onDomRefresh: function() {
       var self = this;
 
