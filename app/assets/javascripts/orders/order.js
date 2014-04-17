@@ -116,7 +116,7 @@
       });
 
       // IE double click fix
-      if (navigator.userAgent.indexOf("MSIE") > 0) {
+      if (navigator.userAgent.indexOf("MSIE") > 0 && this.ui.creatives_fileupload) {
         this.ui.creatives_fileupload.bind('mousedown',function(event) {
           if (document.createEvent) {
             var e = document.createEvent('MouseEvents');
