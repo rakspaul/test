@@ -497,6 +497,7 @@
 
     initialize: function() {
       var self = this;
+      this._updateParentModel();
 
       this.collection.on('frequency_cap:remove', function(el) {
         self.collection.remove(el);
