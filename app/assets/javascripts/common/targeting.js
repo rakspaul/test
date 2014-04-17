@@ -493,6 +493,12 @@
       this._updateParentModel();
     },
 
+    // overwrite for IE bug fix
+    appendHtml: function(cv, iv, index) {
+      var $container = this.$el.find('.frequency-caps-container');
+      $container.append(iv.el);
+    },
+
     _updateParentModel: function() {
       this.options.parent_view.model.set({ 'frequency_caps': this.collection }, { silent: true });
       this._setTargetingAsDirty();
