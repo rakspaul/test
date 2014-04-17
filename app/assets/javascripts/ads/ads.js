@@ -101,7 +101,7 @@
       var sum_ad_imps = 0;
 
       _.each(this.options.parent_view.model.ads, function(ad) {
-        var imps = parseInt(String(ad.get('volume')).replace(/,|\./, ''));
+        var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         sum_ad_imps += imps;
       });
 
@@ -114,11 +114,11 @@
       }
     },
 
-    _recalculateMediaCost: function() {
+    _recalculateMediaCost: function(options) {
       var imps = this.getImressions();
       var media_cost = this.getMediaCost();
 
-      this.model.set('value', media_cost);
+      this.model.set({ 'value':  media_cost }, options);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
@@ -132,7 +132,7 @@
     },
 
     getImressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./, ''));
+      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
     },
 
     getMediaCost: function() {
@@ -223,7 +223,7 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set($(this).data('name'), newValue); //update backbone model;
+          self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
           self._recalculateMediaCost();
           self._validateAdImpressions();
         }
@@ -231,10 +231,23 @@
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(resp, newValue) {
-          self.model.attributes.volume = newValue; //update backbone model;
+          var sum_ad_imps = 0,
+            imps = self.options.parent_view.model.get('volume');
 
-          self._recalculateMediaCost();
+          self.model.set({ 'volume': parseInt(String(newValue).replace(/,|\./g, '')) },
+                         { silent: true}); //update backbone model;
+
+          _.each(self.options.parent_view.model.ads, function(ad) {
+            var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+            sum_ad_imps += imps;
+          });
+
+          self._recalculateMediaCost({ silent: true });
           self._validateAdImpressions();
+
+          var buffer = self.options.parent_view.model.get('buffer');
+          buffer = (sum_ad_imps / imps * 100) - 100;
+          self.options.parent_view.model.set({ 'buffer': buffer });
         },
         validate: function(value) {
           if($.trim(value) == '') {

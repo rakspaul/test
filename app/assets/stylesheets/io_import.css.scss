@@ -618,6 +618,9 @@ $wide_input_width: 320px;
       text-align: right;
       .editable, .number-value {
         margin-right: 10px;
+        &.buffer {
+          margin-right: 3px;
+        }
       }
     }
 

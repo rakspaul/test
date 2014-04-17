@@ -12,6 +12,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.orderDetailRegion.show(this.orderDetailsLayout);
 
     _.bindAll(this, '_showOrderDetailsAndLineItems', '_showNewLineItemView');
+    this.on('lineitems:buffer_update', this._liUpdateBuffer);
   },
 
   index: function() {
@@ -83,6 +84,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       });
     }
 
+    this.lineItemList = lineItems;
     this._liSetCallbacksAndShow(lineItems);
 
     if(orderModel.get('is_existing_order')) {
@@ -233,12 +235,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         minLength: 1,
         remote: '/reach_clients/search.json?search=%QUERY',
         valueKey: 'name'
+      },
+      success: function() {
+        ordersController.trigger('lineitems:buffer_update', order.get('reach_client_buffer'));
       }
     });
     $('.billing-contact-company, .media-contact-company').on('typeahead:selected', function(ev, el) {
       order.set("reach_client_name", el.name);//update backbone model
       order.set("reach_client_id", el.id);
       order.set("reach_client_abbr", el.abbr);
+      if (order.get('reach_client_buffer') != el.client_buffer) {
+        order.set('reach_client_buffer', el.client_buffer);
+      }
 
       ordersController._changeBillingAndMediaContacts(el.id);
       ordersController._clearErrorsOn(".billing-contact-company");
@@ -574,7 +582,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _calculateRemainingImpressions: function(li) {
-    var remaining_impressions = li.get('volume');
+    var remaining_impressions = li.get('volume') * (100 + parseFloat(li.get('buffer'))) / 100;
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
@@ -681,10 +689,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // adding Ad under certain lineitem
     lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
-      var type = args.type || li_view.model.get('type');
+      var type = args.type || li.get('type');
       var ad_name = ordersController._generateAdName(li, type);
-      var remaining_impressions = ordersController._calculateRemainingImpressions(li);
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+
+      var buffer = 1 + li.get('buffer') / 100;
+      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li)); 
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -839,6 +849,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
     orderDetailsView.setLineItemView(lineItemListView);
+  },
+
+  _liUpdateBuffer: function(buffer) {
+    if (this.lineItemList && this.lineItemList.length > 0) {
+      _.each(this.lineItemList.models, function(li) {
+        li.setBuffer(buffer);
+      });
+    }
   },
 
   _showNotesView: function(order, li_view) {

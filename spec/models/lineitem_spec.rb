@@ -17,4 +17,10 @@ describe Lineitem do
       expect(lineitem_video.ad_sizes).to eq(Video::DEFAULT_MASTER_ADSIZE)
     end
   end
+
+  context "Create" do
+    it "should set default buffer value" do
+      expect(lineitem.buffer).to eq(5.5)
+    end
+  end
 end
