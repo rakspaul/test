@@ -61,6 +61,14 @@ json.io_creatives do
   end
 end
 
+json.io_revised do
+  json.array! @order.io_assets.io_revised do |io|
+    json.asset_id io.id
+    json.original_filename io.try(:asset_upload_name)
+    json.asset_created_at format_datetime(io.created_at)
+  end
+end
+
 json.pushing_errors do
   json.array! @pushing_errors do |error|
     json.type    error.type

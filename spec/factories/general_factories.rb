@@ -36,6 +36,7 @@ FactoryGirl.define do
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
     billing_contact_id { FactoryGirl.singleton(:billing_contact).id }
     account_manager_id { FactoryGirl.create(:user).id }
+    sales_person_id { FactoryGirl.create(:user).id }
     trafficking_contact_id { FactoryGirl.create(:user).id }
     reach_client { FactoryGirl.singleton :reach_client }
   end

@@ -34,12 +34,6 @@ class IoImport
   def import
     @reader.open
 
-    read_advertiser
-    read_account_contact
-    read_media_contact
-    read_billing_contact
-    read_sales_person
-
     if @current_order_id
       @existing_order_id = @current_order_id
       @is_existing_order = true
@@ -48,13 +42,19 @@ class IoImport
       @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
 
+    read_advertiser
     read_order_and_details
     read_lineitems
     read_inreds
 
     parse_revisions
 
-    fix_order_flight_dates
+    if @existing_order
+      @order.start_date = @existing_order.start_date
+      @order.end_date   = @existing_order.end_date
+    else
+      fix_order_flight_dates
+    end
 
     read_notes
   rescue => e
@@ -70,22 +70,6 @@ class IoImport
       @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
     end
 
-    def read_account_contact
-      @account_contact = @reader.account_contact
-    end
-
-    def read_media_contact
-      @media_contact = @reader.media_contact
-    end
-
-    def read_sales_person
-      @sales_person = @reader.sales_person
-    end
-
-    def read_billing_contact
-      @billing_contact = @reader.billing_contact
-    end
-
     def read_order_and_details
       @order = Order.new(@reader.order)
       @order.user = @current_user
@@ -95,7 +79,7 @@ class IoImport
 
       @order_name_dup = Order.exists?(name: @order.name)
 
-      @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
+      @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name)
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
@@ -105,21 +89,25 @@ class IoImport
         @media_contacts = []
       end
 
-      @io_details = IoDetail.new
-      @io_details.client_advertiser_name = @reader.client_advertiser_name
-      @io_details.order = @order
-      @io_details.state = @is_existing_order ? "revisions_proposed" : "draft"
-      @io_details.reach_client          = reach_client
-      @io_details.sales_person          = find_sales_person
-      @io_details.sales_person_email    = @reader.sales_person[:email]
-      @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
-      @io_details.media_contact         = find_media_contact
-      @io_details.billing_contact       = find_billing_contact
-      @io_details.client_order_id       = @reader.client_order_id
-      @io_details.account_manager       = find_account_contact
-      @io_details.account_manager_email = @reader.account_contact[:email]
-      @io_details.account_manager_phone = @reader.account_contact[:phone_number]
-      @io_details.trafficking_contact   = find_trafficking_contact
+      if @is_existing_order
+        @io_details = @existing_order.io_detail
+      else
+        @io_details = IoDetail.new
+        @io_details.client_advertiser_name = @reader.client_advertiser_name
+        @io_details.order = @order
+        @io_details.state = @is_existing_order ? "revisions_proposed" : "draft"
+        @io_details.reach_client          = reach_client
+        @io_details.sales_person          = find_sales_person
+        @io_details.sales_person_email    = @reader.sales_person[:email]
+        @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
+        @io_details.media_contact         = find_media_contact
+        @io_details.billing_contact       = find_billing_contact
+        @io_details.client_order_id       = @reader.client_order_id
+        @io_details.account_manager       = find_account_contact
+        @io_details.account_manager_email = @reader.account_contact[:email]
+        @io_details.account_manager_phone = @reader.account_contact[:phone_number]
+        @io_details.trafficking_contact   = find_trafficking_contact
+      end
     end
 
     def read_lineitems
@@ -464,11 +452,19 @@ class IOExcelFileReader < IOReader
   end
 
   def start_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+    if @existing_order
+      @existing_order.start_date
+    else
+      parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+    end
   end
 
   def finish_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+    if @existing_order
+      @existing_order.end_date
+    else
+      parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+    end
   end
 
   def lineitems(&block)
@@ -632,11 +628,11 @@ class IOPdfFileReader < IOReader
   end
 
   def start_flight_date
-    parse_date(@start_date)
+    @existing_order ? @existing_order.start_date : parse_date(@start_date)
   end
 
   def finish_flight_date
-    parse_date(@end_date)
+    @existing_order ? @existing_order.end_date : parse_date(@end_date)
   end
 
   def lineitems 
