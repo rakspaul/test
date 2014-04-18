@@ -164,7 +164,11 @@ class OrdersController < ApplicationController
           if io_details.save && @order.save
             io_details.reload
             @order.reload
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[io_details.try(:state).to_s.to_sym]} }
+
+            store_io_asset(params)
+
+            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
+            format.json { render json: {status: 'success', order_id: @order.id, state: state} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -326,7 +330,16 @@ private
 
   def store_io_asset params
     file = File.open(params[:order][:io_file_path])
-    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
+
+    if params[:order][:revised_io_filename]
+      io_filename = params[:order][:revised_io_filename]
+      io_type = 'io_revised'
+    else
+      io_filename = params[:order][:io_asset_filename]
+      io_type = 'io'
+    end
+   
+    writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
     writer.write
     file.close
     File.unlink(file.path)

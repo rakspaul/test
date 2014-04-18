@@ -76,13 +76,26 @@
     </div>
 
     <div class="creatives-txt-uploader">
-      <!--a class="attachment-btn">File</a-->
       <input id="creatives_fileupload" type="file" name="io_creatives" class="creatives-fileupload" disabled>
       <a href="javascript:void(0)">
         <span class="upload-creatives-btn"></span>
         Creatives TXT
       </a>
     </div>
+
+    <% if (order.id && order.io_revised) { %>
+      <div style="clear:both"></div>
+      <% _.each(order.io_revised, function(io) { %>
+        <div class="name">
+          <label>Revised IO File</label>
+          <% var io_asset_ext = io.original_filename.substr(io.original_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls' %>
+          <span><a href="/io_assets/<%= order.id %>/revised_io/<%= io.asset_id %>.<%= io_asset_ext %>"><%= io.original_filename %></a></span>
+        </div>
+        <div class="timestamp">
+          <%= io.asset_created_at %>
+        </div>
+      <% }); %>
+    <% } %>
 
     <% if (order.id && order.io_creatives) { %>
       <% _.each(order.io_creatives, function(c) { %>

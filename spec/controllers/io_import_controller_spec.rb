@@ -61,7 +61,19 @@ describe IoImportController do
         post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
 
         data = JSON.parse(response.body)
-        expect(data['order']['name']).to eq("Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361")
+        expect(data['order']['name']).to eq(@order.name)
+      end
+
+      it "does not change AM, Trafficker, Reach Client and Sales Person and Advertiser" do
+        post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
+
+        data = JSON.parse(response.body)
+
+        expect(data['order']['account_contact_id']).to eq(@order.io_detail.account_manager_id)
+        expect(data['order']['sales_person_id']).to eq(@order.io_detail.sales_person_id)
+        expect(data['order']['reach_client_id']).to eq(@order.io_detail.reach_client_id)
+        expect(data['order']['trafficking_contact_id']).to eq(@order.io_detail.trafficking_contact_id)
+        expect(data['order']['advertiser_id']).to eq(@order.network_advertiser_id)
       end
     end
 
