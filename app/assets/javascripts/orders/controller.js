@@ -62,6 +62,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _ioUploaded: function(orderModel, lineItems) {
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
+
+    // removing zombie views and callbacks
+    if(orderModel.get('is_existing_order') {
+      if(this.detailOrderView) {
+        this.detailOrderView.remove();
+        this.detailOrderView.unbind();
+      }
+
+      if(this.notes_list_view) {
+        this.notes_list_view.remove();
+        this.notes_list_view.unbind();
+
+        // unbinding logRevision event so logging wouldn't be done twice (or more times)
+        EventsBus.unbind('lineitem:logRevision', this.notes_list_view.logRevision, this.notes_list_view);
+      }
+
+      if(this.lineItemListView) {
+        this.lineItemListView.remove();
+        this.lineItemListView.unbind();
+      }
+    }
+
     this._showOrderDetails(orderModel);
 
     // set default AM's and Trafficker's emails and names (in order to show emails in Notify Users box)
@@ -492,11 +514,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showOrderDetails: function(order) {
-    var detailOrderView = new ReachUI.Orders.DetailView({model: order});
-    detailOrderView.on('io:uploaded', this._ioUploaded, this);
+    this.detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
 
     var ordersController = this;
-    this.orderDetailsLayout.top.show(detailOrderView);
+    this.orderDetailsLayout.top.show(this.detailOrderView);
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
@@ -682,12 +704,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   /////////////////////////////////////////////////////////////////////////////////////////
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+    this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
 
     // adding Ad under certain lineitem
-    lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
+    this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
       var ad_name = ordersController._generateAdName(li, type);
@@ -756,7 +778,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
         // set targeting for existing Order
         var itemIndex = 1;
-        _.each(lineItemListView.children._views, function(li_view, li_name) {
+        _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
@@ -818,7 +840,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
         var itemIndex = 1;
 
-        _.each(lineItemListView.children._views, function(li_view, li_name) {
+        _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li   = li_view.model;
 
           li.set({
@@ -838,17 +860,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
-    this.orderDetailsLayout.bottom.show(lineItemListView);
+    this.orderDetailsLayout.bottom.show(this.lineItemListView);
 
     // order note reload
-    lineItemListView.on('ordernote:reload', function(){
+    this.lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
     });
 
-    this._showNotesView(lineItemList.order, lineItemListView);
+    this._showNotesView(lineItemList.order, this.lineItemListView);
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
-    orderDetailsView.setLineItemView(lineItemListView);
+    orderDetailsView.setLineItemView(this.lineItemListView);
   },
 
   _liUpdateBuffer: function(buffer) {
@@ -863,7 +885,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
-    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
-    this.notesRegion.show(notes_list_view);
+    this.notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
+    this.notesRegion.show(this.notes_list_view);
   },
 });

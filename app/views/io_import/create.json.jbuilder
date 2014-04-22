@@ -32,11 +32,17 @@ json.order do
   end
 
   json.notes do
-    json.array! @notes do |note|
-      json.username note[:username]
-      json.note note[:note]
-      json.sent false
-      json.created_at format_datetime(note[:created_at])
+    if @io_import.is_existing_order
+      json.array! @io_import.existing_order.order_notes.includes(:user) do |note|
+        json.partial! 'order_notes/note.json.jbuilder', note: note
+      end
+    else
+      json.array! @notes do |note|
+        json.username note[:username]
+        json.note note[:note]
+        json.sent false
+        json.created_at format_datetime(note[:created_at])
+      end
     end
   end
 

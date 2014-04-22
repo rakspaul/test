@@ -128,25 +128,6 @@ ReachUI.showCondensedTargetingOptions = function() {
   $(toptions).html(targeting_options.join(' '));
 };
 
-// align height of ad's subdivs with the largest one ('.name')
-/*ReachUI.alignAdsDivs = function() {
-  var highest_div = _.max(_.map($('.ad > div[class^="pure-u-"]'), function(el) { return $(el).height() } ));
-  _.each($('.ad > div[class^="pure-u-"]'), function(el) {
-    var padding = $(el).css('box-sizing') == 'border-box' ? parseInt($(el).css('padding-top')) : 0;
-    $(el).css('height', (highest_div + padding + 'px') )
-  });
-};
-
-// align height of lineitem's li-number div
-ReachUI.alignLINumberDiv = function() {
-  _.each($('.lineitem'), function(li) {
-    var height = _.max(_.map($(li).find('div div[class^="pure-u-"]'), function(col) {
-      return $(col).outerHeight();
-    }));
-    $(li).find('.li-number').css('height', height +'px');
-  });
-};*/
-
 ReachUI.checkOrderStatus = function(order_id) {
   var current_order_state = $('.current-io-status-top .io-status').html().trim();
   if (current_order_state) {
