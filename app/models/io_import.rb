@@ -52,8 +52,9 @@ class IoImport
     if @existing_order
       @order.start_date = @existing_order.start_date
       @order.end_date   = @existing_order.end_date
+      fix_order_flight_dates(new_and_revised_lineitems)
     else
-      fix_order_flight_dates
+      fix_order_flight_dates(@lineitems)
     end
 
     read_notes
@@ -167,13 +168,13 @@ class IoImport
     end
 
     # order's start_date should be earliest of all lineitems, while end_date should be latest of all
-    def fix_order_flight_dates
-      if @lineitems.blank?
+    def fix_order_flight_dates(lineitems)
+      if lineitems.blank?
         @order.start_date = @reader.start_flight_date
         @order.end_date   = @reader.finish_flight_date
       else
-        min_start, max_end = [@lineitems[0].start_date, @lineitems[0].end_date]
-        @lineitems.each do |li|
+        min_start, max_end = [lineitems[0].start_date, lineitems[0].end_date]
+        lineitems.each do |li|
           min_start = li.start_date if li.start_date && li.start_date < min_start
           max_end   = li.end_date   if li.end_date && li.end_date > max_end
         end
@@ -181,7 +182,7 @@ class IoImport
         @order.end_date   = max_end
       end
 
-      @lineitems.to_a.each do |li|
+      lineitems.to_a.each do |li|
         li_inreds = @inreds.select do |ir|
           ir[:placement] == li.name &&
           ir[:start_date] == li.start_date.to_date &&
