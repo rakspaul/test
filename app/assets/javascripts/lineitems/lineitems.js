@@ -15,6 +15,7 @@
     defaults: function() {
       return {
         volume: 0,
+        buffer: 0,
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
@@ -62,6 +63,19 @@
 
     pushAd: function(ad) {
       this.ads.push(ad);
+    },
+
+    setBuffer: function(buffer) {
+      var adImps, prevBuffer = parseFloat(this.get('buffer')),
+          ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
+          ads = this.ads.models || this.ads.collection;
+
+      _.each(this.ads, function(ad) {
+        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+        adImps = adImps * ratio;
+        ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
+      });
+      this.set('buffer', parseFloat(buffer));
     }
   });
 
@@ -81,7 +95,7 @@
 
     _recalculateLiImpressionsMediaCost: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
-        var imps = parseInt(String(el.get('volume')).replace(/,|\./, ''));
+        var imps = parseInt(String(el.get('volume')).replace(/,|\./g, ''));
         sum += imps;
         return sum;
       }, 0);
@@ -271,11 +285,19 @@
         }
       });
 
+      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
-          view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressionsMediaCost();
+          var name = $(this).data('name'), value;
+          if (name == 'buffer') {
+            view.model.setBuffer(parseFloat(newValue));
+          } else {
+            value = parseInt(String(newValue).replace(/,|\./g, ''));
+            view.model.set(name, value); //update backbone model;
+            view._recalculateMediaCost();
+            view.model.collection._recalculateLiImpressionsMediaCost();
+          }
         }
       });
 
@@ -341,6 +363,18 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
+    },
+
+    recalculateAdsImpressionsMediaCost: function(buffer) {
+      var adImps, prevBuffer = parseFloat(this.model.get('buffer')),
+          ratio = (100 + buffer) / (100 + prevBuffer),
+          ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+
+      _.each(ads, function(ad) {
+        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+        adImps = adImps * ratio;
+        ad.set('volume', parseInt(adImps));
+      });
     },
 
     ///////////////////////////////////////////////////////////////////////////////

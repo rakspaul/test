@@ -15,6 +15,7 @@ json.order do
     reach_client_id: @io_import.reach_client.try(:id),
     reach_client_name: @io_import.reach_client.try(:name),
     reach_client_abbr: @io_import.reach_client.try(:abbr),
+    reach_client_buffer: @io_import.reach_client.try(:client_buffer),
     io_file_path: @io_import.tempfile.path
   }
 

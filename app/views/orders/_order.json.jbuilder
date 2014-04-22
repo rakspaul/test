@@ -50,6 +50,7 @@ json.trafficking_contact_unknown trafficking_contact_unknown
 json.reach_client_id          reach_client_id
 json.reach_client_name        reach_client_name
 json.reach_client_abbr        reach_client_abbr
+json.reach_client_buffer      reach_client_buffer
 json.io_file_path             io_file_path
 json.client_order_id          io_detail.try(:client_order_id)
 
