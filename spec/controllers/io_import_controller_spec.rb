@@ -5,6 +5,7 @@ describe IoImportController do
 
   let(:io_file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx') }
   let(:io_file_revised) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_revised.xlsx') }
+  let(:io_file_revised_w_new_lis) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_revised_new_lis.xlsx') }
   let(:io_file_multi_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_multi_LI.xlsx') }
   let(:io_file_w_prerolls) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_prerolls.xlsx') }
 
@@ -45,6 +46,21 @@ describe IoImportController do
 
         data = JSON.parse(response.body)
         expect(data['order']['is_existing_order']).to eq(true)
+      end
+
+      it "imports new LIs along with revisions for old ones" do
+        post 'create', { io_file: io_file_revised_w_new_lis, current_order_id: @order.id, format: :json }
+
+        data = JSON.parse(response.body)
+        expect(data['order']['is_existing_order']).to eq(true)
+        expect(data['lineitems'].count).to eq(4)
+        expect(data['order']['revisions'].count).to eq(2)
+        expect(data['lineitems'][2]['name']).to eq("Test New LI")
+        expect(data['lineitems'][3]['name']).to eq("Test New LI #2")
+        expect(data['lineitems'][2]['volume']).to eq(100_000)
+        expect(data['lineitems'][3]['volume']).to eq(150_000)
+        expect(data['lineitems'][2]['rate']).to eq("5.0")
+        expect(data['lineitems'][3]['rate']).to eq("4.0")
       end
 
       it "sees changes in start_date and end_date and in impressions of lineitems" do

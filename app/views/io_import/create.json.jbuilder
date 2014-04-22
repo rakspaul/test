@@ -79,7 +79,7 @@ json.order do
 end
 
 json.lineitems do
-  json.array! (@io_import.is_existing_order ? @io_import.existing_order.lineitems.in_standard_order : @io_import.lineitems) do |lineitem|
+  json.array! @io_import.new_and_revised_lineitems do |lineitem|
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
