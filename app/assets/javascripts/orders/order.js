@@ -548,8 +548,9 @@
       this.collection.unshift(this.model);
 
       this.options.order.set('notes', this.collection);
-      this.$el.find('.save-note-btn').addClass('spinner');
-      this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+      this.render();
+      //this.$el.find('.save-note-btn').addClass('spinner');
+      //this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
     },
 
     saveNote: function(event) {

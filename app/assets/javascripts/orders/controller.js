@@ -64,7 +64,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     orderModel.lineItemList = lineItems;
 
     // removing zombie views and callbacks
-    if(orderModel.get('is_existing_order') {
+    if(orderModel.get('is_existing_order')) {
       if(this.detailOrderView) {
         this.detailOrderView.remove();
         this.detailOrderView.unbind();
