@@ -143,7 +143,8 @@ class OrdersController < ApplicationController
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.state                  = order_param[:order_status] || "draft"
-
+    io_details.account_manager_id     = order_param[:account_contact_id]
+    io_details.sales_person_id        = order_param[:sales_person_id]
 
     if order_param[:order_status] == "ready_for_trafficker"
       @order.user_id = io_details.trafficking_contact_id
@@ -168,7 +169,7 @@ class OrdersController < ApplicationController
             store_io_asset(params)
 
             state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
-            format.json { render json: {status: 'success', order_id: @order.id, state: state} }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: state} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect

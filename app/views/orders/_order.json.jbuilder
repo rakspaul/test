@@ -41,8 +41,8 @@ json.media_contact_email      io_detail.try(:media_contact).try(:email)
 json.media_contact_phone      io_detail.try(:media_contact).try(:phone)
 
 json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
-json.account_contact_phone    io_detail.try(:account_manager).try(:phone_number)
-json.account_contact_email    io_detail.try(:account_manager).try(:email)
+json.account_contact_phone    io_detail.account_manager_phone || io_detail.account_manager.try(:phone_number)
+json.account_contact_email    io_detail.account_manager_email || io_detail.account_manager.try(:email)
 json.account_contact_id       io_detail.account_manager_id
 
 json.order_name_dup           order_name_dup
