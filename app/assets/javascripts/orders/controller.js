@@ -63,8 +63,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
 
-    // removing zombie views and callbacks
+    
     if(orderModel.get('is_existing_order')) {
+      // removing zombie views and callbacks
       if(this.detailOrderView) {
         this.detailOrderView.remove();
         this.detailOrderView.unbind();
@@ -111,6 +112,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     if(orderModel.get('is_existing_order')) {
       ReachUI.checkOrderStatus(orderModel.id);
+
+      // leave a notification in ActivityLog
+      EventsBus.trigger('lineitem:logRevision', "Revised Order Imported");
     }
   },
 
