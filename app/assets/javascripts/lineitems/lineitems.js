@@ -757,26 +757,27 @@
             noty({text: 'There was an error while saving an order', type: 'error', timeout: 5000});
             self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
-            $('.current-io-status-top .io-status').html(response.state);
-            if (response.state.match(/pushing/i)) {
+            $('.current-io-status-top .io-status').html(response.order_status);
+            if (response.order_status.match(/pushing/i)) {
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
               self.trigger('ordernote:reload');
-            } else if(response.state.match(/draft/i)) {
+            } else if(response.order_status.match(/draft/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
-            } else if(response.state.match(/ready for am/i)) {
+            } else if(response.order_status.match(/ready for am/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
-            } else if(response.state.match(/ready for trafficker/i)) {
+            } else if(response.order_status.match(/ready for trafficker/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
-            } else if (response.state.match(/incomplete_push/i)) {
+            } else if (response.order_status.match(/incomplete push/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been pushed incompletely", type: 'success', timeout: 5000})
             } else {
               self._toggleSavePushbuttons({ hide: false });
+              noty({text: "Your order has been updated correctly", type: 'success', timeout: 5000})
             }
             if (response.order_id) {
               if (ReachUI.LineItems.LineItemList.isDirty()) {
