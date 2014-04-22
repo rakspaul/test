@@ -91,11 +91,12 @@ class IoImport
 
       if @is_existing_order
         @io_details = @existing_order.io_detail
+        @io_details.state = "revisions_proposed"
       else
         @io_details = IoDetail.new
         @io_details.client_advertiser_name = @reader.client_advertiser_name
         @io_details.order = @order
-        @io_details.state = @is_existing_order ? "revisions_proposed" : "draft"
+        @io_details.state = "draft"
         @io_details.reach_client          = reach_client
         @io_details.sales_person          = find_sales_person
         @io_details.sales_person_email    = @reader.sales_person[:email]
