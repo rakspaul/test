@@ -105,7 +105,7 @@ class OrdersController < ApplicationController
           if errors.blank?
             store_io_asset(params)
 
-            format.json { render json: {status: 'success', order_id: @order.id, state: IoDetail::STATUS[@io_detail.state.to_s.downcase.to_sym] } }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[@io_detail.state.to_s.downcase.to_sym] } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
@@ -136,6 +136,7 @@ class OrdersController < ApplicationController
     io_details.reach_client_id        = order_param[:reach_client_id]
     io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
     io_details.client_order_id        = order_param[:client_order_id]
+    io_details.sales_person_id        = order_param[:sales_person_id]
     io_details.sales_person_email     = order_param[:sales_person_email]
     io_details.sales_person_phone     = order_param[:sales_person_phone]
     io_details.account_manager_email  = order_param[:account_manager_email]
@@ -165,7 +166,7 @@ class OrdersController < ApplicationController
             store_io_asset(params)
 
             state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
-            format.json { render json: {status: 'success', order_id: @order.id, state: state} }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: state} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
