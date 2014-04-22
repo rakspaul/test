@@ -375,8 +375,14 @@ private
         li[:lineitem].delete(:companion_ad_size)
       end
 
-      lineitem = @order.lineitems.find(li[:lineitem][:id])
-      li[:lineitem].delete(:id)
+      lineitem = nil
+      begin
+        lineitem = @order.lineitems.find(li[:lineitem][:id])
+        li[:lineitem].delete(:id)
+      rescue ActiveRecord::RecordNotFound
+        lineitem = @order.lineitems.build(li[:lineitem])
+        lineitem.user = current_user
+      end      
 
       # delete Ads functionality
       delete_ads = lineitem.ads.map(&:id)
@@ -390,7 +396,12 @@ private
         end
       end
 
-      li_update = lineitem.update_attributes(li[:lineitem])
+      li_update = if lineitem.persisted?
+        lineitem.update_attributes(li[:lineitem])
+      else
+        lineitem.save
+      end
+
       unless li_update
         li_errors[i] ||= {}
         li_errors[i][:lineitems] ||= {}

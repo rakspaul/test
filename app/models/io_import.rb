@@ -63,6 +63,16 @@ class IoImport
     false
   end
 
+  def new_and_revised_lineitems
+    if @is_existing_order
+      li_count = @existing_order.lineitems.count
+      # old lineitems + new ones from revised IO
+      @existing_order.lineitems.in_standard_order + @lineitems[li_count..-1]
+    else
+      @lineitems
+    end
+  end
+
   private
 
     def read_advertiser
