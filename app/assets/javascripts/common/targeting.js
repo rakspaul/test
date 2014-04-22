@@ -35,6 +35,7 @@
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
+      this.validateKV = true;
     },
 
     serializeData: function(){
@@ -122,6 +123,8 @@
       this._renderFrequencyCaps();
       this._renderSelectedTargetingOptions();
       this.validateCustomKV();
+
+      this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
     },
 
     _showKeyValuesTab: function() {
@@ -154,11 +157,57 @@
 
     _renderSelectedTargetingOptions: function() {
       var frequencyCaps = this.frequencyCapListView ? this.frequencyCapListView.collection : this.model.get('frequency_caps');
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: frequencyCaps };
+      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: frequencyCaps, dfp_key_values: this.model.get('dfp_key_values'), reach_custom_kv: this._getReachCustomKV(), isAdPushed: this._getAdPushed() };
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
+      this.model.attributes.keyvalue_targeting = this._getReachCustomKV();
+      this.model.attributes.isAdPushed = this._getAdPushed();
       this.validateCustomKV();
+    },
+
+    _getReachCustomKV: function() {
+      if(this.validateKV) {
+        var keyvalue_targeting = this.model.get('keyvalue_targeting'),
+            dfp_key_values = this.model.get('dfp_key_values'),
+            dfp_kv = [],
+            reach_cust_kv = [];
+
+        var order_status = this.model.get('order_status');
+        if(order_status === '') {
+          order_status = 'draft';
+        }
+
+        if(dfp_key_values && this._getAdPushed() && order_status === 'Pushed') {
+          dfp_kv = dfp_key_values.split(',');
+        }
+
+        reach_cust_kv = keyvalue_targeting.split(',');
+
+        if(dfp_kv != '') {
+          var dfp_true = _.difference(dfp_kv, reach_cust_kv),
+              dfp_false = _.difference(reach_cust_kv, dfp_kv);
+
+          reach_cust_kv = _.difference(reach_cust_kv, dfp_false).concat(dfp_true);
+        }
+
+        if(reach_cust_kv.length) {
+          reach_cust_kv = reach_cust_kv.join(',');
+        }
+      } else {
+        reach_cust_kv = this.model.get('keyvalue_targeting');
+      }
+
+      return reach_cust_kv;
+    },
+
+    _getAdPushed: function() {
+      var dfp_id = this.model.get('ad_dfp_id');
+      if (dfp_id != undefined) {
+        return dfp_id.match(/^R/) ? false : true;
+      }
+
+      return null;
     },
 
     _renderFrequencyCaps: function() {
@@ -205,7 +254,10 @@
             var audience_group = _.find(this.model.get('audience_groups'), function(el) {
               return el.id == checked_value;
             });
-            this._addKVToSelectedKeyValues({id: checked_value, title: checked_text, key_values: audience_group.key_values});
+
+            var is_new_ag = $.inArray( checked_text , this.sel_ag ) > -1 ? false : true;
+
+            this._addKVToSelectedKeyValues({id: checked_value, title: checked_text, key_values: audience_group.key_values, is_new: is_new_ag});
           } else {
             $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
             this._removeKVFromSelectedKeyValues(checked_value);
@@ -293,6 +345,7 @@
     _updateCustomKVs: function(e) {
       this.model.attributes.keyvalue_targeting = e.currentTarget.value;
       this.validateCustomKV();
+      this.validateKV = false;
     },
 
     _closeTargetingDialog: function() {
@@ -330,19 +383,20 @@
 
     _removeKVFromSelected: function(e) {
       var audience_group_id = $(e.currentTarget).data('ag-id'),
-          select = this.$el.find('.key-values .chosen-select')[0];
+          select = this.$el.find('.key-values .chosen-select')[0],
+          select_check = this.$el.find('.key-values .key-values-checkboxes-container')[0];
 
       for(var i = 0; i < select.options.length; i++) {
         if(select.options[i].value == audience_group_id) {
-          $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
           this._removeKVFromSelectedKeyValues(parseInt(audience_group_id));
+          $(select_check).find('input[value ='+audience_group_id+']').removeAttr('checked')
+          $(select.options[i]).removeAttr('selected'); // sync checkboxes with select
           break;
         }
       }
 
-      $(select).trigger("chosen:updated");
-      $(select).trigger("change");
-      this._renderSelectedTargetingOptions();
+       $(select).trigger("chosen:updated");
+       this._renderSelectedTargetingOptions();
     },
 
     _removeZipFromSelected: function(e) {
@@ -500,7 +554,7 @@
     _setTargetingAsDirty: function() {
       if (this.options.parent_view.model.setDirty) {
         this.options.parent_view.model.setDirty();
-      }      
+      }
     }
   });
 
