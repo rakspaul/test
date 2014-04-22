@@ -135,7 +135,7 @@
       </span>
       <% if(lineitem.revised_rate) { %>
         <div style="clear:both"></div>
-        <span class="revision"><%= lineitem.revised_rate %></span>
+        <span class="revision"><%= accounting.formatMoney(lineitem.revised_rate, '') %></span>
         <div class="revised-dialog" style="display:none">
           <span class="accept-btn" data-name="rate"><span class="accept-img"/>Accept</span>
           <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>

@@ -151,15 +151,8 @@
       }
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function() {
+    setEditableFields: function() {
       var view = this;
-      $.fn.editable.defaults.mode = 'popup';
-
-      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
-
-      // setting lineitem's id in classname so we could address this li directly
-      this.$el.addClass('lineitem-'+this.model.get('id'));
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
@@ -285,8 +278,6 @@
         }
       });
 
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
-
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
           var name = $(this).data('name'), value;
@@ -306,6 +297,19 @@
           view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
         }
       });
+    },
+
+    // after start/end date changed LI is rerendered, so render linked Ads also
+    onRender: function() {
+      var view = this;
+      $.fn.editable.defaults.mode = 'popup';
+
+      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
+
+      this.setEditableFields();
 
       if(this.model.get('revised')) {
         this.$el.find('.li-number').addClass('revised');
@@ -715,8 +719,8 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
-      $editable.filter('[data-name="'+attr_name+'"]').text(revised_value).addClass('revision');
-
+      $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
+      
       this._checkRevisedStatus();
       $target_parent.remove();
     },
