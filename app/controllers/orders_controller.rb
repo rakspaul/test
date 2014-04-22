@@ -329,6 +329,8 @@ private
   end
 
   def store_io_asset params
+    return if !File.exists?(params[:order][:io_file_path])
+
     file = File.open(params[:order][:io_file_path])
 
     if params[:order][:revised_io_filename]
