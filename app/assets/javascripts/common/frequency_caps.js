@@ -7,7 +7,7 @@
       return {
         impressions: 1,
         time_value: 1,
-        time_unit: 3
+        time_unit: 2
       }
     },
 
