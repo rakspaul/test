@@ -1,11 +1,4 @@
-<div class="video-dropdown">
-  <div class="li-commands-btn pull-left" title="Create Ad" id="adTypeDropdown" data-toggle="dropdown">
-      </div>
-  <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
-        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Create Video Ad</a></li>
-    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Companion">Create Companion Ad</a></li>
-  </ul>
-</div>
+<div class="li-command-btn pull-left" title="Create Ad"></div>
 
 <div class="li-table">
   <div class="li-row">
@@ -59,46 +52,29 @@
       </div>
     </div>
 
-    <div class="pure-u-1-6">
-      <span>
-        <div class="dropdown">
-          <div class="video-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
-          </div>
-          <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
-            <li role="presentation">
-              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display"><span class="display-icon pull-left"></span>Display</a>
-            </li>
-            <li role="presentation">
-              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video"><span class="video-icon pull-left"></span>Video</a>
-            </li>
-            <li role="presentation">
-              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile"><span class="mobile-icon pull-left"></span>Mobile</a>
-            </li>
-            <li role="presentation">
-              <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook"><span class="facebook-icon pull-left"></span>Facebook</a>
-            </li>
-          </ul>
+    <div class="pure-u-1-6 lineitem-sizes">
+      <div class="dropdown">
+        <div class="facebook-icon pull-left media-type-pointer" title="Media Type" id="changeTypeDropdown" data-toggle="dropdown">
         </div>
-        <span class="ads-sizes">Pre-roll
-          <% if (lineitem.companion_ad_size) { %>
-          with Companion
-          <% } %>
-        </span>
-      </span><br/>
-      <span class="size">
-        <span class="editable custom typeahead" data-type="typeahead" data-name="master_ad_size" data-pk="1">
-          <%= lineitem.master_ad_size.replace(/,/gi, ', ') %>
-        </span>
+        <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="changeTypeDropdown">
+          <li role="presentation">
+            <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display"><span class="display-icon pull-left"></span>Display</a>
+          </li>
+          <li role="presentation">
+            <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video"><span class="video-icon pull-left"></span>Video</a>
+          </li>
+          <li role="presentation">
+            <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Mobile"><span class="mobile-icon pull-left"></span>Mobile</a>
+          </li>
+          <li role="presentation">
+            <a class="change-media-type" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Facebook"><span class="facebook-icon pull-left"></span>Facebook</a>
+          </li>
+        </ul>
+      </div>
+      <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+        <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
       </span>
-      <span class="lineitem-sizes">
-        <span class="editable editable-click" data-type="select2" data-name="companion_ad_size" data-pk="1">
-          <% if (lineitem.companion_ad_size) { %>
-            <%= lineitem.companion_ad_size.replace(/,/gi, ', ') %>
-          <% } %>
-        </span>
-      </span>
-
-      <div class="errors_container" style="clear:both"></div>
+      <div class="errors_container"></div>
       <br/>
       <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
     </div>
@@ -179,22 +155,13 @@
 
 <div class="targeting-container" style="display:none"></div>
 <div style="clear:both"></div>
-      
+
 <div class="creatives-list-view" style="display:none"></div>
 <div style="clear:both"></div>
 
 <div class="ads-container"></div>
 <div style="clear:both"></div>
-  
-<div class="copy-targeting-btn dropdown" style="display:none">
-  <div data-toggle="dropdown" id="copyTargeting">Copy</div>
-    <ul class="dropdown-menu copy-targeting-dropdown list-inline" role="menu" aria-labelledby="copyTargeting">
-      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="key_values">KVs</a></li>
-      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="geo">Geo</a></li>
-      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="freq_cap">Freq Cap</a></li>
-    </ul>
-  </div>
-</div>
 
+<div class="copy-targeting-btn" style="display:none">Copy Targeting</div>
 <div class="paste-targeting-btn" style="display:none">Paste Targeting</div>
 <div class="cancel-targeting-btn" style="display:none">Cancel</div>
