@@ -13,6 +13,10 @@
       <span>Contract LI<span>
       <div style="clear:both"></div>
       <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
+      <div class="revised-dialog" style="display:none">
+        <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
+        <span class="decline-all-btn"><span class="decline-img"/>Decline All Revisions</span>
+      </div>
     </div>
 
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
@@ -154,7 +158,7 @@
       </span>
       <% if(lineitem.revised_rate) { %>
         <div style="clear:both"></div>
-        <span class="revision"><%= lineitem.revised_rate %></span>
+        <span class="revision"><%= accounting.formatMoney(lineitem.revised_rate, '') %></span>
         <div class="revised-dialog" style="display:none">
           <span class="accept-btn" data-name="rate"><span class="accept-img"/>Accept</span>
           <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
