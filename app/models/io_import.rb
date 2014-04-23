@@ -144,23 +144,23 @@ class IoImport
       @existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
         local_revisions = {}
 
-        if @lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s
+        if (@lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s) && !@lineitems[index][:start_date].blank?
           local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
         end
 
-        if @lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s
+        if (@lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s) && !@lineitems[index][:end_date].blank?
           local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
         end
 
-        if @lineitems[index][:name] != existing_li.name
+        if (@lineitems[index][:name] != existing_li.name) && !@lineitems[index][:name].blank?
           local_revisions[:name] = @lineitems[index][:name]
         end
 
-        if @lineitems[index][:volume] != existing_li.volume
+        if (@lineitems[index][:volume] != existing_li.volume) && !@lineitems[index][:volume].blank?
           local_revisions[:volume] = @lineitems[index][:volume]
         end
 
-        if @lineitems[index][:rate] != existing_li.rate
+        if (@lineitems[index][:rate] != existing_li.rate) && !@lineitems[index][:rate].blank?
           local_revisions[:rate] = @lineitems[index][:rate]
         end
         @revisions << local_revisions
