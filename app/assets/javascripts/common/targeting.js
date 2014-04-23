@@ -492,6 +492,7 @@
 
     initialize: function() {
       var self = this;
+      this._updateParentModel();
 
       this.collection.on('frequency_cap:remove', function(el) {
         self.collection.remove(el);
@@ -544,6 +545,12 @@
     _addNewFrequencyCap: function() {
       this.collection.add(new ReachUI.FrequencyCaps.FrequencyCap());
       this._updateParentModel();
+    },
+
+    // overwrite for IE bug fix
+    appendHtml: function(cv, iv, index) {
+      var $container = this.$el.find('.frequency-caps-container');
+      $container.append(iv.el);
     },
 
     _updateParentModel: function() {
