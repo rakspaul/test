@@ -156,11 +156,11 @@ class IoImport
           local_revisions[:name] = @lineitems[index][:name]
         end
 
-        if (@lineitems[index][:volume] != existing_li.volume) && !@lineitems[index][:volume].blank?
+        if (@lineitems[index][:volume] != existing_li.volume) && @lineitems[index][:volume] != 0
           local_revisions[:volume] = @lineitems[index][:volume]
         end
 
-        if (@lineitems[index][:rate] != existing_li.rate) && !@lineitems[index][:rate].blank?
+        if (@lineitems[index][:rate] != existing_li.rate) && @lineitems[index][:rate] != 0.0
           local_revisions[:rate] = @lineitems[index][:rate]
         end
         @revisions << local_revisions
