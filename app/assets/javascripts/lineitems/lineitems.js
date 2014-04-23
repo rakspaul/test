@@ -890,6 +890,14 @@
             self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.order_status);
+
+            // if there are revised IO then show the download link immediately
+            if(response.revised_io_asset_id) {
+              var revised_io_filename = $('.imported-file-name .revised-io-filename').html(),
+                  io_asset_ext = revised_io_filename.substr(revised_io_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls';
+              $('.imported-file-name .revised-io-filename').html('<a href="/io_assets/'+self.collection.order.get('id')+'/revised_io/'+response.revised_io_asset_id+'.'+io_asset_ext+'">'+revised_io_filename+'</a>');
+            }
+
             if (response.order_status.match(/pushing/i)) {
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});

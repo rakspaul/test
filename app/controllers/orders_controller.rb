@@ -166,10 +166,10 @@ class OrdersController < ApplicationController
             io_details.reload
             @order.reload
 
-            store_io_asset(params)
+            io_asset = store_io_asset(params)
 
             state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: state} }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.id} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -343,9 +343,10 @@ private
     end
    
     writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
-    writer.write
+    io_asset = writer.write
     file.close
     File.unlink(file.path)
+    io_asset
   end
 
   def update_lineitems_with_ads(params)
