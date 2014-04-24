@@ -183,7 +183,12 @@
             dfp_kv = [],
             reach_cust_kv = [];
 
-        if(dfp_key_values && this._getAdPushed()) {
+        var order_status = this.model.get('order_status');
+        if(order_status === '') {
+          order_status = 'draft';
+        }
+
+        if(dfp_key_values && this._getAdPushed() && order_status === 'Pushed') {
           dfp_kv = dfp_key_values.split(',');
         }
 
