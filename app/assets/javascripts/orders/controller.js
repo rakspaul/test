@@ -826,6 +826,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: attrs.ad.keyvalue_targeting,
               dfp_key_values: attrs.ad.dfp_key_values,
               ad_dfp_id: attrs.ad.source_id,
+              order_status: lineItemList.order.get('order_status'),
               type: li_view.model.get('type')})});
 
             li_view.model.pushAd(ad);

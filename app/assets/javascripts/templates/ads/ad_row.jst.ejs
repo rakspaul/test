@@ -71,7 +71,12 @@
       <div class="errors_container"></div>
       <br/>
       <span class="toggle-ads-targeting-btn operation">+ Add Targeting</span>
+
       <div class="targeting_options_condensed" style="clear:both"></div>
+      <% var targeting = ad.targeting.attributes;
+         if(targeting.selected_geos.length == 0 && (targeting.frequency_caps.length > 0 || targeting.selected_key_values.length > 0 || targeting.selected_zip_codes. length > 0 || targeting.keyvalue_targeting != "")) { %>
+             <span title="Missing Geo-targeting" style="color:red; font-size:16px;"> &nbsp;! </span>
+      <% } %>
     </div>
 
     <div class="pure-u-1-12 volume number-field">
