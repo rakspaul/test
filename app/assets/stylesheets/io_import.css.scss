@@ -693,6 +693,12 @@ $wide_input_width: 320px;
         > div {
           display: table-cell;
         }
+
+       .missing-geo-caution {
+         font-size:20px;
+         font-weight:bold;
+         color:red;
+       }
       }
     }
     background-color: white;
