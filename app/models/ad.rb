@@ -77,7 +77,7 @@ class Ad < ActiveRecord::Base
         creatives = self.lineitem.creatives
       end
 
-      end_date = Time.zone.parse(cparams[:end_date]).end_of_day
+      end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
 
       creative = creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       # updating creative's attributes should be done on lineitem level
