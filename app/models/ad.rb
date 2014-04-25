@@ -53,7 +53,7 @@ class Ad < ActiveRecord::Base
 
   def type
     return 'Display' if media_type.nil?
-    return 'Companion' if media_type.category == 'Display' && lineitem.type == 'Video'
+    return 'Companion' if media_type.category == 'Display' && lineitem && lineitem.type == 'Video'
     return media_type.category
   end
 
