@@ -478,7 +478,11 @@ $wide_input_width: 320px;
       }
     }
 
-
+    .use-start-date-from-li, .use-end-date-from-li {
+      color: orange;
+      cursor: pointer;
+      border-bottom: 1px dashed;
+    }
 
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
