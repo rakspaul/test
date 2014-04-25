@@ -428,6 +428,10 @@
       frequency_caps:  '.tab.frequency-caps'
     },
 
+    _isGeoTargeted: function(e) {
+      return this.model.attributes.selected_geos.length > 0 ? true : false;
+    },
+
     events: {
       'click .save-targeting-btn': '_closeTargetingDialog',
       'click .tab.geo .geo-checkboxes-container input:checkbox': '_handleGeoCheckboxes',
@@ -526,7 +530,6 @@
         });
       }
 
-      
       var addCaps = caps.models ? caps.models : caps;
       _.each(addCaps, function(fc) {
         if ((!fc.attributes && !fc.id) || (fc.attributes && !fc.get('id')) ||
