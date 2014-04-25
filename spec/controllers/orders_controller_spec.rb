@@ -6,9 +6,6 @@ describe OrdersController do
   let(:reach_client) { FactoryGirl.singleton(:reach_client) }
   let(:user) { FactoryGirl.singleton(:user) }
   let(:advertiser) { FactoryGirl.singleton(:advertiser) }
-  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
-                     FactoryGirl.create(:ad_size_300x250),
-                     FactoryGirl.create(:ad_size_728x90) ] }
   let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before do
