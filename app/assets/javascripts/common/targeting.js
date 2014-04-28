@@ -439,7 +439,8 @@
     },
 
     _isGeoTargeted: function(e) {
-      return this.model.attributes.selected_geos.length > 0 ? true : false;
+      var attr = this.model.attributes;
+      return (attr.selected_geos.length > 0 || attr.selected_zip_codes.length > 0)  ? true : false;
     },
 
     events: {

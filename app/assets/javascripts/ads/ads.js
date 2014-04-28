@@ -176,7 +176,7 @@
     _toggleTargetingDialog: function() {
       var attr = this.model.get('targeting').attributes;
 
-      if(this.targetingView._isGeoTargeted() || (attr.selected_geos.length == 0 && attr.frequency_caps.length == 0 && attr.selected_key_values.length == 0 && attr.selected_zip_codes.length == 0 && attr.keyvalue_targeting == ""))
+      if(this.targetingView._isGeoTargeted())
         this.$el.find("#caution-symbol").hide();
       else
         this.$el.find("#caution-symbol").show();
