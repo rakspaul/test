@@ -1217,7 +1217,6 @@ table.creatives-content {
           width: 450px;
         }
 
-<<<<<<< HEAD
         .image-url span, .javascript-code span{
           width:450px;
           display:inline-block;
@@ -1226,11 +1225,11 @@ table.creatives-content {
           word-wrap:break-word;
           text-overflow: ellipsis;
           -o-text-overflow: ellipsis;
-=======
+        }
+
         .start-date .date.custom, .end-date .date.custom {
           color: orange;
           cursor: pointer;
->>>>>>> 7a4ca49... refs #619, Default to empty start and end dates for all creative; removed 'Use custom' button
         }
 
         .creative-type {
