@@ -118,7 +118,7 @@
       </span>
       <% if(lineitem.revised_volume) { %>
         <div style="clear:both"></div>
-        <span class="revision"><%= lineitem.revised_volume %></span>
+        <span class="revision"><%= accounting.formatNumber(lineitem.revised_volume) %></span>
         <div class="revised-dialog" style="display:none">
           <span class="accept-btn" data-name="volume"><span class="accept-img"/>Accept</span>
           <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>

@@ -759,6 +759,12 @@
         this.$el.find('.save-order-btn').addClass('disabled');
         this.$el.find('.push-order-btn').addClass('disabled');
       }
+
+      // https://github.com/collectivemedia/reachui/issues/662
+      // Remove the “Save Order” button from orders that are in “Revisions Proposed” status.
+      if(this.collection.order.get('revisions')) {
+        this.$el.find('.save-order-btn').hide();
+      }
     },
 
     serializeData: function(){
