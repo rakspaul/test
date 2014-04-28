@@ -2,13 +2,6 @@
   'use strict';
 
   Creatives.Creative = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        start_date: moment().add('days', 1).format("YYYY-MM-DD"),
-        end_date: moment().add('days', 15).format("YYYY-MM-DD")
-      }
-    },
-
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.get("order_id") + '/creatives.json';
@@ -42,8 +35,8 @@
     template: JST['templates/creatives/creatives_row'],
 
     initialize: function(){
-      this.start_creative_date_inherits_li = true;
-      this.end_creative_date_inherits_li = true;
+      this.start_creative_date_inherits_li = _.isEmpty(this.model.get('start_date'));
+      this.end_creative_date_inherits_li = _.isEmpty(this.model.get('end_date'));
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
     },
@@ -52,9 +45,7 @@
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyCreative',
-      'click .creative-type input': '_changeCreativeType',
-      'click .use-end-date-from-li': '_toggleEndDateFromLI',
-      'click .use-start-date-from-li': '_toggleStartDateFromLI'
+      'click .creative-type input': '_changeCreativeType'
     },
 
     modelEvents: {
@@ -63,32 +54,6 @@
 
     collectionEvents: {
       'add': 'updateLiCreative'
-    },
-
-    _toggleStartDateFromLI: function(e) {
-      e.stopPropagation();
-      this.$el.find('.start-date .custom.editable').toggle();
-
-      this.start_creative_date_inherits_li = this.$el.find('.start-date .custom.editable').css('display') == 'none';
-      if(this.start_creative_date_inherits_li) {
-        this.$el.find('.use-start-date-from-li').html('From LI');
-        this.model.attributes['start_date'] = null;
-      } else {
-        this.$el.find('.use-start-date-from-li').html('Using custom');
-      }
-    },
-
-    _toggleEndDateFromLI: function(e) {
-      e.stopPropagation();
-      this.$el.find('.end-date .custom.editable').toggle();
-
-      this.end_creative_date_inherits_li = this.$el.find('.end-date .custom.editable').css('display') == 'none';
-      if(this.end_creative_date_inherits_li) {
-        this.$el.find('.use-end-date-from-li').html('From LI');
-        this.model.attributes['end_date'] = null;
-      } else {
-        this.$el.find('.use-end-date-from-li').html('Using custom');
-      }
     },
 
     updateLiCreative: function() {
@@ -145,23 +110,23 @@
       $.fn.editable.defaults.mode = 'popup';
 
       if(this.start_creative_date_inherits_li) {
-        this.$el.find('.use-start-date-from-li').html('From LI');
+        this.$el.find('.start-date .custom.date').html('From LI');
         this.model.attributes['start_date'] = null;
       } else {
-        this.$el.find('.use-start-date-from-li').html('Using custom');
-        this.$el.find('.start-date .custom.editable').show();
+        this.$el.find('.start-date .custom.date').html(this.model.get('start_date'));
       }
 
-      if(this.start_creative_date_inherits_li) {
-        this.$el.find('.use-end-date-from-li').html('From LI');
+      if(this.end_creative_date_inherits_li) {
+        this.$el.find('.end-date .custom.date').html('From LI');
         this.model.attributes['end_date'] = null;
       } else {
-        this.$el.find('.use-end-date-from-li').html('Using custom');
-        this.$el.find('.end-date .custom.editable').show();
+        this.$el.find('.end-date .custom.date').html(this.model.get('end_date'));
       }
 
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
+          self.end_creative_date_inherits_li = false;
+
           var end_date = moment(newValue).format("YYYY-MM-DD");
           self.model.set('end_date', end_date); //update backbone model
 
@@ -176,6 +141,8 @@
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
+          self.start_creative_date_inherits_li = false;
+
           var start_date = moment(newValue).format("YYYY-MM-DD");
           self.model.set('start_date', start_date); //update backbone model
 

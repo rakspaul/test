@@ -7,8 +7,7 @@
 </div>
 
 <div class="pure-u-1-12 start-date">
-  <span class="use-start-date-from-li">From LI</span>
-  <span style="display:none" class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.start_date %></span>
+  <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1" data-value="<%= creative.start_date %>"><%= creative.start_date || 'From LI' %></span>
   <div class="creative-<%= creative.id %> assignment-<%= creative.li_assignment_id %> assignment-<%= creative.ad_assignment_id %> pushing-status" style="clear:both;margin-top:5px;">
     <% if(!isNaN(parseInt(creative.source_id))) { %>
       <%= creative.source_id %>
@@ -19,8 +18,7 @@
 
 <% wrong_end_date = creative.start_date > creative.end_date %>
 <div class="pure-u-1-12 end-date">
-  <span class="use-end-date-from-li">From LI</span>
-  <span style="display:none" class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1"><%= creative.end_date %></span>
+  <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1" data-value="<%= creative.end_date %>"><%= creative.end_date || 'From LI' %></span>
   <div class="errors_container">
     <% if (wrong_end_date) { %>
     couldn't be before start date

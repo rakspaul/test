@@ -585,13 +585,6 @@ $wide_input_width: 320px;
       }
     }
 
-    .use-start-date-from-li, .use-end-date-from-li {
-      color: orange;
-      cursor: pointer;
-      border-bottom: 1px dashed;
-
-    }
-
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
       width: 16px;
@@ -687,6 +680,7 @@ $wide_input_width: 320px;
 
   .start-date .editable, .end-date .editable {
     margin-left: 10px;
+    cursor: pointer;
   }
 
   .ads-container {
@@ -1223,6 +1217,7 @@ table.creatives-content {
           width: 450px;
         }
 
+<<<<<<< HEAD
         .image-url span, .javascript-code span{
           width:450px;
           display:inline-block;
@@ -1231,6 +1226,11 @@ table.creatives-content {
           word-wrap:break-word;
           text-overflow: ellipsis;
           -o-text-overflow: ellipsis;
+=======
+        .start-date .date.custom, .end-date .date.custom {
+          color: orange;
+          cursor: pointer;
+>>>>>>> 7a4ca49... refs #619, Default to empty start and end dates for all creative; removed 'Use custom' button
         }
 
         .creative-type {
