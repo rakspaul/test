@@ -478,12 +478,6 @@ $wide_input_width: 320px;
       }
     }
 
-    .use-start-date-from-li, .use-end-date-from-li {
-      color: orange;
-      cursor: pointer;
-      border-bottom: 1px dashed;
-    }
-
     .name .notes:before {
       content: url(asset-path('activity_log_icon.png'));
       width: 16px;
@@ -579,6 +573,7 @@ $wide_input_width: 320px;
 
   .start-date .editable, .end-date .editable {
     margin-left: 10px;
+    cursor: pointer;
   }
 
   .ads-container {
@@ -1098,6 +1093,11 @@ table.creatives-content {
 
         .javascript-code textarea {
           width: 450px;
+        }
+
+        .start-date .date.custom, .end-date .date.custom {
+          color: orange;
+          cursor: pointer;
         }
 
         .creative-type {
