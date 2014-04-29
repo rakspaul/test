@@ -66,10 +66,10 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, prevBuffer = parseFloat(this.get('buffer')),
+      var adImps, 
+          prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
-
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
