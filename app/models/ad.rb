@@ -115,7 +115,7 @@ class Ad < ActiveRecord::Base
     zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
       Zipcode.find_by(zipcode: zipcode.strip)
     end
-    self.zipcodes = zipcodes.compact if !zipcodes.blank?
+    self.zipcodes = zipcodes.compact
 
     geo_targeting = targeting[:targeting][:selected_geos].to_a
 
