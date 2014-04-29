@@ -141,8 +141,8 @@
     },
 
     renderTargetingDialog: function() {
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);
+      this.targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(this.targetingView.render().el);
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -174,6 +174,13 @@
     },
 
     _toggleTargetingDialog: function() {
+      var attr = this.model.get('targeting').attributes;
+
+      if(this.targetingView._isGeoTargeted())
+        this.$el.find("#caution-symbol").hide();
+      else
+        this.$el.find("#caution-symbol").show();
+
       $('.ad > .name').height('');
       var is_visible = ($(this.ui.targeting).css('display') == 'block');
       this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
