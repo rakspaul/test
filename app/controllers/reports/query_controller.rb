@@ -9,8 +9,18 @@ class Reports::QueryController < ApplicationController
 
   def index
     wrapper = ReportServiceWrapper.new(@current_user)
-    resp = wrapper.load(params.clone)
+    response = wrapper.load(params.clone)
+    resp = process_resp(response)
 
+    respond_with(resp) do |format|
+      format.csv { export_csv(converter(resp["records"].to_json)) }
+      format.xls { export_excel(converter(resp["records"].to_json)) }
+    end
+  rescue => e
+    respond_with(e.message, status: :service_unavailable)
+  end
+
+  def process_resp(resp)
     records = ActiveSupport::JSON.decode(resp)
     columns = params[:cols].split(",")
 
@@ -19,14 +29,17 @@ class Reports::QueryController < ApplicationController
       obj["cogs_ecpm"] = obj["cogs"] / obj["impressions"] * 1000 if columns.include?("cogs_ecpm")
       obj["tech_cogs"] = obj["cogs"] * 0.1 if columns.include?("tech_cogs")
     end
-    resp = records.to_json
 
-    respond_with(resp) do |format|
-      format.csv { export_csv(resp) }
-      format.xls { export_excel(resp) }
-    end
-  rescue => e
-    respond_with(e.message, status: :service_unavailable)
+    records
+  end
+
+  def converter(json_data)
+    json = JSON.parse(json_data)
+    json.first.collect {|k,v| k}.join(',')
+    header = json.first.collect {|k,v| k}.join(',')
+    data = json.collect {|node| "#{node.collect{|k,v| v}.join(',')}\n"}.join
+
+    header+"\n"+data
   end
 
   def export_csv(resp)
