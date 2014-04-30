@@ -24,10 +24,10 @@ describe OrdersController do
     File.stub(:unlink).and_call_original
     File.stub(:unlink).with(path).and_return(file)
     File.stub(:unlink).with(path2).and_return(file)
-    us = FactoryGirl.create(:country)
-    FactoryGirl.create(:state, name: "Alabama", country: us)
-    FactoryGirl.create(:designated_market_area, name: "Lexington", code: 541)
-    FactoryGirl.create(:city, name: "Ala", country_code: "IT", region_name: "Trento")
+    FactoryGirl.create(:country)
+    FactoryGirl.create(:state)
+    FactoryGirl.create(:designated_market_area)
+    FactoryGirl.create(:city)
   end
 
   before :each do
@@ -116,36 +116,32 @@ describe OrdersController do
     end
 
     context "vaild order w/ City and State and DMA targeting" do
-      it "creates correct links between city/dma/state targeting and Lineitems" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+      before :each do
+        @us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        @state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        @city = GeoTarget::City.find_by name: "New York", source_parent_id: @state.source_id, country_code: "US"
+        @dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
+      end
 
+      it "creates correct links between city/dma/state targeting and Lineitems" do
+        expect(@us).to be
         expect {
           expect {
             expect {
               post :create, io_request
-            }.to change(state.lineitems, :count).by(1)
-          }.to change(city.lineitems, :count).by(1)
-        }.to change(dma.lineitems, :count).by(1)
+            }.to change(@state.lineitems, :count).by(1)
+          }.to change(@city.lineitems, :count).by(1)
+        }.to change(@dma.lineitems, :count).by(1)
       end
 
       it "creates correct links between city/dma/state targeting and Ads" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
-
         expect {
           expect {
             expect {
               post :create, io_request_w_ads
-            }.to change(state.ads, :count).by(1)
-          }.to change(city.ads, :count).by(1)
-        }.to change(dma.ads, :count).by(1)
+            }.to change(@state.ads, :count).by(1)
+          }.to change(@city.ads, :count).by(1)
+        }.to change(@dma.ads, :count).by(1)
       end
     end
 
@@ -505,12 +501,12 @@ private
     end
     li = params['order']['lineitems'].first
     if li
-      us = Country.where(['abbr = ?', 'US']).first
-      alabama = State.find_by name: "Alabama", country_id: us.id
-      ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-      dma = DesignatedMarketArea.find_by name: "Lexington"
+      us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+      state = GeoTarget::State.find_by name: "New York", country_code: "US"
+      city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+      dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
 
       creative = li['lineitem']['creatives'].first
       creative['creative']['ad_size'] = "1x1"
@@ -554,12 +550,12 @@ private
 
       ad = li['ads'].first
       if ad
-        us = Country.where(['abbr = ?', 'US']).first
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+        us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+        dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
         creative = ad['ad']['creatives'].first
         creative['creative']['ad_size'] = "1x1"
       end

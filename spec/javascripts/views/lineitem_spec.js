@@ -47,7 +47,7 @@ describe('Line items views', function() {
         expect(parseFloat(this.view.model.get('rate'))).toBe(5.3);
       });
 
-      it('should update volume attribute', function() {
+      xit('should update volume attribute', function() {
         var volume = this.view.$el.find('.volume');
 
         volume.find('.editable.custom').editable('show');

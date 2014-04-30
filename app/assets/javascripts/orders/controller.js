@@ -819,7 +819,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
       $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-        var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+        var dmas_list = _.map(dmas.models, function(el) { return {id: el.attributes.id, name: el.attributes.name} });
         var itemIndex = 1;
 
         _.each(lineItemListView.children._views, function(li_view, li_name) {
