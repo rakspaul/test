@@ -703,7 +703,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li_targeting = new ReachUI.Targeting.Targeting({
         selected_key_values: li.get('targeting').get('selected_key_values'),
         selected_geos: li.get('targeting').get('selected_geos'),
-        dmas_list: li.get('targeting').get('dmas_list'),
         selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
         audience_groups: li.get('targeting').get('audience_groups'),
         keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
@@ -740,13 +739,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     // only if `show` action
     if (lineItemList.order.id) {
-      var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
       var order_ads = new ReachUI.Ads.AdList();
       order_ads.setOrder(lineItemList.order);
 
-      $.when( order_ads.fetch(), dmas.fetch(), ags.fetch() ).done(function(adsResult, dmasResult, agsResult) {
+      $.when( order_ads.fetch(), ags.fetch() ).done(function(adsResult, agsResult) {
         var li_ads = {};
         _.each(adsResult[0], function(attrs) {
           if (!li_ads[attrs.ad.io_lineitem_id]) {
@@ -771,7 +769,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             selected_zip_codes: zipcodes,
             selected_geos: selected_geos,
             selected_key_values: kv,
-            dmas_list: dmasResult[0],
             frequency_caps: frequency_caps,
             audience_groups: ags.attributes,
             keyvalue_targeting: li.get('keyvalue_targeting'),
@@ -796,7 +793,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               selected_geos: attrs.selected_geos,
               selected_key_values: attrs.selected_key_values,
               frequency_caps: attrs.frequency_caps,
-              dmas_list: li_view.model.get('targeting').get('dmas_list'),
               audience_groups: li_view.model.get('targeting').get('audience_groups'),
               keyvalue_targeting: attrs.ad.keyvalue_targeting,
               dfp_key_values: attrs.ad.dfp_key_values,
@@ -815,11 +811,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       });
     } else { // not persisted Order/Lineitems
-      var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-        var dmas_list = _.map(dmas.models, function(el) { return {id: el.attributes.id, name: el.attributes.name} });
+      ags.fetch().then(function() {
         var itemIndex = 1;
 
         _.each(lineItemListView.children._views, function(li_view, li_name) {
@@ -828,7 +822,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           li.set({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
-              dmas_list: dmas_list,
               audience_groups: ags.attributes,
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})

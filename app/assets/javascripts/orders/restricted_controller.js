@@ -130,12 +130,9 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
 
     // only if `show` action
     if (lineItemList.order.id) {
-      var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-        var dmas_list = _.map(dmas.models, function(el) { return {id: el.attributes.id, name: el.attributes.name} });
-
+      ags.fetch().then(function() {
         // set targeting for existing Order
         var itemIndex = 1;
         _.each(lineItemListView.children._views, function(li_view, li_name) {
@@ -151,7 +148,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
               selected_zip_codes: zipcodes,
               selected_geos: selected_geos,
               selected_key_values: kv,
-              dmas_list: dmas_list,
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
               type: li.get('type') })
@@ -162,11 +158,9 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     } else { // not persisted Order/Lineitems
-      var dmas = new ReachUI.DMA.List();
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-        var dmas_list = _.map(dmas.models, function(el) { return {id: el.attributes.id, name: el.attributes.name} });
+      $.when.apply($, [ ags.fetch() ]).done(function() {
         var itemIndex = 1;
 
         _.each(lineItemListView.children._views, function(li_view, li_name) {
@@ -175,7 +169,6 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
           li.set({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
-              dmas_list: dmas_list,
               audience_groups: ags.attributes,
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
