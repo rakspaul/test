@@ -124,18 +124,6 @@ class Ad < ActiveRecord::Base
     self.geo_targets = []
     self.geo_targets = geos.compact if !geos.blank?
 
-    # dmas = geo_targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
-    # self.designated_market_areas = []
-    # self.designated_market_areas = dmas.compact if !dmas.blank?
-
-    # cities = geo_targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
-    # self.cities = []
-    # self.cities = cities.compact if !cities.blank?
-
-    # states = geo_targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
-    # self.states = []
-    # self.states = states.compact if !states.blank?
-
     self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
       AudienceGroup.find_by(id: group_name[:id])
     end

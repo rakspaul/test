@@ -118,18 +118,6 @@ class Lineitem < ActiveRecord::Base
     geos = targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
     self.geo_targets = []
     self.geo_targets = geos.compact if !geos.blank?
-
-    # dmas = targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
-    # self.designated_market_areas = []
-    # self.designated_market_areas = dmas.compact if !dmas.blank?
-
-    # cities = targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
-    # self.cities = []
-    # self.cities = cities.compact if !cities.blank?
-
-    # states = targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
-    # self.states = []
-    # self.states = states.compact if !states.blank?
   end
 
   def ad_name(start_date, ad_size)
