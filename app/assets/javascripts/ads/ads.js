@@ -290,7 +290,7 @@
         var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
 
         $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+          var dmas_list = _.map(dmas.models, function(el) { return {id: el.attributes.id, name: el.attributes.name} });
 
           self.model.get('targeting').set('dmas_list', dmas_list);
           self.model.get('targeting').set('audience_groups', ags.attributes);

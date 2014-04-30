@@ -2,10 +2,9 @@
   'use strict';
 
   DMA.Model = Backbone.Model.extend({
-    idAttribute: 'code',
 
     defaults: {
-      code: '',
+      id: '',
       name: ''
     }
   });
@@ -20,7 +19,7 @@
     template: _.template('<%= name %>'),
 
     onRender: function() {
-      this.$el.attr('value', this.model.get('code'));
+      this.$el.attr('value', this.model.get('id'));
       this.$el.attr('selected', this.options.selected);
     }
   });

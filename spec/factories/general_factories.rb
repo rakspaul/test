@@ -187,25 +187,31 @@ FactoryGirl.define do
     name "cm.adult"
   end
 
-  factory :city do
-    name "Ala"
-    region_name "Trento"
-    country_code "IT"
+  factory :geo_target do
+    country_code "US"
+    targetable true
   end
 
-  factory :country do
-    abbr "US"
-    name "United States"
+  factory :city, :class => GeoTarget::City, :parent => :geo_target do
+    name "New York"
+    source_id        1023191
+    source_parent_id 21167
+    state
   end
 
-  factory :state do
-    abbr "US"
+  factory :country, :class => GeoTarget::Country, :parent => :geo_target  do
     name "United States"
+    source_id 2840
+  end
+
+  factory :state, :class => GeoTarget::State, :parent => :geo_target  do
+    name "New York"
+    source_id 21167
     country
   end
 
-  factory :designated_market_area do
-    code 541
+  factory :designated_market_area, :class => GeoTarget::DesignatedMarketArea, :parent => :geo_target do
+    id 541
     name "Lexington"
   end
 

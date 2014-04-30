@@ -129,9 +129,9 @@ Reachui::Application.routes.draw do
     end
   end
 
-  resources :dmas, controller: 'designated_market_areas', only: [:index] do
+  resources :dmas, controller: 'geo_targets', only: [:index] do
     collection do
-      get :search_geo
+      get :search
     end
   end
 

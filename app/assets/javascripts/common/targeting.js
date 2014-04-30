@@ -57,7 +57,7 @@
       this.show_custom_key_values = false;
 
       this.$el.find('.tab.geo input').on('keyup', function(ev) {
-        $.getJSON('/dmas/search_geo.json?search='+$(this).val(), function(geos) {
+        $.getJSON('/dmas/search.json?search='+$(this).val(), function(geos) {
           if(geos.length > 0) {
             var geos_html = '';
             for (var i = 0; i < geos.length; i++) {
