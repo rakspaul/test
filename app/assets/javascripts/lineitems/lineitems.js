@@ -1018,11 +1018,19 @@
       }
     },
 
+    _createNewLI: function() {
+      var li = new LineItems.LineItem(),
+          empty_creatives_list = new ReachUI.Creatives.CreativesList([]);
+      li.set({ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+      this.collection.add(li);
+    },
+
     events: {
       'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
-      'click .submit-trafficker-btn': '_submitOrderToTrafficker'
+      'click .submit-trafficker-btn': '_submitOrderToTrafficker',
+      'click .create-li-btn': '_createNewLI'
     },
 
     triggers: {
