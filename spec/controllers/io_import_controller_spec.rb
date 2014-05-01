@@ -55,6 +55,8 @@ describe IoImportController do
         expect(data['order']['is_existing_order']).to eq(true)
         expect(data['lineitems'].count).to eq(4)
         expect(data['order']['revisions'].count).to eq(2)
+        expect(data['lineitems'][2]['revised']).to eq(true)
+        expect(data['lineitems'][3]['revised']).to eq(true)
         expect(data['lineitems'][2]['name']).to eq("Test New LI")
         expect(data['lineitems'][3]['name']).to eq("Test New LI #2")
         expect(data['lineitems'][2]['volume']).to eq(100_000)
@@ -124,6 +126,14 @@ describe IoImportController do
 
         data = JSON.parse(response.body)
         expect(data).to include('lineitems')
+      end
+
+      it "has *revised* flag not set for lineitems" do
+        post 'create', { io_file: io_file, format: :json }
+
+        data = JSON.parse(response.body)
+        expect(data).to include('lineitems')
+        expect(data['lineitems'][0]['revised']).to eq(nil)
       end
 
       it "returns lineitem with related creatives" do
