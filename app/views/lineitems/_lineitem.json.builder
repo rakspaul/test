@@ -45,6 +45,7 @@ json.frequency_caps do
   end
 end
 
+json.revised            lineitem.revised
 json.alt_ad_id          lineitem.alt_ad_id
 json.keyvalue_targeting lineitem.keyvalue_targeting
 json.type               lineitem.type

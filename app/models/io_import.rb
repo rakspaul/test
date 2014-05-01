@@ -124,17 +124,21 @@ class IoImport
 
     def read_lineitems
       @lineitems = []
+      index = 1
 
       @reader.lineitems do |lineitem|
         media_type = @current_user.network.media_types.find_by category: lineitem[:type]
         li = Lineitem.new(lineitem)
         li.order = @order
+        li.alt_ad_id = index
+        li.revised = true if @existing_order
         li.user = @current_user
         li.media_type = media_type
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
         @lineitems << li
+        index += 1
       end
     end
 
