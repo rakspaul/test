@@ -34,6 +34,8 @@ class AudienceGroup < ActiveRecord::Base
   def validate_key_value(segments_vals, contexts_vals)
     kv_pairs = key_values.split(',')
 
+    context_network = Network.find(config.search_contexts_in_network)
+
     kv_pairs.each do|kv_pair|
       kv = kv_pair.split('=')
 
@@ -42,7 +44,7 @@ class AudienceGroup < ActiveRecord::Base
       elsif kv[0] == "btg"
         segments_vals <<  kv[1]
       elsif kv[0] == "contx"
-        contexts_vals << "#{network.net_prefix}.#{kv[1]}"
+        contexts_vals << "#{context_network.net_prefix}.#{kv[1]}"
       else
         return errors.add :key_values, "Invalid key for the value #{kv[1]}"
       end
@@ -62,9 +64,7 @@ class AudienceGroup < ActiveRecord::Base
   end
 
   def validate_contexts(contexts_to_search)
-    networks = config.search_contexts_in_network.split(',')
-
-    contexts_found = Context.of_networks(networks).where(:name => contexts_to_search).pluck(:name)
+    contexts_found = Context.of_networks(config.search_contexts_in_network).where(:name => contexts_to_search).pluck(:name)
     missing_contexts = contexts_to_search - contexts_found
     remove_cm_contexts(missing_contexts)
 

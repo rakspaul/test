@@ -93,8 +93,8 @@ Reachui::Application.configure do
   config.search_segments_in_network = '6,176'
 
   # audience group context search
-  # comma separated string of network ids
-  config.search_contexts_in_network = '6,176'
+  # network to search for context
+  config.search_contexts_in_network = '6'
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
