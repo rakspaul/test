@@ -557,7 +557,7 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
-      [:selected_geos, :selected_key_values].each{|attr_name| li[:lineitem].delete(attr_name) }
+      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
