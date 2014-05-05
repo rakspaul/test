@@ -270,7 +270,7 @@ private
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = load_users
-    @rc = ReachClient.select(:name).distinct.order("name asc")
+    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
   end
 
