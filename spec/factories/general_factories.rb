@@ -79,6 +79,7 @@ FactoryGirl.define do
     type "Display"
     media_type
     user
+    proposal_li_id "#{SecureRandom.random_number(10000)}"
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do

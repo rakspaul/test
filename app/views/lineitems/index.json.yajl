@@ -17,7 +17,7 @@ json = @lineitems.map do |lineitem|
     type:               lineitem.type,
     media_type_id:      lineitem.media_type_id,
     notes:              lineitem.try(:notes),
-    li_id:              lineitem.try(:li_id),
+    li_id:              lineitem.proposal_li_id,
     creatives:          [],
     selected_geos:      [],
     selected_key_values: [],

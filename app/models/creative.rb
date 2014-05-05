@@ -34,6 +34,6 @@ class Creative < ActiveRecord::Base
 private
 
   def sanitize_attributes
-    self.redirect_url = redirect_url.strip
+    self.redirect_url = redirect_url.try(:strip)
   end
 end

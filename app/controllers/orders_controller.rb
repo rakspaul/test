@@ -454,7 +454,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url ].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -571,6 +571,7 @@ private
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
+      lineitem.proposal_li_id = li[:lineitem][:li_id]
       lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
       lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)

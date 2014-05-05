@@ -660,7 +660,7 @@ class IOPdfFileReader < IOReader
         end_date: parse_date(li[:end_date]),
         ad_sizes: parse_ad_sizes(ad_sizes, type),
         name: li[:name].to_s.strip,
-        li_id: li[:li_id].to_i,
+        li_id: li[:li_id].to_s,
         volume: li[:impressions].to_i,
         notes: "Proposal Line Item ID: #{li[:li_id]} - " + li[:notes].to_s.strip,
         rate: li[:rate].to_f,

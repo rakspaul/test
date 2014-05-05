@@ -530,6 +530,7 @@ private
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
     params['order']['lineitems'].each do |li|
+      li['lineitem']['proposal_li_id'] = "#{SecureRandom.random_number(10000)}"
       li['lineitem']['start_date'] = start_date
       li['lineitem']['end_date']   = end_date
       li['lineitem']['creatives'].each do |creative|
@@ -570,6 +571,7 @@ private
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
     params['order']['lineitems'].each do |li|
+      li['lineitem']['proposal_li_id'] = "#{SecureRandom.random_number(10000)}"
       li['lineitem']['start_date'] = start_date
       li['lineitem']['end_date']   = end_date
       li['lineitem']['creatives'].each do |creative|

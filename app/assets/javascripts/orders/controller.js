@@ -638,12 +638,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     if(reach_client_abbr == "TWC") {
       ad_name_parts.push(reach_client_abbr);
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name); 
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     } else if (reach_client_abbr == "RE CD" || li.collection.order.attributes.reach_client_abbr == "RE TW") {
       ad_name_parts.push(reach_client_abbr);
-      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);  
+      ad_name_parts.push(li.collection.order.attributes.client_advertiser_name);
     } else {
-      ad_name_parts.push(li.collection.order.attributes.name);    
+      ad_name_parts.push(li.collection.order.attributes.name);
     }
 
     if (isGeo) {
@@ -717,7 +717,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var li = li_view.model;
       var type = args.type || li.get('type');
       var ad_name = ordersController._generateAdName(li, type);
-
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li)); 
       var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
@@ -824,6 +823,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               dmas_list: li_view.model.get('targeting').get('dmas_list'),
               audience_groups: li_view.model.get('targeting').get('audience_groups'),
               keyvalue_targeting: attrs.ad.keyvalue_targeting,
+              dfp_key_values: attrs.ad.dfp_key_values,
+              ad_dfp_id: attrs.ad.source_id,
+              order_status: lineItemList.order.get('order_status'),
               type: li_view.model.get('type')})});
 
             li_view.model.pushAd(ad);
