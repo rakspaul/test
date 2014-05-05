@@ -639,6 +639,7 @@
     events: {
       'click #btnAdd' : '_onAddAdvertiserClick',
       'click #btnRemove' : '_onRemoveAdvertiserClick',
+      'click #btnRecommit' : '_recommit',
     },
 
     ui: {
@@ -673,6 +674,30 @@
     setText: function(tab_name) {
       this.tab_name = tab_name;
       this.ui.lblTabName.text(this.tab_name);
+    },
+
+    _recommit: function(event) {
+      var advertisers = this._selectedAdvertisers();
+      this.trigger('Recommit:Advertisers', advertisers);
+    },
+
+    _selectedAdvertisers:function() {
+      var self = this;
+      var advertisers = [];
+      if (this._isAdvertiserSelected()) {
+        $( "#blockedAdvertiserList li.selected" ).each(function() {
+          var site_id = parseInt($( this ).attr('site_id')),
+          advertiser_id = parseInt($( this ).val()),
+          site = self.collection.findWhere({site_id: site_id});
+          if (site) {
+            var advertiser = site.getAdvertiser(advertiser_id);
+            if(advertiser) {
+              advertisers.push(advertiser);
+            }
+          }
+        });
+      }
+      return advertisers;
     },
 
     _onAddAdvertiserClick: function(event) {
@@ -906,6 +931,7 @@
     events: {
       'click #btnAdd' : '_onAddAdvertiserGroupClick',
       'click #btnRemove' : '_onRemoveAdvertiserGroupClick',
+      'click #btnRecommit' : '_recommit'
     },
 
     ui: {
@@ -943,6 +969,30 @@
 
     show: function() {
       this.$el.show();
+    },
+
+    _recommit: function(event) {
+      var advertiserGroups = this._selectedAdvertiserGroups();
+      this.trigger('Recommit:AdvertiserGroups', advertiserGroups);
+    },
+
+    _selectedAdvertiserGroups:function() {
+      var self = this;
+      var advertiserGroups = [];
+      if (this._isAdvertiserGroupSelected()) {
+        $( "#blockedAdvertiserGroupList li.selected").each(function() {
+          var site_id = parseInt($( this ).attr('site_id')),
+          advertiser_group_id = parseInt($( this ).val()),
+          site = self.collection.findWhere({site_id: site_id});
+          if (site) {
+            var advertiser_group = site.getAdvertiserGroup(advertiser_group_id);
+            if (advertiser_group) {
+              advertiserGroups.push(advertiser_group);
+            }
+          }
+        });
+      }
+      return advertiserGroups;
     },
 
     _onAddAdvertiserGroupClick: function(event) {
