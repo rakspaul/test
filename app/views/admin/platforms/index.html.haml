@@ -1,0 +1,94 @@
+%div.top-headers
+  = link_to "Add New Platform", new_admin_platform_path, class: 'btn'
+
+%table.platforms-table
+  %thead
+    %tr
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Name
+          .pure-u
+            #name.actions-container
+              %i.icon-sort-by-attributes
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Media Type
+          .pure-u
+            #media_type.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              DFP Key
+          .pure-u
+            #dfp_key.actions-container
+              %i.icon-sort
+      %th.site-name
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              DFP Site Name
+          .pure-u
+            #dfp_site_name.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Naming Convention
+          .pure-u
+            #naming_convention.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Ad Type
+          .pure-u
+            #ad_type.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Priority
+          .pure-u
+            #priority.actions-container
+              %i.icon-sort
+      %th
+        .pure-g.header-container
+          .pure-u.title-container
+            .title
+              Enabled
+          .pure-u
+            #enabled.actions-container
+              %i.icon-sort
+  %tbody{:id => "platforms"}
+    =render "platforms_table" ,:platforms => @platforms
+
+.paginator{:id => "paginator"}
+  = paginate @platforms,:remote => :true
+
+:javascript
+  $('.actions-container i').click(function(event) {
+    var para = {};
+    para.sort_column = $(event.target).parent().attr('id');
+
+    var class_name = $(event.target).attr('class');
+
+    if(class_name==='icon-sort' || class_name==='icon-sort-by-attributes-alt') {
+      para.sort_direction = 'asc';
+      $('.admin-reach-table').find('.actions-container i').removeClass('icon-sort-by-attributes icon-sort-by-attributes-alt').addClass('icon-sort');
+      $(event.target).removeClass('icon-sort-by-attributes-alt icon-sort').addClass('icon-sort-by-attributes');
+    } else if(class_name==='icon-sort-by-attributes') {
+      para.sort_direction = 'desc';
+      $(event.target).removeClass('icon-sort-by-attributes').addClass('icon-sort-by-attributes-alt');
+    }
+
+    var request = $.ajax({url:'/admin/platforms', data:para, dataType: 'script'});
+  });

@@ -16,4 +16,14 @@ class AdsController < ActionController::Base
       format.json
     end
   end
+
+  def ad_types
+    @ad_types = Ad.of_network(current_network).select(:ad_type).distinct.where("ads.ad_type IS NOT NULL")
+    respond_with(@ad_types)
+  end
+
+  def ad_priorities
+    @ad_priorities = Ad.of_network(current_network).select(:priority).distinct.where("ads.priority IS NOT NULL")
+    respond_with(@ad_priorities)
+  end
 end

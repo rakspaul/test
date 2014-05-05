@@ -178,7 +178,7 @@
   }
 }
 
-.admin-reach-table, .admin-block-logs-table, .admin-block-violations-table {
+.admin-reach-table, .admin-block-logs-table, .admin-block-violations-table, .platforms-table {
   width: 100%;
   table-layout: fixed;
   word-wrap: break-word;
@@ -953,3 +953,40 @@ ul.select-keyvals{
   }
 
 }
+
+.platform-content{
+
+  .tt-hint{
+    margin-top:2px;
+  }
+
+  .tt-dropdown-menu {
+
+    font-size:14px;
+    line-height:18px;
+
+    .tt-suggestions{
+      max-height: 300px;
+      overflow-y: auto;
+      border-bottom:1px solid #ccc;
+
+      .tt-suggestion{
+        line-height:20px;
+        p{
+          font-size:12px;
+          height:auto;
+          padding:0px;
+          margin:0px;
+        }
+      }
+    }
+  }
+}
+
+.platforms-table{
+  .site-name{
+    width:230px;
+  }
+}
+
+

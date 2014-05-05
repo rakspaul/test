@@ -47,6 +47,10 @@ class Ad < ActiveRecord::Base
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
+  def self.of_network(network)
+    where(:network => network)
+  end
+
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
   end
