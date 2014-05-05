@@ -521,7 +521,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .li-command-btn, .li-commands-btn {
+    .li-command-btn, .li-commands-btn, .li-duplicate-btn {
       margin-left: -25px;
     }
 
@@ -531,6 +531,15 @@ $wide_input_width: 320px;
       height: 16px;
       display: block;
       cursor: pointer;
+    }
+
+    .li-duplicate-btn {
+      background: sprite($images, clone-btn) no-repeat;
+      width: 16px;
+      height: 16px;
+      display: block;
+      cursor: pointer;
+      margin-top: 25px;
     }
 
     span.operation {
