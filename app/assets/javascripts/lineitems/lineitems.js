@@ -10,6 +10,7 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.is_blank_li = false;
     },
 
     defaults: function() {
@@ -59,6 +60,10 @@
       }
       delete lineitem['frequency_caps'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
+    },
+
+    setBlankLiFlag: function() {
+      this.is_blank_li = true;
     },
 
     pushAd: function(ad) {
@@ -233,6 +238,30 @@
           },
         },
         success: function(response, newValue) {
+          // https://github.com/collectivemedia/reachui/issues/543
+          // When a size is selected, the media type should default to the media type for that size
+          // 1x1 = video
+          // 300x50 or 320x50 = mobile
+          // 100x72 or 99x72 = FB
+          // All else = Display
+          if(view.model.is_blank_li) {
+            switch(newValue[0]) {
+              case '1x1':
+                view._changeMediaType("Video");
+                break;
+              case '300x50':
+              case '320x50':
+                view._changeMediaType("Mobile");
+                break;
+              case '100x72':
+              case '99x72':
+                view._changeMediaType("Facebook");
+                break;
+              default:
+                view._changeMediaType("Display");
+            }
+          }
+
           if (view.model.get('type') == 'Video') {
             var value = newValue.join(', ');
             view.model.set('companion_ad_size', value);
@@ -602,8 +631,8 @@
       this._deselectAllLIs();
     },
 
-    _changeMediaType: function(ev) {
-      var type = $(ev.currentTarget).data('type');
+    _changeMediaType: function(ev_or_type) {
+      var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
       if (type == 'Video' && !this.model.get('master_ad_size')) {
         this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
       }
@@ -639,6 +668,77 @@
       $(toptions).html(targeting_options.join(' '));
 
       this.model.set({ 'type': type });
+    },
+
+    _duplicateLineitem: function() {
+      var li = this.model,
+          li_view = this;
+
+      var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
+      var zipcodes       = li.get('targeted_zipcodes') ? _.clone(li.get('targeted_zipcodes')).split(',') : [];
+      var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
+      var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+
+      var new_li = new LineItems.LineItem(),
+          creatives_list = null;
+      new_li.setBlankLiFlag();
+
+      if(this.model.get('creatives').length > 0) {
+        var creatives = [];
+        _.each(this.model.get('creatives').models, function(c) {
+          creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+        });
+        creatives_list = new ReachUI.Creatives.CreativesList(creatives);
+      } else {
+        creatives_list = new ReachUI.Creatives.CreativesList([])
+      }
+
+      new_li.set({
+        start_date: this.model.get('start_date'),
+        end_date: this.model.get('end_date'),
+        ad_sizes: this.model.get('ad_sizes'),
+        name: this.model.get('name'),
+        type: this.model.get('type'),
+        volume: this.model.get('volume'),
+        rate: this.model.get('rate'),
+        master_ad_size: this.model.get('master_ad_size'),
+        itemIndex: (this.model.collection.length + 1),
+        creatives: creatives_list,
+        targeting: new ReachUI.Targeting.Targeting({
+          selected_zip_codes: zipcodes,
+          selected_geos: selected_geos,
+          selected_key_values: kv,
+          frequency_caps: frequency_caps,
+          audience_groups: li.get('audience_groups'),
+          keyvalue_targeting: li.get('keyvalue_targeting'),
+          type: li.get('type') 
+        })
+      }, { silent: true });
+
+      _.each(li.ads, function(ad) {
+        var new_ad = new ReachUI.Ads.Ad(ad.attributes);
+
+        new_ad.set({
+          start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
+          end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
+          creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
+          targeting: new ReachUI.Targeting.Targeting({
+            selected_zip_codes: ad.get('targeting').get('targeted_zipcodes'),
+            selected_geos: ad.get('targeting').get('selected_geos'),
+            selected_key_values: ad.get('targeting').get('selected_key_values'),
+            frequency_caps: ad.get('targeting').get('frequency_caps'),
+            audience_groups: li.get('targeting').get('audience_groups'),
+            keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
+            dfp_key_values: ad.dfp_key_values,
+            ad_dfp_id: ad.get('source_id'),
+            type: ad.get('type')
+          })
+        });
+
+        new_li.pushAd(new_ad);
+      });
+
+      this.model.collection.add(new_li);
     },
 
     ui: {
@@ -755,7 +855,8 @@
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
-      'click .change-media-type': '_changeMediaType'
+      'click .change-media-type': '_changeMediaType',
+      'click .li-duplicate-btn': '_duplicateLineitem'
     },
 
     triggers: {
@@ -1020,8 +1121,10 @@
 
     _createNewLI: function() {
       var li = new LineItems.LineItem(),
-          empty_creatives_list = new ReachUI.Creatives.CreativesList([]);
-      li.set({ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+          empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
+          itemIndex = this.collection.length + 1;
+      li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+      li.setBlankLiFlag();
       this.collection.add(li);
     },
 
