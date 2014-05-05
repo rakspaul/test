@@ -11,7 +11,7 @@
       this._initializeSiteListView();
       this._initializeBlockedAdvertiserListView();
       this._initializeBlockedAdvertiserGroupListView();
-      _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError');
+      _.bindAll(this, '_onSuccess', '_onError', '_onCommitSuccess', '_onCommitError', '_onRecommitSuccess', '_onRecommitError');
     },
 
     _initializeLayout: function() {
@@ -40,6 +40,7 @@
       this.blockedAdvertiserListView = new BlockSites.BlockedAdvertiserListView({collection: this.blockedAdvertiserList, isBlacklistedSiteMode: this._isBlacklistedSiteMode});
       this.blockedAdvertiserListView.on('Show:AdvertiserListView', this._showAdvertiserModalView, this);
       this.blockedAdvertiserListView.on('Delete:Advertiser', this._onAdvertiserDelete, this);
+      this.blockedAdvertiserListView.on('Recommit:Advertisers', this._recommitBlocks, this);
       this.layout.blockedAdvertiserListView.show(this.blockedAdvertiserListView);
     },
 
@@ -48,6 +49,7 @@
       this.blockedAdvertiserGroupListView = new BlockSites.BlockedAdvertiserGroupListView({collection: this.blockedAdvertiserGroupList});
       this.blockedAdvertiserGroupListView.on('Show:AdvertiserGroupModalView', this._showAdvertiserGroupModalView, this);
       this.blockedAdvertiserGroupListView.on('Delete:AdvertiserGroup', this._onAdvertiserGroupDelete, this);
+      this.blockedAdvertiserGroupListView.on('Recommit:AdvertiserGroups', this._recommitBlocks, this);
       this.layout.blockedAdvertiserGroupListView.show(this.blockedAdvertiserGroupListView);
     },
 
@@ -116,6 +118,31 @@
 
     _onAdvertiserDelete: function(advertiser) {
       this._deletedAdvertisers.push(advertiser);
+    },
+
+    _recommitBlocks: function(blocks) {
+      var block_ids = [];
+      for (var i = 0; i < blocks.length; i++) {
+        var block = blocks[i];
+        if(!block.isNew() && (block.isBlocked() || block.isUnBlocked())) {
+          block_ids.push(block.id)
+        }
+      }
+
+      if (block_ids.length > 0) {
+        var para = {};
+        para.recommit_block_ids = block_ids
+        $.ajax({type: "POST", url: '/admin/block_sites/recommit', data: para, success: this._onRecommitSuccess, error: this._onRecommitError, dataType: 'json'});
+      }
+    },
+
+    _onRecommitSuccess: function(event) {
+      this._fetchSiteBlocks();
+      alert(event.message);
+    },
+
+    _onRecommitError: function(event) {
+      alert('An error occurred while recommitting your changes.');
     },
 
     _onAdvertiserGroupDelete: function(advertiserGroup) {

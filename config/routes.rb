@@ -34,6 +34,7 @@ Reachui::Application.routes.draw do
         get 'whitelisted_advertisers_to_commit' => 'block_sites#whitelisted_advertisers_to_commit'
         get 'blacklisted_advertiser_groups_to_commit' => 'block_sites#blacklisted_advertiser_groups_to_commit'
         get 'whitelisted_advertiser_groups_to_commit' => 'block_sites#whitelisted_advertiser_groups_to_commit'
+        post 'recommit' => 'block_sites#recommit'
       end
     end
 
