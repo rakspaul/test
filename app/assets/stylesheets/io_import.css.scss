@@ -1237,8 +1237,11 @@ table.creatives-content {
         }
 
         .start-date .date.custom, .end-date .date.custom {
-          color: orange;
           cursor: pointer;
+        }
+
+        .start-date .date.custom.highlighted, .end-date .date.custom.highlighted {
+          color: orange;
         }
 
         .creative-type {

@@ -126,9 +126,9 @@
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
           self.end_creative_date_inherits_li = false;
-
+          $(this).removeClass('highlighted');
           var end_date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set('end_date', end_date); //update backbone model
+          self.model.attributes['end_date'] = end_date; //update backbone model
 
           if(end_date < self.model.get('start_date')) {
             self.$el.find('.end-date .errors_container').html('End date cannot be before start date')
@@ -142,9 +142,9 @@
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           self.start_creative_date_inherits_li = false;
-
+          $(this).removeClass('highlighted');
           var start_date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set('start_date', start_date); //update backbone model
+          self.model.attributes['start_date'] = start_date; //update backbone model
 
           if(start_date > self.model.get('end_date')) {
             self.$el.find('.end-date .errors_container').html('End date cannot be before start date')
