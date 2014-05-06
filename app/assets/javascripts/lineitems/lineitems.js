@@ -705,6 +705,7 @@
     },
 
     _acceptRevision: function(e) {
+      var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
           $editable = $target_parent.siblings('div .editable'),
@@ -713,6 +714,35 @@
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+
+      if (this.model.ads.length > 0) {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
+            apply_text = 'Apply the new ' + attr_name_humanized + ' to ads';
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html(apply_text);
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+        });
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+          switch (attr_name) {
+            case 'start_date':
+            case 'end_date':
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+                // TODO log ad changes
+              });
+              break;
+            case 'volume':
+            case 'rate':
+              // TODO udpate impressions
+              break;
+          }
+          // TODO apply changes to ads
+        });
+        $apply_ads_dialog.modal('show');
+      }
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       this.model.attributes[attr_name] = revised_value;
