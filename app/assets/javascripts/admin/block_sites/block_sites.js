@@ -677,13 +677,21 @@
     },
 
     _recommit: function(event) {
-      var advertisers = this._selectedAdvertisers();
-      this.trigger('Recommit:Advertisers', advertisers);
+      var advertisers = this._selectedAdvertisers(),
+      activeBlocks = this._findActiveAdvertisers(advertisers)
+      if (advertisers.length < 1 || activeBlocks.length == 0) {
+        alert('You must select an active rule to recommit.');
+        return;
+      } else if (advertisers.length > 0 && advertisers.length != activeBlocks.length) {
+        alert('Your selection contains pending / in-progress blocks, only active blocks can be recommitted.');
+        return;
+      }
+      this.trigger('Recommit:Advertisers', advertisers.toArray());
     },
 
     _selectedAdvertisers:function() {
       var self = this;
-      var advertisers = [];
+      var advertisers = new BlockSites.AdvertiserList();
       if (this._isAdvertiserSelected()) {
         $( "#blockedAdvertiserList li.selected" ).each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
@@ -692,12 +700,20 @@
           if (site) {
             var advertiser = site.getAdvertiser(advertiser_id);
             if(advertiser) {
-              advertisers.push(advertiser);
+              advertisers.add(advertiser);
             }
           }
         });
       }
       return advertisers;
+    },
+
+    _findActiveAdvertisers: function(advertisers) {
+      return advertisers.filter(function(model) {
+        return (
+          model.isBlocked() || model.isUnBlocked()
+          );
+      }, this);
     },
 
     _onAddAdvertiserClick: function(event) {
@@ -972,13 +988,21 @@
     },
 
     _recommit: function(event) {
-      var advertiserGroups = this._selectedAdvertiserGroups();
-      this.trigger('Recommit:AdvertiserGroups', advertiserGroups);
+      var advertiserGroups = this._selectedAdvertiserGroups(),
+      activeBlocks = this._findActiveAdvertiserGroups(advertiserGroups)
+      if (advertiserGroups.length < 1 || activeBlocks.length == 0) {
+        alert('You must select an active rule to recommit.');
+        return;
+      } else if (advertiserGroups.length > 0 && advertiserGroups.length != activeBlocks.length) {
+        alert('Your selection contains pending / in-progress blocks, only active blocks can be recommitted.');
+        return;
+      }
+      this.trigger('Recommit:AdvertiserGroups', advertiserGroups.toArray());
     },
 
     _selectedAdvertiserGroups:function() {
       var self = this;
-      var advertiserGroups = [];
+      var advertiserGroups = new BlockSites.AdvertiserGroupList();
       if (this._isAdvertiserGroupSelected()) {
         $( "#blockedAdvertiserGroupList li.selected").each(function() {
           var site_id = parseInt($( this ).attr('site_id')),
@@ -987,12 +1011,20 @@
           if (site) {
             var advertiser_group = site.getAdvertiserGroup(advertiser_group_id);
             if (advertiser_group) {
-              advertiserGroups.push(advertiser_group);
+              advertiserGroups.add(advertiser_group);
             }
           }
         });
       }
       return advertiserGroups;
+    },
+
+    _findActiveAdvertiserGroups: function(advertiserGroups) {
+      return advertiserGroups.filter(function(model) {
+        return (
+          model.isBlocked() || model.isUnBlocked()
+          );
+      }, this);
     },
 
     _onAddAdvertiserGroupClick: function(event) {
