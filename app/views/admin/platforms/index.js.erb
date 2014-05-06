@@ -1,0 +1,2 @@
+$('#platforms').html('<%= escape_javascript render "platforms_table", :platforms =>@platforms %>');
+$('#paginator').html('<%= escape_javascript(paginate(@platforms, :remote => true).to_s) %>');
