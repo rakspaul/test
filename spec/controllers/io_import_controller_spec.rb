@@ -55,14 +55,26 @@ describe IoImportController do
         expect(data['order']['is_existing_order']).to eq(true)
         expect(data['lineitems'].count).to eq(4)
         expect(data['order']['revisions'].count).to eq(2)
-        expect(data['lineitems'][2]['revised']).to eq(true)
-        expect(data['lineitems'][3]['revised']).to eq(true)
+        expect(data['lineitems'][0]['revised']).to eq(true)
+        expect(data['lineitems'][1]['revised']).to eq(true)
+        expect(data['lineitems'][2]['revised']).to eq(false)
+        expect(data['lineitems'][3]['revised']).to eq(false)
         expect(data['lineitems'][2]['name']).to eq("Test New LI")
         expect(data['lineitems'][3]['name']).to eq("Test New LI #2")
         expect(data['lineitems'][2]['volume']).to eq(100_000)
         expect(data['lineitems'][3]['volume']).to eq(150_000)
         expect(data['lineitems'][2]['rate']).to eq("5.0")
         expect(data['lineitems'][3]['rate']).to eq("4.0")
+      end
+
+      it "imports new LIs along with creatives with them" do
+        post 'create', { io_file: io_file_revised_w_new_lis, current_order_id: @order.id, format: :json }
+
+        data = JSON.parse(response.body)
+        expect(data['order']['is_existing_order']).to eq(true)
+        expect(data['lineitems'].count).to eq(4)
+        expect(data['order']['revisions'].count).to eq(2)
+        expect(data['lineitems'][2]['creatives'].count).to eq(1)
       end
 
       it "sees changes in start_date and end_date and in impressions of lineitems" do
@@ -133,7 +145,7 @@ describe IoImportController do
 
         data = JSON.parse(response.body)
         expect(data).to include('lineitems')
-        expect(data['lineitems'][0]['revised']).to eq(nil)
+        expect(data['lineitems'][0]['revised']).to eq(false)
       end
 
       it "returns lineitem with related creatives" do
