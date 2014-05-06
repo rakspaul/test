@@ -26,8 +26,9 @@ class Admin::PlatformsController < ApplicationController
   end
 
   def show
-    @platform = Platform.of_network(current_network).where(:id => params[:id]).first
+    @platform = Platform.of_network(current_network).find(params[:id])
     respond_with(@platform)
+
     rescue => e
       respond_with(e.message, status: :service_unavailable)
   end
@@ -37,8 +38,10 @@ class Admin::PlatformsController < ApplicationController
     @platform = Platform.new(platform)
     @platform.network_id = current_network.id
     @platform.save
-
     respond_with(@platform, location: nil)
+
+    rescue => e
+      respond_with(e.message, status: :service_unavailable)
   end
 
   def edit
@@ -53,15 +56,15 @@ class Admin::PlatformsController < ApplicationController
   def update
     @platform = Platform.find(params[:id])
     p = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :site_id, :naming_convention, :ad_type, :priority, :enabled)
-
     @platform.update_attributes(p)
     respond_with(@platform)
+
+    rescue => e
+      respond_with(e.message, status: :service_unavailable)
   end
 
   def search
     @platforms = Platform.of_network(current_network).distinct
-
     respond_with(@platforms)
   end
-
 end

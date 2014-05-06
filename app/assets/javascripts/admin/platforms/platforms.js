@@ -170,8 +170,10 @@
         enabled: this.ui.enabled_checkbox.is(':checked')
       }
 
-      if(this.ui.platform_name_input.is(':visible'))
-        para.name = this.ui.platform_name_input.val()
+      if(this.ui.platform_name_input.is(':visible')){
+         para.name = this.ui.platform_name_input.val();
+      }
+
 
       var self = this;
 
