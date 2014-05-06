@@ -38,6 +38,7 @@ class IoImport
       @existing_order_id = @current_order_id
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
+      @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
       @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
       @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
@@ -66,9 +67,9 @@ class IoImport
 
   def new_and_revised_lineitems
     if @is_existing_order
-      li_count = @existing_order.lineitems.count
+      li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_order.lineitems.in_standard_order + @lineitems[li_count..-1]
+      @existing_lineitems + @lineitems[li_count..-1]
     else
       @lineitems
     end
@@ -131,9 +132,9 @@ class IoImport
         li = Lineitem.new(lineitem)
         li.order = @order
         li.alt_ad_id = index
-        li.revised = true if @existing_order
         li.user = @current_user
         li.media_type = media_type
+        li.revised = false
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
@@ -145,27 +146,37 @@ class IoImport
     def parse_revisions
       return if !@current_order_id || !@existing_order
 
-      @existing_order.lineitems.in_standard_order.each_with_index do |existing_li, index|
+      @existing_lineitems.each_with_index do |existing_li, index|
         local_revisions = {}
 
         if (@lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s) && !@lineitems[index][:start_date].blank?
           local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
         end
 
         if (@lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s) && !@lineitems[index][:end_date].blank?
           local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
         end
 
         if (@lineitems[index][:name] != existing_li.name) && !@lineitems[index][:name].blank?
           local_revisions[:name] = @lineitems[index][:name]
+          @lineitems[index].revised = true
+          existing_li.revised = true
         end
 
         if (@lineitems[index][:volume] != existing_li.volume) && @lineitems[index][:volume] != 0
           local_revisions[:volume] = @lineitems[index][:volume]
+          @lineitems[index].revised = true
+          existing_li.revised = true
         end
 
         if (@lineitems[index][:rate] != existing_li.rate) && @lineitems[index][:rate] != 0.0
           local_revisions[:rate] = @lineitems[index][:rate]
+          @lineitems[index].revised = true
+          existing_li.revised = true
         end
         @revisions << local_revisions
       end
