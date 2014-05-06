@@ -83,13 +83,13 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      li_creatives = if @io_import.is_existing_order
+      li_creatives = if lineitem.revised && @io_import.is_existing_order # means old LI
         lineitem.creatives
       else
         @io_import.inreds.select do |ir|
-          ir[:placement]  == lineitem.name &&
-          ir[:start_date] == lineitem.start_date &&
-          ir[:end_date]   == lineitem.end_date
+          ir[:placement]          == lineitem.name &&
+          ir[:start_date].to_date == lineitem.start_date.to_date &&
+          ir[:end_date].to_date   == lineitem.end_date.to_date
         end
       end
 
