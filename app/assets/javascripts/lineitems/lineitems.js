@@ -796,15 +796,16 @@
 
       // log changes
       EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
-
-      this.model.collection._recalculateLiImpressionsMediaCost();
-      this._recalculateMediaCost();
-
+         
       this._removeAndHideAllRevisions(e);
+      this._recalculateMediaCost();
+      this.model.collection._recalculateLiImpressionsMediaCost(); 
+      this.model.attributes['revised'] = null; 
     },
 
     _declineAllRevisions: function(e) {
       this._removeAndHideAllRevisions(e);
+      this.model.attributes['revised'] = null;
       this.$el.find('.li-number').removeClass('revised');
       this.$el.find('.revision').remove();
     },
@@ -817,7 +818,6 @@
         self.model.attributes['revised_'+attr_name] = null;
       });
 
-      this.model.attributes['revised'] = null;
       this.$el.find('.revised-dialog').remove();
     },
 
