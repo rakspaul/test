@@ -426,7 +426,6 @@
     },
 
     logRevision: function(text) {
-      console.log('Order save note');
       this._saveNote(text);
     },
 
