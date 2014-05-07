@@ -167,7 +167,7 @@ class IoImport
           existing_li.revised = true
         end
 
-        if (@lineitems[index][:volume] != existing_li.volume) && @lineitems[index][:volume] != 0
+        if (@lineitems[index][:volume] != existing_li.volume)
           local_revisions[:volume] = @lineitems[index][:volume]
           @lineitems[index].revised = true
           existing_li.revised = true
