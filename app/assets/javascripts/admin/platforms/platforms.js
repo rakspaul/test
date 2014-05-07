@@ -17,7 +17,6 @@
     },
   });
 
-
 // --------------------/ Model /---------------------------------------
 
   Platform.PlatformModel = Backbone.Model.extend({
@@ -37,8 +36,6 @@
   Platform.MediaType = Backbone.Model.extend();
 
   Platform.AdType = Backbone.Model.extend();
-
-  Platform.AdPriority = Backbone.Model.extend();
 
 // --------------------/ Collection /----------------------------------
 
@@ -60,12 +57,6 @@
     url: '/ads/ad_types.json'
   });
 
-  Platform.AdPriorityList = Backbone.Collection.extend({
-    model: Platform.AdPriority,
-
-    url: '/ads/ad_priorities.json'
-  });
-
 // --------------------/ View /----------------------------------------
 
   Platform.PlatformDetailsView = Backbone.Marionette.ItemView.extend({
@@ -77,7 +68,6 @@
       this.platformsList = new Platform.PlatformList();
       this.mediaTypeList = new Platform.MediaTypeList();
       this.adTypeList = new Platform.AdTypeList();
-      this.adPriorityList = new Platform.AdPriorityList();
 
       this.platformsList.fetch().then(function() {
         self.render();
@@ -91,10 +81,6 @@
         self.render();
       });
 
-      this.adPriorityList.fetch().then(function() {
-        self.render();
-      });
-
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
     },
 
@@ -103,8 +89,7 @@
         platform: this.model,
         platformsList: this.platformsList,
         mediaTypes: this.mediaTypeList,
-        adTypes: this.adTypeList,
-        adPriorities: this.adPriorityList
+        adTypes: this.adTypeList
       }
     },
 
@@ -228,7 +213,6 @@
     }
 
   });
-
 
 // --------------------/ Controller /----------------------------------
 
