@@ -458,6 +458,7 @@
     },
 
     collapseLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = true;
       this.$el.find('.name .notes').hide();
       this.$el.find('.expand-notes').show();
@@ -465,6 +466,7 @@
     },
 
     expandLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = false;
       this.$el.find('.name .notes').show();
       this.$el.find('.expand-notes').hide();
@@ -472,6 +474,7 @@
     },
 
     _toggleLISelection: function(e) {
+      e.stopPropagation();
       if(this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
@@ -632,6 +635,7 @@
     },
 
     _changeMediaType: function(ev_or_type) {
+      ev.stopPropagation();
       var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
       if (type == 'Video' && !this.model.get('master_ad_size')) {
         this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
@@ -750,6 +754,7 @@
     },
 
     _toggleRevisionDialog: function(e) {
+      e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
     },
 
@@ -772,6 +777,14 @@
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
+        switch(attr_name) {
+          case 'rate':
+            revision = accounting.formatNumber(revision, 2);
+            break;
+          case 'volume':
+            revision = accounting.formatNumber(revision);
+            break;            
+        }
         if(revision) {
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
