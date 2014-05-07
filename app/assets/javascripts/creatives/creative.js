@@ -126,7 +126,7 @@
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
           self.end_creative_date_inherits_li = false;
-          $(this).removeClass('highlighted');
+
           var end_date = moment(newValue).format("YYYY-MM-DD");
           self.model.attributes['end_date'] = end_date; //update backbone model
 
@@ -142,7 +142,7 @@
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
           self.start_creative_date_inherits_li = false;
-          $(this).removeClass('highlighted');
+
           var start_date = moment(newValue).format("YYYY-MM-DD");
           self.model.attributes['start_date'] = start_date; //update backbone model
 
