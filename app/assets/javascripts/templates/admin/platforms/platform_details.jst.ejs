@@ -85,13 +85,13 @@
       <div class="controls">
         <select id="priority">
           <option value="">Select</option>
-          <% adPriorities.each(function(item){ %>
-            <% if(platform.get('priority') && item.get('priority') === platform.get('priority')) { %>
-              <option selected value="<%= item.get('priority') %>"><%= item.get('priority') %></option>
+          <% for(i=0; i<=16; i++) { %>
+            <% if(platform.get('priority') && i === platform.get('priority')) { %>
+              <option selected value="<%= i %>"><%= i %></option>
             <% } else { %>
-              <option value="<%= item.get('priority') %>"><%= item.get('priority') %></option>
+              <option value="<%= i %>"><%= i %></option>
             <% } %>
-          <% }) %>
+          <% } %>
         </select>
         <label class="help-inline form-error" id="priority_error"></label>
       </div>

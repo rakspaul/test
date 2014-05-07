@@ -64,7 +64,7 @@ class Admin::PlatformsController < ApplicationController
   end
 
   def search
-    @platforms = Platform.of_network(current_network).distinct
+    @platforms = Platform.of_network(current_network).select(:name).distinct.order("name ASC")
     respond_with(@platforms)
   end
 end
