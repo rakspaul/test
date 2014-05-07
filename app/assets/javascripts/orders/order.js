@@ -98,11 +98,16 @@
       'click .export-order':'order:export'
     },
 
+    _hideAllDialogs: function(e) {
+      $('.revised-dialog').hide();
+    },
+
     onRender: function() {
       // if order is not yet persisted then hide 'Creatives TXT' button
       if (this.model.id == null) {
         $(this.$el.find('.creatives-txt-uploader')[0]).remove();
       }
+      $('#order_layout').click(this._hideAllDialogs);
     },
 
     onDomRefresh: function() {
