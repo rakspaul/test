@@ -681,7 +681,11 @@
         }
       });
 
+      // log changes
       EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
+
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this._recalculateMediaCost();
 
       this._removeAndHideAllRevisions(e);
     },
@@ -720,7 +724,9 @@
 
       $target_parent.siblings('.revision').hide();
       $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
-      
+
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this._recalculateMediaCost();   
       this._checkRevisedStatus();
       $target_parent.remove();
     },
