@@ -84,7 +84,7 @@ json.lineitems do
 
     json.creatives do
       li_creatives = if lineitem.revised && @io_import.is_existing_order # means old LI
-        lineitem.creatives+lineitem.video_creatives
+        lineitem.creatives + lineitem.video_creatives
       else
         @io_import.inreds.select do |ir|
           ir[:placement]          == lineitem.name &&
