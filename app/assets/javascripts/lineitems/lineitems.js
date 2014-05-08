@@ -1125,7 +1125,7 @@
       var self = this;
       var lineitems = this.collection;
       var lineitemsWithoutAds = [];
-m
+
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
