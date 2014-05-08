@@ -81,7 +81,7 @@ class Ad < ActiveRecord::Base
         creatives = self.lineitem.creatives
       end
 
-      end_date = Time.zone.parse(cparams[:end_date]).end_of_day
+      end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
 
       creative = creatives.find_by(redirect_url: cparams[:redirect_url], size: cparams[:ad_size])
       # updating creative's attributes should be done on lineitem level
@@ -119,7 +119,7 @@ class Ad < ActiveRecord::Base
     zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
       Zipcode.find_by(zipcode: zipcode.strip)
     end
-    self.zipcodes = zipcodes.compact if !zipcodes.blank?
+    self.zipcodes = zipcodes.compact
 
     geo_targeting = targeting[:targeting][:selected_geos].to_a
 
