@@ -678,6 +678,7 @@ $wide_input_width: 320px;
 
   .start-date .editable, .end-date .editable {
     margin-left: 10px;
+    cursor: pointer;
   }
 
   .ads-container {
@@ -1234,6 +1235,10 @@ table.creatives-content {
 
         .javascript-code textarea {
           width: 450px;
+        }
+
+        .start-date .date.custom, .end-date .date.custom {
+          cursor: pointer;
         }
 
         .creative-type {
