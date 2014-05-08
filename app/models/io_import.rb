@@ -609,14 +609,11 @@ class IOPdfFileReader < IOReader
     @client_advertiser_name.to_s.strip
   end
 
-<<<<<<< HEAD
-=======
   def advertiser_name
     "" # https://github.com/collectivemedia/reachui/issues/327
     # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.
   end
 
->>>>>>> master
   def account_contact
     {
       phone_number: @account_contact.to_s.strip,
