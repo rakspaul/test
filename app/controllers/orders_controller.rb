@@ -152,7 +152,6 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.account_manager_id
     end
 
-
     respond_to do |format|
       Order.transaction do
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])

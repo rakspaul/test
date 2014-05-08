@@ -32,6 +32,7 @@
       _.bindAll(this, "render");
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
+      this.revised_targeting = false;
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
       this.validateKV = true;
@@ -361,8 +362,27 @@
         if(this.$el.find('.custom-kvs-field').is(':visible'))
           this.$el.find('.custom-regular-keyvalue-btn').trigger('click');
 
-        this.options.parent_view._toggleTargetingDialog();
-        this._renderSelectedTargetingOptions();
+        // show apply new targeting for ads dialog
+        if (this.model.revised_targeting) {
+          var self = this, $apply_ads_dialog = $('#apply-revisions-ads-dialog');
+
+          $apply_ads_dialog.find('.apply-revisions-txt').html('Apply the new targeting to ads');
+          $apply_ads_dialog.find('.noapply-btn').click(function() {
+            $apply_ads_dialog.modal('hide');
+            self.options.parent_view._toggleTargetingDialog();
+            self._renderSelectedTargetingOptions();
+          });
+          $apply_ads_dialog.find('.apply-btn').click(function() {
+            var targeting = _.pick(self.model.attributes, 'selected_geos', 'frequency_caps', 'selected_key_values', 'selected_zip_codes', 'keyvalue_targeting');
+            self.options.parent_view.trigger('targeting:update', targeting);
+            $apply_ads_dialog.find('.apply-btn').off('click');
+            $apply_ads_dialog.modal('hide');
+          });
+          $apply_ads_dialog.modal('show');
+        } else {
+          this.options.parent_view._toggleTargetingDialog();
+          this._renderSelectedTargetingOptions();
+        }
       }
     },
 

@@ -211,7 +211,6 @@ FactoryGirl.define do
   end
 
   factory :designated_market_area, :class => GeoTarget::DesignatedMarketArea, :parent => :geo_target do
-    id 541
     name "Lexington"
   end
 
@@ -235,6 +234,18 @@ FactoryGirl.define do
 
   factory :role do
     name "reach_ui"
+  end
+
+  factory :platform do
+    name "Test Platform Name"
+    dfp_key "vid"
+    naming_convention "ADP"
+    ad_type "STANDARD"
+    priority 8
+    enabled true
+    media_type
+    site
+    network { FactoryGirl.singleton :network }
   end
 
 end
