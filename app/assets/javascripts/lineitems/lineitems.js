@@ -793,15 +793,15 @@
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
-        switch(attr_name) {
-          case 'rate':
-            revision = accounting.formatNumber(revision, 2);
-            break;
-          case 'volume':
-            revision = accounting.formatNumber(revision);
-            break;            
-        }
-        if(revision) {
+        if(revision != null) {
+          switch(attr_name) {
+            case 'rate':
+              revision = accounting.formatNumber(revision, 2);
+              break;
+            case 'volume':
+              revision = accounting.formatNumber(revision);
+              break;            
+          }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
 
