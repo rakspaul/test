@@ -35,7 +35,6 @@
 
   Platform.MediaType = Backbone.Model.extend();
 
-  Platform.AdType = Backbone.Model.extend();
 
 // --------------------/ Collection /----------------------------------
 
@@ -51,11 +50,6 @@
     url: '/media_types/media_types.json'
   });
 
-  Platform.AdTypeList = Backbone.Collection.extend({
-    model: Platform.AdType,
-
-    url: '/ads/ad_types.json'
-  });
 
 // --------------------/ View /----------------------------------------
 
@@ -67,17 +61,12 @@
 
       this.platformsList = new Platform.PlatformList();
       this.mediaTypeList = new Platform.MediaTypeList();
-      this.adTypeList = new Platform.AdTypeList();
 
       this.platformsList.fetch().then(function() {
         self.render();
       });
 
       this.mediaTypeList.fetch().then(function() {
-        self.render();
-      });
-
-      this.adTypeList.fetch().then(function() {
         self.render();
       });
 
@@ -88,8 +77,7 @@
       return{
         platform: this.model,
         platformsList: this.platformsList,
-        mediaTypes: this.mediaTypeList,
-        adTypes: this.adTypeList
+        mediaTypes: this.mediaTypeList
       }
     },
 
@@ -119,11 +107,12 @@
 
     events: {
       'click #new_platform_btn' : '_show_platform_input',
-      'click #save_platform' : '_onSave'
+      'click #save_platform' : '_onSave',
+      'change #ad_type' : '_changePriority',
+      'click #enabled_checkbox' : '_changeLabel'
     },
 
     onDomRefresh: function(){
-
       $('#dfp_site_name').typeahead({
         name: 'site-names',
         remote: {
@@ -138,11 +127,11 @@
       $('#dfp_site_name').on('typeahead:selected', function(ev, el){
         self.site_id = el.id;
       });
-
     },
 
     _onSave: function(e) {
       e.preventDefault();
+      var self = this;
 
       var para = {
         name: this.ui.platform_name.val(),
@@ -158,9 +147,6 @@
       if(this.ui.platform_name_input.is(':visible')){
          para.name = this.ui.platform_name_input.val();
       }
-
-
-      var self = this;
 
       _.keys(this.ui)
         .filter(function(val) {
@@ -210,6 +196,33 @@
       this.ui.platform_name_input.toggle();
       var txt = this.ui.platform_name.is(':visible') ? 'New Platform' : 'Select Platform';
       this.ui.new_platform_btn.html(txt)
+    },
+
+    _changePriority: function(e){
+      var adType = $(e.currentTarget).val();
+      this.ui.priority.html('');
+
+      if(adType == "STANDARD"){
+        for(i=6; i<=10; i++){
+          this.ui.priority.append("<option>"+i+"</option>")
+        }
+      } else if(adType == "SPONSORSHIP"){
+        for(i=2; i<=5; i++){
+          this.ui.priority.append("<option>"+i+"</option>")
+        }
+      } else {
+        for(i=0; i<=16; i++){
+          this.ui.priority.append("<option>"+i+"</option>")
+        }
+      }
+    },
+
+    _changeLabel: function(e){
+      if ($(e.currentTarget).is(':checked')) {
+        $('.enabled-text').html('Yes');
+      } else {
+        $('.enabled-text').html('No');
+      }
     }
 
   });
