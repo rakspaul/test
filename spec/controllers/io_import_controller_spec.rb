@@ -30,10 +30,13 @@ describe IoImportController do
       ad_size1 = AdSize.create size: "300x250", width: 300, height: 250, network_id: user.network.id
       ad_size2 = AdSize.create size: "728x90", width: 728, height: 90, network_id: user.network.id
       ad_size3 = AdSize.create size: "160x600", width: 160, height: 600, network_id: user.network.id
+      ad_size3 = AdSize.create size: "1x1", width: 1, height: 1, network_id: user.network.id
+      creative = FactoryGirl.create :creative
 
       lineitem = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +10), name: "Age 18-34 or Age 34-50 or Education; Columbus Zips", volume: 300_000, order: @order, user: user
 
-      lineitem2 = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +5), name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: @order, user: user
+      lineitem2 = FactoryGirl.create :lineitem_video, start_date: Time.now, end_date: Time.now.advance(days: +5), name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: @order, user: user
+      lineitem_video_assignment = FactoryGirl.create :lineitem_assignment, start_date: Time.now, end_date: Time.now.advance(days: +5), creative: creative, lineitem: lineitem2
       @order.io_detail = io_detail
       @order.save
       @order.lineitems << lineitem
@@ -75,6 +78,15 @@ describe IoImportController do
         expect(data['lineitems'].count).to eq(4)
         expect(data['order']['revisions'].count).to eq(2)
         expect(data['lineitems'][2]['creatives'].count).to eq(1)
+      end
+
+      it "does not change the number of creatives after import of revised order" do
+        post 'create', { io_file: io_file_revised, current_order_id: @order.id, format: :json }
+
+        data = JSON.parse(response.body)
+        expect(data['order']['revisions'][0]).to be
+        expect(data['lineitems'][0]['creatives'].count).to eq(0)
+        expect(data['lineitems'][1]['creatives'].count).to eq(1)
       end
 
       it "sees changes in start_date and end_date and in impressions of lineitems" do
