@@ -509,7 +509,7 @@ private
           end
           ads << ad_object
 
-          if ad_object.valid?
+          if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
 
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
@@ -541,7 +541,7 @@ private
             Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
             li_errors[i] ||= {}
             li_errors[i][:ads] ||= {}
-            li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j].merge!(ad_object.errors.to_hash)
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
         rescue => e
