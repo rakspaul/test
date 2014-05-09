@@ -69,13 +69,15 @@ class Ad < ActiveRecord::Base
         is_video_creative = true
         ad_assignment_model = VideoAdAssignment
         li_assignment_model = LineitemVideoAssignment
-        creatives = self.lineitem.video_creatives
+        creatives = self.lineitem.try(:video_creatives)
       else
         is_video_creative = false
         ad_assignment_model = AdAssignment
         li_assignment_model = LineitemAssignment
-        creatives = self.lineitem.creatives
+        creatives = self.lineitem.try(:creatives)
       end
+      
+      return if creatives.blank?
 
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day
 
