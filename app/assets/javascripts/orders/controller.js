@@ -801,6 +801,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }, { silent: true });
 
           li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
 
           itemIndex += 1;
 

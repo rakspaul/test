@@ -69,7 +69,7 @@ class IoImport
     if @is_existing_order
       li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_lineitems + @lineitems[li_count..-1]
+      @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
     else
       @lineitems
     end
