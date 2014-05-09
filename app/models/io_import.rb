@@ -83,14 +83,17 @@ class IoImport
     end
 
     def read_order_and_details
-      @order = Order.new(@reader.order)
-      @order.user = @current_user
-      @order.network = @current_user.network
-      @order.advertiser = @advertiser
+      if @is_existing_order
+        @order = @existing_order
+      else
+        @order = Order.new(@reader.order)
+        @order.user = @current_user
+        @order.network = @current_user.network
+        @order.advertiser = @advertiser
+        @order_name_dup = Order.exists?(name: @order.name)
+      end
+
       @order.source_id = @existing_order.source_id if @current_order_id
-
-      @order_name_dup = Order.exists?(name: @order.name)
-
       @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name)
 
       if @reach_client
@@ -224,7 +227,7 @@ class IoImport
 
     def read_notes
       # array with hash in it, because OrdersController#show also use this format
-      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]    
+      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]
     end
 
     def find_sales_person
