@@ -83,9 +83,9 @@ json.lineitems do
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      li_creatives = if lineitem.revised && @io_import.is_existing_order # means old LI
+      li_creatives = if lineitem.id && @io_import.is_existing_order # means old LI => get old creatives
         lineitem.creatives+lineitem.video_creatives
-      else
+      else # => get new ones from IO
         @io_import.inreds.select do |ir|
           ir[:placement]          == lineitem.name &&
           ir[:start_date].to_date == lineitem.start_date.to_date &&
