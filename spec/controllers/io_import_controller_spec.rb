@@ -60,8 +60,8 @@ describe IoImportController do
         expect(data['order']['revisions'].count).to eq(2)
         expect(data['lineitems'][0]['revised']).to eq(true)
         expect(data['lineitems'][1]['revised']).to eq(true)
-        expect(data['lineitems'][2]['revised']).to eq(false)
-        expect(data['lineitems'][3]['revised']).to eq(false)
+        expect(data['lineitems'][2]['revised']).to eq(true) # 2 new LIs should be highlighted also
+        expect(data['lineitems'][3]['revised']).to eq(true)
         expect(data['lineitems'][2]['name']).to eq("Test New LI")
         expect(data['lineitems'][3]['name']).to eq("Test New LI #2")
         expect(data['lineitems'][2]['volume']).to eq(100_000)
