@@ -460,7 +460,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
+ [ :selected_geos, :selected_key_values, :io_lineitem_id, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -479,10 +479,12 @@ private
           end
 
           ad_object = ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])
+
           unless ad_object
             ad_object = lineitem.ads.build(ad[:ad])
             ad[:ad].delete(:frequency_caps_attributes)
           end
+
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
@@ -510,11 +512,9 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
-
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
-
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
             ad_pricing.rate = ad[:ad][:rate]
@@ -627,7 +627,7 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
-          [:selected_geos, :selected_key_values].each{|attr_name| ad[:ad].delete(attr_name) }
+          [:selected_geos, :selected_key_values, :io_lineitem_id].each{|attr_name| ad[:ad].delete(attr_name) }
 
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
@@ -669,6 +669,7 @@ private
           if ads.any?{|ad| ad.description == ad_object.description}
             unique_description_error = { description: 'Ad name is not unique'}
           end
+
           ads << ad_object
 
           ad_creatives_errors = []
@@ -676,6 +677,7 @@ private
 
           if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
+
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
             if !ad_pricing.save
@@ -684,6 +686,7 @@ private
             end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
+
             if !creatives_errors.blank?
               li_errors[i] ||= {:ads => {}}
               li_errors[i]
