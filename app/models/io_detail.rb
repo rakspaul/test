@@ -6,7 +6,11 @@ class IoDetail < ActiveRecord::Base
     incomplete_push: "Incomplete Push",
     draft: "Draft",
     ready_for_am: "Ready for AM",
-    ready_for_trafficker: "Ready for Trafficker"
+    ready_for_trafficker: "Ready for Trafficker",
+
+    revisions_proposed: "Revisions Proposed",
+    revisions_resolved: "Revisions Resolved",
+    revisions_unresolved: "Revisions Unresolved"
   }
 
   has_paper_trail ignore: [:updated_at]

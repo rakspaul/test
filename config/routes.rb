@@ -60,6 +60,12 @@ Reachui::Application.routes.draw do
     end
 
     resources :block_violations
+
+    resources :platforms do
+      collection do
+        get 'search'
+      end
+    end
   end
 
   resources :users do
@@ -130,9 +136,9 @@ Reachui::Application.routes.draw do
     end
   end
 
-  resources :dmas, controller: 'designated_market_areas', only: [:index] do
+  resources :dmas, controller: 'geo_targets', only: [:index] do
     collection do
-      get :search_geo
+      get :search
     end
   end
 
@@ -142,6 +148,7 @@ Reachui::Application.routes.draw do
   resources :users
   get 'io_assets/:order_id' => 'io_assets#serve'
   get 'io_assets/:order_id/creatives/:io_asset_id' => 'io_assets#serve'
+  get 'io_assets/:order_id/revised_io/:io_asset_id' => 'io_assets#serve'
 
   resources :segments do
     collection do
@@ -169,6 +176,10 @@ Reachui::Application.routes.draw do
   end
 
   resources :agency
+
+  get 'ads/ad_types'
+  get 'ads/ad_priorities'
+  get 'media_types/media_types'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

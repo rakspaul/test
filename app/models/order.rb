@@ -21,7 +21,7 @@ class Order < ActiveRecord::Base
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
   validate :validate_start_date, on: :create
-  validates :name, uniqueness: { message: "The order name is already used.", scope: :network_id }, presence: true
+  validates :name, uniqueness: { message: "The order name is already used.", scope: :network_id }, presence: true, on: :create
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :make_order_inactive
@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
   scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
   scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
-  scope :filterByLoggingUser, lambda { |user, orders_by_user| where("orders.user_id = '#{user.id}'") unless orders_by_user.blank? || orders_by_user == "all_orders" }
+  scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? or io_details.client_advertiser_name ILIKE ?",
                                                              "%#{query}%", "%#{query}%","%#{query}%","%#{query}%") unless query.blank? }
   scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}

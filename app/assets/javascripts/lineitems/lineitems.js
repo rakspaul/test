@@ -10,6 +10,7 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.is_blank_li = false;
     },
 
     defaults: function() {
@@ -61,15 +62,19 @@
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
+    setBlankLiFlag: function() {
+      this.is_blank_li = true;
+    },
+
     pushAd: function(ad) {
       this.ads.push(ad);
     },
 
     setBuffer: function(buffer) {
-      var adImps, prevBuffer = parseFloat(this.get('buffer')),
+      var adImps, 
+          prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
-
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
@@ -151,15 +156,8 @@
       }
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function() {
+    setEditableFields: function() {
       var view = this;
-      $.fn.editable.defaults.mode = 'popup';
-
-      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
-
-      // setting lineitem's id in classname so we could address this li directly
-      this.$el.addClass('lineitem-'+this.model.get('id'));
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
@@ -240,6 +238,30 @@
           },
         },
         success: function(response, newValue) {
+          // https://github.com/collectivemedia/reachui/issues/543
+          // When a size is selected, the media type should default to the media type for that size
+          // 1x1 = video
+          // 300x50 or 320x50 = mobile
+          // 100x72 or 99x72 = FB
+          // All else = Display
+          if(view.model.is_blank_li) {
+            switch(newValue[0]) {
+              case '1x1':
+                view._changeMediaType("Video");
+                break;
+              case '300x50':
+              case '320x50':
+                view._changeMediaType("Mobile");
+                break;
+              case '100x72':
+              case '99x72':
+                view._changeMediaType("Facebook");
+                break;
+              default:
+                view._changeMediaType("Display");
+            }
+          }
+
           if (view.model.get('type') == 'Video') {
             var value = newValue.join(', ');
             view.model.set('companion_ad_size', value);
@@ -285,8 +307,6 @@
         }
       });
 
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
-
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
           var name = $(this).data('name'), value;
@@ -306,7 +326,23 @@
           view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
         }
       });
+    },
 
+    // after start/end date changed LI is rerendered, so render linked Ads also
+    onRender: function() {
+      var view = this;
+      $.fn.editable.defaults.mode = 'popup';
+
+      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
+
+      this.setEditableFields();
+
+      if(this.model.get('revised')) {
+        this.$el.find('.li-number').addClass('revised');
+      }
       this.renderCreatives();
       this.renderTargetingDialog();
 
@@ -435,29 +471,33 @@
       this.render();
     },
 
-    _toggleLISelection: function() {
-      // if there is no copied targeting then exclusive select, otherwise accumulative
-      if(!window.copied_targeting) {
-        this._deselectAllLIs({'except_current': true});
-      }
-
-      this.$el.find('.li-number .number').toggleClass('selected');
-      this.selected = this.$el.find('.li-number .number').hasClass('selected');
-      this.$el.find('.copy-targeting-btn').toggle();
-
-      if(window.selected_lis === undefined) {
-        window.selected_lis = [];
-      }
-      if(this.selected) {
-        window.selected_lis.push(this); // add current LI to selected LIs
+    _toggleLISelection: function(e) {
+      if(this.model.get('revised')) {
+        $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-      }
+        // if there is no copied targeting then exclusive select, otherwise accumulative
+        if(!window.copied_targeting) {
+          this._deselectAllLIs({'except_current': true});
+        }
 
-      if(window.copied_targeting) {
-        $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        $('.copy-targeting-btn li').removeClass('active');
-        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        this.$el.find('.li-number .number').toggleClass('selected');
+        this.selected = this.$el.find('.li-number .number').hasClass('selected');
+        this.$el.find('.copy-targeting-btn').toggle();
+
+        if(window.selected_lis === undefined) {
+          window.selected_lis = [];
+        }
+        if(this.selected) {
+          window.selected_lis.push(this); // add current LI to selected LIs
+        } else {
+          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
+        }
+
+        if(window.copied_targeting) {
+          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+          $('.copy-targeting-btn li').removeClass('active');
+          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        }
       }
     },
 
@@ -591,8 +631,8 @@
       this._deselectAllLIs();
     },
 
-    _changeMediaType: function(ev) {
-      var type = $(ev.currentTarget).data('type');
+    _changeMediaType: function(ev_or_type) {
+      var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
       if (type == 'Video' && !this.model.get('master_ad_size')) {
         this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
       }
@@ -630,12 +670,170 @@
       this.model.set({ 'type': type });
     },
 
+    _duplicateLineitem: function() {
+      var li = this.model,
+          li_view = this;
+
+      var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
+      var zipcodes       = li.get('targeted_zipcodes') ? _.clone(li.get('targeted_zipcodes')).split(',') : [];
+      var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
+      var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+
+      var new_li = new LineItems.LineItem(),
+          creatives_list = null;
+      new_li.setBlankLiFlag();
+
+      if(this.model.get('creatives').length > 0) {
+        var creatives = [];
+        _.each(this.model.get('creatives').models, function(c) {
+          creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+        });
+        creatives_list = new ReachUI.Creatives.CreativesList(creatives);
+      } else {
+        creatives_list = new ReachUI.Creatives.CreativesList([])
+      }
+
+      new_li.set({
+        start_date: this.model.get('start_date'),
+        end_date: this.model.get('end_date'),
+        ad_sizes: this.model.get('ad_sizes'),
+        name: this.model.get('name'),
+        type: this.model.get('type'),
+        volume: this.model.get('volume'),
+        rate: this.model.get('rate'),
+        master_ad_size: this.model.get('master_ad_size'),
+        itemIndex: (this.model.collection.length + 1),
+        creatives: creatives_list,
+        targeting: new ReachUI.Targeting.Targeting({
+          selected_zip_codes: zipcodes,
+          selected_geos: selected_geos,
+          selected_key_values: kv,
+          frequency_caps: frequency_caps,
+          audience_groups: li.get('audience_groups'),
+          keyvalue_targeting: li.get('keyvalue_targeting'),
+          type: li.get('type') 
+        })
+      }, { silent: true });
+
+      _.each(li.ads, function(ad) {
+        var new_ad = new ReachUI.Ads.Ad(ad.attributes);
+
+        new_ad.set({
+          start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
+          end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
+          creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
+          targeting: new ReachUI.Targeting.Targeting({
+            selected_zip_codes: ad.get('targeting').get('targeted_zipcodes'),
+            selected_geos: ad.get('targeting').get('selected_geos'),
+            selected_key_values: ad.get('targeting').get('selected_key_values'),
+            frequency_caps: ad.get('targeting').get('frequency_caps'),
+            audience_groups: li.get('targeting').get('audience_groups'),
+            keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
+            dfp_key_values: ad.dfp_key_values,
+            ad_dfp_id: ad.get('source_id'),
+            type: ad.get('type')
+          })
+        });
+
+        new_li.pushAd(new_ad);
+      });
+
+      this.model.collection.add(new_li);
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
       lineitem_sizes: '.lineitem-sizes'
+    },
+
+    _toggleRevisionDialog: function(e) {
+      $(e.currentTarget).siblings('.revised-dialog').toggle();
+    },
+
+    _checkRevisedStatus: function() {
+      if(this.model.get('revised_start_date') || this.model.get('revised_end_date') || this.model.get('revised_name') || this.model.get('revised_volume') || this.model.get('revised_rate')) {
+        this.model.attributes['revised'] = true;
+      } else {
+        this.model.attributes['revised'] = false;
+      }
+    },
+
+    _acceptAllRevisions: function(e) {
+      var self = this,
+          elements = {start_date: '.start-date .editable', end_date: '.end-date .editable', name: '.name .editable', volume: '.volume .editable', rate: '.rate .editable'};
+      e.stopPropagation();
+
+      this.$el.find('.revision').hide();
+
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
+
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        var revision = self.model.get('revised_'+attr_name);
+        if(revision) {
+          self.model.attributes[attr_name] = revision;
+          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
+
+          var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
+        }
+      });
+
+      EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
+
+      this._removeAndHideAllRevisions(e);
+    },
+
+    _declineAllRevisions: function(e) {
+      this._removeAndHideAllRevisions(e);
+      this.$el.find('.li-number').removeClass('revised');
+      this.$el.find('.revision').remove();
+    },
+
+    _removeAndHideAllRevisions: function(e) {
+      e.stopPropagation();
+
+      var self = this;
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        self.model.attributes['revised_'+attr_name] = null;
+      });
+
+      this.model.attributes['revised'] = null;
+      this.$el.find('.revised-dialog').remove();
+    },
+
+    _acceptRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent(),
+          attr_name = $(e.currentTarget).data('name'),
+          $editable = $target_parent.siblings('div .editable'),
+          revised_value = $target_parent.siblings('.revision').text();
+
+      // add note to ActivityLog to log the changes
+      var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+      EventsBus.trigger('lineitem:logRevision', log_text);
+
+      this.model.attributes[attr_name] = revised_value;
+      this.model.attributes['revised_'+attr_name] = null;
+
+      $target_parent.siblings('.revision').hide();
+      $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
+      
+      this._checkRevisedStatus();
+      $target_parent.remove();
+    },
+
+    _declineRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent();
+      var attr_name = $(e.currentTarget).data('name');
+
+      this.model.attributes['revised_'+attr_name] = null;
+      this._checkRevisedStatus();
+
+      $target_parent.siblings('.revision').hide();
+      $target_parent.remove();
     },
 
     events: {
@@ -645,10 +843,20 @@
       'click .name .notes .close-btn': 'collapseLINotes',
       'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
+
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
-      'click .change-media-type': '_changeMediaType'
+      'click .change-media-type': '_changeMediaType',
+      'click .li-duplicate-btn': '_duplicateLineitem'
     },
 
     triggers: {
@@ -665,6 +873,19 @@
         this.$el.find('.save-order-btn').addClass('disabled');
         this.$el.find('.push-order-btn').addClass('disabled');
       }
+
+      // https://github.com/collectivemedia/reachui/issues/662
+      // Remove the “Save Order” button from orders that are in “Revisions Proposed” status.
+      if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
+        this.$el.find('.save-order-btn').hide();
+      }
+    },
+
+    serializeData: function(){
+      var data = this.collection.order.toJSON();
+      data.assignee = this.collection.order.get('assignee');
+      data.order_status = this.collection.order.get('order_status');
+      return data;
     },
 
     _saveOrder: function() {
@@ -673,7 +894,7 @@
       var self = this;
 
       // function that store Order and Lineitems in one POST request
-      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      self.collection.order.save({lineitems: lineitems.models, order_status: (self.status || self.collection.order.get('state')) }, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -776,6 +997,14 @@
             self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.order_status);
+
+            // if there are revised IO then show the download link immediately
+            if(response.revised_io_asset_id) {
+              var revised_io_filename = $('.imported-file-name .revised-io-filename').html(),
+                  io_asset_ext = revised_io_filename.substr(revised_io_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls';
+              $('.imported-file-name .revised-io-filename').html('<a href="/io_assets/'+self.collection.order.get('id')+'/revised_io/'+response.revised_io_asset_id+'.'+io_asset_ext+'">'+revised_io_filename+'</a>');
+            }
+
             if (response.order_status.match(/pushing/i)) {
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
@@ -786,9 +1015,17 @@
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.order_status.match(/ready for am/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current account manager
+              var assignee = $('.general-info-container .account-contact-name select option:selected').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.order_status.match(/ready for trafficker/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current trafficker
+              var assignee = $('.new-order-header .trafficker-container span.typeahead').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.order_status.match(/incomplete push/i)) {
               self._toggleSavePushbuttons({ hide: false });
@@ -867,10 +1104,6 @@
       this._saveOrderWithStatus('ready_for_trafficker');
     },
 
-    _saveOrderDraft: function() {
-      this._saveOrderWithStatus('draft');
-    },
-
     _saveOrderWithStatus: function(status) {
       this.status = status;
       this._saveOrder();
@@ -886,11 +1119,21 @@
       }
     },
 
+    _createNewLI: function() {
+      var li = new LineItems.LineItem(),
+          empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
+          itemIndex = this.collection.length + 1;
+      li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+      li.setBlankLiFlag();
+      this.collection.add(li);
+    },
+
     events: {
-      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
-      'click .submit-trafficker-btn': '_submitOrderToTrafficker'
+      'click .submit-trafficker-btn': '_submitOrderToTrafficker',
+      'click .create-li-btn': '_createNewLI'
     },
 
     triggers: {

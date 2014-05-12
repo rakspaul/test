@@ -3,7 +3,7 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
-  attr_accessor :li_id
+  attr_accessor :li_id, :revised
 
   belongs_to :order
   belongs_to :user
@@ -18,9 +18,11 @@ class Lineitem < ActiveRecord::Base
   has_many :video_creatives, through: :lineitem_video_assignments
   has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id', dependent: :destroy
 
-  has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
-  has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id
-  has_and_belongs_to_many :states, join_table: :states_lineitems, association_foreign_key: :state_id
+  has_many :lineitem_geo_targetings
+  has_many :geo_targets, through: :lineitem_geo_targetings
+  has_and_belongs_to_many :designated_market_areas, join_table: :lineitem_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :cities, join_table: :lineitem_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :states, join_table: :lineitem_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
@@ -45,6 +47,8 @@ class Lineitem < ActiveRecord::Base
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
+
+  scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end
@@ -111,17 +115,9 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    dmas = targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
-    self.designated_market_areas = []
-    self.designated_market_areas = dmas.compact if !dmas.blank?
-
-    cities = targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
-    self.cities = []
-    self.cities = cities.compact if !cities.blank?
-
-    states = targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
-    self.states = []
-    self.states = states.compact if !states.blank?
+    geos = targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
+    self.geo_targets = []
+    self.geo_targets = geos.compact if !geos.blank?
   end
 
   def ad_name(start_date, ad_size)
