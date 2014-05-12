@@ -175,7 +175,7 @@ class OrdersController < ApplicationController
           end
         else
           @order.valid?
-          format.json { render json: {status: 'error', errors: ({lineitems: li_ads_errors}).merge(@order.errors)} }
+          format.json { render json: {status: 'error', errors: {lineitems: li_ads_errors}.reverse_merge!(@order.errors)} }
           raise ActiveRecord::Rollback
         end
       end
