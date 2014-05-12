@@ -144,7 +144,9 @@ class Admin::BlockSitesController < ApplicationController
     vos = BlockSite.of_network(current_network).where(state: [BlockSite::PENDING_BLOCK, BlockSite::PENDING_UNBLOCK])
 
     if vos && vos.size > 0
-      update_commit_status
+      block_ids = BlockSite.of_network(current_network).where(user: current_user).pending_block.pluck("id")
+      unblock_ids = BlockSite.of_network(current_network).where(user: current_user).pending_unblock.pluck("id")
+      update_commit_status(block_ids, unblock_ids)
       enqueue_for_push
       render json: {status: 'success', message: 'Your changes are being processed.'}
     else
@@ -244,6 +246,38 @@ class Admin::BlockSitesController < ApplicationController
     end
   end
 
+  def recommit
+    if params['recommit_block_ids'].present?
+      recommit_block_ids = params['recommit_block_ids']
+      block_ids = []
+      unblock_ids =[]
+      blocks = BlockSite.of_network(current_network).where(:id => recommit_block_ids).block
+      blocks.each do |block|
+        block.state = BlockSite::PENDING_BLOCK
+        block.user = current_user
+        block.save
+        block_ids.push(block.id)
+      end
+
+      unblocks = BlockSite.of_network(current_network).where(:id => recommit_block_ids).unblock
+      unblocks.each do |unblock|
+        unblock.state = BlockSite::PENDING_UNBLOCK
+        unblock.user = current_user
+        unblock.save
+        unblock_ids.push(unblock.id)
+      end
+
+      update_commit_status(block_ids, unblock_ids)
+      enqueue_for_push
+      render json: {status: 'success', message: 'Your changes are being processed.'}
+    else
+      render json: {status: 'error', message: 'There are no changes to commit.'}
+    end
+
+    rescue => e
+    respond_with(e.message, status: :service_unavailable)
+  end
+
 private
 
   def enqueue_for_push
@@ -287,26 +321,23 @@ private
     return blocks;
   end
 
-  def update_commit_status
-    blocks = BlockSite.of_network(current_network).where(user: current_user).pending_block
-    unblocks = BlockSite.of_network(current_network).where(user: current_user).pending_unblock
-
-    blocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_BLOCK}' where id IN(#{blocks.pluck('id').join(',')})"
+  def update_commit_status(block_ids, unblock_ids)
+    blocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_BLOCK}' where id IN(#{block_ids.join(',')})"
     create_block_logs_sql = "insert into reach_block_logs(action, status, site_id, advertiser_id, advertiser_group_id, user_id, created_at, updated_at)
       SELECT 'Block', 'PENDING', site_id, advertiser_id, advertiser_group_id, #{current_user.id}, now(), now()
       from reach_sites_block where (user_id = #{current_user.id} AND state = '#{BlockSite::PENDING_BLOCK}')"
 
-    if blocks.length > 0
+    if block_ids.length > 0
       ActiveRecord::Base.connection.execute create_block_logs_sql
       ActiveRecord::Base.connection.execute blocks_to_update_sql
     end
 
-    unblocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_UNBLOCK}' where id IN(#{unblocks.pluck('id').join(',')})"
+    unblocks_to_update_sql = "Update reach_sites_block set state = '#{BlockSite::COMMIT_UNBLOCK}' where id IN(#{unblock_ids.join(',')})"
     create_unblock_logs_sql = "insert into reach_block_logs(action, status, site_id, advertiser_id, advertiser_group_id, user_id, created_at, updated_at)
       SELECT 'Unblock', 'PENDING', site_id, advertiser_id, advertiser_group_id, #{current_user.id}, now(), now()
       from reach_sites_block where (user_id = #{current_user.id} AND state = '#{BlockSite::PENDING_UNBLOCK}')"
 
-    if unblocks.length > 0
+    if unblock_ids.length > 0
       ActiveRecord::Base.connection.execute create_unblock_logs_sql
       ActiveRecord::Base.connection.execute unblocks_to_update_sql
     end

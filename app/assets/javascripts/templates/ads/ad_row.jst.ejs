@@ -15,7 +15,7 @@
     </div>
 
    <div class="pure-u-1-6">
-      <% var wrong_start_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.start_date; %>
+      <% wrong_start_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.start_date; %>
       <div class="pure-u-1-2 start-date pull-left<% if (wrong_start_date) { %> field_with_errors<% } %>">
         <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
           <%= ad.start_date %>

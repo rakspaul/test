@@ -3,7 +3,7 @@ login: &common
   encoding: utf8
   username: postgres
   password:
-  host:
+  host: localhost
   port: 5432
   database: amp
   min_messages: warning # silence the NOTICE: messages from postgres

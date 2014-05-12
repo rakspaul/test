@@ -65,19 +65,37 @@
       <% } else { %>
         <span><%= order.io_asset_filename %></span>
       <% } %>
+      <% if(order.is_existing_order && order.revised_io_filename) { %>
+        <div style="clear:both"></div>
+        <label>Revised IO File</label>
+        <span class="revised-io-filename"><%= order.revised_io_filename %></span>
+      <% } %>
     </div>
     <div class="timestamp">
       <%= order.io_asset_created_at %>
     </div>
 
     <div class="creatives-txt-uploader">
-      <!--a class="attachment-btn">File</a-->
       <input id="creatives_fileupload" type="file" name="io_creatives" class="creatives-fileupload" disabled>
       <a href="javascript:void(0)">
         <span class="upload-creatives-btn"></span>
         Creatives TXT
       </a>
     </div>
+
+    <% if (order.id && order.io_revised) { %>
+      <div style="clear:both"></div>
+      <% _.each(order.io_revised, function(io) { %>
+        <div class="name">
+          <label>Revised IO File</label>
+          <% var io_asset_ext = io.original_filename.substr(io.original_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls' %>
+          <span><a href="/io_assets/<%= order.id %>/revised_io/<%= io.asset_id %>.<%= io_asset_ext %>"><%= io.original_filename %></a></span>
+        </div>
+        <div class="timestamp">
+          <%= io.asset_created_at %>
+        </div>
+      <% }); %>
+    <% } %>
 
     <% if (order.id && order.io_creatives) { %>
       <% _.each(order.io_creatives, function(c) { %>
@@ -89,6 +107,12 @@
         </div>
       <% }); %>
     <% } %>
+
+    <div style="clear:both"></div>
+
+    <div id="revised_io_fileupload">
+      Revised IO<input type="file" name="io_file"/>
+    </div>
   </div>
 
   <div class="field trafficker-container">
@@ -121,11 +145,11 @@
           <p>Client's Advertiser Name</p>
           <span><%= order.client_advertiser_name %></span>
         </div>
-        <div class="field order-name<% if (order.order_name_dup) { %> field_with_errors<% } %>">
+        <div class="field order-name<% if (order.order_name_dup && !order.is_existing_order) { %> field_with_errors<% } %>">
           <p>Order Name</p>
           <span class="editable custom" data-type="text" data-pk="1" data-name="name" data-mode="popup" data-inputclass="wide-editable-text"><%= order.name %></span>
           <div class="errors_container">
-          <% if (order.order_name_dup) { %>
+          <% if (order.order_name_dup && !order.is_existing_order) { %>
             This order name is already used
           <% } %>
           </div>

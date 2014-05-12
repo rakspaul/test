@@ -122,7 +122,6 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     order_param = params[:order]
-
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
@@ -130,19 +129,29 @@ class OrdersController < ApplicationController
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     io_details = @order.io_detail
+
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
     io_details.reach_client_id        = order_param[:reach_client_id]
     io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
     io_details.client_order_id        = order_param[:client_order_id]
+    io_details.sales_person_id        = order_param[:sales_person_id]
     io_details.sales_person_email     = order_param[:sales_person_email]
     io_details.sales_person_phone     = order_param[:sales_person_phone]
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
+    io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.state                  = order_param[:order_status] || "draft"
     io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.sales_person_id        = order_param[:sales_person_id]
+
+    if order_param[:order_status] == "ready_for_trafficker"
+      @order.user_id = io_details.trafficking_contact_id
+    elsif order_param[:order_status] == "ready_for_am"
+      @order.user_id = io_details.account_manager_id
+    end
+
 
     respond_to do |format|
       Order.transaction do
@@ -153,8 +162,14 @@ class OrdersController < ApplicationController
         end
 
         if li_ads_errors.blank?
-          if @order.save && io_details.save
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[io_details.try(:state).to_s.to_sym]} }
+          if io_details.save && @order.save
+            io_details.reload
+            @order.reload
+
+            io_asset = store_io_asset(params)
+
+            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -263,7 +278,7 @@ private
     order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
+                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
                   .filterByReachClient(rc)
@@ -315,11 +330,23 @@ private
   end
 
   def store_io_asset params
+    return if !File.exists?(params[:order][:io_file_path])
+
     file = File.open(params[:order][:io_file_path])
-    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
-    writer.write
+
+    if params[:order][:revised_io_filename]
+      io_filename = params[:order][:revised_io_filename]
+      io_type = 'io_revised'
+    else
+      io_filename = params[:order][:io_asset_filename]
+      io_type = 'io'
+    end
+   
+    writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
+    io_asset = writer.write
     file.close
     File.unlink(file.path)
+    io_asset
   end
 
   def update_lineitems_with_ads(params)
@@ -331,16 +358,32 @@ private
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
+
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+:revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
+
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
+
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
 
       if li[:type] = 'Video'
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
 
-      lineitem = @order.lineitems.find(li[:lineitem][:id])
-      li[:lineitem].delete(:id)
+      lineitem = nil
+      begin
+        lineitem = @order.lineitems.find(li[:lineitem][:id])
+        li[:lineitem].delete(:id)
+      rescue ActiveRecord::RecordNotFound
+        lineitem = @order.lineitems.build(li[:lineitem])
+        lineitem.user = current_user
+      end      
 
       # delete Ads functionality
       delete_ads = lineitem.ads.map(&:id)
@@ -354,9 +397,12 @@ private
         end
       end
 
-      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+      li_update = if lineitem.persisted?
+        lineitem.update_attributes(li[:lineitem])
+      else
+        lineitem.save
+      end
 
-      li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
         li_errors[i] ||= {}
         li_errors[i][:lineitems] ||= {}
@@ -518,6 +564,8 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
+      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
@@ -527,8 +575,6 @@ private
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
-
-      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
@@ -581,6 +627,8 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
+          [:selected_geos, :selected_key_values].each{|attr_name| ad[:ad].delete(attr_name) }
+
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
@@ -736,11 +784,11 @@ private
     @media_types['Companion'] = @media_types['Display']
   end
 
-  def is_agency_user?
-    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
-  end
-
   def set_current_user
     Order.current_user = current_user
+  end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
   end
 end

@@ -2,9 +2,11 @@ json.order do
   json.partial! 'orders/order', 
   {
     order: @io_import.order,
- 
-    io_original_filename: @io_import.original_filename, 
-    io_created_at: Time.current.to_s, 
+    is_existing_order: @io_import.is_existing_order,
+    existing_order_id: @io_import.existing_order_id,
+    io_original_filename: @io_import.original_filename,
+    revised_io_filename: @io_import.revised_io_filename,
+    io_created_at: (@io_import.original_created_at || Time.current.to_s), 
     io_detail: @io_details,
     order_name_dup: @io_import.order_name_dup,
     sales_person_unknown: @io_import.sales_person_unknown,
@@ -19,12 +21,28 @@ json.order do
     io_file_path: @io_import.tempfile.path
   }
 
+  json.revisions do
+    json.array! @io_import.revisions do |revision|
+      json.start_date revision[:start_date]
+      json.end_date revision[:end_date]
+      json.name revision[:name]
+      json.volume revision[:volume]
+      json.rate revision[:rate]
+    end
+  end
+
   json.notes do
-    json.array! @notes do |note|
-      json.username note[:username]
-      json.note note[:note]
-      json.sent false
-      json.created_at format_datetime(note[:created_at])
+    if @io_import.is_existing_order
+      json.array! @io_import.existing_order.order_notes.includes(:user) do |note|
+        json.partial! 'order_notes/note.json.jbuilder', note: note
+      end
+    else
+      json.array! @notes do |note|
+        json.username note[:username]
+        json.note note[:note]
+        json.sent false
+        json.created_at format_datetime(note[:created_at])
+      end
     end
   end
 
@@ -54,23 +72,31 @@ json.order do
       json.phone u.phone_number
     end
   end
+
+  json.pushing_errors do
+    json.array! []
+  end
 end
 
 json.lineitems do
-  json.array! @io_import.lineitems do |lineitem|
+  json.array! @io_import.new_and_revised_lineitems do |lineitem|
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
-      li_creatives = @io_import.inreds.select do |ir|
-        ir[:placement]  == lineitem.name &&
-        ir[:start_date] == lineitem.start_date &&
-        ir[:end_date]   == lineitem.end_date
+      li_creatives = if lineitem.revised && @io_import.is_existing_order # means old LI
+        lineitem.creatives
+      else
+        @io_import.inreds.select do |ir|
+          ir[:placement]          == lineitem.name &&
+          ir[:start_date].to_date == lineitem.start_date.to_date &&
+          ir[:end_date].to_date   == lineitem.end_date.to_date
+        end
       end
 
       li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr| 
         arr.sort_by{|c| c[:ad_size]}
       end
-
+   
       json.array! li_creatives_sorted_by_date_and_size.flatten do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end

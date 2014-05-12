@@ -6,46 +6,73 @@ class IoImport
  attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
-:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users
+:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users,
+:is_existing_order, :existing_order, :existing_order_id, :revisions, :revised_io_filename, :original_created_at
 
-  def initialize(file, current_user)
+  def initialize(file, current_user, current_order_id = nil)
     @tempfile             = File.new(File.join(Dir.tmpdir, 'IO_asset' + Time.current.to_i.to_s), 'w+')
-    @tempfile.write File.read(file.path)
+
+    @tempfile.write       File.read(file.path)
     @tempfile.flush
+    @current_order_id     = current_order_id
 
-    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path) : IOExcelFileReader.new(file)
+    @revised_io_filename = file.original_filename if @current_order_id
 
-    @current_user         = current_user
+    @reader               = file.original_filename =~ /\.pdf$/ ? IOPdfFileReader.new(file.path, @current_order_id) : IOExcelFileReader.new(file, @current_order_id)
     @original_filename    = file.original_filename
+    @current_user         = current_user
     @sales_person_unknown, @media_contact_unknown, @billing_contact_unknown, @account_manager_unknown, @trafficking_contact_unknown = [false, false, false, false, false]
     @reachui_users        = User.of_network(current_user.network).joins(:roles).where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK).order("first_name, last_name").limit(50)
     @account_contact      = Struct.new(:name, :phone, :email)
     @media_contact        = Struct.new(:name, :company, :address, :phone, :email)
     @sales_person         = Struct.new(:name, :phone, :email)
     @billing_contact      = Struct.new(:name, :company, :address, :phone, :email)
+    @revisions            = []
+    @is_existing_order    = false
   end
 
   def import
     @reader.open
 
+    if @current_order_id
+      @existing_order_id = @current_order_id
+      @is_existing_order = true
+      @existing_order = Order.find_by(id: @current_order_id)
+      @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
+      @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
+      @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
+    end
+
     read_advertiser
-
-    read_account_contact
-    read_media_contact
-    read_billing_contact
-    read_sales_person
-
     read_order_and_details
     read_lineitems
     read_inreds
 
-    fix_order_flight_dates
+    parse_revisions
+
+    if @existing_order
+      @order.start_date = @existing_order.start_date
+      @order.end_date   = @existing_order.end_date
+      fix_order_flight_dates(new_and_revised_lineitems)
+    else
+      fix_order_flight_dates(@lineitems)
+    end
 
     read_notes
   rescue => e
     Rails.logger.error e.message + "\n" + e.backtrace.join("\n")
     errors.add :base, e.message
     false
+  end
+
+  def new_and_revised_lineitems
+    if @is_existing_order
+      li_count = @existing_lineitems.count
+      # old lineitems + new ones from revised IO
+      @existing_lineitems + @lineitems[li_count..-1]
+    else
+      @lineitems
+    end
   end
 
   private
@@ -55,31 +82,16 @@ class IoImport
       @advertiser = Advertiser.of_network(@current_user.network).find_by(name: adv_name)
     end
 
-    def read_account_contact
-      @account_contact = @reader.account_contact
-    end
-
-    def read_media_contact
-      @media_contact = @reader.media_contact
-    end
-
-    def read_sales_person
-      @sales_person = @reader.sales_person
-    end
-
-    def read_billing_contact
-      @billing_contact = @reader.billing_contact
-    end
-
     def read_order_and_details
       @order = Order.new(@reader.order)
       @order.user = @current_user
       @order.network = @current_user.network
       @order.advertiser = @advertiser
+      @order.source_id = @existing_order.source_id if @current_order_id
 
       @order_name_dup = Order.exists?(name: @order.name)
 
-      @reach_client = ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
+      @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
@@ -89,47 +101,95 @@ class IoImport
         @media_contacts = []
       end
 
-      @io_details = IoDetail.new
-      @io_details.client_advertiser_name = @reader.client_advertiser_name
-      @io_details.order = @order
-      @io_details.state = "draft"
-      @io_details.reach_client          = reach_client
-      @io_details.sales_person          = find_sales_person
-      @io_details.sales_person_email    = @reader.sales_person[:email]
-      @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
-      @io_details.media_contact         = find_media_contact
-      @io_details.billing_contact       = find_billing_contact
-      @io_details.client_order_id       = @reader.client_order_id
-      @io_details.account_manager       = find_account_contact
-      @io_details.account_manager_email = @reader.account_contact[:email]
-      @io_details.account_manager_phone = @reader.account_contact[:phone_number]
-      @io_details.trafficking_contact   = find_trafficking_contact
+      if @is_existing_order
+        @io_details = @existing_order.io_detail
+        @io_details.state = "revisions_proposed"
+      else
+        @io_details = IoDetail.new
+        @io_details.client_advertiser_name = @reader.client_advertiser_name
+        @io_details.order = @order
+        @io_details.state = "draft"
+        @io_details.reach_client          = reach_client
+        @io_details.sales_person          = find_sales_person
+        @io_details.sales_person_email    = @reader.sales_person[:email]
+        @io_details.sales_person_phone    = @reader.sales_person[:phone_number]
+        @io_details.media_contact         = find_media_contact
+        @io_details.billing_contact       = find_billing_contact
+        @io_details.client_order_id       = @reader.client_order_id
+        @io_details.account_manager       = find_account_contact
+        @io_details.account_manager_email = @reader.account_contact[:email]
+        @io_details.account_manager_phone = @reader.account_contact[:phone_number]
+        @io_details.trafficking_contact   = find_trafficking_contact
+      end
     end
 
     def read_lineitems
       @lineitems = []
+      index = 1
 
       @reader.lineitems do |lineitem|
         media_type = @current_user.network.media_types.find_by category: lineitem[:type]
         li = Lineitem.new(lineitem)
         li.order = @order
+        li.alt_ad_id = index
         li.user = @current_user
         li.media_type = media_type
+        li.revised = false
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
         @lineitems << li
+        index += 1
+      end
+    end
+
+    def parse_revisions
+      return if !@current_order_id || !@existing_order
+
+      @existing_lineitems.each_with_index do |existing_li, index|
+        local_revisions = {}
+
+        if (@lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s) && !@lineitems[index][:start_date].blank?
+          local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s) && !@lineitems[index][:end_date].blank?
+          local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:name] != existing_li.name) && !@lineitems[index][:name].blank?
+          local_revisions[:name] = @lineitems[index][:name]
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:volume] != existing_li.volume) && @lineitems[index][:volume] != 0
+          local_revisions[:volume] = @lineitems[index][:volume]
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:rate] != existing_li.rate) && @lineitems[index][:rate] != 0.0
+          local_revisions[:rate] = @lineitems[index][:rate]
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+        @revisions << local_revisions
       end
     end
 
     # order's start_date should be earliest of all lineitems, while end_date should be latest of all
-    def fix_order_flight_dates
-      if @lineitems.blank?
+    def fix_order_flight_dates(lineitems)
+      if lineitems.blank?
         @order.start_date = @reader.start_flight_date
         @order.end_date   = @reader.finish_flight_date
       else
-        min_start, max_end = [@lineitems[0].start_date, @lineitems[0].end_date]
-        @lineitems.each do |li|
+        min_start, max_end = [lineitems[0].start_date, lineitems[0].end_date]
+        lineitems.each do |li|
           min_start = li.start_date if li.start_date && li.start_date < min_start
           max_end   = li.end_date   if li.end_date && li.end_date > max_end
         end
@@ -137,13 +197,14 @@ class IoImport
         @order.end_date   = max_end
       end
 
-      @lineitems.to_a.each do |li|
+      lineitems.to_a.each do |li|
         li_inreds = @inreds.select do |ir|
           ir[:placement] == li.name &&
           ir[:start_date] == li.start_date.to_date &&
           ir[:end_date]   == li.end_date.to_date
-        end
-        if li_inreds.empty?
+        end if !@inreds.blank?
+
+        if li_inreds.blank?
           li.ad_sizes
         else
           li_inreds.map! do |creative|
@@ -169,7 +230,6 @@ class IoImport
     def find_sales_person
       params = { first_name: @reader.sales_person[:first_name], last_name: @reader.sales_person[:last_name], email: @reader.sales_person[:email], phone_number: @reader.sales_person[:phone_number] }
       sp = @reach_client.try(:sales_person)
-
       if sp && sp.first_name == params[:first_name] && sp.last_name == params[:last_name]
         @reach_client.sales_person
       else
@@ -282,6 +342,20 @@ class IOReader
       str.scan(AD_SIZE_REGEXP).join(',')
     end
   end
+
+  def existing_order?
+    @existing_order ||= Order.find_by(id: @current_order_id)
+  end
+
+  def advertiser_name
+    if !existing_order?
+      "" # https://github.com/collectivemedia/reachui/issues/327
+      # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.
+    else
+      @existing_order.advertiser.try(:name).to_s
+    end
+  end
+
 end
 
 class IOExcelFileReader < IOReader
@@ -334,8 +408,9 @@ class IOExcelFileReader < IOReader
 
   attr_reader :file
 
-  def initialize(file_object)
+  def initialize(file_object, current_order_id = nil)
     @file = file_object
+    @current_order_id = current_order_id
   end
 
   def open
@@ -356,10 +431,6 @@ class IOExcelFileReader < IOReader
 
   def reach_client_name
     @spreadsheet.cell(*REACH_CLIENT_CELL).to_s.strip
-  end
-
-  def advertiser_name
-    ""
   end
 
   def client_advertiser_name
@@ -400,17 +471,27 @@ class IOExcelFileReader < IOReader
   end
 
   def order
-    {
-      name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip
-    }
+    if @existing_order
+      { name: @existing_order.name.to_s }
+    else
+      { name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip }
+    end
   end
 
   def start_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+    if @existing_order
+      @existing_order.start_date
+    else
+      parse_date(@spreadsheet.cell(*ORDER_START_FLIGHT_DATE))
+    end
   end
 
   def finish_flight_date
-    parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+    if @existing_order
+      @existing_order.end_date
+    else
+      parse_date(@spreadsheet.cell(*ORDER_END_FLIGHT_DATE))
+    end
   end
 
   def lineitems(&block)
@@ -503,8 +584,9 @@ private
 end
 
 class IOPdfFileReader < IOReader
-  def initialize(file_object)
+  def initialize(file_object, current_order_id = nil)
     @file = file_object
+    @current_order_id = current_order_id
     parse_file
   end
 
@@ -574,17 +656,15 @@ class IOPdfFileReader < IOReader
   end
 
   def order
-    {
-      name: @order_name.to_s.strip
-    }
+    { name: (@existing_order ? @existing_order.name : @order_name).to_s.strip }
   end
 
   def start_flight_date
-    parse_date(@start_date)
+    @existing_order ? @existing_order.start_date : parse_date(@start_date)
   end
 
   def finish_flight_date
-    parse_date(@end_date)
+    @existing_order ? @existing_order.end_date : parse_date(@end_date)
   end
 
   def lineitems

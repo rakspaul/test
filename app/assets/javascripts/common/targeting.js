@@ -6,7 +6,6 @@
       return {
         selected_key_values: [],
         selected_geos: [],
-        dmas_list: [],
         audience_groups: [],
         selected_zip_codes: [],
         frequency_caps: [],
@@ -16,7 +15,7 @@
     },
 
     toJSON: function() {
-      return { targeting: _.clone(_.omit(this.attributes, 'dmas_list', 'audience_groups')) };
+      return { targeting: _.clone(_.omit(this.attributes, 'audience_groups')) };
     },
 
     setDirty: function() {
@@ -40,7 +39,6 @@
 
     serializeData: function(){
       var data = this.model.toJSON();
-      data.dmas_list = this.model.get('dmas_list');
       data.selected_key_values = this.model.get('selected_key_values');
       data.selected_geos = this.model.get('selected_geos');
       data.selected_zip_codes = this.model.get('selected_zip_codes');
@@ -57,7 +55,7 @@
       this.show_custom_key_values = false;
 
       this.$el.find('.tab.geo input').on('keyup', function(ev) {
-        $.getJSON('/dmas/search_geo.json?search='+$(this).val(), function(geos) {
+        $.getJSON('/dmas/search.json?search='+$(this).val(), function(geos) {
           if(geos.length > 0) {
             var geos_html = '';
             for (var i = 0; i < geos.length; i++) {
@@ -157,7 +155,17 @@
 
     _renderSelectedTargetingOptions: function() {
       var frequencyCaps = this.frequencyCapListView ? this.frequencyCapListView.collection : this.model.get('frequency_caps');
-      var dict = { selected_key_values: this.model.get('selected_key_values'), selected_geos: this.model.get('selected_geos'), selected_zip_codes: this.model.get('selected_zip_codes'), show_custom_key_values: this.show_custom_key_values, keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: frequencyCaps, dfp_key_values: this.model.get('dfp_key_values'), reach_custom_kv: this._getReachCustomKV(), isAdPushed: this._getAdPushed() };
+      var dict = { selected_key_values: this.model.get('selected_key_values'),
+                   selected_geos: this.model.get('selected_geos'),
+                   selected_zip_codes: this.model.get('selected_zip_codes'),
+                   show_custom_key_values: this.show_custom_key_values,
+                   keyvalue_targeting: this.model.get('keyvalue_targeting'),
+                   dfp_key_values: this.model.get('dfp_key_values'),
+                   frequency_caps: this.model.get('frequency_caps'),
+                   reach_custom_kv: this._getReachCustomKV(),
+                   isAdPushed: this._getAdPushed()
+                 };
+
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 

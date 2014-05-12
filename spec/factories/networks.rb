@@ -14,6 +14,9 @@ FactoryGirl.define do
       [:display_media_type, :video_media_type, :mobile_media_type, :facebook_media_type].each do |media_type|
         FactoryGirl.create(media_type, network: network)
       end
+      [ :ad_size_160x600, :ad_size_300x250, :ad_size_728x90, :ad_size_1x1 ].each do |size|
+        FactoryGirl.create size, network: network
+      end
     end
   end
 
