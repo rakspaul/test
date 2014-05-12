@@ -8,4 +8,9 @@ FactoryGirl.define do
     network { FactoryGirl.singleton :network }
     advertiser { FactoryGirl.singleton :advertiser }
   end
+
+  factory :lineitem_assignment do
+    network_id 6
+    data_source_id 1
+  end
 end

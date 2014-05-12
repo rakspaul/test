@@ -342,6 +342,9 @@
 
       if(this.model.get('revised')) {
         this.$el.find('.li-number').addClass('revised');
+        if(this.model.get('id') == null) {
+          EventsBus.trigger('lineitem:logRevision', "New Line Item "+this.model.get('alt_ad_id')+" Created");
+        }
       }
       this.renderCreatives();
       this.renderTargetingDialog();
@@ -458,6 +461,7 @@
     },
 
     collapseLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = true;
       this.$el.find('.name .notes').hide();
       this.$el.find('.expand-notes').show();
@@ -465,6 +469,7 @@
     },
 
     expandLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = false;
       this.$el.find('.name .notes').show();
       this.$el.find('.expand-notes').hide();
@@ -472,6 +477,7 @@
     },
 
     _toggleLISelection: function(e) {
+      e.stopPropagation();
       if(this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
@@ -750,6 +756,7 @@
     },
 
     _toggleRevisionDialog: function(e) {
+      e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
     },
 
@@ -772,7 +779,15 @@
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
-        if(revision) {
+        if(revision != null) {
+          switch(attr_name) {
+            case 'rate':
+              revision = accounting.formatNumber(revision, 2);
+              break;
+            case 'volume':
+              revision = accounting.formatNumber(revision);
+              break;            
+          }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
 
@@ -781,13 +796,20 @@
         }
       });
 
-      EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
-
+      // log changes
+      if(logs.length>0) {
+        EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
+      }
+ 
       this._removeAndHideAllRevisions(e);
+      this._recalculateMediaCost();
+      this.model.collection._recalculateLiImpressionsMediaCost(); 
+      this.model.attributes['revised'] = null; 
     },
 
     _declineAllRevisions: function(e) {
       this._removeAndHideAllRevisions(e);
+      this.model.attributes['revised'] = null;
       this.$el.find('.li-number').removeClass('revised');
       this.$el.find('.revision').remove();
     },
@@ -800,7 +822,6 @@
         self.model.attributes['revised_'+attr_name] = null;
       });
 
-      this.model.attributes['revised'] = null;
       this.$el.find('.revised-dialog').remove();
     },
 
@@ -820,7 +841,9 @@
 
       $target_parent.siblings('.revision').hide();
       $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
-      
+
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this._recalculateMediaCost();
       this._checkRevisedStatus();
       $target_parent.remove();
     },

@@ -101,9 +101,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_start_date', revisions.start_date);
         lineItems.models[index].set('revised_end_date', revisions.end_date);
         lineItems.models[index].set('revised_name', revisions.name);
-        lineItems.models[index].set('revised_volume', parseInt(revisions.volume));
-        lineItems.models[index].set('revised_rate', parseFloat(revisions.rate));
-        lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false));
+        lineItems.models[index].set('revised_volume', revisions.volume);
+        lineItems.models[index].set('revised_rate', revisions.rate);
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
       });
     }
 
@@ -608,7 +608,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _calculateRemainingImpressions: function(li) {
-    var remaining_impressions = li.get('volume') * (100 + parseFloat(li.get('buffer'))) / 100;
+    var remaining_impressions = parseInt(String(li.get('volume')).replace(/,|\./g, '')) * (100 + parseFloat(li.get('buffer'))) / 100;
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
@@ -719,8 +719,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad_name = ordersController._generateAdName(li, type);
 
       var buffer = 1 + li.get('buffer') / 100;
-      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li)); 
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
+
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -801,6 +803,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }, { silent: true });
 
           li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
 
           itemIndex += 1;
 
