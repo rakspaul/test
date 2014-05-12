@@ -126,4 +126,13 @@ describe Ad do
       expect(ad.priority).to eq(Mobile::PRIORITY)
     end
   end
+
+  context "destroy" do
+    let(:ad) { FactoryGirl.create :ad }
+    let!(:frequency_cap) { FactoryGirl.create :frequency_cap, ad: ad }
+
+    it "should delete related frequency caps" do
+      expect { ad.destroy }.to change(FrequencyCap, :count).by(-1)
+    end
+  end
 end

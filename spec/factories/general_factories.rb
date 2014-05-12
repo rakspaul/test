@@ -77,6 +77,9 @@ FactoryGirl.define do
     media_type
     user
     proposal_li_id "#{SecureRandom.random_number(10000)}"
+    before(:create) do |li|
+      FactoryGirl.singleton :network
+    end
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
