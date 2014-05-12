@@ -2,13 +2,6 @@
   'use strict';
 
   Creatives.Creative = Backbone.Model.extend({
-    defaults: function() {
-      return {
-        start_date: moment().add('days', 1).format("YYYY-MM-DD"),
-        end_date: moment().add('days', 15).format("YYYY-MM-DD")
-      }
-    },
-
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.get("order_id") + '/creatives.json';
@@ -42,6 +35,8 @@
     template: JST['templates/creatives/creatives_row'],
 
     initialize: function(){
+      this.start_creative_date_inherits_li = _.isEmpty(this.model.get('start_date'));
+      this.end_creative_date_inherits_li = _.isEmpty(this.model.get('end_date'));
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
     },
@@ -114,10 +109,26 @@
 
       $.fn.editable.defaults.mode = 'popup';
 
+      if(this.start_creative_date_inherits_li) {
+        this.$el.find('.start-date .custom.date').html('From LI');
+        this.model.attributes['start_date'] = null;
+      } else {
+        this.$el.find('.start-date .custom.date').html(this.model.get('start_date'));
+      }
+
+      if(this.end_creative_date_inherits_li) {
+        this.$el.find('.end-date .custom.date').html('From LI');
+        this.model.attributes['end_date'] = null;
+      } else {
+        this.$el.find('.end-date .custom.date').html(this.model.get('end_date'));
+      }
+
       this.$el.find('.end-date .editable.custom').editable({
         success: function(response, newValue) {
+          self.end_creative_date_inherits_li = false;
+
           var end_date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set('end_date', end_date); //update backbone model
+          self.model.attributes['end_date'] = end_date; //update backbone model
 
           if(end_date < self.model.get('start_date')) {
             self.$el.find('.end-date .errors_container').html('End date cannot be before start date')
@@ -130,8 +141,10 @@
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
+          self.start_creative_date_inherits_li = false;
+
           var start_date = moment(newValue).format("YYYY-MM-DD");
-          self.model.set('start_date', start_date); //update backbone model
+          self.model.attributes['start_date'] = start_date; //update backbone model
 
           if(start_date > self.model.get('end_date')) {
             self.$el.find('.end-date .errors_container').html('End date cannot be before start date')

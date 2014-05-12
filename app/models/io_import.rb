@@ -79,7 +79,7 @@ class IoImport
 
       @order_name_dup = Order.exists?(name: @order.name)
 
-      @reach_client = ReachClient.find_by(name: @reader.reach_client_name)
+      @reach_client = ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
@@ -269,10 +269,10 @@ class IOReader
       formats.any?{ |format| ad_format =~ format }
     end
     type ? type[0] : 'Display'
-  end 
+  end
 
   def parse_ad_sizes(str, type)
-    case type 
+    case type
     when 'Display'
       str.scan(AD_SIZE_REGEXP).join(', ')
     when 'Video'
@@ -455,8 +455,8 @@ class IOExcelFileReader < IOReader
     return if @spreadsheet.sheets[INREDS_SPREADSHEET_PAGE] != INREDS_SPREADSHEET_NAME
     row = INREDS_START_ROW
     blank_rows_counter = 0
-    
-    change_sheet INREDS_SPREADSHEET_PAGE do      
+
+    change_sheet INREDS_SPREADSHEET_PAGE do
       while blank_rows_counter < 10
         cell = @spreadsheet.cell(INREDS_IMAGE_URL_COLUMN, row)
 
@@ -529,7 +529,7 @@ class IOPdfFileReader < IOReader
 
   def advertiser_name
     "" # https://github.com/collectivemedia/reachui/issues/327
-    # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.   
+    # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.
   end
 
   def account_contact
@@ -587,7 +587,7 @@ class IOPdfFileReader < IOReader
     parse_date(@end_date)
   end
 
-  def lineitems 
+  def lineitems
     @lineitems.each do |li|
       ad_sizes = li[:ad_sizes].join(',').strip.downcase
       type = determine_lineitem_type(ad_sizes)
@@ -615,7 +615,7 @@ class IOPdfFileReader < IOReader
 
 private
 
-  def parse_file 
+  def parse_file
     @reach_client_name = "Cox Digital Solutions"
 
     @reader = PDF::Reader::Turtletext.new @file, { :y_precision => 5 }
@@ -655,7 +655,7 @@ private
       right_of /account manager/i
     end
     @media_contact_name = textangle.text[0][0]
-   
+
     textangle = @reader.bounding_box do
       page 1
       below /account manager/i
@@ -682,7 +682,7 @@ private
     @billing_contact_email = @billing[1][0]
     @billing_contact_phone = @billing[2][0]
 
-     
+
     @lineitems = merge(search_for_placement_and_li_id, search_for_dates)
     @lineitems = merge(@lineitems, search_for_ad_sizes)
 
@@ -692,7 +692,7 @@ private
     @lineitems.each do |li|
       @start_date = li[:start_date] if li[:start_date] < @start_date
       @end_date = li[:end_date] if li[:end_date] > @end_date
-    end   
+    end
   end
 
   def merge(hash1, hash2)
@@ -744,7 +744,7 @@ private
       else
         line = ' ' + line.join(' ')
         lineitems.last[:notes] += line if line !~ /(Page \d+ of \d+)|(Line Item)|(ID)/
-      end     
+      end
     end
 
     lineitems
@@ -802,7 +802,7 @@ private
       ad_sizes_raw += textangle.text
     end
     ad_sizes_raw = ad_sizes_raw.flatten.reject{|size| size !~ /\d+x\d+/mi}
-    
+
     lineitems = []
     ad_sizes_raw.each do |line|
       li = {}

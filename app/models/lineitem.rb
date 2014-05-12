@@ -74,8 +74,9 @@ class Lineitem < ActiveRecord::Base
         lineitem_assignment_model = LineitemAssignment
       end
 
-      end_date = Time.zone.parse(cparams[:end_date]).end_of_day
-      creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
+      end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
+      start_date = cparams[:start_date].blank? ? self.start_date : cparams[:start_date]
+      creative_name = ad_name(start_date, cparams[:ad_size])
 
       if cparams[:id] && creative = creative_model.find_by_id(cparams[:id])
         creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)
