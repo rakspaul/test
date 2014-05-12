@@ -9,7 +9,7 @@ json.rate               lineitem.rate
 json.value              lineitem.value
 json.ad_sizes           lineitem.ad_sizes
 json.order_id           lineitem.order.id
-json.targeted_zipcodes  lineitem.targeted_zipcodes
+json.targeted_zipcodes  lineitem.zipcodes.collect{ |zip| zip.name }
 json.alt_ad_id          lineitem.alt_ad_id
 json.keyvalue_targeting lineitem.keyvalue_targeting
 json.type               lineitem.type

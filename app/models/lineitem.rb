@@ -21,6 +21,7 @@ class Lineitem < ActiveRecord::Base
   has_many :lineitem_geo_targetings
   has_many :geo_targets, through: :lineitem_geo_targetings
   has_and_belongs_to_many :designated_market_areas, join_table: :lineitem_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :zipcodes, join_table: :lineitem_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :cities, join_table: :lineitem_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :states, join_table: :lineitem_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
 
@@ -112,9 +113,15 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    geos = targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
+    zipcodes = targeting[:selected_zip_codes].to_a.collect do |zipcode|
+      GeoTarget::Zipcode.find_by(name: zipcode.strip)
+    end
+
+    geo_targeting = targeting[:selected_geos].to_a
+    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
     self.geo_targets = []
     self.geo_targets = geos.compact if !geos.blank?
+    self.geo_targets += zipcodes    if !zipcodes.blank?
   end
 
   def ad_name(start_date, ad_size)
