@@ -6,7 +6,7 @@
           %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox", :disabled => true}
         -else
           %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
-    %td= order.try(:io_detail).try(:state).to_s.capitalize.humanize
+    %td= IoDetail::STATUS[order.try(:io_detail).try(:state).to_s.to_sym]
     %td
       -if order.source_id.starts_with? 'R'
         %span.amp-id{:title => "AMP ID"}
@@ -35,8 +35,14 @@
     %td= order.try(:io_detail).client_advertiser_name
     -if !@agency_user
       %td= order.io_detail.try(:reach_client).try(:abbr)
-    %td= order.io_detail.try(:account_manager).try(:full_name)
+    %td
+      = order.io_detail.try(:account_manager).try(:full_name)
+      -if order.io_detail.try(:account_manager) == order.user
+        .order-note Assigned
     -if !@agency_user
-      %td= order.io_detail.try(:trafficking_contact).try(:full_name)
+      %td
+        = order.io_detail.try(:trafficking_contact).try(:full_name)
+        -if order.io_detail.try(:trafficking_contact) == order.user
+          .order-note Assigned
     %td= format_date(order.start_date)
     %td= format_date(order.end_date)

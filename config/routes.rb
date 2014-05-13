@@ -34,6 +34,7 @@ Reachui::Application.routes.draw do
         get 'whitelisted_advertisers_to_commit' => 'block_sites#whitelisted_advertisers_to_commit'
         get 'blacklisted_advertiser_groups_to_commit' => 'block_sites#blacklisted_advertiser_groups_to_commit'
         get 'whitelisted_advertiser_groups_to_commit' => 'block_sites#whitelisted_advertiser_groups_to_commit'
+        post 'recommit' => 'block_sites#recommit'
       end
     end
 
@@ -141,6 +142,7 @@ Reachui::Application.routes.draw do
   resources :users
   get 'io_assets/:order_id' => 'io_assets#serve'
   get 'io_assets/:order_id/creatives/:io_asset_id' => 'io_assets#serve'
+  get 'io_assets/:order_id/revised_io/:io_asset_id' => 'io_assets#serve'
 
   resources :segments do
     collection do

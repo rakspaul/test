@@ -4,7 +4,7 @@ class ReachClientsController < ApplicationController
   respond_to :json
 
   def search
-    @reach_clients = ReachClient.where("name ilike ?", "#{params[:search]}%").select('id, name, abbr, client_buffer ').limit(8)
+    @reach_clients = ReachClient.of_network(current_network).where("name ilike ?", "#{params[:search]}%").select('id, name, abbr, client_buffer ').limit(8)
 
     render json: @reach_clients
   end

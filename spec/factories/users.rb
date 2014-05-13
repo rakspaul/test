@@ -3,6 +3,8 @@ require 'faker'
 FactoryGirl.define do
   factory :user do |f|
     f.account_login { Faker::Internet.user_name }
+    f.first_name { Faker::Name.first_name }
+    f.last_name { Faker::Name.last_name }
     f.email { Faker::Internet.email }
     f.client_type "Network"
     network { FactoryGirl.singleton :network }

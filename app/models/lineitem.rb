@@ -3,7 +3,7 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
-  attr_accessor :li_id
+  attr_accessor :li_id, :revised
 
   belongs_to :order
   belongs_to :user
@@ -16,7 +16,7 @@ class Lineitem < ActiveRecord::Base
   has_many :creatives, through: :lineitem_assignments
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
-  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id'
+  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id', dependent: :destroy
 
   has_many :lineitem_geo_targetings
   has_many :geo_targets, through: :lineitem_geo_targetings
@@ -49,6 +49,8 @@ class Lineitem < ActiveRecord::Base
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
 
+  scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
+
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end
 
@@ -77,8 +79,9 @@ class Lineitem < ActiveRecord::Base
         lineitem_assignment_model = LineitemAssignment
       end
 
-      end_date = Time.zone.parse(cparams[:end_date]).end_of_day
-      creative_name = ad_name(cparams[:start_date], cparams[:ad_size])
+      end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
+      start_date = cparams[:start_date].blank? ? self.start_date : cparams[:start_date]
+      creative_name = ad_name(start_date, cparams[:ad_size])
 
       if cparams[:id] && creative = creative_model.find_by_id(cparams[:id])
         creative.update_attributes(name: creative_name, size: cparams[:ad_size], width: width, height: height, redirect_url: cparams[:redirect_url], html_code: html_code, network_advertiser_id: self.order.network_advertiser_id, network: self.order.network)

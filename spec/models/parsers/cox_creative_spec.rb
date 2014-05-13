@@ -55,6 +55,9 @@ describe Parsers::CoxCreative do
           io_creatives2.parse
         }.to change{ LineitemAssignment.count }.by(1)
       }.to change{ Creative.count }.by(1)
+
+      expect(LineitemAssignment.last.start_date).to eq(nil)
+      expect(LineitemAssignment.last.end_date).to eq(nil)
     end
   end
 end

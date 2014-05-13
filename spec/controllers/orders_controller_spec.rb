@@ -6,9 +6,6 @@ describe OrdersController do
   let(:reach_client) { FactoryGirl.singleton(:reach_client) }
   let(:user) { FactoryGirl.singleton(:user) }
   let(:advertiser) { FactoryGirl.singleton(:advertiser) }
-  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
-                     FactoryGirl.create(:ad_size_300x250),
-                     FactoryGirl.create(:ad_size_728x90) ] }
   let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before do
@@ -31,8 +28,8 @@ describe OrdersController do
   end
 
   before :each do
-    account = FactoryGirl.create(:account)
-    AccountSession.create(account)
+    @account = FactoryGirl.create(:account)
+    AccountSession.create(@account)
   end
 
   describe "GET 'index'" do
@@ -54,6 +51,21 @@ describe OrdersController do
         expect{
           post :create, io_request
         }.to change(Order, :count).by(1)
+      end
+
+      it "create a new order and sets trafficking contact correctly" do        
+        post :create, io_request
+        expect(Order.last.io_detail.trafficking_contact.full_name).to eq(io_request["order"]["trafficking_contact_name"])
+      end
+
+      it "create a new order and sets account manager correctly" do
+        post :create, io_request
+        expect(Order.last.io_detail.account_manager.full_name).to eq(io_request["order"]["account_contact_name"])
+      end
+
+      it "sets assignee for created order as current user" do
+        post :create, io_request
+        expect(Order.last.user).to eq(@account.user)
       end
 
       it "create a new IO detail" do
@@ -368,6 +380,24 @@ describe OrdersController do
         expect(response).to be_success
       end
 
+      it "updates assignee to AM if Order is ready_for_am" do
+        params['order']['order_status'] = "ready_for_am"
+        put :update, params
+
+        expect(response).to be_success
+        order = Order.find(params['id'])
+        expect(order.user).to eq(order.io_detail.account_manager)
+      end
+
+      it "updates assignee to Trafficker if Order is ready_for_trafficker" do
+        params['order']['order_status'] = "ready_for_trafficker"
+        put :update, params
+
+        expect(response).to be_success
+        order = Order.find(params['id'])
+        expect(order.user).to eq(order.io_detail.trafficking_contact)
+      end
+ 
       it "update ad start date" do
         li = order.lineitems.first
         ad = order.lineitems.first.ads.first
@@ -485,8 +515,10 @@ private
 
     params['order']['reach_client_id']        = reach_client.id
     params['order']['trafficking_contact_id'] = user.id
+    params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
@@ -524,8 +556,10 @@ private
 
     params['order']['reach_client_id']        = reach_client.id
     params['order']['trafficking_contact_id'] = user.id
+    params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id

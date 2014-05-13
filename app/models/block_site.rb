@@ -62,6 +62,14 @@ class BlockSite < ActiveRecord::Base
     where(state: [BlockSite::PENDING_UNBLOCK])
   end
 
+  def self.block
+    where(:state => BlockSite::BLOCK)
+  end
+
+  def self.unblock
+    where(:state => BlockSite::UNBLOCK)
+  end
+
   def self.for_advertiser(advertiser_ids)
     where(advertiser_id: advertiser_ids)
   end

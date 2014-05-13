@@ -35,6 +35,9 @@ FactoryGirl.define do
     order_id  { FactoryGirl.singleton(:order).id }
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
     billing_contact_id { FactoryGirl.singleton(:billing_contact).id }
+    account_manager_id { FactoryGirl.create(:user).id }
+    sales_person_id { FactoryGirl.create(:user).id }
+    trafficking_contact_id { FactoryGirl.create(:user).id }
     reach_client { FactoryGirl.singleton :reach_client }
   end
 
@@ -77,6 +80,9 @@ FactoryGirl.define do
     media_type
     user
     proposal_li_id "#{SecureRandom.random_number(10000)}"
+    before(:create) do |li|
+      FactoryGirl.singleton :network
+    end
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
