@@ -28,14 +28,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   newOrder: function() {
     var order = new ReachUI.Orders.Order();
     // TODO We don't have EditView view and probably we don't need new Order functionality
-    //var view = new ReachUI.Orders.EditView({model: order});
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
+    
     this.orderDetailsLayout.top.show(uploadView);
-    //this.orderDetailsLayout.bottom.show(view);
-    //view.on('order:save', this._saveOrder, this);
   },
 
   editOrder: function(id) {
@@ -56,7 +54,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
   _showEditOrder: function(order) {
     order.select();
-
     var view = new ReachUI.Orders.EditView({model: order});
     this.orderDetailsLayout.top.close();
     this.orderDetailsLayout.bottom.show(view);
@@ -65,6 +62,29 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _ioUploaded: function(orderModel, lineItems) {
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
+
+    
+    if(orderModel.get('is_existing_order')) {
+      // removing zombie views and callbacks
+      if(this.detailOrderView) {
+        this.detailOrderView.remove();
+        this.detailOrderView.unbind();
+      }
+
+      if(this.notes_list_view) {
+        this.notes_list_view.remove();
+        this.notes_list_view.unbind();
+
+        // unbinding logRevision event so logging wouldn't be done twice (or more times)
+        EventsBus.unbind('lineitem:logRevision', this.notes_list_view.logRevision, this.notes_list_view);
+      }
+
+      if(this.lineItemListView) {
+        this.lineItemListView.remove();
+        this.lineItemListView.unbind();
+      }
+    }
+
     this._showOrderDetails(orderModel);
 
     // set default AM's and Trafficker's emails and names (in order to show emails in Notify Users box)
@@ -74,8 +94,28 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     window.current_trafficker_name  = orderModel.get('trafficking_contact_name');
 
     lineItems.setOrder(orderModel);
+
+    // set revisions for every lineitem
+    if(orderModel.get('revisions')) {
+      _.each(orderModel.get('revisions'), function(revisions, index) {
+        lineItems.models[index].set('revised_start_date', revisions.start_date);
+        lineItems.models[index].set('revised_end_date', revisions.end_date);
+        lineItems.models[index].set('revised_name', revisions.name);
+        lineItems.models[index].set('revised_volume', revisions.volume);
+        lineItems.models[index].set('revised_rate', revisions.rate);
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
+      });
+    }
+
     this.lineItemList = lineItems;
     this._liSetCallbacksAndShow(lineItems);
+
+    if(orderModel.get('is_existing_order')) {
+      ReachUI.checkOrderStatus(orderModel.id);
+
+      // leave a notification in ActivityLog
+      EventsBus.trigger('lineitem:logRevision', "Revised Order Imported");
+    }
   },
 
   orderDetails: function(id) {
@@ -364,29 +404,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     //--------------------------------------------------------------------------------
     // account contact
-    $('.account-contact-name .typeahead').editable({
-      success: function(response, newValue) {
-        order.set("account_contact_name", newValue); //update backbone model
-      },
-      source: "/users/search.json?search_by=name",
-      typeahead: {
-        minLength: 0,
-        remote: '/users/search.json?search=%QUERY&search_by=name',
-        valueKey: 'name'
-      }
-    });
-    $('.account-contact-name').on('typeahead:selected', function(ev, el) {
-      order.set("account_contact_name", el.name);//update backbone model
-      order.set("account_contact_email", el.email);
-      order.set("account_contact_phone", el.phone);
-      $('.account-contact-phone span').removeClass('editable-empty').html(el.phone);
-      $('.account-contact-email span').removeClass('editable-empty').html(el.email);
-
-      ordersController._clearErrorsOn(".account-contact-name");
-    }).on('change', function(e) {
+    $('.account-contact-name').on('change', function(e) {
       var ac_name = $('.account-contact-name option:selected').text();
       var ac_parts = e.target.value.split('|');
       var ac_id = ac_parts[0], ac_email = ac_parts[1], ac_phone = ac_parts[2];
+
       $('.account-contact-phone span').removeClass('editable-empty').html(ac_phone);
       $('.account-contact-email span').removeClass('editable-empty').html(ac_email);
       order.set("account_contact_name", ac_name); //update backbone model
@@ -496,9 +518,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showOrderDetails: function(order) {
-    var detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    this.detailOrderView = new ReachUI.Orders.DetailView({model: order});
+    this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
+
     var ordersController = this;
-    this.orderDetailsLayout.top.show(detailOrderView);
+    this.orderDetailsLayout.top.show(this.detailOrderView);
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
@@ -584,7 +608,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _calculateRemainingImpressions: function(li) {
-    var remaining_impressions = li.get('volume') * (100 + parseFloat(li.get('buffer'))) / 100;
+    var remaining_impressions = parseInt(String(li.get('volume')).replace(/,|\./g, '')) * (100 + parseFloat(li.get('buffer'))) / 100;
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
@@ -684,18 +708,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   /////////////////////////////////////////////////////////////////////////////////////////
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
-    var lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
+    this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
 
     // adding Ad under certain lineitem
-    lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
+    this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
       var ad_name = ordersController._generateAdName(li, type);
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -757,7 +781,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
         // set targeting for existing Order
         var itemIndex = 1;
-        _.each(lineItemListView.children._views, function(li_view, li_name) {
+        _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
@@ -779,6 +803,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           }, { silent: true });
 
           li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
 
           itemIndex += 1;
 
@@ -822,7 +847,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
         var itemIndex = 1;
 
-        _.each(lineItemListView.children._views, function(li_view, li_name) {
+        _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li   = li_view.model;
 
           li.set({
@@ -842,17 +867,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItemList._recalculateLiImpressionsMediaCost();
       });
     }
-    this.orderDetailsLayout.bottom.show(lineItemListView);
+    this.orderDetailsLayout.bottom.show(this.lineItemListView);
 
     // order note reload
-    lineItemListView.on('ordernote:reload', function(){
+    this.lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
     });
 
-    this._showNotesView(lineItemList.order, lineItemListView);
+    this._showNotesView(lineItemList.order, this.lineItemListView);
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
-    orderDetailsView.setLineItemView(lineItemListView);
+    orderDetailsView.setLineItemView(this.lineItemListView);
   },
 
   _liUpdateBuffer: function(buffer) {
@@ -867,7 +892,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
-    var notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
-    this.notesRegion.show(notes_list_view);
+    this.notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
+    this.notesRegion.show(this.notes_list_view);
   },
 });

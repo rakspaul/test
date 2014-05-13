@@ -142,6 +142,7 @@ Reachui::Application.routes.draw do
   resources :users
   get 'io_assets/:order_id' => 'io_assets#serve'
   get 'io_assets/:order_id/creatives/:io_asset_id' => 'io_assets#serve'
+  get 'io_assets/:order_id/revised_io/:io_asset_id' => 'io_assets#serve'
 
   resources :segments do
     collection do

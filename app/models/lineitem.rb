@@ -3,7 +3,7 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
-  attr_accessor :li_id
+  attr_accessor :li_id, :revised
 
   belongs_to :order
   belongs_to :user
@@ -45,6 +45,8 @@ class Lineitem < ActiveRecord::Base
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
+
+  scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end
