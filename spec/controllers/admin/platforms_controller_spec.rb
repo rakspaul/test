@@ -7,6 +7,7 @@ describe Admin::PlatformsController do
   before :each do
     account = FactoryGirl.create(:account)
     AccountSession.create(account)
+    site = FactoryGirl.create(:site)
   end
 
   describe "GET 'index'" do
@@ -16,7 +17,6 @@ describe Admin::PlatformsController do
     end
 
     it "gets platforms" do
-      site = FactoryGirl.create(:site)
       platform = FactoryGirl.create(:platform)
       get 'index'
       assigns(:platforms).should eq([platform])
