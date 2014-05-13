@@ -96,7 +96,7 @@
       name_error: '#platform_name_error',
       media_type_id_error: '#media_type_error',
       dfp_key_error: '#dfp_key_error',
-      site_id_error: '#dfp_site_name_error',
+      dfp_site_name_error: '#dfp_site_name_error',
       naming_convention_error: '#naming_convention_error',
       ad_type_error: '#ad_type_error',
       priority_error: '#priority_error',
@@ -121,12 +121,6 @@
         valueKey: 'name',
         limit: 100
       });
-
-      var self = this;
-
-      $('#dfp_site_name').on('typeahead:selected', function(ev, el){
-        self.site_id = el.id;
-      });
     },
 
     _onSave: function(e) {
@@ -137,7 +131,7 @@
         name: this.ui.platform_name.val(),
         media_type_id: parseInt(this.ui.media_type.val()),
         dfp_key: this.ui.dfp_key.val(),
-        site_id: this.site_id,
+        dfp_site_name: this.ui.dfp_site_name.val(),
         naming_convention: this.ui.naming_convention.val(),
         ad_type: this.ui.ad_type.val(),
         priority: parseInt(this.ui.priority.val()),
