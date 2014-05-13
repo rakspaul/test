@@ -120,9 +120,10 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
+    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.uniq.collect do |zipcode|
       GeoTarget::Zipcode.find_by(name: zipcode.strip)
     end
+    zipcodes = zipcodes.compact unless zipcodes.empty?
 
     geo_targeting = targeting[:targeting][:selected_geos].to_a
     geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
