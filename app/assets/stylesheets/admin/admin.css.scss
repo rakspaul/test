@@ -958,6 +958,8 @@ ul.select-keyvals{
 
   .tt-hint{
     margin-top:2px;
+    left:1px !important;
+    top:1px !important;
   }
 
   .tt-dropdown-menu {
@@ -966,7 +968,7 @@ ul.select-keyvals{
     line-height:18px;
 
     .tt-suggestions{
-      max-height: 300px;
+      max-height: 250px;
       overflow-y: auto;
       border-bottom:1px solid #ccc;
 
