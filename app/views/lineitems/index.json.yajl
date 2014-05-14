@@ -18,6 +18,7 @@ json = @lineitems.map do |lineitem|
     media_type_id:      lineitem.media_type_id,
     notes:              lineitem.try(:notes),
     li_id:              lineitem.proposal_li_id,
+    li_status:          lineitem.li_status,
     creatives:          [],
     selected_geos:      [],
     selected_key_values: [],
@@ -62,7 +63,7 @@ json = @lineitems.map do |lineitem|
     h
   end
 
-  li[:selected_key_values] = lineitem.audience_groups.map do |ag| 
+  li[:selected_key_values] = lineitem.audience_groups.map do |ag|
     {
       id:    ag.id,
       title: ag.name,

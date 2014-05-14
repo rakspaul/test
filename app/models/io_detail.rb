@@ -6,7 +6,9 @@ class IoDetail < ActiveRecord::Base
     incomplete_push: "Incomplete Push",
     draft: "Draft",
     ready_for_am: "Ready for AM",
-    ready_for_trafficker: "Ready for Trafficker"
+    ready_for_trafficker: "Ready for Trafficker",
+    delivering: "Delivering",
+    completed: "Completed",
   }
 
   has_paper_trail ignore: [:updated_at]
@@ -27,7 +29,7 @@ private
 
   def enqueue_for_push
     queue_name = "reach.io.push"
-    rmq = RabbitMQWrapper.new :queue => queue_name 
+    rmq = RabbitMQWrapper.new :queue => queue_name
 
     Rails.logger.warn "Sending...#{queue_name}, order id: #{self.order.id}"
     msg  = self.order.id.to_s

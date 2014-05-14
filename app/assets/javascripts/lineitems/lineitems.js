@@ -20,7 +20,8 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         type: 'display',
-        _delete_creatives: []
+        _delete_creatives: [],
+        li_status: 'Draft',
       }
     },
 
@@ -339,7 +340,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -623,11 +624,18 @@
       if (custom_key_values) {
         targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
         targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
-      } 
+      }
       var toptions = this.$el.find('.targeting_options_condensed')[0];
       $(toptions).html(targeting_options.join(' '));
 
       this.model.set({ 'type': type });
+    },
+
+    templateHelpers:{
+      lineitemStatusClass: function(){
+        if(this.lineitem.li_status)
+          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
+      }
     },
 
     ui: {
@@ -758,7 +766,7 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
- 
+
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });

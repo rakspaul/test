@@ -332,7 +332,7 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
+      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex, :li_status].each{ |v| li[:lineitem].delete(v) }
 
       if li[:type] = 'Video'
         li[:lineitem].delete(:master_ad_size)
@@ -415,7 +415,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
