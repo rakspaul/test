@@ -143,7 +143,7 @@ class Lineitem < ActiveRecord::Base
     start_date = Date.parse(start_date) if start_date.is_a?(String)
     quarter = ((start_date.month - 1) / 3) + 1
 
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
+    "#{ order.io_detail.try(:reach_client).try(:abbr) } #{ order.io_detail.try(:client_advertiser_name) } " \
     "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \

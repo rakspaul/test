@@ -5,8 +5,11 @@
         -if !order.io_detail || !order.source_id.to_i.zero?
           %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox", :disabled => true}
         -else
-          %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"}
-    %td= IoDetail::STATUS[order.try(:io_detail).try(:state).to_s.to_sym]
+          %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"} 
+    - if order.io_detail
+      %td= IoDetail::STATUS[order.io_detail.try(:state).to_s.to_sym]
+    - else
+      %td.not-in-om= "Not in OM"
     %td
       -if order.source_id.starts_with? 'R'
         %span.amp-id{:title => "AMP ID"}
@@ -32,7 +35,7 @@
           = order.order_notes.order(:created_at).last.try(:note)
 
     %td= order.io_detail.try(:reach_client).try(:name)
-    %td= order.try(:io_detail).client_advertiser_name
+    %td= order.try(:io_detail).try(:client_advertiser_name)
     -if !@agency_user
       %td= order.io_detail.try(:reach_client).try(:abbr)
     %td

@@ -2,7 +2,8 @@ class OrdersController < ApplicationController
   include Authenticator
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_users_and_orders, :only => [:index, :show, :delete]
+  before_filter :set_orders, :only => [:index, :delete]
+  before_filter :set_users, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -17,10 +18,16 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.state =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
-    @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
-    @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    if @order.io_detail
+      @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+      @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    else
+      @billing_contacts = []
+      @media_contacts   = []
+    end
+
     @reachui_users = load_users.limit(50)
 
     respond_to do |format|
@@ -128,7 +135,8 @@ class OrdersController < ApplicationController
     @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
-    io_details = @order.io_detail
+    # if we update DFP-imported order then we should create IoDetail also
+    io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -142,7 +150,7 @@ class OrdersController < ApplicationController
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.account_manager_id     = order_param[:account_contact_id]
-    io_details.state                  = order_param[:order_status] || "draft"
+    io_details.state                  = order_param[:order_status].blank? ? "draft" : order_param[:order_status]
     io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.sales_person_id        = order_param[:sales_person_id]
 
@@ -150,6 +158,8 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.trafficking_contact_id
     elsif order_param[:order_status] == "ready_for_am"
       @order.user_id = io_details.account_manager_id
+    elsif @order.user_id.blank?
+      @order.user = current_user
     end
 
     respond_to do |format|
@@ -217,7 +227,13 @@ class OrdersController < ApplicationController
 
 private
 
-  def set_users_and_orders
+  def set_users
+    @users = load_users
+    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
+    @agency_user = is_agency_user?
+  end
+
+  def set_orders
     sort_column = params[:sort_column]? params[:sort_column] : "id"
     sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
     order_status = params[:order_status]? params[:order_status] : ""
@@ -274,7 +290,7 @@ private
     session[:search_query] = search_query
     session[:rc] = rc
 
-    order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes ).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
@@ -283,9 +299,6 @@ private
                   .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = load_users
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
   end
 
   def load_users
