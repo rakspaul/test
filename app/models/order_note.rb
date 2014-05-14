@@ -1,4 +1,5 @@
 class OrderNote < ActiveRecord::Base
+  attr_accessor :username
 
   belongs_to :order
   belongs_to :user

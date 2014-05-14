@@ -1,6 +1,7 @@
 class IoAsset < ActiveRecord::Base
   scope :details, -> { where(asset_type: 'io') }
-  scope :io_creatives, -> { where(asset_type: 'creatives') }
+  scope :io_revised, -> { where(asset_type: 'io_revised').order('created_at ASC') }
+  scope :io_creatives, -> { where(asset_type: 'creatives').order('created_at ASC') }
 
   belongs_to :order
 

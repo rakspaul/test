@@ -35,6 +35,9 @@ FactoryGirl.define do
     order_id  { FactoryGirl.singleton(:order).id }
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
     billing_contact_id { FactoryGirl.singleton(:billing_contact).id }
+    account_manager_id { FactoryGirl.create(:user).id }
+    sales_person_id { FactoryGirl.create(:user).id }
+    trafficking_contact_id { FactoryGirl.create(:user).id }
     reach_client { FactoryGirl.singleton :reach_client }
   end
 
@@ -77,6 +80,9 @@ FactoryGirl.define do
     media_type
     user
     proposal_li_id "#{SecureRandom.random_number(10000)}"
+    before(:create) do |li|
+      FactoryGirl.singleton :network
+    end
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
@@ -181,25 +187,31 @@ FactoryGirl.define do
     name "cm.adult"
   end
 
-  factory :city do
-    name "Ala"
-    region_name "Trento"
-    country_code "IT"
+  factory :geo_target do
+    country_code "US"
+    targetable true
   end
 
-  factory :country do
-    abbr "US"
-    name "United States"
+  factory :city, :class => GeoTarget::City, :parent => :geo_target do
+    name "New York"
+    source_id        1023191
+    source_parent_id 21167
+    state
   end
 
-  factory :state do
-    abbr "US"
+  factory :country, :class => GeoTarget::Country, :parent => :geo_target  do
     name "United States"
+    source_id 2840
+  end
+
+  factory :state, :class => GeoTarget::State, :parent => :geo_target  do
+    name "New York"
+    source_id 21167
     country
   end
 
-  factory :designated_market_area do
-    code 541
+  factory :designated_market_area, :class => GeoTarget::DesignatedMarketArea, :parent => :geo_target do
+    id 541
     name "Lexington"
   end
 

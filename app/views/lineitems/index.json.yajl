@@ -50,15 +50,15 @@ json = @lineitems.map do |lineitem|
   end
 
   li[:selected_geos] = (lineitem.designated_market_areas+lineitem.cities+lineitem.states).map do |geo|
-    h = { id: (geo.respond_to?(:code) ? geo.code : geo.id) }
+    h = { id: geo.id }
 
     case geo.class.to_s
-    when "DesignatedMarketArea"
+    when "GeoTarget::DesignatedMarketArea"
       h.merge!({title: "#{geo.name}", type: "DMA"})
-    when "State"
+    when "GeoTarget::State"
       h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
-    when "City"
-      h.merge!({title: "#{geo.name}/#{geo.region_name}/#{geo.country_code}", type: "City"})
+    when "GeoTarget::City"
+      h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
     end
     h
   end

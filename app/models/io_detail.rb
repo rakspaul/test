@@ -9,6 +9,9 @@ class IoDetail < ActiveRecord::Base
     ready_for_trafficker: "Ready for Trafficker",
     delivering: "Delivering",
     completed: "Completed",
+    revisions_proposed: "Revisions Proposed",
+    revisions_resolved: "Revisions Resolved",
+    revisions_unresolved: "Revisions Unresolved"
   }
 
   has_paper_trail ignore: [:updated_at]

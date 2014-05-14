@@ -7,7 +7,7 @@ GIT
 
 GIT
   remote: git://github.com/german/pdf-reader.git
-  revision: d5fac6ac06755a8bab3825d744c04aac32d87351
+  revision: c66c0df8c0bf292a6a54d2a25158a9dc61b8c971
   branch: turtletext_patch
   specs:
     pdf-reader (1.1.1)

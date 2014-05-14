@@ -6,9 +6,6 @@ describe OrdersController do
   let(:reach_client) { FactoryGirl.singleton(:reach_client) }
   let(:user) { FactoryGirl.singleton(:user) }
   let(:advertiser) { FactoryGirl.singleton(:advertiser) }
-  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
-                     FactoryGirl.create(:ad_size_300x250),
-                     FactoryGirl.create(:ad_size_728x90) ] }
   let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before do
@@ -24,15 +21,15 @@ describe OrdersController do
     File.stub(:unlink).and_call_original
     File.stub(:unlink).with(path).and_return(file)
     File.stub(:unlink).with(path2).and_return(file)
-    us = FactoryGirl.create(:country)
-    FactoryGirl.create(:state, name: "Alabama", country: us)
-    FactoryGirl.create(:designated_market_area, name: "Lexington", code: 541)
-    FactoryGirl.create(:city, name: "Ala", country_code: "IT", region_name: "Trento")
+    FactoryGirl.create(:country)
+    FactoryGirl.create(:state)
+    FactoryGirl.create(:designated_market_area)
+    FactoryGirl.create(:city)
   end
 
   before :each do
-    account = FactoryGirl.create(:account)
-    AccountSession.create(account)
+    @account = FactoryGirl.create(:account)
+    AccountSession.create(@account)
   end
 
   describe "GET 'index'" do
@@ -54,6 +51,21 @@ describe OrdersController do
         expect{
           post :create, io_request
         }.to change(Order, :count).by(1)
+      end
+
+      it "create a new order and sets trafficking contact correctly" do        
+        post :create, io_request
+        expect(Order.last.io_detail.trafficking_contact.full_name).to eq(io_request["order"]["trafficking_contact_name"])
+      end
+
+      it "create a new order and sets account manager correctly" do
+        post :create, io_request
+        expect(Order.last.io_detail.account_manager.full_name).to eq(io_request["order"]["account_contact_name"])
+      end
+
+      it "sets assignee for created order as current user" do
+        post :create, io_request
+        expect(Order.last.user).to eq(@account.user)
       end
 
       it "create a new IO detail" do
@@ -116,36 +128,32 @@ describe OrdersController do
     end
 
     context "vaild order w/ City and State and DMA targeting" do
-      it "creates correct links between city/dma/state targeting and Lineitems" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+      before :each do
+        @us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        @state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        @city = GeoTarget::City.find_by name: "New York", source_parent_id: @state.source_id, country_code: "US"
+        @dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
+      end
 
+      it "creates correct links between city/dma/state targeting and Lineitems" do
+        expect(@us).to be
         expect {
           expect {
             expect {
               post :create, io_request
-            }.to change(state.lineitems, :count).by(1)
-          }.to change(city.lineitems, :count).by(1)
-        }.to change(dma.lineitems, :count).by(1)
+            }.to change(@state.lineitems, :count).by(1)
+          }.to change(@city.lineitems, :count).by(1)
+        }.to change(@dma.lineitems, :count).by(1)
       end
 
       it "creates correct links between city/dma/state targeting and Ads" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
-
         expect {
           expect {
             expect {
               post :create, io_request_w_ads
-            }.to change(state.ads, :count).by(1)
-          }.to change(city.ads, :count).by(1)
-        }.to change(dma.ads, :count).by(1)
+            }.to change(@state.ads, :count).by(1)
+          }.to change(@city.ads, :count).by(1)
+        }.to change(@dma.ads, :count).by(1)
       end
     end
 
@@ -372,6 +380,24 @@ describe OrdersController do
         expect(response).to be_success
       end
 
+      it "updates assignee to AM if Order is ready_for_am" do
+        params['order']['order_status'] = "ready_for_am"
+        put :update, params
+
+        expect(response).to be_success
+        order = Order.find(params['id'])
+        expect(order.user).to eq(order.io_detail.account_manager)
+      end
+
+      it "updates assignee to Trafficker if Order is ready_for_trafficker" do
+        params['order']['order_status'] = "ready_for_trafficker"
+        put :update, params
+
+        expect(response).to be_success
+        order = Order.find(params['id'])
+        expect(order.user).to eq(order.io_detail.trafficking_contact)
+      end
+ 
       it "update ad start date" do
         li = order.lineitems.first
         ad = order.lineitems.first.ads.first
@@ -489,8 +515,10 @@ private
 
     params['order']['reach_client_id']        = reach_client.id
     params['order']['trafficking_contact_id'] = user.id
+    params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
@@ -505,12 +533,12 @@ private
     end
     li = params['order']['lineitems'].first
     if li
-      us = Country.where(['abbr = ?', 'US']).first
-      alabama = State.find_by name: "Alabama", country_id: us.id
-      ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-      dma = DesignatedMarketArea.find_by name: "Lexington"
+      us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+      state = GeoTarget::State.find_by name: "New York", country_code: "US"
+      city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+      dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
 
       creative = li['lineitem']['creatives'].first
       creative['creative']['ad_size'] = "1x1"
@@ -528,8 +556,10 @@ private
 
     params['order']['reach_client_id']        = reach_client.id
     params['order']['trafficking_contact_id'] = user.id
+    params['order']['trafficking_contact_name'] = user.full_name
     params['order']['sales_person_name']      = user_name
     params['order']['account_contact_name']   = user_name
+    params['order']['account_contact_id']     = user.id
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
@@ -554,12 +584,12 @@ private
 
       ad = li['ads'].first
       if ad
-        us = Country.where(['abbr = ?', 'US']).first
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+        us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+        dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
         creative = ad['ad']['creatives'].first
         creative['creative']['ad_size'] = "1x1"
       end
