@@ -9,7 +9,6 @@ json.rate               lineitem.rate
 json.value              lineitem.value
 json.ad_sizes           lineitem.ad_sizes
 json.order_id           lineitem.order.id
-json.targeted_zipcodes  lineitem.zipcodes.collect{ |zip| zip.name }
 
 json.selected_key_values do
   json.array! lineitem.audience_groups.each do |ag|
