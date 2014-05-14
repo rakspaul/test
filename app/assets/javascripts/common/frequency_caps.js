@@ -5,8 +5,8 @@
     //timeUnits: [ 'lifetime', 'minutes', 'hours', 'days', 'weeks', 'months' ],
     defaults: function() {
       return {
-        impressions: 1,
-        time_value: 1,
+        impressions: 3,
+        time_value: 24,
         time_unit: 2
       }
     },

@@ -9,17 +9,13 @@ describe('DMA', function() {
         this.dma = new ReachUI.DMA.Model();
       });
 
-      it('has "code" and "name" attributes', function() {
-        expect(this.dma.get('code')).not.toBeNull();
+      it('has "id" and "name" attributes', function() {
+        expect(this.dma.get('id')).not.toBeNull();
         expect(this.dma.get('name')).not.toBeNull();
       });
 
-      it('has "code" as idAttribute', function() {
-        expect(this.dma.idAttribute).toBe('code');
-      });
-
-      it('has default value for "code"', function() {
-        expect(this.dma.get('code')).toBe('');
+      it('has default value for "id"', function() {
+        expect(this.dma.get('id')).toBe('');
       });
 
       it('has default value for "name"', function() {
@@ -54,7 +50,7 @@ describe('DMA', function() {
 
     describe('option tag', function() {
       beforeEach(function() {
-        var dma = new ReachUI.DMA.Model({code: '501', name: 'New York'});
+        var dma = new ReachUI.DMA.Model({id: '501', name: 'New York'});
         this.optionView = new ReachUI.DMA.OptionView({model: dma});
       });
 
@@ -81,8 +77,8 @@ describe('DMA', function() {
     describe('on render', function() {
       beforeEach(function() {
         var dmaList = new ReachUI.DMA.List();
-        dmaList.add(new ReachUI.DMA.Model({code: '501', name: 'New York'}));
-        dmaList.add(new ReachUI.DMA.Model({code: '839', name: 'Las Vegas'}));
+        dmaList.add(new ReachUI.DMA.Model({id: '501', name: 'New York'}));
+        dmaList.add(new ReachUI.DMA.Model({id: '839', name: 'Las Vegas'}));
 
         this.dmaView = new ReachUI.DMA.ChosenView({collection: dmaList});
         this.dmaView.setDmaIds(['501']);

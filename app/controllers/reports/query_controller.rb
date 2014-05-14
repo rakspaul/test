@@ -9,14 +9,37 @@ class Reports::QueryController < ApplicationController
 
   def index
     wrapper = ReportServiceWrapper.new(@current_user)
-    resp = wrapper.load(params.clone)
-     
+    response = wrapper.load(params.clone)
+    resp = process_resp(response)
+
     respond_with(resp) do |format|
-      format.csv { export_csv(resp) }
-      format.xls { export_excel(resp) }
+      format.csv { export_csv(converter(resp["records"].to_json)) }
+      format.xls { export_excel(converter(resp["records"].to_json)) }
     end
   rescue => e
     respond_with(e.message, status: :service_unavailable)
+  end
+
+  def process_resp(resp)
+    records = ActiveSupport::JSON.decode(resp)
+    columns = params[:cols].split(",")
+
+    records["records"].each do |obj|
+      obj["cogs"] = obj["cogs"] * 1.1 if obj.key?("cogs")
+      obj["cogs_ecpm"] = obj["cogs"] / obj["impressions"] * 1000 if columns.include?("cogs_ecpm")
+      obj["tech_cogs"] = obj["cogs"] * 0.1 if columns.include?("tech_cogs")
+    end
+
+    records
+  end
+
+  def converter(json_data)
+    json = JSON.parse(json_data)
+    json.first.collect {|k,v| k}.join(',')
+    header = json.first.collect {|k,v| k}.join(',')
+    data = json.collect {|node| "#{node.collect{|k,v| v}.join(',')}\n"}.join
+
+    header+"\n"+data
   end
 
   def export_csv(resp)
@@ -39,7 +62,7 @@ class Reports::QueryController < ApplicationController
       col_no = 0
       row_data.each do |col|
         if is_number?(col)
-          xls_row[col_no] = col.to_f ? col.to_f : col.to_i 
+          xls_row[col_no] = col.to_f ? col.to_f : col.to_i
         else
           xls_row[col_no] = col
         end
@@ -47,8 +70,8 @@ class Reports::QueryController < ApplicationController
       end
       row_no += 1
     end
-    spreadsheet = StringIO.new 
-    book.write spreadsheet 
+    spreadsheet = StringIO.new
+    book.write spreadsheet
     send_data spreadsheet.string, :filename => "#{get_file_path}.xls", :type => "application/vnd.ms-excel"
   end
 
@@ -58,5 +81,5 @@ class Reports::QueryController < ApplicationController
 
   def get_file_path
     "#{Date.today.strftime('%Y-%m-%d')}_Report_#{current_user.network.id}_#{@current_user.id}"
-  end	
+  end
 end

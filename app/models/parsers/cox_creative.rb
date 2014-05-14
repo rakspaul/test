@@ -82,7 +82,7 @@ class Parsers::CoxCreative < Parsers::Base
       Creative.transaction do
         creative = Creative.create name: matched_li.ad_name(start_date, ad_size), network_advertiser_id: matched_li.order.network_advertiser_id, size: ad_size, width: width, height: height, creative_type: CREATIVE_TYPE, redirect_url: "", html_code: javascript_code, network_id: matched_li.order.network_id, data_source_id: 1
 
-        li_assignment = LineitemAssignment.create lineitem: matched_li, creative: creative, start_date: start_date, end_date: end_date, network_id: matched_li.order.network_id, data_source_id: matched_li.order.network.try(:data_source_id)
+        li_assignment = LineitemAssignment.create lineitem: matched_li, creative: creative,  network_id: matched_li.order.network_id, data_source_id: matched_li.order.network.try(:data_source_id)
 
         if !li_assignment.errors.messages.blank?
           @creatives_errors << "#{index+1}: "+li_assignment.errors.full_messages.join('; ')

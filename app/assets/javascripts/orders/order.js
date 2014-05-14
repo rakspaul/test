@@ -81,7 +81,12 @@
     className: 'order-details',
 
     ui: {
+      revised_io_fileupload: '#revised_io_fileupload',
       creatives_fileupload: '#creatives_fileupload'
+    },
+
+    initialize: function() {
+      _.bindAll(this, '_uploadStarted', '_uploadSuccess', '_uploadFailed');
     },
 
     events: {
@@ -93,15 +98,31 @@
       'click .export-order':'order:export'
     },
 
+    _hideAllDialogs: function(e) {
+      $('.revised-dialog').hide();
+    },
+
     onRender: function() {
       // if order is not yet persisted then hide 'Creatives TXT' button
       if (this.model.id == null) {
         $(this.$el.find('.creatives-txt-uploader')[0]).remove();
       }
+      $('#order_layout').click(this._hideAllDialogs);
     },
 
     onDomRefresh: function() {
       var self = this;
+
+      this.ui.revised_io_fileupload.fileupload({
+        dataType: 'json',
+        url: '/io_import.json',
+        formData: {current_order_id: self.model.get('id')},
+        dropZone: this.ui.io_fileupload,
+        pasteZone: null,
+        start: this._uploadStarted,
+        done: this._uploadSuccess,
+        fail: this._uploadFailed
+      });
 
       this.ui.creatives_fileupload.fileupload({
         dataType: 'json',
@@ -127,6 +148,45 @@
           }
         });
       }
+    },
+
+    _uploadStarted: function(e) {
+      //this.ui.upload_status.removeClass('alert alert-error');
+      //this.ui.upload_status.addClass('alert');
+      //this.ui.upload_status.html("<strong>Uploading</strong>");
+    },
+
+    _uploadSuccess: function(e, data) {
+      //this.ui.upload_status.html("<h4>Successfully uploaded.</h4>");
+      var orderModel = new Orders.Order(data.result.order);
+      var lineItems  = new ReachUI.LineItems.LineItemList(data.result.lineitems);
+      _.each(lineItems.models, function(li, index) {
+        li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
+      });
+      this.trigger('io:uploaded', orderModel, lineItems);
+    },
+
+    _uploadFailed: function(e, data) {
+      alert("Error processing IO");
+      var resp = data.jqXHR.responseJSON,
+        messages = [];
+
+      messages.push("<strong>Error processing IO.</strong>");
+      messages.push("<ul>");
+      if(resp) {
+        for(var error in resp.errors) {
+          _.each(resp.errors[error], function(msg) {
+            messages.push("<li>");
+            messages.push(error + " : " + msg);
+            messages.push("</li>");
+          });
+        }
+      } else {
+        messages.push(data.jqXHR.responseText);
+      }
+      messages.push("</ul>");
+      //this.ui.upload_status.html(messages.join(""));
+      //this.ui.upload_status.addClass('alert alert-error');
     },
 
     _toggleGeneralInfo: function() {
@@ -367,6 +427,11 @@
       _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
       this.notify_users_dialog_active = false;
       this.selected_users = this.defaultUsersToNotify();
+      EventsBus.bind('lineitem:logRevision', this.logRevision, this);
+    },
+
+    logRevision: function(text) {
+      this._saveNote(text);
     },
 
     displayNotifyUsersList: function() {
@@ -474,18 +539,9 @@
       }
     },
 
-    saveNote: function(event) {
-      if(this.ui.note_input.val().trim() == "") {
-        return;
-      }
-
-      if(this.options.order.id == null) {
-        alert("The order is not persisted yet, so the note couldn't be added");
-        return;
-      }
-
+    _saveNote: function(text) {
       var prop = {
-        note: this.ui.note_input.val().trim().replace(/\n/gm, "<br/>"),
+        note: text,
         created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
         sent: this.notify_users_dialog_active,
         username: window.current_user_name,
@@ -497,8 +553,23 @@
       this.collection.unshift(this.model);
 
       this.options.order.set('notes', this.collection);
-      this.$el.find('.save-note-btn').addClass('spinner');
-      this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+      this.render();
+      //this.$el.find('.save-note-btn').addClass('spinner');
+      //this.model.save(prop, {success: this._onSaveSuccess, error: this._onSaveFailure})
+    },
+
+    saveNote: function(event) {
+      if(this.ui.note_input.val().trim() == "") {
+        return;
+      }
+
+      if(this.options.order.id == null) {
+        alert("The order is not persisted yet, so the note couldn't be added");
+        return;
+      }
+
+      var text = this.ui.note_input.val().trim().replace(/\n/gm, "<br/>");
+      this._saveNote(text);
     },
 
     defaultUsersToNotify: function() {
@@ -523,7 +594,5 @@
     _onSaveFailure: function() {
 
     }
-
   });
-
 })(ReachUI.namespace("Orders"));

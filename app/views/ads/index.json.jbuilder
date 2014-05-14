@@ -48,17 +48,17 @@ json.array! @ads do |ad|
   end
 
   json.selected_geos do
-    json.array! ad.designated_market_areas+ad.cities+ad.states do |geo|
-      json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+    json.array! ad.designated_market_areas + ad.cities + ad.states do |geo|
+      json.id geo.id
       case geo.class.to_s
-      when "DesignatedMarketArea"
+      when "GeoTarget::DesignatedMarketArea"
         json.title "#{geo.name}"
-        json.type "DMA"
-      when "State"
+        json.type  "DMA"
+      when "GeoTarget::State"
         json.title "#{geo.name}/#{geo.country.try(:name)}"
         json.type "State"
-      when "City"
-        json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+      when "GeoTarget::City"
+        json.title "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
         json.type "City"
       end
     end
