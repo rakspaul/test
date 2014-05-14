@@ -58,6 +58,7 @@
 
     initialize: function() {
       var self = this;
+      this.modelId = this.model.id;
 
       this.platformsList = new Platform.PlatformList();
       this.mediaTypeList = new Platform.MediaTypeList();
@@ -186,10 +187,17 @@
 
     _show_platform_input: function(e){
       e.preventDefault();
+      var isNewPlatform = this.ui.platform_name.is(':visible');
+      var txt = isNewPlatform ? 'Select Platform' : 'New Platform';
+      var header = isNewPlatform ? 'Add New Platform' : 'Edit Platform';
+
+      this.model.id = isNewPlatform ? null : this.modelId;
+
       this.ui.platform_name.toggle();
       this.ui.platform_name_input.toggle();
-      var txt = this.ui.platform_name.is(':visible') ? 'New Platform' : 'Select Platform';
-      this.ui.new_platform_btn.html(txt)
+
+      this.ui.new_platform_btn.html(txt);
+      $('.platforms-header legend').html(header);
     },
 
     _changePriority: function(e){

@@ -8,7 +8,6 @@ describe Admin::PlatformsController do
   before :each do
     account = FactoryGirl.create(:account)
     AccountSession.create(account)
-    site = FactoryGirl.create(:site)
   end
 
   describe "GET 'index'" do

@@ -5,7 +5,6 @@ class Admin::PlatformsController < ApplicationController
   respond_to :html, :json
 
   before_filter :platform_params, :only => [:create, :update]
-  before_filter :set_current_network
 
   add_crumb("Platforms") {|instance| instance.send :admin_platforms_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_platform_path}
@@ -71,10 +70,14 @@ class Admin::PlatformsController < ApplicationController
 
   private
     def platform_params
-      params.require(:platform).permit(:name,:media_type_id, :dfp_key, :dfp_site_name, :naming_convention, :ad_type, :priority, :enabled)
+      platform_params = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :dfp_site_name, :naming_convention, :ad_type, :priority, :enabled)
+      platform_params[:site_id] = dfp_site.blank? ? nil : dfp_site.id
+      return platform_params
     end
 
-    def set_current_network
-      Platform.current_network = current_network
+    def dfp_site
+      dfp_site_name = params[:platform][:dfp_site_name]
+      dfp_site = Site.of_networks(current_network).where("lower(name) like lower(?)", dfp_site_name.strip).first
     end
+
 end
