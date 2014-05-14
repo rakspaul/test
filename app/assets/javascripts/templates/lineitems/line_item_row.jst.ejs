@@ -117,7 +117,7 @@
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(lineitem.volume) %>
       </span>
-      <% if(lineitem.revised_volume) { %>
+      <% if(lineitem.revised_volume != null) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= accounting.formatNumber(lineitem.revised_volume) %></span>
         <div class="revised-dialog" style="display:none">
@@ -134,7 +134,7 @@
       $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
         <%= accounting.formatMoney(lineitem.rate, '') %>
       </span>
-      <% if(lineitem.revised_rate) { %>
+      <% if(lineitem.revised_rate != null) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= accounting.formatMoney(lineitem.revised_rate, '') %></span>
         <div class="revised-dialog" style="display:none">

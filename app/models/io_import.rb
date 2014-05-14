@@ -69,7 +69,7 @@ class IoImport
     if @is_existing_order
       li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_lineitems + @lineitems[li_count..-1]
+      @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
     else
       @lineitems
     end
@@ -83,14 +83,17 @@ class IoImport
     end
 
     def read_order_and_details
-      @order = Order.new(@reader.order)
-      @order.user = @current_user
-      @order.network = @current_user.network
-      @order.advertiser = @advertiser
+      if @is_existing_order
+        @order = @existing_order
+      else
+        @order = Order.new(@reader.order)
+        @order.user = @current_user
+        @order.network = @current_user.network
+        @order.advertiser = @advertiser
+        @order_name_dup = Order.exists?(name: @order.name)
+      end
+
       @order.source_id = @existing_order.source_id if @current_order_id
-
-      @order_name_dup = Order.exists?(name: @order.name)
-
       @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
 
       if @reach_client
@@ -167,7 +170,7 @@ class IoImport
           existing_li.revised = true
         end
 
-        if (@lineitems[index][:volume] != existing_li.volume) && @lineitems[index][:volume] != 0
+        if (@lineitems[index][:volume] != existing_li.volume)
           local_revisions[:volume] = @lineitems[index][:volume]
           @lineitems[index].revised = true
           existing_li.revised = true
