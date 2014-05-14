@@ -654,7 +654,6 @@
     },
 
     _changeMediaType: function(ev_or_type) {
-      ev_or_type.stopPropagation();
       var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
 
       if (type == 'Video' && !this.model.get('master_ad_size')) {
