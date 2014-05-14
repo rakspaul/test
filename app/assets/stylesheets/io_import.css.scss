@@ -518,7 +518,7 @@ $wide_input_width: 320px;
       position: absolute;
       display: block;
       border: 1px solid green;
-      background-color: white;   
+      background-color: white;
 
       .accept-all-btn {
         clear: both;
@@ -1441,4 +1441,10 @@ table.creatives-content {
       padding: 8px 5px;
     }
   }
+}
+
+.video-creatives-caution {
+  font-size:20px;
+  font-weight:bold;
+  color:yellow;
 }
