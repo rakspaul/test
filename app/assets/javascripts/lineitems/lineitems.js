@@ -21,7 +21,8 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         type: 'display',
-        _delete_creatives: []
+        _delete_creatives: [],
+        li_status: 'Draft',
       }
     },
 
@@ -71,7 +72,7 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, 
+      var adImps,
           prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
@@ -393,7 +394,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -686,11 +687,18 @@
       if (custom_key_values) {
         targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
         targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
-      } 
+      }
       var toptions = this.$el.find('.targeting_options_condensed')[0];
       $(toptions).html(targeting_options.join(' '));
 
       this.model.set({ 'type': type });
+    },
+
+    templateHelpers:{
+      lineitemStatusClass: function(){
+        if(this.lineitem.li_status)
+          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
+      }
     },
 
     _duplicateLineitem: function() {
@@ -734,7 +742,7 @@
           frequency_caps: frequency_caps,
           audience_groups: li.get('audience_groups'),
           keyvalue_targeting: li.get('keyvalue_targeting'),
-          type: li.get('type') 
+          type: li.get('type')
         })
       }, { silent: true });
 
@@ -803,7 +811,7 @@
               break;
             case 'volume':
               revision = accounting.formatNumber(revision);
-              break;            
+              break;
           }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
@@ -817,11 +825,11 @@
       if(logs.length>0) {
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
- 
+
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
-      this.model.collection._recalculateLiImpressionsMediaCost(); 
-      this.model.attributes['revised'] = null; 
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this.model.attributes['revised'] = null;
     },
 
     _declineAllRevisions: function(e) {
@@ -1053,7 +1061,7 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
- 
+
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });

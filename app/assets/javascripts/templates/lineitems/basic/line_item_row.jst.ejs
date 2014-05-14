@@ -3,7 +3,8 @@
     <div class="pure-u-1-12 li-number <%= lineitem.active === true ? 'active':'inactive' %>">
       <span>Contract LI<span>
       <div style="clear:both"></div>
-      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
+      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
+      <span class="<%= lineitemStatusClass() %>"><%= lineitem.li_status%></span>
     </div>
 
     <div class="pure-u-1-12 start-date">
@@ -45,7 +46,7 @@
         <%= lineitem.name %>
       </span>
     </div>
-      
+
     <div class="pure-u-1-12 volume number-field">
       <span class="editable">
         <%= accounting.formatNumber(lineitem.volume) %>
