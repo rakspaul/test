@@ -2,13 +2,11 @@ require 'spec_helper'
 
 describe Admin::PlatformsController do
   setup :activate_authlogic
-  let(:site)  { FactoryGirl.create(:site) }
   let(:platform) { FactoryGirl.create(:platform) }
 
   before :each do
     account = FactoryGirl.create(:account)
     AccountSession.create(account)
-    site = FactoryGirl.create(:site)
   end
 
   describe "GET 'index'" do
