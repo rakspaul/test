@@ -1,0 +1,53 @@
+<div class="task-detail-view-close pure-u-1 pull-right"></div>
+
+<div style="clear:both"></div>
+
+<div class="pure-u-1-5">
+  <%= created_by%>
+</div>
+<div class="pure-u-1-2 task-name">
+  <p><%= name%></p>
+</div>
+<div class="pure-u-1-5 task-time">
+  <%= time_since%>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="pure-u-1-5 follow-task">
+  Follow
+</div>
+<div class="pure-u-1-4 task-type">
+  <select name="task_type">
+    <% _.each(task_types, function(tt) { %>
+      <option value="<%= tt.name%>" <%= tt.task_type ==  tt.name ? 'selected="selected"' : '' %>><%= tt.display_name%></option>
+    <% }); %>
+  </select>
+</div>
+<div class="pure-u-1-4 assigned-to">
+  <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assigned_to %></span>
+</div>
+<div class="pure-u-1-5 task-duration">
+<%= duration%>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="pure-u-1-5 close-task">
+  Close Task
+</div>
+<div class="pure-u-1-4 task-attachment">
+  Creatives.zip
+</div>
+<div class="pure-u-1-4 task-created-by">
+  <%= created_by%>
+</div>
+
+<div style="clear:both"></div>
+
+<div class="task-comments-container">
+
+</div>
+
+
+

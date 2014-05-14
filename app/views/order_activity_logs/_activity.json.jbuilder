@@ -1,0 +1,5 @@
+json.id activity[:id]
+json.activity activity[:note]
+json.created_at format_date activity[:created_at]
+json.created_by activity[:created_by]
+json.type activity[:type]
