@@ -2,10 +2,11 @@ class GeoTarget < ActiveRecord::Base
 
 
   TYPES = {
-    'CITY'       => GeoTarget::City,
-    'COUNTRY'    => GeoTarget::Country,
-    'STATE'      => GeoTarget::State,
-    'DMA_REGION' => GeoTarget::DesignatedMarketArea
+    'CITY'        => GeoTarget::City,
+    'COUNTRY'     => GeoTarget::Country,
+    'STATE'       => GeoTarget::State,
+    'DMA_REGION'  => GeoTarget::DesignatedMarketArea,
+    'POSTAL_CODE' => GeoTarget::Zipcode
   }
 
   scope :xfp_present, -> { where('source_id IS NOT NULL and targetable = true') }

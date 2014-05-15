@@ -28,10 +28,10 @@ class Ad < ActiveRecord::Base
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
 
-  has_and_belongs_to_many :zipcodes, join_table: :zipcode_targeting
   has_many :ad_geo_targetings
   has_many :geo_targets, through: :ad_geo_targetings
   has_and_belongs_to_many :designated_market_areas, join_table: :ad_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :zipcodes, join_table: :ad_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :cities, join_table: :ad_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :states, join_table: :ad_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
@@ -120,15 +120,16 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
-      Zipcode.find_by(zipcode: zipcode.strip)
+    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.uniq.collect do |zipcode|
+      GeoTarget::Zipcode.find_by(name: zipcode.strip)
     end
-    self.zipcodes = zipcodes.compact
+    zipcodes = zipcodes.compact unless zipcodes.empty?
 
     geo_targeting = targeting[:targeting][:selected_geos].to_a
     geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
     self.geo_targets = []
     self.geo_targets = geos.compact if !geos.blank?
+    self.geo_targets += zipcodes    if !zipcodes.blank?
 
     self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
       AudienceGroup.find_by(id: group_name[:id])
