@@ -465,6 +465,10 @@
       }
     },
 
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
+    },
+
     _addTypedAd: function(ev) {
       var type = $(ev.currentTarget).data('type');
       this.trigger('lineitem:add_ad', { "type": type });
@@ -901,7 +905,7 @@
       $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
 
       this.model.collection._recalculateLiImpressionsMediaCost();
-      this._recalculateMediaCost();   
+      this._recalculateMediaCost();
       this._checkRevisedStatus();
       $target_parent.remove();
     },
