@@ -59,6 +59,7 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
+      delete lineitem['selected_zip_codes'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
@@ -681,7 +682,7 @@
           li_view = this;
 
       var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
-      var zipcodes       = li.get('targeted_zipcodes') ? _.clone(li.get('targeted_zipcodes')).split(',') : [];
+      var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')).split(',') : [];
       var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
       var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
 
@@ -729,7 +730,7 @@
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
           creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
           targeting: new ReachUI.Targeting.Targeting({
-            selected_zip_codes: ad.get('targeting').get('targeted_zipcodes'),
+            selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
             selected_geos: ad.get('targeting').get('selected_geos'),
             selected_key_values: ad.get('targeting').get('selected_key_values'),
             frequency_caps: ad.get('targeting').get('frequency_caps'),

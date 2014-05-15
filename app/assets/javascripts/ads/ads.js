@@ -45,6 +45,7 @@
       if (uniqFrequencyCaps.length > 0) {
         ad['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
+      delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
     }
