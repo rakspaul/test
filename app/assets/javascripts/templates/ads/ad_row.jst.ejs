@@ -62,9 +62,9 @@
       <span class="ads-sizes"><%= ad.size.replace(/,/gi, ', ') %></span>
       <br/>
       <span class="toggle-ads-creatives-btn operation pull-left"><span class="pencil-icon"></span>Edit Creatives (<%= ad.creatives.length %>)</span>
-      <% if (ad.type == 'Video' && ad.creatives.length > 0) {
+      <% if (ad.type == 'Video' && ad.creatives.length > 0) { %>
            <span id="caution-symbol-ad" title="Creative for video ads will not push to DFP" class="video-creatives-caution"> &nbsp;! </span>
-      <% } else {
+      <% } else { %>
            <span id="caution-symbol-ad" title="Creative for video ads will not push to DFP" class="video-creatives-caution hide"> &nbsp;! </span>
       <% } %>
     </div>
