@@ -4,7 +4,7 @@ Reach UI
 ##Setup development environment
 
 ####Prerequisite:
-1. ssh access to ```qa-ampdb1.collective-media.net```
+1. ssh access to ```qa-ampapp1.collective-media.net```
 2. access to https://github.com/collectivemedia/amts repo
 3. install rvm (https://rvm.io)
 4. install postgresql and make sure it is up and running
@@ -35,7 +35,7 @@ $ bundle install
 - Get the latest snapshort of qa db
 
 ```bash
-$ ruby lib/amp_db.rb -s "qa-ampdb1.collective-media.net"
+$ ruby lib/amp_db.rb -s "qa-ampapp1.collective-media.net"
 ```
 
 ####Setup reachui code
