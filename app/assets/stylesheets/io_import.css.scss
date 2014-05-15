@@ -965,6 +965,11 @@ $wide_input_width: 320px;
     cursor: pointer;
   }
 
+  .disabled{
+    background-color: gray !important;
+    color: white !important;
+  }
+
   .selected-targeting {
     width: 38%;
     float: left;
