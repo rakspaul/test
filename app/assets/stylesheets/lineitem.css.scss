@@ -1,8 +1,8 @@
 $lineitem_status_default_color: gray;
 $lineitem_status_delivering_color: green;
 $lineitem_status_ready_color: #fd9828;
-$lineitem_status_draft_color: gray;
-$lineitem_status_completed_color: black;
+$lineitem_status_draft_color: black;
+$lineitem_status_completed_color: #CCCCCC;
 $lineitem_status_canceled_color: red;
 $lineitem_status_paused_color: red;
 $lineitem_status_paused_inventory_released_color: red;
@@ -158,6 +158,13 @@ form fieldset {
 }
 
 .lineitem-status-paused-inventory-released{
+  width: 90px;
+  overflow: hidden;
+  display: inline-block;
+  white-space:nowrap;
+  word-wrap:break-word;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
   color: $lineitem_status_paused_inventory_released_color;
 }
 
