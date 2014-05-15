@@ -191,6 +191,10 @@
       }
     },
 
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
+    },
+
     _getCreativesSizes: function() {
       var creatives_sizes = [],
           type = this.model.get('type'),

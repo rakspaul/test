@@ -36,6 +36,7 @@
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
       this.validateKV = true;
+      this.errors_in_zip_codes = false;
     },
 
     serializeData: function(){
@@ -312,8 +313,11 @@
 
     _updateZipCodes: function(e) {
       var zip_codes = e.currentTarget.value.split(/\r\n|\r|\n| +|,/mi);
-      this.model.attributes.selected_zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
+      zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
 
+      this.validateZipCodes(zip_codes);
+
+      this.model.attributes.selected_zip_codes = _.compact(_.collect(zip_codes, function(el) { return el.trim() } ));
       this._renderSelectedTargetingOptions();
     },
 
@@ -333,12 +337,29 @@
         }
       }
 
-      if(this.errors_in_kv) {
+      this._toogleDoneBtn();
+    },
+
+    validateZipCodes: function(zip_codes){
+      this.errors_in_zip_codes = false;
+
+      for (var i = 0; i < zip_codes.length; i++) {
+        if(zip_codes[i].match(/^\s*$/) == null) {
+          var is_current_zip_code_valid = zip_codes[i].match(/^\s*(\d{5})\s*$/);
+          this.errors_in_zip_codes = is_current_zip_code_valid ? false : true;
+        }
+      }
+
+      this._toogleDoneBtn();
+    },
+
+    _toogleDoneBtn: function(){
+      if(this.errors_in_kv || this.errors_in_zip_codes) {
         this.$el.find('span.custom-kv-errors').html(this.errors_in_kv);
-        this.$el.find('.save-targeting-btn').css({backgroundColor: 'grey'});
+        this.$el.find('.save-targeting-btn').addClass('disabled');
       } else {
         this.$el.find('span.custom-kv-errors').html('');
-        this.$el.find('.save-targeting-btn').css({backgroundColor: '#005c97'})
+        this.$el.find('.save-targeting-btn').removeClass('disabled');
       }
     },
 
@@ -349,7 +370,7 @@
     },
 
     _closeTargetingDialog: function() {
-      if(! this.errors_in_kv) {
+      if(! this.errors_in_kv && !this.errors_in_zip_codes) {
         if(this.$el.find('.custom-kvs-field').is(':visible'))
           this.$el.find('.custom-regular-keyvalue-btn').trigger('click');
 
@@ -359,18 +380,21 @@
     },
 
     _toggleCustomRegularKeyValues: function() {
-      this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
-      this.show_custom_key_values = ! this.show_custom_key_values;
-      this._renderSelectedTargetingOptions();
-      this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
+      if(! this.errors_in_kv && !this.errors_in_zip_codes) {
+        this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
+        this.show_custom_key_values = ! this.show_custom_key_values;
+        this._renderSelectedTargetingOptions();
+        this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
 
-      // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
-      if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
-        this.$el.find('span.keyvalue_targeting').hide();
-        this.$el.find('input.custom-kvs-field').show();
+        // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
+        if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
+          this.$el.find('span.keyvalue_targeting').hide();
+          this.$el.find('input.custom-kvs-field').show();
 
+        }
+        this.validateCustomKV();
+        this.options.parent_view._hideTargetingDialog();
       }
-      this.validateCustomKV();
     },
 
     _showRemoveTgtBtn: function(e) {
