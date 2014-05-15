@@ -77,7 +77,8 @@ private
         elsif lineitem.ads.where(:status => Ad::PAUSED).size == ads_count
           lineitem.li_status = Ad::STATUS[:paused]
         elsif lineitem.ads.where(:status => Ad::PAUSED_INVENTORY_RELEASED).size == ads_count
-          lineitem.li_status = Ad::STATUS[:paused_inventory_released]
+          lineitem.li_status = Ad::STATUS[:paused]
+          # as per Amber's request changed 'Paused Inventory Released' status to 'Paused'
         else
           lineitem.li_status = Ad::STATUS[:draft]
         end
