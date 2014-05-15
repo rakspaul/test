@@ -66,7 +66,7 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, 
+      var adImps,
           prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
@@ -349,7 +349,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -418,6 +418,10 @@
       if (is_visible) {
         ReachUI.showCondensedTargetingOptions.apply(this);
       }
+    },
+
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _addTypedAd: function(ev) {
@@ -641,7 +645,7 @@
       if (custom_key_values) {
         targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
         targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
-      } 
+      }
       var toptions = this.$el.find('.targeting_options_condensed')[0];
       $(toptions).html(targeting_options.join(' '));
 
@@ -687,7 +691,7 @@
               break;
             case 'volume':
               revision = accounting.formatNumber(revision);
-              break;            
+              break;
           }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
@@ -701,11 +705,11 @@
       if(logs.length>0) {
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
- 
+
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
-      this.model.collection._recalculateLiImpressionsMediaCost(); 
-      this.model.attributes['revised'] = null; 
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this.model.attributes['revised'] = null;
     },
 
     _declineAllRevisions: function(e) {
@@ -744,7 +748,7 @@
       $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
 
       this.model.collection._recalculateLiImpressionsMediaCost();
-      this._recalculateMediaCost();   
+      this._recalculateMediaCost();
       this._checkRevisedStatus();
       $target_parent.remove();
     },
@@ -902,7 +906,7 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
- 
+
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });

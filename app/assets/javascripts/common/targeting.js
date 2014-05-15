@@ -393,7 +393,8 @@
 
         }
         this.validateCustomKV();
-        this.options.parent_view._hideTargetingDialog();
+        if(this.options.parent_view)
+          this.options.parent_view._hideTargetingDialog();
       }
     },
 
