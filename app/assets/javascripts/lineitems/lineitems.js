@@ -59,6 +59,7 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
+      delete lineitem['platforms'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
