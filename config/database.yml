@@ -1,8 +1,8 @@
 login: &common
   adapter: postgresql
   encoding: utf8
-  username: root
-  password: sql
+  username: postgres
+  password:
   host: localhost
   port: 5432
   database: amp
