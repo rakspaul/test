@@ -171,6 +171,11 @@
           self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
         });
       }
+
+      if (creatives.length > 0 && this.model.get('type') == 'Video')
+        this.$el.find("#caution-symbol-ad").show();
+      else
+        this.$el.find("#caution-symbol-ad").hide();
     },
 
     _toggleTargetingDialog: function() {
