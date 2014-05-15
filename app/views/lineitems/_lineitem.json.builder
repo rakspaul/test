@@ -20,7 +20,7 @@ json.selected_key_values do
 end
 
 json.selected_geos do
-  json.array! (lineitem.designated_market_areas+lineitem.cities+lineitem.states).each do |geo|
+  json.array! (lineitem.designated_market_areas + lineitem.cities + lineitem.states).each do |geo|
     json.id (geo.respond_to?(:code) ? geo.code : geo.id)
     case geo.class.to_s
     when /DesignatedMarketArea/
@@ -30,7 +30,7 @@ json.selected_geos do
       json.title "#{geo.name}/#{geo.country.try(:name)}"
       json.type "State"
     when /City/
-      json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+      json.title "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
       json.type "City"
     end
   end
