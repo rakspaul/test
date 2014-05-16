@@ -177,8 +177,8 @@ Reachui::Application.routes.draw do
 
   resources :agency
 
+  resources :platforms, :only => [:index]
   get 'media_types/media_types'
-  get 'media_types/platforms'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

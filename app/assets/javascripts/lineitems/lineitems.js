@@ -21,6 +21,7 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         type: 'display',
+        platforms: [],
         _delete_creatives: []
       }
     },
@@ -59,7 +60,7 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
-      delete lineitem['platforms'];
+      //delete lineitem['platforms'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 

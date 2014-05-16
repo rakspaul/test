@@ -23,7 +23,11 @@
  AdPlatforms.PlatformList = Backbone.Collection.extend({
     model: AdPlatforms.PlatformModel,
 
-    url: '/media_types/platforms/',
+    url: '/platforms/',
+
+    findByType: function(mediaType) {
+      return this.where({ media_type: mediaType });
+    }
   });
 
   AdPlatforms.MediaTypeList = Backbone.Collection.extend({

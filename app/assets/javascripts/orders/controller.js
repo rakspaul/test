@@ -801,7 +801,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
               type: type }),
-           'platforms': platforms[type] || []
+           'platforms': platforms || []
           }, { silent: true });
 
           li_view.renderTargetingDialog();

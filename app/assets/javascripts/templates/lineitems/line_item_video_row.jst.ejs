@@ -5,8 +5,12 @@
   <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
     <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Create Video Ad</a></li>
     <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Companion">Create Companion Ad</a></li>
-    <% for (var platform in lineitem.platforms) { %>
-      <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Platform">Create TODO name</a></li>
+    <% if (lineitem.platforms && lineitem.platforms.length > 0) { %>
+      <% platforms = lineitem.platforms.findByType(lineitem.type) %>
+      <% for (var i in platforms) { %>
+        <% platform = platforms[i].attributes %>
+        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Platform" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
+      <% } %>
     <% } %>
   </ul>
 </div>
