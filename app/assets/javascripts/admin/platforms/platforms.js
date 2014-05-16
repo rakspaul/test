@@ -189,7 +189,7 @@
       e.preventDefault();
       var isNewPlatform = this.ui.platform_name.is(':visible');
       var txt = isNewPlatform ? 'Select Platform' : 'New Platform';
-      var header = isNewPlatform ? 'Add New Platform' : 'Edit Platform';
+      var header = isNewPlatform ? 'Add Platform Media Type' : 'Edit Platform Media Type';
 
       this.model.id = isNewPlatform ? null : this.modelId;
 
