@@ -463,6 +463,7 @@
 
       this._renderSelectedTargetingOptions();
       this.$el.find('.tab.zip-codes textarea').val(this.model.attributes.selected_zip_codes.join(', '));
+      this.validateZipCodes(this.model.attributes.selected_zip_codes);
     },
 
     _removeFrequencyCap: function(e) {
