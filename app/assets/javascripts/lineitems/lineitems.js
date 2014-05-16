@@ -11,6 +11,7 @@
       this.ads = [];
       this.creatives = [];
       this.is_blank_li = false;
+      this.revised_targeting = false;
     },
 
     defaults: function() {
@@ -155,10 +156,12 @@
         self.model.get('targeting').revised_targeting = false;
         if (this.model.ads && this.model.ads.length > 0) {
           _.each(self.model.ads, function(ad) {
-            var adTargeting = ad.get('targeting');
-            _.each(targeting, function(value, key) {
-              adTargeting.attributes[key] = value;
-            });
+            if (ad.get('type') != 'Companion') {
+              var adTargeting = ad.get('targeting');
+              _.each(targeting, function(value, key) {
+                adTargeting.attributes[key] = value;
+              });
+            }
           });
           self.render(); // re-render LI and nested ads
         }
@@ -872,7 +875,7 @@
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
 
-      if (this.model.ads.length > 0) {
+      if (this.model.ads.length > 0 && attr_name != 'name') {
         var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
             apply_text = 'Apply the new ' + attr_name.split('_').join(' ') + ' to ads';
 
@@ -896,8 +899,11 @@
                 ad.set('volume', ad.get('volume') * ratio);
               });
               break;
-            case 'name':
-              self.model.get('targeting').revised_targeting = true;
+            case 'rate':
+              revised_value = accounting.formatNumber(revised_value, 2);
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
               break;
           }
         });

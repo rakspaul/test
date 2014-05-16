@@ -98,6 +98,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // set revisions for every lineitem
     if(orderModel.get('revisions')) {
       _.each(orderModel.get('revisions'), function(revisions, index) {
+        lineItems.models[index].revised_targeting = true;
         lineItems.models[index].set('revised_start_date', revisions.start_date);
         lineItems.models[index].set('revised_end_date', revisions.end_date);
         lineItems.models[index].set('revised_name', revisions.name);
@@ -800,6 +801,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             keyvalue_targeting: li.get('keyvalue_targeting'),
             type: li.get('type') })
           }, { silent: true });
+          if (li.revised_targeting) {
+            li.get('targeting').revised_targeting = true;
+            li.revised_targeting = false;
+          }
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
@@ -853,6 +858,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
+          if (li.revised_targeting) {
+            li.get('targeting').revised_targeting = true;
+            li.revised_targeting = false;
+          }
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
