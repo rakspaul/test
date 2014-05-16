@@ -623,7 +623,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
   // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
-  _generateAdName: function(li, ad_type) {
+  _generateAdName: function(li, ad_type, abbr) {
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
@@ -678,6 +678,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if ("Facebook" == ad_type) {
       ad_name_parts.push("FBX");
     }
+    if (abbr) {
+      ad_name_parts.push(abbr);
+    }
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
@@ -716,11 +719,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
-      var ad_name = ordersController._generateAdName(li, type);
+      var abbr = args.platform ? args.platform.get('naming_convention') : null;
+
+      var ad_name = ordersController._generateAdName(li, type, abbr);
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
       var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      if (args.platform) {
+        attrs['platform_id'] = args.platform.get('id');
+      }
 
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
@@ -800,9 +808,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               frequency_caps: frequency_caps,
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
-              type: type }),
-           'platforms': platforms || []
+              type: type })
           }, { silent: true });
+          li.platforms = platforms;
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();

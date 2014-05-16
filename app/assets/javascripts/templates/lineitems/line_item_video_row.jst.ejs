@@ -9,7 +9,7 @@
       <% platforms = lineitem.platforms.findByType(lineitem.type) %>
       <% for (var i in platforms) { %>
         <% platform = platforms[i].attributes %>
-        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Platform" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
+        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
       <% } %>
     <% } %>
   </ul>
