@@ -362,6 +362,8 @@ private
   end
 
   def update_lineitems_with_ads(params)
+    return unless params
+
     li_errors = {}
     ads = []
 
