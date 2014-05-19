@@ -2,10 +2,10 @@
     <div class="pure-u-1-5">
         <%= created_by %>
     </div>
-    <div class="pure-u-1-2 activity-<%= activity_type%>">
+    <div class="pure-u-3-5 activity-<%= activity_type%>">
         <%= note %>
     </div>
-    <div class="pure-u-1-4">
-        <%= created_at%>
+    <div class="pure-u-1-6 date">
+      <%= moment(created_at).format("MM/DD/YYYY") %>
     </div>
 </div>

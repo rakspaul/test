@@ -324,3 +324,46 @@ $text_color: #005c97;
     }
   }
 }
+
+// XXX: Check if this does not brake activities list container on IO_Import page
+//.activities-container {
+//  height: 190px;
+//  position: relative;
+//}
+//
+//.activities-list {
+//  max-height: 100%;
+//  overflow-y: auto;
+//}
+
+.activity-system-comment,
+.activity-user-comment {
+  div:first-child {
+    padding-right: 10px;
+    text-align: right;
+  }
+  .date {
+    text-align: right;
+    font-size: 11px;
+    color: #B6B6B6;
+  }
+}
+
+.activities-table {
+  margin-top: 30px;
+}
+
+.activity-input-control {
+  .username {
+    padding-right: 10px;
+    text-align: right;
+  }
+
+  #activity_input {
+    resize: vertical;
+  }
+
+  .action-controls {
+    text-align: right;
+  }
+}
