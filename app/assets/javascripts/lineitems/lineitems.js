@@ -10,6 +10,7 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.platforms = [];
       this.is_blank_li = false;
       this.revised_targeting = false;
     },
@@ -480,13 +481,22 @@
     },
 
     _addTypedAd: function(ev) {
-      var type = $(ev.currentTarget).data('type');
-      this.trigger('lineitem:add_ad', { "type": type });
+      var currentTarget = $(ev.currentTarget),
+          type       = currentTarget.data('type'),
+          platformId = currentTarget.data('platform-id');
+      if (platformId) {
+          var platforms = this.model.platforms,
+              platform = platforms.length > 0 ? platforms.findWhere({ "id": platformId}) : null;
+          this.trigger('lineitem:add_ad', { "type": type, "platform": platform });
+      } else {
+        this.trigger('lineitem:add_ad', { "type": type });
+      }
     },
 
     serializeData: function(){
       var data = this.model.toJSON();
       data.li_notes_collapsed = this.li_notes_collapsed;
+      data.platforms = this.model.platforms;
       return data;
     },
 

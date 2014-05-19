@@ -26,6 +26,7 @@ class Ad < ActiveRecord::Base
   belongs_to :data_source
   belongs_to :network
   belongs_to :media_type
+  belongs_to :platform
 
   has_one :ad_pricing, dependent: :destroy
 

@@ -624,7 +624,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
   // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
-  _generateAdName: function(li, ad_type) {
+  _generateAdName: function(li, ad_type, abbr) {
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
@@ -679,6 +679,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     if ("Facebook" == ad_type) {
       ad_name_parts.push("FBX");
     }
+    if (abbr) {
+      ad_name_parts.push(abbr);
+    }
     ad_name = ad_name_parts.join(' ');
 
     // add "(2)" or "(n)" at the end of ad description (if there are more then 1 such descriptions)
@@ -717,11 +720,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
-      var ad_name = ordersController._generateAdName(li, type);
+      var platform = args.platform;
+      var abbr = platform ? platform.get('naming_convention') : null;
+      var platformId = platform ? platform.get('id') : null;
+
+      var ad_name = ordersController._generateAdName(li, type, abbr);
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -766,12 +773,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     // only if `show` action
     if (lineItemList.order.id) {
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList(),
+          platforms = new ReachUI.AdPlatforms.PlatformList();
 
       var order_ads = new ReachUI.Ads.AdList();
       order_ads.setOrder(lineItemList.order);
 
-      $.when( order_ads.fetch(), ags.fetch() ).done(function(adsResult, agsResult) {
+      $.when( order_ads.fetch(), ags.fetch(), platforms.fetch() ).done(function(adsResult, agsResult) {
         var li_ads = {};
         _.each(adsResult[0], function(attrs) {
           if (!li_ads[attrs.ad.io_lineitem_id]) {
@@ -789,22 +797,24 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
+          var type = li.get('type');
 
           li.set({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
-            selected_zip_codes: zipcodes,
-            selected_geos: selected_geos,
-            selected_key_values: kv,
-            frequency_caps: frequency_caps,
-            audience_groups: ags.attributes,
-            keyvalue_targeting: li.get('keyvalue_targeting'),
-            type: li.get('type') })
+              selected_zip_codes: zipcodes,
+              selected_geos: selected_geos,
+              selected_key_values: kv,
+              frequency_caps: frequency_caps,
+              audience_groups: ags.attributes,
+              keyvalue_targeting: li.get('keyvalue_targeting'),
+              type: type })
           }, { silent: true });
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
           }
+          li.platforms = platforms;
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
@@ -821,16 +831,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             ad.set({
               'creatives': new ReachUI.Creatives.CreativesList(attrs.creatives),
               'targeting': new ReachUI.Targeting.Targeting({
-              selected_zip_codes: attrs.ad.selected_zip_codes,
-              selected_geos: attrs.selected_geos,
-              selected_key_values: attrs.selected_key_values,
-              frequency_caps: attrs.frequency_caps,
-              audience_groups: li_view.model.get('targeting').get('audience_groups'),
-              keyvalue_targeting: attrs.ad.keyvalue_targeting,
-              dfp_key_values: attrs.ad.dfp_key_values,
-              ad_dfp_id: attrs.ad.source_id,
-              order_status: lineItemList.order.get('order_status'),
-              type: li_view.model.get('type')})});
+                selected_zip_codes: attrs.ad.selected_zip_codes,
+                selected_geos: attrs.selected_geos,
+                selected_key_values: attrs.selected_key_values,
+                frequency_caps: attrs.frequency_caps,
+                audience_groups: li_view.model.get('targeting').get('audience_groups'),
+                keyvalue_targeting: attrs.ad.keyvalue_targeting,
+                dfp_key_values: attrs.ad.dfp_key_values,
+                ad_dfp_id: attrs.ad.source_id,
+                order_status: lineItemList.order.get('order_status'),
+                type: li_view.model.get('type')
+              })
+            });
 
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
