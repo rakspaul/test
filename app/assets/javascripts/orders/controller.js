@@ -809,7 +809,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li.get('keyvalue_targeting'),
               type: type })
           }, { silent: true });
-          console.log(platforms);
           li.platforms = platforms;
 
           li_view.renderTargetingDialog();
