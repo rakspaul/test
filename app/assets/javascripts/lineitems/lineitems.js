@@ -22,7 +22,6 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         type: 'display',
-        platforms: [],
         _delete_creatives: []
       }
     },
@@ -61,7 +60,6 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
-      delete lineitem['platforms'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
@@ -156,9 +154,6 @@
       if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
         this.model.set({ 'targeting': targeting }, { silent: true });
-      }
-      if (! this.model.get('platforms')) {
-        this.model.set({ 'platforms': platforms }, { silent: true }); 
       }
     },
 
@@ -460,7 +455,7 @@
           type       = currentTarget.data('type'),
           platformId = currentTarget.data('platform-id');
       if (platformId) {
-          var platforms = this.platforms,
+          var platforms = this.model.platforms,
               platform = platforms.length > 0 ? platforms.findWhere({ "id": platformId}) : null;
           this.trigger('lineitem:add_ad', { "type": type, "platform": platform });
       } else {
@@ -471,6 +466,7 @@
     serializeData: function(){
       var data = this.model.toJSON();
       data.li_notes_collapsed = this.li_notes_collapsed;
+      data.platforms = this.model.platforms;
       return data;
     },
 

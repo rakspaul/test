@@ -3,12 +3,12 @@
   </div>
   <div class="li-duplicate-btn pull-left" title="Duplicate LI"></div>
   <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
-    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Create Video Ad</a></li>
-    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Companion">Create Companion Ad</a></li>
-    <% if (lineitem.platforms && lineitem.platforms.length > 0) { %>
-      <% platforms = lineitem.platforms.findByType(lineitem.type) %>
-      <% for (var i in platforms) { %>
-        <% platform = platforms[i].attributes %>
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video">Create DFP Video Ad</a></li>
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Companion">Create DFP Companion</a></li>
+    <% if (platforms && platforms.length > 0) { %>
+      <% type_platforms = platforms.findByType(lineitem.type) %>
+      <% for (var i in type_platforms) { %>
+        <% platform = type_platforms[i].attributes %>
         <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Video" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
       <% } %>
     <% } %>

@@ -719,16 +719,15 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
-      var abbr = args.platform ? args.platform.get('naming_convention') : null;
+      var platform = args.platform;
+      var abbr = platform ? platform.get('naming_convention') : null;
+      var platformId = platform ? platform.get('id') : null;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
-      if (args.platform) {
-        attrs['platform_id'] = args.platform.get('id');
-      }
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
 
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
@@ -810,6 +809,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li.get('keyvalue_targeting'),
               type: type })
           }, { silent: true });
+          console.log(platforms);
           li.platforms = platforms;
 
           li_view.renderTargetingDialog();
