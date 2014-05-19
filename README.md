@@ -69,7 +69,8 @@ There are branches for each environments. 'stg' is for stage environment and 'qa
 
 1. Switch to `qa` branch.
 2. Get the latest `git pull origin qa`
-3. Deploy `cap qa deploy`
+3. Merge your branch (optional) and push it to remote: `git push origin qa`
+4. Deploy `cap qa deploy`
 
 Rails style guide:
 -
