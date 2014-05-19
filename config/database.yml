@@ -5,6 +5,7 @@ login: &common
   password:
   host: localhost
   port: 5432
+  template: template0
   database: amp
   min_messages: warning # silence the NOTICE: messages from postgres
 
