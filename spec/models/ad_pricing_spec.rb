@@ -7,7 +7,6 @@ describe AdPricing do
 
   describe "callbacks" do
     before do
-      FactoryGirl.create(:ad_size_160x600)
       order = FactoryGirl.create(:order)
       lineitem = FactoryGirl.create(:lineitem, ad_sizes: "160x600", order: order)
       ad = FactoryGirl.create(:ad, lineitem: lineitem, order: order)

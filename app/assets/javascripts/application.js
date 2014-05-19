@@ -81,3 +81,4 @@
 //= require ./admin/components/paging_view.js
 //= require ./admin/block_sites/advertiser_overview_controller.js
 //= require ./admin/block_sites/advertiser_group_overview_controller.js
+//= require ./admin/platforms/platforms.js

@@ -51,8 +51,8 @@ Reachui::Application.configure do
   config.search_segments_in_network = '6,176'
 
   # audience group context search
-  # comma separated string of network ids
-  config.search_contexts_in_network = '6,176'
+  # network to search for context
+  config.search_contexts_in_network = '6'
 
   config.action_mailer.default_url_options = {
     host: "http://qa-reach.collective.com"

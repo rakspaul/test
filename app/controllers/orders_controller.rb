@@ -122,7 +122,6 @@ class OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     order_param = params[:order]
-
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
@@ -130,19 +129,28 @@ class OrdersController < ApplicationController
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     io_details = @order.io_detail
+
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
     io_details.reach_client_id        = order_param[:reach_client_id]
     io_details.trafficking_contact_id = order_param[:trafficking_contact_id]
     io_details.client_order_id        = order_param[:client_order_id]
+    io_details.sales_person_id        = order_param[:sales_person_id]
     io_details.sales_person_email     = order_param[:sales_person_email]
     io_details.sales_person_phone     = order_param[:sales_person_phone]
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
+    io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.state                  = order_param[:order_status] || "draft"
     io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.sales_person_id        = order_param[:sales_person_id]
+
+    if order_param[:order_status] == "ready_for_trafficker"
+      @order.user_id = io_details.trafficking_contact_id
+    elsif order_param[:order_status] == "ready_for_am"
+      @order.user_id = io_details.account_manager_id
+    end
 
     respond_to do |format|
       Order.transaction do
@@ -153,8 +161,14 @@ class OrdersController < ApplicationController
         end
 
         if li_ads_errors.blank?
-          if @order.save && io_details.save
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[io_details.try(:state).to_s.to_sym]} }
+          if io_details.save && @order.save
+            io_details.reload
+            @order.reload
+
+            io_asset = store_io_asset(params)
+
+            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -163,7 +177,7 @@ class OrdersController < ApplicationController
           end
         else
           @order.valid?
-          format.json { render json: {status: 'error', errors: ({lineitems: li_ads_errors}).merge(@order.errors)} }
+          format.json { render json: {status: 'error', errors: {lineitems: li_ads_errors}.reverse_merge!(@order.errors)} }
           raise ActiveRecord::Rollback
         end
       end
@@ -263,14 +277,14 @@ private
     order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).filterByLoggingUser(current_user, orders_by_user)
+                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
                   .for_agency(current_user.try(:agency), current_user.agency_user?)
                   .filterByIdOrNameOrAdvertiser(search_query)
                   .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
     @users = load_users
-    @rc = ReachClient.select(:name).distinct.order("name asc")
+    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
   end
 
@@ -315,11 +329,23 @@ private
   end
 
   def store_io_asset params
+    return if !File.exists?(params[:order][:io_file_path])
+
     file = File.open(params[:order][:io_file_path])
-    writer = IOFileWriter.new("file_store/io_imports", file, params[:order][:io_asset_filename], @order)
-    writer.write
+
+    if params[:order][:revised_io_filename]
+      io_filename = params[:order][:revised_io_filename]
+      io_type = 'io_revised'
+    else
+      io_filename = params[:order][:io_asset_filename]
+      io_type = 'io'
+    end
+   
+    writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
+    io_asset = writer.write
     file.close
     File.unlink(file.path)
+    io_asset
   end
 
   def update_lineitems_with_ads(params)
@@ -333,16 +359,32 @@ private
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
+
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+:revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
+
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-      [ :selected_geos, :selected_key_values, :targeted_zipcodes, :itemIndex ].each{ |v| li[:lineitem].delete(v) }
+
+      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+        li[:lineitem].delete(param)
+      end
 
       if li[:type] = 'Video'
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
 
-      lineitem = @order.lineitems.find(li[:lineitem][:id])
-      li[:lineitem].delete(:id)
+      lineitem = nil
+      begin
+        lineitem = @order.lineitems.find(li[:lineitem][:id])
+        li[:lineitem].delete(:id)
+      rescue ActiveRecord::RecordNotFound
+        lineitem = @order.lineitems.build(li[:lineitem])
+        lineitem.user = current_user
+      end      
 
       # delete Ads functionality
       delete_ads = lineitem.ads.map(&:id)
@@ -356,18 +398,19 @@ private
         end
       end
 
-      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
+      li_update = if lineitem.persisted?
+        lineitem.update_attributes(li[:lineitem])
+      else
+        lineitem.save
+      end
 
-      li_update = lineitem.update_attributes(li[:lineitem])
       unless li_update
         li_errors[i] ||= {}
         li_errors[i][:lineitems] ||= {}
         li_errors[i][:lineitems].merge!(lineitem.errors)
       end
 
-      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-
-      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
+      lineitem.create_geo_targeting(li_targeting[:targeting])
 
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -417,7 +460,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :io_lineitem_id, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -436,10 +479,12 @@ private
           end
 
           ad_object = ad[:ad][:id] && lineitem.ads.find(ad[:ad][:id])
+
           unless ad_object
             ad_object = lineitem.ads.build(ad[:ad])
             ad[:ad].delete(:frequency_caps_attributes)
           end
+
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
           ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
@@ -465,13 +510,11 @@ private
           end
           ads << ad_object
 
-          if ad_object.valid?
+          if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
-
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
-
             ad_pricing = (ad_object.ad_pricing || AdPricing.new(ad: ad_object, pricing_type: "CPM", network: current_network))
 
             ad_pricing.rate = ad[:ad][:rate]
@@ -497,7 +540,8 @@ private
             Rails.logger.warn 'ad errors: ' + ad_object.errors.inspect
             li_errors[i] ||= {}
             li_errors[i][:ads] ||= {}
-            li_errors[i][:ads][j] = ad_object.errors.to_hash
+            li_errors[i][:ads][j] ||= {}
+            li_errors[i][:ads][j].merge!(ad_object.errors.to_hash)
             li_errors[i][:ads][j].merge!(unique_description_error) if unique_description_error
           end
         rescue => e
@@ -520,6 +564,8 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
+      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
+
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
@@ -530,14 +576,11 @@ private
         li[:lineitem].delete(:companion_ad_size)
       end
 
-      #li[:lineitem][:frequency_caps_attributes] = [] if li[:lineitem][:frequency_caps_attributes].blank?
-
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.proposal_li_id = li[:lineitem][:li_id]
-      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
-      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
+      lineitem.create_geo_targeting(li_targeting[:targeting])
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -583,6 +626,8 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
+          [:selected_geos, :selected_key_values, :io_lineitem_id].each{|attr_name| ad[:ad].delete(attr_name) }
+
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
           ad_quantity  = ad[:ad].delete(:volume)
@@ -623,6 +668,7 @@ private
           if ads.any?{|ad| ad.description == ad_object.description}
             unique_description_error = { description: 'Ad name is not unique'}
           end
+
           ads << ad_object
 
           ad_creatives_errors = []
@@ -630,6 +676,7 @@ private
 
           if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
+
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
             if !ad_pricing.save
@@ -638,6 +685,7 @@ private
             end
 
             creatives_errors = ad_object.save_creatives(ad_creatives)
+
             if !creatives_errors.blank?
               li_errors[i] ||= {:ads => {}}
               li_errors[i]
@@ -674,23 +722,23 @@ private
     creatives.each_with_index do |creative_params, index|
       creative = creative_params[:creative]
       creative_errors = {}
-      if creative[:start_date].to_date < parent.start_date.to_date
+      if !creative[:start_date].blank? && (creative[:start_date].to_date < parent.start_date.to_date)
         creative_errors[:start_date] = "couldn't be before #{type}'s start date"
       end
 
-      if creative[:end_date].to_date > parent.end_date.to_date
+      if !creative[:end_date].blank? && (creative[:end_date].to_date > parent.end_date.to_date)
         creative_errors[:end_date] = "couldn't be after #{type}'s end date"
       end
 
-      if creative[:end_date].to_date < parent.start_date.to_date
+      if !creative[:end_date].blank? && (creative[:end_date].to_date < parent.start_date.to_date)
         creative_errors[:end_date] = "couldn't be before #{type}'s start date"
       end
 
-      if creative[:start_date].to_date > parent.end_date.to_date
+      if !creative[:start_date].blank? && (creative[:start_date].to_date > parent.end_date.to_date)
         creative_errors[:start_date] = "couldn't be after #{type}'s end date"
       end
 
-      if creative[:end_date].to_date < creative[:start_date].to_date
+      if !creative[:end_date].blank? && (creative[:end_date].to_date < creative[:start_date].to_date)
         creative_errors[:end_date] = "couldn't be before start date"
       end
 
@@ -738,11 +786,11 @@ private
     @media_types['Companion'] = @media_types['Display']
   end
 
-  def is_agency_user?
-    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
-  end
-
   def set_current_user
     Order.current_user = current_user
+  end
+
+  def is_agency_user?
+    current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
   end
 end

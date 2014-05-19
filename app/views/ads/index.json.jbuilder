@@ -13,7 +13,7 @@ json.array! @ads do |ad|
     json.value ad.ad_pricing.try(:value).to_f
     json.io_lineitem_id ad.io_lineitem_id
     json.keyvalue_targeting ad.reach_custom_kv_targeting
-    json.targeted_zipcodes ad.zipcodes.collect{|zip| zip.zipcode}
+    json.targeted_zipcodes ad.zipcodes.collect{ |zip| zip.name }
     json.type ad.type
     json.media_type_id ad.media_type_id
     json.dfp_key_values ad.keyvalue_targeting
@@ -48,17 +48,17 @@ json.array! @ads do |ad|
   end
 
   json.selected_geos do
-    json.array! ad.designated_market_areas+ad.cities+ad.states do |geo|
-      json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+    json.array! ad.designated_market_areas + ad.cities + ad.states do |geo|
+      json.id geo.id
       case geo.class.to_s
-      when "DesignatedMarketArea"
+      when "GeoTarget::DesignatedMarketArea"
         json.title "#{geo.name}"
-        json.type "DMA"
-      when "State"
+        json.type  "DMA"
+      when "GeoTarget::State"
         json.title "#{geo.name}/#{geo.country.try(:name)}"
         json.type "State"
-      when "City"
-        json.title "#{geo.name}/#{geo.region_name}/#{geo.country_code}"
+      when "GeoTarget::City"
+        json.title "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
         json.type "City"
       end
     end

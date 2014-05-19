@@ -34,15 +34,15 @@ Reachui::Application.configure do
   ## Custom application configurations
 
   # Set the reporting server url
-  config.report_service_uri = 'http://stg-cdb1.collective-media.net/export'
+  config.report_service_uri = 'http://qa-cm.ssp.collective-media.net/export'
 
   # audience group segment search
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
 
   # audience group context search
-  # comma separated string of network ids
-  config.search_contexts_in_network = '6,176'
+  # network to search for context
+  config.search_contexts_in_network = '6'
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true

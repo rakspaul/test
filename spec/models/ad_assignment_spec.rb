@@ -4,10 +4,7 @@ describe AdAssignment do
   let(:order) { FactoryGirl.create(:order, name: 'AdAssignment test order') }
   let(:lineitem) { FactoryGirl.create(:lineitem, order: order) }
   let(:media_type) { FactoryGirl.singleton :display_media_type }
-  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_1x1),
-                      FactoryGirl.create(:ad_size_160x600),
-                      FactoryGirl.create(:ad_size_300x250),
-                      FactoryGirl.create(:ad_size_728x90) ] }
+
   it { should belong_to (:ad) }
   it { should belong_to (:creative) }
   it { should belong_to (:data_source) }

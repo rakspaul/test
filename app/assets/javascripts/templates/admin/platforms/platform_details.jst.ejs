@@ -1,0 +1,119 @@
+<legend>Add new Platform</legend>
+
+<div class="platform-content">
+  <fieldset>
+    <div class="control-group">
+      <label class="control-label" for="platform_name">Platform Name</label>
+      <div class="controls">
+        <select id="platform_name">
+          <option value="">Select</option>
+          <% platformsList.each(function(item){ %>
+            <% if(platform.get('name')  && item.get('name') === platform.get('name')) { %>
+              <option selected value="<%= item.get('name') %>"><%= item.get('name') %></option>
+            <% } else { %>
+              <option value="<%= item.get('name') %>"><%= item.get('name') %></option>
+            <% } %>
+          <% }) %>
+        </select>
+        <input type="text" id="platform_name_input" placeholder="Name" required class="hide">
+        &nbsp; / &nbsp;
+        <a href="#" class="btn btn-mini" id="new_platform_btn">New Platform</a>
+        <label class="help-inline form-error" id="platform_name_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="media_type">Media Type</label>
+      <div class="controls">
+        <select id="media_type">
+          <option value="">Select</option>
+          <% mediaTypes.each(function(item){ %>
+            <% if(platform.get('media_type_id') && item.get('id') === platform.get('media_type_id')) { %>
+              <option selected value="<%= item.get('id') %>"><%= item.get('category') %></option>
+            <% } else { %>
+              <option value="<%= item.get('id') %>"><%= item.get('category') %></option>
+            <% } %>
+          <% }) %>
+        </select>
+        <label class="help-inline form-error" id="media_type_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="dfp_key">DFP Key</label>
+      <div class="controls">
+        <input type="text" id="dfp_key" placeholder="DFP Key" value="<%= platform.get('dfp_key') %>" />
+        <label class="help-inline form-error" id="dfp_key_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="dfp_site_name">DFP Site Name</label>
+      <div class="controls">
+        <input type="text" id="dfp_site_name" class="typeahead" placeholder="DFP Site Name" value="<%= platform.get('dfp_site_name') %>" />
+        <label class="help-inline form-error" id="dfp_site_name_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="naming_convention">Naming Convention</label>
+      <div class="controls">
+        <input type="text" id="naming_convention" placeholder="Naming Convention" value="<%= platform.get('naming_convention') %>" />
+        <label class="help-inline form-error" id="naming_convention_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="ad_type">Ad Type</label>
+      <div class="controls">
+        <select id="ad_type">
+          <option value="">Select</option>
+          <% adTypes.each(function(item){ %>
+            <% if(platform.get('ad_type') && item.get('ad_type') == platform.get('ad_type')) { %>
+              <option selected value="<%= item.get('ad_type') %>"><%= item.get('ad_type') %></option>
+            <% } else { %>
+              <option value="<%= item.get('ad_type') %>"><%= item.get('ad_type') %></option>
+            <% } %>
+          <% }) %>
+        </select>
+        <label class="help-inline form-error" id="ad_type_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="priority">Priority</label>
+      <div class="controls">
+        <select id="priority">
+          <option value="">Select</option>
+          <% for(i=0; i<=16; i++) { %>
+            <% if(platform.get('priority') && i === platform.get('priority')) { %>
+              <option selected value="<%= i %>"><%= i %></option>
+            <% } else { %>
+              <option value="<%= i %>"><%= i %></option>
+            <% } %>
+          <% } %>
+        </select>
+        <label class="help-inline form-error" id="priority_error"></label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label" for="enabled_checkbox">Enabled</label>
+      <div class="controls">
+        <% if(platform.get('enabled')) { %>
+          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" checked />
+        <% } else { %>
+          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" checked />
+        <% } %>
+      </div>
+    </div>
+
+  </fieldset>
+</div>
+
+<fieldset>
+  <div class="actions">
+    <button id="save_platform" class="btn btn-primary">Save</button>
+    <a id="close_platform" class="btn" href="/admin/platforms/">Close</a>
+  </div>
+</fieldset>

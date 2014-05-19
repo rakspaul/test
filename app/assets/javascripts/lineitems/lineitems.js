@@ -71,10 +71,10 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, prevBuffer = parseFloat(this.get('buffer')),
+      var adImps, 
+          prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
-
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
@@ -156,15 +156,8 @@
       }
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
-    onRender: function() {
+    setEditableFields: function() {
       var view = this;
-      $.fn.editable.defaults.mode = 'popup';
-
-      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
-
-      // setting lineitem's id in classname so we could address this li directly
-      this.$el.addClass('lineitem-'+this.model.get('id'));
 
       this.$el.find('.start-date .editable.custom').editable({
         success: function(response, newValue) {
@@ -314,8 +307,6 @@
         }
       });
 
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
-
       this.$el.find('.volume .editable.custom').editable({
         success: function(response, newValue) {
           var name = $(this).data('name'), value;
@@ -335,7 +326,26 @@
           view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
         }
       });
+    },
 
+    // after start/end date changed LI is rerendered, so render linked Ads also
+    onRender: function() {
+      var view = this;
+      $.fn.editable.defaults.mode = 'popup';
+
+      this.$el.removeClass('highlighted'); // remove hightlighted state that is set after 'Paste Targeting' btn
+
+      // setting lineitem's id in classname so we could address this li directly
+      this.$el.addClass('lineitem-'+this.model.get('id'));
+
+      this.setEditableFields();
+
+      if(this.model.get('revised')) {
+        this.$el.find('.li-number').addClass('revised');
+        if(this.model.get('id') == null) {
+          EventsBus.trigger('lineitem:logRevision', "New Line Item "+this.model.get('alt_ad_id')+" Created");
+        }
+      }
       this.renderCreatives();
       this.renderTargetingDialog();
 
@@ -451,6 +461,7 @@
     },
 
     collapseLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = true;
       this.$el.find('.name .notes').hide();
       this.$el.find('.expand-notes').show();
@@ -458,35 +469,41 @@
     },
 
     expandLINotes: function(e) {
+      e.stopPropagation();
       this.li_notes_collapsed = false;
       this.$el.find('.name .notes').show();
       this.$el.find('.expand-notes').hide();
       this.render();
     },
 
-    _toggleLISelection: function() {
-      // if there is no copied targeting then exclusive select, otherwise accumulative
-      if(!window.copied_targeting) {
-        this._deselectAllLIs({'except_current': true});
-      }
-
-      this.$el.find('.li-number .number').toggleClass('selected');
-      this.selected = this.$el.find('.li-number .number').hasClass('selected');
-      this.$el.find('.copy-targeting-btn').toggle();
-
-      if(window.selected_lis === undefined) {
-        window.selected_lis = [];
-      }
-      if(this.selected) {
-        window.selected_lis.push(this); // add current LI to selected LIs
+    _toggleLISelection: function(e) {
+      e.stopPropagation();
+      if(this.model.get('revised')) {
+        $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-      }
+        // if there is no copied targeting then exclusive select, otherwise accumulative
+        if(!window.copied_targeting) {
+          this._deselectAllLIs({'except_current': true});
+        }
 
-      if(window.copied_targeting) {
-        $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        $('.copy-targeting-btn li').removeClass('active');
-        this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        this.$el.find('.li-number .number').toggleClass('selected');
+        this.selected = this.$el.find('.li-number .number').hasClass('selected');
+        this.$el.find('.copy-targeting-btn').toggle();
+
+        if(window.selected_lis === undefined) {
+          window.selected_lis = [];
+        }
+        if(this.selected) {
+          window.selected_lis.push(this); // add current LI to selected LIs
+        } else {
+          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
+        }
+
+        if(window.copied_targeting) {
+          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+          $('.copy-targeting-btn li').removeClass('active');
+          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+        }
       }
     },
 
@@ -742,6 +759,110 @@
       lineitem_sizes: '.lineitem-sizes'
     },
 
+    _toggleRevisionDialog: function(e) {
+      e.stopPropagation();
+      $(e.currentTarget).siblings('.revised-dialog').toggle();
+    },
+
+    _checkRevisedStatus: function() {
+      if(this.model.get('revised_start_date') || this.model.get('revised_end_date') || this.model.get('revised_name') || this.model.get('revised_volume') || this.model.get('revised_rate')) {
+        this.model.attributes['revised'] = true;
+      } else {
+        this.model.attributes['revised'] = false;
+      }
+    },
+
+    _acceptAllRevisions: function(e) {
+      var self = this,
+          elements = {start_date: '.start-date .editable', end_date: '.end-date .editable', name: '.name .editable', volume: '.volume .editable', rate: '.rate .editable'};
+      e.stopPropagation();
+
+      this.$el.find('.revision').hide();
+
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
+
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        var revision = self.model.get('revised_'+attr_name);
+        if(revision != null) {
+          switch(attr_name) {
+            case 'rate':
+              revision = accounting.formatNumber(revision, 2);
+              break;
+            case 'volume':
+              revision = accounting.formatNumber(revision);
+              break;            
+          }
+          self.model.attributes[attr_name] = revision;
+          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
+
+          var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
+        }
+      });
+
+      // log changes
+      if(logs.length>0) {
+        EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
+      }
+ 
+      this._removeAndHideAllRevisions(e);
+      this._recalculateMediaCost();
+      this.model.collection._recalculateLiImpressionsMediaCost(); 
+      this.model.attributes['revised'] = null; 
+    },
+
+    _declineAllRevisions: function(e) {
+      this._removeAndHideAllRevisions(e);
+      this.model.attributes['revised'] = null;
+      this.$el.find('.li-number').removeClass('revised');
+      this.$el.find('.revision').remove();
+    },
+
+    _removeAndHideAllRevisions: function(e) {
+      e.stopPropagation();
+
+      var self = this;
+      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+        self.model.attributes['revised_'+attr_name] = null;
+      });
+
+      this.$el.find('.revised-dialog').remove();
+    },
+
+    _acceptRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent(),
+          attr_name = $(e.currentTarget).data('name'),
+          $editable = $target_parent.siblings('div .editable'),
+          revised_value = $target_parent.siblings('.revision').text();
+
+      // add note to ActivityLog to log the changes
+      var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+      EventsBus.trigger('lineitem:logRevision', log_text);
+
+      this.model.attributes[attr_name] = revised_value;
+      this.model.attributes['revised_'+attr_name] = null;
+
+      $target_parent.siblings('.revision').hide();
+      $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
+
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this._recalculateMediaCost();
+      this._checkRevisedStatus();
+      $target_parent.remove();
+    },
+
+    _declineRevision: function(e) {
+      var $target_parent = $(e.currentTarget).parent();
+      var attr_name = $(e.currentTarget).data('name');
+
+      this.model.attributes['revised_'+attr_name] = null;
+      this._checkRevisedStatus();
+
+      $target_parent.siblings('.revision').hide();
+      $target_parent.remove();
+    },
+
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
@@ -749,6 +870,15 @@
       'click .name .notes .close-btn': 'collapseLINotes',
       'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
+
       'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
@@ -771,6 +901,19 @@
         this.$el.find('.save-order-btn').addClass('disabled');
         this.$el.find('.push-order-btn').addClass('disabled');
       }
+
+      // https://github.com/collectivemedia/reachui/issues/662
+      // Remove the “Save Order” button from orders that are in “Revisions Proposed” status.
+      if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
+        this.$el.find('.save-order-btn').hide();
+      }
+    },
+
+    serializeData: function(){
+      var data = this.collection.order.toJSON();
+      data.assignee = this.collection.order.get('assignee');
+      data.order_status = this.collection.order.get('order_status');
+      return data;
     },
 
     _saveOrder: function() {
@@ -779,7 +922,7 @@
       var self = this;
 
       // function that store Order and Lineitems in one POST request
-      self.collection.order.save({lineitems: lineitems.models, order_status: self.status}, {
+      self.collection.order.save({lineitems: lineitems.models, order_status: (self.status || self.collection.order.get('state')) }, {
         success: function(model, response, options) {
           // error handling
           var errors_fields_correspondence = {
@@ -882,6 +1025,14 @@
             self._toggleSavePushbuttons({ hide: false });
           } else if(response.status == "success") {
             $('.current-io-status-top .io-status').html(response.order_status);
+
+            // if there are revised IO then show the download link immediately
+            if(response.revised_io_asset_id) {
+              var revised_io_filename = $('.imported-file-name .revised-io-filename').html(),
+                  io_asset_ext = revised_io_filename.substr(revised_io_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls';
+              $('.imported-file-name .revised-io-filename').html('<a href="/io_assets/'+self.collection.order.get('id')+'/revised_io/'+response.revised_io_asset_id+'.'+io_asset_ext+'">'+revised_io_filename+'</a>');
+            }
+
             if (response.order_status.match(/pushing/i)) {
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
@@ -892,9 +1043,17 @@
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
             } else if(response.order_status.match(/ready for am/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current account manager
+              var assignee = $('.general-info-container .account-contact-name select option:selected').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Account Manager", type: 'success', timeout: 5000});
             } else if(response.order_status.match(/ready for trafficker/i)) {
               self._toggleSavePushbuttons({ hide: false });
+              // update assignee to current trafficker
+              var assignee = $('.new-order-header .trafficker-container span.typeahead').text();
+              $('.order-assignee').html('Assignee: '+assignee);
+              $('.order-status').html('Status: '+response.state);
               noty({text: "Your order has been saved and is ready for the Trafficker", type: 'success', timeout: 5000})
             } else if (response.order_status.match(/incomplete push/i)) {
               self._toggleSavePushbuttons({ hide: false });
@@ -973,10 +1132,6 @@
       this._saveOrderWithStatus('ready_for_trafficker');
     },
 
-    _saveOrderDraft: function() {
-      this._saveOrderWithStatus('draft');
-    },
-
     _saveOrderWithStatus: function(status) {
       this.status = status;
       this._saveOrder();
@@ -1002,7 +1157,7 @@
     },
 
     events: {
-      'click .save-order-btn:not(.disabled)':        '_saveOrderDraft',
+      'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
       'click .submit-trafficker-btn': '_submitOrderToTrafficker',

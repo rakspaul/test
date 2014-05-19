@@ -7,6 +7,8 @@
             = link_to 'Reach Clients', admin_reach_clients_path
           %li{class: ('active' if controller.class.name === 'Admin::AudienceGroupsController')}
             = link_to 'Audience Groups', admin_audience_groups_path
+          %li{class: ('active' if controller.class.name === 'Admin::PlatformsController')}
+            = link_to 'Platforms', admin_platforms_path
           - if controller.class.name === 'Admin::DefaultBlockListController' || controller.class.name === 'Admin::BlockSitesController' || controller.class.name === 'Admin::BlockedAdvertisersController' || controller.class.name === 'Admin::BlockLogsController' || controller.class.name === 'Admin::BlockViolationsController'
             %li{class: 'active'}
               = link_to 'Block <br/>Tool'.html_safe, admin_block_sites_path
@@ -16,7 +18,7 @@
 
     .pure-u.admin-right
       .admin-content
-        - unless controller.class.name == 'Admin::ReachClientsController' || controller.class.name == 'Admin::AudienceGroupsController'
+        - unless controller.class.name == 'Admin::ReachClientsController' || controller.class.name == 'Admin::AudienceGroupsController' || controller.class.name == 'Admin::PlatformsController'
           .admin-nav
             %ul.nav.nav-tabs
               %li{class: ('active' if controller.class.name === 'Admin::BlockSitesController')}

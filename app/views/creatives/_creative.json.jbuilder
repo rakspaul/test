@@ -1,7 +1,5 @@
 json.id             creative.try(:id)
 json.ad_size        creative[:ad_size] || creative.size
-json.start_date     format_date(creative[:start_date] || creative.lineitem_assignment.try(:start_date))
-json.end_date       format_date(creative[:end_date] || creative.lineitem_assignment.try(:end_date))
 json.redirect_url   creative[:image_url] || creative.redirect_url
 
 json.client_ad_id   creative[:ad_id] || creative.client_ad_id
