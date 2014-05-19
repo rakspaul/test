@@ -730,6 +730,10 @@
       this.model.collection.add(new_li);
     },
 
+    _deleteLineitem: function() {
+      this.model.collection.remove(this.model);
+    },
+
     ui: {
       ads_list: '.ads-container',
       targeting: '.targeting-container',
@@ -749,7 +753,8 @@
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType',
-      'click .li-duplicate-btn': '_duplicateLineitem'
+      'click .li-duplicate-btn': '_duplicateLineitem',
+      'click .li-delete-btn': '_deleteLineitem'
     },
 
     triggers: {

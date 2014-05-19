@@ -326,6 +326,8 @@ private
     li_errors = {}
     ads = []
 
+    #deleted_li = params.map { |li| li[:lineitem][:id] }
+
     params.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 

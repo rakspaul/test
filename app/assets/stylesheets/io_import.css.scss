@@ -521,7 +521,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .li-command-btn, .li-commands-btn, .li-duplicate-btn {
+    .li-command-btn, .li-commands-btn, .li-duplicate-btn, .li-delete-btn {
       margin-left: -25px;
     }
 
@@ -540,6 +540,10 @@ $wide_input_width: 320px;
       display: block;
       cursor: pointer;
       margin-top: 25px;
+    }
+
+    .li-delete-btn {
+      margin-top: 50px;
     }
 
     span.operation {
