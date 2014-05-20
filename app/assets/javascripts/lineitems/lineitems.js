@@ -696,7 +696,9 @@
       if(this.model.get('creatives').length > 0) {
         var creatives = [];
         _.each(this.model.get('creatives').models, function(c) {
-          creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+          var creativeAttributes = c.attributes;
+          creativeAttributes['source_id'] = null;
+          creatives.push(new ReachUI.Creatives.Creative(_.clone(creativeAttributes)));
         });
         creatives_list = new ReachUI.Creatives.CreativesList(creatives);
       } else {
@@ -728,12 +730,13 @@
       _.each(li.ads, function(ad) {
         var adAttributes = ad.attributes;
         adAttributes['source_id'] = null;
-        console.log(adAttributes);
         var new_ad = new ReachUI.Ads.Ad(ad.attributes), ad_creatives = [];
 
         if (ad.get('creatives').length > 0) {
           _.each(ad.get('creatives').models, function(c) {
-            ad_creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+            var creativeAttributes = c.attributes;
+            creativeAttributes['source_id'] = null;
+            ad_creatives.push(new ReachUI.Creatives.Creative(_.clone(creativeAttributes)));
           });
         }
 
