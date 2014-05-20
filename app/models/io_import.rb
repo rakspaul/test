@@ -94,7 +94,14 @@ class IoImport
       end
 
       @order.source_id = @existing_order.source_id if @current_order_id
-      @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
+      if @is_existing_order
+        @reach_client = @existing_order.io_detail.reach_client
+        @reach_client = @current_user.network.unknown_reach_client unless @existing_order.io_detail
+      else
+        @reach_client = 
+          ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network) ||
+          @current_user.network.unknown_reach_client
+      end
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
