@@ -32,7 +32,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
-    
+
     this.orderDetailsLayout.top.show(uploadView);
   },
 
@@ -63,7 +63,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
 
-    
+
     if(orderModel.get('is_existing_order')) {
       // removing zombie views and callbacks
       if(this.detailOrderView) {
@@ -738,6 +738,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       if (type != 'Companion') {
         ad.set('targeting', li_targeting);
+      } else if(type === 'Companion')
+      {
+        var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
+        ad.set('targeting', defaultCompanionAdTargeting);
       }
 
       var li_creatives = [];
