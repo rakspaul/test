@@ -774,12 +774,18 @@
       }, { silent: true });
 
       _.each(li.ads, function(ad) {
-        var new_ad = new ReachUI.Ads.Ad(ad.attributes);
+        var new_ad = new ReachUI.Ads.Ad(ad.attributes), ad_creatives = [];
+
+        if (ad.get('creatives').length > 0) {
+          _.each(ad.get('creatives').models, function(c) {
+            ad_creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+          });
+        }
 
         new_ad.set({
           start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
-          creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
+            creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
           targeting: new ReachUI.Targeting.Targeting({
             selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
             selected_geos: ad.get('targeting').get('selected_geos'),
