@@ -333,7 +333,8 @@ $text_color: #005c97;
 //
 
 .activities-list {
-  height: 190px;
+  height: auto;
+  max-height: 200px;
   overflow-y: auto;
 }
 
