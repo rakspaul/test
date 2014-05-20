@@ -738,15 +738,15 @@
       var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
 
       var new_li = new LineItems.LineItem(),
-          creatives_list = null;
+          creatives_list = null,
+          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'client_ad_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
       new_li.setBlankLiFlag();
 
       if(this.model.get('creatives').length > 0) {
         var creatives = [];
         _.each(this.model.get('creatives').models, function(c) {
-          var creativeAttributes = c.attributes;
-          creativeAttributes['source_id'] = null;
-          creatives.push(new ReachUI.Creatives.Creative(_.clone(creativeAttributes)));
+          var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+          creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
         });
         creatives_list = new ReachUI.Creatives.CreativesList(creatives);
       } else {
@@ -776,15 +776,13 @@
       }, { silent: true });
 
       _.each(li.ads, function(ad) {
-        var adAttributes = ad.attributes;
-        adAttributes['source_id'] = null;
-        var new_ad = new ReachUI.Ads.Ad(ad.attributes), ad_creatives = [];
+        var adAttributes = _.omit(_.clone(ad.attributes), 'id', 'source_id', 'io_lineitem_id');
+        var new_ad = new ReachUI.Ads.Ad(adAttributes), ad_creatives = [];
 
         if (ad.get('creatives').length > 0) {
           _.each(ad.get('creatives').models, function(c) {
-            var creativeAttributes = c.attributes;
-            creativeAttributes['source_id'] = null;
-            ad_creatives.push(new ReachUI.Creatives.Creative(_.clone(creativeAttributes)));
+            var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+            ad_creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
           });
         }
 
