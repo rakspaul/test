@@ -8,11 +8,32 @@ $selected-row-fg-color: #fff;
 $btn-bg: #fff;
 $btn-bg-hover: #2EA5DC;
 
+// From io_import.scss file
+$text_color: #005c97;
+$label-text: #005C97;
+$bg_color: #a5ccf9;
+$ad_bg_color: #c0e2f9;
+$li_number_bg: #007ac9;
+$error_color: red;
+$magenta_color: #d02898;
+$border_color: #0088cc;
+
+$ad_status_default_color: gray;
+$ad_status_draft_color: black;
+$ad_status_ready_color: #fd9828;
+$ad_status_paused_color: red;
+$ad_status_delivering_color: green;
+
+$wide_input_width: 320px;
+
+$rui-input-border-color: #005C97;
+
 $images: sprite_map("icons/*.png");
 $icon_names:
   activity_log,
   account-contact,
   billing-contact,
+  clock,
   companion,
   contact-unknown,
   custom-kv,
@@ -24,6 +45,7 @@ $icon_names:
   pencil,
   push-failed,
   salesperson,
+  task-type,
   task_created_by,
   task_open,
   video,
