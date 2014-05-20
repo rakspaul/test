@@ -24,6 +24,7 @@ class Ad < ActiveRecord::Base
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_and_belongs_to_many :sites, join_table: :site_targeting
   has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
@@ -46,7 +47,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -195,5 +196,9 @@ class Ad < ActiveRecord::Base
 
   def set_default_status
     self.status ||= "DRAFT"
+  end
+
+  def set_platform_site
+    self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
   end
 end

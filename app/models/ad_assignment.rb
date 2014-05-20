@@ -13,7 +13,7 @@ class AdAssignment < ActiveRecord::Base
 private
 
   def set_data_source
-    self.data_source = self.network.data_source
+    self.data_source = self.network.data_source if self.network
   end
 
   def check_flight_dates_within_ad_flight_dates
