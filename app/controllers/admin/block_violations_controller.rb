@@ -23,6 +23,7 @@ class Admin::BlockViolationsController < ApplicationController
     end
 
     @block_violations = BlockViolations.includes(:advertiser, :site)
+                        .of_network(current_network)
                         .filter_by_date(start_date, end_date)
                         .filter_by_site(site)
                         .filter_by_advertiser(advertiser)
