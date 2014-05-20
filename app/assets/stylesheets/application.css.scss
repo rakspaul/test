@@ -170,8 +170,8 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
     &:hover {
       @include sized-sprite($images, $btn + "-hover");
       // we use icons on background, thus can't add padding, let's simulate outer glow with a border
-      border: 5px solid #3388AA;
-      background-color: #3388AA;
+      border: 5px solid $btn-bg-hover;
+      background-color: $btn-bg-hover;
       background-clip: padding-box;
     }
   }
@@ -182,8 +182,8 @@ button.rui-btn {
   vertical-align: top;
   margin: 0;
   padding: 0;
-  background-color: #fff;
-  border: 5px solid #fff;
+  background-color: $btn-bg;
+  border: 5px solid $btn-bg;
   box-sizing: content-box;
 }
 
