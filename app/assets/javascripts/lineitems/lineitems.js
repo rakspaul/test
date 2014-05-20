@@ -416,6 +416,10 @@
       });
     },
 
+    showDeleteBtn: function() {
+      this.ui.delete_btn.show();
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
@@ -756,7 +760,8 @@
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+      lineitem_sizes: '.lineitem-sizes',
+      delete_btn: '.li-delete-btn'
     },
 
     _toggleRevisionDialog: function(e) {
