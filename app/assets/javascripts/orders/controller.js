@@ -745,6 +745,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       if (type != 'Companion') {
         ad.set('targeting', li_targeting);
+      } else if(type === 'Companion')
+      {
+        var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
+        ad.set('targeting', defaultCompanionAdTargeting);
       }
 
       var li_creatives = [];
