@@ -496,7 +496,7 @@
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
-      'keyup input.custom-kvs-field': '_updateCustomKVs',
+      'input input.custom-kvs-field': '_updateCustomKVs',
       'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
       'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_showRemoveTgtBtn',
       'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_hideRemoveTgtBtn',
