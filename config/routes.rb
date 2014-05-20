@@ -74,8 +74,10 @@ Reachui::Application.routes.draw do
     end
   end
 
-
   resources :orders do
+
+    resources :tasks, :only => [:index]
+
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
       member do
         get 'ads'
