@@ -403,3 +403,42 @@ $text_color: #005c97;
     }
   }
 }
+
+// === TASKS SECTIONS [BEGIN] ===
+.task-comment {
+  position: relative;
+
+  .task-badge {
+    @include border-radius(50%);
+    box-sizing: border-box;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #fff;
+    color: $text_color;
+    padding: 2px 0;
+    text-align: center;
+    width: 13px;
+    height: 13px;
+    font-size: 10px;
+    line-height: 10px;
+  }
+}
+
+.task-time {
+  text-align: right;
+  font-size: 11px;
+  color: #B6B6B6;
+}
+
+.task-details-table {
+  position: relative;
+}
+
+.rui-btn,
+.rui-btn:hover {
+  &.spinner {
+    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
+  }
+}
+// === TASKS SECTIONS [END] ===

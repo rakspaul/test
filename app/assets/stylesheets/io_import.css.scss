@@ -385,9 +385,13 @@
   }
 
   .task-selected {
-    padding: 5px;
-    border: 1px dashed #989898;
-    margin-bottom: 5px;
+    border-color: $rui-gray-color;
+    border-style: dashed;
+    border-width: 1px 1px 1px 0;
+    background-color: #fff;
+    padding: 5px 0 0 40px;
+    margin: 0 0 5px -40px;
+    z-index: 20;
   }
 
   .task-comment {
@@ -407,7 +411,7 @@
   }
 
   .task-time {
-    color:#989898;
+    color: $rui-gray-color;
   }
 
   .task-container {

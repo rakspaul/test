@@ -855,4 +855,221 @@
 
     }
   });
+
+  /*ReachUI.Orders.TasksRegion = Backbone.Marionette.Region.extend({
+    el: "#order-tasks"
+  });*/
+
+  Orders.Task = Backbone.Model.extend({
+    url: function() {
+      if(this.isNew()) {
+        return '/orders/' + this.order.id + '/tasks.json';
+      }
+	},
+
+    setOrder: function(order) {
+      this.order = order;
+    },
+
+    toJSON: function() {
+      return _.clone(this.attributes);
+    }
+  });
+
+  Orders.TaskList = Backbone.Collection.extend({
+    url: function() {
+      return '/orders/' + this.order.id + '/tasks.json';
+    },
+
+    model: Orders.Task,
+
+    setOrder: function(order) {
+      this.order = order;
+    }
+
+  });
+
+  Orders.TaskComment = Backbone.Model.extend({
+    url: function() {
+      return '/tasks/' + this.task.id + (this.isNew() ? '/add_comment.json' : '/update_comment.json');
+    },
+
+    setTask: function(task) {
+      this.task = task;
+    },
+
+    toJSON: function() {
+      return _.clone(this.attributes);
+    }
+  });
+
+  Orders.TaskCommentList = Backbone.Collection.extend({
+    url: function() {
+      return '/tasks/' + this.task.id + '/comments.json';
+    },
+
+    model: Orders.TaskComment,
+
+    setTask: function(task) {
+      this.task = task;
+    }
+  });
+
+  Orders.TaskCommentView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/task_comment_item'],
+
+    className: 'task-comment-container',
+
+    model: Orders.TaskComment
+  });
+
+  Orders.TaskCommentListEmptyView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/task_comment_list_empty'],
+
+    className: 'no-tasks-comments-found'
+  });
+
+  Orders.TaskCommentListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/orders/task_comment_list'],
+
+    itemView: Orders.TaskCommentView,
+
+    emptyView: Orders.TaskCommentListEmptyView,
+
+    itemViewContainer: 'div.task-comments',
+
+    ui: {
+      taskComment: '#task_comment_input',
+      btnSaveTaskComment: "#btnSaveTaskComment"
+    },
+
+    events: {
+      'click #btnSaveTaskComment': 'saveTaskComment'
+    },
+
+  saveTaskComment: function() {
+      var self = this;
+
+      console.log('Save task button');
+
+      if(this.ui.taskComment.val().trim() == "") {
+        return;
+      }
+
+      var prop = {
+        text: this.ui.taskComment.val().trim().replace(/\n/gm, "<br/>"),
+        created_at: moment().format("YYYY-MM-DD"),
+        created_by: window.current_user_name
+      };
+      var model = new ReachUI.Orders.TaskComment(prop);
+      model.setTask(this.options.task);
+
+      this.collection.unshift(model);
+
+      this.options.task.set('task_comments', this.collection);
+      this.ui.btnSaveTaskComment.addClass('spinner');
+      model.save(prop, {
+        success: function() {
+          self.ui.taskComment.val('');
+          self.render();
+        },
+        error: function() {
+          self.$el.find('.save-task-comment-btn').removeClass('spinner');
+        }
+      });
+    }
+  });
+
+  Orders.TaskDetailRegion = Backbone.Marionette.Region.extend({
+    el: '.task-details-table'
+  });
+
+  Orders.TaskCommentRegion = Backbone.Marionette.Region.extend({
+    el: '.task-comments-container'
+  });
+
+  Orders.TaskDetailView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/task_detail'],
+
+    model: Orders.Task,
+
+    events: {
+      'click .task-detail-view-close' : '_closeTaskDetailView'
+    },
+
+    _closeTaskDetailView: function() {
+      this.close();
+    },
+
+    onShow: function() {
+      this.$el.parent().parent().find('.activities-table').hide();
+      this.$el.addClass('task-selected');
+    },
+
+    onClose: function() {
+      this.$el.parent().parent().find('.activities-table').show();
+      if(this.model.collection.selectedTask) {
+        this.model.collection.selectedTask.$el.removeClass('task-selected');
+      }
+    }
+  });
+
+  Orders.TaskListItemView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/task_list_item'],
+    className: 'task-container',
+
+    events: {
+      'click' : 'showTaskDetailView'
+    },
+
+    showTaskDetailView: function() {
+      var taskDetailView = new Orders.TaskDetailView({model: this.model});
+      var taskDetailRegion = new Orders.TaskDetailRegion();
+      taskDetailRegion.show(taskDetailView);
+
+      var taskCommentRegion = new Orders.TaskCommentRegion();
+      var self = this;
+      this._fetchTaskComments(this.model).then(function(taskComments) {
+        taskCommentRegion.show(new Orders.TaskCommentListView({collection: taskComments, task: self.model}));
+      });
+
+      if(this.model.collection.selectedTask) {
+        this.model.collection.selectedTask.$el.removeClass('task-selected');
+      }
+
+      this.model.collection.selectedTask = this;
+      this.$el.addClass('task-selected');
+    },
+
+    _fetchTaskComments: function(task) {
+      var taskCommentList = new Orders.TaskCommentList();
+      taskCommentList.setTask(task);
+      var self = this;
+      return taskCommentList.fetch().then(
+        function(collection, response, options) {
+          return taskCommentList;
+        },
+        function(model, response, options) {
+          console.log('Error getting task comments: ' + response);
+        }
+      );
+    }
+  });
+
+  Orders.TaskListEmptyView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/orders/task_list_empty'],
+    className: 'no-task-found'
+  });
+
+  Orders.TaskListView = Backbone.Marionette.CompositeView.extend({
+    template: JST['templates/orders/task_list'],
+
+    itemView: Orders.TaskListItemView,
+
+    emptyView: Orders.TaskListEmptyView,
+
+    initialize: function() {
+    }
+  });
+
 })(ReachUI.namespace("Orders"));

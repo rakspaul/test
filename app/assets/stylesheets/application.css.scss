@@ -157,7 +157,7 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
   .#{$icon}-icon {
     @include sized-sprite($images, $icon);
     display: inline-block;
-    margin-right: 5px;
+    margin: 0 5px;
   }
 }
 
