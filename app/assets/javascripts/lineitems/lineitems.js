@@ -774,6 +774,9 @@
       }, { silent: true });
 
       _.each(li.ads, function(ad) {
+        var adAttributes = ad.attributes;
+        adAttributes['source_id'] = null;
+        console.log(adAttributes);
         var new_ad = new ReachUI.Ads.Ad(ad.attributes), ad_creatives = [];
 
         if (ad.get('creatives').length > 0) {
@@ -785,8 +788,8 @@
         new_ad.set({
           start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
-            creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
-            targeting: new ReachUI.Targeting.Targeting({
+          creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
+          targeting: new ReachUI.Targeting.Targeting({
             selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
             selected_geos: ad.get('targeting').get('selected_geos'),
             selected_key_values: ad.get('targeting').get('selected_key_values'),
@@ -794,6 +797,7 @@
             audience_groups: li.get('targeting').get('audience_groups'),
             keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
             dfp_key_values: ad.dfp_key_values,
+            ad_dfp_id: ad.get('source_id'),
             type: ad.get('type')
           })
         });
