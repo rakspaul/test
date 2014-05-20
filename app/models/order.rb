@@ -17,6 +17,8 @@ class Order < ActiveRecord::Base
   has_many :ads, dependent: :destroy
   has_many :order_notes, -> { order('created_at desc') }
   has_many :io_logs
+  has_many :tasks
+  has_many :order_activity_logs
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}

@@ -1,33 +1,56 @@
 class OrderActivityLogsController < ApplicationController
 
   include Authenticator
-  include ApplicationHelper
+  # include ApplicationHelper
+
+  before_filter :require_order, :only => [:index, :create]
 
   respond_to :json
 
+
   def index
-    @activities = getMockActivities
-    respond_with(@activities)
+    @activities = @order.order_activity_logs
   end
 
   def create
-      respond_with(params.require(:activity))
+    activity_params = params[:order_activity_log]
+
+    return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
+
+    @activity = OrderActivityLog.new activity_log_params.merge!(:order_id => @order.id,
+                                                                :created_by => current_account.user)
+    @activity.save!
+
+    #create task
+    if activity_params[:activity_type] == OrderActivityLog::ActivityType::TASK
+      task = Task.new task_params.merge!(:order_id => @order.id,
+                                         :created_by => current_account.user,
+                                         :task_state => Task::TaskState::ASSIGNED)
+      task.save!
+    end
+
+      #create system comment
+
+      #return success
+    render :json => {:status => 'ok'}
+  rescue ActiveRecord::ActiveRecordError => e
+    p e
+    #return error status
   end
 
   private
-    def getMockActivities
-      @activity1 = getMockActivity(1,"Pacing well acc. to DFP","Sam Brown",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"user-comment")
-      @activity2 = getMockActivity(2,"Peter Parker completed a task","",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"system-comment")
-      @activity3 = getMockActivity(3,"This is ready to go but we still need the creatives","Sam Brown",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"task-comment")
-      @activity4 = getMockActivity(4,"Client Signed","Alex Piechota",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"user-comment")
-      @activity5 = getMockActivity(5,"Alex Piechota attached a file","",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"system-comment")
-      @activity6 = getMockActivity(6,"Changed LI 1's goals and target volume","Alex Piechota",Time.new.strftime("%e %b %Y %H:%m:%S%p"),"user-comment")
-      return [@activity1,@activity2,@activity3,@activity4,@activity5,@activity6]
-    end
 
-    def getMockActivity(id,note,created_by,created_at,type)
-      @activity = OrderActivityLog.new
-      @activity = {id:id,note:note,created_by:created_by,created_at:created_at,type:type}
-      return @activity
-    end
+  def require_order
+    puts "(()()()))())"
+    @order = Order.find_by_id params[:order_id]
+  end
+
+  def activity_log_params
+    params.require(:order_activity_log).permit(:note, :activity_type, :order_id)
+  end
+
+  def task_params
+    params.require(:task).permit(:name, :due_date, :task_type_id, :created_by_id, :requested_by_id, :order_id)
+  end
+
 end
