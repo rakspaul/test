@@ -331,10 +331,11 @@ $text_color: #005c97;
 //  position: relative;
 //}
 //
-//.activities-list {
-//  max-height: 100%;
-//  overflow-y: auto;
-//}
+
+.activities-list {
+  height: 190px;
+  overflow-y: auto;
+}
 
 .activity-system-comment,
 .activity-user-comment {
@@ -365,5 +366,39 @@ $text_color: #005c97;
 
   .action-controls {
     text-align: right;
+  }
+}
+
+#task_form {
+  .controls-container {
+    margin-left: 175px;
+    div[class *= "-icon"]{
+      vertical-align: middle;
+      margin-left: 10px;
+      &:first-of-type {
+        margin-left: 0;
+      }
+    }
+
+    #due-date {
+      border: none;
+    }
+  }
+
+  label.main {
+    color: $label-text;
+    vertical-align: top;
+    margin-right: 5px;
+  }
+}
+
+#pixel-request-subform {
+  margin-top: 10px;
+
+  label {
+    // custom margin for radio button wrapper
+    &.radio {
+      margin-right: 10px;
+    }
   }
 }

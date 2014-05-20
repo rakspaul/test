@@ -397,6 +397,266 @@
     }
   });
 
+  /*    Activity logs region and views */
+  ReachUI.Orders.ActivityTaskLayout = Backbone.Marionette.Layout.extend({
+      template: JST['templates/orders/activity_task_layout'],
+
+      regions: {
+          activities: ".activities-region",
+          tasks: ".tasks-region"
+      }
+  });
+
+  ReachUI.Orders.ActivityView = Backbone.Marionette.ItemView.extend({
+      tagName: 'div',
+      className: 'note-container',
+      template: JST['templates/orders/activity_log_item']
+  });
+  
+  ReachUI.Orders.ActivityListView = Backbone.Marionette.CompositeView.extend({
+	  template: JST['templates/orders/activity_log_list'],
+  	  itemView: ReachUI.Orders.ActivityView,
+      itemViewContainer: 'div.activities-list',
+
+      initialize: function(){
+         this.originalCollection = this.collection.clone();
+         this.isLoadMoreDone = false;
+         this.maxId = 7;
+      },
+
+      ui: {
+          activity_attachment: '#saveAttachment',
+          activity_input: '#activity_input',
+          task_types_selector: '#task-types-selector',
+          task_assignee_selector: '#task-assignee-selector'
+      },
+
+      events: {
+          'click #loadMoreBtn': 'loadMore',
+          'click #loadLessBtn': 'loadLess',
+          'click #loadNormalBtn': 'loadNormal',
+
+          'click #btnSaveAlert': 'saveAlertActivity',
+          'click #btnSaveComment': 'saveCommentActivity',
+          'click #btnSaveAttachment': 'saveAttachment',
+
+          'click #btnFilterComment': 'filterComments',
+          'click #btnFilterAlert': 'filterAlerts',
+
+          'change #activity_input': 'activityInputChange',
+
+          'click #btnShowTaskForm': 'showHideTaskForm',
+
+          'click #saveTask': 'saveTask',
+
+        'change #task-types-selector': 'onTaskTypeChanged'
+      },
+
+      loadNormal: function(){
+          this.collection =  this.originalCollection.clone();
+          this.loadLess();
+      },
+
+      loadLess: function() {
+          //load first 6 items.
+          var listLength = this.collection.length;
+          while(listLength>5){
+              this.collection.remove(this.collection.at(this.collection.length-1));
+              listLength = this.collection.length;
+          }
+          this.render();
+          this.$el.find('#loadMoreBtn').show();
+          this.$el.find('#loadLessBtn').hide();
+      },
+
+      loadMore: function() {
+          if(!this.isLoadMoreDone){
+              var id = this._getMaxIndex();
+              //alert("load more btn clicked.");
+              var activity1 = new ReachUI.Orders.Activity();
+              activity1.set({id:id++,activity:"note2",created_at:moment().format("YYYY-MM-DD")});
+
+
+              var activity2 = new ReachUI.Orders.Activity();
+              activity2.set({id:id++,activity:"note3",created_at:moment().format("YYYY-MM-DD")});
+
+
+              var activity3 = new ReachUI.Orders.Activity();
+              activity3.set({id:id++,activity:"note4",created_at:moment().format("YYYY-MM-DD")});
+
+              var activity4 = new ReachUI.Orders.Activity();
+              activity4.set({id:id++,activity:"note5",created_at:moment().format("YYYY-MM-DD")});
+
+
+              this.originalCollection.add(activity1);
+              this.originalCollection.add(activity2);
+              this.originalCollection.add(activity3);
+              this.originalCollection.add(activity4);
+              this.isLoadMoreDone = true;
+          }
+
+          this.collection = this.originalCollection.clone();
+          this.render();
+
+          this.$el.find('#loadMoreBtn').hide();
+          this.$el.find('#loadLessBtn').show();
+      },
+
+      filterComments: function(){
+          //alert(JSON.stringify(this.originalCollection));
+
+          var virtualCollection = new Backbone.VirtualCollection(this.originalCollection, {
+              filter: function (activity) {
+                  return activity.get('type') === 'user-comment';
+              }
+          });
+
+          this.collection = virtualCollection;
+          this.render();
+
+          this.$el.find('#loadMoreBtn').hide();
+          this.$el.find('#loadLessBtn').hide();
+          this.$el.find('#loadNormalBtn').show();
+      },
+
+      filterAlerts: function(){
+          var virtual_collection = new Backbone.VirtualCollection(this.originalCollection, {
+              filter: function (activity) {
+                  return activity.get('type') === 'task-alert';
+              }
+          });
+
+          this.collection = virtual_collection;
+          this.render();
+
+          this.$el.find('#loadMoreBtn').hide();
+          this.$el.find('#loadLessBtn').hide();
+          this.$el.find('#loadNormalBtn').show();
+      },
+
+      saveTask: function(){
+          if(this.ui.activity_input.val().trim() == "") {
+              return;
+          }
+
+//          var maxIndex = this._getMaxIndex();
+          var maxIndex = this.maxId++;
+          //In save task we suppose to create two comments. One system generated and another task comment
+          var prop1 = {
+              id : this.maxId++,
+              activity: this.ui.activity_input.val().trim().replace(/\n/gm, "<br/>"),
+              created_at: moment(this.$el.find('#due-date').val()).format("YYYY-MM-DD"),
+              created_by: window.current_user_name,
+              task_name: this.ui.task_types_selector.val(),
+              assignee: this.ui.task_assignee_selector.val(),
+              type:"task-comment"
+          }
+
+          var prop2 = {
+              id : this.maxId++,
+              activity: window.current_user_name+ " created a task",
+              created_at: moment(this.$el.find('#due-date').val()).format("YYYY-MM-DD"),
+              created_by: "",
+              type:"system-comment"
+          }
+
+          var system_comment = new ReachUI.Orders.Activity(prop2);
+          system_comment.setOrder(this.order);
+          this.collection.unshift(system_comment);
+          this.originalCollection.unshift(system_comment);
+          this.collection.remove(this.collection.at(this.collection.length-1));
+
+          var task = new ReachUI.Orders.Activity(prop1);
+          task.setOrder(this.order);
+          this.collection.unshift(task);
+          this.originalCollection.unshift(task);
+          this.collection.remove(this.collection.at(this.collection.length-1));
+          this.render();
+      },
+
+      showHideTaskForm: function(){
+          $(function() {
+              $( "#due-date" ).datepicker();
+          });
+          this.$el.find('#task_form').toggle();
+      },
+
+      saveAttachment: function(){
+
+      },
+
+      activityInputChange: function(){
+
+      },
+
+      saveAlertActivity: function(){
+//          var maxIndex = this._getMaxIndex();
+          if(this.ui.activity_input.val().trim() == "") {
+              return;
+          }
+
+          var prop = {
+              id : this.maxId++,
+              activity: this.ui.activity_input.val().trim().replace(/\n/gm, "<br/>"),
+//              created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+              created_at: moment().format("YYYY-MM-DD"),
+              created_by: window.current_user_name,
+              type:"task-alert"
+          }
+
+          var add = new ReachUI.Orders.Activity(prop);
+          add.setOrder(this.order);
+          this.collection.unshift(add);
+          this.originalCollection.unshift(add);
+          this.collection.remove(this.collection.at(this.collection.length-1));
+          this.render();
+      },
+
+      saveCommentActivity: function(){
+//          var maxIndex = this._getMaxIndex();
+          if(this.ui.activity_input.val().trim() == "") {
+              return;
+          }
+          var prop = {
+              id : this.maxId++,
+              activity: this.ui.activity_input.val().trim().replace(/\n/gm, "<br/>"),
+//              created_at: moment().format("YYYY-MM-DD HH:mm:ss"),
+              created_at: moment().format("YYYY-MM-DD"),
+              created_by: window.current_user_name,
+              type:"user-comment"
+          }
+
+          var add = new ReachUI.Orders.Activity(prop);
+          add.setOrder(this.order);
+          this.collection.unshift(add);
+          this.originalCollection.unshift(add);
+          this.collection.remove(this.collection.at(this.collection.length-1));
+          this.render();
+          //this.model.save(prop, {success: this._onSaveActivity, error: this._onSaveFailure})
+      },
+
+      _getMaxIndex: function(){
+          var maxIndex = 0;
+          for(var i=0;i<this.originalCollection.length;i++){
+              var item = this.originalCollection.at(i);
+              if(item.id>maxIndex){
+                  maxIndex = item.id;
+              }
+          }
+          return maxIndex;
+      },
+
+    onTaskTypeChanged: function(e) {
+      var $sel = $(e.target);
+      if ($sel.val() == 'pixel_request') {
+        $("#pixel-request-subform").show();
+      } else {
+        $("#pixel-request-subform").hide();
+      }
+    }
+
+  });
+
   ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
     el: "#order-notes"
   });
