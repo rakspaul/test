@@ -134,7 +134,7 @@ class Lineitem < ActiveRecord::Base
 
     "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \
-    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
     "#{ ad_size }"
   end
@@ -144,7 +144,7 @@ class Lineitem < ActiveRecord::Base
     quarter = ((start_date.month - 1) / 3) + 1
 
     "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \
     "#{ ad_size.gsub(/,/, ' ') }"
