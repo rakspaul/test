@@ -735,7 +735,12 @@
       var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
       var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')) : [];
       var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
-      var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+
+      var frequency_caps = [];
+      var notFilteredFrequencyCaps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+      _.each(notFilteredFrequencyCaps, function(fc) {
+        frequency_caps.push(_.omit(fc.attributes, 'id'));
+      });
 
       var new_li = new LineItems.LineItem(),
           creatives_list = null,
