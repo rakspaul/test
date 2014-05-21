@@ -132,40 +132,39 @@ form fieldset {
   }
 }
 
+.lineitem-status {
+  position:relative;
+  top:-20px;
+  text-align:center;
+  color:white;
+}
 
 .lineitem-status-delivering {
-  color: $lineitem_status_delivering_color;
+  background-color: $lineitem_status_delivering_color;
 }
 
 .lineitem-status-ready{
-  color: $lineitem_status_ready_color;
+  background-color: $lineitem_status_ready_color;
 }
 
 .lineitem-status-draft{
-  color: $lineitem_status_draft_color;
+  background-color: $lineitem_status_draft_color;
 }
 
 .lineitem-status-completed{
-  color: $lineitem_status_completed_color;
+  background-color: $lineitem_status_completed_color;
 }
 
 .lineitem-status-canceled{
-  color: $lineitem_status_canceled_color;
+  background-color: $lineitem_status_canceled_color;
 }
 
 .lineitem-status-paused{
-  color: $lineitem_status_paused_color;
+  background-color: $lineitem_status_paused_color;
 }
 
 .lineitem-status-paused-inventory-released{
-  width: 90px;
-  overflow: hidden;
-  display: inline-block;
-  white-space:nowrap;
-  word-wrap:break-word;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  color: $lineitem_status_paused_inventory_released_color;
+  background-color: $lineitem_status_paused_inventory_released_color;
 }
 
 
