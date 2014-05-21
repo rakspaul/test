@@ -11,6 +11,10 @@
       }
     },
 
+     _default_keyvalue_targeting: {
+      "companion": "vid=_default"
+    },
+
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.get("order_id") + '/ads.json';
