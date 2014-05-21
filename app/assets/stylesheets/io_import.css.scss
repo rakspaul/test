@@ -706,9 +706,10 @@ $wide_input_width: 320px;
         }
 
        .missing-geo-caution {
-         font-size:20px;
-         font-weight:bold;
-         color:red;
+         width: 16px;
+         height: 16px;
+         margin: 3px 0 5px 5px;
+         display: inline-block;
        }
       }
     }
@@ -964,6 +965,11 @@ $wide_input_width: 320px;
     text-align: center;
     padding: 5px;
     cursor: pointer;
+  }
+
+  .disabled{
+    background-color: gray !important;
+    color: white !important;
   }
 
   .selected-targeting {
@@ -1442,4 +1448,12 @@ table.creatives-content {
       padding: 8px 5px;
     }
   }
+}
+
+.video-creatives-caution {
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  margin-top: 3px;
+  display: inline-block;
 }

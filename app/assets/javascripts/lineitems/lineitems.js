@@ -60,6 +60,7 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
+      delete lineitem['selected_zip_codes'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
@@ -361,8 +362,8 @@
     },
 
     renderTargetingDialog: function() {
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);
+      this.targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(this.targetingView.render().el);
 
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
@@ -441,13 +442,23 @@
     },
 
     _toggleTargetingDialog: function() {
-      var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      $(this.ui.targeting).toggle('slow');
+      var is_visible = $(this.ui.targeting).is(':visible');
 
-      if (is_visible) {
+      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
+        this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
+        if(this.targetingView.show_custom_key_values){
+          this.targetingView._toggleCustomRegularKeyValues();
+        }
         ReachUI.showCondensedTargetingOptions.apply(this);
+        $(this.ui.targeting).hide('slow');
+      } else{
+        this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
+        $(this.ui.targeting).show('slow');
       }
+    },
+
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _addTypedAd: function(ev) {
@@ -689,7 +700,7 @@
           li_view = this;
 
       var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
-      var zipcodes       = li.get('targeted_zipcodes') ? _.clone(li.get('targeted_zipcodes')).split(',') : [];
+      var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')) : [];
       var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
       var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
 
@@ -737,7 +748,7 @@
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
           creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
           targeting: new ReachUI.Targeting.Targeting({
-            selected_zip_codes: ad.get('targeting').get('targeted_zipcodes'),
+            selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
             selected_geos: ad.get('targeting').get('selected_geos'),
             selected_key_values: ad.get('targeting').get('selected_key_values'),
             frequency_caps: ad.get('targeting').get('frequency_caps'),

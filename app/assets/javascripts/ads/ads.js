@@ -11,6 +11,10 @@
       }
     },
 
+     _default_keyvalue_targeting: {
+      "companion": "vid=_default"
+    },
+
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.get("order_id") + '/ads.json';
@@ -45,6 +49,7 @@
       if (uniqFrequencyCaps.length > 0) {
         ad['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
+      delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
     }
@@ -171,6 +176,11 @@
           self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
         });
       }
+
+      if (creatives.length > 0 && this.model.get('type') == 'Video')
+        this.$el.find("#caution-symbol-ad").show();
+      else
+        this.$el.find("#caution-symbol-ad").hide();
     },
 
     _toggleTargetingDialog: function() {
@@ -182,13 +192,23 @@
         this.$el.find("#caution-symbol").show();
 
       $('.ad > .name').height('');
-      var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      $(this.ui.targeting).toggle('slow');
+      var is_visible = $(this.ui.targeting).is(':visible');
 
-      if (is_visible) {
+      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
+        this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
+        if(this.targetingView.show_custom_key_values){
+          this.targetingView._toggleCustomRegularKeyValues();
+        }
         ReachUI.showCondensedTargetingOptions.apply(this);
+        $(this.ui.targeting).hide('slow');
+      } else{
+        this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
+        $(this.ui.targeting).show('slow');
       }
+    },
+
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _getCreativesSizes: function() {
