@@ -149,7 +149,6 @@ class Ad < ActiveRecord::Base
       end
     end
 
-    self.audience_groups 
     audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
     self.audience_groups = AudienceGroup.where :id => audience_groups_ids
   end
