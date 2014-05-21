@@ -1,11 +1,11 @@
-<div class="pure-u-1-24 delete-btn-container">
+<div class="pure-u-1-24 delete-btn-container" style="width:4.5%;">
   <% if(isNaN(parseInt(creative.source_id))) { %>
   <div class="delete-btn pull-left" style="display:none;" title="Delete"></div>
   <% } else { %>
   <div class="dfp-success"></div>
   <% } %>
   <% if (creative.ad_type == 'Video') { %>
-       <span id="caution-symbol" title="Creative for video ads will not push to DFP" class="video-creatives-caution pull-right"> &nbsp;!</span>
+       <span id="caution-symbol" title="Creative for video ads will not push to DFP" class="video-creatives-caution exclaim-yellow-icon pull-right"></span>
   <% } %>
 </div>
 
