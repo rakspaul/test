@@ -1,0 +1,85 @@
+json = @ads.map do |ad|
+  ad_item = { ad: {
+    id:                 ad.try(:id),
+    description:        ad.description,
+    start_date:         format_date(ad.start_date),
+    end_date:           format_date(ad.end_date),
+    order_id:           ad.order_id,
+    size:               ad.size,
+    source_id:          ad.source_id,
+    dfp_url:            ad.dfp_url,
+    rate:               ad.ad_pricing.try(:rate).to_f,
+    volume:             ad.ad_pricing.try(:quantity).to_i,
+    value:              ad.ad_pricing.try(:value).to_f,
+    io_lineitem_id:     ad.io_lineitem_id,
+    keyvalue_targeting: ad.reach_custom_kv_targeting,
+    selected_zip_codes: ad.zipcodes.collect{ |zip| zip.name },
+    type:               ad.type,
+    media_type_id:      ad.media_type_id,
+    dfp_key_values:     ad.keyvalue_targeting,
+    creatives: []
+  }}
+
+  ad_item[:ad][:status] = Ad::STATUS[ad.status.downcase.to_sym] unless ad.status.blank?
+
+  ad_item[:creatives] = (ad.ad_assignments + ad.video_ad_assignments).map do |ad_assignment|
+    creative = if ad_assignment.class.to_s == "VideoAdAssignment"
+      ad_assignment.video_creative
+    else
+      ad_assignment.creative
+    end
+
+    {
+      id:                creative.try(:id),
+      ad_size:           creative.size,
+      start_date:        format_date(ad_assignment.try(:start_date)),
+      end_date:          format_date(ad_assignment.try(:end_date)),
+      redirect_url:      creative[:image_url] || creative.try(:redirect_url),
+      client_ad_id:      creative.client_ad_id,
+      source_id:         creative.try(:source_id),
+      html_code:         h(creative.try(:html_code)),
+      html_code_excerpt: html_code_excerpt(creative),
+      creative_type:     creative.try(:creative_type),
+      io_lineitem_id:    ad.io_lineitem_id,
+      ad_id:             ad.id,
+      li_assignment_id:  creative.try(:lineitem_assignment).try(:id),
+      ad_assignment_id: ad_assignment.id
+    }
+  end
+
+  ad_item[:selected_geos] = (ad.designated_market_areas + ad.cities + ad.states).map do |geo|
+    h = { id: geo.id }
+
+    case geo.class.to_s
+    when "GeoTarget::DesignatedMarketArea"
+      h.merge!({title: "#{geo.name}", type: "DMA"})
+    when "GeoTarget::State"
+      h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
+    when "GeoTarget::City"
+      h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
+    end
+    h
+  end
+
+  ad_item[:selected_key_values] = ad.audience_groups.map do |ag|
+    {
+      id:         ag.id,
+      title:      ag.name,
+      key_values: ag.key_values
+    }
+  end
+
+  ad_item[:frequency_caps] = ad.frequency_caps.map do |fc|
+    {
+      id:          fc.id,
+      impressions: fc.cap_value,
+      time_value:  fc.time_value,
+      time_unit:   fc.time_unit
+    }
+  end
+puts '###
+###
+###
+###'
+  ad_item
+end

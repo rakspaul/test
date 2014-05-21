@@ -116,16 +116,33 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    zipcodes = targeting[:selected_zip_codes].to_a.uniq.collect do |zipcode|
-      GeoTarget::Zipcode.find_by(name: zipcode.strip)
-    end
-    zipcodes = zipcodes.compact unless zipcodes.empty?
+    zipcodes = targeting[:selected_zip_codes].to_a.map(&:strip).uniq
+    zipcodes = GeoTarget::Zipcode.where name: zipcodes
 
-    geo_targeting = targeting[:selected_geos].to_a
-    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
-    self.geo_targets = []
-    self.geo_targets = geos.compact if !geos.blank?
-    self.geo_targets += zipcodes    if !zipcodes.blank?
+    geo_target_ids = targeting[:selected_geos].to_a.map { |t|  t['id'] }.uniq
+    geos = GeoTarget.where :id => geo_target_ids
+
+    targets = geos.blank? ? [] : geos
+    targets += zipcodes unless zipcodes.blank?
+
+    if new_record?
+      self.geo_targets = targets
+    else
+      self.geo_targets.delete_all
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id:        t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{LineitemGeoTargeting.table_name}
+          (lineitem_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
+    end
   end
 
   def ad_name(start_date, ad_size)
