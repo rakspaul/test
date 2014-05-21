@@ -340,7 +340,7 @@ private
       io_filename = params[:order][:io_asset_filename]
       io_type = 'io'
     end
-   
+
     writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
     io_asset = writer.write
     file.close
@@ -358,14 +358,14 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
 
-      [ :selected_geos, :itemIndex, :selected_key_values, :revised, 
+      [ :selected_geos, :itemIndex, :selected_key_values, :revised,
       :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
         li[:lineitem].delete(param)
       end
 
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
-      [ :selected_geos, :itemIndex, :selected_key_values, :revised, 
+      [ :selected_geos, :itemIndex, :selected_key_values, :revised,
       :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
         li[:lineitem].delete(param)
       end
@@ -382,7 +382,7 @@ private
       rescue ActiveRecord::RecordNotFound
         lineitem = @order.lineitems.build(li[:lineitem])
         lineitem.user = current_user
-      end      
+      end
 
       # delete Ads functionality
       delete_ads = lineitem.ads.map(&:id)
@@ -764,7 +764,11 @@ private
   end
 
   def create_advertiser(name)
-    advertiser = Advertiser.of_network(current_network).where("name ilike ?", name).first
+    advertiser = Advertiser
+      .of_network(current_network)
+      .of_type_advertiser
+      .where(Advertiser.arel_table[:name].matches(name)).first
+
     if advertiser.blank?
       advertiser = Advertiser.new
       advertiser.name = name
