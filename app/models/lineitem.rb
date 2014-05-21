@@ -116,15 +116,7 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    zipcodes = targeting[:selected_zip_codes].to_a.map(&:strip).uniq
-    zipcodes = GeoTarget::Zipcode.where name: zipcodes
-
-    geo_target_ids = targeting[:selected_geos].to_a.map { |t|  t['id'] }.uniq
-    geos = GeoTarget.where :id => geo_target_ids
-
-    targets = geos.blank? ? [] : geos
-    targets += zipcodes unless zipcodes.blank?
-
+    targets = GeoTarget.selected_geos targeting
     if new_record?
       self.geo_targets = targets
     else
@@ -133,7 +125,7 @@ class Lineitem < ActiveRecord::Base
         # we could have many targets for so better to insert all them in one insert query
         insert_values = targets.collect do |t|
           "(#{self.id}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
-          { geo_target_id:        t.id, source_geo_target_id: t.source_id }
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
         end
         query = <<-SQL
           INSERT INTO #{LineitemGeoTargeting.table_name}
