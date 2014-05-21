@@ -518,7 +518,7 @@ $wide_input_width: 320px;
       position: absolute;
       display: block;
       border: 1px solid green;
-      background-color: white;   
+      background-color: white;
 
       .accept-all-btn {
         clear: both;
@@ -963,6 +963,11 @@ $wide_input_width: 320px;
     text-align: center;
     padding: 5px;
     cursor: pointer;
+  }
+
+  .disabled{
+    background-color: gray !important;
+    color: white !important;
   }
 
   .selected-targeting {

@@ -72,7 +72,7 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, 
+      var adImps,
           prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
@@ -361,8 +361,8 @@
     },
 
     renderTargetingDialog: function() {
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);
+      this.targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(this.targetingView.render().el);
 
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
@@ -379,7 +379,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -441,13 +441,23 @@
     },
 
     _toggleTargetingDialog: function() {
-      var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      $(this.ui.targeting).toggle('slow');
+      var is_visible = $(this.ui.targeting).is(':visible');
 
-      if (is_visible) {
+      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
+        this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
+        if(this.targetingView.show_custom_key_values){
+          this.targetingView._toggleCustomRegularKeyValues();
+        }
         ReachUI.showCondensedTargetingOptions.apply(this);
+        $(this.ui.targeting).hide('slow');
+      } else{
+        this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
+        $(this.ui.targeting).show('slow');
       }
+    },
+
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _addTypedAd: function(ev) {
@@ -670,7 +680,7 @@
       if (custom_key_values) {
         targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
         targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
-      } 
+      }
       var toptions = this.$el.find('.targeting_options_condensed')[0];
       $(toptions).html(targeting_options.join(' '));
 
@@ -787,7 +797,7 @@
               break;
             case 'volume':
               revision = accounting.formatNumber(revision);
-              break;            
+              break;
           }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
@@ -801,11 +811,11 @@
       if(logs.length>0) {
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
- 
+
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
-      this.model.collection._recalculateLiImpressionsMediaCost(); 
-      this.model.attributes['revised'] = null; 
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this.model.attributes['revised'] = null;
     },
 
     _declineAllRevisions: function(e) {
@@ -1003,7 +1013,7 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
- 
+
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
