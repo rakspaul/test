@@ -102,6 +102,7 @@ Reachui::Application.routes.draw do
     get 'export' => 'io_export#export'
 
     resources :notes, controller: 'order_notes'
+    resources :activities, controller: 'order_activity_logs'
   end
 
   resources :kendoui

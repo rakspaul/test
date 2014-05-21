@@ -126,6 +126,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this._showOrderDetailsAndLineItems(this.selectedOrder);
     }
+
+    ReachActivityTaskApp.start({order:this.selectedOrder});
   },
 
   newLineItem: function(id) {

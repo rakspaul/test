@@ -13,11 +13,13 @@ class OrderActivityLogsController < ApplicationController
   end
 
   def create
-    activity_params = params[:order_activity_log]
+    # activity_params = params[:order_activity_log]
+    activity_params = activity_log_params
 
+    p activity_params
     return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
 
-    @activity = OrderActivityLog.new activity_log_params.merge!(:order_id => @order.id,
+    @activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
                                                                 :created_by => current_account.user)
     @activity.save!
 
@@ -46,7 +48,7 @@ class OrderActivityLogsController < ApplicationController
   end
 
   def activity_log_params
-    params.require(:order_activity_log).permit(:note, :activity_type, :order_id)
+    params.permit(:note, :activity_type, :order_id)
   end
 
   def task_params
