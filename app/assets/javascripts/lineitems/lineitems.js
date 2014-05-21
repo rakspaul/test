@@ -739,7 +739,7 @@
 
       var new_li = new LineItems.LineItem(),
           creatives_list = null,
-          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'client_ad_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
+          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
       new_li.setBlankLiFlag();
 
       if(this.model.get('creatives').length > 0) {
