@@ -77,9 +77,6 @@ json = @ads.map do |ad|
       time_unit:   fc.time_unit
     }
   end
-puts '###
-###
-###
-###'
+
   ad_item
 end

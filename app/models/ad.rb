@@ -129,15 +129,7 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).uniq
-    zipcodes = GeoTarget::Zipcode.where name: zipcodes
-
-    geo_target_ids = targeting[:targeting][:selected_geos].to_a.map { |t|  t['id'] }.uniq
-    geos = GeoTarget.where :id => geo_target_ids
-
-    targets = geos.blank? ? [] : geos
-    targets += zipcodes unless zipcodes.blank?
-    self.geo_targets.delete_all
+    targets = GeoTarget.selected_geos targeting[:targeting]
 
     if new_record?
       self.geo_targets = targets
