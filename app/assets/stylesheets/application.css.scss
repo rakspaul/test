@@ -145,10 +145,7 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
 
 .login-form {
   @include bordered-section;
-  margin-top: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 100px;
+  margin: 100px auto 0;
   max-width: 470px;
 }
 
@@ -166,25 +163,30 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
     @include sized-sprite($images, $btn);
     display: inline-block;
     cursor: pointer;
-
-    &:hover {
-      @include sized-sprite($images, $btn + "-hover");
-      // we use icons on background, thus can't add padding, let's simulate outer glow with a border
-      border: 5px solid $btn-bg-hover;
-      background-color: $btn-bg-hover;
-      background-clip: padding-box;
-    }
   }
 }
 
 button.rui-btn {
-  line-height: 16px;
   vertical-align: top;
   margin: 0;
-  padding: 0;
+  border: 0 none;
   background-color: $btn-bg;
-  border: 5px solid $btn-bg;
-  box-sizing: content-box;
+  padding: 5px 0 2px;
+  box-sizing: border-box;
+
+  &:hover {
+    @each $hover-icon in $hover_icon_names {
+      .#{$hover-icon}-icon {
+        @include sized-sprite($images, $hover-icon + "-hover");
+      }
+    }
+    @each $btn in $btn_names {
+      .#{$btn} {
+        @include sized-sprite($images, $btn + "-hover");
+      }
+    }
+    background-color: $btn-bg-hover;
+  }
 }
 
 .text-right {

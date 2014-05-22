@@ -18,7 +18,6 @@ $error_color: red;
 $magenta_color: #d02898;
 $border_color: #0088cc;
 
-$rui-gray-color: #989898;
 
 $ad_status_default_color: gray;
 $ad_status_draft_color: black;
@@ -28,14 +27,18 @@ $ad_status_delivering_color: green;
 
 $wide_input_width: 320px;
 
+$rui-gray-color: #989898;
 $rui-input-border-color: #005C97;
+$rui-heading-text-color: #005C97;
 
 $images: sprite_map("icons/*.png");
 $icon_names:
-  activity_log,
   account-contact,
+  alert,
+  attachment,
   billing-contact,
   clock,
+  comment,
   companion,
   contact-unknown,
   custom-kv,
@@ -48,18 +51,14 @@ $icon_names:
   pencil,
   push-failed,
   salesperson,
-  task-type,
   task_created_by,
   task_open,
+  task_checked,
   video,
   user,
   zip-codes;
+
 $btn_names:
-  activity_log_active_task_checked,
-  activity_log_comment,
-  activity_log_inactive_alert,
-  activity_log_inactive_attach,
-  clock,
   clone-btn,
   cross,
   delete-btn,
@@ -67,6 +66,11 @@ $btn_names:
   remove-btn,
   task_attachment,
   task_detail_view_close,
-  user,
   upload-creatives-btn,
   x-btn;
+
+$hover_icon_names:
+  attachment,
+  comment,
+  delete-btn
+;
