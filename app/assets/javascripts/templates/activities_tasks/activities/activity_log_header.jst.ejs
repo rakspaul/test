@@ -1,0 +1,57 @@
+<div class="pure-g">
+    <div class="header-title pure-u-1-2">
+        <p class="heading">Activity Log</p>
+    </div>
+    <div  class="header-controls pure-u-1-2 ">
+        <div class="pull-right">
+            <div class="save-comment save-comment-btn-top" title="Filter by comments" id="btnFilterComments">
+            </div>
+            <div class="save-comment save-attachment-btn-top"  title="Filter by attachments" id="btnFilterAttachments">
+            </div>
+            <div class="save-comment save-task-btn-top" title="Filter by tasks" id="btnFilterTasks">
+            </div>
+            <div class="save-comment save-duration-btn-top" title="Filter by due dates" id="btnFilterDueDates">
+            </div>
+            <div class="save-comment save-user-btn-top" title="Filter by user" id="btnFilterUser">
+            </div>
+            <div class="save-comment save-alert-btn-top" title="Filter by alerts" id="btnFilterAlerts">
+            </div>
+            <div class="save-comment" title="Full log" id="btnFullLog">
+                Full Log
+            </div>
+        </div>
+    </div>
+</div>
+<div class="activity-input-control pure-g">
+    <div class="username pure-u-1-5">
+        <%= window.current_user_name%>
+    </div>
+    <div class="activities pure-u-7-24">
+        <textarea id="activity_input" placeholder="Note" rows="1" cols="26"></textarea>
+        <div class="task-form-region" style="display: none">
+            <form class="well form-inline">
+                <select id="taskTypes" class="task-select">
+                </select>
+                <select id="task-assignee" class="task-select"/>
+                <label>Due Date</label>
+            </form>
+        </div>
+    </div>
+    <div class="action-controls pure-u-1-5">
+        <div class="pull-right">
+            <div class="save-comment" title="Add Attachment">
+                <div id="btnSaveAttachment" class="save-attachment-btn" type="file" name="activity_attachment" data-url="/activity_attachment.json">
+                </div>
+            </div>
+            <div class="save-comment" title="Add Task" id="btnShowTaskForm">
+                <div class="save-task-btn"></div>
+            </div>
+            <div class="save-comment" title="Add Alert" id="btnSaveAlert">
+                <div class="save-alert-btn"></div>
+            </div>
+            <div class="save-comment" title="Add Comment" id="btnSaveComment">
+                <div class="save-comment-btn"></div>
+            </div>
+        </div>
+    </div>
+</div>
