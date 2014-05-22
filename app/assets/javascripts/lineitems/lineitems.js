@@ -779,6 +779,7 @@
           type: li.get('type')
         })
       }, { silent: true });
+      new_li.platforms = li.platforms;
 
       _.each(li.ads, function(ad) {
         var adAttributes = _.omit(_.clone(ad.attributes), 'id', 'source_id', 'io_lineitem_id');
@@ -1268,8 +1269,21 @@
           itemIndex = this.collection.length + 1;
       li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
       li.setBlankLiFlag();
-      this.collection.add(li);
-      this.collection.trigger('lineitem:added');
+
+      var platforms = [];
+      if (this.collection.length > 0) {
+        platforms = this.collection[this.collection.length - 1];
+        li.platforms = platforms;
+        this.collection.add(li);
+        this.collection.trigger('lineitem:added');
+      } else {
+        platforms = new ReachUI.AdPlatforms.PlatformList();
+        platforms.fetch().then(function() {
+          li.platforms = platforms;
+          this.collection.add(li);
+          this.collection.trigger('lineitem:added');
+        });
+      }
     },
 
     events: {

@@ -137,8 +137,13 @@ class IoImport
       @lineitems = []
       index = 1
 
+      media_types = {}
+      @current_user.network.media_types.each do |mt|
+        media_types[mt.category] = mt
+      end
+
       @reader.lineitems do |lineitem|
-        media_type = @current_user.network.media_types.find_by category: lineitem[:type]
+        media_type = media_types[lineitem[:type]]
         li = Lineitem.new(lineitem)
         li.order = @order
         li.alt_ad_id = index

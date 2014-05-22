@@ -866,9 +866,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       });
     } else { // not persisted Order/Lineitems
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList(),
+          platforms = new ReachUI.AdPlatforms.PlatformList();
 
-      ags.fetch().then(function() {
+      $.when( ags.fetch(), platforms.fetch() ).done(function(agsResult, platformsResult) {
         var itemIndex = 1;
 
         _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
@@ -881,10 +882,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
+
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
           }
+          li.platforms = platforms;
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
