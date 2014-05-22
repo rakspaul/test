@@ -848,9 +848,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               })
             });
 
-            if (!isNaN(parseInt(ad.source_id))) {
+            if (!isNaN(parseInt(ad.get('source_id')))) {
               li_show_delete_btn = false;
             }
+
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
           });

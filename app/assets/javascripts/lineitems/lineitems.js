@@ -812,6 +812,7 @@
       });
 
       this.model.collection.add(new_li);
+      this.model.collection.trigger('lineitem:added');
     },
 
     _deleteLineitem: function() {
@@ -1000,6 +1001,15 @@
   LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
+
+    initialize: function() {
+      var view = this;
+      this.collection.bind('lineitem:added', function() {
+        var lastLIview = view.children.findByIndex(view.children.length - 1);
+        lastLIview._recalculateMediaCost();
+        lastLIview.showDeleteBtn();
+      });
+    },
 
     onRender: function() {
       if (this.collection.order.get('order_status') == 'Pushing') {
@@ -1259,6 +1269,7 @@
       li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
       li.setBlankLiFlag();
       this.collection.add(li);
+      this.collection.trigger('lineitem:added');
     },
 
     events: {
