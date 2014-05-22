@@ -8,7 +8,7 @@ class AdsController < ActionController::Base
               :media_type,
               :order,
               :zipcodes,
-              :designated_market_areas,
+              :geo_targets,
               :audience_groups,
               {:creatives => :lineitem_assignment}
             ).where(["order_id = ? AND io_lineitem_id IS NOT NULL", params[:order_id].to_i])

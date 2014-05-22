@@ -128,20 +128,29 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.uniq.collect do |zipcode|
-      GeoTarget::Zipcode.find_by(name: zipcode.strip)
-    end
-    zipcodes = zipcodes.compact unless zipcodes.empty?
+    targets = GeoTarget.selected_geos targeting[:targeting]
 
-    geo_targeting = targeting[:targeting][:selected_geos].to_a
-    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
-    self.geo_targets = []
-    self.geo_targets = geos.compact if !geos.blank?
-    self.geo_targets += zipcodes    if !zipcodes.blank?
-
-    self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-      AudienceGroup.find_by(id: group_name[:id])
+    if new_record?
+      self.geo_targets = targets
+    else
+      self.geo_targets.delete_all
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, #{pushed_to_dfp? ? self.source_id : 'null'}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{AdGeoTargeting.table_name}
+          (ad_id, source_ad_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
     end
+
+    audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
+    self.audience_groups = AudienceGroup.where :id => audience_groups_ids
   end
 
   def create_random_source_id
