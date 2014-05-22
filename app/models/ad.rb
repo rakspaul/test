@@ -1,4 +1,12 @@
 class Ad < ActiveRecord::Base
+  DRAFT                     = "DRAFT"
+  READY                     = "READY"
+  PAUSED                    = "PAUSED"
+  PAUSED_INVENTORY_RELEASED = "PAUSED_INVENTORY_RELEASED"
+  DELIVERING                = "DELIVERING"
+  COMPLETED                 = "COMPLETED"
+  CANCELED                  = "CANCELED"
+
   STATUS = {
     draft:                     "Draft",
     ready:                     "Ready",
@@ -28,10 +36,10 @@ class Ad < ActiveRecord::Base
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
 
-  has_and_belongs_to_many :zipcodes, join_table: :zipcode_targeting
   has_many :ad_geo_targetings
   has_many :geo_targets, through: :ad_geo_targetings
   has_and_belongs_to_many :designated_market_areas, join_table: :ad_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :zipcodes, join_table: :ad_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :cities, join_table: :ad_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :states, join_table: :ad_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
@@ -120,19 +128,29 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
-      Zipcode.find_by(zipcode: zipcode.strip)
-    end
-    self.zipcodes = zipcodes.compact
+    targets = GeoTarget.selected_geos targeting[:targeting]
 
-    geo_targeting = targeting[:targeting][:selected_geos].to_a
-    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
-    self.geo_targets = []
-    self.geo_targets = geos.compact if !geos.blank?
-
-    self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-      AudienceGroup.find_by(id: group_name[:id])
+    if new_record?
+      self.geo_targets = targets
+    else
+      self.geo_targets.delete_all
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, #{pushed_to_dfp? ? self.source_id : 'null'}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{AdGeoTargeting.table_name}
+          (ad_id, source_ad_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
     end
+
+    audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
+    self.audience_groups = AudienceGroup.where :id => audience_groups_ids
   end
 
   def create_random_source_id

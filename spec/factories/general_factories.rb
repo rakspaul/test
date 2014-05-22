@@ -221,6 +221,7 @@ FactoryGirl.define do
 
   factory :designated_market_area, :class => GeoTarget::DesignatedMarketArea, :parent => :geo_target do
     id 541
+    source_id 1015412
     name "Lexington"
   end
 

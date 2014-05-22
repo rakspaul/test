@@ -359,7 +359,7 @@ private
       io_filename = params[:order][:io_asset_filename]
       io_type = 'io'
     end
-   
+
     writer = IOFileWriter.new("file_store/io_imports", file, io_filename, @order, io_type)
     io_asset = writer.write
     file.close
@@ -379,15 +379,15 @@ private
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
 
-      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
-:revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+      [ :selected_geos, :itemIndex, :selected_key_values, :revised,
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
         li[:lineitem].delete(param)
       end
 
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
-      [:targeted_zipcodes, :selected_geos, :itemIndex, :selected_key_values, :revised, 
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate].each do |param|
+      [ :selected_geos, :itemIndex, :selected_key_values, :revised,
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status].each do |param|
         li[:lineitem].delete(param)
       end
 
@@ -403,7 +403,7 @@ private
       rescue ActiveRecord::RecordNotFound
         lineitem = @order.lineitems.build(li[:lineitem])
         lineitem.user = current_user
-      end      
+      end
 
       # delete Ads functionality
       delete_ads = lineitem.ads.map(&:id)
@@ -429,9 +429,7 @@ private
         li_errors[i][:lineitems].merge!(lineitem.errors)
       end
 
-      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
-
-      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
+      lineitem.create_geo_targeting(li_targeting[:targeting])
 
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -481,7 +479,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :io_lineitem_id, :targeted_zipcodes, :dfp_url, :dfp_key_values, :keyvalue_targeting].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :io_lineitem_id, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -600,9 +598,8 @@ private
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
       lineitem.proposal_li_id = li[:lineitem][:li_id]
-      lineitem.targeted_zipcodes = li_targeting[:targeting][:selected_zip_codes].to_a.map(&:strip).join(',')
 
-      lineitem.create_geo_targeting(li_targeting[:targeting][:selected_geos].to_a)
+      lineitem.create_geo_targeting(li_targeting[:targeting])
 
       selected_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
@@ -788,7 +785,11 @@ private
   end
 
   def create_advertiser(name)
-    advertiser = Advertiser.of_network(current_network).where("name ilike ?", name).first
+    advertiser = Advertiser
+      .of_network(current_network)
+      .of_type_advertiser
+      .where(Advertiser.arel_table[:name].matches(name)).first
+
     if advertiser.blank?
       advertiser = Advertiser.new
       advertiser.name = name

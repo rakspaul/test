@@ -317,6 +317,7 @@
       // if this is Ad 
       if(this.options.parent_view.options.parent_view) {
         var li = this.options.parent_view.options.parent_view.model;
+        creative.set({'ad_type': li.get('type')});
         li.get('creatives').add(creative);
       }
 
