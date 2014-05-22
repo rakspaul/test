@@ -109,7 +109,6 @@
     events: {
       'click #new_platform_btn' : '_show_platform_input',
       'click #save_platform' : '_onSave',
-      'change #ad_type' : '_changePriority',
       'click #enabled_checkbox' : '_changeLabel'
     },
 
@@ -198,25 +197,6 @@
 
       this.ui.new_platform_btn.html(txt);
       $('.platforms-header legend').html(header);
-    },
-
-    _changePriority: function(e){
-      var adType = $(e.currentTarget).val();
-      this.ui.priority.html('');
-
-      if(adType == "STANDARD"){
-        for(i=6; i<=10; i++){
-          this.ui.priority.append("<option>"+i+"</option>")
-        }
-      } else if(adType == "SPONSORSHIP"){
-        for(i=2; i<=5; i++){
-          this.ui.priority.append("<option>"+i+"</option>")
-        }
-      } else {
-        for(i=0; i<=16; i++){
-          this.ui.priority.append("<option>"+i+"</option>")
-        }
-      }
     },
 
     _changeLabel: function(e){
