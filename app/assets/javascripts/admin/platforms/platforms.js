@@ -58,6 +58,7 @@
 
     initialize: function() {
       var self = this;
+      this.modelId = this.model.id;
 
       this.platformsList = new Platform.PlatformList();
       this.mediaTypeList = new Platform.MediaTypeList();
@@ -96,7 +97,7 @@
       name_error: '#platform_name_error',
       media_type_id_error: '#media_type_error',
       dfp_key_error: '#dfp_key_error',
-      site_id_error: '#dfp_site_name_error',
+      dfp_site_name_error: '#dfp_site_name_error',
       naming_convention_error: '#naming_convention_error',
       ad_type_error: '#ad_type_error',
       priority_error: '#priority_error',
@@ -121,12 +122,6 @@
         valueKey: 'name',
         limit: 100
       });
-
-      var self = this;
-
-      $('#dfp_site_name').on('typeahead:selected', function(ev, el){
-        self.site_id = el.id;
-      });
     },
 
     _onSave: function(e) {
@@ -137,7 +132,7 @@
         name: this.ui.platform_name.val(),
         media_type_id: parseInt(this.ui.media_type.val()),
         dfp_key: this.ui.dfp_key.val(),
-        site_id: this.site_id,
+        dfp_site_name: this.ui.dfp_site_name.val(),
         naming_convention: this.ui.naming_convention.val(),
         ad_type: this.ui.ad_type.val(),
         priority: parseInt(this.ui.priority.val()),
@@ -192,10 +187,17 @@
 
     _show_platform_input: function(e){
       e.preventDefault();
+      var isNewPlatform = this.ui.platform_name.is(':visible');
+      var txt = isNewPlatform ? 'Select Platform' : 'New Platform';
+      var header = isNewPlatform ? 'Add Platform Media Type' : 'Edit Platform Media Type';
+
+      this.model.id = isNewPlatform ? null : this.modelId;
+
       this.ui.platform_name.toggle();
       this.ui.platform_name_input.toggle();
-      var txt = this.ui.platform_name.is(':visible') ? 'New Platform' : 'Select Platform';
-      this.ui.new_platform_btn.html(txt)
+
+      this.ui.new_platform_btn.html(txt);
+      $('.platforms-header legend').html(header);
     },
 
     _changePriority: function(e){

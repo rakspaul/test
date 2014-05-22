@@ -245,8 +245,9 @@ FactoryGirl.define do
     priority 8
     enabled true
     media_type
-    site
+    site { FactoryGirl.singleton :site }
     network { FactoryGirl.singleton :network }
+    dfp_site_name "WRAL"
   end
 
 end

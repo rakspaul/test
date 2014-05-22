@@ -61,7 +61,7 @@ describe Admin::PlatformsController do
 
       expect(data[:errors]).to include(:name)
       expect(data[:errors]).to include(:media_type_id)
-      expect(data[:errors]).to include(:site_id)
+      expect(data[:errors]).to include(:dfp_site_name)
       expect(data[:errors]).to include(:priority)
       expect(data[:errors]).to include(:dfp_key)
       expect(data[:errors]).to include(:ad_type)
@@ -87,7 +87,6 @@ describe Admin::PlatformsController do
         assigns(:platform).priority.should eq(params[:platform][:priority])
         assigns(:platform).enabled.should eq(params[:platform][:enabled])
         assigns(:platform).media_type_id.should eq(params[:platform][:media_type_id])
-        assigns(:platform).site_id.should eq(params[:platform][:site_id])
       end
     end
   end
@@ -104,7 +103,7 @@ private
         priority: platform.ad_type,
         enabled: platform.enabled,
         media_type_id: platform.media_type_id,
-        site_id: platform.site_id
+        dfp_site_name: "WRAL"
       }
     }
     { :format => 'json' }.merge params
@@ -120,7 +119,7 @@ private
         priority: '',
         enabled: '',
         media_type_id: '',
-        site_id: ''
+        dfp_site_name: ''
       }
     }
     { :format => 'json' }.merge params
@@ -136,7 +135,7 @@ private
         priority: rand(0..16),
         enabled: false,
         media_type_id: rand(100..1000),
-        site_id: rand(1000..2000)
+        dfp_site_name: "facebook"
       }
     }
     { :format => 'json' }.merge params
