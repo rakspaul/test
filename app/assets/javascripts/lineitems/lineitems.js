@@ -703,13 +703,13 @@
       var li = this.model,
           li_view = this;
 
-      var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
-      var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')) : [];
-      var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
+      var selected_geos  = li.get('targeting').get('selected_geos') ? _.clone(li.get('targeting').get('selected_geos')) : [];
+      var zipcodes       = li.get('targeting').get('selected_zip_codes') ? _.clone(li.get('targeting').get('selected_zip_codes')) : [];
+      var kv             = li.get('targeting').get('selected_key_values') ? _.clone(li.get('targeting').get('selected_key_values')) : [];
 
       var frequency_caps = [];
-      var notFilteredFrequencyCaps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
-      _.each(notFilteredFrequencyCaps, function(fc) {
+      var notFilteredFrequencyCaps = li.get('targeting').get('frequency_caps') ? _.clone(li.get('targeting').get('frequency_caps')) : [];
+      _.each(notFilteredFrequencyCaps.models, function(fc) {
         frequency_caps.push(_.omit(fc.attributes, 'id'));
       });
 
@@ -746,7 +746,7 @@
           selected_key_values: kv,
           frequency_caps: frequency_caps,
           audience_groups: li.get('audience_groups'),
-          keyvalue_targeting: li.get('keyvalue_targeting'),
+          keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
           type: li.get('type')
         })
       }, { silent: true });
