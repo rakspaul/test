@@ -84,24 +84,10 @@
       <div class="controls">
         <select id="priority">
           <option value="">Select</option>
-          <% if(platform.get('ad_type') == "STANDARD") { %>
-            <% for(i=6; i<=10; i++) { %>
-              <% if(platform.get('priority') && i === platform.get('priority')) { %>
-                <option selected value="<%= i %>"><%= i %></option>
-              <% } else { %>
-                <option value="<%= i %>"><%= i %></option>
-              <% } %>
-            <% } %>
-          <% } else if(platform.get('ad_type') == "SPONSORSHIP") { %>
-            <% for(i=2; i<=5; i++) { %>
-              <% if(platform.get('priority') && i === platform.get('priority')) { %>
-                <option selected value="<%= i %>"><%= i %></option>
-              <% } else { %>
-                <option value="<%= i %>"><%= i %></option>
-              <% } %>
-            <% } %>
-          <% } else { %>
-            <% for(i=0; i<=16; i++) { %>
+          <% for(i=1; i<=16; i++) { %>
+             <% if(platform.get('priority') && i === platform.get('priority')) { %>
+               <option selected value="<%= i %>"><%= i %></option>
+             <% } else { %>
               <option value="<%= i %>"><%= i %></option>
             <% } %>
           <% } %>
