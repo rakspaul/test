@@ -16,14 +16,10 @@ class Task < ActiveRecord::Base
   belongs_to :order
   belongs_to :assignable, :polymorphic => true
 
-  # assignable_id
-  # assignable_type
-
   has_many :task_activity_logs
 
   validates :name, :presence => true
-  #uncomment the below line only
-  # validates :task_type_id, :presence => true
+  validates :task_type_id, :presence => true
   # validates :requested_by_id, presence: true
   validates :created_by_id, :presence => true
   # validates :updated_by_id, presence: true
@@ -31,9 +27,15 @@ class Task < ActiveRecord::Base
   validates :task_state, :presence => true, :inclusion => { :in => TaskState.const_values }
   validate :validate_due_date, :if => :due_date_changed?
 
+  before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
+
   private
 
   def validate_due_date
     self.errors.add(:due_date, 'should be future date') if self.due_date <= Time.now
+  end
+
+  def fill_assignable
+    self.assignable = self.task_type.owner if self.assignable_id.nil?
   end
 end

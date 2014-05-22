@@ -12,13 +12,13 @@ class TasksController < ApplicationController
     end
   end
 
-  def create
-    params = params[:task].merge created_by: current_account
-    task = Task.new(params)
-    @order.tasks.create! task
-  rescue
-    redirect_to
-  end
+  # def create
+  #   params = params[:task].merge created_by: current_account
+  #   task = Task.new(params)
+  #   @order.tasks.create! task
+  # rescue
+  #   redirect_to
+  # end
 
   def update
     params = params[:task].merge updated_by: current_account
@@ -26,6 +26,16 @@ class TasksController < ApplicationController
   rescue
 
   end
+
+  def task_types
+    @task_types = TaskType.all
+
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  def
 
   def comments
     # @comments = @task.task_activity_logs
