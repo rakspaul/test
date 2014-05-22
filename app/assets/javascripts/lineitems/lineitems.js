@@ -1184,6 +1184,7 @@
       li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
       li.setBlankLiFlag();
       this.collection.add(li);
+      this.collection.trigger('lineitem:added');
     },
 
     events: {

@@ -816,18 +816,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             ad.set({
               'creatives': new ReachUI.Creatives.CreativesList(attrs.creatives),
               'targeting': new ReachUI.Targeting.Targeting({
-              selected_zip_codes: attrs.ad.targeted_zipcodes,
-              selected_geos: attrs.selected_geos,
-              selected_key_values: attrs.selected_key_values,
-              frequency_caps: attrs.frequency_caps,
-              audience_groups: li_view.model.get('targeting').get('audience_groups'),
-              keyvalue_targeting: attrs.ad.keyvalue_targeting,
-              dfp_key_values: attrs.ad.dfp_key_values,
-              ad_dfp_id: attrs.ad.source_id,
-              order_status: lineItemList.order.get('order_status'),
-              type: li_view.model.get('type')})});
+                selected_zip_codes: attrs.ad.targeted_zipcodes,
+                selected_geos: attrs.selected_geos,
+                selected_key_values: attrs.selected_key_values,
+                frequency_caps: attrs.frequency_caps,
+                audience_groups: li_view.model.get('targeting').get('audience_groups'),
+                keyvalue_targeting: attrs.ad.keyvalue_targeting,
+                dfp_key_values: attrs.ad.dfp_key_values,
+                ad_dfp_id: attrs.ad.source_id,
+                order_status: lineItemList.order.get('order_status'),
+                type: li_view.model.get('type')
+              })
+            });
 
-            if (!isNaN(parseInt(ad.source_id))) {
+            if (!isNaN(parseInt(ad.get('source_id')))) {
               li_show_delete_btn = false;
             }
             li_view.model.pushAd(ad);
