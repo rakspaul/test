@@ -32,7 +32,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
-    
+
     this.orderDetailsLayout.top.show(uploadView);
   },
 
@@ -63,7 +63,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
 
-    
+
     if(orderModel.get('is_existing_order')) {
       // removing zombie views and callbacks
       if(this.detailOrderView) {
@@ -720,7 +720,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
 
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
@@ -738,6 +738,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       if (type != 'Companion') {
         ad.set('targeting', li_targeting);
+      } else if(type === 'Companion')
+      {
+        var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
+        ad.set('targeting', defaultCompanionAdTargeting);
       }
 
       var li_creatives = [];
@@ -752,7 +756,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           html_code: li_creative.get('html_code'),
           html_code_excerpt: li_creative.get('html_code_exceprt'),
           start_date: li_creative.get('start_date'),
-          creative_type: li_creative.get('creative_type')
+          creative_type: li_creative.get('creative_type'),
+          ad_type: li.get('type')
         });
         li_creatives.push(cloned_creative);
       });
@@ -785,7 +790,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var li            = li_view.model;
 
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
-          var zipcodes       = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes') : [];
+          var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
 
@@ -832,6 +837,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             if (!isNaN(parseInt(ad.get('source_id')))) {
               li_show_delete_btn = false;
             }
+
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
           });

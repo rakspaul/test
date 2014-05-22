@@ -61,7 +61,12 @@
     <div class="pure-u-1-6 size">
       <span class="ads-sizes"><%= ad.size.replace(/,/gi, ', ') %></span>
       <br/>
-      <span class="toggle-ads-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= ad.creatives.length %>)</span>
+      <span class="toggle-ads-creatives-btn operation pull-left"><span class="pencil-icon"></span>Edit Creatives (<%= ad.creatives.length %>)</span>
+      <% if (ad.type == 'Video' && ad.creatives.length > 0) { %>
+           <span id="caution-symbol-ad" title="Creative for video ads will not push to DFP" class="video-creatives-caution exclaim-yellow-icon pull-left"></span>
+      <% } else { %>
+           <span id="caution-symbol-ad" title="Creative for video ads will not push to DFP" class="video-creatives-caution exclaim-yellow-icon pull-left" style="display:none"></span>
+      <% } %>
     </div>
 
     <div class="pure-u-1-3 name">
@@ -76,9 +81,9 @@
 
       <% var targeting = ad.targeting.attributes;
          if(targeting.selected_geos.length == 0 && targeting.selected_zip_codes.length == 0) { %>
-           <span id="caution-symbol" title="Missing Geo-targeting" class="missing-geo-caution"> &nbsp;! </span>
+           <span id="caution-symbol" title="Missing Geo-targeting" class="missing-geo-caution exclaim-red-icon pull-left"></span>
       <% } else { %>
-           <span id="caution-symbol" title="Missing Geo-targeting" class="missing-geo-caution" style="display:none"> &nbsp;! </span>
+           <span id="caution-symbol" title="Missing Geo-targeting" class="missing-geo-caution exclaim-red-icon pull-left" style="display:none"></span>
       <% } %>
     </div>
 

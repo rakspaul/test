@@ -11,13 +11,14 @@ json = @lineitems.map do |lineitem|
     value:              lineitem.value,
     ad_sizes:           lineitem.ad_sizes,
     order_id:           lineitem.order.id,
-    targeted_zipcodes:  lineitem.zipcodes.collect{ |zip| zip.name },
+    selected_zip_codes: lineitem.zipcodes.collect{ |zip| zip.name },
     alt_ad_id:          lineitem.alt_ad_id,
     keyvalue_targeting: lineitem.keyvalue_targeting,
     type:               lineitem.type,
     media_type_id:      lineitem.media_type_id,
     notes:              lineitem.try(:notes),
     li_id:              lineitem.proposal_li_id,
+    li_status:          lineitem.li_status,
     creatives:          [],
     selected_geos:      [],
     selected_key_values: [],
@@ -62,7 +63,7 @@ json = @lineitems.map do |lineitem|
     h
   end
 
-  li[:selected_key_values] = lineitem.audience_groups.map do |ag| 
+  li[:selected_key_values] = lineitem.audience_groups.map do |ag|
     {
       id:    ag.id,
       title: ag.name,

@@ -139,7 +139,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
           var li            = li_view.model;
 
           var selected_geos = li.get('selected_geos') ? li.get('selected_geos') : [];
-          var zipcodes      = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+          var zipcodes      = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv            = li.get('selected_key_values') ? li.get('selected_key_values') : [];
 
           li.set({

@@ -187,14 +187,16 @@
     },
 
     newReport: function() {
+      var self = this;
       this.metadata = new Report.Metadata();
       this._initializeLayout();
       this._initializeTableView();
       this._intializePagination();
       this._fetchDimensions();
       this._intializeDimensions();
-      this._fetchColumns();
-      this._initializeColumns();
+      this._fetchColumns().then(function(){
+        self._initializeColumns();
+      });
       this._initializeDatePicker();
       this._initializeReportOptions();
       this._initializeScheduleReport();
@@ -320,12 +322,16 @@
       this.availableColumns.comparator = function(column) {
         return column.get("index");
       };
+      this.availableColumns.on("add remove", this._initializeColumns, this);
       return this.availableColumns.fetch();
     },
 
     _initializeColumns: function() {
-      this.availableColumnsView = new Report.AvailableColumnsView({collection: this.availableColumns});
-      this.layout.available_columns.show(this.availableColumnsView);
+      if(this.layout){
+        this.filterAvailableColumns = this.availableColumns.filterByIsRemovable();
+        this.availableColumnsView = new Report.AvailableColumnsView({collection: this.filterAvailableColumns});
+        this.layout.available_columns.show(this.availableColumnsView);
+      }
     },
 
     regenerateReport: function() {

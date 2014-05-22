@@ -39,7 +39,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -98,6 +98,13 @@
 
     events: {
       'click .toggle-creatives-btn': '_toggleCreativesDialog'
+    },
+
+    templateHelpers:{
+      lineitemStatusClass: function(){
+        if(this.lineitem.li_status)
+          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
+      }
     }
 
   });
