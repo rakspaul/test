@@ -1,18 +1,27 @@
 <div class="pure-g">
-  <div class="header-title pure-u-1-2">
+  <div class="pure-u-1-2 header-title">
     <p class="heading"><i class="activity_log-icon"></i> Activity Log</p>
   </div>
-  <div class="header-controls pure-u-1-2">
-    <div class="pure-u-1-2 text-right">
-      <button class="rui-btn activity_log_comment" title="Filter by comments" id="btnFilterComments"></button>
-      <button class="rui-btn activity_log_inactive_attach" title="Filter by attachments"
-              id="btnFilterAttachments"></button>
-      <button class="rui-btn activity_log_inactive_alert" title="Filter Alerts" id="btnFilterAlerts"></button>
-      <button class="rui-btn activity_log_active_task_checked" title="Filter by tasks" id="btnFilterTasks"></button>
-      <button class="rui-btn user" title="Filter by assignee" id="btnFilterUser"></button>
-      <button class="rui-btn clock" title="Filter by due date" id="btnFilterDueDates"></button>
-      <button class="rui-btn" title="Show full log" id="btnFullLog">Full Log</button>
-    </div>
+  <div class="pure-u-1-2 header-controls text-right">
+    <button class="rui-btn" title="Filter with Comments" id="btnFilterComments">
+      <div class="comment-icon"></div>
+    </button>
+    <button class="rui-btn" title="Filter with Attachments" id="btnFilterAttachments">
+      <div class="attachment-icon"></div>
+    </button>
+    <button class="rui-btn" title="Filter Alerts" id="btnFilterAlerts">
+      <div class="alert-icon"></div>
+    </button>
+    <button class="rui-btn" title="Filter by Done Tasks" id="btnFilterTasks">
+      <div class="task_checked-icon"></div>
+    </button>
+    <button class="rui-btn" title="Filter by Assignee" id="btnFilterUser">
+      <div class="user-icon"></div>
+    </button>
+    <button class="rui-btn" title="Filter with Due Date" id="btnFilterDueDates">
+      <div class="clock-icon"></div>
+    </button>
+    <button class="rui-btn" title="Show full log" id="btnFullLog">Full Log</button>
   </div>
 </div>
 <div class="activity-input-control pure-g">
@@ -24,56 +33,62 @@
   </div>
   <div class="action-controls pure-u-1-6">
     <button id="btnSaveAttachment"
-            class="rui-btn activity_log_inactive_attach"
+            class="rui-btn"
             title="Add Attachment"
             type="file"
             name="activity_attachment"
-            data-url="/activity_attachment.json"></button>
-    <button id="btnShowTaskForm" class="rui-btn activity_log_active_task_checked" title="Add Task"></button>
-    <button id="btnSaveAlert" class="rui-btn activity_log_inactive_alert" title="Add Alert"></button>
-    <button id="btnSaveComment" class="rui-btn activity_log_comment" title="Add Comment"></button>
+            data-url="/activity_attachment.json"><div class="attachment-icon"></div></button>
+    <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
+      <div class="task_checked-icon"></div>
+    </button>
+    <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
+      <div class="alert-icon"></div>
+    </button>
+    <button id="btnSaveComment" class="rui-btn" title="Add Comment">
+      <div class="comment-icon"></div>
+    </button>
   </div>
-  <div id="task_form" class="task-form-region" style="display: none">
-    <form class="form-inline" name="task_form">
-      <div class="pure-g">
-        <div class="pure-u-1 controls-container">
-          <div class="task-type-icon"></div>
-          <select id="task-types-selector" class="task-select">
-            <option value="">Task Type...</option>
-            <option value="creative">Creative</option>
-            <option value="pixel_request">Pixel Request</option>
-            <option value="optimization_request">Optimization Request</option>
-          </select>
-          <div class="user-icon"></div>
-          <select id="task-assignee-selector" class="task-select"></select>
-          <div class="clock-icon"></div>
-          <input type="text" class="span2" value="<%= moment().format("MM-DD-YYYY") %>" id="due-date" placeholder="Due Date">
-          <button type="submit" id="saveTask" class="btn btn-small btn-primary editable-submit">
-            <i class="icon-ok icon-white"></i>
-          </button>
-          <!-- Additional sub-form -->
-          <div id="pixel-request-subform" style="display: none;">
-            <div class="pure-g">
-              <div class="pure-u-1">
-                <label class="main">Pixel Type</label>
-                <label class="radio">
-                  <input type="radio" name="pixel_type_switch" value="conversion"> Conversion
-                </label>
-                <label class="radio">
-                  <input type="radio" name="pixel_type_switch" value="retargeting"> Retargeting
-                </label>
-              </div>
+</div>
+<div id="task_form" class="task-form-region" style="display: none">
+  <form class="form-inline" name="task_form">
+    <div class="pure-g">
+      <div class="pure-u-1 controls-container">
+        <div class="task_open-icon"></div>
+        <select id="task-types-selector">
+          <option value="">Task Type...</option>
+          <option value="creative">Creative</option>
+          <option value="pixel_request">Pixel Request</option>
+          <option value="optimization_request">Optimization Request</option>
+        </select>
+        <div class="user-icon"></div>
+        <select id="task-assignee-selector"></select>
+        <div class="clock-icon"></div>
+        <input type="text" class="span2" value="<%= moment().format("MM-DD-YYYY") %>" id="due-date" placeholder="Due Date">
+        <button type="button" id="saveTask" class="btn btn-small btn-primary editable-submit">
+          <i class="icon-ok icon-white"></i>
+        </button>
+        <!-- Additional sub-form -->
+        <div id="pixel-request-subform" style="display: none;">
+          <div class="pure-g">
+            <div class="pure-u-1">
+              <label class="main">Pixel Type</label>
+              <label class="radio">
+                <input type="radio" name="pixel_type_switch" value="conversion"> Conversion
+              </label>
+              <label class="radio">
+                <input type="radio" name="pixel_type_switch" value="retargeting"> Retargeting
+              </label>
             </div>
-            <div class="pure-g">
-              <div class="pure-u-1">
-                <input type="text" name="advertiser" placeholder="Advertiser" class="input-medium">&nbsp;
-                <input type="text" name="campaign" placeholder="Campaign" class="input-medium">&nbsp;
-                <input type="text" name="pixel_location" placeholder="Pixel Location" class="input-medium">
-              </div>
+          </div>
+          <div class="pure-g">
+            <div class="pure-u-1">
+              <input type="text" name="advertiser" placeholder="Advertiser" class="input-medium">&nbsp;
+              <input type="text" name="campaign" placeholder="Campaign" class="input-medium">&nbsp;
+              <input type="text" name="pixel_location" placeholder="Pixel Location" class="input-medium">
             </div>
           </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </div>
