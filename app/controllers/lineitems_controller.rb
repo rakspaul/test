@@ -9,6 +9,17 @@ class LineitemsController < ApplicationController
   def index
     @order = Order.includes(:lineitems => [ :designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').find(params[:order_id])
     @lineitems = @order.lineitems
+
+    # find ads
+    @ads = Ad.where(order_id: @order.id).all
+
+    # if DFP-pulled order
+    if @lineitems.empty? && !@ads.empty?
+      # create lineitems
+      @ads.each do |ad|
+        li = Lineitem.create name: "Test", start_date: ad.start_date, end_date: ad.end_date, volume: ad.ad_pricing.try(:quantity), rate: ad.rate, value: ad.ad_pricing.try(:value), order_id: @order.id, ad_sizes: ad.size, user_id: current_user.id, alt_ad_id: ad.alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: ad.media_type_id, notes: nil, type: ad.media_type.try(:category), buffer: 10.0
+      end      
+    end
   end
 
   # GET orders/{order_id}/lineitems/new

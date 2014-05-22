@@ -127,6 +127,35 @@ describe OrdersController do
       end
     end
 
+    context "order pulled from DFP" do
+      before do
+        @order = FactoryGirl.create :dfp_pulled_order
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1"
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2"
+        @unknown_reach_client = FactoryGirl.create :reach_client, name: "Unknown"
+      end
+
+      it "opens an order page successfully" do
+        get :show, {id: @order.id}
+      end
+
+      it "assigns 'Unknown' reach client to DFP-pulled order" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.reach_client).to eq(@unknown_reach_client)
+      end
+
+      it "creates io_detail on order open" do
+        expect {
+          get :show, {id: @order.id}
+        }.to change(IoDetail, :count).by(1)
+      end
+
+      it "assigns draft status to order on open" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.state).to eq('draft')
+      end 
+    end
+
     context "vaild order w/ City and State and DMA targeting" do
       before :each do
         @us = GeoTarget::Country.where(['country_code = ?', 'US']).first
