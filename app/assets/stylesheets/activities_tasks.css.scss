@@ -5,211 +5,51 @@
   font-size: 20px;
 }
 
-.tasks-region{
-  .heading {
-    font-size: 20px;
-    color: #005C97;
-    font-family: 'Armata',sans-serif;
-
-    &:before {
-      content: url(asset-path('activity_log_active_task_checked.png'));
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-  }
-
-  .task-selected {
-    padding: 5px;
-    border: 1px dashed #989898;
-    margin-bottom: 5px;
-  }
-
-  .task-comment {
-    background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 5px;
-  }
-
-  .task-type {
-    content: url(asset-path('activity_log_active_task_checked.png'));
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 10px;
-  }
-
-  .task-time {
-    color:#989898;
-  }
-
-  .task-container {
-    margin-top: 5px;
-  }
+.heading {
+  font-size: 20px;
+  line-height: 20px;
+  color: $rui-heading-text-color;
+  font-family: 'Armata', sans-serif;
+  font-weight: normal;
+  margin: 0;
+  padding: 0;
 }
 
+textarea {
+  border: none;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 0 2px;
+  box-shadow: none;
+  border-bottom: 1px solid $rui-input-border-color;
+  border-left: 1px solid $rui-input-border-color;
+  border-right: 1px solid $rui-input-border-color;
+  border-radius: 0;
+  resize: vertical;
+  min-width: 100%;
+}
+
+.activities-container {
+  margin: 20px auto;
+}
+
+// Activities Region styling
 .activities-region {
-  margin:20px auto;
-  width:90%;
-  font-size:13px;
-  color:black;
-  font-weight:normal;
-  font-size:normal;
+  margin: 0 auto;
+  width: 90%;
+  font-size: 13px;
+  color: #000;
+  font-weight: normal;
 
   .activities-header {
-    float: left;
-    width: 95%;
-    padding: 5px;
-    //border: 1px dashed #08C;
-    margin-bottom: 5px;
-
-    .heading {
-      font-size: 20px;
-      color: #005C97;
-      font-family: 'Armata', sans-serif;
-    }
-
     .note-container {
-      clear: both;
-      width: 100%;
-      float: left;
       margin-top: 5px;
     }
 
-    .save-comment {
-      background-color: #ffffff;
-      float: left;
-      padding: 2px;
-      &:hover{
-        background-color: lighten($text_color, 10%);
-        cursor: pointer;
-      }
-    }
+    .activity-input-control {
 
-    .save-alert-btn-top {
-      background: url(asset-path('activity_log_inactive_alert_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .save-comment-btn-top {
-      background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .save-attachment-btn-top {
-      background: url(asset-path('activity_log_inactive_attach_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .save-task-btn-top {
-      background: url(asset-path('activity_log_active_task_checked.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .save-duration-btn-top {
-      background: url(asset-path('task_duration.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .save-user-btn-top {
-      background: url(asset-path('user_active_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-      float: left;
-      margin-right: 5px;
-    }
-
-    .activity-input-control{
-
-      .username{
-
-      }
-
-      .activities{
-        width:60%
-      }
-
-      .action-controls{
-
-      }
-
-      textarea {
-        border:none;
-        font-size:12px;
-        line-height:14px;
-        padding:0 2px;
-        box-shadow:none;
-        border-bottom: 1px solid #005C97;
-        border-left: 1px solid #005C97;
-        border-right: 1px solid #005C97;
-        border-radius:0;
-        resize: false;
-        min-width:100%;
-      }
-
-      .save-comment {
-        background-color: #ffffff;
-        float: left;
-        padding: 2px;
-        //margin-left:2px;
-        &:hover{
-          background-color: lighten($text_color, 10%);
-          cursor: pointer;
-        }
-      }
-
-      .save-attachment-btn {
-        background: url(asset-path('activity_log_inactive_attach_icon.png')) 0px 0px no-repeat;
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
-
-      .save-alert-btn {
-        background: url(asset-path('activity_log_inactive_alert_icon.png')) 0px 0px no-repeat;
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
-
-      .save-task-btn {
-        background: url(asset-path('activity_log_active_task_checked.png')) 0px 0px no-repeat;
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
-
-      .save-comment-btn {
-        background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
-        width: 16px;
-        height: 16px;
-        margin-right: 5px;
-      }
-
-      .save-comment-btn.spinner {
-        background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
-      }
-
-      .task-select{
-        width: 120px;
+      .activities {
+        width: 60%
       }
     }
 
@@ -217,72 +57,34 @@
 
   .activities-content {
 
-    .activities-list {
-      width: 100%;
-
-      .load-more{
-        text-align: center;
-      }
-
-      .task_form_region{
-        height:40px;
-      }
-      .activity-user-comment{
-        font-size : 14px;
-
-        .activity-user_comment {
-          &:before {
-            content: url(asset-path('activity_log_active_comment_icon.png'));
-            width: 16px;
-            height: 16px;
-            float: left;
-            margin-right: 10px;
-          }
-        }
-
-        .activity-alert {
-          &:before {
-            content: url(asset-path('activity_log_inactive_alert_icon.png'));
-            width: 16px;
-            height: 16px;
-            float: left;
-            margin-right: 10px;
-          }
-        }
-        .activity-task_comment {
-          &:before {
-            content: url(asset-path('activity_log_active_task_checked.png'));
-            width: 16px;
-            height: 16px;
-            float: left;
-            margin-right: 10px;
-          }
-        }
-      }
-      .activity-system-comment{
-        font-size : 14px;
-        color:#666
-      }
+    .load-more {
+      text-align: center;
     }
 
-
+    .activities-list {
+      font-size: 14px;
+      .activity-system-comment {
+        color: #666
+      }
+    }
   }
 
   .task-details-table {
     .task-selected {
       padding: 5px;
-      border: 1px dashed #989898;
+      border: 1px dashed $rui-gray-color;
       margin-bottom: 5px;
     }
 
-    .task-time, .follow-task, .close-task {
-      color:#989898;
+    .follow-task, .close-task {
+      color: $rui-gray-color;
     }
 
     select {
-      width: 150px;
+      width: 120px;
     }
 
+    // TODO: Get rid of this - replace with <div "*-icon"> elements
     .follow-task {
       &:before {
         content: url(asset-path('follow_task.png'));
@@ -375,21 +177,12 @@
     }
   }
 
-  .task-comment-input-control{
+  .task-comment-input-control {
 
     margin-top: 10px;
 
     textarea {
-      border:none;
-      font-size:12px;
-      line-height:12px;
-      padding:0 2px;
-      box-shadow:none;
-      border-bottom: 1px solid #005C97;
-      border-left: 1px solid #005C97;
-      border-right: 1px solid #005C97;
-      border-radius:0;
-      min-width:85%;
+      min-width: 85%;
     }
 
     .task-comment-input {
@@ -402,32 +195,161 @@
         margin-left: 5px;
       }
     }
+  }
+}
+// [ END ] ------------------------------
 
-    .save-comment {
-      background-color: #ffffff;
-      float: left;
-      padding: 2px;
-      margin-left:8px;
-      &:hover{
-        background-color: lighten($text_color, 10%);
-        cursor: pointer;
-      }
+
+// Tasks Region styling
+.tasks-region {
+
+  .task-selected {
+    padding: 5px;
+    border: 1px dashed $rui-gray-color;
+    margin-bottom: 5px;
+  }
+
+  .task-comment {
+    background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+  }
+
+  .task-type {
+    content: url(asset-path('activity_log_active_task_checked.png'));
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 10px;
+  }
+
+  .task-container {
+    margin-top: 5px;
+  }
+}
+// [ END ] ------------------------------
+
+
+//--------------------------------
+// UI Styles by RoDush [BEGIN]
+//--------------------------------
+
+.activities-list {
+  height: auto;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.activity-system-comment,
+.activity-user-comment {
+  div:first-child {
+    padding-right: 10px;
+    text-align: right;
+  }
+  .date {
+    text-align: right;
+    font-size: 11px;
+    color: $rui-gray-color;
+  }
+}
+
+.activities-table {
+  margin-top: 30px;
+}
+
+.activity-input-control {
+  margin-top: 20px;
+
+  .username {
+    padding-right: 10px;
+    text-align: right;
+  }
+
+  #activity_input {
+    resize: vertical;
+  }
+
+  .action-controls {
+    text-align: right;
+  }
+}
+
+#task_form {
+  .controls-container {
+    margin-left: 175px;
+    div[class *= "-icon"]{
+      vertical-align: middle;
+      margin-left: 10px;
     }
 
-    .save-task-attachment-btn {
-      background: url(asset-path('activity_log_inactive_attach_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
+    select {
+      width: 120px;
     }
 
-    .save-task-comment-btn {
-      background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
-      width: 16px;
-      height: 16px;
-    }
-
-    .save-task-comment-btn.spinner {
-      background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
+    #due-date {
+      border: none;
     }
   }
+
+  label.main {
+    color: $label-text;
+    vertical-align: top;
+    margin-right: 5px;
+  }
+}
+
+#pixel-request-subform {
+  margin-top: 10px;
+
+  label {
+    // custom margin for radio button wrapper
+    &.radio {
+      margin-right: 10px;
+    }
+  }
+}
+
+// === TASKS SECTIONS [BEGIN] ===
+.task-comment {
+  position: relative;
+
+  .task-badge {
+    @include border-radius(50%);
+    box-sizing: border-box;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #fff;
+    color: $text_color;
+    padding: 2px 0;
+    text-align: center;
+    width: 13px;
+    height: 13px;
+    font-size: 10px;
+    line-height: 10px;
+  }
+}
+
+.task-time {
+  text-align: right;
+  font-size: 11px;
+  color: $rui-gray-color;
+}
+
+.task-details-table {
+  position: relative;
+}
+
+.rui-btn,
+.rui-btn:hover {
+  &.spinner {
+    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
+  }
+}
+// === TASKS SECTIONS [END] ===
+
+.header-controls {
+  text-align: right;
 }
