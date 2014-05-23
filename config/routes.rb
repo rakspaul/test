@@ -180,6 +180,12 @@ Reachui::Application.routes.draw do
   resources :platforms, :only => [:index]
   get 'media_types/media_types'
 
+  resources :key_values do
+    collection do
+      post 'validate'
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
