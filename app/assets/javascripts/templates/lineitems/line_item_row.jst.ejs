@@ -19,14 +19,17 @@
 <div class="li-table">
   <div class="li-row">
     <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
-      <span>Contract LI<span>
+      <span>Contract LI</span>
       <div style="clear:both"></div>
-      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
+      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
+
       <div class="revised-dialog" style="display:none">
         <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
         <span class="decline-all-btn"><span class="decline-img"/>Decline All Revisions</span>
       </div>
     </div>
+
+
 
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
     <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
@@ -127,7 +130,7 @@
       <span class="toggle-targeting-btn operation">+ Add Targeting</span>
       <div class="targeting_options_condensed" style="clear:both"></div>
     </div>
-      
+
     <div class="pure-u-1-12 volume number-field">
       <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(lineitem.volume) %>
@@ -167,6 +170,9 @@
       <div class="errors_container"></div>
     </div>
   </div>
+  <div class="pure-u-1 lineitem-status <%= lineitemStatusClass() %>" title="<%= lineitem.li_status%>">
+    <%= lineitem.li_status%>
+  </div>
 </div>
 
 <div class="targeting-container" style="display:none"></div>
@@ -176,7 +182,7 @@
 <div style="clear:both"></div>
 
 <div class="ads-container"></div>
-<div style="clear:both"></div>  
+<div style="clear:both"></div>
 
 <div class="copy-targeting-btn dropdown" style="display:none">
   <div data-toggle="dropdown" id="copyTargeting">Copy</div>

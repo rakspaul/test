@@ -13,7 +13,7 @@ json.array! @ads do |ad|
     json.value ad.ad_pricing.try(:value).to_f
     json.io_lineitem_id ad.io_lineitem_id
     json.keyvalue_targeting ad.reach_custom_kv_targeting
-    json.targeted_zipcodes ad.zipcodes.collect{ |zip| zip.name }
+    json.selected_zip_codes ad.zipcodes.collect{ |zip| zip.name }
     json.type ad.type
     json.platform_id ad.platform.try(:id)
     json.media_type_id ad.media_type_id
@@ -45,6 +45,7 @@ json.array! @ads do |ad|
       json.ad_id          ad.id
       json.li_assignment_id creative.try(:lineitem_assignment).try(:id)
       json.ad_assignment_id ad_assignment.id
+      json.ad_type        ad.type
     end
   end
 
