@@ -737,7 +737,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
         selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
         audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') + ':custom_zone' : li.get('targeting').get('keyvalue_targeting'),
         frequency_caps: platform ? [] : frequencyCaps,
         type: type
       });
