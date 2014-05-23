@@ -38,7 +38,8 @@ class Lineitem < ActiveRecord::Base
   validate :flight_dates_with_in_order_range
 
   # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
+  # only check start_date for newly created LIs, do not check it for LIs created from dfp-pulled ads
+  validates :start_date, future_date: true, :if => lambda {|li| (li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record?) && li.li_status != 'dfp_pulled'}
 
   # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
