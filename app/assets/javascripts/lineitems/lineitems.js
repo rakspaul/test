@@ -265,7 +265,8 @@
           // 300x50 or 320x50 = mobile
           // 100x72 or 99x72 = FB
           // All else = Display
-          if(view.model.is_blank_li) {
+          var name = $(this).data('name');
+          if (view.model.is_blank_li && name != 'companion_ad_size') {
             switch(newValue[0]) {
               case '1x1':
                 view._changeMediaType("Video");
@@ -792,17 +793,23 @@
           });
         }
 
+        var adFrequencyCaps = [];
+        var notFilteredAdFrequencyCaps = ad.get('targeting').get('frequency_caps');
+        _.each(notFilteredAdFrequencyCaps.models, function(fc) {
+          adFrequencyCaps.push(_.omit(fc.attributes, 'id'));
+        });
+
         new_ad.set({
           start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
           creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
           targeting: new ReachUI.Targeting.Targeting({
-            selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
-            selected_geos: ad.get('targeting').get('selected_geos'),
-            selected_key_values: ad.get('targeting').get('selected_key_values'),
-            frequency_caps: ad.get('targeting').get('frequency_caps'),
-            audience_groups: li.get('targeting').get('audience_groups'),
-            keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
+            selected_zip_codes: _.clone(ad.get('targeting').get('selected_zip_codes')),
+            selected_geos: _.clone(ad.get('targeting').get('selected_geos')),
+            selected_key_values: _.clone(ad.get('targeting').get('selected_key_values')),
+            frequency_caps: adFrequencyCaps,
+            audience_groups: _.clone(li.get('targeting').get('audience_groups')),
+            keyvalue_targeting: _.clone(ad.get('targeting').get('keyvalue_targeting')),
             dfp_key_values: ad.dfp_key_values,
             ad_dfp_id: ad.get('source_id'),
             type: ad.get('type')
