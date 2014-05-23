@@ -26,6 +26,12 @@ class OrdersController < ApplicationController
     else
       @billing_contacts = []
       @media_contacts   = []
+      if !(unknown_reach_client = ReachClient.find_by(network_id: current_user.company_id, name: 'Unknown'))
+        unknown_agency = Agency.find_or_create_by(name: "Unknown")
+        unknown_reach_client = ReachClient.create(abbr: 'unknown', network_id: current_user.company_id, name: 'Unknown', user_id: current_user.id, account_manager_id: current_user.id, sales_person_id: current_user.id, agency_id: unknown_agency.id)
+      end
+
+      IoDetail.create({order_id: @order.id, state: "draft", reach_client_id: unknown_reach_client.id})
     end
 
     @reachui_users = load_users.limit(50)
