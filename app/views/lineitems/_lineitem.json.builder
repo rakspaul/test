@@ -20,8 +20,8 @@ json.selected_key_values do
 end
 
 json.selected_geos do
-  json.array! (lineitem.designated_market_areas + lineitem.cities + lineitem.states).each do |geo|
-    json.id (geo.respond_to?(:code) ? geo.code : geo.id)
+  json.array! (lineitem.geo_targets).each do |geo|
+    json.id (geo.respond_to?(:code) ? geo.code : geo.id) #unless geo.class.to_s =~ /Zipcode/
     case geo.class.to_s
     when /DesignatedMarketArea/
       json.title "#{geo.name}"

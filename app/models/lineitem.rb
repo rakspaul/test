@@ -3,7 +3,7 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
-  attr_accessor :li_id, :revised
+  attr_accessor :li_id, :li_status, :revised
 
   belongs_to :order
   belongs_to :user
@@ -116,16 +116,25 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    zipcodes = targeting[:selected_zip_codes].to_a.uniq.collect do |zipcode|
-      GeoTarget::Zipcode.find_by(name: zipcode.strip)
+    targets = GeoTarget.selected_geos targeting
+    if new_record?
+      self.geo_targets = targets
+    else
+      self.geo_targets.delete_all
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{LineitemGeoTargeting.table_name}
+          (lineitem_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
     end
-    zipcodes = zipcodes.compact unless zipcodes.empty?
-
-    geo_targeting = targeting[:selected_geos].to_a
-    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
-    self.geo_targets = []
-    self.geo_targets = geos.compact if !geos.blank?
-    self.geo_targets += zipcodes    if !zipcodes.blank?
   end
 
   def ad_name(start_date, ad_size)

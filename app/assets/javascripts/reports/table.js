@@ -24,6 +24,13 @@
   Report.TableColumnList = Backbone.Collection.extend({
     model: Report.TableColumn,
     url: '/reports/columns.json',
+
+    filterByIsRemovable: function() {
+      var filtered = this.filter(function(model) {
+        return model.get("is_removable") === true;
+      });
+      return new Report.TableColumnList(filtered);
+    }
   });
 
   Report.ColumnView = Backbone.Marionette.ItemView.extend({
@@ -69,7 +76,7 @@
   Report.TableHeadView = Backbone.Marionette.CollectionView.extend({
     tagName: 'tr',
     itemView: Report.TableHeaderColumnView,
-    
+
   });
 
   // Represents single row returned in AA response

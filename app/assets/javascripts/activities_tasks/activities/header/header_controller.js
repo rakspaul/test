@@ -4,11 +4,11 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header, ReachActivityTaskApp, Backbone, Marionette, $, _){
     Header.Controller = {
 
-        showActivities: function(activites){
+        showActivities: function(activites,showFilters){
             var headerLayout = new Header.Layout();
              ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.headerRegion.show(headerLayout);
              //if actvities is empty then we don't need to show the filters.
-             if(activites==null || activites.length==0){
+             if((activites==null || activites.length==0) && !showFilters){
                  headerLayout.$('.header-controls').hide();
              } else {
                  headerLayout.$('.header-controls').show();
@@ -19,6 +19,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
         fetchActivities: function(type){
             //preparing a filter model to pass to the server.
             var filter = this.getFilterModel(type);
+            //Note: When a filter is triggered on the UI, we should not hide filters any more though particular filter doesn't have activities list.
             ReachActivityTaskApp.trigger("activities:list",filter);
         },
 

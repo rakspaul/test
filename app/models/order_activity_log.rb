@@ -6,10 +6,12 @@ class OrderActivityLog < ActiveRecord::Base
     ALERT = 'alert'
     TASK = 'task'
     ATTACHMENT = 'attachment'
+    ALL = "all"
   end
 
   belongs_to :order
   belongs_to :created_by, :class_name => 'User'
+  has_many :activity_attachments, :class_name => 'ActivityAttachment'
 
   def self.system_comments
     where(:activity_type => ActivityType::SYSTEM_COMMENT)

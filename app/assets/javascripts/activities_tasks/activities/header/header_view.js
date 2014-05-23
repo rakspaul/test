@@ -24,7 +24,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
         ui:{
             activity_input: "#activity_input",
-            taskFormRegion: ".task-form-region"
+            taskFormRegion: ".task-form-region",
+            taskTypeSelector: "#task-types-selector"
         },
 
         //handling event here.
@@ -40,7 +41,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             "click #btnSaveAlert": "saveAlert",
             "click #btnSaveAttachment": "saveAttachment",
             "click #btnShowTaskForm": "showTaskForm",
-            "click #btnSaveComment": "saveComment"
+            "click #btnSaveComment": "saveComment",
+
+            "change #task-types-selector": 'onTaskTypeChanged'
         },
 
         //Filter handlers
@@ -85,7 +88,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
         },
 
         showTaskForm: function(e){
-            this.ui.taskFormRegion.toggle();
+          this.ui.taskFormRegion.toggle();
+          if (this.ui.taskFormRegion.is(":visible")) {
+            $( "#due-date" ).datepicker();
+          }
         },
 
         saveAlert: function(e){
@@ -106,6 +112,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
                 return;
             }
             Header.Controller.saveActivity(Header.ACTIVITY_TYPES.COMMENT,data);
+        },
+
+        onTaskTypeChanged: function(e) {
+          var $sel = $(e.target);
+          if ($sel.val() == 'pixel_request') {
+            $("#pixel-request-subform").show();
+          } else {
+            $("#pixel-request-subform").hide();
+          }
         }
 
     });

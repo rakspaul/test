@@ -24,7 +24,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
             var fetchPromise = ReachActivityTaskApp.request("activity:entities",filter);
             $.when(fetchPromise).done(function(activities){
                 console.log("Activities data from server:"+ JSON.stringify(activities));
-                renderActivities(activities);
+                var showFilters = false;
+                if(filter)
+                    showFilters = true;
+                renderActivities(activities,showFilters);
             });
         }
     };
@@ -32,8 +35,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
     /*
         After activities fetch, this will render header and activities list.
      */
-    function renderActivities(activities){
-       Activities.Header.Controller.showActivities(activities);
+    function renderActivities(activities,showFilters){
+       Activities.Header.Controller.showActivities(activities,showFilters);
        Activities.List.Controller.showActivities(activities);
     }
 
