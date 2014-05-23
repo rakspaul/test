@@ -7,6 +7,15 @@ FactoryGirl.define do
     advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
+  factory :dfp_pulled_order, :class => "Order" do
+    name  "Rodenbaugh's on Audience Network / TWCC"
+    start_date 1.day.from_now
+    end_date   22.day.from_now
+    network { FactoryGirl.singleton :network }
+    advertiser { FactoryGirl.singleton :advertiser }
+    user
+  end
+
   factory :order do
     name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977"
     start_date 1.day.from_now

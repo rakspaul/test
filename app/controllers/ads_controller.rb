@@ -11,7 +11,7 @@ class AdsController < ActionController::Base
               :geo_targets,
               :audience_groups,
               {:creatives => :lineitem_assignment}
-            ).where(["order_id = ? AND io_lineitem_id IS NOT NULL", params[:order_id].to_i])
+            ).where(["order_id = ?", params[:order_id].to_i]) #AND io_lineitem_id IS NOT NULL
     respond_to do |format|
       format.json
     end

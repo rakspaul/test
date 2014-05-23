@@ -1,5 +1,5 @@
 module KeyValuesHelper
-
+  require 'net/http'
   def validate_key_values(key_value_expr)
     if key_value_expr && key_value_expr != ""
       backbone_service_url = Rails.application.config.backbone_service_url

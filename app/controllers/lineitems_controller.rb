@@ -9,6 +9,36 @@ class LineitemsController < ApplicationController
   def index
     @order = Order.includes(:lineitems => [ :geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').find(params[:order_id])
     @lineitems = set_lineitem_status(@order.lineitems)
+
+    # find ads
+    @ads = Ad.where(order_id: @order.id).all
+
+    # if DFP-pulled order
+    if @lineitems.empty? && !@ads.empty?
+      # adjust order's start/end dates 
+      start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
+      end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
+      @order.user_id = current_user.id if @order.user_id.blank?
+      @order.update_attributes({start_date: start_date, end_date: end_date})
+      @order.reload
+
+      # create lineitems
+      @ads.each do |ad|
+        if ad.media_type.blank?
+          media_type = current_user.network.media_types.find_by(category: 'Display')
+          ad.update_attribute :media_type_id, media_type.id
+        else
+          media_type = ad.media_type
+        end
+
+        li = Lineitem.create name: "DFP Pulled Order", start_date: ad.start_date, end_date: ad.end_date, volume: ad.ad_pricing.try(:quantity), rate: ad.rate, value: ad.ad_pricing.try(:value), order_id: @order.id, ad_sizes: ad.size, user_id: current_user.id, alt_ad_id: ad.alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 10.0, li_status: 'dfp_pulled'
+
+        if li.errors.blank?
+          ad.update_attribute :io_lineitem_id, li.id
+          @lineitems << li
+        end
+      end      
+    end
   end
 
   # GET orders/{order_id}/lineitems/new
