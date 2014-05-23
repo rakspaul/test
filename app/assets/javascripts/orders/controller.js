@@ -733,12 +733,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
-        selected_key_values: _.clone(li.get('targeting').get('selected_key_values')),
-        selected_geos: _.clone(li.get('targeting').get('selected_geos')),
-        selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
-        audience_groups: li.get('targeting').get('audience_groups'),
+        selected_key_values: platform ? [] : _.clone(li.get('targeting').get('selected_key_values')),
+        selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
+        selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
+        audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
         keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
-        frequency_caps: frequencyCaps,
+        frequency_caps: platform ? [] : frequencyCaps,
         type: type
       });
 
