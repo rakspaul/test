@@ -31,6 +31,9 @@
         <div class="task-form-region" style="display: none">
             <form class="well form-inline">
                 <select id="taskTypes" class="task-select">
+                <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
+                <option value="<%= tt.get('id')%>"><%= tt.get('type')%></option>
+                <% }); %>
                 </select>
                 <select id="task-assignee" class="task-select"/>
                 <label>Due Date</label>

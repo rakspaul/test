@@ -1,5 +1,7 @@
 class TaskType < ActiveRecord::Base
 
+  self.inheritance_column = 'task_type'
+
   belongs_to :owner, :foreign_key => 'default_assignee_id', :class_name => 'Team'
 
   validates :type, :presence => true

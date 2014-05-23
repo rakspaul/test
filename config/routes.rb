@@ -77,6 +77,7 @@ Reachui::Application.routes.draw do
   resources :orders do
 
     resources :tasks, :only => [:index]
+    get 'task_types' => 'tasks#task_types'
 
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
       member do

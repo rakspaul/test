@@ -16,53 +16,59 @@ ReachActivityTaskApp.addRegions({
 /*
     Defining a new module to include activities and tasks regions. Check out the below template file for layout structure.
  */
-ReachActivityTaskApp.module("ActivitiesTasks",function(ActivitiesTasks,ReachActivityTaskApp,BackBone,Marionette,$,_,JST){
+ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachActivityTaskApp, BackBone, Marionette, $, _, JST) {
 
     /*
         TODO: Define routes here to fetch master data like activity-types, states etc...
 
      */
 
-    API={
-
-        fetchMasterData:function(){
-            var deferred = $._deferred();
+  var API = {
+        fetchMasterData: function() {
+          var deferred = $._deferred();
         },
 
-        fetchTaskTypes: function(){
-
+        fetchTaskTypes: function() {
+          return ReachActivityTaskApp.request("taskType:entities");
         },
 
-        fetchUsersAndTeams: function(){
+        fetchUsersAndTeams: function() {
 
         }
+  };
 
-    };
+  ActivitiesTasks.Layout = Marionette.Layout.extend({
+    template: JST['templates/activities_tasks/activities_tasks_layout'],
 
-    ActivitiesTasks.Layout = Marionette.Layout.extend({
-        template: JST['templates/activities_tasks/activities_tasks_layout'],
-
-        regions: {
-            activitiesRegion: ".activities-region",
-            tasksRegion: ".tasks-region"
-        }
-    });
+    regions: {
+      activitiesRegion: ".activities-region",
+      tasksRegion: ".tasks-region"
+    }
+  });
 
     /**
      * addInitializer is a Marionette initialization function and it will invoke when module starts.
      * You can have as many as these methods. Please refer to marionette js documentation. Link is given above.
      *
      */
-    ActivitiesTasks.addInitializer(function(options){
-        this.activitiesTasksLayout = new ActivitiesTasks.Layout();
-        ReachActivityTaskApp.middleRegion.show(this.activitiesTasksLayout);
-        console.log(JSON.stringify(options.order));
-        ReachActivityTaskApp.order = options.order;
-        //ReachActivityTaskApp.username = window.current_user_name;
-        ReachActivityTaskApp.trigger("include:activities");
-        ReachActivityTaskApp.trigger("include:tasks");
-    });
+  ActivitiesTasks.addInitializer(function(options){
+    ReachActivityTaskApp.order = options.order;
 
+    //fetch master data
+    var taskTypes = API.fetchTaskTypes();
+    $.when(taskTypes).done(function(taskTypes) {
+      ReachActivityTaskApp.taskTypes = taskTypes.models;
+      ActivitiesTasks.init();
+    });
+  });
+
+  ActivitiesTasks.init = function() {
+    this.activitiesTasksLayout = new ActivitiesTasks.Layout();
+    ReachActivityTaskApp.middleRegion.show(this.activitiesTasksLayout);
+    //ReachActivityTaskApp.username = window.current_user_name;
+    ReachActivityTaskApp.trigger("include:activities");
+    ReachActivityTaskApp.trigger("include:tasks");
+  };
     /*
         TODO: Have to implement stop method for all the modules.
      */
