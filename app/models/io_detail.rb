@@ -11,7 +11,8 @@ class IoDetail < ActiveRecord::Base
     completed: "Completed",
     revisions_proposed: "Revisions Proposed",
     revisions_resolved: "Revisions Resolved",
-    revisions_unresolved: "Revisions Unresolved"
+    revisions_unresolved: "Revisions Unresolved",
+    proposed: "Proposed"
   }
 
   has_paper_trail ignore: [:updated_at]
