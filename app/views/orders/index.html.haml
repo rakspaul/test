@@ -34,6 +34,8 @@
                 %option{:value => "pushed", :selected => session[:order_status] == "pushed"} Pushed
                 %option{:value => "incomplete_push", :selected => session[:order_status] == "incomplete_push"} Incomplete Push
                 %option{:value => "failure", :selected => session[:order_status] == "failure"} Failure
+                %option{:value => "delivering", :selected => session[:order_status] == "delivering"} Delivering
+                %option{:value => "completed", :selected => session[:order_status] == "completed"} Completed
         .pure-u
           .control-group.status-control
             %label.control-label
