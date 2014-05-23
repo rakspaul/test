@@ -812,7 +812,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           itemIndex += 1;
 
           li_view.model.ads = [];
-          li_show_delete_btn = true;
+          li_show_delete_btn = li_view.model.get('uploaded') ? false : true;
           _.each(li_ads[li_view.model.get('id')], function(attrs) {
             attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
             attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
@@ -834,7 +834,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               })
             });
 
-            if (!isNaN(parseInt(ad.get('source_id')))) {
+            if (li_show_delete_btn && !isNaN(parseInt(ad.get('source_id')))) {
               li_show_delete_btn = false;
             }
 

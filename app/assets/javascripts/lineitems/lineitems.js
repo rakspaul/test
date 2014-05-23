@@ -731,6 +731,7 @@
       }
 
       new_li.set({
+        uploaded: false,
         start_date: this.model.get('start_date'),
         end_date: this.model.get('end_date'),
         ad_sizes: this.model.get('ad_sizes'),
@@ -1207,7 +1208,15 @@
       var li = new LineItems.LineItem(),
           empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
           itemIndex = this.collection.length + 1;
-      li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+      li.set({
+        uploaded:  false,
+        itemIndex: itemIndex,
+        ad_sizes: '',
+        name: '',
+        creatives: empty_creatives_list,
+        start_date: null,
+        end_date: null
+      });
       li.setBlankLiFlag();
       this.collection.add(li);
       this.collection.trigger('lineitem:added');
