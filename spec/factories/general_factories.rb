@@ -84,7 +84,6 @@ FactoryGirl.define do
     value 666.00
     ad_sizes "160x600, 300x250, 728x90"
     alt_ad_id "1"
-    targeted_zipcodes "12345, 56789"
     type "Display"
     media_type
     user

@@ -56,8 +56,7 @@
         "rate" : "0.0", 
         "value" : 0, 
         "ad_sizes" : "160x600, 300x250, 728x90", 
-        "order_id" : null, 
-        "targeted_zipcodes" : null, 
+        "order_id" : null,
         "alt_ad_id" : null, 
         "keyvalue_targeting" : null, 
         "creatives" : [{
