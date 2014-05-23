@@ -164,6 +164,11 @@ class Ad < ActiveRecord::Base
   end
 
   def set_type_params
+    if platform
+      self.ad_type  = platform.ad_type
+      self.priority = platform.priority
+    end and return
+
     if type == 'Companion'
       self.ad_type  = Video::COMPANION_AD_TYPE
       self.priority = Video::COMPANION_PRIORITY
