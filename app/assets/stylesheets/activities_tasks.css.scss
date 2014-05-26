@@ -57,6 +57,18 @@ textarea {
         font-size: 12px;
         color: #666
       }
+
+      .activity-log-subrow {
+        font-size: 10px;
+        color: $rui-gray-color;
+        .task-attachment {
+          display: block;
+        }
+        span {
+          display: inline-block;
+          margin-right: 10px;
+        }
+      }
     }
   }
 
@@ -232,6 +244,14 @@ textarea {
 
 .header-controls {
   text-align: right;
+
+  .rui-btn:not(.active) {
+    @include opacity(30);
+    &:hover {
+      @include opacity(100);
+      @include transition(opacity 1s);
+    }
+  }
 }
 
 button.rui-btn {

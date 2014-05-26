@@ -4,22 +4,23 @@
   </div>
   <div class="pure-u-1-2 header-controls text-right">
     <button class="rui-btn" title="Filter with Comments" id="btnFilterComments">
-      <div class="comment-icon"></div>
+      <i class="comment-icon"></i>
     </button>
     <button class="rui-btn" title="Filter with Attachments" id="btnFilterAttachments">
-      <div class="attachment-icon"></div>
+      <i class="attachment-icon"></i>
     </button>
     <button class="rui-btn" title="Filter Alerts" id="btnFilterAlerts">
-      <div class="alert-icon"></div>
+      <i class="alert-icon"></i>
     </button>
-    <button class="rui-btn" title="Filter by Done Tasks" id="btnFilterTasks">
-      <div class="task_checked-icon"></div>
+    <!-- TODO: '.active' class added only as example. This should be controlled by View for the filter controller -->
+    <button class="rui-btn active" title="Filter by Done Tasks" id="btnFilterTasks">
+      <i class="task_done-icon"></i>
     </button>
-    <button class="rui-btn" title="Filter by Assignee" id="btnFilterUser">
-      <div class="user-icon"></div>
+    <button class="rui-btn active" title="Filter by Assignee" id="btnFilterUser">
+      <i class="user-icon"></i>
     </button>
     <button class="rui-btn" title="Filter with Due Date" id="btnFilterDueDates">
-      <div class="clock-icon"></div>
+      <i class="clock-icon"></i>
     </button>
     <button class="rui-btn" title="Show full log" id="btnFullLog">Full Log</button>
   </div>
@@ -39,7 +40,7 @@
         <div class="attachment-icon"></div>
       </button>
       <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
-        <div class="task_checked-icon"></div>
+        <div class="task_done-icon"></div>
       </button>
       <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
         <div class="alert-icon"></div>
@@ -62,7 +63,7 @@
   </div>
 </div>
 <!-- TODO: Extract this into separate template (and possibly - region?) -->
-<div id="task_form" class="task-form-region" style="display: none">
+<div id="task_form" class="task-form-region" style="display: none;">
   <form class="form-inline" name="task_form">
     <div class="pure-g">
       <div class="pure-u-1-5"></div>

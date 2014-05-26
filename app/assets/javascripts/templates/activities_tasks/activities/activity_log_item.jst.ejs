@@ -1,12 +1,23 @@
-<div class="<%= activity_type != undefined && activity_type==='system_comment'?'activity-system-comment':'activity-user-comment'%> ">
-    <div class="pure-u-1-5 username">
-        <%= created_by %>
-    </div>
-    <div class="pure-u-3-5">
-        <div class="activity_<%= activity_type%>-icon"></div>
-        <%= note %>
-    </div>
-    <div class="pure-u-1-6 date">
-      <%= moment(created_at).format("MM/DD/YYYY") %>
-    </div>
+<div class="<%= activity_type != undefined && activity_type === 'system_comment' ? 'activity-system-comment' : 'activity-user-comment' %> ">
+  <div class="pure-u-1-5 username">
+    <%= created_by %>
+  </div>
+  <div class="pure-u-3-5">
+    <!-- TODO: Here should be `task_type` value if this is a task, or nothing otherwise; task could be Open or Done -->
+    <!-- TODO: Corresponding task icons will be shown -->
+    <div class="task_<%= activity_type %>-icon"></div>
+    <%= note %>
+    <p class="activity-log-subrow">
+      <!-- TODO: Put real data here if this log activity is a New Task -->
+      <span class="task-type">Creative</span>
+      <span class="task-assignee">Peter Parker</span>
+      <span class="task-due-date">08/05/2014</span>
+      <a href="#/path-to-file-downloadable-file" onclick="alert('Show download dialog');" class="task-attachment">
+        <i class="attachment-type archive-icon"></i> Creatives.zip
+      </a>
+    </p>
+  </div>
+  <div class="pure-u-1-6 date">
+    <%= moment(created_at).format("MM/DD/YYYY") %>
+  </div>
 </div>
