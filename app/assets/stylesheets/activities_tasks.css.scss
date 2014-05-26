@@ -13,11 +13,6 @@
   font-weight: normal;
   margin: 0;
   padding: 0;
-
-  // align all icons within heading elements with text
-  *[class *= "-icon"] {
-    vertical-align: bottom;
-  }
 }
 
 textarea {
@@ -31,16 +26,11 @@ textarea {
   border-right: 1px solid $rui-input-border-color;
   border-radius: 0;
   resize: vertical;
-  min-width: 100%;
+  min-width: 98%;
 }
 
 .activities-container {
-  margin: 20px auto;
-}
-
-@mixin activities_task_region() {
-  margin: 0 auto;
-  width: 96%;
+  margin: 20px 70px 20px 40px;
   font-size: 13px;
   color: #000;
   font-weight: normal;
@@ -48,8 +38,6 @@ textarea {
 
 // Activities Region styling
 .activities-region {
-  @include activities_task_region;
-
   .activities-content {
 
     .load-more {
@@ -71,7 +59,8 @@ textarea {
       margin-bottom: 5px;
     }
 
-    .follow-task, .close-task {
+    .follow-task,
+    .close-task {
       color: $rui-gray-color;
     }
 
@@ -102,8 +91,7 @@ textarea {
 
 // Tasks Region styling
 .tasks-region {
-  @include activities_task_region;
-
+  margin-left: 30px;
   .task-selected {
     padding: 5px;
     border: 1px dashed $rui-gray-color;
@@ -260,3 +248,30 @@ button.rui-btn {
     }
   }
 }
+
+// FOLLOWERS REGION [BEGIN]
+#followersRegion {
+  margin: 40px 0 0 30px;
+}
+
+.followers-list-container {
+  margin-top: 10px;
+}
+
+ul.followers-list {
+  margin: 2px 0 0;
+  padding: 0;
+  float: left;
+  margin-right: 10px;
+  vertical-align: middle;
+  li {
+    display: inline-block;
+    &:not(:last-child) {
+      &:after {
+        display: inline-block;
+        content: ", ";
+      }
+    }
+  }
+}
+// FOLLOWERS REGION [END]

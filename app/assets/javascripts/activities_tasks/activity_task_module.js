@@ -42,8 +42,10 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
     regions: {
       activitiesRegion: ".activities-region",
-      tasksRegion: ".tasks-region"
+      tasksRegion: ".tasks-region",
+      followersRegion: "#followersRegion"
     }
+
   });
 
     /**
