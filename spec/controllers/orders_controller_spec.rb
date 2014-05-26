@@ -144,6 +144,11 @@ describe OrdersController do
         expect(@order.io_detail.reach_client).to eq(@unknown_reach_client)
       end
 
+      it "creates a note with 'Imported Order' text" do
+        get :show, {id: @order.id}
+        expect(@order.order_notes.last.note).to eq('Imported Order')
+      end
+
       it "creates io_detail on order open" do
         expect {
           get :show, {id: @order.id}
