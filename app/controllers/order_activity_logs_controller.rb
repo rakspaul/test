@@ -36,9 +36,14 @@ class OrderActivityLogsController < ApplicationController
 
     #create task
     if activity_params[:activity_type] == OrderActivityLog::ActivityType::TASK
-      task = Task.new task_params.merge!(:order_id => @order.id,
-                                         :created_by => current_account.user,
-                                         :task_state => Task::TaskState::ASSIGNED)
+      task_params = get_task_params
+      task_params.merge! :name => task_params.delete(:note),
+                         :order_id => @order.id,
+                         :created_by => current_account.user,
+                         :task_state => Task::TaskState::ASSIGNED,
+                         :assignable => User.find_by_id(task_params.delete(:assigned_by_id))
+
+      task = Task.new(task_params)
       task.save!
     end
 
@@ -60,8 +65,8 @@ class OrderActivityLogsController < ApplicationController
     params.permit(:note, :activity_type, :order_id)
   end
 
-  def task_params
-    params.require(:task).permit(:name, :due_date, :task_type_id, :created_by_id, :requested_by_id, :order_id)
+  def get_task_params
+    params.permit(:note, :order_id, :due_date, :task_type_id, :assignable, :assigned_by_id)
   end
 
 end

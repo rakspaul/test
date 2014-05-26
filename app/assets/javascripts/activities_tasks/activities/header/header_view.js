@@ -25,7 +25,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
         ui:{
             activity_input: "#activity_input",
             taskFormRegion: ".task-form-region",
-            taskTypeSelector: "#task-types-selector"
+            taskTypeSelector: "#task-types-selector",
+            dueDate: "#due-date",
+            taskAssigneeSelector: '#task-assignee-selector'
         },
 
         //handling event here.
@@ -42,6 +44,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             "click #btnSaveAttachment": "saveAttachment",
             "click #btnShowTaskForm": "showTaskForm",
             "click #btnSaveComment": "saveComment",
+
+            "click #saveTask": "saveTask",
 
             "change #task-types-selector": 'onTaskTypeChanged'
         },
@@ -92,6 +96,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           if (this.ui.taskFormRegion.is(":visible")) {
             $( "#due-date" ).datepicker();
           }
+          this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
         },
 
         saveAlert: function(e){
@@ -114,6 +119,24 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             Header.Controller.saveActivity(Header.ACTIVITY_TYPES.COMMENT,data);
         },
 
+        saveTask: function(e) {
+          e.preventDefault();
+          var data = this.ui.activity_input.val().trim();
+          if(data==''){
+            return;
+          }
+
+          this.model.set('note', data);
+          this.model.set('due_date', this.ui.dueDate.val());
+          this.model.set('task_type_id', this.ui.taskTypeSelector.val());
+          this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
+          //TODO: Is this needed.
+          this.model.unset('users', {silent: true});
+          this.model.unset('task_types', {silent: true});
+
+          Header.Controller.saveTask(this.model);
+        },
+
         onTaskTypeChanged: function(e) {
           var $sel = $(e.target);
           if ($sel.val() == 'pixel_request') {
@@ -121,8 +144,22 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           } else {
             $("#pixel-request-subform").hide();
           }
-        }
+          this.setTaskUsers();
+        },
 
+        setTaskUsers: function() {
+          var taskType = this.ui.taskTypeSelector.val();
+          var thisTaskType = _.find(ReachActivityTaskApp.taskTypes, function(type) {
+            return type.get('id') == taskType;
+          });
+          this.model.set('note', this.ui.activity_input.val());
+          this.model.set('task_type_id', thisTaskType.get('id'));
+          this.model.set('users', thisTaskType.get('users'));
+          this.model.set('due_date', moment().add('days', thisTaskType.get('default_sla')));
+
+          this.render();
+          this.showTaskForm();
+        }
     });
 
     Header.TaskFormView = Marionette.ItemView.extend({

@@ -23,6 +23,26 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
         model: Entities.Activity
     });
 
+    Entities.MasterActivity = Backbone.Model.extend({
+      url: function() {
+        return '/orders/' + ReachActivityTaskApp.order.id + '/activities.json';
+      },
+
+      initialize: function() {
+        this.set('task_types', ReachActivityTaskApp.taskTypes);
+        this.set('users', ReachActivityTaskApp.taskTypes[0].get('users'));
+          this.set('due_date', moment().add('days', ReachActivityTaskApp.taskTypes[0].get('default_sla')));
+
+        return this;
+      },
+
+      defaults: {
+        note: "",
+        task_type_id: null,
+        users: null
+      }
+    });
+
     var API = {
         /*
             fetch API

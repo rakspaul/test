@@ -5,7 +5,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
     Header.Controller = {
 
         showActivities: function(activites,showFilters){
-            var headerLayout = new Header.Layout();
+            var headerLayout = new Header.Layout({model: new ReachActivityTaskApp.Entities.MasterActivity()});
              ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.headerRegion.show(headerLayout);
              //if actvities is empty then we don't need to show the filters.
              if((activites==null || activites.length==0) && !showFilters){
@@ -44,6 +44,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
             $.when(fetchActivity).done(function(activity){
                 ReachActivityTaskApp.trigger("activities:list");
             });
+        },
+
+        saveTask: function(activity) {
+          var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
+          $.when(fetchActivity).done(function(activity){
+            ReachActivityTaskApp.trigger("activities:list");
+          });
         }
 
     };

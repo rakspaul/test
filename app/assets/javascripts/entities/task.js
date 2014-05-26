@@ -26,6 +26,21 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     model: Entities.TaskType
   });
 
+  Entities.TaskComment = Backbone.Model.extend({
+  });
+
+  Entities.TaskCommentList = Backbone.Collection.extend({
+    url: function() {
+      return '/tasks/' + this.task.id + '/comments.json';
+    },
+
+    model: Entities.TaskComment,
+
+    setTask: function(task) {
+      this.task = task;
+    }
+  });
+
   var API = {
     getTaskEntities: function() {
       var tasks = new Entities.TaskCollection();
@@ -76,6 +91,23 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       });
 
       return defer.promise();
+    },
+
+    getTaskComments: function(task) {
+      var taskComments = new Entities.TaskCommentList();
+      taskComments.setTask(task);
+      var defer = $.Deferred();
+      taskComments.fetch({
+          success: function(data) {
+              console.log("task comments data: " + JSON.stringify(data));
+            defer.resolve(data);
+          },
+          failure: function() {
+            defer.resolve();
+          }
+      });
+
+      return defer.promise();
     }
   };
 
@@ -89,6 +121,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   ReachActivityTaskApp.reqres.setHandler("taskType:entities", function() {
     return API.getTaskTypes();
+  });
+
+  ReachActivityTaskApp.reqres.setHandler("taskComment:entities", function(task) {
+    return API.getTaskComments(task);
   });
 
 });

@@ -35,14 +35,8 @@ class TasksController < ApplicationController
     end
   end
 
-  def
-
   def comments
-    # @comments = @task.task_activity_logs
-    @comments = [{text: 'We need 2 creatives', commented_by: 'Alex', created_at: Time.now},
-                 {text: 'We need 5 creatives', commented_by: 'Alex-1', created_at: Time.now}
-                ]
-
+    @comments = @task.task_activity_logs
 
     respond_to do |format|
       format.json

@@ -29,7 +29,7 @@
     <%= window.current_user_name %>
   </div>
   <div class="activities pure-u-3-5">
-    <textarea id="activity_input" placeholder="Note" rows="1" cols="26"></textarea>
+    <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
   </div>
   <div class="action-controls pure-u-1-6">
     <button id="btnSaveAttachment"
@@ -54,16 +54,19 @@
     <div class="pure-g">
       <div class="pure-u-1 controls-container">
         <div class="task_open-icon"></div>
-        <select id="task-types-selector">
-          <option value="">Task Type...</option>
-          <option value="creative">Creative</option>
-          <option value="pixel_request">Pixel Request</option>
-          <option value="optimization_request">Optimization Request</option>
+        <select id="task-types-selector" name="task_type_id">
+          <% _.each(task_types, function(tt) { %>
+          <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
+          <%}); %>
         </select>
         <div class="user-icon"></div>
-        <select id="task-assignee-selector"></select>
+        <select id="task-assignee-selector">
+          <% _.each(users, function(user) { %>
+            <option value="<%= user.id%>"><%= user.name%></option>
+          <% }); %>
+        </select>
         <div class="clock-icon"></div>
-        <input type="text" class="span2" value="<%= moment().format("MM-DD-YYYY") %>" id="due-date" placeholder="Due Date">
+        <input type="text" class="span2" value="<%= moment(due_date).format("MM/DD/YYYY") %>" id="due-date" placeholder="Due Date">
         <button type="button" id="saveTask" class="btn btn-small btn-primary editable-submit">
           <i class="icon-ok icon-white"></i>
         </button>

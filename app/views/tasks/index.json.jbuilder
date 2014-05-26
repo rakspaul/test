@@ -13,7 +13,7 @@ json.array! @order.tasks do |task|
   json.requested_by task.requested_by.try(:full_name)
   json.order_id @order.id
   json.assignable_id task.assignable_id
-  # json.assignable_name task.assignable_name
+  json.assignable_name task.assignable.try(:full_name)
   json.created_at format_date(task.created_at)
   json.updated_at format_date(task.updated_at)
   json.task_state task.task_state

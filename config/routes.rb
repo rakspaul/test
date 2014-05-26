@@ -106,6 +106,10 @@ Reachui::Application.routes.draw do
     resources :activities, controller: 'order_activity_logs'
   end
 
+  resources :tasks do
+    get 'comments'
+  end
+
   resources :kendoui
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index] do
