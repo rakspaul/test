@@ -189,8 +189,11 @@ button.rui-btn {
         @include sized-sprite($images, $btn + "-hover");
       }
     }
-    background-color: lighten($btn-bg-hover, 0.5);
-//    box-shadow: 0px 0px 1px 2px $btn-bg-hover;
+
+    &:not(.no-highlight) {
+      background-color: lighten($btn-bg-hover, 0.5);
+    }
+    // box-shadow: 0px 0px 1px 2px $btn-bg-hover;
   }
 }
 
