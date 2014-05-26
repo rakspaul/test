@@ -352,6 +352,16 @@ private
     li_errors = {}
     ads = []
 
+    params_li_ids = params.map { |li| li[:lineitem][:id] }
+    existing_li_ids = @order.lineitems.map { |li| li.id }
+    deleted_li_ids = existing_li_ids - params_li_ids
+    begin
+      Lineitem.where(:id => deleted_li_ids).destroy_all
+    rescue => e
+      Rails.logger.warn 'lineitem errors: can not delete lineitem ' + e.message.inspect
+    end
+
+
     params.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 

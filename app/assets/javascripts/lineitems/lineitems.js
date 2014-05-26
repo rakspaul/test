@@ -247,7 +247,8 @@
           // 300x50 or 320x50 = mobile
           // 100x72 or 99x72 = FB
           // All else = Display
-          if(view.model.is_blank_li) {
+          var name = $(this).data('name');
+          if (view.model.is_blank_li && name != 'companion_ad_size') {
             switch(newValue[0]) {
               case '1x1':
                 view._changeMediaType("Video");
@@ -417,6 +418,10 @@
         adImps = adImps * ratio;
         ad.set('volume', parseInt(adImps));
       });
+    },
+
+    showDeleteBtn: function() {
+      this.ui.delete_btn.show();
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -709,19 +714,26 @@
       var li = this.model,
           li_view = this;
 
-      var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
-      var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')) : [];
-      var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
-      var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+      var selected_geos  = li.get('targeting').get('selected_geos') ? _.clone(li.get('targeting').get('selected_geos')) : [];
+      var zipcodes       = li.get('targeting').get('selected_zip_codes') ? _.clone(li.get('targeting').get('selected_zip_codes')) : [];
+      var kv             = li.get('targeting').get('selected_key_values') ? _.clone(li.get('targeting').get('selected_key_values')) : [];
+
+      var frequency_caps = [];
+      var notFilteredFrequencyCaps = li.get('targeting').get('frequency_caps') ? _.clone(li.get('targeting').get('frequency_caps')) : [];
+      _.each(notFilteredFrequencyCaps.models, function(fc) {
+        frequency_caps.push(_.omit(fc.attributes, 'id'));
+      });
 
       var new_li = new LineItems.LineItem(),
-          creatives_list = null;
+          creatives_list = null,
+          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
       new_li.setBlankLiFlag();
 
       if(this.model.get('creatives').length > 0) {
         var creatives = [];
         _.each(this.model.get('creatives').models, function(c) {
-          creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+          var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+          creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
         });
         creatives_list = new ReachUI.Creatives.CreativesList(creatives);
       } else {
@@ -729,6 +741,7 @@
       }
 
       new_li.set({
+        uploaded: false,
         start_date: this.model.get('start_date'),
         end_date: this.model.get('end_date'),
         ad_sizes: this.model.get('ad_sizes'),
@@ -745,26 +758,40 @@
           selected_key_values: kv,
           frequency_caps: frequency_caps,
           audience_groups: li.get('audience_groups'),
-          keyvalue_targeting: li.get('keyvalue_targeting'),
+          keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
           type: li.get('type')
         })
       }, { silent: true });
       new_li.platforms = li.platforms;
 
       _.each(li.ads, function(ad) {
-        var new_ad = new ReachUI.Ads.Ad(ad.attributes);
+        var adAttributes = _.omit(_.clone(ad.attributes), 'id', 'source_id', 'io_lineitem_id');
+        var new_ad = new ReachUI.Ads.Ad(adAttributes), ad_creatives = [];
+
+        if (ad.get('creatives').length > 0) {
+          _.each(ad.get('creatives').models, function(c) {
+            var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+            ad_creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
+          });
+        }
+
+        var adFrequencyCaps = [];
+        var notFilteredAdFrequencyCaps = ad.get('targeting').get('frequency_caps');
+        _.each(notFilteredAdFrequencyCaps.models, function(fc) {
+          adFrequencyCaps.push(_.omit(fc.attributes, 'id'));
+        });
 
         new_ad.set({
           start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
-          creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
+          creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
           targeting: new ReachUI.Targeting.Targeting({
-            selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
-            selected_geos: ad.get('targeting').get('selected_geos'),
-            selected_key_values: ad.get('targeting').get('selected_key_values'),
-            frequency_caps: ad.get('targeting').get('frequency_caps'),
-            audience_groups: li.get('targeting').get('audience_groups'),
-            keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
+            selected_zip_codes: _.clone(ad.get('targeting').get('selected_zip_codes')),
+            selected_geos: _.clone(ad.get('targeting').get('selected_geos')),
+            selected_key_values: _.clone(ad.get('targeting').get('selected_key_values')),
+            frequency_caps: adFrequencyCaps,
+            audience_groups: _.clone(li.get('targeting').get('audience_groups')),
+            keyvalue_targeting: _.clone(ad.get('targeting').get('keyvalue_targeting')),
             dfp_key_values: ad.dfp_key_values,
             ad_dfp_id: ad.get('source_id'),
             type: ad.get('type')
@@ -775,6 +802,11 @@
       });
 
       this.model.collection.add(new_li);
+      this.model.collection.trigger('lineitem:added');
+    },
+
+    _deleteLineitem: function() {
+      this.model.collection.remove(this.model);
     },
 
     ui: {
@@ -782,7 +814,8 @@
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+      lineitem_sizes: '.lineitem-sizes',
+      delete_btn: '.li-delete-btn'
     },
 
     _toggleRevisionDialog: function(e) {
@@ -909,7 +942,8 @@
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType',
-      'click .li-duplicate-btn': '_duplicateLineitem'
+      'click .li-duplicate-btn': '_duplicateLineitem',
+      'click .li-delete-btn': '_deleteLineitem'
     },
 
     triggers: {
@@ -920,6 +954,15 @@
   LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
+
+    initialize: function() {
+      var view = this;
+      this.collection.bind('lineitem:added', function() {
+        var lastLIview = view.children.findByIndex(view.children.length - 1);
+        lastLIview._recalculateMediaCost();
+        lastLIview.showDeleteBtn();
+      });
+    },
 
     onRender: function() {
       if (this.collection.order.get('order_status') == 'Pushing') {
@@ -1176,7 +1219,15 @@
       var li = new LineItems.LineItem(),
           empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
           itemIndex = this.collection.length + 1;
-      li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+      li.set({
+        uploaded:  false,
+        itemIndex: itemIndex,
+        ad_sizes: '',
+        name: '',
+        creatives: empty_creatives_list,
+        start_date: null,
+        end_date: null
+      });
       li.setBlankLiFlag();
 
       var platforms = [];
@@ -1184,11 +1235,13 @@
         platforms = this.collection[this.collection.length - 1];
         li.platforms = platforms;
         this.collection.add(li);
+        this.collection.trigger('lineitem:added');
       } else {
         platforms = new ReachUI.AdPlatforms.PlatformList();
         platforms.fetch().then(function() {
           li.platforms = platforms;
           this.collection.add(li);
+          this.collection.trigger('lineitem:added');
         });
       }
     },

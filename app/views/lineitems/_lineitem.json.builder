@@ -9,6 +9,7 @@ json.rate               lineitem.rate
 json.value              lineitem.value
 json.ad_sizes           lineitem.ad_sizes
 json.order_id           lineitem.order.id
+json.uploaded           lineitem.uploaded
 json.selected_zip_codes lineitem.zipcodes.collect{ |zip| zip.name }
 
 json.selected_key_values do

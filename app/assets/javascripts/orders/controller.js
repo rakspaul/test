@@ -727,7 +727,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -821,10 +821,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           itemIndex += 1;
 
           li_view.model.ads = [];
+          li_show_delete_btn = li_view.model.get('uploaded') ? false : true;
           _.each(li_ads[li_view.model.get('id')], function(attrs) {
             attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
             attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
-
             var ad = new ReachUI.Ads.Ad(attrs.ad);
 
             ad.set({
@@ -843,9 +843,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               })
             });
 
+            if (li_show_delete_btn && !isNaN(parseInt(ad.get('source_id')))) {
+              li_show_delete_btn = false;
+            }
+
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
           });
+          if (li_show_delete_btn) {
+            li_view.showDeleteBtn();
+          }
         });
 
         lineItemList._recalculateLiImpressionsMediaCost();
