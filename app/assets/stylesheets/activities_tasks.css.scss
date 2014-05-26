@@ -165,6 +165,13 @@ textarea {
     box-sizing: border-box;
     width: 120px;
     min-width: 120px;
+
+    #btnSaveComment {
+      background-color: $btn-primary-bg;
+      &:hover {
+        background-color: $btn-bg-hover;
+      }
+    }
   }
 }
 
