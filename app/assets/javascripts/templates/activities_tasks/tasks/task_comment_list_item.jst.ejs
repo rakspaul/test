@@ -1,0 +1,16 @@
+<div class="pure-g">
+  <div class="<%= activity_type != undefined && activity_type==='system_comment'?'activity-system-comment':'activity-user-comment'%> ">
+    <div class="pure-u-1-5">
+      <%= created_by %>
+    </div>
+    <div class="pure-u-1-24">
+      <i class="comment-icon"></i>
+    </div>
+    <div class="pure-u-3-5">
+      <%= note %>
+    </div>
+    <div class="pure-u-1-6 date">
+      <%= moment(created_at).format("MM/DD/YYYY") %>
+    </div>
+  </div>
+</div>
