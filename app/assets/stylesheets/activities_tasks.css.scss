@@ -142,10 +142,6 @@ textarea {
   }
 }
 
-.activities-table {
-  margin-top: 30px;
-}
-
 .activity-input-control {
   margin-top: 20px;
 
@@ -239,4 +235,28 @@ textarea {
 
 .header-controls {
   text-align: right;
+}
+
+button.rui-btn {
+  &#btnRemoveAttachment {
+    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
+    font-size: 11px;
+    .remove-btn {
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+      vertical-align: middle;
+    }
+
+
+    &:hover {
+      background-color: #fff;
+      &#btnRemoveAttachment {
+        .remove-btn {
+          @include transition(opacity 1s);
+          opacity: 1;
+        }
+      }
+    }
+  }
 }
