@@ -45,6 +45,14 @@ textarea {
     }
 
     .activities-list {
+      height: auto;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .username {
+        color: $rui-heading-text-color;
+      }
+
       .activity-system-comment {
         font-size: 12px;
         color: #666
@@ -109,12 +117,6 @@ textarea {
 // UI Styles by RoDush [BEGIN]
 //--------------------------------
 
-.activities-list {
-  height: auto;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
 .activity-system-comment,
 .activity-user-comment {
 
@@ -134,22 +136,28 @@ textarea {
   margin-top: 20px;
 
   .username {
-    padding-right: 10px;
     text-align: right;
   }
 
-  #activity_input {
+  .activity-comment-input-container {
+    margin-left: 10px;
+    margin-right: 130px;
+  }
+
+  textarea#activity_input {
     resize: vertical;
   }
 
   .action-controls {
-    text-align: right;
+    float: right;
+    box-sizing: border-box;
+    width: 120px;
+    min-width: 120px;
   }
 }
 
 #task_form {
   .controls-container {
-    margin-left: 175px;
     div[class *= "-icon"]{
       vertical-align: middle;
       margin-left: 10px;
@@ -160,6 +168,7 @@ textarea {
     }
 
     #due-date {
+      width: 90px;
       border: none;
     }
   }
@@ -228,6 +237,7 @@ textarea {
 button.rui-btn {
   &#btnRemoveAttachment {
     //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
+    margin-left: 5px;
     font-size: 11px;
     .remove-btn {
       opacity: 0;
