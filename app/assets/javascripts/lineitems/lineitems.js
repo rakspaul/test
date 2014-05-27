@@ -956,11 +956,13 @@
     template: JST['templates/lineitems/line_item_table'],
 
     initialize: function() {
-      var view = this;
-      this.collection.bind('lineitem:added', function() {
-        var lastLIview = view.children.findByIndex(view.children.length - 1);
-        lastLIview._recalculateMediaCost();
-        lastLIview.showDeleteBtn();
+      var children = this.children,
+          view = this;
+
+      this.collection.bind('lineitem:added', function(view) {
+        var lastLIView = view.children.findByIndex(view.collection.length - 1);
+        lastLIView._recalculateMediaCost();
+        lastLIView.showDeleteBtn();
       });
     },
 
@@ -1235,13 +1237,13 @@
         var lastLI = this.collection.at(this.collection.length - 1);
         li.platforms = lastLI.platforms;
         this.collection.add(li);
-        this.collection.trigger('lineitem:added');
+        this.collection.trigger('lineitem:added', this);
       } else {
         platforms = new ReachUI.AdPlatforms.PlatformList();
         platforms.fetch().then(function() {
           li.platforms = platforms;
           this.collection.add(li);
-          this.collection.trigger('lineitem:added');
+          this.collection.trigger('lineitem:added', this);
         });
       }
     },
