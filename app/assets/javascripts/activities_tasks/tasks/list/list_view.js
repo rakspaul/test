@@ -10,40 +10,19 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       },
 
       showTaskView: function() {
-//        var taskDetailRegion = new List.TaskDetailRegion();
-//        taskDetailRegion.show(new List.TaskDetailView({model: this.model}));
-//
-//        var taskCommentRegion = new List.TaskCommentRegion();
-//        this._fetchTaskComments(this.model).then(function(taskComments) {
-//          taskCommentRegion.show(new List.TaskCommentListView({collection: taskComments}));
-//        });
-//
-//        if(this.model.collection.selectedTask) {
-//          this.model.collection.selectedTask.$el.removeClass('task-selected');
-//        }
-//
-//        this.model.collection.selectedTask = this;
-//        this.$el.addClass('task-selected');
+        if(this.model.collection.selectedTask) {
+          this.model.collection.selectedTask.$el.removeClass('task-selected');
+        }
+
+        this.model.collection.selectedTask = this;
+        this.$el.addClass('task-selected');
 
         ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model});
-      },
-
-      _fetchTaskComments: function(task) {
-        var taskCommentList = new ReachActivityTaskApp.Entities.TaskCommentList();
-        taskCommentList.setTask(task);
-        var self = this;
-        return taskCommentList.fetch().then(
-          function (collection, response, options) {
-            return taskCommentList;
-          },
-          function (model, response, options) {
-            console.log('Error getting task comments: ' + response);
-          }
-        );
       }
     });
 
     List.Tasks = Marionette.CollectionView.extend({
+      tagName: 'div',
       itemView: List.Task,
       className: 'task-list-container',
 
@@ -62,19 +41,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       }
     });
 
-    List.TaskDetailRegion = Backbone.Marionette.Region.extend({
-      el: '.task-details-table'
-    });
-
-
-    List.TaskCommentRegion = Backbone.Marionette.Region.extend({
-      el: '.task-comments'
-    });
-
     List.TaskDetailView = Backbone.Marionette.ItemView.extend({
-      template: JST['templates/activities_tasks/tasks/task_detail'],
+      template: JST['templates/activities_tasks/tasks/task_details'],
 
       model: List.Task,
+
+      className: 'task-details-table',
 
       events: {
         'click .task-detail-view-close' : '_closeTaskDetailView'
@@ -82,15 +54,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       _closeTaskDetailView: function() {
         this.close();
+        ReachActivityTaskApp.trigger("include:activities");
       },
 
       onShow: function() {
-        this.$el.parent().parent().find('.activities-table').hide();
-        this.$el.addClass('task-selected');
+//        this.$el.addClass('task-selected');
       },
 
       onClose: function() {
-        this.$el.parent().parent().find('.activities-table').show();
         if(this.model.collection.selectedTask) {
           this.model.collection.selectedTask.$el.removeClass('task-selected');
         }

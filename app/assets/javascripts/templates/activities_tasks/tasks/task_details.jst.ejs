@@ -1,3 +1,11 @@
+<div class="pure-g">
+  <div class="pure-u-1-2">
+    <h2 class="heading">
+      <i class="task_checked-icon"></i> Task Details
+    </h2>
+  </div>
+</div>
+
 <div class="task-detail-view-close"><i class="close-icon"></i></div>
 
 <div class="pure-g">
@@ -9,7 +17,7 @@
     <p><%= name %></p>
   </div>
   <div class="pure-u-1-5 task-time">
-    <%= time_since %>
+    <%= moment(created_at).endOf('day').fromNow()%>
   </div>
 </div>
 
@@ -21,24 +29,23 @@
   </div>
   <div class="pure-u-1-4">
     <select name="task_type">
-      <% _.each(task_types, function(tt) { %>
-      <option
-          value="<%= tt.name %>" <%= tt.task_type == tt.name ? 'selected="selected"' : '' %>><%= tt.display_name %></option>
+      <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
+        <option value="<%= tt.get('id')%>" <%= task_type_id ==  tt.get('id') ? 'selected="selected"' : '' %>><%= tt.get('type')%></option>
       <% }); %>
     </select>
   </div>
   <div class="pure-u-1-4">
     <i class="user-icon"></i>
-    <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assigned_to %></span>
+    <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
   </div>
   <div class="pure-u-1-5">
-    <i class="clock-icon"></i> <%= duration %>
+    <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : ""%>
   </div>
 </div>
 
 <div class="pure-g">
   <div class="pure-u-1-5">
-    <button class="rui-btn" id="btnMarkTastDone">
+    <button class="rui-btn" id="btnMarkTaskDone">
       <i class="green_check-icon"></i> Close Task
     </button>
   </div>
@@ -53,3 +60,27 @@
 
 <!-- Task comments container -->
 <div class="task-comments-container"></div>
+<div class="load-more">
+    <label id="loadMoreTaskCommentsBtn">Load More...</label>
+    <label id="loadLessTaskCommentsBtn" style="display: none;">Load Less...</label>
+    <label id="loadDefaultTaskCommentsBtn" style="display: none;">Back to default view...</label>
+</div>
+
+<div class="task-comment-input-control pure-g">
+  <div class="username pure-u-1-5">
+    <%= window.current_user_name%>
+  </div>
+  <div class="pure-u-1-2">
+    <div class="task-comment-input"></div>
+    <textarea id="task_comment_input" placeholder="Note" rows="2" cols="26"></textarea>
+  </div>
+  <div class="task-comment-controls pure-u-1-4">
+    <button class="rui-btn activity_log_inactive_attach"
+                title="Add Attachment"
+                id="btnSaveTaskAttachment"
+                type="file"
+                name="task_comment_attachment"
+                data-url="/activity_attachment.json"></button>
+    <button id="btnSaveTaskComment" class="rui-btn activity-log-comment" title="Add Comment"></button>
+  </div>
+</div>

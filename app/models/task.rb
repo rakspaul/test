@@ -29,10 +29,6 @@ class Task < ActiveRecord::Base
 
   before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
 
-  def due_date=(val)
-    Time.strptime(val, '%m/%d/%Y') if self.due_date.is_a?(String)
-  end
-
   private
 
   def validate_due_date

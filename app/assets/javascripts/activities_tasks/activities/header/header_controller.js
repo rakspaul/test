@@ -50,6 +50,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
           var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
           $.when(fetchActivity).done(function(activity){
             ReachActivityTaskApp.trigger("activities:list");
+            ReachActivityTaskApp.trigger("tasks:list");
           });
         }
 

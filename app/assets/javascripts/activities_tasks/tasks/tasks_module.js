@@ -12,11 +12,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
   });
 
   Tasks.CommentsLayout = Marionette.Layout.extend({
-    template: JST['templates/activities_tasks/tasks/task_detail'],
+    template: JST['templates/activities_tasks/tasks/task_comment_list'],
 
     regions: {
-      taskCommentsRegion: '.task-comments'
+      taskCommentsRegion: '.task-comments-container'
     }
+  });
+
+  Tasks.TaskCommentRegion = Backbone.Marionette.Region.extend({
+    el: '.task-comments-container'
   });
 
   /*
