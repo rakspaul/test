@@ -825,7 +825,7 @@
       });
 
       this.model.collection.add(new_li);
-      this.model.collection.trigger('lineitem:added', li_view);
+      this.model.collection.trigger('lineitem:added');
     },
 
     _deleteLineitem: function() {
@@ -1016,7 +1016,11 @@
     template: JST['templates/lineitems/line_item_table'],
 
     initialize: function() {
+      var self = this;
       this.collection.bind('lineitem:added', function(view) {
+        if (!view) {
+          view = self;
+        }
         var lastLIView = view.children.findByIndex(view.collection.length - 1);
         lastLIView._recalculateMediaCost();
         lastLIView.showDeleteBtn();
