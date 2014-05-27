@@ -825,7 +825,7 @@
       });
 
       this.model.collection.add(new_li);
-      this.model.collection.trigger('lineitem:added');
+      this.model.collection.trigger('lineitem:added', li_view);
     },
 
     _deleteLineitem: function() {
