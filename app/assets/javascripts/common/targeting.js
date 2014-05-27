@@ -34,9 +34,9 @@
       this.show_custom_key_values = false;
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
-      // this.validateKV = true;
       this.errors_in_zip_codes = false;
       this.isCustomKeyValueValid = true;
+      this.reachCustomKeyValues = this.model.get('keyvalue_targeting') || '';
     },
 
     serializeData: function(){
@@ -122,7 +122,6 @@
 
       this._renderFrequencyCaps();
       this._renderSelectedTargetingOptions();
-      // this.validateCustomKV();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
     },
@@ -171,45 +170,11 @@
       var html = JST['templates/targeting/selected_targeting'](dict);
       this.$el.find('.selected-targeting').html(html);
 
-      // this.model.attributes.keyvalue_targeting = this._getReachCustomKV();
       this.model.attributes.isAdPushed = this._getAdPushed();
-      // this.validateCustomKV();
     },
 
     _getReachCustomKV: function() {
-      // if(this.validateKV) {
-      //   var keyvalue_targeting = this.model.get('keyvalue_targeting'),
-      //       dfp_key_values = this.model.get('dfp_key_values'),
-      //       dfp_kv = [],
-      //       reach_cust_kv = [];
-
-      //   var order_status = this.model.get('order_status');
-      //   if(order_status === '') {
-      //     order_status = 'draft';
-      //   }
-
-      //   if(dfp_key_values && this._getAdPushed() && order_status === 'Pushed') {
-      //     dfp_kv = dfp_key_values.split(',');
-      //   }
-
-      //   reach_cust_kv = keyvalue_targeting.split(',');
-
-      //   if(dfp_kv != '') {
-      //     var dfp_true = _.difference(dfp_kv, reach_cust_kv),
-      //         dfp_false = _.difference(reach_cust_kv, dfp_kv);
-
-      //     reach_cust_kv = _.difference(reach_cust_kv, dfp_false).concat(dfp_true);
-      //   }
-
-      //   if(reach_cust_kv.length) {
-      //     reach_cust_kv = reach_cust_kv.join(',');
-      //   }
-      // } else {
-      //   reach_cust_kv = this.model.get('keyvalue_targeting');
-      // }
-
-      // return reach_cust_kv;
-      return this.model.get('keyvalue_targeting');
+      return this.reachCustomKeyValues;
     },
 
     _getAdPushed: function() {
@@ -331,25 +296,6 @@
       this._renderSelectedTargetingOptions();
     },
 
-    // validateCustomKV: function(e) {
-    //   var custom_kv = this.model.get('keyvalue_targeting'), self = this;
-    //   this.errors_in_kv = false;
-
-    //   if(custom_kv.trim() != "") {
-    //     _.each(custom_kv.split(','), function(el) {
-    //       if(el.trim().match(/^(\w+)=([\w\.]+)$/) == null) {
-    //         self.errors_in_kv = "Key value format should be [key]=[value]";
-    //       }
-    //     });
-
-    //     if(custom_kv.trim().match(/(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/)) {
-    //       this.errors_in_kv = "Key values should be comma separated";
-    //     }
-    //   }
-
-    //   this._toogleDoneBtn();
-    // },
-
     validateZipCodes: function(zip_codes){
       this.errors_in_zip_codes = false;
 
@@ -379,12 +325,13 @@
     },
 
     _onCustomKeyValueChange: function(event) {
+      this.reachCustomKeyValues = event.target.value
       this.isCustomKeyValueValid = false;
     },
 
     _updateCustomKVs: function(e) {
       this.isCustomKeyValueValid = true;
-      this.model.attributes.keyvalue_targeting = this.$el.find(".custom-kvs-field").val();
+      this.model.attributes.keyvalue_targeting = this.reachCustomKeyValues;
     },
 
     _onSave: function() {
