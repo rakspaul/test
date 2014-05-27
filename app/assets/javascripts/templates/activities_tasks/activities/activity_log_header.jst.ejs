@@ -4,22 +4,23 @@
   </div>
   <div class="pure-u-1-2 header-controls text-right">
     <button class="rui-btn" title="Filter with Comments" id="btnFilterComments">
-      <div class="comment-icon"></div>
+      <i class="comment-icon"></i>
     </button>
     <button class="rui-btn" title="Filter with Attachments" id="btnFilterAttachments">
-      <div class="attachment-icon"></div>
+      <i class="attachment-icon"></i>
     </button>
     <button class="rui-btn" title="Filter Alerts" id="btnFilterAlerts">
-      <div class="alert-icon"></div>
+      <i class="alert-icon"></i>
     </button>
-    <button class="rui-btn" title="Filter by Done Tasks" id="btnFilterTasks">
-      <div class="task_checked-icon"></div>
+    <!-- TODO: '.active' class added only as example. This should be controlled by View for the filter controller -->
+    <button class="rui-btn active" title="Filter by Done Tasks" id="btnFilterTasks">
+      <i class="task_done-icon"></i>
     </button>
-    <button class="rui-btn" title="Filter by Assignee" id="btnFilterUser">
-      <div class="user-icon"></div>
+    <button class="rui-btn active" title="Filter by Assignee" id="btnFilterUser">
+      <i class="user-icon"></i>
     </button>
     <button class="rui-btn" title="Filter with Due Date" id="btnFilterDueDates">
-      <div class="clock-icon"></div>
+      <i class="clock-icon"></i>
     </button>
     <button class="rui-btn" title="Show full log" id="btnFullLog">Full Log</button>
   </div>
@@ -28,48 +29,65 @@
   <div class="username pure-u-1-5">
     <%= window.current_user_name %>
   </div>
-  <div class="activities pure-u-3-5">
-    <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
-  </div>
-  <div class="action-controls pure-u-1-6">
-    <button id="btnSaveAttachment"
-            class="rui-btn"
-            title="Add Attachment"
-            type="file"
-            name="activity_attachment"
-            data-url="/activity_attachment.json"><div class="attachment-icon"></div></button>
-    <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
-      <div class="task_checked-icon"></div>
-    </button>
-    <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
-      <div class="alert-icon"></div>
-    </button>
-    <button id="btnSaveComment" class="rui-btn" title="Add Comment">
-      <div class="comment-icon"></div>
+  <div class="pure-u-4-5">
+    <div class="action-controls">
+      <button id="btnSaveAttachment"
+              class="rui-btn"
+              title="Add Attachment"
+              type="file"
+              name="activity_attachment"
+              data-url="/activity_attachment.json">
+        <div class="attachment-icon"></div>
+      </button>
+      <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
+        <div class="task_done-icon"></div>
+      </button>
+      <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
+        <div class="alert-icon"></div>
+      </button>
+      <button id="btnSaveComment" class="rui-btn" title="Add Comment">
+        <div class="comment_white-icon"></div>
+      </button>
+    </div>
+    <div class="activity-comment-input-container">
+      <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
+    </div>
+    <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
+    <button class="rui-btn" id="btnRemoveAttachment">
+      <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
+      <i class="attachment-type archive-icon"></i>
+      <!--TODO: Put here attached file name-->
+      <span id="#taskAttachedFileName">Test_Attachment.zip</span>
+      <i class="remove-btn"></i>
     </button>
   </div>
 </div>
-<div id="task_form" class="task-form-region" style="display: none">
+<!-- TODO: Extract this into separate template (and possibly - region?) -->
+<div id="task_form" class="task-form-region" style="display: none;">
   <form class="form-inline" name="task_form">
     <div class="pure-g">
-      <div class="pure-u-1 controls-container">
-        <div class="task_open-icon"></div>
-        <select id="task-types-selector" name="task_type_id">
-          <% _.each(task_types, function(tt) { %>
-          <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
-          <%}); %>
-        </select>
-        <div class="user-icon"></div>
-        <select id="task-assignee-selector">
-          <% _.each(users, function(user) { %>
-            <option value="<%= user.id%>"><%= user.name%></option>
-          <% }); %>
-        </select>
-        <div class="clock-icon"></div>
-        <input type="text" class="span2" value="<%= moment(due_date).format("YYYY-MM-DD") %>" id="due-date" placeholder="Due Date">
-        <button type="button" id="saveTask" class="btn btn-small btn-primary editable-submit">
-          <i class="icon-ok icon-white"></i>
-        </button>
+      <div class="pure-u-1-5"></div>
+      <div class="pure-u-4-5 controls-container">
+        <div class="pure-g">
+          <div class="pure-u-1">
+            <div class="task_open-icon"></div>
+            <select id="task-types-selector" name="task_type_id">
+              <% _.each(task_types, function(tt) { %>
+              <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
+              <%}); %>
+            </select>
+
+            <div class="user-icon"></div>
+            <select id="task-assignee-selector">
+              <% _.each(users, function(user) { %>
+              <option value="<%= user.id%>"><%= user.name%></option>
+              <% }); %>
+            </select>
+
+            <div class="clock-icon"></div>
+            <input type="text" class="span2" value="<%= moment(due_date).format("MM/DD/YYYY") %>" id="due-date" placeholder="Due Date">
+          </div>
+        </div>
         <!-- Additional sub-form -->
         <div id="pixel-request-subform" style="display: none;">
           <div class="pure-g">

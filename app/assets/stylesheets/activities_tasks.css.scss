@@ -13,11 +13,6 @@
   font-weight: normal;
   margin: 0;
   padding: 0;
-
-  // align all icons within heading elements with text
-  *[class *= "-icon"] {
-    vertical-align: bottom;
-  }
 }
 
 textarea {
@@ -31,16 +26,11 @@ textarea {
   border-right: 1px solid $rui-input-border-color;
   border-radius: 0;
   resize: vertical;
-  min-width: 100%;
+  min-width: 98%;
 }
 
 .activities-container {
-  margin: 20px auto;
-}
-
-@mixin activities_task_region() {
-  margin: 0 auto;
-  width: 96%;
+  margin: 20px 70px 20px 40px;
   font-size: 13px;
   color: #000;
   font-weight: normal;
@@ -48,8 +38,6 @@ textarea {
 
 // Activities Region styling
 .activities-region {
-  @include activities_task_region;
-
   .activities-content {
 
     .load-more {
@@ -57,9 +45,29 @@ textarea {
     }
 
     .activities-list {
+      height: auto;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .username {
+        color: $rui-heading-text-color;
+      }
+
       .activity-system-comment {
         font-size: 12px;
         color: #666
+      }
+
+      .activity-log-subrow {
+        font-size: 10px;
+        color: $rui-gray-color;
+        .task-attachment {
+          display: block;
+        }
+        span {
+          display: inline-block;
+          margin-right: 10px;
+        }
       }
     }
   }
@@ -71,7 +79,8 @@ textarea {
       margin-bottom: 5px;
     }
 
-    .follow-task, .close-task {
+    .follow-task,
+    .close-task {
       color: $rui-gray-color;
     }
 
@@ -102,8 +111,7 @@ textarea {
 
 // Tasks Region styling
 .tasks-region {
-  @include activities_task_region;
-
+  margin-left: 30px;
   .task-selected {
     padding: 5px;
     border: 1px dashed $rui-gray-color;
@@ -121,12 +129,6 @@ textarea {
 // UI Styles by RoDush [BEGIN]
 //--------------------------------
 
-.activities-list {
-  height: auto;
-  max-height: 200px;
-  overflow-y: auto;
-}
-
 .activity-system-comment,
 .activity-user-comment {
 
@@ -142,30 +144,39 @@ textarea {
   }
 }
 
-.activities-table {
-  margin-top: 30px;
-}
-
 .activity-input-control {
   margin-top: 20px;
 
   .username {
-    padding-right: 10px;
     text-align: right;
   }
 
-  #activity_input {
+  .activity-comment-input-container {
+    margin-left: 10px;
+    margin-right: 130px;
+  }
+
+  textarea#activity_input {
     resize: vertical;
   }
 
   .action-controls {
-    text-align: right;
+    float: right;
+    box-sizing: border-box;
+    width: 120px;
+    min-width: 120px;
+
+    #btnSaveComment {
+      background-color: $btn-primary-bg;
+      &:hover {
+        background-color: $btn-bg-hover;
+      }
+    }
   }
 }
 
 #task_form {
   .controls-container {
-    margin-left: 175px;
     div[class *= "-icon"]{
       vertical-align: middle;
       margin-left: 10px;
@@ -176,6 +187,7 @@ textarea {
     }
 
     #due-date {
+      width: 90px;
       border: none;
     }
   }
@@ -239,4 +251,64 @@ textarea {
 
 .header-controls {
   text-align: right;
+
+  .rui-btn:not(.active) {
+    @include opacity(30);
+    &:hover {
+      @include opacity(100);
+      @include transition(opacity 1s);
+    }
+  }
 }
+
+button.rui-btn {
+  &#btnRemoveAttachment {
+    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
+    margin-left: 5px;
+    font-size: 11px;
+    .remove-btn {
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+      vertical-align: middle;
+    }
+
+
+    &:hover {
+      background-color: #fff;
+      &#btnRemoveAttachment {
+        .remove-btn {
+          @include transition(opacity 1s);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// FOLLOWERS REGION [BEGIN]
+#followersRegion {
+  margin: 40px 0 0 30px;
+}
+
+.followers-list-container {
+  margin-top: 10px;
+}
+
+ul.followers-list {
+  margin: 2px 0 0;
+  padding: 0;
+  float: left;
+  margin-right: 10px;
+  vertical-align: middle;
+  li {
+    display: inline-block;
+    &:not(:last-child) {
+      &:after {
+        display: inline-block;
+        content: ", ";
+      }
+    }
+  }
+}
+// FOLLOWERS REGION [END]

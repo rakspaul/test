@@ -179,18 +179,20 @@ button.rui-btn {
   box-sizing: border-box;
 
   &:hover {
-    @each $hover-icon in $hover_icon_names {
-      .#{$hover-icon}-icon {
-        @include sized-sprite($images, $hover-icon + "-hover");
-      }
-    }
-    @each $btn in $btn_names {
-      .#{$btn} {
-        @include sized-sprite($images, $btn + "-hover");
-      }
-    }
-    background-color: lighten($btn-bg-hover, 0.5);
-//    box-shadow: 0px 0px 1px 2px $btn-bg-hover;
+//    @each $hover-icon in $hover_icon_names {
+//      .#{$hover-icon}-icon {
+//        @include sized-sprite($images, $hover-icon + "-hover");
+//      }
+//    }
+//    @each $btn in $btn_names {
+//      .#{$btn} {
+//        @include sized-sprite($images, $btn + "-hover");
+//      }
+//    }
+//
+//    &:not(.no-highlight) {
+//      background-color: lighten($btn-bg-hover, 0.5);
+//    }
   }
 }
 
