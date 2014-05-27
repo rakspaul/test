@@ -1017,15 +1017,11 @@
 
     initialize: function() {
       var view = this;
-      this.collection.bind('lineitem:added', function() {
+      this.listenTo(this.collection, 'lineitem:added', function() {
         var lastLIView = view.children.findByIndex(view.children.length - 1);
         lastLIView._recalculateMediaCost();
         lastLIView.showDeleteBtn();
       });
-    },
-
-    close: function() {
-      this.collection.off('lineitem:added');
     },
 
     onRender: function() {
