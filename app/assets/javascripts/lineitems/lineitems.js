@@ -420,7 +420,8 @@
       });
     },
 
-    showDeleteBtn: function() {
+    showDupDeleteBtn: function() {
+      this.ui.dup_btn.show();
       this.ui.delete_btn.show();
     },
 
@@ -815,6 +816,7 @@
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
       lineitem_sizes: '.lineitem-sizes',
+      dup_btn: '.li-duplicate-btn',
       delete_btn: '.li-delete-btn'
     },
 
@@ -960,7 +962,7 @@
       this.listenTo(this.collection, 'lineitem:added', function() {
         var lastLIView = view.children.findByIndex(view.children.length - 1);
         lastLIView._recalculateMediaCost();
-        lastLIView.showDeleteBtn();
+        lastLIView.showDupDeleteBtn();
       });
     },
 
