@@ -13,6 +13,11 @@
   font-weight: normal;
   margin: 0;
   padding: 0;
+
+  // align all icons within heading elements with text
+  *[class *= "-icon"] {
+    vertical-align: bottom;
+  }
 }
 
 textarea {
@@ -33,27 +38,17 @@ textarea {
   margin: 20px auto;
 }
 
-// Activities Region styling
-.activities-region {
+@mixin activities_task_region() {
   margin: 0 auto;
-  width: 90%;
+  width: 96%;
   font-size: 13px;
   color: #000;
   font-weight: normal;
+}
 
-  .activities-header {
-    .note-container {
-      margin-top: 5px;
-    }
-
-    .activity-input-control {
-
-      .activities {
-        width: 60%
-      }
-    }
-
-  }
+// Activities Region styling
+.activities-region {
+  @include activities_task_region;
 
   .activities-content {
 
@@ -62,8 +57,8 @@ textarea {
     }
 
     .activities-list {
-      font-size: 14px;
       .activity-system-comment {
+        font-size: 12px;
         color: #666
       }
     }
@@ -84,92 +79,10 @@ textarea {
       width: 120px;
     }
 
-    // TODO: Get rid of this - replace with <div "*-icon"> elements
-    .follow-task {
-      &:before {
-        content: url(asset-path('follow_task.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .task-name {
-      &:before {
-        content: url(asset-path('task_open.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .assigned-to {
-      &:before {
-        content: url(asset-path('task_assigned_to.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .close-task {
-      &:before {
-        content: url(asset-path('close_task.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .task-duration {
-      &:before {
-        content: url(asset-path('task_duration.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .task-created-by {
-      &:before {
-        content: url(asset-path('task_created_by.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .task-attachment {
-      &:before {
-        content: url(asset-path('task_attachment.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 5px;
-      }
-    }
-
-    .task-comment {
-      &:before {
-        content: url(asset-path('activity_log_active_comment_icon.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 10px;
-      }
-    }
-
     .task-detail-view-close {
-      content: url(asset-path('task_detail_view_close.png'));
-      width: 16px;
-      height: 16px;
-      margin-right: 5px;
+      position: absolute;
+      right: 5px;
+      top: 5px;
     }
 
     .task-comment-container {
@@ -178,22 +91,9 @@ textarea {
   }
 
   .task-comment-input-control {
-
     margin-top: 10px;
-
     textarea {
       min-width: 85%;
-    }
-
-    .task-comment-input {
-      &:before {
-        content: url(asset-path('activity_log_active_comment_icon.png'));
-        width: 16px;
-        height: 16px;
-        float: left;
-        margin-right: 10px;
-        margin-left: 5px;
-      }
     }
   }
 }
@@ -202,27 +102,12 @@ textarea {
 
 // Tasks Region styling
 .tasks-region {
+  @include activities_task_region;
 
   .task-selected {
     padding: 5px;
     border: 1px dashed $rui-gray-color;
     margin-bottom: 5px;
-  }
-
-  .task-comment {
-    background: url(asset-path('activity_log_active_comment_icon.png')) 0px 0px no-repeat;
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 5px;
-  }
-
-  .task-type {
-    content: url(asset-path('activity_log_active_task_checked.png'));
-    width: 16px;
-    height: 16px;
-    float: left;
-    margin-right: 10px;
   }
 
   .task-container {
@@ -244,10 +129,12 @@ textarea {
 
 .activity-system-comment,
 .activity-user-comment {
+
   div:first-child {
     padding-right: 10px;
     text-align: right;
   }
+
   .date {
     text-align: right;
     font-size: 11px;
@@ -323,7 +210,7 @@ textarea {
     right: -5px;
     background-color: #fff;
     color: $text_color;
-    padding: 2px 0;
+    padding: 2px 0 1px;
     text-align: center;
     width: 13px;
     height: 13px;

@@ -1,18 +1,22 @@
-<div class="task-comment">
-  <div class="task-badge">
-    <%= comments_size %>
+<div class="task-row pure-g">
+  <div class="task-comment pure-u-1-24">
+    <div class="task-badge">
+      <%= comments_size %>
+    </div>
   </div>
-</div>
-<div class="task-type-"></div>
-<div class="pure-u-1-2">
-	<%= name %>
-</div>
-<div class="pure-u-1-8 task-time">
-	<%= created_at%>
-</div>
-<div class="pure-u-1-24 center">
-  <div class="follow-icon"></div>
-</div>
-<div class="pure-u-1-6 text-right">
-	<%= created_by%>
+  <div class="task-type pure-u-1-24 center">
+    <i class="task-icon"></i>
+  </div>
+  <div class="pure-u-1-2">
+    <%= name %>
+  </div>
+  <div class="pure-u-1-8 task-time">
+    <%= created_at %>
+  </div>
+  <div class="pure-u-1-24 center">
+    <div class="follow-icon"></div>
+  </div>
+  <div class="pure-u-1-6 text-right">
+    <%= created_by%>
+  </div>
 </div>
