@@ -22,7 +22,7 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        type: 'display',
+        type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
       }
@@ -1292,8 +1292,8 @@
 
       var platforms = [];
       if (this.collection.length > 0) {
-        platforms = this.collection[this.collection.length - 1];
-        li.platforms = platforms;
+        var lastLI = this.collection.at(this.collection.length - 1);
+        li.platforms = lastLI.platforms;
         this.collection.add(li);
         this.collection.trigger('lineitem:added');
       } else {
