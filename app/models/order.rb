@@ -27,7 +27,6 @@ class Order < ActiveRecord::Base
   before_create :create_random_source_id, :make_order_inactive
   before_destroy :check_could_be_deleted
   before_save :move_end_date_time, :set_data_source
-  after_create :set_import_note
   after_update :set_push_note
 
   scope :latest_updated, -> { order("last_modified desc") }
@@ -69,6 +68,16 @@ class Order < ActiveRecord::Base
 
   def latest_import_or_push_note
     self.order_notes.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
+  end
+
+  def set_import_note
+    if !self.order_notes.detect{|n| n.note == "Imported Order"}
+      self.order_notes.create note: "Imported Order", user: current_user, order: self
+    end
+  end
+
+  def set_upload_note
+    self.order_notes.create note: "Uploaded Order", user: current_user, order: self
   end
 
   private
@@ -114,10 +123,6 @@ class Order < ActiveRecord::Base
     # order could not be deleted after it was pushed to DFP
     def check_could_be_deleted
       pushed_to_dfp? ? false : true
-    end
-
-    def set_import_note
-      self.order_notes.create note: "Imported Order", user: current_user, order: self
     end
 
     def set_push_note
