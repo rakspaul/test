@@ -1016,9 +1016,6 @@
     template: JST['templates/lineitems/line_item_table'],
 
     initialize: function() {
-      var children = this.children,
-          view = this;
-
       this.collection.bind('lineitem:added', function(view) {
         var lastLIView = view.children.findByIndex(view.collection.length - 1);
         lastLIView._recalculateMediaCost();
