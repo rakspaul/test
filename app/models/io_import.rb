@@ -260,7 +260,7 @@ class IoImport
 
     def find_media_contact
       c = @reader.media_contact
-      mc = MediaContact.where(name: c[:name], email: c[:email]).first
+      mc = MediaContact.for_user(@reach_client.id).where(name: c[:name], email: c[:email]).first
       if !mc
         @media_contact_unknown = true
         mc = MediaContact.new(name: c[:name], email: c[:email], phone: c[:phone])
@@ -272,7 +272,7 @@ class IoImport
 
     def find_billing_contact
       c = @reader.billing_contact
-      bc = BillingContact.where(name: c[:name], email: c[:email]).first
+      bc = BillingContact.for_user(@reach_client.id).where(name: c[:name], email: c[:email]).first
       if !bc
         @billing_contact_unknown = true
         bc = BillingContact.new(name: c[:name], email: c[:email], phone: c[:phone])
