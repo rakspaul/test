@@ -10,7 +10,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
                                 USER:"user",
                                 DUEDATE:"duedate",
                                 ALERT:"alert",
-                                ALL:"all"   };
+                                ALL:"all",
+                                SYSTEM:"system_comment"};
 
 
     Header.Layout =  Backbone.Marionette.ItemView.extend({
