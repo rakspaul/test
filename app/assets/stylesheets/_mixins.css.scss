@@ -37,3 +37,12 @@
   background: sprite($map, $sprite) no-repeat;
   @include image-size(sprite-file($map, $sprite));
 }
+
+// To add hover effect to control - it's content will eventually be 100% visible, instead of semi-transparent
+@mixin opaque_button() {
+  @include opacity(30);
+  &:hover {
+    @include opacity(100);
+    @include transition(opacity 1s);
+  }
+}

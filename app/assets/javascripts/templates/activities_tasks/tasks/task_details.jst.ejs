@@ -1,20 +1,14 @@
-<div class="pure-g">
-  <div class="pure-u-1-2">
-    <h2 class="heading">
-      <i class="task_checked-icon"></i> Task Details
-    </h2>
-  </div>
-</div>
-
-<div class="task-detail-view-close"><i class="close-icon"></i></div>
+<button class="rui-btn task-detail-view-close semi-transparent">
+  <i class="close-icon"></i>
+</button>
 
 <div class="pure-g">
   <div class="pure-u-1-5">
-    <%= created_by %>
+    <span class="username"><%= created_by %></span>
   </div>
   <div class="pure-u-1-2">
     <i class="task_open-icon"></i>
-    <p><%= name %></p>
+    <span><%= name %></span>
   </div>
   <div class="pure-u-1-5 task-time">
     <%= moment(created_at).endOf('day').fromNow()%>
@@ -28,18 +22,14 @@
     </button>
   </div>
   <div class="pure-u-1-4">
-    <select name="task_type">
-      <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
-        <option value="<%= tt.get('id')%>" <%= task_type_id ==  tt.get('id') ? 'selected="selected"' : '' %>><%= tt.get('type')%></option>
-      <% }); %>
-    </select>
+    <%= task_type %>
   </div>
   <div class="pure-u-1-4">
     <i class="user-icon"></i>
     <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
   </div>
   <div class="pure-u-1-5">
-    <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : ""%>
+    <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : "" %>
   </div>
 </div>
 
@@ -50,11 +40,8 @@
     </button>
   </div>
   <div class="pure-u-1-4">
-    <!-- XXX: Put here corresponding icon based on file type -->
+    <!-- TODO: Put here corresponding icon based on file type -->
     <i class="attachment-icon"></i> Creatives.zip
-    <button class="rui-btn no-highlight" id="btnRemoveAttachment">
-      <i class="close-icon"></i>
-    </button>
   </div>
   <div class="pure-u-1-4">
     <i class="task_created_by-icon"></i> <%= created_by %>
@@ -78,12 +65,16 @@
     <textarea id="task_comment_input" placeholder="Note" rows="2" cols="26"></textarea>
   </div>
   <div class="task-comment-controls pure-u-1-4">
-    <button class="rui-btn activity_log_inactive_attach"
+    <button class="rui-btn"
                 title="Add Attachment"
                 id="btnSaveTaskAttachment"
                 type="file"
                 name="task_comment_attachment"
-                data-url="/activity_attachment.json"></button>
-    <button id="btnSaveTaskComment" class="rui-btn activity-log-comment" title="Add Comment"></button>
+                data-url="/activity_attachment.json">
+      <i class="attachment-icon"></i>
+    </button>
+    <button id="btnSaveTaskComment" class="rui-btn" title="Add Comment">
+      <div class="comment_white-icon"></div>
+    </button>
   </div>
 </div>

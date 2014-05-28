@@ -1,13 +1,15 @@
 <div class="task-row pure-g">
+  <div id="task_<%= id %>" class="task-details-container"></div>
   <div class="task-comment pure-u-1-24">
-    <div class="task-badge">
-      <%= comments_size %>
-    </div>
+    <span class="comment-icon icon-wrapper">
+      <sup class="task-badge"><%= comments_size %></sup>
+    </span>
   </div>
   <div class="task-type pure-u-1-24 center">
-    <i class="task-icon"></i>
+    <!--TODO: Icon should be based on current status of task - either open, done or closed -->
+    <i class="task_open-icon"></i>
   </div>
-  <div class="pure-u-1-2">
+  <div class="pure-u-1-2 task-name">
     <%= name %>
   </div>
   <div class="pure-u-1-8 task-time">
@@ -16,7 +18,7 @@
   <div class="pure-u-1-24 center">
     <div class="follow-icon"></div>
   </div>
-  <div class="pure-u-1-6 text-right">
+  <div class="pure-u-1-5 text-right">
     <%= created_by%>
   </div>
 </div>
