@@ -419,6 +419,7 @@ class IOExcelFileReader < IOReader
   def open
     @spreadsheet = open_based_on_file_extension
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
+    set_line_item_start_row
   end
 
   def change_sheet(num, &block)
@@ -426,6 +427,18 @@ class IOExcelFileReader < IOReader
     @spreadsheet.default_sheet = @spreadsheet.sheets[num]
     yield
     @spreadsheet.default_sheet = default_sheet
+  end
+
+  def set_line_item_start_row
+    row = 0
+    while (!@spreadsheet.cell('A', row).to_s.match(/^start date/i) && !@spreadsheet.cell('B', row).to_s.match(/^end date/i))
+      row += 1
+    end
+    @line_item_start_row = row + 1 #row is table header row+1 will be the 1st line item
+  end
+
+  def get_line_item_start_row
+    @line_item_start_row || LINE_ITEM_START_ROW
   end
 
   def client_order_id
@@ -498,7 +511,7 @@ class IOExcelFileReader < IOReader
   end
 
   def lineitems(&block)
-    row = LINE_ITEM_START_ROW
+    row = get_line_item_start_row
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
       yield_li_from_row(row, block)
       row += 1
@@ -528,7 +541,7 @@ class IOExcelFileReader < IOReader
   end
 
   def find_notes
-    row = LINE_ITEM_START_ROW
+    row = get_line_item_start_row
     while !@spreadsheet.cell('A', row).to_s.match(/^notes/i)
       row += 1
     end

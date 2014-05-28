@@ -4,6 +4,8 @@ class Admin::PlatformsController < ApplicationController
   layout "admin"
   respond_to :html, :json
 
+  before_filter :platform_params, :only => [:create, :update]
+
   add_crumb("Platforms") {|instance| instance.send :admin_platforms_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_platform_path}
 
@@ -34,8 +36,7 @@ class Admin::PlatformsController < ApplicationController
   end
 
   def create
-    platform = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :site_id, :naming_convention, :ad_type, :priority, :enabled)
-    @platform = Platform.new(platform)
+    @platform = Platform.new(platform_params)
     @platform.network_id = current_network.id
     @platform.save
     respond_with(@platform, location: nil)
@@ -55,8 +56,7 @@ class Admin::PlatformsController < ApplicationController
 
   def update
     @platform = Platform.find(params[:id])
-    p = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :site_id, :naming_convention, :ad_type, :priority, :enabled)
-    @platform.update_attributes(p)
+    @platform.update_attributes(platform_params)
     respond_with(@platform)
 
     rescue => e
@@ -67,4 +67,17 @@ class Admin::PlatformsController < ApplicationController
     @platforms = Platform.of_network(current_network).select(:name).distinct.order("name ASC")
     respond_with(@platforms)
   end
+
+  private
+    def platform_params
+      platform_params = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :dfp_site_name, :naming_convention, :ad_type, :priority, :enabled)
+      platform_params[:site_id] = dfp_site.blank? ? nil : dfp_site.id
+      return platform_params
+    end
+
+    def dfp_site
+      dfp_site_name = params[:platform][:dfp_site_name]
+      dfp_site = Site.of_networks(current_network).where("lower(name) like lower(?)", dfp_site_name.strip).first
+    end
+
 end

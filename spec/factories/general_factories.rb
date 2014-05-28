@@ -237,4 +237,17 @@ FactoryGirl.define do
     name "reach_ui"
   end
 
+  factory :platform do
+    name "Test Platform Name"
+    dfp_key "vid"
+    naming_convention "ADP"
+    ad_type "STANDARD"
+    priority 8
+    enabled true
+    media_type
+    site { FactoryGirl.singleton :site }
+    network { FactoryGirl.singleton :network }
+    dfp_site_name "WRAL"
+  end
+
 end

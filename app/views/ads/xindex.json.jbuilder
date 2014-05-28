@@ -44,6 +44,7 @@ json.array! @ads do |ad|
       json.ad_id          ad.id
       json.li_assignment_id creative.try(:lineitem_assignment).try(:id)
       json.ad_assignment_id ad_assignment.id
+      json.ad_type        ad.type
     end
   end
 

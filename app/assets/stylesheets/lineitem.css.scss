@@ -1,3 +1,12 @@
+$lineitem_status_default_color: gray;
+$lineitem_status_delivering_color: green;
+$lineitem_status_ready_color: #fd9828;
+$lineitem_status_draft_color: black;
+$lineitem_status_completed_color: #CCCCCC;
+$lineitem_status_canceled_color: red;
+$lineitem_status_paused_color: red;
+$lineitem_status_paused_inventory_released_color: red;
+
 .table-container {
   .table {
     .name {
@@ -122,3 +131,40 @@ form fieldset {
     }
   }
 }
+
+.lineitem-status {
+  position:relative;
+  top:-20px;
+  text-align:center;
+  color:white;
+}
+
+.lineitem-status-delivering {
+  background-color: $lineitem_status_delivering_color;
+}
+
+.lineitem-status-ready{
+  background-color: $lineitem_status_ready_color;
+}
+
+.lineitem-status-draft{
+  background-color: $lineitem_status_draft_color;
+}
+
+.lineitem-status-completed{
+  background-color: $lineitem_status_completed_color;
+}
+
+.lineitem-status-canceled{
+  background-color: $lineitem_status_canceled_color;
+}
+
+.lineitem-status-paused{
+  background-color: $lineitem_status_paused_color;
+}
+
+.lineitem-status-paused-inventory-released{
+  background-color: $lineitem_status_paused_inventory_released_color;
+}
+
+

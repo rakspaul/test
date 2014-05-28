@@ -1,4 +1,12 @@
 class Ad < ActiveRecord::Base
+  DRAFT                     = "DRAFT"
+  READY                     = "READY"
+  PAUSED                    = "PAUSED"
+  PAUSED_INVENTORY_RELEASED = "PAUSED_INVENTORY_RELEASED"
+  DELIVERING                = "DELIVERING"
+  COMPLETED                 = "COMPLETED"
+  CANCELED                  = "CANCELED"
+
   STATUS = {
     draft:                     "Draft",
     ready:                     "Ready",
