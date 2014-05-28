@@ -101,10 +101,12 @@ button.rui-btn {
       overflow-y: auto;
 
       .username {
+        padding-right: 10px;
+        text-align: right;
         color: $rui-heading-text-color;
       }
 
-      .activity-system-comment {
+      .system-comment {
         font-size: 12px;
         color: $rui-gray-color;
       }
@@ -120,21 +122,13 @@ button.rui-btn {
           margin-right: 10px;
         }
       }
+
+      .date {
+        text-align: right;
+        font-size: 11px;
+        color: $rui-gray-color;
+      }
     }
-  }
-}
-
-.activity-system-comment,
-.activity-user-comment {
-  .username {
-    text-align: right;
-    padding-right: 10px;
-  }
-
-  .date {
-    text-align: right;
-    font-size: 11px;
-    color: $rui-gray-color;
   }
 }
 
@@ -237,6 +231,10 @@ textarea#activity_input {
   margin-left: 30px;
   .task-container {
     margin-top: 5px;
+    // we have to compensate padding introduced by selected task
+    &.task-selected {
+      margin: 0 -5px;
+    }
   }
 }
 
