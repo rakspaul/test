@@ -35,7 +35,6 @@
 
   Platform.MediaType = Backbone.Model.extend();
 
-  Platform.AdType = Backbone.Model.extend();
 
 // --------------------/ Collection /----------------------------------
 
@@ -51,11 +50,6 @@
     url: '/media_types/media_types.json'
   });
 
-  Platform.AdTypeList = Backbone.Collection.extend({
-    model: Platform.AdType,
-
-    url: '/ads/ad_types.json'
-  });
 
 // --------------------/ View /----------------------------------------
 
@@ -64,20 +58,16 @@
 
     initialize: function() {
       var self = this;
+      this.modelId = this.model.id;
 
       this.platformsList = new Platform.PlatformList();
       this.mediaTypeList = new Platform.MediaTypeList();
-      this.adTypeList = new Platform.AdTypeList();
 
       this.platformsList.fetch().then(function() {
         self.render();
       });
 
       this.mediaTypeList.fetch().then(function() {
-        self.render();
-      });
-
-      this.adTypeList.fetch().then(function() {
         self.render();
       });
 
@@ -88,8 +78,7 @@
       return{
         platform: this.model,
         platformsList: this.platformsList,
-        mediaTypes: this.mediaTypeList,
-        adTypes: this.adTypeList
+        mediaTypes: this.mediaTypeList
       }
     },
 
@@ -108,7 +97,7 @@
       name_error: '#platform_name_error',
       media_type_id_error: '#media_type_error',
       dfp_key_error: '#dfp_key_error',
-      site_id_error: '#dfp_site_name_error',
+      dfp_site_name_error: '#dfp_site_name_error',
       naming_convention_error: '#naming_convention_error',
       ad_type_error: '#ad_type_error',
       priority_error: '#priority_error',
@@ -119,11 +108,11 @@
 
     events: {
       'click #new_platform_btn' : '_show_platform_input',
-      'click #save_platform' : '_onSave'
+      'click #save_platform' : '_onSave',
+      'click #enabled_checkbox' : '_changeLabel'
     },
 
     onDomRefresh: function(){
-
       $('#dfp_site_name').typeahead({
         name: 'site-names',
         remote: {
@@ -132,23 +121,17 @@
         valueKey: 'name',
         limit: 100
       });
-
-      var self = this;
-
-      $('#dfp_site_name').on('typeahead:selected', function(ev, el){
-        self.site_id = el.id;
-      });
-
     },
 
     _onSave: function(e) {
       e.preventDefault();
+      var self = this;
 
       var para = {
         name: this.ui.platform_name.val(),
         media_type_id: parseInt(this.ui.media_type.val()),
         dfp_key: this.ui.dfp_key.val(),
-        site_id: this.site_id,
+        dfp_site_name: this.ui.dfp_site_name.val(),
         naming_convention: this.ui.naming_convention.val(),
         ad_type: this.ui.ad_type.val(),
         priority: parseInt(this.ui.priority.val()),
@@ -158,9 +141,6 @@
       if(this.ui.platform_name_input.is(':visible')){
          para.name = this.ui.platform_name_input.val();
       }
-
-
-      var self = this;
 
       _.keys(this.ui)
         .filter(function(val) {
@@ -206,10 +186,25 @@
 
     _show_platform_input: function(e){
       e.preventDefault();
+      var isNewPlatform = this.ui.platform_name.is(':visible');
+      var txt = isNewPlatform ? 'Select Platform' : 'New Platform';
+      var header = isNewPlatform ? 'Add Platform Media Type' : 'Edit Platform Media Type';
+
+      this.model.id = isNewPlatform ? null : this.modelId;
+
       this.ui.platform_name.toggle();
       this.ui.platform_name_input.toggle();
-      var txt = this.ui.platform_name.is(':visible') ? 'New Platform' : 'Select Platform';
-      this.ui.new_platform_btn.html(txt)
+
+      this.ui.new_platform_btn.html(txt);
+      $('.platforms-header legend').html(header);
+    },
+
+    _changeLabel: function(e){
+      if ($(e.currentTarget).is(':checked')) {
+        $('.enabled-text').html('Yes');
+      } else {
+        $('.enabled-text').html('No');
+      }
     }
 
   });

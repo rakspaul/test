@@ -1,5 +1,3 @@
-<legend>Add new Platform</legend>
-
 <div class="platform-content">
   <fieldset>
     <div class="control-group">
@@ -66,15 +64,16 @@
     <div class="control-group">
       <label class="control-label" for="ad_type">Ad Type</label>
       <div class="controls">
+        <% var adTypes = ["STANDARD", "SPONSORSHIP"] %>
         <select id="ad_type">
           <option value="">Select</option>
-          <% adTypes.each(function(item){ %>
-            <% if(platform.get('ad_type') && item.get('ad_type') == platform.get('ad_type')) { %>
-              <option selected value="<%= item.get('ad_type') %>"><%= item.get('ad_type') %></option>
+          <% for(i=0; i< adTypes.length; i++) { %>
+            <% if(platform.get('ad_type') && platform.get('ad_type') == adTypes[i]) { %>
+              <option selected value="<%= adTypes[i] %>"><%= adTypes[i] %></option>
             <% } else { %>
-              <option value="<%= item.get('ad_type') %>"><%= item.get('ad_type') %></option>
+              <option value="<%= adTypes[i] %>"><%= adTypes[i] %></option>
             <% } %>
-          <% }) %>
+          <% } %>
         </select>
         <label class="help-inline form-error" id="ad_type_error"></label>
       </div>
@@ -85,10 +84,10 @@
       <div class="controls">
         <select id="priority">
           <option value="">Select</option>
-          <% for(i=0; i<=16; i++) { %>
-            <% if(platform.get('priority') && i === platform.get('priority')) { %>
-              <option selected value="<%= i %>"><%= i %></option>
-            <% } else { %>
+          <% for(i=1; i<=16; i++) { %>
+             <% if(platform.get('priority') && i === platform.get('priority')) { %>
+               <option selected value="<%= i %>"><%= i %></option>
+             <% } else { %>
               <option value="<%= i %>"><%= i %></option>
             <% } %>
           <% } %>
@@ -101,9 +100,9 @@
       <label class="control-label" for="enabled_checkbox">Enabled</label>
       <div class="controls">
         <% if(platform.get('enabled')) { %>
-          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" checked />
+          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" class="pull-left" checked /> <span class="enabled-text">Yes</span>
         <% } else { %>
-          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" checked />
+          <input type="checkbox" name="enabled_checkbox" id="enabled_checkbox" class="pull-left" /> <span class="enabled-text">No</span>
         <% } %>
       </div>
     </div>
