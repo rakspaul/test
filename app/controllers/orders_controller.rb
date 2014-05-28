@@ -37,6 +37,7 @@ class OrdersController < ApplicationController
     end
 
     @reachui_users = load_users.limit(50)
+    @order.io_detail.trafficking_contact ||= @current_user
 
     respond_to do |format|
       format.html
