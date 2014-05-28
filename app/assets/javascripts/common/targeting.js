@@ -382,18 +382,14 @@
       var zipcodes = this.updatedZipcodes;
 
       this.invalid_zips = _.difference(zipcodes, data.message);
+      this.model.attributes.selected_zip_codes = data.message;
+      this.isZipcodesValid = true;
 
-      if(this.invalid_zips.length > 0) {
-        this.isZipcodesValid = false;
-      }
-      else {
-        this.isZipcodesValid = true;
-        this.model.attributes.selected_zip_codes = data.message;
+      if(!this.invalid_zips.length > 0) {
         this._closeTargetingDialog();
       }
 
       this._renderSelectedTargetingOptions();
-      //this.model.attributes.selected_zip_codes = data.message;
     },
 
     _onSuccessCloseTargeting: function(event) {
@@ -496,6 +492,7 @@
         }
       });
 
+      this.model.attributes.selected_zip_codes = this.updatedZipcodes;
       this._renderSelectedTargetingOptions();
       this.$el.find('.tab.zip-codes textarea').val(this.updatedZipcodes.join(', '));
       this.validateZipCodes(this.updatedZipcodes);
