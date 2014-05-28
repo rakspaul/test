@@ -36,14 +36,15 @@ textarea {
   font-weight: normal;
 }
 
+// This is general class for both Activities log and Task Comment List
+.load-more {
+  text-align: center;
+  margin-top: 10px;
+}
+
 // Activities Region styling
 .activities-region {
   .activities-content {
-
-    .load-more {
-      text-align: center;
-    }
-
     .activities-list {
       height: auto;
       max-height: 200px;
@@ -71,56 +72,6 @@ textarea {
       }
     }
   }
-
-  .task-details-table {
-    .task-selected {
-      padding: 5px;
-      border: 1px dashed $rui-gray-color;
-      margin-bottom: 5px;
-    }
-
-    .follow-task,
-    .close-task {
-      color: $rui-gray-color;
-    }
-
-    select {
-      width: 120px;
-    }
-
-    .task-detail-view-close {
-      position: absolute;
-      right: 5px;
-      top: 5px;
-    }
-
-    .task-comment-container {
-      margin-top: 5px;
-    }
-  }
-
-  .task-comment-input-control {
-    margin-top: 10px;
-    textarea {
-      min-width: 85%;
-    }
-  }
-}
-// [ END ] ------------------------------
-
-
-// Tasks Region styling
-.tasks-region {
-  margin-left: 30px;
-  .task-selected {
-    padding: 5px;
-    border: 1px dashed $rui-gray-color;
-    margin-bottom: 5px;
-  }
-
-  .task-container {
-    margin-top: 5px;
-  }
 }
 // [ END ] ------------------------------
 
@@ -131,10 +82,9 @@ textarea {
 
 .activity-system-comment,
 .activity-user-comment {
-
-  div:first-child {
-    padding-right: 10px;
+  .username {
     text-align: right;
+    padding-right: 10px;
   }
 
   .date {
@@ -150,28 +100,29 @@ textarea {
   .username {
     text-align: right;
   }
+}
 
-  .activity-comment-input-container {
-    margin-left: 10px;
-    margin-right: 130px;
-  }
+.activity-comment-input-container {
+  margin-left: 10px;
+  margin-right: 130px;
+}
 
-  textarea#activity_input {
-    resize: vertical;
-  }
+textarea#activity_input {
+  resize: vertical;
+}
 
-  .action-controls {
-    float: right;
-    box-sizing: border-box;
-    width: 120px;
-    min-width: 120px;
+.action-controls {
+  float: right;
+  box-sizing: border-box;
+  width: 120px;
+  min-width: 120px;
+}
 
-    #btnSaveComment {
-      background-color: $btn-primary-bg;
-      &:hover {
-        background-color: $btn-bg-hover;
-      }
-    }
+#btnSaveComment,
+#btnSaveTaskComment {
+  background-color: $btn-primary-bg;
+  &:hover {
+    background-color: $btn-bg-hover;
   }
 }
 
@@ -211,13 +162,30 @@ textarea {
 }
 
 // === TASKS SECTIONS [BEGIN] ===
+
+.tasks-region {
+  margin-left: 30px;
+  .task-container {
+    margin-top: 5px;
+  }
+}
+
+.task-selected {
+  padding: 5px;
+  border: 1px dashed $rui-gray-color;
+  margin-bottom: 5px;
+}
+
 .task-comment {
   position: relative;
-
+  .icon-wrapper {
+    position: relative;
+  }
   .task-badge {
     @include border-radius(50%);
     box-sizing: border-box;
     position: absolute;
+    display: block;
     top: -5px;
     right: -5px;
     background-color: #fff;
@@ -231,6 +199,12 @@ textarea {
   }
 }
 
+.task-row {
+  .task-name {
+    padding-left: 5px;
+  }
+}
+
 .task-time {
   text-align: right;
   font-size: 11px;
@@ -238,8 +212,52 @@ textarea {
 }
 
 .task-details-table {
+  // TODO: This container should be positioned relatively to the clicked row
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
+//  width: 48%;
+//  left: -48%;
+//  top: -20px;
+
+  background-color: #fff;
+
+  // Separate rows made of pure-g (grid) elements
+  .pure-g:first-of-type {
+    margin: 10px auto;
+  }
+
+  // this will add dashed border around
+  @extend .task-selected;
+
+  .follow-task,
+  .close-task {
+    color: $rui-gray-color;
+  }
+
+  select {
+    width: 120px;
+  }
+
+  .task-detail-view-close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  .task-comment-container {
+    margin-top: 5px;
+  }
 }
+
+.task-comment-input-control {
+  margin-top: 10px;
+  textarea {
+    min-width: 98%;
+  }
+}
+
+// === TASKS SECTIONS [END] ===
 
 .rui-btn,
 .rui-btn:hover {
@@ -247,18 +265,17 @@ textarea {
     background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
   }
 }
-// === TASKS SECTIONS [END] ===
 
 .header-controls {
   text-align: right;
 
   .rui-btn:not(.active) {
-    @include opacity(30);
-    &:hover {
-      @include opacity(100);
-      @include transition(opacity 1s);
-    }
+    @include opaque_button;
   }
+}
+
+.semi-transparent {
+  @include opaque_button;
 }
 
 button.rui-btn {

@@ -26,6 +26,7 @@
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css);
 @import "compass/css3/hyphenation";
 @import "variables.css.scss";
+@import "_mixins.css.scss";
 @import "bootstrap_override.css.scss";
 @import "orders.css.scss";
 @import "lineitem.css.scss";
@@ -34,7 +35,6 @@
 @import "admin/admin.css.scss";
 @import "io_import.css.scss";
 @import "activities_tasks.css.scss";
-@import "_mixins.css.scss";
 
 $borderColor: #eee;
 $light-background: #f7f7f7;

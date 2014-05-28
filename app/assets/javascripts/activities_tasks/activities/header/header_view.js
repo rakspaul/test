@@ -1,7 +1,7 @@
 /**
  * Module represents Activities header view.
  */
-ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,ReachActivityTaskApp,Backbone, Marionette, $, _,JST){
+ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,ReachActivityTaskApp,Backbone, Marionette, $, _,JST, moment){
 
     //Different activity types
     Header.ACTIVITY_TYPES = {   COMMENT:"user_comment",
@@ -127,7 +127,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           }
 
           this.model.set('note', data);
-          this.model.set('due_date', this.ui.dueDate.val());
+          this.model.set('due_date', moment(this.ui.dueDate.val()).format("YYYY-MM-DD"));
           this.model.set('task_type_id', this.ui.taskTypeSelector.val());
           this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
           //TODO: Is this needed.
@@ -166,4 +166,4 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
         template: JST['templates/activities_tasks/tasks/task_form']
     });
 
-},JST);
+},JST, moment);

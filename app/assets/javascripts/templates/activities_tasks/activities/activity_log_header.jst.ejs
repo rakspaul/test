@@ -12,11 +12,11 @@
     <button class="rui-btn" title="Filter Alerts" id="btnFilterAlerts">
       <i class="alert-icon"></i>
     </button>
-    <!-- TODO: '.active' class added only as example. This should be controlled by View for the filter controller -->
-    <button class="rui-btn active" title="Filter by Done Tasks" id="btnFilterTasks">
+    <!-- TODO: When button activated add '.active' class; toggle '.active' class when clicked sequentially -->
+    <button class="rui-btn" title="Filter by Done Tasks" id="btnFilterTasks">
       <i class="task_done-icon"></i>
     </button>
-    <button class="rui-btn active" title="Filter by Assignee" id="btnFilterUser">
+    <button class="rui-btn" title="Filter by Assignee" id="btnFilterUser">
       <i class="user-icon"></i>
     </button>
     <button class="rui-btn" title="Filter with Due Date" id="btnFilterDueDates">
@@ -86,6 +86,10 @@
 
             <div class="clock-icon"></div>
             <input type="text" class="span2" value="<%= moment(due_date).format("MM/DD/YYYY") %>" id="due-date" placeholder="Due Date">
+
+            <button type="submit" id="saveTask" class="btn btn-small btn-primary">
+              <i class="icon-ok icon-white"></i>
+            </button>
           </div>
         </div>
         <!-- Additional sub-form -->
