@@ -135,7 +135,16 @@ class Ad < ActiveRecord::Base
     if new_record?
       self.geo_targets = targets
     else
-      self.geo_targets.delete_all
+      existing_geos = self.geo_targets.map do |geo|
+        geo.id
+      end
+
+      delete_geos = existing_geos - targets
+
+      AdGeoTargeting.delete_all :ad_id => self.id, :geo_target_id => delete_geos
+
+      targets = targets - existing_geos
+
       if targets.size > 0
         # we could have many targets for so better to insert all them in one insert query
         insert_values = targets.collect do |t|
