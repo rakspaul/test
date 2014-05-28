@@ -174,6 +174,9 @@
       this.$el.find('.selected-targeting').html(html);
 
       this.model.attributes.isAdPushed = this._getAdPushed();
+      if(this.errors_in_kv != "") {
+        this.$el.find('span.custom-kv-errors').html(this.errors_in_kv);
+      }
     },
 
     _getReachCustomKV: function() {
@@ -351,12 +354,14 @@
     // else key value is blank update them and close the targeting dialog box
     _validateCustomKeyValuesOnDone: function() {
       var customKeyValue = this.$el.find(".custom-kvs-field").val();
+      this.errors_in_kv = "";
       if (customKeyValue && customKeyValue != '' && !this.isCustomKeyValueValid) {
         this._validateCustomKeyValues(customKeyValue, this._onSuccessCloseTargeting, this._onValidateCustomKeyValuesFailure);
       } else if (this.isCustomKeyValueValid && this.isZipcodesValid) {
         this._closeTargetingDialog();
       } else {
-        this._closeTargeting();
+        this._updateCustomKVs();
+        this._closeTargetingDialog();
       }
     },
 
@@ -393,12 +398,8 @@
     },
 
     _onSuccessCloseTargeting: function(event) {
-      this._closeTargeting();
-    },
-
-    _closeTargeting: function() {
-      this._updateCustomKVs();
-      this._closeTargetingDialog();
+        this._updateCustomKVs();
+        this._closeTargetingDialog();
     },
 
     // if the key value is valid then close the targeting dialog box
