@@ -41,7 +41,8 @@
     }
   });
 
-  Orders.Note = Backbone.Model.extend({
+   //With Activity and Task functionality being introduced, we don't need this Notes model and its collection definitions here.
+   /*Orders.Note = Backbone.Model.extend({
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.order.id + '/notes';
@@ -68,7 +69,7 @@
       this.order = order;
     },
 
-  });
+  }); */
 
   Orders.EmptyView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_search_empty'],
@@ -397,7 +398,8 @@
     }
   });
 
-  ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
+  //With Activity and Task functionality being introduced, we don't need these region definitions here.
+  /*ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
     el: "#order-notes"
   });
 
@@ -594,5 +596,5 @@
     _onSaveFailure: function() {
 
     }
-  });
+  });  */
 })(ReachUI.namespace("Orders"));
