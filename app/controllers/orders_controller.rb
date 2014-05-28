@@ -22,6 +22,7 @@ class OrdersController < ApplicationController
     @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
     @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
     @reachui_users = load_users.limit(50)
+    @order.io_detail.trafficking_contact ||= @current_user
 
     respond_to do |format|
       format.html
