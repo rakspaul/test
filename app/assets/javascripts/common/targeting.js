@@ -175,6 +175,9 @@
       this.$el.find('.selected-targeting').html(html);
 
       this.model.attributes.isAdPushed = this._getAdPushed();
+      if(this.errors_in_kv != "") {
+        this.$el.find('span.custom-kv-errors').html(this.errors_in_kv);
+      }
     },
 
     _getReachCustomKV: function() {
@@ -352,12 +355,14 @@
     // else key value is blank update them and close the targeting dialog box
     _validateCustomKeyValuesOnDone: function() {
       var customKeyValue = this.$el.find(".custom-kvs-field").val();
+      this.errors_in_kv = "";
       if (customKeyValue && customKeyValue != '' && !this.isCustomKeyValueValid) {
         this._validateCustomKeyValues(customKeyValue, this._onSuccessCloseTargeting, this._onValidateCustomKeyValuesFailure);
       } else if (this.isCustomKeyValueValid && this.isZipcodesValid) {
         this._closeTargetingDialog();
       } else {
-        this._closeTargeting();
+        this._updateCustomKVs();
+        this._closeTargetingDialog();
       }
     },
 
@@ -383,27 +388,19 @@
       var zipcodes = this.updatedZipcodes;
 
       this.invalid_zips = _.difference(zipcodes, data.message);
+      this.model.attributes.selected_zip_codes = data.message;
+      this.isZipcodesValid = true;
 
-      if(this.invalid_zips.length > 0) {
-        this.isZipcodesValid = false;
-      }
-      else {
-        this.isZipcodesValid = true;
-        this.model.attributes.selected_zip_codes = data.message;
+      if(!this.invalid_zips.length > 0) {
         this._closeTargetingDialog();
       }
 
       this._renderSelectedTargetingOptions();
-      //this.model.attributes.selected_zip_codes = data.message;
     },
 
     _onSuccessCloseTargeting: function(event) {
-      this._closeTargeting();
-    },
-
-    _closeTargeting: function() {
-      this._updateCustomKVs();
-      this._closeTargetingDialog();
+        this._updateCustomKVs();
+        this._closeTargetingDialog();
     },
 
     // if the key value is valid then close the targeting dialog box
@@ -521,6 +518,7 @@
         }
       });
 
+      this.model.attributes.selected_zip_codes = this.updatedZipcodes;
       this._renderSelectedTargetingOptions();
       this.$el.find('.tab.zip-codes textarea').val(this.updatedZipcodes.join(', '));
       this.validateZipCodes(this.updatedZipcodes);
