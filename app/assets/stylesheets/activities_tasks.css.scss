@@ -1,3 +1,5 @@
+// === GENERAL STYLES [BEGIN] ===
+
 .empty {
   margin-top: 20px;
   color: #ddd;
@@ -29,6 +31,61 @@ textarea {
   min-width: 98%;
 }
 
+// This is general class for both Activities log and Task Comment List
+.load-more {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.rui-btn,
+.rui-btn:hover {
+  &.spinner {
+    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
+  }
+}
+
+.header-controls {
+  text-align: right;
+
+  .rui-btn:not(.active) {
+    @include opaque_button;
+  }
+}
+
+.semi-transparent {
+  @include opaque_button;
+}
+
+button.rui-btn {
+  &#btnRemoveAttachment {
+    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
+    margin-left: 5px;
+    font-size: 11px;
+    .remove-btn {
+      opacity: 0;
+      margin: 0;
+      padding: 0;
+      vertical-align: middle;
+    }
+
+
+    &:hover {
+      background-color: #fff;
+      &#btnRemoveAttachment {
+        .remove-btn {
+          @include transition(opacity 1s);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+// === GENERAL STYLES [BEGIN] ===
+
+
+// === ACTIVITIES SECTION [BEGIN] ===
+
 .activities-container {
   margin: 20px 70px 20px 40px;
   font-size: 13px;
@@ -36,13 +93,6 @@ textarea {
   font-weight: normal;
 }
 
-// This is general class for both Activities log and Task Comment List
-.load-more {
-  text-align: center;
-  margin-top: 10px;
-}
-
-// Activities Region styling
 .activities-region {
   .activities-content {
     .activities-list {
@@ -56,7 +106,7 @@ textarea {
 
       .activity-system-comment {
         font-size: 12px;
-        color: #666
+        color: $rui-gray-color;
       }
 
       .activity-log-subrow {
@@ -73,12 +123,6 @@ textarea {
     }
   }
 }
-// [ END ] ------------------------------
-
-
-//--------------------------------
-// UI Styles by RoDush [BEGIN]
-//--------------------------------
 
 .activity-system-comment,
 .activity-user-comment {
@@ -184,7 +228,10 @@ textarea#activity_input {
   }
 }
 
-// === TASKS SECTIONS [BEGIN] ===
+// === ACTIVITIES SECTION [END] ===
+
+
+// === TASKS SECTION [BEGIN] ===
 
 .tasks-region {
   margin-left: 30px;
@@ -223,6 +270,7 @@ textarea#activity_input {
 }
 
 .task-row {
+  cursor: pointer;
   .task-name {
     padding-left: 5px;
   }
@@ -282,51 +330,7 @@ textarea#activity_input {
 
 // === TASKS SECTIONS [END] ===
 
-.rui-btn,
-.rui-btn:hover {
-  &.spinner {
-    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
-  }
-}
-
-.header-controls {
-  text-align: right;
-
-  .rui-btn:not(.active) {
-    @include opaque_button;
-  }
-}
-
-.semi-transparent {
-  @include opaque_button;
-}
-
-button.rui-btn {
-  &#attachment-file-name-container {
-    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
-    margin-left: 5px;
-    font-size: 11px;
-    .remove-btn {
-      opacity: 0;
-      margin: 0;
-      padding: 0;
-      vertical-align: middle;
-    }
-
-
-    &:hover {
-      background-color: #fff;
-      &#attachment-file-name-container {
-        .remove-btn {
-          @include transition(opacity 1s);
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
-// FOLLOWERS REGION [BEGIN]
+// === FOLLOWERS REGION [BEGIN] ===
 #followersRegion {
   margin: 40px 0 0 30px;
 }
@@ -351,4 +355,4 @@ ul.followers-list {
     }
   }
 }
-// FOLLOWERS REGION [END]
+// === FOLLOWERS REGION [END] ===
