@@ -50,7 +50,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
             "click #saveTask": "saveTask",
 
-            "change #task-types-selector": 'onTaskTypeChanged'
+            "change #task-types-selector": 'onTaskTypeChanged',
+
+          "keyup #activity_input": 'onTypeInTextArea'
         },
 
         onDomRefresh: function() {
@@ -202,7 +204,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
           this.render();
           this.showTaskForm();
-        }
+        },
+
+      onTypeInTextArea: function (e) {
+        var textarea = $(e.target),
+            defaultHeight = 40;
+
+        textarea.css({
+          overflow: "hidden",
+          height: textarea.height()
+        });
+        textarea.animate({height: Math.max(textarea.get(0).scrollHeight, defaultHeight) + "px"}, "fast");
+      }
     });
 
     Header.TaskFormView = Marionette.ItemView.extend({
