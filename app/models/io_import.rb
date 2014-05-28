@@ -141,6 +141,7 @@ class IoImport
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
+        li.uploaded = true
         @lineitems << li
         index += 1
       end
