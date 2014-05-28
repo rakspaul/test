@@ -9,7 +9,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List",function(List,Reac
         template: JST['templates/activities_tasks/activities/activity_log_item']
     });
 
-    //Represents composite view.
+    // Represents composite view.
     List.Activities = Marionette.CompositeView.extend({
         itemViewContainer: 'div.activities-list',
         template: JST['templates/activities_tasks/activities/activity_log_list'],

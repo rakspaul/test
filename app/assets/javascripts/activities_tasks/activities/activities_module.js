@@ -25,8 +25,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
             $.when(fetchPromise).done(function(activities){
                 console.log("Activities data from server:"+ JSON.stringify(activities));
                 var showFilters = false;
-                if(filter)
+                if (filter) {
                     showFilters = true;
+                }
                 renderActivities(activities,showFilters);
             });
         }
