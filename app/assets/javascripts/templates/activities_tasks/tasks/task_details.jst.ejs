@@ -11,50 +11,55 @@
     <span><%= name %></span>
   </div>
   <div class="pure-u-1-5 task-time">
-    <%= moment(created_at).endOf('day').fromNow()%>
+    <%= moment(created_at).endOf('day').fromNow() %>
   </div>
 </div>
 
 <div class="pure-g">
-  <div class="pure-u-1-5 follow-task">
-    <button id="btnFollowTask" class="rui-btn">
-      <i class="follow-icon"></i> Follow
-    </button>
+  <div class="pure-u-1-5">
+    <div>
+      <button id="btnFollowTask" class="rui-btn semi-transparent">
+        <i class="follow-icon"></i> Follow
+      </button>
+    </div>
+    <div>
+      <button id="btnMarkTaskDone" class="rui-btn semi-transparent">
+        <i class="green_check-icon"></i> Close Task
+      </button>
+    </div>
+    <div>
+      <button id="btnMarkTaskUrgent" class="rui-btn semi-transparent">
+        <i class="alert-icon"></i> Urgent
+      </button>
+    </div>
   </div>
   <div class="pure-u-1-4">
-    <%= task_type %>
+    <div>
+      <%= task_type %>
+    </div>
+    <div>
+      <a href="#/path-to-file-downloadable-file" onclick="alert('Show download dialog');" class="task-attachment">
+        <!-- TODO: Put here corresponding icon based on file type -->
+        <i class="attachment-type archive-icon"></i> Creatives.zip
+      </a>
+    </div>
   </div>
   <div class="pure-u-1-4">
-    <i class="user-icon"></i>
-    <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
+    <div>
+      <i class="user-icon"></i>
+      <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
+    </div>
+    <div>
+      <i class="task_created_by-icon"></i> <%= created_by %>
+    </div>
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : "" %>
   </div>
 </div>
 
-<div class="pure-g">
-  <div class="pure-u-1-5">
-    <button class="rui-btn" id="btnMarkTaskDone">
-      <i class="green_check-icon"></i> Close Task
-    </button>
-  </div>
-  <div class="pure-u-1-4">
-    <!-- TODO: Put here corresponding icon based on file type -->
-    <i class="attachment-icon"></i> Creatives.zip
-  </div>
-  <div class="pure-u-1-4">
-    <i class="task_created_by-icon"></i> <%= created_by %>
-  </div>
-</div>
-
 <!-- Task comments container -->
 <div class="task-comments-container"></div>
-<div class="load-more">
-    <label id="loadMoreTaskCommentsBtn">Load More...</label>
-    <label id="loadLessTaskCommentsBtn" style="display: none;">Load Less...</label>
-    <label id="loadDefaultTaskCommentsBtn" style="display: none;">Back to default view...</label>
-</div>
 
 <div class="task-comment-input-control pure-g">
   <div class="username pure-u-1-5">
