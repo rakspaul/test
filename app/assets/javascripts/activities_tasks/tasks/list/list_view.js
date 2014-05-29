@@ -1,6 +1,6 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActivityTaskApp,Backbone, Marionette, $, _,JST){
 
-    List.Task = Marionette.ItemView.extend({
+    List.Task = Marionette.Layout.extend({
       tagName: 'div',
       template: JST['templates/activities_tasks/tasks/task_list_item'],
       className: 'task-container',
@@ -10,6 +10,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       },
 
       showTaskView: function() {
+        // Create region from container within this row
+        var taskDetailsRegion = this.addRegion("task_" + this.model.id + "_region", "#task_" + this.model.id);
+
+        // Close previously opened region
+        if (this.model.collection.shownRegion && (this.model.collection.shownRegion != taskDetailsRegion)) {
+          this.model.collection.shownRegion.close();
+        }
+        // track the reference to currently shown region
+        this.model.collection.shownRegion = taskDetailsRegion;
+
+
         if(this.model.collection.selectedTask) {
           this.model.collection.selectedTask.$el.removeClass('task-selected');
         }
@@ -17,7 +28,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.model.collection.selectedTask = this;
         this.$el.addClass('task-selected');
 
-        ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model});
+        ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion});
       }
     });
 
@@ -52,9 +63,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         'click .task-detail-view-close' : '_closeTaskDetailView'
       },
 
-      _closeTaskDetailView: function() {
+      _closeTaskDetailView: function(e) {
+        e.preventDefault();
+        e.stopPropagation();
         this.close();
-        ReachActivityTaskApp.trigger("include:activities");
+        this.options.parentRegion.close();
+//        ReachActivityTaskApp.trigger("include:activities");
       },
 
       onShow: function() {
