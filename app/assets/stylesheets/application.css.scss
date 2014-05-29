@@ -177,23 +177,6 @@ button.rui-btn {
   background-color: $btn-bg;
   padding: 2px 0 3px;
   box-sizing: border-box;
-
-  &:hover {
-//    @each $hover-icon in $hover_icon_names {
-//      .#{$hover-icon}-icon {
-//        @include sized-sprite($images, $hover-icon + "-hover");
-//      }
-//    }
-//    @each $btn in $btn_names {
-//      .#{$btn} {
-//        @include sized-sprite($images, $btn + "-hover");
-//      }
-//    }
-//
-//    &:not(.no-highlight) {
-//      background-color: lighten($btn-bg-hover, 0.5);
-//    }
-  }
 }
 
 .text-right {
