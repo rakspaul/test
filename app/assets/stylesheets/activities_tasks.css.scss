@@ -116,6 +116,29 @@ textarea#activity_input {
   box-sizing: border-box;
   width: 120px;
   min-width: 120px;
+
+  .attachment-uploader {
+    margin: 5px;
+    text-align: right;
+    position: relative;
+
+    a {
+      margin-right: 5px;
+    }
+  }
+
+  .attachment-file-upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+  }
+
 }
 
 #btnSaveComment,
@@ -279,7 +302,7 @@ textarea#activity_input {
 }
 
 button.rui-btn {
-  &#btnRemoveAttachment {
+  &#attachment-file-name-container {
     //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
     margin-left: 5px;
     font-size: 11px;
@@ -293,7 +316,7 @@ button.rui-btn {
 
     &:hover {
       background-color: #fff;
-      &#btnRemoveAttachment {
+      &#attachment-file-name-container {
         .remove-btn {
           @include transition(opacity 1s);
           opacity: 1;

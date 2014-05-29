@@ -11,7 +11,9 @@ class OrderActivityLog < ActiveRecord::Base
 
   belongs_to :order
   belongs_to :created_by, :class_name => 'User'
-  has_many :activity_attachments, :class_name => 'ActivityAttachment'
+
+  has_one :activity_attachment, :as => :activity_log
+  has_one :task
 
   def self.system_comments
     where(:activity_type => ActivityType::SYSTEM_COMMENT)

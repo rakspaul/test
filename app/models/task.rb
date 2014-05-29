@@ -14,6 +14,7 @@ class Task < ActiveRecord::Base
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
   belongs_to :order
+  belongs_to :order_activity_log
   belongs_to :assignable, :polymorphic => true
 
   has_many :task_activity_logs

@@ -110,6 +110,8 @@ Reachui::Application.routes.draw do
     get 'comments'
   end
 
+  post '/file_upload' => 'file_upload#upload', :as => :file_upload
+
   resources :kendoui
   resources :ad_sizes, only: [:index]
   resources :advertisers, only: [:index] do

@@ -22,12 +22,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
         },
 
-        ui:{
+        ui: {
             activity_input: "#activity_input",
             taskFormRegion: ".task-form-region",
             taskTypeSelector: "#task-types-selector",
             dueDate: "#due-date",
-            taskAssigneeSelector: '#task-assignee-selector'
+            taskAssigneeSelector: "#task-assignee-selector",
+            saveAttachment: "#activity_attachment",
+            attachmentFileName: "#attachment-file-name",
+            attachmentFileNameContainer: '#attachment-file-name-container'
         },
 
         //handling event here.
@@ -40,14 +43,47 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             "click #btnFilterAlerts": "filterActivitiesByAlert",
             "click #btnFullLog": "showFullLog",
 
-            "click #btnSaveAlert": "saveAlert",
-            "click #btnSaveAttachment": "saveAttachment",
+            "click #btnSaveAlert": "markAsImportant",
             "click #btnShowTaskForm": "showTaskForm",
             "click #btnSaveComment": "saveComment",
 
             "click #saveTask": "saveTask",
 
             "change #task-types-selector": 'onTaskTypeChanged'
+        },
+
+        onDomRefresh: function() {
+          this.ui.attachmentFileNameContainer.hide();
+
+          var self = this;
+          this.ui.saveAttachment.fileupload({
+            dataType: 'json',
+            url: '/file_upload.json',
+            formData: {attachment_type: 'order_activity_attachment'},
+            dropZone: this.ui.saveAttachment,
+            pasteZone: null,
+//            start: _uploadStarted,
+            done: _uploadSuccess,
+            fail: _uploadFailure
+          });
+
+          function _uploadSuccess(e, response) {
+              console.log(JSON.stringify(response.result));
+              self.ui.attachmentFileName.text(response.result.original_filename);
+              self.ui.attachmentFileNameContainer.show();
+              self.model.set('activity_attachment_id', response.result.id);
+            }
+
+          function _uploadFailure(e, response) {
+            self.ui.attachmentFileName.text('Upload failed');
+            self.ui.attachmentFileName.addClass('error');
+            self.ui.attachmentFileNameContainer.show();
+          }
+
+        },
+
+        initialize: function() {
+          this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT);
         },
 
         //Filter handlers
@@ -87,42 +123,48 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
         },
 
         //Save Handlers
-        saveAttachment: function(e){
-
-        },
-
-        showTaskForm: function(e){
+        showTaskForm: function(e) {
           this.ui.taskFormRegion.toggle();
           if (this.ui.taskFormRegion.is(":visible")) {
             $( "#due-date" ).datepicker();
+            this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
+          } else {
+            this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT);
           }
-          this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
         },
 
-        saveAlert: function(e){
-            e.preventDefault();
-            console.log("Save Alert");
-            var data = this.ui.activity_input.val().trim();
-            if(data==''){
-                return;
-            }
-            Header.Controller.saveActivity(Header.ACTIVITY_TYPES.ALERT,data);
+        markAsImportant: function(e) {
+          e.preventDefault();
+          console.log("mar as important");
+          //TODO: add correct CSS
+          var element = $(e.target);
+          if(element.hasClass('important')) {
+            element.removeClass('important');
+          } else {
+            element.addClass('important');
+          }
+          this.model.set('important', element.hasClass('important'));
         },
 
-        saveComment: function(e){
-            e.preventDefault();
-            console.log("Save Comment");
-            var data = this.ui.activity_input.val().trim();
-            if(data==''){
-                return;
-            }
-            Header.Controller.saveActivity(Header.ACTIVITY_TYPES.COMMENT,data);
+        saveComment: function(e) {
+          e.preventDefault();
+          console.log("Save Comment");
+          var data = this.ui.activity_input.val().trim();
+          if(data == '') {
+            return;
+          }
+          this.model.set('note', data);
+          //TODO: Is this needed.
+          this.model.unset('users', {silent: true});
+          this.model.unset('task_types', {silent: true});
+
+          Header.Controller.saveActivity(this.model);
         },
 
         saveTask: function(e) {
           e.preventDefault();
           var data = this.ui.activity_input.val().trim();
-          if(data==''){
+          if(data == '') {
             return;
           }
 

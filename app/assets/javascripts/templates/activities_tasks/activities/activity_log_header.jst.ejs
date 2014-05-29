@@ -31,14 +31,12 @@
   </div>
   <div class="pure-u-4-5">
     <div class="action-controls">
-      <button id="btnSaveAttachment"
-              class="rui-btn"
-              title="Add Attachment"
-              type="file"
-              name="activity_attachment"
-              data-url="/activity_attachment.json">
-        <div class="attachment-icon"></div>
-      </button>
+      <div class="rui-btn attachment-uploader">
+        <input type="file" name="file" id="activity_attachment" class="attachment-file-upload"/>
+        <a href="javascript:void(0)">
+          <i class="attachment-icon"></i>
+        </a>
+      </div>
       <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
         <div class="task_done-icon"></div>
       </button>
@@ -53,11 +51,11 @@
       <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
     </div>
     <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
-    <button class="rui-btn" id="btnRemoveAttachment">
+    <button class="rui-btn" id="attachment-file-name-container">
       <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
       <i class="attachment-type archive-icon"></i>
       <!--TODO: Put here attached file name-->
-      <span id="#taskAttachedFileName">Test_Attachment.zip</span>
+      <span id="attachment-file-name">Test_Attachment.zip</span>
       <i class="remove-btn"></i>
     </button>
   </div>

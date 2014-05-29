@@ -35,18 +35,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
         },
 
         //saving activity
-        saveActivity:function(type,value){
-            var activity = new ReachActivityTaskApp.Entities.Activity();
-            activity.set("activity_type",type);
-            activity.set("note",value);
-            console.log(JSON.stringify(activity));
-            var fetchActivity = ReachActivityTaskApp.request("activity:save",activity);
-            $.when(fetchActivity).done(function(activity){
-                ReachActivityTaskApp.trigger("activities:list");
-            });
+        saveActivity: function(activity) {
+          console.log('saving comment: ' + JSON.stringify(activity));
+          var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
+          $.when(fetchActivity).done(function(activity) {
+            ReachActivityTaskApp.trigger("activities:list");
+          });
         },
 
         saveTask: function(activity) {
+          console.log('saving task: ' + JSON.stringify(activity));
           var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
           $.when(fetchActivity).done(function(activity){
             ReachActivityTaskApp.trigger("activities:list");
