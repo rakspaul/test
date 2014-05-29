@@ -38,7 +38,8 @@ class Lineitem < ActiveRecord::Base
   validate :flight_dates_with_in_order_range
 
   # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
+  # only check start_date for newly created LIs, do not check it for LIs created from dfp-pulled ads
+  validates :start_date, future_date: true, :if => lambda {|li| (li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record?) && li.li_status != 'dfp_pulled'}
 
   # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
@@ -120,15 +121,13 @@ class Lineitem < ActiveRecord::Base
     if new_record?
       self.geo_targets = targets
     else
-      existing_geos = self.geo_targets.map do |geo|
-        geo.id
-      end
+      existing_geos = self.geo_targets.map(&:id)
+      targets_ids = targets.map(&:id)
+      delete_geos = existing_geos - targets_ids
 
-      delete_geos = existing_geos - targets
+      LineitemGeoTargeting.delete_all(:lineitem_id => self.id, :geo_target_id => delete_geos) if delete_geos.size > 0
 
-      LineitemGeoTargeting.delete_all :lineitem_id => self.id, :geo_target_id => delete_geos
-
-      targets = targets - existing_geos
+      targets = targets.select {|tg| !existing_geos.include?(tg.id) }
 
       if targets.size > 0
         # we could have many targets for so better to insert all them in one insert query
@@ -150,19 +149,8 @@ class Lineitem < ActiveRecord::Base
     start_date = Date.parse(start_date) if start_date.is_a?(String)
     quarter = ((start_date.month - 1) / 3) + 1
 
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "Q#{ quarter }#{ start_date.strftime('%y') } " \
-    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-    "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
-    "#{ ad_size }"
-  end
-
-  def ad_name(start_date, ad_size)
-    start_date = Date.parse(start_date) if start_date.is_a?(String)
-    quarter = ((start_date.month - 1) / 3) + 1
-
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ order.io_detail.try(:reach_client).try(:abbr) } #{ order.io_detail.try(:client_advertiser_name) } " \
+    "#{ !self.geo_targets.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \
     "#{ ad_size.gsub(/,/, ' ') }"
