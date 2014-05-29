@@ -64,7 +64,7 @@ json = @ads.map do |ad|
       ad_item[:selected_zip_codes] << geo.name
     end
     h
-  end
+  end.compact
 
   ad_item[:selected_key_values] = ad.audience_groups.map do |ag|
     {
