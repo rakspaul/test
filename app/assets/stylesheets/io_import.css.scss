@@ -280,9 +280,7 @@ $wide_input_width: 320px;
   }
 
   .toggle-general-info-button {
-    padding: 3px;
     clear: both;
-    position: relative;
     margin: 0px auto;
     border: 0px;
     color: $text_color;
@@ -290,6 +288,7 @@ $wide_input_width: 320px;
     width: 215px;
     padding: 5px;
     cursor: pointer;
+    text-align: center;
   }
 
   .imported-file-name {
