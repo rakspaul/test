@@ -13,7 +13,7 @@ json = @ads.map do |ad|
     value:              ad.ad_pricing.try(:value).to_f,
     io_lineitem_id:     ad.io_lineitem_id,
     keyvalue_targeting: ad.reach_custom_kv_targeting,
-    selected_zip_codes: ad.zipcodes.collect{ |zip| zip.name },
+    selected_zip_codes: [],
     type:               ad.type,
     media_type_id:      ad.media_type_id,
     dfp_key_values:     ad.keyvalue_targeting,
@@ -47,16 +47,21 @@ json = @ads.map do |ad|
     }
   end
 
-  ad_item[:selected_geos] = (ad.designated_market_areas + ad.cities + ad.states).map do |geo|
-    h = { id: geo.id }
+  ad_item[:selected_geos] = ad.geo_targets.map do |geo|
+    geo_class = geo.class.to_s
+    unless geo_class == "GeoTarget::Zipcode"
+      h = { id: geo.id }
 
-    case geo.class.to_s
-    when "GeoTarget::DesignatedMarketArea"
-      h.merge!({title: "#{geo.name}", type: "DMA"})
-    when "GeoTarget::State"
-      h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
-    when "GeoTarget::City"
-      h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
+      case geo.class.to_s
+      when "GeoTarget::DesignatedMarketArea"
+        h.merge!({title: "#{geo.name}", type: "DMA"})
+      when "GeoTarget::State"
+        h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
+      when "GeoTarget::City"
+        h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
+      end
+    else
+      li[:selected_zip_codes] << geo.name
     end
     h
   end
