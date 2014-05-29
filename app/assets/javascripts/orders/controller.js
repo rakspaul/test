@@ -871,12 +871,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
     this.orderDetailsLayout.bottom.show(this.lineItemListView);
 
+    //With Activity and Task functionality being introduced, we don't need notes controller any more so commenting it out.
     // order note reload
-    this.lineItemListView.on('ordernote:reload', function(){
+    /*this.lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
-    });
+    });*/
 
-    this._showNotesView(lineItemList.order, this.lineItemListView);
+    //this._showNotesView(lineItemList.order, this.lineItemListView);
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
     orderDetailsView.setLineItemView(this.lineItemListView);
@@ -888,13 +889,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         li.setBuffer(buffer);
       });
     }
-  },
+  }
 
-  _showNotesView: function(order, li_view) {
+  //With Activity and Task functionality being introduced, we don't need this notes view any more so commenting it out.
+  /*_showNotesView: function(order, li_view) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
     this.notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
     this.notesRegion.show(this.notes_list_view);
-  },
+  }, */
 });

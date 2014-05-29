@@ -1051,7 +1051,8 @@
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
-              self.trigger('ordernote:reload');
+              //Not required as Activity and Task functionality replace this.
+              //self.trigger('ordernote:reload');
             } else if(response.order_status.match(/draft/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
