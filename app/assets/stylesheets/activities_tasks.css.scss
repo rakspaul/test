@@ -234,14 +234,28 @@ textarea#activity_input {
     // we have to compensate padding introduced by selected task
     &.task-selected {
       margin: 0 -5px;
+      .border-breaker {
+        visibility: visible;
+      }
+    }
+    &:not(.task-selected) {
+      .border-breaker {
+        visibility: hidden;
+      }
     }
   }
 }
 
-.task-selected {
+.selected-element {
   padding: 5px;
   border: 1px dashed $rui-gray-color;
   margin-bottom: 5px;
+}
+
+.task-selected {
+  .task-row {
+    @extend .selected-element;
+  }
 }
 
 .task-comment {
@@ -268,6 +282,7 @@ textarea#activity_input {
 }
 
 .task-row {
+  position: relative;
   cursor: pointer;
   .task-name {
     padding-left: 5px;
@@ -280,14 +295,33 @@ textarea#activity_input {
   color: $rui-gray-color;
 }
 
-.task-details-table {
-  // TODO: This container should be positioned relatively to the clicked row
+.task-details-container {
   position: relative;
-  width: 100%;
+}
+
+.border-breaker {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 10px;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  color: #fff;
+  content: ".";
+}
+
+.task-attachment {
+  display: block;
+  font-size: 11px;
+}
+
+.task-details-table {
   box-sizing: border-box;
-//  width: 48%;
-//  left: -48%;
-//  top: -20px;
+  position: absolute;
+  width: 100%;
+  left: -100%;
+  top: -20px;
 
   background-color: #fff;
 
@@ -297,12 +331,7 @@ textarea#activity_input {
   }
 
   // this will add dashed border around
-  @extend .task-selected;
-
-  .follow-task,
-  .close-task {
-    color: $rui-gray-color;
-  }
+  @extend .selected-element;
 
   select {
     width: 120px;
