@@ -12,7 +12,7 @@ json = @lineitems.map do |lineitem|
     ad_sizes:           lineitem.ad_sizes,
     order_id:           lineitem.order.id,
     uploaded:           lineitem.uploaded,
-    selected_zip_codes: lineitem.zipcodes.collect{ |zip| zip.name },
+    selected_zip_codes: [],
     alt_ad_id:          lineitem.alt_ad_id,
     keyvalue_targeting: lineitem.keyvalue_targeting,
     type:               lineitem.type,
@@ -52,18 +52,21 @@ json = @lineitems.map do |lineitem|
 
   li[:selected_geos] = (lineitem.geo_targets).map do |geo|
     geo_class = geo.class.to_s
-    h = { id: geo.id } unless geo_class == "GeoTarget::Zipcode"
-
-    case geo_class
-    when "GeoTarget::DesignatedMarketArea"
-      h[:title] = "#{geo.name}"
-      h[:type]  = "DMA"
-    when "GeoTarget::State"
-      h[:title] = "#{geo.name}/#{geo.country.try(:name)}"
-      h[:type]  = "State"
-    when "GeoTarget::City"
-      h[:title] = "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
-      h[:type]  = "City"
+    unless geo_class == "GeoTarget::Zipcode"
+      h = { id: geo.id }
+      case geo_class
+      when "GeoTarget::DesignatedMarketArea"
+        h[:title] = "#{geo.name}"
+        h[:type]  = "DMA"
+      when "GeoTarget::State"
+        h[:title] = "#{geo.name}/#{geo.country.try(:name)}"
+        h[:type]  = "State"
+      when "GeoTarget::City"
+        h[:title] = "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
+        h[:type]  = "City"
+      end
+    else
+      li[:selected_zip_codes] << geo.name
     end
     h
   end.compact
