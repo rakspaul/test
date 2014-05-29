@@ -31,31 +31,28 @@
   </div>
   <div class="pure-u-4-5">
     <div class="action-controls">
-      <div class="rui-btn attachment-uploader">
-        <input type="file" name="file" id="activity_attachment" class="attachment-file-upload"/>
-        <a href="javascript:void(0)">
-          <i class="attachment-icon"></i>
-        </a>
+      <div id="attachmentUploader">
+        <input type="file" name="file" id="activity_attachment" class="attachment-file-upload">
+        <i class="attachment-icon"></i>
       </div>
       <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
-        <div class="task_done-icon"></div>
+        <i class="task_done-icon"></i>
       </button>
       <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
-        <div class="alert-icon"></div>
+        <i class="alert-icon"></i>
       </button>
       <button id="btnSaveComment" class="rui-btn" title="Add Comment">
-        <div class="comment_white-icon"></div>
+        <i class="comment_white-icon"></i>
       </button>
     </div>
     <div class="activity-comment-input-container">
       <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
     </div>
     <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
-    <button class="rui-btn" id="attachment-file-name-container">
+    <button class="rui-btn" id="btnRemoveAttachment">
       <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
       <i class="attachment-type archive-icon"></i>
-      <!--TODO: Put here attached file name-->
-      <span id="attachment-file-name">Test_Attachment.zip</span>
+      <span id="attachment-file-name"></span>
       <i class="remove-btn"></i>
     </button>
   </div>
