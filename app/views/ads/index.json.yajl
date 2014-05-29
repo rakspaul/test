@@ -61,7 +61,7 @@ json = @ads.map do |ad|
         h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
       end
     else
-      ad_item[:selected_zip_codes] << geo.name
+      ad_item[:ad][:selected_zip_codes] << geo.name
     end
     h
   end.compact
