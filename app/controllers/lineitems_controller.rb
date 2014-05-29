@@ -8,7 +8,7 @@ class LineitemsController < ApplicationController
   # GET orders/{order_id}/lineitems
   def index
     #@order = Order.includes(:lineitems => [ :geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').find(params[:order_id])
-    @order = Order.includes(:lineitems => [ { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').references(:io_lineitems, :lineitem_assignments, :creatives).find(params[:order_id])
+    @order = Order.includes(:lineitems => [ :geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').find(params[:order_id])
     @lineitems = set_lineitem_status(@order.lineitems)
 
     # find ads
@@ -16,7 +16,7 @@ class LineitemsController < ApplicationController
 
     # if DFP-pulled order
     if @lineitems.empty? && !@ads.empty?
-      # adjust order's start/end dates 
+      # adjust order's start/end dates
       start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
       end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
       @order.user_id = current_user.id if @order.user_id.blank?
@@ -38,7 +38,7 @@ class LineitemsController < ApplicationController
           ad.update_attribute :io_lineitem_id, li.id
           @lineitems << li
         end
-      end      
+      end
     end
   end
 
