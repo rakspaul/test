@@ -44,7 +44,8 @@ textarea {
   }
 }
 
-.header-controls {
+.header-controls,
+.action-controls {
   text-align: right;
 
   .rui-btn:not(.active) {
@@ -58,14 +59,14 @@ textarea {
 
 button.rui-btn {
   &#btnRemoveAttachment {
-    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
+    display: none;
     margin-left: 5px;
     font-size: 11px;
     .remove-btn {
-      opacity: 0;
+      @include opacity(0);
       margin: 0;
       padding: 0;
-      vertical-align: middle;
+      vertical-align: middle !important;
     }
 
 
@@ -74,7 +75,7 @@ button.rui-btn {
       &#btnRemoveAttachment {
         .remove-btn {
           @include transition(opacity 1s);
-          opacity: 1;
+          @include opacity(100);
         }
       }
     }
@@ -155,32 +156,29 @@ textarea#activity_input {
   width: 120px;
   min-width: 120px;
 
-  .attachment-uploader {
-    margin: 5px;
-    text-align: right;
+  #attachmentUploader {
+    @extend .rui-btn;
     position: relative;
-
-    a {
-      margin-right: 5px;
-    }
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 5px;
   }
 
   .attachment-file-upload {
+    @include opacity(0);
     position: absolute;
     top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
     cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
   }
 
 }
 
 #btnSaveComment,
 #btnSaveTaskComment {
+  @include opacity(100);
   background-color: $btn-primary-bg;
   &:hover {
     background-color: $btn-bg-hover;
