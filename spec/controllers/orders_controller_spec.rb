@@ -158,7 +158,12 @@ describe OrdersController do
       it "assigns draft status to order on open" do
         get :show, {id: @order.id}
         expect(@order.io_detail.state).to eq('draft')
-      end 
+      end
+
+      it "assigns client_advertiser_name to io_detail" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.client_advertiser_name).to eq("DFP Advertiser")
+      end
     end
 
     context "vaild order w/ City and State and DMA targeting" do
