@@ -74,8 +74,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function(options) {
-    var taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({model: options.task});
-    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.activitiesRegion.show(taskDetailView);
+    var taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
+      model: options.task,
+      parentRegion: options.aRegion
+    });
+    options.aRegion.show(taskDetailView);
+//    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.activitiesRegion.show(taskDetailView);
     ReachActivityTaskApp.trigger("taskComments:list");
     API.fetchTaskComments(options.task);
   });

@@ -31,7 +31,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             taskAssigneeSelector: "#task-assignee-selector",
             saveAttachment: "#activity_attachment",
             attachmentFileName: "#attachment-file-name",
-            attachmentFileNameContainer: '#attachment-file-name-container'
+            attachmentFileNameContainer: '#btnRemoveAttachment',
+            attachmentFileUploader: "#attachmentUploader"
         },
 
         //handling event here.
@@ -50,13 +51,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
             "click #saveTask": "saveTask",
 
-            "change #task-types-selector": 'onTaskTypeChanged'
+            "change #task-types-selector": 'onTaskTypeChanged',
+
+          "keyup #activity_input": 'onTypeInTextArea'
         },
 
         onDomRefresh: function() {
+          var self = this;
+
           this.ui.attachmentFileNameContainer.hide();
 
-          var self = this;
           this.ui.saveAttachment.fileupload({
             dataType: 'json',
             url: '/file_upload.json',
@@ -72,6 +76,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
               console.log(JSON.stringify(response.result));
               self.ui.attachmentFileName.text(response.result.original_filename);
               self.ui.attachmentFileNameContainer.show();
+              self.ui.attachmentFileUploader.toggleClass("active");
               self.model.set('activity_attachment_id', response.result.id);
             }
 
@@ -123,9 +128,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             Header.Controller.fetchActivities(Header.ACTIVITY_TYPES.ALL);
         },
 
-        //Save Handlers
+        // Save Handlers
         showTaskForm: function(e) {
+          $(e.target).toggleClass("active");
           this.ui.taskFormRegion.toggle();
+
           if (this.ui.taskFormRegion.is(":visible")) {
             $( "#due-date" ).datepicker();
             this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
@@ -135,15 +142,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
         },
 
         markAsImportant: function(e) {
-          e.preventDefault();
-          console.log("mar as important");
-          //TODO: add correct CSS
           var element = $(e.target);
-          if(element.hasClass('important')) {
-            element.removeClass('important');
-          } else {
-            element.addClass('important');
-          }
+
+          e.preventDefault();
+          console.log("marked as important");
+          element.toggleClass("important active");
           this.model.set('important', element.hasClass('important'));
         },
 
@@ -202,7 +205,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
           this.render();
           this.showTaskForm();
-        }
+        },
+
+      onTypeInTextArea: function (e) {
+        var textarea = $(e.target),
+            defaultHeight = 40;
+
+        textarea.css({
+          overflow: "hidden",
+          height: textarea.height()
+        });
+        textarea.animate({height: Math.max(textarea.get(0).scrollHeight, defaultHeight) + "px"}, "fast");
+      }
     });
 
     Header.TaskFormView = Marionette.ItemView.extend({

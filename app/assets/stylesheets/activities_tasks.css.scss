@@ -1,3 +1,5 @@
+// === GENERAL STYLES [BEGIN] ===
+
 .empty {
   margin-top: 20px;
   color: #ddd;
@@ -29,6 +31,62 @@ textarea {
   min-width: 98%;
 }
 
+// This is general class for both Activities log and Task Comment List
+.load-more {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.rui-btn,
+.rui-btn:hover {
+  &.spinner {
+    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
+  }
+}
+
+.header-controls,
+.action-controls {
+  text-align: right;
+
+  .rui-btn:not(.active) {
+    @include opaque_button;
+  }
+}
+
+.semi-transparent {
+  @include opaque_button;
+}
+
+button.rui-btn {
+  &#btnRemoveAttachment {
+    display: none;
+    margin-left: 5px;
+    font-size: 11px;
+    .remove-btn {
+      @include opacity(0);
+      margin: 0;
+      padding: 0;
+      vertical-align: middle !important;
+    }
+
+
+    &:hover {
+      background-color: #fff;
+      &#btnRemoveAttachment {
+        .remove-btn {
+          @include transition(opacity 1s);
+          @include opacity(100);
+        }
+      }
+    }
+  }
+}
+
+// === GENERAL STYLES [BEGIN] ===
+
+
+// === ACTIVITIES SECTION [BEGIN] ===
+
 .activities-container {
   margin: 20px 70px 20px 40px;
   font-size: 13px;
@@ -36,13 +94,6 @@ textarea {
   font-weight: normal;
 }
 
-// This is general class for both Activities log and Task Comment List
-.load-more {
-  text-align: center;
-  margin-top: 10px;
-}
-
-// Activities Region styling
 .activities-region {
   .activities-content {
     .activities-list {
@@ -51,12 +102,14 @@ textarea {
       overflow-y: auto;
 
       .username {
+        padding-right: 10px;
+        text-align: right;
         color: $rui-heading-text-color;
       }
 
-      .activity-system-comment {
+      .system-comment {
         font-size: 12px;
-        color: #666
+        color: $rui-gray-color;
       }
 
       .activity-log-subrow {
@@ -70,27 +123,13 @@ textarea {
           margin-right: 10px;
         }
       }
+
+      .date {
+        text-align: right;
+        font-size: 11px;
+        color: $rui-gray-color;
+      }
     }
-  }
-}
-// [ END ] ------------------------------
-
-
-//--------------------------------
-// UI Styles by RoDush [BEGIN]
-//--------------------------------
-
-.activity-system-comment,
-.activity-user-comment {
-  .username {
-    text-align: right;
-    padding-right: 10px;
-  }
-
-  .date {
-    text-align: right;
-    font-size: 11px;
-    color: $rui-gray-color;
   }
 }
 
@@ -117,32 +156,29 @@ textarea#activity_input {
   width: 120px;
   min-width: 120px;
 
-  .attachment-uploader {
-    margin: 5px;
-    text-align: right;
+  #attachmentUploader {
+    @extend .rui-btn;
     position: relative;
-
-    a {
-      margin-right: 5px;
-    }
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 5px;
   }
 
   .attachment-file-upload {
+    @include opacity(0);
     position: absolute;
     top: 0;
-    right: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 20px;
     cursor: pointer;
-    opacity: 0;
-    filter: alpha(opacity=0);
   }
 
 }
 
 #btnSaveComment,
 #btnSaveTaskComment {
+  @include opacity(100);
   background-color: $btn-primary-bg;
   &:hover {
     background-color: $btn-bg-hover;
@@ -184,19 +220,40 @@ textarea#activity_input {
   }
 }
 
-// === TASKS SECTIONS [BEGIN] ===
+// === ACTIVITIES SECTION [END] ===
+
+
+// === TASKS SECTION [BEGIN] ===
 
 .tasks-region {
   margin-left: 30px;
   .task-container {
     margin-top: 5px;
+    // we have to compensate padding introduced by selected task
+    &.task-selected {
+      margin: 0 -5px;
+      .border-breaker {
+        visibility: visible;
+      }
+    }
+    &:not(.task-selected) {
+      .border-breaker {
+        visibility: hidden;
+      }
+    }
   }
 }
 
-.task-selected {
+.selected-element {
   padding: 5px;
   border: 1px dashed $rui-gray-color;
   margin-bottom: 5px;
+}
+
+.task-selected {
+  .task-row {
+    @extend .selected-element;
+  }
 }
 
 .task-comment {
@@ -223,6 +280,8 @@ textarea#activity_input {
 }
 
 .task-row {
+  position: relative;
+  cursor: pointer;
   .task-name {
     padding-left: 5px;
   }
@@ -234,14 +293,33 @@ textarea#activity_input {
   color: $rui-gray-color;
 }
 
-.task-details-table {
-  // TODO: This container should be positioned relatively to the clicked row
+.task-details-container {
   position: relative;
-  width: 100%;
+}
+
+.border-breaker {
+  position: absolute;
+  display: block;
+  height: 100%;
+  width: 10px;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  color: #fff;
+  content: ".";
+}
+
+.task-attachment {
+  display: block;
+  font-size: 11px;
+}
+
+.task-details-table {
   box-sizing: border-box;
-//  width: 48%;
-//  left: -48%;
-//  top: -20px;
+  position: absolute;
+  width: 100%;
+  left: -100%;
+  top: -20px;
 
   background-color: #fff;
 
@@ -251,12 +329,7 @@ textarea#activity_input {
   }
 
   // this will add dashed border around
-  @extend .task-selected;
-
-  .follow-task,
-  .close-task {
-    color: $rui-gray-color;
-  }
+  @extend .selected-element;
 
   select {
     width: 120px;
@@ -282,51 +355,7 @@ textarea#activity_input {
 
 // === TASKS SECTIONS [END] ===
 
-.rui-btn,
-.rui-btn:hover {
-  &.spinner {
-    background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
-  }
-}
-
-.header-controls {
-  text-align: right;
-
-  .rui-btn:not(.active) {
-    @include opaque_button;
-  }
-}
-
-.semi-transparent {
-  @include opaque_button;
-}
-
-button.rui-btn {
-  &#attachment-file-name-container {
-    //    display: none; // TODO: This should be enabled once implemented JS logic for show/hide the button
-    margin-left: 5px;
-    font-size: 11px;
-    .remove-btn {
-      opacity: 0;
-      margin: 0;
-      padding: 0;
-      vertical-align: middle;
-    }
-
-
-    &:hover {
-      background-color: #fff;
-      &#attachment-file-name-container {
-        .remove-btn {
-          @include transition(opacity 1s);
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
-// FOLLOWERS REGION [BEGIN]
+// === FOLLOWERS REGION [BEGIN] ===
 #followersRegion {
   margin: 40px 0 0 30px;
 }
@@ -351,4 +380,4 @@ ul.followers-list {
     }
   }
 }
-// FOLLOWERS REGION [END]
+// === FOLLOWERS REGION [END] ===
