@@ -857,6 +857,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           });
           if (li_show_delete_btn) {
             li_view.showDupDeleteBtn();
+          } else {
+            li_view.showDupDeleteBtn({hide: true});
           }
         });
 
