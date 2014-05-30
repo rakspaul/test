@@ -3,24 +3,27 @@
  */
 ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Header, ReachActivityTaskApp, Backbone, Marionette, $, _, JST, moment) {
 
-  //Different activity types
+  TEXTAREA_DEFAULT_HEIGHT = 40;
 
+  //Different activity types
   Header.ACTIVITY_TYPES = {   COMMENT: "user_comment",
-                              ATTACHMENT: "attachment",
-                              TASK: "task",
-                              USER: "user",
-                              DUEDATE: "duedate",
-                              ALERT: "alert",
-                              ALL: "all",
-                              SYSTEM: "system_comment"};
+    ATTACHMENT: "attachment",
+    TASK: "task",
+    USER: "user",
+    DUEDATE: "duedate",
+    ALERT: "alert",
+    ALL: "all",
+    SYSTEM: "system_comment"};
 
   Header.filters = [];
-
   Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
-
   Header.previousFormAction = Header.ACTIVITY_TYPES.COMMENT;
 
-  Header.formActions = [Header.ACTIVITY_TYPES.ATTACHMENT, Header.ACTIVITY_TYPES.TASK, Header.ACTIVITY_TYPES.ALERT];
+  Header.formActions = [
+    Header.ACTIVITY_TYPES.ATTACHMENT,
+    Header.ACTIVITY_TYPES.TASK,
+    Header.ACTIVITY_TYPES.ALERT
+  ];
 
 
   Header.Layout = Backbone.Marionette.ItemView.extend({
@@ -29,7 +32,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     regions: {
       headerTitleRegion: ".header-title",
       headerControlsRegion: ".header-controls"
-
     },
 
     ui: {
@@ -47,13 +49,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     //handling event here.
     events: {
-      "click #btnFilterComments": "filterActivitiesByComment",
-      "click #btnFilterAttachments": "filterActivitiesByAttachment",
-      "click #btnFilterTasks": "filterActivitiesByTask",
-      "click #btnFilterDueDates": "filterActivitiesByDuedate",
-      "click #btnFilterUser": "filterActivitiesByUser",
-      "click #btnFilterAlerts": "filterActivitiesByAlert",
-      "click #btnFullLog": "showFullLog",
+      "click .header-controls .filter": "filterActivities",
 
       "click #btnSaveAlert": "markAsImportant",
       "click #btnShowTaskForm": "showTaskForm",
@@ -87,19 +83,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
         self.ui.attachmentFileName.text(response.result.original_filename);
         self.ui.attachmentFileNameContainer.show();
-        self.ui.attachmentFileUploader.toggleClass("active");
+        self.ui.attachmentFileUploader.addClass("active");
         self.model.set('activity_attachment_id', response.result.id);
-
-        self.model.set('activity_type', Header.ACTIVITY_TYPES.ATTACHMENT);
-
-        Header.previousFormAction = Header.currentFormAction;
-        Header.currentFormAction = Header.ACTIVITY_TYPES.ATTACHMENT;
-        console.log("Previous form action:" + Header.previousFormAction);
-        console.log("Current form action:" + Header.currentFormAction);
-        if (Header.previousFormAction != Header.ACTIVITY_TYPES.TASK) {
-          this.animateFormControls();
-        }
-
       }
 
       function _uploadFailure(e, response) {
@@ -114,130 +99,58 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT);
     },
 
-    animate: function (component, cssStyle) {
-      component.css(cssStyle);
-    },
-
     animateFilterControls: function (component, type) {
       //if filter is existed in the array then we have to reduce the opacity otherwise make opacity full
       var index = Header.filters.indexOf(type);
-      var opacityStyle = {"opacity": 1};
       if (index > -1) {
-        opacityStyle["opacity"] = 0.4;
         Header.filters.splice(index, 1);
+        component.removeClass("active");
       } else {
         Header.filters.push(type);
+        component.addClass("active");
       }
-      this.animate(component, opacityStyle);
     },
 
-    fetchActivities:function(component,type){
-      this.animateFilterControls(component,type);
-      Header.Controller.fetchActivities(Header.filters);
-    },
+    // Filter handlers
+    filterActivities: function (e) {
+      var aControl = $(e.target),
+          filterType = aControl.data("filter-with"),
+          systemFilterName,
+          filterByUsername;
 
-    //Filter handlers
-    filterActivitiesByComment: function (e) {
       e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterComments") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.COMMENT);
-    },
 
-    filterActivitiesByAttachment: function (e) {
-      e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterAttachments") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.ATTACHMENT);
-    },
-
-    filterActivitiesByTask: function (e) {
-      e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterTasks") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.TASK);
-    },
-
-    filterActivitiesByUser: function (e) {
-      e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterUser") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.USER);
-    },
-
-    filterActivitiesByDuedate: function (e) {
-      e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterDueDates") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.DUEDATE);
-    },
-
-    filterActivitiesByAlert: function (e) {
-      e.preventDefault();
-      var component = $(e.target).parent();
-      if (e.target.id == "btnFilterAlerts") {
-        component = $(e.target);
-      }
-      this.fetchActivities(component, Header.ACTIVITY_TYPES.ALERT);
-    },
-
-    showFullLog: function (e) {
-      e.preventDefault();
-      this.fetchActivities($(e.target), Header.ACTIVITY_TYPES.ALL);
-    },
-
-    // Save Handlers
-    animateFormControls: function (type) {
-      //current form action and previous form action could be same only when user click on the same control(task/attachment) twice.
-      if (type != Header.ACTIVITY_TYPES.COMMENT) {
-        this.animateFormControl(type);
+      switch (filterType) {
+        case "comments":
+          systemFilterName = Header.ACTIVITY_TYPES.COMMENT;
+          break;
+        case "attachments":
+          systemFilterName = Header.ACTIVITY_TYPES.ATTACHMENT;
+          break;
+        case "alerts":
+          systemFilterName = Header.ACTIVITY_TYPES.ALERT;
+          break;
+        case "tasks":
+          systemFilterName = Header.ACTIVITY_TYPES.TASK;
+          break;
+        case "assignee":
+          systemFilterName = Header.ACTIVITY_TYPES.COMMENT;
+          filterByUsername = ReachActivityTaskApp.username;
+          break;
+        case "dueDate":
+          systemFilterName = Header.ACTIVITY_TYPES.DUEDATE;
+          break;
+        default:
+          systemFilterName = Header.ACTIVITY_TYPES.ALL;
       }
 
-      //User could continuosly  click on some control, in that case we have to capture earlier state as well.
-      //Suppose: User first clicked on attachment control in that case, that is the current form action.
-      //Later, user clicked on task then previous would be attachment and later would be task.
-      //Now, user keep on clicking task control, then we shouldn't loose previous attachment control.
-      var prevFormAction = Header.previousFormAction;
-      Header.previousFormAction = Header.currentFormAction;
-      Header.currentFormAction = type;
-
-      if (Header.currentFormAction == Header.previousFormAction && Header.currentFormAction != prevFormAction) {
-        //keep the model set with the previous action, because that would be the valid one.
-        this.model.set('activity_type', prevFormAction);
-
-        if (Header.currentFormAction == Header.ACTIVITY_TYPES.TASK) {
-          this.ui.taskFormRegion.toggle();
-        }
-
-        //And set it back to the previous action.
-        Header.previousFormAction = prevFormAction;
-      } else {
-        if (type == Header.ACTIVITY_TYPES.TASK) {
-          this.ui.taskFormRegion.toggle();
-        } else {
-          this.model.set('activity_type', type);
-        }
-      }
+      this.animateFilterControls(aControl, systemFilterName);
+      Header.Controller.fetchActivities(systemFilterName, filterByUsername);
     },
 
     animateFormControl: function (type) {
       var uiComponent = this.getUIComponent(type);
-      var val = uiComponent.css("opacity");
-      var opacityStyle = {"opacity": 0.4};
-      if (val < 1) {
-        opacityStyle["opacity"] = 1;
-      }
-      this.animate(uiComponent, opacityStyle);
+      uiComponent.toggleClass("active");
     },
 
     getUIComponent: function (type) {
@@ -251,60 +164,57 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },
 
     showTaskForm: function (e) {
-      console.log("Current form action:" + Header.currentFormAction);
-      console.log("Previous form action:" + Header.previousFormAction)
-      this.animateFormControls(Header.ACTIVITY_TYPES.TASK);
-
+      this.ui.taskFormRegion.toggle();
       this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
       if (this.ui.taskFormRegion.is(":visible")) {
         $("#due-date").datepicker();
-        this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
       }
     },
 
+    // Save Handlers
     markAsImportant: function (e) {
-    /*  var element = $(e.target);
+      /*  var element = $(e.target);
 
-      e.preventDefault();
-      console.log("marked as important");
-      if (Header.currentFormAction == Header.ACTIVITY_TYPES.TASK) {
-        this.ui.taskFormRegion.toggle();
-      }
-      if (Header.currentFormAction != Header.ACTIVITY_TYPES.ALERT) {
-        Header.currentFormAction = Header.ACTIVITY_TYPES.ALERT
-      } else {
-        Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
-      }
-      console.log("Current form action:" + Header.currentFormAction);
-      this.animateFormControls(Header.ACTIVITY_TYPES.ALERT);
-      element.toggleClass("important active");
-      this.model.set('important', element.hasClass('important')); */
+       e.preventDefault();
+       console.log("marked as important");
+       if (Header.currentFormAction == Header.ACTIVITY_TYPES.TASK) {
+       this.ui.taskFormRegion.toggle();
+       }
+       if (Header.currentFormAction != Header.ACTIVITY_TYPES.ALERT) {
+       Header.currentFormAction = Header.ACTIVITY_TYPES.ALERT
+       } else {
+       Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
+       }
+       console.log("Current form action:" + Header.currentFormAction);
+       this.animateFormControls(Header.ACTIVITY_TYPES.ALERT);
+       element.toggleClass("important active");
+       this.model.set('important', element.hasClass('important')); */
     },
 
     saveComment: function (e) {
       e.preventDefault();
-      console.log("Save Comment");
-      var data = this.ui.activity_input.val().trim();
-      if ((Header.currentFormAction == Header.ACTIVITY_TYPES.TASK && Header.previousFormAction == Header.ACTIVITY_TYPES.ATTACHMENT) ||
-        (Header.previousFormAction == Header.ACTIVITY_TYPES.TASK && Header.currentFormAction == Header.ACTIVITY_TYPES.ATTACHMENT)) {
+      var commentText = this.ui.activity_input.val().trim();
+
+      // We mark activity as 'TASK' only if Task Form was shown when user pressed 'saveComment' button
+      if (this.ui.taskFormRegion.is(":visible")) {
         this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
-        this.saveTask();
+        this.saveTask(commentText);
       } else {
-        if (data.trim() == "") {
-          //we have to put validation.
+        // Otherwise, check if there was an attachment - if yes, mark as attachment, otherwise - just a comment
+        if (commentText == "") {
+          // TODO: Put validation!
           return;
         }
-        this.model.set('note', data);
+        this.model.set('activity_type', this.ui.attachmentFileName.text().trim() ? Header.ACTIVITY_TYPES.ATTACHMENT : Header.ACTIVITY_TYPES.COMMENT);
+        this.model.set('note', commentText);
         this.model.unset('users', {silent: true});
         this.model.unset('task_types', {silent: true});
         Header.Controller.saveActivity(this.model);
       }
     },
 
-    saveTask: function (e) {
-      var data = this.ui.activity_input.val().trim();
-
-      this.model.set('note', data);
+    saveTask: function (commentText) {
+      this.model.set('note', commentText);
       this.model.set('due_date', moment(this.ui.dueDate.val()).format("YYYY-MM-DD"));
       this.model.set('task_type_id', this.ui.taskTypeSelector.val());
       this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
@@ -313,7 +223,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.unset('task_types', {silent: true});
 
       Header.Controller.saveTask(this.model);
-
     },
 
     onTaskTypeChanged: function (e) {
@@ -324,6 +233,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
        $("#pixel-request-subform").hide();
        } */
       this.setTaskUsers();
+      this.ui.taskFormRegion.show();
     },
 
     setTaskUsers: function () {
@@ -341,50 +251,26 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },
 
     onTypeInTextArea: function (e) {
-      var textarea = $(e.target),
-        defaultHeight = 40;
+      var textarea = $(e.target);
 
       textarea.css({
         overflow: "hidden",
         height: textarea.height()
       });
-      textarea.animate({height: Math.max(textarea.get(0).scrollHeight, defaultHeight) + "px"}, "fast");
+      textarea.animate({height: Math.max(textarea.get(0).scrollHeight, TEXTAREA_DEFAULT_HEIGHT) + "px"}, "fast");
     },
 
     resetTextArea: function () {
       this.ui.activity_input.val('');
-      this.ui.activity_input.animate({height: 15 + "px"}, "fast");
-    },
-
-    removeAttachment: function (e) {
-      e.stopPropagation();
-      e.preventDefault();
-      this.ui.attachmentFileUploader.removeClass("active");
-      // TODO: Add request to remove file from the DB and FS
+      this.ui.activity_input.animate({height: TEXTAREA_DEFAULT_HEIGHT + "px"}, "fast");
     },
 
     resetFormControls: function () {
       console.log("In reset form controls");
-
-      //reset task task form
-      if (Header.currentFormAction == Header.ACTIVITY_TYPES.TASK ||
-        Header.previousFormAction == Header.ACTIVITY_TYPES.TASK) {
-        this.animateFormControl(Header.ACTIVITY_TYPES.TASK);
-        this.animateFormControl(Header.ACTIVITY_TYPES.ATTACHMENT);
-        this.ui.taskFormRegion.toggle();
-      }
-
-      //reset activity type in the model.
-      this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT);
-
+      this.ui.btnShowTaskForm.removeClass("active");
+      this.ui.taskFormRegion.hide();
       this.resetTextArea();
-
       this._resetAttachmentContainer();
-
-      //make current form action to default.
-      Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
-      Header.previousFormAction = Header.ACTIVITY_TYPES.COMMENT;
-
     },
 
     removeAttachment: function (e) {
@@ -412,4 +298,5 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
   ReachActivityTaskApp.on("activities:reset:form-controls", function () {
     Header.Layout.resetFormControls();
   });
+
 }, JST, moment);
