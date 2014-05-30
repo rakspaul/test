@@ -29,6 +29,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         var taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentRegion();
         taskCommentsRegion.show(taskCommentsView);
       }
+    },
+
+    saveTaskComment: function(comment, options) {
+      console.log('saving task comment: ' + JSON.stringify(comment));
+      var saveTaskComment = ReachActivityTaskApp.request("taskComment:save", comment);
+      $.when(saveTaskComment).done(function(comment) {
+        ReachActivityTaskApp.trigger("taskComments:list", options);
+      });
+
     }
 
   }

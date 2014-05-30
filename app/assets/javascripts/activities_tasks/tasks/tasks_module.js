@@ -37,9 +37,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
 
     fetchTaskComments: function(task) {
       var fetchTaskComments = ReachActivityTaskApp.request("taskComment:entities", task);
-      $.when(fetchTaskComments).done(function(temp) {
-        console.log('taskComments ' + JSON.stringify(temp));
-        renderTaskComments(temp);
+      $.when(fetchTaskComments).done(function(comments) {
+        console.log('taskComments ' + JSON.stringify(comments));
+        renderTaskComments(comments);
       });
     }
   };
@@ -76,12 +76,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
   ReachActivityTaskApp.on("include:taskDetails", function(options) {
     var taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
       model: options.task,
-      parentRegion: options.aRegion
+      parentRegion: options.aRegion,
+      task: options.task
     });
     options.aRegion.show(taskDetailView);
-//    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.activitiesRegion.show(taskDetailView);
-    ReachActivityTaskApp.trigger("taskComments:list");
-    API.fetchTaskComments(options.task);
+
+    ReachActivityTaskApp.trigger("taskComments:list", options);
   });
 
+  ReachActivityTaskApp.on("taskComments:list", function(options) {
+    API.fetchTaskComments(options.task);
+  });
 },JST);

@@ -6,7 +6,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
         defaults:{
             created_at: moment().format("YYYY-MM-DD"),
             activity_type:"comment",
-            note: ""
+            note: "",
+            original_filename: null
         },
 
         url: function() {

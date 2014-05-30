@@ -73,7 +73,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       className: 'task-details-table',
 
       events: {
-        'click .task-detail-view-close' : '_closeTaskDetailView'
+        'click .task-detail-view-close' : '_closeTaskDetailView',
+        'click #btnSaveTaskComment' : 'saveTaskComment'
       },
 
       _closeTaskDetailView: function(e) {
@@ -93,11 +94,63 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         if(this.model.collection.selectedTask) {
           this.model.collection.selectedTask.$el.removeClass('task-selected');
         }
+      },
+
+      ui: {
+        taskActivityInput: '#task_activity_input',
+        saveAttachment: "#activity_attachment",
+        attachmentFileName: "#attachment-file-name",
+        attachmentFileNameContainer: '#attachment-file-name-container'
+      },
+
+      onDomRefresh: function() {
+        this.ui.attachmentFileNameContainer.hide();
+
+        var self = this;
+        this.ui.saveAttachment.fileupload({
+                dataType: 'json',
+                url: '/file_upload.json',
+                formData: {attachment_type: 'order_activity_attachment'},
+                dropZone: this.ui.saveAttachment,
+                pasteZone: null,
+//            start: _uploadStarted,
+                done: _uploadSuccess,
+                fail: _uploadFailure
+        });
+
+        function _uploadSuccess(e, response) {
+          console.log(JSON.stringify(response.result));
+          self.ui.attachmentFileName.text(response.result.original_filename);
+          self.ui.attachmentFileNameContainer.show();
+          self.model.set('activity_attachment_id', response.result.id);
+        }
+
+        function _uploadFailure(e, response) {
+          self.ui.attachmentFileName.text('Upload failed');
+          self.ui.attachmentFileName.addClass('error');
+          self.ui.attachmentFileNameContainer.show();
+        }
+      },
+
+      saveTaskComment: function(e) {
+        e.preventDefault();
+        var data = this.ui.taskActivityInput.val().trim();
+        if(data == '') {
+          return;
+        }
+
+        var comment = new ReachActivityTaskApp.Entities.TaskComment();
+        comment.set('note', data);
+        comment.set('activity_type', 'user_comment');
+        comment.setTask(this.options.task);
+//      comment.set('activity_attachment_id', attachment_id);
+
+        List.Controller.saveTaskComment(comment, {task: options.task});
       }
     });
 
     List.TaskCommentView = Backbone.Marionette.ItemView.extend({
-      template: JST['templates/activities_tasks/tasks/task_comment_item'],
+      template: JST['templates/activities_tasks/tasks/task_comment_list_item'],
 
       className: 'task-comment-container',
 
