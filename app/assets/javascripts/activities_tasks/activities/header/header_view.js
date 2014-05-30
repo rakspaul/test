@@ -54,7 +54,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
             "change #task-types-selector": 'onTaskTypeChanged',
 
-          "keyup #activity_input": 'onTypeInTextArea'
+          "keyup #activity_input": 'onTypeInTextArea',
+          "click #btnRemoveAttachment": 'removeAttachment'
         },
 
         onDomRefresh: function() {
@@ -216,6 +217,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           height: textarea.height()
         });
         textarea.animate({height: Math.max(textarea.get(0).scrollHeight, defaultHeight) + "px"}, "fast");
+      },
+
+      removeAttachment: function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        this.ui.attachmentFileUploader.removeClass("active");
+        // TODO: Add request to remove file from the DB and FS
       }
     });
 
