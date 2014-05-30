@@ -1220,7 +1220,9 @@
     _createNewLI: function() {
       var li = new LineItems.LineItem(),
           empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
-          itemIndex = this.collection.length + 1;
+          itemIndex = this.collection.length + 1,
+          view = this;
+      var lastLIView = view.children.length > 0 ? view.children.findByIndex(view.children.length - 1) : null;
       li.set({
         uploaded:  false,
         itemIndex: itemIndex,
@@ -1228,7 +1230,10 @@
         name: '',
         creatives: empty_creatives_list,
         start_date: null,
-        end_date: null
+        end_date: null,
+        targeting: new ReachUI.Targeting.Targeting({
+          audience_groups: lastLIView ? lastLIView.model.get('targeting').get('audience_groups') : []
+        })
       });
       li.setBlankLiFlag();
 
