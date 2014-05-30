@@ -32,7 +32,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             saveAttachment: "#activity_attachment",
             attachmentFileName: "#attachment-file-name",
             attachmentFileNameContainer: '#btnRemoveAttachment',
-            attachmentFileUploader: "#attachmentUploader"
+            attachmentFileUploader: "#attachmentUploader",
+            btnShowTaskForm: "#btnShowTaskForm"
         },
 
         //handling event here.
@@ -53,7 +54,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
             "change #task-types-selector": 'onTaskTypeChanged',
 
-          "keyup #activity_input": 'onTypeInTextArea'
+          "keyup #activity_input": 'onTypeInTextArea',
+          "click #btnRemoveAttachment": 'removeAttachment'
         },
 
         onDomRefresh: function() {
@@ -130,9 +132,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
 
         // Save Handlers
         showTaskForm: function(e) {
-          $(e.target).toggleClass("active");
           this.ui.taskFormRegion.toggle();
-
+          this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
           if (this.ui.taskFormRegion.is(":visible")) {
             $( "#due-date" ).datepicker();
             this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
@@ -216,6 +217,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           height: textarea.height()
         });
         textarea.animate({height: Math.max(textarea.get(0).scrollHeight, defaultHeight) + "px"}, "fast");
+      },
+
+      removeAttachment: function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        this.ui.attachmentFileUploader.removeClass("active");
+        // TODO: Add request to remove file from the DB and FS
       }
     });
 
