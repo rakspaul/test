@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   end
 
   def comments
-    @comments = @task.task_activity_logs
+    @comments = @task.task_activity_logs.order(:created_at => :desc)
 
     respond_to do |format|
       format.json
@@ -53,7 +53,7 @@ class TasksController < ApplicationController
       @activity.save!
     end
 
-    render :json => {status: 200}
+    render :json => {status: 200}, :status => 200
   end
 
   private

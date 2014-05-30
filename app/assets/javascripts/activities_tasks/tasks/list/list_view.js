@@ -97,7 +97,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       },
 
       ui: {
-        taskActivityInput: '#task_activity_input',
+        taskActivityInput: '#task_comment_input',
         saveAttachment: "#activity_attachment",
         attachmentFileName: "#attachment-file-name",
         attachmentFileNameContainer: '#attachment-file-name-container'
@@ -145,7 +145,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         comment.setTask(this.options.task);
 //      comment.set('activity_attachment_id', attachment_id);
 
-        List.Controller.saveTaskComment(comment, {task: options.task});
+        List.Controller.saveTaskComment(comment, {task: this.options.task});
       }
     });
 
