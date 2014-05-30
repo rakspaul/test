@@ -1,62 +1,49 @@
-<div class="task-detail-view-close pure-u-1 pull-right"></div>
+<button class="rui-btn task-detail-view-close semi-transparent">
+    <i class="close-icon"></i>
+</button>
 
-<div style="clear:both"></div>
-
-<div class="pure-u-1-5">
-  <%= created_by%>
-</div>
-<div class="pure-u-1-2 task-name">
-  <p><%= name%></p>
-</div>
-<div class="pure-u-1-5 task-time">
-</div>
-
-<div style="clear:both"></div>
-
-<div class="pure-u-1-5 follow-task">
-  Follow
-</div>
-<div class="pure-u-1-4 task-type">
-  <select name="task_type">
-    <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
-      <option value="<%= tt.get('id')%>" <%= task_type_id ==  tt.get('id') ? 'selected="selected"' : '' %>><%= tt.get('name')%></option>
-    <% }); %>
-  </select>
-</div>
-<div class="pure-u-1-4 assigned-to">
-  <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
-</div>
-<div class="pure-u-1-5 task-duration">
-</div>
-
-<div style="clear:both"></div>
-
-<div class="pure-u-1-5 close-task">
-  Close Task
-</div>
-<div class="pure-u-1-4 task-attachment">
-  Creatives.zip
-</div>
-<div class="pure-u-1-4 task-created-by">
-</div>
-
-<div style="clear:both"></div>
-
-<div class="task-comments"></div>
-<div class="task-comment-input-control pure-g">
-    <div class="username pure-u-1-5">
-        <%= window.current_user_name%>
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <span class="username"><%= created_by %></span>
     </div>
     <div class="pure-u-1-2">
-        <div class="task-comment-input"></div>
-        <textarea id="task_comment_input" placeholder="Note" rows="2" cols="26"></textarea>
+        <i class="task_open-icon"></i>
+        <span><%= name %></span>
     </div>
-    <div class="task-comment-controls pure-u-1-4">
-        <div class="save-comment" title="Add Attachment">
-            <div class="save-task-attachment-btn" id="btnSaveTaskAttachment" type="file" name="task_comment_attachment" data-url="/activity_attachment.json"/>
-        </div>
-        <div class="save-comment" title="Add Comment">
-            <div class="save-task-comment-btn" id="btnSaveTaskComment"></div>
-        </div>
+    <div class="pure-u-1-5 task-time">
+        <%= moment(created_at).endOf('day').fromNow()%>
+    </div>
+</div>
+
+<div class="pure-g">
+    <div class="pure-u-1-5 follow-task">
+        <button id="btnFollowTask" class="rui-btn">
+            <i class="follow-icon"></i> Follow
+        </button>
+    </div>
+    <div class="pure-u-1-4">
+        <%= task_type %>
+    </div>
+    <div class="pure-u-1-4">
+        <i class="user-icon"></i>
+        <span class="editable typeahead" data-type="typeahead" data-pk="1" data-name="assigned_to"><%= assignable_name %></span>
+    </div>
+    <div class="pure-u-1-5">
+        <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : "" %>
+    </div>
+</div>
+
+<div class="pure-g">
+    <div class="pure-u-1-5">
+        <button class="rui-btn" id="btnMarkTaskDone">
+            <i class="green_check-icon"></i> Close Task
+        </button>
+    </div>
+    <div class="pure-u-1-4">
+        <!-- TODO: Put here corresponding icon based on file type -->
+        <i class="attachment-icon"></i> Creatives.zip
+    </div>
+    <div class="pure-u-1-4">
+        <i class="task_created_by-icon"></i> <%= created_by %>
     </div>
 </div>

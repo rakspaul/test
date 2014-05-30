@@ -108,6 +108,7 @@ Reachui::Application.routes.draw do
 
   resources :tasks do
     get 'comments'
+    post 'add_comment' => 'tasks#add_comment'
   end
 
   post '/file_upload' => 'file_upload#upload', :as => :file_upload

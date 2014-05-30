@@ -44,12 +44,15 @@ class TasksController < ApplicationController
   end
 
   def add_comment
-    # @task.activity_log_comments.add(TaskActivityLog.new(params))
-    # @task.save!
+    activity_params = activity_log_params
+    return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
 
-    # respond_to do |format|
-    #   format.json {status: 200}
-    # end
+    TaskActivityLog.transaction do
+      @activity = TaskActivityLog.new activity_params.merge!(:task => @task,
+                                                              :created_by => current_account.user)
+      @activity.save!
+    end
+
     render :json => {status: 200}
   end
 
@@ -61,5 +64,9 @@ class TasksController < ApplicationController
 
   def require_order
     @order = Order.find_by_id params[:order_id]
+  end
+
+  def activity_log_params
+    params.permit(:note, :activity_type)
   end
 end
