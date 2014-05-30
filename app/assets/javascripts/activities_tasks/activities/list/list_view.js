@@ -42,6 +42,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     template: JST['templates/activities_tasks/activities/activity_log_list'],
     itemView: List.Activity,
 
+    events:{
+        "click #loadMoreBtn" : "showFullLog"
+    },
+
+    showFullLog: function(e){
+        e.preventDefault();
+        var header =  ReachActivityTaskApp.ActivitiesTasks.Activities.Header;
+        header.Controller.fetchActivities(header.ACTIVITY_TYPES.ALL);
+    },
+
     initialize: function () {
       this.listenTo(this.collection, "reset", function () {
         this.appendHtml = function (collectionView, itemView, index) {
