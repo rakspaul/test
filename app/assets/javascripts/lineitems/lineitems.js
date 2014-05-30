@@ -355,12 +355,21 @@
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      var showDeleteBtn = !this.model.get('uploaded');
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
+        if (showDeleteBtn && !isNaN(parseInt(ad.get('source_id')))) {
+          showDeleteBtn = false;
+        }
+
         view.renderAd(ad);
       });
+
+      if (showDeleteBtn) {
+        this.showDupDeleteBtn();
+      }
     },
 
     renderTargetingDialog: function() {
