@@ -982,6 +982,7 @@
                   }
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .name .errors_container').first().html(li_errors["targeting"]);
                   }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
@@ -1013,6 +1014,7 @@
 
                     if (ad_errors && ad_errors["targeting"]) {
                       $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors_container').html(ad_errors["targeting"]);
                     }
 
                     if (ad_errors && ad_errors["creatives"]) {
