@@ -31,7 +31,7 @@ class OrdersController < ApplicationController
         unknown_reach_client = ReachClient.create(abbr: 'unknown', network_id: current_user.company_id, name: 'Unknown', user_id: current_user.id, account_manager_id: current_user.id, sales_person_id: current_user.id, agency_id: unknown_agency.id)
       end
 
-      @order.io_detail = IoDetail.create({order_id: @order.id, state: "draft", reach_client_id: unknown_reach_client.id, client_advertiser_name: "DFP Advertiser"})
+      @order.io_detail = IoDetail.create({order_id: @order.id, state: "draft", reach_client_id: unknown_reach_client.id, trafficking_contact_id: @current_user.id, client_advertiser_name: "DFP Advertiser"})
 
       @order.set_import_note
     end
