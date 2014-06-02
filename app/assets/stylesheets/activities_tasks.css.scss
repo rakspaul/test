@@ -82,6 +82,12 @@ button.rui-btn {
   }
 }
 
+.date {
+  text-align: right;
+  font-size: 11px;
+  color: $rui-gray-color;
+}
+
 // === GENERAL STYLES [BEGIN] ===
 
 
@@ -122,12 +128,6 @@ button.rui-btn {
           display: inline-block;
           margin-right: 10px;
         }
-      }
-
-      .date {
-        text-align: right;
-        font-size: 10px;
-        color: $rui-gray-color;
       }
     }
   }
