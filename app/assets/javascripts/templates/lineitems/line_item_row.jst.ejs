@@ -18,7 +18,7 @@
 
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
     <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable custom start-date-editable" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1" contenteditable="true">
         <%= lineitem.start_date %>
       </span>
       <% if(lineitem.revised_start_date) { %>
@@ -38,7 +38,7 @@
 
     <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
     <div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable custom end-date-editable" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
         <%= lineitem.end_date %>
       </span>
       <% if(lineitem.revised_end_date) { %>

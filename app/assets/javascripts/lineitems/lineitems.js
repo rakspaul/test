@@ -83,6 +83,15 @@
         ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
       });
       this.set('buffer', parseFloat(buffer));
+    },
+
+    setCreativesDate: function(name, value) {
+      var creatives = this.get('creatives').models;
+      if (creatives) {
+        _.each(creatives, function(creative) {
+          creative.set(name, value);
+        });
+      }
     }
   });
 
@@ -136,6 +145,51 @@
     tagName: 'div',
     className: 'lineitem pure-g',
 
+    ui: {
+      ads_list: '.ads-container',
+      targeting: '.targeting-container',
+      creatives_container: '.creatives-list-view',
+      creatives_content: '.creatives-content',
+      lineitem_sizes: '.lineitem-sizes'
+    },
+
+    events: {
+      'click .toggle-targeting-btn': '_toggleTargetingDialog',
+      'click .toggle-creatives-btn': '_toggleCreativesDialog',
+      'click .li-add-ad-btn': '_addTypedAd',
+      'click .name .notes .close-btn': 'collapseLINotes',
+      'click .name .expand-notes': 'expandLINotes',
+      'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
+
+      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
+      'click .change-media-type': '_changeMediaType',
+      'click .li-duplicate-btn': '_duplicateLineitem'
+    },
+
+    triggers: {
+      'click .li-command-btn': 'lineitem:add_ad'
+    },
+
+    bindings: {
+      '.start-date-editable': {
+        observe: 'start_date',
+        onSet: function(value) {
+          return value;
+        }
+      },
+      '.end-date-editable':   'end_date'
+    },
+
     getTemplate: function() {
       var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
       if (type == 'video') {
@@ -147,7 +201,7 @@
 
     initialize: function(){
       _.bindAll(this, "render");
-      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+      //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
@@ -165,20 +219,19 @@
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives start date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('start_date', date);
-            });
-          }
+          view.model.setCreativesDate('start_date', date);
 
-          view.model.set($(this).data('name'), date); //update backbone model;
+          //view.model.set($(this).data('name'), date); //update backbone model;
 
           // order's start date should be lowest of all related LIs
           var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
           _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
 
           $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
+
+          $(this).editable('setValue', newValue);
+          $(this).trigger('change');
+
           view.model.collection.order.set('start_date', min_date); //update order backbone model
         },
         datepicker: {
@@ -191,13 +244,9 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           // update creatives end date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('end_date', date);
-            });
-          }
+          view.model.setCreativesDate('end_date', date);
 
-          view.model.set($(this).data('name'), date); //update backbone model;
+          //view.model.set($(this).data('name'), date); //update backbone model;
 
           // order's end date should be highest of all related LIs
           var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
@@ -332,6 +381,8 @@
 
     // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
+      this.stickit();
+
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -766,14 +817,6 @@
       this.model.collection.add(new_li);
     },
 
-    ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
-    },
-
     _toggleRevisionDialog: function(e) {
       e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
@@ -876,36 +919,23 @@
 
       $target_parent.siblings('.revision').hide();
       $target_parent.remove();
-    },
-
-    events: {
-      'click .toggle-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-creatives-btn': '_toggleCreativesDialog',
-      'click .li-add-ad-btn': '_addTypedAd',
-      'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes',
-      'click .li-number': '_toggleLISelection',
-
-      // revisions
-      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
-
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
-      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
-      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
-
-      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
-      'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting',
-      'click .change-media-type': '_changeMediaType',
-      'click .li-duplicate-btn': '_duplicateLineitem'
-    },
-
-    triggers: {
-      'click .li-command-btn': 'lineitem:add_ad'
     }
   });
 
+
+
+
+
+
+
+
+
+
+
+
+
+// @@@@@@@@@@@@@@@@@@@@@@@@@@
+// @@@@@@@@@@@@@@@@@@@@@@@@@@
   LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
