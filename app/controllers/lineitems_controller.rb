@@ -32,6 +32,8 @@ class LineitemsController < ApplicationController
           media_type = ad.media_type
         end
 
+        # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
+        # validation on start_date attribute (otherwise it will not create LI with start_date in past)
         li = Lineitem.create name: "DFP Pulled Order", start_date: ad.start_date, end_date: ad.end_date, volume: ad.ad_pricing.try(:quantity), rate: ad.rate, value: ad.ad_pricing.try(:value), order_id: @order.id, ad_sizes: ad.size, user_id: current_user.id, alt_ad_id: ad.alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 10.0, li_status: 'dfp_pulled'
 
         ad.ad_assignments.each do |assignment|
