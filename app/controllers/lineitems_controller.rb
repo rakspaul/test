@@ -33,6 +33,14 @@ class LineitemsController < ApplicationController
 
         li = Lineitem.create name: "DFP Pulled Order", start_date: ad.start_date, end_date: ad.end_date, volume: ad.ad_pricing.try(:quantity), rate: ad.rate, value: ad.ad_pricing.try(:value), order_id: @order.id, ad_sizes: ad.size, user_id: current_user.id, alt_ad_id: ad.alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 10.0, li_status: 'dfp_pulled'
 
+        ad.ad_assignments.each do |assignment|
+          LineitemAssignment.create(lineitem: li, creative: assignment.creative, start_date: assignment.start_date, end_date: assignment.end_date, network_id: assignment.network_id, data_source_id: assignment.data_source_id)
+        end
+
+        ad.video_ad_assignments.each do |video_assignment|
+          LineitemVideoAssignment.create(lineitem: li, video_creative: video_assignment.video_creative, start_date: video_assignment.start_date, end_date: video_assignment.end_date, network_id: video_assignment.network_id, data_source_id: video_assignment.data_source_id)
+        end
+
         if li.errors.blank?
           ad.update_attribute :io_lineitem_id, li.id
           @lineitems << li
