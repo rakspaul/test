@@ -49,6 +49,7 @@ class Lineitem < ActiveRecord::Base
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
+  after_validation :set_li_status, on: :create
 
   scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
@@ -161,6 +162,10 @@ class Lineitem < ActiveRecord::Base
   end
 
   private
+
+    def set_li_status
+      self.li_status = 'draft' if 'dfp_pulled' == self.li_status
+    end
 
     def flight_dates_with_in_order_range
       if(self.start_date.to_date < self.order.start_date.to_date)
