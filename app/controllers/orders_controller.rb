@@ -21,8 +21,8 @@ class OrdersController < ApplicationController
     @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
     if @order.io_detail
-      @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
-      @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+      @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).load
+      @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).load
     else
       @billing_contacts = []
       @media_contacts   = []
