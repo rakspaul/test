@@ -12,7 +12,7 @@ class LineitemsController < ApplicationController
     @lineitems = set_lineitem_status(@order.lineitems)
 
     # find ads
-    @ads = Ad.where(order_id: @order.id).all
+    @ads = Ad.where(order_id: @order.id).load
 
     # if DFP-pulled order
     if @lineitems.empty? && !@ads.empty?
