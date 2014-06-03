@@ -42,14 +42,23 @@ describe LineitemsController do
       expect(@order.lineitems.count).to eq(0)
       expect {
         xhr :get, :index, {order_id: @order.id}
-      }.to change{@order.lineitems.count}.by(2)
+      }.to change{@order.lineitems.count}.by(1)
+      expect(@order.lineitems.first.ads.count).to eq(2)
     end
 
     it "creates lineitem_assignments for creatives" do
       xhr :get, :index, {order_id: @order.id}
 
       @order.lineitems.map do |li|
-        expect(li.creatives.count).to eq(1)
+        expect(li.creatives.count).to eq(2)
+      end
+    end
+
+    it "sets *uploaded* flag on lineitem to false" do
+      xhr :get, :index, {order_id: @order.id}
+
+      @order.lineitems.map do |li|
+        expect(li.uploaded).to eq(false)
       end
     end
 
@@ -57,7 +66,7 @@ describe LineitemsController do
       xhr :get, :index, {order_id: @order.id}
 
       @order.lineitems.map do |li|
-        expect(li.video_creatives.count).to eq(1)
+        expect(li.video_creatives.count).to eq(2)
       end
     end
 
