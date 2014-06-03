@@ -44,6 +44,18 @@ class LineitemsController < ApplicationController
           LineitemVideoAssignment.create(lineitem: li, video_creative: video_assignment.video_creative, start_date: video_assignment.start_date, end_date: video_assignment.end_date, network_id: video_assignment.network_id, data_source_id: video_assignment.data_source_id)
         end
 
+        ad.ad_geo_targetings.each do |agt|
+          LineitemGeoTargeting.create(lineitem: li, geo_target: agt.geo_target)
+        end
+
+        ad.frequency_caps.each do |fc|
+          LineitemFrequencyCap.create(lineitem: li, cap_value: fc.cap_value, time_value: fc.time_value, time_unit: fc.time_unit)
+        end
+
+        ad.audience_groups.each do |ag|
+          li.audience_groups << ag
+        end
+
         if li.errors.blank?
           ad.update_attribute :io_lineitem_id, li.id
           @lineitems << li
