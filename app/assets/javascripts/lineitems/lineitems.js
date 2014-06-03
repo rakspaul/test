@@ -7,6 +7,15 @@
       "Mobile":   "mob=_default"
     },
 
+    mediaTypeSizes: {
+      "1x1":     "Video",
+      "300x50":  "Mobile",
+      "320x50":  "Mobile",
+      "100x72":  "Facebook",
+      "99x72":   "Facebook",
+      "default": "Display"
+    },
+
     initialize: function() {
       this.ads = [];
       this.creatives = [];
@@ -101,6 +110,18 @@
       return '/orders/' + this.order.id + '/lineitems.json';
     },
 
+    getMinLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('start_date'); } ), minDate = dates[0];
+      _.each(dates, function(el) { if (el < minDate) { minDate = el; } });
+      return minDate;
+    },
+
+    getMaxLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('end_date'); }), maxDate = dates[0];
+      _.each(dates, function(el) { if (el < maxDate) { maxDate = el; } });
+      return maxDate;
+    },
+
     setOrder: function(order) {
       this.order = order;
     },
@@ -150,7 +171,12 @@
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+      lineitem_sizes: '.lineitem-sizes',
+      start_date_editable: '.start-date-editable',
+      end_date_editable:   '.end-date-editable',
+      name_editable:       '.name-editable',
+      volume_editable:     '.volume-editable',
+      rate_editable:       '.rate-editable'
     },
 
     events: {
@@ -183,11 +209,19 @@
     bindings: {
       '.start-date-editable': {
         observe: 'start_date',
-        onSet: function(value) {
-          return value;
+        onSet: function(val) {
+          return moment(val).format("YYYY-MM-DD");
         }
       },
-      '.end-date-editable':   'end_date'
+      '.end-date-editable':   'end_date',
+      '.name-editable': {
+        observe: 'name',
+        onSet: function(val) {
+          return val.replace(/^\s+|\s+$/g, '');
+        }
+      },
+      '.volume-editable': 'volume',
+      '.rate-editable':   'rate'
     },
 
     getTemplate: function() {
@@ -213,46 +247,38 @@
     },
 
     setEditableFields: function() {
-      var view = this;
+      var view = this, model = view.model, collection = model.collection;
 
-      this.$el.find('.start-date .editable.custom').editable({
+      this.ui.start_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          view.model.setCreativesDate('start_date', date);
-
-          //view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
-          _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
+          var minDate = collection.getMinLIDate();
+          $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+          collection.order.set('start_date', minDate);
 
-          $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
-
-          $(this).editable('setValue', newValue);
-          $(this).trigger('change');
-
-          view.model.collection.order.set('start_date', min_date); //update order backbone model
+          view._changeEditable($(this), newValue);
         },
         datepicker: {
-          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+          startDate: ReachUI.initialStartDate(model.get('start_date'))
         }
       });
 
-      this.$el.find('.end-date .editable.custom').editable({
+      this.ui.end_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives end date
-          view.model.setCreativesDate('end_date', date);
-
-          //view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('end_date', date);
 
           // order's end date should be highest of all related LIs
-          var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
-          _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
-          $('.order-details .end-date .date').html(max_date).editable('option', 'value', moment(max_date)._d);
-          view.model.collection.order.set("end_date", max_date); //update backbone model
+          var maxDate = collection.getMaxLIDate();
+          $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+          collection.order.set("end_date", maxDate);
+
+          view._changeEditable($(this), newValue);
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
@@ -265,11 +291,11 @@
           tags: true,
           tokenSeparators: [",", " "],
           initSelection : function (element, callback) {
-              var data = [];
-              $(element.val().split(",")).each(function () {
-                  data.push({id: this, text: this});
-              });
-              callback(data);
+            var data = [];
+            $(element.val().split(",")).each(function () {
+              data.push({id: this, text: this});
+            });
+            callback(data);
           },
           ajax: {
             url: "/ad_sizes.json",
@@ -288,37 +314,25 @@
             }
           },
         },
+
         success: function(response, newValue) {
           // https://github.com/collectivemedia/reachui/issues/543
           // When a size is selected, the media type should default to the media type for that size
-          // 1x1 = video
-          // 300x50 or 320x50 = mobile
-          // 100x72 or 99x72 = FB
-          // All else = Display
-          if(view.model.is_blank_li) {
-            switch(newValue[0]) {
-              case '1x1':
-                view._changeMediaType("Video");
-                break;
-              case '300x50':
-              case '320x50':
-                view._changeMediaType("Mobile");
-                break;
-              case '100x72':
-              case '99x72':
-                view._changeMediaType("Facebook");
-                break;
-              default:
-                view._changeMediaType("Display");
+          var size = newValue[0];
+          if (model.is_blank_li) {
+            if (mediaTypeSizes[size]) {
+              view._changeMediaType(mediaTypeSizes[size]);
+            } else {
+              view._changeMediaType(mediaTypeSizes['default']);
             }
           }
 
-          if (view.model.get('type') == 'Video') {
+          if (model.get('type') == 'Video') {
             var value = newValue.join(', ');
-            view.model.set('companion_ad_size', value);
-            view.model.set('ad_sizes', view.model.get('master_ad_size') + (value ? ', ' + value : ''));
+            model.set('companion_ad_size', value);
+            model.set('ad_sizes', model.get('master_ad_size') + (value ? ', ' + value : ''));
           } else {
-            view.model.set('ad_sizes', newValue.join(', '));
+            model.set('ad_sizes', newValue.join(', '));
           }
         }
       });
@@ -328,13 +342,11 @@
         source: '/ad_sizes.json',
         typeahead: {
           minLength: 1,
-          remote: '/ad_sizes.json?search=%QUERY',
-          valueKey: 'size'
+          remote:    '/ad_sizes.json?search=%QUERY',
+          valueKey:  'size'
         },
         validate: function(value) {
-          var name = $(this).data('name');
-          var size = value;
-          if (name == 'master_ad_size' &&
+          if ($(this).data('name') == 'master_ad_size' &&
               !value.match(/^\d+x\d+$/i)) {
             return 'Only one master ad size is allowed';
           }
@@ -342,44 +354,41 @@
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
-        view.model.set(name, el.size);
-        var type = view.model.get('type');
-        if (type == 'Video') {
-          var companion_ad_size = view.model.get('companion_ad_size');
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + companion_ad_size);
+        model.set(name, el.size);
+        if (view.model.get('type') == 'Video') {
+          model.set('ad_sizes', model.get('master_ad_size') + ', ' + model.get('companion_ad_size'));
         }
       });
 
-      this.$el.find('.rate .editable.custom').editable({
+      this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          model.set($(this).data('name'), newValue); //update backbone model;
           view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressionsMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
         }
       });
 
-      this.$el.find('.volume .editable.custom').editable({
+      this.ui.volume_editable.editable({
         success: function(response, newValue) {
           var name = $(this).data('name'), value;
           if (name == 'buffer') {
-            view.model.setBuffer(parseFloat(newValue));
+            model.setBuffer(parseFloat(newValue));
           } else {
             value = parseInt(String(newValue).replace(/,|\./g, ''));
-            view.model.set(name, value); //update backbone model;
+            model.set(name, value);
             view._recalculateMediaCost();
-            view.model.collection._recalculateLiImpressionsMediaCost();
+            collection._recalculateLiImpressionsMediaCost();
           }
         }
       });
 
-      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+      this.ui.name_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
+          view._changeEditable($(this), newValue);
         }
       });
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
       this.stickit();
 
@@ -455,6 +464,12 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
+    },
+
+    // method trigger change event to process contenteditable element by stickit
+    _changeEditable: function(el, value) {
+        el.editable('setValue', value);
+        el.trigger('change');
     },
 
     recalculateAdsImpressionsMediaCost: function(buffer) {
