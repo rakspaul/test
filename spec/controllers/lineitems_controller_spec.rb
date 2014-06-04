@@ -19,7 +19,7 @@ describe LineitemsController do
       creative2 = FactoryGirl.create :creative
       video_creative = FactoryGirl.create :video_creative
       video_creative2 = FactoryGirl.create :video_creative
-      @ad1 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1"
+      @ad1 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1", alt_ad_id: '1'
       @city = FactoryGirl.create(:city)
       @dma = FactoryGirl.create(:designated_market_area)
       @state = FactoryGirl.create(:state)
@@ -28,7 +28,7 @@ describe LineitemsController do
       @ag = FactoryGirl.create(:audience_group)
       @ad1.audience_groups << @ag
 
-      ad2 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2"
+      ad2 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2", alt_ad_id: '2'
       FactoryGirl.create :ad_pricing, ad_id: @ad1.id
       FactoryGirl.create :ad_pricing, ad_id: ad2.id
       FactoryGirl.create :ad_assignment, ad: @ad1, creative: creative, start_date: @ad1.start_date, end_date: @ad1.end_date
@@ -42,16 +42,23 @@ describe LineitemsController do
       expect(@order.lineitems.count).to eq(0)
       expect {
         xhr :get, :index, {order_id: @order.id}
-      }.to change{@order.lineitems.count}.by(1)
-      expect(@order.lineitems.first.ads.count).to eq(2)
+      }.to change{@order.lineitems.count}.by(2)
+      expect(@order.lineitems.first.ads.count).to eq(1)
+      expect(@order.lineitems.last.ads.count).to eq(1)
+    end
+
+    it "names LIs consequently" do
+      xhr :get, :index, {order_id: @order.id}
+      expect(@order.lineitems.first.name).to eq("Contract Line Item 1")
+      expect(@order.lineitems.last.name).to eq("Contract Line Item 2")
     end
 
     it "creates lineitem_assignments for creatives" do
       xhr :get, :index, {order_id: @order.id}
 
       @order.lineitems.map do |li|
-        expect(li.creatives.count).to eq(2)
-      end
+        expect(li.creatives.count).to eq(1)
+      end 
     end
 
     it "sets *uploaded* flag on lineitem to false" do
@@ -66,7 +73,7 @@ describe LineitemsController do
       xhr :get, :index, {order_id: @order.id}
 
       @order.lineitems.map do |li|
-        expect(li.video_creatives.count).to eq(2)
+        expect(li.video_creatives.count).to eq(1)
       end
     end
 
