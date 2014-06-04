@@ -36,28 +36,29 @@ class LineitemsController < ApplicationController
         # validation on start_date attribute (otherwise it will not create LI with start_date in past)
         li = Lineitem.create name: "Contract Line Item #{alt_ad_id}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ads.map{|add| add.size}.uniq.join(', '), user_id: current_user.id, alt_ad_id: alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
-        ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
-          LineitemAssignment.create(lineitem: li, creative: assignment.creative, start_date: assignment.start_date, end_date: assignment.end_date, network_id: assignment.network_id, data_source_id: assignment.data_source_id)
-        end
-
-        ads.map(&:video_ad_assignments).flatten.uniq.each do |video_assignment|
-          LineitemVideoAssignment.create(lineitem: li, video_creative: video_assignment.video_creative, start_date: video_assignment.start_date, end_date: video_assignment.end_date, network_id: video_assignment.network_id, data_source_id: video_assignment.data_source_id)
-        end
-
-        ads.map(&:ad_geo_targetings).flatten.uniq.each do |agt|
-          LineitemGeoTargeting.create(lineitem: li, geo_target: agt.geo_target)
-        end
-
-        ads.map(&:frequency_caps).flatten.uniq.each do |fc|
-          LineitemFrequencyCap.create(lineitem: li, cap_value: fc.cap_value, time_value: fc.time_value, time_unit: fc.time_unit)
-        end
-
-        ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
-
         if li.errors.blank?
+          ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
+            LineitemAssignment.create(lineitem: li, creative: assignment.creative, start_date: assignment.start_date, end_date: assignment.end_date, network_id: assignment.network_id, data_source_id: assignment.data_source_id)
+          end
+
+          ads.map(&:video_ad_assignments).flatten.uniq.each do |video_assignment|
+            LineitemVideoAssignment.create(lineitem: li, video_creative: video_assignment.video_creative, start_date: video_assignment.start_date, end_date: video_assignment.end_date, network_id: video_assignment.network_id, data_source_id: video_assignment.data_source_id)
+          end
+
+          ads.map(&:ad_geo_targetings).flatten.uniq.each do |agt|
+            LineitemGeoTargeting.create(lineitem: li, geo_target: agt.geo_target)
+          end
+
+          ads.map(&:frequency_caps).flatten.uniq.each do |fc|
+            LineitemFrequencyCap.create(lineitem: li, cap_value: fc.cap_value, time_value: fc.time_value, time_unit: fc.time_unit)
+          end
+
+          ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
           ads.each{|ad| ad.update_attribute(:io_lineitem_id, li.id)}
           @lineitems << li
-        end
+        else
+          Rails.logger.warn "Errors while creating lineitem ##{alt_ad_id}: " + li.errors.inspect
+        end  
       end
     end
   end
