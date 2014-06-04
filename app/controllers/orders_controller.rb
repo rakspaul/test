@@ -493,7 +493,6 @@ private
           ad_object.end_date = ad_end_date
 
           if li_saved
-            ad_object.save_targeting(ad_targeting)
             if !delete_creatives_ids.blank?
               ad_object.creatives.find(delete_creatives_ids).each do |creative|
                 ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
@@ -510,6 +509,8 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
+            ad_object.save_targeting(ad_targeting)
+
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
@@ -660,8 +661,6 @@ private
 
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
-          ad_object.save_targeting(ad_targeting)
-
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}
             unique_description_error = { description: 'Ad name is not unique'}
@@ -674,6 +673,8 @@ private
 
           if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
+
+            ad_object.save_targeting(ad_targeting)
 
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
