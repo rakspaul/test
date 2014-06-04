@@ -37,7 +37,7 @@ class OrderActivityLogsController < ApplicationController
       @activity.save!
 
       # link activity attachment
-      if attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id])
+      if params[:activity_attachment_id] && (attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]))
         attachment.activity_log = @activity
         attachment.save!
       end

@@ -20,8 +20,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       if(comments.length == 0) {
         var emptyContext = new ReachActivityTaskApp.Empty.Context({name:"Task comments"});
         var emptyView = new ReachActivityTaskApp.Empty.View({model:emptyContext});
-//        var taskCommentsLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.CommentsLayout();
-//        taskCommentsLayout.taskCommentsRegion.show(emptyView);
         var taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentRegion();
         taskCommentsRegion.show(emptyView);
       } else {
@@ -32,9 +30,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     saveTaskComment: function(comment, options) {
-      console.log('saving task comment: ' + JSON.stringify(comment));
       var saveTaskComment = ReachActivityTaskApp.request("taskComment:save", comment);
-      $.when(saveTaskComment).done(function(comment) {
+      $.when(saveTaskComment).done(function() {
         ReachActivityTaskApp.trigger("taskComments:list", options);
       });
 

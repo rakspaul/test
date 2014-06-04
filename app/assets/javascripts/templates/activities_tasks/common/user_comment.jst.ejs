@@ -6,7 +6,7 @@
     <%= note %>
     <% if(original_filename) { %>
       <p class="activity-log-subrow">
-        <a href="#/path-to-file-downloadable-file" onclick="alert('Show download dialog');" class="task-attachment">
+        <a href="/file_download/<%= attachment_id%>" class="task-attachment">
           <i class="attachment-type archive-icon"></i> <%= original_filename%>
         </a>
       </p>
@@ -14,6 +14,6 @@
   </div>
 
   <div class="pure-u-1-6 date">
-    <%= moment(created_at).format("MM/DD/YYYY") %>
+    <%= moment(created_at).format("MM/DD/YYYY hh:mm") %>
   </div>
 </div>

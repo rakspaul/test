@@ -30,6 +30,17 @@ class Task < ActiveRecord::Base
 
   before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
 
+  def display_task_state
+    case self.task_state
+      when TaskState::ASSIGNED
+        "created"
+      when TaskState::COMPLETED
+        "completed"
+      when TaskState::CLOSED
+        "closed"
+    end
+  end
+
   private
 
   def validate_due_date

@@ -19,8 +19,13 @@
         </a>
       <% } %>
     </p>
+    <div class="system-comment">
+      <div class="pure-u-3-5">
+        <%= system_comment %>
+      </div>
+    </div>
   </div>
   <div class="pure-u-1-6 date">
-    <%= moment(created_at).format("MM/DD/YYYY") %>
+    <%= moment(created_at).format("MM/DD/YYYY hh:mm") %>
   </div>
 </div>

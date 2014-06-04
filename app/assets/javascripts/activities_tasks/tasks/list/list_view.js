@@ -74,7 +74,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       events: {
         'click .task-detail-view-close' : '_closeTaskDetailView',
-        'click #btnSaveTaskComment' : 'saveTaskComment'
+        'click #btnSaveTaskComment' : 'saveTaskComment',
+        'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment'
       },
 
       _closeTaskDetailView: function(e) {
@@ -83,7 +84,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.close();
         this.options.parentRegion.close();
         List.currentTaskId = undefined;
-//        ReachActivityTaskApp.trigger("include:activities");
       },
 
       onShow: function() {
@@ -98,9 +98,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       ui: {
         taskActivityInput: '#task_comment_input',
-        saveAttachment: "#activity_attachment",
-        attachmentFileName: "#attachment-file-name",
-        attachmentFileNameContainer: '#attachment-file-name-container'
+        saveAttachment: "#btnSaveTaskAttachment",
+        attachmentFileName: "#task-attachment-file-name",
+        attachmentFileNameContainer: '#btnRemoveTaskAttachment',
+        attachmentFileUploader: ".task-comment-input-control #attachmentUploader"
       },
 
       onDomRefresh: function() {
@@ -110,7 +111,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.ui.saveAttachment.fileupload({
                 dataType: 'json',
                 url: '/file_upload.json',
-                formData: {attachment_type: 'order_activity_attachment'},
+                formData: {attachment_type: 'task_activity_attachment'},
                 dropZone: this.ui.saveAttachment,
                 pasteZone: null,
 //            start: _uploadStarted,
@@ -120,9 +121,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
         function _uploadSuccess(e, response) {
           console.log(JSON.stringify(response.result));
+          self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
           self.ui.attachmentFileName.text(response.result.original_filename);
           self.ui.attachmentFileNameContainer.show();
-          self.model.set('activity_attachment_id', response.result.id);
+          self.ui.attachmentFileUploader.toggleClass("active");
+          self.ui.attachmentFileName.attr('data-attachment-id', response.result.id);
         }
 
         function _uploadFailure(e, response) {
@@ -139,14 +142,37 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           return;
         }
 
+        data = data.replace(/\n/gm, "<br/>");
+        var attachment_id = this.ui.attachmentFileName.attr('data-attachment-id');
         var comment = new ReachActivityTaskApp.Entities.TaskComment();
         comment.set('note', data);
         comment.set('activity_type', 'user_comment');
+        comment.set('activity_attachment_id', attachment_id);
         comment.setTask(this.options.task);
-//      comment.set('activity_attachment_id', attachment_id);
 
         List.Controller.saveTaskComment(comment, {task: this.options.task});
+
+        this.ui.taskActivityInput.html('');
+        this._resetAttachmentContainer();
+      },
+
+      removeAttachment: function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        $.ajax('/file_delete/' + this.ui.attachmentFileName.attr('data-attachment-id'), {
+          dataType: 'json',
+          context: this
+        }).success(this._resetAttachmentContainer);
+      },
+
+      _resetAttachmentContainer: function() {
+        this.ui.attachmentFileName.attr('href', '');
+        this.ui.attachmentFileName.text('');
+        this.ui.attachmentFileNameContainer.hide();
+        this.ui.attachmentFileUploader.removeClass("active");
+        this.ui.attachmentFileName.attr('data-attachment-id', '');
       }
+
     });
 
     List.TaskCommentView = Backbone.Marionette.ItemView.extend({

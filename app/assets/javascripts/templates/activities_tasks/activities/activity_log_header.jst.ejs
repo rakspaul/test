@@ -49,12 +49,12 @@
       <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
     </div>
     <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
-    <button class="rui-btn" id="btnRemoveAttachment">
+    <div class="rui-btn" id="btnRemoveAttachment">
       <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
       <i class="attachment-type archive-icon"></i>
-      <span id="attachment-file-name"></span>
+      <a id="attachment-file-name" href=""></a>
       <i class="remove-btn"></i>
-    </button>
+    </div>
   </div>
 </div>
 <!-- TODO: Extract this into separate template (and possibly - region?) -->

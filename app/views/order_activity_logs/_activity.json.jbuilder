@@ -1,8 +1,9 @@
 json.id activity.id
 json.note activity.note
-json.created_at format_date(activity.created_at)
+json.created_at format_datetime(activity.created_at)
 json.activity_type activity.activity_type
 json.created_by activity.created_by.try(:full_name)
+json.system_comment activity.generate_system_comment
 
 if activity.activity_attachment
   json.attachment_id activity.activity_attachment.id

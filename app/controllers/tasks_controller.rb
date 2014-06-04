@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   end
 
   def comments
-    @comments = @task.task_activity_logs.order(:created_at => :desc)
+    @comments = @task.task_activity_logs.includes(:activity_attachment).recent_activity
 
     respond_to do |format|
       format.json
@@ -51,9 +51,16 @@ class TasksController < ApplicationController
       @activity = TaskActivityLog.new activity_params.merge!(:task => @task,
                                                               :created_by => current_account.user)
       @activity.save!
+
+      # link activity attachment
+      if params[:activity_attachment_id] && (attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]))
+        attachment.activity_log = @activity
+        attachment.save!
+      end
+
     end
 
-    render :json => {status: 200}, :status => 200
+    render :json => {:status => 'ok'}, :status => 200
   end
 
   private

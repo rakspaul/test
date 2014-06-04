@@ -112,6 +112,8 @@ Reachui::Application.routes.draw do
   end
 
   post '/file_upload' => 'file_upload#upload', :as => :file_upload
+  get '/file_download/:id' => 'file_upload#download', :as => :file_download
+  get '/file_delete/:id' => 'file_upload#delete', :as => :file_delete
 
   resources :kendoui
   resources :ad_sizes, only: [:index]

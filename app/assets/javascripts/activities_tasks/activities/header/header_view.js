@@ -55,7 +55,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             "change #task-types-selector": 'onTaskTypeChanged',
 
           "keyup #activity_input": 'onTypeInTextArea',
-          "click #btnRemoveAttachment": 'removeAttachment'
+          "click #btnRemoveAttachment .remove-btn": 'removeAttachment'
         },
 
         onDomRefresh: function() {
@@ -75,12 +75,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           });
 
           function _uploadSuccess(e, response) {
-              console.log(JSON.stringify(response.result));
-              self.ui.attachmentFileName.text(response.result.original_filename);
-              self.ui.attachmentFileNameContainer.show();
-              self.ui.attachmentFileUploader.toggleClass("active");
-              self.model.set('activity_attachment_id', response.result.id);
-            }
+            self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
+            self.ui.attachmentFileName.text(response.result.original_filename);
+            self.ui.attachmentFileNameContainer.show();
+            self.ui.attachmentFileUploader.toggleClass("active");
+            self.model.set('activity_attachment_id', response.result.id);
+          }
 
           function _uploadFailure(e, response) {
             self.ui.attachmentFileName.text('Upload failed');
@@ -158,6 +158,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
           if(data == '') {
             return;
           }
+          data = data.replace(/\n/gm, "<br/>");
           this.model.set('note', data);
           //TODO: Is this needed.
           this.model.unset('users', {silent: true});
@@ -173,6 +174,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
             return;
           }
 
+          data = data.replace(/\n/gm, "<br/>");
           this.model.set('note', data);
           this.model.set('due_date', moment(this.ui.dueDate.val()).format("YYYY-MM-DD"));
           this.model.set('task_type_id', this.ui.taskTypeSelector.val());
@@ -222,8 +224,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header",function(Header,
       removeAttachment: function(e) {
         e.stopPropagation();
         e.preventDefault();
+        $.ajax('/file_delete/' + this.model.get('activity_attachment_id'), {
+          dataType: 'json',
+          context: this
+        }).success(this._resetAttachmentContainer);
+      },
+
+      _resetAttachmentContainer: function() {
+        this.ui.attachmentFileName.attr('href', '');
+        this.ui.attachmentFileName.text('');
+        this.ui.attachmentFileNameContainer.hide();
         this.ui.attachmentFileUploader.removeClass("active");
-        // TODO: Add request to remove file from the DB and FS
+        this.model.set('activity_attachment_id', null);
       }
     });
 

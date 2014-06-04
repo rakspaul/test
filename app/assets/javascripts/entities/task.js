@@ -27,8 +27,14 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   Entities.TaskComment = Backbone.Model.extend({
+    defaults: {
+      original_filename: null
+    },
+
     url: function() {
-      return '/tasks/' + this.task.id + '/add_comment.json';
+      if(this.isNew()) {
+        return '/tasks/' + this.task.id + '/add_comment.json';
+      }
     },
 
     setTask: function(task) {
@@ -103,7 +109,6 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       var defer = $.Deferred();
       taskComments.fetch({
           success: function(data) {
-              console.log("task comments data: " + JSON.stringify(data));
             defer.resolve(data);
           },
           failure: function() {
@@ -116,7 +121,6 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
     saveTaskComment: function(comment) {
       var defer = $.Deferred();
-      console.log(comment);
       comment.save({
             success: function() {
               defer.resolve();
@@ -126,7 +130,6 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
               defer.resolve();
             }
       });
-      return defer.promise();
     }
   };
 
@@ -147,6 +150,6 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   ReachActivityTaskApp.reqres.setHandler("taskComment:save", function(comment) {
-    return API.saveTaskComment(comment);
+    API.saveTaskComment(comment);
   });
 });

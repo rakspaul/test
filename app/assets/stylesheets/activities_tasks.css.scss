@@ -126,11 +126,27 @@ button.rui-btn {
 
       .date {
         text-align: right;
-        font-size: 11px;
+        font-size: 10px;
         color: $rui-gray-color;
       }
     }
   }
+}
+
+.task-comment-input-control {
+  margin-top: 10px;
+  textarea {
+    min-width: 98%;
+    resize: vertical;
+  }
+  .username {
+    text-align: right;
+  }
+}
+
+.task-comment-input-container {
+  margin-left: 10px;
+  margin-right: 130px;
 }
 
 .activity-input-control {
@@ -343,13 +359,6 @@ textarea#activity_input {
 
   .task-comment-container {
     margin-top: 5px;
-  }
-}
-
-.task-comment-input-control {
-  margin-top: 10px;
-  textarea {
-    min-width: 98%;
   }
 }
 
