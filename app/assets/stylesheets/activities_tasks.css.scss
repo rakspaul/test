@@ -88,7 +88,7 @@ button.rui-btn {
   color: $rui-gray-color;
 }
 
-// === GENERAL STYLES [BEGIN] ===
+// === GENERAL STYLES [END] ===
 
 
 // === ACTIVITIES SECTION [BEGIN] ===
@@ -256,6 +256,7 @@ textarea#activity_input {
       margin: 0 -5px;
       .border-breaker {
         visibility: visible;
+        z-index: 12;
       }
     }
     &:not(.task-selected) {
@@ -347,6 +348,7 @@ textarea#activity_input {
   width: 100%;
   left: -100%;
   top: -20px;
+  z-index: 10;
 
   background-color: #fff;
 
@@ -401,3 +403,30 @@ ul.followers-list {
   }
 }
 // === FOLLOWERS REGION [END] ===
+
+
+// === ORDER LIST - TASKS BLOCK [BEGIN] ===
+#taskListRegion {
+  padding: 20px;
+
+  .tasks-list {
+    margin-top: 30px;
+
+    .task-selected {
+      .border-breaker {
+        visibility: visible !important;
+        position: absolute;
+        left: 50%;
+        margin-left: 12px;
+      }
+    }
+  }
+
+  // We have to position task details container in a different way than inside Order details page
+  .task-details-table {
+    width: 50%;
+    left: 51%;
+    top: -20px;
+  }
+}
+// === ORDER LIST - TASKS BLOCK [END] ===

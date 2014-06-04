@@ -14,12 +14,17 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     }
   });
 
-  Entities.TaskCollection = Backbone.Collection.extend({
+  Entities.OrderTaskCollection = Backbone.Collection.extend({
     url: function() {
       return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
     },
     model: Entities.Task
   });
+
+  Entities.TaskCollection = Backbone.Collection.extend({
+        url: "/tasks/list_all.json"
+      }
+  );
 
   Entities.TaskType = Backbone.Model.extend({
   });
@@ -62,10 +67,27 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   var API = {
-    getTaskEntities: function(offset) {
-      var tasks = new Entities.TaskCollection();
+    getAllTaskEntities: function () {
+      var tasks = new Entities.TaskCollection(),
+          defer = $.Deferred();
 
-      var filter = {};
+      tasks.fetch({
+        success: function(data) {
+          defer.resolve(data);
+        },
+        error: function() {
+          defer.reject();
+        }
+      });
+
+      return defer.promise();
+    },
+
+    getOrderTaskEntities: function(offset) {
+      var tasks = new Entities.TaskCollection(),
+          filter = {},
+          defer = $.Deferred();
+
       //default filter.
       filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
       filter["offset"] = Entities.DEF_OFFSET;
@@ -74,24 +96,25 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
         filter["offset"] = offset;
       }
 
-      var defer = $.Deferred();
-      tasks.fetch({data:$.param(filter),
-        success: function(data) {
-//            data=[];
-          defer.resolve(data);
-        },failure:function(data) {
-          data=[];
-          defer.resolve();
-        }
-      });
+      tasks.fetch({
+          data: $.param(filter),
+          success: function(data) {
+            defer.resolve(data);
+          },
+          failure:function() {
+            defer.resolve();
+          }
+        });
+
       return defer.promise();
     },
 
     saveTask: function(task) {
-      if(!task) {
+      var defer = $.Deferred();
+
+      if (!task) {
         return;
       }
-      var defer = $.Deferred();
       task.save({
         success: function() {
           defer.resolve();
@@ -104,8 +127,9 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     getTaskTypes: function() {
-      var taskTypes = new Entities.TaskTypeCollection();
-      var defer = $.Deferred();
+      var taskTypes = new Entities.TaskTypeCollection(),
+          defer = $.Deferred();
+
       taskTypes.fetch({
         success: function(data) {
           defer.resolve(data);
@@ -148,8 +172,12 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     }
   };
 
+  ReachActivityTaskApp.reqres.setHandler("task:entities:all", function(){
+    return API.getAllTaskEntities();
+  });
+
   ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset){
-    return API.getTaskEntities(offset);
+    return API.getOrderTaskEntities(offset);
   });
 
   ReachActivityTaskApp.reqres.setHandler("task:save", function(task){

@@ -45,23 +45,30 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
       tasksRegion: ".tasks-region",
       followersRegion: "#followersRegion"
     }
-
   });
 
   /**
    * addInitializer is a Marionette initialization function and it will invoke when module starts.
    * You can have as many as these methods. Please refer to marionette js documentation. Link is given above.
-   *
    */
   ActivitiesTasks.addInitializer(function(options){
-    ReachActivityTaskApp.order = options.order;
+    options = options || {};
+    // Application could be started either from Order details or from Order List page, thus no `options.order` provided
+    // 1. Application started from Order.Details page, have options.order provided
+    if (!_.isUndefined(options.order)) {
+      ReachActivityTaskApp.order = options.order;
 
-    //fetch master data
-    var taskTypes = API.fetchTaskTypes();
-    $.when(taskTypes).done(function(taskTypes) {
-      ReachActivityTaskApp.taskTypes = taskTypes.models;
-      ActivitiesTasks.init();
-    });
+      // Fetch master data
+      var taskTypes = API.fetchTaskTypes();
+      $.when(taskTypes).done(function(taskTypes) {
+        ReachActivityTaskApp.taskTypes = taskTypes.models;
+        ActivitiesTasks.init();
+      });
+
+    // 2. Application started from Order.List page, we have reference to holding layout passed through `options` object
+    } else {
+      ActivitiesTasks.initAtOrderList(options);
+    }
   });
 
   ActivitiesTasks.init = function() {
@@ -71,8 +78,17 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     ReachActivityTaskApp.trigger("include:activities");
     ReachActivityTaskApp.trigger("include:tasks");
   };
-  /*
-   TODO: Have to implement stop method for all the modules.
+
+  /**
+   * This init function designed specially to show task list on Order list page; "Assigned to me"
+   * @param options
    */
+  ActivitiesTasks.initAtOrderList = function (options) {
+    // keep the reference to parent layout in this application
+    ReachActivityTaskApp.holdingLayout = options.parentLayout;
+    ReachActivityTaskApp.commands.execute("orderList:include:tasks");
+  }
+
+  // TODO: Have to implement stop method for all the modules.
 
 },JST);

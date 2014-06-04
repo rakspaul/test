@@ -48,12 +48,27 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
    API to fetch tasks.
    */
   var API = {
-    fetchTasks: function () {
+    fetchAllTasks: function () {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities:all");
+      $.when(fetchTasks)
+          .done(function(tasks) {
+            renderAllTasks(tasks);
+          })
+          .fail(function (model, response) {
+            console.log("Error happened...", response);
+          });
+    },
+
+    fetchOrderTasks: function () {
       var fetchTasks = ReachActivityTaskApp.request("task:entities");
-      $.when(fetchTasks).done(function(tasks) {
-        console.log("Tasks data from server:"+ JSON.stringify(tasks));
-        renderTasks(tasks);
-      });
+      $.when(fetchTasks)
+          .done(function(tasks) {
+            console.log("Tasks data from server:"+ JSON.stringify(tasks));
+            renderTasks(tasks);
+          })
+          .fail(function (model, response) {
+            console.log("Error happened...", response);
+          });
     },
 
     fetchMoreTasks: function (offset) {
@@ -86,6 +101,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
     Tasks.List.Controller.showMoreTasks(tasks);
   }
 
+  function renderAllTasks(tasks) {
+    Tasks.List.Controller.showAllTasks(tasks);
+  }
+
   function renderTaskComments(taskComments) {
     Tasks.List.Controller.showTaskComments(taskComments);
   }
@@ -104,8 +123,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
    Listens to "tasks:list"
    */
   ReachActivityTaskApp.on("tasks:list", function() {
-    //console.log("In Activities module");
-    API.fetchTasks();
+    API.fetchOrderTasks();
+  });
+
+  ReachActivityTaskApp.on("tasks:list:all", function() {
+    API.fetchAllTasks();
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function(options) {
@@ -126,4 +148,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
   ReachActivityTaskApp.on("load-more-tasks:list", function(offset) {
     return API.fetchMoreTasks(offset);
   });
-},JST);
+
+  ReachActivityTaskApp.commands.setHandler("orderList:include:tasks", function () {
+    Tasks.taskLayout = new Tasks.Layout();
+    ReachActivityTaskApp.holdingLayout.taskListRegion.show(Tasks.taskLayout);
+    ReachActivityTaskApp.trigger("tasks:list:all");
+  });
+
+}, JST);
