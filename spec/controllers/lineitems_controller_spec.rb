@@ -53,6 +53,12 @@ describe LineitemsController do
       expect(@order.lineitems.last.name).to eq("Contract Line Item 2")
     end
 
+    it "should set buffer to 0.0" do
+      xhr :get, :index, {order_id: @order.id}
+      expect(@order.lineitems.first.buffer).to eq(0.0)
+      expect(@order.lineitems.last.buffer).to eq(0.0)
+    end
+
     it "creates lineitem_assignments for creatives" do
       xhr :get, :index, {order_id: @order.id}
 
