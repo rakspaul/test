@@ -108,6 +108,9 @@ Reachui::Application.routes.draw do
 
   resources :tasks do
     get 'comments'
+    collection do
+      get 'list_all'
+    end
     post 'add_comment' => 'tasks#add_comment'
   end
 

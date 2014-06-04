@@ -20,6 +20,13 @@ class TasksController < ApplicationController
     end
   end
 
+  def list_all
+    @tasks = Task.all.load
+    respond_to do |format|
+      format.json
+    end
+  end
+
   # def create
   #   params = params[:task].merge created_by: current_account
   #   task = Task.new(params)
