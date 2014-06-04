@@ -58,6 +58,14 @@ describe IoImport do
     end
   end
 
+  context "order" do
+    let!(:order) { FactoryGirl.create :order, name: 'Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361', network: collective_network }
+    it "should check order name uniquness" do
+      io.import
+      expect(io.order_name_dup).to be true
+    end
+  end
+
   context "lineitems" do
     before { io.import }
 
