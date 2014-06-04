@@ -7,6 +7,13 @@ class TasksController < ApplicationController
   respond_to :json
 
   def index
+    limit = params[:limit]
+    offset = params[:offset]
+    arel = @order.tasks.includes(:task_activity_logs, :task_type)
+    if offset && limit
+      arel = arel.limit(limit).offset(offset)
+    end
+    @tasks = arel
     respond_to do |format|
       format.json
     end

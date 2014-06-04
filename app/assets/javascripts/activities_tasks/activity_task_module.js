@@ -7,34 +7,34 @@
 ReachActivityTaskApp = new Marionette.Application();
 
 /*
-    Add regions here to take effect. Put up a div in order_detail_layout.jst.ejs where we will include activities-tasks UI.
+ Add regions here to take effect. Put up a div in order_detail_layout.jst.ejs where we will include activities-tasks UI.
  */
 ReachActivityTaskApp.addRegions({
-    middleRegion : '.middle-region'
+  middleRegion : '.middle-region'
 });
 
 /*
-    Defining a new module to include activities and tasks regions. Check out the below template file for layout structure.
+ Defining a new module to include activities and tasks regions. Check out the below template file for layout structure.
  */
 ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachActivityTaskApp, BackBone, Marionette, $, _, JST) {
 
-    /*
-        TODO: Define routes here to fetch master data like activity-types, states etc...
+  /*
+   TODO: Define routes here to fetch master data like activity-types, states etc...
 
-     */
+   */
 
   var API = {
-        fetchMasterData: function() {
-          var deferred = $._deferred();
-        },
+    fetchMasterData: function() {
+      var deferred = $._deferred();
+    },
 
-        fetchTaskTypes: function() {
-          return ReachActivityTaskApp.request("taskType:entities");
-        },
+    fetchTaskTypes: function() {
+      return ReachActivityTaskApp.request("taskType:entities");
+    },
 
-        fetchUsersAndTeams: function() {
+    fetchUsersAndTeams: function() {
 
-        }
+    }
   };
 
   ActivitiesTasks.Layout = Marionette.Layout.extend({
@@ -48,11 +48,11 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
   });
 
-    /**
-     * addInitializer is a Marionette initialization function and it will invoke when module starts.
-     * You can have as many as these methods. Please refer to marionette js documentation. Link is given above.
-     *
-     */
+  /**
+   * addInitializer is a Marionette initialization function and it will invoke when module starts.
+   * You can have as many as these methods. Please refer to marionette js documentation. Link is given above.
+   *
+   */
   ActivitiesTasks.addInitializer(function(options){
     ReachActivityTaskApp.order = options.order;
 
@@ -71,8 +71,8 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     ReachActivityTaskApp.trigger("include:activities");
     ReachActivityTaskApp.trigger("include:tasks");
   };
-    /*
-        TODO: Have to implement stop method for all the modules.
-     */
+  /*
+   TODO: Have to implement stop method for all the modules.
+   */
 
 },JST);

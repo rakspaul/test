@@ -50,4 +50,5 @@ class Task < ActiveRecord::Base
   def fill_assignable
     self.assignable = self.task_type.owner if self.assignable_id.nil?
   end
+
 end

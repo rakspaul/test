@@ -1,9 +1,18 @@
 <div class="attachment-comment">
-  <div class="pure-u-3-5">
-    <a href="#/path-to-file-downloadable-file" onclick="alert('Show download dialog');" class="task-attachment">
-      <i class="attachment-type archive-icon"></i> Creatives.zip
-    </a>
+  <div class="pure-u-1-5 username">
+    <%= created_by %>
   </div>
+  <div class="pure-u-3-5">
+    <%= note %>
+    <% if(original_filename) { %>
+    <p class="activity-log-subrow">
+      <a href="/file_download/<%= attachment_id%>" class="task-attachment">
+        <i class="attachment-type archive-icon"></i> <%= original_filename%>
+      </a>
+    </p>
+    <% } %>
+  </div>
+
   <div class="pure-u-1-6 date">
     <%= moment(created_at).format("MM/DD/YYYY hh:mm") %>
   </div>

@@ -3,11 +3,17 @@
  */
 ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, ReachActivityTaskApp, Backbone, Marionette, $, _, JST) {
 
+  List.incrementalListView = false;
+
+  List.DEFAULT_OFFSET  = 1;
+
+  List.currentOffset = List.DEFAULT_OFFSET;
+
   List.Activity = Marionette.ItemView.extend({
     tagName: 'div',
     template: function (serialized_model) {
       var headerModule = ReachActivityTaskApp.ActivitiesTasks.Activities.Header,
-          tplc; // compiled JS template
+        tplc; // compiled JS template
       console.log("Serialized Model:" + JSON.stringify(serialized_model));
 
       // Returning specific template for specific activity type
@@ -43,18 +49,32 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     itemView: List.Activity,
 
     events:{
-        "click #loadMoreBtn" : "showFullLog"
+      "click #loadMoreBtn" : "loadIncrementalView"
     },
 
-    showFullLog: function(e){
-        e.preventDefault();
-        var header =  ReachActivityTaskApp.ActivitiesTasks.Activities.Header;
-        header.Controller.fetchActivities(header.ACTIVITY_TYPES.ALL);
+    ui:{
+      "loadMoreBtn": "#loadMoreBtn"
+    },
+
+    loadIncrementalView: function(e){
+      e.preventDefault();
+      List.currentOffset = this.collection.length+1;
+      console.log("The result offset is:"+List.currentOffset);
+      List.Controller.loadMoreActivities(List.currentOffset);
+    },
+
+    showHideLoadMoreControl:function(show){
+      if(show){
+        $(this.ui.loadMoreBtn).show();
+      } else {
+        $(this.ui.loadMoreBtn).hide();
+      }
     },
 
     initialize: function () {
       this.listenTo(this.collection, "reset", function () {
         this.appendHtml = function (collectionView, itemView, index) {
+          console.log("In collection reset function") ;
           collectionView.$el.append(itemView.el);
         }
       });
@@ -62,6 +82,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
 
     onCompositeCollectionRendered: function () {
       this.appendHtml = function (collectionView, itemView, index) {
+        console.log("In composite collection rendered function") ;
         collectionView.$el.prepend(itemView.el);
       }
     }

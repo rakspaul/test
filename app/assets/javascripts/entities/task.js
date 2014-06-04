@@ -56,17 +56,27 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   var API = {
-    getTaskEntities: function() {
+    getTaskEntities: function(offset) {
       var tasks = new Entities.TaskCollection();
+
+      var filter = {};
+      //default filter.
+      filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
+      filter["offset"] = Entities.DEF_OFFSET;
+
+      if(offset){
+        filter["offset"] = offset;
+      }
+
       var defer = $.Deferred();
-      tasks.fetch({
-          success: function(data) {
+      tasks.fetch({data:$.param(filter),
+        success: function(data) {
 //            data=[];
-            defer.resolve(data);
-          },failure:function(data) {
-            data=[];
-            defer.resolve();
-          }
+          defer.resolve(data);
+        },failure:function(data) {
+          data=[];
+          defer.resolve();
+        }
       });
       return defer.promise();
     },
@@ -77,13 +87,13 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       }
       var defer = $.Deferred();
       task.save({
-          success: function() {
-            defer.resolve();
-          },
+        success: function() {
+          defer.resolve();
+        },
 
-          failure: function() {
-            defer.resolve();
-          }
+        failure: function() {
+          defer.resolve();
+        }
       });
     },
 
@@ -91,13 +101,13 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       var taskTypes = new Entities.TaskTypeCollection();
       var defer = $.Deferred();
       taskTypes.fetch({
-          success: function(data) {
-            defer.resolve(data);
-          },
+        success: function(data) {
+          defer.resolve(data);
+        },
 
-          failure: function() {
-            defer.resolve();
-          }
+        failure: function() {
+          defer.resolve();
+        }
       });
 
       return defer.promise();
@@ -115,26 +125,25 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
             defer.resolve();
           }
       });
-
       return defer.promise();
     },
 
     saveTaskComment: function(comment) {
       var defer = $.Deferred();
       comment.save({
-            success: function() {
-              defer.resolve();
-            },
+        success: function() {
+          defer.resolve();
+        },
 
-            failure: function() {
-              defer.resolve();
-            }
+        failure: function() {
+          defer.resolve();
+        }
       });
     }
   };
 
-  ReachActivityTaskApp.reqres.setHandler("task:entities", function(){
-    return API.getTaskEntities();
+  ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset){
+    return API.getTaskEntities(offset);
   });
 
   ReachActivityTaskApp.reqres.setHandler("task:save", function(task){

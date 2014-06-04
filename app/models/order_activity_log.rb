@@ -35,8 +35,8 @@ class OrderActivityLog < ActiveRecord::Base
     where(:activity_type => ActivityType::ATTACHMENT)
   end
 
-  def self.recent_activity
-    order(:created_at => :desc)
+  def self.recent_activity  limit , offset
+    order(:created_at => :desc).limit(limit).offset(offset)
   end
 
   def self.recent_user_comments
@@ -63,5 +63,12 @@ class OrderActivityLog < ActiveRecord::Base
     end
   end
 
+  def self.apply_filters filters , limit, offset
+    where(activity_type: filters).limit(limit).offset(offset)
+  end
+
+  def self.apply_filters_with_user filters , user , limit , offset
+    where(activity_type: filters, created_by_id: user.id).limit(limit).offset(offset)
+  end
 
 end

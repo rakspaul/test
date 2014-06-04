@@ -14,9 +14,9 @@
       <span class="task-assignee"><%= assignable_name%></span>
       <span class="task-due-date"><%= moment(due_date).format('MM/DD/YYYY')%></span>
       <% if(original_filename) { %>
-        <a href="#/path-to-file-downloadable-file" onclick="alert('Work in progress. Thanks for clicking');" class="task-attachment">
-          <i class="attachment-type archive-icon"></i> <%= original_filename%>
-        </a>
+      <a href="#/path-to-file-downloadable-file" onclick="alert('Work in progress. Thanks for clicking');" class="task-attachment">
+        <i class="attachment-type archive-icon"></i> <%= original_filename%>
+      </a>
       <% } %>
     </p>
     <div class="system-comment">

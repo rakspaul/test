@@ -1,4 +1,4 @@
-json.array! @order.tasks do |task|
+json.array! @tasks do |task|
   json.id task.id
   json.name task.name
   json.due_date format_date(task.due_date)
