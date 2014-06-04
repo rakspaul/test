@@ -162,7 +162,7 @@ describe OrdersController do
 
       it "assigns client_advertiser_name to io_detail" do
         get :show, {id: @order.id}
-        expect(@order.io_detail.client_advertiser_name).to eq("DFP Advertiser")
+        expect(@order.io_detail.client_advertiser_name).to eq(@order.advertiser.name.to_s)
       end
     end
 

@@ -38,8 +38,6 @@ FactoryGirl.define do
 
   factory :io_detail do
     state 'draft'
-    #media_contact
-    #billing_contact
     client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
     order_id  { FactoryGirl.singleton(:order).id }
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
@@ -119,6 +117,15 @@ FactoryGirl.define do
     order
     network { FactoryGirl.singleton :network }
     media_type { MediaType.first || FactoryGirl.singleton(:display_media_type) }
+  end
+
+  factory :ad_assignment do
+    ad
+    creative
+    start_date Time.now
+    end_date (Time.now + 5.days)
+    network_id 6
+    data_source_id 1
   end
 
   factory :io_asset do
