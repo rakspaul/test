@@ -33,5 +33,17 @@ class GeoTarget < ActiveRecord::Base
       geos += GeoTarget::City.in_us.xfp_present.includes(:state).order(:name).where(['name ilike ?', "#{search_str}%"]).limit(10)
       geos
     end
+
+    def selected_geos(targeting)
+      zipcodes = targeting[:selected_zip_codes].to_a.map(&:strip).uniq
+      zipcodes = GeoTarget::Zipcode.where name: zipcodes
+
+      geo_target_ids = targeting[:selected_geos].to_a.map { |t|  t['id'] }.uniq
+      geos = GeoTarget.where :id => geo_target_ids
+
+      targets = geos.blank? ? [] : geos
+      targets += zipcodes unless zipcodes.blank?
+      targets
+    end
   end
 end

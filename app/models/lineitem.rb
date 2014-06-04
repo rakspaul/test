@@ -38,7 +38,8 @@ class Lineitem < ActiveRecord::Base
   validate :flight_dates_with_in_order_range
 
   # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
+  # only check start_date for newly created LIs, do not check it for LIs created from dfp-pulled ads
+  validates :start_date, future_date: true, :if => lambda {|li| (li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record?) && li.li_status != 'dfp_pulled'}
 
   # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
@@ -116,35 +117,40 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    zipcodes = targeting[:selected_zip_codes].to_a.uniq.collect do |zipcode|
-      GeoTarget::Zipcode.find_by(name: zipcode.strip)
+    targets = GeoTarget.selected_geos targeting
+    if new_record?
+      self.geo_targets = targets
+    else
+      existing_geos = self.geo_targets.map(&:id)
+      targets_ids = targets.map(&:id)
+      delete_geos = existing_geos - targets_ids
+
+      LineitemGeoTargeting.delete_all(:lineitem_id => self.id, :geo_target_id => delete_geos) if delete_geos.size > 0
+
+      targets = targets.select {|tg| !existing_geos.include?(tg.id) }
+
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{LineitemGeoTargeting.table_name}
+          (lineitem_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
     end
-    zipcodes = zipcodes.compact unless zipcodes.empty?
-
-    geo_targeting = targeting[:selected_geos].to_a
-    geos = geo_targeting.collect{|geo| GeoTarget.find_by_id geo['id'] }
-    self.geo_targets = []
-    self.geo_targets = geos.compact if !geos.blank?
-    self.geo_targets += zipcodes    if !zipcodes.blank?
   end
 
   def ad_name(start_date, ad_size)
     start_date = Date.parse(start_date) if start_date.is_a?(String)
     quarter = ((start_date.month - 1) / 3) + 1
 
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "Q#{ quarter }#{ start_date.strftime('%y') } " \
-    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-    "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
-    "#{ ad_size }"
-  end
-
-  def ad_name(start_date, ad_size)
-    start_date = Date.parse(start_date) if start_date.is_a?(String)
-    quarter = ((start_date.month - 1) / 3) + 1
-
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "#{ !zipcodes.empty? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ order.io_detail.try(:reach_client).try(:abbr) } #{ order.io_detail.try(:client_advertiser_name) } " \
+    "#{ !self.geo_targets.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \
     "#{ ad_size.gsub(/,/, ' ') }"
