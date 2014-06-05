@@ -9,21 +9,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
       ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.headerRegion.show(Header.headerLayout);
     },
 
-    //Header view call this method on specific filter and pass the filter type along.
+    //Header view call this method on specific filter and pass the inclusive filters.
     fetchActivities: function(filters){
       //Note: When a filter is triggered on the UI, we should not hide filters any more though particular filter doesn't have activities list.
       ReachActivityTaskApp.trigger("activities:list",filters);
-    },
-
-    //Get filter model method.
-    getFilterModel:function(types){
-      var filterModel = {};
-      filterModel.type = type;
-      /*if(value){
-        filterModel.value = value;
-      } */
-      console.log("This will filter activities by "+type+" type"+ JSON.stringify(filterModel));
-      return filterModel;
     },
 
     //saving activity

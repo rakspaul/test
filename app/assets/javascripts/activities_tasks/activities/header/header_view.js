@@ -101,6 +101,19 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     animateFilterControls: function (component, type) {
       //if filter is existed in the array then we have to reduce the opacity otherwise make opacity full
+      //when all filter is on, we have turn off other filters and make sure you have only all filter for the query.
+      if(type == Header.ACTIVITY_TYPES.ALL){
+        if(Header.filters.indexOf(type)==-1){
+          //remove other filters when all filter is active
+          Header.filters = [];
+          //turning off other filters
+          this.turnOffFilters(false);
+        }
+      } else {
+        //just turn off all filter.
+        this.turnOffFilters(true);
+      }
+
       var index = Header.filters.indexOf(type);
       if (index > -1) {
         Header.filters.splice(index, 1);
@@ -109,16 +122,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         Header.filters.push(type);
         component.addClass("active");
       }
+
     },
 
     // Filter handlers
     filterActivities: function (e) {
-      var aControl = $(e.target),
+      //Note: You will get filter type 'undefined' if user clicks on icon. So, we have to check user clicked source and
+      // pass the button reference always.So that we always get filter type correctly.
+      var aControl = $(e.target)[0].tagName=="BUTTON"?$(e.target):$(e.target).parent(),
           filterType = aControl.data("filter-with"),
-          systemFilterName,
-          filterByUsername;
+          systemFilterName;
 
-      e.preventDefault();
+       e.preventDefault();
 
       switch (filterType) {
         case "comments":
@@ -135,7 +150,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
           break;
         case "assignee":
           systemFilterName = Header.ACTIVITY_TYPES.COMMENT;
-          filterByUsername = ReachActivityTaskApp.username;
+          //filter by user name, we are directly handling on server side. So, no need to this field any more.
+          //So, commenting it.
+          //filterByUsername = ReachActivityTaskApp.username;
           break;
         case "dueDate":
           systemFilterName = Header.ACTIVITY_TYPES.DUEDATE;
@@ -145,10 +162,29 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       }
 
       this.animateFilterControls(aControl, systemFilterName);
-      Header.Controller.fetchActivities(systemFilterName, filterByUsername);
+
+      //Fetch activities should have inclusive filter
+      Header.Controller.fetchActivities(Header.filters);
     },
 
-    animateFormControl: function (type) {
+    turnOffFilters:function(allFilter){
+      if(allFilter){
+        $("#btnFullLog").removeClass("active");
+        var index = Header.filters.indexOf(Header.ACTIVITY_TYPES.ALL);
+        if(index>-1){
+          Header.filters.splice(index,1);
+        }
+      } else {
+        var filterButtons = $(".header-controls").children();
+        //don't include all filter.
+        filterButtons = filterButtons.splice(0,filterButtons.length-1);
+        _.each(filterButtons,function(filterButton){
+            $(filterButton).removeClass("active");
+        });
+      }
+    },
+
+    /*animateFormControl: function (type) {
       var uiComponent = this.getUIComponent(type);
       uiComponent.toggleClass("active");
     },
@@ -161,7 +197,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       } else {
         return this.ui.btnSaveAlert;
       }
-    },
+    },*/
 
     showTaskForm: function (e) {
       this.ui.taskFormRegion.toggle();
@@ -195,17 +231,24 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       e.preventDefault();
       var commentText = this.ui.activity_input.val().trim();
 
+      if (commentText == "") {
+        // TODO: Put validation!
+        return;
+      }
+
       // We mark activity as 'TASK' only if Task Form was shown when user pressed 'saveComment' button
       if (this.ui.taskFormRegion.is(":visible")) {
         this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
         this.saveTask(commentText);
       } else {
         // Otherwise, check if there was an attachment - if yes, mark as attachment, otherwise - just a comment
-        if (commentText == "") {
-          // TODO: Put validation!
-          return;
+        //check if attachment activity is initiated.
+        if(this.model.get('activity_attachment_id')!=undefined){
+          this.model.set('activity_type', Header.ACTIVITY_TYPES.ATTACHMENT)
+        } else {
+          this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT)
         }
-        this.model.set('activity_type', this.ui.attachmentFileName.text().trim() ? Header.ACTIVITY_TYPES.ATTACHMENT : Header.ACTIVITY_TYPES.COMMENT);
+        //this.model.set('activity_type', this.ui.attachmentFileName.text().trim() ? Header.ACTIVITY_TYPES.ATTACHMENT : Header.ACTIVITY_TYPES.COMMENT);
         this.model.set('note', commentText);
         this.model.unset('users', {silent: true});
         this.model.unset('task_types', {silent: true});
@@ -287,7 +330,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.attachmentFileName.text('');
       this.ui.attachmentFileNameContainer.hide();
       this.ui.attachmentFileUploader.removeClass("active");
-      this.model.set('activity_attachment_id', null);
+      this.model.set('activity_attachment_id', undefined);
     }
   });
 

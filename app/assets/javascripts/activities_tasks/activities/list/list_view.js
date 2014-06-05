@@ -83,7 +83,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     onCompositeCollectionRendered: function () {
       this.appendHtml = function (collectionView, itemView, index) {
         console.log("In composite collection rendered function") ;
-        collectionView.$el.prepend(itemView.el);
+        collectionView.$(this.itemViewContainer).prepend(itemView.el);
       }
     }
   });

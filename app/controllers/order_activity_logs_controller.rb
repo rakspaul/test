@@ -13,19 +13,19 @@ class OrderActivityLogsController < ApplicationController
     offset = params[:offset]
     if(filters)
       if filters[0] == OrderActivityLog::ActivityType::ALL
-        @activities = arel.recent_activity
-      elsif filters.include? OrderActivityLog::ActivityType::USER_COMMENT
+        @activities = arel.recent_activity nil , nil
+      elsif filters.include? OrderActivityLog::ActivityType::USER
         if(!offset)
           offset = 1
         end
         limit = params[:limit]
-        @activities = @order.order_activity_logs.apply_filters_with_user filters,@current_user ,limit, offset
+        @activities = arel.apply_filters_with_user filters,@current_user ,limit, offset
       else
         if(!offset)
           offset = 1
         end
         limit = params[:limit]
-        @activities = @order.order_activity_logs.apply_filters filters , limit, offset
+        @activities = arel.apply_filters filters , limit, offset
       end
     else
       @activities = arel.recent_activity limit , offset
