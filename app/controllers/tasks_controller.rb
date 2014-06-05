@@ -13,7 +13,7 @@ class TasksController < ApplicationController
     if offset && limit
       arel = arel.limit(limit).offset(offset)
     end
-    @tasks = arel
+    @tasks = arel.recent
 
     respond_to do |format|
       format.json

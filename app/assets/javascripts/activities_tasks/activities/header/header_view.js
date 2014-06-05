@@ -127,37 +127,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     filterActivities: function (e) {
       //Note: You will get filter type 'undefined' if user clicks on icon. So, we have to check user clicked source and
       // pass the button reference always.So that we always get filter type correctly.
-      var aControl = $(e.target)[0].tagName=="BUTTON"?$(e.target):$(e.target).parent(),
-          filterType = aControl.data("filter-with"),
-          systemFilterName;
+      var aControl = $(e.target)[0].tagName == "BUTTON" ? $(e.target) : $(e.target).parent(),
+          systemFilterName = aControl.data("filter-with");
 
        e.preventDefault();
-
-      switch (filterType) {
-        case "comments":
-          systemFilterName = Header.ACTIVITY_TYPES.COMMENT;
-          break;
-        case "attachments":
-          systemFilterName = Header.ACTIVITY_TYPES.ATTACHMENT;
-          break;
-        case "alerts":
-          systemFilterName = Header.ACTIVITY_TYPES.ALERT;
-          break;
-        case "tasks":
-          systemFilterName = Header.ACTIVITY_TYPES.TASK;
-          break;
-        case "assignee":
-          systemFilterName = Header.ACTIVITY_TYPES.COMMENT;
-          //filter by user name, we are directly handling on server side. So, no need to this field any more.
-          //So, commenting it.
-          //filterByUsername = ReachActivityTaskApp.username;
-          break;
-        case "dueDate":
-          systemFilterName = Header.ACTIVITY_TYPES.DUEDATE;
-          break;
-        default:
-          systemFilterName = Header.ACTIVITY_TYPES.ALL;
-      }
 
       this.animateFilterControls(aControl, systemFilterName);
 

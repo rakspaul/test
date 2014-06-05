@@ -53,33 +53,32 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     /*
      fetch API
      */
-    getActivities: function(filters,offset){
+    getActivities: function(filters, offset) {
       var activities = new Entities.ActivityCollection();
       var defer = $.Deferred();
 
-      var filter = {};
+      var params = {};
       //default filter.
-      filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
-      filter["offset"] = Entities.DEF_OFFSET;
+      params["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
+      params["offset"] = Entities.DEF_OFFSET;
       if(!offset && !filters){
         //the default values already set above.So, don't need to do anything.
       } else if(filters && offset){
-        filter["filters"] = filters;
-        filter["offset"] = offset;
+        params["filters"] = filters;
+        params["offset"] = offset;
       } else if(filters){
-        filter["filters"] = filters;
+        params["filters"] = filters;
       } else {
-        filter["offset"] = offset;
+        params["offset"] = offset;
       }
 
-      activities.fetch({ data: $.param(filter),
+      activities.fetch({ data: $.param(params),
         success: function(data){
           defer.resolve(data);
         }
       });
 
-      var promise = defer.promise();
-      return promise;
+      return defer.promise();
     },
 
     saveActivity: function(activity){
@@ -103,8 +102,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   /*
    Listens to "activity:entities" event.
    */
-  ReachActivityTaskApp.reqres.setHandler("activity:entities", function(filter,offset){
-    return API.getActivities(filter,offset);
+  ReachActivityTaskApp.reqres.setHandler("activity:entities", function(filter, offset){
+    return API.getActivities(filter, offset);
   });
 
   /**

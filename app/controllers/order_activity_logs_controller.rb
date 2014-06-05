@@ -8,42 +8,20 @@ class OrderActivityLogsController < ApplicationController
 
   def index
     arel = @order.order_activity_logs.includes(:activity_attachment, :task)
-    filters = params[:filters]
     limit = params[:limit]
     offset = params[:offset]
-    if(filters)
+
+    if filters = params[:filters]
       if filters[0] == OrderActivityLog::ActivityType::ALL
-        @activities = arel.recent_activity nil , nil
+        @activities = arel.recent_activity nil
       elsif filters.include? OrderActivityLog::ActivityType::USER
-        if(!offset)
-          offset = 1
-        end
-        limit = params[:limit]
-        @activities = arel.apply_filters_with_user filters,@current_user ,limit, offset
+        @activities = arel.apply_filters_with_user filters, current_user, limit, offset
       else
-        if(!offset)
-          offset = 1
-        end
-        limit = params[:limit]
-        @activities = arel.apply_filters filters , limit, offset
+        @activities = arel.apply_filters filters, limit, offset
       end
     else
-      @activities = arel.recent_activity limit , offset
+      @activities = arel.recent_activity limit, offset
     end
-=begin
-    case params[:filters]
-      when OrderActivityLog::ActivityType::USER_COMMENT
-        @activities = @order.order_activity_logs.recent_user_comments
-      when OrderActivityLog::ActivityType::ALERT
-        @activities = @order.order_activity_logs.recent_alerts
-      when OrderActivityLog::ActivityType::TASK
-        @activities = @order.order_activity_logs.recent_tasks
-      when OrderActivityLog::ActivityType::ATTACHMENT
-        @activities = @order.order_activity_logs.recent_attachments
-      else
-        @activities = arel.recent_activity
-    end
-=end
 
     respond_to do |format|
       format.json
@@ -68,7 +46,7 @@ class OrderActivityLogsController < ApplicationController
         task_params = get_task_params
         task_params.merge! :name => task_params.delete(:note),
                            :order_id => @order.id,
-                           :created_by => current_account.user,
+                           :created_by => current_user,
                            :task_state => Task::TaskState::ASSIGNED,
                            :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
                            :order_activity_log => activity

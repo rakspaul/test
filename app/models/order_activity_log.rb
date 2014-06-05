@@ -36,7 +36,7 @@ class OrderActivityLog < ActiveRecord::Base
     where(:activity_type => ActivityType::ATTACHMENT)
   end
 
-  def self.recent_activity  limit , offset
+  def self.recent_activity limit, offset=0
     if(limit && offset)
       order(:created_at => :desc).limit(limit).offset(offset)
     else
@@ -68,11 +68,11 @@ class OrderActivityLog < ActiveRecord::Base
     end
   end
 
-  def self.apply_filters filters , limit, offset
+  def self.apply_filters filters, limit, offset=0
     where(activity_type: filters).order(created_at: :desc).limit(limit).offset(offset)
   end
 
-  def self.apply_filters_with_user filters , user , limit , offset
+  def self.apply_filters_with_user filters, user, limit, offset=0
     where(activity_type: filters, created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
   end
 

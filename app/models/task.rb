@@ -33,6 +33,10 @@ class Task < ActiveRecord::Base
 
   before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
 
+  def self.recent
+    order(:id => :desc)
+  end
+
   def display_task_state
     case self.task_state
       when TaskState::ASSIGNED

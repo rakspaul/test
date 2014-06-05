@@ -143,72 +143,71 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         return;
       }
 
-        data = data.replace(/\n/gm, "<br/>");
-        var attachment_id = this.ui.attachmentFileName.attr('data-attachment-id');
-        var comment = new ReachActivityTaskApp.Entities.TaskComment();
-        comment.set('note', data);
-        comment.set('activity_type', 'user_comment');
-        comment.set('activity_attachment_id', attachment_id);
-        comment.setTask(this.options.task);
+      data = data.replace(/\n/gm, "<br/>");
+      var attachment_id = this.ui.attachmentFileName.attr('data-attachment-id');
+      var comment = new ReachActivityTaskApp.Entities.TaskComment();
+      comment.set('note', data);
+      comment.set('activity_type', 'user_comment');
+      comment.set('activity_attachment_id', attachment_id);
+      comment.setTask(this.options.task);
 
-        List.Controller.saveTaskComment(comment, {task: this.options.task});
+      List.Controller.saveTaskComment(comment, {task: this.options.task});
 
-        this.ui.taskActivityInput.html('');
-        this._resetAttachmentContainer();
-      },
+      this.ui.taskActivityInput.html('');
+      this._resetAttachmentContainer();
+    },
 
-      removeAttachment: function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        $.ajax('/file_delete/' + this.ui.attachmentFileName.attr('data-attachment-id'), {
+    removeAttachment: function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      $.ajax('/file_delete/' + this.ui.attachmentFileName.attr('data-attachment-id'), {
           dataType: 'json',
           context: this
-        }).success(this._resetAttachmentContainer);
-      },
+      }).success(this._resetAttachmentContainer);
+    },
 
-      _resetAttachmentContainer: function() {
-        this.ui.attachmentFileName.attr('href', '');
-        this.ui.attachmentFileName.text('');
-        this.ui.attachmentFileNameContainer.hide();
-        this.ui.attachmentFileUploader.removeClass("active");
-        this.ui.attachmentFileName.attr('data-attachment-id', '');
-      },
+    _resetAttachmentContainer: function() {
+      this.ui.attachmentFileName.attr('href', '');
+      this.ui.attachmentFileName.text('');
+      this.ui.attachmentFileNameContainer.hide();
+      this.ui.attachmentFileUploader.removeClass("active");
+      this.ui.attachmentFileName.attr('data-attachment-id', '');
+    },
 
-      closeTask: function() {
-        if(this.model.get('task_state') == 'closed') {
-            this.ui.closeTaskContainer.html('Closed');
-          return;
+    closeTask: function() {
+      if(this.model.get('task_state') == 'closed') {
+        this.ui.closeTaskContainer.html('Closed');
+        return;
+      }
+      this.model.set('task_state', 'closed');
+      var self = this;
+      this.model.save({ task_state: 'closed' }, {
+        success: function() {
+          self.ui.closeTaskContainer.html('Closed');
+        },
+
+        failure: function() {
+          console.log('task model update failed');
         }
-        this.model.set('task_state', 'closed');
-        var self = this;
-        this.model.save({ task_state: 'closed' }, {
+      }, {patch: true});
+    },
+
+    setPriority: function() {
+      this.model.set('important', 'true');
+      var self = this;
+      this.model.save({ important: 'true' },
+        {
           success: function() {
-            self.ui.closeTaskContainer.html('Closed');
+            self.ui.prioritizeTaskContainer.addClass('selected');
           },
 
           failure: function() {
             console.log('task model update failed');
           }
         }, {patch: true});
-      },
+    }
+  });
 
-      setPriority: function() {
-        this.model.set('important', 'true');
-        var self = this;
-        this.model.save({ important: 'true' },
-          {
-            success: function() {
-              self.ui.prioritizeTaskContainer.addClass('selected');
-            },
-
-            failure: function() {
-              console.log('task model update failed');
-            }
-          }, {patch: true});
-
-      }
-
-    });
   List.TaskCommentView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/activities_tasks/tasks/task_comment_list_item'],
 
