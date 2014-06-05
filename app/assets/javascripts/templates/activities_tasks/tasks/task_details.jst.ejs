@@ -23,12 +23,12 @@
       </button>
     </div> -->
     <div>
-      <button id="btnMarkTaskDone" class="rui-btn semi-transparent">
-        <i class="green_check-icon"></i> Close Task
-      </button>
+      <div id="btnMarkTaskDone" class="rui-btn semi-transparent">
+        <i class="green_check-icon"></i> <%= (task_state != 'closed' ? 'Close Task' : 'Closed') %>
+      </div>
     </div>
     <div>
-      <button id="btnMarkTaskUrgent" class="rui-btn semi-transparent">
+      <button id="btnMarkTaskUrgent" class="rui-btn semi-transparent <%= important == 'true' ? 'selected' : ''%>">
         <i class="alert-icon"></i> Urgent
       </button>
     </div>
@@ -38,10 +38,12 @@
       <%= task_type %>
     </div>
     <div>
-      <a href="#/path-to-file-downloadable-file" onclick="alert('Show download dialog');" class="task-attachment">
-        <!-- TODO: Put here corresponding icon based on file type -->
-        <i class="attachment-type archive-icon"></i> Creatives.zip
-      </a>
+      <% if(original_filename) { %>
+        <a href="/file_import/<%= attachment_id %>" class="task-attachment">
+          <!-- TODO: Put here corresponding icon based on file type -->
+          <i class="attachment-type archive-icon"></i> <%= original_filename %>
+        </a>
+      <% } %>
     </div>
   </div>
   <div class="pure-u-1-4">

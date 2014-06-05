@@ -9,11 +9,12 @@ class TasksController < ApplicationController
   def index
     limit = params[:limit]
     offset = params[:offset]
-    arel = @order.tasks.includes(:task_activity_logs, :task_type)
+    arel = @order.tasks.includes(:task_activity_logs, :task_type, :activity_attachments)
     if offset && limit
       arel = arel.limit(limit).offset(offset)
     end
     @tasks = arel
+
     respond_to do |format|
       format.json
     end
@@ -28,10 +29,11 @@ class TasksController < ApplicationController
   # end
 
   def update
-    params = params[:task].merge updated_by: current_account
-    @task.update params
-  rescue
+    task_params = params[:task].merge updated_by: current_user
+    task_params.permit!
+    @task.update task_params
 
+    render :json => {:status => :ok}, :status => 200
   end
 
   def task_types
@@ -73,7 +75,7 @@ class TasksController < ApplicationController
   private
 
   def require_task
-    @task = Task.find_by_id params[:task_id]
+    @task = Task.find_by_id(params[:task_id] || params[:id])
   end
 
   def require_order

@@ -55,8 +55,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       "click #btnShowTaskForm": "showTaskForm",
       "click #btnSaveComment": "saveComment",
 
-      "click #saveTask": "saveTask",
-
       "change #task-types-selector": 'onTaskTypeChanged',
 
       "keyup #activity_input": 'onTypeInTextArea',
@@ -230,13 +228,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     saveComment: function (e) {
       e.preventDefault();
       var commentText = this.ui.activity_input.val().trim();
-
       if (commentText == "") {
         // TODO: Put validation!
         return;
       }
+      commentText = commentText.replace(/\n/gm, "<br/>");
 
-      // We mark activity as 'TASK' only if Task Form was shown when user pressed 'saveComment' button
+        // We mark activity as 'TASK' only if Task Form was shown when user pressed 'saveComment' button
       if (this.ui.taskFormRegion.is(":visible")) {
         this.model.set('activity_type', Header.ACTIVITY_TYPES.TASK);
         this.saveTask(commentText);
@@ -248,7 +246,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         } else {
           this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT)
         }
-        //this.model.set('activity_type', this.ui.attachmentFileName.text().trim() ? Header.ACTIVITY_TYPES.ATTACHMENT : Header.ACTIVITY_TYPES.COMMENT);
         this.model.set('note', commentText);
         this.model.unset('users', {silent: true});
         this.model.unset('task_types', {silent: true});

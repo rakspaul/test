@@ -5,7 +5,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   Entities.DEF_NO_OF_ROWS_TO_FETCH = 4;
 
-  Entities.DEF_OFFSET = 1;
+  Entities.DEF_OFFSET = 0;
 
   Entities.Activity = Backbone.Model.extend({
     defaults:{

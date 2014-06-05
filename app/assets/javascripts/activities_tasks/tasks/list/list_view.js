@@ -75,7 +75,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       events: {
         'click .task-detail-view-close' : '_closeTaskDetailView',
         'click #btnSaveTaskComment' : 'saveTaskComment',
-        'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment'
+        'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment',
+        'click #btnMarkTaskDone': 'closeTask',
+        'click #btnMarkTaskUrgent': 'setPriority'
       },
 
       _closeTaskDetailView: function(e) {
@@ -85,10 +87,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.options.parentRegion.close();
         List.currentTaskId = undefined;
       },
-
-    /*onShow: function() {
-//        this.$el.addClass('task-selected');
-    },*/
 
       onClose: function() {
         if(this.model.collection.selectedTask) {
@@ -101,7 +99,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         saveAttachment: "#btnSaveTaskAttachment",
         attachmentFileName: "#task-attachment-file-name",
         attachmentFileNameContainer: '#btnRemoveTaskAttachment',
-        attachmentFileUploader: ".task-comment-input-control #attachmentUploader"
+        attachmentFileUploader: ".task-comment-input-control #attachmentUploader",
+        closeTaskContainer: '#btnMarkTaskDone',
+        prioritizeTaskContainer: '#btnMarkTaskUrgent'
       },
 
       onDomRefresh: function() {
@@ -172,6 +172,40 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.ui.attachmentFileNameContainer.hide();
         this.ui.attachmentFileUploader.removeClass("active");
         this.ui.attachmentFileName.attr('data-attachment-id', '');
+      },
+
+      closeTask: function() {
+        if(this.model.get('task_state') == 'closed') {
+            this.ui.closeTaskContainer.html('Closed');
+          return;
+        }
+        this.model.set('task_state', 'closed');
+        var self = this;
+        this.model.save({ task_state: 'closed' }, {
+          success: function() {
+            self.ui.closeTaskContainer.html('Closed');
+          },
+
+          failure: function() {
+            console.log('task model update failed');
+          }
+        }, {patch: true});
+      },
+
+      setPriority: function() {
+        this.model.set('important', 'true');
+        var self = this;
+        this.model.save({ important: 'true' },
+          {
+            success: function() {
+              self.ui.prioritizeTaskContainer.addClass('selected');
+            },
+
+            failure: function() {
+              console.log('task model update failed');
+            }
+          }, {patch: true});
+
       }
 
     });

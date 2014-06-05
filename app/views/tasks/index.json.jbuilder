@@ -17,5 +17,12 @@ json.array! @tasks do |task|
   json.created_at format_date(task.created_at)
   json.updated_at format_date(task.updated_at)
   json.task_state task.task_state
+  json.important task.important
   json.comments_size task.task_activity_logs.size
+
+  if task.activity_attachment
+    json.attachment_id task.activity_attachment.id
+    json.original_filename task.activity_attachment.original_filename
+  end
+
 end

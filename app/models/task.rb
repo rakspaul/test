@@ -17,7 +17,10 @@ class Task < ActiveRecord::Base
   belongs_to :order_activity_log
   belongs_to :assignable, :polymorphic => true
 
+  has_one :activity_attachment, :as => :activity_log
+
   has_many :task_activity_logs
+  has_many :activity_attachments, :through => :task_activity_logs
 
   validates :name, :presence => true
   validates :task_type_id, :presence => true

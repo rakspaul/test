@@ -1,9 +1,15 @@
 ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp, Backbone, Marionette, $, _){
 
   Entities.Task = Backbone.Model.extend({
-    url: function() {
+      defaults: {
+        original_filename: null
+      },
+
+      url: function() {
       if(this.isNew()) {
         return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
+      } else {
+        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
       }
     }
   });

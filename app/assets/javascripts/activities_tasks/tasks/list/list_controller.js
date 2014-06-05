@@ -55,7 +55,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     loadMoreTasks:function(){
-      var offset = List.tasksListView.collection.length + 1;
+      var offset = List.tasksListView.collection.length;
       console.log("Load more tasks controller");
       console.log("Offset of the view is:"+offset);
       ReachActivityTaskApp.trigger("load-more-tasks:list",offset);

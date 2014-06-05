@@ -56,28 +56,38 @@ class OrderActivityLogsController < ApplicationController
     return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
 
     OrderActivityLog.transaction do
-      @activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+      activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
                                                               :created_by => current_account.user)
-      @activity.save!
+      activity.save!
 
-      # link activity attachment
-      if params[:activity_attachment_id] && (attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]))
-        attachment.activity_log = @activity
-        attachment.save!
-      end
+      attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]) if params[:activity_attachment_id]
 
-      # create task
-      if activity_params[:activity_type] == OrderActivityLog::ActivityType::TASK
+      case activity_params[:activity_type]
+      when OrderActivityLog::ActivityType::TASK
+        # create task
         task_params = get_task_params
         task_params.merge! :name => task_params.delete(:note),
                            :order_id => @order.id,
                            :created_by => current_account.user,
                            :task_state => Task::TaskState::ASSIGNED,
                            :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
-                           :order_activity_log => @activity
+                           :order_activity_log => activity
 
         task = Task.new(task_params)
         task.save!
+
+        # link activity attachment
+        if attachment
+          attachment.activity_log = task
+          attachment.save!
+        end
+      when OrderActivityLog::ActivityType::USER_COMMENT
+        #nothing to do
+      when OrderActivityLog::ActivityType::ATTACHMENT
+        if attachment
+          attachment.activity_log = activity
+          attachment.save!
+        end
       end
     end
 
