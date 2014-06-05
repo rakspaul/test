@@ -269,13 +269,17 @@ textarea#activity_input {
 
 .selected-element {
   padding: 5px;
-  border: 1px dashed $rui-gray-color;
+  border: 2px dashed $rui-gray-color;
   margin-bottom: 5px;
 }
 
 .task-selected {
   .task-row {
     @extend .selected-element;
+
+    &:hover {
+      background-color: #fff;
+    }
   }
 }
 
@@ -309,9 +313,13 @@ textarea#activity_input {
 
 .task-row {
   position: relative;
-  cursor: pointer;
   .task-name {
+    cursor: pointer;
     padding-left: 5px;
+  }
+
+  &:hover {
+    background-color: $rui-lightgray-color;
   }
 }
 
@@ -325,11 +333,14 @@ textarea#activity_input {
   position: relative;
 }
 
+// Inline variable, does not cool enough to be on a global level :-)
+$border-breaker-width: 10px;
+
 .border-breaker {
   position: absolute;
   display: block;
   height: 100%;
-  width: 10px;
+  width: $border-breaker-width;
   background-color: #fff;
   top: 0;
   left: 0;
@@ -357,6 +368,10 @@ textarea#activity_input {
     margin: 10px auto;
   }
 
+  .username {
+    padding-left: 10px;
+  }
+
   // this will add dashed border around
   @extend .selected-element;
 
@@ -372,6 +387,12 @@ textarea#activity_input {
 
   .task-comment-container {
     margin-top: 5px;
+
+    .username {
+      padding-right: 10px;
+      text-align: right;
+      color: $rui-heading-text-color;
+    }
   }
 }
 
@@ -417,8 +438,22 @@ ul.followers-list {
         visibility: visible !important;
         position: absolute;
         left: 50%;
-        margin-left: 12px;
+        margin-left: 5px;
+        z-index: 12;
       }
+    }
+
+    // This is to hide 'border-breaker' element which is positioned within each .task-row
+    .task-row:hover {
+      padding-left: $border-breaker-width;
+      margin-left: -$border-breaker-width;
+    }
+
+    // Re-define mixin which is used for task-selected
+    .selected-element {
+      box-sizing: content-box;
+      padding: 3px;
+      margin: 3px 0 5px -5px;
     }
   }
 
