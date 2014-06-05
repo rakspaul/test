@@ -51,7 +51,7 @@ class Lineitem < ActiveRecord::Base
   after_create :create_nielsen_pricing
   after_validation :set_li_status, on: :create
 
-  scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
+  scope :in_standard_order, -> { includes([:geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end

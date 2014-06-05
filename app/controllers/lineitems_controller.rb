@@ -7,8 +7,8 @@ class LineitemsController < ApplicationController
 
   # GET orders/{order_id}/lineitems
   def index
-    @order = Order.includes(:lineitems => [ { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').references(:io_lineitems, :lineitem_assignments, :creatives).find(params[:order_id])
-    @lineitems = set_lineitem_status(@order.lineitems)
+    @order = Order.find(params[:order_id])
+    @lineitems = set_lineitem_status(@order.lineitems.in_standard_order)
 
     # find ads
     @ads = Ad.where(order_id: @order.id).load
@@ -25,6 +25,7 @@ class LineitemsController < ApplicationController
           @order.reload
 
           # create lineitems
+          index = 1
           @ads.group_by(&:alt_ad_id).each do |alt_ad_id, ads|
             ad = ads.first
             if ad.media_type.blank?
@@ -36,7 +37,7 @@ class LineitemsController < ApplicationController
 
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
-            li = Lineitem.create name: "Contract Line Item #{alt_ad_id}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ads.map{|add| add.size}.uniq.join(', '), user_id: current_user.id, alt_ad_id: alt_ad_id, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
+            li = Lineitem.create name: "Contract Line Item #{index}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ads.map{|add| add.size}.uniq.join(', '), user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
             if li.errors.blank?
               ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
@@ -60,6 +61,7 @@ class LineitemsController < ApplicationController
               ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
               ads.each{|ad| ad.update_attribute(:io_lineitem_id, li.id)}
               @lineitems << li
+              index += 1
             else
               Rails.logger.warn "Errors while creating lineitem ##{alt_ad_id}: " + li.errors.inspect
               raise ActiveRecord::Rollback
@@ -69,6 +71,7 @@ class LineitemsController < ApplicationController
           raise ActiveRecord::Rollback
         end
       end
+      @lineitems.sort!{|n,m| n.alt_ad_id.to_i <=> m.alt_ad_id.to_i}
     end
   end
 
