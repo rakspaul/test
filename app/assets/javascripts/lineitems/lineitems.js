@@ -251,7 +251,6 @@
 
       this.ui.start_date_editable.editable({
         success: function(response, newValue) {
-          console.log(newValue);
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('start_date', date);
