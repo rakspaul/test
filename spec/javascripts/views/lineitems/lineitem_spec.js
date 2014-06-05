@@ -12,7 +12,7 @@ describe('Line items views', function() {
     beforeEach(function() {
       this.order = new ReachUI.Orders.Order();
       this.lineitem = new ReachUI.LineItems.LineItem({
-        name:       'Pre-roll Video Line Item',
+        name:       'Display Line Item',
         start_date: '2013-06-01',
         end_date:   '2013-06-07',
         volume:     300124,
