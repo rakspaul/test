@@ -59,7 +59,11 @@ class LineitemsController < ApplicationController
               end
 
               ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
-              ads.each{|ad| ad.update_attribute(:io_lineitem_id, li.id)}
+
+              ads.each do |ad| 
+                ad.update_attributes({io_lineitem_id: li.id, reach_custom_kv_targeting: ad.keyvalue_targeting})
+              end
+
               @lineitems << li
               index += 1
             else
