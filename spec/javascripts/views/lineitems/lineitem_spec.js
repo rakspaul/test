@@ -4,8 +4,8 @@ describe('Line items views', function() {
     beforeEach(function() {
       this.lineitem = new ReachUI.LineItems.LineItem({
         name:       'Pre-roll Video Line Item',
-        start_date: '2014-03-21',
-        end_date:   '2014-03-28',
+        start_date: '2013-06-21',
+        end_date:   '2013-06-28',
         volume:     300124,
         rate:       1.9856,
         ad_sizes:   '1x1',
@@ -31,25 +31,18 @@ describe('Line items views', function() {
       });
 
       xit('should update start date attribute', function() {
-        console.log(this.view.model.get('start_date'));
         var startDate = this.view.$el.find('.start-date'),
-            date = new Date(2014, 6, 4),
+            date = new Date(),
             formattedDate = moment(date).format("YYYY-MM-DD");
 
-
+        startDate.find('.editable').editable('option', 'value', new Date(2012, 0, 1));
         startDate.find('.editable').editable('show');
-
-        //console.log(startDate);
-
-        startDate.find('.start-date-editable').html(formattedDate);
-        startDate.find('.editable').editable('setValue', date);
-        //startDate.datepicker('update', date);
-
-        console.log(startDate.find('.editable').editable('getValue'));
-        //startDate.find('button[type=submit]').click();
+        //console.log(startDate.find('.editable').datepicker('getStartDate'));
+        var days = startDate.find('.datepicker-days tbody');
+        //console.log(days);
         startDate.find('form').submit();
 
-        expect(this.view.model.get('start_date')).toBe('2014-06-04');
+        expect(this.view.model.get('start_date')).toBe(formattedDate);
       });
 
       it('should update name attribute', function() {
