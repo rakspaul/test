@@ -38,7 +38,7 @@ class LineitemsController < ApplicationController
 
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
-            li = Lineitem.create name: "Contract Line Item #{index}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ads.map{|add| add.size}.uniq.join(', '), user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
+            li = Lineitem.create name: "Contract Line Item #{index}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ads.map(&:size).uniq.join(', '), user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
             if li.errors.blank?
               ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
