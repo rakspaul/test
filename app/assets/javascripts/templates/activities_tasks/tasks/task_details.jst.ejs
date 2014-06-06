@@ -23,7 +23,7 @@
       </button>
     </div> -->
     <div>
-      <div id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed"?"active":"semi-transparent"%>">
+      <div id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
         <i class="green_check-icon"></i> <%= (task_state != 'closed' ? 'Close Task' : 'Closed') %>
       </div>
     </div>
