@@ -146,7 +146,7 @@ button.rui-btn {
 
 .task-comment-input-container {
   margin-left: 10px;
-  margin-right: 130px;
+  margin-right: 50px;
 }
 
 .activity-input-control {
@@ -159,20 +159,20 @@ button.rui-btn {
 
 .activity-comment-input-container {
   margin-left: 10px;
-  margin-right: 130px;
+  margin-right: 90px;
 }
 
 textarea#activity_input {
   resize: vertical;
-  width:430px;
-  height:20px;
+  width: 430px;
+  height: 20px;
 }
 
 .action-controls {
   float: right;
   box-sizing: border-box;
   width: 90px;
-  min-width: 90px;
+  min-width: 50px;
 
   #attachmentUploader {
     @extend .rui-btn;
