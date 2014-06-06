@@ -18,8 +18,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
         "click #loadMoreBtn": "loadMoreTasks"
       },
 
-      loadMoreTasks: function(e){
-        console.log("In load more tasks");
+      loadMoreTasks: function(){
         Tasks.List.Controller.loadMoreTasks();
       },
 

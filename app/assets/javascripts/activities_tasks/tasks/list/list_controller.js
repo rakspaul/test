@@ -8,6 +8,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     return emptyView;
   };
 
+  var _isLoadMoreVisible = function (taskLength) {
+    return !(taskLength == 0 || taskLength % ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH != 0);
+  }
+
   List.Controller = {
     showTasks: function(tasks) {
       if(tasks.length == 0) {
@@ -33,11 +37,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
           List.tasksListView.collection.add(task);
         });
       }
-      if(tasks.length == 0 || tasks.length%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH!=0){
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(false);
-      } else {
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(true);
-      }
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(
+          _isLoadMoreVisible(tasks.length)
+      );
     },
 
     showTaskComments: function(comments) {
@@ -68,11 +70,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       if(taskList.length == 0) {
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
       } else {
-        var tasksListView = new List.Tasks({
+        List.tasksListView = new List.Tasks({
           collection: taskList
         });
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(tasksListView);
+        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
       }
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(
+        _isLoadMoreVisible(taskList.length)
+      );
     }
   }
 });
