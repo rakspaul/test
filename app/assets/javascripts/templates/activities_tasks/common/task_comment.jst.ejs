@@ -3,16 +3,14 @@
     <%= created_by %>
   </div>
   <div class="pure-u-3-5">
-    <!-- TODO: Here should be `task_type` value if this is a task, or nothing otherwise; task could be Open or Done -->
-    <!-- TODO: Corresponding task icons will be shown -->
-    <% activity_icon_class = activity_type == "task" ? "task_done-icon" : "" %>
+    <% activity_icon_class = task_state == "closed" ? "task_done-icon" : "task_open-icon" %>
     <div class="<%= activity_icon_class %>"></div>
     <%= note %>
     <p class="activity-log-subrow">
       <!-- TODO: Put real data here if this log activity is a New Task -->
       <span class="task-type"><%= task_type%></span>
       <span class="task-assignee"><%= assignable_name%></span>
-      <span class="task-due-date"><%= moment(due_date).format('MM/DD/YYYY')%></span>
+      <span class="task-due-date"><%= moment(due_date).format('YYYY-MM-DD')%></span>
     </p>
     <div class="system-comment">
       <div class="pure-u-3-5">
@@ -21,6 +19,6 @@
     </div>
   </div>
   <div class="pure-u-1-6 date">
-    <%= moment(created_at).format("MM/DD/YYYY hh:mm") %>
+    <%= moment(created_at).format("YYYY-MM-DD hh:mm") %>
   </div>
 </div>

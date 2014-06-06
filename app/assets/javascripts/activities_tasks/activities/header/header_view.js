@@ -3,7 +3,7 @@
  */
 ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Header, ReachActivityTaskApp, Backbone, Marionette, $, _, JST, moment) {
 
-  TEXTAREA_DEFAULT_HEIGHT = 40;
+  TEXTAREA_DEFAULT_HEIGHT = 20;
 
   //Different activity types
   Header.ACTIVITY_TYPES = {   COMMENT: "user_comment",
@@ -99,7 +99,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     animateFilterControls: function (component, type) {
       //if filter is existed in the array then we have to reduce the opacity otherwise make opacity full
-      //when all filter is on, we have turn off other filters and make sure you have only all filter for the query.
+      //when all filter is on, we have to turn off other filters and make sure you have only "all" filter for the query.
       if(type == Header.ACTIVITY_TYPES.ALL){
         if(Header.filters.indexOf(type)==-1){
           //remove other filters when all filter is active
@@ -108,7 +108,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
           this.turnOffFilters(false);
         }
       } else {
-        //just turn off all filter.
+        //just turn off "all" filter.
         this.turnOffFilters(true);
       }
 
@@ -147,7 +147,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         }
       } else {
         var filterButtons = $(".header-controls").children();
-        //don't include all filter.
+        //don't include "all" filter.
         filterButtons = filterButtons.splice(0,filterButtons.length-1);
         _.each(filterButtons,function(filterButton){
             $(filterButton).removeClass("active");
@@ -175,27 +175,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
       if (this.ui.taskFormRegion.is(":visible")) {
         $("#due-date").datepicker();
+        //reset urgent icon style
+        $("#btnSaveAlert").removeClass("important active");
       }
     },
 
     // Save Handlers
     markAsImportant: function (e) {
-      /*  var element = $(e.target);
-
-       e.preventDefault();
-       console.log("marked as important");
-       if (Header.currentFormAction == Header.ACTIVITY_TYPES.TASK) {
-       this.ui.taskFormRegion.toggle();
-       }
-       if (Header.currentFormAction != Header.ACTIVITY_TYPES.ALERT) {
-       Header.currentFormAction = Header.ACTIVITY_TYPES.ALERT
-       } else {
-       Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
-       }
-       console.log("Current form action:" + Header.currentFormAction);
-       this.animateFormControls(Header.ACTIVITY_TYPES.ALERT);
-       element.toggleClass("important active");
-       this.model.set('important', element.hasClass('important')); */
+      e.preventDefault();
+      var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
+      element.toggleClass("important active");
+      this.model.set('important', element.hasClass('important'));
+      console.log("marked as important:"+ element.hasClass('important'));
     },
 
     saveComment: function (e) {

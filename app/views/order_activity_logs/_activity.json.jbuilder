@@ -25,4 +25,5 @@ if activity.task
   json.created_at format_date(activity.task.created_at)
   json.updated_at format_date(activity.task.updated_at)
   json.task_state activity.task.task_state
+  json.important  activity.task.important
 end

@@ -60,7 +60,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     onCompositeCollectionRendered: function() {
       this.appendHtml = function(collectionView, itemView, index) {
-        collectionView.$el.prepend(itemView.el);
+        collectionView.$el.append(itemView.el);
       }
     }
   });
@@ -174,16 +174,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.attachmentFileName.attr('data-attachment-id', '');
     },
 
-    closeTask: function() {
+    closeTask: function(e) {
+      e.preventDefault();
       if(this.model.get('task_state') == 'closed') {
-        this.ui.closeTaskContainer.html('Closed');
+        this.ui.closeTaskContainer.toggleClass('active disable');
         return;
       }
       this.model.set('task_state', 'closed');
       var self = this;
       this.model.save({ task_state: 'closed' }, {
         success: function() {
-          self.ui.closeTaskContainer.html('Closed');
+          self.ui.closeTaskContainer.toggleClass('active');
         },
 
         failure: function() {
@@ -192,13 +193,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       }, {patch: true});
     },
 
-    setPriority: function() {
-      this.model.set('important', 'true');
+    setPriority: function(e) {
+      e.preventDefault;
+      var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
+      this.model.set('important',element.hasClass("active"));
       var self = this;
-      this.model.save({ important: 'true' },
+      this.model.save({ important: element.hasClass("active")},
         {
           success: function() {
-            self.ui.prioritizeTaskContainer.addClass('selected');
+            self.ui.prioritizeTaskContainer.addClass('active');
           },
 
           failure: function() {

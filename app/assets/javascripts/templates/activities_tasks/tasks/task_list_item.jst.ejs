@@ -2,8 +2,8 @@
   <div id="task_<%= id %>" class="pure-u-1 task-details-container"></div>
   <div class="border-breaker"></div>
   <div class="task-comment pure-u-1-24">
-    <!-- TODO: Use 'important' property to determine whether to show alert-icon -->
-    <% var task_comment_icon = !!(true) ? "alert-icon" : (comments_size > 0 ? "comment-icon" : "") %>
+
+    <% var task_comment_icon = (important) ? "alert-icon" :"comment-icon" %>
     <span class="<%= task_comment_icon %> icon-wrapper">
       <!-- TODO: Instead of 'false' use 'important' flag-->
       <% if (comments_size > 0 && !false) { %>
@@ -12,8 +12,8 @@
     </span>
   </div>
   <div class="task-type pure-u-1-24 center">
-    <!--TODO: Icon should be based on current status of task - either open, done or closed -->
-    <i class="task_open-icon"></i>
+    <% task_icon_class = task_state == "closed" ? "task_done-icon" : "task_open-icon" %>
+    <div class="<%= task_icon_class %>"></div>
   </div>
   <div class="pure-u-1-2 task-name">
     <%= name %>
@@ -21,9 +21,10 @@
   <div class="pure-u-1-8 task-time">
     <%= created_at %>
   </div>
-  <div class="pure-u-1-24 center">
+  <!-- Follow icon is not required in the first phase -->
+  <!--<div class="pure-u-1-24 center">
     <div class="follow-icon"></div>
-  </div>
+  </div>-->
   <div class="pure-u-1-5 text-right">
     <%= assignable_name%>
   </div>

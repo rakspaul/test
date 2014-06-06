@@ -38,9 +38,6 @@
       <button id="btnShowTaskForm" class="rui-btn" title="Add Task">
         <i class="task_done-icon"></i>
       </button>
-      <button id="btnSaveAlert" class="rui-btn" title="Add Alert">
-        <i class="alert-icon"></i>
-      </button>
       <button id="btnSaveComment" class="rui-btn" title="Add Comment">
         <i class="comment_white-icon"></i>
       </button>
@@ -65,6 +62,9 @@
       <div class="pure-u-4-5 controls-container">
         <div class="pure-g">
           <div class="pure-u-1">
+            <button id="btnSaveAlert" class="rui-btn" title="Mark Task as important">
+              <i class="alert-icon"></i>
+            </button>
             <div class="task_open-icon"></div>
             <select id="task-types-selector" name="task_type_id">
               <% _.each(task_types, function(tt) { %>
@@ -78,7 +78,6 @@
               <option value="<%= user.id%>"><%= user.name%></option>
               <% }); %>
             </select>
-
             <div class="clock-icon"></div>
             <input type="text" class="span2" value="<%= moment(due_date).format("MM/DD/YYYY") %>" id="due-date" placeholder="Due Date">
           </div>

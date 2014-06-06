@@ -49,7 +49,8 @@ class OrderActivityLogsController < ApplicationController
                            :created_by => current_user,
                            :task_state => Task::TaskState::ASSIGNED,
                            :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
-                           :order_activity_log => activity
+                           :order_activity_log => activity,
+                           :important => task_params.delete(:important)
 
         task = Task.new(task_params)
         task.save!

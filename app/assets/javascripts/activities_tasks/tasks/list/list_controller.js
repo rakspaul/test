@@ -14,6 +14,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         });
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
       }
+
+      if(tasks.length == 0 || tasks.length%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH!=0){
+        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(false);
+      } else {
+        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(true);
+      }
     },
 
     showMoreTasks:function(tasks){
@@ -22,15 +28,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
           console.log("Task to add:"+JSON.stringify(task));
           List.tasksListView.collection.add(task);
         });
-        //present collection size
-        var collectionLength = List.tasksListView.collection.length;
-        if(collectionLength%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH == 0){
-          ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(true);
-        } else {
-          ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(false);
-        }
-      } else {
+      }
+      if(tasks.length == 0 || tasks.length%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH!=0){
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(false);
+      } else {
+        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(true);
       }
     },
 
