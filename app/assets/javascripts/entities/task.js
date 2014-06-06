@@ -1,16 +1,16 @@
 ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp, Backbone, Marionette, $, _){
 
   Entities.Task = Backbone.Model.extend({
-      defaults: {
-        original_filename: null
-      },
+    defaults: {
+      original_filename: null
+    },
 
-      url: function() {
-      if(this.isNew()) {
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
-      } else {
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
-      }
+    url: function() {
+    if(this.isNew()) {
+      return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
+    } else {
+      return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
+    }
     }
   });
 
@@ -22,9 +22,9 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   Entities.TaskCollection = Backbone.Collection.extend({
-        url: "/tasks/list_all.json"
-      }
-  );
+    url: "/tasks/list_all.json",
+    model: Entities.Task
+  });
 
   Entities.TaskType = Backbone.Model.extend({
   });
@@ -84,7 +84,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     getOrderTaskEntities: function(offset) {
-      var tasks = new Entities.TaskCollection(),
+      var tasks = new Entities.OrderTaskCollection(),
           filter = {},
           defer = $.Deferred();
 
@@ -101,7 +101,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           success: function(data) {
             defer.resolve(data);
           },
-          failure:function() {
+          error: function() {
             defer.resolve();
           }
         });
@@ -119,8 +119,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
         success: function() {
           defer.resolve();
         },
-
-        failure: function() {
+        error: function() {
           defer.resolve();
         }
       });
