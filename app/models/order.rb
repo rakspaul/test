@@ -29,6 +29,7 @@ class Order < ActiveRecord::Base
   before_save :move_end_date_time, :set_data_source
   after_create :set_import_note
   after_update :set_push_note
+  before_save :set_est_flight_dates
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -72,6 +73,25 @@ class Order < ActiveRecord::Base
     self.order_notes.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
   end
 
+  def set_import_note
+    if !self.order_notes.detect{|n| n.note == "Imported Order"}
+      self.order_notes.create note: "Imported Order", user: current_user, order: self
+    end
+  end
+
+  def set_upload_note
+    self.order_notes.create note: "Uploaded Order", user: current_user, order: self
+  end
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
+  end
+
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)
@@ -86,7 +106,7 @@ class Order < ActiveRecord::Base
     end
 
     def validate_start_date
-      errors.add :start_date, "start date cannot be in the past" if self.start_date < Time.zone.now.beginning_of_day
+      errors.add :start_date, "start date cannot be in the past" if self.start_date < Time.zone.now.to_date
     end
 
     def validate_end_date_after_start_date
@@ -117,13 +137,15 @@ class Order < ActiveRecord::Base
       pushed_to_dfp? ? false : true
     end
 
-    def set_import_note
-      self.order_notes.create note: "Imported Order", user: current_user, order: self
-    end
-
     def set_push_note
       if self.io_detail.state == 'pushing'
         self.order_notes.create note: "Pushed Order", user: current_user, order: self
       end
+    end
+
+    # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+    def set_est_flight_dates
+      self[:start_date] = read_attribute_before_type_cast('start_date').to_date.to_s+" 00:00:00"
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
     end
 end
