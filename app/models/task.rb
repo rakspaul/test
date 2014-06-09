@@ -22,7 +22,7 @@ class Task < ActiveRecord::Base
   has_many :task_activity_logs
   has_many :activity_attachments, :through => :task_activity_logs
 
-  validates :name, :presence => true
+  validates :name, :presence => true, :uniqueness => { :scope => :order_id }
   validates :task_type_id, :presence => true
   # validates :requested_by_id, presence: true
   validates :created_by_id, :presence => true

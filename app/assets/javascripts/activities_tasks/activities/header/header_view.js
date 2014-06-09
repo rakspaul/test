@@ -230,12 +230,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },
 
     onTaskTypeChanged: function (e) {
-      var $sel = $(e.target);
-      /*if ($sel.val() == 'pixel_request') {
-       $("#pixel-request-subform").show();
-       } else {
-       $("#pixel-request-subform").hide();
-       } */
       this.setTaskUsers();
       this.ui.taskFormRegion.show();
     },

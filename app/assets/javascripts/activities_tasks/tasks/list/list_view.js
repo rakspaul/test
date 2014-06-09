@@ -12,6 +12,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       'click': 'showTaskView'
     },
 
+//    initialize: function() {
+//      this.model.on('change', this.updateView, this);
+//    },
+//
+//    updateView: function() {
+//      this.render();
+//      this.delegateEvents();
+//      return this;
+//    },
+
     showTaskView: function(e) {
 
       //This piece of login helps in not refreshing continually task details region when click happens on task or task details region.
@@ -104,6 +114,29 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         prioritizeTaskContainer: '#btnMarkTaskUrgent'
       },
 
+      onShow: function() {
+        var self = this;
+        $('.task-details-table .task-name .editable').editable({
+          url: this.model.url(),
+          success: function(response, newValue) {
+            self.model.set('name', newValue);
+            $(self).parent().removeClass('field_with_errors');
+            $(self).siblings('.errors_container').html('');
+          }
+        });
+
+        $('.task-details-table .assignable-name .editable').editable({
+          url: this.model.url(),
+          success: function(response, newValue) {
+            console.log('Reached here 3');
+            var value = newValue.replace(/^\s+|\s+$/g,'');
+            self.model.set($(this).data('name'), value); //update backbone model;
+            $(this).parent().removeClass('field_with_errors');
+            $(this).siblings('.errors_container').html('');
+          }
+        });
+      },
+
       onDomRefresh: function() {
         this.ui.attachmentFileNameContainer.hide();
 
@@ -149,11 +182,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       comment.set('note', data);
       comment.set('activity_type', 'user_comment');
       comment.set('activity_attachment_id', attachment_id);
-      comment.setTask(this.options.task);
+      comment.setTask(this.model);
 
       List.Controller.saveTaskComment(comment, {task: this.options.task});
 
-      this.ui.taskActivityInput.html('');
+      this.ui.taskActivityInput.val('');
       this._resetAttachmentContainer();
     },
 
@@ -180,34 +213,41 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.ui.closeTaskContainer.toggleClass('active disable');
         return;
       }
-      this.model.set('task_state', 'closed');
       var self = this;
-      this.model.save({ task_state: 'closed' }, {
+      this.model.save({task_state: 'closed'}, {
         success: function() {
+          self.model.set('task_state', 'closed');
           self.ui.closeTaskContainer.toggleClass('active');
         },
 
-        failure: function() {
+        error: function() {
           console.log('task model update failed');
-        }
-      }, {patch: true});
+        },
+
+        patch: true});
     },
 
     setPriority: function(e) {
       e.preventDefault;
-      var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
-      this.model.set('important',element.hasClass("active"));
+      var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
       var self = this;
-      this.model.save({ important: element.hasClass("active")},
-        {
-          success: function() {
-            self.ui.prioritizeTaskContainer.addClass('active');
-          },
-
-          failure: function() {
-            console.log('task model update failed');
+      this.model.save({important: !element.hasClass("active")}, {
+        success: function() {
+          if(element.hasClass('active')) {
+            element.removeClass('active');
+            element.addClass('semi-transparent');
+          } else {
+            element.addClass('active');
+            element.removeClass('semi-transparent');
           }
-        }, {patch: true});
+          self.model.set('important', element.hasClass("active"));
+        },
+
+        error: function() {
+          console.log('task model update failed');
+        },
+
+        patch: true});
     }
   });
 

@@ -46,6 +46,10 @@ class FileUploadController < ApplicationController
                                                  :content_type => file.content_type
     activity_attachment.uploaded_file = file
 
+    # file_hash = ActivityAttachment.generate_file_hash(activity_attachment.uploaded_file.tempfile.path)
+    # if existing_attachment = ActivityAttachment.find_by_file_hash(file_hash)
+    #   return existing_attachment
+    # end
     activity_attachment.save!
 
     activity_attachment

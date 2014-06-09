@@ -29,11 +29,25 @@ class TasksController < ApplicationController
   # end
 
   def update
-    task_params = params[:task].merge updated_by: current_user
-    task_params.permit!
-    @task.update task_params
+    task_params = if params[:pk]
+                    #update from bootstrap editable
+                    {params[:name] => params[:value]}
+                  elsif params[:task]
+                    #update from backbone save
+                    params[:task].permit!
+                  end
+
+    task_params.merge! updated_by: current_user
+    @task.update! task_params
 
     render :json => {:status => :ok}, :status => 200
+
+  rescue ActiveRecord::RecordInvalid => e
+    if @task.errors.present?
+      render :json => @task.errors.messages[task_params.keys.first.to_sym].first, :status => 500
+    else
+      render :json => {:status => :error}, :status => 500
+    end
   end
 
   def task_types

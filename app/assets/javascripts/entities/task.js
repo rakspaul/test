@@ -136,8 +136,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
     saveTaskComment: function(comment) {
       var defer = $.Deferred();
-      comment.save({
+      comment.save(comment.attributes, {
         success: function() {
+          var comments_count = (comment.task.get('comments_size') || 0) + 1;
+          comment.task.set('comments_size', comments_count);
           defer.resolve();
         },
 

@@ -37,6 +37,10 @@ class ActivityAttachment < ActiveRecord::Base
     @uploaded_file = val
   end
 
+  def self.generate_file_hash file_path
+    Digest::SHA1.file(file_path).hexdigest
+  end
+
   private
 
   def save_uploaded_file
@@ -46,6 +50,6 @@ class ActivityAttachment < ActiveRecord::Base
   end
 
   def generate_file_hash
-    self.file_hash = Digest::SHA1.file(self.uploaded_file.tempfile.path).hexdigest
+    self.file_hash = self.class.generate_file_hash(self.uploaded_file.tempfile.path)
   end
 end
