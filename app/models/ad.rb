@@ -54,8 +54,8 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
+  before_create :create_random_source_id       before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site, :set_est_flight_dates
+
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -65,6 +65,15 @@ class Ad < ActiveRecord::Base
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
+  end
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
   end
 
   def type
@@ -229,5 +238,17 @@ class Ad < ActiveRecord::Base
 
   def set_platform_site
     self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
+  end
+
+private
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def set_est_flight_dates
+    if self[:start_date]
+      self[:start_date] = read_attribute_before_type_cast('start_date').to_date.to_s+" 00:00:00"
+    end
+    if self[:end_date]
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
   end
 end
