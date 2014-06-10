@@ -12,16 +12,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       'click': 'showTaskView'
     },
 
-//    initialize: function() {
-//      this.model.on('change', this.updateView, this);
-//    },
-//
-//    updateView: function() {
-//      this.render();
-//      this.delegateEvents();
-//      return this;
-//    },
-
     showTaskView: function(e) {
 
       // This piece of logic helps in not refreshing continually task details region
@@ -51,7 +41,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.collection.selectedTask = this;
       this.$el.addClass('task-selected');
 
-      ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion});
+      ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion, taskView: this});
 
       List.currentTaskId = this.model.id;
     }
@@ -78,91 +68,173 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
   });
 
   List.TaskDetailView = Backbone.Marionette.ItemView.extend({
-    template: JST['templates/activities_tasks/tasks/task_details'],
+    template: JST['templates/activities_tasks/tasks/task_detail'],
 
-    model: List.Task,
+    model: ReachActivityTaskApp.Entities.Task,
 
-    className: 'task-details-table',
+    itemViewContainer: 'div .task-detail-container',
 
-      events: {
-        'click .task-detail-view-close' : '_closeTaskDetailView',
-        'click #btnSaveTaskComment' : 'saveTaskComment',
-        'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment',
-        'click #btnMarkTaskDone': 'closeTask',
-        'click #btnMarkTaskUrgent': 'setPriority'
-      },
+    initialize: function() {
+      this.model.on('change', this.updateView, this);
+    },
 
-      _closeTaskDetailView: function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        this.close();
-        this.options.parentRegion.close();
-        List.currentTaskId = undefined;
-      },
+    updateView: function() {
+      this.render();
+      this.delegateEvents();
+      return this;
+    },
 
-      onClose: function() {
-        if(this.model.collection.selectedTask) {
-          this.model.collection.selectedTask.$el.removeClass('task-selected');
+    events: {
+      'click .task-detail-view-close' : '_closeTaskDetailView',
+      'click #btnMarkTaskDone': 'closeTask',
+      'click #btnMarkTaskUrgent': 'setPriority'
+    },
+
+    ui: {
+      closeTaskContainer: '#btnMarkTaskDone',
+      prioritizeTaskContainer: '#btnMarkTaskUrgent'
+    },
+
+    _closeTaskDetailView: function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.close();
+      this.options.parentRegion.close();
+      List.currentTaskId = undefined;
+      this.options.taskView.render();
+    },
+
+    onClose: function() {
+      if(this.model.collection.selectedTask) {
+        this.model.collection.selectedTask.$el.removeClass('task-selected');
+      }
+    },
+
+    onRender: function() {
+      this.onShow();
+    },
+
+    onShow: function() {
+      if(this.model.isClosed()) {
+        return;
+      }
+      var self = this;
+      $('.task-details-table .task-name .editable').editable({
+        url: this.model.url(),
+        success: function(response, newValue) {
+          self.model.set('name', newValue);
+          $(self).parent().removeClass('field_with_errors');
+          $(self).siblings('.errors_container').html('');
         }
-      },
+      });
 
-      ui: {
-        taskActivityInput: '#task_comment_input',
-        saveAttachment: "#btnSaveTaskAttachment",
-        attachmentFileName: "#task-attachment-file-name",
-        attachmentFileNameContainer: '#btnRemoveTaskAttachment',
-        attachmentFileUploader: ".task-comment-input-control #attachmentUploader",
-        closeTaskContainer: '#btnMarkTaskDone',
-        prioritizeTaskContainer: '#btnMarkTaskUrgent'
-      },
-
-      onShow: function() {
-        var self = this;
-        $('.task-details-table .task-name .editable').editable({
-          url: this.model.url(),
-          success: function(response, newValue) {
-            self.model.set('name', newValue);
-            $(self).parent().removeClass('field_with_errors');
-            $(self).siblings('.errors_container').html('');
-          }
-        });
-
-        $('.task-details-table .assignable-name .editable').editable({
-          url: this.model.url(),
-          success: function(response, newValue) {
-            console.log('Reached here 3');
-            var value = newValue.replace(/^\s+|\s+$/g,'');
-            self.model.set($(this).data('name'), value); //update backbone model;
-            $(this).parent().removeClass('field_with_errors');
-            $(this).siblings('.errors_container').html('');
-          }
-        });
-      },
-
-      onDomRefresh: function() {
-        this.ui.attachmentFileNameContainer.hide();
-
-        var self = this;
-        this.ui.saveAttachment.fileupload({
-                dataType: 'json',
-                url: '/file_upload.json',
-                formData: {attachment_type: 'task_activity_attachment'},
-                dropZone: this.ui.saveAttachment,
-                pasteZone: null,
-//            start: _uploadStarted,
-                done: _uploadSuccess,
-                fail: _uploadFailure
-        });
-
-        function _uploadSuccess(e, response) {
-          console.log(JSON.stringify(response.result));
-          self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
-          self.ui.attachmentFileName.text(response.result.original_filename);
-          self.ui.attachmentFileNameContainer.show();
-          self.ui.attachmentFileUploader.toggleClass("active");
-          self.ui.attachmentFileName.attr('data-attachment-id', response.result.id);
-          self.model.set('activity_attachment_id', response.result.id);
+      $('.task-details-table .assignable-name .editable').editable({
+        url: this.model.url(),
+        success: function(response, newValue) {
+          console.log('Reached here 3');
+          var value = newValue.replace(/^\s+|\s+$/g,'');
+          self.model.set($(this).data('name'), value); //update backbone model;
+          $(this).parent().removeClass('field_with_errors');
+          $(this).siblings('.errors_container').html('');
         }
+      });
+    },
+
+    closeTask: function(e) {
+      e.preventDefault();
+      if(this.model.isClosed()) {
+        this.ui.closeTaskContainer.toggleClass('active disable');
+        return;
+      }
+      var self = this;
+      this.model.save({task_state: 'closed'}, {
+        success: function() {
+          self.model.set('task_state', 'closed');
+          self.ui.closeTaskContainer.toggleClass('active');
+        },
+
+        error: function() {
+          console.log('task model update failed');
+        },
+
+        patch: true});
+    },
+
+    setPriority: function(e) {
+      e.preventDefault;
+      if(this.model.isClosed()) {
+        return;
+      }
+      var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
+      var self = this, newDueDate = moment().add('days', 2), curDueDate = moment(this.model.get('due_date'));
+      if(curDueDate > newDueDate && !this.model.isPrioritized()) {
+        // Prioritizing the task now
+        curDueDate = newDueDate;
+      }
+      this.model.save({important: !element.hasClass("active"), due_date: curDueDate}, {
+        success: function() {
+          if(element.hasClass('active')) {
+            element.removeClass('active');
+            element.addClass('semi-transparent');
+            curDueDate = moment().add('days', 7);
+          } else {
+            element.addClass('active');
+            element.removeClass('semi-transparent');
+          }
+          self.model.set('important', element.hasClass("active"));
+          self.model.set('due_date', curDueDate);
+        },
+
+        error: function() {
+          console.log('task model update failed');
+        },
+
+        patch: true});
+    }
+  });
+
+  List.TaskCommentInputView = Backbone.Marionette.ItemView.extend({
+    template: JST['templates/activities_tasks/tasks/task_comment_input'],
+
+    model: ReachActivityTaskApp.Entities.TaskComment,
+
+    events: {
+      'click #btnSaveTaskComment' : 'saveTaskComment',
+      'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment'
+    },
+
+    ui: {
+      taskActivityInput: '#task_comment_input',
+      saveAttachment: "#btnSaveTaskAttachment",
+      attachmentFileName: "#task-attachment-file-name",
+      attachmentFileNameContainer: '#btnRemoveTaskAttachment',
+      attachmentFileUploader: ".task-comment-input-control #attachmentUploader"
+    },
+
+    onDomRefresh: function() {
+      this.ui.attachmentFileNameContainer.hide();
+
+      var self = this;
+      this.ui.saveAttachment.fileupload({
+        dataType: 'json',
+        url: '/file_upload.json',
+        formData: {attachment_type: 'task_activity_attachment'},
+        dropZone: this.ui.saveAttachment,
+        pasteZone: null,
+//      start: _uploadStarted,
+        done: _uploadSuccess,
+        fail: _uploadFailure
+      });
+
+      function _uploadSuccess(e, response) {
+        console.log(JSON.stringify(response.result));
+        self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
+        self.ui.attachmentFileName.text(response.result.original_filename);
+        self.ui.attachmentFileNameContainer.show();
+        self.ui.attachmentFileUploader.toggleClass("active");
+        self.ui.attachmentFileName.attr('data-attachment-id', response.result.id);
+        self.model.set('activity_attachment_id', response.result.id);
+      }
 
       function _uploadFailure(e, response) {
         self.ui.attachmentFileName.text('Upload failed');
@@ -184,7 +256,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       comment.set('note', data);
       comment.set('activity_type', 'user_comment');
       comment.set('activity_attachment_id', attachment_id);
-      comment.setTask(this.model);
+      comment.setTask(this.options.task);
 
       List.Controller.saveTaskComment(comment, {task: this.options.task});
 
@@ -196,8 +268,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       e.stopPropagation();
       e.preventDefault();
       $.ajax('/file_delete/' + this.ui.attachmentFileName.attr('data-attachment-id'), {
-          dataType: 'json',
-          context: this
+        dataType: 'json',
+        context: this
       }).success(this._resetAttachmentContainer);
     },
 
@@ -207,49 +279,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.attachmentFileNameContainer.hide();
       this.ui.attachmentFileUploader.removeClass("active");
       this.ui.attachmentFileName.attr('data-attachment-id', '');
-    },
-
-    closeTask: function(e) {
-      e.preventDefault();
-      if(this.model.get('task_state') == 'closed') {
-        this.ui.closeTaskContainer.toggleClass('active disable');
-        return;
-      }
-      var self = this;
-      this.model.save({task_state: 'closed'}, {
-        success: function() {
-          self.model.set('task_state', 'closed');
-          self.ui.closeTaskContainer.toggleClass('active');
-        },
-
-        error: function() {
-          console.log('task model update failed');
-        },
-
-        patch: true});
-    },
-
-    setPriority: function(e) {
-      e.preventDefault;
-      var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
-      var self = this;
-      this.model.save({important: !element.hasClass("active")}, {
-        success: function() {
-          if(element.hasClass('active')) {
-            element.removeClass('active');
-            element.addClass('semi-transparent');
-          } else {
-            element.addClass('active');
-            element.removeClass('semi-transparent');
-          }
-          self.model.set('important', element.hasClass("active"));
-        },
-
-        error: function() {
-          console.log('task model update failed');
-        },
-
-        patch: true});
     }
   });
 

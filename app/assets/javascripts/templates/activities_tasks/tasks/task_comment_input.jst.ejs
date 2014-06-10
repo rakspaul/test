@@ -1,0 +1,23 @@
+  <div class="username pure-u-1-5">
+    <%= window.current_user_name%>
+  </div>
+  <div class="pure-u-2-3">
+    <div class="action-controls">
+      <div id="attachmentUploader">
+        <input type="file" name="file" id="btnSaveTaskAttachment" class="attachment-file-upload">
+        <i class="attachment-icon"></i>
+      </div>
+      <button id="btnSaveTaskComment" class="rui-btn" title="Add Comment">
+        <div class="comment_white-icon"></div>
+      </button>
+    </div>
+    <div class="task-comment-input-container">
+      <textarea id="task_comment_input" placeholder="Note" rows="2" cols="26"></textarea>
+    </div>
+    <div class="rui-btn" id="btnRemoveTaskAttachment">
+      <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
+      <i class="attachment-type archive-icon"></i>
+      <a id="task-attachment-file-name" href=""></a>
+      <i class="remove-btn"></i>
+    </div>
+  </div>

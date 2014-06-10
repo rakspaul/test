@@ -6,12 +6,22 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     url: function() {
-    if(this.isNew()) {
-      return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
-    } else {
-      return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
+      if(this.isNew()) {
+        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
+      } else {
+        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
+      }
+    },
+
+    isClosed: function() {
+      return this.get('task_state') == 'closed';
+    },
+
+    isPrioritized: function() {
+      return this.get('important');
     }
-    }
+
+
   });
 
   Entities.OrderTaskCollection = Backbone.Collection.extend({

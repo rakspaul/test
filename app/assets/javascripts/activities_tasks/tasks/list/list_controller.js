@@ -43,13 +43,19 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     showTaskComments: function(comments) {
-      var taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentRegion();
+      var taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentsRegion();
       if(comments.length == 0) {
         taskCommentsRegion.show(_prepareEmptyListView("Task comments"));
       } else {
         var taskCommentsView = new List.TaskCommentListView({collection: comments});
         taskCommentsRegion.show(taskCommentsView);
       }
+    },
+
+    showTaskCommentInput: function(options) {
+//      var taskCommentInputRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentInputRegion();
+      var comment = new ReachActivityTaskApp.Entities.TaskComment();
+      options.myRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskCommentInputView(_.extend(options, {model: comment})));
     },
 
     saveTaskComment: function(comment, options) {

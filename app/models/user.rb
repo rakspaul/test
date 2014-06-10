@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   CLIENT_TYPE_AGENCY = "Agency"
   CLIENT_TYPE_NETWORK = "Network"
+  DEFAULT_TIMEZONE = "Eastern Time (US & Canada)"
 
   belongs_to :network, :foreign_key => 'company_id'
   belongs_to :agency

@@ -31,15 +31,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
       }
     });
 
-  Tasks.CommentsLayout = Marionette.Layout.extend({
-    template: JST['templates/activities_tasks/tasks/task_comment_list'],
+  Tasks.TaskDetailsLayout = Marionette.Layout.extend({
+    template: JST['templates/activities_tasks/tasks/task_details'],
 
     regions: {
-      taskCommentsRegion: '.task-comments-container'
+      taskDetailRegion: '.task-detail-container',
+      taskCommentsRegion: '.task-comments-container',
+      taskCommentInputRegion: '.task-comment-input-control'
     }
   });
 
-  Tasks.TaskCommentRegion = Backbone.Marionette.Region.extend({
+  Tasks.TaskCommentsRegion = Backbone.Marionette.Region.extend({
     el: '.task-comments-container'
   });
 
@@ -130,14 +132,20 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function(options) {
+
+    var taskDetailsLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskDetailsLayout();
+    options.aRegion.show(taskDetailsLayout);
+
     var taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
       model: options.task,
       parentRegion: options.aRegion,
-      task: options.task
+      taskView: options.taskView
     });
-    options.aRegion.show(taskDetailView);
 
     ReachActivityTaskApp.trigger("taskComments:list", options);
+    taskDetailsLayout.taskDetailRegion.show(taskDetailView);
+    Tasks.List.Controller.showTaskCommentInput(_.extend(options, {myRegion: taskDetailsLayout.taskCommentInputRegion}));
+//    ReachActivityTaskApp.trigger("taskComments:list", _.extend(options, {myRegion: taskDetailsLayout.taskCommentsRegion}));
   });
 
   ReachActivityTaskApp.on("taskComments:list", function(options) {

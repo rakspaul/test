@@ -58,7 +58,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
 
     loadIncrementalView: function(e){
       e.preventDefault();
-      List.currentOffset = this.collection.length+1;
+      List.currentOffset = this.collection.length;
       console.log("The result offset is:"+List.currentOffset);
       List.Controller.loadMoreActivities(List.currentOffset);
     },

@@ -19,7 +19,7 @@
     <%= name %>
   </div>
   <div class="pure-u-1-8 task-time">
-    <%= created_at %>
+    <%= moment(due_date).format('YYYY-MM-DD') %>
   </div>
   <!-- Follow icon is not required in the first phase -->
   <!--<div class="pure-u-1-24 center">

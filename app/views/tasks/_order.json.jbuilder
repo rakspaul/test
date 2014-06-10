@@ -1,6 +1,6 @@
 json.id task.id
 json.name task.name
-json.due_date format_date(task.due_date)
+json.due_date format_datetime_with_tz(task.due_date)
 json.completion_date task.completion_date
 json.created_by_id task.created_by_id
 json.created_by task.created_by.try(:full_name)
@@ -13,8 +13,7 @@ json.requested_by task.requested_by.try(:full_name)
 json.order_id @order.try(:id)
 json.assignable_id task.assignable_id
 json.assignable_name task.assignable.try(:full_name)
-json.created_at format_date(task.created_at)
-json.updated_at format_date(task.updated_at)
+json.created_at format_datetime_with_tz(task.created_at)
 json.task_state task.task_state
 json.important task.important
 json.comments_size task.task_activity_logs.size

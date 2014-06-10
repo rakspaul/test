@@ -1,0 +1,65 @@
+<button class="rui-btn task-detail-view-close semi-transparent">
+  <i class="close-icon"></i>
+</button>
+
+<div class="pure-g">
+  <div class="pure-u-1-5">
+    <span class="username"><%= created_by %></span>
+  </div>
+  <div class="task-name pure-u-1-2">
+    <i class="task_open-icon"></i>
+    <span class="editable custom" data-type="textarea" data-pk="<%= id %>" data-name="name" data-mode="popup" data-rows="2" data-cols="5" data-inputclass="wide-editable-text"><%= name %></span>
+  </div>
+  <div class="pure-u-1-5 task-time">
+    <%= moment(created_at).fromNow() %>
+  </div>
+</div>
+
+<div class="pure-g">
+  <div class="pure-u-1-5">
+    <!--<div>
+      <button id="btnFollowTask" class="rui-btn semi-transparent">
+        <i class="follow-icon"></i> Follow
+      </button>
+    </div> -->
+    <div>
+      <div id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
+        <i class="green_check-icon"></i> <%= (task_state != 'closed' ? 'Close Task' : 'Closed') %>
+      </div>
+    </div>
+    <div>
+      <button id="btnMarkTaskUrgent" class="rui-btn <%= important ? 'active' : 'semi-transparent' %>">
+        <i class="alert-icon"></i> Urgent
+      </button>
+    </div>
+  </div>
+  <div class="task-type pure-u-1-4">
+    <div>
+      <select id="task-types-selector" name="task_type_id">
+        <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
+          <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
+        <%}); %>
+      </select>
+    </div>
+    <div>
+      <% if(original_filename) { %>
+        <a href="/file_import/<%= attachment_id %>" class="task-attachment">
+          <!-- TODO: Put here corresponding icon based on file type -->
+          <i class="attachment-type archive-icon"></i> <%= original_filename %>
+        </a>
+      <% } %>
+    </div>
+  </div>
+  <div class="pure-u-1-4 assignable-name">
+    <div>
+      <i class="user-icon"></i>
+      <span class="editable custom" data-type="select" data-pk="<%= id %>" data-name="task_type" data-mode="inline" data-inputclass="wide-editable-text"><%= assignable_name %></span>
+    </div>
+    <div>
+      <i class="task_created_by-icon"></i> <%= created_by %>
+    </div>
+  </div>
+  <div class="pure-u-1-5">
+    <i class="clock-icon"></i> <%= due_date ? moment(due_date).endOf('day').fromNow() : "" %>
+  </div>
+</div>
