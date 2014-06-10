@@ -23,6 +23,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
+
+    // Utilize ReachUI Activity/Tasks Application
+    ReachActivityTaskApp.start({parentLayout: this.orderDetailsLayout});
   },
 
   newOrder: function() {

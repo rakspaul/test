@@ -24,13 +24,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     showTaskView: function(e) {
 
-      //This piece of login helps in not refreshing continually task details region when click happens on task or task details region.
-      //On close of task details region, the value will be undefined for the current task id.
+      // This piece of logic helps in not refreshing continually task details region
+      // when click happens on task or task details region.
+      // On close of task details region, the value will be undefined for the current task id.
       if(List.currentTaskId != undefined){
         if(List.currentTaskId == this.model.id){
           return;
         }
       }
+
       // Create region from container within this row
       var taskDetailsRegion = this.addRegion("task_" + this.model.id + "_region", "#task_" + this.model.id);
 
