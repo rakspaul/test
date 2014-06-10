@@ -52,8 +52,8 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_est_flight_dates
+  before_create :create_random_source_id, :set_est_flight_dates
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
