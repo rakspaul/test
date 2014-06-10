@@ -46,7 +46,7 @@ class Lineitem < ActiveRecord::Base
 
   before_create :generate_alt_ad_id
   before_create :set_default_buffer
-  before_save :sanitize_ad_sizes, :move_end_date_time, :set_est_flight_dates
+  before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
 
@@ -156,6 +156,7 @@ class Lineitem < ActiveRecord::Base
     "#{ ad_size.gsub(/,/, ' ') }"
   end
 
+=begin
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def start_date
     read_attribute_before_type_cast('start_date').to_date
@@ -164,6 +165,7 @@ class Lineitem < ActiveRecord::Base
   def end_date
     read_attribute_before_type_cast('end_date').to_date
   end
+=end
 
   private
 
@@ -214,6 +216,7 @@ class Lineitem < ActiveRecord::Base
       str.gsub(/&amp;/m, '&').gsub(/&gt;/m, '>').gsub(/&lt;/m, '<').gsub(/&quot;/m, '"').gsub(/&#39;/m, "'")
     end
 
+=begin
     # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
     def set_est_flight_dates
       start_date = read_attribute_before_type_cast('start_date').to_date
@@ -223,4 +226,5 @@ class Lineitem < ActiveRecord::Base
       self[:start_date] = "#{start_date} #{start_time}"
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
     end
+=end
 end

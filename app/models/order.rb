@@ -29,7 +29,6 @@ class Order < ActiveRecord::Base
   before_save :move_end_date_time, :set_data_source
   after_create :set_import_note
   after_update :set_push_note
-  before_save :set_est_flight_dates
 
   scope :latest_updated, -> { order("last_modified desc") }
   scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
@@ -84,6 +83,7 @@ class Order < ActiveRecord::Base
   end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+=begin
   def start_date
     read_attribute_before_type_cast('start_date').to_date
   end
@@ -91,7 +91,7 @@ class Order < ActiveRecord::Base
   def end_date
     read_attribute_before_type_cast('end_date').to_date
   end
-
+=end
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)
@@ -142,7 +142,7 @@ class Order < ActiveRecord::Base
         self.order_notes.create note: "Pushed Order", user: current_user, order: self
       end
     end
-
+=begin
     # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
     def set_est_flight_dates
       start_date = read_attribute_before_type_cast('start_date').to_date
@@ -152,4 +152,5 @@ class Order < ActiveRecord::Base
       self[:start_date] = "#{start_date} #{start_time}"
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
     end
+=end
 end
