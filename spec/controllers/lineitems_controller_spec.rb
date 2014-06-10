@@ -15,11 +15,13 @@ describe LineitemsController do
 
     before do
       @order = FactoryGirl.create :dfp_pulled_order
-      creative = FactoryGirl.create :creative
-      creative2 = FactoryGirl.create :creative
+      creative = FactoryGirl.create :creative, size: "320x200"
+      creative2 = FactoryGirl.create :creative, size: "160x600"
       video_creative = FactoryGirl.create :video_creative
       video_creative2 = FactoryGirl.create :video_creative
       @ad1 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1", alt_ad_id: '1'
+      FactoryGirl.create :ad_assignment, ad: @ad1, creative: creative, start_date: @ad1.start_date, end_date: @ad1.end_date
+      FactoryGirl.create :ad_assignment, ad: @ad1, creative: creative2, start_date: @ad1.start_date, end_date: @ad1.end_date
       @city = FactoryGirl.create(:city)
       @dma = FactoryGirl.create(:designated_market_area)
       @state = FactoryGirl.create(:state)
@@ -32,7 +34,7 @@ describe LineitemsController do
       ad3 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #3", alt_ad_id: '2', size: "320x200"
       FactoryGirl.create :ad_pricing, ad_id: @ad1.id
       FactoryGirl.create :ad_pricing, ad_id: ad2.id
-      FactoryGirl.create :ad_assignment, ad: @ad1, creative: creative, start_date: @ad1.start_date, end_date: @ad1.end_date
+      
       FactoryGirl.create :ad_assignment, ad: ad2, creative: creative2, start_date: ad2.start_date, end_date: ad2.end_date
       FactoryGirl.create :video_ad_assignment, ad: @ad1, video_creative: video_creative, start_date: @ad1.start_date, end_date: @ad1.end_date
       FactoryGirl.create :video_ad_assignment, ad: ad2, video_creative: video_creative2, start_date: ad2.start_date, end_date: ad2.end_date
@@ -45,9 +47,10 @@ describe LineitemsController do
       expect {
         xhr :get, :index, {order_id: @order.id}
       }.to change{@order.lineitems.count}.by(2)
-      expect(@order.lineitems.first.ads.count).to eq(2)
-      expect(@order.lineitems.first.ad_sizes).to eq("320x200,160x600")
-      expect(@order.lineitems.last.ads.count).to eq(1)
+
+      ad1_li = @order.lineitems.detect{|li| li.ads.include?(@ad1)}
+      expect(ad1_li.ad_sizes).to eq("320x200,160x600")
+      expect(ad1_li.ads.count).to eq(1)
     end
 
     it "names LIs consequently" do
@@ -65,9 +68,8 @@ describe LineitemsController do
     it "creates lineitem_assignments for creatives" do
       xhr :get, :index, {order_id: @order.id}
 
-      @order.lineitems.map do |li|
-        expect(li.creatives.count).to eq(1)
-      end 
+      ad1_li = @order.lineitems.detect{|li| li.ads.include?(@ad1)}
+      expect(ad1_li.creatives.count).to eq(2)
     end
 
     it "sets *uploaded* flag on lineitem to false" do
