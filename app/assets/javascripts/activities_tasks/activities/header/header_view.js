@@ -91,6 +91,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         self.ui.attachmentFileNameContainer.show();
       }
 
+      // Initialize bootstrap select
+      this.ui.taskTypeSelector.selectpicker();
+      this.ui.taskAssigneeSelector.selectpicker();
     },
 
     initialize: function () {
@@ -236,9 +239,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     setTaskUsers: function () {
       var taskType = this.ui.taskTypeSelector.val();
-      var thisTaskType = _.find(ReachActivityTaskApp.taskTypes, function (type) {
-        return type.get('id') == taskType;
-      });
+      var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
       this.model.set('users', thisTaskType.get('users'));

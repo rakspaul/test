@@ -130,7 +130,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           defer.resolve();
         },
         error: function() {
-          defer.resolve();
+          defer.reject();
         }
       });
     },
@@ -144,8 +144,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           defer.resolve(data);
         },
 
-        failure: function() {
-          defer.resolve();
+        error: function() {
+          defer.reject();
         }
       });
 
@@ -160,8 +160,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           success: function(data) {
             defer.resolve(data);
           },
-          failure: function() {
-            defer.resolve();
+          error: function() {
+            defer.reject();
           }
       });
       return defer.promise();

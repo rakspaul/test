@@ -1,0 +1,17 @@
+.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  min-width: 120px;
+  width: 150px;
+}
+
+.bootstrap-select {
+  > .btn {
+    padding-right: 5px;
+  }
+
+  &.btn-group {
+    &:not(.input-group-btn),
+    [class*="span"] {
+      margin-bottom: 0;
+    }
+  }
+}

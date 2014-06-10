@@ -66,14 +66,14 @@
               <i class="alert-icon"></i>
             </button>
             <div class="task_open-icon"></div>
-            <select id="task-types-selector" name="task_type_id">
+            <select id="task-types-selector" name="task_type_id" class="selectpicker">
               <% _.each(task_types, function(tt) { %>
               <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
               <%}); %>
             </select>
 
             <div class="user-icon"></div>
-            <select id="task-assignee-selector">
+            <select id="task-assignee-selector" class="selectpicker">
               <% _.each(users, function(user) { %>
               <option value="<%= user.id%>"><%= user.name%></option>
               <% }); %>

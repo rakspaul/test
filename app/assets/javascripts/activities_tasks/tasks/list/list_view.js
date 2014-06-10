@@ -41,6 +41,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.collection.selectedTask = this;
       this.$el.addClass('task-selected');
 
+      // Set list of available users who could be an assignee
+      var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: this.model.get("task_type_id")});
+      this.model.set("users", currentTaskType ? currentTaskType.get("users") : []);
+
       ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion, taskView: this});
 
       List.currentTaskId = this.model.id;
@@ -87,12 +91,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     events: {
       'click .task-detail-view-close' : '_closeTaskDetailView',
       'click #btnMarkTaskDone': 'closeTask',
-      'click #btnMarkTaskUrgent': 'setPriority'
+      'click #btnMarkTaskUrgent': 'setPriority',
+      'click #taskDueDateText': 'onDueDateTextClicked'
     },
 
     ui: {
       closeTaskContainer: '#btnMarkTaskDone',
-      prioritizeTaskContainer: '#btnMarkTaskUrgent'
+      prioritizeTaskContainer: '#btnMarkTaskUrgent',
+      taskTypeSelector: '#taskTypeSelector',
+      assigneeSelector: '#assigneeSelector',
+      dueDatePicker: '#createdTaskDueDate',
+      taskDueDateTextHolder: "#taskDueDateText"
     },
 
     _closeTaskDetailView: function(e) {
@@ -115,29 +124,25 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onShow: function() {
+      var self = this;
+
       if(this.model.isClosed()) {
         return;
       }
-      var self = this;
-      $('.task-details-table .task-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          self.model.set('name', newValue);
-          $(self).parent().removeClass('field_with_errors');
-          $(self).siblings('.errors_container').html('');
-        }
+
+      // Datepicker
+      this.ui.dueDatePicker.datepicker({autoclose: true}).on("changeDate", function (e) {
+        var input = $(e.currentTarget),
+            due_date = input.val();
+
+        self.model.set("due_date", due_date);
+        self.ui.taskDueDateTextHolder.text(moment(due_date).endOf('day').fromNow()).show();
+        input.hide();
       });
 
-      $('.task-details-table .assignable-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          console.log('Reached here 3');
-          var value = newValue.replace(/^\s+|\s+$/g,'');
-          self.model.set($(this).data('name'), value); //update backbone model;
-          $(this).parent().removeClass('field_with_errors');
-          $(this).siblings('.errors_container').html('');
-        }
-      });
+      // Initialize bootstrap selectors
+      this.ui.taskTypeSelector.selectpicker();
+      this.ui.assigneeSelector.selectpicker();
     },
 
     closeTask: function(e) {
@@ -189,7 +194,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           console.log('task model update failed');
         },
 
-        patch: true});
+        patch: true
+      });
+    },
+
+    onDueDateTextClicked: function(e) {
+      var el = $(e.currentTarget);
+      el.hide();
+      this.ui.dueDatePicker.show();
     }
   });
 

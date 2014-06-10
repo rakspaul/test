@@ -9,6 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require grids-min
+ *= require tables-min
  *= require jquery-ui-1.10.3.custom.min
  *= require dragtable-default
  *= require daterangepicker
@@ -17,6 +18,7 @@
  *= require bootstrap-editable
  *= require select2
  *= require select2-bootstrap
+ *= require bootstrap-select.min
  *= require typeahead
  *= require_self
  */
@@ -28,6 +30,7 @@
 @import "variables.css.scss";
 @import "_mixins.css.scss";
 @import "bootstrap_override.css.scss";
+@import "overrides";
 @import "orders.css.scss";
 @import "lineitem.css.scss";
 @import "nielsen_ocr.css.scss";
