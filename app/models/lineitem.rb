@@ -45,8 +45,8 @@ class Lineitem < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
 
   before_create :generate_alt_ad_id
-  before_create :set_default_buffer
-  before_save :sanitize_ad_sizes, :move_end_date_time, :set_est_flight_dates
+  before_create :set_default_buffer, :set_est_flight_dates
+  before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
   after_validation :set_li_status, on: :create

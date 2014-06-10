@@ -4,7 +4,7 @@ class LineitemVideoAssignment < LineitemAssignment
   belongs_to :lineitem, foreign_key: :io_lineitem_id
   belongs_to :video_creative
 
-  before_save :set_est_flight_dates
+  before_create :set_est_flight_dates
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def start_date

@@ -8,7 +8,8 @@ class AdAssignment < ActiveRecord::Base
 
   before_validation :check_flight_dates_within_ad_flight_dates
   before_validation :check_end_date_after_start_date
-  before_save :set_data_source, :set_est_flight_dates
+  before_save :set_data_source
+  before_create :set_est_flight_dates
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def start_date
