@@ -53,7 +53,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_est_flight_dates
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -66,13 +66,13 @@ class Ad < ActiveRecord::Base
   end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
-  #def start_date
-  #  read_attribute_before_type_cast('start_date').to_date
-  #end
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
 
-  #def end_date
-  #  read_attribute_before_type_cast('end_date').to_date
-  #end
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
+  end
 
   def type
     return 'Display' if media_type.nil?
@@ -232,7 +232,6 @@ class Ad < ActiveRecord::Base
 private
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
-=begin
   def set_est_flight_dates
     if self[:start_date]
       start_date = read_attribute_before_type_cast('start_date').to_date
@@ -244,5 +243,4 @@ private
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
     end
   end
-=end
 end
