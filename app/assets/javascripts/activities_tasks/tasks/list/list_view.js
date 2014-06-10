@@ -96,7 +96,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     ui: {
       closeTaskContainer: '#btnMarkTaskDone',
-      prioritizeTaskContainer: '#btnMarkTaskUrgent'
+      prioritizeTaskContainer: '#btnMarkTaskUrgent',
+      taskTypeSelector: '#taskTypeSelector',
+      assigneeSelector: '#assigneeSelector'
     },
 
     _closeTaskDetailView: function(e) {
@@ -122,26 +124,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       if(this.model.isClosed()) {
         return;
       }
-      var self = this;
-      $('.task-details-table .task-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          self.model.set('name', newValue);
-          $(self).parent().removeClass('field_with_errors');
-          $(self).siblings('.errors_container').html('');
-        }
-      });
-
-      $('.task-details-table .assignable-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          console.log('Reached here 3');
-          var value = newValue.replace(/^\s+|\s+$/g,'');
-          self.model.set($(this).data('name'), value); //update backbone model;
-          $(this).parent().removeClass('field_with_errors');
-          $(this).siblings('.errors_container').html('');
-        }
-      });
+      // Initialize selectors
+      this.ui.taskTypeSelector.selectpicker();
+      this.ui.assigneeSelector.selectpicker();
     },
 
     closeTask: function(e) {
@@ -245,10 +230,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         self.ui.attachmentFileName.addClass('error');
         self.ui.attachmentFileNameContainer.show();
       }
-
-      // Initialize selectors
-      this.ui.taskTypeSelector.selectpicker();
-      this.ui.assigneeSelector.selectpicker();
     },
 
     saveTaskComment: function(e) {

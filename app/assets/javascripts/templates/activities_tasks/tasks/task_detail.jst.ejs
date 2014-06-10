@@ -53,7 +53,7 @@
   <div class="pure-u-1-4 assignable-name">
     <div>
       <i class="user-icon"></i>
-      <select name="" id="assigneeSelector" class="selectpicker">
+      <select name="assignee_id" id="assigneeSelector" class="selectpicker">
         <% _.each(users, function(user) { %>
         <option value="<%= user.id %>" <%= assignable_id == user.id ? 'selected' : ''%>><%= user.name %></option>
         <% }) %>
