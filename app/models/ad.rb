@@ -54,8 +54,10 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
+
   before_create :create_random_source_id, :set_est_flight_dates     
 before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
+  before_update :check_est_flight_dates
 
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
@@ -253,6 +255,19 @@ private
     end
     if self[:end_date]
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
+  end
+
+  def check_est_flight_dates
+    if start_date_changed?
+      start_date, _ = read_attribute_before_type_cast('start_date').to_s.split(' ')
+      _, start_time_was = start_date_was.to_s(:db).split(' ')
+      self[:start_date] = "#{start_date} #{start_time_was}"
+    end
+    if end_date_changed?
+      end_date, _ = read_attribute_before_type_cast('end_date').to_s.split(' ')
+      _, end_time_was = end_date_was.to_s(:db).split(' ')
+      self[:end_date] = "#{end_date} #{end_time_was}"      
     end
   end
 end
