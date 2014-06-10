@@ -23,9 +23,9 @@
       </button>
     </div> -->
     <div>
-      <div id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
+      <button id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
         <i class="green_check-icon"></i> <%= (task_state != 'closed' ? 'Close Task' : 'Closed') %>
-      </div>
+      </button>
     </div>
     <div>
       <button id="btnMarkTaskUrgent" class="rui-btn <%= important ? 'active' : 'semi-transparent' %>">
@@ -35,7 +35,7 @@
   </div>
   <div class="task-type pure-u-1-4">
     <div>
-      <select id="task-types-selector" name="task_type_id">
+      <select id="taskTypeSelector" name="task_type_id">
         <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
           <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
         <%}); %>
@@ -53,7 +53,11 @@
   <div class="pure-u-1-4 assignable-name">
     <div>
       <i class="user-icon"></i>
-      <span class="editable custom" data-type="select" data-pk="<%= id %>" data-name="task_type" data-mode="inline" data-inputclass="wide-editable-text"><%= assignable_name %></span>
+      <select name="" id="assigneeSelector" class="selectpicker">
+        <% _.each(users, function(user) { %>
+        <option value="<%= user.id %>" <%= assignable_id == user.id ? 'selected' : ''%>><%= user.name %></option>
+        <% }) %>
+      </select>
     </div>
     <div>
       <i class="task_created_by-icon"></i> <%= created_by %>

@@ -41,6 +41,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.collection.selectedTask = this;
       this.$el.addClass('task-selected');
 
+      // Set list of available users who could be an assignee
+      var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: this.model.get("task_type_id")});
+      this.model.set("users", currentTaskType ? currentTaskType.get("users") : []);
+
       ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion, taskView: this});
 
       List.currentTaskId = this.model.id;
@@ -241,6 +245,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         self.ui.attachmentFileName.addClass('error');
         self.ui.attachmentFileNameContainer.show();
       }
+
+      // Initialize selectors
+      this.ui.taskTypeSelector.selectpicker();
+      this.ui.assigneeSelector.selectpicker();
     },
 
     saveTaskComment: function(e) {
