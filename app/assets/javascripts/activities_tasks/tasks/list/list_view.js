@@ -91,14 +91,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     events: {
       'click .task-detail-view-close' : '_closeTaskDetailView',
       'click #btnMarkTaskDone': 'closeTask',
-      'click #btnMarkTaskUrgent': 'setPriority'
+      'click #btnMarkTaskUrgent': 'setPriority',
+      'click #taskDueDateText': 'onDueDateTextClicked'
     },
 
     ui: {
       closeTaskContainer: '#btnMarkTaskDone',
       prioritizeTaskContainer: '#btnMarkTaskUrgent',
       taskTypeSelector: '#taskTypeSelector',
-      assigneeSelector: '#assigneeSelector'
+      assigneeSelector: '#assigneeSelector',
+      dueDatePicker: '#createdTaskDueDate',
+      taskDueDateTextHolder: "#taskDueDateText"
     },
 
     _closeTaskDetailView: function(e) {
@@ -121,10 +124,23 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onShow: function() {
+      var self = this;
+
       if(this.model.isClosed()) {
         return;
       }
-      // Initialize selectors
+
+      // Datepicker
+      this.ui.dueDatePicker.datepicker({autoclose: true}).on("changeDate", function (e) {
+        var input = $(e.currentTarget),
+            due_date = input.val();
+
+        self.model.set("due_date", due_date);
+        self.ui.taskDueDateTextHolder.text(moment(due_date).endOf('day').fromNow()).show();
+        input.hide();
+      });
+
+      // Initialize bootstrap selectors
       this.ui.taskTypeSelector.selectpicker();
       this.ui.assigneeSelector.selectpicker();
     },
@@ -178,7 +194,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           console.log('task model update failed');
         },
 
-        patch: true});
+        patch: true
+      });
+    },
+
+    onDueDateTextClicked: function(e) {
+      var el = $(e.currentTarget);
+      el.hide();
+      this.ui.dueDatePicker.show();
     }
   });
 
