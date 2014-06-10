@@ -328,3 +328,15 @@ $text_color: #005c97;
 .activities-table {
   margin-top: 30px;
 }
+
+.order-action-buttons {
+  clear: both;
+  div {
+    display: inline-block;
+  }
+
+  .save-order-btn,
+  .push-order-btn {
+    float: none;
+  }
+}

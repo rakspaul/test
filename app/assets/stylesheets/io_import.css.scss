@@ -786,7 +786,6 @@ $wide_input_width: 320px;
 }
 
 .lineitems-summary-container {
-  margin:10px;
   font-size:13px;
   color:black;
   font-weight:normal;
@@ -836,7 +835,6 @@ $wide_input_width: 320px;
   margin: 0 10px 5px 0;
   font-family: 'Armata', sans-serif;
   font-size: 14px;
-  clear:left;
 
   &:hover{
     background-color: lighten($text_color, 10%);
@@ -849,20 +847,22 @@ $wide_input_width: 320px;
   }
 }
 
-
+.save-order-btn {
+  width: 90px;
+}
 
 .status-btn-container {
-  margin: 0 10px 0 20px;
-  padding:0px;
-  text-align:right;
+  width: 100%;
+  padding: 0px;
+//  text-align: right;
   font-family: 'Armata', sans-serif;
 
   .order-status {
     margin-top: 25px;
   }
 
-  .order-status, .order-assignee{
-    float: left;
+  .order-status,
+  .order-assignee{
     color: $text_color;
   }
 
