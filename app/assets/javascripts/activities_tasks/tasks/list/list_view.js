@@ -170,7 +170,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       $('.task-details-table .assignable-name .editable').editable({
         url: this.model.url(),
         success: function(response, newValue) {
-          console.log('Reached here 3');
           var value = newValue.replace(/^\s+|\s+$/g,'');
           self.model.set($(this).data('name'), value); //update backbone model;
           $(this).parent().removeClass('field_with_errors');
@@ -215,7 +214,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           if(element.hasClass('active')) {
             element.removeClass('active');
             element.addClass('semi-transparent');
-            curDueDate = moment().add('days', 7);
           } else {
             element.addClass('active');
             element.removeClass('semi-transparent');
@@ -273,7 +271,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       });
 
       function _uploadSuccess(e, response) {
-        console.log(JSON.stringify(response.result));
         self.ui.attachmentFileName.attr('href', '/file_download/' + response.result.id);
         self.ui.attachmentFileName.text(response.result.original_filename);
         self.ui.attachmentFileNameContainer.show();

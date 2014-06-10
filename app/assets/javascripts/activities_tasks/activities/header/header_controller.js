@@ -17,7 +17,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
 
     //saving activity
     saveActivity: function(activity) {
-      console.log('saving comment: ' + JSON.stringify(activity));
       var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
       $.when(fetchActivity).done(function(activity) {
         ReachActivityTaskApp.trigger("activities:list");
@@ -26,7 +25,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
     },
 
     saveTask: function(activity) {
-      console.log('saving task: ' + JSON.stringify(activity));
       var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
       $.when(fetchActivity).done(function(activity){
         ReachActivityTaskApp.trigger("activities:list");

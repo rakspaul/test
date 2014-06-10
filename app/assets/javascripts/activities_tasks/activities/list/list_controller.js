@@ -5,20 +5,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
 
   List.Controller = {
     showActivities: function(activities){
-      var collectionLength = 0;
-
-      if(activities)
-         collectionLength = activities.length;
+      var collectionLength = activities ? activities.length : 0;
 
       //if activities are not available then we should show empty view otherwise show list of activities.
-      if(collectionLength == 0){
-        console.log("Rendering empty view");
+      if(collectionLength == 0) {
         //preparing empty view here using empty context object
         var emptyContext = new ReachActivityTaskApp.Empty.Context({name:"Activities"});
         var emptyView = new ReachActivityTaskApp.Empty.View({model:emptyContext});
         ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.contentRegion.show(emptyView);
       } else {
-        console.log("Rendering activities");
         List.activitiesListView = new List.Activities({
           collection: activities
         });
@@ -27,19 +22,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
       this.showHideLoadMoreControl(collectionLength);
     },
 
-    loadMoreActivities:function(offset){
+    loadMoreActivities:function(offset) {
       ReachActivityTaskApp.trigger("load-more-activities:list",offset);
     },
 
-    appendActivities: function(activities){
-      var collectionLength = 0;
+    appendActivities: function(activities) {
+      var collectionLength = activities ? activities.length : 0;
 
-      if(activities)
-        collectionLength = activities.length;
-
-      if(collectionLength>0) {
+      if(collectionLength > 0) {
         activities.each(function (activity) {
-          console.log("Activity to add:" + JSON.stringify(activity));
           List.activitiesListView.collection.add(activity);
         });
       }
@@ -48,7 +39,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
 
     showHideLoadMoreControl:function(collectionSize){
       var show = true;
-      if(collectionSize == 0){
+      if(collectionSize == 0) {
         show = false;
       } else {
         //present collection size

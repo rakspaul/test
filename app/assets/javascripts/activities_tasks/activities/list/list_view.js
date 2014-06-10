@@ -14,7 +14,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     template: function (serialized_model) {
       var headerModule = ReachActivityTaskApp.ActivitiesTasks.Activities.Header,
         tplc; // compiled JS template
-      console.log("Serialized Model:" + JSON.stringify(serialized_model));
 
       // Returning specific template for specific activity type
       // as their respective UI representation different among them
@@ -59,7 +58,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     loadIncrementalView: function(e){
       e.preventDefault();
       List.currentOffset = this.collection.length;
-      console.log("The result offset is:"+List.currentOffset);
       List.Controller.loadMoreActivities(List.currentOffset);
     },
 
@@ -74,7 +72,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
     initialize: function () {
       this.listenTo(this.collection, "reset", function () {
         this.appendHtml = function (collectionView, itemView, index) {
-          console.log("In collection reset function") ;
           collectionView.$el.append(itemView.el);
         }
       });
@@ -82,7 +79,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function (List, R
 
     onCompositeCollectionRendered: function () {
       this.appendHtml = function (collectionView, itemView, index) {
-        console.log("In composite collection rendered function") ;
         collectionView.$(this.itemViewContainer).append(itemView.el);
       }
     }

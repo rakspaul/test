@@ -84,7 +84,6 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     saveActivity: function(activity){
       var defer = $.Deferred();
       if(activity){
-        console.log("Saving activity:"+JSON.stringify(activity));
         activity.save({
           success:function(){
             defer.resolve();

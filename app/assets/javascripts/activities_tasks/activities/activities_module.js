@@ -23,7 +23,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
     fetchActivities: function (filters) {
       var fetchPromise = ReachActivityTaskApp.request("activity:entities",filters);
       $.when(fetchPromise).done(function(activities){
-        console.log("Activities data from server:"+ JSON.stringify(activities));
         renderActivities(activities);
       });
     },
@@ -31,7 +30,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
     loadMoreActivities:function(offset){
       //get filters from header module
       var filters = Activities.Header.filters;
-      console.log("Enabled filters for load more activities:"+ JSON.stringify(filters));
       var fetchPromise = ReachActivityTaskApp.request("activity:entities",filters,offset);
       $.when(fetchPromise).done(function(activities){
         appendActivities(activities);
@@ -47,7 +45,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
   }
 
   function appendActivities(activities){
-    console.log("Load More Activities data from server:"+ JSON.stringify(activities));
     Activities.List.Controller.appendActivities(activities);
   }
 
@@ -56,7 +53,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
    */
   ReachActivityTaskApp.on("include:activities", function(){
     Activities.activitiesLayout = new Activities.Layout();
-    console.log("including activities region");
     ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.activitiesRegion.show(Activities.activitiesLayout);
     Activities.Header.Controller.showActivities();
     ReachActivityTaskApp.trigger("activities:list");

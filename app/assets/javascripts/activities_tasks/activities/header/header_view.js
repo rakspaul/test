@@ -189,7 +189,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
       element.toggleClass("important active");
       this.model.set('important', element.hasClass('important'));
-      console.log("marked as important:"+ element.hasClass('important'));
     },
 
     saveComment: function (e) {
@@ -265,7 +264,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },
 
     resetFormControls: function () {
-      console.log("In reset form controls");
       this.ui.btnShowTaskForm.removeClass("active");
       this.ui.taskFormRegion.hide();
       this.resetTextArea();

@@ -25,14 +25,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
     },
 
-    showMoreTasks:function(tasks){
-      var collectionLength = 0;
-      if(tasks)
-        collectionLength = tasks.length;
-      if(collectionLength>0){
-        tasks.each(function(task){
-          console.log("Task to add:"+JSON.stringify(task));
+    showMoreTasks:function(tasks) {
+      var collectionLength = tasks ? tasks.length : 0;
+      if(collectionLength > 0) {
+        tasks.each(function(task) {
           List.tasksListView.collection.add(task);
+          task.collection = List.tasksListView.collection;
         });
       }
       ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
@@ -53,7 +51,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     showTaskCommentInput: function(options) {
-//      var taskCommentInputRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentInputRegion();
       var comment = new ReachActivityTaskApp.Entities.TaskComment();
       options.myRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskCommentInputView(_.extend(options, {model: comment})));
     },
@@ -82,7 +79,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         collectionLength = taskComments.length;
       if(collectionLength>0){
         taskComments.each(function(taskComment){
-          console.log("Task to add:"+JSON.stringify(taskComment));
           List.taskCommentsView.collection.add(taskComment);
         });
       }
@@ -91,8 +87,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
 
     loadMoreTasks:function(){
       var offset = List.tasksListView.collection.length;
-      console.log("Load more tasks controller");
-      console.log("Offset of the view is:"+offset);
       ReachActivityTaskApp.trigger("load-more-tasks:list",offset);
     },
 

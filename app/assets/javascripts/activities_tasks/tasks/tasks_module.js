@@ -64,7 +64,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
       var fetchTasks = ReachActivityTaskApp.request("task:entities");
       $.when(fetchTasks)
           .done(function(tasks) {
-            console.log("Tasks data from server:"+ JSON.stringify(tasks));
             renderTasks(tasks);
           })
           .fail(function (model, response) {
@@ -75,7 +74,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
     fetchMoreTasks: function (offset) {
       var fetchTasks = ReachActivityTaskApp.request("task:entities",offset);
       $.when(fetchTasks).done(function(tasks) {
-        console.log("Tasks data from server:"+ JSON.stringify(tasks));
         renderMoreTasks(tasks);
       });
     },
@@ -83,7 +81,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
     fetchTaskComments: function(task,offset) {
       var fetchTaskComments = ReachActivityTaskApp.request("taskComment:entities", task,offset);
       $.when(fetchTaskComments).done(function(comments) {
-        console.log('taskComments ' + JSON.stringify(comments));
         if(offset && offset>0)
           appendTaskComments(comments);
         else
@@ -122,7 +119,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
    */
   ReachActivityTaskApp.on("include:tasks", function() {
     Tasks.taskLayout = new Tasks.Layout();
-    console.log("including tasks region");
     ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(Tasks.taskLayout);
     ReachActivityTaskApp.trigger("tasks:list");
   });
