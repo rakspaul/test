@@ -64,6 +64,9 @@ json = @lineitems.map do |lineitem|
       when "GeoTarget::City"
         h[:title] = "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}"
         h[:type]  = "City"
+      when "GeoTarget::Country"
+        h[:title] = geo.name
+        h[:type]  = "Country"
       end
     else
       li[:selected_zip_codes] << geo.name
