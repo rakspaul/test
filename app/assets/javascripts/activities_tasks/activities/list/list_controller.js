@@ -5,8 +5,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
 
   List.Controller = {
     showActivities: function(activities){
+      var collectionLength = 0;
+
+      if(activities)
+         collectionLength = activities.length;
+
       //if activities are not available then we should show empty view otherwise show list of activities.
-      if(activities==null || activities.length == 0){
+      if(collectionLength == 0){
         console.log("Rendering empty view");
         //preparing empty view here using empty context object
         var emptyContext = new ReachActivityTaskApp.Empty.Context({name:"Activities"});
@@ -19,6 +24,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
         });
         ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.contentRegion.show(List.activitiesListView);
       }
+      this.showHideLoadMoreControl(collectionLength);
     },
 
     loadMoreActivities:function(offset){
@@ -26,21 +32,31 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
     },
 
     appendActivities: function(activities){
-      if(activities.length>0){
-        activities.each(function(activity){
-          console.log("Activity to add:"+JSON.stringify(activity));
+      var collectionLength = 0;
+
+      if(activities)
+        collectionLength = activities.length;
+
+      if(collectionLength>0) {
+        activities.each(function (activity) {
+          console.log("Activity to add:" + JSON.stringify(activity));
           List.activitiesListView.collection.add(activity);
         });
-        //present collection size
-        var collectionLength = List.activitiesListView.collection.length;
-        if(collectionLength%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH == 0){
-          List.activitiesListView.showHideLoadMoreControl(true);
-        } else {
-          List.activitiesListView.showHideLoadMoreControl(false);
-        }
-      } else {
-        List.activitiesListView.showHideLoadMoreControl(false);
       }
+      this.showHideLoadMoreControl(collectionLength);
+    },
+
+    showHideLoadMoreControl:function(collectionSize){
+      var show = true;
+      if(collectionSize == 0){
+        show = false;
+      } else {
+        //present collection size
+        if(collectionSize%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH != 0){
+          show = false;
+        }
+      }
+      List.activitiesListView.showHideLoadMoreControl(show);
     }
   };
 });

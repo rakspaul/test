@@ -8,8 +8,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     return emptyView;
   };
 
-  var _isLoadMoreVisible = function (taskLength) {
-    return !(taskLength == 0 || taskLength % ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH != 0);
+  var _isLoadMoreVisible = function (collectionSize) {
+    return !(collectionSize == 0 || collectionSize % ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH != 0);
   }
 
   List.Controller = {
@@ -22,34 +22,34 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         });
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
       }
-
-      if(tasks.length == 0 || tasks.length%ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH!=0){
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(false);
-      } else {
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(true);
-      }
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
     },
 
     showMoreTasks:function(tasks){
-      if(tasks && tasks.length>0){
+      var collectionLength = 0;
+      if(tasks)
+        collectionLength = tasks.length;
+      if(collectionLength>0){
         tasks.each(function(task){
           console.log("Task to add:"+JSON.stringify(task));
           List.tasksListView.collection.add(task);
         });
       }
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(
-          _isLoadMoreVisible(tasks.length)
-      );
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
     },
 
     showTaskComments: function(comments) {
-      var taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentsRegion();
+      if(List.taskCommentsRegion == null)
+        List.taskCommentsRegion = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskCommentsRegion();
+      else
+        List.taskCommentsRegion.reset();
       if(comments.length == 0) {
-        taskCommentsRegion.show(_prepareEmptyListView("Task comments"));
+        List.taskCommentsRegion.show(_prepareEmptyListView("Task comments"));
       } else {
-        var taskCommentsView = new List.TaskCommentListView({collection: comments});
-        taskCommentsRegion.show(taskCommentsView);
+        List.taskCommentsView = new List.TaskCommentListView({collection: comments});
+        List.taskCommentsRegion.show(List.taskCommentsView);
       }
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskDetailView.showHideTaskComments(_isLoadMoreVisible(comments.length));
     },
 
     showTaskCommentInput: function(options) {
@@ -61,8 +61,32 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     saveTaskComment: function(comment, options) {
       var saveTaskComment = ReachActivityTaskApp.request("taskComment:save", comment);
       $.when(saveTaskComment).done(function() {
+        //when save comment happens reset to the most recent list
+        options["offset"] = 0;
         ReachActivityTaskApp.trigger("taskComments:list", options);
       });
+    },
+
+    showMoreTaskComments:function(task){
+      //get the offset for task comments.
+      var offset = List.taskCommentsView.collection.length;
+      var options = {};
+      options.task = task;
+      options.offset = offset;
+      ReachActivityTaskApp.trigger("taskComments:list", options);
+    },
+
+    appendTaskComments:function(taskComments){
+      var collectionLength = 0;
+      if(taskComments)
+        collectionLength = taskComments.length;
+      if(collectionLength>0){
+        taskComments.each(function(taskComment){
+          console.log("Task to add:"+JSON.stringify(taskComment));
+          List.taskCommentsView.collection.add(taskComment);
+        });
+      }
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskDetailView.showHideTaskComments(_isLoadMoreVisible(collectionLength));
     },
 
     loadMoreTasks:function(){
@@ -81,8 +105,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         });
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
       }
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideLoadMoreControl(
-        _isLoadMoreVisible(taskList.length)
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(
+        _isLoadMoreTasksVisible(taskList.length)
       );
     }
   }

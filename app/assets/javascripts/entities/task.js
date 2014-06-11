@@ -152,15 +152,25 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       return defer.promise();
     },
 
-    getTaskComments: function(task) {
-      var taskComments = new Entities.TaskCommentList();
+    getTaskComments: function(task,offset) {
+      var taskComments = new Entities.TaskCommentList(),filter = {};
       taskComments.setTask(task);
       var defer = $.Deferred();
-      taskComments.fetch({
+
+      //default filter.
+      filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
+      filter["offset"] = Entities.DEF_OFFSET;
+
+      if(offset){
+        filter["offset"] = offset;
+      }
+
+
+      taskComments.fetch({data:$.param(filter),
           success: function(data) {
             defer.resolve(data);
           },
-          error: function() {
+          failure: function() {
             defer.reject();
           }
       });
@@ -199,8 +209,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     return API.getTaskTypes();
   });
 
-  ReachActivityTaskApp.reqres.setHandler("taskComment:entities", function(task) {
-    return API.getTaskComments(task);
+  ReachActivityTaskApp.reqres.setHandler("taskComment:entities", function(task,offset) {
+    return API.getTaskComments(task,offset);
   });
 
   ReachActivityTaskApp.reqres.setHandler("taskComment:save", function(comment) {

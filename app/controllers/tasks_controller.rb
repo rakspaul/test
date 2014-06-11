@@ -66,7 +66,7 @@ class TasksController < ApplicationController
   end
 
   def comments
-    @comments = @task.task_activity_logs.includes(:activity_attachment).recent_activity
+    @comments = @task.task_activity_logs.includes(:activity_attachment).recent_activity params[:limit], params[:offset]
 
     respond_to do |format|
       format.json

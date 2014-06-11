@@ -17,7 +17,7 @@ class TaskActivityLog < ActiveRecord::Base
   validates :task_id, :presence => true
   validates :activity_type, :presence => true, :inclusion => { in: ActivityType.const_values }
 
-  def self.recent_activity
-    order(:created_at => :desc)
+  def self.recent_activity  limit, offset
+    order(:created_at => :desc).limit(limit).offset(offset)
   end
 end

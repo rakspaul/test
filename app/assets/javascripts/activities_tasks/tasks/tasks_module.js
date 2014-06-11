@@ -15,14 +15,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
       },
 
       events:{
-        "click #loadMoreBtn": "loadMoreTasks"
+        "click #loadMoreBtn": "showMoreTasks"
       },
 
-      loadMoreTasks: function(){
+      showMoreTasks: function(){
         Tasks.List.Controller.loadMoreTasks();
       },
 
-      showHideLoadMoreControl:function(show){
+      showHideMoreTasks:function(show){
         if(show){
           $(this.ui.loadMoreBtn).show();
         } else {
@@ -80,11 +80,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
       });
     },
 
-    fetchTaskComments: function(task) {
-      var fetchTaskComments = ReachActivityTaskApp.request("taskComment:entities", task);
+    fetchTaskComments: function(task,offset) {
+      var fetchTaskComments = ReachActivityTaskApp.request("taskComment:entities", task,offset);
       $.when(fetchTaskComments).done(function(comments) {
         console.log('taskComments ' + JSON.stringify(comments));
-        renderTaskComments(comments);
+        if(offset && offset>0)
+          appendTaskComments(comments);
+        else
+          renderTaskComments(comments);
       });
     }
 
@@ -104,6 +107,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
 
   function renderAllTasks(tasks) {
     Tasks.List.Controller.showAllTasks(tasks);
+  }
+
+  function appendTaskComments(taskComments) {
+    Tasks.List.Controller.appendTaskComments(taskComments);
   }
 
   function renderTaskComments(taskComments) {
@@ -136,20 +143,20 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks",function(Tasks,ReachActivity
     var taskDetailsLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskDetailsLayout();
     options.aRegion.show(taskDetailsLayout);
 
-    var taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
+    Tasks.taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
       model: options.task,
       parentRegion: options.aRegion,
       taskView: options.taskView
     });
 
     ReachActivityTaskApp.trigger("taskComments:list", options);
-    taskDetailsLayout.taskDetailRegion.show(taskDetailView);
+    taskDetailsLayout.taskDetailRegion.show(Tasks.taskDetailView);
     Tasks.List.Controller.showTaskCommentInput(_.extend(options, {myRegion: taskDetailsLayout.taskCommentInputRegion}));
 //    ReachActivityTaskApp.trigger("taskComments:list", _.extend(options, {myRegion: taskDetailsLayout.taskCommentsRegion}));
   });
 
   ReachActivityTaskApp.on("taskComments:list", function(options) {
-    API.fetchTaskComments(options.task);
+    API.fetchTaskComments(options.task,options.offset);
   });
 
   ReachActivityTaskApp.on("load-more-tasks:list", function(offset) {

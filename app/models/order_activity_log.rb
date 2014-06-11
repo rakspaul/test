@@ -73,7 +73,11 @@ class OrderActivityLog < ActiveRecord::Base
   end
 
   def self.apply_filters_with_user filters, user, limit, offset=0
-    where(activity_type: filters, created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
+    if(filters.length > 0)
+      where(activity_type: filters, created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
+    else
+      where(created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
+    end
   end
 
 end

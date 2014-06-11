@@ -7,20 +7,36 @@ class OrderActivityLogsController < ApplicationController
   respond_to :json
 
   def index
-    arel = @order.order_activity_logs.includes(:activity_attachment, :task)
+    activity_logs = @order.order_activity_logs.includes(:activity_attachment, :task)
     limit = params[:limit]
     offset = params[:offset]
 
-    if filters = params[:filters]
+    filters = params[:filters]
+
+    if filters
+      task_important = filters.include?OrderActivityLog::ActivityType::ALERT
+
+      if task_important
+        #remove the alert filter as it refers an urgent flag for task and apply task filter if one not existed in the filter.
+        if !filters.include?!OrderActivityLog::ActivityType::TASK
+          filters.push(OrderActivityLog::ActivityType::TASK)
+        end
+        activity_logs = activity_logs.where(important: true)
+        filters.delete(OrderActivityLog::ActivityType::ALERT)
+      end
+    end
+
+    if filters
       if filters[0] == OrderActivityLog::ActivityType::ALL
-        @activities = arel.recent_activity nil
+        @activities = activity_logs.recent_activity nil
       elsif filters.include? OrderActivityLog::ActivityType::USER
-        @activities = arel.apply_filters_with_user filters, current_user, limit, offset
+        filters.delete(OrderActivityLog::ActivityType::USER)
+        @activities = activity_logs.apply_filters_with_user filters, current_user, limit, offset
       else
-        @activities = arel.apply_filters filters, limit, offset
+        @activities = activity_logs.apply_filters filters, limit, offset
       end
     else
-      @activities = arel.recent_activity limit, offset
+      @activities = activity_logs.recent_activity limit, offset
     end
 
     respond_to do |format|

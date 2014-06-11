@@ -177,7 +177,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.taskFormRegion.toggle();
       this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
       if (this.ui.taskFormRegion.is(":visible")) {
-        $("#due-date").datepicker();
+        $("#due-date").datepicker({format:"yyyy-mm-dd"});
         //reset urgent icon style
         $("#btnSaveAlert").removeClass("important active");
       }

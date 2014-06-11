@@ -92,7 +92,21 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       'click .task-detail-view-close' : '_closeTaskDetailView',
       'click #btnMarkTaskDone': 'closeTask',
       'click #btnMarkTaskUrgent': 'setPriority',
+      "click #loadMoreCommentsBtn" : "onMoreTaskComments",
       'click #taskDueDateText': 'onDueDateTextClicked'
+    },
+
+
+    onMoreTaskComments:function(e){
+      e.preventDefault();
+      List.Controller.showMoreTaskComments(this.model);
+    },
+
+    showHideTaskComments:function(show){
+      if(show)
+        $("#loadMoreCommentsBtn").show();
+      else
+        $("#loadMoreCommentsBtn").hide();
     },
 
     ui: {
@@ -131,7 +145,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       }
 
       // Datepicker
-      this.ui.dueDatePicker.datepicker({autoclose: true}).on("changeDate", function (e) {
+      this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd"},{autoclose: true}).on("changeDate", function (e) {
         var input = $(e.currentTarget),
             due_date = input.val();
 
@@ -143,6 +157,26 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       // Initialize bootstrap selectors
       this.ui.taskTypeSelector.selectpicker();
       this.ui.assigneeSelector.selectpicker();
+
+      $('.task-details-table .task-name .editable').editable({
+        url: this.model.url(),
+        success: function(response, newValue) {
+          self.model.set('name', newValue);
+          $(self).parent().removeClass('field_with_errors');
+          $(self).siblings('.errors_container').html('');
+        }
+      });
+
+      $('.task-details-table .assignable-name .editable').editable({
+        url: this.model.url(),
+        success: function(response, newValue) {
+          console.log('Reached here 3');
+          var value = newValue.replace(/^\s+|\s+$/g,'');
+          self.model.set($(this).data('name'), value); //update backbone model;
+          $(this).parent().removeClass('field_with_errors');
+          $(this).siblings('.errors_container').html('');
+        }
+      });
     },
 
     closeTask: function(e) {
