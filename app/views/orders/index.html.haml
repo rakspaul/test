@@ -201,10 +201,6 @@
     });
   });
 
-  $(window).bind("load", function() {
-   var request = $.ajax({url:'/orders', data:{}, dataType: 'script'});
-  });
-
   $('.actions-container i').click(function(event) {
     var para = {};
     para.sort_column = $(event.target).parent().attr('id');

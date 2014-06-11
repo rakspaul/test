@@ -22,7 +22,9 @@ class LineitemsController < ApplicationController
           start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
           end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
           @order.user_id = current_user.id if @order.user_id.blank?
-          @order.update_attributes({start_date: start_date, end_date: end_date})
+          @order.start_date = start_date
+          @order.end_date = end_date
+          @order.save
           @order.reload
 
           # create lineitems
@@ -36,11 +38,13 @@ class LineitemsController < ApplicationController
               media_type = ad.media_type
             end
 
-            ad_sizes = ads.map{|add| add.creatives}.flatten.map(&:size).uniq.join(', ')
-
+            ad_sizes      = ads.map{|add| add.creatives}.flatten.map(&:size).uniq.join(', ')
+            li_start_date = ads.min{|m,n| m.start_date <=> n.start_date}.start_date
+            li_end_date   = ads.max{|m,n| m.end_date <=> n.end_date}.end_date
+            volume        = ads.sum{|add| add.ad_pricing.try(:quantity).to_i}
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
-            li = Lineitem.create name: "Contract Line Item #{index}", start_date: ad.start_date, end_date: ad.end_date, volume: ads.sum{|add| add.ad_pricing.try(:quantity).to_i}, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
+            li = Lineitem.create name: "Contract Line Item #{index}", start_date: li_start_date, end_date: li_end_date, volume: volume, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: ad.keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
             if li.errors.blank?
               ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
@@ -50,8 +54,6 @@ class LineitemsController < ApplicationController
               ads.map(&:video_ad_assignments).flatten.uniq.each do |video_assignment|
                 LineitemVideoAssignment.create(lineitem: li, video_creative: video_assignment.video_creative, start_date: video_assignment.start_date, end_date: video_assignment.end_date, network_id: video_assignment.network_id, data_source_id: video_assignment.data_source_id)
               end
-
-              Rails.logger.warn 'ads.map(&:ad_geo_targetings).flatten.uniq(&:geo_target): ' + ads.map(&:ad_geo_targetings).flatten.uniq(&:geo_target).inspect 
 
               ads.map(&:ad_geo_targetings).flatten.uniq(&:geo_target).each do |agt|
                 LineitemGeoTargeting.create(lineitem: li, geo_target: agt.geo_target)
@@ -64,7 +66,10 @@ class LineitemsController < ApplicationController
               ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
 
               ads.each do |ad| 
-                ad.update_attributes({io_lineitem_id: li.id, reach_custom_kv_targeting: ad.keyvalue_targeting})
+                if !ad.update_attributes({io_lineitem_id: li.id, reach_custom_kv_targeting: ad.keyvalue_targeting})
+                  Rails.logger.warn "Errors while updating ad: " + ad.errors.inspect
+                  raise ActiveRecord::Rollback
+                end
               end
 
               @lineitems << li
@@ -74,7 +79,9 @@ class LineitemsController < ApplicationController
               raise ActiveRecord::Rollback
             end
           end
-        rescue PG::UniqueViolation
+        rescue PG::UniqueViolation => e
+          Rails.logger.warn "Errors while creating lineitem ##{alt_ad_id}: " + e.inspect
+          Rails.logger.warn e.backtrace.inspect
           raise ActiveRecord::Rollback
         end
       end
