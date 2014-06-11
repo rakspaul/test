@@ -30,8 +30,9 @@ describe LineitemsController do
       @ag = FactoryGirl.create(:audience_group)
       @ad1.audience_groups << @ag
 
-      ad2 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2", alt_ad_id: '2'
-      ad3 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #3", alt_ad_id: '2', size: "320x200"
+      ad2 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2", alt_ad_id: '2', keyvalue_targeting: "btg=cc.dd,btg=aa.bb"
+      ad3 = FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #3", alt_ad_id: '2', size: "320x200", keyvalue_targeting: "btg=cc.dd AND btg=ee.ff,btg=aa.a1,btg=aa.bb"
+
       FactoryGirl.create :ad_pricing, ad_id: @ad1.id
       FactoryGirl.create :ad_pricing, ad_id: ad2.id
       
@@ -70,6 +71,13 @@ describe LineitemsController do
 
       ad1_li = @order.lineitems.detect{|li| li.ads.include?(@ad1)}
       expect(ad1_li.creatives.count).to eq(2)
+    end
+
+    it "saves lineitem with correct behavioral targeting" do
+      xhr :get, :index, {order_id: @order.id}
+
+      ad2_li = @order.lineitems.detect{|li| !li.ads.include?(@ad1)}
+      expect(ad2_li.keyvalue_targeting).to eq("btg=aa.a1,btg=aa.bb,btg=cc.dd,btg=cc.dd AND btg=ee.ff")
     end
 
     it "sets *uploaded* flag on lineitem to false" do
