@@ -35,7 +35,7 @@
   </div>
   <div class="task-type pure-u-1-4">
     <div>
-      <select id="taskTypeSelector" name="task_type_id">
+      <select id="taskTypeSelector" name="task_type_id" class="selectpicker" data-live-search="true">
         <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
           <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
         <%}); %>
@@ -50,10 +50,10 @@
       <% } %>
     </div>
   </div>
-  <div class="pure-u-1-3 assignable-name">
+  <div class="pure-u-1-4 assignable-name">
     <div>
       <i class="user-icon"></i>
-      <select name="assignee_id" id="assigneeSelector" class="selectpicker">
+      <select name="assignee_id" id="assigneeSelector" class="selectpicker" data-live-search="true">
         <% _.each(users, function(user) { %>
         <option value="<%= user.id %>" <%= assignable_id == user.id ? 'selected' : ''%>><%= user.name %></option>
         <% }) %>
