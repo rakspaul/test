@@ -57,6 +57,8 @@ json = @ads.map do |ad|
       h.merge!({title: "#{geo.name}/#{geo.country.try(:name)}", type: "State"})
     when "GeoTarget::City"
       h.merge!({title: "#{geo.name}/#{geo.state.try(:name)}/#{geo.country_code}", type: "City"})
+    when "GeoTarget::Country"
+      h.merge!({title: geo.name, type: "Country"})
     end
     h
   end
