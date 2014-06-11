@@ -38,7 +38,9 @@ class LineitemsController < ApplicationController
               media_type = ad.media_type
             end
 
-            ad_sizes      = ads.map{|add| add.creatives}.flatten.map(&:size).uniq.join(', ')
+            creatives_sizes = ads.map(&:creatives).flatten.map(&:size)
+            ads_sizes       = ads.map(&:size)
+            ad_sizes        = (creatives_sizes.empty? ? ads_sizes : creatives_sizes).uniq.join(', ')
             li_start_date = ads.min{|m,n| m.start_date <=> n.start_date}.start_date
             li_end_date   = ads.max{|m,n| m.end_date <=> n.end_date}.end_date
             volume        = ads.sum{|add| add.ad_pricing.try(:quantity).to_i}
