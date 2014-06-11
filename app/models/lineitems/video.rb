@@ -21,8 +21,8 @@ class Video < Lineitem
   end
 
   def companion_ad_size
-    sizes = ad_sizes.split(',') if ad_sizes
-    @companion_ad_size || (sizes && sizes.size > 1) ? sizes[1] : nil
+    sizes = ad_sizes.split(',').map(&:strip) if ad_sizes
+    @companion_ad_size || (sizes && sizes.size > 1) ? sizes[1..-1].join(',') : nil
   end
 
 private
