@@ -24,6 +24,7 @@ class Lineitem < ActiveRecord::Base
   has_and_belongs_to_many :zipcodes, join_table: :lineitem_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :cities, join_table: :lineitem_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :states, join_table: :lineitem_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :countries, join_table: :lineitem_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
