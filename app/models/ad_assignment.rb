@@ -71,9 +71,9 @@ private
       self[:start_date] = "#{start_date} #{start_time_was}"
     end
     if end_date_changed?
-      end_date, _ = read_attribute_before_type_cast('end_date').to_s.split(' ')
+      end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
       _, end_time_was = end_date_was.to_s(:db).split(' ')
-      self[:end_date] = "#{end_date} #{end_time_was}"      
+      self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
     end
   end
 end
