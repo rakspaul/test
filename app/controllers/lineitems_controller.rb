@@ -42,11 +42,15 @@ class LineitemsController < ApplicationController
             li_start_date = ads.min{|m,n| m.start_date <=> n.start_date}.start_date
             li_end_date   = ads.max{|m,n| m.end_date <=> n.end_date}.end_date
             volume        = ads.sum{|add| add.ad_pricing.try(:quantity).to_i}
-            li_keyvalue_targeting = ads.map(&:keyvalue_targeting).map{|z| z.split(',')}.flatten.uniq.sort.join(',')
+            value         = ads.sum{|add| add.ad_pricing.try(:value).to_f}
+            li_keyvalue_targeting = ads.map(&:keyvalue_targeting).compact.map{|z| z.split(',')}.flatten.uniq.sort.join(',')
+
+            sum_media_cost = ads.inject(0.0){|sum, add| sum += add.ad_pricing.try(:value).to_f}
+            cpm_total = sum_media_cost / volume * 1000.0
 
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
-            li = Lineitem.create name: "Contract Line Item #{index}", start_date: li_start_date, end_date: li_end_date, volume: volume, rate: ad.rate, value: ads.sum{|add| add.ad_pricing.try(:value).to_f}, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: li_keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
+            li = Lineitem.create name: "Contract Line Item #{index}", start_date: li_start_date, end_date: li_end_date, volume: volume, rate: cpm_total, value: value, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: li_keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
             if li.errors.blank?
               ads.map(&:ad_assignments).flatten.uniq.each do |assignment|
