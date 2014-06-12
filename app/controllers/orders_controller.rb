@@ -432,6 +432,7 @@ private
             creative = Creative.find delete_creative_id
             lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
             creative.destroy if creative.ads.empty?
+            li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id }
           end
         end
 
