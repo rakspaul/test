@@ -712,6 +712,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   /////////////////////////////////////////////////////////////////////////////////////////
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
+    lineItemList = lineItemList ? lineItemList : new ReachUI.LineItems.LineItemList();
+
     this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
@@ -776,7 +778,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     // only if `show` action
-    if (lineItemList.order.id) {
+    if (lineItemList.order && lineItemList.order.id) {
       var ags = new ReachUI.AudienceGroups.AudienceGroupsList(),
           platforms = new ReachUI.AdPlatforms.PlatformList();
 
