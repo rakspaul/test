@@ -140,7 +140,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     onShow: function() {
       var self = this;
 
+      // Initialize bootstrap selectors
+      this.ui.taskTypeSelector.selectpicker();
+      this.ui.assigneeSelector.selectpicker();
+
       if(this.model.isClosed()) {
+        this.ui.taskTypeSelector.prop("disabled", true);
+        this.ui.assigneeSelector.prop("disabled", true);
+        this.ui.taskTypeSelector.selectpicker("refresh");
+        this.ui.assigneeSelector.selectpicker("refresh");
         return;
       }
 
@@ -153,10 +161,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         self.ui.taskDueDateTextHolder.text(moment(due_date).endOf('day').fromNow()).show();
         input.hide();
       });
-
-      // Initialize bootstrap selectors
-      this.ui.taskTypeSelector.selectpicker();
-      this.ui.assigneeSelector.selectpicker();
 
       $('.task-details-table .task-name .editable').editable({
         url: this.model.url(),
