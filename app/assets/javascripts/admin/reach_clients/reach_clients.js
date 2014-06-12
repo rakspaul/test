@@ -1,6 +1,56 @@
 (function(ReachClient) {
   'use strict';
 
+// --------------------/ Region /------------------------------------
+
+  ReachClient.ModalRegion = Backbone.Marionette.Region.extend({
+
+    constructor: function(){
+      _.bindAll(this);
+      this.ensureEl();
+      Marionette.Region.prototype.constructor.apply(this, arguments);
+    },
+
+    getEl: function(selector){
+      var $el = $(selector);
+      $el.on("hidden", this.close);
+      return $el;
+    },
+
+    onShow: function(view){
+      view.on("close", this.hideModal, this);
+      this.$el.modal('show');
+    },
+
+    hideModal: function(){
+      this.$el.modal('hide');
+    }
+  });
+
+// --------------------/ Layout /------------------------------------
+
+  ReachClient.ReachClientDetailsLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/admin/reach_clients/reach_clients_details_layout'],
+
+    regions: {
+      client_details: '#client_details',
+      client_contacts: '#client_contacts',
+      collective_contacts: '#collective_contacts'
+    },
+
+    triggers: {
+      'click #btnSave': 'save',
+    },
+
+    ui:{
+      btnSave: '#btnSave',
+      btnClose: '#btnClose'
+    },
+
+  });
+
+// --------------------/ Models /------------------------------------
+
   ReachClient.ReachClientModel = Backbone.Model.extend({
     url: function() {
       if(this.isNew()) {
@@ -70,6 +120,8 @@
     url: '/agency.json',
     model: ReachClient.Agency,
   });
+
+// --------------------/ Views /-------------------------------------
 
   ReachClient.ReachClientDetailsView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/admin/reach_clients/reach_client_details'],
@@ -263,52 +315,7 @@
 
   });
 
-
-  ReachClient.ReachClientDetailsLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/admin/reach_clients/reach_clients_details_layout'],
-
-    regions: {
-      client_details: '#client_details',
-      client_contacts: '#client_contacts',
-      collective_contacts: '#collective_contacts'
-    },
-
-    triggers: {
-      'click #btnSave': 'save',
-    },
-
-    ui:{
-      btnSave: '#btnSave',
-      btnClose: '#btnClose'
-    },
-
-  });
-
-
-  ReachClient.ModalRegion = Backbone.Marionette.Region.extend({
-
-    constructor: function(){
-      _.bindAll(this);
-      this.ensureEl();
-      Marionette.Region.prototype.constructor.apply(this, arguments);
-    },
-
-    getEl: function(selector){
-      var $el = $(selector);
-      $el.on("hidden", this.close);
-      return $el;
-    },
-
-    onShow: function(view){
-      view.on("close", this.hideModal, this);
-      this.$el.modal('show');
-    },
-
-    hideModal: function(){
-      this.$el.modal('hide');
-    }
-  });
-
+// --------------------/ Controllers /-------------------------------
 
   ReachClient.ReachClientDetailsController = Marionette.Controller.extend({
     initialize: function() {
