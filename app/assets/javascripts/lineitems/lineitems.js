@@ -1263,8 +1263,8 @@
         platforms = new ReachUI.AdPlatforms.PlatformList();
         platforms.fetch().then(function() {
           li.platforms = platforms;
-          this.collection.add(li);
-          this.collection.trigger('lineitem:added');
+          view.collection.add(li);
+          view.collection.trigger('lineitem:added');
         });
       }
     },
