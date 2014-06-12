@@ -237,7 +237,7 @@
       if(this.model.get('id')) {
         var delete_creatives = this.options.parent_view.model.get('_delete_creatives');
         delete_creatives.push(this.model.get('id'));
-        li.get('_delete_creatives', delete_creatives);
+        li.set('_delete_creatives', delete_creatives);
       }
     },
 
