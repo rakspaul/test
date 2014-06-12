@@ -9,21 +9,17 @@ class Admin::ReachClientsController < ApplicationController
   add_crumb("Reach Clients") {|instance| instance.send :admin_reach_clients_path}
   add_crumb("Create", only: "new") {|instance| instance.send :new_admin_reach_client_path}
 
+  SORT_COLUMNS = {
+                  "name" => "reach_clients.name",
+                  "media_contact" => "media_contacts.name",
+                  "billing_contact" => "billing_contacts.name",
+                  "sales_person" => "users.first_name",
+                  "account_manager" => "account_managers_reach_clients.first_name"
+                }
+
   def index
     sort_direction = params[:sort_direction] ? params[:sort_direction] : "asc"
-    sort_column = params[:sort_column] ? params[:sort_column] : "reach_clients.name"
-
-    if sort_column == "name"
-      sort_column = "reach_clients.name"
-    elsif sort_column == "media_contact"
-      sort_column = "media_contacts.name"
-    elsif sort_column == "billing_contact"
-      sort_column = "billing_contacts.name"
-    elsif sort_column == "sales_person"
-      sort_column = "users.first_name"
-    elsif sort_column == "account_manager"
-      sort_column = "account_managers_reach_clients.first_name"
-    end
+    sort_column = SORT_COLUMNS[params[:sort_column]] || "reach_clients.name"
 
     @reach_clients = ReachClient.includes(includes_params)
                                 .of_network(current_network)
