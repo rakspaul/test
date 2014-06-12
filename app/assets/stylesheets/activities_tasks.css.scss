@@ -88,6 +88,11 @@ button.rui-btn {
   color: $rui-gray-color;
 }
 
+.form-control-group {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 // === GENERAL STYLES [END] ===
 
 
@@ -397,11 +402,17 @@ $border-breaker-width: 10px;
 
 #taskDueDateText {
   cursor: pointer;
+  line-height: 30px;
 }
 
 #createdTaskDueDate {
   width: 90px;
   margin-bottom: 0;
+}
+
+.assignable-name {
+  min-width: 140px;
+  white-space: nowrap;
 }
 
 // === TASKS SECTIONS [END] ===
