@@ -18,6 +18,29 @@ class LineitemsController < ApplicationController
     if @lineitems.empty? && !@ads.empty?
       Lineitem.transaction do
         begin
+          est = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
+
+          # temporary issue #814
+          # errors emerge because of discrepancy of order's end_date and ads' end_dates
+          # 
+          # amp=# select start_date,end_date from orders where id=404836;
+          # start_date      |      end_date       
+          # ---------------------+---------------------
+          # 2014-06-05 00:00:00 | 2014-06-20 23:59:00
+          #
+          # amp=# select start_date,end_date from ads where order_id=404836;
+          # start_date      |      end_date       
+          # ---------------------+---------------------
+          #  2014-06-05 04:00:00 | 2014-06-21 03:59:00
+
+          # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
+          @ads.map do |ad|
+            if ad.read_attribute_before_type_cast('end_date') =~ /3:59/
+              ad.end_date = ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).end_of_day
+            end
+            ad
+          end
+
           # adjust order's start/end dates
           start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
           end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
