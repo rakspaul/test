@@ -467,6 +467,7 @@ private
             creative = Creative.find delete_creative_id
             lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
             creative.destroy if creative.ads.empty?
+            li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
           end
         end
 
@@ -742,7 +743,6 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
-          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
