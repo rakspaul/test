@@ -235,9 +235,9 @@
     _markCreativeForDeletion : function(li) {
       // mark this creative to be deleted on back-end side
       if(this.model.get('id')) {
-        var delete_creatives = this.options.parent_view.model.get('_delete_creatives');
+        var delete_creatives = _.clone(this.options.parent_view.model.get('_delete_creatives'));
         delete_creatives.push(this.model.get('id'));
-        li.get('_delete_creatives', delete_creatives);
+        li.set('_delete_creatives', delete_creatives);
       }
     },
 
@@ -255,7 +255,8 @@
       // only delete Creative on LI level if in another Ads there is no such Creative
       var this_ad = this.options.parent_view.model;
       if(this_ad && this.options.parent_view.options.parent_view) {
-        var this_li = this.options.parent_view.options.parent_view.model;    
+        var this_li = this.options.parent_view.options.parent_view.model,
+            creativeId = view.model.get('id');
 
         var ads_except_current = _.filter(this_li.ads, function(el) {
           if(el.cid != this_ad.cid) {
@@ -274,7 +275,7 @@
           delete_creative_model_from_li = false;
         }
 
-        if(delete_creative_model_from_li) {
+        if (delete_creative_model_from_li) {
           // delete this model
           _.each(this_li.get('creatives').models, function(c) {
             if(c.get('redirect_url') == view.model.get('redirect_url')) {
@@ -283,6 +284,11 @@
           });
 
           view._markCreativeForDeletion(this_li);
+        }
+        if (creativeId && this_ad.get('id')) {
+          var deleteCreatives = _.clone(this_ad.get('_delete_creatives'));
+          deleteCreatives.push(creativeId);
+          this_ad.set('_delete_creatives', deleteCreatives);
         }
       } else { // this is lineitem's creative
         var this_li = this.options.parent_view.model;  

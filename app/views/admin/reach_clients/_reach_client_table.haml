@@ -2,7 +2,7 @@
   %tr
     %td= link_to client.name, edit_admin_reach_client_path(client)
     %td= client.abbr
-    %td= client.media_contact ? client.media_contact.name : ''
-    %td= client.billing_contact ? client.billing_contact.name : ''
-    %td= "#{client.sales_person.first_name} #{client.sales_person.last_name}"
-    %td= "#{client.account_manager.first_name} #{client.account_manager.last_name}"
+    %td= client.try(:media_contact).try(:name)
+    %td= client.try(:billing_contact).try(:name)
+    %td= client.try(:sales_person).try(:full_name)
+    %td= client.try(:account_manager).try(:full_name)
