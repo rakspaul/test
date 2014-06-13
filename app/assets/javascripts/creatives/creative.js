@@ -279,8 +279,6 @@
           // delete this model
           _.each(this_li.get('creatives').models, function(c) {
             if(c.get('redirect_url') == view.model.get('redirect_url')) {
-              if (c.get('id')) {
-              }
               c.destroy();
             }
           });
