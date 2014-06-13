@@ -415,6 +415,11 @@ $border-breaker-width: 10px;
   white-space: nowrap;
 }
 
+.task-comments-container {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
 // === TASKS SECTIONS [END] ===
 
 // === FOLLOWERS REGION [BEGIN] ===
