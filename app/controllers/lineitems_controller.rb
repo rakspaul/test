@@ -36,6 +36,7 @@ class LineitemsController < ApplicationController
           @ads.map do |ad|
             if ad.read_attribute_before_type_cast('end_date') =~ /3:59/
               ad.end_date = ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).end_of_day
+              Rails.logger.warn '[814] change ad.end_date - ' + ad.end_date.inspect
             end
             ad
           end
@@ -43,12 +44,15 @@ class LineitemsController < ApplicationController
           # adjust order's start/end dates
           start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
           end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
+          Rails.logger.warn '[814] start_date - ' + start_date.inspect
+          Rails.logger.warn '[814] end_date - ' + end_date.inspect
           @order.user_id = current_user.id if @order.user_id.blank?
           @order.start_date = start_date
           @order.end_date = end_date
           @order.save
           @order.reload
-
+          Rails.logger.warn '[814] @order.start_date - ' + @order.start_date.inspect
+          Rails.logger.warn '[814] @order.end_date - ' + @order.end_date.inspect
           # create lineitems
           index = 1
           @ads.group_by(&:alt_ad_id).each do |alt_ad_id, ads|
@@ -65,6 +69,8 @@ class LineitemsController < ApplicationController
             ad_sizes        = (creatives_sizes.empty? ? ads_sizes : creatives_sizes).uniq.join(', ')
             li_start_date = ads.min{|m,n| m.start_date <=> n.start_date}.start_date
             li_end_date   = ads.max{|m,n| m.end_date <=> n.end_date}.end_date
+            Rails.logger.warn '[814] li_start_date - ' + li_start_date.inspect
+            Rails.logger.warn '[814] li_end_date - ' + li_end_date.inspect
             volume        = ads.sum{|add| add.ad_pricing.try(:quantity).to_i}
             value         = ads.sum{|add| add.ad_pricing.try(:value).to_f}
             li_keyvalue_targeting = ads.map(&:keyvalue_targeting).compact.map{|z| z.split(',')}.flatten.uniq.sort.join(',')
