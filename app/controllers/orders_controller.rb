@@ -21,6 +21,8 @@ class OrdersController < ApplicationController
 
     @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
     @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    @order.io_detail.trafficking_contact_id = @current_user.id if @order.io_detail.trafficking_contact_id.nil?
+
     @reachui_users = load_users.limit(50)
 
     respond_to do |format|
