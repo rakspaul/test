@@ -23,19 +23,21 @@
       </button>
     </div> -->
     <div>
-      <button id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
-        <i class="green_check-icon"></i> <%= (task_state != 'closed' ? 'Close Task' : 'Closed') %>
-      </button>
-    </div>
-    <div>
-      <button id="btnMarkTaskUrgent" class="rui-btn <%= important ? 'active' : 'semi-transparent' %>">
-        <i class="alert-icon"></i> Urgent
-      </button>
+      <% if (!is_closed) { %>
+        <button id="btnMarkTaskDone" class="rui-btn <%= task_state == "closed" ? "active" : "semi-transparent" %>">
+          <i class="green_check-icon"></i> Close Task
+        </button>
+        <button id="btnMarkTaskUrgent" class="rui-btn <%= important ? 'active' : 'semi-transparent' %>">
+          <i class="alert-icon"></i> Urgent
+        </button>
+      <% } else { %>
+        <span><i class="task_closed-icon"></i> Closed</span>
+      <% } %>
     </div>
   </div>
   <div class="task-type pure-u-1-4">
     <div>
-      <select id="taskTypeSelector" name="task_type_id" class="selectpicker" data-live-search="true">
+      <select id="taskTypeSelector" name="task_type_id" class="selectpicker" data-live-search="true" <%= is_closed ? 'disabled="disabled"' : '' %>>
         <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
           <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
         <%}); %>
@@ -53,7 +55,7 @@
   <div class="pure-u-1-4 assignable-name">
     <div>
       <i class="user-icon"></i>
-      <select name="assignee_id" id="assigneeSelector" class="selectpicker" data-live-search="true">
+      <select name="assignee_id" id="assigneeSelector" class="selectpicker" data-live-search="true" <%= is_closed ? 'disabled="disabled"' : '' %>>
         <% _.each(users, function(user) { %>
         <option value="<%= user.id %>" <%= assignable_id == user.id ? 'selected' : ''%>><%= user.name %></option>
         <% }) %>

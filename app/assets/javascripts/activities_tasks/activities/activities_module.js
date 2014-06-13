@@ -69,4 +69,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
     API.loadMoreActivities(offset);
   });
 
+  // We should cover Activities Log region with a semi-transparent layer
+  ReachActivityTaskApp.on("include:taskDetails", function () {
+    $("#activitiesRegionOverlay").fadeIn();
+  });
+
+  ReachActivityTaskApp.on("task:details:closed", function () {
+    $("#activitiesRegionOverlay").fadeOut();
+  });
+
 },JST);

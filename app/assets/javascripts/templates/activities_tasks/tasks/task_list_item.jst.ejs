@@ -2,11 +2,12 @@
   <div id="task_<%= id %>" class="pure-u-1 task-details-container"></div>
   <div class="border-breaker"></div>
   <div class="task-comment pure-u-1-24">
-
-    <% var task_comment_icon = (important) ? "alert-icon" :"comment-icon" %>
-    <span class="<%= task_comment_icon %> icon-wrapper">
-      <sup class="task-badge"><%= comments_size %></sup>
-    </span>
+    <% var task_comment_icon = important ? "alert-icon" : "comment-icon" %>
+    <% if (comments_size > 0) { %>
+      <span class="<%= task_comment_icon %> icon-wrapper">
+        <sup class="task-badge"><%= comments_size %></sup>
+      </span>
+    <% } %>
   </div>
   <div class="task-type pure-u-1-24 center">
     <% task_icon_class = task_state == "closed" ? "task_done-icon" : "task_open-icon" %>

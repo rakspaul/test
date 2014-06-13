@@ -89,7 +89,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     events: {
-      'click .task-detail-view-close' : '_closeTaskDetailView',
+      'click .task-detail-view-close' : 'closeTaskDetailView',
       'click #btnMarkTaskDone': 'closeTask',
       'click #btnMarkTaskUrgent': 'setPriority',
       "click #loadMoreCommentsBtn" : "onMoreTaskComments",
@@ -118,13 +118,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       taskDueDateTextHolder: "#taskDueDateText"
     },
 
-    _closeTaskDetailView: function(e) {
+    closeTaskDetailView: function(e) {
       e.preventDefault();
       e.stopPropagation();
       this.close();
       this.options.parentRegion.close();
       List.currentTaskId = undefined;
       this.options.taskView.render();
+      ReachActivityTaskApp.trigger("task:details:closed");
     },
 
     onClose: function() {
@@ -145,10 +146,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.assigneeSelector.selectpicker();
 
       if(this.model.isClosed()) {
-        this.ui.taskTypeSelector.prop("disabled", true);
-        this.ui.assigneeSelector.prop("disabled", true);
-        this.ui.taskTypeSelector.selectpicker("refresh");
-        this.ui.assigneeSelector.selectpicker("refresh");
+        this.model.set("is_closed", true);
         return;
       }
 
