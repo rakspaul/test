@@ -1,0 +1,142 @@
+// This file based on top of `activities_tasks` styles
+
+#teamTasksSection {
+  margin: 10px 20px;
+}
+
+h2.team-name {
+  display: inline-block;
+  color: $rui-heading-text-color;
+}
+
+#teamSwitcher {
+  margin-left: 15px;
+  display: inline-block;
+  cursor: pointer;
+  color: $rui-gray-color;
+}
+
+#taskListFilter {
+  list-style-type: none;
+  font-size: 1.2em;
+  float: left;
+  margin: 10px 20px;
+  padding: 0;
+  width: 98%;
+
+  li {
+    display: inline-block;
+    cursor: pointer;
+    color: $rui-heading-text-color;
+    margin-right: 20px;
+
+    &:not(.active):hover {
+      color: $rui-text-hover-color;
+      text-decoration: underline;
+    }
+
+    &.active {
+      color: $rui-text-hover-color;
+      cursor: default;
+    }
+  }
+}
+
+.team-task-list-container {
+  .date {
+    text-align: left;
+  }
+
+  .no-order {
+    font-size: 0.9em;
+    color: $rui-gray-color;
+  }
+
+  select {
+    width: auto;
+    margin: 2px;
+  }
+}
+
+// Customization of pure-table styles
+.rui-pure-table {
+  width: 100%;
+  thead {
+    tr {
+      th {
+        background-color: $light-background;
+        color: $rui-th-color;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  tbody {
+    tr:hover {
+      background-color: $light-background;
+    }
+  }
+
+  &.pure-table {
+    border-color: $rui-lightgray-color;
+  }
+
+  &.pure-table-horizontal {
+    th, td {
+      border-color: $rui-lightgray-color;
+    }
+  }
+}
+
+.team-task-form-container {
+  width: 50%;
+  box-sizing: border-box;
+
+  // override global styles here
+  input, select, textarea {
+    margin-bottom: 0;
+  }
+
+  .main-controls-container {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: $light-background;
+  }
+}
+
+textarea {
+  background-color: transparent;
+  height: 20px;
+}
+
+tbody.team-members-task-list-grid {
+  tr {
+    td {
+//      border: 0 none;
+    }
+  }
+}
+
+.task-resolved-row {
+  @include opacity(50);
+}
+
+.toggle-resolved-tasks-btn {
+  &:not(.active) {
+    span.action-text-inactive {
+      display: inline;
+    }
+    span.action-text-active {
+      display: none;
+    }
+  }
+  &.active {
+    span.action-text-inactive {
+      display: none;
+    }
+    span.action-text-active {
+      display: inline;
+    }
+  }
+}

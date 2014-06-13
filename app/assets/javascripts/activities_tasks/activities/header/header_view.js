@@ -95,60 +95,68 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       // Initialize bootstrap select
       this.ui.taskTypeSelector.selectpicker();
 
-        // Selectize the task-assignee-selector
-        Header.task_assignee_selector = $('#task-assignee-selector').selectize({
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'group',
-            options: this.defaultOptionsList(),
-            optgroups: [
-                { value: 'team', label: 'Default Team' },
-                { value: 'team_users', label: 'Team Members' },
-                { value: 'users_all', label: 'Users' },
-                { value: 'default_user', label: 'Default User' }
-            ],
-            optgroupField: 'group',
-            create: false,
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/users/search.js',
-                    type: 'GET',
-                    dataType: 'jsonp',
-                    data: {
-                        search: query,
-                        search_by: 'name'
-                    },
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        var all_users = [];
+      // Selectize the task-assignee-selector
+      Header.task_assignee_selector = $('#task-assignee-selector').selectize({
+          valueField: 'id',
+          labelField: 'name',
+          searchField: 'name',
+          sortField: 'group',
+          options: this.defaultOptionsList(),
+          optgroups: [
+              { value: 'team', label: 'Default Team' },
+              { value: 'team_users', label: 'Team Members' },
+              { value: 'users_all', label: 'Users' },
+              { value: 'default_user', label: 'Default User' }
+          ],
+          optgroupField: 'group',
+          create: false,
+          load: function(query, callback) {
+              if (!query.length) return callback();
+              $.ajax({
+                  url: '/users/search.js',
+                  type: 'GET',
+                  dataType: 'jsonp',
+                  data: {
+                      search: query,
+                      search_by: 'name'
+                  },
+                  error: function () {
+                      callback();
+                  },
+                  success: function (res) {
+                      var all_users = [];
 
-                        if (res !== 'undefined') {
-                            for (i = 0; i < res.length; i++) {
-                                all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
-                            }
-                        }
+                      if (res !== 'undefined') {
+                          for (i = 0; i < res.length; i++) {
+                              all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                          }
+                      }
 
-                        callback(all_users);
-                    }
-                });
-            }
-        });
+                      callback(all_users);
+                  }
+              });
+          }
+      });
 
-        if(this.model.get('assigned_by_id')) {
-            Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
-        } else {
-            var taskType = this.ui.taskTypeSelector.val();
-            var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
-            var assignee_id = thisTaskType.get('default_assignee_user_id') ?
-                                    thisTaskType.get('default_assignee_user_id') :
-                                    thisTaskType.get('default_assignee_id');
-            Header.task_assignee_selector[0].selectize.setValue(assignee_id);
-            this.model.set('assigned_by_id', assignee_id);
-        }
+      if(this.model.get('assigned_by_id')) {
+          Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+      } else {
+          var taskType = this.ui.taskTypeSelector.val();
+          var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
+          var assignee_id = thisTaskType.get('default_assignee_user_id') ?
+                                  thisTaskType.get('default_assignee_user_id') :
+                                  thisTaskType.get('default_assignee_id');
+          Header.task_assignee_selector[0].selectize.setValue(assignee_id);
+          this.model.set('assigned_by_id', assignee_id);
+      }
+
+      if(this.model.get('assigned_by_id')) {
+        Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+      } else {
+        var taskType = this.ui.taskTypeSelector.val();
+        var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
+        Header.task_assignee_selector[0].selectize.setValue(thisTaskType.get('default_assignee_id'));
+      }
     },
 
     // Assemble the options list from the teams and the members of the teams

@@ -29,13 +29,18 @@ $ad_status_delivering_color: green;
 
 $wide_input_width: 320px;
 
+$borderColor: #eee;
+$light-background: #f7f7f7;
+
 $rui-gray-color: #989898;
 $rui-lightgray-color: #EDEDED;
 $rui-input-border-color: #005C97;
 $rui-heading-text-color: #005C97;
-$rui-text-hover-color: #0088cc;
+$rui-text-hover-color: #2EA5DC;
 $rui-text-active-color: #005C97;
 $rui-border-active-color: #005C97;
+
+$rui-th-color: #4094C3;
 
 $images: sprite_map("icons/*.png");
 $icon_names:
@@ -74,6 +79,7 @@ $icon_names:
   task_done,
   task_done_white,
   task_open,
+  task_white,
   video,
   user,
   zip-codes;
