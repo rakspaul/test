@@ -23,6 +23,7 @@ class OrdersController < ApplicationController
     if @order.io_detail
       @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).load
       @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).load
+      @order.io_detail.trafficking_contact_id = @current_user.id if @order.io_detail.trafficking_contact_id.nil?
     else
       @billing_contacts = []
       @media_contacts   = []
