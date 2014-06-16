@@ -75,10 +75,7 @@
             </div>
             <div class="form-control-group">
               <div class="user-icon"></div>
-              <select id="task-assignee-selector" class="selectpicker" data-live-search="true">
-                <% _.each(users, function(user) { %>
-                <option value="<%= user.id%>"><%= user.name%></option>
-                <% }); %>
+              <select id="task-assignee-selector" class="selectpicker" >
               </select>
             </div>
             <div class="form-control-group">

@@ -93,8 +93,77 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
       // Initialize bootstrap select
       this.ui.taskTypeSelector.selectpicker();
-      this.ui.taskAssigneeSelector.selectpicker();
+
+        // Selectize the task-assignee-selector
+        task_assignee_selector = $('#task-assignee-selector').selectize({
+            valueField: 'id',
+            labelField: 'name',
+            searchField: 'name',
+            sortField: 'group',
+            options: this.defaultOptionsList(),
+            optgroups: [
+                { value: 'team', label: 'Default Team' },
+                { value: 'team_users', label: 'Team Members' },
+                { value: 'users_all', label: 'Users' }
+            ],
+            optgroupField: 'group',
+            create: false,
+            load: function(query, callback) {
+                if (!query.length) return callback();
+                $.ajax({
+                    url: '/users/search.js',
+                    type: 'GET',
+                    dataType: 'jsonp',
+                    data: {
+                        search: query,
+                        search_by: 'name'
+                    },
+                    error: function () {
+                        callback();
+                    },
+                    success: function (res) {
+                        var all_users = [];
+
+                        if (res !== 'undefined') {
+                            for (i = 0; i < res.length; i++) {
+                                all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                            }
+                        }
+
+                        callback(all_users);
+                    }
+                });
+            }
+        });
+
+        var taskType = this.ui.taskTypeSelector.val();
+        var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
+        task_assignee_selector[0].selectize.addItem(thisTaskType.get('default_assignee_id'));
     },
+
+      // Assemble the options list from the teams and the members of the teams
+      defaultOptionsList: function() {
+          var optList = [];
+
+          var taskType = this.ui.taskTypeSelector.val();
+          var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
+          var default_team_name = thisTaskType.get('default_assignee_team');
+          var default_team_id = thisTaskType.get('default_assignee_id');
+          var team_members = thisTaskType.get('users');
+
+          // Add default team
+          if (default_team_id !== 'undefined' && default_team_name !== 'undefined' )
+              optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
+
+          // Add members of team
+          if (team_members !== 'undefined') {
+              for(i = 0; i < team_members.length; i++) {
+                  optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
+              }
+          }
+
+          return optList;
+      },
 
     initialize: function () {
       this.model.set('activity_type', Header.ACTIVITY_TYPES.COMMENT);
@@ -225,8 +294,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.set('task_type_id', this.ui.taskTypeSelector.val());
       this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
       //TODO: Is this needed.
-      this.model.unset('users', {silent: true});
-      this.model.unset('task_types', {silent: true});
+      //this.model.unset('users', {silent: true});
+      //this.model.unset('task_types', {silent: true});
 
       Header.Controller.saveTask(this.model);
     },
@@ -241,7 +310,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
-      this.model.set('users', thisTaskType.get('users'));
       this.model.set('due_date', moment().add('days', thisTaskType.get('default_sla')));
 
       this.render();

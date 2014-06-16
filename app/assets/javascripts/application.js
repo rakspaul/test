@@ -40,6 +40,7 @@
 //= require daterangepicker
 //= require jquery.simplePagination
 //= require chosen.jquery
+//= require selectize.min
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors

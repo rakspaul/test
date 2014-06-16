@@ -31,10 +31,6 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     fetchTaskTypes: function() {
       return ReachActivityTaskApp.request("taskType:entities");
     },
-
-    fetchUsersAndTeams: function() {
-
-    }
   };
 
   ActivitiesTasks.Layout = Marionette.Layout.extend({
