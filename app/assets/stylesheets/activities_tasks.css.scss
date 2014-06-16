@@ -473,9 +473,13 @@ $border-breaker-width: 10px;
 .task-action-controls {
   .task-status-label,
   .form-control-group > button {
-    padding:  2px 8px 3px;
+    padding: 2px 8px 3px;
     margin-right: 6px;
   }
+}
+
+.order-name {
+  margin-left: 30px;
 }
 
 // === TASKS SECTIONS [END] ===

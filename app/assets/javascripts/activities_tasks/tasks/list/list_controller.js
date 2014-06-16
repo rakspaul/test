@@ -92,6 +92,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
       } else {
         List.tasksListView = new List.Tasks({
+          // On Order List page we show Order Name for each Task record
+          itemViewOptions: {
+            with_order_name_column: true
+          },
           collection: taskList
         });
         ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);

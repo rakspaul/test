@@ -5,7 +5,22 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
   List.Task = Marionette.Layout.extend({
     tagName: 'div',
-    template: JST['templates/activities_tasks/tasks/task_list_item'],
+    template: function (model) {
+      var tplc = JST['templates/activities_tasks/tasks/task_list_item'];
+
+      if (model.show_order_name_column === true) {
+        tplc = JST['templates/activities_tasks/tasks/task_list_item_with_order_name'];
+      }
+
+      return tplc(model);
+    },
+
+    initialize: function (options) {
+      if (options.with_order_name_column) {
+        this.model.set("show_order_name_column", true);
+      }
+    },
+
     className: 'task-container',
     assigneeSelector: undefined,
 
