@@ -27,7 +27,9 @@
   @include form_selects;
   max-width: 200px;
 
-  .selectize-dropdown, .selectize-input, .selectize-input input {
+  .selectize-dropdown,
+  .selectize-input,
+  .selectize-input input {
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;

@@ -431,6 +431,7 @@ $border-breaker-width: 10px;
 
 .task-comments-container {
   max-height: 250px;
+  min-height: 50px;
   overflow-y: auto;
 }
 
