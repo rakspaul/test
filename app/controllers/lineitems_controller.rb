@@ -38,12 +38,12 @@ class LineitemsController < ApplicationController
             if ad.read_attribute_before_type_cast('end_date') =~ /3:59|4:59/
               Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date') - " + ad.read_attribute_before_type_cast('end_date').inspect
               Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').to_time - " + ad.read_attribute_before_type_cast('end_date').to_time.inspect
-               Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est).to_time - " + ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).inspect
+              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est).to_time - " + ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).inspect
               end_date = ad.read_attribute_before_type_cast('end_date')
               if end_date =~ /3:59/
-                ad.end_date = end_date.in_time_zone(est) - 4.hours
+                ad.update_attribute :end_date, (end_date.in_time_zone(est) - 4.hours)
               elsif end_date =~ /4:59/
-                ad.end_date = end_date.in_time_zone(est) - 5.hours
+                ad.update_attribute :end_date, (end_date.in_time_zone(est) - 5.hours)
               end
               Rails.logger.warn '[814] changed after fix ad.end_date - ' + ad.end_date.inspect
             end
