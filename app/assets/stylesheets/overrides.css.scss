@@ -27,6 +27,12 @@
   @include form_selects;
   max-width: 200px;
 
+  .selectize-dropdown, .selectize-input, .selectize-input input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
   .selectize-input {
     padding: 4px 10px;
     vertical-align: middle;
