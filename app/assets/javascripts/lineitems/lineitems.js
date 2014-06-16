@@ -3,7 +3,7 @@
 
   LineItems.LineItem = Backbone.Model.extend({
     _default_keyvalue_targeting: {
-      "Facebook": "fbx=_default",
+      "Facebook": "fb=_default",
       "Mobile":   "mob=_default"
     },
 
