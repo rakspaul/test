@@ -33,22 +33,19 @@ class LineitemsController < ApplicationController
           #  2014-06-05 04:00:00 | 2014-06-21 03:59:00
 
           # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
-          @ads.map do |ad|
-            if ad.read_attribute_before_type_cast('end_date') =~ /3:59|4:59/
-              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date') - " + ad.read_attribute_before_type_cast('end_date').inspect
-              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + ad.read_attribute_before_type_cast('end_date').in_time_zone(est).inspect
-              end_date = ad.read_attribute_before_type_cast('end_date')
-              if end_date =~ /3:59/
-                Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 4.hours).to_s
-                ad.update_column :end_date, (end_date.in_time_zone(est) - 4.hours)
-                ad.reload
-              elsif end_date =~ /4:59/
-                Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 5.hours).to_s
-                ad.update_column :end_date, (end_date.in_time_zone(est) - 5.hours)
-                ad.reload
-              end
-              Rails.logger.warn '[814] changed after fix ad.end_date - ' + ad.end_date.inspect
+          @ads.map do |ad|           
+            end_date = ad.read_attribute_before_type_cast('end_date')
+            if end_date =~ /3:59/
+              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 4.hours).to_s
+
+              ad.end_date = end_date.in_time_zone(est) - 4.hours
+              ad.update_column :end_date, (end_date.in_time_zone(est) - 4.hours).split(' ')[0..1].join(' ')
+            elsif end_date =~ /4:59/
+              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 5.hours).to_s
+              ad.end_date = end_date.in_time_zone(est) - 5.hours
+              ad.update_column :end_date, (end_date.in_time_zone(est) - 5.hours).split(' ')[0..1].join(' ')
             end
+            Rails.logger.warn '[814] changed after fix ad.end_date - ' + ad.end_date.inspect
             ad
           end
 
