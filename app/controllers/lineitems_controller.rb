@@ -7,8 +7,8 @@ class LineitemsController < ApplicationController
 
   # GET orders/{order_id}/lineitems
   def index
-    @order = Order.includes(:lineitems => [ :geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').find(params[:order_id])
-    @lineitems = @order.lineitems
+    @order = Order.includes(:lineitems => [ { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).order('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC').references(:io_lineitems, :lineitem_assignments, :creatives).find(params[:order_id])
+    @lineitems = set_lineitem_status(@order.lineitems)
   end
 
   # GET orders/{order_id}/lineitems/new
