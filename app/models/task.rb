@@ -58,4 +58,8 @@ class Task < ActiveRecord::Base
     self.assignable = self.task_type.owner if self.assignable_id.nil?
   end
 
+  def self.fetch_assigned_to_me_tasks user, limit, offset
+    (limit && offset)?where(assignable_id: user.id, assignable_type: 'User').limit(limit).offset(offset):where(assignable_id: user.id, assignable_type: 'User')
+  end
+
 end

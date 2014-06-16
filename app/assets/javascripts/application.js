@@ -64,6 +64,7 @@
 //= require ./lineitems/adsizes.js
 //= require ./activities_tasks/activity_task_module.js
 //= require ./activities_tasks/activities/activities_module.js
+//= require ./entities/constant.js
 //= require ./entities/activity.js
 //= require ./activities_tasks/activities/header/header_controller.js
 //= require ./activities_tasks/activities/header/header_view.js

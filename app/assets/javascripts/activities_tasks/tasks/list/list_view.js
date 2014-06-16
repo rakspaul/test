@@ -14,9 +14,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     showTaskView: function(e) {
 
+      //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
+      //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
+      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
+          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
+        ReachActivityTaskApp.order = {};
+        ReachActivityTaskApp.order.id = this.model.order_id;
+      }
+
+
       // This piece of logic helps in not refreshing continually task details region
-      // when click happens on task or task details region.
-      // On close of task details region, the value will be undefined for the current task id.
+      // when click happens on the same task or details region.
+      // On close of the task details region, the value will be undefined for the current task id.
       if(List.currentTaskId != undefined){
         if(List.currentTaskId == this.model.id){
           return;
@@ -79,7 +88,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     itemViewContainer: 'div .task-detail-container',
 
     initialize: function() {
-      this.model.on('change', this.updateView, this);
+      //on change event rendering entire view and which results to Load More button toggle to show.
+      //TODO:@Venkat:Is this event required, if not please remove this.
+      //this.model.on('change', this.updateView, this);
     },
 
     updateView: function() {

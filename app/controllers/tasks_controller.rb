@@ -20,8 +20,8 @@ class TasksController < ApplicationController
     end
   end
 
-  def list_all
-    @tasks = Task.all.load
+  def assigned_to_me
+    @tasks = Task.includes(:order,:activity_attachments).fetch_assigned_to_me_tasks current_user, params[:limit], params[:offset]
     respond_to do |format|
       format.json
     end

@@ -88,20 +88,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     loadMoreTasks:function(){
       var offset = List.tasksListView.collection.length;
       ReachActivityTaskApp.trigger("load-more-tasks:list",offset);
-    },
-
-    showAllTasks: function(taskList) {
-      if(taskList.length == 0) {
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
-      } else {
-        List.tasksListView = new List.Tasks({
-          collection: taskList
-        });
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
-      }
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(
-        _isLoadMoreTasksVisible(taskList.length)
-      );
     }
   }
 });
