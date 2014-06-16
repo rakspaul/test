@@ -155,11 +155,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       // Datepicker
       this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd"},{autoclose: true}).on("changeDate", function (e) {
         var input = $(e.currentTarget),
-            due_date = input.val();
+            dueDate = input.val();
 
-        self.model.set("due_date", due_date);
-        self.ui.taskDueDateTextHolder.text(moment(due_date).endOf('day').fromNow()).show();
-        input.hide();
+        if(self.model.get('due_date') != dueDate) {
+          self.setDueDate(dueDate);
+          input.hide();
+          self.ui.dueDatePicker.datepicker('hide');
+        }
       });
 
       $('.task-details-table .task-name .editable').editable({
@@ -226,6 +228,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
         patch: true
       });
+    },
+
+    setDueDate: function(dueDate) {
+      var self = this;
+      this.model.save({due_date: dueDate}, {
+        error: function() {
+          console.log('task model update failed');
+        },
+
+        patch: true});
     },
 
     onDueDateTextClicked: function(e) {
