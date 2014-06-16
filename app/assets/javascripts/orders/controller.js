@@ -663,7 +663,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("Companion");
     } else if("Video" == ad_type) {
       ad_name_parts.push("Preroll");
-    } else if("Mobile" == ad_type) {
+    } else if("Mobile" == ad_type && !abbr) {
       ad_name_parts.push("^Mob");
     }
 
@@ -675,7 +675,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push(li.get('ad_sizes').replace(/,/g, ' '));
     }
 
-    if ("Facebook" == ad_type) {
+    if ("Facebook" == ad_type && !abbr) {
       ad_name_parts.push("FBX");
     }
     if (abbr) {
