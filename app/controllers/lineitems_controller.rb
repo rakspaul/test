@@ -34,12 +34,14 @@ class LineitemsController < ApplicationController
           #  2014-06-05 04:00:00 | 2014-06-21 03:59:00
 
           # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
-          @ads.map do |ad|
+          @ads.map do |ad|           
             end_date = ad.read_attribute_before_type_cast('end_date')
             if end_date =~ /3:59/
               ad.end_date = end_date.in_time_zone(est) - 4.hours
+              ad.update_column :end_date, (end_date.in_time_zone(est) - 4.hours).to_s.split(' ')[0..1].join(' ')
             elsif end_date =~ /4:59/
               ad.end_date = end_date.in_time_zone(est) - 5.hours
+              ad.update_column :end_date, (end_date.in_time_zone(est) - 5.hours).to_s.split(' ')[0..1].join(' ')
             end
             ad
           end
@@ -47,6 +49,7 @@ class LineitemsController < ApplicationController
           # adjust order's start/end dates
           start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
           end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
+          
           @order.user_id = current_user.id if @order.user_id.blank?
           @order.start_date = start_date
           @order.end_date = end_date
