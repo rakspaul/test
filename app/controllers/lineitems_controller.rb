@@ -31,18 +31,18 @@ class LineitemsController < ApplicationController
           # start_date      |      end_date       
           # ---------------------+---------------------
           #  2014-06-05 04:00:00 | 2014-06-21 03:59:00
-          Rails.logger.warn "[814] Time.zone - " +  Time.zone.inspect
-          Rails.logger.warn "[814] Time.zone_default - " +  Time.zone_default.inspect
+
           # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
           @ads.map do |ad|
             if ad.read_attribute_before_type_cast('end_date') =~ /3:59|4:59/
               Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date') - " + ad.read_attribute_before_type_cast('end_date').inspect
-              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').to_time - " + ad.read_attribute_before_type_cast('end_date').to_time.inspect
-              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est).to_time - " + ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).inspect
+              Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + ad.read_attribute_before_type_cast('end_date').in_time_zone(est).inspect
               end_date = ad.read_attribute_before_type_cast('end_date')
               if end_date =~ /3:59/
+                Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 4.hours).to_s
                 ad.update_column :end_date, (end_date.in_time_zone(est) - 4.hours)
               elsif end_date =~ /4:59/
+                Rails.logger.warn "[814] ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - " + (ad.read_attribute_before_type_cast('end_date').in_time_zone(est) - 5.hours).to_s
                 ad.update_column :end_date, (end_date.in_time_zone(est) - 5.hours)
               end
               Rails.logger.warn '[814] changed after fix ad.end_date - ' + ad.end_date.inspect
