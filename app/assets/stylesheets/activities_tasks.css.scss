@@ -106,6 +106,8 @@ button.rui-btn {
 }
 
 .activities-region {
+  position: relative;
+
   .activities-content {
     .activities-list {
       height: auto;
@@ -135,6 +137,18 @@ button.rui-btn {
         }
       }
     }
+  }
+
+  #activitiesRegionOverlay {
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: #fff;
+    @include opacity(80);
+    z-index: 9;
   }
 }
 
@@ -416,7 +430,7 @@ $border-breaker-width: 10px;
 }
 
 .task-comments-container {
-  max-height: 320px;
+  max-height: 250px;
   overflow-y: auto;
 }
 

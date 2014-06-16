@@ -4,6 +4,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   Entities.Task = Backbone.Model.extend({
     defaults: {
+      is_closed: false,
       original_filename: null
     },
 
