@@ -208,12 +208,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         return;
       }
       var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
-      var self = this, newDueDate = moment().add('days', 2), curDueDate = moment(this.model.get('due_date'));
-      if(curDueDate > newDueDate && !this.model.isPrioritized()) {
-        // Prioritizing the task now
-        curDueDate = newDueDate;
-      }
-      this.model.save({important: !element.hasClass("active"), due_date: curDueDate}, {
+      var self = this;
+      this.model.save({important: !element.hasClass("active"), set_important: true}, {
         success: function() {
           if(element.hasClass('active')) {
             element.removeClass('active');
@@ -222,8 +218,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             element.addClass('active');
             element.removeClass('semi-transparent');
           }
-          self.model.set('important', element.hasClass("active"));
-          self.model.set('due_date', curDueDate);
         },
 
         error: function() {

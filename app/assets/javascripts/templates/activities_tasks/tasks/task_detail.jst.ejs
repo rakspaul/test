@@ -66,8 +66,8 @@
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i>
-    <span id="taskDueDateText"><%= due_date ? moment(due_date).endOf('day').fromNow() : "" %></span>
-    <input type="text" class="span2" value="<%= moment(due_date).format("YYYY-MM-DD") %>" id="createdTaskDueDate" placeholder="Due Date" style="display: none;">
+    <span id="taskDueDateText"><%= due_date ? moment(due_date_with_tz).fromNow() : "" %></span>
+    <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date" style="display: none;">
   </div>
 </div>
 <div class="pure-g" align="center">

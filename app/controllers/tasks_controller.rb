@@ -36,7 +36,7 @@ class TasksController < ApplicationController
   # end
 
   def update
-    task_params = if params[:pk]
+    @task_params = if params[:pk]
                     #update from bootstrap editable
                     {params[:name] => params[:value]}
                   elsif params[:task]
@@ -44,14 +44,16 @@ class TasksController < ApplicationController
                     params[:task].permit!
                   end
 
-    task_params.merge! updated_by: current_user
-    @task.update! task_params
+    @task_params.merge! updated_by: current_user
 
-    render :json => {:status => :ok}, :status => 200
+    prioritize_task if params.delete(:set_important)
 
+    @task.update! @task_params
+
+    render :partial => 'order', :locals => {:task => @task}
   rescue ActiveRecord::RecordInvalid => e
     if @task.errors.present?
-      render :json => @task.errors.messages[task_params.keys.first.to_sym].first, :status => 500
+      render :json => @task.errors.messages[@task_params.keys.first.to_sym].first, :status => 500
     else
       render :json => {:status => :error}, :status => 500
     end
@@ -105,5 +107,11 @@ class TasksController < ApplicationController
 
   def activity_log_params
     params.permit(:note, :activity_type)
+  end
+
+  def prioritize_task
+    if @task_params[:important] && @task.due_date > 2.days.from_now.midnight
+      @task_params[:due_date] = 2.days.from_now.midnight
+    end
   end
 end
