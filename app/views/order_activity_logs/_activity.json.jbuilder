@@ -25,4 +25,9 @@ if activity.task
   json.assignable_name activity.task.assignable.try(:full_name)
   json.task_state activity.task.task_state
   json.important  activity.task.important
+
+  if activity.task.activity_attachment
+    json.attachment_id activity.task.activity_attachment.id
+    json.original_filename activity.task.activity_attachment.original_filename
+  end
 end

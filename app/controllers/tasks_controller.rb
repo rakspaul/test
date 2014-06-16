@@ -60,7 +60,7 @@ class TasksController < ApplicationController
   end
 
   def task_types
-    @task_types = TaskType.all
+    @task_types = TaskType.order(:type => :asc).all
 
     respond_to do |format|
       format.json
