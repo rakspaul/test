@@ -35,8 +35,11 @@ class LineitemsController < ApplicationController
 
           # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
           @ads.map do |ad|
-            if ad.read_attribute_before_type_cast('end_date') =~ /3:59/
-              ad.end_date = ad.read_attribute_before_type_cast('end_date').to_time.in_time_zone(est).end_of_day
+            end_date = ad.read_attribute_before_type_cast('end_date')
+            if end_date =~ /3:59/
+              ad.end_date = end_date.in_time_zone(est) - 4.hours
+            elsif end_date =~ /4:59/
+              ad.end_date = end_date.in_time_zone(est) - 5.hours
             end
             ad
           end
