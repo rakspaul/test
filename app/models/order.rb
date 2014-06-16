@@ -149,8 +149,6 @@ class Order < ActiveRecord::Base
 
       self[:start_date] = "#{start_date} #{start_time}"
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
-      Rails.logger.warn '[814] order.[:start_date] - ' + self[:start_date].inspect
-      Rails.logger.warn '[814] order.[:end_date] - ' + self[:end_date].inspect
     end
 
     def check_est_flight_dates
