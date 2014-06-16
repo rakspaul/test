@@ -1,7 +1,11 @@
-.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+@mixin form_selects() {
   min-width: 120px;
   width: 80%;
   max-width: 150px;
+}
+
+.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  @include form_selects;
 }
 
 .bootstrap-select {
@@ -13,6 +17,22 @@
     &:not(.input-group-btn),
     [class*="span"] {
       margin-bottom: 0;
+    }
+  }
+}
+
+// selectize plugin customization
+.selectize-control {
+  display: inline-block;
+  @include form_selects;
+  max-width: 200px;
+
+  .selectize-input {
+    padding: 4px 10px;
+    vertical-align: middle;
+
+    input {
+      height: 16px;
     }
   }
 }
