@@ -210,14 +210,43 @@ textarea#activity_input {
     cursor: pointer;
   }
 
+  #btnShowTaskForm {
+    &:not(.active) {
+      .task_done-icon {
+        display: inline-block;
+      }
+      .task_done_white-icon {
+        background-color: red;
+        display: none !important;
+      }
+    }
+    &.active {
+      background-color: $btn-primary-bg;
+      .task_done-icon {
+        display: none !important;
+      }
+      .task_open_white-icon {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 #btnSaveComment,
 #btnSaveTaskComment {
   @include opacity(100);
-  background-color: $btn-primary-bg;
-  &:hover {
-    background-color: $btn-bg-hover;
+  &:not(.active) {
+    cursor: no-drop;
+    background-color: $btn-primary-bg;
+    &:hover {
+      background-color: $btn-bg-hover;
+    }
+  }
+  &.active {
+    background-color: darken($active-color, 5%);
+    &:hover {
+      background-color: lighten($active-color, 5%);
+    }
   }
 }
 
