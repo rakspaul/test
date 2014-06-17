@@ -379,8 +379,21 @@ $wide_input_width: 320px;
   }
 
   .trafficker-container {
-    float: right;
-    width: 33%;
+    float: left;
+    width: 50%;
+    .field {
+      width: 300px;
+      float: left;
+      > p {
+        text-align: right;
+        color: #005c97;
+        width: 50%;
+        float: left;
+        margin-right: 10px;
+        font-family: 'Armata', sans-serif;
+      }
+    }
+
   }
 }
 
