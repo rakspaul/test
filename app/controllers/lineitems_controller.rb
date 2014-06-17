@@ -77,7 +77,7 @@ class LineitemsController < ApplicationController
             li_keyvalue_targeting = ads.map(&:keyvalue_targeting).compact.map{|z| z.split(',')}.flatten.uniq.sort.join(',')
 
             sum_media_cost = ads.inject(0.0){|sum, add| sum += add.ad_pricing.try(:value).to_f}
-            cpm_total = sum_media_cost / volume * 1000.0
+            cpm_total = volume == 0 ? 0.0 : (sum_media_cost / volume * 1000.0)
 
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
