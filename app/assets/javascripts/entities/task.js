@@ -12,7 +12,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       if(this.isNew()) {
         return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
       } else {
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks/' + this.get('id');
+        return '/tasks/' + this.get('id');
       }
     },
 
@@ -54,7 +54,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   Entities.TaskTypeCollection = Backbone.Collection.extend({
     url: function() {
-      return '/orders/' + ReachActivityTaskApp.order.id + '/task_types.json'
+      return '/task_types.json'
     },
 
     model: Entities.TaskType

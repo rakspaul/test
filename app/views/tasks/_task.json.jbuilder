@@ -1,6 +1,7 @@
 json.id task.id
 json.name task.name
-json.due_date format_datetime_with_tz(task.due_date)
+json.due_date format_date(task.due_date)
+json.due_date_with_tz format_datetime_with_tz(task.due_date)
 json.completion_date task.completion_date
 json.created_by_id task.created_by_id
 json.created_by task.created_by.try(:full_name)

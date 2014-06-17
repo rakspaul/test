@@ -64,30 +64,26 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       });
     },
 
-    showMoreTaskComments:function(task){
+    showMoreTaskComments: function(task) {
       //get the offset for task comments.
       var offset = List.taskCommentsView.collection.length;
-      var options = {};
-      options.task = task;
-      options.offset = offset;
+      var options = {task: task, offset: offset};
       ReachActivityTaskApp.trigger("taskComments:list", options);
     },
 
-    appendTaskComments:function(taskComments){
-      var collectionLength = 0;
-      if(taskComments)
-        collectionLength = taskComments.length;
-      if(collectionLength>0){
-        taskComments.each(function(taskComment){
+    appendTaskComments: function(taskComments) {
+      var collectionLength = taskComments ? taskComments.length : 0;
+      if(collectionLength > 0) {
+        taskComments.each(function(taskComment) {
           List.taskCommentsView.collection.add(taskComment);
         });
       }
       ReachActivityTaskApp.ActivitiesTasks.Tasks.taskDetailView.showHideTaskComments(_isLoadMoreVisible(collectionLength));
     },
 
-    loadMoreTasks:function(){
+    loadMoreTasks: function() {
       var offset = List.tasksListView.collection.length;
-      ReachActivityTaskApp.trigger("load-more-tasks:list",offset);
+      ReachActivityTaskApp.trigger("load-more-tasks:list", offset);
     }
   }
 });

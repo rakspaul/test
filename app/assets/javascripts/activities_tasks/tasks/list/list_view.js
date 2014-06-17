@@ -88,9 +88,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     itemViewContainer: 'div .task-detail-container',
 
     initialize: function() {
-      //on change event rendering entire view and which results to Load More button toggle to show.
-      //TODO:@Venkat:Is this event required, if not please remove this.
-      //this.model.on('change', this.updateView, this);
+      this.model.on('change', this.updateView, this);
     },
 
     updateView: function() {
@@ -103,21 +101,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       'click .task-detail-view-close' : 'closeTaskDetailView',
       'click #btnMarkTaskDone': 'closeTask',
       'click #btnMarkTaskUrgent': 'setPriority',
-      "click #loadMoreCommentsBtn" : "onMoreTaskComments",
       'click #taskDueDateText': 'onDueDateTextClicked'
     },
 
-
-    onMoreTaskComments:function(e){
-      e.preventDefault();
-      List.Controller.showMoreTaskComments(this.model);
-    },
-
-    showHideTaskComments:function(show){
-      if(show)
-        $("#loadMoreCommentsBtn").show();
-      else
-        $("#loadMoreCommentsBtn").hide();
+    showHideTaskComments:function(show) {
+      show ? $("#loadMoreCommentsBtn").show() : $("#loadMoreCommentsBtn").hide();
     },
 
     ui: {
@@ -162,14 +150,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       }
 
       // Datepicker
-      this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd"},{autoclose: true}).on("changeDate", function (e) {
+      this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd", startDate: new Date(), autoclose: true}).on("changeDate", function (e) {
         var input = $(e.currentTarget),
             dueDate = input.val();
 
         if(self.model.get('due_date') != dueDate) {
           self.setDueDate(dueDate);
           input.hide();
-          self.ui.dueDatePicker.datepicker('hide');
         }
       });
 

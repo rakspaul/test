@@ -40,6 +40,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       taskDetailRegion: '.task-detail-container',
       taskCommentsRegion: '.task-comments-container',
       taskCommentInputRegion: '.task-comment-input-control'
+    },
+
+    events: {
+      "click #loadMoreCommentsBtn" : "onMoreTaskComments"
+    },
+
+    onMoreTaskComments: function(e) {
+      e.preventDefault();
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.showMoreTaskComments(this.options.task);
     }
   });
 
@@ -124,7 +133,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
 
   ReachActivityTaskApp.on("include:taskDetails", function (options) {
 
-    var taskDetailsLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskDetailsLayout();
+    var taskDetailsLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.TaskDetailsLayout(options);
     options.aRegion.show(taskDetailsLayout);
 
     Tasks.taskDetailView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.List.TaskDetailView({
@@ -143,7 +152,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
   });
 
   ReachActivityTaskApp.on("load-more-tasks:list", function (offset) {
-    return API.fetchMoreTasks(offset,Tasks.taskLayout.context);
+    return API.fetchMoreTasks(offset, Tasks.taskLayout.context);
   });
 
   ReachActivityTaskApp.commands.setHandler("orderList:include:tasks", function () {

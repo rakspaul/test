@@ -30,7 +30,7 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
     fetchTaskTypes: function() {
       return ReachActivityTaskApp.request("taskType:entities");
-    },
+    }
   };
 
   ActivitiesTasks.Layout = Marionette.Layout.extend({
@@ -80,6 +80,12 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
    * @param options
    */
   ActivitiesTasks.initAtOrderList = function (options) {
+    // Fetch master data
+    var taskTypes = API.fetchTaskTypes();
+    $.when(taskTypes).done(function(taskTypes) {
+      ReachActivityTaskApp.taskTypes = taskTypes.models;
+    });
+
     // keep the reference to parent layout in this application
     ReachActivityTaskApp.holdingLayout = options.parentLayout;
     ReachActivityTaskApp.commands.execute("orderList:include:tasks");

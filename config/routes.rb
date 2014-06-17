@@ -74,10 +74,12 @@ Reachui::Application.routes.draw do
     end
   end
 
+  get 'task_types' => 'tasks#task_types'
+  post 'tasks/:id' => 'tasks#update'
+
   resources :orders do
 
-    resources :tasks, :only => [:index, :update]
-    get 'task_types' => 'tasks#task_types'
+    resources :tasks, :only => [:index]
 
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
       member do
