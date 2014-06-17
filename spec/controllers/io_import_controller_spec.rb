@@ -22,7 +22,10 @@ describe IoImportController do
     let(:user) { FactoryGirl.create :user } 
 
     before do
-      @order = FactoryGirl.create :order, name: "Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361", start_date: Time.now, end_date: Time.now.advance(days: +10)
+      start_date = Date.today.to_s+" 00:00:00"
+      end_date = (Date.today+10.days).to_s+" 23:59:59"
+      end_date2 = (Date.today+5.days).to_s+" 23:59:59"
+      @order = FactoryGirl.create :order, name: "Otterbein University on Audience Network & RR (6.27-8.18.13) – 799361", start_date: start_date, end_date: end_date
       io_detail = FactoryGirl.create :io_detail, client_order_id: "7762936"
 
       ReachClient.create name: "Time Warner Cable", abbr: "TWC", network_id: collective_network.id
@@ -33,10 +36,10 @@ describe IoImportController do
       ad_size3 = AdSize.create size: "1x1", width: 1, height: 1, network_id: user.network.id
       creative = FactoryGirl.create :creative
 
-      lineitem = FactoryGirl.create :lineitem, start_date: Time.now, end_date: Time.now.advance(days: +10), name: "Age 18-34 or Age 34-50 or Education; Columbus Zips", volume: 300_000, order: @order, user: user
+      lineitem = FactoryGirl.create :lineitem, start_date: start_date, end_date: end_date, name: "Age 18-34 or Age 34-50 or Education; Columbus Zips", volume: 300_000, order: @order, user: user
 
-      lineitem2 = FactoryGirl.create :lineitem_video, start_date: Time.now, end_date: Time.now.advance(days: +5), name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: @order, user: user
-      lineitem_video_assignment = FactoryGirl.create :lineitem_assignment, start_date: Time.now, end_date: Time.now.advance(days: +5), creative: creative, lineitem: lineitem2
+      lineitem2 = FactoryGirl.create :lineitem_video, start_date: start_date, end_date: end_date2, name: "RON; Columbus Zips", volume: 210_000, alt_ad_id: "2", order: @order, user: user
+      lineitem_video_assignment = FactoryGirl.create :lineitem_assignment, start_date: start_date, end_date: end_date2, creative: creative, lineitem: lineitem2
       @order.io_detail = io_detail
       @order.save
       @order.lineitems << lineitem
