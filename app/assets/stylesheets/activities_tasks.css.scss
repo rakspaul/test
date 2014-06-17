@@ -210,6 +210,26 @@ textarea#activity_input {
     cursor: pointer;
   }
 
+  #btnShowTaskForm {
+    &:not(.active) {
+      .task_done-icon {
+        display: inline-block;
+      }
+      .task_done_white-icon {
+        background-color: red;
+        display: none !important;
+      }
+    }
+    &.active {
+      background-color: $btn-primary-bg;
+      .task_done-icon {
+        display: none !important;
+      }
+      .task_open_white-icon {
+        display: inline-block;
+      }
+    }
+  }
 }
 
 #btnSaveComment,
