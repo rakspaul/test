@@ -235,9 +235,18 @@ textarea#activity_input {
 #btnSaveComment,
 #btnSaveTaskComment {
   @include opacity(100);
-  background-color: $btn-primary-bg;
-  &:hover {
-    background-color: $btn-bg-hover;
+  &:not(.active) {
+    cursor: no-drop;
+    background-color: $btn-primary-bg;
+    &:hover {
+      background-color: $btn-bg-hover;
+    }
+  }
+  &.active {
+    background-color: darken($active-color, 5%);
+    &:hover {
+      background-color: lighten($active-color, 5%);
+    }
   }
 }
 
