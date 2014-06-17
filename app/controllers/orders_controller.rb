@@ -37,6 +37,10 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
+    if @order.order_notes.blank? # that's Sweep order
+      @order.set_import_note
+    end
+
     @reachui_users = load_users.limit(50)
 
     respond_to do |format|
