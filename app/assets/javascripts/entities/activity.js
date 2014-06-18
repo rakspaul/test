@@ -31,7 +31,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     initialize: function() {
-      this.set('due_date', moment().add('days', ReachActivityTaskApp.taskTypes[0].get('default_sla')));
+      this.set('due_date', ReachActivityTaskApp.taskTypes[0].get('default_due_date'));
       this.set('important', false);
       this.set('errors', {});
 

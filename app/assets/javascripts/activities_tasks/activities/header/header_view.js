@@ -271,7 +271,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     markAsImportant: function (e) {
       e.preventDefault();
-      var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
+      var element = $(e.target).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
       element.toggleClass("active");
       this.model.set('important', element.hasClass('active'));
     },
@@ -334,7 +334,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
       this.model.set('assigned_by_id', undefined);
-      this.model.set('due_date', moment().add('days', thisTaskType.get('default_sla')));
+      this.model.set('due_date', thisTaskType.get('default_due_date'));
 
       this.render();
       this.showTaskForm();
