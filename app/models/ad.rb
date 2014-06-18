@@ -57,7 +57,7 @@ class Ad < ActiveRecord::Base
   before_validation :sanitize_attributes
 
   before_create :create_random_source_id, :set_est_flight_dates     
-before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
   before_update :check_est_flight_dates
 
   before_validation :check_flight_dates_within_li_flight_dates
@@ -240,11 +240,11 @@ before_save :move_end_date_time, :set_data_source, :set_type_params, :set_defaul
     self.status ||= "DRAFT"
   end
 
+private
+
   def set_platform_site
     self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
   end
-
-private
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def set_est_flight_dates
