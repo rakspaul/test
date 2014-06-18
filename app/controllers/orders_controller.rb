@@ -504,9 +504,16 @@ private
 
           if li_saved
             if !delete_creatives_ids.blank?
-              ad_object.creatives.find(delete_creatives_ids).each do |creative|
-                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
-                ad_assignment.destroy if !creative.pushed_to_dfp?
+              if media_type == 'Video'
+                ad_object.video_creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.video_ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
+              else
+                ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
               end
             end
           end
