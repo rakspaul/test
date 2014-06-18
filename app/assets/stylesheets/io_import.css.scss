@@ -296,7 +296,7 @@ $wide_input_width: 320px;
     border:1px dashed $text_color;
     float:left;
     padding:3px;
-    margin-right:50px;
+    margin-right:30px;
     font-family: 'Armata', sans-serif;
 
     .name {
@@ -385,9 +385,9 @@ $wide_input_width: 320px;
       width: 300px;
       float: left;
       > p {
-        text-align: right;
+        text-align: left;
         color: #005c97;
-        width: 50%;
+        width: 40%;
         float: left;
         margin-right: 10px;
         font-family: 'Armata', sans-serif;
