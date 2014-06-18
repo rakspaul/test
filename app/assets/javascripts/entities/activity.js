@@ -31,9 +31,9 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     initialize: function() {
-      this.set('task_types', ReachActivityTaskApp.taskTypes);
-      this.set('users', ReachActivityTaskApp.taskTypes[0].get('users'));
       this.set('due_date', moment().add('days', ReachActivityTaskApp.taskTypes[0].get('default_sla')));
+      this.set('important', false);
+      this.set('errors', {});
 
       return this;
     },

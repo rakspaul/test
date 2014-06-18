@@ -68,8 +68,8 @@ class OrderActivityLogsController < ApplicationController
                            :order_activity_log => activity,
                            :important => task_params.delete(:important)
 
-        task = Task.new(task_params)
-        task.save!
+        @task = Task.new(task_params)
+        @task.save!
 
         # link activity attachment
         if attachment
@@ -87,6 +87,8 @@ class OrderActivityLogsController < ApplicationController
     end
 
     render :json => {:status => 'ok'}, :status => 200
+  rescue ActiveRecord::RecordInvalid => e
+    render :json => {:status => 'error', :message => @task.errors.messages}, :status => 400
   rescue ActiveRecord::ActiveRecordError => e
     error_message(e.message)
   end

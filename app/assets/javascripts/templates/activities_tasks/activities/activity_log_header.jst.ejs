@@ -45,6 +45,11 @@
     </div>
     <div class="activity-comment-input-container">
       <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
+      <div class="errors_container">
+        <% if (errors && errors.name) { %>
+          <%= errors.name[0] %>
+        <% } %>
+        </div>
     </div>
     <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
     <div class="rui-btn" id="btnRemoveAttachment">
@@ -63,13 +68,13 @@
       <div class="pure-u-4-5 controls-container">
         <div class="pure-g-r">
           <div class="pure-u-1">
-            <button id="btnSaveAlert" class="rui-btn" title="Mark Task as important">
+            <button id="btnSaveAlert" class="rui-btn <%= important ? 'active' : ''%>" title="Mark Task as important">
               <i class="alert-icon"></i>
             </button>
             <div class="form-control-group">
               <div class="task_open-icon"></div>
               <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
-                <% _.each(task_types, function(tt) { %>
+                <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
                 <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
                 <%}); %>
               </select>

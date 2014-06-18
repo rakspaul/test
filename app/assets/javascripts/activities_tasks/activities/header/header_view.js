@@ -95,7 +95,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.taskTypeSelector.selectpicker();
 
         // Selectize the task-assignee-selector
-        task_assignee_selector = $('#task-assignee-selector').selectize({
+        var task_assignee_selector = $('#task-assignee-selector').selectize({
             valueField: 'id',
             labelField: 'name',
             searchField: 'name',
@@ -136,31 +136,31 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
             }
         });
 
-        var taskType = this.ui.taskTypeSelector.val();
-        var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
-        task_assignee_selector[0].selectize.addItem(thisTaskType.get('default_assignee_id'));
+        if(this.model.get('assigned_by_id')) {
+            task_assignee_selector[0].selectize.addItem(this.model.get('assigned_by_id'));
+        } else {
+            var taskType = this.ui.taskTypeSelector.val();
+            var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
+            task_assignee_selector[0].selectize.addItem(thisTaskType.get('default_assignee_id'));
+        }
     },
 
     // Assemble the options list from the teams and the members of the teams
     defaultOptionsList: function() {
         var optList = [];
-
         var taskType = this.ui.taskTypeSelector.val();
         var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
         var default_team_name = thisTaskType.get('default_assignee_team');
         var default_team_id = thisTaskType.get('default_assignee_id');
-        var team_members = thisTaskType.get('users');
 
         // Add default team
-        if (default_team_id !== 'undefined' && default_team_name !== 'undefined' )
+        if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
             optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
 
         // Add members of team
-        if (team_members !== 'undefined') {
-            for(i = 0; i < team_members.length; i++) {
-                optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
-            }
-        }
+        _.each(thisTaskType.get('users'), function(member) {
+            optList.push({ id: member.id, name: member.name, group: 'team_users' });
+        });
 
         return optList;
     },
@@ -171,6 +171,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     modelEvents: {
       'change:note': 'onNoteChanged'
+    },
+
+    renderAll: function() {
+      this.render();
+      if(this.model.get('activity_type') == 'task') {
+        this.showTaskForm();
+      }
     },
 
     animateFilterControls: function (component, type) {
@@ -247,21 +254,26 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },*/
 
     showTaskForm: function (e) {
+      this.model.set('note', this.ui.activity_input.val());
       this.ui.taskFormRegion.toggle();
       this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
       if (this.ui.taskFormRegion.is(":visible")) {
-        $("#due-date").datepicker({format:"yyyy-mm-dd"});
-        //reset urgent icon style
-        $("#btnSaveAlert").removeClass("important active");
+        $("#due-date").datepicker({format:"yyyy-mm-dd", startDate: new Date()});
+      } else {
+        this.model.set('important', false);
+        this.model.set('task_type_id', undefined);
+        this.model.set('assigned_by_id', undefined);
+        this.model.set('due_date', undefined);
+        this.model.set('errors', undefined);
+        this.render();
       }
     },
 
-    // Save Handlers
     markAsImportant: function (e) {
       e.preventDefault();
       var element = $(e.target).tagName=="BUTTON"?$(e.target):$(e.target).parent();
-      element.toggleClass("important active");
-      this.model.set('important', element.hasClass('important'));
+      element.toggleClass("active");
+      this.model.set('important', element.hasClass('active'));
     },
 
     saveComment: function (e) {
@@ -295,26 +307,33 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     saveTask: function (commentText) {
       this.model.set('note', commentText);
-      this.model.set('due_date', moment(this.ui.dueDate.val()).format("YYYY-MM-DD"));
+      this.model.set('due_date', this.ui.dueDate.val());
       this.model.set('task_type_id', this.ui.taskTypeSelector.val());
       this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
-      //TODO: Is this needed.
-      //this.model.unset('users', {silent: true});
-      //this.model.unset('task_types', {silent: true});
 
-      Header.Controller.saveTask(this.model);
+      var self = this;
+      this.model.save(null, {
+        success: function (model, response) {
+          ReachActivityTaskApp.trigger("activities:list");
+          ReachActivityTaskApp.trigger("tasks:list");
+          Header.headerLayout.resetFormControls();
+        },
+        error: function (model, response) {
+          if(response.status == 400) {
+            //validation error
+            model.set('errors', response.responseJSON.message);
+            self.renderAll();
+          }
+        }
+      });
     },
 
-    onTaskTypeChanged: function (e) {
-      this.setTaskUsers();
-      this.ui.taskFormRegion.show();
-    },
-
-    setTaskUsers: function () {
+    onTaskTypeChanged: function () {
       var taskType = this.ui.taskTypeSelector.val();
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
+      this.model.set('assigned_by_id', undefined);
       this.model.set('due_date', moment().add('days', thisTaskType.get('default_sla')));
 
       this.render();
