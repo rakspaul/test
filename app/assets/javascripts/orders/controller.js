@@ -749,15 +749,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       if (type === 'Companion') {
         var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
         ad.set('targeting', defaultCompanionAdTargeting);
-        creatives = _.filter(creatives, function(c) { return c.get('size') != '1x1'; });
+        creatives = _.filter(creatives, function(c) { return c.get('ad_size') != '1x1'; });
       } else {
         ad.set('targeting', li_targeting);
       }
       if (type == 'Video') {
-        creatives = _.filter(creatives, function(c) { return c.get('size') == '1x1'; });
+        creatives = _.filter(creatives, function(c) { return c.get('ad_size') == '1x1'; });
       }
 
-console.log(creatives);
       _.each(creatives, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
           id: li_creative.get('id'),
