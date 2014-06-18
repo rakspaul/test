@@ -744,16 +744,20 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         type: type
       });
 
-      if (type != 'Companion') {
-        ad.set('targeting', li_targeting);
-      } else if(type === 'Companion')
-      {
+      var creatives = li.get('creatives').models, li_creatives = [];
+      if (type === 'Companion') {
         var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
         ad.set('targeting', defaultCompanionAdTargeting);
+        creatives = _.filter(creatives, function(c) { return c.get('size') != '1x1'; });
+      } else {
+        ad.set('targeting', li_targeting);
+      }
+      if (type == 'Video') {
+        creatives = _.filter(creatives, function(c) { return c.get('size') == '1x1'; });
       }
 
-      var li_creatives = [];
-      _.each(li.get('creatives').models, function(li_creative) {
+console.log(creatives);
+      _.each(creatives, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
           id: li_creative.get('id'),
           parent_cid: li_creative.cid, // need to identify same Creative on both Ad and LI levels
