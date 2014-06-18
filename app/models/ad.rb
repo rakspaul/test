@@ -53,8 +53,9 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id
+  before_create :create_random_source_id, :set_est_flight_dates
   before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
+  before_update :check_est_flight_dates
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -64,6 +65,15 @@ class Ad < ActiveRecord::Base
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
+  end
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
   end
 
   def type
@@ -134,7 +144,14 @@ class Ad < ActiveRecord::Base
     if new_record?
       self.geo_targets = targets
     else
-      self.geo_targets.delete_all
+      existing_geos = self.geo_targets.map(&:id)
+      targets_ids = targets.map(&:id)
+      delete_geos = existing_geos - targets_ids
+
+      AdGeoTargeting.delete_all(:ad_id => self.id, :geo_target_id => delete_geos) if delete_geos.size > 0
+
+      targets = targets.select {|tg| !existing_geos.include?(tg.id) }
+
       if targets.size > 0
         # we could have many targets for so better to insert all them in one insert query
         insert_values = targets.collect do |t|
@@ -212,5 +229,33 @@ class Ad < ActiveRecord::Base
 
   def set_default_status
     self.status ||= "DRAFT"
+  end
+
+private
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def set_est_flight_dates
+    if self[:start_date]
+      start_date = read_attribute_before_type_cast('start_date').to_date
+      current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
+      start_time = start_date.today? ? current : "00:00:00"
+      self[:start_date] = "#{start_date} #{start_time}"
+    end
+    if self[:end_date]
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
+  end
+
+  def check_est_flight_dates
+    if start_date_changed?
+      start_date, _ = read_attribute_before_type_cast('start_date').to_s.split(' ')
+      _, start_time_was = start_date_was.to_s(:db).split(' ')
+      self[:start_date] = "#{start_date} #{start_time_was}"
+    end
+    if end_date_changed?
+      end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
+      _, end_time_was = end_date_was.to_s(:db).split(' ')
+      self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+    end
   end
 end

@@ -1,9 +1,13 @@
 (function(ReachClient) {
   'use strict';
 
+// --------------------/ Region /------------------------------------
+
   ReachClient.DetailRegion = Backbone.Marionette.Region.extend({
     el: "#details.content"
   });
+
+// --------------------/ Layout /------------------------------------
 
   ReachClient.Layout = Backbone.Marionette.Layout.extend({
     template: JST['templates/admin/reach_clients/reach_clients_layout'],
@@ -12,6 +16,8 @@
       content: '#content'
     },
   });
+
+// --------------------/ Controllers /-------------------------------
 
   ReachClient.ReachClientController = Marionette.Controller.extend({
     initialize: function() {

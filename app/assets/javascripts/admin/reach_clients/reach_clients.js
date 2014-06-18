@@ -1,6 +1,56 @@
 (function(ReachClient) {
   'use strict';
 
+// --------------------/ Region /------------------------------------
+
+  ReachClient.ModalRegion = Backbone.Marionette.Region.extend({
+
+    constructor: function(){
+      _.bindAll(this);
+      this.ensureEl();
+      Marionette.Region.prototype.constructor.apply(this, arguments);
+    },
+
+    getEl: function(selector){
+      var $el = $(selector);
+      $el.on("hidden", this.close);
+      return $el;
+    },
+
+    onShow: function(view){
+      view.on("close", this.hideModal, this);
+      this.$el.modal('show');
+    },
+
+    hideModal: function(){
+      this.$el.modal('hide');
+    }
+  });
+
+// --------------------/ Layout /------------------------------------
+
+  ReachClient.ReachClientDetailsLayout = Backbone.Marionette.Layout.extend({
+    template: JST['templates/admin/reach_clients/reach_clients_details_layout'],
+
+    regions: {
+      client_details: '#client_details',
+      client_contacts: '#client_contacts',
+      collective_contacts: '#collective_contacts'
+    },
+
+    triggers: {
+      'click #btnSave': 'save',
+    },
+
+    ui:{
+      btnSave: '#btnSave',
+      btnClose: '#btnClose'
+    },
+
+  });
+
+// --------------------/ Models /------------------------------------
+
   ReachClient.ReachClientModel = Backbone.Model.extend({
     url: function() {
       if(this.isNew()) {
@@ -57,19 +107,6 @@
     model: ReachClient.BillingContact,
   });
 
-  // ReachClient.SalesPerson = Backbone.Model.extend({});
-
-  // ReachClient.SalesPersonList = Backbone.Collection.extend({
-  //   model: ReachClient.SalesPerson,
-  // });
-
-  // ReachClient.AccountManager = Backbone.Model.extend({});
-
-  // ReachClient.AccountManagerList = Backbone.Collection.extend({
-  //   model: ReachClient.AccountManager,
-  // });
-
-
   ReachClient.User = Backbone.Model.extend({});
 
   ReachClient.UserList = Backbone.Collection.extend({
@@ -83,6 +120,8 @@
     url: '/agency.json',
     model: ReachClient.Agency,
   });
+
+// --------------------/ Views /-------------------------------------
 
   ReachClient.ReachClientDetailsView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/admin/reach_clients/reach_client_details'],
@@ -117,18 +156,15 @@
     },
 
     events: {
-      'keyup #client_buffer': '_clientBufferValue'
+      'focusout #client_buffer': '_onClientBufferInputFocusOut'
     },
 
-    _clientBufferValue: function(){
-      var val = this.ui.client_buffer.val();
+    _onClientBufferInputFocusOut: function(){
+      var value = this.ui.client_buffer.val(),
+      clientBuffer = parseFloat(value);
 
-      if(val.indexOf('.')!=-1){
-        if(val.split(".")[1].length > 1){
-          if( isNaN( parseFloat(val) ) ) return;
-          this.ui.client_buffer.val(Math.floor(parseFloat(val) * 10) / 10);
-          return;
-        }
+      if(!isNaN(clientBuffer)){
+         this.ui.client_buffer.val(clientBuffer.toFixed(1));
       }
     },
 
@@ -244,57 +280,12 @@
       address_error: '#address_error'
     },
 
-    events: {
-      'click #save_media_contact' : 'onSave'
+    triggers: {
+      'click #save_media_contact' : 'Save:MediaContact',
     },
 
-    initialize: function() {
-      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
-    },
-
-    onSave: function() {
-      var para = {
-        name: this.ui.name.val(),
-        phone: this.ui.phone.val(),
-        email: this.ui.email.val(),
-        address: this.ui.address.val(),
-        reach_client_id: this.model.get('reach_client_id'),
-      }
-
-      var self = this;
-
-      _.keys(this.ui)
-        .filter(function(val) {
-          return /_error$/.test(val);
-        })
-        .forEach(function(val) {
-          self.ui[val].text("");
-        });
-
-      this.model.save(para, {
-        success: this._onSaveSuccess,
-        error: this._onSaveFailure
-      });
-    },
-
-    _onSaveSuccess: function(model, response, options) {
-      this.trigger('onMediaContactSave', model)
-      $('#close_modal').trigger('click');
-    },
-
-    _onSaveFailure: function(model, xhr, options) {
-      if(xhr.responseJSON && xhr.responseJSON.errors) {
-        var formErrors = [];
-
-        _.each(xhr.responseJSON.errors, function(value, key) {
-          var errorLabel = this.ui[key + "_error"];
-          if(errorLabel) {
-            errorLabel.text(value[0]);
-          } else {
-            formErrors.push(value);
-          }
-        }, this);
-      }
+    hide: function() {
+      $('#modal').modal('hide')
     }
 
   });
@@ -314,107 +305,17 @@
       address_error: '#address_error'
     },
 
-    events: {
-      'click #save_billing_contact' : 'onSave'
-    },
-
-    initialize: function() {
-      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
-    },
-
-    onSave: function() {
-      var para = {
-        name: this.ui.name.val(),
-        phone: this.ui.phone.val(),
-        email: this.ui.email.val(),
-        address: this.ui.address.val(),
-        reach_client_id: this.model.get('reach_client_id'),
-      }
-
-      var self = this;
-
-      _.keys(this.ui)
-        .filter(function(val) {
-          return /_error$/.test(val);
-        })
-        .forEach(function(val) {
-          self.ui[val].text("");
-        });
-
-      this.model.save(para, {
-        success: this._onSaveSuccess,
-        error: this._onSaveFailure
-      });
-    },
-
-    _onSaveSuccess: function(model, response, options) {
-      this.trigger('onBillingContactSave', model)
-      $('#close_modal').trigger('click');
-    },
-
-    _onSaveFailure: function(model, xhr, options) {
-      if(xhr.responseJSON && xhr.responseJSON.errors) {
-        var formErrors = [];
-
-        _.each(xhr.responseJSON.errors, function(value, key) {
-          var errorLabel = this.ui[key + "_error"];
-          if(errorLabel) {
-            errorLabel.text(value[0]);
-          } else {
-            formErrors.push(value);
-          }
-        }, this);
-      }
-    },
-
-  });
-
-
-  ReachClient.ReachClientDetailsLayout = Backbone.Marionette.Layout.extend({
-    template: JST['templates/admin/reach_clients/reach_clients_details_layout'],
-
-    regions: {
-      client_details: '#client_details',
-      client_contacts: '#client_contacts',
-      collective_contacts: '#collective_contacts'
-    },
-
     triggers: {
-      'click #btnSave': 'save',
+      'click #save_billing_contact' : 'Save:BillingContact',
     },
 
-    ui:{
-      btnSave: '#btnSave',
-      btnClose: '#btnClose'
-    },
-
-  });
-
-
-  ReachClient.ModalRegion = Backbone.Marionette.Region.extend({
-
-    constructor: function(){
-      _.bindAll(this);
-      this.ensureEl();
-      Marionette.Region.prototype.constructor.apply(this, arguments);
-    },
-
-    getEl: function(selector){
-      var $el = $(selector);
-      $el.on("hidden", this.close);
-      return $el;
-    },
-
-    onShow: function(view){
-      view.on("close", this.hideModal, this);
-      this.$el.modal('show');
-    },
-
-    hideModal: function(){
-      this.$el.modal('hide');
+    hide: function() {
+      $('#modal').modal('hide')
     }
+
   });
 
+// --------------------/ Controllers /-------------------------------
 
   ReachClient.ReachClientDetailsController = Marionette.Controller.extend({
     initialize: function() {
@@ -480,10 +381,8 @@
     _addMediaContact: function() {
       var model = new ReachClient.MediaContact();
       model.set({reach_client_id: this.reachClientModel.id})
-
-      this.mediaContactView = new ReachClient.MediaContactView({model: model});
-      this.mediaContactView.on('onMediaContactSave', this._onMediaContactSave, this);
-      this.layout.modal.show(this.mediaContactView);
+      this.mediaContactController = new ReachClient.MediaContactController({mainRegion: this.layout.modal, mediaContact: model});
+      this.mediaContactController.on('onMediaContactSave', this._onMediaContactSave, this);
     },
 
     _onMediaContactSave: function(model) {
@@ -494,9 +393,8 @@
       var model = new ReachClient.BillingContact();
       model.set({reach_client_id: this.reachClientModel.id})
 
-      this.billingContactView = new ReachClient.BillingContactView({model: model});
-      this.billingContactView.on('onBillingContactSave', this._onBillingContactSave, this);
-      this.layout.modal.show(this.billingContactView);
+      this.billingContactController = new ReachClient.BillingContactController({mainRegion: this.layout.modal, billingContact: model});
+      this.billingContactController.on('onBillingContactSave', this._onBillingContactSave, this);
     },
 
     _onBillingContactSave: function(model) {
@@ -505,24 +403,25 @@
 
     _editMediaContact: function(id){
       var model = this.mediaContacts.get(id);
-      this.mediaContactView = new ReachClient.MediaContactView({model: model});
-      this.layout.modal.show(this.mediaContactView);
+      this.mediaContactController = new ReachClient.MediaContactController({mainRegion: this.layout.modal, mediaContact: model});
     },
 
     _editBillingContact: function(id){
       var model = this.billingContacts.get(id);
-      this.billingContactView = new ReachClient.BillingContactView({model: model});
-      this.layout.modal.show(this.billingContactView);
+      this.billingContactController = new ReachClient.BillingContactController({mainRegion: this.layout.modal, billingContact: model});
     },
 
     _onSave: function() {
+      var clientBufferString = this.clientDetailsView.ui.client_buffer.val(),
+        clientBuffer = !isNaN(parseFloat(clientBufferString)) ? parseFloat(clientBufferString).toFixed(1) : clientBufferString
+
       var prop = {
         name: this.clientDetailsView.ui.name.val(),
         abbr: this.clientDetailsView.ui.abbreviation.val(),
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
         agency_id: this.clientDetailsView.ui.agency.val(),
-        client_buffer: this.clientDetailsView.ui.client_buffer.val(),
+        client_buffer: clientBuffer
       }
 
       if(this.clientContactsView) {
@@ -591,5 +490,124 @@
 
   });
 
+  ReachClient.MediaContactController = Marionette.Controller.extend({
+    initialize: function() {
+      this.mainRegion = this.options.mainRegion;
+      this.mediaContact = this.options.mediaContact;
+      this._initializeMediaContactView(this.mediaContact);
+      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+    },
+
+    _initializeMediaContactView: function(mediaContact) {
+      this.mediaContactView = new ReachClient.MediaContactView({model: mediaContact});
+      this.mediaContactView.on('Save:MediaContact', this._saveMediaContact, this);
+      this.mainRegion.show(this.mediaContactView)
+    },
+
+    _saveMediaContact: function() {
+      var para = {
+        name: this.mediaContactView.ui.name.val(),
+        phone: this.mediaContactView.ui.phone.val(),
+        email: this.mediaContactView.ui.email.val(),
+        address: this.mediaContactView.ui.address.val(),
+        reach_client_id: this.mediaContact.get('reach_client_id'),
+      }
+
+      var self = this;
+
+      _.keys(this.mediaContactView.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.mediaContactView.ui[val].text("");
+        });
+
+      this.mediaContact.save(para, {
+        success: this._onSaveSuccess,
+        error: this._onSaveFailure
+      });
+    },
+
+    _onSaveSuccess: function(event) {
+      this.trigger('onMediaContactSave', this.mediaContact)
+      this.mediaContactView.hide();
+    },
+
+    _onSaveFailure:function(model, xhr, options) {
+      if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
+
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.mediaContactView.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
+      }
+    },
+  });
+
+  ReachClient.BillingContactController = Marionette.Controller.extend({
+    initialize: function() {
+      this.mainRegion = this.options.mainRegion;
+      this.billingContact = this.options.billingContact;
+      this._initializeBillingContactView(this.billingContact);
+      _.bindAll(this, '_onSaveSuccess', '_onSaveFailure');
+    },
+
+    _initializeBillingContactView: function(billingContact) {
+      this.billingContactView = new ReachClient.BillingContactView({model: billingContact});
+      this.billingContactView.on('Save:BillingContact', this._saveBillingContact, this);
+      this.mainRegion.show(this.billingContactView)
+    },
+
+    _saveBillingContact: function() {
+      var para = {
+        name: this.billingContactView.ui.name.val(),
+        phone: this.billingContactView.ui.phone.val(),
+        email: this.billingContactView.ui.email.val(),
+        address: this.billingContactView.ui.address.val(),
+        reach_client_id: this.billingContact.get('reach_client_id'),
+      }
+
+      var self = this;
+
+      _.keys(this.billingContactView.ui)
+        .filter(function(val) {
+          return /_error$/.test(val);
+        })
+        .forEach(function(val) {
+          self.billingContactView.ui[val].text("");
+        });
+
+      this.billingContact.save(para, {
+        success: this._onSaveSuccess,
+        error: this._onSaveFailure
+      });
+    },
+
+    _onSaveSuccess: function(event) {
+      this.trigger('onBillingContactSave', this.billingContact)
+      this.billingContactView.hide();
+    },
+
+    _onSaveFailure:function(model, xhr, options) {
+      if(xhr.responseJSON && xhr.responseJSON.errors) {
+        var formErrors = [];
+
+        _.each(xhr.responseJSON.errors, function(value, key) {
+          var errorLabel = this.billingContactView.ui[key + "_error"];
+          if(errorLabel) {
+            errorLabel.text(value[0]);
+          } else {
+            formErrors.push(value);
+          }
+        }, this);
+      }
+    },
+  });
 
 })(ReachUI.namespace("ReachClients"));

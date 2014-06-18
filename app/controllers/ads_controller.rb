@@ -19,8 +19,4 @@ class AdsController < ActionController::Base
     end
   end
 
-  def ad_types
-    @ad_types = Ad.of_network(current_network).select(:ad_type).distinct.where("ads.ad_type IS NOT NULL").order("ad_type ASC")
-    respond_with(@ad_types)
-  end
 end
