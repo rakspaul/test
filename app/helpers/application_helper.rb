@@ -30,12 +30,15 @@ module ApplicationHelper
   }
 
   def format_date(date)
-    tz = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
-    I18n.localize(date.in_time_zone(tz), :format => :short) unless date.nil?
+    #tz = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
+    #I18n.localize(date.in_time_zone(tz), :format => :short) unless date.nil?
+    date.to_date.to_s if date
   end
 
   def format_datetime(datetime)
-    I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)")) unless datetime.blank?
+    #I18n.localize(datetime.in_time_zone("Eastern Time (US & Canada)")) unless datetime.blank?
+    #datetime = datetime.to_date if datetime.is_a?(String)
+    datetime.to_date.to_s if datetime
   end
 
   def html_code_excerpt(creative)

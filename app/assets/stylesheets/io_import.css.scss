@@ -3,6 +3,7 @@ $bg_color: #a5ccf9;
 $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: red;
+$dfp_zipcode_error_color: #fd9828;
 $magenta_color: #d02898;
 $border_color: #0088cc;
 
@@ -1049,6 +1050,7 @@ $wide_input_width: 320px;
 
     .tgt-item-zip-container{
       margin-left:3px;
+      height: 22px;
     }
 
     .zip-codes-targeting {
@@ -1058,6 +1060,15 @@ $wide_input_width: 320px;
 
       .errors-container {
         border-bottom: 1px dashed $error_color;
+        margin-left:5px;
+      }
+
+      .dfp-invalid-zip {
+        border-bottom: 2px solid $dfp_zipcode_error_color;
+      }
+
+      .dfp-errors-container {
+        border-bottom: 1px dashed $dfp_zipcode_error_color;
         margin-left:5px;
       }
     }

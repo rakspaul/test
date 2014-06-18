@@ -45,10 +45,11 @@ class Lineitem < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
 
   before_create :generate_alt_ad_id
-  before_create :set_default_buffer
+  before_create :set_default_buffer, :set_est_flight_dates
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
+  before_update :check_est_flight_dates
 
   scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
@@ -156,6 +157,15 @@ class Lineitem < ActiveRecord::Base
     "#{ ad_size.gsub(/,/, ' ') }"
   end
 
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
+  end
+
   private
 
     def flight_dates_with_in_order_range
@@ -203,5 +213,28 @@ class Lineitem < ActiveRecord::Base
 
     def html_unescape(str)
       str.gsub(/&amp;/m, '&').gsub(/&gt;/m, '>').gsub(/&lt;/m, '<').gsub(/&quot;/m, '"').gsub(/&#39;/m, "'")
+    end
+
+    # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+    def set_est_flight_dates
+      start_date = read_attribute_before_type_cast('start_date').to_date
+      current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
+      start_time = start_date.today? ? current : "00:00:00"
+
+      self[:start_date] = "#{start_date} #{start_time}"
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
+
+    def check_est_flight_dates
+      if start_date_changed?
+        start_date, _ = read_attribute_before_type_cast('start_date').to_s.split(' ')
+        _, start_time_was = start_date_was.to_s(:db).split(' ')
+        self[:start_date] = "#{start_date} #{start_time_was}"
+      end
+      if end_date_changed?
+        end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
+        _, end_time_was = end_date_was.to_s(:db).split(' ')
+        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+      end
     end
 end

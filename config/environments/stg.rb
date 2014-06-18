@@ -110,4 +110,5 @@ Reachui::Application.configure do
     :password => "T4idav2wo5mP"
   }
 
+  config.backbone_service_url = "http://127.0.0.1:9091/"
 end

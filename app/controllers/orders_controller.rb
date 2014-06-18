@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  include Authenticator
+  include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
   before_filter :set_users_and_orders, :only => [:index, :show, :delete]
@@ -759,15 +759,10 @@ private
   def validate_custom_keyvalues(custom_kv)
     errors_in_kv = false
 
-    if !custom_kv.strip.blank?
-      custom_kv.split(',').each do |el|
-        if ! el.strip.match /^(\w+)=([\w\.]+)$/
-          errors_in_kv = "Key value format should be [key]=[value]"
-        end
-      end
-
-      if custom_kv.strip.match /(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/
-        errors_in_kv = "Key values should be comma separated"
+    if custom_kv && custom_kv != ""
+      response = validate_key_values(custom_kv)
+      if response.code != '200'
+        errors_in_kv = "Please enter valid key value(s)."
       end
     end
 

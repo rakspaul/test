@@ -464,22 +464,26 @@
       }
     },
 
+    //  This method will open or close targeting dialog box
+    //  hideTargeting() will give call to server for validating key value and zipcodes
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
-        this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
-        if(this.targetingView.show_custom_key_values){
-          this.targetingView._toggleCustomRegularKeyValues();
-        }
-        ReachUI.showCondensedTargetingOptions.apply(this);
-        $(this.ui.targeting).hide('slow');
+      if(is_visible){
+        this.targetingView.hideTargeting();
       } else{
         this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
         $(this.ui.targeting).show('slow');
       }
     },
 
+    // after validating zipcode and key values this function will get call
+    onTargetingDialogToggle: function() {
+      this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
+    },
+
+    // for lineitem
+    // this function will update the key values and zipcodes after validating
     _hideTargetingDialog: function() {
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
