@@ -237,6 +237,8 @@ class Ad < ActiveRecord::Base
     self.status ||= "DRAFT"
   end
 
+private
+
   def set_platform_site
     self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
   end
