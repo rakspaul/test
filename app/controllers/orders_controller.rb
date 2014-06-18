@@ -410,7 +410,7 @@ private
         li[:lineitem].delete(param)
       end
 
-      if li[:type] = 'Video'
+      if li[:type] == 'Video'
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
@@ -468,11 +468,20 @@ private
         # delete lineitem_assignments for selected creatives and if there are no ads associated
         # with this creative delete the creative itself
         if !_delete_creatives_ids.blank?
-          _delete_creatives_ids.each do |delete_creative_id|
-            creative = Creative.find delete_creative_id
-            lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
-            creative.destroy if creative.ads.empty?
-            li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+          if li[:type] == 'Video'
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = VideoCreative.find delete_creative_id
+              lineitem.lineitem_video_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
+          else
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = Creative.find delete_creative_id
+              lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
           end
         end
 
@@ -535,9 +544,16 @@ private
 
           if li_saved
             if !delete_creatives_ids.blank?
-              ad_object.creatives.find(delete_creatives_ids).each do |creative|
-                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
-                ad_assignment.destroy if !creative.pushed_to_dfp?
+              if media_type == 'Video'
+                ad_object.video_creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.video_ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
+              else
+                ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
               end
             end
           end
