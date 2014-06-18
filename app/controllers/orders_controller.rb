@@ -380,7 +380,7 @@ private
         li[:lineitem].delete(param)
       end
 
-      if li[:type] = 'Video'
+      if li[:type] == 'Video'
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
@@ -438,10 +438,18 @@ private
         # delete lineitem_assignments for selected creatives and if there are no ads associated
         # with this creative delete the creative itself
         if !_delete_creatives_ids.blank?
-          _delete_creatives_ids.each do |delete_creative_id|
-            creative = Creative.find delete_creative_id
-            lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
-            creative.destroy if creative.ads.empty?
+          if li[:type] == 'Video'
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = VideoCreative.find delete_creative_id
+              lineitem.lineitem_video_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+            end
+          else
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = Creative.find delete_creative_id
+              lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+            end
           end
         end
 
