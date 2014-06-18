@@ -238,7 +238,7 @@
           ad_sizes = li.get('companion_ad_size');
         } else if (li_type == 'Video') {
           var companion_size = li.get('companion_ad_size');
-          ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
+          ad_sizes = li.get('master_ad_size');// + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
           this.model.set({ 'size': ad_sizes }, { silent: true });
