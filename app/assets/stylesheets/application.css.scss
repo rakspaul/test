@@ -171,6 +171,7 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
     @include sized-sprite($images, $btn);
     display: inline-block;
     cursor: pointer;
+    vertical-align: middle;
   }
 }
 
@@ -179,10 +180,30 @@ button.rui-btn {
   margin: 0;
   border: 0 none;
   background-color: $btn-bg;
-  padding: 2px 0 3px;
+  padding: 2px 5px 3px;
   box-sizing: border-box;
+
+  // reset margins of icons put inside button
+  [class*="-icon"] {
+    margin: 0;
+  }
 }
 
 .text-right {
   text-align: right;
+}
+
+label.secondary {
+  color: $rui-gray-color;
+  padding-right: 10px;
+}
+
+.rui-btn-blue {
+  background-color: $btn-primary-bg !important;
+  color: #fff !important;
+}
+
+.rui-btn-green {
+  background-color: $btn-success-bg !important;
+  color: #fff !important;
 }
