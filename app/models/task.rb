@@ -4,9 +4,9 @@ class Task < ActiveRecord::Base
   has_paper_trail ignore: [:updated_at]
 
   module TaskState
-    ASSIGNED = 'assigned'
-    COMPLETED = 'completed'
-    CLOSED = 'closed'
+    OPEN = 'open'
+    COMPLETE = 'complete'
+    CLOSE = 'close'
   end
 
   belongs_to :task_type
@@ -37,13 +37,19 @@ class Task < ActiveRecord::Base
     order(:id => :desc)
   end
 
+  def self.fetch_assigned_to_me_tasks(user, limit, offset)
+    result = where(assignable_id: user.id, assignable_type: 'User')
+    result = result.limit(limit).offset(offset) if limit && offset
+    result
+  end
+
   def display_task_state
     case self.task_state
-      when TaskState::ASSIGNED
+      when TaskState::OPEN
         "created"
-      when TaskState::COMPLETED
+      when TaskState::COMPLETE
         "completed"
-      when TaskState::CLOSED
+      when TaskState::CLOSE
         "closed"
     end
   end
@@ -57,9 +63,4 @@ class Task < ActiveRecord::Base
   def fill_assignable
     self.assignable = self.task_type.owner if self.assignable_id.nil?
   end
-
-  def self.fetch_assigned_to_me_tasks user, limit, offset
-    (limit && offset)?where(assignable_id: user.id, assignable_type: 'User').limit(limit).offset(offset):where(assignable_id: user.id, assignable_type: 'User')
-  end
-
 end

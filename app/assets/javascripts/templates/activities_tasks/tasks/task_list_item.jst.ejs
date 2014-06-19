@@ -6,18 +6,20 @@
     <% var task_comment_icon = important ? "alert-icon" : "comment-icon" %>
     <!-- As we have to show comment icon where the comment size is zero also -->
     <span class="<%= task_comment_icon %> icon-wrapper">
-      <sup class="task-badge"><%= comments_size %></sup>
+    <% if (comments_size > 0) { %>
+        <sup class="task-badge"><%= comments_size %></sup>
+    <% } %>
     </span>
   </div>
   <div class="task-type pure-u-1-24 center">
-    <% task_icon_class = task_state == "closed" ? "task_done-icon" : "task_open-icon" %>
+    <% task_icon_class = task_state == "close" ? "task_done-icon" : "task_open-icon" %>
     <div class="<%= task_icon_class %>"></div>
   </div>
   <div class="<%=(show_order_name)?'pure-u-1-4':'pure-u-1-2'%> task-name">
     <%= name %>
   </div>
   <div class="pure-u-1-8 task-time">
-    <%= moment(due_date).format('YYYY-MM-DD') %>
+    <%= important ? 'ASAP' : due_date %>
   </div>
   <!-- Follow icon is not required in the first phase -->
   <!--<div class="pure-u-1-24 center">

@@ -53,7 +53,7 @@
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i>
-    <span id="taskDueDateText"><%= due_date ? moment(due_date_with_tz).fromNow() : "" %></span>
+    <span id="taskDueDateText"><%= important ? 'ASAP' : moment(due_date_with_tz).fromNow() %></span>
     <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date" style="display: none;">
   </div>
 </div>
@@ -61,9 +61,9 @@
   <div class="pure-u-1-5"><label class="text-right secondary" style="margin-top: 5px;">Task status</label></div>
   <div class="pure-u-4-5 task-action-controls">
     <div class="form-control-group task-status-label">
-      <% if (task_state == "assigned") { %>
+      <% if (task_state == "open") { %>
       <i class="task_open-icon"></i> Open
-      <% } else if(task_state == "closed") { %>
+      <% } else if(task_state == "close") { %>
       <i class="checkmark-icon"></i> Closed
       <% } else { %>
       <i class="task_done-icon"></i> Completed
@@ -71,15 +71,15 @@
     </div>
     <div class="form-control-group">
       <!-- OPEN -> COMPLETE + URGENT -->
-      <% if (task_state == "assigned") { %>
+      <% if (task_state == "open") { %>
         <button class="rui-btn rui-btn-blue semi-transparent" id="btnMarkTaskComplete">
           <i class="task_done_white-icon"></i> Complete
         </button>
-        <button id="btnMarkTaskUrgent" class="rui-btn rui-btn-blue semi-transparent">
+        <button id="btnMarkTaskUrgent" class="rui-btn rui-btn-blue <%= important ? '' : 'semi-transparent'%>">
           <i class="alert_white-icon"></i> Urgent
         </button>
       <!-- CLOSED -> REOPEN -->
-      <% } else if (task_state == "closed") { %>
+      <% } else if (task_state == "close") { %>
         <button class="rui-btn rui-btn-blue semi-transparent" id="btnTaskReopen">
           <i class="reopen_white-icon"></i> Reopen
         </button>

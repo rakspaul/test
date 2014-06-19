@@ -39,6 +39,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       taskFormRegion: ".task-form-region",
       taskTypeSelector: "#task-types-selector",
       dueDate: "#due-date",
+      dueDateText: "#due-date-text",
       taskAssigneeSelector: "#task-assignee-selector",
       saveAttachment: "#activity_attachment",
       attachmentFileName: "#attachment-file-name",
@@ -259,11 +260,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.btnShowTaskForm.toggleClass("active", this.ui.taskFormRegion.is(":visible"));
       if (this.ui.taskFormRegion.is(":visible")) {
         $("#due-date").datepicker({format:"yyyy-mm-dd", startDate: new Date()});
+        if(this.model.get('important')) {
+          this.ui.dueDate.hide();
+          this.ui.dueDateText.show();
+        }
       } else {
         this.model.set('important', false);
-        this.model.set('task_type_id', undefined);
-        this.model.set('assigned_by_id', undefined);
-        this.model.set('due_date', undefined);
+        var taskType = ReachActivityTaskApp.taskTypes[0];
+        this.model.set('task_type_id', taskType.get('id'));
+        this.model.set('assigned_by_id', taskType.get('default_assignee_id'));
+        this.model.set('due_date', taskType.get('default_due_date'));
         this.model.set('errors', undefined);
         this.render();
       }
@@ -274,6 +280,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       var element = $(e.target).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
       element.toggleClass("active");
       this.model.set('important', element.hasClass('active'));
+      if(element.hasClass('active')) {
+        this.ui.dueDate.hide();
+        this.ui.dueDateText.show();
+      } else {
+        this.ui.dueDateText.hide();
+        this.ui.dueDate.show();
+      }
     },
 
     saveComment: function (e) {
@@ -333,7 +346,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
-      this.model.set('assigned_by_id', undefined);
+      this.model.set('assigned_by_id', thisTaskType.get('default_assignee_id'));
       this.model.set('due_date', thisTaskType.get('default_due_date'));
 
       this.render();

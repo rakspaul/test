@@ -23,7 +23,7 @@ FactoryGirl.define do
     association :created_by, :factory => :user
     task_type
     order
-    task_state Task::TaskState::ASSIGNED
+    task_state Task::TaskState::OPEN
   end
 
   factory :task_activity_log do

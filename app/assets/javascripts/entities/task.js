@@ -20,7 +20,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       return this.get('task_state') == 'closed';
     },
 
-    isPrioritized: function() {
+    isUrgent: function() {
       return this.get('important');
     }
 

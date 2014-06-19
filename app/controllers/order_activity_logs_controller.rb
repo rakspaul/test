@@ -63,7 +63,7 @@ class OrderActivityLogsController < ApplicationController
         task_params.merge! :name => task_params.delete(:note),
                            :order_id => @order.id,
                            :created_by => current_user,
-                           :task_state => Task::TaskState::ASSIGNED,
+                           :task_state => Task::TaskState::OPEN,
                            :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
                            :order_activity_log => activity,
                            :important => task_params.delete(:important)

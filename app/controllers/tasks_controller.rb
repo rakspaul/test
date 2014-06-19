@@ -9,10 +9,11 @@ class TasksController < ApplicationController
   def index
     limit = params[:limit]
     offset = params[:offset]
+
     arel = @order.tasks.includes(:task_activity_logs, :task_type, :activity_attachments)
-    if offset && limit
-      arel = arel.limit(limit).offset(offset)
-    end
+    arel = arel.order(:task_state => :desc, :important => :desc, :due_date => :asc)
+    arel = arel.limit(limit).offset(offset) if offset && limit
+
     @tasks = arel.recent
 
     respond_to do |format|
@@ -27,16 +28,8 @@ class TasksController < ApplicationController
     end
   end
 
-  # def create
-  #   params = params[:task].merge created_by: current_account
-  #   task = Task.new(params)
-  #   @order.tasks.create! task
-  # rescue
-  #   redirect_to
-  # end
-
   def update
-    @task_params = if params[:pk]
+    task_params = if params[:pk]
                     #update from bootstrap editable
                     {params[:name] => params[:value]}
                   elsif params[:task]
@@ -44,19 +37,14 @@ class TasksController < ApplicationController
                     params[:task].permit!
                   end
 
-    @task_params.merge! updated_by: current_user
-
-    prioritize_task if params.delete(:set_important)
-
-    @task.update! @task_params
+    task_params.merge! updated_by: current_user
+    @task.update! task_params
 
     render :partial => 'order', :locals => {:task => @task}
   rescue ActiveRecord::RecordInvalid => e
-    if @task.errors.present?
-      render :json => @task.errors.messages[@task_params.keys.first.to_sym].first, :status => 500
-    else
-      render :json => {:status => :error}, :status => 500
-    end
+    render :json => {:status => 'error', :message => @task.errors.messages}, :status => 400
+  rescue ActiveRecord::ActiveRecordError => e
+    error_message(e.message)
   end
 
   def task_types

@@ -7,4 +7,5 @@ class Team < ActiveRecord::Base
 
   validates :name, :presence => true, :uniqueness => true
 
+  alias_attribute :full_name, :name
 end

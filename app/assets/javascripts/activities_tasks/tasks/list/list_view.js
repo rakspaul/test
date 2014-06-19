@@ -166,6 +166,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           self.model.set('name', newValue);
           $(self).parent().removeClass('field_with_errors');
           $(self).siblings('.errors_container').html('');
+        },
+        error: function(response, newValue) {
+          var error = response.responseJSON;
+          return error.message.name[0];
         }
       });
 
@@ -187,9 +191,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         return;
       }
       var self = this;
-      this.model.save({task_state: 'closed'}, {
+      this.model.save({task_state: 'close'}, {
         success: function() {
-          self.model.set('task_state', 'closed');
           self.ui.closeTaskContainer.toggleClass('active');
         },
 
@@ -206,16 +209,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         return;
       }
       var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
-      var self = this;
-      this.model.save({important: !element.hasClass("active"), set_important: true}, {
+      this.model.save({important: element.hasClass("semi-transparent")}, {
         success: function() {
-          if(element.hasClass('active')) {
-            element.removeClass('active');
-            element.addClass('semi-transparent');
-          } else {
-            element.addClass('active');
-            element.removeClass('semi-transparent');
-          }
+          element.toggleClass('semi-transparent');
         },
 
         error: function() {
@@ -237,6 +233,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onDueDateTextClicked: function(e) {
+      if(this.model.isUrgent()) {
+        return;
+      }
       var el = $(e.currentTarget);
       el.hide();
       this.ui.dueDatePicker.show();
