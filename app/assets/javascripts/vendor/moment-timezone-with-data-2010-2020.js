@@ -341,6 +341,7 @@
 	var fn = moment.fn;
 
 	moment.tz = tz;
+  window.moment.tz = tz;
 
 	moment.updateOffset = function (mom, keepTime) {
 		var offset;
