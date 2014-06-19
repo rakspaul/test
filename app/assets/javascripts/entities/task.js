@@ -17,7 +17,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     isClosed: function() {
-      return this.get('task_state') == 'closed';
+      return this.get('task_state') == 'close';
     },
 
     isUrgent: function() {

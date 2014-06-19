@@ -53,13 +53,15 @@
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i>
-    <% if(important) { %>
+    <% if (important) { %>
       <span id="taskDueDateText">ASAP</span>
      <% } else { %>
-      <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date">
+      <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date" <%= is_closed ? 'disabled="disabled"' : '' %>>
     <% } %>
   </div>
 </div>
+
+<!-- Task Workflow Controls -->
 <div class="pure-g-r" style="margin-top: 10px;">
   <div class="pure-u-1-5"><label class="text-right secondary" style="margin-top: 5px;">Task status</label></div>
   <div class="pure-u-4-5 task-action-controls">
@@ -75,7 +77,7 @@
     <div class="form-control-group">
       <!-- OPEN -> COMPLETE + URGENT -->
       <% if (task_state == "open") { %>
-        <button class="rui-btn rui-btn-blue semi-transparent" id="btnMarkTaskComplete">
+        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="complete">
           <i class="task_done_white-icon"></i> Complete
         </button>
         <button id="btnMarkTaskUrgent" class="rui-btn rui-btn-blue <%= important ? '' : 'semi-transparent'%>">
@@ -83,15 +85,15 @@
         </button>
       <!-- CLOSED -> REOPEN -->
       <% } else if (task_state == "close") { %>
-        <button class="rui-btn rui-btn-blue semi-transparent" id="btnTaskReopen">
+        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="open">
           <i class="reopen_white-icon"></i> Reopen
         </button>
       <!-- COMPLETED -> CLOSE + REOPEN -->
       <% } else { %>
-        <button id="btnMarkTaskDone" class="rui-btn rui-btn-green semi-transparent">
+        <button class="rui-btn rui-btn-green semi-transparent task-workflow-control" data-state="close">
           <i class="checkmark_white-icon"></i> Close
         </button>
-        <button class="rui-btn rui-btn-blue semi-transparent" id="btnTaskReopen">
+        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="open">
           <i class="reopen_white-icon"></i> Reopen
         </button>
       <% } %>

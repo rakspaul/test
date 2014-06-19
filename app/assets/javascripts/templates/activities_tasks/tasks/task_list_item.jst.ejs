@@ -12,7 +12,7 @@
     </span>
   </div>
   <div class="task-type pure-u-1-24 center">
-    <% task_icon_class = task_state == "close" ? "task_done-icon" : "task_open-icon" %>
+    <% task_icon_class = task_state == "complete" ? "task_done-icon" : (task_state == "close" ? "checkmark-icon" : "task_open-icon") %>
     <div class="<%= task_icon_class %>"></div>
   </div>
   <div class="<%=(show_order_name)?'pure-u-1-4':'pure-u-1-2'%> task-name">
