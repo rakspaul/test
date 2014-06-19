@@ -54,7 +54,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: this.model.get("task_type_id")});
       this.model.set("users", currentTaskType ? currentTaskType.get("users") : []);
 
-      ReachActivityTaskApp.trigger("include:taskDetails", {task: this.model, aRegion: taskDetailsRegion, taskView: this});
+      ReachActivityTaskApp.trigger("include:taskDetails", {
+        task: this.model,
+        aRegion: taskDetailsRegion,
+        taskView: this
+      });
 
       List.currentTaskId = this.model.id;
     }
@@ -99,8 +103,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     events: {
       'click .task-detail-view-close' : 'closeTaskDetailView',
-      'click #btnMarkTaskDone': 'closeTask',
-      'click #btnMarkTaskUrgent': 'setPriority'
+      'click #btnMarkTaskUrgent': 'setPriority',
+      'click .task-workflow-control': 'setTaskState'
     },
 
     showHideTaskComments:function(show) {
@@ -108,7 +112,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     ui: {
-      closeTaskContainer: '#btnMarkTaskDone',
       prioritizeTaskContainer: '#btnMarkTaskUrgent',
       taskTypeSelector: '#taskTypeSelector',
       assigneeSelector: '#assigneeSelector',
@@ -181,23 +184,23 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       });
     },
 
-    closeTask: function(e) {
-      e.preventDefault();
-      if(this.model.isClosed()) {
-        this.ui.closeTaskContainer.toggleClass('active disable');
-        return;
-      }
-      var self = this;
-      this.model.save({task_state: 'close'}, {
-        success: function() {
-          self.ui.closeTaskContainer.toggleClass('active');
-        },
+    setTaskState: function(e) {
+      var self = this,
+          elem = $(e.currentTarget).is("button") ? $(e.currentTarget) : $(e.currentTarget).closest("button"),
+          state = elem.data("state");
 
+      e.preventDefault();
+
+      this.model.save({task_state: state}, {
+        success: function() {
+          self.model.set("is_closed", self.model.isClosed());
+          self.updateView();
+        },
         error: function() {
           console.log('task model update failed');
         },
-
-        patch: true});
+        patch: true
+      });
     },
 
     setPriority: function(e) {
@@ -205,7 +208,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       if(this.model.isClosed()) {
         return;
       }
-      var element = $(e.target).get(0).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
+      var element = $(e.target).is("button") ? $(e.target) : $(e.target).parent();
       this.model.save({important: element.hasClass("semi-transparent")}, {
         success: function() {
           element.toggleClass('semi-transparent');
