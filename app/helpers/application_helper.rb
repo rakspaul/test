@@ -34,8 +34,8 @@ module ApplicationHelper
     I18n.localize(date.in_time_zone(tz), :format => :short) unless date.nil?
   end
 
-  def format_datetime(datetime)
-    I18n.localize(datetime.in_time_zone(User::DEFAULT_TIMEZONE)) unless datetime.blank?
+  def format_datetime(datetime, format=:default)
+    I18n.localize(datetime.in_time_zone(User::DEFAULT_TIMEZONE), :format => format) unless datetime.blank?
   end
 
   def format_datetime_with_tz(datetime)

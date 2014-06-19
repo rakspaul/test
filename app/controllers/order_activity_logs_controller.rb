@@ -73,7 +73,7 @@ class OrderActivityLogsController < ApplicationController
 
         # link activity attachment
         if attachment
-          attachment.activity_log = task
+          attachment.activity_log = @task
           attachment.save!
         end
       when OrderActivityLog::ActivityType::USER_COMMENT

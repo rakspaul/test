@@ -11,7 +11,7 @@
     <span class="editable custom" data-type="textarea" data-pk="<%= id %>" data-name="name" data-mode="popup" data-rows="2" data-cols="5" data-inputclass="wide-editable-text"><%= name %></span>
   </div>
   <div class="pure-u-1-5 task-time">
-    <%= moment(created_at).fromNow() %>
+    <%= created_at %>
   </div>
 </div>
 
@@ -53,8 +53,11 @@
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i>
-    <span id="taskDueDateText"><%= important ? 'ASAP' : moment(due_date_with_tz).fromNow() %></span>
-    <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date" style="display: none;">
+    <% if(important) { %>
+      <span id="taskDueDateText">ASAP</span>
+     <% } else { %>
+      <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date">
+    <% } %>
   </div>
 </div>
 <div class="pure-g-r" style="margin-top: 10px;">
