@@ -1,7 +1,7 @@
 json.array! @task_types do |type|
   json.id type.id
   json.type type.type
-  json.default_sla type.default_sla
+  json.default_due_date format_date(type.default_due_date)
   json.default_assignee_id type.owner.id
   json.default_assignee_team type.owner.name
 
