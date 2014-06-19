@@ -14,7 +14,7 @@
     className: 'creatives-content',
     tagName: 'table',
 
-    serializeData: function(){
+    serializeData: function() {
       var data = {};
       data.is_cox_creative = this.options.is_cox_creative;
       return data;

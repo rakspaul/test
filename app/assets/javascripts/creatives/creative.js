@@ -41,6 +41,13 @@
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
     },
 
+    serializeData: function() {
+      var data = this.model.toJSON(),
+          this_ad = this.options.parent_view.model;
+      data['creative']['ad_type'] = this_ad.get('type');
+      return data;
+    },
+
     events: {
       'mouseenter': '_showDeleteBtn',
       'mouseleave': '_hideDeleteBtn',
