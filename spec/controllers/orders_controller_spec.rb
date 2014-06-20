@@ -561,6 +561,7 @@ private
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
+    params['order']['advertiser_name'] = advertiser.name
     params['order']['lineitems'].each do |li|
       li['lineitem']['proposal_li_id'] = "#{SecureRandom.random_number(10000)}"
       li['lineitem']['start_date'] = start_date
