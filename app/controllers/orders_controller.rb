@@ -147,7 +147,6 @@ class OrdersController < ApplicationController
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
-    @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     # if we update DFP-imported order then we should create IoDetail also
@@ -179,6 +178,9 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
+        advertiser = create_advertiser(params[:order][:advertiser_name])
+        @order.network_advertiser_id = advertiser.id
+
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|

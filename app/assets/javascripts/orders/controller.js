@@ -442,7 +442,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
 
-    if(!order.get("source_id")){
+    if(!order.get("source_id") || !parseInt(order.get("source_id"))){
       $('.advertiser-name input').typeahead({
         name: 'advertiser-names',
         remote: {
