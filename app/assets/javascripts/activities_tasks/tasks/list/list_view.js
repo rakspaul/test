@@ -240,7 +240,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
     events: {
       'click #btnSaveTaskComment' : 'saveTaskComment',
-      'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment'
+      'click #btnRemoveTaskAttachment .remove-btn': 'removeAttachment',
+      'keyup #task_comment_input': 'onTypeInTextArea'
     },
 
     ui: {
@@ -248,7 +249,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       saveAttachment: "#btnSaveTaskAttachment",
       attachmentFileName: "#task-attachment-file-name",
       attachmentFileNameContainer: '#btnRemoveTaskAttachment',
-      attachmentFileUploader: ".task-comment-input-control #attachmentUploader"
+      attachmentFileUploader: ".task-comment-input-control #attachmentUploader",
+      btnSaveTaskComment: "#btnSaveTaskComment"
+    },
+
+    modelEvents: {
+      "change:note": "onNoteChanged"
     },
 
     onDomRefresh: function() {
@@ -300,6 +306,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       List.Controller.saveTaskComment(comment, {task: this.options.task});
 
       this.ui.taskActivityInput.val('');
+      this.ui.btnSaveTaskComment.removeClass("active");
       this._resetAttachmentContainer();
     },
 
@@ -318,20 +325,34 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.attachmentFileNameContainer.hide();
       this.ui.attachmentFileUploader.removeClass("active");
       this.ui.attachmentFileName.attr('data-attachment-id', '');
+    },
+
+    onNoteChanged: function(model) {
+      this.ui.btnSaveTaskComment.toggleClass("active", $.trim(model.get("note")).length > 0);
+    },
+
+    onTypeInTextArea: function (e) {
+      var textarea = $(e.target);
+
+      textarea.css({
+        overflow: "hidden",
+        height: textarea.height()
+      });
+      textarea.animate({height: Math.max(textarea.get(0).scrollHeight, TEXTAREA_DEFAULT_HEIGHT) + "px"}, "fast");
+
+      // Update task comment
+      this.model.set("note", textarea.val());
     }
   });
 
   List.TaskCommentView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/activities_tasks/tasks/task_comment_list_item'],
-
     className: 'task-comment-container',
-
     model: ReachActivityTaskApp.Entities.TaskComment
   });
 
   List.TaskCommentListView = Backbone.Marionette.CollectionView.extend({
     itemView: List.TaskCommentView,
-
     className: 'task-comments-container'
   });
 
