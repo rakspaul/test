@@ -29,10 +29,7 @@
       <div class="pure-u-1-2 assignable-name">
         <div class="form-control-group">
           <i class="user-icon"></i>
-          <select name="assignee_id" id="assigneeSelector" class="selectpicker" data-live-search="true" <%= is_closed ? 'disabled="disabled"' : '' %>>
-            <% _.each(users, function(user) { %>
-            <option value="<%= user.id %>" <%= assignable_id == user.id ? 'selected' : ''%>><%= user.name %></option>
-            <% }) %>
+          <select name="assignee_id" id="assigneeSelector" class="selectpicker" <%= is_closed ? 'disabled="disabled"' : '' %>>
           </select>
         </div>
       </div>
