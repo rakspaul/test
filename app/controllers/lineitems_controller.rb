@@ -54,7 +54,7 @@ class LineitemsController < ApplicationController
           @order.end_date = end_date
           @order.save
           @order.reload
-          
+
           # create lineitems
           index = 1
           @ads.group_by(&:alt_ad_id).each do |alt_ad_id, ads|
@@ -71,7 +71,6 @@ class LineitemsController < ApplicationController
             ad_sizes        = (creatives_sizes.empty? ? ads_sizes : creatives_sizes).uniq.join(', ')
             li_start_date = ads.min{|m,n| m.start_date <=> n.start_date}.start_date
             li_end_date   = ads.max{|m,n| m.end_date <=> n.end_date}.end_date
-
             volume        = ads.sum{|add| add.ad_pricing.try(:quantity).to_i}
             value         = ads.sum{|add| add.ad_pricing.try(:value).to_f}
             li_keyvalue_targeting = ads.map(&:keyvalue_targeting).compact.map{|z| z.split(',')}.flatten.uniq.sort.join(',')

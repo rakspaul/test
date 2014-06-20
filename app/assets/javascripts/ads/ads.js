@@ -331,6 +331,8 @@
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     renderCreatives: function() {
