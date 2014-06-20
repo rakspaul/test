@@ -921,6 +921,10 @@ $wide_input_width: 320px;
       width: 95%;
     }
 
+    .tab.custom-kv textarea {
+      width: 95%;
+    }
+
     .tab.geo input.geo-search {
       width: 98%;
       background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
@@ -1070,7 +1074,7 @@ $wide_input_width: 320px;
     }
   }
 
-  .custom-regular-keyvalue-btn {
+  .expand-audience-btn {
     cursor: pointer;
     position:absolute;
     top:30px;
@@ -1081,7 +1085,7 @@ $wide_input_width: 320px;
     }
   }
 
-  .dmas-checkboxes-container, .key-values-checkboxes-container {
+  .dmas-checkboxes-container, .audience-key-values-checkboxes-container {
     width: 95%;
     float: left;
     height: 200px;
