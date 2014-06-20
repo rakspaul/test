@@ -376,6 +376,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.taskFormRegion.hide();
       this.resetTextArea();
       this._resetAttachmentContainer();
+      this.ui.activity_input.siblings('.errors_container').html('');
     },
 
     removeAttachment: function (e) {
