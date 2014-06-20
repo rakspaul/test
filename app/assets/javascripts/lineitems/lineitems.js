@@ -335,10 +335,12 @@
           if (name == 'buffer') {
             view.model.setBuffer(parseFloat(newValue));
           } else {
-            value = parseInt(String(newValue).replace(/,|\./g, ''));
+            value = parseFloat(String(newValue).replace(/,/g, ''));
+            value = Math.round(Number(value));
             view.model.set(name, value); //update backbone model;
             view._recalculateMediaCost();
             view.model.collection._recalculateLiImpressionsMediaCost();
+            view.render();
           }
         }
       });
