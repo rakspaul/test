@@ -40,7 +40,7 @@ set :bundle_without,  [:deploy, :development, :test]
 #set :required_bundler_version, "1.3.5"
 
 set :hipchat_token, "40ff730a12295ac7dba7a961809cda"
-set :hipchat_room_name, "Syn: ROM P*"
+set :hipchat_room_name, "OM Engineering Noise"
 set :hipchat_announce, false # notify users
 set :hipchat_color, 'green' #finished deployment message color
 set :hipchat_failed_color, 'red' #cancelled deployment message color
