@@ -282,10 +282,21 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       e.preventDefault();
 
+      //console.log(JSON.stringify(this.model));
+
+      this.fromState = this.model.get("task_state");
+      this.toState = state;
+
       this.model.save({task_state: state}, {
         success: function() {
           self.model.set("is_closed", self.model.isClosed());
           self.updateView();
+
+          //upon successful state change. Save the system comment for this.
+          //When Task state is changed, we have to save the comment for that
+          var note = window.current_user_name + " changed the state from "+ self.fromState + " to "+ self.toState;
+          console.log("Saving task state change comment:"+note);
+          self.saveTaskSystemActivity(self.model,note);
         },
         error: function() {
           console.log('task model update failed');
@@ -294,7 +305,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       });
     },
 
+    saveTaskSystemActivity: function(task,note){
+      var comment = new ReachActivityTaskApp.Entities.TaskComment();
+      comment.set('note', note);
+      comment.set('activity_type', 'system_comment');
+      comment.setTask(task);
+      List.Controller.saveTaskComment(comment, {task: task});
+    },
+
     setPriority: function(e) {
+      var self = this;
       e.preventDefault;
       if(this.model.isClosed()) {
         return;
@@ -303,6 +323,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.save({important: element.hasClass("semi-transparent")}, {
         success: function() {
           element.toggleClass('semi-transparent');
+          var note = window.current_user_name+" made task as ";
+          if(self.model.get("important")){
+             note = note + "urgent";
+          } else {
+             note = note + "non-urgent";
+          }
+          self.saveTaskSystemActivity(self.model,note);
         },
 
         error: function() {
@@ -369,7 +396,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.model.set('assignable_id', currentAssigneeId);
         var control = List.Task.assigneeSelector[0].selectize;
         var group = control.getOption(control.getValue()).parent().attr('data-group');
-        var assigneeType = group.toLowerCase() == 'team' ? 'Team' : 'User';
+        //TODO: Done dirty work here to fix the assignee selection issue. But, this is also working after searching user second time only.
+        //TODO: Need to revisit the logic and implement properly.
+        var assigneeType  = 'User';
+        if(group)
+          assigneeType = group.toLowerCase() == 'team' ? 'Team' : 'User';
         this.model.set('assignable_type', assigneeType);
 
         this.setAssignee(currentAssigneeId, assigneeType);
