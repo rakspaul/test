@@ -1,16 +1,6 @@
 <div class="main_container">
 
   <div id="campaignDetail" class="dashboard_outer_container campaign_details_page "> <!-- container -->
-
-
-                <!-- 
-                <div class="col-md-1">
-                    <a href="campaigns/402105" ng-click="campaigns.editCampaign(campaign)">
-                    <span class="icons-bckground" id="icon-campaign-edit"></span>
-                    </a>
-                </div>
-                 -->
-
                   <div class="clearfix campaign_details_header">
                       <div class="pull-left campaign_name">
                          <truncate-text-with-hover txt="{{campaign.campaignTitle}}" txtlength="120"></truncate-text-with-hover>
@@ -23,28 +13,7 @@
                             View report
                         </div>
                       </a>
-                      <!--<div class="pull-right time_period_filter">
-
-                          <div class="dropdown" id="campaign_details_duration_dd">
-                              <span class="dropdown_ul_text " data-toggle="dropdown">
-                                  <span class="dd_txt">
-                                      LIFETIME
-                                  </span>
-                                  <span class="arrow_img">
-                                  </span>
-                              </span>
-
-                              <ul class="dropdown_ul dropdown-menu">
-                                  <li>LIFETIME</li>
-                                  <li>LAST WEEK</li>
-                                  <li>LAST MONTH</li>
-                                  <div class="disabled_dd"></div>
-                              </ul>
-
-                          </div>
-                      </div>-->
                   </div>
-
 
                 <div ng-show="is_network_user">
                     <!-- action filter -->
@@ -359,17 +328,6 @@
                                   </div>
                               </div>
 
-
-
-                             <!--  <div ng-show="is_network_user" class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
-                                  </div>
-                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
-                                  </div>
-                              </div> -->
-                          </div>
-
-
                            <div ng-if="(activityLogFlag == false)" class="load-more" style="">&nbsp;</div>
                           <div class="no_activity_class" ng-if="((!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)) && activityLogFlag == true">
                             No Data Available
@@ -380,117 +338,6 @@
                   </div>
               </div>
               <!--activity log ends-->
-
-
-
-          
-      
-  <!--   old   <div class="row-fluid" id="campaignPerformanceWrapper">
-        <div class="col-md-12">
-            <div class="campaign-performance-container">
-                <div class="col-md-6 campaign-performance-container-sections camp-perf-graph">
-                    <div class="col-md-12">
-                        Campaign Performance
-                    </div>
-                    <div class="col-md-12">
-
-                        <span ng-switch="details.actionChart">
-                            <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
-                            <span ng-switch-default>
-                                <div ng-if="details.actionChart" class="highcharts" id="details_chart">
-                                    <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
-                                </div>
-                            </span>
-                        </span>
-                    </div>
-                </div>
-                <div class="col-md-6 campaign-performance-container-sections camp-perf-history">
-                    <div class="col-md-12">
-                        <div class="col-md-6">	       
-                            History Of Actions
-                        </div>
-                        <div ng-show="!is_network_user" class="col-md-6">
-                            <span class="campaign-external-dd-holder pull-right">
-                                <div class="dropdown campaign-external-dd-holder">
-                                      <span class="dropdown_ul_text" data-toggle="dropdown">
-                                          <span class="dd_txt">External</span>
-                                          <span class="arrrow_img"></span>
-                                      </span>
-                                      <ul class="dropdown_ul dropdown-menu" ng-init="actionsFilter = {make_external: true}">
-                                          <li ng-click="actionsFilter = watchActionFilter(null, false)">All</li>
-                                          <li ng-click="actionsFilter = watchActionFilter({make_external: true}, true)">External</li>
-                                      </ul>
-                                  </div>
-                            </span>
-                        </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div id="action-container" class="campaign-performance-match">
-                            <div ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
-                                <div class="circle_action col-md-1" style="border:solid 4px {{action.action_color}}"></div>
-                                <div class="each_campaign_perf_details col-md-11">
-                                    <div class="row each_action_perf_header clearfix">
-                                        <div class="each_action_name">{{action.created_by_name}}</div>
-                                        <div class="each_action_time" title="{{action.created_at | formatActionDate }}"> {{action.created_at | formatActionDate }}</div>
-                                        <div class="action_filter each_action_impact" title="Impacts {{action.metric_impacted}}">Impacts {{action.metric_impacted}}</div>
-                                        <div class="action_filter each_action_geo" title="{{action.action_sub_type | displayActionSubtypes}}">{{action.action_sub_type | displayActionSubtypes}}</div>
-                                        <div class="action_filter each_action_opt" title="{{action.action_type_name}}">{{action.action_type_name}}</div>
-                                    </div>
-                                    <div class="each_action_perf_note">{{action.comment}}</div>
-                                    <div class="each_action_perf_filter">{{action.ad_name}}</div>
-                                </div>
-                            </div>
-                            <div ng-if="!actionItems" id="noActionItem"class="row each_action_performance">
-                                <div class="each_campaign_perf_details col-md-11">
-                                    <div class="each_action_perf_filter">
-                                        No Actions Available
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="campaign-performance-container-two">
-                <div class="col-md-3">
-                    <div class="col-md-12">
-                        Flight Dates
-                    </div>
-                    <div class="col-md-12">
-                        {{campaign.startDate | date :'d MMM y' }}
-                         -
-                        {{campaign.endDate | date :'d MMM y' }}
-                    </div>
-                </div>
-                <div class="col-md-3 spend_detail">
-                    <div class="col-md-12">
-                        TOTAL CAMPAIGN BUDGET
-                    </div>
-                    <div class="col-md-12" ng-if="campaign.totalMediaCost">
-                        ${{campaign.totalMediaCost | number}}
-                    </div>
-                    <div class="col-md-12" ng-if="!campaign.totalMediaCost">
-                        NA
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="col-md-12">
-                        KPI
-                    </div>
-                    <div class="col-md-12" ng-if="campaign.kpiValue && campaign.kpiType">
-                        {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} <span>{{campaign.kpiType}}</span>
-                    </div>
-                    <div class="col-md-12" ng-if="!campaign.kpiValue && !campaign.kpiType">
-                        NA
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
-
 
     <br><!--TODO - remove break and add spacing-->
     <div id="detailedPage" class="campaigns_details_holder">
@@ -594,11 +441,6 @@
       });
       setTimeout(function() {
         $('[data-toggle="tooltip"]').tooltip(); 
-
-        // $('.each_activity_log').hover(function(){
-        //   $('.activity_log_list').find('.active').removeClass('active');
-        //   $(this).addClass('active');
-        // });
       },5000);
       $('#action_submit_btn,#action_comment').bind("click focus", function() {
           var txt = $.trim(jQuery("#action_comment").val());
