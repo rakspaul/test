@@ -14,12 +14,14 @@
                     <span>
                         {{campaign.brandName}}
                     </span>
-                    <span class="dates_details" ng-switch on="campaigns.durationLeft(campaign)">
+                    <div ng-init="duration=campaign.durationLeft()"></div>
+                    <span class="dates_details">
                         {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }} 
-                        <span ng-switch-when="0">(Yet to start)</span>
-                        <span ng-switch-when="-1">(Ended)</span>
-                        <span ng-switch-default>({{campaigns.durationLeft(campaign)}} Days Left)</span>
-    
+                        <span ng-if="duration == 'Yet to start'">(Yet to start)</span>
+                        <span ng-if="duration == 'Ended'">(Ended)</span>
+                        <span ng-if="duration == 'Started today'" >(Started today)</span>
+                        <span ng-if="duration == 'Ending today'">(Ending today)</span>
+                        <span ng-if="duration > 0">({{duration}} Days Left)</span>
                     </span>
                 </div>
             </div>
