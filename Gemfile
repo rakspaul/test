@@ -76,7 +76,8 @@ group :development, :test do
   gem 'jasmine-rails'
   gem 'jasmine-jquery-rails'
   gem 'sinon-rails'
-  gem 'guard-jasmine'
+  gem "guard-jasmine", :github=>"guard/guard-jasmine", :branch=>'jasmine-2'
+  #gem 'guard-jasmine'
 
   gem 'simplecov'
 end

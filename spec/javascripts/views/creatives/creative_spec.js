@@ -29,13 +29,13 @@ describe('Creative view', function() {
         this.deleteBtnContainer = this.view.$el.find('.delete-btn-container');
       });
 
-      xit('show delete button for not pushed creative', function() {
+      it('show delete button for not pushed creative', function() {
         //console.log(this.deleteBtnContainer);
         console.log('ACTUAL');
-        console.log($(this.deleteBtnContainer).html());
+        //console.log($(this.deleteBtnContainer).html());
         console.log('END');
         //expect($('<div><div class="delete-btn"></div></div>')).toContainElement('div.delete-btn');
-        //expect($(this.deleteBtnContainer)).toContainElement('div.delete-btn');
+        expect($(this.deleteBtnContainer)).toContainElement('div.delete-btn');
         
         //expect(this.view.$el.)
         //creative.get('source_id')
