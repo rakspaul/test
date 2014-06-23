@@ -454,6 +454,13 @@ describe OrdersController do
         put :update, params
         expect(Lineitem.find_by_id(lineitem.id)).to be_nil
       end
+
+      it "creates new advertiser on update" do
+        params['order']['advertiser_name'] = "new advertiser"
+        expect{
+          put :update, params
+        }.to change(Advertiser,:count).by(1)
+      end
     end
   end
 
