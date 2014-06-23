@@ -40,7 +40,7 @@ class TasksController < ApplicationController
     task_params.merge! updated_by: current_user
     @task.update! task_params
 
-    render :partial => 'order', :locals => {:task => @task}
+    render :partial => 'task', :locals => {:task => @task}
   rescue ActiveRecord::RecordInvalid => e
     render :json => {:status => 'error', :message => @task.errors.messages}, :status => 400
   rescue ActiveRecord::ActiveRecordError => e

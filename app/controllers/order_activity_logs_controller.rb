@@ -50,10 +50,6 @@ class OrderActivityLogsController < ApplicationController
     return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
 
     OrderActivityLog.transaction do
-      activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
-                                                              :created_by => current_account.user)
-      activity.save!
-
       attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]) if params[:activity_attachment_id]
 
       case activity_params[:activity_type]
@@ -65,8 +61,7 @@ class OrderActivityLogsController < ApplicationController
                            :created_by => current_user,
                            :requested_by => current_user,
                            :task_state => Task::TaskState::OPEN,
-                           :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
-                           :order_activity_log => activity,
+                           :assignable => team_or_user(task_params.delete(:assigned_by_id)),
                            :important => task_params.delete(:important)
 
         @task = Task.new(task_params)
@@ -78,8 +73,13 @@ class OrderActivityLogsController < ApplicationController
           attachment.save!
         end
       when OrderActivityLog::ActivityType::USER_COMMENT
-        #nothing to do
+        activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+                                                               :created_by => current_account.user)
+        activity.save!
       when OrderActivityLog::ActivityType::ATTACHMENT
+        activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+                                                               :created_by => current_account.user)
+        activity.save!
         if attachment
           attachment.activity_log = activity
           attachment.save!
@@ -105,7 +105,19 @@ class OrderActivityLogsController < ApplicationController
   end
 
   def get_task_params
+    logger.debug params
     params.permit(:note, :order_id, :important, :due_date, :task_type_id, :assignable, :assigned_by_id)
   end
 
+  def team_or_user(assigned_by_id)
+    type = params[:assignable_type] || 'User'
+    logger.debug("params[:assignable_type]: #{params[:assignable_type]}")
+    logger.debug("type: #{type}")
+
+    if type == 'User'
+      User.find_by_id assigned_by_id
+    else
+      Team.find_by_id assigned_by_id
+    end
+  end
 end

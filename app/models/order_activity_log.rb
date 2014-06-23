@@ -60,11 +60,8 @@ class OrderActivityLog < ActiveRecord::Base
   end
 
   def generate_system_comment
-    case self.activity_type
-      when ActivityType::TASK
-        "#{self.created_by.full_name} #{self.task.display_task_state} a task"
-      when ActivityType::ATTACHMENT
-        "#{self.created_by.full_name} attached a file"
+    if self.activity_type == ActivityType::ATTACHMENT
+      "#{self.created_by.full_name} attached a file"
     end
   end
 

@@ -33,6 +33,10 @@ class Task < ActiveRecord::Base
 
   before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
 
+  before_create :update_activity_log
+
+  before_update :update_activity_logs
+
   def self.recent
     order(:id => :desc)
   end
@@ -43,17 +47,6 @@ class Task < ActiveRecord::Base
     result
   end
 
-  def display_task_state
-    case self.task_state
-      when TaskState::OPEN
-        "created"
-      when TaskState::COMPLETE
-        "completed"
-      when TaskState::CLOSE
-        "closed"
-    end
-  end
-
   private
 
   def validate_due_date
@@ -62,5 +55,58 @@ class Task < ActiveRecord::Base
 
   def fill_assignable
     self.assignable = self.task_type.owner if self.assignable_id.nil?
+  end
+
+  def update_activity_logs
+    note = if task_state_changed?
+             if (task_state_was == TaskState::OPEN && task_state == TaskState::COMPLETE)
+               " completed a task"
+             elsif (task_state_was == TaskState::COMPLETE && task_state == TaskState::CLOSE)
+                 " closed a task"
+             elsif (task_state_was == TaskState::OPEN && task_state == TaskState::CLOSE)
+               " closed a task"
+             elsif (task_state_was == TaskState::CLOSE && task_state == TaskState:: OPEN)
+               " reopened a task"
+             elsif (task_state_was == TaskState::COMPLETE && task_state == TaskState:: OPEN)
+               " reopened a task"
+             end
+           end
+
+    note = " changed due date" if due_date_changed?
+
+    note = " marked task as #{important ? 'urgent' : 'non-urgent'}" if important_changed?
+
+    return if note.nil?
+
+    note = updated_by.full_name + note
+
+    order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
+                         :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                         :created_by_id => updated_by_id
+
+    order_activity_log.save
+
+    task_activity_log = TaskActivityLog.new :task_id => self.id, :note => note,
+                                        :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                        :created_by_id => updated_by_id
+
+    task_activity_log.save
+  end
+
+  def update_activity_log
+    #system comment
+    note = created_by.full_name + " created a task"
+    order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
+                                              :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                              :created_by_id => created_by_id
+    order_activity_log.save
+
+    #user comment
+    activity = OrderActivityLog.new :order_id => self.order_id, :note => name,
+                                    :activity_type => OrderActivityLog::ActivityType::TASK,
+                                    :created_by => created_by
+    activity.save!
+
+    self.order_activity_log = activity
   end
 end

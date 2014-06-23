@@ -14,6 +14,7 @@ json.order_id task.order.try(:id)
 json.order_name task.order.try(:name)
 json.assignable_id task.assignable_id
 json.assignable_name task.assignable.try(:full_name)
+json.assignable_type task.assignable_type
 json.created_at format_datetime(task.created_at, :date_with_time)
 json.task_state task.task_state
 json.important task.important

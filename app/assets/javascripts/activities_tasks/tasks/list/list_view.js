@@ -51,12 +51,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.collection.selectedTask = this;
       this.$el.addClass('task-selected');
 
-      // Set list of available users who could be an assignee
-      var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: this.model.get("task_type_id")});
-      this.model.set("users", currentTaskType ? currentTaskType.get("users") : []);
-
       // Get the list of default team, team members and the assigned user
-      this.model.set("assignee_list", List.Task.getAssigneeOptionsList(this.model));
+      List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
 
       ReachActivityTaskApp.trigger("include:taskDetails", {
         task: this.model,
@@ -200,7 +196,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             labelField: 'name',
             searchField: 'name',
             sortField: 'group',
-            options: this.model.get('assignee_list'),
+            options: List.Task.assignee_list,
             optgroups: [
                 { value: 'team', label: 'Default Team' },
                 { value: 'team_users', label: 'Team Members' },
@@ -246,8 +242,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         var input = $(e.currentTarget),
             dueDate = input.val();
 
-        if(self.model.get('due_date') != dueDate) {
-          self.setDueDate(dueDate);
+        if(this.model.get('due_date') != dueDate) {
+          this.setDueDate(dueDate);
         }
       });
 
@@ -282,35 +278,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       e.preventDefault();
 
-      //console.log(JSON.stringify(this.model));
-
-      this.fromState = this.model.get("task_state");
-      this.toState = state;
-
       this.model.save({task_state: state}, {
         success: function() {
           self.model.set("is_closed", self.model.isClosed());
           self.updateView();
 
-          //upon successful state change. Save the system comment for this.
-          //When Task state is changed, we have to save the comment for that
-          var note = window.current_user_name + " changed the state from "+ self.fromState + " to "+ self.toState;
-          console.log("Saving task state change comment:"+note);
-          self.saveTaskSystemActivity(self.model,note);
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
         },
         error: function() {
           console.log('task model update failed');
         },
         patch: true
       });
-    },
-
-    saveTaskSystemActivity: function(task,note){
-      var comment = new ReachActivityTaskApp.Entities.TaskComment();
-      comment.set('note', note);
-      comment.set('activity_type', 'system_comment');
-      comment.setTask(task);
-      List.Controller.saveTaskComment(comment, {task: task});
     },
 
     setPriority: function(e) {
@@ -323,13 +302,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.save({important: element.hasClass("semi-transparent")}, {
         success: function() {
           element.toggleClass('semi-transparent');
-          var note = window.current_user_name+" made task as ";
-          if(self.model.get("important")){
-             note = note + "urgent";
-          } else {
-             note = note + "non-urgent";
-          }
-          self.saveTaskSystemActivity(self.model,note);
+
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
         },
 
         error: function() {
@@ -343,6 +317,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     setDueDate: function(dueDate) {
       var self = this;
       this.model.save({due_date: dueDate}, {
+        success: function() {
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
+        },
         error: function() {
           console.log('task model update failed');
         },
@@ -367,13 +344,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           this.model.set('assignable_type', 'Team');
           this.model.set('task_type_id', currentTaskTypeId);
 
-          this.model.set("assignee_list", List.Task.getAssigneeOptionsList(this.model));
+          List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
 
           var control = List.Task.assigneeSelector[0].selectize;
           // Assign the new list to assignee selector
           control.clearOptions();
-          for (i = 0; i < this.model.get('assignee_list').length; i++) {
-              var opt = this.model.get('assignee_list')[i];
+          for (i = 0; i < List.Task.assignee_list.length; i++) {
+              var opt = List.Task.assignee_list[i];
               control.addOption(opt);
               if (currentAssigneeId == opt.id) {
                   control.setValue(currentAssigneeId);
@@ -382,11 +359,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
           // Save the changes
           this.setTaskType(currentTaskTypeId);
-          //this.setAssignee(currentAssigneeId, 'Team');
       },
 
       onAssigneeChanged: function (e) {
-        var currentAssigneeId = parseInt(List.Task.assigneeSelector[0].selectize.getValue());
+        var assigneeList = List.Task.assigneeSelector[0].selectize;
+        var currentAssigneeId = parseInt(assigneeList.getValue());
 
         // Dont do anything if val is NaN
         if (isNaN(currentAssigneeId)) {
@@ -394,17 +371,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         }
 
         this.model.set('assignable_id', currentAssigneeId);
-        var control = List.Task.assigneeSelector[0].selectize;
-        var group = control.getOption(control.getValue()).parent().attr('data-group');
-        //TODO: Done dirty work here to fix the assignee selection issue. But, this is also working after searching user second time only.
-        //TODO: Need to revisit the logic and implement properly.
-        var assigneeType  = 'User';
-        if(group)
-          assigneeType = group.toLowerCase() == 'team' ? 'Team' : 'User';
+
+        var selectedOption = _.findWhere(assigneeList.options, {id: currentAssigneeId});
+        var assigneeType = 'User';
+        if (selectedOption)
+            assigneeType = selectedOption.group == 'team' ? 'Team' : 'User';
         this.model.set('assignable_type', assigneeType);
 
         this.setAssignee(currentAssigneeId, assigneeType);
-        control.addOption({id: currentAssigneeId, name: 'SSSS', group: 'users_all'})
       },
 
       setTaskType: function(currentTaskTypeId) {
