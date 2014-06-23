@@ -64,7 +64,7 @@ class OrderActivityLogsController < ApplicationController
                            :order_id => @order.id,
                            :created_by => current_user,
                            :task_state => Task::TaskState::OPEN,
-                           :assignable => User.find_by_id(task_params.delete(:assigned_by_id)),
+                           :assignable => team_or_user(task_params.delete(:assigned_by_id)),
                            :order_activity_log => activity,
                            :important => task_params.delete(:important)
 
@@ -104,7 +104,19 @@ class OrderActivityLogsController < ApplicationController
   end
 
   def get_task_params
+    logger.debug params
     params.permit(:note, :order_id, :important, :due_date, :task_type_id, :assignable, :assigned_by_id)
   end
 
+  def team_or_user(assigned_by_id)
+    type = params[:assignable_type] || 'User'
+    logger.debug("params[:assignable_type]: #{params[:assignable_type]}")
+    logger.debug("type: #{type}")
+
+    if type == 'User'
+      User.find_by_id assigned_by_id
+    else
+      Team.find_by_id assigned_by_id
+    end
+  end
 end

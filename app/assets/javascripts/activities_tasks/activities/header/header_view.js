@@ -96,7 +96,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.ui.taskTypeSelector.selectpicker();
 
         // Selectize the task-assignee-selector
-        var task_assignee_selector = $('#task-assignee-selector').selectize({
+        Header.task_assignee_selector = $('#task-assignee-selector').selectize({
             valueField: 'id',
             labelField: 'name',
             searchField: 'name',
@@ -138,11 +138,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         });
 
         if(this.model.get('assigned_by_id')) {
-            task_assignee_selector[0].selectize.addItem(this.model.get('assigned_by_id'));
+            Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
         } else {
             var taskType = this.ui.taskTypeSelector.val();
             var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
-            task_assignee_selector[0].selectize.addItem(thisTaskType.get('default_assignee_id'));
+            Header.task_assignee_selector[0].selectize.setValue(thisTaskType.get('default_assignee_id'));
         }
     },
 
@@ -323,6 +323,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.set('due_date', this.ui.dueDate.val());
       this.model.set('task_type_id', this.ui.taskTypeSelector.val());
       this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
+
+      // User or Team?
+      var selectedOption = _.findWhere(Header.task_assignee_selector[0].selectize.options,
+                                                        {id: parseInt(this.ui.taskAssigneeSelector.val())});
+      var group = 'User';
+      if (selectedOption)
+            group = selectedOption.group == 'team' ? 'Team' : 'User';
+      this.model.set('assignable_type', group);
 
       var self = this;
       this.model.save(null, {
