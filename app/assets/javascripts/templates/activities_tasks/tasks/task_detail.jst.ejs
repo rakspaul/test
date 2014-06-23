@@ -87,9 +87,12 @@
         </button>
       <!-- COMPLETED -> CLOSE + REOPEN -->
       <% } else { %>
-        <button class="rui-btn rui-btn-green semi-transparent task-workflow-control" data-state="close">
-          <i class="checkmark_white-icon"></i> Close
-        </button>
+        <!-- Requestor only can close the task -->
+        <% if(requested_by_id == created_by_id){%>
+            <button class="rui-btn rui-btn-green semi-transparent task-workflow-control" data-state="close">
+              <i class="checkmark_white-icon"></i> Close
+            </button>
+        <% } %>
         <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="open">
           <i class="reopen_white-icon"></i> Reopen
         </button>
