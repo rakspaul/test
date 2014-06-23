@@ -11,6 +11,7 @@ json = @lineitems.map do |lineitem|
     value:              lineitem.value,
     ad_sizes:           lineitem.ad_sizes,
     order_id:           lineitem.order.id,
+    uploaded:           lineitem.uploaded,
     selected_zip_codes: [],
     alt_ad_id:          lineitem.alt_ad_id,
     keyvalue_targeting: lineitem.keyvalue_targeting,
