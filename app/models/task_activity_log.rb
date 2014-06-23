@@ -20,4 +20,8 @@ class TaskActivityLog < ActiveRecord::Base
   def self.recent_activity  limit, offset
     order(:created_at => :desc).limit(limit).offset(offset)
   end
+
+  def self.get_user_comment_size
+    where(:activity_type => ActivityType::USER_COMMENT).size
+  end
 end
