@@ -8,6 +8,7 @@ class LineitemsController < ApplicationController
   # GET orders/{order_id}/lineitems
   def index
     @order = Order.find(params[:order_id])
+
     @lineitems = set_lineitem_status(@order.lineitems.in_standard_order)
 
     # find ads
@@ -21,19 +22,19 @@ class LineitemsController < ApplicationController
 
           # temporary issue #814
           # errors emerge because of discrepancy of order's end_date and ads' end_dates
-          # 
+          #
           # amp=# select start_date,end_date from orders where id=404836;
-          # start_date      |      end_date       
+          # start_date      |      end_date
           # ---------------------+---------------------
           # 2014-06-05 00:00:00 | 2014-06-20 23:59:00
           #
           # amp=# select start_date,end_date from ads where order_id=404836;
-          # start_date      |      end_date       
+          # start_date      |      end_date
           # ---------------------+---------------------
           #  2014-06-05 04:00:00 | 2014-06-21 03:59:00
 
           # so fix this discrepancy at code level (afaik it's not fixed by the script/migration)
-          @ads.map do |ad|           
+          @ads.map do |ad|
             end_date = ad.read_attribute_before_type_cast('end_date')
             if end_date =~ /3:59/
               ad.end_date = end_date.in_time_zone(est) - 4.hours
@@ -48,7 +49,7 @@ class LineitemsController < ApplicationController
           # adjust order's start/end dates
           start_date = @ads.min{|m,n| m.start_date <=> n.start_date}.start_date
           end_date   = @ads.max{|m,n| m.end_date <=> n.end_date}.end_date
-          
+
           @order.user_id = current_user.id if @order.user_id.blank?
           @order.start_date = start_date
           @order.end_date = end_date
@@ -101,7 +102,7 @@ class LineitemsController < ApplicationController
 
               ads.map(&:audience_groups).flatten.uniq.each{|ag| li.audience_groups << ag}
 
-              ads.each do |ad| 
+              ads.each do |ad|
                 if !ad.update_attributes({io_lineitem_id: li.id, reach_custom_kv_targeting: ad.keyvalue_targeting})
                   Rails.logger.warn "Errors while updating ad: " + ad.errors.inspect
                   raise ActiveRecord::Rollback
