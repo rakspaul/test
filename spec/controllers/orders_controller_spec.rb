@@ -447,6 +447,13 @@ describe OrdersController do
         put :update, params
         expect(json_parse(response.body)).not_to include(:errors)
       end
+
+      it "creates new advertiser on update" do
+        params['order']['advertiser_name'] = "new advertiser"
+        expect{
+          put :update, params
+        }.to change(Advertiser,:count).by(1)
+      end
     end
   end
 
