@@ -50,10 +50,6 @@ class OrderActivityLogsController < ApplicationController
     return not_found unless OrderActivityLog::ActivityType.const_values.include? activity_params[:activity_type]
 
     OrderActivityLog.transaction do
-      activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
-                                                              :created_by => current_account.user)
-      activity.save!
-
       attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]) if params[:activity_attachment_id]
 
       case activity_params[:activity_type]
@@ -65,7 +61,6 @@ class OrderActivityLogsController < ApplicationController
                            :created_by => current_user,
                            :task_state => Task::TaskState::OPEN,
                            :assignable => team_or_user(task_params.delete(:assigned_by_id)),
-                           :order_activity_log => activity,
                            :important => task_params.delete(:important)
 
         @task = Task.new(task_params)
@@ -77,8 +72,13 @@ class OrderActivityLogsController < ApplicationController
           attachment.save!
         end
       when OrderActivityLog::ActivityType::USER_COMMENT
-        #nothing to do
+        activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+                                                               :created_by => current_account.user)
+        activity.save!
       when OrderActivityLog::ActivityType::ATTACHMENT
+        activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+                                                               :created_by => current_account.user)
+        activity.save!
         if attachment
           attachment.activity_log = activity
           attachment.save!

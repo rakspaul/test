@@ -278,33 +278,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       e.preventDefault();
 
-      this.fromState = this.model.get("task_state");
-      this.toState = state;
-
       this.model.save({task_state: state}, {
         success: function() {
           self.model.set("is_closed", self.model.isClosed());
           self.updateView();
 
-          //upon successful state change. Save the system comment for this.
-          //When Task state is changed, we have to save the comment for that
-          var note = window.current_user_name + " changed the state from "+ self.fromState + " to "+ self.toState;
-          console.log("Saving task state change comment:"+note);
-          self.saveTaskSystemActivity(self.model,note);
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
         },
         error: function() {
           console.log('task model update failed');
         },
         patch: true
       });
-    },
-
-    saveTaskSystemActivity: function(task,note){
-      var comment = new ReachActivityTaskApp.Entities.TaskComment();
-      comment.set('note', note);
-      comment.set('activity_type', 'system_comment');
-      comment.setTask(task);
-      List.Controller.saveTaskComment(comment, {task: task});
     },
 
     setPriority: function(e) {
@@ -317,13 +302,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.save({important: element.hasClass("semi-transparent")}, {
         success: function() {
           element.toggleClass('semi-transparent');
-          var note = window.current_user_name+" made task as ";
-          if(self.model.get("important")){
-             note = note + "urgent";
-          } else {
-             note = note + "non-urgent";
-          }
-          self.saveTaskSystemActivity(self.model,note);
+
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
         },
 
         error: function() {
@@ -337,6 +317,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     setDueDate: function(dueDate) {
       var self = this;
       this.model.save({due_date: dueDate}, {
+        success: function() {
+          ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
+        },
         error: function() {
           console.log('task model update failed');
         },
