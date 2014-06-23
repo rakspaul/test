@@ -137,8 +137,13 @@ class IoImport
       @lineitems = []
       index = 1
 
+      media_types = {}
+      @current_user.network.media_types.each do |mt|
+        media_types[mt.category] = mt
+      end
+
       @reader.lineitems do |lineitem|
-        media_type = @current_user.network.media_types.find_by category: lineitem[:type]
+        media_type = media_types[lineitem[:type]]
         li = Lineitem.new(lineitem)
         li.order = @order
         li.alt_ad_id = index
@@ -148,6 +153,7 @@ class IoImport
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
+        li.uploaded = true
         @lineitems << li
         index += 1
       end

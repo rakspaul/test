@@ -447,6 +447,13 @@ describe OrdersController do
         put :update, params
         expect(json_parse(response.body)).not_to include(:errors)
       end
+
+      it "delete lineitem" do
+        lineitem = order.lineitems.first
+        params['order']['lineitems'] = []
+        put :update, params
+        expect(Lineitem.find_by_id(lineitem.id)).to be_nil
+      end
     end
   end
 

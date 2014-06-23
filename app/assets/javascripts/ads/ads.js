@@ -7,7 +7,8 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        _delete_creatives: []
+        _delete_creatives: [],
+        platform_id: null
       }
     },
 
@@ -237,7 +238,7 @@
           ad_sizes = li.get('companion_ad_size');
         } else if (li_type == 'Video') {
           var companion_size = li.get('companion_ad_size');
-          ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
+          ad_sizes = li.get('master_ad_size');// + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
           this.model.set({ 'size': ad_sizes }, { silent: true });
