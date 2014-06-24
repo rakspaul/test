@@ -1,6 +1,5 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActivityTaskApp,Backbone, Marionette, $, _,JST){
 
-
   List.currentTaskId = undefined;
 
   List.Task = Marionette.Layout.extend({
@@ -29,36 +28,32 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onTaskView: function(e) {
-
-        // This piece of logic helps in not refreshing continually task details region
-        // when click happens on the same task or details region.
-        // On close of the task details region, the value will be undefined for the current task id.
-        if(List.currentTaskId != undefined){
-          if(List.currentTaskId == this.model.id){
-            return;
-          }
+      // This piece of logic helps in not refreshing continually task details region
+      // when click happens on the same task or details region.
+      // On close of the task details region, the value will be undefined for the current task id.
+      if(List.currentTaskId != undefined){
+        if(List.currentTaskId == this.model.id){
+          return;
         }
+      }
 
+      //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
+      //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
+      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
+          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
+          ReachActivityTaskApp.order = {};
+          ReachActivityTaskApp.order.id = this.model.order_id;
 
-        //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
-        //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
-        if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
-            ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
-            ReachActivityTaskApp.order = {};
-            ReachActivityTaskApp.order.id = this.model.order_id;
-
-            // Fetch task types
-            var taskTypes = ReachActivityTaskApp.request("taskType:entities");
-          var self = this;
-            $.when(taskTypes).done(function(taskTypes) {
-                ReachActivityTaskApp.taskTypes = taskTypes.models;
-            self.showTaskView();
-            });
-        } else {
-          this.showTaskView();
-        }
-
-
+          // Fetch task types
+          var taskTypes = ReachActivityTaskApp.request("taskType:entities");
+        var self = this;
+          $.when(taskTypes).done(function(taskTypes) {
+              ReachActivityTaskApp.taskTypes = taskTypes.models;
+          self.showTaskView();
+          });
+      } else {
+        this.showTaskView();
+      }
     },
 
     showTaskView: function(e) {
@@ -94,59 +89,59 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     }
   });
 
-    List.Task.getAssigneeOptionsList = function(model) {
-        var currentTaskTypeId = model.get("task_type_id");
-        var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
-        var optList = [];
+  List.Task.getAssigneeOptionsList = function (model) {
+    var currentTaskTypeId = model.get("task_type_id");
+    var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
+    var optList = [];
 
-        if (currentTaskType !== undefined) {
-            var default_team_name = currentTaskType.get('default_assignee_team');
-            var default_team_id = currentTaskType.get('default_assignee_id');
-            var team_members = currentTaskType.get('users');
-            var current_assignee_id = model.get('assignable_id');
-            var current_assignee_name = model.get('assignable_name');
-            var current_assignee_type = model.get('assignable_type');
+    if (currentTaskType !== undefined) {
+      var default_team_name = currentTaskType.get('default_assignee_team');
+      var default_team_id = currentTaskType.get('default_assignee_id');
+      var team_members = currentTaskType.get('users');
+      var current_assignee_id = model.get('assignable_id');
+      var current_assignee_name = model.get('assignable_name');
+      var current_assignee_type = model.get('assignable_type');
 
-            var default_assignee_id = currentTaskType.get('default_assignee_user_id');
-            var default_assignee = currentTaskType.get('default_assignee_user');
+      var default_assignee_id = currentTaskType.get('default_assignee_user_id');
+      var default_assignee = currentTaskType.get('default_assignee_user');
 
-            // Add default user
-            if (default_assignee !== undefined && default_assignee_id !== undefined ) {
-                optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
-            }
+      // Add default user
+      if (default_assignee !== undefined && default_assignee_id !== undefined) {
+        optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
+      }
 
-            // Add default team
-            if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
-                optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
+      // Add default team
+      if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
+        optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
 
-            var team_member = false;
-            // Add members of team
-            if (team_members !== 'undefined') {
-                for (i = 0; i < team_members.length; i++) {
-                    if (team_members[i].id == current_assignee_id) team_member = true;
-                    if (team_members[i].id == default_assignee_id) team_member = true;
+      var team_member = false;
+      // Add members of team
+      if (team_members !== 'undefined') {
+        for (i = 0; i < team_members.length; i++) {
+          if (team_members[i].id == current_assignee_id) team_member = true;
+          if (team_members[i].id == default_assignee_id) team_member = true;
 
-                    if (team_members[i].id == default_assignee_id) {
-                        team_member = true;
-                        // Dont add to list since the user is already in it
-                    } else {
-                        // Add unique user
-                        optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
-                    }
-                }
-            }
-
-            // Add the current assignee to the list
-            if (current_assignee_id !== undefined && current_assignee_name !== undefined
-                && current_assignee_type == 'User' && !team_member) {
-                optList.push({ id: current_assignee_id, name: current_assignee_name, group: 'users_all'});
-            }
-        } else {
-            console.log("curentTaskType (" + currentTaskType + ") is invalid.");
+          if (team_members[i].id == default_assignee_id) {
+            team_member = true;
+            // Dont add to list since the user is already in it
+          } else {
+            // Add unique user
+            optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
+          }
         }
+      }
 
-        return optList;
-    };
+      // Add the current assignee to the list
+      if (current_assignee_id !== undefined && current_assignee_name !== undefined
+          && current_assignee_type == 'User' && !team_member) {
+        optList.push({ id: current_assignee_id, name: current_assignee_name, group: 'users_all'});
+      }
+    } else {
+      console.log("curentTaskType (" + currentTaskType + ") is invalid.");
+    }
+
+    return optList;
+  };
 
   List.Tasks = Marionette.CollectionView.extend({
     tagName: 'div',

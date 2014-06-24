@@ -1,6 +1,12 @@
 ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp, Backbone, Marionette, $, _){
 
-  Entities.TaskPageContext = {VIEW:{INSIDE_ORDER:"INSIDE-ORDER-VIEW",ASSIGNED_ME:"ASSIGNED-TO-ME-VIEW",TASK:"TASK-VIEW"}};
+  Entities.TaskPageContext = {
+    VIEW: {
+      INSIDE_ORDER: "INSIDE-ORDER-VIEW",
+      ASSIGNED_ME: "ASSIGNED-TO-ME-VIEW",
+      TEAM: "TEAM-VIEW"
+    }
+  };
 
   Entities.Task = Backbone.Model.extend({
     defaults: {
@@ -23,17 +29,15 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     isUrgent: function() {
       return this.get('important');
     }
-
-
   });
 
   Entities.TaskCollection = Backbone.Collection.extend({
-    context:undefined,
+    context: undefined,
     initialize: function(models,options) {
        this.context = options.context;
     },
 
-    url:function(){
+    url: function(){
       if(this.context == Entities.TaskPageContext.VIEW.INSIDE_ORDER)
         return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
       else if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME)
@@ -97,12 +101,12 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   var API = {
 
-    getTaskEntities: function(offset,context) {
-      var tasks = new Entities.TaskCollection([],{context:context}),
+    getTaskEntities: function(offset, context) {
+      var tasks = new Entities.TaskCollection([], {context: context}),
           filter = {},
           defer = $.Deferred();
 
-      //default filter.
+      // default filter.
       filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
       filter["offset"] = Entities.DEF_OFFSET;
 
@@ -197,8 +201,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     }
   };
 
-  ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset,context){
-    return API.getTaskEntities(offset,context);
+  ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset, context){
+    return API.getTaskEntities(offset, context);
   });
 
   ReachActivityTaskApp.reqres.setHandler("task:save", function(task){
