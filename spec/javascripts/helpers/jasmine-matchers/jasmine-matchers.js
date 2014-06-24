@@ -595,6 +595,6 @@ beforeEach(function() {
     }) && this.actual.length === other.length;
   };
 
-  this.addMatchers(matchers);
+  jasmine.addMatchers(matchers);
 
 });
