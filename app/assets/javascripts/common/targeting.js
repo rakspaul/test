@@ -423,7 +423,7 @@
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
       if(this.isCustomKeyValueValid && this.isZipcodesValid) {
-        if(this.$el.find('.custom-kvs-field').is(':visible')) {
+        if(this.$el.find('.custom-kvs').is(':visible')) {
           this.$el.find('.expand-audience-btn').trigger('click');
         }
 
