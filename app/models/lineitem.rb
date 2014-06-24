@@ -17,6 +17,7 @@ class Lineitem < ActiveRecord::Base
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
   has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id', dependent: :destroy
+  has_many :revisions, lambda { order('created_at DESC') }, class_name: 'Revision', as: :item
 
   has_many :lineitem_geo_targetings
   has_many :geo_targets, through: :lineitem_geo_targetings
@@ -166,6 +167,12 @@ class Lineitem < ActiveRecord::Base
 
   def end_date
     read_attribute_before_type_cast('end_date').to_date
+  end
+
+  def previous_revision
+    if !self.revisions.empty?
+      JSON.load(self.revisions.last.object_changes)
+    end
   end
 
   private

@@ -150,6 +150,11 @@ class OrdersController < ApplicationController
     @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
+    if !order_param[:revision_changes].blank?
+      changes = {lineitems: order_param[:revision_changes]}
+      @order.revisions.create(object_changes: JSON.dump(changes))
+    end
+
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
