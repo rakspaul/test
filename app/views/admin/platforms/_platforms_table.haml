@@ -4,6 +4,9 @@
     %td= link_to platform.media_type.category, edit_admin_platform_path(platform)
     %td= platform.dfp_key
     %td= platform.site.name
+    %td
+      -if platform.tag_template
+        .tag-icon
     %td= platform.naming_convention
     %td= platform.ad_type
     %td= platform.priority

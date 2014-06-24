@@ -993,6 +993,24 @@ ul.select-keyvals{
     margin:1px 7px;
     float:left;
   }
+
+  .tag-template-text{
+    width:330px;
+    float:left;
+    font-size:12px;
+    margin-left:20px;
+    word-wrap: break-word;
+
+    span{
+      color: #d0279c;
+    }
+  }
+
+  .tag-template{
+    width:330px;
+    height:80px;
+    float:left;
+  }
 }
 
 .platforms-table{
@@ -1001,6 +1019,9 @@ ul.select-keyvals{
   }
   .naming-convention{
     width:180px;
+  }
+  .tag-icon{
+    margin-left:10px;
   }
 }
 
