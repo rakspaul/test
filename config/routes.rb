@@ -74,7 +74,14 @@ Reachui::Application.routes.draw do
     end
   end
 
-  get 'task_types' => 'tasks#task_types'
+  resources :task_types, only: [:index, :search] do
+    collection do
+      get 'search'
+    end
+  end
+
+  #get 'task_types' => 'tasks#task_types'
+
   post 'tasks/:id' => 'tasks#update'
 
   resources :orders do

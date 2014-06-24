@@ -105,7 +105,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
             optgroups: [
                 { value: 'team', label: 'Default Team' },
                 { value: 'team_users', label: 'Team Members' },
-                { value: 'users_all', label: 'Users' }
+                { value: 'users_all', label: 'Users' },
+                { value: 'default_user', label: 'Default User' }
             ],
             optgroupField: 'group',
             create: false,
@@ -142,7 +143,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         } else {
             var taskType = this.ui.taskTypeSelector.val();
             var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
-            Header.task_assignee_selector[0].selectize.setValue(thisTaskType.get('default_assignee_id'));
+            var assignee_id = thisTaskType.get('default_assignee_user_id') ?
+                                    thisTaskType.get('default_assignee_user_id') :
+                                    thisTaskType.get('default_assignee_id');
+            Header.task_assignee_selector[0].selectize.setValue(assignee_id);
+            this.model.set('assigned_by_id', assignee_id);
         }
     },
 
@@ -153,6 +158,13 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
         var default_team_name = thisTaskType.get('default_assignee_team');
         var default_team_id = thisTaskType.get('default_assignee_id');
+        var default_assignee_id = thisTaskType.get('default_assignee_user_id');
+        var default_assignee = thisTaskType.get('default_assignee_user');
+
+        // Add default user
+        if (default_assignee !== undefined && default_assignee_id !== undefined ) {
+            optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
+        }
 
         // Add default team
         if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
@@ -160,7 +172,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
         // Add members of team
         _.each(thisTaskType.get('users'), function(member) {
-            optList.push({ id: member.id, name: member.name, group: 'team_users' });
+            // Add if the user is not the default assignee
+            if (member.id != default_assignee_id)
+                optList.push({ id: member.id, name: member.name, group: 'team_users' });
         });
 
         return optList;
@@ -268,7 +282,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         this.model.set('important', false);
         var taskType = ReachActivityTaskApp.taskTypes[0];
         this.model.set('task_type_id', taskType.get('id'));
-        this.model.set('assigned_by_id', taskType.get('default_assignee_id'));
+        var assignee_id = taskType.get('default_assignee_user_id') ?
+                                 taskType.get('default_assignee_user_id') :
+                                 taskType.get('default_assignee_id');
+        this.model.set('assigned_by_id', assignee_id);
         this.model.set('due_date', taskType.get('default_due_date'));
         this.model.set('errors', undefined);
         this.render();
@@ -354,7 +371,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
       this.model.set('note', this.ui.activity_input.val());
       this.model.set('task_type_id', thisTaskType.get('id'));
-      this.model.set('assigned_by_id', thisTaskType.get('default_assignee_id'));
+      var assignee_id = thisTaskType.get('default_assignee_user_id') ?
+                        thisTaskType.get('default_assignee_user_id') :
+                        thisTaskType.get('default_assignee_id');
+      this.model.set('assigned_by_id', assignee_id);
       this.model.set('due_date', thisTaskType.get('default_due_date'));
 
       this.render();

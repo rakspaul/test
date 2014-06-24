@@ -54,7 +54,13 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   Entities.TaskTypeCollection = Backbone.Collection.extend({
     url: function() {
-      return '/task_types.json'
+      var url = undefined;
+
+      if (ReachActivityTaskApp.order.id === undefined)
+            return '/task_types.json';
+       else {
+          return '/task_types/search.json?search=' + ReachActivityTaskApp.order.id + '&search_by=order_id';
+      }
     },
 
     model: Entities.TaskType

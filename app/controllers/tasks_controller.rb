@@ -47,14 +47,6 @@ class TasksController < ApplicationController
     error_message(e.message)
   end
 
-  def task_types
-    @task_types = TaskType.order(:type => :asc).all
-
-    respond_to do |format|
-      format.json
-    end
-  end
-
   def comments
     @comments = @task.task_activity_logs.includes(:activity_attachment).recent_activity params[:limit], params[:offset]
 

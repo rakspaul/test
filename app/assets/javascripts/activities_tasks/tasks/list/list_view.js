@@ -10,20 +10,28 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     assigneeSelector: undefined,
 
     events: {
-      'click': 'showTaskView'
+      'click': 'onTaskView'
+    },
+
+    onTaskView: function(e) {
+        //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
+        //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
+        if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
+            ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
+            ReachActivityTaskApp.order = {};
+            ReachActivityTaskApp.order.id = this.model.order_id;
+
+            // Fetch task types
+            var taskTypes = API.fetchTaskTypes();
+            $.when(taskTypes).done(function(taskTypes) {
+                ReachActivityTaskApp.taskTypes = taskTypes.models;
+            });
+        }
+
+        this.showTaskView();
     },
 
     showTaskView: function(e) {
-
-      //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
-      //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
-          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
-        ReachActivityTaskApp.order = {};
-        ReachActivityTaskApp.order.id = this.model.order_id;
-      }
-
-
       // This piece of logic helps in not refreshing continually task details region
       // when click happens on the same task or details region.
       // On close of the task details region, the value will be undefined for the current task id.
@@ -77,6 +85,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             var current_assignee_name = model.get('assignable_name');
             var current_assignee_type = model.get('assignable_type');
 
+            var default_assignee_id = currentTaskType.get('default_assignee_user_id');
+            var default_assignee = currentTaskType.get('default_assignee_user');
+
+            // Add default user
+            if (default_assignee !== undefined && default_assignee_id !== undefined ) {
+                optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
+            }
+
             // Add default team
             if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
                 optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
@@ -86,8 +102,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             if (team_members !== 'undefined') {
                 for (i = 0; i < team_members.length; i++) {
                     if (team_members[i].id == current_assignee_id) team_member = true;
+                    if (team_members[i].id == default_assignee_id) team_member = true;
 
-                    optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
+                    if (team_members[i].id == default_assignee_id) {
+                        team_member = true;
+                        // Dont add to list since the user is already in it
+                    } else {
+                        // Add unique user
+                        optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
+                    }
                 }
             }
 
@@ -200,7 +223,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             optgroups: [
                 { value: 'team', label: 'Default Team' },
                 { value: 'team_users', label: 'Team Members' },
-                { value: 'users_all', label: 'Users' }
+                { value: 'users_all', label: 'Users' },
+                { value: 'default_user', label: 'Default User' }
             ],
             optgroupField: 'group',
             create: false,
@@ -338,7 +362,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
 
           // Update the model
-          var currentAssigneeId = currentTaskType.get('default_assignee_id');
+          var currentAssigneeId = currentTaskType.get('default_assignee_user_id') ?
+                                            currentTaskType.get('default_assignee_user_id') :
+                                            currentTaskType.get('default_assignee_id');
           this.model.set('assignable_id', currentAssigneeId);
           this.model.set('assignable_name', currentTaskType.get('default_assignee_team'));
           this.model.set('assignable_type', 'Team');
