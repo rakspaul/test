@@ -22,7 +22,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
             ReachActivityTaskApp.order.id = this.model.order_id;
 
             // Fetch task types
-            var taskTypes = API.fetchTaskTypes();
+            var taskTypes = ReachActivityTaskApp.request("taskType:entities");
             $.when(taskTypes).done(function(taskTypes) {
                 ReachActivityTaskApp.taskTypes = taskTypes.models;
             });

@@ -56,10 +56,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     url: function() {
       var url = undefined;
 
-      if (ReachActivityTaskApp.order.id === undefined)
-            return '/task_types.json';
-       else {
-          return '/task_types/search.json?search=' + ReachActivityTaskApp.order.id + '&search_by=order_id';
+      if (ReachActivityTaskApp.order && ReachActivityTaskApp.order.id)
+        return '/task_types/search.json?search=' + ReachActivityTaskApp.order.id + '&search_by=order_id';
+      else {
+        return '/task_types.json';
       }
     },
 

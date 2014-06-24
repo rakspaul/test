@@ -28,8 +28,8 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
       var deferred = $._deferred();
     },
 
-    fetchTaskTypes: function(orderId) {
-      return ReachActivityTaskApp.request("taskType:entities", orderId);
+    fetchTaskTypes: function() {
+      return ReachActivityTaskApp.request("taskType:entities");
     }
   };
 
