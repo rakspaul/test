@@ -16,8 +16,8 @@ json.state                    io_detail.try(:state).to_s
 json.is_existing_order        is_existing_order
 
 json.sales_person_name        io_detail.try(:sales_person).try(:full_name)
-json.sales_person_phone       io_detail.sales_person_phone
-json.sales_person_email       io_detail.sales_person_email
+json.sales_person_phone       io_detail.try(:sales_person_phone)
+json.sales_person_email       io_detail.try(:sales_person_email)
 json.sales_person_id          io_detail.try(:sales_person).nil? ? nil : io_detail.sales_person.id
 
 json.user_id                  order.user.nil? ? nil : order.user.id
@@ -30,7 +30,7 @@ json.io_asset_filename        io_original_filename
 json.io_asset_created_at      format_datetime(io_created_at)
 json.revised_io_filename      revised_io_filename
 
-json.client_advertiser_name   io_detail.client_advertiser_name
+json.client_advertiser_name   io_detail.try(:client_advertiser_name)
 
 json.billing_contact_name     io_detail.try(:billing_contact).try(:name)
 json.billing_contact_phone    io_detail.try(:billing_contact).try(:phone)
@@ -41,9 +41,9 @@ json.media_contact_email      io_detail.try(:media_contact).try(:email)
 json.media_contact_phone      io_detail.try(:media_contact).try(:phone)
 
 json.account_contact_name     io_detail.try(:account_manager).try(:full_name)
-json.account_contact_phone    io_detail.account_manager_phone || io_detail.account_manager.try(:phone_number)
-json.account_contact_email    io_detail.account_manager_email || io_detail.account_manager.try(:email)
-json.account_contact_id       io_detail.account_manager_id
+json.account_contact_phone    io_detail.try(:account_manager_phone) || io_detail.try(:account_manager).try(:phone_number)
+json.account_contact_email    io_detail.try(:account_manager_email) || io_detail.try(:account_manager).try(:email)
+json.account_contact_id       io_detail.try(:account_manager_id)
 
 json.order_name_dup           order_name_dup
 json.sales_person_unknown     sales_person_unknown

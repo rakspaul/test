@@ -53,7 +53,7 @@ describe OrdersController do
         }.to change(Order, :count).by(1)
       end
 
-      it "create a new order and sets trafficking contact correctly" do        
+      it "create a new order and sets trafficking contact correctly" do
         post :create, io_request
         expect(Order.last.io_detail.trafficking_contact.full_name).to eq(io_request["order"]["trafficking_contact_name"])
       end
@@ -124,6 +124,45 @@ describe OrdersController do
         expect{
           post :create, io_request
         }.to change(OrderNote, :count).by(2)
+      end
+    end
+
+    context "order pulled from DFP" do
+      before do
+        @order = FactoryGirl.create :dfp_pulled_order
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1"
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2"
+        @unknown_reach_client = FactoryGirl.create :reach_client, name: "Unknown"
+      end
+
+      it "opens an order page successfully" do
+        get :show, {id: @order.id}
+      end
+
+      it "assigns 'Unknown' reach client to DFP-pulled order" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.reach_client).to eq(@unknown_reach_client)
+      end
+
+      it "creates a note with 'Imported Order' text" do
+        get :show, {id: @order.id}
+        expect(@order.order_notes.last.note).to eq('Imported Order')
+      end
+
+      it "creates io_detail on order open" do
+        expect {
+          get :show, {id: @order.id}
+        }.to change(IoDetail, :count).by(1)
+      end
+
+      it "assigns draft status to order on open" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.state).to eq('draft')
+      end
+
+      it "assigns client_advertiser_name to io_detail" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.client_advertiser_name).to eq(@order.advertiser.name.to_s)
       end
     end
 
@@ -247,41 +286,41 @@ describe OrdersController do
         expect(data[:errors][:lineitems]['0'][:lineitems]).to include(:start_date)
       end
 
-      it "return error on invalid keyvalue targeting on ad level" do
-        params = io_request_w_ads
+      # it "return error on invalid keyvalue targeting on ad level" do
+      #   params = io_request_w_ads
 
-        {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
-          params['order']['lineitems'].each do |li|
-            li['ads'].each do |ad|
-              ad['ad']['targeting']['targeting']['keyvalue_targeting'] = error_request
-            end
-          end
+      #   {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
+      #     params['order']['lineitems'].each do |li|
+      #       li['ads'].each do |ad|
+      #         ad['ad']['targeting']['targeting']['keyvalue_targeting'] = error_request
+      #       end
+      #     end
 
-          expect{
-            post :create, params
-          }.to change(Order, :count).by(0)
+      #     expect{
+      #       post :create, params
+      #     }.to change(Order, :count).by(0)
 
-          data = json_parse(response.body)
-          expect(data[:errors][:lineitems]['0'][:ads]['0'][:targeting]).to include(error_response)
-        end
-      end
+      #     data = json_parse(response.body)
+      #     expect(data[:errors][:lineitems]['0'][:ads]['0'][:targeting]).to include(error_response)
+      #   end
+      # end
 
-      it "return error on invalid keyvalue targeting on lineitem level" do
-        params = io_request_w_ads
+      # it "return error on invalid keyvalue targeting on lineitem level" do
+      #   params = io_request_w_ads
 
-        {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
-          params['order']['lineitems'].each do |li|
-            li['lineitem']['targeting']['targeting']['keyvalue_targeting'] = error_request
-          end
+      #   {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
+      #     params['order']['lineitems'].each do |li|
+      #       li['lineitem']['targeting']['targeting']['keyvalue_targeting'] = error_request
+      #     end
 
-          expect{
-            post :create, params
-          }.to change(Order, :count).by(0)
+      #     expect{
+      #       post :create, params
+      #     }.to change(Order, :count).by(0)
 
-          data = json_parse(response.body)
-          expect(data[:errors][:lineitems]['0'][:targeting]).to include(error_response)
-        end
-      end
+      #     data = json_parse(response.body)
+      #     expect(data[:errors][:lineitems]['0'][:targeting]).to include(error_response)
+      #   end
+      # end
     end
 
     context "ads" do
@@ -397,7 +436,7 @@ describe OrdersController do
         order = Order.find(params['id'])
         expect(order.user).to eq(order.io_detail.trafficking_contact)
       end
- 
+
       it "update ad start date" do
         li = order.lineitems.first
         ad = order.lineitems.first.ads.first
@@ -407,6 +446,13 @@ describe OrdersController do
 
         put :update, params
         expect(json_parse(response.body)).not_to include(:errors)
+      end
+
+      it "delete lineitem" do
+        lineitem = order.lineitems.first
+        params['order']['lineitems'] = []
+        put :update, params
+        expect(Lineitem.find_by_id(lineitem.id)).to be_nil
       end
     end
   end

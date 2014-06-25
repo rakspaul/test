@@ -3,13 +3,14 @@
 
   LineItems.LineItem = Backbone.Model.extend({
     _default_keyvalue_targeting: {
-      "Facebook": "fbx=_default",
+      "Facebook": "fb=_default",
       "Mobile":   "mob=_default"
     },
 
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.platforms = [];
       this.is_blank_li = false;
     },
 
@@ -20,7 +21,7 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        type: 'display',
+        type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
       }
@@ -246,7 +247,8 @@
           // 300x50 or 320x50 = mobile
           // 100x72 or 99x72 = FB
           // All else = Display
-          if(view.model.is_blank_li) {
+          var name = $(this).data('name');
+          if (view.model.is_blank_li && name != 'companion_ad_size') {
             switch(newValue[0]) {
               case '1x1':
                 view._changeMediaType("Video");
@@ -353,12 +355,21 @@
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      var showDeleteBtn = !this.model.get('uploaded');
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
+        if (showDeleteBtn && !isNaN(parseInt(ad.get('source_id')))) {
+          showDeleteBtn = false;
+        }
+
         view.renderAd(ad);
       });
+
+      if (showDeleteBtn) {
+        this.showDupDeleteBtn();
+      }
     },
 
     renderTargetingDialog: function() {
@@ -418,6 +429,18 @@
       });
     },
 
+    showDupDeleteBtn: function(options) {
+      if (options && options.hide) {
+        if (this.model.get('uploaded')) {
+          this.ui.dup_btn.hide();
+        }
+        this.ui.delete_btn.hide();
+      } else {
+        this.ui.dup_btn.show();
+        this.ui.delete_btn.show();
+      }
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
@@ -441,34 +464,47 @@
       }
     },
 
+    //  This method will open or close targeting dialog box
+    //  hideTargeting() will give call to server for validating key value and zipcodes
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
-        this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
-        if(this.targetingView.show_custom_key_values){
-          this.targetingView._toggleCustomRegularKeyValues();
-        }
-        ReachUI.showCondensedTargetingOptions.apply(this);
-        $(this.ui.targeting).hide('slow');
+      if(is_visible){
+        this.targetingView.hideTargeting();
       } else{
         this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
         $(this.ui.targeting).show('slow');
       }
     },
 
+    // after validating zipcode and key values this function will get call
+    onTargetingDialogToggle: function() {
+      this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
+    },
+
+    // for lineitem
+    // this function will update the key values and zipcodes after validating
     _hideTargetingDialog: function() {
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _addTypedAd: function(ev) {
-      var type = $(ev.currentTarget).data('type');
-      this.trigger('lineitem:add_ad', { "type": type });
+      var currentTarget = $(ev.currentTarget),
+          type       = currentTarget.data('type'),
+          platformId = currentTarget.data('platform-id');
+      if (platformId) {
+          var platforms = this.model.platforms,
+              platform = platforms.length > 0 ? platforms.findWhere({ "id": platformId}) : null;
+          this.trigger('lineitem:add_ad', { "type": type, "platform": platform });
+      } else {
+        this.trigger('lineitem:add_ad', { "type": type });
+      }
     },
 
     serializeData: function(){
       var data = this.model.toJSON();
       data.li_notes_collapsed = this.li_notes_collapsed;
+      data.platforms = this.model.platforms;
       return data;
     },
 
@@ -699,19 +735,26 @@
       var li = this.model,
           li_view = this;
 
-      var selected_geos  = li.get('selected_geos') ? _.clone(li.get('selected_geos')) : [];
-      var zipcodes       = li.get('selected_zip_codes') ? _.clone(li.get('selected_zip_codes')) : [];
-      var kv             = li.get('selected_key_values') ? _.clone(li.get('selected_key_values')) : [];
-      var frequency_caps = li.get('frequency_caps') ? _.clone(li.get('frequency_caps')) : [];
+      var selected_geos  = li.get('targeting').get('selected_geos') ? _.clone(li.get('targeting').get('selected_geos')) : [];
+      var zipcodes       = li.get('targeting').get('selected_zip_codes') ? _.clone(li.get('targeting').get('selected_zip_codes')) : [];
+      var kv             = li.get('targeting').get('selected_key_values') ? _.clone(li.get('targeting').get('selected_key_values')) : [];
+
+      var frequency_caps = [];
+      var notFilteredFrequencyCaps = li.get('targeting').get('frequency_caps') ? _.clone(li.get('targeting').get('frequency_caps')) : [];
+      _.each(notFilteredFrequencyCaps.models, function(fc) {
+        frequency_caps.push(_.omit(fc.attributes, 'id'));
+      });
 
       var new_li = new LineItems.LineItem(),
-          creatives_list = null;
+          creatives_list = null,
+          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
       new_li.setBlankLiFlag();
 
       if(this.model.get('creatives').length > 0) {
         var creatives = [];
         _.each(this.model.get('creatives').models, function(c) {
-          creatives.push(new ReachUI.Creatives.Creative(_.clone(c.attributes)));
+          var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+          creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
         });
         creatives_list = new ReachUI.Creatives.CreativesList(creatives);
       } else {
@@ -719,6 +762,7 @@
       }
 
       new_li.set({
+        uploaded: false,
         start_date: this.model.get('start_date'),
         end_date: this.model.get('end_date'),
         ad_sizes: this.model.get('ad_sizes'),
@@ -735,25 +779,40 @@
           selected_key_values: kv,
           frequency_caps: frequency_caps,
           audience_groups: li.get('audience_groups'),
-          keyvalue_targeting: li.get('keyvalue_targeting'),
+          keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
           type: li.get('type')
         })
       }, { silent: true });
+      new_li.platforms = li.platforms;
 
       _.each(li.ads, function(ad) {
-        var new_ad = new ReachUI.Ads.Ad(ad.attributes);
+        var adAttributes = _.omit(_.clone(ad.attributes), 'id', 'source_id', 'io_lineitem_id');
+        var new_ad = new ReachUI.Ads.Ad(adAttributes), ad_creatives = [];
+
+        if (ad.get('creatives').length > 0) {
+          _.each(ad.get('creatives').models, function(c) {
+            var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+            ad_creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
+          });
+        }
+
+        var adFrequencyCaps = [];
+        var notFilteredAdFrequencyCaps = ad.get('targeting').get('frequency_caps');
+        _.each(notFilteredAdFrequencyCaps.models, function(fc) {
+          adFrequencyCaps.push(_.omit(fc.attributes, 'id'));
+        });
 
         new_ad.set({
           start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
           end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
-          creatives: new ReachUI.Creatives.CreativesList(ad.get('creatives')),
+          creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
           targeting: new ReachUI.Targeting.Targeting({
-            selected_zip_codes: ad.get('targeting').get('selected_zip_codes'),
-            selected_geos: ad.get('targeting').get('selected_geos'),
-            selected_key_values: ad.get('targeting').get('selected_key_values'),
-            frequency_caps: ad.get('targeting').get('frequency_caps'),
-            audience_groups: li.get('targeting').get('audience_groups'),
-            keyvalue_targeting: ad.get('targeting').get('keyvalue_targeting'),
+            selected_zip_codes: _.clone(ad.get('targeting').get('selected_zip_codes')),
+            selected_geos: _.clone(ad.get('targeting').get('selected_geos')),
+            selected_key_values: _.clone(ad.get('targeting').get('selected_key_values')),
+            frequency_caps: adFrequencyCaps,
+            audience_groups: _.clone(li.get('targeting').get('audience_groups')),
+            keyvalue_targeting: _.clone(ad.get('targeting').get('keyvalue_targeting')),
             dfp_key_values: ad.dfp_key_values,
             ad_dfp_id: ad.get('source_id'),
             type: ad.get('type')
@@ -764,6 +823,11 @@
       });
 
       this.model.collection.add(new_li);
+      this.model.collection.trigger('lineitem:added');
+    },
+
+    _deleteLineitem: function() {
+      this.model.collection.remove(this.model);
     },
 
     ui: {
@@ -771,7 +835,9 @@
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+      lineitem_sizes: '.lineitem-sizes',
+      dup_btn: '.li-duplicate-btn',
+      delete_btn: '.li-delete-btn'
     },
 
     _toggleRevisionDialog: function(e) {
@@ -898,7 +964,8 @@
       'click .paste-targeting-btn': 'pasteTargeting',
       'click .cancel-targeting-btn': 'cancelTargeting',
       'click .change-media-type': '_changeMediaType',
-      'click .li-duplicate-btn': '_duplicateLineitem'
+      'click .li-duplicate-btn': '_duplicateLineitem',
+      'click .li-delete-btn': '_deleteLineitem'
     },
 
     triggers: {
@@ -909,6 +976,15 @@
   LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
+
+    initialize: function() {
+      var view = this;
+      this.listenTo(this.collection, 'lineitem:added', function() {
+        var lastLIView = view.children.findByIndex(view.children.length - 1);
+        lastLIView._recalculateMediaCost();
+        lastLIView.showDupDeleteBtn();
+      });
+    },
 
     onRender: function() {
       if (this.collection.order.get('order_status') == 'Pushing') {
@@ -982,6 +1058,7 @@
                   }
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .name .errors_container').first().html(li_errors["targeting"]);
                   }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
@@ -1013,6 +1090,7 @@
 
                     if (ad_errors && ad_errors["targeting"]) {
                       $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors_container').html(ad_errors["targeting"]);
                     }
 
                     if (ad_errors && ad_errors["creatives"]) {
@@ -1165,10 +1243,37 @@
     _createNewLI: function() {
       var li = new LineItems.LineItem(),
           empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
-          itemIndex = this.collection.length + 1;
-      li.set({itemIndex: itemIndex, ad_sizes: '', name: '', creatives: empty_creatives_list, start_date: null, end_date: null});
+          itemIndex = this.collection.length + 1,
+          view = this;
+      var lastLIView = view.children.length > 0 ? view.children.findByIndex(view.children.length - 1) : null;
+      li.set({
+        uploaded:  false,
+        itemIndex: itemIndex,
+        ad_sizes: '',
+        name: '',
+        creatives: empty_creatives_list,
+        start_date: null,
+        end_date: null,
+        targeting: new ReachUI.Targeting.Targeting({
+          audience_groups: lastLIView ? lastLIView.model.get('targeting').get('audience_groups') : []
+        })
+      });
       li.setBlankLiFlag();
-      this.collection.add(li);
+
+      var platforms = [];
+      if (this.collection.length > 0) {
+        var lastLI = this.collection.at(this.collection.length - 1);
+        li.platforms = lastLI.platforms;
+        this.collection.add(li);
+        this.collection.trigger('lineitem:added');
+      } else {
+        platforms = new ReachUI.AdPlatforms.PlatformList();
+        platforms.fetch().then(function() {
+          li.platforms = platforms;
+          view.collection.add(li);
+          view.collection.trigger('lineitem:added');
+        });
+      }
     },
 
     events: {

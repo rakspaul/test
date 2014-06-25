@@ -1,8 +1,9 @@
 class OrdersController < ApplicationController
-  include Authenticator
+  include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_users_and_orders, :only => [:index, :show, :delete]
+  before_filter :set_orders, :only => [:index, :delete]
+  before_filter :set_users, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -17,10 +18,29 @@ class OrdersController < ApplicationController
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
     @notes = @order.order_notes.joins(:user).order("created_at desc")
 
-    @pushing_errors = @order.io_detail.state =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
+    @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
-    @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).all
-    @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).all
+    if @order.io_detail
+      @billing_contacts = BillingContact.for_user(@order.io_detail.reach_client.id).order(:name).load
+      @media_contacts   = MediaContact.for_user(@order.io_detail.reach_client.id).order(:name).load
+      @order.io_detail.trafficking_contact_id = @current_user.id if @order.io_detail.trafficking_contact_id.nil?
+    else
+      @billing_contacts = []
+      @media_contacts   = []
+      if !(unknown_reach_client = ReachClient.find_by(network_id: current_user.company_id, name: 'Unknown'))
+        unknown_agency = Agency.find_or_create_by(name: "Unknown")
+        unknown_reach_client = ReachClient.create(abbr: 'unknown', network_id: current_user.company_id, name: 'Unknown', user_id: current_user.id, account_manager_id: current_user.id, sales_person_id: current_user.id, agency_id: unknown_agency.id)
+      end
+
+      @order.io_detail = IoDetail.create({order_id: @order.id, state: "draft", reach_client_id: unknown_reach_client.id, trafficking_contact_id: @current_user.id, client_advertiser_name: @order.advertiser.try(:name).to_s})
+
+      @order.set_import_note
+    end
+
+    if @order.order_notes.blank? # that's Sweep order
+      @order.set_import_note
+    end
+
     @reachui_users = load_users.limit(50)
 
     respond_to do |format|
@@ -96,6 +116,8 @@ class OrdersController < ApplicationController
         if errors_list.blank? && order_valid && @order.save
           @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
 
+          @order.set_upload_note
+
           order_notes.to_a.each do |note|
             OrderNote.create note: note[:note], user: current_user, order: @order
           end
@@ -128,7 +150,8 @@ class OrdersController < ApplicationController
     @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
-    io_details = @order.io_detail
+    # if we update DFP-imported order then we should create IoDetail also
+    io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -142,7 +165,7 @@ class OrdersController < ApplicationController
     io_details.account_manager_email  = order_param[:account_manager_email]
     io_details.account_manager_phone  = order_param[:account_manager_phone]
     io_details.account_manager_id     = order_param[:account_contact_id]
-    io_details.state                  = order_param[:order_status] || "draft"
+    io_details.state                  = order_param[:order_status].blank? ? "draft" : order_param[:order_status]
     io_details.account_manager_id     = order_param[:account_contact_id]
     io_details.sales_person_id        = order_param[:sales_person_id]
 
@@ -150,6 +173,8 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.trafficking_contact_id
     elsif order_param[:order_status] == "ready_for_am"
       @order.user_id = io_details.account_manager_id
+    elsif @order.user_id.blank?
+      @order.user = current_user
     end
 
     respond_to do |format|
@@ -217,7 +242,13 @@ class OrdersController < ApplicationController
 
 private
 
-  def set_users_and_orders
+  def set_users
+    @users = load_users
+    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
+    @agency_user = is_agency_user?
+  end
+
+  def set_orders
     sort_column = params[:sort_column]? params[:sort_column] : "id"
     sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
     order_status = params[:order_status]? params[:order_status] : ""
@@ -274,7 +305,7 @@ private
     session[:search_query] = search_query
     session[:rc] = rc
 
-    order_array = Order.includes(:advertiser, :order_notes ).joins(:io_detail => :reach_client).of_network(current_network)
+    order_array = Order.includes(:advertiser, :order_notes ).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
@@ -283,9 +314,6 @@ private
                   .filterByReachClient(rc)
 
     @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-    @users = load_users
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
   end
 
   def load_users
@@ -349,8 +377,20 @@ private
   end
 
   def update_lineitems_with_ads(params)
+    return unless params
+
     li_errors = {}
     ads = []
+
+    params_li_ids = params.map { |li| li[:lineitem][:id] }
+    existing_li_ids = @order.lineitems.map { |li| li.id }
+    deleted_li_ids = existing_li_ids - params_li_ids
+    begin
+      Lineitem.where(:id => deleted_li_ids).destroy_all
+    rescue => e
+      Rails.logger.warn 'lineitem errors: can not delete lineitem ' + e.message.inspect
+    end
+
 
     params.each_with_index do |li, i|
       sum_of_ad_impressions = 0
@@ -370,7 +410,7 @@ private
         li[:lineitem].delete(param)
       end
 
-      if li[:type] = 'Video'
+      if li[:type] == 'Video'
         li[:lineitem].delete(:master_ad_size)
         li[:lineitem].delete(:companion_ad_size)
       end
@@ -428,10 +468,20 @@ private
         # delete lineitem_assignments for selected creatives and if there are no ads associated
         # with this creative delete the creative itself
         if !_delete_creatives_ids.blank?
-          _delete_creatives_ids.each do |delete_creative_id|
-            creative = Creative.find delete_creative_id
-            lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
-            creative.destroy if creative.ads.empty?
+          if li[:type] == 'Video'
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = VideoCreative.find delete_creative_id
+              lineitem.lineitem_video_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
+          else
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = Creative.find delete_creative_id
+              lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
           end
         end
 
@@ -493,11 +543,17 @@ private
           ad_object.end_date = ad_end_date
 
           if li_saved
-            ad_object.save_targeting(ad_targeting)
             if !delete_creatives_ids.blank?
-              ad_object.creatives.find(delete_creatives_ids).each do |creative|
-                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
-                ad_assignment.destroy if !creative.pushed_to_dfp?
+              if media_type == 'Video'
+                ad_object.video_creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.video_ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
+              else
+                ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
               end
             end
           end
@@ -510,6 +566,8 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
+            ad_object.save_targeting(ad_targeting)
+
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
@@ -660,8 +718,6 @@ private
 
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 
-          ad_object.save_targeting(ad_targeting)
-
           unique_description_error = nil
           if ads.any?{|ad| ad.description == ad_object.description}
             unique_description_error = { description: 'Ad name is not unique'}
@@ -674,6 +730,8 @@ private
 
           if ad_object.valid? && li_saved && !unique_description_error && !custom_kv_errors && ad_creatives_errors.empty?
             ad_object.save
+
+            ad_object.save_targeting(ad_targeting)
 
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
@@ -706,7 +764,6 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
-          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end
@@ -748,15 +805,10 @@ private
   def validate_custom_keyvalues(custom_kv)
     errors_in_kv = false
 
-    if !custom_kv.strip.blank?
-      custom_kv.split(',').each do |el|
-        if ! el.strip.match /^(\w+)=([\w\.]+)$/
-          errors_in_kv = "Key value format should be [key]=[value]"
-        end
-      end
-
-      if custom_kv.strip.match /(\w+)=([\w\.]+)\s*[^,]*\s*(\w+)=([\w\.]+)/
-        errors_in_kv = "Key values should be comma separated"
+    if custom_kv && custom_kv != ""
+      response = validate_key_values(custom_kv)
+      if response.code != '200'
+        errors_in_kv = "Please enter valid key value(s)."
       end
     end
 

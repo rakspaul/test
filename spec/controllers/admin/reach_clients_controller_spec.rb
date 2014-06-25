@@ -12,30 +12,37 @@ describe Admin::ReachClientsController do
   describe "GET 'index'" do
     it "returns http success" do
       get 'index'
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "gets reach clients" do
       reach_client = FactoryGirl.create(:reach_client)
       get 'index'
-      assigns(:reach_clients).should eq([reach_client])
+      expect(assigns(:reach_clients)).to eq([reach_client])
     end
 
     it "renders index view" do
       get :index
-      response.should render_template :index
+      expect(response).to render_template :index
     end
   end
 
   describe "GET 'show'" do
     it "returns http success" do
       get 'show', :id => reach_client.id, :format => 'json'
-      response.should be_success
+      expect(response).to be_success
     end
 
     it "get reach client" do
       get 'show', :id => reach_client.id, :format => 'json'
-      assigns(:reach_client).should eq(reach_client)
+      expect(assigns(:reach_client)).to eq(reach_client)
+    end
+  end
+
+  describe "GET 'edit'" do
+    it "should not redirect to admin tab if reach client present" do
+      get 'show', :id => reach_client.id, :format => 'json'
+      expect(response).not_to redirect_to admin_reach_clients_path
     end
   end
 

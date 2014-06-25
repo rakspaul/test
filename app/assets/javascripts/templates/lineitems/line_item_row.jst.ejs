@@ -1,5 +1,21 @@
-<div class="li-command-btn pull-left" title="Create Ad"></div>
-<div class="li-duplicate-btn pull-left" title="Duplicate LI"></div>
+<div class="ad-type-dropdown">
+  <div class="li-commands-btn pull-left" title="Create Ad" id="adTypeDropdown" data-toggle="dropdown">
+  </div>
+  <div class="li-duplicate-btn pull-left" style="display:none;" title="Duplicate LI"></div>
+  <div class="li-delete-btn delete-btn pull-left" style="display:none;" title="Delete LI"></div>
+  <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
+    <% if (lineitem.type == 'Display') { %>
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Create DFP Ad</a></li>
+    <% } %>
+    <% if (platforms && platforms.length > 0) { %>
+      <% type_platforms = platforms.findByType(lineitem.type) %>
+      <% for (var i in type_platforms) { %>
+        <% platform = type_platforms[i].attributes %>
+        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="<%= platform.media_type %>" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
+      <% } %>
+    <% } %>
+  </ul>
+</div>
 
 <div class="li-table">
   <div class="li-row">

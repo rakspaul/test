@@ -3,6 +3,7 @@ $bg_color: #a5ccf9;
 $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: red;
+$dfp_zipcode_error_color: #fd9828;
 $magenta_color: #d02898;
 $border_color: #0088cc;
 
@@ -496,7 +497,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .video-dropdown {
+    .video-dropdown, .ad-type-dropdown {
       position: absolute;
       .dropdown-menu {
         top: 0;
@@ -638,7 +639,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .li-command-btn, .li-commands-btn, .li-duplicate-btn {
+    .li-command-btn, .li-commands-btn, .li-duplicate-btn, .li-delete-btn {
       margin-left: -25px;
     }
 
@@ -657,6 +658,10 @@ $wide_input_width: 320px;
       display: block;
       cursor: pointer;
       margin-top: 25px;
+    }
+
+    .li-delete-btn {
+      margin-top: 50px;
     }
 
     span.operation {
@@ -1057,6 +1062,7 @@ $wide_input_width: 320px;
 
     .tgt-item-zip-container{
       margin-left:3px;
+      height: 22px;
     }
 
     .zip-codes-targeting {
@@ -1066,6 +1072,15 @@ $wide_input_width: 320px;
 
       .errors-container {
         border-bottom: 1px dashed $error_color;
+        margin-left:5px;
+      }
+
+      .dfp-invalid-zip {
+        border-bottom: 2px solid $dfp_zipcode_error_color;
+      }
+
+      .dfp-errors-container {
+        border-bottom: 1px dashed $dfp_zipcode_error_color;
         margin-left:5px;
       }
     }

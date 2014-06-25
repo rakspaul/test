@@ -15,6 +15,7 @@ json.array! @ads do |ad|
     json.keyvalue_targeting ad.reach_custom_kv_targeting
     json.selected_zip_codes ad.zipcodes.collect{ |zip| zip.name }
     json.type ad.type
+    json.platform_id ad.platform.try(:id)
     json.media_type_id ad.media_type_id
     json.dfp_key_values ad.keyvalue_targeting
     json.status Ad::STATUS[ad.status.downcase.to_sym] unless ad.status.blank?

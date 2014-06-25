@@ -90,11 +90,18 @@ class IoImport
         @order.user = @current_user
         @order.network = @current_user.network
         @order.advertiser = @advertiser
-        @order_name_dup = Order.exists?(name: @order.name)
+        @order_name_dup = Order.exists?(name: @order.name, network: @order.network)
       end
 
       @order.source_id = @existing_order.source_id if @current_order_id
-      @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
+      if @is_existing_order
+        @reach_client = @existing_order.io_detail.reach_client
+        @reach_client = @current_user.network.unknown_reach_client unless @existing_order.io_detail
+      else
+        @reach_client = 
+          ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network) ||
+          @current_user.network.unknown_reach_client
+      end
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
@@ -130,8 +137,13 @@ class IoImport
       @lineitems = []
       index = 1
 
+      media_types = {}
+      @current_user.network.media_types.each do |mt|
+        media_types[mt.category] = mt
+      end
+
       @reader.lineitems do |lineitem|
-        media_type = @current_user.network.media_types.find_by category: lineitem[:type]
+        media_type = media_types[lineitem[:type]]
         li = Lineitem.new(lineitem)
         li.order = @order
         li.alt_ad_id = index
@@ -141,6 +153,7 @@ class IoImport
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
+        li.uploaded = true
         @lineitems << li
         index += 1
       end
@@ -260,7 +273,7 @@ class IoImport
 
     def find_media_contact
       c = @reader.media_contact
-      mc = MediaContact.where(name: c[:name], email: c[:email]).first
+      mc = MediaContact.for_user(@reach_client.try(:id)).where(name: c[:name], email: c[:email]).first
       if !mc
         @media_contact_unknown = true
         mc = MediaContact.new(name: c[:name], email: c[:email], phone: c[:phone])
@@ -272,7 +285,7 @@ class IoImport
 
     def find_billing_contact
       c = @reader.billing_contact
-      bc = BillingContact.where(name: c[:name], email: c[:email]).first
+      bc = BillingContact.for_user(@reach_client.try(:id)).where(name: c[:name], email: c[:email]).first
       if !bc
         @billing_contact_unknown = true
         bc = BillingContact.new(name: c[:name], email: c[:email], phone: c[:phone])

@@ -12,9 +12,9 @@ describe AdAssignment do
 
   describe "validations" do
     before do
-      ad = FactoryGirl.build(:ad, lineitem: lineitem, start_date: 1.day.from_now, end_date: 10.day.from_now, media_type: media_type)
+      ad = FactoryGirl.build(:ad, lineitem: lineitem, start_date: 2.day.from_now, end_date: 10.day.from_now, media_type: media_type)
       creative = FactoryGirl.build(:creative)
-      @ad_assignment = AdAssignment.new(ad: ad, creative: creative, start_date: 1.day.from_now, end_date: 10.day.from_now)
+      @ad_assignment = AdAssignment.new(ad: ad, creative: creative, start_date: 2.day.from_now, end_date: 10.day.from_now)
     end
 
     it "should check end date after start date" do

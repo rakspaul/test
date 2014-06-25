@@ -27,6 +27,7 @@
             .controls
               %select.filter-orders.status
                 %option{:value => "all", :selected => session[:order_status] == ""} All
+                %option{:value => "proposed", :selected => session[:order_status] == "proposed"} Proposed
                 %option{:value => "draft", :selected => session[:order_status] == "draft"} Draft
                 %option{:value => "ready_for_trafficker", :selected => session[:order_status] == "ready_for_trafficker"} Ready for Trafficker
                 %option{:value => "ready_for_am", :selected => session[:order_status] == "ready_for_am"} Ready for AM
@@ -199,10 +200,6 @@
       pushState: true,
       root: "/orders"
     });
-  });
-
-  $(window).bind("load", function() {
-   var request = $.ajax({url:'/orders', data:{}, dataType: 'script'});
   });
 
   $('.actions-container i').click(function(event) {

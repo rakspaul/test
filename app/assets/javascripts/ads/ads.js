@@ -7,7 +7,8 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        _delete_creatives: []
+        _delete_creatives: [],
+        platform_id: null
       }
     },
 
@@ -183,30 +184,34 @@
         this.$el.find("#caution-symbol-ad").hide();
     },
 
+    //  This method will open or close targeting dialog box
+    //  hideTargeting() will give call to server for validating key value and zipcodes
     _toggleTargetingDialog: function() {
-      var attr = this.model.get('targeting').attributes;
-
-      if(this.targetingView._isGeoTargeted())
-        this.$el.find("#caution-symbol").hide();
-      else
-        this.$el.find("#caution-symbol").show();
-
-      $('.ad > .name').height('');
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible && !this.targetingView.errors_in_kv && !this.targetingView.errors_in_zip_codes){
-        this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
-        if(this.targetingView.show_custom_key_values){
-          this.targetingView._toggleCustomRegularKeyValues();
-        }
-        ReachUI.showCondensedTargetingOptions.apply(this);
-        $(this.ui.targeting).hide('slow');
+      if(is_visible){
+        this.targetingView.hideTargeting();
       } else{
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
         $(this.ui.targeting).show('slow');
       }
     },
 
+    // after validating zipcode and key values this function will get call
+    onTargetingDialogToggle: function() {
+      if(this.targetingView._isGeoTargeted()) {
+        this.$el.find("#caution-symbol").hide();
+      } else {
+        this.$el.find("#caution-symbol").show();
+      }
+
+      $('.ad > .name').height('');
+
+      this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
+    },
+
+    // for ads
+    // this function will update the key values and zipcodes after validating
     _hideTargetingDialog: function() {
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
@@ -233,7 +238,7 @@
           ad_sizes = li.get('companion_ad_size');
         } else if (li_type == 'Video') {
           var companion_size = li.get('companion_ad_size');
-          ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
+          ad_sizes = li.get('master_ad_size');// + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
           this.model.set({ 'size': ad_sizes }, { silent: true });

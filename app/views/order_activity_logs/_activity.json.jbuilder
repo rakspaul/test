@@ -1,6 +1,6 @@
 json.id activity.id
 json.note activity.note
-json.created_at format_datetime(activity.created_at, :date_with_time)
+json.created_at format_date_with_time(activity.created_at, :date_with_time)
 json.activity_type activity.activity_type
 json.created_by activity.created_by.try(:full_name)
 json.system_comment activity.generate_system_comment

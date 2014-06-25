@@ -202,9 +202,20 @@ Reachui::Application.routes.draw do
 
   resources :agency
 
-  get 'ads/ad_types'
-  get 'ads/ad_priorities'
+  resources :platforms, :only => [:index]
   get 'media_types/media_types'
+
+  resources :key_values do
+    collection do
+      post 'validate'
+    end
+  end
+
+  resources :zipcode do
+    collection do
+      post 'validate'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
