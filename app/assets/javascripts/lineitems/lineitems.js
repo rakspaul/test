@@ -1085,6 +1085,8 @@
       if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
         this.$el.find('.save-order-btn').hide();
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     serializeData: function(){
