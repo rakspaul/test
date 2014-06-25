@@ -26,14 +26,19 @@ h2.team-name {
     color: $rui-heading-text-color;
     margin-right: 20px;
 
-    &:not(.active):hover {
+    a, a:visited {
+      color: $rui-heading-text-color;
+    }
+
+    a:hover {
       color: $rui-text-hover-color;
-      text-decoration: underline;
     }
 
     &.active {
-      color: $rui-text-hover-color;
-      cursor: default;
+      a {
+        color: $rui-text-hover-color;
+        cursor: default;
+      }
     }
   }
 }
@@ -60,7 +65,7 @@ h2.team-name {
   thead {
     tr {
       th {
-        background-color: $light-background;
+        background-color: #fff;
         color: $rui-th-color;
         text-align: center;
         white-space: nowrap;
@@ -75,12 +80,15 @@ h2.team-name {
   }
 
   &.pure-table {
-    border-color: $rui-lightgray-color;
+    border-color: transparent;
+    td {
+      padding: 0.1em 0.5em;
+    }
   }
 
   &.pure-table-horizontal {
     th, td {
-      border-color: $rui-lightgray-color;
+      border-color: transparent;
     }
   }
 }
@@ -106,10 +114,19 @@ textarea {
   height: 20px;
 }
 
+tbody.team-task-list-grid {
+  tr:last-child:hover {
+    background-color: transparent;
+  }
+}
+
 tbody.team-members-task-list-grid {
-  tr {
+  tr.team-member-name {
+    &:hover {
+      background-color: transparent;
+    }
     td {
-//      border: 0 none;
+      padding: 1em 1em;
     }
   }
 }

@@ -39,6 +39,7 @@ textarea {
 
 .rui-btn,
 .rui-btn:hover {
+  color: $text_color;
   &.spinner {
     background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
   }
