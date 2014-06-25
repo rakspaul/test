@@ -84,5 +84,19 @@ describe('Line items views', function() {
         expect(parseFloat(this.view.model.get('volume'))).toBe(78);
       });
     });
+
+    /*describe('create new ad', function() {
+      beforeEach(function() {
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      it('create display ad', function() {
+        // TODO instantiate Order controller to process add_ad event
+        this.view.$el.find('.ad-type-dropdown').click();
+        var defaultAdMenuItem = this.view.$el.find('.li-add-ad-btn:first');
+        defaultAdMenuItem.click();
+      });
+    });*/
   });
 });

@@ -18,11 +18,14 @@ describe('Creative view', function() {
     describe('creative row', function() {
       beforeEach(function() {
         this.lineitem = BackboneFactory.create('lineitem');
-        this.liView = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
+        this.liCollection = new ReachUI.LineItems.LineItemList([ this.lineitem ]);
+        this.lineitemView = new ReachUI.LineItems.LineItemView({
+          model: this.lineitem
+        });
 
         this.view = new ReachUI.Creatives.CreativeView({
           model:       this.creative,
-          parent_view: this.liView
+          parent_view: this.lineitemView
         });
         var el = this.view.render().$el;
         $('body').append(el);
@@ -30,15 +33,21 @@ describe('Creative view', function() {
       });
 
       it('show delete button for not pushed creative', function() {
-        //console.log(this.deleteBtnContainer);
-        console.log('ACTUAL');
-        //console.log($(this.deleteBtnContainer).html());
-        console.log('END');
-        //expect($('<div><div class="delete-btn"></div></div>')).toContainElement('div.delete-btn');
         expect($(this.deleteBtnContainer)).toContainElement('div.delete-btn');
-        
-        //expect(this.view.$el.)
-        //creative.get('source_id')
+      });
+
+      it('hide delete button for pushed creative', function() {
+        this.view.model.set({'source_id': 25781692}, {silent: true});
+        this.view.render();
+        this.deleteBtnContainer = this.view.$el.find('.delete-btn-container');
+        expect($(this.deleteBtnContainer)).not.toContainElement('div.delete-btn');
+      });
+
+      it('show tooltip for video type', function() {
+        this.lineitem.set({'type': 'Video'}, {silent: true});
+        this.view.render();
+        this.deleteBtnContainer = this.view.$el.find('.delete-btn-container');
+        expect($(this.deleteBtnContainer)).toContainElement('span.video-creatives-caution');
       });
     })
   });

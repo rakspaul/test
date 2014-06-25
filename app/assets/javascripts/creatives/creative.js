@@ -34,7 +34,7 @@
   Creatives.CreativeView = Creatives.BasicCreativeView.extend({
     template: JST['templates/creatives/creatives_row'],
 
-    initialize: function(){
+    initialize: function() {
       this.start_creative_date_inherits_li = _.isEmpty(this.model.get('start_date'));
       this.end_creative_date_inherits_li = _.isEmpty(this.model.get('end_date'));
       _.bindAll(this, "render");
@@ -183,7 +183,7 @@
         }
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
-        self.model.set("ad_size", el.size);
+        self.model.set({ "ad_size": el.size });
       });
       this.$el.find('.size').on('shown', function(ev, el) {
         self.previousSize = self.$el.find('.size span').html();
