@@ -1,16 +1,31 @@
+function datepickerClick(datepicker, day) {
+  // Enable past date selection
+  datepicker.find('.editable').editable('option', 'datepicker', { startDate: new Date(2012, 0, 1), language: 'en' });
+  datepicker.find('.editable').editable('show');
+  datepicker.find('.datepicker-days tbody td:contains(' + day + ')').click();
+  datepicker.find('form').submit();
+};
+
 describe('Line items views', function() {
   describe('ReachUI.LineItems.LineItemView', function() {
 
     beforeEach(function() {
+      this.order = new ReachUI.Orders.Order();
       this.lineitem = new ReachUI.LineItems.LineItem({
-        name: 'Pre-roll Video Line Item',
-        volume: 300124,
-        rate:  1.9856,
-        ad_sizes: '1x1',
-        creatives: []
+        name:       'Display Line Item',
+        start_date: '2013-06-01',
+        end_date:   '2013-06-07',
+        volume:     300124,
+        rate:       1.9856,
+        ad_sizes:   '1x1',
+        creatives:  [],
+        type:       'Display'
       });
 
       this.view = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
+      this.collection = new ReachUI.LineItems.LineItemList();
+      this.collection.setOrder(this.order);
+      this.collection.add(this.lineitem);
     });
 
     it('should be defined', function() {
@@ -27,6 +42,18 @@ describe('Line items views', function() {
         $('body').append(el);
       });
 
+      it('should update start date attribute', function() {
+        var startDate = this.view.$el.find('.start-date');
+        datepickerClick(startDate, 14);
+        expect(this.view.model.get('start_date')).toBe("2013-06-14");
+      });
+
+      it('should update end date attribute', function() {
+        var endDate = this.view.$el.find('.end-date');
+        datepickerClick(endDate, 17);
+        expect(this.view.model.get('end_date')).toBe("2013-06-17");
+      });
+
       it('should update name attribute', function() {
         var name = this.view.$el.find('.name');
 
@@ -40,36 +67,36 @@ describe('Line items views', function() {
       it('should update rate attribute', function() {
         var rate = this.view.$el.find('.rate');
 
-        rate.find('.editable.custom').editable('show');
+        rate.find('.rate-editable').editable('show');
         rate.find('input').val(5.3);
         rate.find('button[type=submit]').click();
 
         expect(parseFloat(this.view.model.get('rate'))).toBe(5.3);
       });
 
-      xit('should update volume attribute', function() {
+      it('should update volume attribute', function() {
         var volume = this.view.$el.find('.volume');
 
-        volume.find('.editable.custom').editable('show');
-        volume.find('input').val(7.8);
+        volume.find('.volume-editable').editable('show');
+        volume.find('input').val(78);
         volume.find('button[type=submit]').click();
 
-        expect(parseFloat(this.view.model.get('volume'))).toBe(7.8);
+        expect(parseFloat(this.view.model.get('volume'))).toBe(78);
       });
     });
 
-    describe('create new ad', function() {
+    /*describe('create new ad', function() {
       beforeEach(function() {
         var el = this.view.render().$el;
         $('body').append(el);
       });
 
-      xit('create display ad', function() {
+      it('create display ad', function() {
         // TODO instantiate Order controller to process add_ad event
         this.view.$el.find('.ad-type-dropdown').click();
         var defaultAdMenuItem = this.view.$el.find('.li-add-ad-btn:first');
         defaultAdMenuItem.click();
       });
-    });
+    });*/
   });
 });
