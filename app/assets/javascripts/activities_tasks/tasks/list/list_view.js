@@ -14,6 +14,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onTaskView: function(e) {
+
+        // This piece of logic helps in not refreshing continually task details region
+        // when click happens on the same task or details region.
+        // On close of the task details region, the value will be undefined for the current task id.
+        if(List.currentTaskId != undefined){
+          if(List.currentTaskId == this.model.id){
+            return;
+          }
+        }
+
+
         //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
         //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
         if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
@@ -23,23 +34,19 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
             // Fetch task types
             var taskTypes = ReachActivityTaskApp.request("taskType:entities");
+          var self = this;
             $.when(taskTypes).done(function(taskTypes) {
                 ReachActivityTaskApp.taskTypes = taskTypes.models;
+            self.showTaskView();
             });
+        } else {
+          this.showTaskView();
         }
 
-        this.showTaskView();
+
     },
 
     showTaskView: function(e) {
-      // This piece of logic helps in not refreshing continually task details region
-      // when click happens on the same task or details region.
-      // On close of the task details region, the value will be undefined for the current task id.
-      if(List.currentTaskId != undefined){
-        if(List.currentTaskId == this.model.id){
-          return;
-        }
-      }
 
       // Create region from container within this row
       var taskDetailsRegion = this.addRegion("task_" + this.model.id + "_region", "#task_" + this.model.id);
@@ -154,7 +161,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     itemViewContainer: 'div .task-detail-container',
 
     initialize: function() {
-      this.model.on('change', this.updateView, this);
+      //this.model.on('change', this.updateView, this);
     },
 
     updateView: function() {
@@ -328,6 +335,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           element.toggleClass('semi-transparent');
 
           ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});
+
+          // Update the date control
+          var important = self.model.get('important');
+          if (important) {
+              $('#taskDueDateText').css('display', 'inline-block');
+              $('#createdTaskDueDate').css('display', 'none');
+          } else {
+              $('#taskDueDateText').css('display', 'none');
+              $('#createdTaskDueDate').css('display', 'inline-block');
+          }
         },
 
         error: function() {

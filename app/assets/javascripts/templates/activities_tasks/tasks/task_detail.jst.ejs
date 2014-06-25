@@ -50,11 +50,11 @@
   </div>
   <div class="pure-u-1-5">
     <i class="clock-icon"></i>
-    <% if (important) { %>
-      <span id="taskDueDateText">ASAP</span>
-     <% } else { %>
-      <input type="text" class="span2" value="<%= due_date %>" id="createdTaskDueDate" placeholder="Due Date" <%= is_closed ? 'disabled="disabled"' : '' %>>
-    <% } %>
+      <span id="taskDueDateText"  style="display: <% if (important) {%>inline-block<% } else { %>none<% } %>">ASAP</span>
+      <input type="text" class="span2" value="<%= due_date %>"
+             id="createdTaskDueDate"
+             placeholder="Due Date" <%= is_closed ? 'disabled="disabled"' : '' %>
+             style="display: <% if (important) {%>none<% } else { %>inline-block<% } %>">
   </div>
 </div>
 
