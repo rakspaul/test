@@ -18,10 +18,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
     //saving activity
     saveActivity: function(activity) {
       var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
-      $.when(fetchActivity).done(function(activity) {
-        ReachActivityTaskApp.trigger("activities:list");
-        Header.headerLayout.resetFormControls();
-      });
+      $.when(fetchActivity)
+        .done(function() {
+          ReachActivityTaskApp.trigger("activities:list");
+          Header.headerLayout.resetFormControls();
+        });
     },
 
     saveTask: function(activity) {

@@ -290,6 +290,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         this.model.set('errors', undefined);
         this.render();
       }
+      this.ui.btnSaveComment.toggleClass("active", this.model.get("note").length > 0);
     },
 
     markAsImportant: function (e) {
@@ -332,7 +333,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         this.model.unset('task_types', {silent: true});
         Header.Controller.saveActivity(this.model);
       }
-      this.ui.btnSaveComment.removeClass("active");
     },
 
     saveTask: function (commentText) {
@@ -405,6 +405,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.resetTextArea();
       this._resetAttachmentContainer();
       this.ui.activity_input.siblings('.errors_container').html('');
+      this.ui.btnSaveComment.removeClass("active");
     },
 
     removeAttachment: function (e) {
