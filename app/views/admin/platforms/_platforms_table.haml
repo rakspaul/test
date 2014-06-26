@@ -6,7 +6,7 @@
     %td= platform.site.name
     %td
       -if platform.tag_template
-        .tag-icon
+        %a.tag-icon.tag-info{:href => "javascript:void(0)", "data-content" => "#{platform.tag_template}", "data-toggle"=> "popover", "data-trigger" => "hover"}
     %td= platform.naming_convention
     %td= platform.ad_type
     %td= platform.priority

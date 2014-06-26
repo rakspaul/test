@@ -995,7 +995,7 @@ ul.select-keyvals{
   }
 
   .tag-template-text{
-    width:330px;
+    width:390px;
     float:left;
     font-size:12px;
     margin-left:20px;
@@ -1011,6 +1011,8 @@ ul.select-keyvals{
     height:80px;
     float:left;
   }
+
+
 }
 
 .platforms-table{
@@ -1023,6 +1025,39 @@ ul.select-keyvals{
   .tag-icon{
     margin-left:10px;
   }
+
+  .popover{
+    max-width:380px;
+    font-weight:normal;
+    color: #333;
+    word-wrap: break-word;
+
+    .popover-title{
+      font-size:13px;
+      line-height:18px;
+    }
+
+    .popover-content{
+      ul{
+        margin-left:15px;
+        li{
+          span{
+            color:#4094c3;
+          }
+        }
+      }
+
+      span{
+        color:#4094c3;
+      }
+    }
+  }
+
+  .tag-template-info{
+    .popover{
+       max-width:455px;
+    }
+  }
 }
 
 .platforms-header{
@@ -1032,3 +1067,5 @@ ul.select-keyvals{
     margin-bottom:10px;
   }
 }
+
+
