@@ -408,13 +408,9 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status].each do |param|
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
+      :master_ad_size, :companion_ad_size].each do |param|
         li[:lineitem].delete(param)
-      end
-
-      if li[:type] == 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
       end
 
       lineitem = nil
@@ -622,17 +618,12 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
-      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
+      [ :selected_geos, :selected_key_values, :revised, :master_ad_size, :companion_ad_size ].each{|attr_name| li[:lineitem].delete(attr_name) }
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-
-      if li[:type] = 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
-      end
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
