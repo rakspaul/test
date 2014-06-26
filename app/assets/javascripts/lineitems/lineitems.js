@@ -348,10 +348,10 @@
           // When a size is selected, the media type should default to the media type for that size
           var size = newValue[0];
           if (model.is_blank_li) {
-            if (mediaTypeSizes[size]) {
-              view._changeMediaType(mediaTypeSizes[size]);
+            if (model.mediaTypeSizes[size]) {
+              view._changeMediaType(model.mediaTypeSizes[size]);
             } else {
-              view._changeMediaType(mediaTypeSizes['default']);
+              view._changeMediaType(model.mediaTypeSizes['default']);
             }
           }
 
