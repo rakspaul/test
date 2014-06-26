@@ -207,6 +207,10 @@
       'click .li-delete-btn': '_deleteLineitem'
     },
 
+    modelEvents: {
+      'change:type': 'render'
+    },
+
     triggers: {
       'click .li-command-btn': 'lineitem:add_ad'
     },
