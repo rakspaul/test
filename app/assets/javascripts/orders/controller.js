@@ -865,6 +865,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           } else {
             li_view.showDupDeleteBtn({hide: true});
           }
+          li_view.render(); // TODO avoid LI view rendering, update ads types dropdown only
         });
 
         lineItemList._recalculateLiImpressionsMediaCost();
