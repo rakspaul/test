@@ -179,6 +179,7 @@
       name_editable:       '.name-editable',
       volume_editable:     '.volume-editable',
       rate_editable:       '.rate-editable',
+      buffer_editable:     '.buffer-editable',
       dup_btn: '.li-duplicate-btn',
       delete_btn: '.li-delete-btn'
     },
@@ -230,7 +231,8 @@
         }
       },
       '.volume-editable': 'volume',
-      '.rate-editable':   'rate'
+      '.rate-editable':   'rate',
+      '.buffer-editable': 'buffer'
     },
 
     getTemplate: function() {
@@ -388,7 +390,8 @@
 
       this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          model.set($(this).data('name'), newValue); //update backbone model;
+          //model.set($(this).data('name'), newValue); //update backbone model;
+          view._changeEditable($(this), newValue);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
         }
@@ -396,17 +399,18 @@
 
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
-          var name = $(this).data('name'), value;
-          if (name == 'buffer') {
-            model.setBuffer(parseFloat(newValue));
-          } else {
-            value = parseFloat(String(newValue).replace(/,/g, ''));
-            value = Math.round(Number(value));
-            view.model.set(name, value); //update backbone model;
-            view._recalculateMediaCost();
-            view.model.collection._recalculateLiImpressionsMediaCost();
-            view.render(); // TODO check that render was not made before
-          }
+          var value = parseFloat(String(newValue).replace(/,/g, ''));
+          value = Math.round(Number(value));
+          view._changeEditable($(this), value);
+          view._recalculateMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
+        }
+      });
+
+      this.ui.buffer_editable.editable({
+        sucess: function(response, newValue) {
+          view._changeEditable($(this), newValue);
+          model.setBuffer(parseFloat(newValue));
         }
       });
 
