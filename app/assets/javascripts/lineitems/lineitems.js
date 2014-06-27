@@ -309,6 +309,7 @@
           model.setCreativesDate('end_date', date);
 
           // order's end date should be highest of all related LIs
+          model.set('end_date', date);
           var maxDate = collection.getMaxLIDate();
           $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
           collection.order.set("end_date", maxDate);
