@@ -39,6 +39,7 @@ textarea {
 
 .rui-btn,
 .rui-btn:hover {
+  color: $text_color;
   &.spinner {
     background: url(asset-path('select2-spinner.gif')) transparent 0px 0px no-repeat;
   }
@@ -473,9 +474,13 @@ $border-breaker-width: 10px;
 .task-action-controls {
   .task-status-label,
   .form-control-group > button {
-    padding:  2px 8px 3px;
+    padding: 2px 8px 3px;
     margin-right: 6px;
   }
+}
+
+.order-name {
+  margin-left: 30px;
 }
 
 // === TASKS SECTIONS [END] ===
@@ -511,7 +516,7 @@ ul.followers-list {
 
 
 // === ORDER LIST - TASKS BLOCK [BEGIN] ===
-#taskListRegion {
+#taskListContainerRegion {
   padding: 20px;
 
   .tasks-list {

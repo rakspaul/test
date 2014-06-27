@@ -39,9 +39,8 @@
 @import "admin/admin.css.scss";
 @import "io_import.css.scss";
 @import "activities_tasks.css.scss";
-
-$borderColor: #eee;
-$light-background: #f7f7f7;
+@import "team.css.scss";
+@import "overrides";
 
 html, body, form, fieldset, table, tr, td, input, button, select, textarea, optgroup, option {
   font-family: 'Armata', Arial, sans-serif;
@@ -163,6 +162,8 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
     display: inline-block;
     margin: 0 5px;
     vertical-align: middle;
+    text-align: center;
+    color: #fff;
   }
 }
 
@@ -172,6 +173,7 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
     display: inline-block;
     cursor: pointer;
     vertical-align: middle;
+    color: #fff;
   }
 }
 

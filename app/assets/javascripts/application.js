@@ -71,9 +71,11 @@
 //= require ./activities_tasks/activities/list/list_controller.js
 //= require ./activities_tasks/activities/list/list_view.js
 //= require ./activities_tasks/tasks/tasks_module.js
+//= require ./activities_tasks/tasks/team/team_module.js
 //= require ./entities/task.js
 //= require ./activities_tasks/tasks/list/list_controller.js
 //= require ./activities_tasks/tasks/list/list_view.js
+//= require ./activities_tasks/tasks/views/filter_view.js
 //= require ./common/empty.js
 //= require ./common/frequency_caps.js
 //= require ./common/targeting.js

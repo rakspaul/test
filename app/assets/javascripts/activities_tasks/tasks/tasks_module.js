@@ -1,6 +1,6 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActivityTaskApp, BackBone, Marionette, $, _, JST) {
 
-  //by default, all sub-modules will start when parent module starts, this field will restrict module to start with parent start.
+  // by default, all sub-modules will start when parent module starts, this field will restrict module to start with parent start.
   this.startWithParent = false,
 
   Tasks.Layout = Marionette.Layout.extend({
@@ -17,8 +17,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     events: {
       "click #loadMoreBtn": "showMoreTasks"
     },
-
-    context:undefined,
 
     showMoreTasks: function () {
       Tasks.List.Controller.loadMoreTasks();
@@ -60,8 +58,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
    API to fetch tasks.
    */
   var API = {
-    fetchTasks: function () {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities",undefined,Tasks.taskLayout.context);
+    fetchTasks: function (context) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", 0, context);
       $.when(fetchTasks)
         .done(function (tasks) {
           renderTasks(tasks);
@@ -86,9 +84,19 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
         else
           renderTaskComments(comments);
       });
+    },
+
+    tasksAssignedToMe: function () {
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.assignedToMe();
+    },
+
+    tasksTeam: function () {
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView();
+    },
+
+    tasksFollowed: function () {
+      console.log("Tasks Followed Fired!");
     }
-
-
   };
 
   /*
@@ -100,10 +108,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
 
   function renderMoreTasks(tasks) {
     Tasks.List.Controller.showMoreTasks(tasks);
-  }
-
-  function renderAllTasks(tasks) {
-    Tasks.List.Controller.showTasks(tasks);
   }
 
   function appendTaskComments(taskComments) {
@@ -119,16 +123,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
    */
   ReachActivityTaskApp.on("include:tasks", function () {
     Tasks.taskLayout = new Tasks.Layout();
-    Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER;
     ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(Tasks.taskLayout);
-    ReachActivityTaskApp.trigger("tasks:list");
+    ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER);
   });
 
   /*
    Listens to "tasks:list"
    */
-  ReachActivityTaskApp.on("tasks:list", function () {
-    API.fetchTasks();
+  ReachActivityTaskApp.on("tasks:list", function (context) {
+    API.fetchTasks(context);
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function (options) {
@@ -151,15 +154,23 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     API.fetchTaskComments(options.task, options.offset);
   });
 
-  ReachActivityTaskApp.on("load-more-tasks:list", function (offset) {
-    return API.fetchMoreTasks(offset, Tasks.taskLayout.context);
+  ReachActivityTaskApp.on("load-more-tasks:list", function (offset, context) {
+    return API.fetchMoreTasks(offset, context);
   });
 
-  ReachActivityTaskApp.commands.setHandler("orderList:include:tasks", function () {
-    Tasks.taskLayout = new Tasks.Layout();
-    Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME;
-    ReachActivityTaskApp.holdingLayout.taskListRegion.show(Tasks.taskLayout);
-    ReachActivityTaskApp.trigger("tasks:list");
+  Tasks.Router = Marionette.AppRouter.extend({
+    appRoutes: {
+      'tasks/assigned_to_me': 'tasksAssignedToMe',
+      'tasks/followed': 'tasksFollowed',
+      'tasks/team': 'tasksTeam'
+    }
+  });
+
+  // Let our app use router for tasks
+  ReachActivityTaskApp.addInitializer(function(){
+    new Tasks.Router({
+      controller: API
+    });
   });
 
 }, JST);

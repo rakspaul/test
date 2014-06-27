@@ -315,8 +315,7 @@
 
     regions: {
       top: ".top-region",
-      bottom: ".bottom-region",
-      taskListRegion: "#taskListRegion"
+      bottom: ".bottom-region"
     }
   });
 

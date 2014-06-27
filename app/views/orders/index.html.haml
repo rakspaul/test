@@ -196,8 +196,11 @@
       selector: '[rel=tooltip]'
     });
 
+    ReachActivityTaskApp.start({startedAt: "order_list"});
+
     Backbone.history.start({
-      pushState: true,
+      //pushState: true,
+      pushState: false,
       root: "/orders"
     });
   });
