@@ -132,7 +132,7 @@
 
     <div class="pure-u-1-12 volume number-field">
       <span class="editable volume-editable" data-type="text" data-name="volume" data-pk="1" contenteditable="true">
-        <%= accounting.formatNumber(lineitem.volume) %>
+        <%= lineitem.volume %>
       </span>
       <% if(lineitem.revised_volume != null) { %>
         <div style="clear:both"></div>

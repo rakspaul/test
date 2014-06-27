@@ -229,7 +229,12 @@
           return val.replace(/^\s+|\s+$/g, '');
         }
       },
-      '.volume-editable': 'volume',
+      '.volume-editable': {
+        observer: 'volume',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      },
       '.rate-editable': {
         observe: 'rate',
         onGet: function(val) {
@@ -377,7 +382,7 @@
 
       this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          model.set($(this).data('name'), newValue); //update backbone model;
+          model.set('rate', newValue);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
         },
@@ -390,9 +395,12 @@
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
           var value = parseInt(String(newValue).replace(/,|\./g, ''));
-          view._changeEditable($(this), value);
+          model.set('volume', value);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
@@ -499,8 +507,6 @@
     // method trigger change event to process contenteditable element by stickit
     _changeEditable: function(el, value, callback) {
         var val = callback ? callback(value) : value;
-        console.log('after change');
-        console.log(val);
         el.editable('setValue', value, callback);
         el.trigger('change');
     },
