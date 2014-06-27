@@ -90,7 +90,7 @@
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
-        ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
+        ad.set('volume', parseInt(adImps));
       });
       this.set('buffer', parseFloat(buffer));
     },
@@ -230,7 +230,7 @@
         }
       },
       '.volume-editable': {
-        observer: 'volume',
+        observe: 'volume',
         onGet: function(val) {
           return accounting.formatNumber(val, 2);
         }
@@ -241,7 +241,12 @@
           return accounting.formatMoney(val, '');
         }
       },
-      '.buffer-editable': 'buffer'
+      '.buffer-editable': {
+        observe: 'buffer',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      }
     },
 
     getTemplate: function() {
@@ -390,7 +395,7 @@
           return accounting.formatMoney(value, '');
         }
       });
-      this.ui.rate_editable.editable({});
+      //this.ui.rate_editable.editable({});
 
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
@@ -405,9 +410,12 @@
       });
 
       this.ui.buffer_editable.editable({
-        sucess: function(response, newValue) {
+        success: function(response, newValue) {
           view._changeEditable($(this), newValue);
           model.setBuffer(parseFloat(newValue));
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
