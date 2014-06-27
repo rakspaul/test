@@ -175,7 +175,7 @@ class Lineitem < ActiveRecord::Base
     client_network_id = order.io_detail.try(:reach_client).try(:client_network_id)
     client_li_id = self.proposal_li_id
 
-    if client_order_id && client_network_id > 0 && client_li_id
+    if !client_order_id.blank? && client_network_id > 0 && !client_li_id.blank?
       url = DFP_URL
       return url.sub('!NETWORK_ID!', client_network_id.to_s).sub('!CLIENT_ORDER_ID!', client_order_id.to_s).sub('!CLIENT_LI_ID!', client_li_id.to_s)
      end

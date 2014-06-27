@@ -19,7 +19,7 @@ describe IoImportController do
   describe "revised orders" do
     let(:data_source) { DataSource.create name: "Test Source", ident: "source ident" }
     let(:collective_network) { Network.create name: 'Collective', :data_source => data_source }
-    let(:user) { FactoryGirl.create :user } 
+    let(:user) { FactoryGirl.create :user }
 
     before do
       start_date = Date.today.to_s+" 00:00:00"
@@ -179,5 +179,5 @@ describe IoImportController do
         end
       end
     end
-  end                      
+  end
 end

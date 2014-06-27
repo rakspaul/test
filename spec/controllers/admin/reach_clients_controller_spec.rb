@@ -53,6 +53,16 @@ describe Admin::ReachClientsController do
         }.to change(ReachClient,:count).by(1)
     end
 
+    it "accept only interger as client_network_id" do
+      params = valid_params
+      params[:reachClient]["client_network_id"] = "abc"
+
+      post :create, params
+      data = json_parse(response.body)
+
+      expect(data[:errors]).to include(:client_network_id)
+    end
+
     it "checks validation errors" do
       post :create, invalid_params
       data = json_parse(response.body)
@@ -63,6 +73,7 @@ describe Admin::ReachClientsController do
       expect(data[:errors]).to include(:account_manager_id)
       expect(data[:errors]).to include(:agency_id)
       expect(data[:errors]).to include(:client_buffer)
+      expect(data[:errors]).to include(:client_network_id)
     end
   end
 
@@ -86,6 +97,7 @@ describe Admin::ReachClientsController do
         assigns(:reach_client).billing_contact_id.should eq(params[:reachClient][:billing_contact_id])
         assigns(:reach_client).agency_id.should eq(params[:reachClient][:agency_id])
         assigns(:reach_client).client_buffer.should eq(params[:reachClient][:client_buffer])
+        assigns(:reach_client).client_network_id.should eq(params[:reachClient][:client_network_id])
       end
     end
 
@@ -109,6 +121,7 @@ describe Admin::ReachClientsController do
         expect(data[:errors]).to include(:billing_contact_id)
         expect(data[:errors]).to include(:agency_id)
         expect(data[:errors]).to include(:client_buffer)
+        expect(data[:errors]).to include(:client_network_id)
       end
     end
   end
@@ -136,7 +149,8 @@ private
         sales_person_id: '',
         account_manager_id: '',
         agency_id: '',
-        client_buffer: ''
+        client_buffer: '',
+        client_network_id: ''
       }
     }
     { :format => 'json' }.merge params
@@ -150,7 +164,8 @@ private
         sales_person_id: rand(1000..2000),
         account_manager_id: rand(1000..2000),
         agency_id: rand(1000..2000),
-        client_buffer: 50.5
+        client_buffer: 50.5,
+        client_network_id: 5678
       }
     }
     { :format => 'json' }.merge params
