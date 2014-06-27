@@ -233,7 +233,7 @@
       '.volume-editable': {
         observe: 'volume',
         onGet: function(val) {
-          return accounting.formatNumber(val, 2);
+          return accounting.formatNumber(val, '');
         }
       },
       '.rate-editable': {
@@ -444,7 +444,7 @@
           collection._recalculateLiImpressionsMediaCost();
         },
         display: function(value) {
-          return accounting.formatNumber(value, 2);
+          return accounting.formatNumber(value, '');
         }
       });
 
