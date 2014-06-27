@@ -237,7 +237,7 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
+          self.model.set({ 'rate': newValue });
           self._recalculateMediaCost();
         }
       });
