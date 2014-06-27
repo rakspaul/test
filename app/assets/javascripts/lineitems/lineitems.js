@@ -91,7 +91,7 @@
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
-        ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
+        ad.set('volume', parseInt(adImps));
       });
       this.set('buffer', parseFloat(buffer));
     },
@@ -230,17 +230,24 @@
           return val.replace(/^\s+|\s+$/g, '');
         }
       },
-      '.volume-editable': 'volume',
+      '.volume-editable': {
+        observe: 'volume',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      },
       '.rate-editable': {
         observe: 'rate',
         onGet: function(val) {
           return accounting.formatMoney(val, '');
-        },
-        onSet: function(val) {
-          return accounting.formatMoney(val, '');
         }
       },
-      '.buffer-editable': 'buffer'
+      '.buffer-editable': {
+        observe: 'buffer',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      }
     },
 
     getTemplate: function() {
@@ -398,27 +405,36 @@
 
       this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          //model.set($(this).data('name'), newValue); //update backbone model;
-          view._changeEditable($(this), newValue);
+          model.set('rate', newValue);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatMoney(value, '');
         }
       });
+      //this.ui.rate_editable.editable({});
 
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
           var value = parseFloat(String(newValue).replace(/,/g, ''));
           value = Math.round(Number(value));
-          view._changeEditable($(this), value);
+          model.set('volume', value);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
       this.ui.buffer_editable.editable({
-        sucess: function(response, newValue) {
+        success: function(response, newValue) {
           view._changeEditable($(this), newValue);
           model.setBuffer(parseFloat(newValue));
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
@@ -516,8 +532,9 @@
     },
 
     // method trigger change event to process contenteditable element by stickit
-    _changeEditable: function(el, value) {
-        el.editable('setValue', value);
+    _changeEditable: function(el, value, callback) {
+        var val = callback ? callback(value) : value;
+        el.editable('setValue', value, callback);
         el.trigger('change');
     },
 
