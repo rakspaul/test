@@ -233,7 +233,7 @@
       '.volume-editable': {
         observe: 'volume',
         onGet: function(val) {
-          return accounting.formatNumber(val, 2);
+          return accounting.formatNumber(val, '');
         }
       },
       '.rate-editable': {
@@ -327,6 +327,7 @@
           model.setCreativesDate('end_date', date);
 
           // order's end date should be highest of all related LIs
+          model.set('end_date', date);
           var maxDate = collection.getMaxLIDate();
           $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
           collection.order.set("end_date", maxDate);
@@ -443,7 +444,7 @@
           collection._recalculateLiImpressionsMediaCost();
         },
         display: function(value) {
-          return accounting.formatNumber(value, 2);
+          return accounting.formatNumber(value, '');
         }
       });
 
