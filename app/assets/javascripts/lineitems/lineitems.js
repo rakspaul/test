@@ -231,7 +231,15 @@
         }
       },
       '.volume-editable': 'volume',
-      '.rate-editable':   'rate',
+      '.rate-editable': {
+        observe: 'rate',
+        onGet: function(val) {
+          return accounting.formatMoney(val, '');
+        },
+        onSet: function(val) {
+          return accounting.formatMoney(val, '');
+        }
+      },
       '.buffer-editable': 'buffer'
     },
 
@@ -351,7 +359,7 @@
             if (model.mediaTypeSizes[size]) {
               view._changeMediaType(model.mediaTypeSizes[size]);
             } else {
-              view._changeMediaType(model.mediaTypeSizes['default']);
+              view._changeMediaType(model.  mediaTypeSizes['default']);
             }
           }
 
