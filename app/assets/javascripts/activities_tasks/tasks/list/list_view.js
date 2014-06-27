@@ -197,6 +197,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       List.currentTaskId = undefined;
       this.options.taskView.render();
       ReachActivityTaskApp.trigger("task:details:closed");
+
+      //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
+      //to different user then that task is not valid in the assigned to me view.
+      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
+        ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME)
+        ReachActivityTaskApp.trigger("tasks:list");
+
+      //We have to refresh activities list: when we are inside order details page.
+      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
+        ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER)
+        ReachActivityTaskApp.trigger("activities:list");
     },
 
     onClose: function() {
@@ -273,8 +284,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         var input = $(e.currentTarget),
             dueDate = input.val();
 
-        if(this.model.get('due_date') != dueDate) {
-          this.setDueDate(dueDate);
+        if(self.model.get('due_date') != dueDate) {
+          self.setDueDate(dueDate);
         }
       });
 
