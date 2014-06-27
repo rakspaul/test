@@ -1,8 +1,8 @@
-json.partial! 'order', 
+json.partial! 'order',
   {
     order: @order,
-    is_existing_order: true, 
-    io_original_filename: @order.io_assets.details.try(:last).try(:asset_upload_name), 
+    is_existing_order: true,
+    io_original_filename: @order.io_assets.details.try(:last).try(:asset_upload_name),
     io_created_at: @order.io_assets.details.try(:last).try(:created_at).to_s,
     io_detail: @order.io_detail,
     revised_io_filename: nil,
@@ -13,5 +13,6 @@ json.partial! 'order',
     billing_contact_unknown: false,
     media_contact_unknown: false,
     io_file_path: "",
-    reach_client_name: @order.io_detail.try(:reach_client).try(:name)
+    reach_client_name: @order.io_detail.try(:reach_client).try(:name),
+    reach_client_network_id: @order.io_detail.try(:reach_client).try(:client_network_id)
   }
