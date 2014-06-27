@@ -234,9 +234,6 @@
         observe: 'rate',
         onGet: function(val) {
           return accounting.formatMoney(val, '');
-        },
-        onSet: function(val) {
-          return accounting.formatMoney(val, '');
         }
       },
       '.buffer-editable': 'buffer'
@@ -380,12 +377,15 @@
 
       this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          //model.set($(this).data('name'), newValue); //update backbone model;
-          view._changeEditable($(this), newValue);
+          model.set($(this).data('name'), newValue); //update backbone model;
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatMoney(value, '');
         }
       });
+      this.ui.rate_editable.editable({});
 
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
@@ -497,8 +497,11 @@
     },
 
     // method trigger change event to process contenteditable element by stickit
-    _changeEditable: function(el, value) {
-        el.editable('setValue', value);
+    _changeEditable: function(el, value, callback) {
+        var val = callback ? callback(value) : value;
+        console.log('after change');
+        console.log(val);
+        el.editable('setValue', value, callback);
         el.trigger('change');
     },
 

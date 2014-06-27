@@ -149,7 +149,7 @@
     </div>
     <div class="pure-u-1-12 rate number-field">
       $<span class="editable rate-editable" data-type="text" data-name="rate" data-pk="1" contenteditable="true">
-        <%= accounting.formatMoney(lineitem.rate, '') %>
+        <%= lineitem.rate %>
       </span>
       <% if(lineitem.revised_rate != null) { %>
         <div style="clear:both"></div>
