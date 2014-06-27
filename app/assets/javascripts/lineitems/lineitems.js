@@ -411,7 +411,6 @@
 
       this.ui.buffer_editable.editable({
         success: function(response, newValue) {
-          view._changeEditable($(this), newValue);
           model.setBuffer(parseFloat(newValue));
         },
         display: function(value) {
