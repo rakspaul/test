@@ -43,6 +43,8 @@ class OrdersController < ApplicationController
 
     @reachui_users = load_users.limit(50)
 
+    @last_revision = @order.revisions.empty? ? nil : JSON.load(@order.revisions.last.object_changes)
+
     respond_to do |format|
       format.html
       format.json

@@ -14,8 +14,6 @@
       </div>
     </div>
 
-
-
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
     <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
       <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
@@ -29,6 +27,8 @@
           <span class="decline-btn" data-name="start_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -49,6 +49,8 @@
           <span class="decline-btn" data-name="end_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -105,7 +107,8 @@
           <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
-
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
         Lineitem name should be less than 500 characters
@@ -128,6 +131,8 @@
           <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
       <div class="errors_container"></div>
       <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
         <%= accounting.formatNumber(lineitem.buffer, 2) %>
@@ -145,6 +150,8 @@
           <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
       <div class="errors_container"></div>
     </div>
 

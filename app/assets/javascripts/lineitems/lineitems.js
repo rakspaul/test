@@ -350,6 +350,7 @@
       }
       this.renderCreatives();
       this.renderTargetingDialog();
+      this._showLastRevisions();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -358,6 +359,14 @@
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         view.renderAd(ad);
+      });
+    },
+
+    _showLastRevisions: function() {
+      var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
+      var self = this;
+      _.each(li_changes, function(changes, attr) {
+        self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was'])
       });
     },
 

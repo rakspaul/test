@@ -476,6 +476,11 @@ $wide_input_width: 320px;
       background-color: $magenta_color !important;
     }
 
+    .last-revision {
+      color: grey;
+      margin-left: 8px;
+    }
+
     .revision {
       color: $magenta_color;
       margin-left: 8px;

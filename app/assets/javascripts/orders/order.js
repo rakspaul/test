@@ -90,7 +90,8 @@
     },
 
     events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo'
+      'click .toggle-general-info-button': '_toggleGeneralInfo',
+      'click .cancel-revisions-btn': '_cancelRevisions'
     },
 
     triggers: {
@@ -198,6 +199,19 @@
       });
     },
  
+    _cancelRevisions: function() {
+      console.log('_cancelRevisions');
+      console.log(this.model);
+      _.each(this.model.get('last_revision'), function(revision, li_id) {
+        console.log(li_id);
+        _.each(revision, function(changes, attr) {
+          //$('.lineitem-'+li_id).find('.'+attr+'.editable').html(changes['was'])
+          console.log(changes);
+          console.log(attr);
+        });
+      });
+    },
+
     _reloadPage: function() {
       window.location.href = window.location.href;
     },
