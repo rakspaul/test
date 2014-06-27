@@ -260,6 +260,7 @@
           var buffer = self.options.parent_view.model.get('buffer');
           buffer = (sum_ad_imps / imps * 100) - 100;
           self.options.parent_view.model.set({ 'buffer': buffer });
+          self.options.parent_view.updateEditableField('buffer', buffer);
           self.render();
         },
         validate: function(value) {

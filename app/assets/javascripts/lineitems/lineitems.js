@@ -444,6 +444,13 @@
       });
     },
 
+    updateEditableField: function(name, value) {
+      var el = this.ui[name + '_editable'];
+      if (el) {
+        this._changeEditable(el, value);
+      }
+    },
+
     onRender: function() {
       this.stickit();
 
