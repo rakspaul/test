@@ -119,7 +119,7 @@
 
     getMaxLIDate: function() {
       var dates = _.map(this.models, function(li) { return li.get('end_date'); }), maxDate = dates[0];
-      _.each(dates, function(el) { if (el < maxDate) { maxDate = el; } });
+      _.each(dates, function(el) { if (el > maxDate) { maxDate = el; } });
       return maxDate;
     },
 
