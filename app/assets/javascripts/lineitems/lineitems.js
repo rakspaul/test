@@ -542,6 +542,7 @@
         var val = callback ? callback(value) : value;
         el.editable('setValue', value, callback);
         el.trigger('change');
+        el.addClass('editable-unsaved');
     },
 
     recalculateAdsImpressionsMediaCost: function(buffer) {
