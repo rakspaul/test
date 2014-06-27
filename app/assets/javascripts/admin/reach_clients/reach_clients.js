@@ -65,7 +65,8 @@
     },
 
     defaults: {
-      client_buffer: 0
+      client_buffer: 0,
+      client_network_id: 0
     }
   });
 
@@ -135,6 +136,8 @@
       name_error: '#name_error',
       abbr_error: '#abbr_error',
       client_buffer_error: '#client_buffer_error',
+      client_network_id: '#client_network_id',
+      client_network_id_error: '#client_network_id_error'
     },
 
     initialize: function() {
@@ -151,7 +154,8 @@
         abbr: this.model.get('abbr'),
         agencies: this.agencies,
         selected_agency_id: this.model.get('agency_id'),
-        client_buffer: this.model.get('client_buffer')
+        client_buffer: this.model.get('client_buffer'),
+        client_network_id: this.model.get('client_network_id')
       }
     },
 
@@ -421,7 +425,8 @@
         sales_person_id: this.collectiveContactsView.ui.sales_person.val(),
         account_manager_id: this.collectiveContactsView.ui.account_manager.val(),
         agency_id: this.clientDetailsView.ui.agency.val(),
-        client_buffer: clientBuffer
+        client_buffer: clientBuffer,
+        client_network_id: this.clientDetailsView.ui.client_network_id.val()
       }
 
       if(this.clientContactsView) {

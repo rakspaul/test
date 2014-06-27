@@ -50,6 +50,9 @@
         Start date cannot be in the past
         <% } %>
       </div>
+      <% if(lineitem.dfp_url && lineitem.dfp_url != '') { %>
+        <div class="client-id">Client Id: <a href="<%= lineitem.dfp_url %>" target="_blank"><%= lineitem.li_id %></a></div>
+      <% } %>
     </div>
 
     <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>

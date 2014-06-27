@@ -406,7 +406,7 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status].each do |param|
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status, :dfp_url].each do |param|
         li[:lineitem].delete(param)
       end
 

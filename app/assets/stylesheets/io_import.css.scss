@@ -278,6 +278,14 @@ $wide_input_width: 320px;
       margin-left: 40%;
       padding-left: 10px;
     }
+    [class^="icon-"]:before, [class*=" icon-"]:before {
+        cursor: pointer !important;
+    }
+    .share-icon{
+      cursor: pointer  !important;
+      margin-left:10px !important;
+      float:left;
+    }
   }
 
   .toggle-general-info-button {
@@ -788,6 +796,11 @@ $wide_input_width: 320px;
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
       margin-left:10px;
     }
+  }
+
+  .client-id{
+    margin:40px 0 0 10px;
+    position: absolute;
   }
 }
 
