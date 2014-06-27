@@ -303,6 +303,17 @@
           var minDate = collection.getMinLIDate();
           $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
           collection.order.set('start_date', minDate);
+
+          view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'Start date cannot be in the past';
+            view.$el.find('.start-date').addClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.start-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.start-date .errors_container').html(error_message);
         },
         datepicker: {
           startDate: ReachUI.initialStartDate(model.get('start_date'))
@@ -321,6 +332,15 @@
           collection.order.set("end_date", maxDate);
 
           view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'End date cannot be in the past';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.end-date .errors_container').html(error_message);
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
