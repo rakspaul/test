@@ -7,7 +7,8 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        _delete_creatives: []
+        _delete_creatives: [],
+        platform_id: null
       }
     },
 
@@ -99,24 +100,6 @@
       creatives_container: '.ads-creatives-list-view',
       creatives_content: '.creatives-content',
       ads_sizes: '.ads-sizes'
-    },
-
-    _validateAdImpressions: function() {
-      var li_imps = this.options.parent_view.model.get('volume');
-      var sum_ad_imps = 0;
-
-      _.each(this.options.parent_view.model.ads, function(ad) {
-        var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        sum_ad_imps += imps;
-      });
-
-      var li_errors_container = this.options.parent_view.$el.find('.volume .errors_container')[0];
-
-      if(sum_ad_imps > li_imps) {
-        $(li_errors_container).html("Ad Impressions exceed Line Item Impressions");
-      } else {
-        $(li_errors_container).html("");
-      }
     },
 
     _recalculateMediaCost: function(options) {
@@ -237,7 +220,7 @@
           ad_sizes = li.get('companion_ad_size');
         } else if (li_type == 'Video') {
           var companion_size = li.get('companion_ad_size');
-          ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
+          ad_sizes = li.get('master_ad_size');// + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
           this.model.set({ 'size': ad_sizes }, { silent: true });
@@ -256,7 +239,6 @@
         success: function(response, newValue) {
           self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
           self._recalculateMediaCost();
-          self._validateAdImpressions();
         }
       });
 
@@ -274,7 +256,6 @@
           });
 
           self._recalculateMediaCost({ silent: true });
-          self._validateAdImpressions();
 
           var buffer = self.options.parent_view.model.get('buffer');
           buffer = (sum_ad_imps / imps * 100) - 100;
@@ -323,7 +304,6 @@
       }
 
       this.renderCreatives();
-      this._validateAdImpressions();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
