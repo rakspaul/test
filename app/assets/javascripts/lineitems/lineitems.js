@@ -281,11 +281,10 @@
           model.setCreativesDate('start_date', date);
 
           // order's start date should be lowest of all related LIs
+          model.set('start_date', date);
           var minDate = collection.getMinLIDate();
           $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
           collection.order.set('start_date', minDate);
-
-          view._changeEditable($(this), newValue);
         },
         datepicker: {
           startDate: ReachUI.initialStartDate(model.get('start_date'))
