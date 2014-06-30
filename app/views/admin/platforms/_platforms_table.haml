@@ -5,7 +5,7 @@
     %td= platform.dfp_key
     %td= platform.site.name
     %td
-      -if platform.tag_template
+      -unless platform.tag_template.blank?
         %a.tag-icon.tag-info{:href => "javascript:void(0)", "data-content" => "#{platform.tag_template}", "data-toggle"=> "popover", "data-trigger" => "hover"}
     %td= platform.naming_convention
     %td= platform.ad_type

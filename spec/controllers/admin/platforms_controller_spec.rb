@@ -87,6 +87,7 @@ describe Admin::PlatformsController do
         assigns(:platform).priority.should eq(params[:platform][:priority])
         assigns(:platform).enabled.should eq(params[:platform][:enabled])
         assigns(:platform).media_type_id.should eq(params[:platform][:media_type_id])
+        assigns(:platform).tag_template.should eq(params[:platform][:tag_template])
       end
     end
   end
@@ -103,7 +104,8 @@ private
         priority: platform.ad_type,
         enabled: platform.enabled,
         media_type_id: platform.media_type_id,
-        dfp_site_name: "WRAL"
+        dfp_site_name: "WRAL",
+        tag_template: "http://a.collective-media.net/pfadx/cm.adaptv/!ZONE_NAME!;video=!KEY_VALUE!;sz=!SIZE!;ord=${AdPlayer.cachebreaker};dcmt=text/xml;cmu=${embeddingPageUrl}"
       }
     }
     { :format => 'json' }.merge params
@@ -135,7 +137,8 @@ private
         priority: rand(0..16),
         enabled: false,
         media_type_id: rand(100..1000),
-        dfp_site_name: "facebook"
+        dfp_site_name: "facebook",
+        tag_template: "http://a.collective-media.net/pfadx/cm.adaptv/!ZONE_NAME!"
       }
     }
     { :format => 'json' }.merge params

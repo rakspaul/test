@@ -1028,13 +1028,14 @@ ul.select-keyvals{
 
   .popover{
     max-width:380px;
+    font-size:12px;
+    line-height:18px;
     font-weight:normal;
     color: #333;
     word-wrap: break-word;
 
     .popover-title{
       font-size:13px;
-      line-height:18px;
     }
 
     .popover-content{
