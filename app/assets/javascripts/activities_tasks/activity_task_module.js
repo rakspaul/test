@@ -20,12 +20,11 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
   /*
    TODO: Define routes here to fetch master data like activity-types, states etc...
-
    */
 
   var API = {
     fetchMasterData: function() {
-      var deferred = $._deferred();
+      var deferred = new $.Deferred();
     },
 
     fetchTaskTypes: function() {
@@ -43,54 +42,53 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     }
   });
 
-  /**
-   * addInitializer is a Marionette initialization function and it will invoke when module starts.
-   * You can have as many as these methods. Please refer to marionette js documentation. Link is given above.
-   */
-  ActivitiesTasks.addInitializer(function(options){
-    options = options || {};
-    // Application could be started either from Order details or from Order List page, thus no `options.order` provided
-    // 1. Application started from Order.Details page, have options.order provided
-    if (!_.isUndefined(options.order)) {
-      ReachActivityTaskApp.order = options.order;
+  ActivitiesTasks.OrderTasksLayout = Marionette.Layout.extend({
+    template: JST['templates/activities_tasks/orders_tasks_layout'],
 
-      // Fetch master data
-      var taskTypes = API.fetchTaskTypes();
-      $.when(taskTypes).done(function(taskTypes) {
-        ReachActivityTaskApp.taskTypes = taskTypes.models;
-        ActivitiesTasks.init();
-      });
-
-    // 2. Application started from Order.List page, we have reference to holding layout passed through `options` object
-    } else {
-      ActivitiesTasks.initAtOrderList(options);
+    regions: {
+      navigationRegion: "#taskNavigationRegion",
+      taskListRegion: "#taskListContainerRegion"
     }
   });
 
-  ActivitiesTasks.init = function() {
-    this.activitiesTasksLayout = new ActivitiesTasks.Layout();
+  ActivitiesTasks.addInitializer(function(options) {
+    ReachActivityTaskApp.order = {};
+    switch (options.startedAt) {
+      case "order_list":
+        ActivitiesTasks.initAtOrderList();
+        break;
+      case "order_details":
+        ReachActivityTaskApp.order = options.order;
+        ActivitiesTasks.initAtOrderDetails();
+        break;
+    }
+  });
+
+  ActivitiesTasks.initAtOrderDetails = function () {
+    this.activitiesTasksLayout = new ReachActivityTaskApp.ActivitiesTasks.Layout();
     ReachActivityTaskApp.middleRegion.show(this.activitiesTasksLayout);
-    //ReachActivityTaskApp.username = window.current_user_name;
-    ReachActivityTaskApp.trigger("include:activities");
-    ReachActivityTaskApp.trigger("include:tasks");
+
+    $.when(API.fetchTaskTypes())
+      .done(function(taskTypes) {
+        ReachActivityTaskApp.taskTypes = taskTypes.models;
+        ReachActivityTaskApp.trigger("include:activities");
+        ReachActivityTaskApp.trigger("include:tasks");
+      });
   };
 
   /**
    * This init function designed specially to show task list on Order list page; "Assigned to me"
    * @param options
    */
-  ActivitiesTasks.initAtOrderList = function (options) {
-    // Fetch master data
-    var taskTypes = API.fetchTaskTypes();
-    $.when(taskTypes).done(function(taskTypes) {
-      ReachActivityTaskApp.taskTypes = taskTypes.models;
-    });
+  ActivitiesTasks.initAtOrderList = function () {
+    this.orderTasksLayout = new ActivitiesTasks.OrderTasksLayout();
+    ReachActivityTaskApp.middleRegion.show(this.orderTasksLayout);
 
-    // keep the reference to parent layout in this application
-    ReachActivityTaskApp.holdingLayout = options.parentLayout;
-    ReachActivityTaskApp.commands.execute("orderList:include:tasks");
-  }
-
-  // TODO: Have to implement stop method for all the modules.
-
+    // We always will have navigation section, so just render Navigation view in a corresponding region
+    this.orderTasksLayout.navigationRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView());
+    //Note: As other views are not required for Beta release, not using router functionality here.
+    // And just calling assigned to me view server call directly.
+    //TODO: When implementing other views, you have to use router defined there in the task module.
+    this.Tasks.List.Controller.assignedToMe();
+  };
 },JST);

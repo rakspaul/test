@@ -5,7 +5,7 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,ReachActivityTaskApp,BackBone,Marionette,$,_,JST){
 
   //by default, all sub-modules will start when parent module starts, this field will restrict module to start with parent start.
-  this.startWithParent = false,
+  //this.startWithParent = false,
 
     Activities.Layout = Marionette.Layout.extend({
       template: JST['templates/activities_tasks/activities/activity_content'],

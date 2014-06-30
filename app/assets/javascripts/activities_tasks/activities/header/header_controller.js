@@ -2,6 +2,12 @@
  * Controller for Header view.
  */
 ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header, ReachActivityTaskApp, Backbone, Marionette, $, _){
+
+  Header.addInitializer(function(){
+    console.log("Tracking Revised IO");
+    EventsBus.bind('lineitem:logRevision', Header.Controller.saveRevisedIOActivity,this);
+  });
+
   Header.Controller = {
 
     showActivities: function(){
@@ -15,13 +21,21 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
       ReachActivityTaskApp.trigger("activities:list", filters);
     },
 
+    saveRevisedIOActivity:function(activity){
+      var activity_to_save = new ReachActivityTaskApp.Entities.MasterActivity();
+      activity_to_save.set("note",activity);
+      activity_to_save.set("activity_type",Header.ACTIVITY_TYPES.SYSTEM);
+      Header.Controller.saveActivity(activity_to_save);
+    },
+
     //saving activity
     saveActivity: function(activity) {
       var fetchActivity = ReachActivityTaskApp.request("activity:save", activity);
-      $.when(fetchActivity).done(function(activity) {
-        ReachActivityTaskApp.trigger("activities:list");
-        Header.headerLayout.resetFormControls();
-      });
+      $.when(fetchActivity)
+        .done(function() {
+          ReachActivityTaskApp.trigger("activities:list");
+          Header.headerLayout.resetFormControls();
+        });
     },
 
     saveTask: function(activity) {

@@ -16,21 +16,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
-
-    // Utilize ReachUI Activity/Tasks Application
-    ReachActivityTaskApp.start({parentLayout: this.orderDetailsLayout});
   },
 
   newOrder: function() {
-    var order = new ReachUI.Orders.Order();
-    // TODO We don't have EditView view and probably we don't need new Order functionality
+    // XXX: We don't have EditView view and probably we don't need new Order functionality
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
@@ -122,15 +117,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   orderDetails: function(id) {
+    var self = this;
+
     this.selectedOrder = this.orderList.get(id);
+
     if(!this.selectedOrder) {
       var promise = this._fetchOrder(id);
       promise.then(this._showOrderDetailsAndLineItems);
     } else {
       this._showOrderDetailsAndLineItems(this.selectedOrder);
     }
-
-    ReachActivityTaskApp.start({order:this.selectedOrder});
+    // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
+    ReachActivityTaskApp.start({startedAt: "order_details",order:this.selectedOrder});
   },
 
   newLineItem: function(id) {
@@ -526,7 +524,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.detailOrderView = new ReachUI.Orders.DetailView({model: order});
     this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
 
-    var ordersController = this;
     this.orderDetailsLayout.top.show(this.detailOrderView);
 
     //turn x-editable plugin to inline mode

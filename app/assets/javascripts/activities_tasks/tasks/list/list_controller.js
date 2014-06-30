@@ -10,7 +10,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
 
   var _isLoadMoreVisible = function (collectionSize) {
     return !(collectionSize == 0 || collectionSize % ReachActivityTaskApp.Entities.DEF_NO_OF_ROWS_TO_FETCH != 0);
-  }
+  };
 
   List.Controller = {
     showTasks: function(tasks) {
@@ -84,6 +84,24 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     loadMoreTasks: function() {
       var offset = List.tasksListView.collection.length;
       ReachActivityTaskApp.trigger("load-more-tasks:list", offset);
+    },
+
+    assignedToMe: function() {
+      // TODO: Don't use global references here. Implement bore decoupled solution!!!
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout();
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME;
+      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout);
+      ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME);
+    },
+
+    teamView: function () {
+      // TODO: Don't use global references here. Implement bore decoupled solution!!!
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout();
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM;
+      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout);
+
+      // TODO: Move into View which will hold Team Task Form
+      $(".selectpicker").selectpicker();
     }
   }
 });

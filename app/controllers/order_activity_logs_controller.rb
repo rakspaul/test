@@ -76,6 +76,11 @@ class OrderActivityLogsController < ApplicationController
         activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
                                                                :created_by => current_account.user)
         activity.save!
+      when OrderActivityLog::ActivityType::SYSTEM_COMMENT
+          p activity_params
+          activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
+                                                                 :created_by => current_account.user)
+          activity.save!
       when OrderActivityLog::ActivityType::ATTACHMENT
         activity = OrderActivityLog.new activity_params.merge!(:order_id => @order.id,
                                                                :created_by => current_account.user)

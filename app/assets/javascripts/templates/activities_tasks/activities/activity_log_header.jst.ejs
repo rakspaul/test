@@ -65,7 +65,7 @@
               <i class="alert-icon"></i>
             </button>
             <div class="form-control-group">
-              <div class="task_open-icon"></div>
+              <i class="task_open-icon"></i>
               <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
                 <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
                 <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
@@ -73,12 +73,11 @@
               </select>
             </div>
             <div class="form-control-group">
-              <div class="user-icon"></div>
-              <select id="task-assignee-selector" class="selectpicker" >
-              </select>
+              <i class="user-icon"></i>
+              <select id="task-assignee-selector"></select>
             </div>
             <div class="form-control-group">
-              <div class="clock-icon"></div>
+              <i class="clock-icon"></i>
               <span id="due-date-text" style="display: none">ASAP</span>
               <input type="text" class="span2" value="<%= due_date %>" id="due-date" placeholder="Due Date">
             </div>
