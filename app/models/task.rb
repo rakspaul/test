@@ -3,6 +3,8 @@ class Task < ActiveRecord::Base
   # has_paper_trail :meta => { :title => :name }
   has_paper_trail ignore: [:updated_at]
 
+  include TaskStatus
+
   module TaskState
     OPEN = 'open'
     COMPLETE = 'complete'
