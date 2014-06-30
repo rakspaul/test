@@ -52,11 +52,13 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
   });
 
   ActivitiesTasks.addInitializer(function(options) {
+    ReachActivityTaskApp.order = {};
     switch (options.startedAt) {
       case "order_list":
         ActivitiesTasks.initAtOrderList();
         break;
       case "order_details":
+        ReachActivityTaskApp.order = options.order;
         ActivitiesTasks.initAtOrderDetails();
         break;
     }
@@ -84,9 +86,9 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
     // We always will have navigation section, so just render Navigation view in a corresponding region
     this.orderTasksLayout.navigationRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView());
-    new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView()
-  }
-
-  // TODO: Have to implement stop method for all the modules.
-
+    //Note: As other views are not required for Beta release, not using router functionality here.
+    // And just calling assigned to me view server call directly.
+    //TODO: When implementing other views, you have to use router defined there in the task module.
+    this.Tasks.List.Controller.assignedToMe();
+  };
 },JST);

@@ -13,9 +13,6 @@
       var controller = new ReachUI.Orders.OrderController();
       ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
     }
-
-    ReachActivityTaskApp.start({startedAt: "order_details"});
-    
     Backbone.history.start({
       pushState: true,
       root: "/orders"

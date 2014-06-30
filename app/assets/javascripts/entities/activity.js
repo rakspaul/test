@@ -13,7 +13,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
     url: function() {
       if(this.isNew()) {
-        return '/orders/' + ReachActivityTaskApp.order.id + '/activities';
+        return '/orders/' + ReachActivityTaskApp.order.id + '/activities.json';
       }
     }
   });

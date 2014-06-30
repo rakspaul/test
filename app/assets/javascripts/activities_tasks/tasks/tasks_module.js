@@ -158,6 +158,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     return API.fetchMoreTasks(offset, context);
   });
 
+  ReachActivityTaskApp.on("assigned-to-me-tasks:list", function () {
+    return API.tasksAssignedToMe();
+  });
+
   Tasks.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'tasks/assigned_to_me': 'tasksAssignedToMe',

@@ -70,17 +70,17 @@ class Order < ActiveRecord::Base
   end
 
   def latest_import_or_push_note
-    self.order_notes.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
+    self.order_activity_logs.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
   end
 
   def set_import_note
-    if !self.order_notes.detect{|n| n.note == "Imported Order"}
-      self.order_notes.create note: "Imported Order", user: current_user, order: self
+    if !self.order_activity_logs.detect{|n| n.note == "Imported Order"}
+      self.order_activity_logs.create note: "Imported Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
     end
   end
 
   def set_upload_note
-    self.order_notes.create note: "Uploaded Order", user: current_user, order: self
+    self.order_activity_logs.create note: "Uploaded Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
   end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
@@ -139,7 +139,7 @@ class Order < ActiveRecord::Base
 
     def set_push_note
       if self.io_detail.try(:state) == 'pushing'
-        self.order_notes.create note: "Pushed Order", user: current_user, order: self
+        self.order_activity_logs.create note: "Pushed Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
       end
     end
 

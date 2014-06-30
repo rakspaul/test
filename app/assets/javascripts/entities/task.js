@@ -38,12 +38,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     },
 
     url: function(){
-      if(this.context == Entities.TaskPageContext.VIEW.INSIDE_ORDER)
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
-      else if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME)
+      if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME)
         return '/tasks/assigned_to_me.json';
       else
-        return  "";
+        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
     },
     model: Entities.Task
   });
