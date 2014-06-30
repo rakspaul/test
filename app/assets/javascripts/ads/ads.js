@@ -245,13 +245,13 @@
       this.$el.find('.volume .editable.custom').editable({
         success: function(resp, newValue) {
           var sum_ad_imps = 0,
-            imps = self.options.parent_view.model.get('volume');
+            imps = self.options.parent_view.model.get('volume'),
+            value = parseFloat(String(newValue).replace(/,/g, ''))
 
-          self.model.set({ 'volume': parseInt(String(newValue).replace(/,|\./g, '')) },
-                         { silent: true}); //update backbone model;
+          self.model.set({ 'volume': Math.round(Number(value)) }); //update backbone model;
 
           _.each(self.options.parent_view.model.ads, function(ad) {
-            var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+            var imps = parseInt(String(ad.get('volume')).replace(/,/g, ''));
             sum_ad_imps += imps;
           });
 
@@ -260,6 +260,7 @@
           var buffer = self.options.parent_view.model.get('buffer');
           buffer = (sum_ad_imps / imps * 100) - 100;
           self.options.parent_view.model.set({ 'buffer': buffer });
+          self.render();
         },
         validate: function(value) {
           if($.trim(value) == '') {
