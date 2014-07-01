@@ -34,4 +34,30 @@ describe Task do
       task.errors[:due_date].first.should == 'should be future date'
     end
   end
+
+  describe "task states" do
+    it "should follow the workflow" do
+      task = FactoryGirl.create(:task)
+
+      task.updated_by = FactoryGirl.create(:user)
+
+      # open => complete
+      task.complete!
+      task.task_state.should == Task::TaskState::COMPLETE
+
+      # complete => close
+      task.close!
+      task.task_state.should == Task::TaskState::CLOSE
+
+      # close => open
+      task.reopen!
+      task.task_state.should == Task::TaskState::OPEN
+
+      # complete => open
+      task1 = FactoryGirl.create(:task, :task_state => Task::TaskState::COMPLETE)
+      task1.updated_by = FactoryGirl.create(:user)
+      task1.reopen!
+      task.task_state.should == Task::TaskState::OPEN
+    end
+  end
 end
