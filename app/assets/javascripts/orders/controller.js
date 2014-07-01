@@ -861,9 +861,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             li_view.renderAd(ad);
           });
           if (li_show_delete_btn) {
-            li_view.showDupDeleteBtn();
+            li_view.showDeleteBtn();
           } else {
-            li_view.showDupDeleteBtn({hide: true});
+            li_view.showDeleteBtn({hide: true});
           }
           li_view.render(); // TODO avoid LI view rendering, update ads types dropdown only
         });
