@@ -43,4 +43,11 @@
       height: 16px;
     }
   }
+
+  &.single {
+    // adjust caret right position
+    .selectize-input:after {
+      right: 8px;
+    }
+  }
 }

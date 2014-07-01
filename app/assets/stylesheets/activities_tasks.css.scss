@@ -466,8 +466,17 @@ $border-breaker-width: 10px;
 }
 
 .assignable-name {
-  min-width: 140px;
   white-space: nowrap;
+
+  .selectize-control {
+    width: 130px;
+    .selectize-input.items.has-items {
+      .item {
+        width: 110px;
+        text-overflow: ellipsis;
+      }
+    }
+  }
 }
 
 .task-comments-container {
