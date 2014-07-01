@@ -419,7 +419,8 @@
 
       this.ui.volume_editable.editable({
         success: function(response, newValue) {
-          var value = parseInt(String(newValue).replace(/,|\./g, ''));
+          var value = parseFloat(String(newValue).replace(/,/g, ''));
+          value = Math.round(Number(value));
           model.set('volume', value);
           view._recalculateMediaCost();
           collection._recalculateLiImpressionsMediaCost();
