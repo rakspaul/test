@@ -43,7 +43,13 @@ class OrdersController < ApplicationController
 
     @reachui_users = load_users.limit(50)
 
-    @last_revision = @order.revisions.empty? ? nil : JSON.load(@order.revisions.last.object_changes)
+    @last_revision = if @order.revisions.empty?
+      nil
+    else
+      revision = @order.revisions.last
+      # we could only show the latest not accepted revision otherwise don't show any revisions at all
+      revision.accepted ? nil : JSON.load(revision.object_changes)
+    end
 
     respond_to do |format|
       format.html
@@ -182,6 +188,15 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.account_manager_id
     elsif @order.user_id.blank?
       @order.user = current_user
+    end
+
+    if order_param[:cancel_last_revision]
+      order_param.delete(:cancel_last_revision)
+      last_revision = @order.revisions.last
+      last_revision.update_attribute('accepted', true) if last_revision
+      if order_param[:order_status] !~ /ready_for_|pushing/
+        io_details.state = 'revisions_proposed'
+      end
     end
 
     respond_to do |format|

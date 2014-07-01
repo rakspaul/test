@@ -363,11 +363,16 @@
     },
 
     _showLastRevisions: function() {
-      var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
-      var self = this;
-      _.each(li_changes, function(changes, attr) {
-        self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was'])
-      });
+      if(this.model.collection.order.get('last_revision')) {
+        var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
+        var self = this;
+        _.each(li_changes, function(changes, attr) {
+          if(changes['accepted']) {
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .editable.custom').first().addClass('revision');
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was']);
+          }
+        });
+      }
     },
 
     renderTargetingDialog: function() {

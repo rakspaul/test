@@ -136,6 +136,15 @@ $wide_input_width: 320px;
     font-family: 'Armata', sans-serif;
   }
 
+  .cancel-revisions-btn {
+    color: $text_color;
+    margin-left: 8px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   #revised_io_fileupload {
     cursor: pointer;
     background: url(asset-path('upload_io_icon.png')) 0px 0px no-repeat;
@@ -525,6 +534,7 @@ $wide_input_width: 320px;
       display: block;
       border: 1px solid green;
       background-color: white;
+      z-index: 10;
 
       .accept-all-btn {
         clear: both;
