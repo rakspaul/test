@@ -43,6 +43,14 @@ class OrdersController < ApplicationController
 
     @reachui_users = load_users.limit(50)
 
+    @last_revision = if @order.revisions.empty?
+      nil
+    else
+      revision = @order.revisions.last
+      # we could only show the latest not accepted revision otherwise don't show any revisions at all
+      revision.accepted ? nil : JSON.load(revision.object_changes)
+    end
+
     respond_to do |format|
       format.html
       format.json
@@ -149,6 +157,11 @@ class OrdersController < ApplicationController
     @order.end_date = Time.zone.parse(order_param[:end_date])
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
+    if !order_param[:revision_changes].blank?
+      changes = {lineitems: order_param[:revision_changes]}
+      @order.revisions.create(object_changes: JSON.dump(changes))
+    end
+
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
@@ -174,6 +187,15 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.account_manager_id
     elsif @order.user_id.blank?
       @order.user = current_user
+    end
+
+    if order_param[:cancel_last_revision]
+      order_param.delete(:cancel_last_revision)
+      last_revision = @order.revisions.last
+      last_revision.update_attribute('accepted', true) if last_revision
+      if order_param[:order_status] !~ /ready_for_|pushing/
+        io_details.state = 'revisions_proposed'
+      end
     end
 
     respond_to do |format|

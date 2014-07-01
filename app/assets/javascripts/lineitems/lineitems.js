@@ -492,6 +492,7 @@
       }
       this.renderCreatives();
       this.renderTargetingDialog();
+      this._showLastRevisions();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
@@ -509,6 +510,19 @@
 
       if (showDeleteBtn) {
         this.showDeleteBtn();
+      }
+    },
+
+    _showLastRevisions: function() {
+      if(this.model.collection.order.get('last_revision')) {
+        var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
+        var self = this;
+        _.each(li_changes, function(changes, attr) {
+          if(changes['accepted']) {
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .editable.custom').first().addClass('revision');
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was']);
+          }
+        });
       }
     },
 
@@ -996,6 +1010,7 @@
       this.$el.find('.revision').hide();
 
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
+      var li_id = this.model.get('id');
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
@@ -1008,6 +1023,10 @@
               revision = accounting.formatNumber(revision);
               break;
           }
+
+          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
+          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
+
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
 
@@ -1092,6 +1111,10 @@
         $apply_ads_dialog.modal('show');
       }
       EventsBus.trigger('lineitem:logRevision', log_text);
+
+      var li_id = this.model.get('id');
+      this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
+      this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
 
       this.model.attributes[attr_name] = revised_value;
       this.model.attributes['revised_'+attr_name] = null;
