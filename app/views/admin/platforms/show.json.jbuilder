@@ -8,3 +8,4 @@ json.naming_convention   @platform.naming_convention
 json.ad_type             @platform.ad_type
 json.priority            @platform.priority
 json.enabled             @platform.enabled
+json.tag_template        @platform.tag_template
