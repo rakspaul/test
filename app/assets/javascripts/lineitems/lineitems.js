@@ -368,7 +368,7 @@
       });
 
       if (showDeleteBtn) {
-        this.showDupDeleteBtn();
+        this.showDeleteBtn();
       }
     },
 
@@ -429,14 +429,10 @@
       });
     },
 
-    showDupDeleteBtn: function(options) {
+    showDeleteBtn: function(options) {
       if (options && options.hide) {
-        if (this.model.get('uploaded')) {
-          //this.ui.dup_btn.hide();
-        }
         this.ui.delete_btn.hide();
       } else {
-        this.ui.dup_btn.show();
         this.ui.delete_btn.show();
       }
     },
@@ -982,7 +978,7 @@
       this.listenTo(this.collection, 'lineitem:added', function() {
         var lastLIView = view.children.findByIndex(view.children.length - 1);
         lastLIView._recalculateMediaCost();
-        lastLIView.showDupDeleteBtn();
+        lastLIView.showDeleteBtn();
       });
     },
 
