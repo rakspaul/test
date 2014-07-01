@@ -83,6 +83,27 @@ describe('Line items views', function() {
 
         expect(parseFloat(this.view.model.get('volume'))).toBe(78);
       });
+
+      it('should round off the volume attribute', function() {
+        var volume = this.view.$el.find('.volume');
+
+        volume.find('.volume-editable').editable('show');
+        volume.find('input').val(30000.55);
+        volume.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('volume'))).toBe(30001);
+      });
+
+      it('should round down the volume attribute', function() {
+        var volume = this.view.$el.find('.volume');
+
+        volume.find('.volume-editable').editable('show');
+        volume.find('input').val(30000.45);
+        volume.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('volume'))).toBe(30000);
+      });
+
     });
 
     /*describe('create new ad', function() {
