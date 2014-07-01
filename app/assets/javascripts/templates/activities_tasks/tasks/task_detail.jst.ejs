@@ -72,29 +72,16 @@
       <% } %>
     </div>
     <div class="form-control-group">
-      <!-- OPEN -> COMPLETE + URGENT -->
-      <% if (task_state == "open") { %>
-        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="complete">
-          <i class="task_done_white-icon"></i> Complete
+      <% var actionsAndIcons = {"Complete": "task_done_white-icon", "Reopen": "reopen_white-icon", "Close": "checkmark_white-icon"};
+      _.each(_.keys(possible_task_actions), function(action) { %>
+        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="<%= possible_task_actions[action] %>">
+            <i class="<%= actionsAndIcons[action] %>"></i> <%= action %>
         </button>
+      <% }); %>
+
+      <% if (task_state == "open") { %>
         <button id="btnMarkTaskUrgent" class="rui-btn rui-btn-blue <%= important ? '' : 'semi-transparent'%>">
           <i class="alert_white-icon"></i> Urgent
-        </button>
-      <!-- CLOSED -> REOPEN -->
-      <% } else if (task_state == "close") { %>
-        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="open">
-          <i class="reopen_white-icon"></i> Reopen
-        </button>
-      <!-- COMPLETED -> CLOSE + REOPEN -->
-      <% } else { %>
-        <!-- Requestor only can close the task -->
-        <% if(requested_by_id == created_by_id){%>
-            <button class="rui-btn rui-btn-green semi-transparent task-workflow-control" data-state="close">
-              <i class="checkmark_white-icon"></i> Close
-            </button>
-        <% } %>
-        <button class="rui-btn rui-btn-blue semi-transparent task-workflow-control" data-state="open">
-          <i class="reopen_white-icon"></i> Reopen
         </button>
       <% } %>
     </div>

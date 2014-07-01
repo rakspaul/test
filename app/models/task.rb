@@ -99,14 +99,14 @@ class Task < ActiveRecord::Base
     if need_to_update_order_activity
       order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => order_activity_note,
                            :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
-                           :created_by_id => updated_by_id
+                           :created_by_id => self.updated_by_id
 
       order_activity_log.save
     end
 
     task_activity_log = TaskActivityLog.new :task_id => self.id, :note => note,
                                         :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
-                                        :created_by_id => updated_by_id
+                                        :created_by_id => self.updated_by_id
 
     task_activity_log.save
   end

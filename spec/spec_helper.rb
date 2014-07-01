@@ -7,6 +7,7 @@ require 'authlogic/test_case'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'simplecov'
+require 'mocha/setup'
 
 require File.dirname(__FILE__) + "/controller_macros"
 
@@ -24,6 +25,7 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
+  config.mock_with :mocha
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
