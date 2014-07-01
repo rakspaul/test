@@ -3,6 +3,8 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
+  DFP_URL = "https://www.google.com/dfp/!NETWORK_ID!#delivery/LineItemDetail/orderId=!CLIENT_ORDER_ID!&lineItemId=!CLIENT_LI_ID!"
+
   attr_accessor :li_id, :li_status, :revised
 
   belongs_to :order
@@ -166,6 +168,17 @@ class Lineitem < ActiveRecord::Base
 
   def end_date
     read_attribute_before_type_cast('end_date').to_date
+  end
+
+  def dfp_url
+    client_order_id = order.io_detail.try(:client_order_id)
+    client_network_id = order.io_detail.try(:reach_client).try(:client_network_id)
+    client_li_id = self.proposal_li_id
+
+    if !client_order_id.blank? && client_network_id > 0 && !client_li_id.blank?
+      url = DFP_URL
+      return url.sub('!NETWORK_ID!', client_network_id.to_s).sub('!CLIENT_ORDER_ID!', client_order_id.to_s).sub('!CLIENT_LI_ID!', client_li_id.to_s)
+     end
   end
 
   private

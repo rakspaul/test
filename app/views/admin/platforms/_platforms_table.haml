@@ -4,6 +4,9 @@
     %td= link_to platform.media_type.category, edit_admin_platform_path(platform)
     %td= platform.dfp_key
     %td= platform.site.name
+    %td
+      -unless platform.tag_template.blank?
+        %a.tag-icon.tag-info{:href => "javascript:void(0)", "data-content" => "#{platform.tag_template}", "data-toggle"=> "popover", "data-trigger" => "hover"}
     %td= platform.naming_convention
     %td= platform.ad_type
     %td= platform.priority
