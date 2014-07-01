@@ -106,17 +106,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       var default_assignee = currentTaskType.get('default_assignee_user');
 
       // Add default user
-      if (default_assignee !== undefined && default_assignee_id !== undefined) {
+      if ( default_assignee && default_assignee_id ) {
         optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
       }
 
       // Add default team
-      if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
+      if ( default_team_id && default_team_name )
         optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
 
       var team_member = false;
       // Add members of team
-      if (team_members !== 'undefined') {
+      if (team_members) {
         for (i = 0; i < team_members.length; i++) {
           if (team_members[i].id == current_assignee_id) team_member = true;
           if (team_members[i].id == default_assignee_id) team_member = true;
@@ -237,8 +237,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.taskTypeSelector.selectpicker();
 
       if(this.model.isClosed()) {
-        this.model.set("is_closed", true);
-        return;
+          // Disable the task type selector (this is enabled the first time
+          List.Task.assigneeSelector = this.ui.assigneeSelector.selectize({
+              valueField: 'id',
+              labelField: 'name',
+              options: [{id: this.model.get('assignable_id'), name: this.model.get('assignable_name')}]
+          });
+
+          List.Task.assigneeSelector[0].selectize.setValue(this.model.get('assignable_id'));
+          return;
       }
 
         // Selectize the task-assignee-selector
@@ -332,7 +339,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       this.model.save({task_state: state}, {
         success: function() {
-          self.model.set("is_closed", self.model.isClosed());
           self.updateView();
 
           ReachActivityTaskApp.trigger("taskComments:list", {task: self.model});

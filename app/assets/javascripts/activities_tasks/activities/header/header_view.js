@@ -170,12 +170,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         var default_assignee = thisTaskType.get('default_assignee_user');
 
         // Add default user
-        if (default_assignee !== undefined && default_assignee_id !== undefined ) {
+        if ( default_assignee  && default_assignee_id ) {
             optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
         }
 
         // Add default team
-        if (default_team_id !== 'undefined' && default_team_name !== 'undefined')
+        if ( default_team_id && default_team_name )
             optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
 
         // Add members of team

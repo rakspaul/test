@@ -20,7 +20,7 @@
   <div class="pure-u-1-2">
     <div class="pure-g-r">
       <div class="pure-u-1-2 task-type">
-        <select id="taskTypeSelector" name="task_type_id" class="selectpicker" data-live-search="true" <%= is_closed ? 'disabled="disabled"' : '' %>>
+        <select id="taskTypeSelector" name="task_type_id" class="selectpicker" data-live-search="true" <%= task_state == 'close' ? 'disabled="disabled"' : '' %>>
           <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
           <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
           <%}); %>
@@ -29,7 +29,7 @@
       <div class="pure-u-1-2 assignable-name">
         <div class="form-control-group">
           <i class="user-icon"></i>
-          <select name="assignee_id" id="assigneeSelector" class="selectpicker" <%= is_closed ? 'disabled="disabled"' : '' %>>
+          <select name="assignee_id" id="assigneeSelector" class="selectpicker" <%= task_state == 'close' ? 'disabled="disabled"' : '' %>>
           </select>
         </div>
       </div>
@@ -53,7 +53,7 @@
       <span id="taskDueDateText"  style="display: <% if (important) {%>inline-block<% } else { %>none<% } %>">ASAP</span>
       <input type="text" class="span2" value="<%= due_date %>"
              id="createdTaskDueDate"
-             placeholder="Due Date" <%= is_closed ? 'disabled="disabled"' : '' %>
+             placeholder="Due Date" <%= task_state == 'close' ? 'disabled="disabled"' : '' %>
              style="display: <% if (important) {%>none<% } else { %>inline-block<% } %>">
   </div>
 </div>
