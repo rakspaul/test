@@ -525,6 +525,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
 
     this.orderDetailsLayout.top.show(this.detailOrderView);
+    if(order.isNew()) {
+      $(this.orderDetailsLayout.middle.el).hide();
+    }
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';

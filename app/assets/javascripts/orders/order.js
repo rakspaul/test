@@ -315,6 +315,7 @@
 
     regions: {
       top: ".top-region",
+      middle: ".middle-region",
       bottom: ".bottom-region"
     }
   });
