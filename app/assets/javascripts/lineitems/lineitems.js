@@ -432,7 +432,9 @@
     showDupDeleteBtn: function(options) {
       if (options && options.hide) {
         if (this.model.get('uploaded')) {
-          //this.ui.dup_btn.hide();
+          this.ui.dup_btn.hide();
+        } else {
+          this.ui.dup_btn.show();  
         }
         this.ui.delete_btn.hide();
       } else {
