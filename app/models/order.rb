@@ -37,7 +37,7 @@ class Order < ActiveRecord::Base
   scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? OR io_details.client_advertiser_name ILIKE ?", "%#{query}%", "%#{query}%", "%#{query}%","%#{query}%") unless query.blank? }
   scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
-  scope :filterByReachClient, lambda { |rc| where("reach_clients.name = '#{rc}'") unless rc.blank?  }
+  scope :filterByReachClient, lambda { |rc| where("io_details.reach_client_id = ?", ReachClient.find_by_name(rc).try(:id)) unless rc.blank?  }
 
   def self.of_network(network)
     where(:network => network)
@@ -160,7 +160,7 @@ class Order < ActiveRecord::Base
       if end_date_changed?
         end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
         _, end_time_was = end_date_was.to_s(:db).split(' ')
-        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
       end
     end
 end
