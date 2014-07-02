@@ -42,14 +42,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
           ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
           ReachActivityTaskApp.order = {};
-          ReachActivityTaskApp.order.id = this.model.order_id;
+          ReachActivityTaskApp.order.id = this.model.get("order_id");
 
           // Fetch task types
           var taskTypes = ReachActivityTaskApp.request("taskType:entities");
-        var self = this;
+          var self = this;
           $.when(taskTypes).done(function(taskTypes) {
               ReachActivityTaskApp.taskTypes = taskTypes.models;
-          self.showTaskView();
+              self.showTaskView();
           });
       } else {
         this.showTaskView();
@@ -248,8 +248,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           return;
       }
 
-        // Selectize the task-assignee-selector
-        List.Task.assigneeSelector = this.ui.assigneeSelector.selectize({
+      // Selectize the task-assignee-selector
+      List.Task.assigneeSelector = this.ui.assigneeSelector.selectize({
             valueField: 'id',
             labelField: 'name',
             searchField: 'name',
@@ -289,14 +289,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
                     }
                 });
             }
-        });
+      });
 
-        // Set the current assignee as the selected item in the list
-        var current_assignee_id = this.model.get('assignable_id');
-        if (current_assignee_id !== undefined)
-            List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
+      // Set the current assignee as the selected item in the list
+      var current_assignee_id = this.model.get('assignable_id');
+      if (current_assignee_id !== undefined)
+          List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
 
-        // Datepicker
+      // Datepicker
       this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd", startDate: new Date()}).on("changeDate", function (e) {
         var input = $(e.currentTarget),
             dueDate = input.val();
