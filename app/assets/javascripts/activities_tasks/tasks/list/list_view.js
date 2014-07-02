@@ -211,13 +211,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
       //to different user then that task is not valid in the assigned to me view.
       if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
-        ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME)
+          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
         ReachActivityTaskApp.trigger("tasks:list");
-
-      //We have to refresh activities list: when we are inside order details page.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
-        ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER)
+      } else {
         ReachActivityTaskApp.trigger("activities:list");
+      }
     },
 
     onClose: function() {
