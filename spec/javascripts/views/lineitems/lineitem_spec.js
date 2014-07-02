@@ -103,9 +103,18 @@ describe('Line items views', function() {
 
         expect(parseFloat(this.view.model.get('volume'))).toBe(30000);
       });
-
     });
 
+    describe('visual layout', function() {
+      beforeEach(function() {
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      it('should display unallocated imps block', function() {
+        expect(this.view.$el).toContainElement('.unallocated-impressions');
+      });
+    });
     /*describe('create new ad', function() {
       beforeEach(function() {
         var el = this.view.render().$el;

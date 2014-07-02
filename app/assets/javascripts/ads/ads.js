@@ -26,6 +26,8 @@
 
     toJSON: function() {
       var ad = _.clone(this.attributes);
+      console.log('Ad attributes');
+      console.log(ad);
       var frequencyCaps = ad['targeting'].get('frequency_caps'),
           uniqFrequencyCaps = [];
 
