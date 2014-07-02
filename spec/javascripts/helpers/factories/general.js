@@ -2,22 +2,25 @@ var Factories = {};
 
 Factories.Lineitem = BackboneFactory.define('lineitem', ReachUI.LineItems.LineItem, function() {
   return {
+    id: 495,
     name: 'Pre-roll Video Line Item',
     volume: 300124,
     rate:  1.9856,
     ad_sizes: '1x1',
-    creatives: [],
+    creatives: new ReachUI.Creatives.CreativesList(),
     targeting: BackboneFactory.create('targeting')
   };
 });
 
-Factories.Lineitem = BackboneFactory.define('ad', ReachUI.Ads.Ad, function() {
+Factories.Ad = BackboneFactory.define('ad', ReachUI.Ads.Ad, function() {
   return {
     name: 'Pre-roll Video Line Item',
     volume: 200,
     rate:  1.9856,
     ad_sizes: '1x1',
-    creatives: [],
+    io_lineitem_id: 495,
+    type: 'Video',
+    creatives: new ReachUI.Creatives.CreativesList(),
     targeting: BackboneFactory.create('targeting')
   };
 });

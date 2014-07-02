@@ -107,14 +107,22 @@ describe('Line items views', function() {
 
     describe('visual layout', function() {
       beforeEach(function() {
+        this.ad = BackboneFactory.create('ad');
+        this.secondAd = _.clone(this.ad);
+        this.lineitem.ads = [ this.ad, this.secondAd ];
+
         var el = this.view.render().$el;
         $('body').append(el);
       });
 
       it('should display unallocated imps block', function() {
-        expect(this.view.$el).toContainElement('.unallocated-impressions');
+        expect(this.view.$el).toContainElement('.unallocated-imps');
+      });
+
+      it('should calculate unallocated imps from li imps, buffer and ads imps', function() {
       });
     });
+
     /*describe('create new ad', function() {
       beforeEach(function() {
         var el = this.view.render().$el;
@@ -128,5 +136,42 @@ describe('Line items views', function() {
         defaultAdMenuItem.click();
       });
     });*/
+  });
+
+
+  describe('ReachUI.LineItems.LineItemListView', function() {
+
+    beforeEach(function() {
+      this.order = new ReachUI.Orders.Order();
+      this.lineitem = BackboneFactory.create('lineitem');
+      this.ad = BackboneFactory.create('ad');
+      this.secondAd = _.clone(this.ad);
+      this.lineitem.ads = [ this.ad, this.secondAd ];
+
+      this.collection = new ReachUI.LineItems.LineItemList();
+      this.collection.setOrder(this.order);
+      this.collection.add(this.lineitem);
+
+      this.view = new ReachUI.LineItems.LineItemListView({collection: this.collection});
+    });
+
+    it('should be defined', function() {
+      expect(ReachUI.LineItems.LineItemListView).toBeDefined();
+    });
+
+    it('can be instantiated', function() {
+      expect(this.view).not.toBeNull();
+    });
+
+    describe('visual layout', function() {
+      beforeEach(function() {
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      it('should display summary container', function() {
+        expect(this.view.$el).toContainElement('.lineitems-summary-container');
+      });
+    });
   });
 });
