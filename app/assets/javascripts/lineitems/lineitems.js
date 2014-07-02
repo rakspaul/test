@@ -520,7 +520,7 @@
         var self = this;
         _.each(li_changes, function(changes, attr) {
           if(changes['accepted']) {
-            self.$el.find('.'+ReachUI.dasherize(attr)+' .editable.custom').first().addClass('revision');
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
             self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was']);
           }
         });
@@ -1165,14 +1165,6 @@
         this.$el.find('.save-order-btn').addClass('disabled');
         this.$el.find('.push-order-btn').addClass('disabled');
       }
-
-      // https://github.com/collectivemedia/reachui/issues/662
-      // Remove the “Save Order” button from orders that are in “Revisions Proposed” status.
-      if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
-        this.$el.find('.save-order-btn').hide();
-      }
-
-      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     serializeData: function(){
