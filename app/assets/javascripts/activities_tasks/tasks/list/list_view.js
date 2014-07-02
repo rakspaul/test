@@ -212,7 +212,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       //to different user then that task is not valid in the assigned to me view.
       if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
           ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
-        ReachActivityTaskApp.trigger("tasks:list");
+        ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME);
       } else {
         ReachActivityTaskApp.trigger("activities:list");
       }
