@@ -6,7 +6,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Views.Team",function(Team, ReachAct
     template: JST['templates/team/navigation'],
 
     events:{
-      'click .assigned-to-me': "showAssignedToMeView"
+      'click .assigned-to-me': "showAssignedToMeView",
+      'click .team': "showTeamView"
     },
 
     initialize:function(){
@@ -16,6 +17,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Views.Team",function(Team, ReachAct
 
     showAssignedToMeView: function(){
       ReachActivityTaskApp.trigger("assigned-to-me-tasks:list");
+    },
+
+    showTeamView:function(){
+      ReachActivityTaskApp.trigger("team-view:list");
     }
 
 
