@@ -13,17 +13,6 @@ describe('Line items views', function() {
       this.order = new ReachUI.Orders.Order();
       this.lineitem = BackboneFactory.create('lineitem');
 
-      /*ReachUI.LineItems.LineItem({
-        name:       'Display Line Item',
-        start_date: '2013-06-01',
-        end_date:   '2013-06-07',
-        volume:     300124,
-        rate:       1.9856,
-        ad_sizes:   '1x1',
-        creatives:  [],
-        type:       'Display'
-      });*/
-
       this.view = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
       this.collection = new ReachUI.LineItems.LineItemList();
       this.collection.setOrder(this.order);
@@ -164,6 +153,15 @@ describe('Line items views', function() {
 
         var impsValueEl = this.view.$el.find('.unallocated-imps-value');
         expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
+      });
+
+      it('should hide unallocated impression block for 1 ad lineitems', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.ads = [ newAd ];
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps');
+        expect(impsValueEl).toBeHidden();
       });
     });
 

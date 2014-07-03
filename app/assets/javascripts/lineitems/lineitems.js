@@ -174,21 +174,22 @@
     className: 'lineitem pure-g',
 
     ui: {
-      ads_list:            '.ads-container',
-      targeting:           '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content:   '.creatives-content',
-      lineitem_sizes:      '.lineitem-sizes',
-      start_date_editable: '.start-date-editable',
-      end_date_editable:   '.end-date-editable',
-      name_editable:       '.name-editable',
-      volume_editable:     '.volume-editable',
-      rate_editable:       '.rate-editable',
-      buffer_editable:     '.buffer-editable',
-      dup_btn:             '.li-duplicate-btn',
-      delete_btn:          '.li-delete-btn',
-      media_cost:          '.media-cost-value',
-      unallocated_imps:    '.unallocated-imps-value'
+      ads_list:               '.ads-container',
+      targeting:              '.targeting-container',
+      creatives_container:    '.creatives-list-view',
+      creatives_content:      '.creatives-content',
+      lineitem_sizes:         '.lineitem-sizes',
+      start_date_editable:    '.start-date-editable',
+      end_date_editable:      '.end-date-editable',
+      name_editable:          '.name-editable',
+      volume_editable:        '.volume-editable',
+      rate_editable:          '.rate-editable',
+      buffer_editable:        '.buffer-editable',
+      dup_btn:                '.li-duplicate-btn',
+      delete_btn:             '.li-delete-btn',
+      media_cost:             '.media-cost-value',
+      unallocated_imps:       '.unallocated-imps',
+      unallocated_imps_value: '.unallocated-imps-value'
     },
 
     events: {
@@ -588,9 +589,18 @@
         return sum + el.getImps();
       }, 0);
       var total = this.model.getImps() * (1 + this.model.getBuffer() / 100);
-      var unallocated = total - adsImpressions;
-      unallocated = accounting.formatNumber(Math.round(Number(unallocated)), '');
-      this.ui.unallocated_imps.html(unallocated);
+      var unallocated = Math.round(Number(total - adsImpressions));
+      this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
+      if (unallocated == 0) {
+        $('.push-order-btn').removeClass('disabled');
+      } else {
+        $('.push-order-btn').addClass('disabled');
+      }
+      if (this.getAds().length == 1) {
+        this.ui.unallocated_imps.hide();
+      } else {
+        this.ui.unallocated_imps.show();
+      }
     },
 
     ///////////////////////////////////
