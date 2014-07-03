@@ -53,6 +53,10 @@
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
+    },
+
+    getImps: function() {
+      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
     }
   });
 

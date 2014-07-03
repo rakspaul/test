@@ -15,7 +15,7 @@ Factories.Lineitem = BackboneFactory.define('lineitem', ReachUI.LineItems.LineIt
 Factories.Ad = BackboneFactory.define('ad', ReachUI.Ads.Ad, function() {
   return {
     name: 'Pre-roll Video Line Item',
-    volume: 200,
+    volume: 100000,
     rate:  1.9856,
     ad_sizes: '1x1',
     io_lineitem_id: 495,
