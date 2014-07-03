@@ -115,16 +115,6 @@ describe('Line items views', function() {
         expect(impsValueEl.html()).toBe(accounting.formatNumber(100124));
       });
 
-
-      it('should disable push if unallocated imps is not zero', function() {
-        console.log('TODO implement spec');
-      });
-
-      it('should not show Unallocated imps for one ad lineitem case', function() {
-        console.log('TODO implement spec');
-      });
-
-
       it('should not change lineitem buffer if ad is added', function() {
         this.lineitem.set('buffer', 10.5);
         this.lineitem.pushAd(_.clone(this.lineitem.ads[0]));
