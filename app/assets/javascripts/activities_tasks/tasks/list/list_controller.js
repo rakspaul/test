@@ -83,7 +83,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
 
     loadMoreTasks: function() {
       var offset = List.tasksListView.collection.length;
-      ReachActivityTaskApp.trigger("load-more-tasks:list", offset);
+      ReachActivityTaskApp.trigger("load-more-tasks:list", offset, ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context);
     },
 
     assignedToMe: function() {

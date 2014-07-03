@@ -69,8 +69,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
         });
     },
 
-    fetchMoreTasks: function (offset,context) {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset,context);
+    fetchMoreTasks: function (offset, context) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset, context);
       $.when(fetchTasks).done(function (tasks) {
         renderMoreTasks(tasks);
       });

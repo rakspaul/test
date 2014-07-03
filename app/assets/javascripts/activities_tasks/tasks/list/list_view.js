@@ -48,8 +48,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           var taskTypes = ReachActivityTaskApp.request("taskType:entities");
           var self = this;
           $.when(taskTypes).done(function(taskTypes) {
-              ReachActivityTaskApp.taskTypes = taskTypes.models;
-              self.showTaskView();
+            ReachActivityTaskApp.taskTypes = taskTypes.models;
+            self.showTaskView();
           });
       } else {
         this.showTaskView();
@@ -90,7 +90,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
   });
 
   List.Task.getAssigneeOptionsList = function (model) {
-    var currentTaskTypeId = model.get("task_type_id");
+    var currentTaskTypeId = model.get('task_type_id');
     var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
     var optList = [];
 
@@ -106,20 +106,20 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       var default_assignee = currentTaskType.get('default_assignee_user');
 
       // Add default user
-      if ( default_assignee && default_assignee_id ) {
+      if (default_assignee && default_assignee_id) {
         optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
       }
 
       // Add default team
-      if ( default_team_id && default_team_name )
+      if (default_team_id && default_team_name) {
         optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
+      }
 
       var team_member = false;
       // Add members of team
       if (team_members) {
-        for (i = 0; i < team_members.length; i++) {
+        for (var i = 0; i < team_members.length; i++) {
           if (team_members[i].id == current_assignee_id) team_member = true;
-          if (team_members[i].id == default_assignee_id) team_member = true;
 
           if (team_members[i].id == default_assignee_id) {
             team_member = true;
@@ -132,7 +132,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       }
 
       // Add the current assignee to the list
-      if (current_assignee_id !== undefined && current_assignee_name !== undefined
+      if (current_assignee_id && current_assignee_name
           && current_assignee_type == 'User' && !team_member) {
         optList.push({ id: current_assignee_id, name: current_assignee_name, group: 'users_all'});
       }
@@ -225,10 +225,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onRender: function() {
-      this.onShow();
+      this.show();
     },
 
-    onShow: function() {
+    show: function() {
       var self = this;
 
       // Initialize bootstrap selectors
@@ -278,7 +278,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
                         var all_users = [];
 
                         if (res !== 'undefined') {
-                            for (i = 0; i < res.length; i++) {
+                            for (var i = 0; i < res.length; i++) {
                                 all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
                             }
                         }
@@ -291,8 +291,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       // Set the current assignee as the selected item in the list
       var current_assignee_id = this.model.get('assignable_id');
-      if (current_assignee_id !== undefined)
-          List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
+      if (current_assignee_id !== undefined) {
+        List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
+      }
 
       // Datepicker
       this.ui.dueDatePicker.datepicker({format:"yyyy-mm-dd", startDate: new Date()}).on("changeDate", function (e) {
@@ -314,16 +315,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         error: function(response, newValue) {
           var error = response.responseJSON;
           return error.message.name[0];
-        }
-      });
-
-      $('.task-details-table .assignable-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          var value = newValue.replace(/^\s+|\s+$/g,'');
-          self.model.set($(this).data('name'), value); //update backbone model;
-          $(this).parent().removeClass('field_with_errors');
-          $(this).siblings('.errors_container').html('');
         }
       });
     },
@@ -397,7 +388,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           var currentTaskTypeId = parseInt(this.ui.taskTypeSelector.val());
 
           // Dont do anything if 1. val is NaN 2. val is same as in model
-          if (isNaN(currentTaskTypeId) || currentTaskTypeId == this.model.get('assignable_id')) {
+          if (isNaN(currentTaskTypeId) || currentTaskTypeId == this.model.get('task_type_id')) {
               return;
           }
 
@@ -417,7 +408,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           var control = List.Task.assigneeSelector[0].selectize;
           // Assign the new list to assignee selector
           control.clearOptions();
-          for (i = 0; i < List.Task.assignee_list.length; i++) {
+          for (var i = 0; i < List.Task.assignee_list.length; i++) {
               var opt = List.Task.assignee_list[i];
               control.addOption(opt);
               if (currentAssigneeId == opt.id) {
@@ -441,9 +432,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         this.model.set('assignable_id', currentAssigneeId);
 
         var selectedOption = _.findWhere(assigneeList.options, {id: currentAssigneeId});
-        var assigneeType = 'User';
-        if (selectedOption)
-            assigneeType = selectedOption.group == 'team' ? 'Team' : 'User';
+        var assigneeType = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
         this.model.set('assignable_type', assigneeType);
 
         this.setAssignee(currentAssigneeId, assigneeType);
