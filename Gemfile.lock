@@ -15,18 +15,6 @@ GIT
       ruby-rc4
 
 GIT
-  remote: git://github.com/guard/guard-jasmine.git
-  revision: ad7d5c0d5af0d6b9bec5e8e72aaa7b8d80e9c56d
-  branch: jasmine-2
-  specs:
-    guard-jasmine (1.19.2)
-      childprocess
-      guard (>= 2.0.0)
-      multi_json
-      thor
-      tilt
-
-GIT
   remote: https://github.com/airblade/paper_trail.git
   revision: 916ec98cad41c6f837fb5e2e15efb33fceb81c1c
   specs:
@@ -148,6 +136,12 @@ GEM
       lumberjack (~> 1.0)
       pry (>= 0.9.12)
       thor (>= 0.18.1)
+    guard-jasmine (1.19.0)
+      childprocess
+      guard (>= 2.0.0)
+      multi_json
+      thor
+      tilt
     guard-rspec (3.1.0)
       guard (>= 1.8)
       rspec (~> 2.13)
@@ -353,7 +347,7 @@ DEPENDENCIES
   ejs
   factory_girl_rails (~> 4.2.1)
   faker (~> 1.2.0)
-  guard-jasmine!
+  guard-jasmine
   guard-rspec
   haml-rails (~> 0.4)
   hipchat (~> 0.12.0)
