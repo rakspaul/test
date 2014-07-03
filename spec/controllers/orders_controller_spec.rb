@@ -461,6 +461,19 @@ describe OrdersController do
         put :update, params
         expect(Lineitem.find_by_id(lineitem.id)).to be_nil
       end
+
+      it "create new creatives" do
+        lineitem = order.lineitems.first
+        expect {
+          put :update, params
+        }.to change(Creative, :count).by(2)
+      end
+
+      it "update default creative type to InternalRedirectCreative" do
+        lineitem = order.lineitems.first
+        put :update, params
+        expect(Creative.last.creative_type).to eq('InternalRedirectCreative')
+      end
     end
   end
 
