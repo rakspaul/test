@@ -271,6 +271,18 @@
       }
     },
 
+    _alignOrderStartDate: function() {
+      var minDate = this.model.collection.getMinLIDate();
+      $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+      this.model.collection.order.set('start_date', minDate);
+    },
+
+    _alignOrderEndDate: function() {
+      var maxDate = this.model.collection.getMaxLIDate();
+      $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+      this.model.collection.order.set("end_date", maxDate);
+    },
+
     setEditableFields: function() {
       var view = this, model = view.model, collection = model.collection;
 
@@ -279,12 +291,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('start_date', date);
+          model.set('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          model.set('start_date', date);
-          var minDate = collection.getMinLIDate();
-          $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
-          collection.order.set('start_date', minDate);
+          view._alignOrderStartDate();
 
           view._changeEditable($(this), newValue);
 
@@ -307,12 +317,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('end_date', date);
+          model.set('end_date', date);
 
           // order's end date should be highest of all related LIs
-          model.set('end_date', date);
-          var maxDate = collection.getMaxLIDate();
-          $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
-          collection.order.set("end_date", maxDate);
+          view._alignOrderEndDate();
 
           view._changeEditable($(this), newValue);
 
@@ -1001,6 +1009,8 @@
 
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1043,6 +1053,8 @@
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
       this._checkRevisedStatus();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       $target_parent.remove();
     },
 
