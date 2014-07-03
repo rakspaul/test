@@ -6,24 +6,47 @@ ReachActivityTaskApp.module("ActivitiesTasks.Views.Team",function(Team, ReachAct
     template: JST['templates/team/navigation'],
 
     events:{
-      'click .assigned-to-me': "showAssignedToMeView",
-      'click .team': "showTeamView"
+      'click .navbar-link': 'switchView'
     },
 
-    initialize:function(){
-      //by default initialize assigned to me view.
-      this.showAssignedToMeView();
+    // Default value for selected menu
+    lastSelected: "assigned_to_me",
+
+    initialize:function() {
+      // retrieve last state from localStorage and show this to the user
+      this.lastSelected = localStorage.getItem("order_task_switch_view") || this.lastSelected;
     },
 
-    showAssignedToMeView: function(){
-      ReachActivityTaskApp.trigger("assigned-to-me-tasks:list");
+    onShow: function () {
+      // NOTE: by default "assigned to me" view will be initialized.
+      this.switchView();
     },
 
-    showTeamView:function(){
-      ReachActivityTaskApp.trigger("team-view:list");
+    _markActiveItem: function () {
+      this.$(".navbar-link").removeClass("active");
+      this.$("[data-switch-view='" + this.lastSelected + "']").addClass("active");
+    },
+
+    switchView: function(e) {
+      var event_name = "assigned-to-me-tasks:list",
+          $this;
+
+      if (!_.isUndefined(e)) {
+        $this = $(e.currentTarget);
+        this.lastSelected = $this.data("switch-view");
+      }
+
+      switch (this.lastSelected) {
+        case "team":
+          event_name = "team-view:list";
+        break;
+      }
+
+      this._markActiveItem();
+      localStorage.setItem("order_task_switch_view", this.lastSelected);
+
+      ReachActivityTaskApp.trigger(event_name);
     }
-
-
   });
 
 }, JST);
