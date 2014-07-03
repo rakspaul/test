@@ -76,6 +76,15 @@
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
+    getImps: function() { 
+      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+    },
+
+    getCpm: function() { return parseFloat(this.get('rate')); },
+
+    getBuffer: function() { return parseFloat(this.get('buffer')); },
+
+
     setBlankLiFlag: function() {
       this.is_blank_li = true;
     },
@@ -135,14 +144,11 @@
 
     _recalculateLiImpressionsMediaCost: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
-        var imps = parseInt(String(el.get('volume')).replace(/,|\./g, ''));
-        sum += imps;
-        return sum;
+        return sum + el.getImps();
       }, 0);
 
       var sum_media_cost = _.inject(this.models, function(sum, el) {
-        sum += Math.round(parseFloat(el.get('value')) * 100) / 100;
-        return sum;
+        return sum + Math.round(parseFloat(el.get('value')) * 100) / 100;
       }, 0.0);
 
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
@@ -170,19 +176,22 @@
     className: 'lineitem pure-g',
 
     ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes',
-      start_date_editable: '.start-date-editable',
-      end_date_editable:   '.end-date-editable',
-      name_editable:       '.name-editable',
-      volume_editable:     '.volume-editable',
-      rate_editable:       '.rate-editable',
-      buffer_editable:     '.buffer-editable',
-      dup_btn: '.li-duplicate-btn',
-      delete_btn: '.li-delete-btn'
+      ads_list:               '.ads-container',
+      targeting:              '.targeting-container',
+      creatives_container:    '.creatives-list-view',
+      creatives_content:      '.creatives-content',
+      lineitem_sizes:         '.lineitem-sizes',
+      start_date_editable:    '.start-date-editable',
+      end_date_editable:      '.end-date-editable',
+      name_editable:          '.name-editable',
+      volume_editable:        '.volume-editable',
+      rate_editable:          '.rate-editable',
+      buffer_editable:        '.buffer-editable',
+      dup_btn:                '.li-duplicate-btn',
+      delete_btn:             '.li-delete-btn',
+      media_cost:             '.media-cost-value',
+      unallocated_imps:       '.unallocated-imps',
+      unallocated_imps_value: '.unallocated-imps-value'
     },
 
     events: {
@@ -504,18 +513,18 @@
       this._showLastRevisions();
 
       this.ui.ads_list.html('');
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       var showDeleteBtn = !this.model.get('uploaded');
-      _.each(ads, function(ad) {
+      _.each(this.getAds(), function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         if (showDeleteBtn && !isNaN(parseInt(ad.get('source_id')))) {
           showDeleteBtn = false;
         }
-
         view.renderAd(ad);
       });
+
+      this.recalculateUnallocatedImps();
 
       if (showDeleteBtn) {
         this.showDupDeleteBtn();
@@ -548,8 +557,9 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       if (0 == ad.get('volume')) {
-        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
+        ad_view.$el.find('.volume-editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
+      li_view.recalculateUnallocatedImps();
     },
 
     renderCreatives: function() {
@@ -580,6 +590,10 @@
       }
     },
 
+    getAds: function() {
+      return this.model.ads.models || this.model.ads.collection || this.model.ads;
+    },      
+
     // method trigger change event to process contenteditable element by stickit
     _changeEditable: function(el, value, callback) {
         var val = callback ? callback(value) : value;
@@ -589,14 +603,12 @@
     },
 
     recalculateAdsImpressionsMediaCost: function(buffer) {
-      var adImps, prevBuffer = parseFloat(this.model.get('buffer')),
+      var prevBuffer = this.model.getBuffer(),
           ratio = (100 + buffer) / (100 + prevBuffer),
-          ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+          ads = this.getAds();
 
       _.each(ads, function(ad) {
-        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        adImps = adImps * ratio;
-        ad.set('volume', parseInt(adImps));
+        ad.set('volume', parseInt(ad.getImps() * ratio));
       });
     },
 
@@ -614,7 +626,35 @@
       }
     },
 
-    ///////////////////////////////////////////////////////////////////////////////
+    _recalculateMediaCost: function() {
+      var media_cost = (this.model.getImps() / 1000.0) * this.model.getCpm();
+      this.model.set('value', media_cost);
+      this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
+
+      this.recalculateUnallocatedImps();
+    },
+
+    recalculateUnallocatedImps: function() {
+      var adsImpressions = _.reduce(this.getAds(), function(sum, el) {
+        return sum + el.getImps();
+      }, 0);
+      var total = this.model.getImps() * (1 + this.model.getBuffer() / 100);
+      var unallocated = Math.round(Number(total - adsImpressions));
+      this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
+      if (unallocated == 0) {
+        $('.push-order-btn').removeClass('disabled');
+      } else {
+        $('.push-order-btn').addClass('disabled');
+      }
+      if (this.getAds().length == 1) {
+        this.ui.unallocated_imps.hide();
+      } else {
+        this.ui.unallocated_imps.show();
+      }
+    },
+
+    ///////////////////////////////////
+    ////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
