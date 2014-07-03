@@ -33,6 +33,7 @@
         type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
+        uploaded: false
       }
     },
 
@@ -556,6 +557,8 @@
       if (options && options.hide) {
         if (this.model.get('uploaded')) {
           this.ui.dup_btn.hide();
+        } else {
+          this.ui.dup_btn.show();  
         }
         this.ui.delete_btn.hide();
       } else {
