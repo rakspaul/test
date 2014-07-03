@@ -260,10 +260,7 @@
           });
 
           self._recalculateMediaCost({ silent: true });
-
-          var buffer = self.options.parent_view.model.get('buffer');
-          buffer = (sum_ad_imps / imps * 100) - 100;
-          self.options.parent_view.model.set({ 'buffer': buffer });
+          self.options.parent_view.recalculateUnallocatedImps();
           self.render();
         },
         validate: function(value) {
@@ -352,18 +349,15 @@
     },
 
     _destroyAd: function(e) {
-      var li_ads = this.options.parent_view.model.ads;
+      var model = this.options.parent_view.model;
+      var li_ads = model.ads;
       var cid = this.model.cid;
 
       // update list of ads for the related lineitem
-      var new_ads = _.inject(li_ads, function(new_ads, ad) {
-        if(cid != ad.cid) {
-          new_ads.push(ad);
-        }
-        return new_ads;
-      }, []);
-      this.options.parent_view.model.ads = new_ads;
-
+      model.ads =_.filter(li_ads, function(ad) {
+        return cid != ad.cid;
+      });
+      this.options.parent_view.recalculateUnallocatedImps();
       this.remove();
     },
 

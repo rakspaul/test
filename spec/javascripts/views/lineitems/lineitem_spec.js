@@ -11,7 +11,9 @@ describe('Line items views', function() {
 
     beforeEach(function() {
       this.order = new ReachUI.Orders.Order();
-      this.lineitem = new ReachUI.LineItems.LineItem({
+      this.lineitem = BackboneFactory.create('lineitem');
+
+      /*ReachUI.LineItems.LineItem({
         name:       'Display Line Item',
         start_date: '2013-06-01',
         end_date:   '2013-06-07',
@@ -20,7 +22,7 @@ describe('Line items views', function() {
         ad_sizes:   '1x1',
         creatives:  [],
         type:       'Display'
-      });
+      });*/
 
       this.view = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
       this.collection = new ReachUI.LineItems.LineItemList();
@@ -135,19 +137,33 @@ describe('Line items views', function() {
 
 
       it('should not change lineitem buffer if ad is added', function() {
-        console.log('TODO implement spec');
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.pushAd(_.clone(this.lineitem.ads[0]));
+        expect(this.lineitem.getBuffer()).toBe(10.5);
       });
 
       it('should not change lineitem buffer if ad is removed', function() {
-        console.log('TODO implement spec');
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.ads = [ _.clone(this.lineitem.ads[0]) ];
+        expect(this.lineitem.getBuffer()).toBe(10.5);
       });
 
       it('should change unallocated imps if ad is added', function() {
-        console.log('TODO implement spec');
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.pushAd(newAd);
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(124));
       });
 
       it('should change unallocated imps if ad is removed', function() {
-        console.log('TODO implement spec');
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.ads = [ newAd ];
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
       });
     });
 

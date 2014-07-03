@@ -488,7 +488,7 @@
         view.renderAd(ad);
       });
 
-      this._recalculateUnallocatedImps();
+      this.recalculateUnallocatedImps();
 
       if (showDeleteBtn) {
         this.showDupDeleteBtn();
@@ -510,6 +510,7 @@
       if (0 == ad.get('volume')) {
         ad_view.$el.find('.volume-editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
+      li_view.recalculateUnallocatedImps();
     },
 
     renderCreatives: function() {
@@ -579,18 +580,15 @@
       this.model.set('value', media_cost);
       this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
 
-      this._recalculateUnallocatedImps();
+      this.recalculateUnallocatedImps();
     },
 
-    _recalculateUnallocatedImps: function() {
+    recalculateUnallocatedImps: function() {
       var adsImpressions = _.reduce(this.getAds(), function(sum, el) {
         return sum + el.getImps();
       }, 0);
       var total = this.model.getImps() * (1 + this.model.getBuffer() / 100);
       var unallocated = total - adsImpressions;
-      if (unallocated < 0) {
-        unallocated = 0;
-      }
       unallocated = accounting.formatNumber(Math.round(Number(unallocated)), '');
       this.ui.unallocated_imps.html(unallocated);
     },
