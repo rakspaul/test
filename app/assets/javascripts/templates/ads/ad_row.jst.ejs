@@ -10,8 +10,8 @@
       Ad
       <% ad_type = _.contains(['display', 'video', 'companion', 'facebook', 'mobile'], ad.type.toLowerCase()) ? ad.type.toLowerCase() : 'display' %>
       <span class="<%= ad_type %>-icon centered-icon"></span>
-      <% if(!isNaN(parseInt(ad.source_id))) { %>
-        <div class="dfp-success"></div>
+      <% if(ad.platform_id) { %>
+        <a href="javascript:void(0)" class="tag-icon" data-toggle="tooltip" data-placement="right" title="<%= ad.platform_name %>"></a>
       <% } %>
     </div>
 

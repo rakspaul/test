@@ -734,13 +734,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var type = args.type || li.get('type');
       var platform = args.platform;
       var abbr = platform ? platform.get('naming_convention') : null;
-      var platformId = platform ? platform.get('id') : null;
+      var platformId = platform ? platform.get('id') : null,
+          platformName = platform ? platform.get('name') : null;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
 
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId, platform_name: platformName });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
