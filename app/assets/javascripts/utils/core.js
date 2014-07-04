@@ -197,3 +197,69 @@ ReachUI.omitAttribute = function(attributes, attr) {
   }
   return result;
 };
+
+ReachUI.copyTargeting = function(e, view, scope) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  var el        = $(e.currentTarget),
+      parent    = el.parent(),
+      type      = el.data('type'),
+      active    = parent.hasClass('active'),
+      targeting = view.model.get('targeting');
+
+  if (!active) {
+    var copiedOptions = {};
+
+    parent.addClass('active');
+
+    switch (type) {
+      case 'key_values':
+        copiedOptions = {
+          selected_key_values: _.clone(targeting.get('selected_key_values')),
+          keyvalue_targeting:  _.clone(targeting.get('keyvalue_targeting'))
+        };
+        break;
+      case 'geo':
+        copiedOptions = {
+          selected_geos:      _.clone(targeting.get('selected_geos')),
+          selected_zip_codes: _.clone(targeting.get('selected_zip_codes'))
+        };
+        break;
+      case 'freq_cap':
+        copiedOptions = {
+          frequency_caps: ReachUI.omitAttribute(_.clone(targeting.get('frequency_caps')), 'id')
+        };
+        break;
+    };
+
+    if (!window.copied_targeting) {
+      window.copied_targeting = {};
+    }
+    _.each(copiedOptions, function(value, key) {
+      window.copied_targeting[key] = value;
+    });
+  } else {
+    if (window.copied_targeting) {
+      switch (type) {
+      case 'key_values':
+        delete window.copied_targeting['selected_key_values'];
+        delete window.copied_targeting['keyvalue_targeting'];
+        break;
+      case 'geo':
+        delete window.copied_targeting['selected_geos'];
+        delete window.copied_targeting['selected_zip_codes'];
+        break;
+      case 'freq_cap':
+        delete window.copied_targeting['frequency_caps'];
+        break;
+      }
+    }
+    el.blur();
+    parent.removeClass('active');
+  }
+
+  noty({text: 'Targeting copied', type: 'success', timeout: 3000});
+  view._deselectAllLIs({ multi: true });
+  view.$el.addClass('copied-targeting-from');
+}
