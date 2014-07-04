@@ -193,11 +193,12 @@ class Ad < ActiveRecord::Base
       self.priority = Video::COMPANION_PRIORITY
     end and return
 
-    self.ad_type  = "#{media_type.category}::AD_TYPE".constantize
+    mtype = media_type.reachui_type? ? media_type.category : 'Display'
+    self.ad_type  = "#{mtype}::AD_TYPE".constantize
     if type == 'Display' && (audience_groups.size > 0 || !reach_custom_kv_targeting.blank?)
-      self.priority = "#{media_type.category}::HIGH_PRIORITY".constantize
+      self.priority = "#{mtype}::HIGH_PRIORITY".constantize
     else
-      self.priority = "#{media_type.category}::PRIORITY".constantize
+      self.priority = "#{mtype}::PRIORITY".constantize
     end
   end
 

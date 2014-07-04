@@ -8,7 +8,8 @@
 
     <div class="pure-u-1-24 ad-name">
       Ad
-      <span class="<%=ad.type.toLowerCase() %>-icon centered-icon"></span>
+      <% ad_type = _.contains(['display', 'video', 'companion', 'facebook', 'mobile'], ad.type.toLowerCase()) ? ad.type.toLowerCase() : 'display' %>
+      <span class="<%= ad_type %>-icon centered-icon"></span>
       <% if(!isNaN(parseInt(ad.source_id))) { %>
         <div class="dfp-success"></div>
       <% } %>
