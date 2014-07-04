@@ -27,6 +27,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       'click': 'onTaskView'
     },
 
+    serializeData: function(data) {
+      return _.extend(this.model.toJSON(), {context: this.model.collection.context});
+    },
+
     onTaskView: function(e) {
       // This piece of logic helps in not refreshing continually task details region
       // when click happens on the same task or details region.
@@ -39,8 +43,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
       //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
-          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
+      if(this.model.collection.context != ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER) {
           ReachActivityTaskApp.order = {};
           ReachActivityTaskApp.order.id = this.model.get("order_id");
 
@@ -210,9 +213,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
       //to different user then that task is not valid in the assigned to me view.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
-          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
-        ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME);
+      if(this.model.collection.context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
+        ReachActivityTaskApp.trigger("assigned-to-me-tasks:list");
       } else {
         ReachActivityTaskApp.trigger("activities:list");
       }

@@ -10,7 +10,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Views.Team",function(Team, ReachAct
     },
 
     // Default value for selected menu
-    lastSelected: "assigned_to_me",
+    lastSelected: "my_tasks",
 
     initialize:function() {
       // retrieve last state from localStorage and show this to the user

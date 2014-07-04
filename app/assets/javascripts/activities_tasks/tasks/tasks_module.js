@@ -6,6 +6,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
   Tasks.Layout = Marionette.Layout.extend({
     template: JST['templates/activities_tasks/tasks/task_content'],
 
+    options: {},
+
+    initialize: function(options) {
+      this.options = options;
+    },
+
     regions: {
       tasksListRegion: ".tasks-list"
     },
@@ -19,7 +25,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     },
 
     showMoreTasks: function () {
-      Tasks.List.Controller.loadMoreTasks();
+      Tasks.List.Controller.loadMoreTasks(this);
     },
 
     showHideMoreTasks: function (show) {
@@ -58,21 +64,21 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
    API to fetch tasks.
    */
   var API = {
-    fetchTasks: function (context) {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities", 0, context);
+    fetchTasks: function (taskLayout) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", 0, taskLayout);
       $.when(fetchTasks)
         .done(function (tasks) {
-          renderTasks(tasks);
+          renderTasks(taskLayout, tasks);
         })
         .fail(function (model, response) {
           console.log("Error happened...", response);
         });
     },
 
-    fetchMoreTasks: function (offset, context) {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset, context);
+    fetchMoreTasks: function (offset, taskLayout) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset, taskLayout);
       $.when(fetchTasks).done(function (tasks) {
-        renderMoreTasks(tasks);
+        renderMoreTasks(taskLayout, tasks);
       });
     },
 
@@ -102,12 +108,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
   /*
    After tasks fetch, this will render header and tasks list.
    */
-  function renderTasks(tasks) {
-    Tasks.List.Controller.showTasks(tasks);
+  function renderTasks(taskLayout, tasks) {
+    Tasks.List.Controller.showTasks(taskLayout, tasks);
   }
 
-  function renderMoreTasks(tasks) {
-    Tasks.List.Controller.showMoreTasks(tasks);
+  function renderMoreTasks(taskLayout, tasks) {
+    Tasks.List.Controller.showMoreTasks(taskLayout, tasks);
   }
 
   function appendTaskComments(taskComments) {
@@ -122,16 +128,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
    Listens to "include:tasks" event, this can be triggered by any part of application using trigger method on App object.
    */
   ReachActivityTaskApp.on("include:tasks", function () {
-    Tasks.taskLayout = new Tasks.Layout();
-    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(Tasks.taskLayout);
-    ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER);
+    var taskLayout = new Tasks.Layout({context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER});
+    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(taskLayout);
+    ReachActivityTaskApp.trigger("tasks:list", taskLayout);
   });
 
   /*
    Listens to "tasks:list"
    */
-  ReachActivityTaskApp.on("tasks:list", function (context) {
-    API.fetchTasks(context);
+  ReachActivityTaskApp.on("tasks:list", function (taskLayout) {
+    API.fetchTasks(taskLayout);
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function (options) {
@@ -154,8 +160,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     API.fetchTaskComments(options.task, options.offset);
   });
 
-  ReachActivityTaskApp.on("load-more-tasks:list", function (offset, context) {
-    return API.fetchMoreTasks(offset, context);
+  ReachActivityTaskApp.on("load-more-tasks:list", function (offset, taskLayout) {
+    return API.fetchMoreTasks(offset, taskLayout);
   });
 
   ReachActivityTaskApp.on("assigned-to-me-tasks:list", function () {
