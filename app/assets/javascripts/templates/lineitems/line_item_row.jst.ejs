@@ -52,6 +52,8 @@
       </div>
       <% if(lineitem.dfp_url && lineitem.dfp_url != '') { %>
         <div class="client-id">Client Id: <a href="<%= lineitem.dfp_url %>" target="_blank"><%= lineitem.li_id %></a></div>
+      <% } else if(lineitem.li_id && lineitem.li_id!="") {%>
+        <div class="client-id">Client Id: <%= lineitem.li_id %></div>
       <% } %>
     </div>
 

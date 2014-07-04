@@ -278,10 +278,13 @@ $wide_input_width: 320px;
       margin-left: 40%;
       padding-left: 10px;
     }
-    [class^="icon-"]:before, [class*=" icon-"]:before {
-        cursor: pointer !important;
-    }
+
     .share-icon{
+      background: url("/assets/new_window.png");
+      display: block;
+      height: 16px;
+      margin-right: 5px;
+      width: 16px;
       cursor: pointer  !important;
       margin-left:10px !important;
       float:left;
@@ -391,6 +394,12 @@ $wide_input_width: 320px;
   .trafficker-container {
     float: right;
     width: 33%;
+  }
+
+  .client-order-id{
+    width:80px;
+    float:left;
+    position:relative;
   }
 }
 
@@ -800,6 +809,11 @@ $wide_input_width: 320px;
 
   .client-id{
     margin:40px 0 0 10px;
+    position: absolute;
+  }
+
+  .client-id-basic{
+    margin: 20px 0 0 10px;
     position: absolute;
   }
 }

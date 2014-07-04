@@ -156,9 +156,11 @@
         </div>
         <div class="field client-order-id">
           <p>Client Order ID</p>
-          <span class="editable pull-left" data-type="text" data-pk="1" data-name="client_order_id"><%= order.client_order_id %></span>
+          <div class="client-order-id">
+            <span class="editable pull-left" data-type="text" data-pk="1" data-name="client_order_id"><%= order.client_order_id %></span>
+          </div>
           <% if(order.client_order_id && order.reach_client_network_id > 0) { %>
-            <i id="clientDfpUrl" class="icon-share-alt share-icon"></i>
+            <span id="clientDfpUrl" class="share-icon"></span>
           <% } %>
         </div>
         <div class="field start-date">

@@ -46,7 +46,12 @@
         </div>
         <div class="field client-order-id">
           <p>Client Order ID</p>
-          <span><%= order.client_order_id %></span>
+          <div class="client-order-id">
+            <span><%= order.client_order_id %></span>
+          </div>
+          <% if(order.client_order_id && order.reach_client_network_id > 0) { %>
+            <span id="clientDfpUrl" class="share-icon"></span>
+          <% } %>
         </div>
         <div class="field start-date">
           <p>Start Date</p>
