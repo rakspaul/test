@@ -80,7 +80,7 @@ class Task < ActiveRecord::Base
 
     return if note.nil?
 
-    order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => "#{name}: #{note}",
+    order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => "<i>#{name}</i>: #{note}",
                            :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
                            :created_by_id => self.updated_by_id
 
@@ -95,7 +95,7 @@ class Task < ActiveRecord::Base
 
   def update_activity_log
     #system comment
-    note = "#{created_by.full_name} created a task: #{name}"
+    note = "<i>#{name}</i>: created the task"
     order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
                                               :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
                                               :created_by_id => created_by_id
