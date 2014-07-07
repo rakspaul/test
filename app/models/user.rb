@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
 
   has_and_belongs_to_many :roles
 
-  has_many :teams, :through => :team_user
+  has_many :team_users
+  has_many :teams, :through => :team_users
   has_many :tasks, :as => :assignable
 
   def self.of_network(network)

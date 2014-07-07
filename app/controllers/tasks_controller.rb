@@ -3,6 +3,8 @@ class TasksController < ApplicationController
 
   before_filter :require_order, :only => [:index, :create]
   before_filter :require_task, :only => [:update, :comments, :add_comment]
+  before_filter :require_team, :only => [:team_tasks, :team_user_tasks]
+  before_filter :require_user, :only => [:user_tasks]
 
   respond_to :json
 
@@ -21,11 +23,51 @@ class TasksController < ApplicationController
     end
   end
 
-  def assigned_to_me
-    @tasks = Task.includes(:order,:activity_attachments).fetch_assigned_to_me_tasks current_user, params[:limit], params[:offset]
+  def user_tasks
+    @tasks = Task.includes(:order,:activity_attachments).user_tasks @user, params[:limit], params[:offset]
     respond_to do |format|
       format.json
     end
+  end
+
+  def team_tasks
+    @team_tasks = if @team
+                    {
+                      team: @team,
+                      tasks: Task.includes(:order).team_tasks(@team, params[:limit], params[:offset])
+                    }
+	                else
+	                  {}
+                  end
+    respond_to do |format|
+      format.json
+    end
+  end
+
+  def only_team_tasks
+    @tasks = if @team
+               Task.includes(:order).team_tasks(@team, params[:limit], params[:offset])
+             else
+               []
+             end
+    render 'user_tasks'
+  end
+
+  def team_user_tasks
+    @user_tasks = if @team
+                    @team.users.map do |user|
+                      {
+                        user: user,
+                        tasks: Task.includes(:order).user_tasks(user, params[:limit], params[:offset])
+                      }
+                    end
+                  else
+                    []
+                  end
+    respond_to do |format|
+      format.json
+    end
+
   end
 
   def update
@@ -93,5 +135,15 @@ class TasksController < ApplicationController
     if @task_params[:important] && @task.due_date > 2.days.from_now.midnight
       @task_params[:due_date] = 2.days.from_now.midnight
     end
+  end
+
+  def require_team
+    @team = Team.find_by_id params[:team_id] if params[:team_id]
+    @team ||= current_user.teams.first
+  end
+
+  def require_user
+    @user = User.find_by_id params[:user_id] if params[:user_id]
+    @user ||= current_user
   end
 end

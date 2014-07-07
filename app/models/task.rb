@@ -43,9 +43,17 @@ class Task < ActiveRecord::Base
     order(:id => :desc)
   end
 
-  def self.fetch_assigned_to_me_tasks(user, limit, offset)
+  def self.user_tasks(user, limit, offset)
     result = where(assignable_id: user.id, assignable_type: 'User')
-    result = result.order(:task_state => :desc, :important => :desc, :due_date => :asc).limit(limit).offset(offset) if limit && offset
+    result = result.order(:task_state => :desc, :important => :desc, :due_date => :asc)
+    result = result.limit(limit).offset(offset) if limit && offset
+    result.load
+  end
+
+  def self.team_tasks(team, limit, offset)
+    result = where(assignable_id: team.id, assignable_type: 'Team')
+    result = result.order(:task_state => :desc, :important => :desc, :due_date => :asc)
+    result = result.limit(limit).offset(offset) if limit && offset
     result
   end
 

@@ -34,6 +34,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       } else {
         $(this.ui.loadMoreBtn).hide();
       }
+    },
+
+    setTaskListView: function(taskListView) {
+      this.taskListView = taskListView;
+    },
+
+    getTaskListView: function() {
+      return this.taskListView;
     }
   });
 
@@ -96,7 +104,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.assignedToMe();
     },
 
-    tasksTeam: function () {
+    teamTasks: function () {
+//        Do we need this. Instead trigger here
       ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView();
     },
 
@@ -122,6 +131,28 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
 
   function renderTaskComments(taskComments) {
     Tasks.List.Controller.showTaskComments(taskComments);
+  }
+
+  function renderUserTasks(teamLayout, userTasks) {
+    for(var i = 0; i < userTasks.length; i++) {
+      var userTask = userTasks.models[i];
+      var userTasksRegion = teamLayout.addRegion('user_task_list_region_' + i, '#user_task_list_' + i);
+
+      var taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout({
+          template: JST['templates/team/user_task_list'],
+          context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM_USER,
+          userId: userTask.get('user').id
+      });
+      userTasksRegion.show(taskLayout);
+
+      var userHeaderView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.UserHeaderView({
+          userId: userTask.get('user').id,
+          userName: userTask.get('user').name
+      });
+      taskLayout.userHeaderRegion.show(userHeaderView);
+
+      Tasks.List.Controller.showTasks(taskLayout, userTask.tasks());
+    }
   }
 
   /*
@@ -168,15 +199,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     return API.tasksAssignedToMe();
   });
 
-  ReachActivityTaskApp.on("team-view:list", function () {
-    return API.tasksTeam();
+  ReachActivityTaskApp.on("team-view:list", function() {
+    return API.teamTasks();
   });
 
   Tasks.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'tasks/assigned_to_me': 'tasksAssignedToMe',
       'tasks/followed': 'tasksFollowed',
-      'tasks/team': 'tasksTeam'
+      'tasks/team': 'teamTasks'
     }
   });
 

@@ -17,10 +17,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       if(tasks.length == 0) {
         taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
       } else {
-        List.tasksListView = new List.Tasks({
-          collection: tasks
-        });
-        taskLayout.tasksListRegion.show(List.tasksListView);
+        taskLayout.setTaskListView(new List.Tasks({collection: tasks}));
+        taskLayout.tasksListRegion.show(taskLayout.getTaskListView());
       }
       taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
     },
@@ -29,8 +27,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       var collectionLength = tasks ? tasks.length : 0;
       if(collectionLength > 0) {
         tasks.each(function(task) {
-          List.tasksListView.collection.add(task);
-          task.collection = List.tasksListView.collection;
+          taskLayout.getTaskListView().collection.add(task);
+          task.collection = taskLayout.getTaskListView().collection;
         });
       }
       taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
@@ -82,7 +80,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     loadMoreTasks: function(taskLayout) {
-      var offset = List.tasksListView.collection.length;
+      var offset = taskLayout.getTaskListView().collection.length;
       ReachActivityTaskApp.trigger("load-more-tasks:list", offset, taskLayout);
     },
 
@@ -95,13 +93,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
     },
 
     teamView: function () {
-      // TODO: Don't use global references here. Implement bore decoupled solution!!!
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout();
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM;
-      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout);
+      var teamLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout();
+      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(teamLayout);
 
+      ReachActivityTaskApp.trigger("team-tasks:list", teamLayout);
+
+
+      ReachActivityTaskApp.trigger("team-user-tasks:list", teamLayout);
       // TODO: Move into View which will hold Team Task Form
-      $(".selectpicker").selectpicker();
+      //$(".selectpicker").selectpicker();
     }
   }
 });

@@ -4,22 +4,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
   List.Task = Marionette.Layout.extend({
     tagName: 'div',
-    template: function (model) {
-      var tplc = JST['templates/activities_tasks/tasks/task_list_item'];
-
-      if (model.show_order_name_column === true) {
-        tplc = JST['templates/activities_tasks/tasks/task_list_item_with_order_name'];
-      }
-
-      return tplc(model);
-    },
-
-    initialize: function (options) {
-      if (options.with_order_name_column) {
-        this.model.set("show_order_name_column", true);
-      }
-    },
-
+    template: JST['templates/activities_tasks/tasks/task_list_item'],
     className: 'task-container',
     assigneeSelector: undefined,
 
@@ -277,24 +262,24 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
                         callback();
                     },
                     success: function (res) {
-                        var all_users = [];
+                        var allUsers = [];
 
                         if (res !== 'undefined') {
                             for (var i = 0; i < res.length; i++) {
-                                all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                                allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
                             }
                         }
 
-                        callback(all_users);
+                        callback(allUsers);
                     }
                 });
             }
       });
 
       // Set the current assignee as the selected item in the list
-      var current_assignee_id = this.model.get('assignable_id');
-      if (current_assignee_id !== undefined) {
-        List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
+      var currentAssigneeId = this.model.get('assignable_id');
+      if (currentAssigneeId !== undefined) {
+        List.Task.assigneeSelector[0].selectize.setValue(currentAssigneeId);
       }
 
       // Datepicker
