@@ -271,7 +271,6 @@ ReachUI.pasteTargeting = function(e, scope) {
   noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
 
   var buffer = this.model.getCopyBuffer('targeting');
-  console.log(buffer);
 
   _.each(window.selected_lis, function(li) {
     var liTargeting = li.model.get('targeting'),
@@ -312,4 +311,30 @@ ReachUI.cancelTargeting = function(e) {
   this.model.setCopyBuffer('targeting', null);
   $('.lineitem').removeClass('copied-targeting-from');
   this._deselectAllLIs();
+};
+
+ReachUI.toggleItemSelection = function(e, scope) {
+  // if there is no copied targeting then exclusive select, otherwise accumulative
+  var buffer = this.model.getCopyBuffer('targeting');
+  var selectedItems = this.model.getSelectedItem(scope);
+  if (!buffer) {
+    this._deselectAllLIs({'except_current': true});
+  }
+
+  this.ui.item_number.toggleClass('selected');
+  this.selected = this.ui.item_number.hasClass('selected');
+  this.ui.copy_targeting_btn.toggle();
+
+  if (this.selected) {
+    selectedItems.push(this);
+  } else {
+    selectedItems.splice(this, 1);
+  }
+  this.model.setSelectedItem(selectedItems, scope);
+
+  if (buffer) {
+    $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+    $('.copy-targeting-btn li').removeClass('active');
+    this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+  }
 };

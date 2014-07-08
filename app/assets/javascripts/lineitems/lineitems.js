@@ -119,10 +119,22 @@
       } else {
         this.constructor.buffer = value;
       }
+    },
+
+    getSelectedItem: function(key) {
+      return this.constructor.selectedItems[key || 'li'];
+    },
+
+    setSelectedItem: function(items, key) {
+      this.constructor.selectedItems[key || 'li'] = items;
     }
   }, {
     buffer: {
       targeting: null
+    },
+    selectedItems: {
+      li:  [],
+      ad: []
     }
   });
 
@@ -193,15 +205,17 @@
       targeting: '.targeting-container',
       creatives_container: '.creatives-list-view',
       creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes',
+      lineitem_sizes:      '.lineitem-sizes',
       start_date_editable: '.start-date-editable',
       end_date_editable:   '.end-date-editable',
       name_editable:       '.name-editable',
       volume_editable:     '.volume-editable',
       rate_editable:       '.rate-editable',
       buffer_editable:     '.buffer-editable',
-      dup_btn: '.li-duplicate-btn',
-      delete_btn: '.li-delete-btn'
+      dup_btn:             '.li-duplicate-btn',
+      delete_btn:          '.li-delete-btn',
+      item_number:         '.item-number',
+      copy_targeting_btn:  '.copy-targeting-btn'
     },
 
     events: {
@@ -672,33 +686,10 @@
 
     _toggleLISelection: function(e) {
       e.stopPropagation();
-      if(this.model.get('revised')) {
+      if (this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        // if there is no copied targeting then exclusive select, otherwise accumulative
-        var buffer = this.model.getCopyBuffer('targeting');
-        if (buffer) {
-          this._deselectAllLIs({'except_current': true});
-        }
-
-        this.$el.find('.li-number .number').toggleClass('selected');
-        this.selected = this.$el.find('.li-number .number').hasClass('selected');
-        this.$el.find('.copy-targeting-btn').toggle();
-
-        if(window.selected_lis === undefined) {
-          window.selected_lis = [];
-        }
-        if(this.selected) {
-          window.selected_lis.push(this); // add current LI to selected LIs
-        } else {
-          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-        }
-
-        if (buffer) {
-          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-          $('.copy-targeting-btn li').removeClass('active');
-          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
-        }
+        ReachUI.toggleItemSelection.call(this, e, 'li');
       }
     },
 
