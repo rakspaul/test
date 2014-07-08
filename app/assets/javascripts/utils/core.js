@@ -321,7 +321,6 @@ ReachUI.toggleItemSelection = function(e, scope) {
   // if there is no copied targeting then exclusive select, otherwise accumulative
   var ui = this.ui;
   var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
-  var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
   if (!buffer) {
     this._deselectAllItems({'except_current': true});
   }
@@ -329,6 +328,8 @@ ReachUI.toggleItemSelection = function(e, scope) {
   this.ui.item_number.toggleClass('selected');
   this.selected = this.ui.item_number.hasClass('selected');
   this.ui.copy_targeting_btn.toggle();
+
+  var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
 
   if (this.selected) {
     selectedItems.push(this);
@@ -346,7 +347,6 @@ ReachUI.toggleItemSelection = function(e, scope) {
 
 ReachUI.deselectAllItems = function(options, scope) {
   var self = this;
-
   _.each([ 'li', 'ad' ], function (type) {
     _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
       if (!(options && options['except_current'] && item == self)) {
@@ -359,9 +359,5 @@ ReachUI.deselectAllItems = function(options, scope) {
       }
     });
   });
-  if (options && options['except_current']) {
-    ReachUI.LineItems.LineItem.setSelectedItem( [ self ], scope );
-  } else {
-    ReachUI.LineItems.LineItem.setSelectedItem();
-  }
+  ReachUI.LineItems.LineItem.setSelectedItem();
 };
