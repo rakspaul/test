@@ -3,6 +3,7 @@ $bg_color: #a5ccf9;
 $ad_bg_color: #c0e2f9;
 $li_number_bg: #007ac9;
 $error_color: red;
+$dfp_zipcode_error_color: #fd9828;
 $magenta_color: #d02898;
 $border_color: #0088cc;
 
@@ -457,6 +458,8 @@ $wide_input_width: 320px;
         background-color: $bg_color;
         > div {
           display: table-cell;
+          @include word-break(break-all);
+          word-wrap: break-word;
         }
       }
     }
@@ -482,7 +485,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .video-dropdown {
+    .video-dropdown, .ad-type-dropdown {
       position: absolute;
       .dropdown-menu {
         top: 0;
@@ -516,7 +519,7 @@ $wide_input_width: 320px;
       position: absolute;
       display: block;
       border: 1px solid green;
-      background-color: white;   
+      background-color: white;
 
       .accept-all-btn {
         clear: both;
@@ -624,7 +627,7 @@ $wide_input_width: 320px;
       }
     }
 
-    .li-command-btn, .li-commands-btn {
+    .li-command-btn, .li-commands-btn, .li-duplicate-btn, .li-delete-btn {
       margin-left: -25px;
     }
 
@@ -634,6 +637,19 @@ $wide_input_width: 320px;
       height: 16px;
       display: block;
       cursor: pointer;
+    }
+
+    .li-duplicate-btn {
+      background: sprite($images, clone-btn) no-repeat;
+      width: 16px;
+      height: 16px;
+      display: block;
+      cursor: pointer;
+      margin-top: 25px;
+    }
+
+    .li-delete-btn {
+      margin-top: 50px;
     }
 
     span.operation {
@@ -671,7 +687,7 @@ $wide_input_width: 320px;
       }
     }
 
-    > div div.lineitem-sizes .editable, > div div.li-sizes .editable, div .ads-container .ads-sizes {
+    > div div.lineitem-sizes, > div div.li-sizes .editable, div .ads-container .ads-sizes {
       padding-right: 7px;
     }
   }
@@ -682,6 +698,7 @@ $wide_input_width: 320px;
   }
 
   .ads-container {
+    margin-top:-20px;
     .ad-table {
       display: table;
       border-collapse: collapse;
@@ -694,9 +711,10 @@ $wide_input_width: 320px;
         }
 
        .missing-geo-caution {
-         font-size:20px;
-         font-weight:bold;
-         color:red;
+         width: 16px;
+         height: 16px;
+         margin: 3px 0 5px 5px;
+         display: inline-block;
        }
       }
     }
@@ -813,7 +831,7 @@ $wide_input_width: 320px;
   }
 }
 
-.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn {
+.save-order-btn, .push-order-btn, .submit-trafficker-btn, .submit-am-btn, .create-li-btn {
   background-color: $text_color;
   color: white;
   width: 50px;
@@ -907,6 +925,10 @@ $wide_input_width: 320px;
       width: 95%;
     }
 
+    .tab.custom-kv textarea {
+      width: 95%;
+    }
+
     .tab.geo input.geo-search {
       width: 98%;
       background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
@@ -952,6 +974,11 @@ $wide_input_width: 320px;
     text-align: center;
     padding: 5px;
     cursor: pointer;
+  }
+
+  .disabled{
+    background-color: gray !important;
+    color: white !important;
   }
 
   .selected-targeting {
@@ -1027,6 +1054,7 @@ $wide_input_width: 320px;
 
     .tgt-item-zip-container{
       margin-left:3px;
+      height: 22px;
     }
 
     .zip-codes-targeting {
@@ -1038,10 +1066,19 @@ $wide_input_width: 320px;
         border-bottom: 1px dashed $error_color;
         margin-left:5px;
       }
+
+      .dfp-invalid-zip {
+        border-bottom: 2px solid $dfp_zipcode_error_color;
+      }
+
+      .dfp-errors-container {
+        border-bottom: 1px dashed $dfp_zipcode_error_color;
+        margin-left:5px;
+      }
     }
   }
 
-  .custom-regular-keyvalue-btn {
+  .expand-audience-btn {
     cursor: pointer;
     position:absolute;
     top:30px;
@@ -1052,7 +1089,7 @@ $wide_input_width: 320px;
     }
   }
 
-  .dmas-checkboxes-container, .key-values-checkboxes-container {
+  .dmas-checkboxes-container, .audience-key-values-checkboxes-container {
     width: 95%;
     float: left;
     height: 200px;
@@ -1235,6 +1272,16 @@ table.creatives-content {
 
         .javascript-code textarea {
           width: 450px;
+        }
+
+        .image-url span, .javascript-code span{
+          width:450px;
+          display:inline-block;
+          overflow:hidden;
+          white-space:nowrap;
+          word-wrap:break-word;
+          text-overflow: ellipsis;
+          -o-text-overflow: ellipsis;
         }
 
         .start-date .date.custom, .end-date .date.custom {
@@ -1442,4 +1489,12 @@ table.creatives-content {
       padding: 8px 5px;
     }
   }
+}
+
+.video-creatives-caution {
+  width: 18px;
+  height: 18px;
+  margin-left: 5px;
+  margin-top: 3px;
+  display: inline-block;
 }

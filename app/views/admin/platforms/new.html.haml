@@ -1,0 +1,13 @@
+.platforms-header
+  %legend
+    Add Platform Media Type
+
+#details.content
+
+:javascript
+  $(document).ready(function() {
+    ReachUI.SetupGlobalErrorHandler();
+
+    var controller = new ReachUI.Platforms.PlatformController();
+    controller.initializeForCreateNewPlatform();
+  });

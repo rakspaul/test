@@ -50,7 +50,7 @@
   <div style="clear:both"></div>
 </div>
 
-<% if(reach_custom_kv && !show_custom_key_values) { %>
+<% if(reach_custom_kv) { %>
 <div class="pure-g keyvalue_targeting">
   <div class="custom-kv-icon pull-left"></div>
   <div class="pull-left pure-u-11-12 custom-kv">
@@ -58,18 +58,6 @@
   </div>
 </div>
 <% } %>
-
-<div class="pure-g custom-targeting">
-  <% if(show_custom_key_values) { %>
-  <div class="custom-kv-icon pull-left"></div>
-  <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
-  <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= reach_custom_kv %>"class="custom-kvs-field"/>
-  <% } %>
-  <div style="clear:both"></div>
-  <span class="custom-kv-errors errors_container pure-u"></span>
-
-  <div style="clear:both"></div>
-</div>
 
 <% if(selected_geos.length > 0) { %>
 <div class="pure-g dma-targeting">
@@ -94,7 +82,8 @@
   <% if(selected_zip_codes.length > 0) { %>
     <div class="zip-codes-icon" title="Zip codes"></div>
     <div class="pull-left pure-u-11-12">
-    <% var zips = [], errors_in_zips = false; for (var i = 0; i < selected_zip_codes.length; i++) {
+    <% var zips = [], errors_in_zips = false, is_invalid_ad_dfp = false;
+    for (var i = 0; i < selected_zip_codes.length; i++) {
       if(selected_zip_codes[i].match(/^\s*$/) == null) {
         var is_current_zip_code_valid = selected_zip_codes[i].match(/^\s*(\d{5})\s*$/);
         if(!is_current_zip_code_valid) {
@@ -102,7 +91,13 @@
         }
       }
       var item = '<div class="tgt-item-zip-container">';
-      item += '<span class="tgt-item-caption ' + (is_current_zip_code_valid ? '' : 'invalid-zip') + '">' + selected_zip_codes[i] + '</span>';
+      if($.inArray(selected_zip_codes[i], invalid_zip_codes) > -1) {
+        is_current_zip_code_valid = false;
+        is_invalid_ad_dfp = true;
+        item += '<span class="tgt-item-caption ' + (is_current_zip_code_valid ? '' : 'dfp-invalid-zip') + '">' + selected_zip_codes[i] + '</span>';
+      } else {
+        item += '<span class="tgt-item-caption ' + (is_current_zip_code_valid ? '' : 'invalid-zip') + '">' + selected_zip_codes[i] + '</span>';
+      }
       item += ' <span class="remove-btn pull-right" data-zip="' + selected_zip_codes[i] + '" style="display:none"></span>';
       item += '</div>';
       zips.push(item);
@@ -112,7 +107,11 @@
 
     <% if(errors_in_zips) { %>
     <div style="clear:both"></div>
-    <div class="errors-container">Underlined zip codes are not valid. Please edit them.</div>
+    <div class="errors-container">Red underlined zips should be 5 digits. Please edit them.</div>
+    <% }
+    if(is_invalid_ad_dfp) { %>
+    <div style="clear:both"></div>
+    <div class="dfp-errors-container">Orange underlined zips are not valid in DFP and will not be pushed.</div>
     <% } %>
   </div>
   <% } %>

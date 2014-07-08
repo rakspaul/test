@@ -22,11 +22,14 @@ class Admin::BlockViolationsController < ApplicationController
       sort_column = "reach_block_violations.created_at"
     end
 
-    block_violations = BlockViolations.joins(:advertiser, :site).order("#{sort_column} #{sort_direction}")
-                       .filter_by_date(start_date, end_date)
-                       .filter_by_site(site)
-                       .filter_by_advertiser(advertiser)
-
-    @block_violations = Kaminari.paginate_array(block_violations).page(params[:page]).per(100);
+    @block_violations = BlockViolations.includes(:advertiser, :site)
+                        .of_network(current_network)
+                        .filter_by_date(start_date, end_date)
+                        .filter_by_site(site)
+                        .filter_by_advertiser(advertiser)
+                        .references(:advertiser)
+                        .references(:site)
+                        .order("#{sort_column} #{sort_direction}")
+                        .page(params[:page]).per(100);
   end
 end

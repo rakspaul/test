@@ -32,7 +32,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
-    
+
     this.orderDetailsLayout.top.show(uploadView);
   },
 
@@ -63,7 +63,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // just uploaded model (w/o id, source_id)
     orderModel.lineItemList = lineItems;
 
-    
+
     if(orderModel.get('is_existing_order')) {
       // removing zombie views and callbacks
       if(this.detailOrderView) {
@@ -104,7 +104,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_name', revisions.name);
         lineItems.models[index].set('revised_volume', revisions.volume);
         lineItems.models[index].set('revised_rate', revisions.rate);
-        lineItems.models[index].set('revised', ((revisions.start_date || revisions.end_date || revisions.name || revisions.volume || revisions.rate) ? true : false));
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
       });
     }
 
@@ -442,7 +442,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
 
-    if(!order.get("source_id")){
+    if(!order.get("source_id") || !parseInt(order.get("source_id"))){
       $('.advertiser-name input').typeahead({
         name: 'advertiser-names',
         remote: {
@@ -609,7 +609,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _calculateRemainingImpressions: function(li) {
-    var remaining_impressions = li.get('volume') * (100 + parseFloat(li.get('buffer'))) / 100;
+    var remaining_impressions = parseInt(String(li.get('volume')).replace(/,|\./g, '')) * (100 + parseFloat(li.get('buffer'))) / 100;
 
     _.each(li.ads, function(ad) {
       remaining_impressions -= ad.get('volume');
@@ -624,7 +624,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   // Ad name should be in this format [https://github.com/collectivemedia/reachui/issues/269] [previous #89]
   // Client Abbreviation + Advertiser Name + GEO + BT/CT or RON + QuarterYear + Ad Sizes (300x250 160x600 728x90)
   // Example:  RE TW Rodenbaugh's Q413 GEO BTCT 728x90, 300x250, 160x600
-  _generateAdName: function(li, ad_type) {
+  _generateAdName: function(li, ad_type, abbr) {
     var start_date = new Date(li.attributes.start_date);
     var start_quarter = ReachUI.getQuarter(start_date);
     var start_year = start_date.getFullYear() % 100;
@@ -664,7 +664,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push("Companion");
     } else if("Video" == ad_type) {
       ad_name_parts.push("Preroll");
-    } else if("Mobile" == ad_type) {
+    } else if("Mobile" == ad_type && !abbr) {
       ad_name_parts.push("^Mob");
     }
 
@@ -676,8 +676,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       ad_name_parts.push(li.get('ad_sizes').replace(/,/g, ' '));
     }
 
-    if ("Facebook" == ad_type) {
+    if ("Facebook" == ad_type && !abbr) {
       ad_name_parts.push("FBX");
+    }
+    if (abbr) {
+      ad_name_parts.push(abbr);
     }
     ad_name = ad_name_parts.join(' ');
 
@@ -709,6 +712,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   /////////////////////////////////////////////////////////////////////////////////////////
   // the main function dealing with lineitems/ads/creatives
   _liSetCallbacksAndShow: function(lineItemList) {
+    lineItemList = lineItemList ? lineItemList : new ReachUI.LineItems.LineItemList();
+
     this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
@@ -717,31 +722,41 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.lineItemListView.on('itemview:lineitem:add_ad', function(li_view, args) {
       var li = li_view.model;
       var type = args.type || li.get('type');
-      var ad_name = ordersController._generateAdName(li, type);
+      var platform = args.platform;
+      var abbr = platform ? platform.get('naming_convention') : null;
+      var platformId = platform ? platform.get('id') : null;
+
+      var ad_name = ordersController._generateAdName(li, type, abbr);
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li)); 
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'targeted_zipcodes', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type});
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
 
       var li_targeting = new ReachUI.Targeting.Targeting({
-        selected_key_values: li.get('targeting').get('selected_key_values'),
-        selected_geos: li.get('targeting').get('selected_geos'),
-        dmas_list: li.get('targeting').get('dmas_list'),
-        selected_zip_codes: li.get('targeting').get('selected_zip_codes'),
-        audience_groups: li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
-        frequency_caps: frequencyCaps,
+        selected_key_values: platform ? [] : _.clone(li.get('targeting').get('selected_key_values')),
+        selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
+        selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
+        audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') + '=default' : li.get('targeting').get('keyvalue_targeting'),
+        frequency_caps: platform ? [] : frequencyCaps,
         type: type
       });
 
-      if (type != 'Companion') {
+      var creatives = li.get('creatives').models, li_creatives = [];
+      if (type === 'Companion') {
+        var defaultCompanionAdTargeting = new ReachUI.Targeting.Targeting({keyvalue_targeting: ad._default_keyvalue_targeting.companion});
+        ad.set('targeting', defaultCompanionAdTargeting);
+        creatives = _.filter(creatives, function(c) { return c.get('ad_size') != '1x1'; });
+      } else {
         ad.set('targeting', li_targeting);
       }
+      if (type == 'Video') {
+        creatives = _.filter(creatives, function(c) { return c.get('ad_size') == '1x1'; });
+      }
 
-      var li_creatives = [];
-      _.each(li.get('creatives').models, function(li_creative) {
+      _.each(creatives, function(li_creative) {
         var cloned_creative = new ReachUI.Creatives.Creative({
           id: li_creative.get('id'),
           parent_cid: li_creative.cid, // need to identify same Creative on both Ad and LI levels
@@ -752,7 +767,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           html_code: li_creative.get('html_code'),
           html_code_excerpt: li_creative.get('html_code_exceprt'),
           start_date: li_creative.get('start_date'),
-          creative_type: li_creative.get('creative_type')
+          creative_type: li_creative.get('creative_type'),
+          ad_type: li.get('type')
         });
         li_creatives.push(cloned_creative);
       });
@@ -764,14 +780,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     });
 
     // only if `show` action
-    if (lineItemList.order.id) {
-      var dmas = new ReachUI.DMA.List();
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+    if (lineItemList.order && lineItemList.order.id) {
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList(),
+          platforms = new ReachUI.AdPlatforms.PlatformList();
 
       var order_ads = new ReachUI.Ads.AdList();
       order_ads.setOrder(lineItemList.order);
 
-      $.when( order_ads.fetch(), dmas.fetch(), ags.fetch() ).done(function(adsResult, dmasResult, agsResult) {
+      $.when( order_ads.fetch(), ags.fetch(), platforms.fetch() ).done(function(adsResult, agsResult) {
         var li_ads = {};
         _.each(adsResult[0], function(attrs) {
           if (!li_ads[attrs.ad.io_lineitem_id]) {
@@ -786,56 +802,69 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var li            = li_view.model;
 
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
-          var zipcodes       = li.get('targeted_zipcodes') ? li.get('targeted_zipcodes').split(',') : [];
+          var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
+          var type = li.get('type');
 
           li.set({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
-            selected_zip_codes: zipcodes,
-            selected_geos: selected_geos,
-            selected_key_values: kv,
-            dmas_list: dmasResult[0],
-            frequency_caps: frequency_caps,
-            audience_groups: ags.attributes,
-            keyvalue_targeting: li.get('keyvalue_targeting'),
-            type: li.get('type') })
+              selected_zip_codes: zipcodes,
+              selected_geos: selected_geos,
+              selected_key_values: kv,
+              frequency_caps: frequency_caps,
+              audience_groups: ags.attributes,
+              keyvalue_targeting: li.get('keyvalue_targeting'),
+              type: type })
           }, { silent: true });
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
           }
+          li.platforms = platforms;
 
           li_view.renderTargetingDialog();
+          li_view._recalculateMediaCost();
 
           itemIndex += 1;
 
           li_view.model.ads = [];
+          li_show_delete_btn = li_view.model.get('uploaded') ? false : true;
           _.each(li_ads[li_view.model.get('id')], function(attrs) {
             attrs.ad.start_date = moment(attrs.ad.start_date).format("YYYY-MM-DD");
             attrs.ad.end_date = moment(attrs.ad.end_date).format("YYYY-MM-DD");
-
             var ad = new ReachUI.Ads.Ad(attrs.ad);
 
             ad.set({
               'creatives': new ReachUI.Creatives.CreativesList(attrs.creatives),
               'targeting': new ReachUI.Targeting.Targeting({
-              selected_zip_codes: attrs.ad.targeted_zipcodes,
-              selected_geos: attrs.selected_geos,
-              selected_key_values: attrs.selected_key_values,
-              frequency_caps: attrs.frequency_caps,
-              dmas_list: li_view.model.get('targeting').get('dmas_list'),
-              audience_groups: li_view.model.get('targeting').get('audience_groups'),
-              keyvalue_targeting: attrs.ad.keyvalue_targeting,
-              dfp_key_values: attrs.ad.dfp_key_values,
-              ad_dfp_id: attrs.ad.source_id,
-              order_status: lineItemList.order.get('order_status'),
-              type: li_view.model.get('type')})});
+                selected_zip_codes: attrs.ad.selected_zip_codes,
+                selected_geos: attrs.selected_geos,
+                selected_key_values: attrs.selected_key_values,
+                frequency_caps: attrs.frequency_caps,
+                audience_groups: li_view.model.get('targeting').get('audience_groups'),
+                keyvalue_targeting: attrs.ad.keyvalue_targeting,
+                dfp_key_values: attrs.ad.dfp_key_values,
+                ad_dfp_id: attrs.ad.source_id,
+                order_status: lineItemList.order.get('order_status'),
+                type: li_view.model.get('type')
+              })
+            });
+
+            if (li_show_delete_btn && !isNaN(parseInt(ad.get('source_id')))) {
+              li_show_delete_btn = false;
+            }
 
             li_view.model.pushAd(ad);
             li_view.renderAd(ad);
           });
+          if (li_show_delete_btn) {
+            li_view.showDupDeleteBtn();
+          } else {
+            li_view.showDupDeleteBtn({hide: true});
+          }
+          li_view.render(); // TODO avoid LI view rendering, update ads types dropdown only
         });
 
         lineItemList._recalculateLiImpressionsMediaCost();
@@ -844,11 +873,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         }
       });
     } else { // not persisted Order/Lineitems
-      var dmas = new ReachUI.DMA.List();
-      var ags = new ReachUI.AudienceGroups.AudienceGroupsList();
+      var ags = new ReachUI.AudienceGroups.AudienceGroupsList(),
+          platforms = new ReachUI.AdPlatforms.PlatformList();
 
-      $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-        var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
+      $.when( ags.fetch(), platforms.fetch() ).done(function(agsResult, platformsResult) {
         var itemIndex = 1;
 
         _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
@@ -857,7 +885,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           li.set({
             'itemIndex': itemIndex,
             'targeting': new ReachUI.Targeting.Targeting({
-              dmas_list: dmas_list,
               audience_groups: ags.attributes,
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
@@ -866,11 +893,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
           }
+          li.platforms = platforms;
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
 
           itemIndex += 1;
+          li_view.render();
         });
         lineItemList._recalculateLiImpressionsMediaCost();
       });

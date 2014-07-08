@@ -3,14 +3,25 @@
 
   LineItems.LineItem = Backbone.Model.extend({
     _default_keyvalue_targeting: {
-      "Facebook": "fbx=_default",
+      "Facebook": "fb=_default",
       "Mobile":   "mob=_default"
+    },
+
+    mediaTypeSizes: {
+      "1x1":     "Video",
+      "300x50":  "Mobile",
+      "320x50":  "Mobile",
+      "100x72":  "Facebook",
+      "99x72":   "Facebook",
+      "default": "Display"
     },
 
     initialize: function() {
       this.ads = [];
       this.creatives = [];
       this.revised_targeting = false;
+      this.platforms = [];
+      this.is_blank_li = false;
     },
 
     defaults: function() {
@@ -20,8 +31,10 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        type: 'display',
-        _delete_creatives: []
+        type: 'Display',
+        _delete_creatives: [],
+        li_status: 'Draft',
+        uploaded: false
       }
     },
 
@@ -59,7 +72,12 @@
         lineitem['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
       delete lineitem['frequency_caps'];
+      delete lineitem['selected_zip_codes'];
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
+    },
+
+    setBlankLiFlag: function() {
+      this.is_blank_li = true;
     },
 
     pushAd: function(ad) {
@@ -67,16 +85,25 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps, 
+      var adImps,
           prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
-        ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
+        ad.set('volume', parseInt(adImps));
       });
       this.set('buffer', parseFloat(buffer));
+    },
+
+    setCreativesDate: function(name, value) {
+      var creatives = this.get('creatives').models;
+      if (creatives) {
+        _.each(creatives, function(creative) {
+          creative.set(name, value);
+        });
+      }
     }
   });
 
@@ -84,6 +111,18 @@
     model: LineItems.LineItem,
     url: function() {
       return '/orders/' + this.order.id + '/lineitems.json';
+    },
+
+    getMinLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('start_date'); } ), minDate = dates[0];
+      _.each(dates, function(el) { if (el < minDate) { minDate = el; } });
+      return minDate;
+    },
+
+    getMaxLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('end_date'); }), maxDate = dates[0];
+      _.each(dates, function(el) { if (el > maxDate) { maxDate = el; } });
+      return maxDate;
     },
 
     setOrder: function(order) {
@@ -130,6 +169,88 @@
     tagName: 'div',
     className: 'lineitem pure-g',
 
+    ui: {
+      ads_list: '.ads-container',
+      targeting: '.targeting-container',
+      creatives_container: '.creatives-list-view',
+      creatives_content: '.creatives-content',
+      lineitem_sizes: '.lineitem-sizes',
+      start_date_editable: '.start-date-editable',
+      end_date_editable:   '.end-date-editable',
+      name_editable:       '.name-editable',
+      volume_editable:     '.volume-editable',
+      rate_editable:       '.rate-editable',
+      buffer_editable:     '.buffer-editable',
+      dup_btn: '.li-duplicate-btn',
+      delete_btn: '.li-delete-btn'
+    },
+
+    events: {
+      'click .toggle-targeting-btn': '_toggleTargetingDialog',
+      'click .toggle-creatives-btn': '_toggleCreativesDialog',
+      'click .li-add-ad-btn': '_addTypedAd',
+      'click .name .notes .close-btn': 'collapseLINotes',
+      'click .name .expand-notes': 'expandLINotes',
+      'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
+
+      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
+      'click .change-media-type': '_changeMediaType',
+      'click .li-duplicate-btn': '_duplicateLineitem',
+      'click .li-delete-btn': '_deleteLineitem'
+    },
+
+    modelEvents: {
+      'change:type': 'render'
+    },
+
+    triggers: {
+      'click .li-command-btn': 'lineitem:add_ad'
+    },
+
+    bindings: {
+      '.start-date-editable': {
+        observe: 'start_date',
+        onSet: function(val) {
+          return moment(val).format("YYYY-MM-DD");
+        }
+      },
+      '.end-date-editable':   'end_date',
+      '.name-editable': {
+        observe: 'name',
+        onSet: function(val) {
+          return val.replace(/^\s+|\s+$/g, '');
+        }
+      },
+      '.volume-editable': {
+        observe: 'volume',
+        onGet: function(val) {
+          return accounting.formatNumber(val, '');
+        }
+      },
+      '.rate-editable': {
+        observe: 'rate',
+        onGet: function(val) {
+          return accounting.formatMoney(val, '');
+        }
+      },
+      '.buffer-editable': {
+        observe: 'buffer',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      }
+    },
+
     getTemplate: function() {
       var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
       if (type == 'video') {
@@ -143,7 +264,7 @@
       var self = this;
 
       _.bindAll(this, "render");
-      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+      //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
 
       this.on('targeting:update', function(targeting) {
         self.model.get('targeting').revised_targeting = false;
@@ -170,51 +291,58 @@
     },
 
     setEditableFields: function() {
-      var view = this;
+      var view = this, model = view.model, collection = model.collection;
 
-      this.$el.find('.start-date .editable.custom').editable({
+      this.ui.start_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives start date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('start_date', date);
-            });
-          }
-
-          view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
-          _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
+          model.set('start_date', date);
+          var minDate = collection.getMinLIDate();
+          $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+          collection.order.set('start_date', minDate);
 
-          $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
-          view.model.collection.order.set('start_date', min_date); //update order backbone model
+          view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'Start date cannot be in the past';
+            view.$el.find('.start-date').addClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.start-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.start-date .errors_container').html(error_message);
         },
         datepicker: {
-          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+          startDate: ReachUI.initialStartDate(model.get('start_date'))
         }
       });
 
-      this.$el.find('.end-date .editable.custom').editable({
+      this.ui.end_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives end date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('end_date', date);
-            });
-          }
-
-          view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('end_date', date);
 
           // order's end date should be highest of all related LIs
-          var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
-          _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
-          $('.order-details .end-date .date').html(max_date).editable('option', 'value', moment(max_date)._d);
-          view.model.collection.order.set("end_date", max_date); //update backbone model
+          model.set('end_date', date);
+          var maxDate = collection.getMaxLIDate();
+          $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+          collection.order.set("end_date", maxDate);
+
+          view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'End date cannot be in the past';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.end-date .errors_container').html(error_message);
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
@@ -227,11 +355,11 @@
           tags: true,
           tokenSeparators: [",", " "],
           initSelection : function (element, callback) {
-              var data = [];
-              $(element.val().split(",")).each(function () {
-                  data.push({id: this, text: this});
-              });
-              callback(data);
+            var data = [];
+            $(element.val().split(",")).each(function () {
+              data.push({id: this, text: this});
+            });
+            callback(data);
           },
           ajax: {
             url: "/ad_sizes.json",
@@ -250,13 +378,25 @@
             }
           },
         },
+
         success: function(response, newValue) {
-          if (view.model.get('type') == 'Video') {
+          // https://github.com/collectivemedia/reachui/issues/543
+          // When a size is selected, the media type should default to the media type for that size
+          var size = newValue[0];
+          if (model.is_blank_li) {
+            if (model.mediaTypeSizes[size]) {
+              view._changeMediaType(model.mediaTypeSizes[size]);
+            } else {
+              view._changeMediaType(model.  mediaTypeSizes['default']);
+            }
+          }
+
+          if (model.get('type') == 'Video') {
             var value = newValue.join(', ');
-            view.model.set('companion_ad_size', value);
-            view.model.set('ad_sizes', view.model.get('master_ad_size') + (value ? ', ' + value : ''));
+            model.set('companion_ad_size', value);
+            model.set('ad_sizes', model.get('master_ad_size') + (value ? ', ' + value : ''));
           } else {
-            view.model.set('ad_sizes', newValue.join(', '));
+            model.set('ad_sizes', newValue.join(', '));
           }
         }
       });
@@ -266,13 +406,11 @@
         source: '/ad_sizes.json',
         typeahead: {
           minLength: 1,
-          remote: '/ad_sizes.json?search=%QUERY',
-          valueKey: 'size'
+          remote:    '/ad_sizes.json?search=%QUERY',
+          valueKey:  'size'
         },
         validate: function(value) {
-          var name = $(this).data('name');
-          var size = value;
-          if (name == 'master_ad_size' &&
+          if ($(this).data('name') == 'master_ad_size' &&
               !value.match(/^\d+x\d+$/i)) {
             return 'Only one master ad size is allowed';
           }
@@ -280,45 +418,56 @@
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
-        view.model.set(name, el.size);
-        var type = view.model.get('type');
-        if (type == 'Video') {
-          var companion_ad_size = view.model.get('companion_ad_size');
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + companion_ad_size);
+        model.set(name, el.size);
+        if (view.model.get('type') == 'Video') {
+          model.set('ad_sizes', model.get('master_ad_size') + ', ' + model.get('companion_ad_size'));
         }
       });
 
-      this.$el.find('.rate .editable.custom').editable({
+      this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          model.set('rate', newValue);
           view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressionsMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatMoney(value, '');
+        }
+      });
+      //this.ui.rate_editable.editable({});
+
+      this.ui.volume_editable.editable({
+        success: function(response, newValue) {
+          var value = parseFloat(String(newValue).replace(/,/g, ''));
+          value = Math.round(Number(value));
+          model.set('volume', value);
+          view._recalculateMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, '');
         }
       });
 
-      this.$el.find('.volume .editable.custom').editable({
+      this.ui.buffer_editable.editable({
         success: function(response, newValue) {
-          var name = $(this).data('name'), value;
-          if (name == 'buffer') {
-            view.model.setBuffer(parseFloat(newValue));
-          } else {
-            value = parseInt(String(newValue).replace(/,|\./g, ''));
-            view.model.set(name, value); //update backbone model;
-            view._recalculateMediaCost();
-            view.model.collection._recalculateLiImpressionsMediaCost();
-          }
+          model.setBuffer(parseFloat(newValue));
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
-      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+      this.ui.name_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
+          view._changeEditable($(this), newValue);
         }
       });
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
+      this.stickit();
+
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -331,23 +480,35 @@
 
       if(this.model.get('revised')) {
         this.$el.find('.li-number').addClass('revised');
+        if(this.model.get('id') == null) {
+          EventsBus.trigger('lineitem:logRevision', "New Line Item "+this.model.get('alt_ad_id')+" Created");
+        }
       }
       this.renderCreatives();
       this.renderTargetingDialog();
 
       this.ui.ads_list.html('');
       var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+      var showDeleteBtn = !this.model.get('uploaded');
       _.each(ads, function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
+        if (showDeleteBtn && !isNaN(parseInt(ad.get('source_id')))) {
+          showDeleteBtn = false;
+        }
+
         view.renderAd(ad);
       });
+
+      if (showDeleteBtn) {
+        this.showDupDeleteBtn();
+      }
     },
 
     renderTargetingDialog: function() {
-      var targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
-      this.ui.targeting.html(targetingView.render().el);
+      this.targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
+      this.ui.targeting.html(this.targetingView.render().el);
 
       ReachUI.showCondensedTargetingOptions.apply(this);
     },
@@ -364,7 +525,7 @@
 
     renderCreatives: function() {
       var view = this, is_cox_creative = false;
-      
+
       // check whether there are Cox Creatives
       if (this.model.get('creatives')) {
         _.each(this.model.get('creatives').models, function(creative) {
@@ -390,6 +551,14 @@
       }
     },
 
+    // method trigger change event to process contenteditable element by stickit
+    _changeEditable: function(el, value, callback) {
+        var val = callback ? callback(value) : value;
+        el.editable('setValue', value, callback);
+        el.trigger('change');
+        el.addClass('editable-unsaved');
+    },
+
     recalculateAdsImpressionsMediaCost: function(buffer) {
       var adImps, prevBuffer = parseFloat(this.model.get('buffer')),
           ratio = (100 + buffer) / (100 + prevBuffer),
@@ -400,6 +569,20 @@
         adImps = adImps * ratio;
         ad.set('volume', parseInt(adImps));
       });
+    },
+
+    showDupDeleteBtn: function(options) {
+      if (options && options.hide) {
+        if (this.model.get('uploaded')) {
+          this.ui.dup_btn.hide();
+        } else {
+          this.ui.dup_btn.show();  
+        }
+        this.ui.delete_btn.hide();
+      } else {
+        this.ui.dup_btn.show();
+        this.ui.delete_btn.show();
+      }
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -425,24 +608,47 @@
       }
     },
 
+    //  This method will open or close targeting dialog box
+    //  hideTargeting() will give call to server for validating key value and zipcodes
     _toggleTargetingDialog: function() {
-      var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.toggle-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      $(this.ui.targeting).toggle('slow');
+      var is_visible = $(this.ui.targeting).is(':visible');
 
-      if (is_visible) {
-        ReachUI.showCondensedTargetingOptions.apply(this);
+      if(is_visible){
+        this.targetingView.hideTargeting();
+      } else{
+        this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
+        $(this.ui.targeting).show('slow');
       }
     },
 
+    // after validating zipcode and key values this function will get call
+    onTargetingDialogToggle: function() {
+      this.$el.find('.toggle-targeting-btn').html('+ Add Targeting');
+    },
+
+    // for lineitem
+    // this function will update the key values and zipcodes after validating
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
+    },
+
     _addTypedAd: function(ev) {
-      var type = $(ev.currentTarget).data('type');
-      this.trigger('lineitem:add_ad', { "type": type });
+      var currentTarget = $(ev.currentTarget),
+          type       = currentTarget.data('type'),
+          platformId = currentTarget.data('platform-id');
+      if (platformId) {
+          var platforms = this.model.platforms,
+              platform = platforms.length > 0 ? platforms.findWhere({ "id": platformId}) : null;
+          this.trigger('lineitem:add_ad', { "type": type, "platform": platform });
+      } else {
+        this.trigger('lineitem:add_ad', { "type": type });
+      }
     },
 
     serializeData: function(){
       var data = this.model.toJSON();
       data.li_notes_collapsed = this.li_notes_collapsed;
+      data.platforms = this.model.platforms;
       return data;
     },
 
@@ -623,9 +829,8 @@
       this._deselectAllLIs();
     },
 
-    _changeMediaType: function(ev) {
-      ev.stopPropagation();
-      var type = $(ev.currentTarget).data('type');
+    _changeMediaType: function(ev_or_type) {
+      var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
       if (type == 'Video' && !this.model.get('master_ad_size')) {
         this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
       }
@@ -656,19 +861,117 @@
       if (custom_key_values) {
         targeting_options.push('<div class="custom-kv-icon" title="Custom Key/Value Targeting"></div>');
         targeting_options.push('<div class="targeting-options">' + custom_key_values + '</div>');
-      } 
+      }
       var toptions = this.$el.find('.targeting_options_condensed')[0];
       $(toptions).html(targeting_options.join(' '));
 
       this.model.set({ 'type': type });
     },
 
-    ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+    templateHelpers:{
+      lineitemStatusClass: function(){
+        if(this.lineitem.li_status)
+          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
+      }
+    },
+
+    _duplicateLineitem: function() {
+      var li = this.model,
+          li_view = this;
+
+      var selected_geos  = li.get('targeting').get('selected_geos') ? _.clone(li.get('targeting').get('selected_geos')) : [];
+      var zipcodes       = li.get('targeting').get('selected_zip_codes') ? _.clone(li.get('targeting').get('selected_zip_codes')) : [];
+      var kv             = li.get('targeting').get('selected_key_values') ? _.clone(li.get('targeting').get('selected_key_values')) : [];
+
+      var frequency_caps = [];
+      var notFilteredFrequencyCaps = li.get('targeting').get('frequency_caps') ? _.clone(li.get('targeting').get('frequency_caps')) : [];
+      _.each(notFilteredFrequencyCaps.models, function(fc) {
+        frequency_caps.push(_.omit(fc.attributes, 'id'));
+      });
+
+      var new_li = new LineItems.LineItem(),
+          creatives_list = null,
+          omitCreativesAttrs = [ 'id', 'source_id', 'ad_assignment_id', 'io_lineitem_id', 'lineitem_id', 'li_assignment_id' ];
+      new_li.setBlankLiFlag();
+
+      if(this.model.get('creatives').length > 0) {
+        var creatives = [];
+        _.each(this.model.get('creatives').models, function(c) {
+          var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+          creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
+        });
+        creatives_list = new ReachUI.Creatives.CreativesList(creatives);
+      } else {
+        creatives_list = new ReachUI.Creatives.CreativesList([])
+      }
+
+      new_li.set({
+        uploaded: false,
+        start_date: this.model.get('start_date'),
+        end_date: this.model.get('end_date'),
+        ad_sizes: this.model.get('ad_sizes'),
+        name: this.model.get('name'),
+        type: this.model.get('type'),
+        volume: this.model.get('volume'),
+        rate: this.model.get('rate'),
+        master_ad_size: this.model.get('master_ad_size'),
+        itemIndex: (this.model.collection.length + 1),
+        creatives: creatives_list,
+        targeting: new ReachUI.Targeting.Targeting({
+          selected_zip_codes: zipcodes,
+          selected_geos: selected_geos,
+          selected_key_values: kv,
+          frequency_caps: frequency_caps,
+          audience_groups: li.get('audience_groups'),
+          keyvalue_targeting: li.get('targeting').get('keyvalue_targeting'),
+          type: li.get('type')
+        })
+      }, { silent: true });
+      new_li.platforms = li.platforms;
+
+      _.each(li.ads, function(ad) {
+        var adAttributes = _.omit(_.clone(ad.attributes), 'id', 'source_id', 'io_lineitem_id');
+        var new_ad = new ReachUI.Ads.Ad(adAttributes), ad_creatives = [];
+
+        if (ad.get('creatives').length > 0) {
+          _.each(ad.get('creatives').models, function(c) {
+            var creativeAttributes = _.omit(_.clone(c.attributes), omitCreativesAttrs);
+            ad_creatives.push(new ReachUI.Creatives.Creative(creativeAttributes));
+          });
+        }
+
+        var adFrequencyCaps = [];
+        var notFilteredAdFrequencyCaps = ad.get('targeting').get('frequency_caps');
+        _.each(notFilteredAdFrequencyCaps.models, function(fc) {
+          adFrequencyCaps.push(_.omit(fc.attributes, 'id'));
+        });
+
+        new_ad.set({
+          start_date: moment(ad.get('start_date')).format("YYYY-MM-DD"),
+          end_date: moment(ad.get('end_date')).format("YYYY-MM-DD"),
+          creatives: new ReachUI.Creatives.CreativesList(ad_creatives),
+          targeting: new ReachUI.Targeting.Targeting({
+            selected_zip_codes: _.clone(ad.get('targeting').get('selected_zip_codes')),
+            selected_geos: _.clone(ad.get('targeting').get('selected_geos')),
+            selected_key_values: _.clone(ad.get('targeting').get('selected_key_values')),
+            frequency_caps: adFrequencyCaps,
+            audience_groups: _.clone(li.get('targeting').get('audience_groups')),
+            keyvalue_targeting: _.clone(ad.get('targeting').get('keyvalue_targeting')),
+            dfp_key_values: ad.dfp_key_values,
+            ad_dfp_id: ad.get('source_id'),
+            type: ad.get('type')
+          })
+        });
+
+        new_li.pushAd(new_ad);
+      });
+
+      this.model.collection.add(new_li);
+      this.model.collection.trigger('lineitem:added');
+    },
+
+    _deleteLineitem: function() {
+      this.model.collection.remove(this.model);
     },
 
     _toggleRevisionDialog: function(e) {
@@ -695,15 +998,15 @@
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
-        switch(attr_name) {
-          case 'rate':
-            revision = accounting.formatNumber(revision, 2);
-            break;
-          case 'volume':
-            revision = accounting.formatNumber(revision);
-            break;            
-        }
-        if(revision) {
+        if(revision != null) {
+          switch(attr_name) {
+            case 'rate':
+              revision = accounting.formatNumber(revision, 2);
+              break;
+            case 'volume':
+              revision = accounting.formatNumber(revision);
+              break;
+          }
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
 
@@ -713,12 +1016,14 @@
       });
 
       // log changes
-      EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
-         
+      if(logs.length>0) {
+        EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
+      }
+
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
-      this.model.collection._recalculateLiImpressionsMediaCost(); 
-      this.model.attributes['revised'] = null; 
+      this.model.collection._recalculateLiImpressionsMediaCost();
+      this.model.attributes['revised'] = null;
     },
 
     _declineAllRevisions: function(e) {
@@ -794,7 +1099,7 @@
       $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
 
       this.model.collection._recalculateLiImpressionsMediaCost();
-      this._recalculateMediaCost();   
+      this._recalculateMediaCost();
       this._checkRevisedStatus();
       $target_parent.remove();
     },
@@ -808,38 +1113,21 @@
 
       $target_parent.siblings('.revision').hide();
       $target_parent.remove();
-    },
-
-    events: {
-      'click .toggle-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-creatives-btn': '_toggleCreativesDialog',
-      'click .li-add-ad-btn': '_addTypedAd',
-      'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes',
-      'click .li-number': '_toggleLISelection',
-
-      // revisions
-      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
-
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
-      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
-      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
-
-      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
-      'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting',
-      'click .change-media-type': '_changeMediaType'
-    },
-
-    triggers: {
-      'click .li-command-btn': 'lineitem:add_ad'
     }
   });
 
   LineItems.LineItemListView = LineItems.BasicLineItemListView.extend({
     itemView: LineItems.LineItemView,
     template: JST['templates/lineitems/line_item_table'],
+
+    initialize: function() {
+      var view = this;
+      this.listenTo(this.collection, 'lineitem:added', function() {
+        var lastLIView = view.children.findByIndex(view.children.length - 1);
+        lastLIView._recalculateMediaCost();
+        lastLIView.showDupDeleteBtn();
+      });
+    },
 
     onRender: function() {
       if (this.collection.order.get('order_status') == 'Pushing') {
@@ -852,6 +1140,8 @@
       if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
         this.$el.find('.save-order-btn').hide();
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     serializeData: function(){
@@ -913,6 +1203,7 @@
                   }
                   if (li_errors["targeting"]) {
                     $('.lineitems-container .lineitem:nth(' + li_k + ') .custom-kv-errors.errors_container').first().html(li_errors["targeting"]);
+                    $('.lineitems-container .lineitem:nth(' + li_k + ') .name .errors_container').first().html(li_errors["targeting"]);
                   }
 
                   _.each(li_errors["creatives"], function(creative_errors, creative_k) {
@@ -944,6 +1235,7 @@
 
                     if (ad_errors && ad_errors["targeting"]) {
                       $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .custom-kv-errors.errors_container').html(ad_errors["targeting"]);
+                      $('.lineitems-container .lineitem:nth(' + li_k + ')').find('.ad:nth(' + ad_k + ') .name .errors_container').html(ad_errors["targeting"]);
                     }
 
                     if (ad_errors && ad_errors["creatives"]) {
@@ -952,7 +1244,7 @@
                           var fieldSelector = errors_fields_correspondence.creatives[fieldName];
                           var field = $('.lineitems-container .lineitem:nth(' + li_k + ')')
                                     .find('.ad:nth(' + ad_k + ') .creative:nth(' + creative_k + ') ' + fieldSelector);
- 
+
                           field.addClass('field_with_errors');
                           field.find('.errors_container').html(errorMsg);
                         });
@@ -1092,11 +1384,48 @@ m
       }
     },
 
+    _createNewLI: function() {
+      var li = new LineItems.LineItem(),
+          empty_creatives_list = new ReachUI.Creatives.CreativesList([]),
+          itemIndex = this.collection.length + 1,
+          view = this;
+      var lastLIView = view.children.length > 0 ? view.children.findByIndex(view.children.length - 1) : null;
+      li.set({
+        uploaded:  false,
+        itemIndex: itemIndex,
+        ad_sizes: '',
+        name: '',
+        creatives: empty_creatives_list,
+        start_date: null,
+        end_date: null,
+        targeting: new ReachUI.Targeting.Targeting({
+          audience_groups: lastLIView ? lastLIView.model.get('targeting').get('audience_groups') : []
+        })
+      });
+      li.setBlankLiFlag();
+
+      var platforms = [];
+      if (this.collection.length > 0) {
+        var lastLI = this.collection.at(this.collection.length - 1);
+        li.platforms = lastLI.platforms;
+        this.collection.add(li);
+        this.collection.trigger('lineitem:added');
+      } else {
+        platforms = new ReachUI.AdPlatforms.PlatformList();
+        platforms.fetch().then(function() {
+          li.platforms = platforms;
+          view.collection.add(li);
+          view.collection.trigger('lineitem:added');
+        });
+      }
+    },
+
     events: {
       'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
       'click .submit-am-btn':         '_submitOrderToAm',
-      'click .submit-trafficker-btn': '_submitOrderToTrafficker'
+      'click .submit-trafficker-btn': '_submitOrderToTrafficker',
+      'click .create-li-btn': '_createNewLI'
     },
 
     triggers: {

@@ -7,6 +7,15 @@ FactoryGirl.define do
     advertiser_type { FactoryGirl.singleton :advertiser_type }
   end
 
+  factory :dfp_pulled_order, :class => "Order" do
+    name  "Rodenbaugh's on Audience Network / TWCC"
+    start_date 1.day.from_now
+    end_date   22.day.from_now
+    network { FactoryGirl.singleton :network }
+    advertiser { FactoryGirl.singleton :advertiser }
+    user
+  end
+
   factory :order do
     name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977"
     start_date 1.day.from_now
@@ -29,8 +38,6 @@ FactoryGirl.define do
 
   factory :io_detail do
     state 'draft'
-    #media_contact
-    #billing_contact
     client_advertiser_name { FactoryGirl.singleton(:advertiser).name }
     order_id  { FactoryGirl.singleton(:order).id }
     media_contact_id  { FactoryGirl.singleton(:media_contact).id }
@@ -75,11 +82,13 @@ FactoryGirl.define do
     value 666.00
     ad_sizes "160x600, 300x250, 728x90"
     alt_ad_id "1"
-    targeted_zipcodes "12345, 56789"
     type "Display"
     media_type
     user
     proposal_li_id "#{SecureRandom.random_number(10000)}"
+    before(:create) do |li|
+      FactoryGirl.singleton :network
+    end
   end
 
   factory :lineitem_video, :parent => :lineitem, :class => 'Video' do
@@ -108,6 +117,15 @@ FactoryGirl.define do
     order
     network { FactoryGirl.singleton :network }
     media_type { MediaType.first || FactoryGirl.singleton(:display_media_type) }
+  end
+
+  factory :ad_assignment do
+    ad
+    creative
+    start_date Time.now
+    end_date (Time.now + 5.days)
+    network_id 6
+    data_source_id 1
   end
 
   factory :io_asset do
@@ -184,25 +202,32 @@ FactoryGirl.define do
     name "cm.adult"
   end
 
-  factory :city do
-    name "Ala"
-    region_name "Trento"
-    country_code "IT"
+  factory :geo_target do
+    country_code "US"
+    targetable true
   end
 
-  factory :country do
-    abbr "US"
-    name "United States"
+  factory :city, :class => GeoTarget::City, :parent => :geo_target do
+    name "New York"
+    source_id        1023191
+    source_parent_id 21167
+    state
   end
 
-  factory :state do
-    abbr "US"
+  factory :country, :class => GeoTarget::Country, :parent => :geo_target  do
     name "United States"
+    source_id 2840
+  end
+
+  factory :state, :class => GeoTarget::State, :parent => :geo_target  do
+    name "New York"
+    source_id 21167
     country
   end
 
-  factory :designated_market_area do
-    code 541
+  factory :designated_market_area, :class => GeoTarget::DesignatedMarketArea, :parent => :geo_target do
+    id 541
+    source_id 1015412
     name "Lexington"
   end
 
@@ -226,6 +251,19 @@ FactoryGirl.define do
 
   factory :role do
     name "reach_ui"
+  end
+
+  factory :platform do
+    name "Test Platform Name"
+    dfp_key "vid"
+    naming_convention "ADP"
+    ad_type "STANDARD"
+    priority 8
+    enabled true
+    media_type
+    site { FactoryGirl.singleton :site }
+    network { FactoryGirl.singleton :network }
+    dfp_site_name "WRAL"
   end
 
 end

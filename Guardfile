@@ -1,5 +1,5 @@
 group :frontend do
-  guard :jasmine, server: :webrick, server_mount: '/specs', specdoc: :always, console: :always do
+  guard :jasmine, server: :webrick, server_mount: '/specs', specdoc: :always, console: :always, errors: :always do
     watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$}) { 'spec/javascripts' }
     watch(%r{spec/javascripts/.+_spec\.(js\.coffee|js|coffee)$})
     watch(%r{spec/javascripts/fixtures/.+$})

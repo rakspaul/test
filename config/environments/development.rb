@@ -34,7 +34,7 @@ Reachui::Application.configure do
   ## Custom application configurations
 
   # Set the reporting server url
-  config.report_service_uri = 'http://stg-cdb1.collective-media.net/export'
+  config.report_service_uri = 'http://qa-cm.ssp.collective-media.net/export'
 
   # audience group segment search
   # comma separated string of network ids
@@ -63,4 +63,5 @@ Reachui::Application.configure do
     :password => "T4idav2wo5mP"
   }
 
+  config.backbone_service_url = "http://127.0.0.1:9091/"
 end

@@ -4,7 +4,7 @@ Reach UI
 ##Setup development environment
 
 ####Prerequisite:
-1. ssh access to ```ampdb1.collective-media.net```
+1. ssh access to ```qa-ampapp1.collective-media.net```
 2. access to https://github.com/collectivemedia/amts repo
 3. install rvm (https://rvm.io)
 4. install postgresql and make sure it is up and running
@@ -32,10 +32,10 @@ $ cd amts
 $ bundle install
 ```
 
-- Get the latest snapshort of production db
+- Get the latest snapshort of qa db
 
 ```bash
-$ ruby lib/amp_db.rb -s "ampdb1.collective-media.net"
+$ ruby lib/amp_db.rb -s "qa-ampapp1.collective-media.net"
 ```
 
 ####Setup reachui code
@@ -69,7 +69,8 @@ There are branches for each environments. 'stg' is for stage environment and 'qa
 
 1. Switch to `qa` branch.
 2. Get the latest `git pull origin qa`
-3. Deploy `cap qa deploy`
+3. Merge your branch (optional) and push it to remote: `git push origin qa`
+4. Deploy `cap qa deploy`
 
 Rails style guide:
 -
@@ -179,6 +180,8 @@ Additional libraries could be included in spec/javascripts/helpers/spec_helper.j
 
     //= require jasmine-jquery
     //= require sinon
+
+**Important! Don't create pending jasmine example with xit or pending() call. Guard interprets them as failed.**
 
 ###RoR specs:
 

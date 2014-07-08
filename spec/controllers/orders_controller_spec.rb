@@ -6,9 +6,6 @@ describe OrdersController do
   let(:reach_client) { FactoryGirl.singleton(:reach_client) }
   let(:user) { FactoryGirl.singleton(:user) }
   let(:advertiser) { FactoryGirl.singleton(:advertiser) }
-  let!(:ad_sizes) { [ FactoryGirl.create(:ad_size_160x600),
-                     FactoryGirl.create(:ad_size_300x250),
-                     FactoryGirl.create(:ad_size_728x90) ] }
   let(:io_detail) {FactoryGirl.create(:io_detail)}
 
   before do
@@ -24,10 +21,10 @@ describe OrdersController do
     File.stub(:unlink).and_call_original
     File.stub(:unlink).with(path).and_return(file)
     File.stub(:unlink).with(path2).and_return(file)
-    us = FactoryGirl.create(:country)
-    FactoryGirl.create(:state, name: "Alabama", country: us)
-    FactoryGirl.create(:designated_market_area, name: "Lexington", code: 541)
-    FactoryGirl.create(:city, name: "Ala", country_code: "IT", region_name: "Trento")
+    FactoryGirl.create(:country)
+    FactoryGirl.create(:state)
+    FactoryGirl.create(:designated_market_area)
+    FactoryGirl.create(:city)
   end
 
   before :each do
@@ -56,7 +53,7 @@ describe OrdersController do
         }.to change(Order, :count).by(1)
       end
 
-      it "create a new order and sets trafficking contact correctly" do        
+      it "create a new order and sets trafficking contact correctly" do
         post :create, io_request
         expect(Order.last.io_detail.trafficking_contact.full_name).to eq(io_request["order"]["trafficking_contact_name"])
       end
@@ -130,37 +127,72 @@ describe OrdersController do
       end
     end
 
-    context "vaild order w/ City and State and DMA targeting" do
-      it "creates correct links between city/dma/state targeting and Lineitems" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+    context "order pulled from DFP" do
+      before do
+        @order = FactoryGirl.create :dfp_pulled_order
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #1"
+        FactoryGirl.create :ad, order_id: @order.id, description: "Test ad #2"
+        @unknown_reach_client = FactoryGirl.create :reach_client, name: "Unknown"
+      end
 
+      it "opens an order page successfully" do
+        get :show, {id: @order.id}
+      end
+
+      it "assigns 'Unknown' reach client to DFP-pulled order" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.reach_client).to eq(@unknown_reach_client)
+      end
+
+      it "creates a note with 'Imported Order' text" do
+        get :show, {id: @order.id}
+        expect(@order.order_notes.last.note).to eq('Imported Order')
+      end
+
+      it "creates io_detail on order open" do
+        expect {
+          get :show, {id: @order.id}
+        }.to change(IoDetail, :count).by(1)
+      end
+
+      it "assigns draft status to order on open" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.state).to eq('draft')
+      end
+
+      it "assigns client_advertiser_name to io_detail" do
+        get :show, {id: @order.id}
+        expect(@order.io_detail.client_advertiser_name).to eq(@order.advertiser.name.to_s)
+      end
+    end
+
+    context "vaild order w/ City and State and DMA targeting" do
+      before :each do
+        @us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        @state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        @city = GeoTarget::City.find_by name: "New York", source_parent_id: @state.source_id, country_code: "US"
+        @dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
+      end
+
+      it "creates correct links between city/dma/state targeting and Lineitems" do
+        expect(@us).to be
         expect {
           expect {
             expect {
               post :create, io_request
-            }.to change(state.lineitems, :count).by(1)
-          }.to change(city.lineitems, :count).by(1)
-        }.to change(dma.lineitems, :count).by(1)
+            }.to change(@state.lineitems, :count).by(1)
+          }.to change(@city.lineitems, :count).by(1)
+        }.to change(@dma.lineitems, :count).by(1)
       end
 
       it "creates correct links between city/dma/state targeting and Ads" do
-        us = Country.where(['abbr = ?', 'US']).first
-        expect(us).to be
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
-
         expect {
           expect {
             expect {
               post :create, io_request_w_ads
-            }.to change(state.ads, :count).by(1)
-          }.to change(city.ads, :count).by(1)
-        }.to change(dma.ads, :count).by(1)
+            }.to change(@state.ads, :count).by(1)
+          }.to change(@city.ads, :count).by(1)
+        }.to change(@dma.ads, :count).by(1)
       end
     end
 
@@ -254,41 +286,41 @@ describe OrdersController do
         expect(data[:errors][:lineitems]['0'][:lineitems]).to include(:start_date)
       end
 
-      it "return error on invalid keyvalue targeting on ad level" do
-        params = io_request_w_ads
+      # it "return error on invalid keyvalue targeting on ad level" do
+      #   params = io_request_w_ads
 
-        {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
-          params['order']['lineitems'].each do |li|
-            li['ads'].each do |ad|
-              ad['ad']['targeting']['targeting']['keyvalue_targeting'] = error_request
-            end
-          end
+      #   {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
+      #     params['order']['lineitems'].each do |li|
+      #       li['ads'].each do |ad|
+      #         ad['ad']['targeting']['targeting']['keyvalue_targeting'] = error_request
+      #       end
+      #     end
 
-          expect{
-            post :create, params
-          }.to change(Order, :count).by(0)
+      #     expect{
+      #       post :create, params
+      #     }.to change(Order, :count).by(0)
 
-          data = json_parse(response.body)
-          expect(data[:errors][:lineitems]['0'][:ads]['0'][:targeting]).to include(error_response)
-        end
-      end
+      #     data = json_parse(response.body)
+      #     expect(data[:errors][:lineitems]['0'][:ads]['0'][:targeting]).to include(error_response)
+      #   end
+      # end
 
-      it "return error on invalid keyvalue targeting on lineitem level" do
-        params = io_request_w_ads
+      # it "return error on invalid keyvalue targeting on lineitem level" do
+      #   params = io_request_w_ads
 
-        {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
-          params['order']['lineitems'].each do |li|
-            li['lineitem']['targeting']['targeting']['keyvalue_targeting'] = error_request
-          end
+      #   {'btg' => "Key value format should be [key]=[value]", 'btg=123 bth=33' => "Key values should be comma separated"}.each do |error_request, error_response|
+      #     params['order']['lineitems'].each do |li|
+      #       li['lineitem']['targeting']['targeting']['keyvalue_targeting'] = error_request
+      #     end
 
-          expect{
-            post :create, params
-          }.to change(Order, :count).by(0)
+      #     expect{
+      #       post :create, params
+      #     }.to change(Order, :count).by(0)
 
-          data = json_parse(response.body)
-          expect(data[:errors][:lineitems]['0'][:targeting]).to include(error_response)
-        end
-      end
+      #     data = json_parse(response.body)
+      #     expect(data[:errors][:lineitems]['0'][:targeting]).to include(error_response)
+      #   end
+      # end
     end
 
     context "ads" do
@@ -404,7 +436,7 @@ describe OrdersController do
         order = Order.find(params['id'])
         expect(order.user).to eq(order.io_detail.trafficking_contact)
       end
- 
+
       it "update ad start date" do
         li = order.lineitems.first
         ad = order.lineitems.first.ads.first
@@ -414,6 +446,33 @@ describe OrdersController do
 
         put :update, params
         expect(json_parse(response.body)).not_to include(:errors)
+      end
+
+      it "creates new advertiser on update" do
+        params['order']['advertiser_name'] = "new advertiser"
+        expect{
+          put :update, params
+        }.to change(Advertiser,:count).by(1)
+      end
+
+      it "delete lineitem" do
+        lineitem = order.lineitems.first
+        params['order']['lineitems'] = []
+        put :update, params
+        expect(Lineitem.find_by_id(lineitem.id)).to be_nil
+      end
+
+      it "create new creatives" do
+        lineitem = order.lineitems.first
+        expect {
+          put :update, params
+        }.to change(Creative, :count).by(2)
+      end
+
+      it "update default creative type to InternalRedirectCreative" do
+        lineitem = order.lineitems.first
+        put :update, params
+        expect(Creative.last.creative_type).to eq('InternalRedirectCreative')
       end
     end
   end
@@ -529,6 +588,7 @@ private
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
+    params['order']['advertiser_name'] = advertiser.name
     params['order']['lineitems'].each do |li|
       li['lineitem']['proposal_li_id'] = "#{SecureRandom.random_number(10000)}"
       li['lineitem']['start_date'] = start_date
@@ -540,12 +600,12 @@ private
     end
     li = params['order']['lineitems'].first
     if li
-      us = Country.where(['abbr = ?', 'US']).first
-      alabama = State.find_by name: "Alabama", country_id: us.id
-      ala = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-      dma = DesignatedMarketArea.find_by name: "Lexington"
+      us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+      state = GeoTarget::State.find_by name: "New York", country_code: "US"
+      city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+      dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: ala.id, title: "Ala/Trento/IT", type: "City"}, {id: alabama.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+      li['lineitem']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
 
       creative = li['lineitem']['creatives'].first
       creative['creative']['ad_size'] = "1x1"
@@ -591,12 +651,12 @@ private
 
       ad = li['ads'].first
       if ad
-        us = Country.where(['abbr = ?', 'US']).first
-        state = State.find_by name: "Alabama", country_id: us.id
-        city = City.find_by name: "Ala", region_name: "Trento", country_code: "IT"
-        dma = DesignatedMarketArea.find_by name: "Lexington"
+        us = GeoTarget::Country.where(['country_code = ?', 'US']).first
+        state = GeoTarget::State.find_by name: "New York", country_code: "US"
+        city = GeoTarget::City.find_by name: "New York", source_parent_id: state.source_id, country_code: "US"
+        dma = GeoTarget::DesignatedMarketArea.find_by name: "Lexington"
 
-        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "Ala/Trento/IT", type: "City"}, {id: state.id, title: "Alabama/United States", type: "State"}, {id: dma.code, title: "Lexington", type: "DMA"}]
+        ad['ad']['targeting']['targeting']['selected_geos'] = [{id: city.id, title: "New York/New York/US", type: "City"}, {id: state.id, title: "New York/United States", type: "State"}, {id: dma.id, title: "Lexington", type: "DMA"}]
         creative = ad['ad']['creatives'].first
         creative['creative']['ad_size'] = "1x1"
       end

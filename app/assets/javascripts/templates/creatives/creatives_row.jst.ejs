@@ -1,8 +1,11 @@
-<div class="pure-u-1-24 delete-btn-container">
+<div class="pure-u-1-24 delete-btn-container" style="width:4.5%;">
   <% if(isNaN(parseInt(creative.source_id))) { %>
-  <div class="delete-btn" style="display:none;" title="Delete"></div>
+  <div class="delete-btn pull-left" style="display:none;" title="Delete"></div>
   <% } else { %>
   <div class="dfp-success"></div>
+  <% } %>
+  <% if (creative.ad_type == 'Video') { %>
+       <span id="caution-symbol" data-toggle="tooltip" data-trigger="click hover" title="Creative for video ads will not push to DFP" class="video-creatives-caution exclaim-yellow-icon pull-right"></span>
   <% } %>
 </div>
 
@@ -45,5 +48,5 @@
 <div class="pure-u-1-24 creative-type">
   <span class="editable" data-name="creative_type" data-type="select" data-source="[{value: 'ThirdPartyCreative', text: 'Third Party'}, {value: 'InternalRedirectCreative', text: 'Inred'}]" data-value="<%= creative.creative_type %>"><%= creative.creative_type == "ThirdPartyCreative" ? "Third Party" : "Inred" %></span>
 </div>
-  
+
 <div class="pure-u-1-12 client-ad-id number-field"><span><%= creative.client_ad_id %></span></div>

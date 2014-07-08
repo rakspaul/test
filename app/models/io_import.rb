@@ -6,7 +6,7 @@ class IoImport
  attr_reader :order, :order_name_dup, :original_filename, :lineitems, :inreds, :advertiser, :io_details, :reach_client,
 :account_contact, :media_contact, :trafficking_contact, :sales_person, :billing_contact,
 :sales_person_unknown, :account_contact_unknown, :media_contact_unknown, :billing_contact_unknown, :tempfile,
-:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users, 
+:trafficking_contact_unknown, :notes, :media_contacts, :billing_contacts, :reachui_users,
 :is_existing_order, :existing_order, :existing_order_id, :revisions, :revised_io_filename, :original_created_at
 
   def initialize(file, current_user, current_order_id = nil)
@@ -69,7 +69,7 @@ class IoImport
     if @is_existing_order
       li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_lineitems + @lineitems[li_count..-1]
+      @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
     else
       @lineitems
     end
@@ -83,15 +83,25 @@ class IoImport
     end
 
     def read_order_and_details
-      @order = Order.new(@reader.order)
-      @order.user = @current_user
-      @order.network = @current_user.network
-      @order.advertiser = @advertiser
+      if @is_existing_order
+        @order = @existing_order
+      else
+        @order = Order.new(@reader.order)
+        @order.user = @current_user
+        @order.network = @current_user.network
+        @order.advertiser = @advertiser
+        @order_name_dup = Order.exists?(name: @order.name, network: @order.network)
+      end
+
       @order.source_id = @existing_order.source_id if @current_order_id
-
-      @order_name_dup = Order.exists?(name: @order.name)
-
-      @reach_client = @is_existing_order ? @existing_order.io_detail.reach_client : ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network)
+      if @is_existing_order
+        @reach_client = @existing_order.io_detail.reach_client
+        @reach_client = @current_user.network.unknown_reach_client unless @existing_order.io_detail
+      else
+        @reach_client = 
+          ReachClient.find_by(name: @reader.reach_client_name, network: @current_user.network) ||
+          @current_user.network.unknown_reach_client
+      end
 
       if @reach_client
         @billing_contacts = BillingContact.for_user(@reach_client.id).order(:name).all
@@ -127,8 +137,13 @@ class IoImport
       @lineitems = []
       index = 1
 
+      media_types = {}
+      @current_user.network.media_types.each do |mt|
+        media_types[mt.category] = mt
+      end
+
       @reader.lineitems do |lineitem|
-        media_type = @current_user.network.media_types.find_by category: lineitem[:type]
+        media_type = media_types[lineitem[:type]]
         li = Lineitem.new(lineitem)
         li.order = @order
         li.alt_ad_id = index
@@ -138,6 +153,7 @@ class IoImport
         li.buffer = @reach_client ? @reach_client.try(:client_buffer) : 0
         default_targeting = lineitem[:type].constantize.const_defined?('DEFAULT_TARGETING') ? "#{lineitem[:type]}::DEFAULT_TARGETING".constantize : nil
         li.keyvalue_targeting = default_targeting if default_targeting
+        li.uploaded = true
         @lineitems << li
         index += 1
       end
@@ -224,7 +240,7 @@ class IoImport
 
     def read_notes
       # array with hash in it, because OrdersController#show also use this format
-      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]    
+      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]
     end
 
     def find_sales_person
@@ -257,7 +273,7 @@ class IoImport
 
     def find_media_contact
       c = @reader.media_contact
-      mc = MediaContact.where(name: c[:name], email: c[:email]).first
+      mc = MediaContact.for_user(@reach_client.try(:id)).where(name: c[:name], email: c[:email]).first
       if !mc
         @media_contact_unknown = true
         mc = MediaContact.new(name: c[:name], email: c[:email], phone: c[:phone])
@@ -269,7 +285,7 @@ class IoImport
 
     def find_billing_contact
       c = @reader.billing_contact
-      bc = BillingContact.where(name: c[:name], email: c[:email]).first
+      bc = BillingContact.for_user(@reach_client.try(:id)).where(name: c[:name], email: c[:email]).first
       if !bc
         @billing_contact_unknown = true
         bc = BillingContact.new(name: c[:name], email: c[:email], phone: c[:phone])
@@ -350,7 +366,7 @@ class IOReader
   def advertiser_name
     if !existing_order?
       "" # https://github.com/collectivemedia/reachui/issues/327
-      # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet. 
+      # Advertiser Name is editable, but a user might not notice it is populated, and once the order is pushed to DFP it is no longer editable. It's fine if Client's Advertiser Name is populated, but Advertiser Name needs to be blank, because that needs to map to the Reach client, not the advertiser's name on the spreadsheet.
     else
       @existing_order.advertiser.try(:name).to_s
     end
@@ -416,6 +432,7 @@ class IOExcelFileReader < IOReader
   def open
     @spreadsheet = open_based_on_file_extension
     @spreadsheet.default_sheet = @spreadsheet.sheets.first
+    set_line_item_start_row
   end
 
   def change_sheet(num, &block)
@@ -423,6 +440,18 @@ class IOExcelFileReader < IOReader
     @spreadsheet.default_sheet = @spreadsheet.sheets[num]
     yield
     @spreadsheet.default_sheet = default_sheet
+  end
+
+  def set_line_item_start_row
+    row = 0
+    while (!@spreadsheet.cell('A', row).to_s.match(/^start date/i) && !@spreadsheet.cell('B', row).to_s.match(/^end date/i))
+      row += 1
+    end
+    @line_item_start_row = row + 1 #row is table header row+1 will be the 1st line item
+  end
+
+  def get_line_item_start_row
+    @line_item_start_row || LINE_ITEM_START_ROW
   end
 
   def client_order_id
@@ -495,7 +524,7 @@ class IOExcelFileReader < IOReader
   end
 
   def lineitems(&block)
-    row = LINE_ITEM_START_ROW
+    row = get_line_item_start_row
     while (cell = @spreadsheet.cell('A', row)) && cell.present? && parse_date(cell).instance_of?(Date)
       yield_li_from_row(row, block)
       row += 1
@@ -525,7 +554,7 @@ class IOExcelFileReader < IOReader
   end
 
   def find_notes
-    row = LINE_ITEM_START_ROW
+    row = get_line_item_start_row
     while !@spreadsheet.cell('A', row).to_s.match(/^notes/i)
       row += 1
     end

@@ -1,11 +1,29 @@
-<div class="li-command-btn pull-left" title="Create Ad"></div>
+<div class="ad-type-dropdown">
+  <div class="li-commands-btn pull-left" title="Create Ad" id="adTypeDropdown" data-toggle="dropdown">
+  </div>
+  <div class="li-duplicate-btn pull-left" style="display:none;" title="Duplicate LI"></div>
+  <div class="li-delete-btn delete-btn pull-left" style="display:none;" title="Delete LI"></div>
+  <ul class="dropdown-menu types-dropdown" role="menu" aria-labelledby="adTypeDropdown">
+    <% if (lineitem.type == 'Display') { %>
+    <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="Display">Create DFP Ad</a></li>
+    <% } %>
+    <% if (platforms && platforms.length > 0) { %>
+      <% type_platforms = platforms.findByType(lineitem.type) %>
+      <% for (var i in type_platforms) { %>
+        <% platform = type_platforms[i].attributes %>
+        <li role="presentation"><a class="li-add-ad-btn" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="<%= platform.media_type %>" data-platform-id="<%= platform.id %>">Create <%= platform.name %> Ad</a></li>
+      <% } %>
+    <% } %>
+  </ul>
+</div>
 
 <div class="li-table">
   <div class="li-row">
     <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
-      <span>Contract LI<span>
+      <span>Contract LI</span>
       <div style="clear:both"></div>
-      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span>
+      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
+
       <div class="revised-dialog" style="display:none">
         <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
         <span class="decline-all-btn"><span class="decline-img"/>Decline All Revisions</span>
@@ -14,7 +32,7 @@
 
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
     <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable start-date-editable" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1" contenteditable="true">
         <%= lineitem.start_date %>
       </span>
       <% if(lineitem.revised_start_date) { %>
@@ -34,7 +52,7 @@
 
     <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
     <div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable end-date-editable" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1" contenteditable="true">
         <%= lineitem.end_date %>
       </span>
       <% if(lineitem.revised_end_date) { %>
@@ -80,7 +98,7 @@
     </div>
 
     <div class="pure-u-1-3 name">
-      <span class="editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text">
+      <span class="editable name-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" contenteditable="true">
         <%= lineitem.name %>
       </span>
 
@@ -111,10 +129,10 @@
       <span class="toggle-targeting-btn operation">+ Add Targeting</span>
       <div class="targeting_options_condensed" style="clear:both"></div>
     </div>
-      
+
     <div class="pure-u-1-12 volume number-field">
-      <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
-        <%= accounting.formatNumber(lineitem.volume) %>
+      <span class="editable volume-editable" data-type="text" data-name="volume" data-pk="1" contenteditable="true">
+        <%= lineitem.volume %>
       </span>
       <% if(lineitem.revised_volume != null) { %>
         <div style="clear:both"></div>
@@ -125,13 +143,13 @@
         </div>
       <% } %>
       <div class="errors_container"></div>
-      <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
-        <%= accounting.formatNumber(lineitem.buffer, 2) %>
+      <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
+        <%= lineitem.buffer %>
       </span>%
     </div>
     <div class="pure-u-1-12 rate number-field">
-      $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
-        <%= accounting.formatMoney(lineitem.rate, '') %>
+      $<span class="editable rate-editable" data-type="text" data-name="rate" data-pk="1" contenteditable="true">
+        <%= lineitem.rate %>
       </span>
       <% if(lineitem.revised_rate != null) { %>
         <div style="clear:both"></div>
@@ -151,6 +169,9 @@
       <div class="errors_container"></div>
     </div>
   </div>
+  <div class="pure-u-1 lineitem-status <%= lineitemStatusClass() %>" title="<%= lineitem.li_status%>">
+    <%= lineitem.li_status%>
+  </div>
 </div>
 
 <div class="targeting-container" style="display:none"></div>
@@ -160,7 +181,7 @@
 <div style="clear:both"></div>
 
 <div class="ads-container"></div>
-<div style="clear:both"></div>  
+<div style="clear:both"></div>
 
 <div class="copy-targeting-btn dropdown" style="display:none">
   <div data-toggle="dropdown" id="copyTargeting">Copy</div>

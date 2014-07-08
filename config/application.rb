@@ -20,6 +20,7 @@ module Reachui
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     # config.action_dispatch.default_headers = { 'Header-Name' => 'Header-Value', 'X-Frame-Options' => 'ALLOW-FROM http://172.27.165.55:3004' }
+    config.i18n.enforce_available_locales = false
 
     # Rails 4 by defaults adds X-Frame-Options response header with a value "SAMEORIGIN",
     # because of this application will not load if the parent application and child application are from different domains.
@@ -27,6 +28,7 @@ module Reachui
     config.action_dispatch.default_headers.clear()
 
     config.autoload_paths += %W(#{config.root}/app/models/lineitems)
+    config.autoload_paths += %W(#{config.root}/app/models/geo_target)
 
     config.compass.css_dir = "public/stylesheets"
   end

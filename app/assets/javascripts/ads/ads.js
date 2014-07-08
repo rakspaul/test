@@ -7,8 +7,13 @@
         rate: 0.0,
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
-        _delete_creatives: []
+        _delete_creatives: [],
+        platform_id: null
       }
+    },
+
+     _default_keyvalue_targeting: {
+      "companion": "vid=_default"
     },
 
     url: function() {
@@ -45,6 +50,7 @@
       if (uniqFrequencyCaps.length > 0) {
         ad['frequency_caps_attributes'] = uniqFrequencyCaps;
       }
+      delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
     }
@@ -94,24 +100,6 @@
       creatives_container: '.ads-creatives-list-view',
       creatives_content: '.creatives-content',
       ads_sizes: '.ads-sizes'
-    },
-
-    _validateAdImpressions: function() {
-      var li_imps = this.options.parent_view.model.get('volume');
-      var sum_ad_imps = 0;
-
-      _.each(this.options.parent_view.model.ads, function(ad) {
-        var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        sum_ad_imps += imps;
-      });
-
-      var li_errors_container = this.options.parent_view.$el.find('.volume .errors_container')[0];
-
-      if(sum_ad_imps > li_imps) {
-        $(li_errors_container).html("Ad Impressions exceed Line Item Impressions");
-      } else {
-        $(li_errors_container).html("");
-      }
     },
 
     _recalculateMediaCost: function(options) {
@@ -171,24 +159,43 @@
           self.$el.find('.toggle-ads-creatives-btn').html(creatives_visible ? edit_creatives_title : 'Hide Creatives');
         });
       }
+
+      if (creatives.length > 0 && this.model.get('type') == 'Video')
+        this.$el.find("#caution-symbol-ad").show();
+      else
+        this.$el.find("#caution-symbol-ad").hide();
     },
 
+    //  This method will open or close targeting dialog box
+    //  hideTargeting() will give call to server for validating key value and zipcodes
     _toggleTargetingDialog: function() {
-      var attr = this.model.get('targeting').attributes;
+      var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(this.targetingView._isGeoTargeted())
+      if(is_visible){
+        this.targetingView.hideTargeting();
+      } else{
+        this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
+        $(this.ui.targeting).show('slow');
+      }
+    },
+
+    // after validating zipcode and key values this function will get call
+    onTargetingDialogToggle: function() {
+      if(this.targetingView._isGeoTargeted()) {
         this.$el.find("#caution-symbol").hide();
-      else
+      } else {
         this.$el.find("#caution-symbol").show();
+      }
 
       $('.ad > .name').height('');
-      var is_visible = ($(this.ui.targeting).css('display') == 'block');
-      this.$el.find('.toggle-ads-targeting-btn').html(is_visible ? '+ Add Targeting' : 'Hide Targeting');
-      $(this.ui.targeting).toggle('slow');
 
-      if (is_visible) {
-        ReachUI.showCondensedTargetingOptions.apply(this);
-      }
+      this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
+    },
+
+    // for ads
+    // this function will update the key values and zipcodes after validating
+    _hideTargetingDialog: function() {
+      ReachUI.showCondensedTargetingOptions.apply(this);
     },
 
     _getCreativesSizes: function() {
@@ -213,7 +220,7 @@
           ad_sizes = li.get('companion_ad_size');
         } else if (li_type == 'Video') {
           var companion_size = li.get('companion_ad_size');
-          ad_sizes = li.get('master_ad_size') + (companion_size ? ', ' + li.get('companion_ad_size') : '');
+          ad_sizes = li.get('master_ad_size');// + (companion_size ? ', ' + li.get('companion_ad_size') : '');
         }
         if (ad_sizes) {
           this.model.set({ 'size': ad_sizes }, { silent: true });
@@ -230,31 +237,30 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
+          self.model.set({ 'rate': newValue });
           self._recalculateMediaCost();
-          self._validateAdImpressions();
         }
       });
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(resp, newValue) {
           var sum_ad_imps = 0,
-            imps = self.options.parent_view.model.get('volume');
+            imps = self.options.parent_view.model.get('volume'),
+            value = parseFloat(String(newValue).replace(/,/g, ''))
 
-          self.model.set({ 'volume': parseInt(String(newValue).replace(/,|\./g, '')) },
-                         { silent: true}); //update backbone model;
+          self.model.set({ 'volume': Math.round(Number(value)) }); //update backbone model;
 
           _.each(self.options.parent_view.model.ads, function(ad) {
-            var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+            var imps = parseInt(String(ad.get('volume')).replace(/,/g, ''));
             sum_ad_imps += imps;
           });
 
           self._recalculateMediaCost({ silent: true });
-          self._validateAdImpressions();
 
           var buffer = self.options.parent_view.model.get('buffer');
           buffer = (sum_ad_imps / imps * 100) - 100;
           self.options.parent_view.model.set({ 'buffer': buffer });
+          self.render();
         },
         validate: function(value) {
           if($.trim(value) == '') {
@@ -285,14 +291,10 @@
         }
       });
 
-      if (this.model.get('targeting').attributes.dmas_list.length == 0) {
-        var dmas = new ReachUI.DMA.List();
+      if (this.model.get('targeting').attributes.audience_groups.length == 0) {
         var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
 
-        $.when.apply($, [ dmas.fetch(), ags.fetch() ]).done(function() {
-          var dmas_list = _.map(dmas.models, function(el) { return {code: el.attributes.code, name: el.attributes.name} });
-
-          self.model.get('targeting').set('dmas_list', dmas_list);
+        ags.fetch().then(function() {
           self.model.get('targeting').set('audience_groups', ags.attributes);
           self.renderTargetingDialog();
           ReachUI.showCondensedTargetingOptions.apply(self);
@@ -303,13 +305,14 @@
       }
 
       this.renderCreatives();
-      this._validateAdImpressions();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     renderCreatives: function() {

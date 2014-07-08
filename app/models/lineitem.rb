@@ -3,7 +3,7 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
-  attr_accessor :li_id, :revised
+  attr_accessor :li_id, :li_status, :revised
 
   belongs_to :order
   belongs_to :user
@@ -16,11 +16,15 @@ class Lineitem < ActiveRecord::Base
   has_many :creatives, through: :lineitem_assignments
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
-  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id'
+  has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id', dependent: :destroy
 
-  has_and_belongs_to_many :designated_market_areas, join_table: :dmas_lineitems, association_foreign_key: :designated_market_area_id
-  has_and_belongs_to_many :cities, join_table: :cities_lineitems, association_foreign_key: :city_id
-  has_and_belongs_to_many :states, join_table: :states_lineitems, association_foreign_key: :state_id
+  has_many :lineitem_geo_targetings
+  has_many :geo_targets, through: :lineitem_geo_targetings
+  has_and_belongs_to_many :designated_market_areas, join_table: :lineitem_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :zipcodes, join_table: :lineitem_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :cities, join_table: :lineitem_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :states, join_table: :lineitem_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :countries, join_table: :lineitem_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
 
   has_and_belongs_to_many :audience_groups, join_table: :lineitems_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
@@ -35,18 +39,21 @@ class Lineitem < ActiveRecord::Base
   validate :flight_dates_with_in_order_range
 
   # applying #to_date because li.start_date_was could be 23:59:59 and current start_date could be 0:00:00
-  validates :start_date, future_date: true, :if => lambda {|li| li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record? }
+  # only check start_date for newly created LIs, do not check it for LIs created from dfp-pulled ads
+  validates :start_date, future_date: true, :if => lambda {|li| (li.start_date_was.try(:to_date) != li.start_date.to_date || li.new_record?) && li.li_status != 'dfp_pulled'}
 
   # applying #to_date because li.end_date_was could be 23:59:59 and current end_date could be 0:00:00
   validates_dates_range :end_date, after: :start_date, :if => lambda {|li| li.end_date_was.try(:to_date) != li.end_date.to_date || li.new_record? }
 
   before_create :generate_alt_ad_id
-  before_create :set_default_buffer
+  before_create :set_default_buffer, :set_est_flight_dates
   before_save :sanitize_ad_sizes, :move_end_date_time
   before_validation :sanitize_attributes
   after_create :create_nielsen_pricing
+  after_validation :set_li_status, on: :create
+  before_update :check_est_flight_dates
 
-  scope :in_standard_order, -> { includes([:designated_market_areas, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
+  scope :in_standard_order, -> { includes([:geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
 
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end
@@ -56,7 +63,8 @@ class Lineitem < ActiveRecord::Base
 
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
-      creative_type = cparams[:creative_type] == "ThirdPartyCreative" ? "ThirdPartyCreative" : "InternalRedirectCreative"
+      creative_type = cparams[:creative_type]
+      creative_type = "InternalRedirectCreative" if creative_type.blank?
       if creative_type == "ThirdPartyCreative"
         html_code = html_unescape(cparams[:html_code])
       else
@@ -113,42 +121,59 @@ class Lineitem < ActiveRecord::Base
   end
 
   def create_geo_targeting(targeting)
-    dmas = targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
-    self.designated_market_areas = []
-    self.designated_market_areas = dmas.compact if !dmas.blank?
+    targets = GeoTarget.selected_geos targeting
+    if new_record?
+      self.geo_targets = targets
+    else
+      existing_geos = self.geo_targets.map(&:id)
+      targets_ids = targets.map(&:id)
+      delete_geos = existing_geos - targets_ids
 
-    cities = targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
-    self.cities = []
-    self.cities = cities.compact if !cities.blank?
+      LineitemGeoTargeting.delete_all(:lineitem_id => self.id, :geo_target_id => delete_geos) if delete_geos.size > 0
 
-    states = targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
-    self.states = []
-    self.states = states.compact if !states.blank?
+      targets = targets.select {|tg| !existing_geos.include?(tg.id) }
+
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{LineitemGeoTargeting.table_name}
+          (lineitem_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
+    end
   end
 
   def ad_name(start_date, ad_size)
     start_date = Date.parse(start_date) if start_date.is_a?(String)
     quarter = ((start_date.month - 1) / 3) + 1
 
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "Q#{ quarter }#{ start_date.strftime('%y') } " \
-    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
-    "#{ audience_groups.empty? ? 'RON' : 'BTCT' } " \
-    "#{ ad_size }"
-  end
-
-  def ad_name(start_date, ad_size)
-    start_date = Date.parse(start_date) if start_date.is_a?(String)
-    quarter = ((start_date.month - 1) / 3) + 1
-
-    "#{ order.io_detail.reach_client.try(:abbr) } #{ order.io_detail.client_advertiser_name } " \
-    "#{ !targeted_zipcodes.blank? || !designated_market_areas.empty? ? 'GEO ' : ''}" \
+    "#{ order.io_detail.try(:reach_client).try(:abbr) } #{ order.io_detail.try(:client_advertiser_name) } " \
+    "#{ !self.geo_targets.empty? ? 'GEO ' : ''}" \
     "#{ audience_groups.empty? ? 'RON' : 'BT/CT' } " \
     "Q#{ quarter }#{ start_date.strftime('%y') } " \
     "#{ ad_size.gsub(/,/, ' ') }"
   end
 
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
+  end
+
   private
+
+    def set_li_status
+      self.li_status = 'Draft' if 'dfp_pulled' == self.li_status
+    end
 
     def flight_dates_with_in_order_range
       if(self.start_date.to_date < self.order.start_date.to_date)
@@ -195,5 +220,28 @@ class Lineitem < ActiveRecord::Base
 
     def html_unescape(str)
       str.gsub(/&amp;/m, '&').gsub(/&gt;/m, '>').gsub(/&lt;/m, '<').gsub(/&quot;/m, '"').gsub(/&#39;/m, "'")
+    end
+
+    # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+    def set_est_flight_dates
+      start_date = read_attribute_before_type_cast('start_date').to_date
+      current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
+      start_time = start_date.today? ? current : "00:00:00"
+
+      self[:start_date] = "#{start_date} #{start_time}"
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
+
+    def check_est_flight_dates
+      if start_date_changed?
+        start_date, _ = read_attribute_before_type_cast('start_date').to_s.split(' ')
+        _, start_time_was = start_date_was.to_s(:db).split(' ')
+        self[:start_date] = "#{start_date} #{start_time_was}"
+      end
+      if end_date_changed?
+        end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
+        _, end_time_was = end_date_was.to_s(:db).split(' ')
+        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
+      end
     end
 end

@@ -65,7 +65,6 @@ valid_io = <<-JSON
         "value": 229.5,
         "ad_sizes": "300x250, 728x90, 160x600",
         "order_id": null,
-        "targeted_zipcodes": null,
         "alt_ad_id": null,
         "keyvalue_targeting": null,
         "creatives": [

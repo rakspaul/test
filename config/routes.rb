@@ -34,6 +34,7 @@ Reachui::Application.routes.draw do
         get 'whitelisted_advertisers_to_commit' => 'block_sites#whitelisted_advertisers_to_commit'
         get 'blacklisted_advertiser_groups_to_commit' => 'block_sites#blacklisted_advertiser_groups_to_commit'
         get 'whitelisted_advertiser_groups_to_commit' => 'block_sites#whitelisted_advertiser_groups_to_commit'
+        post 'recommit' => 'block_sites#recommit'
       end
     end
 
@@ -59,6 +60,12 @@ Reachui::Application.routes.draw do
     end
 
     resources :block_violations
+
+    resources :platforms do
+      collection do
+        get 'search'
+      end
+    end
   end
 
   resources :users do
@@ -129,9 +136,9 @@ Reachui::Application.routes.draw do
     end
   end
 
-  resources :dmas, controller: 'designated_market_areas', only: [:index] do
+  resources :dmas, controller: 'geo_targets', only: [:index] do
     collection do
-      get :search_geo
+      get :search
     end
   end
 
@@ -169,6 +176,21 @@ Reachui::Application.routes.draw do
   end
 
   resources :agency
+
+  resources :platforms, :only => [:index]
+  get 'media_types/media_types'
+
+  resources :key_values do
+    collection do
+      post 'validate'
+    end
+  end
+
+  resources :zipcode do
+    collection do
+      post 'validate'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

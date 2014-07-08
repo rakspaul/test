@@ -65,6 +65,7 @@
 //= require ./orders/controller.js
 //= require ./orders/restricted_controller.js
 //= require ./orders/router.js
+//= require ./platforms/platforms.js
 //= require ./nielsen_ocr
 //= require ./admin/reach_clients/reach_clients.js
 //= require ./admin/reach_clients/reach_client_controller.js
@@ -81,3 +82,4 @@
 //= require ./admin/components/paging_view.js
 //= require ./admin/block_sites/advertiser_overview_controller.js
 //= require ./admin/block_sites/advertiser_group_overview_controller.js
+//= require ./admin/platforms/platforms.js

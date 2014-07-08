@@ -314,6 +314,27 @@ describe Admin::BlockSitesController do
     end
   end
 
+  describe "POST 'recommit'" do
+    before :each do
+      @blocked_advertiser_1 = FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_4, site: site_4, state: 'BLOCK', user: @account.user)
+      @blocked_advertiser_2 = FactoryGirl.create(:blocked_advertiser, advertiser: advertiser_6, site: site_4, state: 'UNBLOCK', user: @account.user)
+      @blocked_advertiser_group_1 = FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_3, site: site_4, state: 'UNBLOCK', user: @account.user)
+      @blocked_advertiser_group_2 = FactoryGirl.create(:blocked_advertiser_group, advertiser_block: advertiser_group_4, site: site_4, state: 'BLOCK', user: @account.user)
+    end
+
+    it "returns http success" do
+      post 'recommit', {:recommit_block_ids => [@blocked_advertiser_1.id, @blocked_advertiser_2.id, @blocked_advertiser_group_1.id, @blocked_advertiser_group_2.id] }
+    end
+
+    it "changes state from BLOCK / UNBLOCK to COMMIT_BLOCK / COMMIT_UNBLOCK" do
+      post 'recommit', {:recommit_block_ids => [@blocked_advertiser_1.id, @blocked_advertiser_2.id, @blocked_advertiser_group_1.id, @blocked_advertiser_group_2.id] }
+      (expect(BlockedAdvertiser.find(@blocked_advertiser_1.id).state).to eq BlockSite::COMMIT_BLOCK) &&
+      (expect(BlockedAdvertiser.find(@blocked_advertiser_2.id).state).to eq BlockSite::COMMIT_UNBLOCK) &&
+      (expect(BlockedAdvertiserGroup.find(@blocked_advertiser_group_1.id).state).to eq BlockSite::COMMIT_UNBLOCK) &&
+      (expect(BlockedAdvertiserGroup.find(@blocked_advertiser_group_2.id).state).to eq BlockSite::COMMIT_BLOCK)
+    end
+  end
+
 private
   def blacklist_advertisers_params
     params = {

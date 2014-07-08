@@ -1,4 +1,12 @@
 class Ad < ActiveRecord::Base
+  DRAFT                     = "DRAFT"
+  READY                     = "READY"
+  PAUSED                    = "PAUSED"
+  PAUSED_INVENTORY_RELEASED = "PAUSED_INVENTORY_RELEASED"
+  DELIVERING                = "DELIVERING"
+  COMPLETED                 = "COMPLETED"
+  CANCELED                  = "CANCELED"
+
   STATUS = {
     draft:                     "Draft",
     ready:                     "Ready",
@@ -18,20 +26,25 @@ class Ad < ActiveRecord::Base
   belongs_to :data_source
   belongs_to :network
   belongs_to :media_type
+  belongs_to :platform
 
   has_one :ad_pricing, dependent: :destroy
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_and_belongs_to_many :sites, join_table: :site_targeting
   has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
   has_many :video_creatives, through: :video_ad_assignments
 
-  has_and_belongs_to_many :zipcodes, join_table: :zipcode_targeting
-  has_and_belongs_to_many :designated_market_areas, join_table: :dma_targeting, association_foreign_key: :dma_id
-  has_and_belongs_to_many :states, join_table: :state_targeting, association_foreign_key: :state_id
-  has_and_belongs_to_many :cities, join_table: :city_targeting, association_foreign_key: :city_id
+  has_many :ad_geo_targetings
+  has_many :geo_targets, through: :ad_geo_targetings
+  has_and_belongs_to_many :designated_market_areas, join_table: :ad_geo_targetings, class_name: GeoTarget::DesignatedMarketArea, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :zipcodes, join_table: :ad_geo_targetings, class_name: GeoTarget::Zipcode, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :cities, join_table: :ad_geo_targetings, class_name: GeoTarget::City, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :states, join_table: :ad_geo_targetings, class_name: GeoTarget::State, association_foreign_key: :geo_target_id
+  has_and_belongs_to_many :countries, join_table: :ad_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
   accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
@@ -42,18 +55,32 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
+  before_create :create_random_source_id, :set_est_flight_dates
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
+  before_update :check_est_flight_dates
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
+
+  def self.of_network(network)
+    where(:network => network)
+  end
 
   def dfp_url
     "#{ order.network.try(:dfp_url) }/LineItemDetail/orderId=#{ order.source_id }&lineItemId=#{ source_id }"
   end
 
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def start_date
+    read_attribute_before_type_cast('start_date').to_date
+  end
+
+  def end_date
+    read_attribute_before_type_cast('end_date').to_date
+  end
+
   def type
     return 'Display' if media_type.nil?
-    return 'Companion' if media_type.category == 'Display' && lineitem.type == 'Video'
+    return 'Companion' if media_type.category == 'Display' && lineitem.try(:type) == 'Video'
     return media_type.category
   end
 
@@ -69,13 +96,15 @@ class Ad < ActiveRecord::Base
         is_video_creative = true
         ad_assignment_model = VideoAdAssignment
         li_assignment_model = LineitemVideoAssignment
-        creatives = self.lineitem.video_creatives
+        creatives = self.lineitem.try(:video_creatives)
       else
         is_video_creative = false
         ad_assignment_model = AdAssignment
         li_assignment_model = LineitemAssignment
-        creatives = self.lineitem.creatives
+        creatives = self.lineitem.try(:creatives)
       end
+      
+      return if creatives.blank?
 
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
 
@@ -112,28 +141,36 @@ class Ad < ActiveRecord::Base
   end
 
   def save_targeting(targeting)
-    zipcodes = targeting[:targeting][:selected_zip_codes].to_a.collect do |zipcode|
-      Zipcode.find_by(zipcode: zipcode.strip)
+    targets = GeoTarget.selected_geos targeting[:targeting]
+
+    if new_record?
+      self.geo_targets = targets
+    else
+      existing_geos = self.geo_targets.map(&:id)
+      targets_ids = targets.map(&:id)
+      delete_geos = existing_geos - targets_ids
+
+      AdGeoTargeting.delete_all(:ad_id => self.id, :geo_target_id => delete_geos) if delete_geos.size > 0
+
+      targets = targets.select {|tg| !existing_geos.include?(tg.id) }
+
+      if targets.size > 0
+        # we could have many targets for so better to insert all them in one insert query
+        insert_values = targets.collect do |t|
+          "(#{self.id}, #{pushed_to_dfp? ? self.source_id : 'null'}, %{geo_target_id}, %{source_geo_target_id}, #{self.order.network.id}, now(), now())" %
+          { geo_target_id: t.id, source_geo_target_id: t.source_id }
+        end
+        query = <<-SQL
+          INSERT INTO #{AdGeoTargeting.table_name}
+          (ad_id, source_ad_id, geo_target_id, source_geo_target_id, network_id, created_at, updated_at)
+          VALUES #{insert_values.join(',')}
+        SQL
+        ActiveRecord::Base.connection.execute query
+      end
     end
-    self.zipcodes = zipcodes.compact
 
-    geo_targeting = targeting[:targeting][:selected_geos].to_a
-
-    dmas = geo_targeting.select{|geo| geo["type"] == 'DMA'}.collect{|dma| DesignatedMarketArea.find_by(code: dma["id"])}
-    self.designated_market_areas = []
-    self.designated_market_areas = dmas.compact if !dmas.blank?
-
-    cities = geo_targeting.select{|geo| geo["type"] == 'City'}.collect{|city| City.find(city["id"])}
-    self.cities = []
-    self.cities = cities.compact if !cities.blank?
-
-    states = geo_targeting.select{|geo| geo["type"] == 'State'}.collect{|state| State.find(state["id"])}
-    self.states = []
-    self.states = states.compact if !states.blank?
-
-    self.audience_groups = targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
-      AudienceGroup.find_by(id: group_name[:id])
-    end
+    audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
+    self.audience_groups = AudienceGroup.where :id => audience_groups_ids
   end
 
   def create_random_source_id
@@ -145,6 +182,11 @@ class Ad < ActiveRecord::Base
   end
 
   def set_type_params
+    if platform
+      self.ad_type  = platform.ad_type
+      self.priority = platform.priority
+    end and return
+
     if type == 'Companion'
       self.ad_type  = Video::COMPANION_AD_TYPE
       self.priority = Video::COMPANION_PRIORITY
@@ -194,5 +236,37 @@ class Ad < ActiveRecord::Base
 
   def set_default_status
     self.status ||= "DRAFT"
+  end
+
+private
+
+  def set_platform_site
+    self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
+  end
+
+  # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
+  def set_est_flight_dates
+    if self[:start_date]
+      start_date = read_attribute_before_type_cast('start_date').to_date
+      current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
+      start_time = start_date.today? ? current : "00:00:00"
+      self[:start_date] = "#{start_date} #{start_time}"
+    end
+    if self[:end_date]
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+    end
+  end
+
+  def check_est_flight_dates
+    if start_date_changed?
+      start_date, _ = read_attribute_before_type_cast('start_date').to_s.split(' ')
+      _, start_time_was = start_date_was.to_s(:db).split(' ')
+      self[:start_date] = "#{start_date} #{start_time_was}"
+    end
+    if end_date_changed?
+      end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
+      _, end_time_was = end_date_was.to_s(:db).split(' ')
+      self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+    end
   end
 end

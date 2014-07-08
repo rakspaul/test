@@ -49,4 +49,6 @@ Reachui::Application.configure do
   config.action_mailer.default_url_options = {
     host: "http://localhost:3000"
   }
+
+  config.backbone_service_url = "http://127.0.0.1:9091/"
 end
