@@ -280,7 +280,7 @@ $wide_input_width: 320px;
     }
 
     .share-icon{
-      background: url("/assets/new_window.png");
+      background: url(asset-path('new_window.png'));
       display: block;
       height: 16px;
       margin-right: 5px;
