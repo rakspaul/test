@@ -92,7 +92,11 @@
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyAd',
       'click .toggle-ads-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog'
+      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog',
+
+      'click .copy-targeting-item': 'copyTargeting',
+      'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
     },
 
     ui: {
