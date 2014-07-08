@@ -727,49 +727,10 @@
 
     pasteTargeting: function(e) {
       ReachUI.pasteTargeting.call(this, e, 'li');
-      return;
-      e.stopPropagation();
-      noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
-
-      _.each(window.selected_lis, function(li) {
-        var liTargeting = li.model.get('targeting'),
-            targeting = {};
-        _.each(window.copied_targeting, function(value, key) {
-          if (key != 'frequency_caps') {
-            targeting[key] = _.clone(value);
-          }
-        });
-        if (window.copied_targeting['frequency_caps']) {
-          var frequencyCaps = liTargeting.get('frequency_caps');
-          var removedCaps = [];
-          _.each(frequencyCaps.models, function(fc) {
-            if (fc.get('id')) {
-              removedCaps.push(fc.get('id'));
-            }
-          });
-          _.each(removedCaps, function(id) {
-            frequencyCaps.remove(id);
-          });
-          _.each(window.copied_targeting['frequency_caps'], function(fc) {
-            frequencyCaps.add(fc);
-          });
-          targeting['frequency_caps'] = frequencyCaps;
-        }
-        liTargeting.set(targeting, { silent: true });
-
-        li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
-      });
-
-      this.cancelTargeting();
     },
 
     cancelTargeting: function(e) {
-      if (e) {
-        e.stopPropagation();
-      }
-      window.copied_targeting = null;
-      $('.lineitem').removeClass('copied-targeting-from');
-      this._deselectAllLIs();
+      ReachUI.cancelTargeting.call(this, e, 'li');
     },
 
     _changeMediaType: function(ev_or_type) {
