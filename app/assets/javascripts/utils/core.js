@@ -339,8 +339,9 @@ ReachUI.toggleItemSelection = function(e, scope) {
   ReachUI.LineItems.LineItem.setSelectedItem(selectedItems, scope);
 
   if (buffer) {
-    _.each([ ui.copy_targeting_btn, ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.hide(); });
-    ui.copy_targeting_btn.find('li').removeClass('active');
+    // Hide all buttons
+    $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+    $('.copy-targeting-btn li').removeClass('active');
     _.each([ ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.toggle(); });
   }
 };
