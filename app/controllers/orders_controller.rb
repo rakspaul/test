@@ -451,6 +451,7 @@ private
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -566,6 +567,7 @@ private
             ad_object.save && ad_object.update_attributes(ad[:ad])
             ad_object.save_targeting(ad_targeting)
 
+            ad_object.is_and = ad_targeting[:targeting][:is_and]
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
@@ -635,6 +637,7 @@ private
         AudienceGroup.find_by(id: group_name[:id])
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -708,6 +711,7 @@ private
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
+          ad_object.is_and = ad_targeting[:targeting][:is_and]
 
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 

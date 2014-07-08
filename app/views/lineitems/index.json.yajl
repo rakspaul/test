@@ -23,7 +23,8 @@ json = @lineitems.map do |lineitem|
     creatives:          [],
     selected_geos:      [],
     selected_key_values: [],
-    frequency_caps:      []
+    frequency_caps:      [],
+    is_and:             lineitem.is_and
   }
 
   if lineitem.video?
