@@ -205,21 +205,23 @@
     className: 'lineitem pure-g',
 
     ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes:      '.lineitem-sizes',
-      start_date_editable: '.start-date-editable',
-      end_date_editable:   '.end-date-editable',
-      name_editable:       '.name-editable',
-      volume_editable:     '.volume-editable',
-      rate_editable:       '.rate-editable',
-      buffer_editable:     '.buffer-editable',
-      dup_btn:             '.li-duplicate-btn',
-      delete_btn:          '.li-delete-btn',
-      item_number:         '.item-number',
-      copy_targeting_btn:  '.copy-targeting-btn'
+      ads_list:             '.ads-container',
+      targeting:            '.targeting-container',
+      creatives_container:  '.creatives-list-view',
+      creatives_content:    '.creatives-content',
+      lineitem_sizes:       '.lineitem-sizes',
+      start_date_editable:  '.start-date-editable',
+      end_date_editable:    '.end-date-editable',
+      name_editable:        '.name-editable',
+      volume_editable:      '.volume-editable',
+      rate_editable:        '.rate-editable',
+      buffer_editable:      '.buffer-editable',
+      dup_btn:              '.li-duplicate-btn',
+      delete_btn:           '.li-delete-btn',
+      item_number:          '.item-number',
+      copy_targeting_btn:   '.copy-targeting-btn',
+      paste_targeting_btn:  '.paste-targeting-btn',
+      cancel_targeting_btn: '.cancel-targeting-btn'
     },
 
     events: {

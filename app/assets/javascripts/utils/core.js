@@ -319,6 +319,7 @@ ReachUI.cancelTargeting = function(e) {
 
 ReachUI.toggleItemSelection = function(e, scope) {
   // if there is no copied targeting then exclusive select, otherwise accumulative
+  var ui = this.ui;
   var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
   var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
   if (!buffer) {
@@ -337,9 +338,9 @@ ReachUI.toggleItemSelection = function(e, scope) {
   ReachUI.LineItems.LineItem.setSelectedItem(selectedItems, scope);
 
   if (buffer) {
-    $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-    $('.copy-targeting-btn li').removeClass('active');
-    this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+    _.each([ ui.copy_targeting_btn, ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.hide(); });
+    ui.copy_targeting_btn.find('li').removeClass('active');
+    _.each([ ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.toggle(); });
   }
 };
 
@@ -352,7 +353,7 @@ ReachUI.deselectAllItems = function(options, scope) {
         item.selected = false;
         item.ui.item_number.removeClass('selected');
         if (!options || !options['multi']) {
-          item.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+          _.each([ item.ui.copy_targeting_btn, item.ui.paste_targeting_btn, item.ui.cancel_targeting_btn ], function(el) { el.hide(); });
         }
         item.renderTargetingDialog();
       }
