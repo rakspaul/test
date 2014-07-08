@@ -126,7 +126,11 @@
     },
 
     setSelectedItem: function(items, key) {
-      this.constructor.selectedItems[key || 'li'] = items;
+      if (key) {
+        this.constructor.selectedItems[key] = items;
+      } else {
+        this.constructor.selectedItems = { li: [], ad: [] };
+      }
     }
   }, {
     buffer: {
@@ -698,22 +702,7 @@
     },
 
     _deselectAllLIs: function(options) {
-      var self = this;
-      if(options && options['except_current']) {
-        var lis_to_deselect = _.filter(window.selected_lis, function(el) {return el != self});
-      } else {
-        var lis_to_deselect = window.selected_lis;
-      }
-
-      _.each(lis_to_deselect, function(li) {
-        li.selected = false;
-        li.$el.find('.li-number .number').removeClass('selected');
-        if (!options || !options['multi']) {
-          li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        }
-        li.renderTargetingDialog();
-      });
-      window.selected_lis = [];
+      ReachUI.deselectAllItems.call(this, options, 'li');
     },
 
     pasteTargeting: function(e) {

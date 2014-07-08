@@ -267,38 +267,42 @@ ReachUI.copyTargeting = function(e, scope) {
 };
 
 ReachUI.pasteTargeting = function(e, scope) {
+  var self = this;
   e.stopPropagation();
   noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
 
   var buffer = this.model.getCopyBuffer('targeting');
 
-  _.each(window.selected_lis, function(li) {
-    var liTargeting = li.model.get('targeting'),
-        targeting = {};
-    _.each(buffer, function(value, key) { // TODO
-      if (key != 'frequency_caps') {
-        targeting[key] = _.clone(value);
-      }
-    });
-    if (buffer['frequency_caps']) {
-      var frequencyCaps = liTargeting.get('frequency_caps');
-      var removedCaps = [];
-      _.each(frequencyCaps.models, function(fc) {
-        if (fc.get('id')) {
-          removedCaps.push(fc.get('id'));
+  _.each([ 'li', 'ad' ], function (type) {
+    _.each(self.model.getSelectedItem(type), function(item) {
+      var itemTargeting = item.model.get('targeting'),
+          targeting = {};
+      _.each(buffer, function(value, key) { // TODO
+        if (key != 'frequency_caps') {
+          targeting[key] = _.clone(value);
         }
       });
-      _.each(removedCaps, function(id) {
-        frequencyCaps.remove(id);
-      });
-      _.each(buffer['frequency_caps'], function(fc) {
-        frequencyCaps.add(fc);
-      });
-      targeting['frequency_caps'] = frequencyCaps;
-    }
-    liTargeting.set(targeting, { silent: true });
 
-    li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
+      if (buffer['frequency_caps']) {
+        var frequencyCaps = itemTargeting.get('frequency_caps');
+        var removedCaps = [];
+        _.each(frequencyCaps.models, function(fc) {
+          if (fc.get('id')) {
+            removedCaps.push(fc.get('id'));
+          }
+        });
+        _.each(removedCaps, function(id) {
+          frequencyCaps.remove(id);
+        });
+        _.each(buffer['frequency_caps'], function(fc) {
+          frequencyCaps.add(fc);
+        });
+        targeting['frequency_caps'] = frequencyCaps;
+      }
+      itemTargeting.set(targeting, { silent: true });
+
+      item.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
+    });
   });
 
   this.cancelTargeting();
@@ -336,5 +340,27 @@ ReachUI.toggleItemSelection = function(e, scope) {
     $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
     $('.copy-targeting-btn li').removeClass('active');
     this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
+  }
+};
+
+ReachUI.deselectAllItems = function(options, scope) {
+  var self = this;
+
+  _.each([ 'li', 'ad' ], function (type) {
+    _.each(self.model.getSelectedItem(type), function(item) {
+      if (!(options && !options['except_current'] && item == self)) {
+        item.selected = false;
+        item.ui.item_number.removeClass('selected');
+        if (!options || !options['multi']) {
+          item.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+        }
+        item.renderTargetingDialog();
+      }
+    });
+  });
+  if (options && options['except_current']) {
+    this.model.setSelectedItem( [ self ], scope );
+  } else {
+    this.model.setSelectedItem();
   }
 };

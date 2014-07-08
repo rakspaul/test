@@ -606,12 +606,12 @@ $wide_input_width: 320px;
         cursor: pointer;
       }
 
-      .number {
+      .item-number {
         display: inline-block;
         padding: 10px;
       }
 
-      .number.selected {
+      .item-number.selected {
         border: 2px dashed white;
         border-radius: 22px;
       }
