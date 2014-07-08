@@ -103,6 +103,26 @@
           creative.set(name, value);
         });
       }
+    },
+
+    getCopyBuffer: function(key) {
+      if (key) {
+        return this.constructor.buffer[key];
+      } else {
+        return this.constructor.buffer;
+      }
+    },
+
+    setCopyBuffer: function(key, value) {
+      if (key) {
+        this.constructor.buffer[key] = value;
+      } else {
+        this.constructor.buffer = value;
+      }
+    }
+  }, {
+    buffer: {
+      targeting: null
     }
   });
 
@@ -656,7 +676,8 @@
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
         // if there is no copied targeting then exclusive select, otherwise accumulative
-        if(!window.copied_targeting) {
+        var buffer = this.model.getCopyBuffer('targeting');
+        if (buffer) {
           this._deselectAllLIs({'except_current': true});
         }
 
@@ -673,7 +694,7 @@
           window.selected_lis.splice(this, 1); // remove current LI from selected LIs
         }
 
-        if(window.copied_targeting) {
+        if (buffer) {
           $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
           $('.copy-targeting-btn li').removeClass('active');
           this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
@@ -682,69 +703,7 @@
     },
 
     copyTargeting: function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      var el = $(e.currentTarget),
-          parent = el.parent(),
-          type   = el.data('type'),
-          active = parent.hasClass('active'),
-          li_t   = this.model.get('targeting');
-
-      if (!active) {
-        var copiedOptions = {};
-
-        parent.addClass('active');
-
-        switch (type) {
-          case 'key_values':
-            copiedOptions = {
-              selected_key_values: _.clone(li_t.get('selected_key_values')),
-              keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-            };
-            break;
-          case 'geo':
-            copiedOptions = {
-              selected_geos: _.clone(li_t.get('selected_geos')),
-              selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
-            };
-            break;
-          case 'freq_cap':
-            copiedOptions = {
-              frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
-            };
-            break;
-        };
-
-        if (!window.copied_targeting) {
-          window.copied_targeting = {};
-        }
-        _.each(copiedOptions, function(value, key) {
-          window.copied_targeting[key] = value;
-        });
-      } else {
-        if (window.copied_targeting) {
-          switch (type) {
-          case 'key_values':
-            delete window.copied_targeting['selected_key_values'];
-            delete window.copied_targeting['keyvalue_targeting'];
-            break;
-          case 'geo':
-            delete window.copied_targeting['selected_geos'];
-            delete window.copied_targeting['selected_zip_codes'];
-            break;
-          case 'freq_cap':
-            delete window.copied_targeting['frequency_caps'];
-            break;
-          }
-        }
-        el.blur();
-        parent.removeClass('active');
-      }
-
-      noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs({ multi: true });
-      this.$el.addClass('copied-targeting-from');
+      ReachUI.copyTargeting.call(this, e, 'li');
     },
 
     _deselectAllLIs: function(options) {
@@ -767,6 +726,8 @@
     },
 
     pasteTargeting: function(e) {
+      ReachUI.pasteTargeting.call(this, e, 'li');
+      return;
       e.stopPropagation();
       noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
 

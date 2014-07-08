@@ -198,7 +198,7 @@ ReachUI.omitAttribute = function(attributes, attr) {
   return result;
 };
 
-ReachUI.copyTargeting = function(e, view, scope) {
+ReachUI.copyTargeting = function(e, scope) {
   e.stopPropagation();
   e.preventDefault();
 
@@ -206,7 +206,8 @@ ReachUI.copyTargeting = function(e, view, scope) {
       parent    = el.parent(),
       type      = el.data('type'),
       active    = parent.hasClass('active'),
-      targeting = view.model.get('targeting');
+      targeting = this.model.get('targeting'),
+      buffer    = this.model.getCopyBuffer('targeting');
 
   if (!active) {
     var copiedOptions = {};
@@ -233,33 +234,82 @@ ReachUI.copyTargeting = function(e, view, scope) {
         break;
     };
 
-    if (!window.copied_targeting) {
-      window.copied_targeting = {};
+    if (!buffer) {
+      buffer = {};
     }
     _.each(copiedOptions, function(value, key) {
-      window.copied_targeting[key] = value;
+      buffer[key] = value;
     });
   } else {
-    if (window.copied_targeting) {
+    if (buffer) {
+      var deleteKeys = [];
       switch (type) {
       case 'key_values':
-        delete window.copied_targeting['selected_key_values'];
-        delete window.copied_targeting['keyvalue_targeting'];
+        deleteKeys = [ 'selected_key_values', 'keyvalue_targeting' ];
         break;
       case 'geo':
-        delete window.copied_targeting['selected_geos'];
-        delete window.copied_targeting['selected_zip_codes'];
+        deleteKeys = [ 'selected_geos', 'selected_zip_codes' ];
         break;
       case 'freq_cap':
-        delete window.copied_targeting['frequency_caps'];
+        deleteKeys = [ 'frequency_caps' ];
         break;
       }
+      buffer = _.omit(buffer, deleteKeys);
     }
     el.blur();
     parent.removeClass('active');
   }
+  this.model.setCopyBuffer('targeting', buffer);
 
   noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-  view._deselectAllLIs({ multi: true });
-  view.$el.addClass('copied-targeting-from');
-}
+  this._deselectAllLIs({ multi: true });
+  this.$el.addClass('copied-targeting-from');
+};
+
+ReachUI.pasteTargeting = function(e, scope) {
+  e.stopPropagation();
+  noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
+
+  var buffer = this.model.getCopyBuffer('targeting');
+  console.log(buffer);
+
+  _.each(window.selected_lis, function(li) {
+    var liTargeting = li.model.get('targeting'),
+        targeting = {};
+    _.each(buffer, function(value, key) { // TODO
+      if (key != 'frequency_caps') {
+        targeting[key] = _.clone(value);
+      }
+    });
+    if (buffer['frequency_caps']) {
+      var frequencyCaps = liTargeting.get('frequency_caps');
+      var removedCaps = [];
+      _.each(frequencyCaps.models, function(fc) {
+        if (fc.get('id')) {
+          removedCaps.push(fc.get('id'));
+        }
+      });
+      _.each(removedCaps, function(id) {
+        frequencyCaps.remove(id);
+      });
+      _.each(buffer['frequency_caps'], function(fc) {
+        frequencyCaps.add(fc);
+      });
+      targeting['frequency_caps'] = frequencyCaps;
+    }
+    liTargeting.set(targeting, { silent: true });
+
+    li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
+  });
+
+  this.cancelTargeting();
+};
+
+ReachUI.cancelTargeting = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  this.model.setCopyBuffer('targeting', null);
+  $('.lineitem').removeClass('copied-targeting-from');
+  this._deselectAllLIs();
+};
