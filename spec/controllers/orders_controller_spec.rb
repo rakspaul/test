@@ -40,33 +40,6 @@ describe OrdersController do
       get 'index'
       expect(response).to be_success
     end
-
-    context "checks orders filter" do
-      it "check orders filter" do
-        get 'index', {orders_by_user: 'all_orders'}
-        expect(response).to be_success
-      end
-
-      it "check client filter" do
-        get 'index', {rc: 'Belo'}
-        expect(response).to be_success
-      end
-
-      it "check status filter" do
-        get 'index', {order_status: 'all'}
-        expect(response).to be_success
-      end
-
-      it "check account manager filter" do
-        get 'index', {am: 1}
-        expect(response).to be_success
-      end
-
-      it "check trafficker filter" do
-        get 'index', {trafficker: 1}
-        expect(response).to be_success
-      end
-    end
   end
 
   describe "POST 'create'" do
