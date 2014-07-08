@@ -207,7 +207,7 @@ ReachUI.copyTargeting = function(e, scope) {
       type      = el.data('type'),
       active    = parent.hasClass('active'),
       targeting = this.model.get('targeting'),
-      buffer    = this.model.getCopyBuffer('targeting');
+      buffer    = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
 
   if (!active) {
     var copiedOptions = {};
@@ -259,7 +259,7 @@ ReachUI.copyTargeting = function(e, scope) {
     el.blur();
     parent.removeClass('active');
   }
-  this.model.setCopyBuffer('targeting', buffer);
+  ReachUI.LineItems.LineItem.setCopyBuffer('targeting', buffer);
 
   noty({text: 'Targeting copied', type: 'success', timeout: 3000});
   this._deselectAllLIs({ multi: true });
@@ -271,10 +271,10 @@ ReachUI.pasteTargeting = function(e, scope) {
   e.stopPropagation();
   noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
 
-  var buffer = this.model.getCopyBuffer('targeting');
+  var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
 
   _.each([ 'li', 'ad' ], function (type) {
-    _.each(self.model.getSelectedItem(type), function(item) {
+    _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
       var itemTargeting = item.model.get('targeting'),
           targeting = {};
       _.each(buffer, function(value, key) { // TODO
@@ -312,15 +312,15 @@ ReachUI.cancelTargeting = function(e) {
   if (e) {
     e.stopPropagation();
   }
-  this.model.setCopyBuffer('targeting', null);
+  ReachUI.LineItems.LineItem.setCopyBuffer('targeting', null);
   $('.lineitem').removeClass('copied-targeting-from');
   this._deselectAllLIs();
 };
 
 ReachUI.toggleItemSelection = function(e, scope) {
   // if there is no copied targeting then exclusive select, otherwise accumulative
-  var buffer = this.model.getCopyBuffer('targeting');
-  var selectedItems = this.model.getSelectedItem(scope);
+  var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
+  var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
   if (!buffer) {
     this._deselectAllLIs({'except_current': true});
   }
@@ -334,7 +334,7 @@ ReachUI.toggleItemSelection = function(e, scope) {
   } else {
     selectedItems.splice(this, 1);
   }
-  this.model.setSelectedItem(selectedItems, scope);
+  ReachUI.LineItems.LineItem.setSelectedItem(selectedItems, scope);
 
   if (buffer) {
     $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
@@ -347,8 +347,8 @@ ReachUI.deselectAllItems = function(options, scope) {
   var self = this;
 
   _.each([ 'li', 'ad' ], function (type) {
-    _.each(self.model.getSelectedItem(type), function(item) {
-      if (!(options && !options['except_current'] && item == self)) {
+    _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
+      if (!(options && options['except_current'] && item == self)) {
         item.selected = false;
         item.ui.item_number.removeClass('selected');
         if (!options || !options['multi']) {
@@ -359,8 +359,8 @@ ReachUI.deselectAllItems = function(options, scope) {
     });
   });
   if (options && options['except_current']) {
-    this.model.setSelectedItem( [ self ], scope );
+    ReachUI.LineItems.LineItem.setSelectedItem( [ self ], scope );
   } else {
-    this.model.setSelectedItem();
+    ReachUI.LineItems.LineItem.setSelectedItem();
   }
 };

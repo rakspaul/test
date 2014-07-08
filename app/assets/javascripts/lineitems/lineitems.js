@@ -104,34 +104,6 @@
         });
       }
     },
-
-    getCopyBuffer: function(key) {
-      if (key) {
-        return this.constructor.buffer[key];
-      } else {
-        return this.constructor.buffer;
-      }
-    },
-
-    setCopyBuffer: function(key, value) {
-      if (key) {
-        this.constructor.buffer[key] = value;
-      } else {
-        this.constructor.buffer = value;
-      }
-    },
-
-    getSelectedItem: function(key) {
-      return this.constructor.selectedItems[key || 'li'];
-    },
-
-    setSelectedItem: function(items, key) {
-      if (key) {
-        this.constructor.selectedItems[key] = items;
-      } else {
-        this.constructor.selectedItems = { li: [], ad: [] };
-      }
-    }
   }, {
     buffer: {
       targeting: null
@@ -139,6 +111,34 @@
     selectedItems: {
       li:  [],
       ad: []
+    },
+
+    getCopyBuffer: function(key) {
+      if (key) {
+        return this.buffer[key];
+      } else {
+        return this.buffer;
+      }
+    },
+
+    setCopyBuffer: function(key, value) {
+      if (key) {
+        this.buffer[key] = value;
+      } else {
+        this.buffer = value;
+      }
+    },
+
+    getSelectedItem: function(key) {
+      return this.selectedItems[key || 'li'];
+    },
+
+    setSelectedItem: function(items, key) {
+      if (key) {
+        this.selectedItems[key] = items;
+      } else {
+        this.selectedItems = { li: [], ad: [] };
+      }
     }
   });
 
