@@ -25,15 +25,15 @@ describe('Ad views', function() {
     });
 
     it('should include copy targeting button', function() {
-      expect(this.view.$el).toContainElement('.copy-targeting-btn');
+      expect(this.view.$el).toContainElement('.ad-copy-targeting-btn');
     });
 
     it('should include paste targeting button', function() {
-      expect(this.view.$el).toContainElement('.paste-targeting-btn');
+      expect(this.view.$el).toContainElement('.ad-paste-targeting-btn');
     });
 
     it('should include cancel copy targeting button', function() {
-      expect(this.view.$el).toContainElement('.cancel-targeting-btn');
+      expect(this.view.$el).toContainElement('.ad-cancel-targeting-btn');
     });
   });
 });
