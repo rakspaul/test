@@ -528,7 +528,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :io_lineitem_id, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :io_lineitem_id, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status, :platform_name].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -697,7 +697,7 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
-          [:selected_geos, :selected_key_values, :io_lineitem_id].each{|attr_name| ad[:ad].delete(attr_name) }
+          [:selected_geos, :selected_key_values, :io_lineitem_id, :platform_name].each{|attr_name| ad[:ad].delete(attr_name) }
 
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)
