@@ -1011,8 +1011,37 @@
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
       var li_id = this.model.get('id');
 
+      if (this.model.ads.length > 0) {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog');
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html('Apply all new revisions to ads');
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+          self._removeAndHideAllRevisions(e);
+        });
+
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+
+          _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+            var revision = self.model.get('revised_'+attr_name),
+                original_value = self.model.get(attr_name);
+
+            if(revision != null) {
+              self._applyChangeToAd(attr_name, revision, original_value);
+            }
+          });
+          self._removeAndHideAllRevisions(e);
+        });
+
+        $apply_ads_dialog.modal('show');
+      }
+
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
-        var revision = self.model.get('revised_'+attr_name);
+        var revision = self.model.get('revised_'+attr_name),
+            original_value = self.model.get(attr_name);
+
         if(revision != null) {
           switch(attr_name) {
             case 'rate':
@@ -1027,7 +1056,7 @@
           self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
 
           self.model.attributes[attr_name] = revision;
-          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
+          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').first().text(revision).addClass('revision');
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
           logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
@@ -1039,7 +1068,6 @@
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
 
-      this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
@@ -1063,6 +1091,31 @@
       this.$el.find('.revised-dialog').remove();
     },
 
+    _applyChangeToAd: function(attr_name, revised_value, original_value) {
+      var self = this;
+
+      switch (attr_name) {
+        case 'start_date':
+        case 'end_date':
+          _.each(self.model.ads, function(ad) {
+            ad.set(attr_name, revised_value);
+          });
+          break;
+        case 'volume':
+          var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+          _.each(self.model.ads, function(ad) {
+            ad.set('volume', ad.get('volume') * ratio);
+          });
+          break;
+        case 'rate':
+          revised_value = accounting.formatNumber(revised_value, 2);
+          _.each(self.model.ads, function(ad) {
+            ad.set(attr_name, revised_value);
+          });
+          break;
+      }
+    },
+
     _acceptRevision: function(e) {
       var self = this;
       var $target_parent = $(e.currentTarget).parent(),
@@ -1083,32 +1136,16 @@
         $apply_ads_dialog.find('.noapply-btn').click(function() {
           $apply_ads_dialog.modal('hide');
         });
+
         $apply_ads_dialog.find('.apply-btn').click(function() {
           $apply_ads_dialog.find('.apply-btn').off('click');
           $apply_ads_dialog.modal('hide');
-          switch (attr_name) {
-            case 'start_date':
-            case 'end_date':
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-            case 'volume':
-              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
-              _.each(self.model.ads, function(ad) {
-                ad.set('volume', ad.get('volume') * ratio);
-              });
-              break;
-            case 'rate':
-              revised_value = accounting.formatNumber(revised_value, 2);
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-          }
+          self._applyChangeToAd(attr_name, revised_value, original_value);
         });
+
         $apply_ads_dialog.modal('show');
       }
+
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       var li_id = this.model.get('id');
