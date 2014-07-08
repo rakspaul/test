@@ -404,7 +404,8 @@ $wide_input_width: 320px;
     }
   }
 
-  .copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn {
+  .copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn,
+  .ad-copy-targeting-btn, .ad-paste-targeting-btn, .ad-cancel-targeting-btn {
     border: 1px dashed $bg_color;
     float: left;
     padding: 4px;
@@ -414,17 +415,19 @@ $wide_input_width: 320px;
     margin-bottom: 7px;
   }
 
-  .copy-targeting-btn .copy-targeting-dropdown .active > a {
+  .copy-targeting-btn .copy-targeting-dropdown .active > a,
+  .ad-copy-targeting-btn .copy-targeting-dropdown .active > a {
     background-color: $magenta_color;
     background-image: none;
     background-repeat: none;
   }
 
-  .copy-targeting-item {
+  .copy-targeting-item, .ad-copy-targeting-item {
     letter-spacing: normal;
   }
 
-  .paste-targeting-btn, .cancel-targeting-btn {
+  .paste-targeting-btn, .cancel-targeting-btn,
+  .ad-paste-targeting-btn, .ad-cancel-targeting-btn {
     margin-left: 10px;
   }
 
@@ -594,7 +597,7 @@ $wide_input_width: 320px;
       margin-right: 5px;
     }
 
-    .li-number {
+    .li-number, .item-selection {
       text-align:center;
       color:white;
       font-weight:bold;
@@ -614,6 +617,11 @@ $wide_input_width: 320px;
       .item-number.selected {
         border: 2px dashed white;
         border-radius: 22px;
+      }
+
+      .item-icon.selected {
+        border: 2px solid white;
+        border-radius: 2px;
       }
     }
 

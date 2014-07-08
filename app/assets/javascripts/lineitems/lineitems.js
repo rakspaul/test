@@ -218,7 +218,7 @@
       buffer_editable:      '.buffer-editable',
       dup_btn:              '.li-duplicate-btn',
       delete_btn:           '.li-delete-btn',
-      item_number:          '.item-number',
+      item_selection:       '.item-number',
       copy_targeting_btn:   '.copy-targeting-btn',
       paste_targeting_btn:  '.paste-targeting-btn',
       cancel_targeting_btn: '.cancel-targeting-btn'

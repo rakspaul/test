@@ -325,8 +325,8 @@ ReachUI.toggleItemSelection = function(e, scope) {
     this._deselectAllItems({'except_current': true});
   }
 
-  this.ui.item_number.toggleClass('selected');
-  this.selected = this.ui.item_number.hasClass('selected');
+  this.ui.item_selection.toggleClass('selected');
+  this.selected = this.ui.item_selection.hasClass('selected');
   this.ui.copy_targeting_btn.toggle();
 
   var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
@@ -341,7 +341,9 @@ ReachUI.toggleItemSelection = function(e, scope) {
   if (buffer) {
     // Hide all buttons
     $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+    $('.ad-copy-targeting-btn, .ad-paste-targeting-btn, .ad-cancel-targeting-btn').hide();
     $('.copy-targeting-btn li').removeClass('active');
+    $('.ad-copy-targeting-btn li').removeClass('active');
     _.each([ ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.toggle(); });
   }
 };
@@ -352,11 +354,14 @@ ReachUI.deselectAllItems = function(options, scope) {
     _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
       if (!(options && options['except_current'] && item == self)) {
         item.selected = false;
-        item.ui.item_number.removeClass('selected');
+        item.ui.item_selection.removeClass('selected');
         if (!options || !options['multi']) {
           _.each([ item.ui.copy_targeting_btn, item.ui.paste_targeting_btn, item.ui.cancel_targeting_btn ], function(el) { el.hide(); });
         }
         item.renderTargetingDialog();
+        if (type == 'ad') {
+          ReachUI.showCondensedTargetingOptions.apply(self);
+        }
       }
     });
   });

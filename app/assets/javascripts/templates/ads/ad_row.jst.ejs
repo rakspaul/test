@@ -6,9 +6,9 @@
       <% } %>
     </div>
 
-    <div class="pure-u-1-24 ad-name">
+    <div class="pure-u-1-24 ad-name item-selection">
       Ad
-      <span class="<%=ad.type.toLowerCase() %>-icon centered-icon"></span>
+      <span class="<%=ad.type.toLowerCase() %>-icon centered-icon item-icon"></span>
       <% if(!isNaN(parseInt(ad.source_id))) { %>
         <div class="dfp-success"></div>
       <% } %>
@@ -119,7 +119,7 @@
 </div>
 <div style="clear:both"></div>
 
-<div class="copy-targeting-btn dropdown" style="display:none">
+<div class="ad-copy-targeting-btn dropdown" style="display:none">
   <div data-toggle="dropdown" id="copyTargeting">Copy</div>
     <ul class="dropdown-menu copy-targeting-dropdown list-inline" role="menu" aria-labelledby="copyTargeting">
       <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="key_values">KVs</a></li>
@@ -129,5 +129,7 @@
   </div>
 </div>
 
-<div class="paste-targeting-btn" style="display:none">Paste Targeting</div>
-<div class="cancel-targeting-btn" style="display:none">Cancel</div>
+<div class="ad-paste-targeting-btn" style="display:none">Paste Targeting</div>
+<div class="ad-cancel-targeting-btn" style="display:none">Cancel</div>
+
+<div style="clear:both"></div>

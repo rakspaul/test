@@ -94,16 +94,21 @@
       'click .toggle-ads-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-ads-creatives-btn': '_toggleCreativesDialog',
 
-      'click .copy-targeting-item': 'copyTargeting',
-      'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting',
+      'click .item-selection': '_toggleAdSelection',
+      'click .ad-copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .ad-paste-targeting-btn': 'pasteTargeting',
+      'click .ad-cancel-targeting-btn': 'cancelTargeting',
     },
 
     ui: {
-      targeting: '.targeting-container',
-      creatives_container: '.ads-creatives-list-view',
-      creatives_content: '.creatives-content',
-      ads_sizes: '.ads-sizes'
+      targeting:            '.targeting-container',
+      creatives_container:  '.ads-creatives-list-view',
+      creatives_content:    '.creatives-content',
+      ads_sizes:            '.ads-sizes',
+      item_selection:       '.item-icon',
+      copy_targeting_btn:   '.ad-copy-targeting-btn',
+      paste_targeting_btn:  '.ad-paste-targeting-btn',
+      cancel_targeting_btn: '.ad-cancel-targeting-btn'
     },
 
     _recalculateMediaCost: function(options) {
@@ -339,6 +344,27 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
+    },
+
+    _toggleAdSelection: function(e) {
+      e.stopPropagation();
+      ReachUI.toggleItemSelection.call(this, e, 'ad');
+    },
+
+    copyTargeting: function(e) {
+      ReachUI.copyTargeting.call(this, e, 'ad');
+    },
+
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'ad');
+    },
+
+    pasteTargeting: function(e) {
+      ReachUI.pasteTargeting.call(this, e, 'ad');
+    },
+
+    cancelTargeting: function(e) {
+      ReachUI.cancelTargeting.call(this, e, 'ad');
     },
 
     _showDeleteBtn: function(e) {
