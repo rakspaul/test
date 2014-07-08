@@ -155,7 +155,6 @@ class OrdersController < ApplicationController
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
-    @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     if !order_param[:revision_changes].blank?
@@ -201,6 +200,9 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
+        advertiser = create_advertiser(params[:order][:advertiser_name])
+        @order.network_advertiser_id = advertiser.id
+
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
@@ -404,6 +406,16 @@ private
     li_errors = {}
     ads = []
 
+    params_li_ids = params.map { |li| li[:lineitem][:id] }
+    existing_li_ids = @order.lineitems.map { |li| li.id }
+    deleted_li_ids = existing_li_ids - params_li_ids
+    begin
+      Lineitem.where(:id => deleted_li_ids).destroy_all
+    rescue => e
+      Rails.logger.warn 'lineitem errors: can not delete lineitem ' + e.message.inspect
+    end
+
+
     params.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
@@ -418,13 +430,9 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status].each do |param|
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
+      :master_ad_size, :companion_ad_size].each do |param|
         li[:lineitem].delete(param)
-      end
-
-      if li[:type] = 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
       end
 
       lineitem = nil
@@ -480,10 +488,20 @@ private
         # delete lineitem_assignments for selected creatives and if there are no ads associated
         # with this creative delete the creative itself
         if !_delete_creatives_ids.blank?
-          _delete_creatives_ids.each do |delete_creative_id|
-            creative = Creative.find delete_creative_id
-            lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
-            creative.destroy if creative.ads.empty?
+          if li[:type] == 'Video'
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = VideoCreative.find delete_creative_id
+              lineitem.lineitem_video_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
+          else
+            _delete_creatives_ids.each do |delete_creative_id|
+              creative = Creative.find delete_creative_id
+              lineitem.lineitem_assignments.find_by(creative_id: creative.id).try(:destroy)
+              creative.destroy if creative.ads.empty?
+              li_creatives.delete_if { |c| c[:creative][:id] == delete_creative_id } if li_creatives
+            end
           end
         end
 
@@ -546,9 +564,16 @@ private
 
           if li_saved
             if !delete_creatives_ids.blank?
-              ad_object.creatives.find(delete_creatives_ids).each do |creative|
-                ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
-                ad_assignment.destroy if !creative.pushed_to_dfp?
+              if media_type == 'Video'
+                ad_object.video_creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.video_ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
+              else
+                ad_object.creatives.find(delete_creatives_ids).each do |creative|
+                  ad_assignment = ad_object.ad_assignments.detect{|a| a.creative_id == creative.id}
+                  ad_assignment.destroy if !creative.pushed_to_dfp?
+                end
               end
             end
           end
@@ -615,17 +640,12 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
-      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
+      [ :selected_geos, :selected_key_values, :revised, :master_ad_size, :companion_ad_size ].each{|attr_name| li[:lineitem].delete(attr_name) }
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-
-      if li[:type] = 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
-      end
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
@@ -759,7 +779,6 @@ private
           Rails.logger.warn 'e.message - ' + e.message.inspect
           Rails.logger.warn 'e.backtrace - ' + e.backtrace.inspect
           li_errors[i] ||= {:ads => {}}
-          puts e.message.inspect
           li_errors[i][:ads][j] = e.message.match(/PG::Error:\W+ERROR:(.+):/mi).try(:[], 1)
         end
       end

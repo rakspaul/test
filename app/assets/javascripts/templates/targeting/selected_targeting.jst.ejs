@@ -50,7 +50,7 @@
   <div style="clear:both"></div>
 </div>
 
-<% if(reach_custom_kv && !show_custom_key_values) { %>
+<% if(reach_custom_kv) { %>
 <div class="pure-g keyvalue_targeting">
   <div class="custom-kv-icon pull-left"></div>
   <div class="pull-left pure-u-11-12 custom-kv">
@@ -58,18 +58,6 @@
   </div>
 </div>
 <% } %>
-
-<div class="pure-g custom-targeting">
-  <% if(show_custom_key_values) { %>
-  <div class="custom-kv-icon pull-left"></div>
-  <div class="add-custom-keyvalue-btn pure-u-11-12">Custom K/V</div>
-  <input type="text" name="custom_kvs" placeholder="Ex: btg=val.1, btg=val.2" value="<%= reach_custom_kv %>"class="custom-kvs-field"/>
-  <% } %>
-  <div style="clear:both"></div>
-  <span class="custom-kv-errors errors_container pure-u"></span>
-
-  <div style="clear:both"></div>
-</div>
 
 <% if(selected_geos.length > 0) { %>
 <div class="pure-g dma-targeting">

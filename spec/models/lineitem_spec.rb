@@ -12,6 +12,11 @@ describe Lineitem do
     it "set default master ad size on create" do
       expect(lineitem_video.ad_sizes).to eq(Video::DEFAULT_MASTER_ADSIZE)
     end
+
+    it "return companion ad size" do
+      lineitem_video.ad_sizes = "1x1,160x600,300x250,728x90"
+      expect(lineitem_video.companion_ad_size).to eq("160x600,300x250,728x90")
+    end
   end
 
   context "Create" do

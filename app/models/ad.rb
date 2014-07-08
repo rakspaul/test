@@ -26,11 +26,13 @@ class Ad < ActiveRecord::Base
   belongs_to :data_source
   belongs_to :network
   belongs_to :media_type
+  belongs_to :platform
 
   has_one :ad_pricing, dependent: :destroy
 
   has_many :ad_assignments
   has_many :creatives, through: :ad_assignments
+  has_and_belongs_to_many :sites, join_table: :site_targeting
   has_many :frequency_caps, :dependent => :delete_all
 
   has_many :video_ad_assignments
@@ -54,7 +56,7 @@ class Ad < ActiveRecord::Base
 
   before_validation :sanitize_attributes
   before_create :create_random_source_id, :set_est_flight_dates
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status
+  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
   before_update :check_est_flight_dates
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
@@ -180,6 +182,11 @@ class Ad < ActiveRecord::Base
   end
 
   def set_type_params
+    if platform
+      self.ad_type  = platform.ad_type
+      self.priority = platform.priority
+    end and return
+
     if type == 'Companion'
       self.ad_type  = Video::COMPANION_AD_TYPE
       self.priority = Video::COMPANION_PRIORITY
@@ -232,6 +239,10 @@ class Ad < ActiveRecord::Base
   end
 
 private
+
+  def set_platform_site
+    self.sites << platform.site if platform && platform.site && !self.sites.find_by_id(platform.site.id)
+  end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def set_est_flight_dates

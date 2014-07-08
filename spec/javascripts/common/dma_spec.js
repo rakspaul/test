@@ -45,7 +45,7 @@ describe('DMA', function() {
     it('renders "option" tag', function() {
       var dma = new ReachUI.DMA.Model({code: '501', name: 'New York'});
       var optionView = new ReachUI.DMA.OptionView({model: dma});
-      expect(optionView.render().$el).toBe('option');
+      expect(optionView.render().$el).toEqual('option');
     });
 
     describe('option tag', function() {
@@ -86,7 +86,7 @@ describe('DMA', function() {
       });
 
       it('renders select tag', function() {
-        expect(this.el).toBe('select');
+        expect(this.el).toEqual('select');
       });
 
       it('has two option tags', function() {

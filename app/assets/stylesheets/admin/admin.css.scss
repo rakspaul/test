@@ -993,6 +993,26 @@ ul.select-keyvals{
     margin:1px 7px;
     float:left;
   }
+
+  .tag-template-text{
+    width:390px;
+    float:left;
+    font-size:12px;
+    margin-left:20px;
+    word-wrap: break-word;
+
+    span{
+      color: #d0279c;
+    }
+  }
+
+  .tag-template{
+    width:330px;
+    height:80px;
+    float:left;
+  }
+
+
 }
 
 .platforms-table{
@@ -1001,6 +1021,43 @@ ul.select-keyvals{
   }
   .naming-convention{
     width:180px;
+  }
+  .tag-icon{
+    margin-left:10px;
+  }
+
+  .popover{
+    max-width:380px;
+    font-size:12px;
+    line-height:18px;
+    font-weight:normal;
+    color: #333;
+    word-wrap: break-word;
+
+    .popover-title{
+      font-size:13px;
+    }
+
+    .popover-content{
+      ul{
+        margin-left:15px;
+        li{
+          span{
+            color:#4094c3;
+          }
+        }
+      }
+
+      span{
+        color:#4094c3;
+      }
+    }
+  }
+
+  .tag-template-info{
+    .popover{
+       max-width:455px;
+    }
   }
 }
 
@@ -1011,3 +1068,5 @@ ul.select-keyvals{
     margin-bottom:10px;
   }
 }
+
+
