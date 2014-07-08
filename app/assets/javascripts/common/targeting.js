@@ -433,12 +433,10 @@
           $apply_ads_dialog.find('.apply-revisions-txt').html('Apply the new targeting to ads');
           $apply_ads_dialog.find('.noapply-btn').click(function() {
             $apply_ads_dialog.modal('hide');
-
+            self._renderSelectedTargetingOptions();
             self.options.parent_view._hideTargetingDialog();
             self.options.parent_view.onTargetingDialogToggle();
             self.$el.parent().hide('slow');
-
-            self._renderSelectedTargetingOptions();
           });
           $apply_ads_dialog.find('.apply-btn').click(function() {
             var targeting = _.pick(self.model.attributes, 'selected_geos', 'frequency_caps', 'selected_key_values', 'selected_zip_codes', 'keyvalue_targeting');
@@ -448,11 +446,10 @@
           });
           $apply_ads_dialog.modal('show');
         } else {
+          this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
           this.$el.parent().hide('slow');
-
-          this._renderSelectedTargetingOptions();
         }
       }
     },
