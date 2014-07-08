@@ -262,7 +262,7 @@ ReachUI.copyTargeting = function(e, scope) {
   ReachUI.LineItems.LineItem.setCopyBuffer('targeting', buffer);
 
   noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-  this._deselectAllLIs({ multi: true });
+  this._deselectAllItems({ multi: true });
   this.$el.addClass('copied-targeting-from');
 };
 
@@ -314,7 +314,7 @@ ReachUI.cancelTargeting = function(e) {
   }
   ReachUI.LineItems.LineItem.setCopyBuffer('targeting', null);
   $('.lineitem').removeClass('copied-targeting-from');
-  this._deselectAllLIs();
+  this._deselectAllItems();
 };
 
 ReachUI.toggleItemSelection = function(e, scope) {
@@ -323,7 +323,7 @@ ReachUI.toggleItemSelection = function(e, scope) {
   var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
   var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
   if (!buffer) {
-    this._deselectAllLIs({'except_current': true});
+    this._deselectAllItems({'except_current': true});
   }
 
   this.ui.item_number.toggleClass('selected');

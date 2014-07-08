@@ -703,7 +703,7 @@
       ReachUI.copyTargeting.call(this, e, 'li');
     },
 
-    _deselectAllLIs: function(options) {
+    _deselectAllItems: function(options) {
       ReachUI.deselectAllItems.call(this, options, 'li');
     },
 
