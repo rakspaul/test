@@ -19,6 +19,7 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.revised_targeting = false;
       this.platforms = [];
       this.is_blank_li = false;
     },
@@ -269,8 +270,25 @@
     },
 
     initialize: function(){
+      var self = this;
+
       _.bindAll(this, "render");
       //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      this.on('targeting:update', function(targeting) {
+        self.model.get('targeting').revised_targeting = false;
+        if (this.model.ads && this.model.ads.length > 0) {
+          _.each(self.model.ads, function(ad) {
+            if (ad.get('type') != 'Companion') {
+              var adTargeting = ad.get('targeting');
+              _.each(targeting, function(value, key) {
+                adTargeting.attributes[key] = value;
+              });
+            }
+          });
+          self.render(); // re-render LI and nested ads
+        }
+      });
 
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
@@ -281,6 +299,18 @@
       }
     },
 
+    _alignOrderStartDate: function() {
+      var minDate = this.model.collection.getMinLIDate();
+      $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+      this.model.collection.order.set('start_date', minDate);
+    },
+
+    _alignOrderEndDate: function() {
+      var maxDate = this.model.collection.getMaxLIDate();
+      $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+      this.model.collection.order.set("end_date", maxDate);
+    },
+
     setEditableFields: function() {
       var view = this, model = view.model, collection = model.collection;
 
@@ -289,12 +319,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('start_date', date);
+          model.set('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          model.set('start_date', date);
-          var minDate = collection.getMinLIDate();
-          $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
-          collection.order.set('start_date', minDate);
+          view._alignOrderStartDate();
 
           view._changeEditable($(this), newValue);
 
@@ -317,12 +345,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('end_date', date);
+          model.set('end_date', date);
 
           // order's end date should be highest of all related LIs
-          model.set('end_date', date);
-          var maxDate = collection.getMaxLIDate();
-          $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
-          collection.order.set("end_date", maxDate);
+          view._alignOrderEndDate();
 
           view._changeEditable($(this), newValue);
 
@@ -1044,6 +1070,8 @@
 
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1067,14 +1095,51 @@
     },
 
     _acceptRevision: function(e) {
+      var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
           $editable = $target_parent.siblings('div .editable'),
-          revised_value = $target_parent.siblings('.revision').text();
+          revised_value = $target_parent.siblings('.revision').text(),
+          original_value = this.model.get(attr_name);
 
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+
+      if (this.model.ads.length > 0 && attr_name != 'name') {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
+            apply_text = 'Apply the new ' + attr_name.split('_').join(' ') + ' to ads';
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html(apply_text);
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+        });
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+          switch (attr_name) {
+            case 'start_date':
+            case 'end_date':
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+            case 'volume':
+              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+              _.each(self.model.ads, function(ad) {
+                ad.set('volume', ad.get('volume') * ratio);
+              });
+              break;
+            case 'rate':
+              revised_value = accounting.formatNumber(revised_value, 2);
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+          }
+        });
+        $apply_ads_dialog.modal('show');
+      }
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       this.model.attributes[attr_name] = revised_value;
@@ -1086,6 +1151,8 @@
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
       this._checkRevisedStatus();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       $target_parent.remove();
     },
 
@@ -1306,7 +1373,7 @@
       var self = this;
       var lineitems = this.collection;
       var lineitemsWithoutAds = [];
-
+m
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
