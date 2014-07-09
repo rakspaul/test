@@ -361,6 +361,7 @@ ReachUI.deselectAllItems = function(options, scope) {
         item.renderTargetingDialog();
         if (type == 'ad') {
           ReachUI.showCondensedTargetingOptions.apply(item);
+          item.toggleMissingGeoCaution();
         }
       }
     });
