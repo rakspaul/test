@@ -76,7 +76,7 @@
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
-    getImps: function() { 
+    getImps: function() {
       return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
     },
 
@@ -231,15 +231,14 @@
       item_selection:       '.item-number',
       copy_targeting_btn:   '.copy-targeting-btn',
       paste_targeting_btn:  '.paste-targeting-btn',
-      cancel_targeting_btn: '.cancel-targeting-btn'
+      cancel_targeting_btn: '.cancel-targeting-btn',
+      notes_editable: '.notes-editable'
     },
 
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
       'click .li-add-ad-btn': '_addTypedAd',
-      'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
 
       // revisions
@@ -331,7 +330,6 @@
       });
 
       this.creatives_visible = {};
-      this.li_notes_collapsed = false;
 
       if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
@@ -520,6 +518,12 @@
           view._changeEditable($(this), newValue);
         }
       });
+
+      this.ui.notes_editable.editable({
+        success: function(response, newValue) {
+          model.set('notes', newValue);
+        }
+      });
     },
 
     updateEditableField: function(name, value) {
@@ -632,7 +636,7 @@
 
     getAds: function() {
       return this.model.ads.models || this.model.ads.collection || this.model.ads;
-    },      
+    },
 
     // method trigger change event to process contenteditable element by stickit
     _changeEditable: function(el, value, callback) {
@@ -657,7 +661,7 @@
         if (this.model.get('uploaded')) {
           this.ui.dup_btn.hide();
         } else {
-          this.ui.dup_btn.show();  
+          this.ui.dup_btn.show();
         }
         this.ui.delete_btn.hide();
       } else {
@@ -753,25 +757,8 @@
 
     serializeData: function(){
       var data = this.model.toJSON();
-      data.li_notes_collapsed = this.li_notes_collapsed;
       data.platforms = this.model.platforms;
       return data;
-    },
-
-    collapseLINotes: function(e) {
-      e.stopPropagation();
-      this.li_notes_collapsed = true;
-      this.$el.find('.name .notes').hide();
-      this.$el.find('.expand-notes').show();
-      this.render();
-    },
-
-    expandLINotes: function(e) {
-      e.stopPropagation();
-      this.li_notes_collapsed = false;
-      this.$el.find('.name .notes').show();
-      this.$el.find('.expand-notes').hide();
-      this.render();
     },
 
     _toggleLISelection: function(e) {
@@ -968,8 +955,38 @@
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
       var li_id = this.model.get('id');
 
+      if (this.model.ads.length > 0) {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog');
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html('Apply all new revisions to ads');
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+          self._removeAndHideAllRevisions(e);
+        });
+
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+          $('.save-order-btn').hide();
+
+          _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+            var revision = self.model.get('revised_'+attr_name),
+                original_value = self.model.get(attr_name);
+
+            if(revision != null) {
+              self._applyChangeToAd(attr_name, revision, original_value);
+            }
+          });
+          self._removeAndHideAllRevisions(e);
+        });
+
+        $apply_ads_dialog.modal('show');
+      }
+
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
-        var revision = self.model.get('revised_'+attr_name);
+        var revision = self.model.get('revised_'+attr_name),
+            original_value = self.model.get(attr_name);
+
         if(revision != null) {
           switch(attr_name) {
             case 'rate':
@@ -984,7 +1001,7 @@
           self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
 
           self.model.attributes[attr_name] = revision;
-          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
+          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').first().text(revision).addClass('revision');
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
           logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
@@ -996,7 +1013,6 @@
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
 
-      this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
@@ -1022,6 +1038,31 @@
       this.$el.find('.revised-dialog').remove();
     },
 
+    _applyChangeToAd: function(attr_name, revised_value, original_value) {
+      var self = this;
+
+      switch (attr_name) {
+        case 'start_date':
+        case 'end_date':
+          _.each(self.model.ads, function(ad) {
+            ad.set(attr_name, revised_value);
+          });
+          break;
+        case 'volume':
+          var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+          _.each(self.model.ads, function(ad) {
+            ad.set('volume', ad.get('volume') * ratio);
+          });
+          break;
+        case 'rate':
+          revised_value = accounting.formatNumber(revised_value, 2);
+          _.each(self.model.ads, function(ad) {
+            ad.set(attr_name, revised_value);
+          });
+          break;
+      }
+    },
+
     _acceptRevision: function(e) {
       var self = this;
       var $target_parent = $(e.currentTarget).parent(),
@@ -1042,32 +1083,17 @@
         $apply_ads_dialog.find('.noapply-btn').click(function() {
           $apply_ads_dialog.modal('hide');
         });
+
         $apply_ads_dialog.find('.apply-btn').click(function() {
           $apply_ads_dialog.find('.apply-btn').off('click');
           $apply_ads_dialog.modal('hide');
-          switch (attr_name) {
-            case 'start_date':
-            case 'end_date':
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-            case 'volume':
-              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
-              _.each(self.model.ads, function(ad) {
-                ad.set('volume', ad.get('volume') * ratio);
-              });
-              break;
-            case 'rate':
-              revised_value = accounting.formatNumber(revised_value, 2);
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-          }
+          $('.save-order-btn').hide();
+          self._applyChangeToAd(attr_name, revised_value, original_value);
         });
+
         $apply_ads_dialog.modal('show');
       }
+
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       var li_id = this.model.get('id');
@@ -1118,6 +1144,8 @@
         this.$el.find('.save-order-btn').addClass('disabled');
         this.$el.find('.push-order-btn').addClass('disabled');
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     serializeData: function(){

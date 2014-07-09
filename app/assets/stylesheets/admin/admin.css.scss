@@ -1012,6 +1012,41 @@ ul.select-keyvals{
     float:left;
   }
 
+  .icon-info-sign{
+    color: #d0279c;
+  }
+
+  .icon-info-sign:before{
+    cursor: pointer;
+  }
+
+  .popover{
+    max-width:460px;
+    font-size:12px;
+    line-height:18px;
+    font-weight:normal;
+    color: #333;
+    word-wrap: break-word;
+
+    .popover-title{
+      font-size:13px;
+    }
+
+    .popover-content{
+      ul{
+        margin-left:15px;
+        li{
+          span{
+            color:#d0279c;
+          }
+        }
+      }
+
+      span{
+        color:#d0279c;
+      }
+    }
+  }
 
 }
 

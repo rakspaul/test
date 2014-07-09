@@ -45,7 +45,7 @@ class OrdersController < ApplicationController
 
     @last_revision = if @order.revisions.empty?
       nil
-    else
+    elsif @order.io_detail.try(:state) == "revisions_proposed"
       revision = @order.revisions.last
       # we could only show the latest not accepted revision otherwise don't show any revisions at all
       revision.accepted ? nil : JSON.load(revision.object_changes)
