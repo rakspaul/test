@@ -1203,6 +1203,14 @@ $wide_input_width: 320px;
     color: $text_color;
     cursor: pointer;
   }
+
+  .connect-checkbox{
+    margin-top:-10px;
+
+    label{
+      margin:1px 0 10px 5px;
+    }
+  }
 }
 
 #push-confirmation-dialog, #import-creatives-dialog, #save-confirmation-dialog, #apply-revisions-ads-dialog {
