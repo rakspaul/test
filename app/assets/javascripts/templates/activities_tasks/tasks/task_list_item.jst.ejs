@@ -1,4 +1,46 @@
 <div class="task-row pure-g-r">
+  <% if(context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) { %>
+    <div id="task_<%= id %>" class="pure-u-1 task-details-container"></div>
+    <div class="border-breaker"></div>
+    <div class="task-comment pure-u-1-24">
+        <% var task_comment_icon = important ? "alert-icon" : "comment-icon" %>
+        <!-- As we have to show comment icon where the comment size is zero also -->
+      <span class="<%= task_comment_icon %> icon-wrapper">
+        <sup class="task-badge"><%= comments_size %></sup>
+      </span>
+    </div>
+    <div class="task-type pure-u-1-24 center">
+        <% task_icon_class = task_state == "complete" ? "task_done-icon" : (task_state == "close" ? "checkmark-icon" : "task_open-icon") %>
+        <div class="<%= task_icon_class %>"></div>
+    </div>
+    <div class="pure-u-1-4 task-name">
+        <%= name %>
+    </div>
+    <div class="pure-u-1-12 task-time text-left">
+        <%= important ? 'ASAP' : due_date %>
+    </div>
+    <!-- Follow icon is not required in the first phase -->
+    <!--<div class="pure-u-1-24 center">
+      <div class="follow-icon"></div>
+    </div>-->
+    <div class="pure-u-1-8 text-left">
+        <i class="crown-icon"></i>
+        <%= requested_by == undefined ? created_by : requested_by%>
+    </div>
+    <div class="pure-u-1-8 text-left">
+        <i class="user-icon"></i>
+        <%= assignable_name %>
+    </div>
+    <% if(order_name) { %>
+    <div class="pure-u-1-4 text-left">
+        <a href="/orders/<%= order_id %>"><%= order_name%></a>
+    </div>
+    <% } else { %>
+    <div class="pure-u-1-4 text-left">
+        No order
+    </div>
+    <% } %>
+  <% } else { %>
   <% var show_order_name = (context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME ? true : false)%>
   <div id="task_<%= id %>" class="pure-u-1 task-details-container"></div>
   <div class="border-breaker"></div>
@@ -30,5 +72,6 @@
     <div class="pure-u-1-3 text-right">
         <%= order_name%>
       </div>
+  <% } %>
   <% } %>
 </div>

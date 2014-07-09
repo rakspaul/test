@@ -86,6 +86,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
 
     assignedToMe: function() {
       var taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout({
+          template: JST['templates/team/task_list'],
           context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME
       });
       ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(taskLayout);
