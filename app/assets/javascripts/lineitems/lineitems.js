@@ -1023,6 +1023,7 @@
         $apply_ads_dialog.find('.apply-btn').click(function() {
           $apply_ads_dialog.find('.apply-btn').off('click');
           $apply_ads_dialog.modal('hide');
+          $('.save-order-btn').hide();
 
           _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
             var revision = self.model.get('revised_'+attr_name),
@@ -1140,6 +1141,7 @@
         $apply_ads_dialog.find('.apply-btn').click(function() {
           $apply_ads_dialog.find('.apply-btn').off('click');
           $apply_ads_dialog.modal('hide');
+          $('.save-order-btn').hide();
           self._applyChangeToAd(attr_name, revised_value, original_value);
         });
 
