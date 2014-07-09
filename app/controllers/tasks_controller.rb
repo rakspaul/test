@@ -55,7 +55,7 @@ class TasksController < ApplicationController
 
   def team_user_tasks
     @user_tasks = if @team
-                    @team.users.map do |user|
+                    @team.users_order_by_name.map do |user|
                       {
                         user: user,
                         tasks: Task.includes(:order).user_tasks(user, params[:limit], params[:offset])
@@ -64,6 +64,8 @@ class TasksController < ApplicationController
                   else
                     []
                   end
+
+    @user_tasks.reject! {|usr_tasks| usr_tasks[:tasks].empty? }
     respond_to do |format|
       format.json
     end

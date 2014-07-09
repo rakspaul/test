@@ -29,12 +29,46 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
   Team.TeamHeaderView = Marionette.ItemView.extend({
     template: JST['templates/team/team_header'],
 
-    initialize: function(options) {
+    initialize: function (options) {
       this.options = options;
     },
 
-    serializeData: function() {
+    serializeData: function () {
       return this.options;
+    },
+
+    ui: {
+      teamSwitcher: '#teamSwitcher'
+    },
+
+    events: {
+//      'change #teamSwitcher': 'switchTeam'
+    },
+
+    onDomRefresh: function () {
+      var self = this;
+      $('#teamSwitcher .editable').editable({
+        source: this.fetchTeamOptions(),
+        success: function (response, newValue) {
+          self.switchTeam(newValue);
+        }
+      });
+    },
+
+//    switchTeam: function(newValue) {
+//      console.log(this.ui.teamSwitcher.val());
+//      ReachActivityTaskApp.trigger('team-view:list', {teamId: this.ui.teamSwitcher.val()});
+//    }
+    switchTeam: function(newValue) {
+      ReachActivityTaskApp.trigger('team-view:list', {teamId: newValue});
+    },
+
+    fetchTeamOptions: function() {
+      var teams = {};
+        _.each(this.options.teams, function(team) {
+           teams[team.id] = team.name;
+        });
+      return teams;
     }
   });
 
@@ -87,7 +121,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
   function renderTeamTasks(teamLayout, teamTasks) {
     var teamHeaderView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.TeamHeaderView({
       teamId: teamTasks.get('team').id,
-      teamName: teamTasks.get('team').name
+      teamName: teamTasks.get('team').name,
+      teams: teamTasks.get('teams')
     });
     teamLayout.teamHeaderRegion.show(teamHeaderView);
 

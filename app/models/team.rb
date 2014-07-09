@@ -8,4 +8,8 @@ class Team < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   alias_attribute :full_name, :name
+
+  def users_order_by_name
+    self.users.sort {|a, b| a.full_name <=> b.full_name}
+  end
 end

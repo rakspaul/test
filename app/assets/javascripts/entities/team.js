@@ -62,6 +62,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           filter["offset"] = offset;
         }
 
+        if(teamLayout.options.teamId) {
+          filter["team_id"] = teamLayout.options.teamId;
+        }
+
         userTasks.fetch({
           data: $.param(filter),
           success: function(data) {
@@ -90,6 +94,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
         if(offset) {
           filter["offset"] = offset;
+        }
+
+        if(teamLayout.options.teamId) {
+          filter["team_id"] = teamLayout.options.teamId;
         }
 
         teamTasks.fetch({

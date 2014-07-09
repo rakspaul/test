@@ -93,8 +93,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       ReachActivityTaskApp.trigger("tasks:list", taskLayout);
     },
 
-    teamView: function () {
-      var teamLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout();
+    teamView: function(options) {
+      var teamLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout(options);
       ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(teamLayout);
 
       ReachActivityTaskApp.trigger("team-tasks:list", teamLayout);

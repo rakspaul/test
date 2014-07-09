@@ -104,12 +104,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.assignedToMe();
     },
 
-    teamTasks: function () {
+    teamTasks: function(options) {
 //        Do we need this. Instead trigger here
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView();
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView(options);
     },
 
-    tasksFollowed: function () {
+    tasksFollowed: function() {
       console.log("Tasks Followed Fired!");
     }
   };
@@ -199,8 +199,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     return API.tasksAssignedToMe();
   });
 
-  ReachActivityTaskApp.on("team-view:list", function() {
-    return API.teamTasks();
+  ReachActivityTaskApp.on("team-view:list", function(options) {
+    return API.teamTasks(options);
   });
 
   Tasks.Router = Marionette.AppRouter.extend({
