@@ -153,6 +153,18 @@ describe('Line items views', function() {
         var impsValueEl = this.view.$el.find('.unallocated-imps');
         expect(impsValueEl).toBeHidden();
       });
+
+      it('should include copy targeting button', function() {
+        expect(this.view.$el).toContainElement('.copy-targeting-btn');
+      });
+
+      it('should include paste targeting button', function() {
+        expect(this.view.$el).toContainElement('.paste-targeting-btn');
+      });
+
+      it('should include cancel copy targeting button', function() {
+        expect(this.view.$el).toContainElement('.cancel-targeting-btn');
+      });
     });
 
     /*describe('create new ad', function() {
