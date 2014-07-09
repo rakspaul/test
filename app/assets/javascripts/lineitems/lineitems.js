@@ -683,12 +683,9 @@
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
       if (unallocated == 0) {
         $('.push-order-btn').removeClass('disabled');
-      } else {
-        $('.push-order-btn').addClass('disabled');
-      }
-      if (this.getAds().length == 1) {
         this.ui.unallocated_imps.hide();
       } else {
+        $('.push-order-btn').addClass('disabled');
         this.ui.unallocated_imps.show();
       }
     },
