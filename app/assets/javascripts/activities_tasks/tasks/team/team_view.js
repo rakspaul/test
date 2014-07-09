@@ -14,52 +14,75 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       'change #assigneeSelector': 'setAssignee'
     },
 
-      onRender: function() {
-          // Selectize the task-assignee-selector
-          this.assigneeSelector = this.ui.taskAssigneeSelector.selectize({
-              valueField: 'id',
-              labelField: 'name',
-              searchField: 'name',
-              sortField: 'group',
-//              options: List.Task.assignee_list,
-              optgroups: [
-                  { value: 'team', label: 'Default Team' },
-                  { value: 'team_users', label: 'Team Members' },
-                  { value: 'users_all', label: 'Users' },
-                  { value: 'default_user', label: 'Default User' }
-              ],
-              optgroupField: 'group',
-              create: false,
-              load: function(query, callback) {
-                  if (!query.length) return callback();
-                  $.ajax({
-                      url: '/users/search.js',
-                      type: 'GET',
-                      dataType: 'jsonp',
-                      data: {
-                          search: query,
-                          search_by: 'name'
-                      },
-                      error: function () {
-                          callback();
-                      },
-                      success: function (res) {
-                          var allUsers = [];
+    onDomRefresh: function() {
+      var self = this;
+      $('.' + this.model.get('id') + '-order-name .typeahead').editable({
+        source: '/orders/search.json',
+        typeahead: {
+          minLength: 2,
+          remote: '/orders/search.json?search=%QUERY',
+          valueKey: 'name'
+        },
+        success: function(response, newValue) {
+          self.model.save({order_id: self.model.get('order_id')}, {
+            error: function() {
+              console.log('task type update failed!')
+            },
+            patch: true});
+        }
 
-                          if (res !== 'undefined') {
-                              for (var i = 0; i < res.length; i++) {
-                                  allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
-                              }
-                          }
+      });
+      $('.' + this.model.get('id') + '-order-name').on('typeahead:selected', function(event, el) {
+        self.model.set('order_id', el.id);
+        self.model.set('order_name', el.name);
+      });
+    },
 
-                          callback(allUsers);
-                      }
-                  });
+    onRender: function() {
+      // Selectize the task-assignee-selector
+      this.assigneeSelector = this.ui.taskAssigneeSelector.selectize({
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        sortField: 'group',
+        optgroups: [
+          { value: 'team', label: 'Default Team' },
+          { value: 'team_users', label: 'Team Members' },
+          { value: 'users_all', label: 'Users' },
+          { value: 'default_user', label: 'Default User' }
+        ],
+        optgroupField: 'group',
+        create: false,
+        load: function(query, callback) {
+          if (!query.length) return callback();
+          $.ajax({
+            url: '/users/search.js',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+              search: query,
+              search_by: 'name'
+            },
+            error: function () {
+              callback();
+            },
+            success: function (res) {
+              var allUsers = [];
+
+              if (res !== 'undefined') {
+                for (var i = 0; i < res.length; i++) {
+                  allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                }
               }
-          });
-      },
 
-      serializeData: function(data) {
+              callback(allUsers);
+            }
+          });
+        }
+      });
+    },
+
+    serializeData: function(data) {
           return _.extend(this.model.toJSON(), {context: this.model.collection.context});
       },
 

@@ -36,8 +36,8 @@
         <a href="/orders/<%= order_id %>"><%= order_name%></a>
     </div>
     <% } else { %>
-    <div class="pure-u-1-4 text-left order-name">
-        No order
+    <div class="pure-u-1-4 text-left <%= id %>-order-name">
+      <span class="editable typeahead custom" data-type="typeahead" data-pk="<%= id %>" data-name="order_id" data-mode="inline" data-inputclass="wide-editable-text">No order</span>
     </div>
     <% } %>
   <%} else if(context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM_USER) { %>
@@ -75,7 +75,7 @@
         <a href="/orders/<%= order_id %>"><%= order_name%></a>
     </div>
     <% } else { %>
-    <div class="pure-u-1-4 text-left order-name">
+    <div class="pure-u-1-4 text-left">
         No order
     </div>
     <% } %>
