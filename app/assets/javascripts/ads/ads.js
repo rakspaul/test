@@ -112,7 +112,8 @@
       item_selection:       '.item-icon',
       copy_targeting_btn:   '.ad-copy-targeting-btn',
       paste_targeting_btn:  '.ad-paste-targeting-btn',
-      cancel_targeting_btn: '.ad-cancel-targeting-btn'
+      cancel_targeting_btn: '.ad-cancel-targeting-btn',
+      missing_geo_caution:  '.missing-geo-caution'
     },
 
     _recalculateLIMediaCost: function(options) {
@@ -223,6 +224,16 @@
       $('.ad > .name').height('');
 
       this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
+    },
+
+    toggleMissingGeoCaution: function() {
+      var targeting = this.model.get('targeting');
+      if (targeting && targeting.get('selected_geos').length == 0 &&
+                       targeting.get('selected_zip_codes').length == 0) {
+        this.ui.missing_geo_caution.show();
+      } else {
+        this.ui.missing_geo_caution.hide();
+      }
     },
 
     // for ads
