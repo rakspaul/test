@@ -620,8 +620,9 @@ $wide_input_width: 320px;
       }
 
       .item-icon.selected {
+        margin: 0 10px;
         border: 2px solid white;
-        border-radius: 2px;
+        border-radius: 20px;
       }
     }
 

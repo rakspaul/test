@@ -360,7 +360,7 @@ ReachUI.deselectAllItems = function(options, scope) {
         }
         item.renderTargetingDialog();
         if (type == 'ad') {
-          ReachUI.showCondensedTargetingOptions.apply(self);
+          ReachUI.showCondensedTargetingOptions.apply(item);
         }
       }
     });
