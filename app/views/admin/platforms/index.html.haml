@@ -40,8 +40,8 @@
         .pure-g.header-container
           .pure-u.title-container
             .title
-              .pull-left Tag
-              %a.tag-icon.pull-left{:href => "javascript:void(0)", :id => "tag_tooltip"}
+              Tag
+
       %th.naming-convention
         .pure-g.header-container
           .pure-u.title-container
@@ -80,33 +80,9 @@
 .paginator{:id => "paginator"}
   = paginate @platforms,:remote => :true
 
-#tag_tooltip_content.hide
-  %ul
-    %li
-      %span !ZONE_NAME!
-      replaced with the zone specified for the platform
-    %li
-      %span !KEY_VALUE!
-      replaced with the key and custom value of the ad (specified in platform admin and from the line item, respectively)
-    %li
-      %span !SIZE!
-      replaced with ad size, one tag per ad size
-    %li
-      %span !NETWORK_ID!
-      replaced with the DFP network ID
-
 :javascript
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
-
-    $('#tag_tooltip').popover({
-      html : true,
-      trigger: 'hover',
-      title: 'When a tag is generated, the following tokens are replaced:',
-      content: function() {
-        return $('#tag_tooltip_content').html();
-      },
-    });
 
     $('.tag-info').popover();
 
