@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
   scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
   scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? OR io_details.client_advertiser_name ILIKE ?", "%#{query}%", "%#{query}%", "%#{query}%","%#{query}%") unless query.blank? }
   scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
-  scope :filterByReachClient, lambda { |rc| where("io_details.reach_client_id = ?", ReachClient.find_by_name(rc).try(:id)) unless rc.blank?  }
+  scope :filterByReachClient, lambda { |rc| where("io_details.reach_client_id = ?", rc) unless rc.blank?  }
 
   def self.of_network(network)
     where(:network => network)
