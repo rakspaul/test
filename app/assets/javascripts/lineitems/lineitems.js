@@ -76,7 +76,7 @@
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
-    getImps: function() { 
+    getImps: function() {
       return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
     },
 
@@ -231,15 +231,14 @@
       item_selection:       '.item-number',
       copy_targeting_btn:   '.copy-targeting-btn',
       paste_targeting_btn:  '.paste-targeting-btn',
-      cancel_targeting_btn: '.cancel-targeting-btn'
+      cancel_targeting_btn: '.cancel-targeting-btn',
+      notes_editable: '.notes-editable'
     },
 
     events: {
       'click .toggle-targeting-btn': '_toggleTargetingDialog',
       'click .toggle-creatives-btn': '_toggleCreativesDialog',
       'click .li-add-ad-btn': '_addTypedAd',
-      'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes',
       'click .li-number': '_toggleLISelection',
 
       // revisions
@@ -331,7 +330,6 @@
       });
 
       this.creatives_visible = {};
-      this.li_notes_collapsed = false;
 
       if (! this.model.get('targeting')) {
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
@@ -520,6 +518,12 @@
           view._changeEditable($(this), newValue);
         }
       });
+
+      this.ui.notes_editable.editable({
+        success: function(response, newValue) {
+          model.set('notes', newValue);
+        }
+      });
     },
 
     updateEditableField: function(name, value) {
@@ -632,7 +636,7 @@
 
     getAds: function() {
       return this.model.ads.models || this.model.ads.collection || this.model.ads;
-    },      
+    },
 
     // method trigger change event to process contenteditable element by stickit
     _changeEditable: function(el, value, callback) {
@@ -657,7 +661,7 @@
         if (this.model.get('uploaded')) {
           this.ui.dup_btn.hide();
         } else {
-          this.ui.dup_btn.show();  
+          this.ui.dup_btn.show();
         }
         this.ui.delete_btn.hide();
       } else {
@@ -756,25 +760,8 @@
 
     serializeData: function(){
       var data = this.model.toJSON();
-      data.li_notes_collapsed = this.li_notes_collapsed;
       data.platforms = this.model.platforms;
       return data;
-    },
-
-    collapseLINotes: function(e) {
-      e.stopPropagation();
-      this.li_notes_collapsed = true;
-      this.$el.find('.name .notes').hide();
-      this.$el.find('.expand-notes').show();
-      this.render();
-    },
-
-    expandLINotes: function(e) {
-      e.stopPropagation();
-      this.li_notes_collapsed = false;
-      this.$el.find('.name .notes').show();
-      this.$el.find('.expand-notes').hide();
-      this.render();
     },
 
     _toggleLISelection: function(e) {
