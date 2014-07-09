@@ -29,7 +29,7 @@ class Task < ActiveRecord::Base
   # validates :requested_by_id, presence: true
   validates :created_by_id, :presence => true
   # validates :updated_by_id, presence: true
-  validates :order_id, :presence => true
+  #validates :order_id, :presence => true
   validates :task_state, :presence => true, :inclusion => { :in => TaskState.const_values }
   validate :validate_due_date, :if => :due_date_changed?
 
@@ -94,19 +94,21 @@ class Task < ActiveRecord::Base
   end
 
   def update_activity_log
-    #system comment
-    note = "<i>#{name}</i>: created the task"
-    order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
-                                              :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
-                                              :created_by_id => created_by_id
-    order_activity_log.save
+    if (self.order_id)
+      #system comment
+      note = "<i>#{name}</i>: created the task"
+      order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
+                                                :activity_type => OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                                :created_by_id => created_by_id
+      order_activity_log.save
 
-    #user comment
-    activity = OrderActivityLog.new :order_id => self.order_id, :note => name,
-                                    :activity_type => OrderActivityLog::ActivityType::TASK,
-                                    :created_by => created_by
-    activity.save!
+      #user comment
+      activity = OrderActivityLog.new :order_id => self.order_id, :note => name,
+                                      :activity_type => OrderActivityLog::ActivityType::TASK,
+                                      :created_by => created_by
+      activity.save!
 
-    self.order_activity_log = activity
+      self.order_activity_log = activity
+    end
   end
 end

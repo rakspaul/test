@@ -1,7 +1,7 @@
 class TasksController < ApplicationController
   include Authenticator
 
-  before_filter :require_order, :only => [:index, :create]
+  before_filter :require_order, :only => [:index]
   before_filter :require_task, :only => [:update, :comments, :add_comment]
 
   respond_to :json
@@ -19,6 +19,47 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
+
+  def create
+    if :order_id
+      @order = Order.find_by_id params[:order_id]
+    end
+
+    Task.transaction do
+      attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]) if params[:activity_attachment_id]
+
+      # create task
+      task_params = get_task_params
+      task_params.merge! :name => task_params.delete(:note),
+                         :order_id => @order ? @order.id : nil,
+                         :created_by => current_user,
+                         :requested_by => current_user,
+                         :task_state => Task::TaskState::OPEN,
+                         :assignable => team_or_user(task_params.delete(:assigned_by_id)),
+                         :important => task_params.delete(:important)
+
+      @task = Task.new(task_params)
+      @task.save!
+
+      activity_params = activity_log_params
+      @activity = TaskActivityLog.new activity_params.merge!(:task => @task,
+                                                             :activity_type => OrderActivityLog::ActivityType::USER_COMMENT,
+                                                             :created_by => current_account.user)
+      @activity.save!
+
+      # link activity attachment
+      if attachment
+        attachment.activity_log = @activity
+        attachment.save!
+      end
+    end
+
+    render :json => {:status => 'ok'}, :status => 200
+  rescue ActiveRecord::RecordInvalid => e
+    render :json => {:status => 'error', :message => @task.errors.messages}, :status => 400
+  rescue ActiveRecord::ActiveRecordError => e
+    error_message(e.message)
   end
 
   def assigned_to_me
@@ -76,6 +117,22 @@ class TasksController < ApplicationController
   end
 
   private
+
+  def get_task_params
+    params.permit(:note, :order_id, :important, :due_date, :task_type_id, :assignable, :assigned_by_id)
+  end
+
+  def team_or_user(assigned_by_id)
+    type = params[:assignable_type] || 'User'
+    logger.debug("params[:assignable_type]: #{params[:assignable_type]}")
+    logger.debug("type: #{type}")
+
+    if type == 'User'
+      User.find_by_id assigned_by_id
+    else
+      Team.find_by_id assigned_by_id
+    end
+  end
 
   def require_task
     @task = Task.find_by_id(params[:task_id] || params[:id])

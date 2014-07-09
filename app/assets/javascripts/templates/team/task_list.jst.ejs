@@ -1,76 +1,7 @@
 <div id="teamTasksSection">
   <h2 class="team-name">Team East</h2>
   <div id="teamSwitcher">Switch Team</div>
-  <div class="team-task-form-container">
-    <h2 class="heading"><i class="task_done-icon"></i> Tasks</h2>
-    <form name="team_task_form" id="teamTaskForm">
-      <div class="pure-g-r main-controls-container">
-        <div class="username pure-u-1-5">
-          <%= window.current_user_name%>
-        </div>
-        <div class="pure-u-3-5">
-          <textarea id="task_comment_input" placeholder="Note"></textarea>
-          <div class="rui-btn" id="btnRemoveTaskAttachment" style="display: none;"><!-- TODO: Remove display="none" once implemented on JS side -->
-            <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
-            <i class="attachment-type archive-icon"></i>
-            <a id="task-attachment-file-name" href=""></a>
-            <i class="remove-btn"></i>
-          </div>
-        </div>
-        <div class="pure-u-1-5">
-          <div class="action-controls">
-            <div id="attachmentUploader">
-              <input type="file" name="file" id="btnSaveTaskAttachment" class="attachment-file-upload">
-              <i class="attachment-icon"></i>
-            </div>
-            <button id="btnMarkTaskImportant" class="rui-btn">
-              <i class="alert-icon"></i>
-            </button>
-            <button id="btnSaveTaskComment" class="rui-btn" title="Add Comment">
-              <i class="task_done_white-icon"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div id="teamTaskSubform">
-        <div class="pure-g-r">
-          <div class="pure-u-1-4">
-            <select name="order_id" id="taskOrderSelector" class="selectpicker" data-live-search="true">
-              <option value="">Related Order...</option>
-              <option value="some-order">Some Existing Order</option>
-            </select>
-          </div>
-          <div class="pure-u-1-4">
-            <div class="form-control-group">
-              <i class="task_open-icon"></i>
-              <select name="task_type_id" id="taskTypeSelector" class="selectpicker" data-live-search="true">
-                <option value="">Task type...</option>
-                <option value="creative">Creative</option>
-              </select>
-            </div>
-          </div>
-          <div class="pure-u-1-4">
-            <div class="form-control-group">
-              <div class="form-control-group">
-                <i class="user-icon"></i>
-                <select name="task_assignee_id" id="taskAssigneeSelector" class="selectpicker" data-live-search="true">
-                  <option value="">Assignee...</option>
-                  <option value="alan">Bred Pittsburg</option>
-                  <option value="bred">Alan Poe</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="pure-u-1-4">
-            <div class="form-control-group">
-              <i class="clock-icon"></i>
-              <input type="text" class="span2" value="<%= moment(new Date()).format("YYYY-MM-DD") %>" id="due-date" placeholder="Due Date">
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+  <div class="team-task-form-container"></div>
   <div class="team-task-list-container">
     <table class="pure-table pure-table-horizontal rui-pure-table">
       <thead>

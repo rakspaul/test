@@ -1,0 +1,70 @@
+<h2 class="heading"><i class="task_done-icon"></i> Tasks</h2>
+<form name="team_task_form" id="teamTaskForm">
+  <div class="pure-g-r main-controls-container">
+    <div class="username pure-u-1-5">
+      <%= window.current_user_name%>
+    </div>
+    <div class="pure-u-3-5">
+      <textarea id="task_comment_input" placeholder="Note"></textarea>
+      <div class="errors_container">
+        <% if (errors && errors.name) { %>
+        <%= errors.name[0] %>
+        <% } %>
+      </div>
+      <div class="rui-btn" id="btnRemoveTaskAttachment" style="display: none;"><!-- TODO: Remove display="none" once implemented on JS side -->
+        <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
+        <i class="attachment-type archive-icon"></i>
+        <a id="task-attachment-file-name" href=""></a>
+        <i class="remove-btn"></i>
+      </div>
+    </div>
+    <div class="pure-u-1-5">
+      <div class="action-controls">
+        <div id="attachmentUploader">
+          <input type="file" name="file" id="activity_attachment" class="attachment-file-upload">
+          <i class="attachment-icon"></i>
+        </div>
+        <button id="btnSaveAlert" class="rui-btn <%= important ? 'active' : ''%>" title="Mark Task as important">
+          <i class="alert-icon"></i>
+        </button>
+        <button id="btnSaveTaskComment" class="rui-btn" title="Add Comment">
+          <i class="task_done_white-icon"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="teamTaskSubform">
+    <div class="pure-g-r">
+      <div class="pure-u-1-4">
+        <select name="order_id" id="taskOrderSelector" placeholder="Select order...">
+        </select>
+      </div>
+
+      <div class="pure-u-1-4">
+        <div class="form-control-group">
+          <i class="task_open-icon"></i>
+          <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
+            <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
+            <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
+            <%}); %>
+          </select>
+        </div>
+      </div>
+
+      <div class="pure-u-1-4">
+        <div class="form-control-group">
+          <i class="user-icon"></i>
+          <select id="task-assignee-selector"></select>
+        </div>
+      </div>
+
+      <div class="pure-u-1-4">
+        <div class="form-control-group">
+          <i class="clock-icon"></i>
+          <span id="due-date-text" style="display: none">ASAP</span>
+          <input type="text" class="span2" value="<%= due_date %>" id="due-date" placeholder="Due Date">
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

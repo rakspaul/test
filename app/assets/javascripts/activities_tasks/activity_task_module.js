@@ -55,7 +55,7 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     ReachActivityTaskApp.order = {};
     switch (options.startedAt) {
       case "order_list":
-        ActivitiesTasks.initAtOrderList();
+        ActivitiesTasks.initAtOrderList(options);
         break;
       case "order_details":
         ReachActivityTaskApp.order = options.order;
@@ -80,11 +80,17 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
    * This init function designed specially to show task list on Order list page; "Assigned to me"
    * @param options
    */
-  ActivitiesTasks.initAtOrderList = function () {
+  ActivitiesTasks.initAtOrderList = function (options) {
     this.orderTasksLayout = new ActivitiesTasks.OrderTasksLayout();
     ReachActivityTaskApp.middleRegion.show(this.orderTasksLayout);
 
     // We always will have navigation section, so just render Navigation view in a corresponding region
     this.orderTasksLayout.navigationRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView());
+
+    $.when(API.fetchTaskTypes())
+      .done(function(taskTypes) {
+          ReachActivityTaskApp.taskTypes = taskTypes.models;
+          ReachActivityTaskApp.trigger("include:taskFormInTeamView", {model: new ReachActivityTaskApp.Entities.Task()});
+      });
   };
 },JST);

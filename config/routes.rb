@@ -113,6 +113,7 @@ Reachui::Application.routes.draw do
 
     resources :notes, controller: 'order_notes'
     resources :activities, controller: 'order_activity_logs'
+    resources :tasks, controller: 'tasks'
   end
 
   resources :tasks do

@@ -11,12 +11,21 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   Entities.Task = Backbone.Model.extend({
     defaults: {
       is_closed: false,
-      original_filename: null
+      original_filename: null,
+      important: null,
+      task_type_id: 0,
+      due_date: moment().format('YYYY-MM-DD'),
+      note: "",
+      errors: {}
     },
 
     url: function() {
       if(this.isNew()) {
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks';
+        if (ReachActivityTaskApp.order.id) {
+          return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
+        } else {
+          return '/tasks.json';
+        }
       } else {
         return '/tasks/' + this.get('id');
       }

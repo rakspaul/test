@@ -219,7 +219,12 @@ class OrdersController < ApplicationController
       @orders = @orders.latest_updated
     end
 
-    respond_with(@orders)
+    respond_to do | format |
+      format.json
+      format.js do
+        render :json => @orders, :callback => params[:callback]
+      end
+    end
   end
 
   def delete

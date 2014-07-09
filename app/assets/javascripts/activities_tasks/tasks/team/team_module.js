@@ -4,7 +4,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
     template: JST['templates/team/task_list'],
 
     regions: {
-
+      taskFormRegion: '.team-task-form-container'
     }
   });
 
