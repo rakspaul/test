@@ -361,7 +361,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.save(null, {
         success: function (model, response) {
           ReachActivityTaskApp.trigger("activities:list");
-          ReachActivityTaskApp.trigger("tasks:list");
+          ReachActivityTaskApp.trigger("include:tasks");
           Header.headerLayout.resetFormControls();
         },
         error: function (model, response) {

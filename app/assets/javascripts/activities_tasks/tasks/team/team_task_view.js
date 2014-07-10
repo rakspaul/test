@@ -374,9 +374,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
     }
   });
 
-  ReachActivityTaskApp.on("include:taskFormInTeamView", function (options) {
-    var taskFormView = new Task.FormView({ model: options.model });
-    ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.taskFormRegion.show(taskFormView);
+  ReachActivityTaskApp.on("include:taskFormInTeamView", function (teamLayout) {
+    var taskFormView = new Task.FormView({model: new ReachActivityTaskApp.Entities.Task()});
+    teamLayout.taskFormRegion.show(taskFormView);
   });
 
 }, JST);

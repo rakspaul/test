@@ -97,12 +97,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       var teamLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout(options);
       ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(teamLayout);
 
+      $.when(ReachActivityTaskApp.ActivitiesTasks.fetchTaskTypes())
+        .done(function(taskTypes) {
+          ReachActivityTaskApp.taskTypes = taskTypes.models;
+          ReachActivityTaskApp.trigger("include:taskFormInTeamView", teamLayout);
+      });
+
       ReachActivityTaskApp.trigger("team-tasks:list", teamLayout);
 
-
       ReachActivityTaskApp.trigger("team-user-tasks:list", teamLayout);
-      // TODO: Move into View which will hold Team Task Form
-      //$(".selectpicker").selectpicker();
     }
   }
 });

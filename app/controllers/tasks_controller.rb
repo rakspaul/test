@@ -198,7 +198,8 @@ class TasksController < ApplicationController
 
   def require_team
     @team = Team.find_by_id params[:team_id] if params[:team_id]
-    @team ||= current_user.teams.first
+    @team ||= current_user.teams.try(:first)
+    @team ||= Team.all.first
   end
 
   def require_user

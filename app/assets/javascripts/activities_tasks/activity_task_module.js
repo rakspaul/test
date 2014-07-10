@@ -22,15 +22,9 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
    TODO: Define routes here to fetch master data like activity-types, states etc...
    */
 
-  var API = {
-    fetchMasterData: function() {
-      var deferred = new $.Deferred();
-    },
-
-    fetchTaskTypes: function() {
-      return ReachActivityTaskApp.request("taskType:entities");
-    }
-  };
+  ActivitiesTasks.fetchTaskTypes = function() {
+    return ReachActivityTaskApp.request("taskType:entities");
+  }
 
   ActivitiesTasks.Layout = Marionette.Layout.extend({
     template: JST['templates/activities_tasks/activities_tasks_layout'],
@@ -68,7 +62,7 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     this.activitiesTasksLayout = new ReachActivityTaskApp.ActivitiesTasks.Layout();
     ReachActivityTaskApp.middleRegion.show(this.activitiesTasksLayout);
 
-    $.when(API.fetchTaskTypes())
+    $.when(ActivitiesTasks.fetchTaskTypes())
       .done(function(taskTypes) {
         ReachActivityTaskApp.taskTypes = taskTypes.models;
         ReachActivityTaskApp.trigger("include:activities");
@@ -86,11 +80,5 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
 
     // We always will have navigation section, so just render Navigation view in a corresponding region
     this.orderTasksLayout.navigationRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView());
-
-    $.when(API.fetchTaskTypes())
-      .done(function(taskTypes) {
-          ReachActivityTaskApp.taskTypes = taskTypes.models;
-          ReachActivityTaskApp.trigger("include:taskFormInTeamView", {model: new ReachActivityTaskApp.Entities.Task()});
-      });
   };
 },JST);
