@@ -46,6 +46,19 @@ html, body, form, fieldset, table, tr, td, input, button, select, textarea, optg
   font-family: 'Armata', Arial, sans-serif;
 }
 
+body {
+  // Default font-size for the whole application
+  font-size: $default_font_size;
+  input, button, label, textarea {
+    font-size: $default_font_size !important;
+  }
+  .pure-g:not(".heading") {
+    [class^=pure-u-] {
+      font-size: $default_font_size;
+    }
+  }
+}
+
 .daterangepicker td.in-range {
   background: none repeat scroll 0 0 #A7E3FF;
 }

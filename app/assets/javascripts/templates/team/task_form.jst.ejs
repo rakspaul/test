@@ -35,13 +35,7 @@
   </div>
   <div id="teamTaskSubform">
     <div class="pure-g-r">
-      <div class="pure-u-1-4">
-        <div class="form-control-group">
-          <select name="order_id" id="taskOrderSelector" placeholder="Select order...">
-          </select>
-        </div>
-      </div>
-
+      <div class="pure-u-1-5"><!--Just a spacer --></div>
       <div class="pure-u-1-4">
         <div class="form-control-group">
           <i class="task_open-icon"></i>
@@ -52,20 +46,24 @@
           </select>
         </div>
       </div>
-
       <div class="pure-u-1-4">
         <div class="form-control-group">
           <i class="user-icon"></i>
           <select id="task-assignee-selector"></select>
         </div>
       </div>
-
       <div class="pure-u-1-4">
         <div class="form-control-group">
           <i class="clock-icon"></i>
           <span id="due-date-text" style="display: none">ASAP</span>
           <input type="text" class="span2" value="<%= due_date %>" id="due-date" placeholder="Due Date">
         </div>
+      </div>
+    </div>
+    <div class="pure-g-r" style="margin-top: 5px;">
+      <div class="pure-u-1-5"><!--Just a spacer --></div>
+      <div class="pure-u-1-2">
+        <select name="order_id" id="taskOrderSelector" placeholder="Select order..." class="task-order-selector"></select>
       </div>
     </div>
   </div>
