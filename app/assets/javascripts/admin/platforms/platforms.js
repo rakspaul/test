@@ -95,6 +95,7 @@
       new_platform_btn: '#new_platform_btn',
       tag_template: '#tag_template',
       tag_template_text: '#tag_template_text',
+      tag_tooltip: '#tag_tooltip',
 
       name_error: '#platform_name_error',
       media_type_id_error: '#media_type_error',
@@ -128,6 +129,16 @@
         },
         valueKey: 'name',
         limit: 100
+      });
+
+      this.ui.tag_tooltip.popover({
+        html : true,
+        trigger: 'hover',
+        placement: 'top',
+        title: 'When a tag is generated, the following tokens are replaced:',
+        content: function() {
+          return $('#tag_tooltip_content').html();
+        },
       });
     },
 
