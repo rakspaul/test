@@ -39,6 +39,15 @@
       }
     },
 
+    _recalculateMediaCost: function() {
+      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
+      var cpm  = parseFloat(this.model.get('rate'));
+      var media_cost = (imps * cpm) / 1000.0;
+      this.model.set('value', media_cost);
+      var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost .number-value span');
+      $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
+    },
+
     // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
       var view = this;
