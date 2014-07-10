@@ -3,6 +3,7 @@
     %td= platform.name
     %td= link_to platform.media_type.category, edit_admin_platform_path(platform)
     %td= platform.dfp_key
+    %td= platform.zone
     %td= platform.site.name
     %td
       -unless platform.tag_template.blank?

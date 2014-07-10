@@ -10,7 +10,8 @@
         selected_zip_codes: [],
         frequency_caps: [],
         keyvalue_targeting: '',
-        type: 'Display'
+        type: 'Display',
+        is_and: false
       }
     },
 
