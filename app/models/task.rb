@@ -35,7 +35,7 @@ class Task < ActiveRecord::Base
 
   before_save :fill_assignable, :if => lambda { self.assignable_id.nil? }
 
-  before_create :update_activity_log
+  before_create :update_activity_log, :if => lambda { self.order_id }
 
   before_update :update_activity_logs
 
@@ -102,7 +102,6 @@ class Task < ActiveRecord::Base
   end
 
   def update_activity_log
-    if (self.order_id)
       #system comment
       note = "<i>#{name}</i>: created the task"
       order_activity_log = OrderActivityLog.new :order_id => self.order_id, :note => note,
@@ -117,6 +116,5 @@ class Task < ActiveRecord::Base
       activity.save!
 
       self.order_activity_log = activity
-    end
   end
 end

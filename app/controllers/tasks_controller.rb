@@ -24,17 +24,12 @@ class TasksController < ApplicationController
   end
 
   def create
-    if :order_id
-      @order = Order.find_by_id params[:order_id]
-    end
-
     Task.transaction do
       attachment = ActivityAttachment.find_by_id(params[:activity_attachment_id]) if params[:activity_attachment_id]
 
       # create task
       task_params = get_task_params
       task_params.merge! :name => task_params.delete(:note),
-                         :order_id => @order ? @order.id : nil,
                          :created_by => current_user,
                          :requested_by => current_user,
                          :task_state => Task::TaskState::OPEN,
@@ -44,15 +39,9 @@ class TasksController < ApplicationController
       @task = Task.new(task_params)
       @task.save!
 
-      activity_params = activity_log_params
-      @activity = TaskActivityLog.new activity_params.merge!(:task => @task,
-                                                             :activity_type => OrderActivityLog::ActivityType::USER_COMMENT,
-                                                             :created_by => current_account.user)
-      @activity.save!
-
       # link activity attachment
       if attachment
-        attachment.activity_log = @activity
+        attachment.activity_log = @task
         attachment.save!
       end
     end
