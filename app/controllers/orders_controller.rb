@@ -258,7 +258,7 @@ private
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
     orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
-    rc = params[:rc]? params[:rc] : ""
+    rc = params[:rc]? ReachClient.of_network(current_network).find_by_name(params[:rc]).try(:id) : ""
 
     if sort_column == "order_name"
       sort_column = "name"
