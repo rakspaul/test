@@ -104,6 +104,42 @@
           creative.set(name, value);
         });
       }
+    },
+  }, {
+    buffer: {
+      targeting: null
+    },
+    selectedItems: {
+      li:  [],
+      ad: []
+    },
+
+    getCopyBuffer: function(key) {
+      if (key) {
+        return this.buffer[key];
+      } else {
+        return this.buffer;
+      }
+    },
+
+    setCopyBuffer: function(key, value) {
+      if (key) {
+        this.buffer[key] = value;
+      } else {
+        this.buffer = value;
+      }
+    },
+
+    getSelectedItem: function(key) {
+      return this.selectedItems[key || 'li'];
+    },
+
+    setSelectedItem: function(items, key) {
+      if (key) {
+        this.selectedItems[key] = items;
+      } else {
+        this.selectedItems = { li: [], ad: [] };
+      }
     }
   });
 
@@ -170,19 +206,23 @@
     className: 'lineitem pure-g',
 
     ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes',
-      start_date_editable: '.start-date-editable',
-      end_date_editable:   '.end-date-editable',
-      name_editable:       '.name-editable',
-      volume_editable:     '.volume-editable',
-      rate_editable:       '.rate-editable',
-      buffer_editable:     '.buffer-editable',
-      dup_btn: '.li-duplicate-btn',
-      delete_btn: '.li-delete-btn'
+      ads_list:             '.ads-container',
+      targeting:            '.targeting-container',
+      creatives_container:  '.creatives-list-view',
+      creatives_content:    '.creatives-content',
+      lineitem_sizes:       '.lineitem-sizes',
+      start_date_editable:  '.start-date-editable',
+      end_date_editable:    '.end-date-editable',
+      name_editable:        '.name-editable',
+      volume_editable:      '.volume-editable',
+      rate_editable:        '.rate-editable',
+      buffer_editable:      '.buffer-editable',
+      dup_btn:              '.li-duplicate-btn',
+      delete_btn:           '.li-delete-btn',
+      item_selection:       '.item-number',
+      copy_targeting_btn:   '.copy-targeting-btn',
+      paste_targeting_btn:  '.paste-targeting-btn',
+      cancel_targeting_btn: '.cancel-targeting-btn'
     },
 
     events: {
@@ -678,163 +718,27 @@
 
     _toggleLISelection: function(e) {
       e.stopPropagation();
-      if(this.model.get('revised')) {
+      if (this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        // if there is no copied targeting then exclusive select, otherwise accumulative
-        if(!window.copied_targeting) {
-          this._deselectAllLIs({'except_current': true});
-        }
-
-        this.$el.find('.li-number .number').toggleClass('selected');
-        this.selected = this.$el.find('.li-number .number').hasClass('selected');
-        this.$el.find('.copy-targeting-btn').toggle();
-
-        if(window.selected_lis === undefined) {
-          window.selected_lis = [];
-        }
-        if(this.selected) {
-          window.selected_lis.push(this); // add current LI to selected LIs
-        } else {
-          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-        }
-
-        if(window.copied_targeting) {
-          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-          $('.copy-targeting-btn li').removeClass('active');
-          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
-        }
+        ReachUI.toggleItemSelection.call(this, e, 'li');
       }
     },
 
     copyTargeting: function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      var el = $(e.currentTarget),
-          parent = el.parent(),
-          type   = el.data('type'),
-          active = parent.hasClass('active'),
-          li_t   = this.model.get('targeting');
-
-      if (!active) {
-        var copiedOptions = {};
-
-        parent.addClass('active');
-
-        switch (type) {
-          case 'key_values':
-            copiedOptions = {
-              selected_key_values: _.clone(li_t.get('selected_key_values')),
-              keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-            };
-            break;
-          case 'geo':
-            copiedOptions = {
-              selected_geos: _.clone(li_t.get('selected_geos')),
-              selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
-            };
-            break;
-          case 'freq_cap':
-            copiedOptions = {
-              frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
-            };
-            break;
-        };
-
-        if (!window.copied_targeting) {
-          window.copied_targeting = {};
-        }
-        _.each(copiedOptions, function(value, key) {
-          window.copied_targeting[key] = value;
-        });
-      } else {
-        if (window.copied_targeting) {
-          switch (type) {
-          case 'key_values':
-            delete window.copied_targeting['selected_key_values'];
-            delete window.copied_targeting['keyvalue_targeting'];
-            break;
-          case 'geo':
-            delete window.copied_targeting['selected_geos'];
-            delete window.copied_targeting['selected_zip_codes'];
-            break;
-          case 'freq_cap':
-            delete window.copied_targeting['frequency_caps'];
-            break;
-          }
-        }
-        el.blur();
-        parent.removeClass('active');
-      }
-
-      noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs({ multi: true });
-      this.$el.addClass('copied-targeting-from');
+      ReachUI.copyTargeting.call(this, e, 'li');
     },
 
-    _deselectAllLIs: function(options) {
-      var self = this;
-      if(options && options['except_current']) {
-        var lis_to_deselect = _.filter(window.selected_lis, function(el) {return el != self});
-      } else {
-        var lis_to_deselect = window.selected_lis;
-      }
-
-      _.each(lis_to_deselect, function(li) {
-        li.selected = false;
-        li.$el.find('.li-number .number').removeClass('selected');
-        if (!options || !options['multi']) {
-          li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        }
-        li.renderTargetingDialog();
-      });
-      window.selected_lis = [];
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'li');
     },
 
     pasteTargeting: function(e) {
-      e.stopPropagation();
-      noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
-
-      _.each(window.selected_lis, function(li) {
-        var liTargeting = li.model.get('targeting'),
-            targeting = {};
-        _.each(window.copied_targeting, function(value, key) {
-          if (key != 'frequency_caps') {
-            targeting[key] = _.clone(value);
-          }
-        });
-        if (window.copied_targeting['frequency_caps']) {
-          var frequencyCaps = liTargeting.get('frequency_caps');
-          var removedCaps = [];
-          _.each(frequencyCaps.models, function(fc) {
-            if (fc.get('id')) {
-              removedCaps.push(fc.get('id'));
-            }
-          });
-          _.each(removedCaps, function(id) {
-            frequencyCaps.remove(id);
-          });
-          _.each(window.copied_targeting['frequency_caps'], function(fc) {
-            frequencyCaps.add(fc);
-          });
-          targeting['frequency_caps'] = frequencyCaps;
-        }
-        liTargeting.set(targeting, { silent: true });
-
-        li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
-      });
-
-      this.cancelTargeting();
+      ReachUI.pasteTargeting.call(this, e, 'li');
     },
 
     cancelTargeting: function(e) {
-      if (e) {
-        e.stopPropagation();
-      }
-      window.copied_targeting = null;
-      $('.lineitem').removeClass('copied-targeting-from');
-      this._deselectAllLIs();
+      ReachUI.cancelTargeting.call(this, e, 'li');
     },
 
     _changeMediaType: function(ev_or_type) {
