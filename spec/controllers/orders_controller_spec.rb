@@ -33,6 +33,9 @@ describe OrdersController do
   end
 
   describe "GET 'index'" do
+    let!(:order) { FactoryGirl.create(:order, name: 'order delete test') }
+    let!(:order2) { FactoryGirl.create(:order_with_lineitem, name: 'order delete test 2') }
+
     it "returns http success" do
       get 'index'
       expect(response).to be_success
