@@ -146,10 +146,11 @@ describe('Line items views', function() {
         expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
       });
 
-      it('should hide unallocated impression block for 1 ad lineitems', function() {
+      it('should hide unallocated impression block if it is zero', function() {
         var newAd = _.clone(this.lineitem.ads[0]);
         this.lineitem.ads = [ newAd ];
-        this.view.renderAd(newAd);
+        newAd.set('volume', this.lineitem.get('volume'));
+        this.view.render();
 
         var impsValueEl = this.view.$el.find('.unallocated-imps');
         expect(impsValueEl).toBeHidden();

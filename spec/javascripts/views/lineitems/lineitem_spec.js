@@ -106,6 +106,10 @@ describe('Line items views', function() {
         $('body').append(el);
       });
 
+      /*afterEach(function() {
+        this.view.render();
+      });*/
+
       it('should display unallocated imps block', function() {
         expect(this.view.$el).toContainElement('.unallocated-imps');
       });
@@ -145,10 +149,11 @@ describe('Line items views', function() {
         expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
       });
 
-      it('should hide unallocated impression block for 1 ad lineitems', function() {
+      it('should hide unallocated impression block if it is zero', function() {
         var newAd = _.clone(this.lineitem.ads[0]);
+        newAd.set('volume', this.lineitem.get('volume'));
         this.lineitem.ads = [ newAd ];
-        this.view.renderAd(newAd);
+        this.view.render();
 
         var impsValueEl = this.view.$el.find('.unallocated-imps');
         expect(impsValueEl).toBeHidden();
