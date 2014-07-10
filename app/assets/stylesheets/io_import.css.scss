@@ -825,17 +825,20 @@ $wide_input_width: 320px;
     }
 
     .targeting-options {
-      float: left;
-      height:18px;
+      display: inline;
     }
 
     .targeting-options.highlighted {
+      display: inline;
       background-color: yellow;
       padding: 2px;
     }
 
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
+      display: inline-block;
+      float: none;
       margin-left:10px;
+      vertical-align: middle;
     }
   }
 
