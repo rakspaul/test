@@ -73,7 +73,10 @@
 //= require ./activities_tasks/tasks/tasks_module.js
 //= require ./activities_tasks/tasks/team/team_module.js
 //= require activities_tasks/tasks/team/team_task_view.js
+//= require ./activities_tasks/tasks/team/team_view.js
+//= require ./activities_tasks/tasks/team/team_controller.js
 //= require ./entities/task.js
+//= require ./entities/team.js
 //= require ./activities_tasks/tasks/list/list_controller.js
 //= require ./activities_tasks/tasks/list/list_view.js
 //= require ./activities_tasks/tasks/views/filter_view.js

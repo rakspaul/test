@@ -6,6 +6,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
   Tasks.Layout = Marionette.Layout.extend({
     template: JST['templates/activities_tasks/tasks/task_content'],
 
+    options: {},
+
+    initialize: function(options) {
+      this.options = options;
+    },
+
     regions: {
       tasksListRegion: ".tasks-list"
     },
@@ -19,7 +25,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     },
 
     showMoreTasks: function () {
-      Tasks.List.Controller.loadMoreTasks();
+      Tasks.List.Controller.loadMoreTasks(this);
     },
 
     showHideMoreTasks: function (show) {
@@ -28,6 +34,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       } else {
         $(this.ui.loadMoreBtn).hide();
       }
+    },
+
+    setTaskListView: function(taskListView) {
+      this.taskListView = taskListView;
+    },
+
+    getTaskListView: function() {
+      return this.taskListView;
     }
   });
 
@@ -58,21 +72,21 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
    API to fetch tasks.
    */
   var API = {
-    fetchTasks: function (context) {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities", 0, context);
+    fetchTasks: function (taskLayout) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", 0, taskLayout);
       $.when(fetchTasks)
         .done(function (tasks) {
-          renderTasks(tasks);
+          renderTasks(taskLayout, tasks);
         })
         .fail(function (model, response) {
           console.log("Error happened...", response);
         });
     },
 
-    fetchMoreTasks: function (offset, context) {
-      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset, context);
+    fetchMoreTasks: function (offset, taskLayout) {
+      var fetchTasks = ReachActivityTaskApp.request("task:entities", offset, taskLayout);
       $.when(fetchTasks).done(function (tasks) {
-        renderMoreTasks(tasks);
+        renderMoreTasks(taskLayout, tasks);
       });
     },
 
@@ -90,11 +104,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
       ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.assignedToMe();
     },
 
-    tasksTeam: function () {
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView();
+    teamTasks: function(options) {
+//        Do we need this. Instead trigger here
+      ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView(options);
     },
 
-    tasksFollowed: function () {
+    tasksFollowed: function() {
       console.log("Tasks Followed Fired!");
     }
   };
@@ -102,12 +117,12 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
   /*
    After tasks fetch, this will render header and tasks list.
    */
-  function renderTasks(tasks) {
-    Tasks.List.Controller.showTasks(tasks);
+  function renderTasks(taskLayout, tasks) {
+    Tasks.List.Controller.showTasks(taskLayout, tasks);
   }
 
-  function renderMoreTasks(tasks) {
-    Tasks.List.Controller.showMoreTasks(tasks);
+  function renderMoreTasks(taskLayout, tasks) {
+    Tasks.List.Controller.showMoreTasks(taskLayout, tasks);
   }
 
   function appendTaskComments(taskComments) {
@@ -118,20 +133,42 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     Tasks.List.Controller.showTaskComments(taskComments);
   }
 
+  function renderUserTasks(teamLayout, userTasks) {
+    for(var i = 0; i < userTasks.length; i++) {
+      var userTask = userTasks.models[i];
+      var userTasksRegion = teamLayout.addRegion('user_task_list_region_' + i, '#user_task_list_' + i);
+
+      var taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout({
+          template: JST['templates/team/user_task_list'],
+          context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM_USER,
+          userId: userTask.get('user').id
+      });
+      userTasksRegion.show(taskLayout);
+
+      var userHeaderView = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.UserHeaderView({
+          userId: userTask.get('user').id,
+          userName: userTask.get('user').name
+      });
+      taskLayout.userHeaderRegion.show(userHeaderView);
+
+      Tasks.List.Controller.showTasks(taskLayout, userTask.tasks());
+    }
+  }
+
   /*
    Listens to "include:tasks" event, this can be triggered by any part of application using trigger method on App object.
    */
   ReachActivityTaskApp.on("include:tasks", function () {
-    Tasks.taskLayout = new Tasks.Layout();
-    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(Tasks.taskLayout);
-    ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER);
+    var taskLayout = new Tasks.Layout({context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER});
+    ReachActivityTaskApp.ActivitiesTasks.activitiesTasksLayout.tasksRegion.show(taskLayout);
+    ReachActivityTaskApp.trigger("tasks:list", taskLayout);
   });
 
   /*
    Listens to "tasks:list"
    */
-  ReachActivityTaskApp.on("tasks:list", function (context) {
-    API.fetchTasks(context);
+  ReachActivityTaskApp.on("tasks:list", function (taskLayout) {
+    API.fetchTasks(taskLayout);
   });
 
   ReachActivityTaskApp.on("include:taskDetails", function (options) {
@@ -154,23 +191,23 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     API.fetchTaskComments(options.task, options.offset);
   });
 
-  ReachActivityTaskApp.on("load-more-tasks:list", function (offset, context) {
-    return API.fetchMoreTasks(offset, context);
+  ReachActivityTaskApp.on("load-more-tasks:list", function (offset, taskLayout) {
+    return API.fetchMoreTasks(offset, taskLayout);
   });
 
   ReachActivityTaskApp.on("assigned-to-me-tasks:list", function () {
     return API.tasksAssignedToMe();
   });
 
-  ReachActivityTaskApp.on("team-view:list", function () {
-    return API.tasksTeam();
+  ReachActivityTaskApp.on("team-view:list", function(options) {
+    return API.teamTasks(options);
   });
 
   Tasks.Router = Marionette.AppRouter.extend({
     appRoutes: {
       'tasks/assigned_to_me': 'tasksAssignedToMe',
       'tasks/followed': 'tasksFollowed',
-      'tasks/team': 'tasksTeam'
+      'tasks/team': 'teamTasks'
     }
   });
 

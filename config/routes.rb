@@ -119,7 +119,10 @@ Reachui::Application.routes.draw do
   resources :tasks do
     get 'comments'
     collection do
-      get 'assigned_to_me'
+      get 'user_tasks'
+      get 'team_tasks'
+      get 'only_team_tasks'
+      get 'team_user_tasks'
     end
     post 'add_comment' => 'tasks#add_comment'
   end

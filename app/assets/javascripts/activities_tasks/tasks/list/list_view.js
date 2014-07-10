@@ -4,27 +4,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
   List.Task = Marionette.Layout.extend({
     tagName: 'div',
-    template: function (model) {
-      var tplc = JST['templates/activities_tasks/tasks/task_list_item'];
-
-      if (model.show_order_name_column === true) {
-        tplc = JST['templates/activities_tasks/tasks/task_list_item_with_order_name'];
-      }
-
-      return tplc(model);
-    },
-
-    initialize: function (options) {
-      if (options.with_order_name_column) {
-        this.model.set("show_order_name_column", true);
-      }
-    },
-
+    template: JST['templates/activities_tasks/tasks/task_list_item'],
     className: 'task-container',
     assigneeSelector: undefined,
 
     events: {
       'click': 'onTaskView'
+    },
+
+    serializeData: function(data) {
+      return _.extend(this.model.toJSON(), {context: this.model.collection.context});
     },
 
     onTaskView: function(e) {
@@ -39,8 +28,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
       //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context !=
-          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER){
+      if(this.model.collection.context != ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER) {
           ReachActivityTaskApp.order = {};
           ReachActivityTaskApp.order.id = this.model.get("order_id");
 
@@ -210,9 +198,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
 
       //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
       //to different user then that task is not valid in the assigned to me view.
-      if(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context ==
-          ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
-        ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME);
+      if(this.model.collection.context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
+        ReachActivityTaskApp.trigger("assigned-to-me-tasks:list");
       } else {
         ReachActivityTaskApp.trigger("activities:list");
       }
@@ -275,24 +262,24 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
                         callback();
                     },
                     success: function (res) {
-                        var all_users = [];
+                        var allUsers = [];
 
                         if (res !== 'undefined') {
                             for (var i = 0; i < res.length; i++) {
-                                all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                                allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
                             }
                         }
 
-                        callback(all_users);
+                        callback(allUsers);
                     }
                 });
             }
       });
 
       // Set the current assignee as the selected item in the list
-      var current_assignee_id = this.model.get('assignable_id');
-      if (current_assignee_id !== undefined) {
-        List.Task.assigneeSelector[0].selectize.setValue(current_assignee_id);
+      var currentAssigneeId = this.model.get('assignable_id');
+      if (currentAssigneeId !== undefined) {
+        List.Task.assigneeSelector[0].selectize.setValue(currentAssigneeId);
       }
 
       // Datepicker

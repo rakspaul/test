@@ -4,7 +4,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     VIEW: {
       INSIDE_ORDER: "INSIDE-ORDER-VIEW",
       ASSIGNED_ME: "ASSIGNED-TO-ME-VIEW",
-      TEAM: "TEAM-VIEW"
+      TEAM: "TEAM-VIEW",
+      TEAM_USER: "TEAM-USER-VIEW"
     }
   };
 
@@ -41,24 +42,28 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
   });
 
   Entities.TaskCollection = Backbone.Collection.extend({
-    context: undefined,
-    initialize: function(models,options) {
-       this.context = options.context;
+    initialize: function(models, options) {
+      this.context = options.context;
+      this.teamId = options.teamId;
+      this.userId = options.userId;
     },
 
-    url: function(){
-      if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME)
-        return '/tasks/assigned_to_me.json';
-      else
-        return '/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
+    url: function() {
+      var url;
+      if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
+        url = '/tasks/user_tasks.json';
+      } else if(this.context == Entities.TaskPageContext.VIEW.TEAM) {
+        url = '/tasks/only_team_tasks.json';
+      } else if(this.context == Entities.TaskPageContext.VIEW.TEAM_USER) {
+        url = '/tasks/user_tasks.json';
+      } else {
+        url  ='/orders/' + ReachActivityTaskApp.order.id + '/tasks.json';
+      }
+      return url;
     },
+
     model: Entities.Task
   });
-
- /* Entities.AssignedToMeTasks = Backbone.Collection.extend({
-    url: "/tasks/assigned_to_me.json",
-    model: Entities.Task
-  });*/
 
   Entities.TaskType = Backbone.Model.extend({
   });
@@ -108,8 +113,9 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
   var API = {
 
-    getTaskEntities: function(offset, context) {
-      var tasks = new Entities.TaskCollection([], {context: context}),
+    getTaskEntities: function(offset, taskLayout) {
+      var tasks = new Entities.TaskCollection([],
+          {context: taskLayout.options.context, teamId: taskLayout.options.teamId, userId: taskLayout.options.userId}),
           filter = {},
           defer = $.Deferred();
 
@@ -117,8 +123,12 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
       filter["offset"] = Entities.DEF_OFFSET;
 
-      if(offset){
+      if(offset) {
         filter["offset"] = offset;
+      }
+
+      if(tasks.userId) {
+        filter["user_id"] = tasks.userId;
       }
 
       tasks.fetch({
@@ -176,7 +186,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
       filter["limit"] = Entities.DEF_NO_OF_ROWS_TO_FETCH;
       filter["offset"] = Entities.DEF_OFFSET;
 
-      if(offset){
+      if(offset) {
         filter["offset"] = offset;
       }
 
@@ -208,11 +218,11 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     }
   };
 
-  ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset, context){
-    return API.getTaskEntities(offset, context);
+  ReachActivityTaskApp.reqres.setHandler("task:entities", function(offset, taskLayout) {
+    return API.getTaskEntities(offset, taskLayout);
   });
 
-  ReachActivityTaskApp.reqres.setHandler("task:save", function(task){
+  ReachActivityTaskApp.reqres.setHandler("task:save", function(task) {
     return API.saveTask(task);
   });
 

@@ -13,27 +13,25 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
   };
 
   List.Controller = {
-    showTasks: function(tasks) {
+    showTasks: function(taskLayout, tasks) {
       if(tasks.length == 0) {
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
+        taskLayout.tasksListRegion.show(_prepareEmptyListView("Tasks"));
       } else {
-        List.tasksListView = new List.Tasks({
-          collection: tasks
-        });
-        ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.tasksListRegion.show(List.tasksListView);
+        taskLayout.setTaskListView(new List.Tasks({collection: tasks}));
+        taskLayout.tasksListRegion.show(taskLayout.getTaskListView());
       }
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
+      taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
     },
 
-    showMoreTasks:function(tasks) {
+    showMoreTasks:function(taskLayout, tasks) {
       var collectionLength = tasks ? tasks.length : 0;
       if(collectionLength > 0) {
         tasks.each(function(task) {
-          List.tasksListView.collection.add(task);
-          task.collection = List.tasksListView.collection;
+          taskLayout.getTaskListView().collection.add(task);
+          task.collection = taskLayout.getTaskListView().collection;
         });
       }
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
+      taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
     },
 
     showTaskComments: function(comments) {
@@ -81,27 +79,30 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List", function(List, ReachAc
       ReachActivityTaskApp.ActivitiesTasks.Tasks.taskDetailView.showHideTaskComments(_isLoadMoreVisible(collectionLength));
     },
 
-    loadMoreTasks: function() {
-      var offset = List.tasksListView.collection.length;
-      ReachActivityTaskApp.trigger("load-more-tasks:list", offset, ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context);
+    loadMoreTasks: function(taskLayout) {
+      var offset = taskLayout.getTaskListView().collection.length;
+      ReachActivityTaskApp.trigger("load-more-tasks:list", offset, taskLayout);
     },
 
     assignedToMe: function() {
-      // TODO: Don't use global references here. Implement bore decoupled solution!!!
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout();
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME;
-      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout);
-      ReachActivityTaskApp.trigger("tasks:list", ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME);
+      var taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout({
+          template: JST['templates/team/task_list'],
+          context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME
+      });
+      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(taskLayout);
+      ReachActivityTaskApp.trigger("tasks:list", taskLayout);
     },
 
-    teamView: function () {
-      // TODO: Don't use global references here. Implement bore decoupled solution!!!
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout();
-      ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout.context = ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM;
-      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(ReachActivityTaskApp.ActivitiesTasks.Tasks.taskLayout);
+    teamView: function(options) {
+      var teamLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Team.Layout(options);
+      ReachActivityTaskApp.ActivitiesTasks.orderTasksLayout.taskListRegion.show(teamLayout);
 
+      ReachActivityTaskApp.trigger("team-tasks:list", teamLayout);
+
+
+      ReachActivityTaskApp.trigger("team-user-tasks:list", teamLayout);
       // TODO: Move into View which will hold Team Task Form
-      $(".selectpicker").selectpicker();
+      //$(".selectpicker").selectpicker();
     }
   }
 });
