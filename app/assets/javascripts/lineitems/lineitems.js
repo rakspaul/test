@@ -33,7 +33,8 @@
         type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
-        uploaded: false
+        uploaded: false,
+        is_and: false
       }
     },
 
