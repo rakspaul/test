@@ -102,24 +102,6 @@
       ads_sizes: '.ads-sizes'
     },
 
-    _recalculateLIMediaCost: function(options) {
-      var li = this.options.parent_view.model,
-          ads_collection = li.ads,
-          li_imps = this.options.parent_view.model.get('volume');
-
-      var li_media_cost = _.reduce(ads_collection, function(sum, el) {
-        return sum + parseFloat(el.get('value')) 
-      }, 0.0);
-
-      if(li_imps != 0) {
-        var li_cpm = (li_media_cost / li_imps) * 1000;
-      } else {
-        var li_cpm = 0;
-      }
-
-      li.set('rate', li_cpm);
-    },
-
     _recalculateMediaCost: function(options) {
       var imps = this.getImressions();
       var media_cost = this.getMediaCost();
@@ -135,8 +117,6 @@
       } else {
         $errors_container.html('');
       }
-
-      this._recalculateLIMediaCost();
     },
 
     getImressions: function() {
@@ -145,7 +125,7 @@
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() / 1000.0) * cpm;
+      return (this.getImressions() * cpm) / 1000.0;
     },
 
     renderTargetingDialog: function() {
