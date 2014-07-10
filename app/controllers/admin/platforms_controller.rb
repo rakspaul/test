@@ -70,7 +70,7 @@ class Admin::PlatformsController < ApplicationController
 
   private
     def platform_params
-      platform_params = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :dfp_site_name, :naming_convention, :ad_type, :priority, :enabled, :tag_template)
+      platform_params = params.require(:platform).permit(:name,:media_type_id, :dfp_key, :dfp_site_name, :naming_convention, :ad_type, :priority, :enabled, :tag_template, :zone)
       platform_params[:site_id] = dfp_site.blank? ? nil : dfp_site.id
       return platform_params
     end
