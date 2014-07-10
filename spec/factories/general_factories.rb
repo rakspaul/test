@@ -256,6 +256,7 @@ FactoryGirl.define do
   factory :platform do
     name "Test Platform Name"
     dfp_key "vid"
+    zone "Zone"
     naming_convention "ADP"
     ad_type "STANDARD"
     priority 8

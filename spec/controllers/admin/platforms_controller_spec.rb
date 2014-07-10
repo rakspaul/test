@@ -65,6 +65,7 @@ describe Admin::PlatformsController do
       expect(data[:errors]).to include(:dfp_site_name)
       expect(data[:errors]).to include(:priority)
       expect(data[:errors]).to include(:dfp_key)
+      expect(data[:errors]).to include(:zone)
       expect(data[:errors]).to include(:ad_type)
       expect(data[:errors]).to include(:naming_convention)
     end
@@ -83,6 +84,7 @@ describe Admin::PlatformsController do
 
         assigns(:platform).name.should eq(params[:platform][:name])
         assigns(:platform).dfp_key.should eq(params[:platform][:dfp_key])
+        assigns(:platform).zone.should eq(params[:platform][:zone])
         assigns(:platform).naming_convention.should eq(params[:platform][:naming_convention])
         assigns(:platform).ad_type.should eq(params[:platform][:ad_type])
         assigns(:platform).priority.should eq(params[:platform][:priority])
@@ -100,6 +102,7 @@ private
       platform: {
         name: platform.name,
         dfp_key: platform.dfp_key,
+        zone: platform.zone,
         naming_convention: platform.naming_convention,
         ad_type: platform.ad_type,
         priority: platform.ad_type,
@@ -117,6 +120,7 @@ private
       platform: {
         name: '',
         dfp_key: '',
+        zone: '',
         naming_convention: '',
         ad_type: '',
         priority: '',
@@ -133,6 +137,7 @@ private
       platform: {
         name: "Test Platform",
         dfp_key: "video",
+        zone: "Test Zone",
         naming_convention: "^mob",
         ad_type: 'Sponsorship',
         priority: rand(0..16),
