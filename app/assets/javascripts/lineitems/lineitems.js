@@ -445,6 +445,7 @@
       });
 
       this.ui.notes_editable.editable({
+        emptyclass: "empty-lineitem-notes",
         success: function(response, newValue) {
           model.set('notes', newValue);
         }
