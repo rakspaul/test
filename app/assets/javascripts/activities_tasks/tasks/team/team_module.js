@@ -37,32 +37,22 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       return this.options;
     },
 
-    ui: {
-      teamSwitcher: '#teamSwitcher'
-    },
-
     onDomRefresh: function () {
-      var self = this;
-      $('#teamSwitcher .editable').editable({
-        source: this.fetchTeamOptions(),
-        success: function (response, newValue) {
+      // Initialize available team list
+      var teamListHolder = $("#teamSwitch > .menu");
+      _.each(this.options.teams, function(team) {
+        teamListHolder.append($('<div class="item" data-value="' + team.id + '">' + team.name + '</div>'));
+      });
+
+      // Utilize semantic-ui's dropdown module
+      $("#teamSwitch").dropdown({
+        transition: "slide down",
+        onChange: function (newValue) {
           if (newValue) {
-            self.switchTeam(newValue);
+            ReachActivityTaskApp.trigger('team-view:list', {teamId: newValue});
           }
         }
       });
-    },
-
-    switchTeam: function(newValue) {
-      ReachActivityTaskApp.trigger('team-view:list', {teamId: newValue});
-    },
-
-    fetchTeamOptions: function() {
-      var teams = {};
-        _.each(this.options.teams, function(team) {
-           teams[team.id] = team.name;
-        });
-      return teams;
     }
   });
 

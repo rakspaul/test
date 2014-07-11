@@ -5,14 +5,6 @@ h2.team-name {
   color: $rui-heading-text-color;
 }
 
-#teamSwitcher {
-  margin-left: 15px;
-  display: inline-block;
-  cursor: pointer;
-  color: $text_color;
-  font-size: 13px;
-}
-
 #taskListFilter {
   list-style-type: none;
   font-size: 20px;
@@ -171,10 +163,37 @@ tbody.team-members-task-list-grid {
   }
 }
 
-
+// fix background when 'typeahead' control is inside element with colored background
 [class$=-order-name] {
   .twitter-typeahead {
     background-color: #fff;
+  }
+}
+
+// Customization for the team switch
+#teamSwitch {
+  margin-left: 15px;
+  display: inline-block;
+  cursor: pointer;
+  color: $text_color;
+  font-size: 13px;
+  border-bottom: 1px dashed $border_color;
+  padding: 2px 0;
+  outline: none;
+
+  .text > a {
+    text-decoration: none;
+  }
+
+  .menu {
+    .item {
+      &.active {
+        background-color: $bg_color !important;
+      }
+      &.selected, &:hover {
+        background-color: $light-background !important;
+      }
+    }
   }
 }
 
