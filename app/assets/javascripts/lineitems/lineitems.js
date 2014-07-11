@@ -1053,8 +1053,10 @@
               break;
           }
 
-          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
-          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
+          if(self.model.collection.order.attributes.revision_changes[li_id]) {
+            self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
+            self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
+          }
 
           self.model.attributes[attr_name] = revision;
           self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').first().text(revision).addClass('revision');
@@ -1151,8 +1153,10 @@
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       var li_id = this.model.get('id');
-      this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
-      this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
+      if(this.model.collection.order.attributes.revision_changes[li_id]) {
+        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
+        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
+      }
 
       this.model.attributes[attr_name] = revised_value;
       this.model.attributes['revised_'+attr_name] = null;
