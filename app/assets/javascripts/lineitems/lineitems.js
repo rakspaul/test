@@ -236,8 +236,8 @@
       // revisions
       'click .start-date .revision, .end-date .revision, .lineitem-sizes .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
 
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .lineitem-sizes .revision .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .lineitem-sizes .revision .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .lineitem-sizes .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .lineitem-sizes .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
       'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
       'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
 
@@ -966,9 +966,17 @@
           revised_value = $target_parent.siblings('.revision').text(),
           original_value = this.model.get(attr_name);
 
+      if(attr_name == 'ad_sizes') {
+        if(this.model.get('revised_added_ad_sizes').length == 0) {
+          revised_value = this.model.get('revised_common_ad_sizes').join(', ');
+        } else {
+          revised_value = [this.model.get('revised_common_ad_sizes'), this.model.get('revised_added_ad_sizes')].join(', ');
+        }
+      }
+
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
-      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+revised_value;
 
       if (this.model.ads.length > 0 && attr_name != 'name') {
         var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
@@ -988,6 +996,11 @@
                 ad.set(attr_name, revised_value);
               });
               break;
+            case 'ad_sizes':
+              _.each(self.model.ads, function(ad) {
+                ad.set('size', revised_value);
+              });
+              break;              
             case 'volume':
               var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
               _.each(self.model.ads, function(ad) {
@@ -1010,7 +1023,12 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
-      $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
+      // only li sizes have differently names data attr 
+      var data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name);
+      if(attr_name == 'ad_sizes') {
+        $editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
+      }
+      $editable.filter('[data-name="'+data_attr+'"]').addClass('revision').text(revised_value);
 
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
