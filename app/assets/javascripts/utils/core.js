@@ -301,6 +301,12 @@ ReachUI.pasteTargeting = function(e, scope) {
       }
       itemTargeting.set(targeting, { silent: true });
 
+      item.renderTargetingDialog();
+      if (type == 'ad') {
+        ReachUI.showCondensedTargetingOptions.apply(item);
+        item.toggleMissingGeoCaution();
+      }
+
       item.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
     });
   });
@@ -357,11 +363,6 @@ ReachUI.deselectAllItems = function(options, scope) {
         item.ui.item_selection.removeClass('selected');
         if (!options || !options['multi']) {
           _.each([ item.ui.copy_targeting_btn, item.ui.paste_targeting_btn, item.ui.cancel_targeting_btn ], function(el) { el.hide(); });
-        }
-        item.renderTargetingDialog();
-        if (type == 'ad') {
-          ReachUI.showCondensedTargetingOptions.apply(item);
-          item.toggleMissingGeoCaution();
         }
       }
     });
