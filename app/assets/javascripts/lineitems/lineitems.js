@@ -654,7 +654,7 @@
     },
 
     recalculateUnallocatedImps: function() {
-      var adsImpressions = _.reduce(this.getAds(), function(sum, el) {
+      var adsImpressions = _.reduce(this.model.ads, function(sum, el) {
         return sum + el.getImps();
       }, 0);
       var total = this.model.getImps() * (1 + this.model.getBuffer() / 100);
@@ -1037,7 +1037,8 @@
                 ad.set(attr_name, revised_value);
               });
               break;
-          }
+          };
+          self.recalculateUnallocatedImps();
         });
         $apply_ads_dialog.modal('show');
       }
