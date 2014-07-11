@@ -1053,7 +1053,7 @@
               break;
           }
 
-          if(self.model.collection.order.attributes.revision_changes[li_id]) {
+          if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
             self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
             self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
           }
@@ -1153,7 +1153,7 @@
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       var li_id = this.model.get('id');
-      if(this.model.collection.order.attributes.revision_changes[li_id]) {
+      if(this.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
         this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
         this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
       }
