@@ -234,10 +234,10 @@
       'click .li-number': '_toggleLISelection',
 
       // revisions
-      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+      'click .start-date .revision, .end-date .revision, .lineitem-sizes .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
 
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .lineitem-sizes .revision .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .lineitem-sizes .revision .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
       'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
       'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
 

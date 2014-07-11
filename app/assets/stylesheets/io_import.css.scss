@@ -486,6 +486,10 @@ $wide_input_width: 320px;
       &:hover {
         cursor:pointer;
       }
+
+      .line-through {
+        text-decoration:line-through;
+      }
     }
 
     .video-dropdown, .ad-type-dropdown {
