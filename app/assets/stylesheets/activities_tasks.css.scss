@@ -476,6 +476,10 @@ $border-breaker-width: 10px;
       }
     }
   }
+
+  .form-control-group {
+    margin: 2px 5px;
+  }
 }
 
 .task-comments-container {
@@ -533,7 +537,7 @@ ul.followers-list {
   padding: 20px;
 
   .tasks-list {
-    margin-top: 30px;
+    margin-top: 10px;
 
     .task-selected {
       .border-breaker {

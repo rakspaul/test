@@ -113,6 +113,10 @@ h2.team-name {
     margin: 10px 0;
     padding: 15px;
     background-color: $light-background;
+
+    .username {
+      color: $rui-heading-text-color;
+    }
   }
 }
 
@@ -159,4 +163,18 @@ tbody.team-members-task-list-grid {
       display: inline;
     }
   }
+}
+
+// XXX: Adjustments needed after wrong integration of HTML and JS parts
+.user-header {
+  margin-top: 30px;
+}
+
+.selectize-control.task-order-selector {
+  margin-left: 26px;
+  max-width: 80%;
+}
+
+.assignee-name {
+  margin: 2px 5px;
 }
