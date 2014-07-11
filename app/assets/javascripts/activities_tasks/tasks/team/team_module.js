@@ -50,7 +50,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       $('#teamSwitcher .editable').editable({
         source: this.fetchTeamOptions(),
         success: function (response, newValue) {
-          self.switchTeam(newValue);
+          if (newValue) {
+            self.switchTeam(newValue);
+          }
         }
       });
     },
