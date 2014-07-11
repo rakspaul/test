@@ -230,6 +230,7 @@
           li = this.options.parent_view.model,
           li_type = li.get('type');
 
+      // if ad has creatives then collect ad_sizes from them
       if (creatives.length > 0 && type != 'Video' && type != 'Companion') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
@@ -239,7 +240,7 @@
         if (uniq_creative_sizes) {
           this.ui.ads_sizes.html(uniq_creative_sizes);
         }
-      } else {
+      } else { // get them from LI
         var ad_sizes = li.get('ad_sizes');
         if (li_type == 'Video' && type != 'Video') {
           ad_sizes = li.get('companion_ad_size');

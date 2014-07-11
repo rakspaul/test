@@ -98,9 +98,24 @@
           </li>
         </ul>
       </div>
-      <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-        <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
-      </span>
+      <% if(lineitem.revised_common_ad_sizes || lineitem.revised_added_ad_sizes || lineitem.revised_removed_ad_sizes) { %>
+        <div style="clear:both"></div>
+        <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+          <%= lineitem.revised_common_ad_sizes.join(', ') %>
+        </span>
+        <span class="revision">
+          <%= lineitem.revised_added_ad_sizes %>
+          <span class="line-through"><%= lineitem.revised_removed_ad_sizes %></span>
+        </span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="ad_sizes"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="ad_sizes"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } else { %>
+        <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+          <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
+        </span>        
+      <% } %>
       <div class="errors_container"></div>
       <br/>
       <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>

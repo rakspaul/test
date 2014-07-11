@@ -29,6 +29,7 @@ json.order do
       json.name revision[:name]
       json.volume revision[:volume]
       json.rate revision[:rate]
+      json.ad_sizes revision[:ad_sizes]
     end
   end
 
