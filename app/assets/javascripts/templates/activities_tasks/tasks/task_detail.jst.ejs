@@ -29,7 +29,9 @@
       <div class="pure-u-1-2 assignable-name">
         <div class="form-control-group">
           <i class="user-icon"></i>
-          <select name="assignee_id" id="assigneeSelector" class="selectpicker" <%= task_state == 'close' ? 'disabled="disabled"' : '' %>></select>
+          <select name="assignee_id" id="assigneeSelector" class="selectpicker" <%= task_state == 'close' ? 'disabled="disabled"' : '' %>>
+            <option value="<%= assignable_id%>"><%= assignable_name%></option>
+          </select>
         </div>
       </div>
     </div>

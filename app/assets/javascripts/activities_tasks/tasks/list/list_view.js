@@ -229,7 +229,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
               options: [{id: this.model.get('assignable_id'), name: this.model.get('assignable_name')}]
           });
 
-          List.Task.assigneeSelector[0].selectize.setValue(this.model.get('assignable_id'));
           return;
       }
 

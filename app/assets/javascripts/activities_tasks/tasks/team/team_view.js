@@ -19,7 +19,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       $('.' + this.model.get('id') + '-order-name .typeahead').editable({
         source: '/orders/search.json',
         typeahead: {
-          minLength: 2,
+          minLength: 1,
           remote: '/orders/search.json?search=%QUERY',
           valueKey: 'name'
         },
