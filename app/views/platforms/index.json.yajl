@@ -3,7 +3,6 @@ json = @platforms.map do |platform|
     id:                platform.id,
     name:              platform.name,
     dfp_key:           platform.dfp_key,
-    zone:              platform.zone,
     naming_convention: platform.naming_convention,
     ad_type:           platform.ad_type,
     priority:          platform.priority,
