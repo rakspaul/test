@@ -134,6 +134,23 @@ describe IOPdfFileReader do
     end
   end
 
+  context "opened io pdf file with 17 lineitems on different pages" do
+    subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'TuftsIO.pdf')) }
+
+    before do
+      FactoryGirl.create(:user, first_name: "Peter", last_name: "Fernquist", phone_number: "1111", email: "peter.f@collective.com", account_login: "pfernquist")
+      @lineitems = []
+      subject.lineitems{|li| @lineitems << li}
+    end
+
+    it "has 17 lineitems with correct ad sizes" do
+      @lineitems.count.should == 17
+      ["160x600, 300x250, 728x90", "300x600", "1x1", "728x90,320x50", "160x600, 300x250, 728x90",  "300x600", "1x1", "728x90,320x50", "160x600, 300x250, 728x90", "300x600", "1x1", "728x90,320x50", "160x600, 300x250, 728x90", "300x600", "1x1", "728x90,320x50", "160x600, 300x250, 728x90"].each_with_index do |size, index|
+        @lineitems[index][:ad_sizes].should == size
+      end
+    end
+  end
+ 
   context "opened io pdf file with 3 lineitems on different pages" do
     subject { IOPdfFileReader.new( Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Cox_InsertionOrder_5.pdf')) }
 

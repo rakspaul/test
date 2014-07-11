@@ -65,7 +65,8 @@ class Lineitem < ActiveRecord::Base
 
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
-      creative_type = cparams[:creative_type] == "ThirdPartyCreative" ? "ThirdPartyCreative" : "InternalRedirectCreative"
+      creative_type = cparams[:creative_type]
+      creative_type = "InternalRedirectCreative" if creative_type.blank?
       if creative_type == "ThirdPartyCreative"
         html_code = html_unescape(cparams[:html_code])
       else
@@ -184,7 +185,7 @@ class Lineitem < ActiveRecord::Base
   private
 
     def set_li_status
-      self.li_status = 'draft' if 'dfp_pulled' == self.li_status
+      self.li_status = 'Draft' if 'dfp_pulled' == self.li_status
     end
 
     def flight_dates_with_in_order_range

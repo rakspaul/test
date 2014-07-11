@@ -147,7 +147,6 @@ class OrdersController < ApplicationController
     @order.name = order_param[:name]
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
-    @order.network_advertiser_id = order_param[:advertiser_id].to_i
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
     # if we update DFP-imported order then we should create IoDetail also
@@ -179,6 +178,9 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
+        advertiser = create_advertiser(params[:order][:advertiser_name])
+        @order.network_advertiser_id = advertiser.id
+
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
@@ -256,7 +258,7 @@ private
     trafficker = params[:trafficker]? params[:trafficker] : ""
     search_query = params[:search_query].present? ? params[:search_query] : ""
     orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
-    rc = params[:rc]? params[:rc] : ""
+    rc = params[:rc]? ReachClient.of_network(current_network).find_by_name(params[:rc]).try(:id) : ""
 
     if sort_column == "order_name"
       sort_column = "name"
@@ -406,13 +408,9 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status, :dfp_url].each do |param|
+      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
+      :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
-      end
-
-      if li[:type] == 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
       end
 
       lineitem = nil
@@ -508,7 +506,7 @@ private
           ad_end_date = ad[:ad].delete(:end_date)
           media_type_id = @media_types[media_type]
           ad[:ad][:media_type_id] = media_type_id
-          [ :selected_geos, :selected_key_values, :io_lineitem_id, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status].each{ |v| ad[:ad].delete(v) }
+          [ :selected_geos, :selected_key_values, :io_lineitem_id, :dfp_url, :dfp_key_values, :keyvalue_targeting, :status, :platform_name].each{ |v| ad[:ad].delete(v) }
 
           delete_creatives_ids = ad[:ad].delete(:_delete_creatives)
 
@@ -620,17 +618,12 @@ private
     params.to_a.each_with_index do |li, i|
       sum_of_ad_impressions = 0
 
-      [:selected_geos, :selected_key_values, :revised].each{|attr_name| li[:lineitem].delete(attr_name) }
+      [ :selected_geos, :selected_key_values, :revised, :master_ad_size, :companion_ad_size ].each{|attr_name| li[:lineitem].delete(attr_name) }
 
       li_targeting = li[:lineitem].delete(:targeting)
       li_creatives = li[:lineitem].delete(:creatives)
       li[:lineitem].delete(:itemIndex)
       delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
-
-      if li[:type] = 'Video'
-        li[:lineitem].delete(:master_ad_size)
-        li[:lineitem].delete(:companion_ad_size)
-      end
 
       lineitem = @order.lineitems.build(li[:lineitem])
       lineitem.user = current_user
@@ -682,7 +675,7 @@ private
 
       li[:ads].to_a.each_with_index do |ad, j|
         begin
-          [:selected_geos, :selected_key_values, :io_lineitem_id].each{|attr_name| ad[:ad].delete(attr_name) }
+          [:selected_geos, :selected_key_values, :io_lineitem_id, :platform_name].each{|attr_name| ad[:ad].delete(attr_name) }
 
           ad_targeting = ad[:ad].delete(:targeting)
           ad_creatives = ad[:ad].delete(:creatives)

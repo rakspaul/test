@@ -98,6 +98,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     // set revisions for every lineitem
     if(orderModel.get('revisions')) {
       _.each(orderModel.get('revisions'), function(revisions, index) {
+        lineItems.models[index].revised_targeting = true;
         lineItems.models[index].set('revised_start_date', revisions.start_date);
         lineItems.models[index].set('revised_end_date', revisions.end_date);
         lineItems.models[index].set('revised_name', revisions.name);
@@ -441,7 +442,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       }
     });
 
-    if(!order.get("source_id")){
+    if(!order.get("source_id") || !parseInt(order.get("source_id"))){
       $('.advertiser-name input').typeahead({
         name: 'advertiser-names',
         remote: {
@@ -723,13 +724,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var type = args.type || li.get('type');
       var platform = args.platform;
       var abbr = platform ? platform.get('naming_convention') : null;
-      var platformId = platform ? platform.get('id') : null;
+      var platformId = platform ? platform.get('id') : null,
+          platformName = platform ? platform.get('name') : null;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
-
       var buffer = 1 + li.get('buffer') / 100;
       var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId, platform_name: platformName });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -818,6 +819,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li.get('keyvalue_targeting'),
               type: type })
           }, { silent: true });
+          if (li.revised_targeting) {
+            li.get('targeting').revised_targeting = true;
+            li.revised_targeting = false;
+          }
           li.platforms = platforms;
 
           li_view.renderTargetingDialog();
@@ -860,6 +865,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           } else {
             li_view.showDupDeleteBtn({hide: true});
           }
+          li_view.render(); // TODO avoid LI view rendering, update ads types dropdown only
         });
 
         lineItemList._recalculateLiImpressionsMediaCost();
@@ -884,12 +890,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
+          if (li.revised_targeting) {
+            li.get('targeting').revised_targeting = true;
+            li.revised_targeting = false;
+          }
           li.platforms = platforms;
 
           li_view.renderTargetingDialog();
           li_view._recalculateMediaCost();
 
           itemIndex += 1;
+          li_view.render();
         });
         lineItemList._recalculateLiImpressionsMediaCost();
       });

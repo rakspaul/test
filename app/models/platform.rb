@@ -30,5 +30,6 @@ class Platform < ActiveRecord::Base
       self.dfp_key = self.dfp_key.try(:strip)
       self.naming_convention = self.naming_convention.try(:strip)
       self.dfp_site_name = self.dfp_site_name.try(:strip)
+      self.tag_template = self.tag_template.blank? ? nil : self.tag_template.strip
     end
 end

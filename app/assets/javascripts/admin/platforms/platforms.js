@@ -93,6 +93,9 @@
       priority: '#priority',
       enabled_checkbox: '#enabled_checkbox',
       new_platform_btn: '#new_platform_btn',
+      tag_template: '#tag_template',
+      tag_template_text: '#tag_template_text',
+      tag_tooltip: '#tag_tooltip',
 
       name_error: '#platform_name_error',
       media_type_id_error: '#media_type_error',
@@ -101,6 +104,7 @@
       naming_convention_error: '#naming_convention_error',
       ad_type_error: '#ad_type_error',
       priority_error: '#priority_error',
+      tag_template_error: '#tag_template_error',
 
       save_platform: '#save_platform',
       close_platform: '#close_platform'
@@ -109,7 +113,12 @@
     events: {
       'click #new_platform_btn' : '_show_platform_input',
       'click #save_platform' : '_onSave',
-      'click #enabled_checkbox' : '_changeLabel'
+      'click #enabled_checkbox' : '_changeLabel',
+      'input #tag_template' : '_showTemplate'
+    },
+
+    onRender: function(){
+      this._showTemplate();
     },
 
     onDomRefresh: function(){
@@ -120,6 +129,16 @@
         },
         valueKey: 'name',
         limit: 100
+      });
+
+      this.ui.tag_tooltip.popover({
+        html : true,
+        trigger: 'hover',
+        placement: 'top',
+        title: 'When a tag is generated, the following tokens are replaced:',
+        content: function() {
+          return $('#tag_tooltip_content').html();
+        },
       });
     },
 
@@ -135,7 +154,8 @@
         naming_convention: this.ui.naming_convention.val(),
         ad_type: this.ui.ad_type.val(),
         priority: parseInt(this.ui.priority.val()),
-        enabled: this.ui.enabled_checkbox.is(':checked')
+        enabled: this.ui.enabled_checkbox.is(':checked'),
+        tag_template: this.ui.tag_template.val()
       }
 
       if(this.ui.platform_name_input.is(':visible')){
@@ -205,8 +225,15 @@
       } else {
         $('.enabled-text').html('No');
       }
-    }
+    },
 
+    _showTemplate: function(e){
+      var text = this.ui.tag_template.val();
+      var textString =  this.ui.tag_template_text.text(text).html();
+
+      textString = textString.replace('!ZONE_NAME!', '<span>!ZONE_NAME!</span>').replace('!KEY_VALUE!', '<span>!KEY_VALUE!</span>').replace('!SIZE!','<span>!SIZE!</span>').replace('!NETWORK_ID!','<span>!NETWORK_ID!</span>');
+      this.ui.tag_template_text.html(textString);
+    }
   });
 
 // --------------------/ Controller /----------------------------------

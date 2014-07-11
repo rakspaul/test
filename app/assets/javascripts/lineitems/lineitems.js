@@ -7,9 +7,19 @@
       "Mobile":   "mob=_default"
     },
 
+    mediaTypeSizes: {
+      "1x1":     "Video",
+      "300x50":  "Mobile",
+      "320x50":  "Mobile",
+      "100x72":  "Facebook",
+      "99x72":   "Facebook",
+      "default": "Display"
+    },
+
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.revised_targeting = false;
       this.platforms = [];
       this.is_blank_li = false;
     },
@@ -24,6 +34,7 @@
         type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
+        uploaded: false
       }
     },
 
@@ -81,9 +92,54 @@
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
-        ad.set({ 'volume':  parseInt(adImps) }, { silent: true });
+        ad.set('volume', parseInt(adImps));
       });
       this.set('buffer', parseFloat(buffer));
+    },
+
+    setCreativesDate: function(name, value) {
+      var creatives = this.get('creatives').models;
+      if (creatives) {
+        _.each(creatives, function(creative) {
+          creative.set(name, value);
+        });
+      }
+    },
+  }, {
+    buffer: {
+      targeting: null
+    },
+    selectedItems: {
+      li:  [],
+      ad: []
+    },
+
+    getCopyBuffer: function(key) {
+      if (key) {
+        return this.buffer[key];
+      } else {
+        return this.buffer;
+      }
+    },
+
+    setCopyBuffer: function(key, value) {
+      if (key) {
+        this.buffer[key] = value;
+      } else {
+        this.buffer = value;
+      }
+    },
+
+    getSelectedItem: function(key) {
+      return this.selectedItems[key || 'li'];
+    },
+
+    setSelectedItem: function(items, key) {
+      if (key) {
+        this.selectedItems[key] = items;
+      } else {
+        this.selectedItems = { li: [], ad: [] };
+      }
     }
   });
 
@@ -91,6 +147,18 @@
     model: LineItems.LineItem,
     url: function() {
       return '/orders/' + this.order.id + '/lineitems.json';
+    },
+
+    getMinLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('start_date'); } ), minDate = dates[0];
+      _.each(dates, function(el) { if (el < minDate) { minDate = el; } });
+      return minDate;
+    },
+
+    getMaxLIDate: function() {
+      var dates = _.map(this.models, function(li) { return li.get('end_date'); }), maxDate = dates[0];
+      _.each(dates, function(el) { if (el > maxDate) { maxDate = el; } });
+      return maxDate;
     },
 
     setOrder: function(order) {
@@ -137,6 +205,92 @@
     tagName: 'div',
     className: 'lineitem pure-g',
 
+    ui: {
+      ads_list:             '.ads-container',
+      targeting:            '.targeting-container',
+      creatives_container:  '.creatives-list-view',
+      creatives_content:    '.creatives-content',
+      lineitem_sizes:       '.lineitem-sizes',
+      start_date_editable:  '.start-date-editable',
+      end_date_editable:    '.end-date-editable',
+      name_editable:        '.name-editable',
+      volume_editable:      '.volume-editable',
+      rate_editable:        '.rate-editable',
+      buffer_editable:      '.buffer-editable',
+      dup_btn:              '.li-duplicate-btn',
+      delete_btn:           '.li-delete-btn',
+      item_selection:       '.item-number',
+      copy_targeting_btn:   '.copy-targeting-btn',
+      paste_targeting_btn:  '.paste-targeting-btn',
+      cancel_targeting_btn: '.cancel-targeting-btn'
+    },
+
+    events: {
+      'click .toggle-targeting-btn': '_toggleTargetingDialog',
+      'click .toggle-creatives-btn': '_toggleCreativesDialog',
+      'click .li-add-ad-btn': '_addTypedAd',
+      'click .name .notes .close-btn': 'collapseLINotes',
+      'click .name .expand-notes': 'expandLINotes',
+      'click .li-number': '_toggleLISelection',
+
+      // revisions
+      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
+      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
+
+      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .paste-targeting-btn': 'pasteTargeting',
+      'click .cancel-targeting-btn': 'cancelTargeting',
+      'click .change-media-type': '_changeMediaType',
+      'click .li-duplicate-btn': '_duplicateLineitem',
+      'click .li-delete-btn': '_deleteLineitem'
+    },
+
+    modelEvents: {
+      'change:type': 'render'
+    },
+
+    triggers: {
+      'click .li-command-btn': 'lineitem:add_ad'
+    },
+
+    bindings: {
+      '.start-date-editable': {
+        observe: 'start_date',
+        onSet: function(val) {
+          return moment(val).format("YYYY-MM-DD");
+        }
+      },
+      '.end-date-editable':   'end_date',
+      '.name-editable': {
+        observe: 'name',
+        onSet: function(val) {
+          return val.replace(/^\s+|\s+$/g, '');
+        }
+      },
+      '.volume-editable': {
+        observe: 'volume',
+        onGet: function(val) {
+          return accounting.formatNumber(val, '');
+        }
+      },
+      '.rate-editable': {
+        observe: 'rate',
+        onGet: function(val) {
+          return accounting.formatMoney(val, '');
+        }
+      },
+      '.buffer-editable': {
+        observe: 'buffer',
+        onGet: function(val) {
+          return accounting.formatNumber(val, 2);
+        }
+      }
+    },
+
     getTemplate: function() {
       var type = this.model.get('type') ? this.model.get('type').toLowerCase() : 'display';
       if (type == 'video') {
@@ -147,8 +301,25 @@
     },
 
     initialize: function(){
+      var self = this;
+
       _.bindAll(this, "render");
-      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+      //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      this.on('targeting:update', function(targeting) {
+        self.model.get('targeting').revised_targeting = false;
+        if (this.model.ads && this.model.ads.length > 0) {
+          _.each(self.model.ads, function(ad) {
+            if (ad.get('type') != 'Companion') {
+              var adTargeting = ad.get('targeting');
+              _.each(targeting, function(value, key) {
+                adTargeting.attributes[key] = value;
+              });
+            }
+          });
+          self.render(); // re-render LI and nested ads
+        }
+      });
 
       this.creatives_visible = {};
       this.li_notes_collapsed = false;
@@ -159,52 +330,67 @@
       }
     },
 
-    setEditableFields: function() {
-      var view = this;
+    _alignOrderStartDate: function() {
+      var minDate = this.model.collection.getMinLIDate();
+      $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+      this.model.collection.order.set('start_date', minDate);
+    },
 
-      this.$el.find('.start-date .editable.custom').editable({
+    _alignOrderEndDate: function() {
+      var maxDate = this.model.collection.getMaxLIDate();
+      $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+      this.model.collection.order.set("end_date", maxDate);
+    },
+
+    setEditableFields: function() {
+      var view = this, model = view.model, collection = model.collection;
+
+      this.ui.start_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives start date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('start_date', date);
-            });
-          }
-
-          view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('start_date', date);
+          model.set('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          var start_dates = _.map(view.model.collection.models, function(el) { return el.attributes.start_date; }), min_date = start_dates[0];
-          _.each(start_dates, function(el) { if(el < min_date) { min_date = el; } });
+          view._alignOrderStartDate();
 
-          $('.order-details .start-date .date').html(min_date).editable('option', 'value', moment(min_date)._d);
-          view.model.collection.order.set('start_date', min_date); //update order backbone model
+          view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'Start date cannot be in the past';
+            view.$el.find('.start-date').addClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.start-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.start-date .errors_container').html(error_message);
         },
         datepicker: {
-          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+          startDate: ReachUI.initialStartDate(model.get('start_date'))
         }
       });
 
-      this.$el.find('.end-date .editable.custom').editable({
+      this.ui.end_date_editable.editable({
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
-          // update creatives end date
-          if (view.model.get('creatives').models) {
-            _.each(view.model.get('creatives').models, function(creative) {
-              creative.set('end_date', date);
-            });
-          }
-
-          view.model.set($(this).data('name'), date); //update backbone model;
+          model.setCreativesDate('end_date', date);
+          model.set('end_date', date);
 
           // order's end date should be highest of all related LIs
-          var end_dates = _.map(view.model.collection.models, function(el) { return el.attributes.end_date; }), max_date = end_dates[0];
-          _.each(end_dates, function(el) { if(el > max_date) { max_date = el; } })
-          $('.order-details .end-date .date').html(max_date).editable('option', 'value', moment(max_date)._d);
-          view.model.collection.order.set("end_date", max_date); //update backbone model
+          view._alignOrderEndDate();
+
+          view._changeEditable($(this), newValue);
+
+          if(moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > date) {
+            var error_message = 'End date cannot be in the past';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          } else {
+            var error_message = '';
+            view.$el.find('.end-date').removeClass('field_with_errors');
+          }
+          view.$el.find('.end-date .errors_container').html(error_message);
         },
         datepicker: {
           startDate: moment().format("YYYY-MM-DD")
@@ -217,11 +403,11 @@
           tags: true,
           tokenSeparators: [",", " "],
           initSelection : function (element, callback) {
-              var data = [];
-              $(element.val().split(",")).each(function () {
-                  data.push({id: this, text: this});
-              });
-              callback(data);
+            var data = [];
+            $(element.val().split(",")).each(function () {
+              data.push({id: this, text: this});
+            });
+            callback(data);
           },
           ajax: {
             url: "/ad_sizes.json",
@@ -240,38 +426,25 @@
             }
           },
         },
+
         success: function(response, newValue) {
           // https://github.com/collectivemedia/reachui/issues/543
           // When a size is selected, the media type should default to the media type for that size
-          // 1x1 = video
-          // 300x50 or 320x50 = mobile
-          // 100x72 or 99x72 = FB
-          // All else = Display
-          var name = $(this).data('name');
-          if (view.model.is_blank_li && name != 'companion_ad_size') {
-            switch(newValue[0]) {
-              case '1x1':
-                view._changeMediaType("Video");
-                break;
-              case '300x50':
-              case '320x50':
-                view._changeMediaType("Mobile");
-                break;
-              case '100x72':
-              case '99x72':
-                view._changeMediaType("Facebook");
-                break;
-              default:
-                view._changeMediaType("Display");
+          var size = newValue[0];
+          if (model.is_blank_li) {
+            if (model.mediaTypeSizes[size]) {
+              view._changeMediaType(model.mediaTypeSizes[size]);
+            } else {
+              view._changeMediaType(model.  mediaTypeSizes['default']);
             }
           }
 
-          if (view.model.get('type') == 'Video') {
+          if (model.get('type') == 'Video') {
             var value = newValue.join(', ');
-            view.model.set('companion_ad_size', value);
-            view.model.set('ad_sizes', view.model.get('master_ad_size') + (value ? ', ' + value : ''));
+            model.set('companion_ad_size', value);
+            model.set('ad_sizes', model.get('master_ad_size') + (value ? ', ' + value : ''));
           } else {
-            view.model.set('ad_sizes', newValue.join(', '));
+            model.set('ad_sizes', newValue.join(', '));
           }
         }
       });
@@ -281,13 +454,11 @@
         source: '/ad_sizes.json',
         typeahead: {
           minLength: 1,
-          remote: '/ad_sizes.json?search=%QUERY',
-          valueKey: 'size'
+          remote:    '/ad_sizes.json?search=%QUERY',
+          valueKey:  'size'
         },
         validate: function(value) {
-          var name = $(this).data('name');
-          var size = value;
-          if (name == 'master_ad_size' &&
+          if ($(this).data('name') == 'master_ad_size' &&
               !value.match(/^\d+x\d+$/i)) {
             return 'Only one master ad size is allowed';
           }
@@ -295,45 +466,56 @@
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
         var name = $(this).find('.editable').data('name');
-        view.model.set(name, el.size);
-        var type = view.model.get('type');
-        if (type == 'Video') {
-          var companion_ad_size = view.model.get('companion_ad_size');
-          view.model.set('ad_sizes', view.model.get('master_ad_size') + ', ' + companion_ad_size);
+        model.set(name, el.size);
+        if (view.model.get('type') == 'Video') {
+          model.set('ad_sizes', model.get('master_ad_size') + ', ' + model.get('companion_ad_size'));
         }
       });
 
-      this.$el.find('.rate .editable.custom').editable({
+      this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue); //update backbone model;
+          model.set('rate', newValue);
           view._recalculateMediaCost();
-          view.model.collection._recalculateLiImpressionsMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatMoney(value, '');
+        }
+      });
+      //this.ui.rate_editable.editable({});
+
+      this.ui.volume_editable.editable({
+        success: function(response, newValue) {
+          var value = parseFloat(String(newValue).replace(/,/g, ''));
+          value = Math.round(Number(value));
+          model.set('volume', value);
+          view._recalculateMediaCost();
+          collection._recalculateLiImpressionsMediaCost();
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, '');
         }
       });
 
-      this.$el.find('.volume .editable.custom').editable({
+      this.ui.buffer_editable.editable({
         success: function(response, newValue) {
-          var name = $(this).data('name'), value;
-          if (name == 'buffer') {
-            view.model.setBuffer(parseFloat(newValue));
-          } else {
-            value = parseInt(String(newValue).replace(/,|\./g, ''));
-            view.model.set(name, value); //update backbone model;
-            view._recalculateMediaCost();
-            view.model.collection._recalculateLiImpressionsMediaCost();
-          }
+          model.setBuffer(parseFloat(newValue));
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, 2);
         }
       });
 
-      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
+      this.ui.name_editable.editable({
         success: function(response, newValue) {
-          view.model.set($(this).data('name'), newValue.replace(/^\s+|\s+$/g,'')); //update backbone model;
+          view._changeEditable($(this), newValue);
         }
       });
     },
 
-    // after start/end date changed LI is rerendered, so render linked Ads also
     onRender: function() {
+      this.stickit();
+
       var view = this;
       $.fn.editable.defaults.mode = 'popup';
 
@@ -417,6 +599,14 @@
       }
     },
 
+    // method trigger change event to process contenteditable element by stickit
+    _changeEditable: function(el, value, callback) {
+        var val = callback ? callback(value) : value;
+        el.editable('setValue', value, callback);
+        el.trigger('change');
+        el.addClass('editable-unsaved');
+    },
+
     recalculateAdsImpressionsMediaCost: function(buffer) {
       var adImps, prevBuffer = parseFloat(this.model.get('buffer')),
           ratio = (100 + buffer) / (100 + prevBuffer),
@@ -433,6 +623,8 @@
       if (options && options.hide) {
         if (this.model.get('uploaded')) {
           this.ui.dup_btn.hide();
+        } else {
+          this.ui.dup_btn.show();  
         }
         this.ui.delete_btn.hide();
       } else {
@@ -526,163 +718,27 @@
 
     _toggleLISelection: function(e) {
       e.stopPropagation();
-      if(this.model.get('revised')) {
+      if (this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        // if there is no copied targeting then exclusive select, otherwise accumulative
-        if(!window.copied_targeting) {
-          this._deselectAllLIs({'except_current': true});
-        }
-
-        this.$el.find('.li-number .number').toggleClass('selected');
-        this.selected = this.$el.find('.li-number .number').hasClass('selected');
-        this.$el.find('.copy-targeting-btn').toggle();
-
-        if(window.selected_lis === undefined) {
-          window.selected_lis = [];
-        }
-        if(this.selected) {
-          window.selected_lis.push(this); // add current LI to selected LIs
-        } else {
-          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-        }
-
-        if(window.copied_targeting) {
-          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-          $('.copy-targeting-btn li').removeClass('active');
-          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
-        }
+        ReachUI.toggleItemSelection.call(this, e, 'li');
       }
     },
 
     copyTargeting: function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      var el = $(e.currentTarget),
-          parent = el.parent(),
-          type   = el.data('type'),
-          active = parent.hasClass('active'),
-          li_t   = this.model.get('targeting');
-
-      if (!active) {
-        var copiedOptions = {};
-
-        parent.addClass('active');
-
-        switch (type) {
-          case 'key_values':
-            copiedOptions = {
-              selected_key_values: _.clone(li_t.get('selected_key_values')),
-              keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-            };
-            break;
-          case 'geo':
-            copiedOptions = {
-              selected_geos: _.clone(li_t.get('selected_geos')),
-              selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
-            };
-            break;
-          case 'freq_cap':
-            copiedOptions = {
-              frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
-            };
-            break;
-        };
-
-        if (!window.copied_targeting) {
-          window.copied_targeting = {};
-        }
-        _.each(copiedOptions, function(value, key) {
-          window.copied_targeting[key] = value;
-        });
-      } else {
-        if (window.copied_targeting) {
-          switch (type) {
-          case 'key_values':
-            delete window.copied_targeting['selected_key_values'];
-            delete window.copied_targeting['keyvalue_targeting'];
-            break;
-          case 'geo':
-            delete window.copied_targeting['selected_geos'];
-            delete window.copied_targeting['selected_zip_codes'];
-            break;
-          case 'freq_cap':
-            delete window.copied_targeting['frequency_caps'];
-            break;
-          }
-        }
-        el.blur();
-        parent.removeClass('active');
-      }
-
-      noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs({ multi: true });
-      this.$el.addClass('copied-targeting-from');
+      ReachUI.copyTargeting.call(this, e, 'li');
     },
 
-    _deselectAllLIs: function(options) {
-      var self = this;
-      if(options && options['except_current']) {
-        var lis_to_deselect = _.filter(window.selected_lis, function(el) {return el != self});
-      } else {
-        var lis_to_deselect = window.selected_lis;
-      }
-
-      _.each(lis_to_deselect, function(li) {
-        li.selected = false;
-        li.$el.find('.li-number .number').removeClass('selected');
-        if (!options || !options['multi']) {
-          li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        }
-        li.renderTargetingDialog();
-      });
-      window.selected_lis = [];
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'li');
     },
 
     pasteTargeting: function(e) {
-      e.stopPropagation();
-      noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
-
-      _.each(window.selected_lis, function(li) {
-        var liTargeting = li.model.get('targeting'),
-            targeting = {};
-        _.each(window.copied_targeting, function(value, key) {
-          if (key != 'frequency_caps') {
-            targeting[key] = _.clone(value);
-          }
-        });
-        if (window.copied_targeting['frequency_caps']) {
-          var frequencyCaps = liTargeting.get('frequency_caps');
-          var removedCaps = [];
-          _.each(frequencyCaps.models, function(fc) {
-            if (fc.get('id')) {
-              removedCaps.push(fc.get('id'));
-            }
-          });
-          _.each(removedCaps, function(id) {
-            frequencyCaps.remove(id);
-          });
-          _.each(window.copied_targeting['frequency_caps'], function(fc) {
-            frequencyCaps.add(fc);
-          });
-          targeting['frequency_caps'] = frequencyCaps;
-        }
-        liTargeting.set(targeting, { silent: true });
-
-        li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
-      });
-
-      this.cancelTargeting();
+      ReachUI.pasteTargeting.call(this, e, 'li');
     },
 
     cancelTargeting: function(e) {
-      if (e) {
-        e.stopPropagation();
-      }
-      window.copied_targeting = null;
-      $('.lineitem').removeClass('copied-targeting-from');
-      this._deselectAllLIs();
+      ReachUI.cancelTargeting.call(this, e, 'li');
     },
 
     _changeMediaType: function(ev_or_type) {
@@ -830,16 +886,6 @@
       this.model.collection.remove(this.model);
     },
 
-    ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes',
-      dup_btn: '.li-duplicate-btn',
-      delete_btn: '.li-delete-btn'
-    },
-
     _toggleRevisionDialog: function(e) {
       e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
@@ -888,6 +934,8 @@
 
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -911,14 +959,51 @@
     },
 
     _acceptRevision: function(e) {
+      var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
           $editable = $target_parent.siblings('div .editable'),
-          revised_value = $target_parent.siblings('.revision').text();
+          revised_value = $target_parent.siblings('.revision').text(),
+          original_value = this.model.get(attr_name);
 
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+
+      if (this.model.ads.length > 0 && attr_name != 'name') {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
+            apply_text = 'Apply the new ' + attr_name.split('_').join(' ') + ' to ads';
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html(apply_text);
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+        });
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+          switch (attr_name) {
+            case 'start_date':
+            case 'end_date':
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+            case 'volume':
+              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+              _.each(self.model.ads, function(ad) {
+                ad.set('volume', ad.get('volume') * ratio);
+              });
+              break;
+            case 'rate':
+              revised_value = accounting.formatNumber(revised_value, 2);
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+          }
+        });
+        $apply_ads_dialog.modal('show');
+      }
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       this.model.attributes[attr_name] = revised_value;
@@ -930,6 +1015,8 @@
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
       this._checkRevisedStatus();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       $target_parent.remove();
     },
 
@@ -942,34 +1029,6 @@
 
       $target_parent.siblings('.revision').hide();
       $target_parent.remove();
-    },
-
-    events: {
-      'click .toggle-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-creatives-btn': '_toggleCreativesDialog',
-      'click .li-add-ad-btn': '_addTypedAd',
-      'click .name .notes .close-btn': 'collapseLINotes',
-      'click .name .expand-notes': 'expandLINotes',
-      'click .li-number': '_toggleLISelection',
-
-      // revisions
-      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
-
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
-      'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
-      'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
-
-      'click .copy-targeting-btn .copy-targeting-item': 'copyTargeting',
-      'click .paste-targeting-btn': 'pasteTargeting',
-      'click .cancel-targeting-btn': 'cancelTargeting',
-      'click .change-media-type': '_changeMediaType',
-      'click .li-duplicate-btn': '_duplicateLineitem',
-      'click .li-delete-btn': '_deleteLineitem'
-    },
-
-    triggers: {
-      'click .li-command-btn': 'lineitem:add_ad'
     }
   });
 
@@ -997,6 +1056,8 @@
       if(this.collection.order.get('revisions') && this.collection.order.get('revisions').length > 0) {
         this.$el.find('.save-order-btn').hide();
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     serializeData: function(){
@@ -1176,7 +1237,7 @@
       var self = this;
       var lineitems = this.collection;
       var lineitemsWithoutAds = [];
-
+m
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));

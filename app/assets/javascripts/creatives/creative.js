@@ -34,11 +34,18 @@
   Creatives.CreativeView = Creatives.BasicCreativeView.extend({
     template: JST['templates/creatives/creatives_row'],
 
-    initialize: function(){
+    initialize: function() {
       this.start_creative_date_inherits_li = _.isEmpty(this.model.get('start_date'));
       this.end_creative_date_inherits_li = _.isEmpty(this.model.get('end_date'));
       _.bindAll(this, "render");
       this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+    },
+
+    serializeData: function() {
+      var data = this.model.toJSON(),
+          this_ad = this.options.parent_view.model;
+      data['creative']['ad_type'] = this_ad.get('type');
+      return data;
     },
 
     events: {
@@ -176,7 +183,7 @@
         }
       });
       this.$el.find('.size').on('typeahead:selected', function(ev, el) {
-        self.model.set("ad_size", el.size);
+        self.model.set({ "ad_size": el.size });
       });
       this.$el.find('.size').on('shown', function(ev, el) {
         self.previousSize = self.$el.find('.size span').html();

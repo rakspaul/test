@@ -22,7 +22,7 @@
     <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
       <span>Contract LI</span>
       <div style="clear:both"></div>
-      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
+      <span class="item-number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
 
       <div class="revised-dialog" style="display:none">
         <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
@@ -30,11 +30,9 @@
       </div>
     </div>
 
-
-
     <% wrong_start_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.start_date %>
     <div class="pure-u-1-12 start-date<% if (wrong_start_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable start-date-editable" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1" contenteditable="true">
         <%= lineitem.start_date %>
       </span>
       <% if(lineitem.revised_start_date) { %>
@@ -59,7 +57,7 @@
 
     <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
     <div class="pure-u-1-12 end-date<% if (wrong_end_date) { %> field_with_errors<% } %>">
-      <span class="editable custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+      <span class="editable end-date-editable" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1" contenteditable="true">
         <%= lineitem.end_date %>
       </span>
       <% if(lineitem.revised_end_date) { %>
@@ -105,7 +103,7 @@
     </div>
 
     <div class="pure-u-1-3 name">
-      <span class="editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text">
+      <span class="editable name-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" contenteditable="true">
         <%= lineitem.name %>
       </span>
 
@@ -138,8 +136,8 @@
     </div>
 
     <div class="pure-u-1-12 volume number-field">
-      <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
-        <%= accounting.formatNumber(lineitem.volume) %>
+      <span class="editable volume-editable" data-type="text" data-name="volume" data-pk="1" contenteditable="true">
+        <%= lineitem.volume %>
       </span>
       <% if(lineitem.revised_volume != null) { %>
         <div style="clear:both"></div>
@@ -150,13 +148,13 @@
         </div>
       <% } %>
       <div class="errors_container"></div>
-      <span class="editable custom buffer" data-type="text" data-name="buffer" data-pk="1">
-        <%= accounting.formatNumber(lineitem.buffer, 2) %>
+      <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
+        <%= lineitem.buffer %>
       </span>%
     </div>
     <div class="pure-u-1-12 rate number-field">
-      $<span class="editable custom" data-type="text" data-name="rate" data-pk="1">
-        <%= accounting.formatMoney(lineitem.rate, '') %>
+      $<span class="editable rate-editable" data-type="text" data-name="rate" data-pk="1" contenteditable="true">
+        <%= lineitem.rate %>
       </span>
       <% if(lineitem.revised_rate != null) { %>
         <div style="clear:both"></div>
