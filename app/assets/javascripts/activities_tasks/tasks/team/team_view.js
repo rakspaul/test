@@ -83,8 +83,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
     },
 
     serializeData: function(data) {
-          return _.extend(this.model.toJSON(), {context: this.model.collection.context});
-      },
+      return _.extend(this.model.toJSON(), {context: this.model.collection.context});
+    },
 
 
     setAssignee: function() {
@@ -114,25 +114,25 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
     }
   });
 
-    Team.TaskListView = Marionette.CollectionView.extend({
-        tagName: 'div',
-        itemView: Team.TaskView,
-        className: 'task-list-container',
+  Team.TaskListView = Marionette.CollectionView.extend({
+      tagName: 'div',
+      itemView: Team.TaskView,
+      className: 'task-list-container',
 
-        initialize: function() {
-            this.listenTo(this.collection, "reset", function() {
-                this.appendHtml = function(collectionView, itemView, index) {
-                    collectionView.$el.append(itemView.el);
-                }
-            });
-        },
+      initialize: function() {
+          this.listenTo(this.collection, "reset", function() {
+              this.appendHtml = function(collectionView, itemView, index) {
+                  collectionView.$el.append(itemView.el);
+              }
+          });
+      },
 
-        onCompositeCollectionRendered: function() {
-            this.appendHtml = function(collectionView, itemView, index) {
-                collectionView.$el.append(itemView.el);
-            }
-        }
-    });
+      onCompositeCollectionRendered: function() {
+          this.appendHtml = function(collectionView, itemView, index) {
+              collectionView.$el.append(itemView.el);
+          }
+      }
+  });
 
 
   Team.UserTasksLayout = ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout.extend({
