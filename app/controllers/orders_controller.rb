@@ -43,6 +43,14 @@ class OrdersController < ApplicationController
 
     @reachui_users = load_users.limit(50)
 
+    @last_revision = if @order.revisions.empty?
+      nil
+    elsif @order.io_detail.try(:state) == "revisions_proposed"
+      revision = @order.revisions.last
+      # we could only show the latest not accepted revision otherwise don't show any revisions at all
+      revision.accepted ? nil : JSON.load(revision.object_changes)
+    end
+
     respond_to do |format|
       format.html
       format.json
@@ -149,6 +157,11 @@ class OrdersController < ApplicationController
     @order.end_date = Time.zone.parse(order_param[:end_date])
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
+    if !order_param[:revision_changes].blank?
+      changes = {lineitems: order_param[:revision_changes]}
+      @order.revisions.create(object_changes: JSON.dump(changes))
+    end
+
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
@@ -174,6 +187,15 @@ class OrdersController < ApplicationController
       @order.user_id = io_details.account_manager_id
     elsif @order.user_id.blank?
       @order.user = current_user
+    end
+
+    if order_param[:cancel_last_revision]
+      order_param.delete(:cancel_last_revision)
+      last_revision = @order.revisions.last
+      last_revision.update_attribute('accepted', true) if last_revision
+      if order_param[:order_status] !~ /ready_for_|pushing/
+        io_details.state = 'revisions_proposed'
+      end
     end
 
     respond_to do |format|
@@ -413,7 +435,8 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
+      :revised_start_date, :revised_end_date, :revised_common_ad_sizes, :revised_added_ad_sizes,
+      :revised_removed_ad_sizes, :revised_ad_sizes, :revised_name, :revised_volume, :revised_rate, :li_status,
       :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
       end
@@ -456,6 +479,7 @@ private
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -571,6 +595,7 @@ private
             ad_object.save && ad_object.update_attributes(ad[:ad])
             ad_object.save_targeting(ad_targeting)
 
+            ad_object.is_and = ad_targeting[:targeting][:is_and]
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
@@ -640,6 +665,7 @@ private
         AudienceGroup.find_by(id: group_name[:id])
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -713,6 +739,7 @@ private
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
+          ad_object.is_and = ad_targeting[:targeting][:is_and]
 
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 

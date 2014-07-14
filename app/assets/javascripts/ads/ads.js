@@ -8,7 +8,8 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         _delete_creatives: [],
-        platform_id: null
+        platform_id: null,
+        is_and: false
       }
     },
 
@@ -53,6 +54,10 @@
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
+    },
+
+    getImps: function() {
+      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
     }
   });
 
@@ -135,7 +140,7 @@
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() / 1000.0) * cpm;
+      return (this.getImressions() * cpm) / 1000.0;
     },
 
     renderTargetingDialog: function() {
@@ -181,9 +186,9 @@
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible){
+      if(is_visible) {
         this.targetingView.hideTargeting();
-      } else{
+      } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
         $(this.ui.targeting).show('slow');
       }
@@ -225,6 +230,7 @@
           li = this.options.parent_view.model,
           li_type = li.get('type');
 
+      // if ad has creatives then collect ad_sizes from them
       if (creatives.length > 0 && type != 'Video' && type != 'Companion') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
@@ -234,7 +240,7 @@
         if (uniq_creative_sizes) {
           this.ui.ads_sizes.html(uniq_creative_sizes);
         }
-      } else {
+      } else { // get them from LI
         var ad_sizes = li.get('ad_sizes');
         if (li_type == 'Video' && type != 'Video') {
           ad_sizes = li.get('companion_ad_size');
@@ -276,10 +282,7 @@
           });
 
           self._recalculateMediaCost({ silent: true });
-
-          var buffer = self.options.parent_view.model.get('buffer');
-          buffer = (sum_ad_imps / imps * 100) - 100;
-          self.options.parent_view.model.set({ 'buffer': buffer });
+          self.options.parent_view.recalculateUnallocatedImps();
           self.render();
         },
         validate: function(value) {
@@ -389,18 +392,15 @@
     },
 
     _destroyAd: function(e) {
-      var li_ads = this.options.parent_view.model.ads;
+      var model = this.options.parent_view.model;
+      var li_ads = model.ads;
       var cid = this.model.cid;
 
       // update list of ads for the related lineitem
-      var new_ads = _.inject(li_ads, function(new_ads, ad) {
-        if(cid != ad.cid) {
-          new_ads.push(ad);
-        }
-        return new_ads;
-      }, []);
-      this.options.parent_view.model.ads = new_ads;
-
+      model.ads =_.filter(li_ads, function(ad) {
+        return cid != ad.cid;
+      });
+      this.options.parent_view.recalculateUnallocatedImps();
       this.remove();
     },
 

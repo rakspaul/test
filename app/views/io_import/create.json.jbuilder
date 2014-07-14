@@ -29,6 +29,7 @@ json.order do
       json.name revision[:name]
       json.volume revision[:volume]
       json.rate revision[:rate]
+      json.ad_sizes revision[:ad_sizes]
     end
   end
 
@@ -85,7 +86,7 @@ json.lineitems do
 
     json.creatives do
       li_creatives = if lineitem.id && @io_import.is_existing_order # means old LI => get old creatives
-        lineitem.creatives+lineitem.video_creatives
+        lineitem.creatives + lineitem.video_creatives
       else # => get new ones from IO
         @io_import.inreds.select do |ir|
           ir[:placement]          == lineitem.name &&

@@ -55,9 +55,10 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id, :set_est_flight_dates
-  before_save :move_end_date_time, :set_data_source, :set_type_params, :set_default_status, :set_platform_site
+  before_create :create_random_source_id, :set_est_flight_dates, :set_type_params
+  before_save :move_end_date_time, :set_data_source, :set_default_status, :set_platform_site
   before_update :check_est_flight_dates
+
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -192,11 +193,12 @@ class Ad < ActiveRecord::Base
       self.priority = Video::COMPANION_PRIORITY
     end and return
 
-    self.ad_type  = "#{media_type.category}::AD_TYPE".constantize
+    mtype = media_type.reachui_type? ? media_type.category : 'Display'
+    self.ad_type  = "#{mtype}::AD_TYPE".constantize
     if type == 'Display' && (audience_groups.size > 0 || !reach_custom_kv_targeting.blank?)
-      self.priority = "#{media_type.category}::HIGH_PRIORITY".constantize
+      self.priority = "#{mtype}::HIGH_PRIORITY".constantize
     else
-      self.priority = "#{media_type.category}::PRIORITY".constantize
+      self.priority = "#{mtype}::PRIORITY".constantize
     end
   end
 
@@ -251,9 +253,11 @@ private
       current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
       start_time = start_date.today? ? current : "00:00:00"
       self[:start_date] = "#{start_date} #{start_time}"
+      Rails.logger.warn '[814] ad.[:start_date] - ' + self[:start_date].inspect
     end
     if self[:end_date]
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+      Rails.logger.warn '[814] ad.[:end_date] - ' + self[:end_date].inspect
     end
   end
 

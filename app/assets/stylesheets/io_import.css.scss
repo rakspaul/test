@@ -136,6 +136,15 @@ $wide_input_width: 320px;
     font-family: 'Armata', sans-serif;
   }
 
+  .cancel-revisions-btn {
+    color: $text_color;
+    margin-left: 8px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   #revised_io_fileupload {
     cursor: pointer;
     background: url(asset-path('upload_io_icon.png')) 0px 0px no-repeat;
@@ -508,12 +517,21 @@ $wide_input_width: 320px;
       background-color: $magenta_color !important;
     }
 
+    .last-revision {
+      color: grey;
+      margin-left: 8px;
+    }
+
     .revision {
       color: $magenta_color;
       margin-left: 8px;
 
       &:hover {
         cursor:pointer;
+      }
+
+      .line-through {
+        text-decoration:line-through;
       }
     }
 
@@ -552,6 +570,7 @@ $wide_input_width: 320px;
       display: block;
       border: 1px solid green;
       background-color: white;
+      z-index: 10;
 
       .accept-all-btn {
         clear: both;
@@ -822,17 +841,20 @@ $wide_input_width: 320px;
     }
 
     .targeting-options {
-      float: left;
-      height:18px;
+      display: inline;
     }
 
     .targeting-options.highlighted {
+      display: inline;
       background-color: yellow;
       padding: 2px;
     }
 
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
+      display: inline-block;
+      float: none;
       margin-left:10px;
+      vertical-align: middle;
     }
   }
 
@@ -844,6 +866,30 @@ $wide_input_width: 320px;
   .client-id-basic{
     margin: 20px 0 0 10px;
     position: absolute;
+  }
+
+  .unallocated-imps {
+    color: white;
+    height: 32px;
+    margin-top: -7px;
+
+    .unallocated-imps-value {
+      font-weight: bold;
+      background-color: $li_number_bg;
+      height: 100%;
+      text-align: right;
+      padding-top: 8px;
+      padding-right: 10px;
+      font-size: 15px;
+    }
+
+    .unallocated-imps-caption {
+      background-color: $li_number_bg;
+      height: 100%;
+      font-size: 13px;
+      padding-top: 8px;
+      padding-left: 10px;
+    }
   }
 }
 
@@ -1184,6 +1230,14 @@ $wide_input_width: 320px;
   .operation {
     color: $text_color;
     cursor: pointer;
+  }
+
+  .connect-checkbox{
+    margin-top:-10px;
+
+    label{
+      margin:1px 0 10px 5px;
+    }
   }
 }
 

@@ -95,6 +95,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     // set revisions for every lineitem
     if(orderModel.get('revisions')) {
+      orderModel.set('revision_changes', {});
+
       _.each(orderModel.get('revisions'), function(revisions, index) {
         lineItems.models[index].revised_targeting = true;
         lineItems.models[index].set('revised_start_date', revisions.start_date);
@@ -102,7 +104,27 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_name', revisions.name);
         lineItems.models[index].set('revised_volume', revisions.volume);
         lineItems.models[index].set('revised_rate', revisions.rate);
-        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
+
+        if(revisions.ad_sizes) {
+          var ad_sizes_splitted = lineItems.models[index].get('ad_sizes').split(','),
+              revision_ad_sizes = _.map(revisions.ad_sizes.split(','), function(a) { return a.trim() });
+
+          lineItems.models[index].set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+
+          lineItems.models[index].set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+
+          lineItems.models[index].set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+        }
+
+        var li_id = lineItems.models[index].get('id');
+        orderModel.attributes.revision_changes[li_id] = {};
+        orderModel.attributes.revision_changes[li_id]['start_date'] = {'proposed': revisions.start_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['end_date'] = {'proposed': revisions.end_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['name'] = {'proposed': revisions.name, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['volume'] = {'proposed': revisions.volume, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['rate'] = {'proposed': revisions.rate, 'accepted': false};
+
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.ad_sizes!=null) || (revisions.rate!=null)) ? true : false));
       });
     }
 
@@ -812,6 +834,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
           var type = li.get('type');
+          var is_and = li.get('is_and');
 
           li.set({
             'itemIndex': itemIndex,
@@ -822,7 +845,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               frequency_caps: frequency_caps,
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
-              type: type })
+              type: type,
+              is_and:  is_and })
           }, { silent: true });
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
@@ -854,7 +878,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 dfp_key_values: attrs.ad.dfp_key_values,
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
-                type: li_view.model.get('type')
+                type: li_view.model.get('type'),
+                is_and: attrs.ad.is_and
               })
             });
 
@@ -895,6 +920,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
+
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;

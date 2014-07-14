@@ -167,4 +167,8 @@ form fieldset {
   background-color: $lineitem_status_paused_inventory_released_color;
 }
 
-
+.empty-lineitem-notes {
+  color: #005C97;
+  font-style: italic;
+  text-decoration: none;
+}

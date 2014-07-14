@@ -398,6 +398,40 @@ describe OrdersController do
   end
 
   describe "PUT 'update'" do
+    context "save revised order" do
+      let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order update test') }
+      let!(:params) { io_request_w_ads }
+
+      before do
+        params['id'] = order.id
+        params['order']['lineitems'].each do |li|
+          li_id = order.lineitems.first.id
+          li['lineitem']['id'] = li_id
+          li['lineitem']['order_id'] = order.id
+          li['ads'].each do |ad|
+            ad['ad']['id'] = order.lineitems.first.ads.first.id
+            ad['ad']['order_id'] = order.id
+            ad['ad']['io_lineitem_id'] = li_id
+          end
+        end
+
+        params['order']['revision_changes'] = {:lineitems => {order.lineitems.first.id => {:start_date => {:proposed => "2014-02-24", :accepted => false}, :end_date => {:proposed => "2014-02-28", :accepted  => false}, :name => {:proposed => nil, :accepted => false}, :volume => {:proposed => 9050, :accepted => true, :was => 450000}, :rate => {:proposed => 6.0, :accepted => true, :was => 2.0}}}}
+      end
+
+      it "creates revision" do
+        expect {
+          post :update, params
+
+          expect(response).to be_success
+        }.to change(Revision,:count).by(1)
+      end
+
+      it "saves revision correctly" do
+        post :update, params
+        revision = Revision.last.object_changes
+      end
+    end
+
     context "valid order" do
       let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order update test') }
       let!(:params) { io_request_w_ads }

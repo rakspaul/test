@@ -17,6 +17,7 @@ class Order < ActiveRecord::Base
   has_many :ads, dependent: :destroy
   has_many :order_notes, -> { order('created_at desc') }
   has_many :io_logs
+  has_many :revisions, lambda { order('created_at DESC') }
   has_many :tasks
   has_many :order_activity_logs
 

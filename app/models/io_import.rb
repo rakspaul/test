@@ -177,6 +177,12 @@ class IoImport
           existing_li.revised = true
         end
 
+        if (@lineitems[index][:ad_sizes].split(',').map(&:strip).sort != existing_li.ad_sizes.split(',').map(&:strip).sort)
+          local_revisions[:ad_sizes] = @lineitems[index][:ad_sizes]
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
         if (@lineitems[index][:name] != existing_li.name) && !@lineitems[index][:name].blank?
           local_revisions[:name] = @lineitems[index][:name]
           @lineitems[index].revised = true

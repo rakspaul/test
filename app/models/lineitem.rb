@@ -19,6 +19,7 @@ class Lineitem < ActiveRecord::Base
   has_many :lineitem_video_assignments, foreign_key: :io_lineitem_id, dependent: :destroy
   has_many :video_creatives, through: :lineitem_video_assignments
   has_many :frequency_caps, class_name: 'LineitemFrequencyCap', foreign_key: 'io_lineitem_id', dependent: :destroy
+  has_many :revisions, lambda { order('created_at DESC') }, class_name: 'Revision', as: :item
 
   has_many :lineitem_geo_targetings
   has_many :geo_targets, through: :lineitem_geo_targetings
@@ -180,6 +181,12 @@ class Lineitem < ActiveRecord::Base
       url = DFP_URL
       return url.sub('!NETWORK_ID!', client_network_id.to_s).sub('!CLIENT_ORDER_ID!', client_order_id.to_s).sub('!CLIENT_LI_ID!', client_li_id.to_s)
      end
+  end
+
+  def previous_revision
+    if !self.revisions.empty?
+      JSON.load(self.revisions.last.object_changes)
+    end
   end
 
   private

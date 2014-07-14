@@ -92,7 +92,8 @@
 
     events: {
       'click .toggle-general-info-button': '_toggleGeneralInfo',
-      'click #clientDfpUrl': '_openClientDFPUrl'
+      'click #clientDfpUrl': '_openClientDFPUrl',
+      'click .cancel-revisions-btn': '_cancelRevisions'
     },
 
     triggers: {
@@ -198,6 +199,29 @@
           $('.toggle-general-info-button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
         }
       });
+    },
+ 
+    _cancelRevisions: function() {
+      var self = this;
+      if(this.model.get('last_revision')) {
+        var changes_log = [];
+
+        _.each(this.model.get('last_revision'), function(revision, li_id) {
+          var li = _.detect(self.model.lineItemList.models, function(model) { if(model.id == li_id) { return model; }});
+          _.each(revision, function(changes, attr) {
+            if(changes['accepted']) {
+              changes_log.push(attr + " " + li.attributes[attr] + "->" + changes['was']);
+              li.attributes[attr] = changes['was'];
+              $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr)+' .editable').first().html(changes['was']).editable('setValue', changes['was']).removeClass('revision');
+              $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr)+' .last-revision').html('');
+            }
+          });
+        });
+        self.model.attributes['cancel_last_revision'] = true;
+        self.model.attributes['last_revision'] = {};
+        EventsBus.trigger('lineitem:logRevision', "Cancelled last revision. Changes: "+changes_log.join(', '));
+      }
+      $('.cancel-revisions-btn').remove();
     },
 
     _reloadPage: function() {
