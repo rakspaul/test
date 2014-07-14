@@ -920,6 +920,9 @@
       this.model.collection.remove(this.model);
     },
 
+    // ***********************************************************************************************
+    // REVISION FUNCTIONS
+    // 
     _toggleRevisionDialog: function(e) {
       e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
@@ -942,9 +945,21 @@
 
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : ", logs = [];
 
-      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+      _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name);
+
+        if(attr_name == 'ad_sizes') {
+          if(self.model.get('revised_added_ad_sizes').length == 0) {
+            revision = self.model.get('revised_common_ad_sizes').join(', ');
+          } else {
+            revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+          }
+        }
+
         if(revision != null) {
+          // only li sizes have differently names data attr 
+          var data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name);
+
           switch(attr_name) {
             case 'rate':
               revision = accounting.formatNumber(revision, 2);
@@ -952,12 +967,29 @@
             case 'volume':
               revision = accounting.formatNumber(revision);
               break;
+            case 'ad_sizes':
+              //$editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
+
+              // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
+              if(self.model.get('creatives')) {
+                _.map(self.model.get('creatives').models, function(c) {
+                  if(c.get('added_with_revision')) {
+                    c.set('added_with_revision', null);
+                    self.renderCreatives();
+                  } else if(c.get('removed_with_revision')) {
+                    c.destroy();
+                    self.renderCreatives();
+                  }
+                });
+              }
+              break;
           }
+
           self.model.attributes[attr_name] = revision;
-          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').text(revision).addClass('revision');
+          self.$el.find(elements[attr_name]).filter('[data-name="'+data_attr+'"]').text(revision).addClass('revision');
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
-          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
+          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+revision);
         }
       });
 
@@ -985,7 +1017,7 @@
       e.stopPropagation();
 
       var self = this;
-      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+      _.each(['start_date', 'end_date', 'added_ad_sizes', 'removed_ad_sizes', 'common_ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
         self.model.attributes['revised_'+attr_name] = null;
       });
 
@@ -1057,6 +1089,7 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
+
       // only li sizes have differently names data attr 
       var data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name);
       if(attr_name == 'ad_sizes') {
