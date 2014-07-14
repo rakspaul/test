@@ -35,8 +35,6 @@ describe('ReachUI.LineItems.LineItem', function() {
       this.collection = new ReachUI.LineItems.LineItemList();
       this.collection.setOrder(this.order);
       this.collection.add(this.lineitem);
-
-      //this.view = new ReachUI.LineItems.LineItemListView({collection: this.collection});
     });
 
     it('should return unallocated impressions', function() {
