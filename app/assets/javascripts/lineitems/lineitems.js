@@ -84,6 +84,13 @@
 
     getBuffer: function() { return parseFloat(this.get('buffer')); },
 
+    getUnallocatedImps: function() {
+      var adsImpressions = _.reduce(this.ads, function(sum, el) {
+        return sum + el.getImps();
+      }, 0);
+      var total = this.getImps() * (1 + this.getBuffer() / 100);
+      return Math.round(Number(total - adsImpressions));
+    },
 
     setBlankLiFlag: function() {
       this.is_blank_li = true;
@@ -649,18 +656,16 @@
       var media_cost = (this.model.getImps() / 1000.0) * this.model.getCpm();
       this.model.set('value', media_cost);
       this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
-
       this.recalculateUnallocatedImps();
     },
 
     recalculateUnallocatedImps: function() {
-      var adsImpressions = _.reduce(this.model.ads, function(sum, el) {
-        return sum + el.getImps();
-      }, 0);
-      var total = this.model.getImps() * (1 + this.model.getBuffer() / 100);
-      var unallocated = Math.round(Number(total - adsImpressions));
+      var unallocated = this.model.getUnallocatedImps();
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
-      if (unallocated == 0) {
+      var totalUnallocated = _.reduce(this.model.collection.models, function(sum, el) {
+        return sum + el.getUnallocatedImps();
+      }, 0);
+      if (totalUnallocated == 0) {
         $('.push-order-btn').removeClass('disabled');
         this.ui.unallocated_imps.hide();
       } else {
