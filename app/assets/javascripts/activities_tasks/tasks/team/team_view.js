@@ -25,8 +25,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
         },
         success: function(response, newValue) {
           self.model.save({order_id: self.model.get('order_id')}, {
-            error: function() {
-              console.log('task type update failed!')
+            success: function() {
+              $('.' + self.model.get('id') + '-order-name .typeahead').siblings('.errors_container').html('');
+            },
+            error: function(model, response) {
+              console.log('Updating task with order id failed!' + JSON.stringify(response));
+              // Remove the order_id from model
+              self.model.set('order_id', "No order");
+              $('.' + self.model.get('id') + '-order-name .typeahead').siblings('.errors_container')
+                                  .html('Task ' + response.responseJSON.message.name);
+              $('.' + self.model.get('id') + '-order-name .typeahead').html("No order");
+              $('.' + self.model.get('id') + '-order-name .typeahead').click();
             },
             patch: true});
         }

@@ -44,6 +44,8 @@
     <% if(context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM) { %>
       <div class="pure-u-1-4 <%= id %>-order-name">
         <span class="editable typeahead custom" data-type="typeahead" data-pk="<%= id %>" data-name="order_id" data-mode="inline" data-inputclass="wide-editable-text">No order</span>
+        <div class="errors_container">
+        </div>
       </div>
     <% } else if(context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM_USER) { %>
       <div class="pure-u-1-4 text-left">
