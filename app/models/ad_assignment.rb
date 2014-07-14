@@ -13,13 +13,8 @@ class AdAssignment < ActiveRecord::Base
   before_update :check_est_flight_dates
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
-  def start_date
-    read_attribute_before_type_cast('start_date').try(:to_date)
-  end
-
-  def end_date
-    read_attribute_before_type_cast('end_date').try(:to_date)
-  end
+  def start_date;  get_date 'start_date' end
+  def end_date;    get_date 'end_date'   end
 
 private
 
@@ -75,5 +70,13 @@ private
       _, end_time_was = end_date_was.to_s(:db).split(' ')
       self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
     end
+  end
+
+  def get_date(name)
+    date = read_attribute_before_type_cast(name)
+    date.try(:to_date)
+  rescue ArgumentError => e
+    Rails.logger.warn "#{e.message}. #{attr}: #{date.inspect}"
+    nil
   end
 end
