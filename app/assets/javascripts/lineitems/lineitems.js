@@ -596,6 +596,40 @@
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
+
+        // if there are removed ad_sizes in uploaded revision => strike-through corresponding creatives
+        if(this.model.get('revised_removed_ad_sizes')) {
+          _.each(this.model.get('revised_removed_ad_sizes'), function(ad_size) {
+            _.map(view.model.get('creatives').models, function(c) {
+              if(c.get('ad_size') == ad_size) { 
+                c.set('removed_with_revision', true);
+              }
+            });          
+          });
+        }
+      }
+
+      // collect an array of ad_sizes attributes of added creatives to know the number of them
+      var already_created_from_revision = _.compact(_.map(view.model.get('creatives').models, function(c) {
+        if(c.get('added_with_revision')) {
+          return c.get('ad_size');
+        }
+      }));
+
+      // if there are added ad_sizes in uploaded revision => add creative
+      if(this.model.get('revised_added_ad_sizes')) {
+        _.each(this.model.get('revised_added_ad_sizes'), function(ad_size) {
+          // if there are no such creative added yet
+          if(already_created_from_revision.length == 0) {
+            // then create one
+            var creative = new ReachUI.Creatives.Creative({
+              'ad_size': ad_size,
+              'order_id': view.model.get('order_id'),
+              'added_with_revision': true,
+              'lineitem_id': view.model.get('id')}, { silent: true });
+            view.model.get('creatives').add(creative);
+          }
+        });
       }
     },
 
@@ -1027,6 +1061,22 @@
       var data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name);
       if(attr_name == 'ad_sizes') {
         $editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
+        this.model.attributes['revised_removed_ad_sizes'] = null;
+        this.model.attributes['revised_added_ad_sizes'] = null;
+        this.model.attributes['revised_common_ad_sizes'] = null;
+
+        // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
+        if(this.model.get('creatives')) {
+          _.map(this.model.get('creatives').models, function(c) {
+            if(c.get('added_with_revision')) {
+              c.set('added_with_revision', null);
+              self.renderCreatives();
+            } else if(c.get('removed_with_revision')) {
+              c.destroy();
+              self.renderCreatives();
+            }
+          });
+        }
       }
       $editable.filter('[data-name="'+data_attr+'"]').addClass('revision').text(revised_value);
 
@@ -1039,10 +1089,31 @@
     },
 
     _declineRevision: function(e) {
-      var $target_parent = $(e.currentTarget).parent();
-      var attr_name = $(e.currentTarget).data('name');
+      var $target_parent = $(e.currentTarget).parent(),
+        attr_name = $(e.currentTarget).data('name'),
+        self = this;
 
       this.model.attributes['revised_'+attr_name] = null;
+
+      if(attr_name == 'ad_sizes') {
+        this.model.attributes['revised_removed_ad_sizes'] = null;
+        this.model.attributes['revised_added_ad_sizes'] = null;
+        this.model.attributes['revised_common_ad_sizes'] = null;
+
+        // need to remove striked-through from creatives and remove added creatives
+        if(this.model.get('creatives')) {
+          _.map(this.model.get('creatives').models, function(c) {
+            if(c.get('added_with_revision')) {
+              c.destroy();
+              self.renderCreatives();
+            } else if(c.get('removed_with_revision')) {
+              c.set('removed_with_revision', null);
+              self.renderCreatives();
+            }
+          });
+        }
+      }
+
       this._checkRevisedStatus();
 
       $target_parent.siblings('.revision').hide();
