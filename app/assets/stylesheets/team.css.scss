@@ -185,4 +185,8 @@ tbody.team-members-task-list-grid {
 
 .assignee-name {
   margin: 2px 5px;
+
+  .selectize-control.single > .selectize-input {
+    white-space: nowrap;
+  }
 }
