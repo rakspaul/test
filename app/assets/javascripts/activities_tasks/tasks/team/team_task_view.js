@@ -341,8 +341,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
         error: function (model, response) {
           if (response.status == 400) {
             //validation error
-            model.set('errors', response.responseJSON.message);
-            self.renderAll();
+            self.model.set('errors', response.responseJSON.message);
+            self.render();
           }
         }
       })
