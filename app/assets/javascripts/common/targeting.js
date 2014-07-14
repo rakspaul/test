@@ -51,6 +51,7 @@
       data.frequency_caps = this.model.get('frequency_caps');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       data.type = this.model.get('type');
+      data.zone = this.model.get('zone');
       return data;
     },
 
@@ -127,6 +128,15 @@
       this._renderSelectedTargetingOptions();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
+
+      this.ui.zone_input.typeahead({
+        name: 'z_site',
+        remote: {
+          url: '/zones/search.json?search=%QUERY'
+        },
+        valueKey: 'z_site',
+        limit: 100
+      });
     },
 
     _showKeyValuesTab: function() {
@@ -162,6 +172,13 @@
       this.$el.find('.nav-tabs li').removeClass('active');
       this.$el.find('.nav-tabs li.frequency-caps').addClass('active');
       this.$el.find('.tab.frequency-caps').show();
+    },
+
+    _showZoneTab: function() {
+      this.$el.find('.tab').hide();
+      this.$el.find('.nav-tabs li').removeClass('active');
+      this.$el.find('.nav-tabs li.zone').addClass('active');
+      this.$el.find('.tab.zone').show();
     },
 
     _renderSelectedTargetingOptions: function() {
@@ -321,6 +338,21 @@
       this._renderSelectedTargetingOptions();
     },
 
+    _updateZoneName: function(e){
+      var zone = this.ui.zone_input.val(),
+         oldZone = this.model.get('zone'),
+         custKV = this.model.get('keyvalue_targeting');
+
+      custKV = custKV.replace(oldZone, zone);
+      this.model.attributes.keyvalue_targeting = custKV;
+      this.model.attributes.zone = zone;
+      this.reachCustomKeyValues = custKV;
+
+      this._renderSelectedTargetingOptions();
+      this.render();
+      this._closeTargetingDialog();
+    },
+
     validateZipCodes: function(zip_codes){
       this.errors_in_zip_codes = false;
       this.isZipcodesValid = true;
@@ -362,6 +394,7 @@
 
     _onSave: function() {
       if(!this.$el.find('.save-targeting-btn').hasClass('disabled')){
+        this._updateZoneName();
         this._validateCustomKeyValuesOnDone();
         this._validateZipcodesOnDone();
       }
@@ -536,6 +569,7 @@
     ui: {
       kv_type_switch: '.expand-audience-btn span',
       frequency_caps:  '.tab.frequency-caps',
+      zone_input: '.zone-input'
     },
 
     _isGeoTargeted: function(e) {
@@ -552,6 +586,7 @@
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'click .nav-tabs > .custom-kv': '_showCustomKVTab',
       'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
+      'click .nav-tabs > .zone': '_showZoneTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup #custom_kvs_textarea': '_onCustomKeyValueChange',
       'click .expand-audience-btn': '_toggleExpandAudienceButton',
@@ -560,7 +595,7 @@
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
-      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap'
+      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap',
     }
   });
 

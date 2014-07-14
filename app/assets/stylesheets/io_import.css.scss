@@ -981,6 +981,12 @@ $wide_input_width: 320px;
       font-weight: normal;
       font-style: italic;
     }
+
+    .zone{
+      .twitter-typeahead{
+        width:100%
+      }
+    }
   }
 
   .save-targeting-btn {
