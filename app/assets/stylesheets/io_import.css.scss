@@ -278,6 +278,17 @@ $wide_input_width: 320px;
       margin-left: 40%;
       padding-left: 10px;
     }
+
+    .share-icon{
+      background: url(asset-path('new_window.png'));
+      display: block;
+      height: 16px;
+      margin-right: 5px;
+      width: 16px;
+      cursor: pointer  !important;
+      margin-left:10px !important;
+      float:left;
+    }
   }
 
   .toggle-general-info-button {
@@ -383,6 +394,12 @@ $wide_input_width: 320px;
   .trafficker-container {
     float: right;
     width: 33%;
+  }
+
+  .client-order-id{
+    width:80px;
+    float:left;
+    position:relative;
   }
 }
 
@@ -809,6 +826,16 @@ $wide_input_width: 320px;
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
       margin-left:10px;
     }
+  }
+
+  .client-id{
+    margin:40px 0 0 10px;
+    position: absolute;
+  }
+
+  .client-id-basic{
+    margin: 20px 0 0 10px;
+    position: absolute;
   }
 }
 

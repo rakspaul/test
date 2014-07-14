@@ -410,7 +410,7 @@ private
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
       :revised_start_date, :revised_end_date, :revised_common_ad_sizes, :revised_added_ad_sizes, 
       :revised_removed_ad_sizes, :revised_ad_sizes, :revised_name, :revised_volume, :revised_rate, :li_status,
-      :master_ad_size, :companion_ad_size].each do |param|
+      :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
       end
 

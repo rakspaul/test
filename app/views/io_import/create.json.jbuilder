@@ -1,12 +1,12 @@
 json.order do
-  json.partial! 'orders/order', 
+  json.partial! 'orders/order',
   {
     order: @io_import.order,
     is_existing_order: @io_import.is_existing_order,
     existing_order_id: @io_import.existing_order_id,
     io_original_filename: @io_import.original_filename,
     revised_io_filename: @io_import.revised_io_filename,
-    io_created_at: (@io_import.original_created_at || Time.current.to_s), 
+    io_created_at: (@io_import.original_created_at || Time.current.to_s),
     io_detail: @io_details,
     order_name_dup: @io_import.order_name_dup,
     sales_person_unknown: @io_import.sales_person_unknown,
@@ -18,6 +18,7 @@ json.order do
     reach_client_name: @io_import.reach_client.try(:name),
     reach_client_abbr: @io_import.reach_client.try(:abbr),
     reach_client_buffer: @io_import.reach_client.try(:client_buffer),
+    reach_client_network_id: @io_import.reach_client.try(:client_network_id),
     io_file_path: @io_import.tempfile.path
   }
 
@@ -94,10 +95,10 @@ json.lineitems do
         end
       end
 
-      li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr| 
+      li_creatives_sorted_by_date_and_size = li_creatives.group_by{|cr| cr[:start_date] }.map do |start_date, arr|
         arr.sort_by{|c| c[:ad_size]}
       end
-   
+
       json.array! li_creatives_sorted_by_date_and_size.flatten do |inred|
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
