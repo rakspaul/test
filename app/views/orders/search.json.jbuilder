@@ -17,6 +17,7 @@ json.array! @orders do |order|
     trafficking_contact_unknown: false,
     io_file_path: "",
     reach_client_abbr: order.io_detail.try(:reach_client).try(:abbr),
-    reach_client_buffer: order.io_detail.try(:reach_client).try(:client_buffer)
+    reach_client_buffer: order.io_detail.try(:reach_client).try(:client_buffer),
+    reach_client_network_id: order.io_detail.try(:reach_client).try(:client_network_id)
   }
 end

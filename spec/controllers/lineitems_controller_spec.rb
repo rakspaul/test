@@ -11,7 +11,7 @@ describe LineitemsController do
   context "order pulled from DFP" do
     let(:data_source) { DataSource.create name: "Test Source", ident: "source ident" }
     let(:collective_network) { Network.create name: 'Collective', :data_source => data_source }
-    let(:user) { FactoryGirl.create :user } 
+    let(:user) { FactoryGirl.create :user }
 
     before do
       @order = FactoryGirl.create :dfp_pulled_order
@@ -35,7 +35,7 @@ describe LineitemsController do
 
       FactoryGirl.create :ad_pricing, ad_id: @ad1.id
       FactoryGirl.create :ad_pricing, ad_id: ad2.id
-      
+
       FactoryGirl.create :ad_assignment, ad: ad2, creative: creative2, start_date: ad2.start_date, end_date: ad2.end_date
       FactoryGirl.create :video_ad_assignment, ad: @ad1, video_creative: video_creative, start_date: @ad1.start_date, end_date: @ad1.end_date
       FactoryGirl.create :video_ad_assignment, ad: ad2, video_creative: video_creative2, start_date: ad2.start_date, end_date: ad2.end_date
@@ -106,6 +106,13 @@ describe LineitemsController do
       expect(li.states.first).to eq(@state)
       expect(li.audience_groups.count).to eq(1)
       expect(li.audience_groups.first).to eq(@ag)
+    end
+
+    it "has li_status field in response" do
+      lineitem_status = [Ad::STATUS[:draft], Ad::STATUS[:delivering], Ad::STATUS[:ready], Ad::STATUS[:completed], Ad::STATUS[:canceled], Ad::STATUS[:paused]]
+      get 'index', {format: "json", order_id: @order.id}
+      lineitems = JSON.parse(response.body)
+      (expect(lineitems[0].has_key?("li_status")).to be true) && (expect(lineitem_status.include? (lineitems[0]["li_status"])).to be true)
     end
   end
 end

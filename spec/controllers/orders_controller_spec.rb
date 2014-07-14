@@ -33,6 +33,9 @@ describe OrdersController do
   end
 
   describe "GET 'index'" do
+    let!(:order) { FactoryGirl.create(:order, name: 'order delete test') }
+    let!(:order2) { FactoryGirl.create(:order_with_lineitem, name: 'order delete test 2') }
+
     it "returns http success" do
       get 'index'
       expect(response).to be_success
@@ -448,11 +451,31 @@ describe OrdersController do
         expect(json_parse(response.body)).not_to include(:errors)
       end
 
+      it "creates new advertiser on update" do
+        params['order']['advertiser_name'] = "new advertiser"
+        expect{
+          put :update, params
+        }.to change(Advertiser,:count).by(1)
+      end
+
       it "delete lineitem" do
         lineitem = order.lineitems.first
         params['order']['lineitems'] = []
         put :update, params
         expect(Lineitem.find_by_id(lineitem.id)).to be_nil
+      end
+
+      it "create new creatives" do
+        lineitem = order.lineitems.first
+        expect {
+          put :update, params
+        }.to change(Creative, :count).by(2)
+      end
+
+      it "update default creative type to InternalRedirectCreative" do
+        lineitem = order.lineitems.first
+        put :update, params
+        expect(Creative.last.creative_type).to eq('InternalRedirectCreative')
       end
     end
   end
@@ -568,6 +591,7 @@ private
     params['order']['start_date'] = start_date
     params['order']['end_date'] = end_date
     params['order']['advertiser_id'] = advertiser.id
+    params['order']['advertiser_name'] = advertiser.name
     params['order']['lineitems'].each do |li|
       li['lineitem']['proposal_li_id'] = "#{SecureRandom.random_number(10000)}"
       li['lineitem']['start_date'] = start_date

@@ -3,6 +3,8 @@ class Lineitem < ActiveRecord::Base
 
   has_paper_trail ignore: [:updated_at]
 
+  DFP_URL = "https://www.google.com/dfp/!NETWORK_ID!#delivery/LineItemDetail/orderId=!CLIENT_ORDER_ID!&lineItemId=!CLIENT_LI_ID!"
+
   attr_accessor :li_id, :li_status, :revised
 
   belongs_to :order
@@ -63,7 +65,8 @@ class Lineitem < ActiveRecord::Base
 
     creatives_params.to_a.each_with_index do |params, i|
       cparams = params[:creative]
-      creative_type = cparams[:creative_type] == "ThirdPartyCreative" ? "ThirdPartyCreative" : "InternalRedirectCreative"
+      creative_type = cparams[:creative_type]
+      creative_type = "InternalRedirectCreative" if creative_type.blank?
       if creative_type == "ThirdPartyCreative"
         html_code = html_unescape(cparams[:html_code])
       else
@@ -168,10 +171,21 @@ class Lineitem < ActiveRecord::Base
     read_attribute_before_type_cast('end_date').to_date
   end
 
+  def dfp_url
+    client_order_id = order.io_detail.try(:client_order_id)
+    client_network_id = order.io_detail.try(:reach_client).try(:client_network_id)
+    client_li_id = self.proposal_li_id
+
+    if !client_order_id.blank? && client_network_id > 0 && !client_li_id.blank?
+      url = DFP_URL
+      return url.sub('!NETWORK_ID!', client_network_id.to_s).sub('!CLIENT_ORDER_ID!', client_order_id.to_s).sub('!CLIENT_LI_ID!', client_li_id.to_s)
+     end
+  end
+
   private
 
     def set_li_status
-      self.li_status = 'draft' if 'dfp_pulled' == self.li_status
+      self.li_status = 'Draft' if 'dfp_pulled' == self.li_status
     end
 
     def flight_dates_with_in_order_range
@@ -240,7 +254,7 @@ class Lineitem < ActiveRecord::Base
       if end_date_changed?
         end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
         _, end_time_was = end_date_was.to_s(:db).split(' ')
-        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+        self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
       end
     end
 end

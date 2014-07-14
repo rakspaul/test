@@ -92,32 +92,24 @@
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyAd',
       'click .toggle-ads-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog'
+      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog',
+
+      'click .item-selection': '_toggleAdSelection',
+      'click .ad-copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .ad-paste-targeting-btn': 'pasteTargeting',
+      'click .ad-cancel-targeting-btn': 'cancelTargeting',
     },
 
     ui: {
-      targeting: '.targeting-container',
-      creatives_container: '.ads-creatives-list-view',
-      creatives_content: '.creatives-content',
-      ads_sizes: '.ads-sizes'
-    },
-
-    _validateAdImpressions: function() {
-      var li_imps = this.options.parent_view.model.get('volume');
-      var sum_ad_imps = 0;
-
-      _.each(this.options.parent_view.model.ads, function(ad) {
-        var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        sum_ad_imps += imps;
-      });
-
-      var li_errors_container = this.options.parent_view.$el.find('.volume .errors_container')[0];
-
-      if(sum_ad_imps > li_imps) {
-        $(li_errors_container).html("Ad Impressions exceed Line Item Impressions");
-      } else {
-        $(li_errors_container).html("");
-      }
+      targeting:            '.targeting-container',
+      creatives_container:  '.ads-creatives-list-view',
+      creatives_content:    '.creatives-content',
+      ads_sizes:            '.ads-sizes',
+      item_selection:       '.item-icon',
+      copy_targeting_btn:   '.ad-copy-targeting-btn',
+      paste_targeting_btn:  '.ad-paste-targeting-btn',
+      cancel_targeting_btn: '.ad-cancel-targeting-btn',
+      missing_geo_caution:  '.missing-geo-caution'
     },
 
     _recalculateMediaCost: function(options) {
@@ -210,6 +202,16 @@
       this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
     },
 
+    toggleMissingGeoCaution: function() {
+      var targeting = this.model.get('targeting');
+      if (targeting && targeting.get('selected_geos').length == 0 &&
+                       targeting.get('selected_zip_codes').length == 0) {
+        this.ui.missing_geo_caution.show();
+      } else {
+        this.ui.missing_geo_caution.hide();
+      }
+    },
+
     // for ads
     // this function will update the key values and zipcodes after validating
     _hideTargetingDialog: function() {
@@ -255,31 +257,30 @@
 
       this.$el.find('.rate .editable.custom').editable({
         success: function(response, newValue) {
-          self.model.set({ 'rate': newValue }, { silent: true }); //update backbone model;
+          self.model.set({ 'rate': newValue });
           self._recalculateMediaCost();
-          self._validateAdImpressions();
         }
       });
 
       this.$el.find('.volume .editable.custom').editable({
         success: function(resp, newValue) {
           var sum_ad_imps = 0,
-            imps = self.options.parent_view.model.get('volume');
+            imps = self.options.parent_view.model.get('volume'),
+            value = parseFloat(String(newValue).replace(/,/g, ''))
 
-          self.model.set({ 'volume': parseInt(String(newValue).replace(/,|\./g, '')) },
-                         { silent: true}); //update backbone model;
+          self.model.set({ 'volume': Math.round(Number(value)) }); //update backbone model;
 
           _.each(self.options.parent_view.model.ads, function(ad) {
-            var imps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
+            var imps = parseInt(String(ad.get('volume')).replace(/,/g, ''));
             sum_ad_imps += imps;
           });
 
           self._recalculateMediaCost({ silent: true });
-          self._validateAdImpressions();
 
           var buffer = self.options.parent_view.model.get('buffer');
           buffer = (sum_ad_imps / imps * 100) - 100;
           self.options.parent_view.model.set({ 'buffer': buffer });
+          self.render();
         },
         validate: function(value) {
           if($.trim(value) == '') {
@@ -324,13 +325,14 @@
       }
 
       this.renderCreatives();
-      this._validateAdImpressions();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
         this.ui.creatives_container.show();
         this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
       }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     renderCreatives: function() {
@@ -353,6 +355,27 @@
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
       }
+    },
+
+    _toggleAdSelection: function(e) {
+      e.stopPropagation();
+      ReachUI.toggleItemSelection.call(this, e, 'ad');
+    },
+
+    copyTargeting: function(e) {
+      ReachUI.copyTargeting.call(this, e, 'ad');
+    },
+
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'ad');
+    },
+
+    pasteTargeting: function(e) {
+      ReachUI.pasteTargeting.call(this, e, 'ad');
+    },
+
+    cancelTargeting: function(e) {
+      ReachUI.cancelTargeting.call(this, e, 'ad');
     },
 
     _showDeleteBtn: function(e) {

@@ -181,6 +181,8 @@ Additional libraries could be included in spec/javascripts/helpers/spec_helper.j
     //= require jasmine-jquery
     //= require sinon
 
+**Important! Don't create pending jasmine example with xit or pending() call. Guard interprets them as failed.**
+
 ###RoR specs:
 
 rspec, factory girl, shoulda

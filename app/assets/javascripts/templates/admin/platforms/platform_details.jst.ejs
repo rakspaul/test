@@ -107,6 +107,16 @@
       </div>
     </div>
 
+    <div class="control-group">
+      <label class="control-label" for="tag_template">Tag Template <i class="icon-info-sign" id="tag_tooltip"></i></label>
+      <div class="controls">
+
+        <textarea id="tag_template" class="tag-template"><%= platform.get('tag_template') %></textarea>
+        <label class="help-inline form-error" id="tag_template_error"></label>
+        <div class="tag-template-text" id="tag_template_text"></div>
+      </div>
+    </div>
+
   </fieldset>
 </div>
 
@@ -116,3 +126,24 @@
     <a id="close_platform" class="btn" href="/admin/platforms/">Close</a>
   </div>
 </fieldset>
+
+<div id="tag_tooltip_content" class="hide">
+  <ul>
+    <li>
+      <span>!ZONE_NAME!</span>
+      replaced with the zone specified for the platform
+    </li>
+    <li>
+      <span>!KEY_VALUE!</span>
+      replaced with the key and custom value of the ad (specified in platform admin and from the line item, respectively)
+    </li>
+    <li>
+      <span>!SIZE!</span>
+      replaced with ad size, one tag per ad size
+    </li>
+    <li>
+      <span>!NETWORK_ID!</span>
+      replaced with the DFP network ID
+    </li>
+  </ul>
+</div>

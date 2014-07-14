@@ -32,6 +32,7 @@
       _.bindAll(this, "render", "_onSuccessCloseTargeting", "_onSuccessHideCustomKeyValues", "_onValidateCustomKeyValuesFailure", "_onZipcodeSuccess");
       this.model.bind('change', this.render);
       this.show_custom_key_values = false;
+      this.revised_targeting = false;
       this.errors_in_kv = false;
       this.frequencyCapListView = null;
       this.errors_in_zip_codes = false;
@@ -92,7 +93,7 @@
         });
       });
 
-      this.$el.find('.key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "97%"}).change(function(e, el) {
+      this.$el.find('.audience-key-values .chosen-select').chosen({no_results_text: "Select Audience Groups here", width: "97%"}).change(function(e, el) {
         // since here we couln't handle unselect option event, must be processed all at once
         var selected_values = $(this).val();
         var selected = []
@@ -110,7 +111,7 @@
         self.model.attributes.selected_key_values = selected;
 
         // sync select w/ checkboxes
-        self.$el.find('.key-values .key-values-checkboxes-container input:checkbox').each(function(index) {
+        self.$el.find('.audience-key-values .key-values-checkboxes-container input:checkbox').each(function(index) {
           if(selected_values != null && selected_values.indexOf(String(this.value)) >= 0) {
             this.checked = true;
           } else {
@@ -120,7 +121,7 @@
 
         self._renderSelectedTargetingOptions();
       });
-      this.$el.find('.key-values .chosen-choices input').width('200px');
+      this.$el.find('.audience-key-values .chosen-choices input').width('200px');
 
       this._renderFrequencyCaps();
       this._renderSelectedTargetingOptions();
@@ -131,8 +132,8 @@
     _showKeyValuesTab: function() {
       this.$el.find('.tab').hide();
       this.$el.find('.nav-tabs li').removeClass('active');
-      this.$el.find('.nav-tabs li.key-values').addClass('active');
-      this.$el.find('.tab.key-values').show();
+      this.$el.find('.nav-tabs li.audience-key-values').addClass('active');
+      this.$el.find('.tab.audience-key-values').show();
     },
 
     _showGEOTab: function() {
@@ -147,6 +148,13 @@
       this.$el.find('.nav-tabs li').removeClass('active');
       this.$el.find('.nav-tabs li.zip-codes').addClass('active');
       this.$el.find('.tab.zip-codes').show();
+    },
+
+    _showCustomKVTab: function() {
+      this.$el.find('.tab').hide();
+      this.$el.find('.nav-tabs li').removeClass('active');
+      this.$el.find('.nav-tabs li.custom-kv').addClass('active');
+      this.$el.find('.tab.custom-kv').show();
     },
 
     _showFrequencyCapsTab: function() {
@@ -221,10 +229,11 @@
           return el;
         }
       });
+     this._toogleExpandLink();
     },
 
     _handleKVCheckboxes: function(e) {
-      var select = this.$el.find('.key-values .chosen-select')[0],
+      var select = this.$el.find('.audience-key-values .chosen-select')[0],
           checked_value = e.currentTarget.value,
           checked_text;
 
@@ -249,7 +258,16 @@
       }
 
       $(select).trigger("chosen:updated");
+      this._toogleExpandLink();
       this._renderSelectedTargetingOptions();
+    },
+
+    _toogleExpandLink: function() {
+      if(this.model.attributes.selected_key_values.length > 0) {
+        this.$el.find('span#expand_audience_link').show();
+      } else {
+        this.$el.find('span#expand_audience_link').hide();
+      }
     },
 
     _addGeoToSelectedGeos: function(selected) {
@@ -393,7 +411,6 @@
       if(!this.invalid_zips.length > 0) {
         this._closeTargetingDialog();
       }
-
       this._renderSelectedTargetingOptions();
     },
 
@@ -405,13 +422,35 @@
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
       if(this.isCustomKeyValueValid && this.isZipcodesValid) {
-        if(this.$el.find('.custom-kvs-field').is(':visible')) {
-          this.$el.find('.custom-regular-keyvalue-btn').trigger('click');
+        if(this.$el.find('.custom-kvs').is(':visible')) {
+          this.$el.find('.expand-audience-btn').trigger('click');
         }
-        this._renderSelectedTargetingOptions();
-        this.options.parent_view._hideTargetingDialog();
-        this.options.parent_view.onTargetingDialogToggle();
-        this.$el.parent().hide('slow');
+
+        // show apply new targeting for ads dialog
+        if (this.model.revised_targeting) {
+          var self = this, $apply_ads_dialog = $('#apply-revisions-ads-dialog');
+
+          $apply_ads_dialog.find('.apply-revisions-txt').html('Apply the new targeting to ads');
+          $apply_ads_dialog.find('.noapply-btn').click(function() {
+            $apply_ads_dialog.modal('hide');
+            self._renderSelectedTargetingOptions();
+            self.options.parent_view._hideTargetingDialog();
+            self.options.parent_view.onTargetingDialogToggle();
+            self.$el.parent().hide('slow');
+          });
+          $apply_ads_dialog.find('.apply-btn').click(function() {
+            var targeting = _.pick(self.model.attributes, 'selected_geos', 'frequency_caps', 'selected_key_values', 'selected_zip_codes', 'keyvalue_targeting');
+            self.options.parent_view.trigger('targeting:update', targeting);
+            $apply_ads_dialog.find('.apply-btn').off('click');
+            $apply_ads_dialog.modal('hide');
+          });
+          $apply_ads_dialog.modal('show');
+        } else {
+          this._renderSelectedTargetingOptions();
+          this.options.parent_view._hideTargetingDialog();
+          this.options.parent_view.onTargetingDialogToggle();
+          this.$el.parent().hide('slow');
+        }
       }
     },
 
@@ -421,15 +460,8 @@
       $.ajax({type: "POST", url: '/key_values/validate', data: {kv_expr: customKeyValue}, success: onSuccess, error: onFailure});
     },
 
-    // if the key values are not valid then validate the key values
-    // else hide the custom key value component
-    _toggleCustomRegularKeyValues: function() {
-      var customKeyValue = this.$el.find(".custom-kvs-field").val();
-      if (customKeyValue && customKeyValue != '' && !this.isCustomKeyValueValid) {
-        this._validateCustomKeyValues(customKeyValue, this._onSuccessHideCustomKeyValues, this._onValidateCustomKeyValuesFailure);
-      } else {
-        this._hideCustomKeyValues();
-      }
+    _toggleExpandAudienceButton: function() {
+      this._hideCustomKeyValues();
     },
 
     _onSuccessHideCustomKeyValues: function(event) {
@@ -437,19 +469,10 @@
     },
 
     _hideCustomKeyValues: function() {
-      if (this.show_custom_key_values) {
-        this._updateCustomKVs();
-      }
-      this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Add Custom K/V' : 'Close Custom')
+      this.ui.kv_type_switch.html(this.show_custom_key_values ? '+ Expand' : 'Close')
       this.show_custom_key_values = ! this.show_custom_key_values;
       this._renderSelectedTargetingOptions();
       this.$el.find('.custom-targeting').toggle(this.show_custom_key_values);
-
-      // #29 Clicking "+Add Custom K/V" should bring you straight into Edit mode for the custom key value
-      if(this.show_custom_key_values && this.model.get('keyvalue_targeting')) {
-        this.$el.find('span.keyvalue_targeting').hide();
-        this.$el.find('input.custom-kvs-field').show();
-      }
     },
 
     _onValidateCustomKeyValuesFailure: function(event) {
@@ -468,8 +491,8 @@
 
     _removeKVFromSelected: function(e) {
       var audience_group_id = $(e.currentTarget).data('ag-id'),
-          select = this.$el.find('.key-values .chosen-select')[0],
-          select_check = this.$el.find('.key-values .key-values-checkboxes-container')[0];
+          select = this.$el.find('.audience-key-values .chosen-select')[0],
+          select_check = this.$el.find('.audience-key-values .audience-key-values-checkboxes-container')[0];
 
       for(var i = 0; i < select.options.length; i++) {
         if(select.options[i].value == audience_group_id) {
@@ -511,7 +534,7 @@
     },
 
     ui: {
-      kv_type_switch: '.custom-regular-keyvalue-btn span',
+      kv_type_switch: '.expand-audience-btn span',
       frequency_caps:  '.tab.frequency-caps',
     },
 
@@ -523,14 +546,15 @@
     events: {
       'click .save-targeting-btn': '_onSave',
       'click .tab.geo .geo-checkboxes-container input:checkbox': '_handleGeoCheckboxes',
-      'click .key-values .key-values-checkboxes-container input:checkbox': '_handleKVCheckboxes',
-      'click .nav-tabs > .key-values': '_showKeyValuesTab',
+      'click .audience-key-values .audience-key-values-checkboxes-container input:checkbox': '_handleKVCheckboxes',
+      'click .nav-tabs > .audience-key-values': '_showKeyValuesTab',
       'click .nav-tabs > .geo': '_showGEOTab',
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
+      'click .nav-tabs > .custom-kv': '_showCustomKVTab',
       'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
-      'input input.custom-kvs-field': '_onCustomKeyValueChange',
-      'click .custom-regular-keyvalue-btn': '_toggleCustomRegularKeyValues',
+      'keyup #custom_kvs_textarea': '_onCustomKeyValueChange',
+      'click .expand-audience-btn': '_toggleExpandAudienceButton',
       'mouseenter .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_showRemoveTgtBtn',
       'mouseleave .tgt-item-kv-container, .tgt-item-geo-container, .tgt-item-zip-container, .tgt-item-frequency-caps-container': '_hideRemoveTgtBtn',
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',

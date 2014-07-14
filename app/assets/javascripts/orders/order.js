@@ -91,7 +91,8 @@
     },
 
     events: {
-      'click .toggle-general-info-button': '_toggleGeneralInfo'
+      'click .toggle-general-info-button': '_toggleGeneralInfo',
+      'click #clientDfpUrl': '_openClientDFPUrl'
     },
 
     triggers: {
@@ -198,7 +199,7 @@
         }
       });
     },
- 
+
     _reloadPage: function() {
       window.location.href = window.location.href;
     },
@@ -219,7 +220,7 @@
       } else {
         messages.push("<h4>" + resp.errors.pop().error + "</h4>");
         messages.push("<ul>");
-        if(resp) {      
+        if(resp) {
           _.each(resp.errors, function(msg) {
             messages.push("<li>" + msg.error + "</li>");
           });
@@ -230,8 +231,8 @@
       }
 
       if(resp.imported_creatives.length > 0) {
-        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){ 
-          return creative['io_lineitem_id']; 
+        var creatives_grouped_by_li_id = _.groupBy(resp.imported_creatives, function(creative){
+          return creative['io_lineitem_id'];
         });
 
         _.each(creatives_grouped_by_li_id, function(li_creatives, li_id) {
@@ -264,6 +265,15 @@
       this.li_view = li_view;
       this.ui.creatives_fileupload.fileupload('enable');
       this.ui.creatives_fileupload.removeAttr('disabled');
+    },
+
+    _openClientDFPUrl: function(event) {
+      var client_order_id = this.model.get("client_order_id"),
+        client_network_id = this.model.get("reach_client_network_id");
+      if (client_order_id && client_network_id && client_order_id != "" && client_network_id != "") {
+        var client_dfp_url = "https://www.google.com/dfp/"+client_network_id+"#delivery/OrderDetail/orderId=" + client_order_id
+        window.open(client_dfp_url);
+      }
     }
   });
 
@@ -452,7 +462,7 @@
 
     showAddUsersSelectBox: function() {
       $('#add-users-notifications-dialog').modal('show');
-  
+
       var self = this;
       this.$el.find('.users-to-notify div.typeahead-container').show();
       this.$el.find('.users-to-notify div.typeahead-container div.select2-container').show();

@@ -12,7 +12,7 @@ describe('ReachClients', function() {
         var abcAgency = new ReachUI.ReachClients.Agency({id: 1, name: 'abc'}),
         xyzAgency = new ReachUI.ReachClients.Agency({id: 2, name: 'xyz'});
 
-        reachClient = new ReachUI.ReachClients.ReachClientModel({name: 'ReachClient', abbr: 'rc', client_buffer: 1.0, agency_id: 1});
+        reachClient = new ReachUI.ReachClients.ReachClientModel({name: 'ReachClient', abbr: 'rc', client_buffer: 1.0, agency_id: 1, client_network_id: 1234});
         reachClientDetailsView = new ReachUI.ReachClients.ReachClientDetailsView({model: reachClient});
         reachClientDetailsView.agencies =  new ReachUI.ReachClients.AgencyList();
 
@@ -31,6 +31,7 @@ describe('ReachClients', function() {
         expect($el.find('input#client_buffer')).toHaveValue(reachClient.get('client_buffer').toString());
         expect($el.find('input#abbreviation')).toHaveValue(reachClient.get('abbr'));
         expect($el.find('select#agency')).toHaveValue(reachClient.get('agency_id').toString());
+        expect($el.find('input#client_network_id')).toHaveValue(reachClient.get('client_network_id').toString());
       });
     });
   });

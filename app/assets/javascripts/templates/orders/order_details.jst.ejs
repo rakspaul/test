@@ -35,6 +35,16 @@
   </div>
 </div>
 
+<div id="apply-revisions-ads-dialog" class="modal hide fade">
+  <div class="modal-body">
+    <p class="heading apply-revisions-txt">Apply the new changes to ads</p>
+  </div>
+  <div class="btns">
+    <div class="noapply-btn">Don't apply</div>
+    <div class="apply-btn">Apply</div>
+  </div>
+</div>
+
 <div class="new-order-header">
   <div style="float:left">
     <p class="heading"><%= order.name %></p>
@@ -147,7 +157,7 @@
         </div>
         <div class="field advertiser-name">
           <p>Advertiser Name</p>
-          <% if(order.source_id) { %>
+          <% if(parseInt(order.source_id)) { %>
             <span><%= order.advertiser_name %></span>
           <% } else { %>
             <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
@@ -170,7 +180,12 @@
         </div>
         <div class="field client-order-id">
           <p>Client Order ID</p>
-          <span class="editable" data-type="text" data-pk="1" data-name="client_order_id"><%= order.client_order_id %></span>
+          <div class="client-order-id">
+            <span class="editable pull-left" data-type="text" data-pk="1" data-name="client_order_id"><%= order.client_order_id %></span>
+          </div>
+          <% if(order.client_order_id && order.reach_client_network_id > 0) { %>
+            <span id="clientDfpUrl" class="share-icon" title="open order in dfp"></span>
+          <% } %>
         </div>
         <div class="field start-date">
           <p>Start Date</p>

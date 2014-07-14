@@ -7,6 +7,7 @@
 
     events: {
       'click .toggle-general-info-button': '_toggleGeneralInfo',
+      'click #clientDfpUrl': '_openClientDFPUrl'
     },
 
     triggers: {
@@ -20,7 +21,17 @@
           $('.toggle-general-info-button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
         }
       });
+    },
+
+    _openClientDFPUrl: function(event) {
+      var client_order_id = this.model.get("client_order_id"),
+        client_network_id = this.model.get("reach_client_network_id");
+      if (client_order_id && client_network_id && client_order_id != "" && client_network_id != "") {
+        var client_dfp_url = "https://www.google.com/dfp/"+client_network_id+"#delivery/OrderDetail/orderId=" + client_order_id
+        window.open(client_dfp_url);
+      }
     }
+
   });
 
 })(ReachUI.namespace("Orders"));

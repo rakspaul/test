@@ -8,9 +8,10 @@
   </h4>
 
   <ul class="nav nav-tabs">
-    <li class="active key-values">
-      <a href="javascript:void(0)">Key Values</a>
+    <li class="active audience-key-values">
+      <a href="javascript:void(0)">Audience</a>
     </li>
+    <li class="custom-kv"><a href="javascript:void(0)">Custom KV</a></li>
     <li class="geo"><a href="javascript:void(0)">GEO</a></li>
     <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
     <li class="frequency-caps"><a href="javascript:void(0)">Frequency</a></li>
@@ -19,7 +20,7 @@
   <% var selected_kv_ids = [] %>
   <% for(var prop in selected_key_values) { selected_kv_ids.push(parseInt(selected_key_values[prop].id)); } %>
 
-  <div class="tab key-values">
+  <div class="tab audience-key-values">
     <select multiple class="chosen-select" name="keyvalues" data-placeholder="Select Audience Groups..." style="width:95%;">
       <% for (var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <option value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>selected="selected"<% } %> ><%= audience_groups[i]['name'] %></option>
@@ -27,12 +28,20 @@
     </select>
     <div style="clear:both"></div>
 
-    <div class="key-values-checkboxes-container">
+    <div class="audience-key-values-checkboxes-container">
       <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
       <% } %>
       </div>
   </div>
+
+  <div class="tab custom-kv" style="display:none">
+    <textarea id="custom_kvs_textarea" rows="7" placeholder="Ex: btg=val.1, btg=val.2" class="custom-kvs-field"><%=keyvalue_targeting%></textarea>
+  </div>
+
+  <div style="clear:both"></div>
+    <span class="custom-kv-errors errors_container pure-u"></span>
+  <div style="clear:both"></div>
 
   <div class="tab geo" style="display:none">
     <input type="text" autocomplete="off" class="geo-search" name="geo-search" value=""/>
@@ -52,8 +61,12 @@
 <div class="selected-targeting">
 </div>
 
-<div class="custom-regular-keyvalue-btn pull-right">
-  <span>+ Add Custom K/V</span>
+<div class="expand-audience-btn pull-right">
+  <% if (selected_kv_ids.length > 0) { %>
+      <span id="expand_audience_link">+ Expand</span>
+  <% } else { %>
+      <span id="expand_audience_link" class="hide">+ Expand</span>
+  <% } %>
 </div>
 
 <div style="clear:both"></div>
