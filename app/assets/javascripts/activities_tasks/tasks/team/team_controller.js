@@ -22,18 +22,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
         taskLayout.tasksListRegion.show(taskLayout.getTaskListView());
       }
       taskLayout.showHideMoreTasks(_isLoadMoreVisible(tasks.length));
-    },
-
-    showMoreTasks:function(taskLayout, tasks) {
-      var collectionLength = tasks ? tasks.length : 0;
-      if(collectionLength > 0) {
-        tasks.each(function(task) {
-          taskLayout.getTaskListView().collection.add(task);
-          task.collection = taskLayout.getTaskListView().collection;
-        });
-      }
-      taskLayout.showHideMoreTasks(_isLoadMoreVisible(collectionLength));
     }
-
   }
 });

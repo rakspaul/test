@@ -45,6 +45,14 @@ class Task < ActiveRecord::Base
     order(:id => :desc)
   end
 
+  # requested by & assigned to the user
+  def self.all_user_tasks(user, limit, offset)
+    result = where("(assignable_id = #{user.id} and assignable_type = 'User') or (requested_by_id=#{user.id})")
+    result = result.order(:task_state => :desc, :important => :desc, :due_date => :asc)
+    result = result.limit(limit).offset(offset) if limit && offset
+    result.load
+  end
+
   def self.user_tasks(user, limit, offset)
     result = where(assignable_id: user.id, assignable_type: 'User')
     result = result.order(:task_state => :desc, :important => :desc, :due_date => :asc)

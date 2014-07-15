@@ -53,8 +53,13 @@ class TasksController < ApplicationController
     error_message(e.message)
   end
 
+  def my_tasks
+    @tasks = Task.includes(:order, :activity_attachments).all_user_tasks current_user, params[:limit], params[:offset]
+    render 'user_tasks'
+  end
+
   def user_tasks
-    @tasks = Task.includes(:order,:activity_attachments).user_tasks @user, params[:limit], params[:offset]
+    @tasks = Task.includes(:order, :activity_attachments).user_tasks @user, params[:limit], params[:offset]
     respond_to do |format|
       format.json
     end

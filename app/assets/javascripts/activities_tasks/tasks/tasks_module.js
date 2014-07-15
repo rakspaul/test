@@ -105,7 +105,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks", function (Tasks, ReachActiv
     },
 
     teamTasks: function(options) {
-//        Do we need this. Instead trigger here
       ReachActivityTaskApp.ActivitiesTasks.Tasks.List.Controller.teamView(options);
     },
 

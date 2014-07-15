@@ -51,7 +51,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     url: function() {
       var url;
       if(this.context == Entities.TaskPageContext.VIEW.ASSIGNED_ME) {
-        url = '/tasks/user_tasks.json';
+        url = '/tasks/my_tasks.json';
       } else if(this.context == Entities.TaskPageContext.VIEW.TEAM) {
         url = '/tasks/only_team_tasks.json';
       } else if(this.context == Entities.TaskPageContext.VIEW.TEAM_USER) {
@@ -125,6 +125,10 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
 
       if(offset) {
         filter["offset"] = offset;
+      }
+
+      if(tasks.teamId) {
+        filter["team_id"] = tasks.teamId;
       }
 
       if(tasks.userId) {

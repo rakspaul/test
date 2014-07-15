@@ -41,10 +41,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       teamSwitcher: '#teamSwitcher'
     },
 
-    events: {
-//      'change #teamSwitcher': 'switchTeam'
-    },
-
     onDomRefresh: function () {
       var self = this;
       $('#teamSwitcher .editable').editable({
@@ -57,10 +53,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
       });
     },
 
-//    switchTeam: function(newValue) {
-//      console.log(this.ui.teamSwitcher.val());
-//      ReachActivityTaskApp.trigger('team-view:list', {teamId: this.ui.teamSwitcher.val()});
-//    }
     switchTeam: function(newValue) {
       ReachActivityTaskApp.trigger('team-view:list', {teamId: newValue});
     },
@@ -128,11 +120,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
     });
     teamLayout.teamHeaderRegion.show(teamHeaderView);
 
-//    teamLayout.teamTaskFormRegion.show();
-
     var teamTasksLayout = new ReachActivityTaskApp.ActivitiesTasks.Tasks.Layout({
       template: JST['templates/team/task_list'],
-      context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM
+      context: ReachActivityTaskApp.Entities.TaskPageContext.VIEW.TEAM,
+      teamId: teamTasks.get('team').id
     });
     teamLayout.teamTasksListRegion.show(teamTasksLayout);
     Team.Controller.showTasks(teamTasksLayout, teamTasks.tasks());
