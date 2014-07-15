@@ -132,7 +132,16 @@
       this.ui.zone_input.typeahead({
         name: 'z_site',
         remote: {
-          url: '/zones/search.json?search=%QUERY'
+          url: '/zones/search.json?search=%QUERY',
+          filter: function(parsedResponse){
+            if(parsedResponse.length == 0){
+              parsedResponse.push({
+                z_site: "Zone not found"
+              });
+            }
+
+            return parsedResponse;
+          }
         },
         valueKey: 'z_site',
         limit: 100
@@ -343,14 +352,14 @@
          oldZone = this.model.get('zone'),
          custKV = this.model.get('keyvalue_targeting');
 
-      custKV = custKV.replace(oldZone, zone);
-      this.model.attributes.keyvalue_targeting = custKV;
-      this.model.attributes.zone = zone;
-      this.reachCustomKeyValues = custKV;
+      if(zone && this.isCustomKeyValueValid && this.isZipcodesValid){
+        custKV = custKV.replace(oldZone, zone);
+        this.model.attributes.keyvalue_targeting = custKV;
+        this.model.attributes.zone = zone;
+        this.reachCustomKeyValues = custKV;
 
-      this._renderSelectedTargetingOptions();
-      this.render();
-      this._closeTargetingDialog();
+        this._renderSelectedTargetingOptions();
+      }
     },
 
     validateZipCodes: function(zip_codes){
@@ -394,7 +403,6 @@
 
     _onSave: function() {
       if(!this.$el.find('.save-targeting-btn').hasClass('disabled')){
-        this._updateZoneName();
         this._validateCustomKeyValuesOnDone();
         this._validateZipcodesOnDone();
       }
@@ -479,6 +487,8 @@
           });
           $apply_ads_dialog.modal('show');
         } else {
+          this._updateZoneName();
+          this.render();
           this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
