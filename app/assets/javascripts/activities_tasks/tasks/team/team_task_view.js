@@ -299,10 +299,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
 
     markAsImportant: function (e) {
       e.preventDefault();
-      var element = $(e.target).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
-      element.toggleClass("active");
-      this.model.set('important', element.hasClass('active'));
-      if(element.hasClass('active')) {
+      this.ui.btnMarkImportant.toggleClass('active');
+      this.model.set('important', this.ui.btnMarkImportant.hasClass('active'));
+      if(this.ui.btnMarkImportant.hasClass('active')) {
         this.ui.dueDate.hide();
         this.ui.dueDateText.show();
       } else {
