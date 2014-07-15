@@ -665,12 +665,15 @@
       var totalUnallocated = _.reduce(this.model.collection.models, function(sum, el) {
         return sum + el.getUnallocatedImps();
       }, 0);
-      if (totalUnallocated == 0) {
-        $('.push-order-btn').removeClass('disabled');
+      if (unallocated == 0) {
         this.ui.unallocated_imps.hide();
       } else {
-        $('.push-order-btn').addClass('disabled');
         this.ui.unallocated_imps.show();
+      }
+      if (totalUnallocated == 0) {
+        $('.push-order-btn').removeClass('disabled');
+      } else {
+        $('.push-order-btn').addClass('disabled');
       }
     },
 
