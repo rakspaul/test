@@ -96,7 +96,14 @@
           self.$el.find('.toggle-creatives-btn').html(is_visible ? edit_creatives_title : 'Hide Creatives');
         });
       }
-    }
+    },
+
+    _recalculateMediaCost: function() {
+      var media_cost = (this.model.getImps() * this.model.getCpm()) / 1000.0 ;
+      this.model.set('value', media_cost);
+      this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
+      this.recalculateUnallocatedImps();
+    },
   });
 
 

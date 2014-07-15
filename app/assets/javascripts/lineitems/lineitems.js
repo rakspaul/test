@@ -652,13 +652,6 @@
       }
     },
 
-    _recalculateMediaCost: function() {
-      var media_cost = (this.model.getImps() * this.model.getCpm()) / 1000.0 ;
-      this.model.set('value', media_cost);
-      this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
-      this.recalculateUnallocatedImps();
-    },
-
     recalculateUnallocatedImps: function() {
       var unallocated = this.model.getUnallocatedImps();
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
