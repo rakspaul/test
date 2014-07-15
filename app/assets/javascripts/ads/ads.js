@@ -100,6 +100,10 @@
       'click .ad-cancel-targeting-btn': 'cancelTargeting',
     },
 
+    modelEvents: {
+      'change:volume': '_recalculateMediaCost'
+    },
+
     ui: {
       targeting:            '.targeting-container',
       creatives_container:  '.ads-creatives-list-view',
@@ -109,15 +113,16 @@
       copy_targeting_btn:   '.ad-copy-targeting-btn',
       paste_targeting_btn:  '.ad-paste-targeting-btn',
       cancel_targeting_btn: '.ad-cancel-targeting-btn',
-      missing_geo_caution:  '.missing-geo-caution'
+      missing_geo_caution:  '.missing-geo-caution',
+      media_cost_value:     '.media-cost-value'
     },
 
-    _recalculateMediaCost: function(options) {
+    _recalculateMediaCost: function() {
       var imps = this.getImressions();
       var media_cost = this.getMediaCost();
 
-      this.model.set({ 'value':  media_cost }, options);
-      this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+      this.model.set({ 'value':  media_cost }, { silent: true });
+      this.ui.media_cost_value.html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
@@ -275,12 +280,7 @@
             sum_ad_imps += imps;
           });
 
-          self._recalculateMediaCost({ silent: true });
-
-          var buffer = self.options.parent_view.model.get('buffer');
-          buffer = (sum_ad_imps / imps * 100) - 100;
-          self.options.parent_view.model.set({ 'buffer': buffer });
-          self.render();
+          self._recalculateMediaCost();
         },
         validate: function(value) {
           if($.trim(value) == '') {
