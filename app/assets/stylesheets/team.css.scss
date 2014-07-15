@@ -185,13 +185,19 @@ tbody.team-members-task-list-grid {
     text-decoration: none;
   }
 
+  // NOTE: We are not precise in css selectors here, thus have to use !important to overwrite ui's styles
   .menu {
+    font-size: 12px;
     .item {
+      padding: 6px 10px !important;
+      border: 0 none;
       &.active {
-        background-color: $bg_color !important;
+        background-color: darken($rui-option-hover-bg, 10%) !important;
+        color: $rui-option-active-text !important;
       }
       &.selected, &:hover {
-        background-color: $light-background !important;
+        color: $rui-option-active-text !important;
+        background-color: $rui-option-hover-bg !important;
       }
     }
   }
