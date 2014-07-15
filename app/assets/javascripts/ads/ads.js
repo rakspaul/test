@@ -139,7 +139,7 @@
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() / 1000.0) * cpm;
+      return (this.getImressions() * cpm) / 1000.0;
     },
 
     renderTargetingDialog: function() {
@@ -185,9 +185,9 @@
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible){
+      if(is_visible) {
         this.targetingView.hideTargeting();
-      } else{
+      } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
         $(this.ui.targeting).show('slow');
       }

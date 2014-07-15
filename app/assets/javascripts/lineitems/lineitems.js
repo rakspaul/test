@@ -653,7 +653,7 @@
     },
 
     _recalculateMediaCost: function() {
-      var media_cost = (this.model.getImps() / 1000.0) * this.model.getCpm();
+      var media_cost = (this.model.getImps() * this.model.getCpm()) / 1000.0 ;
       this.model.set('value', media_cost);
       this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
       this.recalculateUnallocatedImps();
