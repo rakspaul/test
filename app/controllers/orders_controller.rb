@@ -533,7 +533,6 @@ private
 
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
-          ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -704,7 +703,6 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
-          ad_object.ad_type   = ([ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD')
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
