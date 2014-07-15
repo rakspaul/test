@@ -355,6 +355,40 @@
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
+
+        // if there are removed ad_sizes in uploaded revision => strike-through corresponding creatives
+        if(li_view.model.get('revised_removed_ad_sizes')) {
+          _.each(li_view.model.get('revised_removed_ad_sizes'), function(ad_size) {
+            _.map(ad_view.model.get('creatives').models, function(c) {
+              if(c.get('ad_size') == ad_size) { 
+                c.set('removed_with_revision', true);
+              }
+            });          
+          });
+        }
+      }
+
+      // collect an array of ad_sizes attributes of added creatives to know the number of them
+      var already_created_from_revision = _.compact(_.map(ad_view.model.get('creatives').models, function(c) {
+        if(c.get('added_with_revision')) {
+          return c.get('ad_size');
+        }
+      }));
+
+      // if there are added ad_sizes in uploaded revision => add creative
+      if(li_view.model.get('revised_added_ad_sizes')) {
+        _.each(li_view.model.get('revised_added_ad_sizes'), function(ad_size) {
+          // if there are no such creative added yet
+          if(already_created_from_revision.length == 0) {
+            // then create one
+            var creative = new ReachUI.Creatives.Creative({
+              'ad_size': ad_size,
+              'order_id': li_view.model.get('order_id'),
+              'added_with_revision': true,
+              'lineitem_id': li_view.model.get('id')}, { silent: true });
+            ad_view.model.get('creatives').add(creative);
+          }
+        });
       }
     },
 

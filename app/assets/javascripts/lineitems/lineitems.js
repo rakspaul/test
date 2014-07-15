@@ -949,7 +949,7 @@
         var revision = self.model.get('revised_'+attr_name);
 
         if(attr_name == 'ad_sizes') {
-          if(self.model.get('revised_added_ad_sizes').length == 0) {
+          if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
             revision = self.model.get('revised_common_ad_sizes').join(', ');
           } else {
             revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
@@ -1064,6 +1064,16 @@
               break;
             case 'ad_sizes':
               _.each(self.model.ads, function(ad) {
+                // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives for each ad
+                if(ad.get('creatives')) {
+                  _.map(ad.get('creatives').models, function(c) {
+                    if(c.get('added_with_revision')) {
+                      c.attributes['added_with_revision'] = null;
+                    } else if(c.get('removed_with_revision')) {
+                      c.destroy();
+                    }
+                  });
+                }
                 ad.set('size', revised_value);
               });
               break;              
