@@ -146,6 +146,16 @@
         valueKey: 'z_site',
         limit: 100
       });
+
+      this.ui.zone_input.on('typeahead:selected', function(ev, el) {
+        if(el.name != 'Zone not found'){
+          self._updateZoneName();
+        }
+        else{
+          $(this).typeahead('setQuery',self.model.get("zone"));
+        }
+      });
+
     },
 
     _showKeyValuesTab: function() {

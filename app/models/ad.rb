@@ -47,8 +47,9 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :countries, join_table: :ad_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
-  has_many :ads_zones
-  has_many :zones, through: :ads_zones
+  has_one :ad_zone
+  has_one :zone, through: :ad_zone
+
   accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
 
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
@@ -173,6 +174,20 @@ class Ad < ActiveRecord::Base
 
     audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
     self.audience_groups = AudienceGroup.where :id => audience_groups_ids
+  end
+
+  def save_zone(keyname, zone)
+    zone_key_name = "#{keyname}/#{zone}"
+    findZone = Zone.exists?(:keyname => zone_key_name)
+    site = Site.find_by_keyname(keyname)
+
+    unless findZone
+      createZone = Zone.create({keyname: zone_key_name, site_id: site.id, z_site: zone, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
+      AdZone.create(ad_id: self.id, zone_id: createZone.id )
+    else
+      existingZone = Zone.find_by_keyname(zone_key_name)
+      AdZone.create(ad_id: self.id, zone_id: existingZone.id )
+    end
   end
 
   def create_random_source_id
