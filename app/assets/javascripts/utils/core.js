@@ -82,17 +82,17 @@ ReachUI.showCondensedTargetingOptions = function() {
 
   var geos = targeting.attributes.selected_geos;
   if(geos.length > 0) {
-    targeting_options.push('<div class="dma-targeting-icon pull-left" title="GEOs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(geos, "title"), '</div>');
+    targeting_options.push('<div class="dma-targeting-icon" title="GEOs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(geos, "title"), '</div>');
   }
 
   var zips = targeting.attributes.selected_zip_codes;
   if(zips.length > 0) {
-    targeting_options.push('<div class="zip-codes-icon pull-left" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
+    targeting_options.push('<div class="zip-codes-icon" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
   }
 
   var key_values = targeting.attributes.selected_key_values;
   if(key_values.length > 0) {
-    targeting_options.push('<div class="account-contact-icon pull-left" title="Key Value Targeting"></div>');
+    targeting_options.push('<div class="account-contact-icon" title="Key Value Targeting"></div>');
     targeting_options.push('<div class="targeting-options">');
     targeting_options.push(ReachUI.truncateArray(key_values, "title"));
     targeting_options.push('</div>');
@@ -196,4 +196,176 @@ ReachUI.omitAttribute = function(attributes, attr) {
     });
   }
   return result;
+};
+
+ReachUI.copyTargeting = function(e, scope) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  var el        = $(e.currentTarget),
+      parent    = el.parent(),
+      type      = el.data('type'),
+      active    = parent.hasClass('active'),
+      targeting = this.model.get('targeting'),
+      buffer    = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
+
+  if (!active) {
+    var copiedOptions = {};
+
+    parent.addClass('active');
+
+    switch (type) {
+      case 'key_values':
+        copiedOptions = {
+          selected_key_values: _.clone(targeting.get('selected_key_values')),
+          keyvalue_targeting:  _.clone(targeting.get('keyvalue_targeting'))
+        };
+        break;
+      case 'geo':
+        copiedOptions = {
+          selected_geos:      _.clone(targeting.get('selected_geos')),
+          selected_zip_codes: _.clone(targeting.get('selected_zip_codes'))
+        };
+        break;
+      case 'freq_cap':
+        copiedOptions = {
+          frequency_caps: ReachUI.omitAttribute(_.clone(targeting.get('frequency_caps')), 'id')
+        };
+        break;
+    };
+
+    if (!buffer) {
+      buffer = {};
+    }
+    _.each(copiedOptions, function(value, key) {
+      buffer[key] = value;
+    });
+  } else {
+    if (buffer) {
+      var deleteKeys = [];
+      switch (type) {
+      case 'key_values':
+        deleteKeys = [ 'selected_key_values', 'keyvalue_targeting' ];
+        break;
+      case 'geo':
+        deleteKeys = [ 'selected_geos', 'selected_zip_codes' ];
+        break;
+      case 'freq_cap':
+        deleteKeys = [ 'frequency_caps' ];
+        break;
+      }
+      buffer = _.omit(buffer, deleteKeys);
+    }
+    el.blur();
+    parent.removeClass('active');
+  }
+  ReachUI.LineItems.LineItem.setCopyBuffer('targeting', buffer);
+
+  noty({text: 'Targeting copied', type: 'success', timeout: 3000});
+  this._deselectAllItems({ multi: true });
+  this.$el.addClass('copied-targeting-from');
+};
+
+ReachUI.pasteTargeting = function(e, scope) {
+  var self = this;
+  e.stopPropagation();
+  noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
+
+  var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
+
+  _.each([ 'li', 'ad' ], function (type) {
+    _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
+      var itemTargeting = item.model.get('targeting'),
+          targeting = {};
+      _.each(buffer, function(value, key) { // TODO
+        if (key != 'frequency_caps') {
+          targeting[key] = _.clone(value);
+        }
+      });
+
+      if (buffer['frequency_caps']) {
+        var frequencyCaps = itemTargeting.get('frequency_caps');
+        var removedCaps = [];
+        _.each(frequencyCaps.models, function(fc) {
+          if (fc.get('id')) {
+            removedCaps.push(fc.get('id'));
+          }
+        });
+        _.each(removedCaps, function(id) {
+          frequencyCaps.remove(id);
+        });
+        _.each(buffer['frequency_caps'], function(fc) {
+          frequencyCaps.add(fc);
+        });
+        targeting['frequency_caps'] = frequencyCaps;
+      }
+      itemTargeting.set(targeting, { silent: true });
+
+      item.renderTargetingDialog();
+      if (type == 'ad') {
+        ReachUI.showCondensedTargetingOptions.apply(item);
+        item.toggleMissingGeoCaution();
+      }
+
+      item.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
+    });
+  });
+
+  this.cancelTargeting();
+};
+
+ReachUI.cancelTargeting = function(e) {
+  if (e) {
+    e.stopPropagation();
+  }
+  ReachUI.LineItems.LineItem.setCopyBuffer('targeting', null);
+  $('.lineitem').removeClass('copied-targeting-from');
+  this._deselectAllItems();
+};
+
+ReachUI.toggleItemSelection = function(e, scope) {
+  // if there is no copied targeting then exclusive select, otherwise accumulative
+  var ui = this.ui;
+  var buffer = ReachUI.LineItems.LineItem.getCopyBuffer('targeting');
+  if (!buffer) {
+    this._deselectAllItems({'except_current': true});
+  }
+
+  this.ui.item_selection.toggleClass('selected');
+  this.selected = this.ui.item_selection.hasClass('selected');
+  this.ui.copy_targeting_btn.toggle();
+
+  var selectedItems = ReachUI.LineItems.LineItem.getSelectedItem(scope);
+
+  if (this.selected) {
+    selectedItems.push(this);
+  } else {
+    selectedItems.splice(this, 1);
+  }
+  ReachUI.LineItems.LineItem.setSelectedItem(selectedItems, scope);
+
+  if (buffer) {
+    // Hide all buttons
+    $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
+    $('.ad-copy-targeting-btn, .ad-paste-targeting-btn, .ad-cancel-targeting-btn').hide();
+    $('.copy-targeting-btn li').removeClass('active');
+    $('.ad-copy-targeting-btn li').removeClass('active');
+    _.each([ ui.paste_targeting_btn, ui.cancel_targeting_btn ], function(el) { el.toggle(); });
+  }
+};
+
+ReachUI.deselectAllItems = function(options, scope) {
+  var self = this;
+  _.each([ 'li', 'ad' ], function (type) {
+    _.each(ReachUI.LineItems.LineItem.getSelectedItem(type), function(item) {
+      if (!(options && options['except_current'] && item == self)) {
+        item.selected = false;
+        item.ui.item_selection.removeClass('selected');
+        if (!options || !options['multi']) {
+          _.each([ item.ui.copy_targeting_btn, item.ui.paste_targeting_btn, item.ui.cancel_targeting_btn ], function(el) { el.hide(); });
+        }
+      }
+    });
+  });
+  ReachUI.LineItems.LineItem.setSelectedItem();
 };

@@ -902,25 +902,41 @@ private
 
   def search_for_ad_sizes
     ad_sizes_raw = []
+    pages_count = @raw_reader.pages.count
 
-    @raw_reader.pages.count.times do |i|
+    pages_count.times do |i|
       textangle = @reader.bounding_box do
         page (i+1)
         below /section:/i
       end
-      ad_sizes_raw += textangle.text
+      ad_sizes_raw += textangle.text.flatten.reject{|size| size !~ /\d+x\d+/mi}
+
+      if (i+1) < pages_count
+        textangle = @reader.bounding_box do
+          page (i+2)
+          below /targeting/i
+          above /site:/i
+          left_of /flight dates/i
+        end
+        ad_sizes_raw += textangle.text.flatten.reject{|s| s !~ /\d+x\d+/mi}.reject{|s| s =~ /Ad Size\(s\):/}
+      end
     end
-    ad_sizes_raw = ad_sizes_raw.flatten.reject{|size| size !~ /\d+x\d+/mi}
+    
+    ad_sizes_raw = ad_sizes_raw.compact
 
     lineitems = []
     ad_sizes_raw.each do |line|
       li = {}
-      if line =~ /Ad Size\(s\):/
-        li[:ad_sizes] = line.scan(/\d+x\d+\s?/mi)
-        lineitems << li
-      # elsif there are no symbols in the line (except 'x', which is a separator in ad size)
-      elsif (line !~ /[a-wyz]+/mi) && (line =~ /[\dx\s,]/mi)
-        lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi).map(&:strip)
+      if line.match(/(\sAd\sSize\(s\):)\s*(\d*x\d*)*,?|^(\d*x\d*[,\s]*)*$/mi)
+        if line =~ /Ad Size\(s\):/
+          li[:ad_sizes] = line.scan(/\d+x\d+\s?/mi)
+          lineitems << li
+        # elsif there are no symbols in the line (except 'x', which is a separator in ad size)
+        elsif line =~ /^(\d*x\d*[,\s]*)*$/mi
+          if lineitems.last
+            lineitems.last[:ad_sizes] += line.scan(/\d+x\d+/mi).map(&:strip)
+          end
+        end
       end
     end
 

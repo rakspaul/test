@@ -23,7 +23,8 @@ json = @lineitems.map do |lineitem|
     creatives:          [],
     selected_geos:      [],
     selected_key_values: [],
-    frequency_caps:      []
+    frequency_caps:      [],
+    dfp_url: lineitem.dfp_url
   }
 
   if lineitem.video?

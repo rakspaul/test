@@ -11,17 +11,7 @@ describe('Line items views', function() {
 
     beforeEach(function() {
       this.order = new ReachUI.Orders.Order();
-      this.lineitem = new ReachUI.LineItems.LineItem({
-        name:            'Pre-roll Video Line Item',
-        start_date:      '2013-06-01',
-        end_date:        '2013-06-07',
-        volume:          300124,
-        rate:            1.9856,
-        master_ad_size: '1x1',
-        ad_sizes:       '1x1',
-        creatives:      [],
-        type:           'Video'
-      });
+      this.lineitem = BackboneFactory.create('video_lineitem');
 
       this.view = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
       this.collection = new ReachUI.LineItems.LineItemList();
@@ -84,6 +74,101 @@ describe('Line items views', function() {
 
         expect(parseFloat(this.view.model.get('volume'))).toBe(78);
       });
+
+      it('should round off the volume attribute', function() {
+        var volume = this.view.$el.find('.volume');
+
+        volume.find('.volume-editable').editable('show');
+        volume.find('input').val(30000.55);
+        volume.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('volume'))).toBe(30001);
+      });
+
+      it('should round down the volume attribute', function() {
+        var volume = this.view.$el.find('.volume');
+
+        volume.find('.volume-editable').editable('show');
+        volume.find('input').val(30000.45);
+        volume.find('button[type=submit]').click();
+
+        expect(parseFloat(this.view.model.get('volume'))).toBe(30000);
+      });
     });
+
+    describe('visual layout', function() {
+      beforeEach(function() {
+        this.ad = BackboneFactory.create('ad');
+        this.ad.set('type', 'Video');
+        this.secondAd = _.clone(this.ad);
+        this.lineitem.ads = [ this.ad, this.secondAd ];
+
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      it('should display unallocated imps block', function() {
+        expect(this.view.$el).toContainElement('.unallocated-imps');
+      });
+
+      it('should calculate unallocated imps from li imps, buffer and ads imps', function() {
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(100124));
+      });
+
+      it('should not change lineitem buffer if ad is added', function() {
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.pushAd(_.clone(this.lineitem.ads[0]));
+        expect(this.lineitem.getBuffer()).toBe(10.5);
+      });
+
+      it('should not change lineitem buffer if ad is removed', function() {
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.ads = [ _.clone(this.lineitem.ads[0]) ];
+        expect(this.lineitem.getBuffer()).toBe(10.5);
+      });
+
+      it('should change unallocated imps if ad is added', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.pushAd(newAd);
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(124));
+      });
+
+      it('should change unallocated imps if ad is removed', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.ads = [ newAd ];
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
+      });
+
+      it('should hide unallocated impression block if it is zero', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.ads = [ newAd ];
+        newAd.set('volume', this.lineitem.get('volume'));
+        this.view.render();
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps');
+        expect(impsValueEl).toBeHidden();
+      });
+    });
+
+    /*describe('create new ad', function() {
+      beforeEach(function() {
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      it('create display ad', function() {
+        // TODO instantiate Order controller to process add_ad event
+        this.view.$el.find('.ad-type-dropdown').click();
+        var defaultAdMenuItem = this.view.$el.find('.li-add-ad-btn:first');
+        defaultAdMenuItem.click();
+      });
+    });*/
   });
 });

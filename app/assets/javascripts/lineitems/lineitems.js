@@ -19,6 +19,7 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.revised_targeting = false;
       this.platforms = [];
       this.is_blank_li = false;
     },
@@ -75,6 +76,22 @@
       return { lineitem: lineitem, ads: this.ads, creatives: this.get('creatives') };
     },
 
+    getImps: function() {
+      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+    },
+
+    getCpm: function() { return parseFloat(this.get('rate')); },
+
+    getBuffer: function() { return parseFloat(this.get('buffer')); },
+
+    getUnallocatedImps: function() {
+      var adsImpressions = _.reduce(this.ads, function(sum, el) {
+        return sum + el.getImps();
+      }, 0);
+      var total = this.getImps() * (1 + this.getBuffer() / 100);
+      return Math.round(Number(total - adsImpressions));
+    },
+
     setBlankLiFlag: function() {
       this.is_blank_li = true;
     },
@@ -102,6 +119,42 @@
         _.each(creatives, function(creative) {
           creative.set(name, value);
         });
+      }
+    },
+  }, {
+    buffer: {
+      targeting: null
+    },
+    selectedItems: {
+      li:  [],
+      ad: []
+    },
+
+    getCopyBuffer: function(key) {
+      if (key) {
+        return this.buffer[key];
+      } else {
+        return this.buffer;
+      }
+    },
+
+    setCopyBuffer: function(key, value) {
+      if (key) {
+        this.buffer[key] = value;
+      } else {
+        this.buffer = value;
+      }
+    },
+
+    getSelectedItem: function(key) {
+      return this.selectedItems[key || 'li'];
+    },
+
+    setSelectedItem: function(items, key) {
+      if (key) {
+        this.selectedItems[key] = items;
+      } else {
+        this.selectedItems = { li: [], ad: [] };
       }
     }
   });
@@ -134,14 +187,11 @@
 
     _recalculateLiImpressionsMediaCost: function() {
       var sum_impressions = _.inject(this.models, function(sum, el) {
-        var imps = parseInt(String(el.get('volume')).replace(/,|\./g, ''));
-        sum += imps;
-        return sum;
+        return sum + el.getImps();
       }, 0);
 
       var sum_media_cost = _.inject(this.models, function(sum, el) {
-        sum += Math.round(parseFloat(el.get('value')) * 100) / 100;
-        return sum;
+        return sum + Math.round(parseFloat(el.get('value')) * 100) / 100;
       }, 0.0);
 
       var cpm_total = (sum_media_cost / sum_impressions) * 1000;
@@ -169,20 +219,27 @@
     className: 'lineitem pure-g',
 
     ui: {
-      ads_list: '.ads-container',
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes',
-      start_date_editable: '.start-date-editable',
-      end_date_editable:   '.end-date-editable',
-      name_editable:       '.name-editable',
-      volume_editable:     '.volume-editable',
-      rate_editable:       '.rate-editable',
-      buffer_editable:     '.buffer-editable',
-      dup_btn: '.li-duplicate-btn',
-      delete_btn: '.li-delete-btn',
-      notes_editable: '.notes-editable'
+      ads_list:               '.ads-container',
+      targeting:              '.targeting-container',
+      creatives_container:    '.creatives-list-view',
+      creatives_content:      '.creatives-content',
+      lineitem_sizes:         '.lineitem-sizes',
+      start_date_editable:    '.start-date-editable',
+      end_date_editable:      '.end-date-editable',
+      name_editable:          '.name-editable',
+      volume_editable:        '.volume-editable',
+      rate_editable:          '.rate-editable',
+      buffer_editable:        '.buffer-editable',
+      dup_btn:                '.li-duplicate-btn',
+      delete_btn:             '.li-delete-btn',
+      media_cost:             '.media-cost-value',
+      unallocated_imps:       '.unallocated-imps',
+      unallocated_imps_value: '.unallocated-imps-value',
+      item_selection:       '.item-number',
+      copy_targeting_btn:   '.copy-targeting-btn',
+      paste_targeting_btn:  '.paste-targeting-btn',
+      cancel_targeting_btn: '.cancel-targeting-btn',
+      notes_editable:       '.notes-editable'
     },
 
     events: {
@@ -259,8 +316,25 @@
     },
 
     initialize: function(){
+      var self = this;
+
       _.bindAll(this, "render");
       //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      this.on('targeting:update', function(targeting) {
+        self.model.get('targeting').revised_targeting = false;
+        if (this.model.ads && this.model.ads.length > 0) {
+          _.each(self.model.ads, function(ad) {
+            if (ad.get('type') != 'Companion') {
+              var adTargeting = ad.get('targeting');
+              _.each(targeting, function(value, key) {
+                adTargeting.attributes[key] = value;
+              });
+            }
+          });
+          self.render(); // re-render LI and nested ads
+        }
+      });
 
       this.creatives_visible = {};
 
@@ -268,6 +342,18 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting'), frequency_caps: this.model.get('frequency_caps')});
         this.model.set({ 'targeting': targeting }, { silent: true });
       }
+    },
+
+    _alignOrderStartDate: function() {
+      var minDate = this.model.collection.getMinLIDate();
+      $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
+      this.model.collection.order.set('start_date', minDate);
+    },
+
+    _alignOrderEndDate: function() {
+      var maxDate = this.model.collection.getMaxLIDate();
+      $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
+      this.model.collection.order.set("end_date", maxDate);
     },
 
     setEditableFields: function() {
@@ -278,12 +364,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('start_date', date);
+          model.set('start_date', date);
 
           // order's start date should be lowest of all related LIs
-          model.set('start_date', date);
-          var minDate = collection.getMinLIDate();
-          $('.order-details .start-date .date').html(minDate).editable('option', 'value', moment(minDate)._d);
-          collection.order.set('start_date', minDate);
+          view._alignOrderStartDate();
 
           view._changeEditable($(this), newValue);
 
@@ -306,12 +390,10 @@
           var date = moment(newValue).format("YYYY-MM-DD");
 
           model.setCreativesDate('end_date', date);
+          model.set('end_date', date);
 
           // order's end date should be highest of all related LIs
-          model.set('end_date', date);
-          var maxDate = collection.getMaxLIDate();
-          $('.order-details .end-date .date').html(maxDate).editable('option', 'value', moment(maxDate)._d);
-          collection.order.set("end_date", maxDate);
+          view._alignOrderEndDate();
 
           view._changeEditable($(this), newValue);
 
@@ -475,18 +557,18 @@
       this.renderTargetingDialog();
 
       this.ui.ads_list.html('');
-      var ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
       var showDeleteBtn = !this.model.get('uploaded');
-      _.each(ads, function(ad) {
+      _.each(this.getAds(), function(ad) {
         if (!ad.get('creatives').length) {
           ad.set({ 'size': view.model.get('ad_sizes') }, { silent: true });
         }
         if (showDeleteBtn && !isNaN(parseInt(ad.get('source_id')))) {
           showDeleteBtn = false;
         }
-
         view.renderAd(ad);
       });
+
+      this.recalculateUnallocatedImps();
 
       if (showDeleteBtn) {
         this.showDupDeleteBtn();
@@ -506,8 +588,9 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       if (0 == ad.get('volume')) {
-        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
+        ad_view.$el.find('.volume-editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
+      li_view.recalculateUnallocatedImps();
     },
 
     renderCreatives: function() {
@@ -538,6 +621,10 @@
       }
     },
 
+    getAds: function() {
+      return this.model.ads.models || this.model.ads.collection || this.model.ads;
+    },
+
     // method trigger change event to process contenteditable element by stickit
     _changeEditable: function(el, value, callback) {
         var val = callback ? callback(value) : value;
@@ -547,14 +634,12 @@
     },
 
     recalculateAdsImpressionsMediaCost: function(buffer) {
-      var adImps, prevBuffer = parseFloat(this.model.get('buffer')),
+      var prevBuffer = this.model.getBuffer(),
           ratio = (100 + buffer) / (100 + prevBuffer),
-          ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
+          ads = this.getAds();
 
       _.each(ads, function(ad) {
-        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        adImps = adImps * ratio;
-        ad.set('volume', parseInt(adImps));
+        ad.set('volume', parseInt(ad.getImps() * ratio));
       });
     },
 
@@ -572,7 +657,26 @@
       }
     },
 
-    ///////////////////////////////////////////////////////////////////////////////
+    recalculateUnallocatedImps: function() {
+      var unallocated = this.model.getUnallocatedImps();
+      this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
+      var totalUnallocated = _.reduce(this.model.collection.models, function(sum, el) {
+        return sum + el.getUnallocatedImps();
+      }, 0);
+      if (unallocated == 0) {
+        this.ui.unallocated_imps.hide();
+      } else {
+        this.ui.unallocated_imps.show();
+      }
+      if (totalUnallocated == 0) {
+        $('.push-order-btn').removeClass('disabled');
+      } else {
+        $('.push-order-btn').addClass('disabled');
+      }
+    },
+
+    ///////////////////////////////////
+    ////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
@@ -640,163 +744,27 @@
 
     _toggleLISelection: function(e) {
       e.stopPropagation();
-      if(this.model.get('revised')) {
+      if (this.model.get('revised')) {
         $(e.currentTarget).find('.revised-dialog').toggle();
       } else {
-        // if there is no copied targeting then exclusive select, otherwise accumulative
-        if(!window.copied_targeting) {
-          this._deselectAllLIs({'except_current': true});
-        }
-
-        this.$el.find('.li-number .number').toggleClass('selected');
-        this.selected = this.$el.find('.li-number .number').hasClass('selected');
-        this.$el.find('.copy-targeting-btn').toggle();
-
-        if(window.selected_lis === undefined) {
-          window.selected_lis = [];
-        }
-        if(this.selected) {
-          window.selected_lis.push(this); // add current LI to selected LIs
-        } else {
-          window.selected_lis.splice(this, 1); // remove current LI from selected LIs
-        }
-
-        if(window.copied_targeting) {
-          $('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-          $('.copy-targeting-btn li').removeClass('active');
-          this.$el.find('.paste-targeting-btn, .cancel-targeting-btn').toggle();
-        }
+        ReachUI.toggleItemSelection.call(this, e, 'li');
       }
     },
 
     copyTargeting: function(e) {
-      e.stopPropagation();
-      e.preventDefault();
-
-      var el = $(e.currentTarget),
-          parent = el.parent(),
-          type   = el.data('type'),
-          active = parent.hasClass('active'),
-          li_t   = this.model.get('targeting');
-
-      if (!active) {
-        var copiedOptions = {};
-
-        parent.addClass('active');
-
-        switch (type) {
-          case 'key_values':
-            copiedOptions = {
-              selected_key_values: _.clone(li_t.get('selected_key_values')),
-              keyvalue_targeting: _.clone(li_t.get('keyvalue_targeting'))
-            };
-            break;
-          case 'geo':
-            copiedOptions = {
-              selected_geos: _.clone(li_t.get('selected_geos')),
-              selected_zip_codes: _.clone(li_t.get('selected_zip_codes'))
-            };
-            break;
-          case 'freq_cap':
-            copiedOptions = {
-              frequency_caps: ReachUI.omitAttribute(_.clone(li_t.get('frequency_caps')), 'id')
-            };
-            break;
-        };
-
-        if (!window.copied_targeting) {
-          window.copied_targeting = {};
-        }
-        _.each(copiedOptions, function(value, key) {
-          window.copied_targeting[key] = value;
-        });
-      } else {
-        if (window.copied_targeting) {
-          switch (type) {
-          case 'key_values':
-            delete window.copied_targeting['selected_key_values'];
-            delete window.copied_targeting['keyvalue_targeting'];
-            break;
-          case 'geo':
-            delete window.copied_targeting['selected_geos'];
-            delete window.copied_targeting['selected_zip_codes'];
-            break;
-          case 'freq_cap':
-            delete window.copied_targeting['frequency_caps'];
-            break;
-          }
-        }
-        el.blur();
-        parent.removeClass('active');
-      }
-
-      noty({text: 'Targeting copied', type: 'success', timeout: 3000});
-      this._deselectAllLIs({ multi: true });
-      this.$el.addClass('copied-targeting-from');
+      ReachUI.copyTargeting.call(this, e, 'li');
     },
 
-    _deselectAllLIs: function(options) {
-      var self = this;
-      if(options && options['except_current']) {
-        var lis_to_deselect = _.filter(window.selected_lis, function(el) {return el != self});
-      } else {
-        var lis_to_deselect = window.selected_lis;
-      }
-
-      _.each(lis_to_deselect, function(li) {
-        li.selected = false;
-        li.$el.find('.li-number .number').removeClass('selected');
-        if (!options || !options['multi']) {
-          li.$el.find('.copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn').hide();
-        }
-        li.renderTargetingDialog();
-      });
-      window.selected_lis = [];
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'li');
     },
 
     pasteTargeting: function(e) {
-      e.stopPropagation();
-      noty({text: 'Targeting pasted', type: 'success', timeout: 3000});
-
-      _.each(window.selected_lis, function(li) {
-        var liTargeting = li.model.get('targeting'),
-            targeting = {};
-        _.each(window.copied_targeting, function(value, key) {
-          if (key != 'frequency_caps') {
-            targeting[key] = _.clone(value);
-          }
-        });
-        if (window.copied_targeting['frequency_caps']) {
-          var frequencyCaps = liTargeting.get('frequency_caps');
-          var removedCaps = [];
-          _.each(frequencyCaps.models, function(fc) {
-            if (fc.get('id')) {
-              removedCaps.push(fc.get('id'));
-            }
-          });
-          _.each(removedCaps, function(id) {
-            frequencyCaps.remove(id);
-          });
-          _.each(window.copied_targeting['frequency_caps'], function(fc) {
-            frequencyCaps.add(fc);
-          });
-          targeting['frequency_caps'] = frequencyCaps;
-        }
-        liTargeting.set(targeting, { silent: true });
-
-        li.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
-      });
-
-      this.cancelTargeting();
+      ReachUI.pasteTargeting.call(this, e, 'li');
     },
 
     cancelTargeting: function(e) {
-      if (e) {
-        e.stopPropagation();
-      }
-      window.copied_targeting = null;
-      $('.lineitem').removeClass('copied-targeting-from');
-      this._deselectAllLIs();
+      ReachUI.cancelTargeting.call(this, e, 'li');
     },
 
     _changeMediaType: function(ev_or_type) {
@@ -992,6 +960,8 @@
 
       this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1015,14 +985,52 @@
     },
 
     _acceptRevision: function(e) {
+      var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
           $editable = $target_parent.siblings('div .editable'),
-          revised_value = $target_parent.siblings('.revision').text();
+          revised_value = $target_parent.siblings('.revision').text(),
+          original_value = this.model.get(attr_name);
 
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
       var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+
+      if (this.model.ads.length > 0 && attr_name != 'name') {
+        var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
+            apply_text = 'Apply the new ' + attr_name.split('_').join(' ') + ' to ads';
+
+        $apply_ads_dialog.find('.apply-revisions-txt').html(apply_text);
+        $apply_ads_dialog.find('.noapply-btn').click(function() {
+          $apply_ads_dialog.modal('hide');
+        });
+        $apply_ads_dialog.find('.apply-btn').click(function() {
+          $apply_ads_dialog.find('.apply-btn').off('click');
+          $apply_ads_dialog.modal('hide');
+          switch (attr_name) {
+            case 'start_date':
+            case 'end_date':
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+            case 'volume':
+              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+              _.each(self.model.ads, function(ad) {
+                ad.set('volume', ad.get('volume') * ratio);
+              });
+              break;
+            case 'rate':
+              revised_value = accounting.formatNumber(revised_value, 2);
+              _.each(self.model.ads, function(ad) {
+                ad.set(attr_name, revised_value);
+              });
+              break;
+          };
+          self.recalculateUnallocatedImps();
+        });
+        $apply_ads_dialog.modal('show');
+      }
       EventsBus.trigger('lineitem:logRevision', log_text);
 
       this.model.attributes[attr_name] = revised_value;
@@ -1034,6 +1042,8 @@
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
       this._checkRevisedStatus();
+      this._alignOrderStartDate();
+      this._alignOrderEndDate();
       $target_parent.remove();
     },
 
@@ -1254,7 +1264,7 @@
       var self = this;
       var lineitems = this.collection;
       var lineitemsWithoutAds = [];
-
+m
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));
