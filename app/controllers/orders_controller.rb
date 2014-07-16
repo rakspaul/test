@@ -127,7 +127,8 @@ class OrdersController < ApplicationController
           @order.set_upload_note
 
           order_notes.to_a.each do |note|
-            OrderNote.create note: note[:note], user: current_user, order: @order
+            @order.order_activity_logs.create note: note[:note], created_by: current_user,
+                                              activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT
           end
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
@@ -206,7 +207,8 @@ class OrdersController < ApplicationController
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
-          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
+          @order.order_activity_logs.create(note: note[:note], created_by: current_user,
+                                            activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT) if note[:id].blank?
         end
 
         if li_ads_errors.blank?
