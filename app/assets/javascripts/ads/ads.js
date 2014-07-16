@@ -143,15 +143,21 @@
       this.ui.targeting.html(this.targetingView.render().el);
     },
 
+    _updateCreativesCaption: function() {
+      var creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
+      this.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div for Ads (could be called both from Ads level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives_sizes = [],
-          creatives = this.model.get('creatives').models;
+          creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
       this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];
@@ -161,7 +167,7 @@
       if (showed) {
         if (!creatives_visible) {
           this.ui.creatives_container.show('slow', function() {
-            self.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+            self._updateCreativesCaption();
           });
         }
       } else {
@@ -326,6 +332,7 @@
       }
 
       this.renderCreatives();
+      this._updateCreativesCaption();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {

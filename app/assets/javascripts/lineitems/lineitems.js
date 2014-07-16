@@ -667,20 +667,24 @@
       }
     },
 
+    _updateCreativesCaption: function() {
+      var creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
+      this.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives = this.model.get('creatives').models;
 
-      //this._updateCreativesCaption();
-
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
       if (showed) {
         if (!is_visible) {
           this.ui.creatives_container.show('slow', function() {
-            self.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+            self._updateCreativesCaption();
           });
         }
       } else {
@@ -1021,9 +1025,9 @@
                 });
                 _.each(creatives_to_delete, function(c) { 
                   var delete_creatives = _.clone(self.model.get('_delete_creatives'));
-                  delete_creatives.push(c.get('id'));
-                  self.model.set('_delete_creatives', delete_creatives);
+                  delete_creatives.push(c.get('id'));        
                   c.destroy();
+                  self.model.set('_delete_creatives', delete_creatives);
                 });
                 self.renderCreatives();
               }
@@ -1043,10 +1047,10 @@
         EventsBus.trigger('lineitem:logRevision', log_text+logs.join('; '));
       }
 
-      this._removeAndHideAllRevisions(e);
       this._recalculateMediaCost();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
+      this._updateCreativesCaption();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1096,17 +1100,17 @@
               _.each(creatives_to_delete, function(c) { 
                 var delete_creatives = _.clone(ad.get('_delete_creatives'));
                 delete_creatives.push(c.get('id'));
-                ad.set('_delete_creatives', delete_creatives);
                 c.destroy();
+                ad.set('_delete_creatives', delete_creatives);
               });
             }
             ad.set('size', revised_value);
           });
           break;  
         case 'volume':
-          var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+          var val = parseInt(String(revised_value).replace(/,|\./g, ''));
           _.each(self.model.ads, function(ad) {
-            ad.set('volume', ad.get('volume') * ratio);
+            ad.set('volume', val);
           });
           break;
         case 'rate':
@@ -1166,9 +1170,6 @@
       var data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name);
       if(attr_name == 'ad_sizes') {
         $editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
-        this.model.attributes['revised_removed_ad_sizes'] = null;
-        this.model.attributes['revised_added_ad_sizes'] = null;
-        this.model.attributes['revised_common_ad_sizes'] = null;
 
         // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
         if(this.model.get('creatives')) {
@@ -1190,6 +1191,9 @@
           });
           self.renderCreatives();
         }
+        this.model.attributes['revised_removed_ad_sizes'] = null;
+        this.model.attributes['revised_added_ad_sizes'] = null;
+        this.model.attributes['revised_common_ad_sizes'] = null;
       }
       $editable.filter('[data-name="'+data_attr+'"]').addClass('revision').text(revised_value);
 
@@ -1198,6 +1202,7 @@
       this._checkRevisedStatus();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
+      this._updateCreativesCaption();
       $target_parent.remove();
     },
 
