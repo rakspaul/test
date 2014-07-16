@@ -148,7 +148,7 @@
       });
 
       this.ui.zone_input.on('typeahead:selected', function(ev, el) {
-        if(el.name != 'Zone not found'){
+        if(el.z_site != 'Zone not found'){
           self._updateZoneName();
         }
         else{
