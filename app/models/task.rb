@@ -129,6 +129,6 @@ class Task < ActiveRecord::Base
   end
 
   def set_defaults
-    self.important = (self.important.nil? ? "false" : "true")
+    self.important = "false" if self.important.nil?
   end
 end

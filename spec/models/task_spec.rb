@@ -60,4 +60,22 @@ describe Task do
       task.task_state.should == Task::TaskState::OPEN
     end
   end
+
+  describe "urgent" do
+    it "should consider important with null value as false" do
+      task = FactoryGirl.create(:task, :important => nil)
+      task.reload
+      task.important.should be_false
+    end
+
+    it "should store important" do
+      task = FactoryGirl.create(:task, :important => "false")
+      task.reload
+      task.important.should be_false
+
+      task1 = FactoryGirl.create(:task, :important => "true")
+      task1.reload
+      task1.important.should be_true
+    end
+  end
 end
