@@ -6,6 +6,24 @@
     tagName: 'div',
     className: 'lineitem pure-g',
 
+    ui: {
+      targeting: '.targeting-container',
+      creatives_container: '.creatives-list-view',
+      creatives_content: '.creatives-content',
+      lineitem_sizes: '.lineitem-sizes'
+    },
+
+    events: {
+      'click .toggle-creatives-btn': '_toggleCreativesDialog'
+    },
+
+    templateHelpers:{
+      lineitemStatusClass: function(){
+        if(this.lineitem.li_status)
+          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
+      }
+    },
+
     getTemplate: function() {
       return JST['templates/lineitems/basic/line_item_row'];
     },
@@ -19,15 +37,6 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type'), keyvalue_targeting: this.model.get('keyvalue_targeting')});
         this.model.set({ 'targeting': targeting }, { silent: true });
       }
-    },
-
-    _recalculateMediaCost: function() {
-      var imps = parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
-      var cpm  = parseFloat(this.model.get('rate'));
-      var media_cost = (imps * cpm) / 1000.0;
-      this.model.set('value', media_cost);
-      var $li_media_cost = this.$el.find('.pure-u-1-12.media-cost .number-value span');
-      $($li_media_cost[0]).html(accounting.formatMoney(media_cost, ''));
     },
 
     // after start/end date changed LI is rerendered, so render linked Ads also
@@ -89,24 +98,12 @@
       }
     },
 
-    ui: {
-      targeting: '.targeting-container',
-      creatives_container: '.creatives-list-view',
-      creatives_content: '.creatives-content',
-      lineitem_sizes: '.lineitem-sizes'
+    _recalculateMediaCost: function() {
+      var media_cost = (this.model.getImps() * this.model.getCpm()) / 1000.0 ;
+      this.model.set('value', media_cost);
+      this.ui.media_cost.html(accounting.formatMoney(media_cost, ''));
+      this.recalculateUnallocatedImps();
     },
-
-    events: {
-      'click .toggle-creatives-btn': '_toggleCreativesDialog'
-    },
-
-    templateHelpers:{
-      lineitemStatusClass: function(){
-        if(this.lineitem.li_status)
-          return "lineitem-status-"+this.lineitem.li_status.toLowerCase().split(' ').join('-');
-      }
-    }
-
   });
 
 
