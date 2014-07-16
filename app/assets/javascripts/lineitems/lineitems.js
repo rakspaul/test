@@ -1012,12 +1012,20 @@
                 _.map(self.model.get('creatives').models, function(c) {
                   if(c.get('added_with_revision')) {
                     c.attributes['added_with_revision'] = null;
-                    self.renderCreatives();
-                  } else if(c.get('removed_with_revision')) {
-                    c.destroy();
-                    self.renderCreatives();
                   }
                 });
+                var creatives_to_delete = _.select(self.model.get('creatives').models, function(c) {
+                  if(c.get('removed_with_revision')) {
+                    return c;
+                  }
+                });
+                _.each(creatives_to_delete, function(c) { 
+                  var delete_creatives = _.clone(self.model.get('_delete_creatives'));
+                  delete_creatives.push(c.get('id'));
+                  self.model.set('_delete_creatives', delete_creatives);
+                  c.destroy();
+                });
+                self.renderCreatives();
               }
               break;
           }
@@ -1078,9 +1086,18 @@
               _.map(ad.get('creatives').models, function(c) {
                 if(c.get('added_with_revision')) {
                   c.attributes['added_with_revision'] = null;
-                } else if(c.get('removed_with_revision')) {
-                  c.destroy();
                 }
+              });
+              var creatives_to_delete = _.select(ad.get('creatives').models, function(c) {
+                if(c.get('removed_with_revision')) {
+                  return c;
+                }
+              });
+              _.each(creatives_to_delete, function(c) { 
+                var delete_creatives = _.clone(ad.get('_delete_creatives'));
+                delete_creatives.push(c.get('id'));
+                ad.set('_delete_creatives', delete_creatives);
+                c.destroy();
               });
             }
             ad.set('size', revised_value);
@@ -1155,15 +1172,23 @@
 
         // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
         if(this.model.get('creatives')) {
-          _.map(this.model.get('creatives').models, function(c) {
+          _.each(this.model.get('creatives').models, function(c) {
             if(c.get('added_with_revision')) {
-              c.set('added_with_revision', null);
-              self.renderCreatives();
-            } else if(c.get('removed_with_revision')) {
-              c.destroy();
-              self.renderCreatives();
+              c.attributes['added_with_revision'] = null;
             }
           });
+          var creatives_to_delete = _.select(this.model.get('creatives').models, function(c) {
+            if(c.get('removed_with_revision')) {
+              return c;
+            }
+          });
+          _.each(creatives_to_delete, function(c) { 
+            var delete_creatives = _.clone(self.model.get('_delete_creatives'));
+            delete_creatives.push(c.get('id'));
+            self.model.set('_delete_creatives', delete_creatives);
+            c.destroy();
+          });
+          self.renderCreatives();
         }
       }
       $editable.filter('[data-name="'+data_attr+'"]').addClass('revision').text(revised_value);
