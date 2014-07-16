@@ -608,29 +608,6 @@
           });
         }
       }
-
-      // collect an array of ad_sizes attributes of added creatives to know the number of them
-      var already_created_from_revision = _.compact(_.map(view.model.get('creatives').models, function(c) {
-        if(c.get('added_with_revision')) {
-          return c.get('ad_size');
-        }
-      }));
-
-      // if there are added ad_sizes in uploaded revision => add creative
-      if(this.model.get('revised_added_ad_sizes')) {
-        _.each(this.model.get('revised_added_ad_sizes'), function(ad_size) {
-          // if there are no such creative added yet
-          if(already_created_from_revision.length == 0) {
-            // then create one
-            var creative = new ReachUI.Creatives.Creative({
-              'ad_size': ad_size,
-              'order_id': view.model.get('order_id'),
-              'added_with_revision': true,
-              'lineitem_id': view.model.get('id')}, { silent: true });
-            view.model.get('creatives').add(creative);
-          }
-        });
-      }
     },
 
     // method trigger change event to process contenteditable element by stickit

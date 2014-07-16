@@ -384,16 +384,21 @@
 
       // if there are added ad_sizes in uploaded revision => add creative
       if(li_view.model.get('revised_added_ad_sizes')) {
-        _.each(li_view.model.get('revised_added_ad_sizes'), function(ad_size) {
+        _.each(li_view.model.get('creatives').models, function(c) {
           // if there are no such creative added yet
           if(already_created_from_revision.length == 0) {
-            // then create one
-            var creative = new ReachUI.Creatives.Creative({
-              'ad_size': ad_size,
-              'order_id': li_view.model.get('order_id'),
-              'added_with_revision': true,
-              'lineitem_id': li_view.model.get('id')}, { silent: true });
-            ad_view.model.get('creatives').add(creative);
+            // then create one if this creative was added in revision
+            if(c.get('added_with_revision')) {
+              var creative = new ReachUI.Creatives.Creative({
+                'ad_size': c.get('ad_size'),
+                'order_id': li_view.model.get('order_id'),
+                'added_with_revision': true,
+                'client_ad_id': c.get('client_ad_id'),
+                'creative_type': c.get('creative_type'),
+                'redirect_url': c.get('redirect_url'),
+                'lineitem_id': li_view.model.get('id')}, { silent: true });
+              ad_view.model.get('creatives').add(creative);
+            }
           }
         });
       }

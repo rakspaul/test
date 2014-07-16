@@ -39,6 +39,7 @@ class IoImport
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
       @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
+      @existing_creatives = @existing_order.lineitems.collect{|li| li.creatives + li.video_creatives}.flatten
       @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
       @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
@@ -72,6 +73,20 @@ class IoImport
       @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
     else
       @lineitems
+    end
+  end
+
+  def new_and_revised_creatives
+    if @is_existing_order
+      creatives_count = @existing_creatives.count
+      # old creatives + new ones from revised IO
+      if @inreds[creatives_count..-1]
+        @existing_creatives + @inreds[creatives_count..-1].map{|c| c[:added_with_revision] = true; c}
+      else
+        @existing_creatives
+      end
+    else
+      @inreds
     end
   end
 
