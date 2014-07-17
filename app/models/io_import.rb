@@ -78,13 +78,17 @@ class IoImport
 
   def new_and_revised_creatives
     if @is_existing_order
-      creatives_count = @existing_creatives.count
-      # old creatives + new ones from revised IO
-      if @inreds[creatives_count..-1]
-        @existing_creatives + @inreds[creatives_count..-1].map{|c| c[:added_with_revision] = true; c}
-      else
-        @existing_creatives
+      ad_ids = @existing_creatives.map(&:client_ad_id).map(&:to_i)
+      ad_sizes = @existing_creatives.map(&:size)
+      new_creatives = []
+
+      @inreds.each do |new_creative|
+        if !ad_ids.include?(new_creative[:ad_id]) || !ad_sizes.include?(new_creative[:ad_size])
+          new_creatives << new_creative
+        end
       end
+
+      @existing_creatives + new_creatives.map{|c| c[:added_with_revision] = true; c}
     else
       @inreds
     end

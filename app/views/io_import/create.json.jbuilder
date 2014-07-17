@@ -81,6 +81,7 @@ json.order do
 end
 
 json.lineitems do
+  i = 0
   json.array! @io_import.new_and_revised_lineitems do |lineitem|
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
@@ -88,7 +89,7 @@ json.lineitems do
       li_creatives = if lineitem.id && @io_import.is_existing_order # means old LI => get old creatives
         @io_import.new_and_revised_creatives.select do |ir|
           if ir[:added_with_revision]
-            ir[:placement] == lineitem.name
+            ir[:placement] == lineitem.name || ir[:placement] == @io_import.revisions[i][:name]
           elsif ir.class == Creative
             (lineitem.creatives+lineitem.video_creatives).detect{|c| c == ir}
           end
@@ -109,5 +110,6 @@ json.lineitems do
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
     end
+    i += 1
   end
 end
