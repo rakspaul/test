@@ -409,7 +409,7 @@ private
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
       :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
-      :master_ad_size, :companion_ad_size].each do |param|
+      :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
       end
 
@@ -533,7 +533,6 @@ private
 
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
-          ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -709,7 +708,6 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
-          ad_object.ad_type   = ([ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD')
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id

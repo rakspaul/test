@@ -82,17 +82,17 @@ ReachUI.showCondensedTargetingOptions = function() {
 
   var geos = targeting.attributes.selected_geos;
   if(geos.length > 0) {
-    targeting_options.push('<div class="dma-targeting-icon pull-left" title="GEOs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(geos, "title"), '</div>');
+    targeting_options.push('<div class="dma-targeting-icon" title="GEOs"></div>', '<div class="targeting-options">', ReachUI.truncateArray(geos, "title"), '</div>');
   }
 
   var zips = targeting.attributes.selected_zip_codes;
   if(zips.length > 0) {
-    targeting_options.push('<div class="zip-codes-icon pull-left" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
+    targeting_options.push('<div class="zip-codes-icon" title="Zip codes"></div>', '<div class="targeting-options">', ReachUI.truncateArray(zips), '</div>');
   }
 
   var key_values = targeting.attributes.selected_key_values;
   if(key_values.length > 0) {
-    targeting_options.push('<div class="account-contact-icon pull-left" title="Key Value Targeting"></div>');
+    targeting_options.push('<div class="account-contact-icon" title="Key Value Targeting"></div>');
     targeting_options.push('<div class="targeting-options">');
     targeting_options.push(ReachUI.truncateArray(key_values, "title"));
     targeting_options.push('</div>');
@@ -301,6 +301,12 @@ ReachUI.pasteTargeting = function(e, scope) {
       }
       itemTargeting.set(targeting, { silent: true });
 
+      item.renderTargetingDialog();
+      if (type == 'ad') {
+        ReachUI.showCondensedTargetingOptions.apply(item);
+        item.toggleMissingGeoCaution();
+      }
+
       item.$el.find('.targeting_options_condensed').eq(0).find('.targeting-options').addClass('highlighted');
     });
   });
@@ -357,11 +363,6 @@ ReachUI.deselectAllItems = function(options, scope) {
         item.ui.item_selection.removeClass('selected');
         if (!options || !options['multi']) {
           _.each([ item.ui.copy_targeting_btn, item.ui.paste_targeting_btn, item.ui.cancel_targeting_btn ], function(el) { el.hide(); });
-        }
-        item.renderTargetingDialog();
-        if (type == 'ad') {
-          ReachUI.showCondensedTargetingOptions.apply(item);
-          item.toggleMissingGeoCaution();
         }
       }
     });
