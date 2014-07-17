@@ -128,6 +128,7 @@ textarea {
 
       .activity-comment {
         margin-top: 5px;
+        word-wrap: break-word;
       }
 
       .activity-log-subrow {
@@ -439,6 +440,7 @@ $border-breaker-width: 10px;
 
   .task-comment-container {
     margin-top: 5px;
+    word-wrap: break-word;
 
     .username {
       padding-right: 10px;

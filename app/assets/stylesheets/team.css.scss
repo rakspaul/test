@@ -5,14 +5,6 @@ h2.team-name {
   color: $rui-heading-text-color;
 }
 
-#teamSwitcher {
-  margin-left: 15px;
-  display: inline-block;
-  cursor: pointer;
-  color: $text_color;
-  font-size: 13px;
-}
-
 #taskListFilter {
   list-style-type: none;
   font-size: 20px;
@@ -115,6 +107,11 @@ h2.team-name {
     margin-bottom: 0;
   }
 
+  textarea {
+    background-color: transparent;
+    height: 20px;
+  }
+
   .main-controls-container {
     margin: 10px 0;
     padding: 15px;
@@ -124,11 +121,6 @@ h2.team-name {
       color: $rui-heading-text-color;
     }
   }
-}
-
-textarea {
-  background-color: transparent;
-  height: 20px;
 }
 
 tbody.team-task-list-grid {
@@ -171,10 +163,43 @@ tbody.team-members-task-list-grid {
   }
 }
 
-
+// fix background when 'typeahead' control is inside element with colored background
 [class$=-order-name] {
   .twitter-typeahead {
     background-color: #fff;
+  }
+}
+
+// Customization for the team switch
+#teamSwitch {
+  margin-left: 15px;
+  display: inline-block;
+  cursor: pointer;
+  color: $text_color;
+  font-size: 13px;
+  border-bottom: 1px dashed $border_color;
+  padding: 2px 0;
+  outline: none;
+
+  .text > a {
+    text-decoration: none;
+  }
+
+  // NOTE: We are not precise in css selectors here, thus have to use !important to overwrite ui's styles
+  .menu {
+    font-size: 12px;
+    .item {
+      padding: 6px 10px !important;
+      border: 0 none;
+      &.active {
+        background-color: darken($rui-option-hover-bg, 10%) !important;
+        color: $rui-option-active-text !important;
+      }
+      &.selected, &:hover {
+        color: $rui-option-active-text !important;
+        background-color: $rui-option-hover-bg !important;
+      }
+    }
   }
 }
 

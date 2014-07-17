@@ -28,6 +28,7 @@
 @import "twitter/bootstrap-no-sprites";
 @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.0/css/font-awesome.min.css);
 @import "compass/css3/hyphenation";
+@import "semantic-dropdown.css.scss";
 @import "variables.css.scss";
 @import "_mixins.css.scss";
 @import "bootstrap_override.css.scss";
@@ -194,7 +195,7 @@ button.rui-btn {
   vertical-align: middle;
   margin: 0;
   border: 0 none;
-  background-color: $btn-bg;
+  background-color: transparent;
   padding: 2px 5px 3px;
   box-sizing: border-box;
 
