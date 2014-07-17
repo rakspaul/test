@@ -212,6 +212,7 @@
             _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
               var changes = self.model.attributes.revision_changes[li_id][attr_name];
               if(changes && changes['accepted']) {
+                li.attributes[att_name] = changes['was'];
                 $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .editable').first().html(changes['was']).removeClass('revision'); //editable('setValue', changes['was'])
                 $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .last-revision').html('');
               }
@@ -219,17 +220,6 @@
           }
         });
 
-        /*_.each(this.model.get('last_revision'), function(revision, li_id) {
-          var li = _.detect(self.model.lineItemList.models, function(model) { if(model.id == li_id) { return model; }});
-          _.each(revision, function(changes, attr) {
-            if(changes['accepted']) {
-              changes_log.push(attr + " " + li.attributes[attr] + "->" + changes['was']);
-              li.attributes[attr] = changes['was'];
-              $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr)+' .editable').first().html(changes['was']).editable('setValue', changes['was']).removeClass('revision');
-              $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr)+' .last-revision').html('');
-            }
-          });
-        });*/
         self.model.attributes['cancel_last_revision'] = true;
         self.model.attributes['last_revision'] = {};
         EventsBus.trigger('lineitem:logRevision', "Cancelled last revision. Changes: "+changes_log.join(', '));
