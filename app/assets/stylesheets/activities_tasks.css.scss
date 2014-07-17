@@ -479,7 +479,9 @@ $border-breaker-width: 10px;
     width: 130px;
     .selectize-input.items.has-items {
       .item {
-        width: 110px;
+        float: left;
+        width: 100px;
+        overflow-x: hidden;
         text-overflow: ellipsis;
       }
     }
@@ -501,6 +503,14 @@ $border-breaker-width: 10px;
   .form-control-group > button {
     padding: 2px 8px 3px;
     margin-right: 6px;
+  }
+}
+
+.task-type {
+  button {
+    .filter-option {
+      margin-left: 5px;
+    }
   }
 }
 

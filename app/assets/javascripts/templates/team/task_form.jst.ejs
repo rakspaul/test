@@ -37,7 +37,7 @@
     <div class="pure-g-r">
       <div class="pure-u-1-5"><!--Just a spacer --></div>
       <div class="pure-u-1-4">
-        <div class="form-control-group">
+        <div class="form-control-group task-type">
           <i class="task_open-icon"></i>
           <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
             <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="pure-u-1-4">
-        <div class="form-control-group">
+        <div class="form-control-group assignable-name">
           <i class="user-icon"></i>
           <select id="task-assignee-selector"></select>
         </div>

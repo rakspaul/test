@@ -64,7 +64,7 @@
             <button id="btnSaveAlert" class="rui-btn <%= important ? 'active' : ''%>" title="Mark Task as important">
               <i class="alert-icon"></i>
             </button>
-            <div class="form-control-group">
+            <div class="form-control-group task-type">
               <i class="task_open-icon"></i>
               <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
                 <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
@@ -72,7 +72,7 @@
                 <%}); %>
               </select>
             </div>
-            <div class="form-control-group">
+            <div class="form-control-group assignable-name">
               <i class="user-icon"></i>
               <select id="task-assignee-selector"></select>
             </div>
