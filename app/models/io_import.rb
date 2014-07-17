@@ -69,7 +69,11 @@ class IoImport
     if @is_existing_order
       li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
+      if !@lineitems[li_count..-1].blank?
+        @existing_lineitems + @lineitems[li_count..-1].compact.map{|li| li.revised = true; li}
+      else
+        @existing_lineitems
+      end
     else
       @lineitems
     end
@@ -164,6 +168,8 @@ class IoImport
 
       @existing_lineitems.each_with_index do |existing_li, index|
         local_revisions = {}
+
+        next if @lineitems[index].blank?
 
         if (@lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s) && !@lineitems[index][:start_date].blank?
           local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s

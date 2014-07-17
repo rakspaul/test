@@ -210,11 +210,13 @@
           // if there is newly created LI (from revision for example) then li_id will be null
           if(li_id) {
             _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
-              var changes = self.model.attributes.revision_changes[li_id][attr_name];
-              if(changes && changes['accepted']) {
-                li.attributes[attr_name] = changes['was'];
-                $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .editable').first().html(changes['was']).removeClass('revision'); //editable('setValue', changes['was'])
-                $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .last-revision').html('');
+              if(self.model.attributes.revision_changes[li_id]) { // there could be no changes for existing LI
+                var changes = self.model.attributes.revision_changes[li_id][attr_name];
+                if(changes && changes['accepted']) {
+                  li.attributes[attr_name] = changes['was'];
+                  $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .editable').first().html(changes['was']).removeClass('revision'); //editable('setValue', changes['was'])
+                  $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .last-revision').html('');
+                }
               }
             });
           }
