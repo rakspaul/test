@@ -1,6 +1,6 @@
 ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachActivityTaskApp, Backbone, Marionette, $, _) {
 
-  Task.name = "task";
+  var ACTIVITY_TYPE_TASK = "task";
 
   Task.FormView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/team/task_form'],
@@ -38,24 +38,25 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       var optList = [];
       var taskType = this.ui.taskTypeSelector.val();
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: +taskType});
-      var default_team_name = thisTaskType.get('default_assignee_team');
-      var default_team_id = thisTaskType.get('default_assignee_id');
-      var default_assignee_id = thisTaskType.get('default_assignee_user_id');
-      var default_assignee = thisTaskType.get('default_assignee_user');
+      var defaultTeamName = thisTaskType.get('default_assignee_team');
+      var defaultTeamId = thisTaskType.get('default_assignee_id');
+      var defaultAssigneeId = thisTaskType.get('default_assignee_user_id');
+      var defaultAssignee = thisTaskType.get('default_assignee_user');
 
       // Add default user
-      if ( default_assignee  && default_assignee_id ) {
-        optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
+      if ( defaultAssignee  && defaultAssigneeId ) {
+        optList.push({ id: defaultAssigneeId, name: defaultAssignee, group: 'default_user' })
       }
 
       // Add default team
-      if ( default_team_id && default_team_name )
-        optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
+      if ( defaultTeamId && defaultTeamName ) {
+        optList.push({ id: defaultTeamId, name: defaultTeamName, group: 'team' });
+      }
 
       // Add members of team
       _.each(thisTaskType.get('users'), function(member) {
         // Add if the user is not the default assignee
-        if (member.id != default_assignee_id)
+        if (member.id != defaultAssigneeId)
           optList.push({ id: member.id, name: member.name, group: 'team_users' });
       });
 
@@ -63,14 +64,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
     },
 
     onRender: function() {
-      this.model.set('errors', undefined);
-
-      this.ui.btnSaveTaskComment.toggleClass("active", this.model.get("note").length > 0);
-
       this.ui.taskTypeSelector.selectpicker();
 
       // Initialize and set order selector
-      Task.orderSelector = this.ui.taskOrderSelector.selectize({
+      var orderSelector = this.ui.taskOrderSelector.selectize({
                               valueField: 'id',
                               labelField: 'name',
                               searchField: 'name',
@@ -90,22 +87,22 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
                                     callback();
                                   },
                                   success: function (res) {
-                                    var all_orders = [];
+                                    var allOrders = [];
 
                                     if (res !== 'undefined') {
                                       for (var i = 0; i < res.length; i++) {
-                                        all_orders.push({ id: res[i].id, name: res[i].name });
+                                        allOrders.push({ id: res[i].id, name: res[i].name });
                                       }
                                     }
 
-                                    callback(all_orders);
+                                    callback(allOrders);
                                   }
                                 });
                               }
                             });
 
       // Initialize and populate the assignee selector
-      Task.assigneeSelector = this.ui.taskAssigneeSelector.selectize({
+      this.assigneeSelector = this.ui.taskAssigneeSelector.selectize({
                                     valueField: 'id',
                                     labelField: 'name',
                                     searchField: 'name',
@@ -133,15 +130,15 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
                                           callback();
                                         },
                                         success: function (res) {
-                                          var all_users = [];
+                                          var allUsers = [];
 
                                           if (res !== 'undefined') {
                                             for (var i = 0; i < res.length; i++) {
-                                              all_users.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                                              allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
                                             }
                                           }
 
-                                          callback(all_users);
+                                          callback(allUsers);
                                         }
                                       });
                                     }
@@ -152,7 +149,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       var assignee_id = thisTaskType.get('default_assignee_user_id') ?
           thisTaskType.get('default_assignee_user_id') :
           thisTaskType.get('default_assignee_id');
-      Task.assigneeSelector[0].selectize.setValue(assignee_id);
+      this.assigneeSelector[0].selectize.setValue(assignee_id);
       this.model.set('assigned_by_id', assignee_id);
       this.model.set('due_date', thisTaskType.get('default_due_date'));
 
@@ -165,11 +162,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
     },
 
     onTaskTypeChanged: function (e) {
-      this.updateAssigneeSelector(this);
+      this.updateAssigneeSelector();
     },
 
-    updateAssigneeSelector: function(self) {
-      var currentTaskTypeId = parseInt(self.ui.taskTypeSelector.val());
+    updateAssigneeSelector: function() {
+      var currentTaskTypeId = parseInt(this.ui.taskTypeSelector.val());
 
       // Dont do anything if 1. val is NaN 2. val is same as in model
       if (isNaN(currentTaskTypeId)) {
@@ -182,16 +179,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       var currentAssigneeId = currentTaskType.get('default_assignee_user_id') ?
           currentTaskType.get('default_assignee_user_id') :
           currentTaskType.get('default_assignee_id');
-      self.model.set('assignable_id', currentAssigneeId);
-      self.model.set('assignable_name', currentTaskType.get('default_assignee_team'));
-      self.model.set('assignable_type', 'Team');
-      self.model.set('task_type_id', currentTaskTypeId);
-      self.model.set('due_date', currentTaskType.get('default_due_date'));
+      this.model.set('assignable_id', currentAssigneeId);
+      this.model.set('assignable_name', currentTaskType.get('default_assignee_team'));
+      this.model.set('assignable_type', 'Team');
+      this.model.set('task_type_id', currentTaskTypeId);
+      this.model.set('due_date', currentTaskType.get('default_due_date'));
 
       // Update the assignee selector
-      var assigneeList = self.defaultOptionsList();
+      var assigneeList = this.defaultOptionsList();
 
-      var control = Task.assigneeSelector[0].selectize;
+      var control = this.assigneeSelector[0].selectize;
       // Assign the new list to assignee selector
       control.clearOptions();
       for (var i = 0; i < assigneeList.length; i++) {
@@ -203,7 +200,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       }
 
       // Update the due date field as well
-      self.ui.dueDate.val(self.model.get('due_date'));
+      this.ui.dueDate.val(this.model.get('due_date'));
     },
 
     onTaskOrderChanged: function(e) {
@@ -234,7 +231,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
           ReachActivityTaskApp.taskTypes = taskTypes.models;
 
           // Update the assignee drop down to reflect the selection of order
-          self.updateAssigneeSelector(self);
+          self.updateAssigneeSelector();
         });
       }
     },
@@ -289,14 +286,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       }).success(this._resetAttachmentContainer);
     },
 
-    _resetAttachmentContainer: function () {
-      this.ui.attachmentFileName.attr('href', '');
-      this.ui.attachmentFileName.text('');
-      this.ui.attachmentFileNameContainer.hide();
-      this.ui.attachmentFileUploader.removeClass("active");
-      this.model.set('activity_attachment_id', undefined);
-    },
-
     markAsImportant: function (e) {
       e.preventDefault();
       this.ui.btnMarkImportant.toggleClass('active');
@@ -318,18 +307,16 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
       }
 
       commentText = commentText.replace(/\n/gm, "<br/>");
-      this.model.set('activity_type', Task.name);
-
+      this.model.set('activity_type', ACTIVITY_TYPE_TASK);
       this.model.set('note', commentText);
+      this.model.set('due_date', this.ui.dueDate.val());
       this.model.set('task_type_id', this.ui.taskTypeSelector.val());
       this.model.set('assigned_by_id', this.ui.taskAssigneeSelector.val());
 
       // User or Team?
-      var selectedOption = _.findWhere(Task.assigneeSelector[0].selectize.options,
+      var selectedOption = _.findWhere(this.assigneeSelector[0].selectize.options,
           {id: parseInt(this.ui.taskAssigneeSelector.val())});
-      var group = 'User';
-      if (selectedOption)
-        group = selectedOption.group == 'team' ? 'Team' : 'User';
+      var group = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
       this.model.set('assignable_type', group);
 
       var self = this;
@@ -340,28 +327,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
         error: function (model, response) {
           if (response.status == 400) {
             //validation error
-            self.model.set('errors', response.responseJSON.message);
-            self.render();
+            var errors = response.responseJSON.message;
+            self.ui.taskComment.siblings('.errors_container').html(errors.name[0]);
           }
         }
       })
     },
 
     resetFormControls: function () {
-      this.resetTextArea();
-      this._resetAttachmentContainer();
-      this.ui.btnSaveTaskComment.removeClass("active");
       ReachActivityTaskApp.order = {};
-      Task.orderSelector[0].selectize.setValue();
-      this.ui.btnMarkImportant.removeClass('active');
-      this.ui.dueDateText.hide();
-      this.ui.dueDate.show();
-    },
-
-    resetTextArea: function () {
-      this.ui.taskComment.val('');
-      this.ui.taskComment.animate({height: TEXTAREA_DEFAULT_HEIGHT + "px"}, "fast");
-      this.ui.taskComment.siblings('.errors_container').html('');
+      this.model = new ReachActivityTaskApp.Entities.Task();
+      this.render();
     },
 
     _resetAttachmentContainer: function () {
