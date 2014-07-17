@@ -512,9 +512,9 @@
         var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
         var self = this;
         _.each(li_changes, function(changes, attr) {
-          if(changes['accepted']) {
+          if(!changes['accepted']) {
             self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
-            self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['was']);
+            self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['proposed']);
           }
         });
       }
@@ -1086,9 +1086,14 @@
     _removeAndHideAllRevisions: function(e) {
       e.stopPropagation();
 
-      var self = this;
+      var self = this, li_id = this.model.get('id');
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         self.model.attributes['revised_'+attr_name] = null;
+
+        if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
+          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = false;
+          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
+        }
       });
 
       this.$el.find('.revised-dialog').remove();
@@ -1171,11 +1176,17 @@
     },
 
     _declineRevision: function(e) {
-      var $target_parent = $(e.currentTarget).parent();
-      var attr_name = $(e.currentTarget).data('name');
+      var $target_parent = $(e.currentTarget).parent(),
+          attr_name = $(e.currentTarget).data('name'),
+          li_id = this.model.get('id');
 
       this.model.attributes['revised_'+attr_name] = null;
       this._checkRevisedStatus();
+
+      if(this.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
+        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = false;
+        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
+      }
 
       $target_parent.siblings('.revision').hide();
       $target_parent.remove();

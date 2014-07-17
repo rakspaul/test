@@ -31,6 +31,16 @@ json.order do
     end
   end
 
+  if @io_import.is_existing_order
+    json.io_revised do
+      json.array! @io_import.existing_order.io_assets.io_revised do |io|
+        json.asset_id io.id
+        json.original_filename io.try(:asset_upload_name)
+        json.asset_created_at format_datetime(io.created_at)
+      end
+    end
+  end
+
   json.notes do
     if @io_import.is_existing_order
       json.array! @io_import.existing_order.order_notes.includes(:user) do |note|
