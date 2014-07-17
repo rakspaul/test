@@ -17,6 +17,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     },
 
     onTaskView: function(e) {
+      if($(e.target).data('order-name-link')) {
+        return;
+      }
       // This piece of logic helps in not refreshing continually task details region
       // when click happens on the same task or details region.
       // On close of the task details region, the value will be undefined for the current task id.

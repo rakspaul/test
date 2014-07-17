@@ -33,7 +33,7 @@
     </div>
     <% if(order_name) { %>
       <div class="pure-u-1-4 text-left">
-        <a href="/orders/<%= order_id %>"><%= order_name%></a>
+        <a href="/orders/<%= order_id %>" data-order-name-link="true"><%= order_name%></a>
       </div>
     <% } else { %>
       <div class="pure-u-1-4 text-left">
