@@ -1194,6 +1194,7 @@
         this.model.attributes['revised_removed_ad_sizes'] = null;
         this.model.attributes['revised_added_ad_sizes'] = null;
         this.model.attributes['revised_common_ad_sizes'] = null;
+        this.render();
 
         // need to remove striked-through from creatives and remove added creatives
         if(this.model.get('creatives')) {
