@@ -986,6 +986,10 @@ $wide_input_width: 320px;
       .twitter-typeahead{
         width:100%;
         margin-left:10px;
+
+        input{
+          width:75%;
+        }
       }
     }
   }

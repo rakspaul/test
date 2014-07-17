@@ -47,7 +47,7 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :countries, join_table: :ad_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
-  has_one :ad_zone
+  has_one :ad_zone, dependent: :destroy
   has_one :zone, through: :ad_zone
 
   accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
