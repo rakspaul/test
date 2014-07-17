@@ -107,6 +107,11 @@ h2.team-name {
     margin-bottom: 0;
   }
 
+  textarea {
+    background-color: transparent;
+    height: 20px;
+  }
+
   .main-controls-container {
     margin: 10px 0;
     padding: 15px;
@@ -116,11 +121,6 @@ h2.team-name {
       color: $rui-heading-text-color;
     }
   }
-}
-
-textarea {
-  background-color: transparent;
-  height: 20px;
 }
 
 tbody.team-task-list-grid {
