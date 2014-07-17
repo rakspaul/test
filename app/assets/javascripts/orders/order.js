@@ -212,7 +212,7 @@
             _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
               var changes = self.model.attributes.revision_changes[li_id][attr_name];
               if(changes && changes['accepted']) {
-                li.attributes[att_name] = changes['was'];
+                li.attributes[attr_name] = changes['was'];
                 $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .editable').first().html(changes['was']).removeClass('revision'); //editable('setValue', changes['was'])
                 $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .last-revision').html('');
               }
