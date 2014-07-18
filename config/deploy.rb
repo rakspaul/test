@@ -95,8 +95,7 @@ namespace :deploy do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
 
     attachments_path = '/private/uploads/reach/activity/attachments'
-    run %Q(mkdir -p #{shared_path}#{attachments_path}
-          && ln -nfs #{shared_path}#{attachments_path} #{current_release}#{attachments_path})
+    run %Q(mkdir -p #{shared_path}#{attachments_path} && ln -nfs #{shared_path}#{attachments_path} #{current_release}#{attachments_path})
 
   end
 
