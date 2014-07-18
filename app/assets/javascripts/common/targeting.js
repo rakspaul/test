@@ -133,15 +133,6 @@
         name: 'z_site',
         remote: {
           url: '/zones/search.json?search=%QUERY',
-          filter: function(parsedResponse){
-            if(parsedResponse.length == 0){
-              parsedResponse.push({
-                z_site: "Zone not found"
-              });
-            }
-
-            return parsedResponse;
-          }
         },
         valueKey: 'z_site',
         limit: 100

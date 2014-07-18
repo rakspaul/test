@@ -729,7 +729,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           keyName = platform ? platform.get('key_name') : null;
 
       var advertiserName = lineItemList.order.get('advertiser_name');
-      var zoneName = advertiserName.split(' ').join('').toLowerCase()+'_'+ReachUI.getGUID();
+      var zoneName = advertiserName.replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '').toLowerCase()+'_'+ReachUI.getGUID();
       var zoneKeyName = keyName+'/'+zoneName;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
