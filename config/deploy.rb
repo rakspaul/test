@@ -93,6 +93,11 @@ end
 namespace :deploy do
   task :file_store_symlink do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
+
+    attachments_path = '/private/uploads/reach/activity/attachments'
+    run %Q(mkdir -p #{shared_path}#{attachments_path}
+          && ln -nfs #{shared_path}#{attachments_path} #{current_release}#{attachments_path})
+
   end
 
   task :copy_rabbitmq_config do
