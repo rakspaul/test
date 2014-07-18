@@ -42,7 +42,6 @@ describe Ad do
 
       ad.should_receive(:move_end_date_time)
       ad.should_receive(:set_data_source)
-      ad.should_receive(:set_type_params)
       ad.should_receive(:set_default_status)
 
       ad.run_callbacks(:save) { false }
