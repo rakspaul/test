@@ -190,7 +190,6 @@
     if (!#{@agency_user}){
       var controller = new ReachUI.Orders.OrderController();
       ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
-      ReachActivityTaskApp.start({startedAt: "order_list"});
     }
 
     $('body').tooltip({

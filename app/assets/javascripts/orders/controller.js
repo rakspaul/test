@@ -22,6 +22,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
+
+    ReachActivityTaskApp.start({startedAt: "order_list"});
   },
 
   newOrder: function() {
@@ -151,7 +153,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       this._showOrderDetailsAndLineItems(this.selectedOrder);
     }
     // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
-    ReachActivityTaskApp.start({startedAt: "order_details",order:this.selectedOrder});
+    ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
   },
 
   newLineItem: function(id) {

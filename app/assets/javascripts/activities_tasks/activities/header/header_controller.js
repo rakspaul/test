@@ -1,11 +1,10 @@
 /**
  * Controller for Header view.
  */
-ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header, ReachActivityTaskApp, Backbone, Marionette, $, _){
+ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header, ReachActivityTaskApp, Backbone, Marionette, $, _) {
 
-  Header.addInitializer(function(){
-    console.log("Tracking Revised IO");
-    EventsBus.bind('lineitem:logRevision', Header.Controller.saveRevisedIOActivity,this);
+  Header.addInitializer(function() {
+    EventsBus.bind('lineitem:logRevision', Header.Controller.saveRevisedIOActivity, this);
   });
 
   Header.Controller = {
@@ -21,11 +20,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
       ReachActivityTaskApp.trigger("activities:list", filters);
     },
 
-    saveRevisedIOActivity:function(activity){
-      var activity_to_save = new ReachActivityTaskApp.Entities.MasterActivity();
-      activity_to_save.set("note",activity);
-      activity_to_save.set("activity_type",Header.ACTIVITY_TYPES.SYSTEM);
-      Header.Controller.saveActivity(activity_to_save);
+    saveRevisedIOActivity:function(note) {
+      var activity = new ReachActivityTaskApp.Entities.Activity();
+      activity.set("note", note);
+      activity.set("activity_type", Header.ACTIVITY_TYPES.SYSTEM);
+      Header.Controller.saveActivity(activity);
     },
 
     //saving activity
