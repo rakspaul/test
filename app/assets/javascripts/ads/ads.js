@@ -259,6 +259,7 @@
     },
 
     onRender: function() {
+      //console.log('on render call');
       var self = this;
       $.fn.editable.defaults.mode = 'popup';
 

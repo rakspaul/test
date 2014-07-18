@@ -37,9 +37,11 @@ Factories.VideoLineitem = BackboneFactory.define('video_lineitem', ReachUI.LineI
 Factories.Ad = BackboneFactory.define('ad', ReachUI.Ads.Ad, function() {
   return {
     name:     'Display ad',
+    start_date: '2013-06-01',
+    end_date:   '2013-06-03',
     volume:   100000,
     rate:     1.9856,
-    ad_sizes: '150x100',
+    size:     '150x100',
     io_lineitem_id: 495,
     type: 'Display',
     creatives: new ReachUI.Creatives.CreativesList(),
