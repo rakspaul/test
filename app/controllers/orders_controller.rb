@@ -192,7 +192,7 @@ class OrdersController < ApplicationController
     if order_param[:cancel_last_revision]
       order_param.delete(:cancel_last_revision)
       if order_param[:order_status] !~ /ready_for_|pushing/
-        io_details.state = 'revisions_proposed'
+        io_details.update_attribute(:state, 'revisions_proposed')
         last_revision = @order.revisions.last
         last_revision.update_attribute('accepted', true) if last_revision
       end
