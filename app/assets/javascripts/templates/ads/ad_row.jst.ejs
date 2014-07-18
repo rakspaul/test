@@ -8,13 +8,13 @@
 
     <div class="pure-u-1-24 ad-name item-selection">
       Ad
+      <% ad_type = _.contains(['display', 'video', 'companion', 'facebook', 'mobile'], ad.type.toLowerCase()) ? ad.type.toLowerCase() : 'display' %>
       <div class="item-icon">
-        <span class="<%=ad.type.toLowerCase() %>-icon centered-icon"></span>
+        <span class="<%= ad_type %>-icon centered-icon"></span>
       </div>
       <% if(ad.platform_id) { %>
         <a href="javascript:void(0)" class="tag-icon" data-toggle="tooltip" data-placement="right" title="<%= ad.platform_name %>"></a>
       <% } %>
-
       <% if(!isNaN(parseInt(ad.source_id))) { %>
         <div class="dfp-success"></div>
       <% } %>
