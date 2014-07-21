@@ -125,7 +125,7 @@
       });
       this.$el.find('.audience-key-values .chosen-choices input').width('200px');
 
-      this._renderFrequencyCaps();
+      this._renderFrequencyCaps({ newView: true });
       this._renderSelectedTargetingOptions();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
@@ -236,7 +236,7 @@
       return null;
     },
 
-    _renderFrequencyCaps: function() {
+    _renderFrequencyCaps: function(options) {
       var frequencyCaps = this.model.get('frequency_caps'),
           collection = frequencyCaps;
       var self = this;
@@ -244,7 +244,7 @@
       if (!frequencyCaps.models) {
         collection = new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps);
       }
-      if (this.frequencyCapListView) {
+      if (this.frequencyCapListView && !(options && options.newView)) {
         this.frequencyCapListView.updateCollection(frequencyCaps);
       } else {
         this.frequencyCapListView = new Targeting.FrequencyCapListView({
@@ -362,13 +362,14 @@
          oldZone = this.model.get('zone'),
          custKV = this.model.get('keyvalue_targeting');
 
-      if(zone && this.isCustomKeyValueValid && this.isZipcodesValid){
+      if (zone && this.isCustomKeyValueValid && this.isZipcodesValid){
         custKV = custKV.replace(oldZone, zone);
-        this.model.attributes.keyvalue_targeting = custKV;
-        this.model.attributes.zone = zone;
         this.reachCustomKeyValues = custKV;
-
-        this._renderSelectedTargetingOptions();
+        this.model.set({
+          keyvalue_targeting: custKV,
+          zone: zone
+        }, { silent: true });
+        this.render();
       }
     },
 
@@ -503,7 +504,6 @@
           $apply_ads_dialog.modal('show');
         } else {
           this._updateZoneName();
-          this.render();
           this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
