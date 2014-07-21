@@ -725,7 +725,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var platform = args.platform;
       var abbr = platform ? platform.get('naming_convention') : null;
       var platformId = platform ? platform.get('id') : null,
-          platformName = platform ? platform.get('name') : null;
+          platformName = platform ? platform.get('name') : null,
+          keyName = platform ? platform.get('key_name') : null;
+
+      var advertiserName = lineItemList.order.get('advertiser_name');
+      var zoneName = advertiserName.replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '').toLowerCase()+'_'+ReachUI.getGUID();
+      var zoneKeyName = keyName+'/'+zoneName;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
       var buffer = 1 + li.get('buffer') / 100;
@@ -740,9 +745,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
         selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
         audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: platform ? platform.get('dfp_key') + '=default' : li.get('targeting').get('keyvalue_targeting'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') +'='+zoneKeyName : li.get('targeting').get('keyvalue_targeting'),
         frequency_caps: platform ? [] : frequencyCaps,
-        type: type
+        type: type,
+        zone: platform ? zoneName : null,
+        key_name: platform ? keyName : null
       });
 
       var creatives = li.get('creatives').models, li_creatives = [];

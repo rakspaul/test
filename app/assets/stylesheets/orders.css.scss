@@ -51,39 +51,36 @@ $text_color: #005c97;
       cursor: pointer;
     }
 
-    .advertiser-name {
-      .tt-dropdown-menu {
-        .tt-suggestions{
-          max-height: 250px;
-          overflow-y: auto;
-          border-bottom:1px solid #ccc;
+    .create-advertiser{
+      text-align:center;
+      padding:5px 0 0;
 
-          .tt-suggestion{
-            line-height:20px;
-            p{
-              height:auto;
-              padding:0px;
-              margin:0px;
-            }
-          }
-        }
-
-        .create-advertiser{
-          text-align:center;
-          padding:5px 0 0;
-
-          .input-append{
-            padding-top:10px;
-            input{
-              width:250px;
-            }
-          }
+      .input-append{
+        padding-top:10px;
+        input{
+          width:250px;
         }
       }
     }
 
-  }
+    .tt-dropdown-menu {
+      .tt-suggestions{
+        max-height: 250px;
+        overflow-y: auto;
+        border-bottom:1px solid #ccc;
 
+        .tt-suggestion{
+          line-height:20px;
+          p{
+            height:auto;
+            padding:0px;
+            margin:0px;
+            font-size:13px;
+          }
+        }
+      }
+    }
+  }
 }
 
 .orders-content{

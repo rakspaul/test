@@ -563,7 +563,12 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
+
             ad_object.save_targeting(ad_targeting)
+
+            key_name = ad_targeting[:targeting][:key_name]
+            zone = ad_targeting[:targeting][:zone]
+            ad_object.save_zone(key_name, zone) unless zone.blank?
 
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
