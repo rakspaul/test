@@ -294,6 +294,7 @@
       var view = this, model = view.model, collection = model.collection;
 
       this.ui.start_date_editable.editable({
+        format: 'yyyy-mm-dd',
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
@@ -322,6 +323,7 @@
       });
 
       this.ui.end_date_editable.editable({
+        format: 'yyyy-mm-dd',
         success: function(response, newValue) {
           var date = moment(newValue).format("YYYY-MM-DD");
 
@@ -1028,7 +1030,6 @@
           _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
             var revision = self.model.get('revised_'+attr_name),
                 original_value = self.model.get(attr_name);
-
             if(revision != null) {
               self._applyChangeToAd(attr_name, revision, original_value);
             }
@@ -1060,8 +1061,12 @@
           }
 
           self.model.attributes[attr_name] = revision;
-          self.model.attributes['revised_'+attr_name] = null;
-          $editable.first().addClass('revision').editable('setValue', revision).text(revision);
+
+          if(attr_name == 'start_date' || attr_name == 'end_date') {
+            $editable.first().addClass('revision').data('value', (new Date(revision))).editable('setValue', (new Date(revision)));
+          } else {
+            $editable.first().text(revision).addClass('revision').data('value', revision).editable('setValue', revision);
+          }
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
           logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+revision);
@@ -1112,9 +1117,8 @@
           });
           break;
         case 'volume':
-          var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
           _.each(self.model.ads, function(ad) {
-            ad.set('volume', ad.get('volume') * ratio);
+            ad.set('volume', revised_value);
           });
           break;
         case 'rate':
@@ -1130,7 +1134,7 @@
       var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
-          $editable = $target_parent.siblings('div .editable'),
+          $editable = $target_parent.siblings('div .editable').filter('[data-name="'+attr_name+'"]'),
           revised_value = $target_parent.siblings('.revision').text(),
           original_value = this.model.get(attr_name);
 
@@ -1169,7 +1173,12 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
-      $editable.filter('[data-name="'+attr_name+'"]').first().addClass('revision').editable('setValue', revised_value).text(revised_value);
+
+      if(attr_name == 'start_date' || attr_name == 'end_date') {
+        $editable.first().addClass('revision').data('value', (new Date(revised_value))).editable('setValue', (new Date(revised_value)));
+      } else {
+        $editable.first().text(revised_value).addClass('revision').data('value', revised_value).editable('setValue', revised_value);
+      }
 
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
