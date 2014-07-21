@@ -1041,7 +1041,8 @@
 
       _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name),
-            original_value = self.model.get(attr_name);
+            original_value = self.model.get(attr_name),
+            $editable = self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]');
 
         if(revision != null) {
           switch(attr_name) {
@@ -1059,10 +1060,11 @@
           }
 
           self.model.attributes[attr_name] = revision;
-          self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]').first().text(revision).addClass('revision');
+          self.model.attributes['revised_'+attr_name] = null;
+          $editable.first().addClass('revision').editable('setValue', revision).text(revision);
 
           var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
-          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+self.model.get('revised_'+attr_name));
+          logs.push(attr_name_humanized+" "+self.model.get(attr_name)+" -> "+revision);
         }
       });
 
@@ -1167,7 +1169,7 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
-      $editable.filter('[data-name="'+attr_name+'"]').addClass('revision').text(revised_value);
+      $editable.filter('[data-name="'+attr_name+'"]').first().addClass('revision').editable('setValue', revised_value).text(revised_value);
 
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
