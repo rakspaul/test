@@ -69,9 +69,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       var self = this;
       this.model.fetch({
         success: function() {
-          // Get the list of default team, team members and the assigned user
-          List.Task.assignee_list = List.Task.getAssigneeOptionsList(self.model);
-
           ReachActivityTaskApp.trigger("include:taskDetails", {
             task: self.model,
             aRegion: taskDetailsRegion,
@@ -86,60 +83,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       });
     }
   });
-
-  List.Task.getAssigneeOptionsList = function (model) {
-    var currentTaskTypeId = model.get('task_type_id');
-    var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
-    var optList = [];
-
-    if (currentTaskType !== undefined) {
-      var default_team_name = currentTaskType.get('default_assignee_team');
-      var default_team_id = currentTaskType.get('default_assignee_id');
-      var team_members = currentTaskType.get('users');
-      var current_assignee_id = model.get('assignable_id');
-      var current_assignee_name = model.get('assignable_name');
-      var current_assignee_type = model.get('assignable_type');
-
-      var default_assignee_id = currentTaskType.get('default_assignee_user_id');
-      var default_assignee = currentTaskType.get('default_assignee_user');
-
-      // Add default user
-      if (default_assignee && default_assignee_id) {
-        optList.push({ id: default_assignee_id, name: default_assignee, group: 'default_user' })
-      }
-
-      // Add default team
-      if (default_team_id && default_team_name) {
-        optList.push({ id: default_team_id, name: default_team_name, group: 'team' });
-      }
-
-      var team_member = false;
-      // Add members of team
-      if (team_members) {
-        for (var i = 0; i < team_members.length; i++) {
-          if (team_members[i].id == current_assignee_id) team_member = true;
-
-          if (team_members[i].id == default_assignee_id) {
-            team_member = true;
-            // Dont add to list since the user is already in it
-          } else {
-            // Add unique user
-            optList.push({ id: team_members[i].id, name: team_members[i].name, group: 'team_users' });
-          }
-        }
-      }
-
-      // Add the current assignee to the list
-      if (current_assignee_id && current_assignee_name
-          && current_assignee_type == 'User' && !team_member) {
-        optList.push({ id: current_assignee_id, name: current_assignee_name, group: 'users_all'});
-      }
-    } else {
-      console.log("currentTaskType (" + currentTaskType + ") is invalid.");
-    }
-
-    return optList;
-  };
 
   List.Tasks = Marionette.CollectionView.extend({
     tagName: 'div',
@@ -167,6 +110,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     model: ReachActivityTaskApp.Entities.Task,
 
     itemViewContainer: 'div .task-detail-container',
+
+    initialize: function() {
+      // Get the list of default team, team members and the assigned user
+      this.assigneeOptionsList = this.getAssigneeOptionsList(this.model);
+    },
 
     updateView: function() {
       this.render();
@@ -260,7 +208,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         labelField: 'name',
         searchField: 'name',
         sortField: 'group',
-        options: List.Task.assignee_list,
+        options: this.assigneeOptionsList,
         optgroups: [
           { value: 'team', label: 'Default Team' },
           { value: 'team_users', label: 'Team Members' },
@@ -399,18 +347,17 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.set('assignable_type', 'Team');
       this.model.set('task_type_id', currentTaskTypeId);
 
-      List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
+      this.assigneeOptionsList = this.getAssigneeOptionsList(this.model);
 
       var control = this.assigneeSelector[0].selectize;
       // Assign the new list to assignee selector
       control.clearOptions();
-      for (var i = 0; i < List.Task.assignee_list.length; i++) {
-        var opt = List.Task.assignee_list[i];
+      _.each(this.assigneeOptionsList, function(opt) {
         control.addOption(opt);
         if (currentAssigneeId == opt.id) {
           control.setValue(currentAssigneeId);
         }
-      }
+      });
 
       // Save the changes
       this.setTaskType(currentTaskTypeId);
@@ -453,6 +400,54 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
           console.log('task type update failed!')
         },
         patch: true});
+    },
+
+    getAssigneeOptionsList: function(model) {
+      var currentTaskTypeId = model.get('task_type_id');
+      var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
+      var optList = [];
+
+      if (currentTaskType == undefined) {
+        console.log("currentTaskType (" + currentTaskType + ") is invalid.");
+        return optList;
+      }
+      var teamMembers = currentTaskType.get('users');
+      var currentAssigneeId = model.get('assignable_id');
+      var currentAssigneeName = model.get('assignable_name');
+      var currentAssigneeType = model.get('assignable_type');
+
+      var defaultUserId = currentTaskType.get('default_assignee_user_id');
+      var defaultUserName = currentTaskType.get('default_assignee_user');
+      var defaultTeamId = currentTaskType.get('default_assignee_id');
+      var defaultTeamName = currentTaskType.get('default_assignee_team');
+
+      // Add default user
+      if (defaultUserName && defaultUserId) {
+        optList.push({ id: defaultUserId, name: defaultUserName, group: 'default_user' });
+      }
+      // Add default team
+      if (defaultTeamId && defaultTeamName) {
+        optList.push({ id: defaultTeamId, name: defaultTeamName, group: 'team' });
+      }
+
+      var teamMemberExists = false;
+      // Add members of team
+      _.each(teamMembers, function(teamMember) {
+        if(teamMember.id == currentAssigneeId) teamMemberExists = true;
+        if(teamMember.id == defaultUserId) {
+          // Don't add to list since the user is already in it
+          teamMemberExists = true;
+        } else {
+          // Add unique user
+          optList.push({ id: teamMember.id, name: teamMember.name, group: 'team_users' });
+        }
+      });
+
+      // Add the current assignee to the list
+      if (currentAssigneeId && currentAssigneeName && currentAssigneeType == 'User' && !teamMemberExists) {
+        optList.push({ id: currentAssigneeId, name: currentAssigneeName, group: 'users_all'});
+      }
+      return optList;
     }
   });
 
