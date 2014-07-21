@@ -39,8 +39,8 @@ class IoImport
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
       @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
-      @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
-      @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
+      @original_filename = @existing_order.io_assets.details.try(:last).try(:asset_upload_name)
+      @original_created_at = @existing_order.io_assets.details.try(:last).try(:created_at).to_s
     end
 
     read_advertiser

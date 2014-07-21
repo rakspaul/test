@@ -1348,7 +1348,7 @@
             $('.current-io-status-top .io-status').html(response.order_status);
 
             // if there are revised IO then show the download link immediately
-            if(response.revised_io_asset_id) {
+            if(response.revised_io_asset_id && (response.order_status != "Revisions Proposed")) {
               var revised_io_filename = $('.imported-file-name .revised-io-filename').html(),
                   io_asset_ext = revised_io_filename.substr(revised_io_filename.lastIndexOf('.') + 1) == 'pdf' ? 'pdf' : 'xls';
               $('.imported-file-name .revised-io-filename').html('<a href="/io_assets/'+self.collection.order.get('id')+'/revised_io/'+response.revised_io_asset_id+'.'+io_asset_ext+'">'+revised_io_filename+'</a>');
@@ -1383,7 +1383,7 @@
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been updated correctly", type: 'success', timeout: 5000})
             }
-            if (response.order_id) {
+            if (response.order_id && (response.order_status != "Revisions Proposed")) {
               if (ReachUI.LineItems.LineItemList.isDirty()) {
                 ReachUI.LineItems.LineItemList.setDirty(false);
                 self.collection.setOrder(null);

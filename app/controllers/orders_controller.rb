@@ -217,7 +217,8 @@ class OrdersController < ApplicationController
             io_asset = store_io_asset(params)
 
             state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
+            h = {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)}
+            format.json { render json: h }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
