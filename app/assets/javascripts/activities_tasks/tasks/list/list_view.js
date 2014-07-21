@@ -23,25 +23,23 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       // This piece of logic helps in not refreshing continually task details region
       // when click happens on the same task or details region.
       // On close of the task details region, the value will be undefined for the current task id.
-      if(List.currentTaskId != undefined){
-        if(List.currentTaskId == this.model.id){
-          return;
-        }
+      if(List.currentTaskId && List.currentTaskId == this.model.id) {
+        return;
       }
 
       //Note: The order object is always available when tasks view is inside order, where as assigned-to-me and task views, the order id
       //is directly associated to that particular task.So, we have to reset the order id context with that particular task's order id.
       if(this.model.collection.context != ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER) {
-          ReachActivityTaskApp.order = {};
-          ReachActivityTaskApp.order.id = this.model.get("order_id");
+        ReachActivityTaskApp.order = {};
+        ReachActivityTaskApp.order.id = this.model.get("order_id");
 
-          // Fetch task types
-          var taskTypes = ReachActivityTaskApp.request("taskType:entities");
-          var self = this;
-          $.when(taskTypes).done(function(taskTypes) {
-            ReachActivityTaskApp.taskTypes = taskTypes.models;
-            self.showTaskView();
-          });
+        // Fetch task types
+        var taskTypes = ReachActivityTaskApp.request("taskType:entities");
+        var self = this;
+        $.when(taskTypes).done(function(taskTypes) {
+          ReachActivityTaskApp.taskTypes = taskTypes.models;
+          self.showTaskView();
+        });
       } else {
         this.showTaskView();
       }
@@ -128,7 +126,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         optList.push({ id: current_assignee_id, name: current_assignee_name, group: 'users_all'});
       }
     } else {
-      console.log("curentTaskType (" + currentTaskType + ") is invalid.");
+      console.log("currentTaskType (" + currentTaskType + ") is invalid.");
     }
 
     return optList;
@@ -160,10 +158,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
     model: ReachActivityTaskApp.Entities.Task,
 
     itemViewContainer: 'div .task-detail-container',
-
-    initialize: function() {
-      //this.model.on('change', this.updateView, this);
-    },
 
     updateView: function() {
       this.render();
@@ -218,6 +212,22 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.show();
     },
 
+    onDomRefresh: function() {
+      var self = this;
+      $('.task-details-container .task-name .editable').editable({
+        url: this.model.url(),
+        success: function(response, newValue) {
+          self.model.set('name', newValue);
+          $(self).parent().removeClass('field_with_errors');
+          $(self).siblings('.errors_container').html('');
+        },
+        error: function(response, newValue) {
+          var error = response.responseJSON;
+          return error.message.name[0];
+        }
+      });
+    },
+
     show: function() {
       var self = this;
 
@@ -225,63 +235,63 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.ui.taskTypeSelector.selectpicker();
 
       if(this.model.isClosed()) {
-          // Disable the task type selector (this is enabled the first time
-          List.Task.assigneeSelector = this.ui.assigneeSelector.selectize({
-              valueField: 'id',
-              labelField: 'name',
-              options: [{id: this.model.get('assignable_id'), name: this.model.get('assignable_name')}]
-          });
+        // Disable the task type selector (this is enabled the first time
+        this.assigneeSelector = this.ui.assigneeSelector.selectize({
+          valueField: 'id',
+          labelField: 'name',
+          options: [{id: this.model.get('assignable_id'), name: this.model.get('assignable_name')}]
+        });
 
-          return;
+        return;
       }
 
       // Selectize the task-assignee-selector
-      List.Task.assigneeSelector = this.ui.assigneeSelector.selectize({
-            valueField: 'id',
-            labelField: 'name',
-            searchField: 'name',
-            sortField: 'group',
-            options: List.Task.assignee_list,
-            optgroups: [
-                { value: 'team', label: 'Default Team' },
-                { value: 'team_users', label: 'Team Members' },
-                { value: 'users_all', label: 'Users' },
-                { value: 'default_user', label: 'Default User' }
-            ],
-            optgroupField: 'group',
-            create: false,
-            load: function(query, callback) {
-                if (!query.length) return callback();
-                $.ajax({
-                    url: '/users/search.js',
-                    type: 'GET',
-                    dataType: 'jsonp',
-                    data: {
-                        search: query,
-                        search_by: 'name'
-                    },
-                    error: function () {
-                        callback();
-                    },
-                    success: function (res) {
-                        var allUsers = [];
+      this.assigneeSelector = this.ui.assigneeSelector.selectize({
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        sortField: 'group',
+        options: List.Task.assignee_list,
+        optgroups: [
+          { value: 'team', label: 'Default Team' },
+          { value: 'team_users', label: 'Team Members' },
+          { value: 'users_all', label: 'Users' },
+          { value: 'default_user', label: 'Default User' }
+        ],
+        optgroupField: 'group',
+        create: false,
+        load: function(query, callback) {
+          if (!query.length) return callback();
+          $.ajax({
+            url: '/users/search.js',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+              search: query,
+              search_by: 'name'
+            },
+            error: function () {
+              callback();
+            },
+            success: function (res) {
+              var allUsers = [];
 
-                        if (res !== 'undefined') {
-                            for (var i = 0; i < res.length; i++) {
-                                allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
-                            }
-                        }
+              if (res !== 'undefined') {
+                for (var i = 0; i < res.length; i++) {
+                  allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                }
+              }
 
-                        callback(allUsers);
-                    }
-                });
+              callback(allUsers);
             }
+          });
+        }
       });
 
       // Set the current assignee as the selected item in the list
       var currentAssigneeId = this.model.get('assignable_id');
       if (currentAssigneeId !== undefined) {
-        List.Task.assigneeSelector[0].selectize.setValue(currentAssigneeId);
+        this.assigneeSelector[0].selectize.setValue(currentAssigneeId);
       }
 
       // Datepicker
@@ -294,18 +304,6 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         }
       });
 
-      $('.task-details-table .task-name .editable').editable({
-        url: this.model.url(),
-        success: function(response, newValue) {
-          self.model.set('name', newValue);
-          $(self).parent().removeClass('field_with_errors');
-          $(self).siblings('.errors_container').html('');
-        },
-        error: function(response, newValue) {
-          var error = response.responseJSON;
-          return error.message.name[0];
-        }
-      });
     },
 
     setTaskState: function(e) {
@@ -373,75 +371,80 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         patch: true});
     },
 
-      onTaskTypeChanged: function (e) {
-          var currentTaskTypeId = parseInt(this.ui.taskTypeSelector.val());
+    onTaskTypeChanged: function (e) {
+      var currentTaskTypeId = parseInt(this.ui.taskTypeSelector.val());
 
-          // Dont do anything if 1. val is NaN 2. val is same as in model
-          if (isNaN(currentTaskTypeId) || currentTaskTypeId == this.model.get('task_type_id')) {
-              return;
-          }
+      // Dont do anything if 1. val is NaN 2. val is same as in model
+      if (isNaN(currentTaskTypeId) || currentTaskTypeId == this.model.get('task_type_id')) {
+        return;
+      }
 
-          var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
+      var currentTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: currentTaskTypeId});
 
-          // Update the model
-          var currentAssigneeId = currentTaskType.get('default_assignee_user_id') ?
+      // Update the model
+      var currentAssigneeId = currentTaskType.get('default_assignee_user_id') ?
                                             currentTaskType.get('default_assignee_user_id') :
                                             currentTaskType.get('default_assignee_id');
-          this.model.set('assignable_id', currentAssigneeId);
-          this.model.set('assignable_name', currentTaskType.get('default_assignee_team'));
-          this.model.set('assignable_type', 'Team');
-          this.model.set('task_type_id', currentTaskTypeId);
+      this.model.set('assignable_id', currentAssigneeId);
+      this.model.set('assignable_name', currentTaskType.get('default_assignee_team'));
+      this.model.set('assignable_type', 'Team');
+      this.model.set('task_type_id', currentTaskTypeId);
 
-          List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
+      List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
 
-          var control = List.Task.assigneeSelector[0].selectize;
-          // Assign the new list to assignee selector
-          control.clearOptions();
-          for (var i = 0; i < List.Task.assignee_list.length; i++) {
-              var opt = List.Task.assignee_list[i];
-              control.addOption(opt);
-              if (currentAssigneeId == opt.id) {
-                  control.setValue(currentAssigneeId);
-              }
-          }
-
-          // Save the changes
-          this.setTaskType(currentTaskTypeId);
-      },
-
-      onAssigneeChanged: function (e) {
-        var assigneeList = List.Task.assigneeSelector[0].selectize;
-        var currentAssigneeId = parseInt(assigneeList.getValue());
-
-        // Dont do anything if val is NaN
-        if (isNaN(currentAssigneeId)) {
-            return;
+      var control = this.assigneeSelector[0].selectize;
+      // Assign the new list to assignee selector
+      control.clearOptions();
+      for (var i = 0; i < List.Task.assignee_list.length; i++) {
+        var opt = List.Task.assignee_list[i];
+        control.addOption(opt);
+        if (currentAssigneeId == opt.id) {
+          control.setValue(currentAssigneeId);
         }
-
-        this.model.set('assignable_id', currentAssigneeId);
-
-        var selectedOption = _.findWhere(assigneeList.options, {id: currentAssigneeId});
-        var assigneeType = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
-        this.model.set('assignable_type', assigneeType);
-
-        this.setAssignee(currentAssigneeId, assigneeType);
-      },
-
-      setTaskType: function(currentTaskTypeId) {
-          this.model.save({task_type_id: currentTaskTypeId}, {
-              error: function() {
-                  console.log('task type update failed!')
-              },
-              patch: true});
-      },
-
-      setAssignee: function(currentAssigneeId, currentAssigneeType) {
-          this.model.save({assignable_id: currentAssigneeId, assignable_type: currentAssigneeType}, {
-              error: function() {
-                  console.log('task type update failed!')
-              },
-              patch: true});
       }
+
+      // Save the changes
+      this.setTaskType(currentTaskTypeId);
+    },
+
+    onAssigneeChanged: function (e) {
+      var assigneeList = this.assigneeSelector[0].selectize;
+      var currentAssigneeId = parseInt(assigneeList.getValue());
+
+      // Dont do anything if val is NaN
+      if (isNaN(currentAssigneeId)) {
+        return;
+      }
+
+      this.model.set('assignable_id', currentAssigneeId);
+
+      var selectedOption = _.findWhere(assigneeList.options, {id: currentAssigneeId});
+      var assigneeType = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
+      this.model.set('assignable_type', assigneeType);
+
+      if(this.model.previous('assignable_id') == this.model.get('assignable_id')
+        && this.model.previous('assignable_type') == this.model.get('assignable_type')) {
+        return;
+      }
+
+      this.setAssignee(currentAssigneeId, assigneeType);
+    },
+
+    setTaskType: function(currentTaskTypeId) {
+      this.model.save({task_type_id: currentTaskTypeId}, {
+        error: function() {
+          console.log('task type update failed!')
+        },
+        patch: true});
+    },
+
+    setAssignee: function(currentAssigneeId, currentAssigneeType) {
+      this.model.save({assignable_id: currentAssigneeId, assignable_type: currentAssigneeType}, {
+        error: function() {
+          console.log('task type update failed!')
+        },
+        patch: true});
+    }
   });
 
   List.TaskCommentInputView = Backbone.Marionette.ItemView.extend({
