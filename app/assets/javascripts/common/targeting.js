@@ -687,9 +687,7 @@
           var id = model.get('id'), found = false;
           if (id) {
             if (caps.models) {
-              found = caps.models.find(function(fc) {
-                return fc.get('id') == id;
-              });
+              found = caps.models.findWhere({ "id": fc.get('id') });
             } else {
               found = _.find(caps, function(fc) {
                 return fc.id == id;
