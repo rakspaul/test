@@ -194,7 +194,7 @@
         this.targetingView.hideTargeting();
       } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 

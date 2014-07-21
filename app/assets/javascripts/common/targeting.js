@@ -38,6 +38,7 @@
       this.errors_in_zip_codes = false;
       this.isCustomKeyValueValid = true;
       this.isZipcodesValid = true;
+      this.isClosed = true;
       this.reachCustomKeyValues = this.model.get('keyvalue_targeting') || '';
       this.updatedZipcodes = this.model.get('selected_zip_codes') || '';
     },
@@ -345,7 +346,12 @@
       this._toogleDoneBtn();
     },
 
-    // this function will get called from ad or lineitem
+    // next 2 functions will get called from ad or lineitem
+    showTargeting: function() {
+      this.$el.parent().show('slow');
+      this.isClosed = false;
+    },
+
     hideTargeting: function() {
       this._onSave();
     },
@@ -431,7 +437,7 @@
 
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
-      if(this.isCustomKeyValueValid && this.isZipcodesValid) {
+      if (this.isCustomKeyValueValid && this.isZipcodesValid && !this.isClosed) {
         if(this.$el.find('.custom-kvs').is(':visible')) {
           this.$el.find('.expand-audience-btn').trigger('click');
         }
@@ -459,6 +465,7 @@
           this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
+          this.isClosed = true;
           this.$el.parent().hide('slow');
         }
       }
