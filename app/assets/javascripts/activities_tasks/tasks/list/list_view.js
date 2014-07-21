@@ -65,16 +65,25 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.model.collection.selectedTask = this;
       this.$el.addClass('task-selected');
 
-      // Get the list of default team, team members and the assigned user
-      List.Task.assignee_list = List.Task.getAssigneeOptionsList(this.model);
+      //refresh the task model
+      var self = this;
+      this.model.fetch({
+        success: function() {
+          // Get the list of default team, team members and the assigned user
+          List.Task.assignee_list = List.Task.getAssigneeOptionsList(self.model);
 
-      ReachActivityTaskApp.trigger("include:taskDetails", {
-        task: this.model,
-        aRegion: taskDetailsRegion,
-        taskView: this
+          ReachActivityTaskApp.trigger("include:taskDetails", {
+            task: self.model,
+            aRegion: taskDetailsRegion,
+            taskView: self
+          });
+
+          List.currentTaskId = self.model.id;
+        },
+        error: function() {
+          console.log('error refreshing task id: ' + self.model.get('id'));
+        }
       });
-
-      List.currentTaskId = this.model.id;
     }
   });
 
@@ -416,18 +425,18 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
         return;
       }
 
-      this.model.set('assignable_id', currentAssigneeId);
-
       var selectedOption = _.findWhere(assigneeList.options, {id: currentAssigneeId});
-      var assigneeType = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
-      this.model.set('assignable_type', assigneeType);
+      var currentAssigneeType = selectedOption && selectedOption.group == 'team' ? 'Team' : 'User';
+      var assignableIdWas = this.model.get('assignable_id');
+      var assignableTypeWas = this.model.get('assignable_type');
+      this.model.set('assignable_id', currentAssigneeId);
+      this.model.set('assignable_type', currentAssigneeType);
 
-      if(this.model.previous('assignable_id') == this.model.get('assignable_id')
-        && this.model.previous('assignable_type') == this.model.get('assignable_type')) {
+      if(assignableIdWas == currentAssigneeId && assignableTypeWas == currentAssigneeType) {
         return;
       }
 
-      this.setAssignee(currentAssigneeId, assigneeType);
+      this.setAssignee(currentAssigneeId, currentAssigneeType);
     },
 
     setTaskType: function(currentTaskTypeId) {

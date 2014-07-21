@@ -2,7 +2,7 @@ class TasksController < ApplicationController
   include Authenticator
 
   before_filter :require_order, :only => [:index]
-  before_filter :require_task, :only => [:update, :comments, :add_comment]
+  before_filter :require_task, :only => [:show, :update, :comments, :add_comment]
   before_filter :require_team, :only => [:team_tasks, :team_user_tasks, :only_team_tasks]
   before_filter :require_user, :only => [:user_tasks]
 
@@ -21,6 +21,10 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.json
     end
+  end
+
+  def show
+    render :partial => 'task', :locals => {:task => @task}
   end
 
   def create

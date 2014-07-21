@@ -28,7 +28,7 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
           return '/tasks.json';
         }
       } else {
-        return '/tasks/' + this.get('id');
+        return '/tasks/' + this.get('id') + '.json';
       }
     },
 
