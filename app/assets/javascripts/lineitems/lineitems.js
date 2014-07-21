@@ -1117,8 +1117,10 @@
           });
           break;
         case 'volume':
+          var val = parseInt(String(revised_value).replace(/,|\./g, '')), 
+              ratio = val / original_value;
           _.each(self.model.ads, function(ad) {
-            ad.set('volume', revised_value);
+            ad.set('volume', (ad.get('volume') * ratio));
           });
           break;
         case 'rate':
