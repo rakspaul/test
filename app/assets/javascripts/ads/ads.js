@@ -52,6 +52,8 @@
       }
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
+      delete ad['site_id'];
+      delete ad['zone'];
       return { ad: ad };
     },
 

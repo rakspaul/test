@@ -176,17 +176,22 @@ class Ad < ActiveRecord::Base
     self.audience_groups = AudienceGroup.where :id => audience_groups_ids
   end
 
-  def save_zone(keyname, zone)
-    zone_key_name = "#{keyname}/#{zone}"
-    findZone = Zone.exists?(:keyname => zone_key_name)
-    site = Site.find_by_keyname(keyname)
+  def save_zone(site_id, z_site)
+    site_keyname = Site.find(site_id).try(:keyname)
+    zone_keyname = "#{site_keyname}/#{z_site}"
 
-    unless findZone
-      createZone = Zone.create({keyname: zone_key_name, site_id: site.id, z_site: zone, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
-      AdZone.create(ad_id: self.id, zone_id: createZone.id )
+    # select or create zone
+    zone = Zone.of_network(self.order.network).of_site(site_id).find_by(:keyname => zone_keyname)
+    if zone.blank?
+      zone = Zone.create({keyname: zone_keyname, site_id: site_id, site: site_keyname, z_site: zone, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
+    end
+
+    # create or update ad_zone
+    adZone = AdZone.find_by(:ad_id => self.id)
+    if adZone.blank?
+      AdZone.create(ad_id: self.id, zone_id: zone.id)
     else
-      existingZone = Zone.find_by_keyname(zone_key_name)
-      AdZone.create(ad_id: self.id, zone_id: existingZone.id )
+      adZone.update(zone_id: zone.id)
     end
   end
 

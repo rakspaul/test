@@ -7,4 +7,8 @@ class Zone < ActiveRecord::Base
   def self.of_network(network)
     where(:network => network)
   end
+
+  def self.of_site(site_id)
+    where(:site_id => site_id)
+  end
 end

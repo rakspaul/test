@@ -8,6 +8,6 @@ json = @platforms.map do |platform|
     priority:          platform.priority,
     media_type:        platform.media_type.try(:category),
     media_type_id:     platform.media_type.try(:id),
-    key_name:          Site.find(platform.site_id).try(:keyname)
+    site_id:           platform.site_id
   }
 end

@@ -726,11 +726,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var abbr = platform ? platform.get('naming_convention') : null;
       var platformId = platform ? platform.get('id') : null,
           platformName = platform ? platform.get('name') : null,
-          keyName = platform ? platform.get('key_name') : null;
+          site_id = platform ? platform.get('site_id') : null
 
       var advertiserName = lineItemList.order.get('advertiser_name');
       var zoneName = advertiserName.replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '').toLowerCase()+'_'+ReachUI.getGUID();
-      var zoneKeyName = keyName+'/'+zoneName;
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
       var buffer = 1 + li.get('buffer') / 100;
@@ -745,11 +744,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
         selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
         audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: platform ? platform.get('dfp_key') +'='+zoneKeyName : li.get('targeting').get('keyvalue_targeting'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') +'='+zoneName : li.get('targeting').get('keyvalue_targeting'),
         frequency_caps: platform ? [] : frequencyCaps,
         type: type,
+        site_id: platform ? site_id : null,
         zone: platform ? zoneName : null,
-        key_name: platform ? keyName : null
       });
 
       var creatives = li.get('creatives').models, li_creatives = [];
@@ -856,7 +855,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 dfp_key_values: attrs.ad.dfp_key_values,
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
-                type: li_view.model.get('type')
+                type: li_view.model.get('type'),
+                site_id: attrs.ad.site_id,
+                zone: attrs.ad.zone,
               })
             });
 

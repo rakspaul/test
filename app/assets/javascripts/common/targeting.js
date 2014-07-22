@@ -129,14 +129,17 @@
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
 
-      this.ui.zone_input.typeahead({
-        name: 'z_site',
-        remote: {
-          url: '/zones/search.json?search=%QUERY',
-        },
-        valueKey: 'z_site',
-        limit: 100
-      });
+      this.site_id = this.model.get('site_id');
+      if (this.site_id) {
+        this.ui.zone_input.typeahead({
+          name: 'z_site',
+          remote: {
+            url: '/zones/search.json?search=%QUERY&site_id='+ self.site_id,
+          },
+          valueKey: 'z_site',
+          limit: 100
+        });
+      }
 
       this.ui.zone_input.on('typeahead:selected', function(ev, el) {
         if(el.z_site != 'Zone not found'){
