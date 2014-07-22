@@ -103,7 +103,7 @@
     },
 
     _recalculateMediaCost: function(options) {
-      var imps = this.getImressions();
+      var imps = this.getImpressions();
       var media_cost = this.getMediaCost();
 
       this.model.set({ 'value':  media_cost }, options);
@@ -119,13 +119,13 @@
       }
     },
 
-    getImressions: function() {
+    getImpressions: function() {
       return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
     },
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() / 1000.0) * cpm;
+      return (this.getImpressions() / 1000.0) * cpm;
     },
 
     renderTargetingDialog: function() {
