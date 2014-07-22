@@ -46,7 +46,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       attachmentFileNameContainer: '#btnRemoveAttachment',
       attachmentFileUploader: "#attachmentUploader",
       btnShowTaskForm: "#btnShowTaskForm",
-      btnSaveComment: "#btnSaveComment"
+      btnSaveComment: "#btnSaveComment",
+      btnMarkImportant: "#btnSaveAlert"
     },
 
     events: {
@@ -303,10 +304,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     markAsImportant: function (e) {
       e.preventDefault();
-      var element = $(e.target).tagName == "BUTTON" ? $(e.target) : $(e.target).parent();
-      element.toggleClass("active");
-      this.model.set('important', element.hasClass('active'));
-      if(element.hasClass('active')) {
+      this.ui.btnMarkImportant.toggleClass('active');
+      this.model.set('important', this.ui.btnMarkImportant.hasClass('active'));
+      if(this.ui.btnMarkImportant.hasClass('active')) {
         this.ui.dueDate.hide();
         this.ui.dueDateText.show();
       } else {
