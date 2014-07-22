@@ -183,7 +183,7 @@ class Ad < ActiveRecord::Base
     # select or create zone
     zone = Zone.of_network(self.order.network).of_site(site_id).find_by(:keyname => zone_keyname)
     if zone.blank?
-      zone = Zone.create({keyname: zone_keyname, site_id: site_id, site: site_keyname, z_site: zone, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
+      zone = Zone.create({keyname: zone_keyname, site_id: site_id, site: site_keyname, z_site: z_site, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
     end
 
     # create or update ad_zone
