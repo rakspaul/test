@@ -38,6 +38,7 @@
       this.errors_in_zip_codes = false;
       this.isCustomKeyValueValid = true;
       this.isZipcodesValid = true;
+      this.isClosed = true;
       this.reachCustomKeyValues = this.model.get('keyvalue_targeting') || '';
       this.updatedZipcodes = this.model.get('selected_zip_codes') || '';
     },
@@ -124,7 +125,7 @@
       });
       this.$el.find('.audience-key-values .chosen-choices input').width('200px');
 
-      this._renderFrequencyCaps();
+      this._renderFrequencyCaps({ newView: true });
       this._renderSelectedTargetingOptions();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
@@ -141,6 +142,14 @@
         });
       }
 
+      this.ui.help_custom_kv.popover({
+        html : true,
+        trigger: 'hover',
+        placement: 'right',
+        title: 'Custom KV Help',
+        content: JST['templates/targeting/custom_key_value_help'],
+      });
+
       this.ui.zone_input.on('typeahead:selected', function(ev, el) {
         if(el.z_site != 'Zone not found'){
           self._updateZoneName();
@@ -149,7 +158,6 @@
           $(this).typeahead('setQuery',self.model.get("zone"));
         }
       });
-
     },
 
     _showKeyValuesTab: function() {
@@ -230,7 +238,7 @@
       return null;
     },
 
-    _renderFrequencyCaps: function() {
+    _renderFrequencyCaps: function(options) {
       var frequencyCaps = this.model.get('frequency_caps'),
           collection = frequencyCaps;
       var self = this;
@@ -238,7 +246,7 @@
       if (!frequencyCaps.models) {
         collection = new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps);
       }
-      if (this.frequencyCapListView) {
+      if (this.frequencyCapListView && !(options && options.newView)) {
         this.frequencyCapListView.updateCollection(frequencyCaps);
       } else {
         this.frequencyCapListView = new Targeting.FrequencyCapListView({
@@ -356,13 +364,14 @@
          oldZone = this.model.get('zone'),
          custKV = this.model.get('keyvalue_targeting');
 
-      if(zone && this.isCustomKeyValueValid && this.isZipcodesValid){
+      if (zone && this.isCustomKeyValueValid && this.isZipcodesValid){
         custKV = custKV.replace(oldZone, zone);
-        this.model.attributes.keyvalue_targeting = custKV;
-        this.model.attributes.zone = zone;
         this.reachCustomKeyValues = custKV;
-
-        this._renderSelectedTargetingOptions();
+        this.model.set({
+          keyvalue_targeting: custKV,
+          zone: zone
+        }, { silent: true });
+        this.render();
       }
     },
 
@@ -380,7 +389,12 @@
       this._toogleDoneBtn();
     },
 
-    // this function will get called from ad or lineitem
+    // next 2 functions will get called from ad or lineitem
+    showTargeting: function() {
+      this.$el.parent().show('slow');
+      this.isClosed = false;
+    },
+
     hideTargeting: function() {
       this._onSave();
     },
@@ -466,7 +480,7 @@
 
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
-      if(this.isCustomKeyValueValid && this.isZipcodesValid) {
+      if (this.isCustomKeyValueValid && this.isZipcodesValid && !this.isClosed) {
         if(this.$el.find('.custom-kvs').is(':visible')) {
           this.$el.find('.expand-audience-btn').trigger('click');
         }
@@ -492,10 +506,10 @@
           $apply_ads_dialog.modal('show');
         } else {
           this._updateZoneName();
-          this.render();
           this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
+          this.isClosed = true;
           this.$el.parent().hide('slow');
         }
       }
@@ -582,8 +596,9 @@
 
     ui: {
       kv_type_switch: '.expand-audience-btn span',
-      frequency_caps:  '.tab.frequency-caps',
-      zone_input: '.zone-input'
+      frequency_caps: '.tab.frequency-caps',
+      help_custom_kv: '#helpCustomKV',
+      zone_input:     '.zone-input'
     },
 
     _isGeoTargeted: function(e) {
@@ -674,9 +689,7 @@
           var id = model.get('id'), found = false;
           if (id) {
             if (caps.models) {
-              found = caps.models.find(function(fc) {
-                return fc.get('id') == id;
-              });
+              found = caps.models.findWhere({ "id": fc.get('id') });
             } else {
               found = _.find(caps, function(fc) {
                 return fc.id == id;
