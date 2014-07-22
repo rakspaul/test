@@ -53,6 +53,15 @@
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
       return { ad: ad };
+    },
+
+    getImpressions: function() {
+      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+    },
+
+    getMediaCost: function() {
+      var cpm  = parseFloat(this.get('rate'));
+      return (this.getImpressions() / 1000.0) * cpm;
     }
   });
 
@@ -84,7 +93,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
-      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
+      this.model.set({ 'value': this.model.getMediaCost() }, { silent: true });
     },
 
     events: {
@@ -103,8 +112,8 @@
     },
 
     _recalculateMediaCost: function(options) {
-      var imps = this.getImpressions();
-      var media_cost = this.getMediaCost();
+      var imps = this.model.getImpressions();
+      var media_cost = this.model.getMediaCost();
 
       this.model.set({ 'value':  media_cost }, options);
       this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
@@ -117,15 +126,6 @@
       } else {
         $errors_container.html('');
       }
-    },
-
-    getImpressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
-    },
-
-    getMediaCost: function() {
-      var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImpressions() / 1000.0) * cpm;
     },
 
     renderTargetingDialog: function() {
