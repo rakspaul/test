@@ -482,9 +482,6 @@
 
       if(this.model.get('revised')) {
         this.$el.find('.li-number').addClass('revised');
-        if(this.model.get('id') == null) {
-          EventsBus.trigger('lineitem:logRevision', "New Line Item "+this.model.get('alt_ad_id')+" Created");
-        }
       }
       this.renderCreatives();
       this.renderTargetingDialog();

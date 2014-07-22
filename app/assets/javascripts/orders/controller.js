@@ -811,6 +811,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
+          if((null == li.get('id')) && li.get('revised')) {
+            EventsBus.trigger('lineitem:logRevision', "New Line Item "+li.get('alt_ad_id')+" Created");
+          }
+
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
