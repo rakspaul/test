@@ -15,7 +15,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     ALL: "all",
     SYSTEM: "system_comment"};
 
-  Header.filters = [];
+  Header.filters = []; // To support multiple options in the future
   Header.currentFormAction = Header.ACTIVITY_TYPES.COMMENT;
   Header.previousFormAction = Header.ACTIVITY_TYPES.COMMENT;
 
@@ -47,7 +47,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       attachmentFileUploader: "#attachmentUploader",
       btnShowTaskForm: "#btnShowTaskForm",
       btnSaveComment: "#btnSaveComment",
-      btnMarkImportant: "#btnSaveAlert"
+      btnMarkImportant: "#btnSaveAlert",
+      btnFullLog: "#btnFullLog"
     },
 
     events: {
@@ -65,6 +66,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
 
     onDomRefresh: function () {
       var self = this;
+
+      this.ui.btnFullLog.addClass("active");
 
       this.ui.attachmentFileNameContainer.hide();
 
@@ -205,29 +208,14 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
     },
 
     animateFilterControls: function (component, type) {
-      //if filter is existed in the array then we have to reduce the opacity otherwise make opacity full
-      //when all filter is on, we have to turn off other filters and make sure you have only "all" filter for the query.
-      if(type == Header.ACTIVITY_TYPES.ALL){
-        if(Header.filters.indexOf(type)==-1){
-          //remove other filters when all filter is active
-          Header.filters = [];
-          //turning off other filters
-          this.turnOffFilters(false);
+      var filterButtons = $(".header-controls").children();
+      _.each(filterButtons,function(filterButton){
+        if (filterButton.id == component.attr('id')) {
+          $(filterButton).addClass("active");
+        } else {
+          $(filterButton).removeClass("active");
         }
-      } else {
-        //just turn off "all" filter.
-        this.turnOffFilters(true);
-      }
-
-      var index = Header.filters.indexOf(type);
-      if (index > -1) {
-        Header.filters.splice(index, 1);
-        component.removeClass("active");
-      } else {
-        Header.filters.push(type);
-        component.addClass("active");
-      }
-
+      });
     },
 
     // Filter handlers
@@ -242,40 +230,9 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.animateFilterControls(aControl, systemFilterName);
 
       //Fetch activities should have inclusive filter
+      Header.filters = [systemFilterName];
       Header.Controller.fetchActivities(Header.filters);
     },
-
-    turnOffFilters:function(allFilter){
-      if(allFilter){
-        $("#btnFullLog").removeClass("active");
-        var index = Header.filters.indexOf(Header.ACTIVITY_TYPES.ALL);
-        if(index>-1){
-          Header.filters.splice(index,1);
-        }
-      } else {
-        var filterButtons = $(".header-controls").children();
-        //don't include "all" filter.
-        filterButtons = filterButtons.splice(0,filterButtons.length-1);
-        _.each(filterButtons,function(filterButton){
-            $(filterButton).removeClass("active");
-        });
-      }
-    },
-
-    /*animateFormControl: function (type) {
-      var uiComponent = this.getUIComponent(type);
-      uiComponent.toggleClass("active");
-    },
-
-    getUIComponent: function (type) {
-      if (type == Header.ACTIVITY_TYPES.TASK) {
-        return this.ui.btnShowTaskForm;
-      } else if (type == Header.ACTIVITY_TYPES.ATTACHMENT) {
-        return this.ui.saveAttachment;
-      } else {
-        return this.ui.btnSaveAlert;
-      }
-    },*/
 
     showTaskForm: function (e) {
       this.model.set('note', this.ui.activity_input.val());
@@ -414,6 +371,20 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this._resetAttachmentContainer();
       this.ui.activity_input.siblings('.errors_container').html('');
       this.ui.btnSaveComment.removeClass("active");
+      this.resetFilters();
+    },
+
+    resetFilters: function() {
+      Header.filters = [];
+
+      var filterButtons = $(".header-controls").children();
+      //don't include "all" filter.
+      filterButtons = filterButtons.splice(0,filterButtons.length-1);
+      _.each(filterButtons,function(filterButton){
+        $(filterButton).removeClass("active");
+      });
+
+      this.ui.btnFullLog.addClass("active");
     },
 
     removeAttachment: function (e) {

@@ -150,6 +150,8 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.options.taskView.render();
       ReachActivityTaskApp.trigger("task:details:closed");
 
+      ReachActivityTaskApp.trigger("activities:resetFilter");
+
       //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
       //to different user then that task is not valid in the assigned to me view.
       if(this.model.collection.context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.ASSIGNED_ME) {

@@ -78,4 +78,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities",function(Activities,Rea
     $("#activitiesRegionOverlay").fadeOut();
   });
 
+  ReachActivityTaskApp.on("activities:resetFilter", function() {
+    ReachActivityTaskApp.ActivitiesTasks.Activities.Header.headerLayout.resetFilters();
+  });
 },JST);

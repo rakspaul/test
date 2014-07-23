@@ -21,7 +21,7 @@ class OrderActivityLogsController < ApplicationController
         if !filters.include?!OrderActivityLog::ActivityType::TASK
           filters.push(OrderActivityLog::ActivityType::TASK)
         end
-        activity_logs = activity_logs.where(important: true)
+        activity_logs = activity_logs.where("tasks.important = 'true'")
         filters.delete(OrderActivityLog::ActivityType::ALERT)
       end
     end
