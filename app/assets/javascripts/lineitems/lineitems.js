@@ -708,7 +708,7 @@
         this.targetingView.hideTargeting();
       } else{
         this.$el.find('.toggle-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 

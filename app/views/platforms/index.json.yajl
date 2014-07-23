@@ -7,6 +7,7 @@ json = @platforms.map do |platform|
     ad_type:           platform.ad_type,
     priority:          platform.priority,
     media_type:        platform.media_type.try(:category),
-    media_type_id:     platform.media_type.try(:id)
+    media_type_id:     platform.media_type.try(:id),
+    site_id:           platform.site_id
   }
 end

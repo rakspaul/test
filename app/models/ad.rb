@@ -47,6 +47,9 @@ class Ad < ActiveRecord::Base
   has_and_belongs_to_many :countries, join_table: :ad_geo_targetings, class_name: GeoTarget::Country, association_foreign_key: :geo_target_id
   has_and_belongs_to_many :audience_groups, join_table: :ads_reach_audience_groups, association_foreign_key: :reach_audience_group_id
 
+  has_one :ad_zone, dependent: :destroy
+  has_one :zone, through: :ad_zone
+
   accepts_nested_attributes_for :frequency_caps, :allow_destroy => true
 
   validates :description, uniqueness: { message: "Ad name is not unique", scope: :order }
@@ -103,7 +106,7 @@ class Ad < ActiveRecord::Base
         li_assignment_model = LineitemAssignment
         creatives = self.lineitem.try(:creatives)
       end
-      
+
       return if creatives.blank?
 
       end_date = Time.zone.parse(cparams[:end_date]).end_of_day rescue nil
@@ -171,6 +174,25 @@ class Ad < ActiveRecord::Base
 
     audience_groups_ids = targeting[:targeting][:selected_key_values].to_a.map { |t|  t['id'] }.uniq
     self.audience_groups = AudienceGroup.where :id => audience_groups_ids
+  end
+
+  def save_zone(site_id, z_site)
+    site_keyname = Site.find(site_id).try(:keyname)
+    zone_keyname = "#{site_keyname}/#{z_site}"
+
+    # select or create zone
+    zone = Zone.of_network(self.order.network).of_site(site_id).find_by(:keyname => zone_keyname)
+    if zone.blank?
+      zone = Zone.create({keyname: zone_keyname, site_id: site_id, site: site_keyname, z_site: z_site, network_id: self.order.network.id, source_id: "R_#{SecureRandom.uuid}", data_source_id: 2 })
+    end
+
+    # create or update ad_zone
+    adZone = AdZone.find_by(:ad_id => self.id)
+    if adZone.blank?
+      AdZone.create(ad_id: self.id, zone_id: zone.id)
+    else
+      adZone.update(zone_id: zone.id)
+    end
   end
 
   def create_random_source_id
@@ -267,7 +289,7 @@ private
     if end_date_changed?
       end_date, end_time = read_attribute_before_type_cast('end_date').to_s.split(' ')
       _, end_time_was = end_date_was.to_s(:db).split(' ')
-      self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"      
+      self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
     end
   end
 end

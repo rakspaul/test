@@ -52,6 +52,8 @@
       }
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
+      delete ad['site_id'];
+      delete ad['zone'];
       return { ad: ad };
     },
 
@@ -194,7 +196,7 @@
         this.targetingView.hideTargeting();
       } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 

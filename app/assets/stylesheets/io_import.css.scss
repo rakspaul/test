@@ -773,7 +773,7 @@ $wide_input_width: 320px;
       }
 
       .tag-icon {
-        margin:10px 0 0 15px;
+        margin:10px 0 0 0px;
       }
 
       .centered-icon {
@@ -1043,6 +1043,17 @@ $wide_input_width: 320px;
 
         font-size:12px;
       }
+
+    .zone{
+      .twitter-typeahead{
+        width:100%;
+        margin-left:10px;
+
+        input{
+          width:75%;
+        }
+      }
+    }
   }
 
   .save-targeting-btn {
