@@ -41,6 +41,9 @@
           <span class="decline-btn" data-name="start_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
+      <div style="clear:both"></div>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -61,6 +64,9 @@
           <span class="decline-btn" data-name="end_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
+      <div style="clear:both"></div>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -117,6 +123,18 @@
         <%= lineitem.name %>
       </span>
 
+      <% if(lineitem.revised_name) { %>
+        <div style="clear:both"></div>
+        <span class="revision"><%= lineitem.revised_name %></span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="name"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
+      <div style="clear:both"></div>
+
       <% if(lineitem.notes) { %>
       <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
       <div style="clear:both"></div>
@@ -126,14 +144,6 @@
       </span>
       <% } %>
 
-      <% if(lineitem.revised_name) { %>
-        <div style="clear:both"></div>
-        <span class="revision"><%= lineitem.revised_name %></span>
-        <div class="revised-dialog" style="display:none">
-          <span class="accept-btn" data-name="name"><span class="accept-img"/>Accept</span>
-          <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
-        </div>
-      <% } %>
 
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
@@ -157,6 +167,10 @@
           <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
+      <div style="clear:both"></div>
+
       <div class="errors_container"></div>
       <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
         <%= lineitem.buffer %>
@@ -174,6 +188,9 @@
           <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+      <span class="last-revision"></span>
+      <div style="clear:both"></div>
       <div class="errors_container"></div>
     </div>
 

@@ -106,15 +106,6 @@
         <%= lineitem.name %>
       </span>
 
-      <% if(lineitem.notes) { %>
-      <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
-      <div style="clear:both"></div>
-      <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
-        <%= lineitem.notes %>
-        <span class="close-btn"></span>
-      </span>
-      <% } %>
-
       <% if(lineitem.revised_name) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_name %></span>
@@ -125,6 +116,17 @@
       <% } %>
       <div style="clear:both"></div>
       <span class="last-revision"></span>
+      <div style="clear:both"></div>
+
+      <% if(lineitem.notes) { %>
+      <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
+      <div style="clear:both"></div>
+      <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
+        <%= lineitem.notes %>
+        <span class="close-btn"></span>
+      </span>
+      <% } %>
+
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
         Lineitem name should be less than 500 characters
