@@ -149,15 +149,6 @@
         title: 'Custom KV Help',
         content: JST['templates/targeting/custom_key_value_help'],
       });
-
-      this.ui.zone_input.on('typeahead:selected', function(ev, el) {
-        if(el.z_site != 'Zone not found'){
-          self._updateZoneName();
-        }
-        else{
-          $(this).typeahead('setQuery',self.model.get("zone"));
-        }
-      });
     },
 
     _showKeyValuesTab: function() {
