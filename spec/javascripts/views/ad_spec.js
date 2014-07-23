@@ -35,10 +35,8 @@ describe('Ad views', function() {
       spyOn(this.view, 'onRender');
 
       this.view.model.set('volume', 1000);
-      // ReachUI.Ads.AdView should be refactored to change this call to 0
-      expect(this.view.onRender).toHaveBeenCalled();//toEqual(1);
+      expect(this.view.onRender).not.toHaveBeenCalled();
     });
-
 
     describe('init', function() {
       beforeEach(function() {

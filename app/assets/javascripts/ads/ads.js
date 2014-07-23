@@ -80,15 +80,22 @@
     className: 'ad pure-g',
     template: JST['templates/ads/ad_row'],
 
-    initialize: function(){
-      _.bindAll(this, "render");
-      this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
-
-      if( !this.model.get('targeting') ) {
-        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
-        this.model.set('targeting', targeting);
-      }
-      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
+    ui: {
+      targeting:            '.targeting-container',
+      creatives_container:  '.ads-creatives-list-view',
+      creatives_content:    '.creatives-content',
+      ads_sizes:            '.ads-sizes',
+      start_date_editable:  '.start-date-editable',
+      end_date_editable:    '.end-date-editable',
+      name_editable:        '.name-editable',
+      volume_editable:      '.volume-editable',
+      rate_editable:        '.rate-editable',
+      item_selection:       '.item-icon',
+      copy_targeting_btn:   '.ad-copy-targeting-btn',
+      paste_targeting_btn:  '.ad-paste-targeting-btn',
+      cancel_targeting_btn: '.ad-cancel-targeting-btn',
+      missing_geo_caution:  '.missing-geo-caution',
+      media_cost_value:     '.media-cost-value'
     },
 
     events: {
@@ -108,17 +115,38 @@
       'change:volume': '_recalculateMediaCost'
     },
 
-    ui: {
-      targeting:            '.targeting-container',
-      creatives_container:  '.ads-creatives-list-view',
-      creatives_content:    '.creatives-content',
-      ads_sizes:            '.ads-sizes',
-      item_selection:       '.item-icon',
-      copy_targeting_btn:   '.ad-copy-targeting-btn',
-      paste_targeting_btn:  '.ad-paste-targeting-btn',
-      cancel_targeting_btn: '.ad-cancel-targeting-btn',
-      missing_geo_caution:  '.missing-geo-caution',
-      media_cost_value:     '.media-cost-value'
+    bindings: {
+      '.start-date-editable': {
+        observe: 'start_date',
+        onSet: function(val) {
+          return moment(val).format("YYYY-MM-DD");
+        }
+      },
+      '.end-date-editable': 'end_date',
+      '.name-editable':     'description',
+      '.volume-editable': {
+        observe: 'volume',
+        onGet: function(val) {
+          return accounting.formatNumber(val, '');
+        }
+      },
+      '.rate-editable': {
+        observe: 'rate',
+        onGet: function(val) {
+          return accounting.formatMoney(val, '');
+        }
+      }
+    },
+
+    initialize: function(){
+      _.bindAll(this, "render");
+      //this.model.bind('change', this.render); // when start/end date is changed we should rerender the view
+
+      if( !this.model.get('targeting') ) {
+        var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
+        this.model.set('targeting', targeting);
+      }
+      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
     },
 
     onRender: function() {
@@ -129,50 +157,56 @@
 
       this._getCreativesSizes();
 
-      this.$el.find('.name-editable').editable({
+      this.ui.name_editable.editable({
         success: function(response, newValue) {
           view.model.set('description', newValue);
         }
       });
 
-      this.$el.find('.rate-editable').editable({
-        success: function(response, newValue) {
-          view.model.set({ 'rate': newValue });
-          view._recalculateMediaCost();
-        }
-      });
-
-      this.$el.find('.volume-editable').editable({
+      this.ui.volume_editable.editable({
         success: function(resp, newValue) {
           var value = Math.round(Number(String(newValue).replace(/,/g, '')));
-
           view.model.set('volume', value);
 
           view.options.parent_view.recalculateUnallocatedImps();
-          view.render();
         },
         validate: function(value) {
           if($.trim(value) == '') {
             return 'This field is required';
           }
+        },
+        display: function(value) {
+          return accounting.formatNumber(value, '');
         }
       });
 
-      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+      this.ui.rate_editable.editable({
         success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD"),
-              field = $(this).data('name'),
-              creatives = view.model.get('creatives').models;
-          if (creatives) {
-            _.each(creatives, function(creative) {
-              creative.set(field, date);
-            });
-          }
-          view.model.set(field, date); //update backbone model
+          view.model.set({ 'rate': newValue });
+          view._recalculateMediaCost();
         },
-        datepicker: {
-          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+        display: function(value) {
+          return accounting.formatMoney(value, '');
         }
+      });
+
+      _.each([ this.ui.start_date_editable, this.ui.end_date_editable ], function(el) {
+        el.editable({
+          success: function(response, newValue) {
+            var date = moment(newValue).format("YYYY-MM-DD"),
+                field = $(this).data('name'),
+                creatives = view.model.get('creatives').models;
+            if (creatives) {
+              _.each(creatives, function(creative) {
+                creative.set(field, date);
+              });
+            }
+            view.model.set(field, date); //update backbone model
+          },
+          datepicker: {
+            startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+          }
+        });
       });
 
       if (this.model.get('targeting').attributes.audience_groups.length == 0) {

@@ -23,7 +23,7 @@
    <div class="pure-u-1-6">
       <% wrong_start_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.start_date; %>
       <div class="pure-u-1-2 start-date pull-left<% if (wrong_start_date) { %> field_with_errors<% } %>">
-        <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <span class="start-date-editable editable" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
           <%= ad.start_date %>
         </span>
         <div class="errors_container">
@@ -35,7 +35,7 @@
 
       <% wrong_end_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.end_date %>
       <div class="pure-u-1-2 end-date pull-left<% if (wrong_end_date) { %> field_with_errors<% } %>">
-        <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <span class="end-date-editable editable" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
           <%= ad.end_date %>
         </span>
         <div class="errors_container">
