@@ -56,7 +56,7 @@
     },
 
     getImps: function() {
-      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+      return Math.round(this.get('volume'));
     }
   });
 
@@ -122,7 +122,7 @@
     },
 
     _recalculateMediaCost: function() {
-      var imps = this.getImressions();
+      var imps = this.getImpressions();
       var media_cost = this.getMediaCost();
 
       this.model.set({ 'value':  media_cost }, { silent: true });
@@ -138,13 +138,13 @@
       }
     },
 
-    getImressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
+    getImpressions: function() {
+      return this.model.getImps();
     },
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() * cpm) / 1000.0;
+      return (this.getImpressions() * cpm) / 1000.0;
     },
 
     renderTargetingDialog: function() {
