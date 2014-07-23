@@ -68,81 +68,81 @@ ReachActivityTaskApp.module("ActivitiesTasks.Team.Task", function (Task, ReachAc
 
       // Initialize and set order selector
       var orderSelector = this.ui.taskOrderSelector.selectize({
-                              valueField: 'id',
-                              labelField: 'name',
-                              searchField: 'name',
-                              sortField: 'name',
-                              options: [],
-                              create: false,
-                              load: function(query, callback) {
-                                if (!query.length) return callback();
-                                $.ajax({
-                                  url: '/orders/search.js',
-                                  type: 'GET',
-                                  dataType: 'jsonp',
-                                  data: {
-                                    search: query
-                                  },
-                                  error: function () {
-                                    callback();
-                                  },
-                                  success: function (res) {
-                                    var allOrders = [];
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        sortField: 'name',
+        options: [],
+        create: false,
+        load: function(query, callback) {
+          if (!query.length) return callback();
+          $.ajax({
+            url: '/orders/search.js',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+              search: query
+            },
+            error: function () {
+              callback();
+            },
+            success: function (res) {
+              var allOrders = [];
 
-                                    if (res !== 'undefined') {
-                                      for (var i = 0; i < res.length; i++) {
-                                        allOrders.push({ id: res[i].id, name: res[i].name });
-                                      }
-                                    }
+              if (res !== 'undefined') {
+                for (var i = 0; i < res.length; i++) {
+                  allOrders.push({ id: res[i].id, name: res[i].name });
+                }
+              }
 
-                                    callback(allOrders);
-                                  }
-                                });
-                              }
-                            });
+              callback(allOrders);
+            }
+          });
+        }
+      });
 
       // Initialize and populate the assignee selector
       this.assigneeSelector = this.ui.taskAssigneeSelector.selectize({
-                                    valueField: 'id',
-                                    labelField: 'name',
-                                    searchField: 'name',
-                                    sortField: 'group',
-                                    options: this.defaultOptionsList(),
-                                    optgroups: [
-                                      { value: 'team', label: 'Default Team' },
-                                      { value: 'team_users', label: 'Team Members' },
-                                      { value: 'users_all', label: 'Users' },
-                                      { value: 'default_user', label: 'Default User' }
-                                    ],
-                                    optgroupField: 'group',
-                                    create: false,
-                                    load: function(query, callback) {
-                                      if (!query.length) return callback();
-                                      $.ajax({
-                                        url: '/users/search.js',
-                                        type: 'GET',
-                                        dataType: 'jsonp',
-                                        data: {
-                                          search: query,
-                                          search_by: 'name'
-                                        },
-                                        error: function () {
-                                          callback();
-                                        },
-                                        success: function (res) {
-                                          var allUsers = [];
+        valueField: 'id',
+        labelField: 'name',
+        searchField: 'name',
+        sortField: 'group',
+        options: this.defaultOptionsList(),
+        optgroups: [
+          { value: 'team', label: 'Default Team' },
+          { value: 'team_users', label: 'Team Members' },
+          { value: 'users_all', label: 'Users' },
+          { value: 'default_user', label: 'Default User' }
+        ],
+        optgroupField: 'group',
+        create: false,
+        load: function(query, callback) {
+          if (!query.length) return callback();
+          $.ajax({
+            url: '/users/search.js',
+            type: 'GET',
+            dataType: 'jsonp',
+            data: {
+              search: query,
+              search_by: 'name'
+            },
+            error: function () {
+              callback();
+            },
+            success: function (res) {
+              var allUsers = [];
 
-                                          if (res !== 'undefined') {
-                                            for (var i = 0; i < res.length; i++) {
-                                              allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
-                                            }
-                                          }
+              if (res !== 'undefined') {
+                for (var i = 0; i < res.length; i++) {
+                  allUsers.push({ group: 'users_all', id: res[i].id, name: res[i].name });
+                }
+              }
 
-                                          callback(allUsers);
-                                        }
-                                      });
-                                    }
-                                  });
+              callback(allUsers);
+            }
+          });
+        }
+      });
 
       var taskType = this.ui.taskTypeSelector.val();
       var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});

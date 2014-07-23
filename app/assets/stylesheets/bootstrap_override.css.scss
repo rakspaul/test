@@ -66,14 +66,20 @@
     [class*="span"] {
       margin-bottom: 0;
     }
+
+    .btn {
+      .filter-option {
+        width: 92%;
+      }
+    }
   }
 }
 
 // selectize plugin customization
 .selectize-control {
   display: inline-block;
+  font-size: 12px;
   @include form_selects;
-  max-width: 200px;
 
   .selectize-dropdown,
   .selectize-input,
@@ -97,6 +103,12 @@
     .selectize-input:after {
       right: 8px;
     }
+
+    .selectize-dropdown {
+      border-radius: 6px;
+      &.single {
+        width: auto !important; // this is to override width defined programmaticaly in control
+      }
+    }
   }
 }
-
