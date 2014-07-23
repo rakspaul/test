@@ -127,6 +127,16 @@
       this._renderSelectedTargetingOptions();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
+
+
+      this.ui.help_custom_kv.popover({
+        html : true,
+        trigger: 'hover',
+        placement: 'right',
+        title: 'Custom KV Help',
+        content: JST['templates/targeting/custom_key_value_help'],
+      });
+
     },
 
     _showKeyValuesTab: function() {
@@ -536,6 +546,7 @@
     ui: {
       kv_type_switch: '.expand-audience-btn span',
       frequency_caps:  '.tab.frequency-caps',
+      help_custom_kv: '#helpCustomKV'
     },
 
     _isGeoTargeted: function(e) {

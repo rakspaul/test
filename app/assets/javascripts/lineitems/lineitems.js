@@ -77,7 +77,7 @@
     },
 
     getImps: function() {
-      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+      return parseInt(String(this.get('volume')).replace(/,/g, ''));
     },
 
     getCpm: function() { return parseFloat(this.get('rate')); },
@@ -108,7 +108,7 @@
       _.each(this.ads, function(ad) {
         adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
         adImps = adImps * ratio;
-        ad.set('volume', parseInt(adImps));
+        ad.set('volume', Math.round(adImps));
       });
       this.set('buffer', parseFloat(buffer));
     },
@@ -639,7 +639,7 @@
           ads = this.getAds();
 
       _.each(ads, function(ad) {
-        ad.set('volume', parseInt(ad.getImps() * ratio));
+        ad.set('volume', Math.round(ad.getImps() * ratio));
       });
     },
 
@@ -1015,9 +1015,9 @@
               });
               break;
             case 'volume':
-              var ratio = parseInt(String(revised_value).replace(/,|\./g, '')) / original_value;
+              var ratio = parseInt(String(revised_value).replace(/,/g, '')) / original_value;
               _.each(self.model.ads, function(ad) {
-                ad.set('volume', ad.get('volume') * ratio);
+                ad.set('volume', Math.round(ad.get('volume') * ratio));
               });
               break;
             case 'rate':
@@ -1264,7 +1264,7 @@
       var self = this;
       var lineitems = this.collection;
       var lineitemsWithoutAds = [];
-m
+
       lineitems.each(function(li) {
         if (!li.ads.length) {
           lineitemsWithoutAds.push(li.get('alt_ad_id') || li.get('itemIndex'));

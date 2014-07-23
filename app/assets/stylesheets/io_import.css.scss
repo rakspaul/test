@@ -768,7 +768,7 @@ $wide_input_width: 320px;
         width: 20px;
         height: 30px;
         float: left;
-        margin-top: 3px;
+        margin-top: 5px;
         margin-left: 15px;
       }
 
@@ -1035,6 +1035,14 @@ $wide_input_width: 320px;
       font-weight: normal;
       font-style: italic;
     }
+
+    .popover{
+        width:550px !important;
+        max-width:550px !important;
+        height: 200px;
+
+        font-size:12px;
+      }
   }
 
   .save-targeting-btn {
@@ -1569,3 +1577,8 @@ table.creatives-content {
   margin-top: 3px;
   display: inline-block;
 }
+
+.custom-kv-help-icon {
+  margin: 0 15px 5px 0;
+}
+

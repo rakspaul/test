@@ -67,7 +67,7 @@ private
     date = read_attribute_before_type_cast(name)
     date.try(:to_date)
   rescue ArgumentError => e
-    Rails.logger.warn "#{e.message}. #{name}: #{date.inspect}"
+    Rails.logger.warn "#{e.message}. Lineitem id: #{lineitem.try(:id)}, #{name}: #{date.inspect}"
     nil
   end
 end
