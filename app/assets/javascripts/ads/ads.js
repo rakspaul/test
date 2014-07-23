@@ -121,17 +121,94 @@
       media_cost_value:     '.media-cost-value'
     },
 
-    _recalculateMediaCost: function() {
-      var imps = this.getImpressions();
-      var media_cost = this.getMediaCost();
+    onRender: function() {
+      this.stickit();
 
-      this.model.set({ 'value':  media_cost }, { silent: true });
-      this.ui.media_cost_value.html(accounting.formatMoney(media_cost, ''));
+      var view = this;
+      $.fn.editable.defaults.mode = 'popup';
+
+      this._getCreativesSizes();
+
+      this.$el.find('.name-editable').editable({
+        success: function(response, newValue) {
+          view.model.set('description', newValue);
+        }
+      });
+
+      this.$el.find('.rate-editable').editable({
+        success: function(response, newValue) {
+          view.model.set({ 'rate': newValue });
+          view._recalculateMediaCost();
+        }
+      });
+
+      this.$el.find('.volume-editable').editable({
+        success: function(resp, newValue) {
+          var value = Math.round(Number(String(newValue).replace(/,/g, '')));
+
+          view.model.set('volume', value);
+
+          view.options.parent_view.recalculateUnallocatedImps();
+          view.render();
+        },
+        validate: function(value) {
+          if($.trim(value) == '') {
+            return 'This field is required';
+          }
+        }
+      });
+
+      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
+        success: function(response, newValue) {
+          var date = moment(newValue).format("YYYY-MM-DD"),
+              field = $(this).data('name'),
+              creatives = view.model.get('creatives').models;
+          if (creatives) {
+            _.each(creatives, function(creative) {
+              creative.set(field, date);
+            });
+          }
+          view.model.set(field, date); //update backbone model
+        },
+        datepicker: {
+          startDate: ReachUI.initialStartDate(view.model.get('start_date'))
+        }
+      });
+
+      if (this.model.get('targeting').attributes.audience_groups.length == 0) {
+        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
+
+        ags.fetch().then(function() {
+          view.model.get('targeting').set('audience_groups', ags.attributes);
+          view.renderTargetingDialog();
+          ReachUI.showCondensedTargetingOptions.apply(view);
+        });
+      } else {
+        view.renderTargetingDialog();
+        ReachUI.showCondensedTargetingOptions.apply(this);
+      }
+
+      this.renderCreatives();
+
+      // if this Creatives List was open before the rerendering then open ("show") it again
+      if(this.options.parent_view.creatives_visible[view.model.cid]) {
+        this.ui.creatives_container.show();
+        this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
+      }
+
+      this.$el.find('[data-toggle="tooltip"]').tooltip();
+    },
+
+    _recalculateMediaCost: function() {
+      var mediaCost = this.getMediaCost();
+
+      this.model.set({ 'value':  mediaCost }, { silent: true });
+      this.ui.media_cost_value.html(accounting.formatMoney(mediaCost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
-      var $errors_container = this.$el.find('.volume .editable').siblings('.errors_container');
-      if(imps == 0) {
+      var $errors_container = this.$el.find('.volume-editable').siblings('.errors_container');
+      if (this.getImpressions() == 0) {
         $errors_container.html("Impressions must be greater than 0.");
       } else {
         $errors_container.html('');
@@ -256,89 +333,6 @@
           this.ui.ads_sizes.html(ad_sizes.replace(/,/gi, ', '));
         }
       }
-    },
-
-    onRender: function() {
-      //console.log('on render call');
-      var self = this;
-      $.fn.editable.defaults.mode = 'popup';
-
-      this._getCreativesSizes();
-
-      this.$el.find('.rate .editable.custom').editable({
-        success: function(response, newValue) {
-          self.model.set({ 'rate': newValue });
-          self._recalculateMediaCost();
-        }
-      });
-
-      this.$el.find('.volume .editable.custom').editable({
-        success: function(resp, newValue) {
-          var sum_ad_imps = 0,
-            imps = self.options.parent_view.model.get('volume'),
-            value = parseFloat(String(newValue).replace(/,/g, ''))
-
-          self.model.set({ 'volume': Math.round(Number(value)) }); //update backbone model;
-
-          _.each(self.options.parent_view.model.ads, function(ad) {
-            var imps = parseInt(String(ad.get('volume')).replace(/,/g, ''));
-            sum_ad_imps += imps;
-          });
-
-          self.options.parent_view.recalculateUnallocatedImps();
-          self.render();
-        },
-        validate: function(value) {
-          if($.trim(value) == '') {
-            return 'This field is required';
-          }
-        }
-      });
-
-      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
-        success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD"),
-              field = $(this).data('name');
-          if (self.model.get('creatives').models) {
-            _.each(self.model.get('creatives').models, function(creative) {
-              creative.set(field, date);
-            });
-          }
-          self.model.set($(this).data('name'), date); //update backbone model
-        },
-        datepicker: {
-          startDate: ReachUI.initialStartDate(self.model.get('start_date'))
-        }
-      });
-
-      this.$el.find('.editable:not(.typeahead):not(.custom)').editable({
-        success: function(response, newValue) {
-          self.model.set($(this).data('name'), newValue); //update backbone model
-        }
-      });
-
-      if (this.model.get('targeting').attributes.audience_groups.length == 0) {
-        var ags  = new ReachUI.AudienceGroups.AudienceGroupsList();
-
-        ags.fetch().then(function() {
-          self.model.get('targeting').set('audience_groups', ags.attributes);
-          self.renderTargetingDialog();
-          ReachUI.showCondensedTargetingOptions.apply(self);
-        });
-      } else {
-        self.renderTargetingDialog();
-        ReachUI.showCondensedTargetingOptions.apply(this);
-      }
-
-      this.renderCreatives();
-
-      // if this Creatives List was open before the rerendering then open ("show") it again
-      if(this.options.parent_view.creatives_visible[self.model.cid]) {
-        this.ui.creatives_container.show();
-        this.$el.find('.toggle-ads-creatives-btn').html('Hide Creatives');
-      }
-
-      this.$el.find('[data-toggle="tooltip"]').tooltip();
     },
 
     renderCreatives: function() {

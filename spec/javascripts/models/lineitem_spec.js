@@ -43,7 +43,7 @@ describe('ReachUI.LineItems.LineItem', function() {
 
     it('should return integer impression', function() {
       this.lineitem.set('volume', '120,000.78');
-      expect(this.lineitem.getImps()).toBe(12000078);
+      expect(this.lineitem.getImps()).toBe(120000);
     });
 
     it('should return number buffer', function() {

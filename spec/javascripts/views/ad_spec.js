@@ -36,7 +36,7 @@ describe('Ad views', function() {
 
       this.view.model.set('volume', 1000);
       // ReachUI.Ads.AdView should be refactored to change this call to 0
-      expect(this.view.onRender.calls.count()).toEqual(1);
+      expect(this.view.onRender).toHaveBeenCalled();//toEqual(1);
     });
 
 
@@ -81,14 +81,14 @@ describe('Ad views', function() {
       it('should update name attribute', function() {
         var name = this.view.$el.find('.name');
 
-        name.find('.editable').editable('show');
-        name.find('input').val('Test lineitem name');
+        name.find('.name-editable').editable('show');
+        name.find('input').val('Test ad name');
         name.find('button[type=submit]').click();
 
-        expect(this.view.model.get('name')).toBe('Display ad');
+        expect(this.view.model.get('description')).toBe('Test ad name');
       });
 
-      /*it('should update rate attribute', function() {
+      it('should update rate attribute', function() {
         var rate = this.view.$el.find('.rate');
 
         rate.find('.rate-editable').editable('show');
@@ -101,7 +101,7 @@ describe('Ad views', function() {
       it('should update volume attribute', function() {
         var volume = this.view.$el.find('.volume');
 
-        volume.find('.volume-editable').editable('show');
+        volume.find('.editable').editable('show');
         volume.find('input').val(78);
         volume.find('button[type=submit]').click();
 
@@ -111,7 +111,7 @@ describe('Ad views', function() {
       it('should round off the volume attribute', function() {
         var volume = this.view.$el.find('.volume');
 
-        volume.find('.volume-editable').editable('show');
+        volume.find('.editable').editable('show');
         volume.find('input').val(30000.55);
         volume.find('button[type=submit]').click();
 
@@ -121,12 +121,12 @@ describe('Ad views', function() {
       it('should round down the volume attribute', function() {
         var volume = this.view.$el.find('.volume');
 
-        volume.find('.volume-editable').editable('show');
+        volume.find('.editable').editable('show');
         volume.find('input').val(30000.45);
         volume.find('button[type=submit]').click();
 
         expect(parseFloat(this.view.model.get('volume'))).toBe(30000);
-      });*/
+      });
     });
   });
 });
