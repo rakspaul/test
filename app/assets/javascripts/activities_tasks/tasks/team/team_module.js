@@ -46,7 +46,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.Team", function (Team, ReachA
 
       // Utilize semantic-ui's dropdown module
       $("#teamSwitch").dropdown({
-        on: 'hover',
+        namespace: "teamswitch-dropdown",
         transition: "fade",
         onChange: function (newValue) {
           if (newValue) {
