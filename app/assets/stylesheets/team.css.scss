@@ -119,6 +119,8 @@ h2.team-name {
 
     .username {
       color: $rui-heading-text-color;
+      font-size: 12px;
+      font-family: Armata, Arial, sans-serif;
     }
   }
 }
@@ -220,4 +222,9 @@ tbody.team-members-task-list-grid {
   .selectize-control.single > .selectize-input {
     white-space: nowrap;
   }
+}
+
+.requester-name {
+  font-size: 13px;
+  font-family: Armata, Arial, sans-serif;
 }

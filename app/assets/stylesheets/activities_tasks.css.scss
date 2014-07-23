@@ -17,8 +17,9 @@
   padding: 0;
 }
 
+// Only style textarea under containers related to task-management
+.activity-comment-input-container,
 .task-comment-input-container,
-.activity-input-control,
 .team-task-form-container {
   textarea {
     border: none;
@@ -86,8 +87,8 @@
   }
 }
 
-.activity-comment,
-.task-comment-container {
+.activities-container,
+.task-list-container {
   .date {
     text-align: right;
     font-size: 11px;
@@ -125,6 +126,8 @@
         padding-right: 10px;
         text-align: right;
         color: $rui-heading-text-color;
+        font-size: 12px;
+        font-family: Armata, Arial, sans-serif;
       }
 
       .system-comment {
@@ -164,36 +167,31 @@
   }
 }
 
-.task-comment-input-control {
-  margin-top: 10px;
-  textarea {
-    min-width: 98%;
-    resize: vertical;
-  }
-  .username {
-    text-align: right;
-  }
-}
-
+.activity-comment-input-container,
 .task-comment-input-container {
   margin-left: 10px;
   margin-right: 90px;
 }
 
-.activity-input-control {
-  margin-top: 20px;
-
+.activity-input-control,
+.task-comment-input-control {
   .username {
     text-align: right;
+    color: $rui-heading-text-color;
+    font-size: 12px;
+    font-family: Armata, Arial, sans-serif;
   }
 }
 
-.activity-comment-input-container {
-  margin-left: 10px;
-  margin-right: 90px;
+.activity-input-control {
+  margin-top: 20px;
 }
 
-textarea#activity_input {
+.task-comment-input-control {
+  margin-top: 10px;
+}
+
+#activity_input {
   resize: vertical;
   height: 20px;
 }
@@ -376,6 +374,11 @@ textarea#activity_input {
     cursor: pointer;
     padding-left: 5px;
   }
+  .task-assignee-name {
+    color: $rui-gray-color;
+    font-size: 12px;
+    font-family: Armata, Arial, sans-serif;
+  }
 
   &:hover {
     background-color: $rui-lightgray-color;
@@ -452,6 +455,8 @@ $border-breaker-width: 10px;
       padding-right: 10px;
       text-align: right;
       color: $rui-heading-text-color;
+      font-size: 12px;
+      font-family: Armata, Arial, sans-serif;
     }
 
     .system-comment {
