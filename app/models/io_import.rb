@@ -39,7 +39,7 @@ class IoImport
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
       @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
-      @existing_creatives = @existing_order.lineitems.collect{|li| li.creatives + li.video_creatives}.flatten
+      @existing_creatives = @existing_order.lineitems.collect{|li| li.creatives + li.video_creatives}
       @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
       @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
     end
@@ -78,17 +78,22 @@ class IoImport
 
   def new_and_revised_creatives
     if @is_existing_order
-      ad_ids = @existing_creatives.map(&:client_ad_id).map(&:to_i)
-      ad_sizes = @existing_creatives.map(&:size)
-      new_creatives = []
+      new_and_existing_creatives = []
 
-      @inreds.each do |new_creative|
-        if !ad_ids.include?(new_creative[:ad_id]) || !ad_sizes.include?(new_creative[:ad_size])
-          new_creatives << new_creative
+      @existing_creatives.each_with_index do |creatives, index|
+        ad_ids = creatives.map(&:client_ad_id).map(&:to_i).uniq
+        ad_sizes = creatives.map(&:size).uniq
+        new_creatives = []
+
+        @inreds.each do |new_creative|
+          if ad_ids.include?(new_creative[:ad_id]) && !ad_sizes.include?(new_creative[:ad_size])
+            new_creatives << new_creative
+          end
         end
-      end
 
-      @existing_creatives + new_creatives.map{|c| c[:added_with_revision] = true; c}
+        new_and_existing_creatives << (creatives + new_creatives.map{|c| c[:added_with_revision] = true; c})
+      end
+      new_and_existing_creatives
     else
       @inreds
     end

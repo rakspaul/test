@@ -87,7 +87,7 @@ json.lineitems do
 
     json.creatives do
       li_creatives = if lineitem.id && @io_import.is_existing_order # means old LI => get old creatives
-        @io_import.new_and_revised_creatives.select do |ir|
+        @io_import.new_and_revised_creatives[i].select do |ir|
           if ir[:added_with_revision]
             ir[:placement] == lineitem.name || ir[:placement] == @io_import.revisions[i][:name]
           elsif ir.class == Creative
