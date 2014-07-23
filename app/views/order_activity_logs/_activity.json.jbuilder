@@ -5,12 +5,12 @@ json.activity_type activity.activity_type
 json.created_by activity.created_by.try(:full_name)
 json.system_comment activity.generate_system_comment
 
-if activity.activity_attachment
+if activity.attachment?
   json.attachment_id activity.activity_attachment.id
   json.original_filename activity.activity_attachment.original_filename
 end
 
-if activity.task
+if activity.task?
   json.task_id activity.task.id
   json.note activity.task.name
   json.assignable_id activity.task.assignable_id

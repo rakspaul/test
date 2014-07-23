@@ -7,37 +7,23 @@ class OrderActivityLogsController < ApplicationController
   respond_to :json
 
   def index
-    activity_logs = @order.order_activity_logs.includes(:activity_attachment, :task)
     limit = params[:limit]
     offset = params[:offset]
+    filters = params[:filters] || []
+    filter = filters[0] || OrderActivityLog::ActivityType::ALL
 
-    filters = params[:filters]
-
-    if filters
-      task_important = filters.include?OrderActivityLog::ActivityType::ALERT
-
-      if task_important
-        #remove the alert filter as it refers an urgent flag for task and apply task filter if one not existed in the filter.
-        if !filters.include?!OrderActivityLog::ActivityType::TASK
-          filters.push(OrderActivityLog::ActivityType::TASK)
-        end
-        activity_logs = activity_logs.where("tasks.important = 'true'")
-        filters.delete(OrderActivityLog::ActivityType::ALERT)
-      end
-    end
-
-    if filters
-      if filters[0] == OrderActivityLog::ActivityType::ALL
-        @activities = activity_logs.recent_activity nil
-      elsif filters.include? OrderActivityLog::ActivityType::USER
-        filters.delete(OrderActivityLog::ActivityType::USER)
-        @activities = activity_logs.apply_filters_with_user filters, current_user, limit, offset
-      else
-        @activities = activity_logs.apply_filters filters, limit, offset
-      end
-    else
-      @activities = activity_logs.recent_activity limit, offset
-    end
+    @activities = case filter
+                  when OrderActivityLog::ActivityType::USER_COMMENT
+                    @order.order_activity_logs.recent_user_comments(limit, offset)
+                  when OrderActivityLog::ActivityType::ALERT
+                    @order.order_activity_logs.recent_urgent_tasks(limit, offset)
+                  when OrderActivityLog::ActivityType::ATTACHMENT
+                    @order.order_activity_logs.recent_attachments(limit, offset)
+                  when OrderActivityLog::ActivityType::TASK
+                    @order.order_activity_logs.recent_tasks(limit, offset)
+                  when OrderActivityLog::ActivityType::ALL
+                    @order.order_activity_logs.recent_activity(limit, offset)
+                  end
 
     respond_to do |format|
       format.json

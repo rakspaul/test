@@ -24,19 +24,20 @@ class OrderActivityLog < ActiveRecord::Base
     where(:activity_type => ActivityType::USER_COMMENT)
   end
 
-  def self.alerts
-    where(:activity_type => ActivityType::ALERT)
+  def self.urgent_tasks
+    tasks.where('tasks.important' => true)
   end
 
   def self.tasks
-    where(:activity_type => ActivityType::TASK)
+    result = joins(:task).where(:activity_type => ActivityType::TASK)
+    result.order('tasks.task_state desc, tasks.important desc, tasks.due_date asc')
   end
 
   def self.attachments
-    where(:activity_type => ActivityType::ATTACHMENT)
+    joins(:activity_attachment).where(:activity_type => ActivityType::ATTACHMENT)
   end
 
-  def self.recent_activity limit, offset=0
+  def self.recent_activity(limit, offset=0)
     if(limit && offset)
       order(:created_at => :desc).limit(limit).offset(offset)
     else
@@ -44,19 +45,20 @@ class OrderActivityLog < ActiveRecord::Base
     end
   end
 
-  def self.recent_user_comments
-    user_comments.recent_activity
+  def self.recent_user_comments(limit, offset=0)
+    user_comments.recent_activity(limit, offset)
   end
 
-  def self.recent_alerts
-    alerts.recent_activity
-  end
-  def self.recent_tasks
-    tasks.recent_activity
+  def self.recent_urgent_tasks(limit, offset=0)
+    urgent_tasks.recent_activity(limit, offset)
   end
 
-  def self.recent_attachments
-    attachments.recent_activity
+  def self.recent_tasks(limit, offset=0)
+    tasks.recent_activity(limit, offset)
+  end
+
+  def self.recent_attachments(limit, offset=0)
+    attachments.recent_activity(limit, offset)
   end
 
   def generate_system_comment
@@ -74,6 +76,12 @@ class OrderActivityLog < ActiveRecord::Base
       where(activity_type: filters, created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
     else
       where(created_by_id: user.id).order(created_at: :desc).limit(limit).offset(offset)
+    end
+  end
+
+  ActivityType.const_values.each do |activity|
+    define_method "#{activity}?".to_sym do
+      self.activity_type == activity
     end
   end
 
