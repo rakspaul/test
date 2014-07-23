@@ -85,14 +85,11 @@
     },
 
     setBuffer: function(buffer) {
-      var adImps,
-          prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
+      var prevBuffer = (isNaN(this.get('buffer')) ? 0.0 : parseFloat(this.get('buffer'))),
           ratio = (100 + parseFloat(buffer)) / (100 + prevBuffer),
           ads = this.ads.models || this.ads.collection;
       _.each(this.ads, function(ad) {
-        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        adImps = adImps * ratio;
-        ad.set('volume', parseInt(adImps));
+        ad.set('volume', parseInt(ad.getImpressions() * ratio));
       });
       this.set('buffer', parseFloat(buffer));
     },
@@ -531,7 +528,7 @@
           ad_view = new ReachUI.Ads.AdView({model: ad, parent_view: li_view});
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
-      if (0 == ad.get('volume')) {
+      if (0 == ad.getImpressions()) {
         ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
     },
@@ -578,9 +575,7 @@
           ads = this.model.ads.models || this.model.ads.collection || this.model.ads;
 
       _.each(ads, function(ad) {
-        adImps = parseInt(String(ad.get('volume')).replace(/,|\./g, ''));
-        adImps = adImps * ratio;
-        ad.set('volume', parseInt(adImps));
+        ad.set('volume', parseInt(ad.getImpressions() * ratio));
       });
     },
 
@@ -1117,7 +1112,7 @@
           var val = parseInt(String(revised_value).replace(/,|\./g, '')), 
               ratio = val / original_value;
           _.each(self.model.ads, function(ad) {
-            ad.set('volume', (ad.get('volume') * ratio));
+            ad.set('volume', parseInt(ad.getImpressions() * ratio));
           });
           break;
         case 'rate':
