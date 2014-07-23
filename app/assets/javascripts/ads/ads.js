@@ -146,7 +146,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
-      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
+      this.model.set('value', this.getMediaCost());
     },
 
     onRender: function() {
@@ -236,6 +236,7 @@
     _recalculateMediaCost: function() {
       var mediaCost = this.getMediaCost();
 
+      // TODO use stickit instead of this
       this.model.set({ 'value':  mediaCost }, { silent: true });
       this.ui.media_cost_value.html(accounting.formatMoney(mediaCost, ''));
 
