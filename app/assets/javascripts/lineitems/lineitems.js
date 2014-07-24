@@ -997,7 +997,8 @@
 
     _acceptAllRevisions: function(e) {
       var self = this,
-          elements = {start_date: '.start-date .editable', end_date: '.end-date .editable', name: '.name .editable', volume: '.volume .editable', rate: '.rate .editable'};
+          elements = {start_date: '.start-date .editable', end_date: '.end-date .editable', name: '.name .editable', volume: '.volume .editable', rate: '.rate .editable'},
+          original_imps_value = self.model.get('volume');
       e.stopPropagation();
 
       this.$el.find('.revision').hide();
@@ -1019,11 +1020,19 @@
           $apply_ads_dialog.modal('hide');
           $('.save-order-btn').hide();
 
-          _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
-            var revision = self.model.get('revised_'+attr_name),
-                original_value = self.model.get(attr_name);
+          _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
+            var revision = self.model.get('revised_'+attr_name);
+
+            if(attr_name == 'ad_sizes') {
+              if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
+                revision = self.model.get('revised_common_ad_sizes').join(', ');
+              } else {
+                revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+              }
+            }
+
             if(revision != null) {
-              self._applyChangeToAd(attr_name, revision, original_value);
+              self._applyChangeToAd(attr_name, revision, original_imps_value);
             }
           });
           self._removeAndHideAllRevisions(e);
@@ -1098,7 +1107,7 @@
       this.$el.find('.revised-dialog').remove();
     },
 
-    _applyChangeToAd: function(attr_name, revised_value, original_value) {
+    _applyChangeToAd: function(attr_name, revised_value, original_imps_value) {
       var self = this;
 
       switch (attr_name) {
@@ -1110,7 +1119,7 @@
           break;
         case 'volume':
           var val = parseInt(String(revised_value).replace(/,|\./g, '')), 
-              original_val = parseInt(String(original_value).replace(/,|\./g, '')),
+              original_val = parseInt(String(original_imps_value).replace(/,|\./g, '')),
               ratio = val / original_val;
           _.each(self.model.ads, function(ad) {
             ad.set('volume', parseInt(ad.getImpressions() * ratio));
