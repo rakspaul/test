@@ -371,6 +371,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this._resetAttachmentContainer();
       this.ui.activity_input.siblings('.errors_container').html('');
       this.ui.btnSaveComment.removeClass("active");
+      this.ui.btnMarkImportant.removeClass("active");
+      this.model.set('important', false);
+      this.ui.dueDate.show();
+      this.ui.dueDateText.hide();
       this.resetFilters();
     },
 
