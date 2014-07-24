@@ -1110,7 +1110,8 @@
           break;
         case 'volume':
           var val = parseInt(String(revised_value).replace(/,|\./g, '')), 
-              ratio = val / original_value;
+              original_val = parseInt(String(original_value).replace(/,|\./g, '')),
+              ratio = val / original_val;
           _.each(self.model.ads, function(ad) {
             ad.set('volume', parseInt(ad.getImpressions() * ratio));
           });
