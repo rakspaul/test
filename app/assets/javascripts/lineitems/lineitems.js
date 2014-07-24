@@ -1064,7 +1064,8 @@
           self.model.attributes[attr_name] = revision;
 
           if(attr_name == 'start_date' || attr_name == 'end_date') {
-            $editable.first().addClass('revision').data('value', (new Date(revision))).editable('setValue', (new Date(revision)));
+            var revisedDate = moment(revision)._d;
+            $editable.first().addClass('revision').data('value', revisedDate).editable('setValue', revisedDate);
           } else {
             $editable.first().text(revision).addClass('revision').data('value', revision).editable('setValue', revision);
           }
@@ -1178,8 +1179,9 @@
 
       $target_parent.siblings('.revision').hide();
 
-      if(attr_name == 'start_date' || attr_name == 'end_date') {
-        $editable.first().addClass('revision').data('value', (new Date(revised_value))).editable('setValue', (new Date(revised_value)));
+      if (attr_name == 'start_date' || attr_name == 'end_date') {
+        var revisedDate = moment(revised_value)._d;
+        $editable.first().addClass('revision').data('value', revisedDate).editable('setValue', revisedDate);
       } else {
         $editable.first().text(revised_value).addClass('revision').data('value', revised_value).editable('setValue', revised_value);
       }
