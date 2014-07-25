@@ -821,6 +821,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
           if((null == li.get('id')) && li.get('revised')) {
             EventsBus.trigger('lineitem:logRevision', "New Line Item "+li.get('alt_ad_id')+" Created");
+            lineItemList.order.attributes.revision_changes[li.get('alt_ad_id')] = 'added_with_revision';
           }
 
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];

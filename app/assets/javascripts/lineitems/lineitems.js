@@ -573,15 +573,23 @@
     },
 
     _showLastRevisions: function() {
+      var self = this;
+
       if(this.model.collection.order.get('last_revision')) {
         var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
-        var self = this;
-        _.each(li_changes, function(changes, attr) {
-          if(!changes['accepted'] && changes['proposed'] != null) {
-            self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
-            self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['proposed']);
-          }
-        });
+        if(li_changes) {
+          _.each(li_changes, function(changes, attr) {
+            if(!changes['accepted'] && changes['proposed'] != null) {
+              self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
+              self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['proposed']);
+            }
+          });
+        }
+
+        // if this LI was added by previous revision IO show this with pink color
+        if(this.model.collection.order.get('last_revision')[this.model.get('alt_ad_id')]) {
+          self.$el.find('.li-number').first().addClass('revised');
+        }
       }
     },
 
