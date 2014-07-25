@@ -577,7 +577,7 @@
         var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
         var self = this;
         _.each(li_changes, function(changes, attr) {
-          if(!changes['accepted']) {
+          if(!changes['accepted'] && changes['proposed'] != null) {
             self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
             self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['proposed']);
           }
