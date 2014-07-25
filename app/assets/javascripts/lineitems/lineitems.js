@@ -668,7 +668,6 @@
       }
     },
 
-<<<<<<< HEAD
     _updateCreativesCaption: function() {
       var creatives = this.model.get('creatives').models,
           edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
@@ -676,7 +675,6 @@
     },
 
     ///////////////////////////////////////////////////////////////////////////////
-=======
     recalculateUnallocatedImps: function() {
       var unallocated = this.model.getUnallocatedImps();
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
@@ -697,7 +695,6 @@
 
     ///////////////////////////////////
     ////////////////////////////////////////////
->>>>>>> master
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
@@ -1161,32 +1158,9 @@
         $apply_ads_dialog.find('.apply-btn').click(function() {
           $apply_ads_dialog.find('.apply-btn').off('click');
           $apply_ads_dialog.modal('hide');
-<<<<<<< HEAD
           $('.save-order-btn').hide();
           self._applyChangeToAd(attr_name, revised_value, original_value);
-=======
-          switch (attr_name) {
-            case 'start_date':
-            case 'end_date':
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-            case 'volume':
-              var ratio = parseInt(String(revised_value).replace(/,/g, '')) / original_value;
-              _.each(self.model.ads, function(ad) {
-                ad.set('volume', Math.round(ad.get('volume') * ratio));
-              });
-              break;
-            case 'rate':
-              revised_value = accounting.formatNumber(revised_value, 2);
-              _.each(self.model.ads, function(ad) {
-                ad.set(attr_name, revised_value);
-              });
-              break;
-          };
           self.recalculateUnallocatedImps();
->>>>>>> master
         });
         $apply_ads_dialog.modal('show');
       }
