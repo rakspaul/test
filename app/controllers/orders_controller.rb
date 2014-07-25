@@ -46,7 +46,7 @@ class OrdersController < ApplicationController
     @last_revision = if @order.revisions.empty?
       nil
     elsif @order.io_detail.try(:state) == "revisions_proposed"
-      revision = @order.revisions.last
+      revision = @order.revisions.first
       # we could only show the latest not accepted revision otherwise don't show any revisions at all
       revision.accepted ? nil : JSON.load(revision.object_changes)
     end
@@ -193,7 +193,7 @@ class OrdersController < ApplicationController
       order_param.delete(:cancel_last_revision)
       if order_param[:order_status] !~ /ready_for_|pushing/
         io_details.update_attribute(:state, 'revisions_proposed')
-        last_revision = @order.revisions.last
+        last_revision = @order.revisions.first
         last_revision.update_attribute('accepted', true) if last_revision
       end
     end
