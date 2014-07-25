@@ -22,7 +22,7 @@
     <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
       <span>Contract LI</span>
       <div style="clear:both"></div>
-      <span class="number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
+      <span class="item-number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
 
       <div class="revised-dialog" style="display:none">
         <span class="accept-all-btn"><span class="accept-img"/>Accept All Revisions</span>
@@ -50,6 +50,11 @@
         Start date cannot be in the past
         <% } %>
       </div>
+      <% if(lineitem.dfp_url && lineitem.dfp_url != '') { %>
+        <div class="client-id">Client Id: <a href="<%= lineitem.dfp_url %>" target="_blank"><%= lineitem.li_id %></a></div>
+      <% } else if(lineitem.li_id && lineitem.li_id!="") {%>
+        <div class="client-id">Client Id: <%= lineitem.li_id %></div>
+      <% } %>
     </div>
 
     <% wrong_end_date = !lineitem.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > lineitem.end_date %>
@@ -104,6 +109,11 @@
     <div class="pure-u-1-3 name">
       <span class="editable name-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" contenteditable="true">
         <%= lineitem.name %>
+      </span>
+
+      <div style="clear:both"></div>
+      <span class="editable notes notes-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" title="Line item notes">
+        <%= lineitem.notes %>
       </span>
 
       <% if(lineitem.revised_name) { %>
@@ -175,7 +185,7 @@
 
     <div class="pure-u-1-12 media-cost number-field">
       <span class="number-value">
-        $<span><%= accounting.formatMoney(lineitem.value, '') %></span>
+        $<span class="media-cost-value"><%= accounting.formatMoney(lineitem.value, '') %></span>
       </span>
       <div class="errors_container"></div>
     </div>
@@ -206,3 +216,8 @@
 
 <div class="paste-targeting-btn" style="display:none">Paste Targeting</div>
 <div class="cancel-targeting-btn" style="display:none">Cancel</div>
+
+<div class="unallocated-imps pure-g">
+  <div class="unallocated-imps-caption pure-u-1-6 pull-right">Unallocated impressions</div>
+  <div class="unallocated-imps-value pure-u-1-12 pull-right">0</div>
+</div>

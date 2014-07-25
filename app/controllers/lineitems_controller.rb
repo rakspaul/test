@@ -81,7 +81,7 @@ class LineitemsController < ApplicationController
 
             # we need the li_status = 'dfp_pulled' to differentiate this LI and bypass
             # validation on start_date attribute (otherwise it will not create LI with start_date in past)
-            li = Lineitem.create name: "Contract Line Item #{index}", start_date: li_start_date, end_date: li_end_date, volume: volume, rate: cpm_total, value: value, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: li_keyvalue_targeting, media_type_id: media_type.id, notes: nil, type: media_type.try(:category).to_s, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
+            li = Lineitem.create name: "Contract Line Item #{index}", start_date: li_start_date, end_date: li_end_date, volume: volume, rate: cpm_total, value: value, order_id: @order.id, ad_sizes: ad_sizes, user_id: current_user.id, alt_ad_id: index, keyvalue_targeting: li_keyvalue_targeting, media_type_id: media_type.id, notes: nil, buffer: 0.0, li_status: 'dfp_pulled', uploaded: false
 
             if li.errors.blank?
               ads.map(&:ad_assignments).flatten.uniq.each do |assignment|

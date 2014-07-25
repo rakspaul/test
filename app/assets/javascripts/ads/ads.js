@@ -52,11 +52,13 @@
       }
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
+      delete ad['site_id'];
+      delete ad['zone'];
       return { ad: ad };
     },
 
     getImpressions: function() {
-      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+      return Math.round(String(this.get('volume')).replace(/,/g, ''));
     },
 
     getMediaCost: function() {
@@ -101,22 +103,37 @@
       'mouseleave': '_hideDeleteBtn',
       'click .delete-btn': '_destroyAd',
       'click .toggle-ads-targeting-btn': '_toggleTargetingDialog',
-      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog'
+      'click .toggle-ads-creatives-btn': '_toggleCreativesDialog',
+
+      'click .item-selection': '_toggleAdSelection',
+      'click .ad-copy-targeting-btn .copy-targeting-item': 'copyTargeting',
+      'click .ad-paste-targeting-btn': 'pasteTargeting',
+      'click .ad-cancel-targeting-btn': 'cancelTargeting',
+    },
+
+    modelEvents: {
+      'change:volume': '_recalculateMediaCost'
     },
 
     ui: {
-      targeting: '.targeting-container',
-      creatives_container: '.ads-creatives-list-view',
-      creatives_content: '.creatives-content',
-      ads_sizes: '.ads-sizes'
+      targeting:            '.targeting-container',
+      creatives_container:  '.ads-creatives-list-view',
+      creatives_content:    '.creatives-content',
+      ads_sizes:            '.ads-sizes',
+      item_selection:       '.item-icon',
+      copy_targeting_btn:   '.ad-copy-targeting-btn',
+      paste_targeting_btn:  '.ad-paste-targeting-btn',
+      cancel_targeting_btn: '.ad-cancel-targeting-btn',
+      missing_geo_caution:  '.missing-geo-caution',
+      media_cost_value:     '.media-cost-value'
     },
 
     _recalculateMediaCost: function(options) {
-      var imps = this.model.getImpressions();
+      var imps       = this.model.getImpressions();
       var media_cost = this.model.getMediaCost();
 
-      this.model.set({ 'value':  media_cost }, options);
-      this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+      this.model.set({ 'value':  media_cost }, { silent: true });
+      this.ui.media_cost_value.html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
@@ -171,11 +188,11 @@
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible){
+      if(is_visible) {
         this.targetingView.hideTargeting();
-      } else{
+      } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 
@@ -190,6 +207,16 @@
       $('.ad > .name').height('');
 
       this.$el.find('.toggle-ads-targeting-btn').html('+ Add Targeting');
+    },
+
+    toggleMissingGeoCaution: function() {
+      var targeting = this.model.get('targeting');
+      if (targeting && targeting.get('selected_geos').length == 0 &&
+                       targeting.get('selected_zip_codes').length == 0) {
+        this.ui.missing_geo_caution.show();
+      } else {
+        this.ui.missing_geo_caution.hide();
+      }
     },
 
     // for ads
@@ -255,11 +282,7 @@
             sum_ad_imps += imps;
           });
 
-          self._recalculateMediaCost({ silent: true });
-
-          var buffer = self.options.parent_view.model.get('buffer');
-          buffer = (sum_ad_imps / imps * 100) - 100;
-          self.options.parent_view.model.set({ 'buffer': buffer });
+          self.options.parent_view.recalculateUnallocatedImps();
           self.render();
         },
         validate: function(value) {
@@ -337,6 +360,27 @@
       }
     },
 
+    _toggleAdSelection: function(e) {
+      e.stopPropagation();
+      ReachUI.toggleItemSelection.call(this, e, 'ad');
+    },
+
+    copyTargeting: function(e) {
+      ReachUI.copyTargeting.call(this, e, 'ad');
+    },
+
+    _deselectAllItems: function(options) {
+      ReachUI.deselectAllItems.call(this, options, 'ad');
+    },
+
+    pasteTargeting: function(e) {
+      ReachUI.pasteTargeting.call(this, e, 'ad');
+    },
+
+    cancelTargeting: function(e) {
+      ReachUI.cancelTargeting.call(this, e, 'ad');
+    },
+
     _showDeleteBtn: function(e) {
       e.stopPropagation();
       this.$el.find('.delete-btn').show();
@@ -348,18 +392,15 @@
     },
 
     _destroyAd: function(e) {
-      var li_ads = this.options.parent_view.model.ads;
+      var model = this.options.parent_view.model;
+      var li_ads = model.ads;
       var cid = this.model.cid;
 
       // update list of ads for the related lineitem
-      var new_ads = _.inject(li_ads, function(new_ads, ad) {
-        if(cid != ad.cid) {
-          new_ads.push(ad);
-        }
-        return new_ads;
-      }, []);
-      this.options.parent_view.model.ads = new_ads;
-
+      model.ads =_.filter(li_ads, function(ad) {
+        return cid != ad.cid;
+      });
+      this.options.parent_view.recalculateUnallocatedImps();
       this.remove();
     },
 

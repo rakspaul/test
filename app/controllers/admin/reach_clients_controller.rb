@@ -67,7 +67,9 @@ class Admin::ReachClientsController < ApplicationController
 
   private
     def reach_client_params
-      params.require(:reachClient).permit(:name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id, :billing_contact_id, :agency_id, :client_buffer)
+      params.require(:reachClient).permit(
+          :name, :abbr, :sales_person_id, :account_manager_id, :media_contact_id,
+          :billing_contact_id, :agency_id, :client_buffer, :client_network_id)
     end
 
     def includes_params

@@ -1,8 +1,8 @@
-json.partial! 'orders/order', 
+json.partial! 'orders/order',
   {
     order: @order,
     is_existing_order: false,
-    io_original_filename: @order.io_assets.details.try(:last).try(:asset_upload_name), 
+    io_original_filename: @order.io_assets.details.try(:last).try(:asset_upload_name),
     io_created_at: @order.io_assets.details.try(:last).try(:created_at).to_s,
     revised_io_filename: nil,
     io_detail: @order.io_detail,
@@ -17,7 +17,8 @@ json.partial! 'orders/order',
     io_file_path: "",
     reach_client_name: @order.io_detail.try(:reach_client).try(:name),
     reach_client_abbr: @order.io_detail.try(:reach_client).try(:abbr),
-    reach_client_buffer: @order.io_detail.try(:reach_client).try(:client_buffer)
+    reach_client_buffer: @order.io_detail.try(:reach_client).try(:client_buffer),
+    reach_client_network_id: @order.io_detail.try(:reach_client).try(:client_network_id)
   }
 
 json.notes do

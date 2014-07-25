@@ -6,9 +6,15 @@
       <% } %>
     </div>
 
-    <div class="pure-u-1-24 ad-name">
+    <div class="pure-u-1-24 ad-name item-selection">
       Ad
-      <span class="<%=ad.type.toLowerCase() %>-icon centered-icon"></span>
+      <% ad_type = _.contains(['display', 'video', 'companion', 'facebook', 'mobile'], ad.type.toLowerCase()) ? ad.type.toLowerCase() : 'display' %>
+      <div class="item-icon">
+        <span class="<%= ad_type %>-icon centered-icon"></span>
+      </div>
+      <% if(ad.platform_id) { %>
+        <a href="javascript:void(0)" class="tag-icon" data-toggle="tooltip" data-placement="right" title="<%= ad.platform_name %>"></a>
+      <% } %>
       <% if(!isNaN(parseInt(ad.source_id))) { %>
         <div class="dfp-success"></div>
       <% } %>
@@ -41,7 +47,6 @@
 
       <div class="ad-<%= ad.id %> pushing-status" style="clear:both">
         <% if(!isNaN(parseInt(ad.source_id))) { %>
-          <div class="dfp-success"></div>
           <a href="<%= ad.dfp_url %>" target="_blank"><%= ad.source_id %></a>
         <% } %>
         <% if(ad.status) { %>
@@ -103,7 +108,7 @@
 
     <div class="pure-u-1-12 media-cost number-field">
       <span class="number-value">
-        $ <span><%= accounting.formatMoney(ad.value, '') %></span>
+        $ <span class="media-cost-value"><%= accounting.formatMoney(ad.value, '') %></span>
       </span>
       <div class="errors_container"></div>
     </div>
@@ -117,4 +122,19 @@
 
 <div class="ads-creatives-list-view" style="display:none">
 </div>
+<div style="clear:both"></div>
+
+<div class="ad-copy-targeting-btn dropdown" style="display:none">
+  <div data-toggle="dropdown" id="copyTargeting">Copy</div>
+    <ul class="dropdown-menu copy-targeting-dropdown list-inline" role="menu" aria-labelledby="copyTargeting">
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="key_values">KVs</a></li>
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="geo">Geo</a></li>
+      <li role="presentation"><a class="copy-targeting-item" role="menuitem" tabindex="-1" href="javascript:void(0)" data-type="freq_cap">Freq Cap</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="ad-paste-targeting-btn" style="display:none">Paste Targeting</div>
+<div class="ad-cancel-targeting-btn" style="display:none">Cancel</div>
+
 <div style="clear:both"></div>

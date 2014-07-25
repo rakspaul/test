@@ -734,12 +734,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var type = args.type || li.get('type');
       var platform = args.platform;
       var abbr = platform ? platform.get('naming_convention') : null;
-      var platformId = platform ? platform.get('id') : null;
+      var platformId = platform ? platform.get('id') : null,
+          platformName = platform ? platform.get('name') : null,
+          site_id = platform ? platform.get('site_id') : null
+
+      var advertiserName = lineItemList.order.get('advertiser_name');
+      var zoneName = advertiserName.replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '').toLowerCase()+'_'+ReachUI.getGUID();
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
       var buffer = 1 + li.get('buffer') / 100;
-      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li)); 
-      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId });
+      var remaining_impressions = parseInt(ordersController._calculateRemainingImpressions(li));
+      var attrs = _.extend(_.omit(li.attributes, 'id', '_delete_creatives', 'name', 'alt_ad_id', 'itemIndex', 'ad_sizes', 'revised', 'revised_start_date', 'revised_end_date', 'revised_volume', 'revised_rate', 'revised_name', 'targeting', 'master_ad_size', 'companion_ad_size', 'notes', 'li_id', 'buffer', 'li_status', 'uploaded'), {description: ad_name, io_lineitem_id: li.get('id'), size: li.get('ad_sizes'), volume: remaining_impressions, type: type, platform_id: platformId, platform_name: platformName });
       var frequencyCaps = ReachUI.omitAttribute(li.get('targeting').get('frequency_caps'), 'id');
 
       var ad = new ReachUI.Ads.Ad(attrs);
@@ -749,9 +754,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
         selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
         audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: platform ? platform.get('dfp_key') + '=default' : li.get('targeting').get('keyvalue_targeting'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') +'='+zoneName : li.get('targeting').get('keyvalue_targeting'),
         frequency_caps: platform ? [] : frequencyCaps,
-        type: type
+        type: type,
+        site_id: platform ? site_id : null,
+        zone: platform ? zoneName : null,
       });
 
       var creatives = li.get('creatives').models, li_creatives = [];
@@ -862,7 +869,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 dfp_key_values: attrs.ad.dfp_key_values,
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
-                type: li_view.model.get('type')
+                type: li_view.model.get('type'),
+                site_id: attrs.ad.site_id,
+                zone: attrs.ad.zone,
               })
             });
 

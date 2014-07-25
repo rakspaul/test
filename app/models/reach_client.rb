@@ -18,6 +18,8 @@ class ReachClient < ActiveRecord::Base
 
   validate :validate_network_id, :validate_user_id, :validate_sales_person, :validate_account_manager, :validate_sales_person_account_manager, :validate_agency
 
+  validates :client_network_id, numericality: { only_integer: true }
+
   before_validation :compact_attr
 
   before_save :client_buffer_val

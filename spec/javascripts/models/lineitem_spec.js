@@ -23,6 +23,38 @@ describe('ReachUI.LineItems.LineItem', function() {
       expect(this.li.get('end_date')).toEqual(defaultEndDate);
     });
   });
+
+  describe('getter methods', function() {
+    beforeEach(function() {
+      this.order = new ReachUI.Orders.Order();
+      this.lineitem = BackboneFactory.create('lineitem');
+      this.ad = BackboneFactory.create('ad');
+      this.secondAd = _.clone(this.ad);
+      this.lineitem.ads = [ this.ad, this.secondAd ];
+
+      this.collection = new ReachUI.LineItems.LineItemList();
+      this.collection.setOrder(this.order);
+      this.collection.add(this.lineitem);
+    });
+
+    it('should return unallocated impressions', function() {
+      expect(this.lineitem.getUnallocatedImps()).toBe(100124);
+    });
+
+    it('should return integer impression', function() {
+      this.lineitem.set('volume', '120,000.78');
+      expect(this.lineitem.getImps()).toBe(120000);
+    });
+
+    it('should return number buffer', function() {
+      this.lineitem.set('buffer', 5.5);
+      expect(this.lineitem.getBuffer()).toBe(5.5);
+    });
+
+    it('should return number cpm', function() {
+      expect(this.lineitem.getCpm()).toBe(1.9856);
+    });
+  });
 });
 
 describe('ReachUI.LineItems.LineItemList', function() {

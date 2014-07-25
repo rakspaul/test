@@ -180,6 +180,8 @@ Reachui::Application.routes.draw do
   resources :platforms, :only => [:index]
   get 'media_types/media_types'
 
+  get 'zones/search'
+
   resources :key_values do
     collection do
       post 'validate'

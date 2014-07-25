@@ -287,6 +287,17 @@ $wide_input_width: 320px;
       margin-left: 40%;
       padding-left: 10px;
     }
+
+    .share-icon{
+      background: url(asset-path('new_window.png'));
+      display: block;
+      height: 16px;
+      margin-right: 5px;
+      width: 16px;
+      cursor: pointer  !important;
+      margin-left:10px !important;
+      float:left;
+    }
   }
 
   .toggle-general-info-button {
@@ -393,6 +404,12 @@ $wide_input_width: 320px;
     float: right;
     width: 33%;
   }
+
+  .client-order-id{
+    width:80px;
+    float:left;
+    position:relative;
+  }
 }
 
 .lineitems-container {
@@ -413,7 +430,8 @@ $wide_input_width: 320px;
     }
   }
 
-  .copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn {
+  .copy-targeting-btn, .paste-targeting-btn, .cancel-targeting-btn,
+  .ad-copy-targeting-btn, .ad-paste-targeting-btn, .ad-cancel-targeting-btn {
     border: 1px dashed $bg_color;
     float: left;
     padding: 4px;
@@ -423,17 +441,19 @@ $wide_input_width: 320px;
     margin-bottom: 7px;
   }
 
-  .copy-targeting-btn .copy-targeting-dropdown .active > a {
+  .copy-targeting-btn .copy-targeting-dropdown .active > a,
+  .ad-copy-targeting-btn .copy-targeting-dropdown .active > a {
     background-color: $magenta_color;
     background-image: none;
     background-repeat: none;
   }
 
-  .copy-targeting-item {
+  .copy-targeting-item, .ad-copy-targeting-item {
     letter-spacing: normal;
   }
 
-  .paste-targeting-btn, .cancel-targeting-btn {
+  .paste-targeting-btn, .cancel-targeting-btn,
+  .ad-paste-targeting-btn, .ad-cancel-targeting-btn {
     margin-left: 10px;
   }
 
@@ -609,7 +629,7 @@ $wide_input_width: 320px;
       margin-right: 5px;
     }
 
-    .li-number {
+    .li-number, .item-selection {
       text-align:center;
       color:white;
       font-weight:bold;
@@ -621,14 +641,20 @@ $wide_input_width: 320px;
         cursor: pointer;
       }
 
-      .number {
+      .item-number {
         display: inline-block;
         padding: 10px;
       }
 
-      .number.selected {
+      .item-number.selected {
         border: 2px dashed white;
         border-radius: 22px;
+      }
+
+      .item-icon.selected {
+        margin: 0 10px;
+        border: 2px solid white;
+        border-radius: 20px;
       }
     }
 
@@ -757,12 +783,20 @@ $wide_input_width: 320px;
         width: 20px;
         height: 30px;
         float: left;
-        margin-top: 3px;
+        margin-top: 5px;
         margin-left: 15px;
+      }
+
+      .tag-icon {
+        margin:10px 0 0 15px;
       }
 
       .centered-icon {
         margin: 5px auto;
+      }
+
+      .tooltip{
+        font-weight:normal;
       }
     }
 
@@ -791,18 +825,55 @@ $wide_input_width: 320px;
     }
 
     .targeting-options {
-      float: left;
-      height:18px;
+      display: inline;
     }
 
     .targeting-options.highlighted {
+      display: inline;
       background-color: yellow;
       padding: 2px;
     }
 
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
+      display: inline-block;
+      float: none;
       margin-left:10px;
+      vertical-align: middle;
     }
+  }
+
+  .unallocated-imps {
+    color: white;
+    height: 32px;
+    margin-top: -7px;
+
+    .unallocated-imps-value {
+      font-weight: bold;
+      background-color: $li_number_bg;
+      height: 100%;
+      text-align: right;
+      padding-top: 8px;
+      padding-right: 10px;
+      font-size: 15px;
+    }
+
+    .unallocated-imps-caption {
+      background-color: $li_number_bg;
+      height: 100%;
+      font-size: 13px;
+      padding-top: 8px;
+      padding-left: 10px;
+    }
+  }
+
+  .client-id{
+    margin:40px 0 0 10px;
+    position: absolute;
+  }
+
+  .client-id-basic{
+    margin: 20px 0 0 10px;
+    position: absolute;
   }
 }
 
@@ -978,6 +1049,25 @@ $wide_input_width: 320px;
       font-size: 10px;
       font-weight: normal;
       font-style: italic;
+    }
+
+    .popover{
+        width:550px !important;
+        max-width:550px !important;
+        height: 200px;
+
+        font-size:12px;
+      }
+
+    .zone{
+      .twitter-typeahead{
+        width:100%;
+        margin-left:10px;
+
+        input{
+          width:75%;
+        }
+      }
     }
   }
 
@@ -1513,3 +1603,8 @@ table.creatives-content {
   margin-top: 3px;
   display: inline-block;
 }
+
+.custom-kv-help-icon {
+  margin: 0 15px 5px 0;
+}
+
