@@ -11,16 +11,7 @@ describe('Line items views', function() {
 
     beforeEach(function() {
       this.order = new ReachUI.Orders.Order();
-      this.lineitem = new ReachUI.LineItems.LineItem({
-        name:       'Display Line Item',
-        start_date: '2013-06-01',
-        end_date:   '2013-06-07',
-        volume:     300124,
-        rate:       1.9856,
-        ad_sizes:   '1x1',
-        creatives:  [],
-        type:       'Display'
-      });
+      this.lineitem = BackboneFactory.create('lineitem');
 
       this.view = new ReachUI.LineItems.LineItemView({ model: this.lineitem });
       this.collection = new ReachUI.LineItems.LineItemList();
@@ -103,6 +94,70 @@ describe('Line items views', function() {
 
         expect(parseFloat(this.view.model.get('volume'))).toBe(30000);
       });
+    });
+
+    describe('visual layout', function() {
+      beforeEach(function() {
+        this.ad = BackboneFactory.create('ad');
+        this.secondAd = _.clone(this.ad);
+        this.lineitem.ads = [ this.ad, this.secondAd ];
+
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      /*afterEach(function() {
+        this.view.render();
+      });*/
+
+      it('should display unallocated imps block', function() {
+        expect(this.view.$el).toContainElement('.unallocated-imps');
+      });
+
+      it('should calculate unallocated imps from li imps, buffer and ads imps', function() {
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(100124));
+      });
+
+      it('should not change lineitem buffer if ad is added', function() {
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.pushAd(_.clone(this.lineitem.ads[0]));
+        expect(this.lineitem.getBuffer()).toBe(10.5);
+      });
+
+      it('should not change lineitem buffer if ad is removed', function() {
+        this.lineitem.set('buffer', 10.5);
+        this.lineitem.ads = [ _.clone(this.lineitem.ads[0]) ];
+        expect(this.lineitem.getBuffer()).toBe(10.5);
+      });
+
+      it('should change unallocated imps if ad is added', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.pushAd(newAd);
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(124));
+      });
+
+      it('should change unallocated imps if ad is removed', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        this.lineitem.ads = [ newAd ];
+        this.view.renderAd(newAd);
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps-value');
+        expect(impsValueEl.html()).toBe(accounting.formatNumber(200124));
+      });
+
+      it('should hide unallocated impression block if it is zero', function() {
+        var newAd = _.clone(this.lineitem.ads[0]);
+        newAd.set('volume', this.lineitem.get('volume'));
+        this.lineitem.ads = [ newAd ];
+        this.view.render();
+
+        var impsValueEl = this.view.$el.find('.unallocated-imps');
+        expect(impsValueEl).toBeHidden();
+      });
 
       it('should include copy targeting button', function() {
         expect(this.view.$el).toContainElement('.copy-targeting-btn');
@@ -130,5 +185,42 @@ describe('Line items views', function() {
         defaultAdMenuItem.click();
       });
     });*/
+  });
+
+
+  describe('ReachUI.LineItems.LineItemListView', function() {
+
+    beforeEach(function() {
+      this.order = new ReachUI.Orders.Order();
+      this.lineitem = BackboneFactory.create('lineitem');
+      this.ad = BackboneFactory.create('ad');
+      this.secondAd = _.clone(this.ad);
+      this.lineitem.ads = [ this.ad, this.secondAd ];
+
+      this.collection = new ReachUI.LineItems.LineItemList();
+      this.collection.setOrder(this.order);
+      this.collection.add(this.lineitem);
+
+      this.view = new ReachUI.LineItems.LineItemListView({collection: this.collection});
+    });
+
+    it('should be defined', function() {
+      expect(ReachUI.LineItems.LineItemListView).toBeDefined();
+    });
+
+    it('can be instantiated', function() {
+      expect(this.view).not.toBeNull();
+    });
+
+    describe('visual layout', function() {
+      beforeEach(function() {
+        var el = this.view.render().$el;
+        $('body').append(el);
+      });
+
+      /*it('should display summary container', function() {
+        expect(this.view.$el).toContainElement('.lineitems-summary-container');
+      });*/
+    });
   });
 });

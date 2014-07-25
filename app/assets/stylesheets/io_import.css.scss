@@ -773,7 +773,7 @@ $wide_input_width: 320px;
         width: 20px;
         height: 30px;
         float: left;
-        margin-top: 3px;
+        margin-top: 5px;
         margin-left: 15px;
       }
 
@@ -815,17 +815,44 @@ $wide_input_width: 320px;
     }
 
     .targeting-options {
-      float: left;
-      height:18px;
+      display: inline;
     }
 
     .targeting-options.highlighted {
+      display: inline;
       background-color: yellow;
       padding: 2px;
     }
 
     .dma-targeting-icon, .zip-codes-icon, .account-contact-icon, .custom-kv-icon{
+      display: inline-block;
+      float: none;
       margin-left:10px;
+      vertical-align: middle;
+    }
+  }
+
+  .unallocated-imps {
+    color: white;
+    height: 32px;
+    margin-top: -7px;
+
+    .unallocated-imps-value {
+      font-weight: bold;
+      background-color: $li_number_bg;
+      height: 100%;
+      text-align: right;
+      padding-top: 8px;
+      padding-right: 10px;
+      font-size: 15px;
+    }
+
+    .unallocated-imps-caption {
+      background-color: $li_number_bg;
+      height: 100%;
+      font-size: 13px;
+      padding-top: 8px;
+      padding-left: 10px;
     }
   }
 
@@ -1012,6 +1039,25 @@ $wide_input_width: 320px;
       font-size: 10px;
       font-weight: normal;
       font-style: italic;
+    }
+
+    .popover{
+        width:550px !important;
+        max-width:550px !important;
+        height: 200px;
+
+        font-size:12px;
+      }
+
+    .zone{
+      .twitter-typeahead{
+        width:100%;
+        margin-left:10px;
+
+        input{
+          width:75%;
+        }
+      }
     }
   }
 
@@ -1547,3 +1593,8 @@ table.creatives-content {
   margin-top: 3px;
   display: inline-block;
 }
+
+.custom-kv-help-icon {
+  margin: 0 15px 5px 0;
+}
+

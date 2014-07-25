@@ -38,6 +38,7 @@
       this.errors_in_zip_codes = false;
       this.isCustomKeyValueValid = true;
       this.isZipcodesValid = true;
+      this.isClosed = true;
       this.reachCustomKeyValues = this.model.get('keyvalue_targeting') || '';
       this.updatedZipcodes = this.model.get('selected_zip_codes') || '';
     },
@@ -51,6 +52,7 @@
       data.frequency_caps = this.model.get('frequency_caps');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       data.type = this.model.get('type');
+      data.zone = this.model.get('zone');
       return data;
     },
 
@@ -123,10 +125,30 @@
       });
       this.$el.find('.audience-key-values .chosen-choices input').width('200px');
 
-      this._renderFrequencyCaps();
+      this._renderFrequencyCaps({ newView: true });
       this._renderSelectedTargetingOptions();
 
       this.sel_ag = _.pluck(this.model.get('selected_key_values'), 'title');
+
+      this.site_id = this.model.get('site_id');
+      if (this.site_id) {
+        this.ui.zone_input.typeahead({
+          name: 'z_site',
+          remote: {
+            url: '/zones/search.json?search=%QUERY&site_id='+ self.site_id,
+          },
+          valueKey: 'z_site',
+          limit: 100
+        });
+      }
+
+      this.ui.help_custom_kv.popover({
+        html : true,
+        trigger: 'hover',
+        placement: 'right',
+        title: 'Custom KV Help',
+        content: JST['templates/targeting/custom_key_value_help'],
+      });
     },
 
     _showKeyValuesTab: function() {
@@ -162,6 +184,13 @@
       this.$el.find('.nav-tabs li').removeClass('active');
       this.$el.find('.nav-tabs li.frequency-caps').addClass('active');
       this.$el.find('.tab.frequency-caps').show();
+    },
+
+    _showZoneTab: function() {
+      this.$el.find('.tab').hide();
+      this.$el.find('.nav-tabs li').removeClass('active');
+      this.$el.find('.nav-tabs li.zone').addClass('active');
+      this.$el.find('.tab.zone').show();
     },
 
     _renderSelectedTargetingOptions: function() {
@@ -200,7 +229,7 @@
       return null;
     },
 
-    _renderFrequencyCaps: function() {
+    _renderFrequencyCaps: function(options) {
       var frequencyCaps = this.model.get('frequency_caps'),
           collection = frequencyCaps;
       var self = this;
@@ -208,7 +237,7 @@
       if (!frequencyCaps.models) {
         collection = new ReachUI.FrequencyCaps.FrequencyCapsList(frequencyCaps);
       }
-      if (this.frequencyCapListView) {
+      if (this.frequencyCapListView && !(options && options.newView)) {
         this.frequencyCapListView.updateCollection(frequencyCaps);
       } else {
         this.frequencyCapListView = new Targeting.FrequencyCapListView({
@@ -321,6 +350,22 @@
       this._renderSelectedTargetingOptions();
     },
 
+    _updateZoneName: function(e){
+      var zone = this.ui.zone_input.val(),
+         oldZone = this.model.get('zone'),
+         custKV = this.model.get('keyvalue_targeting');
+
+      if (zone && this.isCustomKeyValueValid && this.isZipcodesValid){
+        custKV = custKV.replace(oldZone, zone);
+        this.reachCustomKeyValues = custKV;
+        this.model.set({
+          keyvalue_targeting: custKV,
+          zone: zone
+        }, { silent: true });
+        this.render();
+      }
+    },
+
     validateZipCodes: function(zip_codes){
       this.errors_in_zip_codes = false;
       this.isZipcodesValid = true;
@@ -335,7 +380,12 @@
       this._toogleDoneBtn();
     },
 
-    // this function will get called from ad or lineitem
+    // next 2 functions will get called from ad or lineitem
+    showTargeting: function() {
+      this.$el.parent().show('slow');
+      this.isClosed = false;
+    },
+
     hideTargeting: function() {
       this._onSave();
     },
@@ -421,7 +471,7 @@
 
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
-      if(this.isCustomKeyValueValid && this.isZipcodesValid) {
+      if (this.isCustomKeyValueValid && this.isZipcodesValid && !this.isClosed) {
         if(this.$el.find('.custom-kvs').is(':visible')) {
           this.$el.find('.expand-audience-btn').trigger('click');
         }
@@ -446,9 +496,11 @@
           });
           $apply_ads_dialog.modal('show');
         } else {
+          this._updateZoneName();
           this._renderSelectedTargetingOptions();
           this.options.parent_view._hideTargetingDialog();
           this.options.parent_view.onTargetingDialogToggle();
+          this.isClosed = true;
           this.$el.parent().hide('slow');
         }
       }
@@ -535,7 +587,9 @@
 
     ui: {
       kv_type_switch: '.expand-audience-btn span',
-      frequency_caps:  '.tab.frequency-caps',
+      frequency_caps: '.tab.frequency-caps',
+      help_custom_kv: '#helpCustomKV',
+      zone_input:     '.zone-input'
     },
 
     _isGeoTargeted: function(e) {
@@ -552,6 +606,7 @@
       'click .nav-tabs > .zip-codes': '_showZipCodesTab',
       'click .nav-tabs > .custom-kv': '_showCustomKVTab',
       'click .nav-tabs > .frequency-caps': '_showFrequencyCapsTab',
+      'click .nav-tabs > .zone': '_showZoneTab',
       'keyup .zip-codes textarea': '_updateZipCodes',
       'keyup #custom_kvs_textarea': '_onCustomKeyValueChange',
       'click .expand-audience-btn': '_toggleExpandAudienceButton',
@@ -560,7 +615,7 @@
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
-      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap'
+      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap',
     }
   });
 
@@ -625,9 +680,7 @@
           var id = model.get('id'), found = false;
           if (id) {
             if (caps.models) {
-              found = caps.models.find(function(fc) {
-                return fc.get('id') == id;
-              });
+              found = caps.models.findWhere({ "id": fc.get('id') });
             } else {
               found = _.find(caps, function(fc) {
                 return fc.id == id;

@@ -2,11 +2,47 @@ var Factories = {};
 
 Factories.Lineitem = BackboneFactory.define('lineitem', ReachUI.LineItems.LineItem, function() {
   return {
-    name: 'Pre-roll Video Line Item',
-    volume: 300124,
-    rate:  1.9856,
-    ad_sizes: '1x1',
-    creatives: [],
+    id: 495,
+    name:       'Display Line Item',
+    start_date: '2013-06-01',
+    end_date:   '2013-06-07',
+    volume:     300124,
+    rate:       1.9856,
+    buffer:     0,
+    ad_sizes:  '150x100',
+    creatives:  new ReachUI.Creatives.CreativesList(),
+    ads:        [],
+    targeting:  BackboneFactory.create('targeting')
+  };
+});
+
+Factories.VideoLineitem = BackboneFactory.define('video_lineitem', ReachUI.LineItems.LineItem, function() {
+  return {
+    id: 496,
+    name:       'Pre-roll Video Line Item',
+    start_date: '2013-06-01',
+    end_date:   '2013-06-07',
+    volume:     300124,
+    rate:       1.9856,
+    buffer:     0,
+    master_ad_size: '1x1',
+    ad_sizes:       '1x1',
+    type:       'Video',
+    creatives:  new ReachUI.Creatives.CreativesList(),
+    ads:        [],
+    targeting:  BackboneFactory.create('targeting')
+  };
+});
+
+Factories.Ad = BackboneFactory.define('ad', ReachUI.Ads.Ad, function() {
+  return {
+    name:     'Display ad',
+    volume:   100000,
+    rate:     1.9856,
+    ad_sizes: '150x100',
+    io_lineitem_id: 495,
+    type: 'Display',
+    creatives: new ReachUI.Creatives.CreativesList(),
     targeting: BackboneFactory.create('targeting')
   };
 });

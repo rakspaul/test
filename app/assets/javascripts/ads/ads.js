@@ -52,7 +52,13 @@
       }
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
+      delete ad['site_id'];
+      delete ad['zone'];
       return { ad: ad };
+    },
+
+    getImps: function() {
+      return Math.round(this.get('volume'));
     }
   });
 
@@ -100,6 +106,10 @@
       'click .ad-cancel-targeting-btn': 'cancelTargeting',
     },
 
+    modelEvents: {
+      'change:volume': '_recalculateMediaCost'
+    },
+
     ui: {
       targeting:            '.targeting-container',
       creatives_container:  '.ads-creatives-list-view',
@@ -109,15 +119,16 @@
       copy_targeting_btn:   '.ad-copy-targeting-btn',
       paste_targeting_btn:  '.ad-paste-targeting-btn',
       cancel_targeting_btn: '.ad-cancel-targeting-btn',
-      missing_geo_caution:  '.missing-geo-caution'
+      missing_geo_caution:  '.missing-geo-caution',
+      media_cost_value:     '.media-cost-value'
     },
 
-    _recalculateMediaCost: function(options) {
-      var imps = this.getImressions();
+    _recalculateMediaCost: function() {
+      var imps = this.getImpressions();
       var media_cost = this.getMediaCost();
 
-      this.model.set({ 'value':  media_cost }, options);
-      this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+      this.model.set({ 'value':  media_cost }, { silent: true });
+      this.ui.media_cost_value.html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
@@ -129,13 +140,13 @@
       }
     },
 
-    getImressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
+    getImpressions: function() {
+      return this.model.getImps();
     },
 
     getMediaCost: function() {
       var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() / 1000.0) * cpm;
+      return (this.getImpressions() * cpm) / 1000.0;
     },
 
     renderTargetingDialog: function() {
@@ -187,11 +198,11 @@
     _toggleTargetingDialog: function() {
       var is_visible = $(this.ui.targeting).is(':visible');
 
-      if(is_visible){
+      if(is_visible) {
         this.targetingView.hideTargeting();
-      } else{
+      } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 
@@ -282,11 +293,7 @@
             sum_ad_imps += imps;
           });
 
-          self._recalculateMediaCost({ silent: true });
-
-          var buffer = self.options.parent_view.model.get('buffer');
-          buffer = (sum_ad_imps / imps * 100) - 100;
-          self.options.parent_view.model.set({ 'buffer': buffer });
+          self.options.parent_view.recalculateUnallocatedImps();
           self.render();
         },
         validate: function(value) {
@@ -436,18 +443,15 @@
     },
 
     _destroyAd: function(e) {
-      var li_ads = this.options.parent_view.model.ads;
+      var model = this.options.parent_view.model;
+      var li_ads = model.ads;
       var cid = this.model.cid;
 
       // update list of ads for the related lineitem
-      var new_ads = _.inject(li_ads, function(new_ads, ad) {
-        if(cid != ad.cid) {
-          new_ads.push(ad);
-        }
-        return new_ads;
-      }, []);
-      this.options.parent_view.model.ads = new_ads;
-
+      model.ads =_.filter(li_ads, function(ad) {
+        return cid != ad.cid;
+      });
+      this.options.parent_view.recalculateUnallocatedImps();
       this.remove();
     },
 

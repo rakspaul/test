@@ -534,7 +534,6 @@ private
 
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
-          ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -565,7 +564,12 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
+
             ad_object.save_targeting(ad_targeting)
+
+            site_id = ad_targeting[:targeting][:site_id]
+            zone = ad_targeting[:targeting][:zone]
+            ad_object.save_zone(site_id, zone) unless zone.blank?
 
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
@@ -705,7 +709,6 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
-          ad_object.ad_type   = ([ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD')
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -726,6 +729,10 @@ private
             ad_object.save
 
             ad_object.save_targeting(ad_targeting)
+
+            site_id = ad_targeting[:targeting][:site_id]
+            zone = ad_targeting[:targeting][:zone]
+            ad_object.save_zone(site_id, zone) unless zone.blank?
 
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 
