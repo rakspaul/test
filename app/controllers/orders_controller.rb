@@ -16,7 +16,6 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
-    @notes = @order.order_notes.joins(:user).order("created_at desc")
 
     @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
@@ -37,7 +36,7 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    if @order.order_notes.blank? # that's Sweep order
+    if @order.order_activity_logs.blank? # that's Sweep order
       @order.set_import_note
     end
 
