@@ -108,13 +108,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_rate', revisions.rate);
         lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
 
-        var li_id = lineItems.models[index].get('id');
+        var li = lineItems.models[index],
+            li_id = li.get('id');
         orderModel.attributes.revision_changes[li_id] = {};
-        orderModel.attributes.revision_changes[li_id]['start_date'] = {'proposed': revisions.start_date, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['end_date'] = {'proposed': revisions.end_date, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['name'] = {'proposed': revisions.name, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['volume'] = {'proposed': revisions.volume, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['rate'] = {'proposed': revisions.rate, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['start_date'] = {'was': li.get('start_date'), 'proposed': revisions.start_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['end_date'] = {'was': li.get('end_date'), 'proposed': revisions.end_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['name'] = {'was': li.get('name'), 'proposed': revisions.name, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['volume'] = {'was': li.get('volume'), 'proposed': revisions.volume, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['rate'] = {'was': li.get('rate'), 'proposed': revisions.rate, 'accepted': false};
       });
     }
 

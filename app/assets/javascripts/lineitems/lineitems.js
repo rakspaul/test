@@ -998,7 +998,6 @@
 
           if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
             self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
-            self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
           }
 
           self.model.attributes[attr_name] = revision;
@@ -1043,7 +1042,6 @@
 
         if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
           self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = false;
-          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = self.model.get(attr_name);
         }
       });
 
