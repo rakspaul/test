@@ -89,7 +89,7 @@ Reachui::Application.routes.draw do
     resources :ads, :only => [:index]
 
     member do
-      post 'change_status'
+      post 'change_status', 'cancel_revisions'
       get 'status'
     end
 

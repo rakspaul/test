@@ -157,13 +157,13 @@ class OrdersController < ApplicationController
     @order.end_date = Time.zone.parse(order_param[:end_date])
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
-    if !order_param[:revision_changes].blank?
-      changes = {lineitems: order_param[:revision_changes]}
-      @order.revisions.create(object_changes: JSON.dump(changes))
-    end
-
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
+
+    if !order_param[:revision_changes].blank?
+      changes = {lineitems: order_param[:revision_changes], previous_state: io_details.state}
+      @order.revisions.create(object_changes: JSON.dump(changes))
+    end
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -232,6 +232,20 @@ class OrdersController < ApplicationController
         end
       end
     end
+  end
+
+  def cancel_revisions
+    @order = Order.find(params[:id])
+    io_details = @order.io_detail
+    last_revision = @order.revisions.first
+    order_changes = JSON.load(last_revision.object_changes)
+
+    if order_changes["previous_state"]
+      io_details.update_column(:state, order_changes["previous_state"])
+    end
+
+    last_revision.update_attribute('accepted', true) if last_revision
+    render json: {response: 'success'}
   end
 
   def search

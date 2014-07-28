@@ -226,8 +226,14 @@
         self.model.attributes['cancel_last_revision'] = true;
         self.model.attributes['last_revision'] = {};
         EventsBus.trigger('lineitem:logRevision', "Cancelled last revision. Changes: "+changes_log.join(', '));
+        $('.cancel-revisions-btn').remove();
+      } else {
+        // ajax-call to server-side to revert order's status
+        $.post('/orders/'+self.model.get('id')+'/cancel_revisions', function(response) {
+          //reload the page
+          window.location.href = window.location.href;
+        });
       }
-      $('.cancel-revisions-btn').remove();
     },
 
     _reloadPage: function() {
