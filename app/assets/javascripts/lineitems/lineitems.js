@@ -1337,6 +1337,8 @@
               }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
+
+            ReachActivityTaskApp.ActivitiesTasks.enableRegion();
           }
         },
         error: function(model, xhr, options) {

@@ -9,22 +9,29 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function(Header
 
   Header.Controller = {
 
-    showActivities: function(){
+    showActivities: function() {
       Header.headerLayout = new Header.Layout({model: new ReachActivityTaskApp.Entities.MasterActivity()});
       ReachActivityTaskApp.ActivitiesTasks.Activities.activitiesLayout.headerRegion.show(Header.headerLayout);
     },
 
     //Header view call this method on specific filter and pass the inclusive filters.
-    fetchActivities: function(filters){
+    fetchActivities: function(filters) {
       //Note: When a filter is triggered on the UI, we should not hide filters any more though particular filter doesn't have activities list.
       ReachActivityTaskApp.trigger("activities:list", filters);
     },
 
-    saveRevisedIOActivity:function(note) {
+    saveRevisedIOActivity: function(note) {
       var activity = new ReachActivityTaskApp.Entities.Activity();
       activity.set("note", note);
       activity.set("activity_type", Header.ACTIVITY_TYPES.SYSTEM);
-      Header.Controller.saveActivity(activity);
+      activity.set("created_by", window.current_user_name);
+
+      var activityObj = {
+        note: note
+      };
+
+      ReachActivityTaskApp.request("activity:saveLocally", activityObj);
+      ReachActivityTaskApp.ActivitiesTasks.Activities.List.Controller.prependActivity(activity);
     },
 
     //saving activity

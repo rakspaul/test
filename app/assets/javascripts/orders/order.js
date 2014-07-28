@@ -166,6 +166,10 @@
       _.each(lineItems.models, function(li, index) {
         li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
       });
+
+      ReachActivityTaskApp.ActivitiesTasks.disableRegion();
+      ReachActivityTaskApp.order = orderModel;
+
       this.trigger('io:uploaded', orderModel, lineItems);
     },
 

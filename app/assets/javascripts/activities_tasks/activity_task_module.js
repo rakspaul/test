@@ -81,4 +81,15 @@ ReachActivityTaskApp.module("ActivitiesTasks", function(ActivitiesTasks, ReachAc
     // We always will have navigation section, so just render Navigation view in a corresponding region
     this.orderTasksLayout.navigationRegion.show(new ReachActivityTaskApp.ActivitiesTasks.Views.Team.FilterView());
   };
+
+  ActivitiesTasks.disableRegion = function() {
+    $("#activitiesRegionOverlay").fadeIn();
+    $("#tasksRegionOverlay").fadeIn();
+  };
+
+
+  ActivitiesTasks.enableRegion = function() {
+    $("#activitiesRegionOverlay").fadeOut();
+    $("#tasksRegionOverlay").fadeOut();
+  }
 },JST);

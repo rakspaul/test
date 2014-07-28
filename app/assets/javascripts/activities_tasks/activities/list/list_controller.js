@@ -48,6 +48,11 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.List", function(List, Re
         }
       }
       List.activitiesListView.showHideLoadMoreControl(show);
+    },
+
+    prependActivity: function(activity) {
+      List.activitiesListView.collection.unshift(activity);
+      List.activitiesListView.render();
     }
   };
 });

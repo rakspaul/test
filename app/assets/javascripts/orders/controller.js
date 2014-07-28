@@ -71,14 +71,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         this.detailOrderView.unbind();
       }
 
-      if(this.notes_list_view) {
-        this.notes_list_view.remove();
-        this.notes_list_view.unbind();
-
-        // unbinding logRevision event so logging wouldn't be done twice (or more times)
-        EventsBus.unbind('lineitem:logRevision', this.notes_list_view.logRevision, this.notes_list_view);
-      }
-
       if(this.lineItemListView) {
         this.lineItemListView.remove();
         this.lineItemListView.unbind();
@@ -152,8 +144,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     } else {
       this._showOrderDetailsAndLineItems(this.selectedOrder);
     }
-    // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
-    ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
   },
 
   newLineItem: function(id) {
@@ -218,6 +208,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showOrderDetailsAndLineItems: function(order) {
+    // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
+    ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
