@@ -580,7 +580,7 @@
         if(li_changes) {
           _.each(li_changes, function(changes, attr) {
             if(!changes['accepted'] && changes['proposed'] != null) {
-              self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().addClass('revision');
+              self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().css('color', 'grey');
               self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(changes['proposed']);
             }
           });
