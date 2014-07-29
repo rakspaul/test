@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+  source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 4.0.1'
@@ -36,7 +36,7 @@ gem 'jbuilder'#, '~> 1.5.0'
 gem 'yajl-ruby'
 
 # decorator for presentation logic
-gem 'draper', '~> 1.2.1'
+gem 'draper', '~> 1.3'
 
 # breadcrumbs
 gem 'crummy', '~> 1.7.2'
@@ -83,7 +83,7 @@ group :development, :test do
 end
 
 group :development do
-  gem 'better_errors', '~> 0.9.0'
+  gem 'better_errors', '~> 1.1.0'
   gem 'binding_of_caller', '~> 0.7.1'
   gem 'awesome_print', '~> 1.1.0'
   gem 'quiet_assets', '~> 1.0.2'

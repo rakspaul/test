@@ -2,8 +2,7 @@ class OrdersController < ApplicationController
   include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_orders, :only => [:index, :delete]
-  before_filter :set_users, :only => [:index, :show, :delete]
+  before_filter :set_users, :only => [:show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -12,6 +11,36 @@ class OrdersController < ApplicationController
   respond_to :html, :json
 
   def index
+    @users = ReachUsersQuery.new(current_network).query
+    @rc = ReachClient.names(current_network)
+
+    @sort_direction = params[:sort_direction] || "desc"
+    @sort_field = params[:sort_column] || "id"
+
+    sort_column = params[:sort_column] || "orders.id"
+    sort_column = "orders.name" if sort_column == "order_name"
+    sort_column = "io_details.client_advertiser_name" if sort_column == "advertiser"
+
+    params[:reach_client] = ReachClient.of_network(current_network).find_by_name(params[:reach_client]).id if params[:reach_client].present?
+
+    @orders = Order.includes(:order_notes, :network)
+      .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
+      .of_network(current_network)
+      .order("#{sort_column} #{@sort_direction}")
+      .page(params[:page]).per(50)
+
+    filter_params = params.slice(:status, :account_manager, :trafficker, :search_query, :reach_client)
+    filter_params.each do |key, value|
+      @orders = @orders.public_send("by_#{key}", value) if value.present?
+    end
+
+    if(current_user.agency_user?)
+      @orders = @orders.by_agency(current_user.agency)
+    elsif params[:my_orders].blank? or params[:my_orders] == "true"
+      @orders = @orders.by_user(current_user)
+    end
+
+    @orders = OrdersDecorator.decorate(@orders)
   end
 
   def show
@@ -248,74 +277,6 @@ private
     @users = load_users
     @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
-  end
-
-  def set_orders
-    sort_column = params[:sort_column]? params[:sort_column] : "id"
-    sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
-    order_status = params[:order_status]? params[:order_status] : ""
-    am = params[:am]? params[:am] : ""
-    trafficker = params[:trafficker]? params[:trafficker] : ""
-    search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
-    rc = params[:rc]? ReachClient.of_network(current_network).find_by_name(params[:rc]).try(:id) : ""
-
-    if sort_column == "order_name"
-      sort_column = "name"
-    elsif sort_column == "advertiser"
-      sort_column = "io_details.client_advertiser_name"
-    end
-
-    if !sort_column && !session[:sort_column].blank?
-      sort_column = session[:sort_column]
-    end
-
-    if !sort_direction && !session[:sort_direction].blank?
-        sort_direction = session[:sort_direction]
-    end
-
-    if !order_status && !session[:order_status].blank?
-      order_status = session[:order_status]
-    end
-
-    if !am && !session[:am].blank?
-      am = session[:am]
-    end
-
-    if !trafficker && !session[:trafficker].blank?
-      trafficker = session[:trafficker]
-    end
-
-    if !search_query && !session[:search_query].blank?
-      search_query = session[:search_query]
-    end
-
-    if !orders_by_user && !session[:orders_by_user].blank?
-      orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
-    end
-
-    if !rc && !session[:rc].blank?
-      rc = session[:rc]
-    end
-
-    session[:sort_column] = sort_column
-    session[:sort_direction] = sort_direction
-    session[:order_status] = order_status
-    session[:orders_by_user] = orders_by_user
-    session[:am] = am
-    session[:trafficker] = trafficker
-    session[:search_query] = search_query
-    session[:rc] = rc
-
-    order_array = Order.includes(:advertiser, :order_notes ).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
-                  .order("#{sort_column} #{sort_direction}")
-                  .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
-                  .for_agency(current_user.try(:agency), current_user.agency_user?)
-                  .filterByIdOrNameOrAdvertiser(search_query)
-                  .filterByReachClient(rc)
-
-    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
   end
 
   def load_users

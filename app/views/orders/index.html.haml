@@ -9,176 +9,87 @@
         .pure-u
           .control-group.search-control
             .input-append
-              %input{type: "text", placeholder: "Search", id: "get_search_query", :value => session[:search_query]}
+              %input{type: "text", placeholder: "Search", id: "get_search_query"}
               %a.btn.add-on#btn_search_orders Search
-        .pure-u
-          .control-group.orders-control
-            %label.control-label
-              Orders
-            .controls
-              %select.filter-orders#orders_by_user
-                - if !@agency_user
-                  %option{:value => "my_orders", :selected => session[:orders_by_user] == "my_orders"} My Orders
-                %option{:value => "all_orders", :selected => session[:orders_by_user] == "all_orders"} All Orders
+        - unless current_user.agency_user?
+          .pure-u
+            .control-group.orders-control
+              %label.control-label
+                Orders
+              .controls
+                %select.filter-orders#orders_by_user
+                  %option{:value => "my_orders"} My Orders
+                  %option{:value => "all_orders"} All Orders
         .pure-u
           .control-group.status-control
             %label.control-label
               Status
             .controls
               %select.filter-orders.status
-                %option{:value => "all", :selected => session[:order_status] == ""} All
-                %option{:value => "proposed", :selected => session[:order_status] == "proposed"} Proposed
-                %option{:value => "draft", :selected => session[:order_status] == "draft"} Draft
-                %option{:value => "ready_for_trafficker", :selected => session[:order_status] == "ready_for_trafficker"} Ready for Trafficker
-                %option{:value => "ready_for_am", :selected => session[:order_status] == "ready_for_am"} Ready for AM
-                %option{:value => "pushing", :selected => session[:order_status] == "pushing"} Pushing
-                %option{:value => "pushed", :selected => session[:order_status] == "pushed"} Pushed
-                %option{:value => "incomplete_push", :selected => session[:order_status] == "incomplete_push"} Incomplete Push
-                %option{:value => "failure", :selected => session[:order_status] == "failure"} Failure
-                %option{:value => "delivering", :selected => session[:order_status] == "delivering"} Delivering
-                %option{:value => "completed", :selected => session[:order_status] == "completed"} Completed
-        .pure-u
-          .control-group.status-control
-            %label.control-label
-              Client
-            .controls
-              %select.filter-orders.rc
-                %option Select
-                - @rc.each do |rc|
-                  %option{:value => rc.name, :selected => session[:rc] == "#{rc.name}" }
-                    = "#{rc.name}"
+                %option{:value => "all"} All
+                %option{:value => "proposed"} Proposed
+                %option{:value => "draft"} Draft
+                %option{:value => "ready_for_trafficker"} Ready for Trafficker
+                %option{:value => "ready_for_am"} Ready for AM
+                %option{:value => "pushing"} Pushing
+                %option{:value => "pushed"} Pushed
+                %option{:value => "incomplete_push"} Incomplete Push
+                %option{:value => "failure"} Failure
+                %option{:value => "delivering"} Delivering
+                %option{:value => "completed"} Completed
+        - unless current_user.agency_user?
+          .pure-u
+            .control-group.status-control
+              %label.control-label
+                Client
+              .controls
+                %select.filter-orders.rc
+                  %option All
+                  - @rc.each do |rc|
+                    %option{:value => rc.name}
+                      = "#{rc.name}"
         .pure-u
           .control-group
             %label.control-label
               Account Manager
             .controls
               %select.filter-orders.am
-                %option Select
+                %option All
                 - @users.each do |user|
-                  %option{:value => user.id, :selected => session[:am] == "#{user.id}"}
+                  %option{:value => user.id}
                     = "#{user.first_name} #{user.last_name} - #{user.email}"
-        -if !@agency_user
+        - unless current_user.agency_user?
           .pure-u
             .control-group
               %label.control-label
                 Trafficker
               .controls
                 %select.filter-orders.trafficker
-                  %option Select
+                  %option All
                   - @users.each do |user|
-                    %option{:value => user.id, :selected => session[:trafficker] == "#{user.id}"}
+                    %option{:value => user.id}
                       = "#{user.first_name} #{user.last_name} - #{user.email}"
 
     .pure-g.btn-delete
       .pure-u
-        - if !@agency_user
+        - unless current_user.agency_user?
           %button.btn#btn_delete_orders{type: "button"} Delete
 
   .orders-list
     %table.orders-table
       %thead
         %tr
-          - if !@agency_user
-            %th
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  Status
-          %th
-            .pure-g.header-container
-              .pure-u.title-container.medium
-                .title
-                  -if !@agency_user
-                    AMP Id / DFP Id
-                  -else
-                    AMP Id
-              .pure-u.actions-container#id
-                - if session[:sort_column] == "id"
-                  - if session[:sort_direction] == "asc"
-                    %i.icon-sort-by-attributes
-                  - else
-                    %i.icon-sort-by-attributes-alt
-                - else
-                  %i.icon-sort
-          %th.order-name
-            .pure-g.header-container
-              .pure-u.title-container.medium
-                .title
-                  Order Name
-              .pure-u.actions-container#order_name
-                - if session[:sort_column] == "name"
-                  - if session[:sort_direction] == "asc"
-                    %i.icon-sort-by-attributes
-                  - else
-                    %i.icon-sort-by-attributes-alt
-                - else
-                  %i.icon-sort
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  Client
-
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  Advertiser
-              .pure-u.actions-container#advertiser
-                - if session[:sort_column] == "io_details.client_advertiser_name"
-                  - if session[:sort_direction] == "asc"
-                    %i.icon-sort-by-attributes
-                  - else
-                    %i.icon-sort-by-attributes-alt
-                - else
-                  %i.icon-sort
-          -if !@agency_user
-            %th
+          - table_columns.each do |col|
+            %th{class: "#{col[:size]}"}
               .pure-g.header-container
                 .pure-u.title-container
                   .title
-                    Abbr
-          %th
-            .pure-g.header-container
-              .pure-u.title-container
-                .title
-                  AM
-          -if !@agency_user
-            %th
-              .pure-g.header-container
-                .pure-u.title-container
-                  .title
-                    Trafficker
-          %th
-            .pure-g.header-container
-              .pure-u.title-container.small
-                .title
-                  Start Date
-              .pure-u.actions-container#start_date
-                - if session[:sort_column] == "start_date"
-                  - if session[:sort_direction] == "asc"
-                    %i.icon-sort-by-attributes
-                  - else
-                    %i.icon-sort-by-attributes-alt
-                - else
-                  %i.icon-sort
-          %th
-            .pure-g.header-container
-              .pure-u.title-container.small
-                .title
-                  End Date
-              .pure-u.actions-container#end_date
-                - if session[:sort_column] == "end_date"
-                  - if session[:sort_direction] == "asc"
-                    %i.icon-sort-by-attributes
-                  - else
-                    %i.icon-sort-by-attributes-alt
-                - else
-                  %i.icon-sort
+                    = col[:column]
+                - if col[:sortable]
+                  = sort_icon(col, @sort_field, @sort_direction)
 
       %tbody{:id => "orders"}
-        =render "order_table" ,:orders => @orders,:users => @users
+        =render "order_table" ,:orders => @orders
 
     .paginator{:id => "paginator"}
       = paginate @orders,:remote => :true
@@ -187,7 +98,7 @@
   $(document).ready(function() {
     ReachUI.SetupGlobalErrorHandler();
 
-    if (!#{@agency_user}){
+    if (!#{current_user.agency_user?}){
       var controller = new ReachUI.Orders.OrderController();
       ReachUI.Orders.router = new ReachUI.Orders.Router({controller: controller});
     }
@@ -291,25 +202,25 @@
         rc = $('.rc').val();
 
     if(status === "all") { status = null }
-    if(am === "Select") { am = null }
-    if(trafficker == "Select") { trafficker = null }
-    if(rc == "Select") { rc = null }
+    if(am === "All") { am = null }
+    if(trafficker == "All") { trafficker = null }
+    if(rc == "All") { rc = null }
 
     if(status){
-      filterParams.order_status = status;
+      filterParams.status = status;
     }
     if(am){
-      filterParams.am = am;
+      filterParams.account_manager = am;
     }
     if(trafficker){
       filterParams.trafficker = trafficker;
     }
     if(rc){
-      filterParams.rc = rc;
+      filterParams.reach_client = rc;
     }
 
     orders_by_user = $('#orders_by_user').val();
-    filterParams.orders_by_user = orders_by_user;
+    filterParams.my_orders = orders_by_user === "my_orders";
 
     return filterParams;
   }

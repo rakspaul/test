@@ -54,10 +54,12 @@ class ReachClient < ActiveRecord::Base
   end
 
   def self.of_network(network)
-    where(:network => network)
+    where(network: network)
   end
 
-
+  def self.names(network)
+    of_network(network).select(:name).distinct.order("name asc")
+  end
 
   private
     def compact_attr
