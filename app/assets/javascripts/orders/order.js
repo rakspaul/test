@@ -203,37 +203,11 @@
     _cancelRevisions: function() {
       var self = this;
 
-      if(this.model.attributes.revision_changes) {
-        var changes_log = [];
-
-        _.each(self.model.lineItemList.models, function(li) {
-          var li_id = li.get('id');
-          // if there is newly created LI (from revision for example) then li_id will be null
-          if(li_id) {
-            _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
-              if(self.model.attributes.revision_changes[li_id]) { // there could be no changes for existing LI
-                var changes = self.model.attributes.revision_changes[li_id][attr_name];
-                if(changes && changes['accepted']) {
-                  li.attributes[attr_name] = changes['was'];
-                  $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .editable').first().html(changes['was']).removeClass('revision'); //editable('setValue', changes['was'])
-                  $('.lineitem-'+li_id).find('.'+ReachUI.dasherize(attr_name)+' .last-revision').html('');
-                }
-              }
-            });
-          }
-        });
-
-        self.model.attributes['cancel_last_revision'] = true;
-        self.model.attributes['last_revision'] = {};
-        EventsBus.trigger('lineitem:logRevision', "Cancelled last revision. Changes: "+changes_log.join(', '));
-        $('.cancel-revisions-btn').remove();
-      } else {
-        // ajax-call to server-side to revert order's status
-        $.post('/orders/'+self.model.get('id')+'/cancel_revisions', function(response) {
-          //reload the page
-          window.location.href = window.location.href;
-        });
-      }
+      // ajax-call to server-side to revert order's status
+      $.post('/orders/'+self.model.get('id')+'/cancel_revisions', function(response) {
+        //reload the page
+        window.location.href = window.location.href;
+      });
     },
 
     _reloadPage: function() {
