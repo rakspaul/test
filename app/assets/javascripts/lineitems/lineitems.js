@@ -678,19 +678,21 @@
     recalculateUnallocatedImps: function() {
       var unallocated = this.model.getUnallocatedImps();
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
-      var totalUnallocated = _.reduce(this.model.collection.models, function(sum, el) {
-        return sum + el.getUnallocatedImps();
-      }, 0);
+
       if (unallocated == 0) {
         this.ui.unallocated_imps.hide();
       } else {
         this.ui.unallocated_imps.show();
       }
-      if (totalUnallocated == 0) {
-        $('.push-order-btn').removeClass('disabled');
-      } else {
-        $('.push-order-btn').addClass('disabled');
-      }
+
+      $('.push-order-btn').removeClass('disabled');
+
+      _.detect(this.model.collection.models, function(el) {
+        if (el.getUnallocatedImps() != 0) {
+          $('.push-order-btn').addClass('disabled');
+        }
+        return (el.getUnallocatedImps() != 0);
+      });
     },
 
     ///////////////////////////////////
