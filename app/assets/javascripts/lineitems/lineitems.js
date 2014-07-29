@@ -984,6 +984,7 @@
             }
           });
           self._removeAndHideAllRevisions(e);
+          self.recalculateUnallocatedImps();
         });
 
         $apply_ads_dialog.modal('show');
@@ -1030,6 +1031,7 @@
       this._recalculateMediaCost();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
+      this.recalculateUnallocatedImps();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1137,6 +1139,7 @@
       this.model.collection._recalculateLiImpressionsMediaCost();
       this._recalculateMediaCost();
       this._checkRevisedStatus();
+      this.recalculateUnallocatedImps();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
       $target_parent.remove();
