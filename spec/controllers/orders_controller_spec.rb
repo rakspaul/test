@@ -415,7 +415,7 @@ describe OrdersController do
           end
         end
 
-        params['order']['revision_changes'] = {:lineitems => {order.lineitems.first.id => {:start_date => {:proposed => "2014-02-24", :accepted => false}, :end_date => {:proposed => "2014-02-28", :accepted  => false}, :name => {:proposed => nil, :accepted => false}, :volume => {:proposed => 9050, :accepted => true, :was => 450000}, :rate => {:proposed => 6.0, :accepted => true, :was => 2.0}}}}
+        params['order']['revision_changes'] = {order.lineitems.first.id => {:start_date => {:proposed => "2014-02-24", :was => "2014-07-29", :accepted => false}, :end_date => {:proposed => "2014-02-28", :was => "2014-12-24", :accepted  => false}, :name => {:proposed => nil, :was => "Rochester", :accepted => false}, :volume => {:proposed => 9050, :accepted => true, :was => 450000}, :rate => {:proposed => 6.0, :accepted => true, :was => 2.0}}}
       end
 
       it "creates revision" do
@@ -428,7 +428,15 @@ describe OrdersController do
 
       it "saves revision correctly" do
         post :update, params
-        revision = Revision.last.object_changes
+        revision = JSON.load(Revision.first.object_changes)
+        expect(revision['lineitems'].count).to eq(1)
+        expect(revision['lineitems'][order.lineitems.first.id.to_s]["rate"]["was"]).to eq(2.0)
+      end
+
+      it "saves the previous state of the order" do
+        post :update, params
+        revision = JSON.load(Revision.first.object_changes)
+        expect(revision["previous_state"]).to eq("draft")
       end
     end
 

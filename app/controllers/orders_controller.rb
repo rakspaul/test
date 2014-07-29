@@ -238,13 +238,16 @@ class OrdersController < ApplicationController
     @order = Order.find(params[:id])
     io_details = @order.io_detail
     last_revision = @order.revisions.first
-    order_changes = JSON.load(last_revision.object_changes)
+    if last_revision
+      order_changes = JSON.load(last_revision.object_changes)
 
-    if order_changes["previous_state"]
-      io_details.update_column(:state, order_changes["previous_state"])
+      if order_changes["previous_state"]
+        io_details.update_column(:state, order_changes["previous_state"])
+      end
+
+      last_revision.update_attribute('accepted', true) if last_revision
     end
 
-    last_revision.update_attribute('accepted', true) if last_revision
     render json: {response: 'success'}
   end
 
