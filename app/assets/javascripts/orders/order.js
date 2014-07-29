@@ -206,7 +206,11 @@
       // ajax-call to server-side to revert order's status
       $.post('/orders/'+self.model.get('id')+'/cancel_revisions', function(response) {
         //reload the page
-        window.location.href = window.location.href;
+        var url = window.location.href;
+        if(window.location.href.indexOf('#') >= 0) {
+          url = window.location.href.split('#').join('/');
+        } 
+        window.location.href = url;
       });
     },
 
