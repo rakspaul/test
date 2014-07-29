@@ -369,3 +369,8 @@ ReachUI.deselectAllItems = function(options, scope) {
   });
   ReachUI.LineItems.LineItem.setSelectedItem();
 };
+
+ReachUI.getGUID = function(){
+  var number = new Date().getTime();
+  return number.toString(36);
+};

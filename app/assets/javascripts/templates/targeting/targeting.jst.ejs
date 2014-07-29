@@ -15,6 +15,9 @@
     <li class="geo"><a href="javascript:void(0)">GEO</a></li>
     <li class="zip-codes"><a href="javascript:void(0)">Zip Codes</a></li>
     <li class="frequency-caps"><a href="javascript:void(0)">Frequency</a></li>
+    <% if(zone) {%>
+      <li class="zone"><a href="javascript:void(0)">Zone</a></li>
+    <% } %>
   </ul>
 
   <% var selected_kv_ids = [] %>
@@ -56,6 +59,10 @@
   </div>
 
   <div class="tab frequency-caps" style="display:none">
+  </div>
+
+  <div class="tab zone" style="display:none">
+    <input type="text" class="zone-input" id="zone_input" name="zone" placeholder="Zone" value="<%= zone %>" style="width:75%"/>
   </div>
 </div>
 
