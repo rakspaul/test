@@ -188,6 +188,7 @@ class OrdersController < ApplicationController
 
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
+    prev_state = io_details.state
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -216,7 +217,7 @@ class OrdersController < ApplicationController
     respond_to do |format|
       Order.transaction do
         if !order_param[:revision_changes].blank?
-          changes = {lineitems: order_param[:revision_changes], previous_state: io_details.state}
+          changes = {lineitems: order_param[:revision_changes], previous_state: prev_state}
           @order.revisions.create(object_changes: JSON.dump(changes))
         end
 

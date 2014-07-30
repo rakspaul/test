@@ -434,9 +434,10 @@ describe OrdersController do
       end
 
       it "saves the previous state of the order" do
+        prev_state = order.io_detail.state
         post :update, params
         revision = JSON.load(Revision.first.object_changes)
-        expect(revision["previous_state"]).to eq("draft")
+        expect(revision["previous_state"]).to eq(prev_state)
       end
     end
 

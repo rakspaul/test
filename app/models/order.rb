@@ -39,6 +39,7 @@ class Order < ActiveRecord::Base
   scope :by_search_term, -> (term) { where("orders.name ilike :q or io_details.client_advertiser_name ilike :q", q: "%#{term}%") }
   scope :by_user, ->(user) { where("io_details.account_manager_id = :id OR io_details.trafficking_contact_id = :id", id: user.id) }
   scope :by_reach_client, ->(reach_client) { where("io_details.reach_client_id = ?", reach_client) }
+  scope :latest_updated, -> { order("last_modified desc") }
 
   def self.find_by_id_or_source_id(id)
     where("orders.id = :id or orders.source_id = :id_s", id: id, id_s: id.to_s)
