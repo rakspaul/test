@@ -75,9 +75,9 @@ describe Admin::MediaContactsController do
     def valid_params
       params = {
         mediaContact: {
-          name: "Addy Earles",
+          name: "Test Name",
           phone: media_contact.phone,
-          email: media_contact.email,
+          email: "test@twccable.com",
           reach_client_id: media_contact.reach_client_id
         }
       }
