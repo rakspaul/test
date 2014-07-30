@@ -189,11 +189,6 @@ class OrdersController < ApplicationController
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
 
-    if !order_param[:revision_changes].blank?
-      changes = {lineitems: order_param[:revision_changes], previous_state: io_details.state}
-      @order.revisions.create(object_changes: JSON.dump(changes))
-    end
-
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
     io_details.billing_contact_id     = order_param[:billing_contact_id] if order_param[:billing_contact_id]
@@ -218,17 +213,13 @@ class OrdersController < ApplicationController
       @order.user = current_user
     end
 
-    if order_param[:cancel_last_revision]
-      order_param.delete(:cancel_last_revision)
-      if order_param[:order_status] !~ /ready_for_|pushing/
-        io_details.update_attribute(:state, 'revisions_proposed')
-        last_revision = @order.revisions.first
-        last_revision.update_attribute('accepted', true) if last_revision
-      end
-    end
-
     respond_to do |format|
       Order.transaction do
+        if !order_param[:revision_changes].blank?
+          changes = {lineitems: order_param[:revision_changes], previous_state: io_details.state}
+          @order.revisions.create(object_changes: JSON.dump(changes))
+        end
+
         advertiser = create_advertiser(params[:order][:advertiser_name])
         @order.network_advertiser_id = advertiser.id
 

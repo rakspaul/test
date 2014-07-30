@@ -1053,7 +1053,7 @@
         self.model.attributes['revised_'+attr_name] = null;
 
         if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
-          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = false;
+          self.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
         }
       });
 
@@ -1156,7 +1156,7 @@
       this._checkRevisedStatus();
 
       if(this.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
-        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = false;
+        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
         this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
       }
 
