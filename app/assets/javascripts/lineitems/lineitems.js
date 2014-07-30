@@ -551,7 +551,7 @@
       }
       this.renderCreatives();
       this.renderTargetingDialog();
-      this._showLastRevisions();
+      this._greyOutOriginalValuesRevisions();
 
       this.ui.ads_list.html('');
       var showDeleteBtn = !this.model.get('uploaded');
@@ -572,7 +572,8 @@
       }
     },
 
-    _showLastRevisions: function() {
+    // https://github.com/collectivemedia/reachui/issues/679
+    _greyOutOriginalValuesRevisions: function() {
       var self = this;
 
       if(this.model.collection.order.get('last_revision')) {
@@ -581,24 +582,8 @@
           _.each(li_changes, function(changes, attr) {
             if(!changes['accepted'] && changes['proposed'] != null) {
               self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().css('color', 'grey');
-
-              var revision = changes['proposed'];
-              switch(attr) {
-                case 'volume':
-                  revision = accounting.formatNumber(changes['proposed']);
-                  break;
-                case 'rate':
-                  revision = accounting.formatMoney(changes['proposed']);
-                  break;
-              }
-              self.$el.find('.'+ReachUI.dasherize(attr)+' .last-revision').html(revision);
             }
           });
-        }
-
-        // if this LI was added by previous revision IO show this with pink color
-        if(this.model.collection.order.get('last_revision')[this.model.get('alt_ad_id')]) {
-          self.$el.find('.li-number').first().addClass('revised');
         }
       }
     },
@@ -1165,9 +1150,10 @@
       this.model.attributes['revised_'+attr_name] = null;
       this._checkRevisedStatus();
 
-      if(this.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
-        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
-        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
+      var rev_changes = this.model.collection.order.attributes.revision_changes;
+      if(rev_changes[li_id] && rev_changes[li_id][attr_name]) {
+        rev_changes[li_id][attr_name]['accepted'] = true;
+        rev_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
       }
 
       $target_parent.siblings('.revision').hide();

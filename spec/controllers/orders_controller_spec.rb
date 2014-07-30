@@ -415,6 +415,7 @@ describe OrdersController do
           end
         end
 
+        params['order']['revised_io_filename'] = "test_file"
         params['order']['revision_changes'] = {order.lineitems.first.id => {:start_date => {:proposed => "2014-02-24", :was => "2014-07-29", :accepted => false}, :end_date => {:proposed => "2014-02-28", :was => "2014-12-24", :accepted  => false}, :name => {:proposed => nil, :was => "Rochester", :accepted => false}, :volume => {:proposed => 9050, :accepted => true, :was => 450000}, :rate => {:proposed => 6.0, :accepted => true, :was => 2.0}}}
       end
 

@@ -44,7 +44,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -71,7 +70,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -125,17 +123,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
-      <div style="clear:both"></div>
-
-      <% if(lineitem.notes) { %>
-      <span class="expand-notes" <%= li_notes_collapsed ? '' : 'style="display:none"' %>></span>
-      <div style="clear:both"></div>
-      <span class="notes" <%= li_notes_collapsed ? 'style="display:none"' : '' %>>
-        <%= lineitem.notes %>
-        <span class="close-btn"></span>
-      </span>
-      <% } %>
 
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
@@ -160,7 +147,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container"></div>
       <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
         <%= lineitem.buffer %>
@@ -179,7 +165,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container"></div>
     </div>
 

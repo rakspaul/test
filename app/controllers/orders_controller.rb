@@ -216,7 +216,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
-        if !order_param[:revision_changes].blank?
+        if !order_param[:revision_changes].blank? && params[:order][:revised_io_filename]
           changes = {lineitems: order_param[:revision_changes], previous_state: prev_state}
           @order.revisions.create(object_changes: JSON.dump(changes))
         end

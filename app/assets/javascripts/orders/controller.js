@@ -725,6 +725,35 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _liSetCallbacksAndShow: function(lineItemList) {
     lineItemList = lineItemList ? lineItemList : new ReachUI.LineItems.LineItemList();
 
+    if(lineItemList.order.get('last_revision')) {
+      _.each(lineItemList.order.get('last_revision'), function(revisions, li_id) {
+        // if this LI was added by previous revision IO show this with pink color
+        if(lineItemList.models[li_id-1] != null) {
+          lineItemList.models[li_id-1].set('revised', true);
+        }
+
+        var li = _.detect(lineItemList.models, function(model) {
+          return model.id == li_id;
+        });
+        if(li) {
+          li.revised_targeting = true;
+
+          li.set('revised_start_date', revisions.start_date['proposed']);
+          li.set('revised_end_date', revisions.end_date['proposed']);
+          li.set('revised_name', revisions.name['proposed']);
+          li.set('revised_volume', revisions.volume['proposed']);
+          li.set('revised_rate', revisions.rate['proposed']);
+
+          li.set('revised', (((revisions.start_date['proposed']!=null) || (revisions.end_date['proposed']!=null) || (revisions.name['proposed']!=null) || (revisions.volume['proposed']!=null) || (revisions.rate['proposed']!=null)) ? true : false));
+
+          if(lineItemList.order.attributes.revision_changes == null) {
+            lineItemList.order.attributes.revision_changes = {};
+            lineItemList.order.attributes.revision_changes[li_id] = revisions;
+          }
+        }
+      });
+    }
+
     this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
