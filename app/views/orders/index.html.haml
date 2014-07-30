@@ -48,17 +48,16 @@
                   - @rc.each do |rc|
                     %option{:value => rc.name}
                       = "#{rc.name}"
-        .pure-u
-          .control-group
-            %label.control-label
-              Account Manager
-            .controls
-              %select.filter-orders.am
-                %option All
-                - @users.each do |user|
-                  %option{:value => user.id}
-                    = "#{user.first_name} #{user.last_name} - #{user.email}"
-        - unless current_user.agency_user?
+          .pure-u
+            .control-group
+              %label.control-label
+                Account Manager
+              .controls
+                %select.filter-orders.am
+                  %option All
+                  - @users.each do |user|
+                    %option{:value => user.id}
+                      = "#{user.first_name} #{user.last_name} - #{user.email}"
           .pure-u
             .control-group
               %label.control-label
