@@ -1181,6 +1181,7 @@
     },
 
     _saveOrder: function() {
+      this._toggleSavePushbuttons({ hide: true });
       this._clearAllErrors();
       var lineitems = this.collection;
       var self = this;
@@ -1383,22 +1384,12 @@
         dialog.find('.push-btn').click(function() {
           dialog.find('.push-btn').off('click');
           dialog.modal('hide');
-          self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
         });
         dialog.modal('show');
       } else {
-        this._toggleSavePushbuttons({ hide: true });
         this._saveOrderWithStatus('pushing');
       }
-    },
-
-    _submitOrderToAm: function() {
-      this._saveOrderWithStatus('ready_for_am');
-    },
-
-    _submitOrderToTrafficker: function() {
-      this._saveOrderWithStatus('ready_for_trafficker');
     },
 
     _saveOrderWithStatus: function(status) {
@@ -1455,8 +1446,6 @@
     events: {
       'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
-      'click .submit-am-btn':         '_submitOrderToAm',
-      'click .submit-trafficker-btn': '_submitOrderToTrafficker',
       'click .create-li-btn': '_createNewLI'
     },
 

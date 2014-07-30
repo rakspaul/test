@@ -119,7 +119,16 @@ class OrdersController < ApplicationController
 
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
-          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
+          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email],
+                                        sales_person_phone: params[:order][:sales_person_phone],
+                                        account_manager_email: params[:order][:account_contact_email],
+                                        account_manager_phone: params[:order][:account_manager_phone],
+                                        client_order_id: params[:order][:client_order_id],
+                                        client_advertiser_name: params[:order][:client_advertiser_name],
+                                        media_contact: mc, billing_contact: bc, sales_person: sales_person,
+                                        reach_client: reach_client, order_id: @order.id, account_manager: account_manager,
+                                        trafficking_contact_id: trafficking_contact.id,
+                                        state: (params[:order][:order_status] || "draft")
 
           @order.set_upload_note
 
@@ -134,7 +143,7 @@ class OrdersController < ApplicationController
           if errors.blank?
             store_io_asset(params)
 
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[@io_detail.state.to_s.downcase.to_sym] } }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: @io_detail.state_desc } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
@@ -216,7 +225,7 @@ class OrdersController < ApplicationController
 
             io_asset = store_io_asset(params)
 
-            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
+            state = io_details.state_desc
             format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
@@ -266,7 +275,7 @@ class OrdersController < ApplicationController
 
   def status
     order = Order.find(params[:id])
-    render json: {status: IoDetail::STATUS[order.io_detail.try(:state).to_sym]}
+    render json: {status: order.io_detail.try(:state_desc)}
   end
 
 private

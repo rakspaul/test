@@ -7,7 +7,7 @@
         -else
           %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"} 
     - if order.io_detail
-      %td= IoDetail::STATUS[order.io_detail.state.to_sym]
+      %td= order.io_detail.state_desc
     - else
       %td.not-in-om= "Not in OM"
     %td
