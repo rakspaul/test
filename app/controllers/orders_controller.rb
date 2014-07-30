@@ -108,11 +108,9 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
-    order_notes = params[:order][:notes]
+    notes = params[:order][:notes]
     order_status = params[:order][:order_status]
-    if order_status == 'pushing'
-      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
-    end
+    notes << {note: "Pushed Order"} if order_status == 'pushing'
 
     respond_to do |format|
       Order.transaction do
@@ -125,8 +123,9 @@ class OrdersController < ApplicationController
 
           @order.set_upload_note
 
-          order_notes.to_a.each do |note|
-            @order.order_activity_logs.create note: note[:note], created_by: current_user,
+          notes.to_a.each do |note|
+            @order.order_activity_logs.create note: note[:note],
+                                              created_by: current_user,
                                               activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT
           end
 
@@ -335,7 +334,7 @@ private
     session[:search_query] = search_query
     session[:rc] = rc
 
-    order_array = Order.includes(:advertiser, :order_notes ).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
+    order_array = Order.includes(:advertiser).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
                   .order("#{sort_column} #{sort_direction}")
                   .filterByStatus(order_status).filterByAM(am)
                   .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
