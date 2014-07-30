@@ -187,13 +187,19 @@ $text_color: #005c97;
             }
           }
         }
-
-        .small{ min-width:90px; }
-        .medium{ min-width:125px; }
-
       }
 
-      td.not-in-om {
+      th.small{ min-width:110px; }
+      th.medium{ min-width:145px; }
+      th.x-small{
+        min-width: 21px;
+
+        .header-container {
+          padding-right: 0;
+        }
+      }
+
+      .not-in-om {
         color: orange
       }
 

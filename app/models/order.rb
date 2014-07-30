@@ -21,8 +21,8 @@ class Order < ActiveRecord::Base
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
-  validate :validate_start_date, on: :create
   validates :name, uniqueness: { case_sensitive: false, message: "The order name is already used.", scope: :network_id }, presence: true
+  validate :validate_start_date, on: :create
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :make_order_inactive, :set_est_flight_dates
@@ -31,21 +31,38 @@ class Order < ActiveRecord::Base
   after_update :set_push_note
   before_update :check_est_flight_dates
 
-  scope :latest_updated, -> { order("last_modified desc") }
-  scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
-  scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
-  scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
-  scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
-  scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? OR io_details.client_advertiser_name ILIKE ?", "%#{query}%", "%#{query}%", "%#{query}%","%#{query}%") unless query.blank? }
-  scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
-  scope :filterByReachClient, lambda { |rc| where("io_details.reach_client_id = ?", rc) unless rc.blank?  }
-
-  def self.of_network(network)
-    where(:network => network)
-  end
+  scope :of_network, -> (network) { where(network: network) }
+  scope :by_status, -> (status) { where("io_details.state = '#{status}'") }
+  scope :by_account_manager, -> (am) { where("io_details.account_manager_id = ?", am) }
+  scope :by_trafficker, -> (trafficker) { where("io_details.trafficking_contact_id = ?", trafficker) }
+  scope :by_reach_client, -> (client) { where("io_details.reach_client_id = ?", rc) }
+  scope :by_search_term, -> (term) { where("orders.name ilike :q or io_details.client_advertiser_name ilike :q", q: "%#{term}%") }
+  scope :by_user, ->(user) { where("io_details.account_manager_id = :id OR io_details.trafficking_contact_id = :id", id: user.id) }
+  scope :by_reach_client, ->(reach_client) { where("io_details.reach_client_id = ?", reach_client) }
 
   def self.find_by_id_or_source_id(id)
-    where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
+    where("orders.id = :id or orders.source_id = :id_s", id: id, id_s: id.to_s)
+  end
+
+  def self.by_search_query(term)
+    id = Integer(term) rescue 0
+
+    # assume that number above 4 digit is search on 'id' or 'source id'
+    if id > 9999
+      find_by_id_or_source_id(id)
+    else
+      where("orders.name ilike :q or
+        io_details.client_advertiser_name ilike :q", q: "%#{term}%"
+      )
+    end
+  end
+
+  def self.by_user(user)
+    where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'")
+  end
+
+  def self.by_agency(agency)
+    where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id))
   end
 
   def total_impressions
@@ -61,7 +78,7 @@ class Order < ActiveRecord::Base
   end
 
   def dfp_url
-    "#{ network.try(:dfp_url) }/OrderDetail/orderId=#{ source_id }"
+    "#{network.try(:dfp_url)}/OrderDetail/orderId=#{source_id}"
   end
 
   def pushed_to_dfp?

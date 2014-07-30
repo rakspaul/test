@@ -58,8 +58,8 @@ class Ad < ActiveRecord::Base
   validates_dates_range :end_date, after: :start_date, :if => lambda {|ad| ad.end_date_was.try(:to_date) != ad.end_date.to_date || ad.new_record? }
 
   before_validation :sanitize_attributes
-  before_create :create_random_source_id, :set_est_flight_dates, :set_type_params
-  before_save :move_end_date_time, :set_data_source, :set_default_status, :set_platform_site
+  before_create :create_random_source_id, :set_est_flight_dates, :set_ad_type
+  before_save :move_end_date_time, :set_data_source, :set_default_status, :set_platform_site, :set_priority
   before_update :check_est_flight_dates
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
@@ -203,19 +203,29 @@ class Ad < ActiveRecord::Base
     self.data_source = self.network.data_source
   end
 
-  def set_type_params
+  def set_ad_type
     if platform
       self.ad_type  = platform.ad_type
-      self.priority = platform.priority
     end and return
 
     if type == 'Companion'
       self.ad_type  = Video::COMPANION_AD_TYPE
+    end and return
+
+    mtype = media_type.try(:reachui_type?) ? media_type.category : 'Display'
+    self.ad_type  = "#{mtype}::AD_TYPE".constantize
+  end
+
+  def set_priority
+    if platform
+      self.priority = platform.priority
+    end and return
+
+    if type == 'Companion'
       self.priority = Video::COMPANION_PRIORITY
     end and return
 
-    mtype = media_type.reachui_type? ? media_type.category : 'Display'
-    self.ad_type  = "#{mtype}::AD_TYPE".constantize
+    mtype = media_type.try(:reachui_type?) ? media_type.category : 'Display'
     if type == 'Display' && (audience_groups.size > 0 || !reach_custom_kv_targeting.blank?)
       self.priority = "#{mtype}::HIGH_PRIORITY".constantize
     else
