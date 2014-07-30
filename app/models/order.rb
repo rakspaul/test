@@ -1,4 +1,7 @@
 class Order < ActiveRecord::Base
+
+  IMPORT_PUSH_NOTES = ['Imported Order', 'Pushed Order']
+
   cattr_accessor :current_user
 
   has_paper_trail ignore: [:updated_at]
@@ -15,11 +18,11 @@ class Order < ActiveRecord::Base
   has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
   has_many :io_assets, dependent: :destroy
   has_many :ads, dependent: :destroy
-  has_many :order_notes, -> { order('created_at desc') }
+  # has_many :order_notes, -> { order('created_at desc') }
   has_many :io_logs
   has_many :revisions, lambda { order('created_at DESC') }
   has_many :tasks
-  has_many :order_activity_logs
+  has_many :order_activity_logs, -> { order('created_at desc') }
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
@@ -71,17 +74,23 @@ class Order < ActiveRecord::Base
   end
 
   def latest_import_or_push_note
-    self.order_activity_logs.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
+    @latest_import_or_push_note ||= self.order_activity_logs.find { |note| IMPORT_PUSH_NOTES.include?(note.note) }
   end
 
   def set_import_note
-    if !self.order_activity_logs.detect{|n| n.note == "Imported Order"}
-      self.order_activity_logs.create note: "Imported Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
+    unless import_note
+      self.order_activity_logs.create note: "Imported Order",
+                                      created_by: current_user,
+                                      activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                      order: self
     end
   end
 
   def set_upload_note
-    self.order_activity_logs.create note: "Uploaded Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
+    self.order_activity_logs.create note: "Uploaded Order",
+                                    created_by: current_user,
+                                    activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                    order: self
   end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
@@ -140,7 +149,10 @@ class Order < ActiveRecord::Base
 
     def set_push_note
       if self.io_detail.try(:state) == 'pushing'
-        self.order_activity_logs.create note: "Pushed Order", created_by: current_user, activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT, order: self
+        self.order_activity_logs.create note: "Pushed Order",
+                                        created_by: current_user,
+                                        activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                        order: self
       end
     end
 
@@ -151,7 +163,7 @@ class Order < ActiveRecord::Base
       start_time = start_date.today? ? current : "00:00:00"
 
       self[:start_date] = "#{start_date} #{start_time}"
-      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s + " 23:59:59"
     end
 
     def check_est_flight_dates
@@ -165,5 +177,9 @@ class Order < ActiveRecord::Base
         _, end_time_was = end_date_was.to_s(:db).split(' ')
         self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
       end
+    end
+
+    def import_note
+      self.order_activity_logs.detect{|activity| activity.note == "Imported Order"}
     end
 end

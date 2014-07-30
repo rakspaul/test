@@ -7,7 +7,7 @@
         -else
           %input{:value=>"#{order.id}", :type => "checkbox", :class => "ordersCheckbox"} 
     - if order.io_detail
-      %td= IoDetail::STATUS[order.io_detail.try(:state).to_s.to_sym]
+      %td= IoDetail::STATUS[order.io_detail.state.to_sym]
     - else
       %td.not-in-om= "Not in OM"
     %td
@@ -30,12 +30,12 @@
     %td
       .order-title
         = link_to order.name, order_path(order)
-      - if order.order_notes.last.try(:note)
-        .order-note{:title => order.order_notes.order(:created_at).last.try(:note), :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
-          = order.order_notes.order(:created_at).last.try(:note)
+      - if order.latest_import_or_push_note
+        .order-note{:title => order.latest_import_or_push_note.note, :"data-toggle" => "tooltip", :"data-placement"=> "right", :rel => "tooltip"}
+          = order.latest_import_or_push_note.note
 
     %td= order.io_detail.try(:reach_client).try(:name)
-    %td= order.try(:io_detail).try(:client_advertiser_name)
+    %td= order.io_detail.try(:client_advertiser_name)
     -if !@agency_user
       %td= order.io_detail.try(:reach_client).try(:abbr)
     %td
