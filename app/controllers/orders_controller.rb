@@ -2,7 +2,6 @@ class OrdersController < ApplicationController
   include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_users, :only => [:show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -70,7 +69,7 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    @reachui_users = load_users.limit(50)
+    @reachui_users = ReachUsersQuery.new(current_network).query
 
     respond_to do |format|
       format.html
@@ -272,18 +271,6 @@ class OrdersController < ApplicationController
   end
 
 private
-
-  def set_users
-    @users = load_users
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
-  end
-
-  def load_users
-    User.of_network(current_network).joins(:roles)
-    .where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK)
-    .order("first_name, last_name")
-  end
 
   def find_account_manager(params)
     p = params.require(:order).permit(:account_contact_name, :account_contact_phone)
