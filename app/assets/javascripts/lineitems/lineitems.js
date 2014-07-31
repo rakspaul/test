@@ -1494,6 +1494,13 @@
               }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
+
+            // if there are any unallocated impressions disable "Push" button
+            _.each(lineitems.models, function(li) {
+              if (li.getUnallocatedImps() != 0) {
+                $('.push-order-btn').addClass('disabled');
+              }
+            });
           }
         },
         error: function(model, xhr, options) {
