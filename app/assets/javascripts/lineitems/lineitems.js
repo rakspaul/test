@@ -580,6 +580,7 @@
         var li_changes = this.model.collection.order.get('last_revision')[this.model.get('id')];
         if(li_changes) {
           _.each(li_changes, function(changes, attr) {
+            attr = (attr == 'ad_sizes' ? 'lineitem-sizes' : attr);
             if(!changes['accepted'] && changes['proposed'] != null) {
               self.$el.find('.'+ReachUI.dasherize(attr)+' .editable').first().css('color', 'grey');
             }
@@ -988,10 +989,14 @@
             var revision = self.model.get('revised_'+attr_name);
 
             if(attr_name == 'ad_sizes') {
-              if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
-                revision = self.model.get('revised_common_ad_sizes').join(', ');
+              if(!self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes')) {
+                revision = null;
               } else {
-                revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+                if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
+                  revision = self.model.get('revised_common_ad_sizes').join(', ');
+                } else {
+                  revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+                }
               }
             }
 
@@ -1010,7 +1015,7 @@
         var revision = self.model.get('revised_'+attr_name),
             // only li sizes have differently names data attr
             data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name),
-            $editable = self.$el.find(elements[attr_name]).filter('[data-name="'+data_attr+'"]');
+            $editable = self.$el.find(elements[data_attr]).filter('[data-name="'+data_attr+'"]');
 
         if(attr_name == 'ad_sizes') {
           if(!self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes')) {
@@ -1205,17 +1210,6 @@
       }
 
       EventsBus.trigger('lineitem:logRevision', log_text);
-
-      var li_id = this.model.get('id');
-      if(this.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
-        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['accepted'] = true;
-        this.model.collection.order.attributes.revision_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
-      }
-
-      this.model.attributes[attr_name] = revised_value;
-      this.model.attributes['revised_'+attr_name] = null;
-
-      $target_parent.siblings('.revision').hide();
     
       if(attr_name == 'ad_sizes') {
         $editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
@@ -1245,11 +1239,24 @@
         this.model.attributes['revised_common_ad_sizes'] = null;
       }
 
+      var li_id = this.model.get('id'),
+          rev_changes = this.model.collection.order.attributes.revision_changes;
+      if(rev_changes[li_id] && rev_changes[li_id][attr_name]) {
+        rev_changes[li_id][attr_name]['accepted'] = true;
+        rev_changes[li_id][attr_name]['was'] = this.model.get(attr_name);
+      }
+
+      this.model.attributes[attr_name] = revised_value;
+      this.model.attributes['revised_'+attr_name] = null;
+
+      $target_parent.siblings('.revision').hide();
+      $target_parent.remove();
+
       if (attr_name == 'start_date' || attr_name == 'end_date') {
         var revisedDate = moment(revised_value)._d;
         $editable.first().addClass('revision').data('value', revisedDate).editable('setValue', revisedDate);
       } else {
-        $editable.first().text(revised_value).addClass('revision').data('value', revised_value).editable('setValue', revised_value);
+        $editable.first().addClass('revision').data('value', revised_value).editable('setValue', revised_value).text(revised_value);
       }
 
       this.model.collection._recalculateLiImpressionsMediaCost();
@@ -1259,7 +1266,6 @@
       this._alignOrderStartDate();
       this._alignOrderEndDate();
       this._updateCreativesCaption();
-      $target_parent.remove();
     },
 
     _declineRevision: function(e) {

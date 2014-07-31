@@ -759,7 +759,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
           if(revisions.ad_sizes) {
             var ad_sizes_splitted = li.get('ad_sizes').split(','),
-                revision_ad_sizes = _.map(revisions.ad_sizes.split(','), function(a) { return a.trim() });
+                revision_ad_sizes = _.map(revisions.ad_sizes['proposed'].split(','), function(a) { return a.trim() });
 
             li.set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
             li.set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
