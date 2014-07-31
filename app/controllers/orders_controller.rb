@@ -70,7 +70,7 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    @reachui_users = load_users.limit(50)
+    @reachui_users = ReachUsersQuery.new(current_network).query
 
     respond_to do |format|
       format.html
@@ -274,15 +274,9 @@ class OrdersController < ApplicationController
 private
 
   def set_users
-    @users = load_users
+    @users = ReachUsersQuery.new(current_network).query
     @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
     @agency_user = is_agency_user?
-  end
-
-  def load_users
-    User.of_network(current_network).joins(:roles)
-    .where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK)
-    .order("first_name, last_name")
   end
 
   def find_account_manager(params)
