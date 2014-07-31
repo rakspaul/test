@@ -145,7 +145,7 @@
           <p>Advertiser Name</p>
           <% if(parseInt(order.source_id)) { %>
             <span><%= order.advertiser_name %></span>
-            <% if (order.advertiser_unknown || true) { %>
+            <% if (order.advertiser_unknown) { %>
               <div class="errors_container" style="margin-top:-10px;">
                 Advertiser has wrong type.
               </div>
