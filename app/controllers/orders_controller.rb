@@ -2,7 +2,6 @@ class OrdersController < ApplicationController
   include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_users, :only => [:show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -272,12 +271,6 @@ class OrdersController < ApplicationController
   end
 
 private
-
-  def set_users
-    @users = ReachUsersQuery.new(current_network).query
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
-  end
 
   def find_account_manager(params)
     p = params.require(:order).permit(:account_contact_name, :account_contact_phone)
