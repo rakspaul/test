@@ -156,18 +156,25 @@ $wide_input_width: 320px;
     }
   }
 
-  .field.advertiser-name p {
-    height: 40px;
-  }
+  .field.advertiser-name {
+    p {
+      height: 40px;
+    }
 
-  .field.advertiser-name .tt-query {
-    background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
-    padding-left:20px;
-  }
+    .tt-query {
+      background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
+      padding-left:20px;
+    }
 
-  .field.advertiser-name .tt-hint {
-    padding-left:20px;
-  }
+    .tt-hint {
+      padding-left:20px;
+    }
+
+    .errors_container {
+      position: relative;
+      top: -20px;
+    }
+  }  
 
   .field.media-contact-name {
     margin-top: 70px !important;

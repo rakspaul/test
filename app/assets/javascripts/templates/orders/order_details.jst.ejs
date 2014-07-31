@@ -145,10 +145,10 @@
           <p>Advertiser Name</p>
           <% if(parseInt(order.source_id)) { %>
             <span><%= order.advertiser_name %></span>
-            <% if (order.advertiser_unknown) { %>
-              <span  class="advertiser-unknown">
-                <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>
-              </span>
+            <% if (order.advertiser_unknown || true) { %>
+              <div class="errors_container" style="margin-top:-10px;">
+                Advertiser has wrong type.
+              </div>
             <% } %>
           <% } else { %>
             <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
