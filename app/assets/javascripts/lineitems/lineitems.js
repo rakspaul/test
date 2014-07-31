@@ -994,10 +994,14 @@
         var revision = self.model.get('revised_'+attr_name);
 
         if(attr_name == 'ad_sizes') {
-          if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
-            revision = self.model.get('revised_common_ad_sizes').join(', ');
+          if(!self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes')) {
+            revision = null;
           } else {
-            revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+            if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
+              revision = self.model.get('revised_common_ad_sizes').join(', ');
+            } else {
+              revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+            }
           }
         }
 
