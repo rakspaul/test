@@ -751,13 +751,23 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         if(li) {
           li.revised_targeting = true;
 
-          li.set('revised_start_date', revisions.start_date['proposed']);
-          li.set('revised_end_date', revisions.end_date['proposed']);
-          li.set('revised_name', revisions.name['proposed']);
-          li.set('revised_volume', revisions.volume['proposed']);
-          li.set('revised_rate', revisions.rate['proposed']);
+          if(!revisions.start_date['accepted']) {
+            li.set('revised_start_date', revisions.start_date['proposed']);
+          }
+          if(!revisions.end_date['accepted']) {
+            li.set('revised_end_date', revisions.end_date['proposed']);
+          }
+          if(!revisions.name['accepted']) {
+            li.set('revised_name', revisions.name['proposed']);
+          }
+          if(!revisions.volume['accepted']) {
+            li.set('revised_volume', revisions.volume['proposed']);
+          }
+          if(!revisions.rate['accepted']) {
+            li.set('revised_rate', revisions.rate['proposed']);
+          }
 
-          if(revisions.ad_sizes && revisions.ad_sizes['proposed']) {
+          if(revisions.ad_sizes && revisions.ad_sizes['proposed'] && !revisions.ad_sizes['accepted']) {
             var ad_sizes_splitted = li.get('ad_sizes').split(','),
                 revision_ad_sizes = _.map(revisions.ad_sizes['proposed'].split(','), function(a) { return a.trim() });
 
@@ -766,7 +776,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
           }
 
-          li.set('revised', (((revisions.start_date['proposed']!=null) || (revisions.end_date['proposed']!=null) || (revisions.name['proposed']!=null) || (revisions.ad_sizes['proposed']!=null) || (revisions.volume['proposed']!=null) || (revisions.rate['proposed']!=null)) ? true : false));
+          var start_date_changed_and_not_accepted = (revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
+            end_date_changed_and_not_accepted = (revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
+            name_changed_and_not_accepted = (revisions.name['proposed']!=null && !revisions.name['accepted']),
+            ad_sizes_changed_and_not_accepted = (revisions.ad_sizes && revisions.ad_sizes['proposed']!=null && !revisions.ad_sizes['accepted']),
+            volume_changed_and_not_accepted = (revisions.volume['proposed']!=null && !revisions.volume['accepted']),
+            rate_changed_and_not_accepted = (revisions.rate['proposed']!=null && !revisions.rate['accepted']);
+
+          li.set('revised', ((start_date_changed_and_not_accepted || end_date_changed_and_not_accepted || name_changed_and_not_accepted || ad_sizes_changed_and_not_accepted || volume_changed_and_not_accepted || rate_changed_and_not_accepted) ? true : false));
 
           if(lineItemList.order.attributes.revision_changes == null) {
             lineItemList.order.attributes.revision_changes = {};

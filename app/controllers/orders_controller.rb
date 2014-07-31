@@ -219,6 +219,11 @@ class OrdersController < ApplicationController
         if !order_param[:revision_changes].blank? && params[:order][:revised_io_filename]
           changes = {lineitems: order_param[:revision_changes], previous_state: prev_state}
           @order.revisions.create(object_changes: JSON.dump(changes))
+        elsif !order_param[:revision_changes].blank? && (rev = @order.revisions.first) && !rev.accepted
+          # update existing revision
+          old_changes = JSON.load(rev.object_changes)
+          changes = {lineitems: order_param[:revision_changes], previous_state: old_changes['previous_state']}
+          rev.update_attribute(:object_changes, JSON.dump(changes))
         end
 
         advertiser = create_advertiser(params[:order][:advertiser_name])
