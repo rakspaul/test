@@ -128,6 +128,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         orderModel.attributes.revision_changes[li_id]['name'] = {'was': li.get('name'), 'proposed': revisions.name, 'accepted': false};
         orderModel.attributes.revision_changes[li_id]['volume'] = {'was': li.get('volume'), 'proposed': revisions.volume, 'accepted': false};
         orderModel.attributes.revision_changes[li_id]['rate'] = {'was': li.get('rate'), 'proposed': revisions.rate, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['ad_sizes'] = {'was': li.get('ad_sizes'), 'proposed': revisions.ad_sizes, 'accepted': false};
       });
     }
 
@@ -756,7 +757,16 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           li.set('revised_volume', revisions.volume['proposed']);
           li.set('revised_rate', revisions.rate['proposed']);
 
-          li.set('revised', (((revisions.start_date['proposed']!=null) || (revisions.end_date['proposed']!=null) || (revisions.name['proposed']!=null) || (revisions.volume['proposed']!=null) || (revisions.rate['proposed']!=null)) ? true : false));
+          if(revisions.ad_sizes) {
+            var ad_sizes_splitted = li.get('ad_sizes').split(','),
+                revision_ad_sizes = _.map(revisions.ad_sizes.split(','), function(a) { return a.trim() });
+
+            li.set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+            li.set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+            li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+          }
+
+          li.set('revised', (((revisions.start_date['proposed']!=null) || (revisions.end_date['proposed']!=null) || (revisions.name['proposed']!=null) || (revisions.ad_sizes['proposed']!=null) || (revisions.volume['proposed']!=null) || (revisions.rate['proposed']!=null)) ? true : false));
 
           if(lineItemList.order.attributes.revision_changes == null) {
             lineItemList.order.attributes.revision_changes = {};
