@@ -88,6 +88,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
         self.ui.attachmentFileNameContainer.show();
         self.ui.attachmentFileUploader.addClass("active");
         self.model.set('activity_attachment_id', response.result.id);
+        self.model.set('original_filename', response.result.original_filename);
       }
 
       function _uploadFailure(e, response) {
@@ -343,6 +344,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       this.model.set('due_date', thisTaskType.get('default_due_date'));
 
       this.render();
+      if(this.model.get('activity_attachment_id') != null) {
+        this.ui.attachmentFileNameContainer.show();
+        this.ui.attachmentFileName.attr('href', '/file_download/' + this.model.get('activity_attachment_id'));
+      }
       this.showTaskForm();
     },
 

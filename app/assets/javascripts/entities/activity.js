@@ -41,7 +41,8 @@ ReachActivityTaskApp.module("Entities", function(Entities, ReachActivityTaskApp,
     defaults: {
       note: "",
       task_type_id: null,
-      users: null
+      users: null,
+      original_filename: null
     }
   });
 
