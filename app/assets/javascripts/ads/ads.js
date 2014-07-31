@@ -150,15 +150,21 @@
       this.ui.targeting.html(this.targetingView.render().el);
     },
 
+    _updateCreativesCaption: function() {
+      var creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
+      this.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+    },
+
     ///////////////////////////////////////////////////////////////////////////////
     // Toggle Creatives div for Ads (could be called both from Ads level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives_sizes = [],
-          creatives = this.model.get('creatives').models;
+          creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
       this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];
@@ -168,7 +174,7 @@
       if (showed) {
         if (!creatives_visible) {
           this.ui.creatives_container.show('slow', function() {
-            self.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+            self._updateCreativesCaption();
           });
         }
       } else {
@@ -232,6 +238,7 @@
           li = this.options.parent_view.model,
           li_type = li.get('type');
 
+      // if ad has creatives then collect ad_sizes from them
       if (creatives.length > 0 && type != 'Video' && type != 'Companion') {
         _.each(creatives, function(el) {
           creatives_sizes.push(el.get('ad_size'));
@@ -241,7 +248,7 @@
         if (uniq_creative_sizes) {
           this.ui.ads_sizes.html(uniq_creative_sizes);
         }
-      } else {
+      } else { // get them from LI
         var ad_sizes = li.get('ad_sizes');
         if (li_type == 'Video' && type != 'Video') {
           ad_sizes = li.get('companion_ad_size');
@@ -328,6 +335,7 @@
       }
 
       this.renderCreatives();
+      this._updateCreativesCaption();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
@@ -356,6 +364,45 @@
           }, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+
+        // if there are removed ad_sizes in uploaded revision => strike-through corresponding creatives
+        if(li_view.model.get('revised_removed_ad_sizes')) {
+          _.each(li_view.model.get('revised_removed_ad_sizes'), function(ad_size) {
+            _.map(ad_view.model.get('creatives').models, function(c) {
+              if(c.get('ad_size') == ad_size) { 
+                c.set('removed_with_revision', true);
+              }
+            });          
+          });
+        }
+      }
+
+      // collect an array of ad_sizes attributes of added creatives to know the number of them
+      var already_created_from_revision = _.compact(_.map(ad_view.model.get('creatives').models, function(c) {
+        if(c.get('added_with_revision')) {
+          return c.get('ad_size');
+        }
+      }));
+
+      // if there are added ad_sizes in uploaded revision => add creative
+      if(li_view.model.get('revised_added_ad_sizes')) {
+        _.each(li_view.model.get('creatives').models, function(c) {
+          // if there are no such creative added yet
+          if(already_created_from_revision.length == 0) {
+            // then create one if this creative was added in revision
+            if(c.get('added_with_revision')) {
+              var creative = new ReachUI.Creatives.Creative({
+                'ad_size': c.get('ad_size'),
+                'order_id': li_view.model.get('order_id'),
+                'added_with_revision': true,
+                'client_ad_id': c.get('client_ad_id'),
+                'creative_type': c.get('creative_type'),
+                'redirect_url': c.get('redirect_url'),
+                'lineitem_id': li_view.model.get('id')}, { silent: true });
+              ad_view.model.get('creatives').add(creative);
+            }
+          }
         });
       }
     },

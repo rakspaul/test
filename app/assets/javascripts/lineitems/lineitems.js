@@ -246,10 +246,10 @@
       'click .li-number': '_toggleLISelection',
 
       // revisions
-      'click .start-date .revision, .end-date .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
+      'click .start-date .revision, .end-date .revision, .lineitem-sizes .revision, .name .revision, .volume .revision, .rate .revision': '_toggleRevisionDialog',
 
-      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
-      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
+      'click .start-date .revised-dialog .accept-btn, .end-date .revised-dialog .accept-btn, .lineitem-sizes .revised-dialog .accept-btn, .name .revised-dialog .accept-btn, .volume .revised-dialog .accept-btn, .rate .revised-dialog .accept-btn': '_acceptRevision',
+      'click .start-date .revised-dialog .decline-btn, .end-date .revised-dialog .decline-btn, .lineitem-sizes .revised-dialog .decline-btn, .name .revised-dialog .decline-btn, .volume .revised-dialog .decline-btn, .rate .revised-dialog .decline-btn': '_declineRevision',
       'click .li-number .revised-dialog .accept-all-btn': '_acceptAllRevisions',
       'click .li-number .revised-dialog .decline-all-btn': '_declineAllRevisions',
 
@@ -631,6 +631,17 @@
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
         });
+
+        // if there are removed ad_sizes in uploaded revision => strike-through corresponding creatives
+        if(this.model.get('revised_removed_ad_sizes')) {
+          _.each(this.model.get('revised_removed_ad_sizes'), function(ad_size) {
+            _.map(view.model.get('creatives').models, function(c) {
+              if(c.get('ad_size') == ad_size) { 
+                c.set('removed_with_revision', true);
+              }
+            });          
+          });
+        }
       }
     },
 
@@ -670,6 +681,13 @@
       }
     },
 
+    _updateCreativesCaption: function() {
+      var creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
+      this.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+    },
+
+    ///////////////////////////////////////////////////////////////////////////////
     recalculateUnallocatedImps: function() {
       var unallocated = this.model.getUnallocatedImps();
       this.ui.unallocated_imps_value.html(accounting.formatNumber(unallocated, ''));
@@ -697,14 +715,12 @@
       var self = this,
           creatives = this.model.get('creatives').models;
 
-      //this._updateCreativesCaption();
-
       var is_visible = ($(this.ui.creatives_container).css('display') == 'block');
       var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
       if (showed) {
         if (!is_visible) {
           this.ui.creatives_container.show('slow', function() {
-            self.$el.find('.toggle-creatives-btn').html(edit_creatives_title);
+            self._updateCreativesCaption();
           });
         }
       } else {
@@ -927,6 +943,9 @@
       this.model.collection.remove(this.model);
     },
 
+    // ***********************************************************************************************
+    // REVISION FUNCTIONS
+    // 
     _toggleRevisionDialog: function(e) {
       e.stopPropagation();
       $(e.currentTarget).siblings('.revised-dialog').toggle();
@@ -987,10 +1006,23 @@
         $apply_ads_dialog.modal('show');
       }
 
-      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+      _.each(['start_date', 'end_date', 'ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
         var revision = self.model.get('revised_'+attr_name),
-            original_value = self.model.get(attr_name),
-            $editable = self.$el.find(elements[attr_name]).filter('[data-name="'+attr_name+'"]');
+            // only li sizes have differently names data attr
+            data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name),
+            $editable = self.$el.find(elements[attr_name]).filter('[data-name="'+data_attr+'"]');
+
+        if(attr_name == 'ad_sizes') {
+          if(!self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes') && !self.model.get('revised_common_ad_sizes')) {
+            revision = null;
+          } else {
+            if(self.model.get('revised_added_ad_sizes') && self.model.get('revised_added_ad_sizes').length == 0) {
+              revision = self.model.get('revised_common_ad_sizes').join(', ');
+            } else {
+              revision = [self.model.get('revised_common_ad_sizes'), self.model.get('revised_added_ad_sizes')].join(', ');
+            }
+          }
+        }
 
         if(revision != null) {
           switch(attr_name) {
@@ -999,6 +1031,30 @@
               break;
             case 'volume':
               revision = accounting.formatNumber(revision);
+              break;
+            case 'ad_sizes':
+              //$editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
+
+              // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
+              if(self.model.get('creatives')) {
+                _.map(self.model.get('creatives').models, function(c) {
+                  if(c.get('added_with_revision')) {
+                    c.attributes['added_with_revision'] = null;
+                  }
+                });
+                var creatives_to_delete = _.select(self.model.get('creatives').models, function(c) {
+                  if(c.get('removed_with_revision')) {
+                    return c;
+                  }
+                });
+                _.each(creatives_to_delete, function(c) { 
+                  var delete_creatives = _.clone(self.model.get('_delete_creatives'));
+                  delete_creatives.push(c.get('id'));        
+                  c.destroy();
+                  self.model.set('_delete_creatives', delete_creatives);
+                });
+                self.renderCreatives();
+              }
               break;
           }
 
@@ -1029,6 +1085,7 @@
       this._alignOrderStartDate();
       this._alignOrderEndDate();
       this.recalculateUnallocatedImps();
+      this._updateCreativesCaption();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1044,7 +1101,7 @@
       e.stopPropagation();
 
       var self = this, li_id = this.model.get('id');
-      _.each(['start_date', 'end_date', 'name', 'volume', 'rate'], function(attr_name) {
+      _.each(['start_date', 'end_date', 'added_ad_sizes', 'removed_ad_sizes', 'common_ad_sizes', 'name', 'volume', 'rate'], function(attr_name) {
         self.model.attributes['revised_'+attr_name] = null;
 
         if(self.model.collection.order.attributes.revision_changes[li_id][attr_name]) {
@@ -1072,6 +1129,30 @@
             ad.set('volume', parseInt(ad.getImpressions() * ratio));
           });
           break;
+        case 'ad_sizes':
+          _.each(self.model.ads, function(ad) {
+          // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives for each ad
+            if(ad.get('creatives')) {
+              _.map(ad.get('creatives').models, function(c) {
+                if(c.get('added_with_revision')) {
+                  c.attributes['added_with_revision'] = null;
+                }
+              });
+              var creatives_to_delete = _.select(ad.get('creatives').models, function(c) {
+                if(c.get('removed_with_revision')) {
+                  return c;
+                }
+              });
+              _.each(creatives_to_delete, function(c) { 
+                var delete_creatives = _.clone(ad.get('_delete_creatives'));
+                delete_creatives.push(c.get('id'));
+                c.destroy();
+                ad.set('_delete_creatives', delete_creatives);
+              });
+            }
+            ad.set('size', revised_value);
+          });
+          break;        
         case 'rate':
           revised_value = accounting.formatNumber(revised_value, 2);
           _.each(self.model.ads, function(ad) {
@@ -1079,19 +1160,29 @@
           });
           break;
       }
+      //this.recalculateUnallocatedImps();
     },
 
     _acceptRevision: function(e) {
       var self = this;
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
-          $editable = $target_parent.siblings('div .editable').filter('[data-name="'+attr_name+'"]'),
+          data_attr = (attr_name == 'ad_sizes' ? 'lineitem-sizes' : attr_name), // only li sizes have differently names data attr 
+          $editable = $target_parent.siblings('div .editable').filter('[data-name="'+data_attr+'"]'),
           revised_value = $target_parent.siblings('.revision').text(),
           original_value = this.model.get(attr_name);
 
+      if(attr_name == 'ad_sizes') {
+        if(this.model.get('revised_added_ad_sizes').length == 0) {
+          revised_value = this.model.get('revised_common_ad_sizes').join(', ');
+        } else {
+          revised_value = [this.model.get('revised_common_ad_sizes'), this.model.get('revised_added_ad_sizes')].join(', ');
+        }
+      }
+
       // add note to ActivityLog to log the changes
       var attr_name_humanized = ReachUI.humanize(attr_name.split('_').join(' '));
-      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+this.model.get('revised_'+attr_name);
+      var log_text = "Revised Line Item "+this.model.get('alt_ad_id')+" : "+attr_name_humanized+" "+this.model.get(attr_name)+" -> "+revised_value;
 
       if (this.model.ads.length > 0 && attr_name != 'name') {
         var $apply_ads_dialog = $('#apply-revisions-ads-dialog'),
@@ -1125,6 +1216,34 @@
       this.model.attributes['revised_'+attr_name] = null;
 
       $target_parent.siblings('.revision').hide();
+    
+      if(attr_name == 'ad_sizes') {
+        $editable.filter('[data-name="'+data_attr+'"]').editable('setValue', revised_value);
+
+        // need to delete striked-through creatives and remove 'added_by_revision' flag in added creatives
+        if(this.model.get('creatives')) {
+          _.each(this.model.get('creatives').models, function(c) {
+            if(c.get('added_with_revision')) {
+              c.attributes['added_with_revision'] = null;
+            }
+          });
+          var creatives_to_delete = _.select(this.model.get('creatives').models, function(c) {
+            if(c.get('removed_with_revision')) {
+              return c;
+            }
+          });
+          _.each(creatives_to_delete, function(c) { 
+            var delete_creatives = _.clone(self.model.get('_delete_creatives'));
+            delete_creatives.push(c.get('id'));
+            self.model.set('_delete_creatives', delete_creatives);
+            c.destroy();
+          });
+          self.renderCreatives();
+        }
+        this.model.attributes['revised_removed_ad_sizes'] = null;
+        this.model.attributes['revised_added_ad_sizes'] = null;
+        this.model.attributes['revised_common_ad_sizes'] = null;
+      }
 
       if (attr_name == 'start_date' || attr_name == 'end_date') {
         var revisedDate = moment(revised_value)._d;
@@ -1139,15 +1258,38 @@
       this.recalculateUnallocatedImps();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
+      this._updateCreativesCaption();
       $target_parent.remove();
     },
 
     _declineRevision: function(e) {
       var $target_parent = $(e.currentTarget).parent(),
           attr_name = $(e.currentTarget).data('name'),
+          self = this,
           li_id = this.model.get('id');
 
       this.model.attributes['revised_'+attr_name] = null;
+
+      if(attr_name == 'ad_sizes') {
+        this.model.attributes['revised_removed_ad_sizes'] = null;
+        this.model.attributes['revised_added_ad_sizes'] = null;
+        this.model.attributes['revised_common_ad_sizes'] = null;
+        this.render();
+
+        // need to remove striked-through from creatives and remove added creatives
+        if(this.model.get('creatives')) {
+          _.map(this.model.get('creatives').models, function(c) {
+            if(c.get('added_with_revision')) {
+              c.destroy();
+              self.renderCreatives();
+            } else if(c.get('removed_with_revision')) {
+              c.set('removed_with_revision', null);
+              self.renderCreatives();
+            }
+          });
+        }
+      }
+
       this._checkRevisedStatus();
 
       var rev_changes = this.model.collection.order.attributes.revision_changes;

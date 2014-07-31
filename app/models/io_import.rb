@@ -39,6 +39,7 @@ class IoImport
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
       @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
+      @existing_creatives = @existing_order.lineitems.collect{|li| li.creatives + li.video_creatives}
       @original_filename = @existing_order.io_assets.details.try(:last).try(:asset_upload_name)
       @original_created_at = @existing_order.io_assets.details.try(:last).try(:created_at).to_s
     end
@@ -76,6 +77,29 @@ class IoImport
       end
     else
       @lineitems
+    end
+  end
+
+  def new_and_revised_creatives
+    if @is_existing_order
+      new_and_existing_creatives = []
+
+      @existing_creatives.each_with_index do |creatives, index|
+        ad_ids = creatives.map(&:client_ad_id).map(&:to_i).uniq
+        ad_sizes = creatives.map(&:size).uniq
+        new_creatives = []
+
+        @inreds.each do |new_creative|
+          if ad_ids.include?(new_creative[:ad_id]) && !ad_sizes.include?(new_creative[:ad_size])
+            new_creatives << new_creative
+          end
+        end
+
+        new_and_existing_creatives << (creatives + new_creatives.map{|c| c[:added_with_revision] = true; c})
+      end
+      new_and_existing_creatives
+    else
+      @inreds
     end
   end
 
@@ -179,6 +203,12 @@ class IoImport
 
         if (@lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s) && !@lineitems[index][:end_date].blank?
           local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:ad_sizes].split(',').map(&:strip).sort != existing_li.ad_sizes.split(',').map(&:strip).sort)
+          local_revisions[:ad_sizes] = @lineitems[index][:ad_sizes]
           @lineitems[index].revised = true
           existing_li.revised = true
         end

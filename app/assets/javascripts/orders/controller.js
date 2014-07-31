@@ -106,7 +106,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_name', revisions.name);
         lineItems.models[index].set('revised_volume', revisions.volume);
         lineItems.models[index].set('revised_rate', revisions.rate);
-        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
+
+        if(revisions.ad_sizes) {
+          var ad_sizes_splitted = lineItems.models[index].get('ad_sizes').split(','),
+              revision_ad_sizes = _.map(revisions.ad_sizes.split(','), function(a) { return a.trim() });
+
+          lineItems.models[index].set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+
+          lineItems.models[index].set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+
+          lineItems.models[index].set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+        }
+
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.ad_sizes!=null) || (revisions.rate!=null)) ? true : false));
 
         var li = lineItems.models[index],
             li_id = li.get('id');
