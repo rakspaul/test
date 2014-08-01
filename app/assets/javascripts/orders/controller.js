@@ -787,8 +787,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
           if(lineItemList.order.attributes.revision_changes == null) {
             lineItemList.order.attributes.revision_changes = {};
-            lineItemList.order.attributes.revision_changes[li_id] = revisions;
           }
+          lineItemList.order.attributes.revision_changes[li_id] = revisions;
         }
       });
     }
