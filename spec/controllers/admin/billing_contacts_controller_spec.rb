@@ -75,9 +75,9 @@ describe Admin::BillingContactsController do
     def valid_params
       params = {
         billingContact: {
-          name: "Bryan Snyder",
+          name: "Test Name",
           phone: billing_contact.phone,
-          email: billing_contact.email,
+          email: "test@twccable.com",
           reach_client_id: billing_contact.reach_client_id
         }
       }
