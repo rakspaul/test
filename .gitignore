@@ -17,6 +17,7 @@
 /tmp
 /spec/tmp
 /file_store
+/private/uploads/reach/activity/attachments/
 
 # Ignore pow configuration
 /.powrc

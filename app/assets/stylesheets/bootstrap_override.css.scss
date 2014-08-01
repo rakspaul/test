@@ -1,6 +1,7 @@
 /* Bootstrap navigation override */
 .navbar {
   margin-bottom: 0;
+  font-size: 14px;
 }
 
 .navbar-inner {
@@ -43,4 +44,71 @@
 .form-horizontal .radio-label {
   margin-bottom: 5px;
   padding-top: 0;
+}
+
+@mixin form_selects() {
+  min-width: 120px;
+  width: 80%;
+  max-width: 150px;
+}
+
+.bootstrap-select:not([class*="span"]):not([class*="col-"]):not([class*="form-control"]):not(.input-group-btn) {
+  @include form_selects;
+}
+
+.bootstrap-select {
+  > .btn {
+    padding-right: 5px;
+  }
+
+  &.btn-group {
+    &:not(.input-group-btn),
+    [class*="span"] {
+      margin-bottom: 0;
+    }
+
+    .btn {
+      .filter-option {
+        width: 92%;
+      }
+    }
+  }
+}
+
+// selectize plugin customization
+.selectize-control {
+  display: inline-block;
+  font-size: 12px;
+  @include form_selects;
+
+  .selectize-dropdown,
+  .selectize-input,
+  .selectize-input input {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .selectize-input {
+    padding: 4px 10px;
+    vertical-align: middle;
+
+    input {
+      height: 16px;
+    }
+  }
+
+  &.single {
+    // adjust caret right position
+    .selectize-input:after {
+      right: 8px;
+    }
+
+    .selectize-dropdown {
+      border-radius: 6px;
+      &.single {
+        width: auto !important; // this is to override width defined programmaticaly in control
+      }
+    }
+  }
 }

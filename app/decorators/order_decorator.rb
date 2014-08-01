@@ -7,7 +7,7 @@ class OrderDecorator < Draper::Decorator
   end
 
   def order_status
-    IoDetail::STATUS[object.io_detail.try(:state).to_s.to_sym] || h.content_tag(:span, "Not in OM", class:'not-in-om')
+    object.io_detail.try(:state_desc) || h.content_tag(:span, "Not in OM", class:'not-in-om')
   end
 
   def order_id_and_source_id_column
@@ -29,7 +29,7 @@ class OrderDecorator < Draper::Decorator
   end
 
   def first_note
-    note = object.order_notes.last.try(:note)
+    note = object.order_activity_logs.last.try(:note)
     h.content_tag(:div, title: note, class: "order-note", "data-toggle" => "tooltip",
         "data-placement" => "right", :rel => "tooltip") do
       note

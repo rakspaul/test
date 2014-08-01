@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   CLIENT_TYPE_AGENCY = "Agency"
   CLIENT_TYPE_NETWORK = "Network"
+  DEFAULT_TIMEZONE = "Eastern Time (US & Canada)"
 
   belongs_to :network, :foreign_key => 'company_id'
   belongs_to :agency
@@ -9,6 +10,10 @@ class User < ActiveRecord::Base
   has_one :reach_client
 
   has_and_belongs_to_many :roles
+
+  has_many :team_users
+  has_many :teams, :through => :team_users
+  has_many :tasks, :as => :assignable
 
   def self.of_network(network)
     where(:network => network)

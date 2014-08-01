@@ -61,6 +61,7 @@ class Ad < ActiveRecord::Base
   before_create :create_random_source_id, :set_est_flight_dates, :set_ad_type
   before_save :move_end_date_time, :set_data_source, :set_default_status, :set_platform_site, :set_priority
   before_update :check_est_flight_dates
+
   before_validation :check_flight_dates_within_li_flight_dates
   after_save :update_creatives_name
 
@@ -284,9 +285,11 @@ private
       current = "%.2i:%.2i:%.2i" % [Time.current.hour, Time.current.min, Time.current.sec]
       start_time = start_date.today? ? current : "00:00:00"
       self[:start_date] = "#{start_date} #{start_time}"
+      Rails.logger.warn '[814] ad.[:start_date] - ' + self[:start_date].inspect
     end
     if self[:end_date]
       self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+      Rails.logger.warn '[814] ad.[:end_date] - ' + self[:end_date].inspect
     end
   end
 

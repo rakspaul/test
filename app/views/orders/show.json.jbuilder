@@ -21,12 +21,6 @@ json.partial! 'orders/order',
     reach_client_network_id: @order.io_detail.try(:reach_client).try(:client_network_id)
   }
 
-json.notes do
-  json.array! @notes do |note|
-    json.partial! 'order_notes/note.json.jbuilder', note: note
-  end
-end
-
 json.billing_contacts do
   json.array! @billing_contacts do |bc|
     json.id bc.id
