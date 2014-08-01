@@ -5,7 +5,103 @@ $inactive-color: #DA0808;
 $hover-color: #B5E8FF; //#EDFAFF;
 $selected-row-bg-color: #2ea5dc;
 $selected-row-fg-color: #fff;
+$btn-bg: #fff;
+$btn-primary-bg: #005C97;
+$btn-success-bg: #20C001;
+$btn-bg-hover: #2EA5DC;
+
+// From io_import.scss file
+$text_color: #005c97;
+$label-text: #005C97;
+$bg_color: #a5ccf9;
+$ad_bg_color: #c0e2f9;
+$li_number_bg: #007ac9;
+$error_color: red;
+$magenta_color: #d02898;
+$border_color: #0088cc;
+
+
+$ad_status_default_color: gray;
+$ad_status_draft_color: black;
+$ad_status_ready_color: #fd9828;
+$ad_status_paused_color: red;
+$ad_status_delivering_color: green;
+
+$wide_input_width: 320px;
+
+$borderColor: #eee;
+$light-background: #f7f7f7;
+
+$rui-gray-color: #989898;
+$rui-lightgray-color: #EDEDED;
+$rui-input-border-color: #005C97;
+$rui-heading-text-color: #005C97;
+$rui-text-hover-color: #2EA5DC;
+$rui-text-active-color: #005C97;
+$rui-border-active-color: #005C97;
+$rui-option-hover-bg: #0088cc;
+$rui-option-active-text: #fff;
+
+$rui-th-color: #4094C3;
+
+$default_font_size: 12px;
 
 $images: sprite_map("icons/*.png");
-$icon_names: account-contact, billing-contact, companion, contact-unknown, custom-kv, display, dma-targeting, facebook, media-contact, mobile, pencil, push-failed, salesperson, video, zip-codes, exclaim-yellow, exclaim-red, tag;
-$btn_names: clone-btn, delete-btn, li-command-btn, remove-btn, upload-creatives-btn, x-btn;
+$icon_names:
+  account-contact,
+  activity_log,
+  alert,
+  alert_white,
+  archive,
+  attachment,
+  billing-contact,
+  calendar,
+  checkmark,
+  checkmark_white,
+  green_check,
+  clock,
+  close,
+  comment,
+  comment_white,
+  companion,
+  contact-unknown,
+  crown,
+  custom-kv,
+  display,
+  dma-targeting,
+  facebook,
+  follow,
+  follow_white,
+  logout,
+  media-contact,
+  mobile,
+  pencil,
+  plus,
+  push-failed,
+  reopen_white,
+  salesperson,
+  task_done,
+  task_done_white,
+  task_open,
+  task_white,
+  video,
+  user,
+  zip-codes,
+  exclaim-yellow,
+  exclaim-red,
+  tag;
+
+$btn_names:
+  clone-btn,
+  cross,
+  delete-btn,
+  li-command-btn,
+  remove-btn,
+  upload-creatives-btn,
+  x-btn;
+
+$hover_icon_names:
+  attachment,
+  comment,
+  delete-btn
+;

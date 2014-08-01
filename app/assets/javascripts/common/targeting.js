@@ -10,7 +10,8 @@
         selected_zip_codes: [],
         frequency_caps: [],
         keyvalue_targeting: '',
-        type: 'Display'
+        type: 'Display',
+        is_and: false
       }
     },
 
@@ -41,6 +42,7 @@
       this.isClosed = true;
       this.reachCustomKeyValues = this.model.get('keyvalue_targeting') || '';
       this.updatedZipcodes = this.model.get('selected_zip_codes') || '';
+      this.is_and = this.model.get('is_and') || '';
     },
 
     serializeData: function(){
@@ -52,6 +54,7 @@
       data.frequency_caps = this.model.get('frequency_caps');
       data.keyvalue_targeting = this.model.get('keyvalue_targeting');
       data.type = this.model.get('type');
+      data.is_and = this.model.get('is_and');
       data.zone = this.model.get('zone');
       return data;
     },
@@ -464,11 +467,6 @@
       this._renderSelectedTargetingOptions();
     },
 
-    _onSuccessCloseTargeting: function(event) {
-        this._updateCustomKVs();
-        this._closeTargetingDialog();
-    },
-
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
       if (this.isCustomKeyValueValid && this.isZipcodesValid && !this.isClosed) {
@@ -504,6 +502,11 @@
           this.$el.parent().hide('slow');
         }
       }
+    },
+
+    _onSuccessCloseTargeting: function(event) {
+      this._updateCustomKVs();
+      this._closeTargetingDialog();
     },
 
     _validateCustomKeyValues: function(customKeyValue, onSuccess, onFailure) {
@@ -597,6 +600,11 @@
       return (attr.selected_geos.length > 0 || attr.selected_zip_codes.length > 0)  ? true : false;
     },
 
+    _isAndCheckBoxSelected: function(e) {
+      var isChecked = this.$el.find('.and_checkbox').is(':checked');
+      this.model.attributes.is_and = isChecked;
+    },
+
     events: {
       'click .save-targeting-btn': '_onSave',
       'click .tab.geo .geo-checkboxes-container input:checkbox': '_handleGeoCheckboxes',
@@ -616,6 +624,7 @@
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
       'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap',
+      'click .and_checkbox': '_isAndCheckBoxSelected'
     }
   });
 

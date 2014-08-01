@@ -106,8 +106,10 @@
       selector: '[rel=tooltip]'
     });
 
+
     Backbone.history.start({
-      pushState: true,
+      //pushState: true,
+      pushState: false,
       root: "/orders"
     });
   });

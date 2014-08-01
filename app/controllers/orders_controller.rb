@@ -22,7 +22,7 @@ class OrdersController < ApplicationController
 
     params[:reach_client] = ReachClient.of_network(current_network).find_by_name(params[:reach_client]).id if params[:reach_client].present?
 
-    @orders = Order.includes(:order_notes, :network)
+    @orders = Order.includes(:order_activity_logs, :network)
       .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
       .of_network(current_network)
       .order("#{sort_column} #{@sort_direction}")
@@ -44,7 +44,6 @@ class OrdersController < ApplicationController
 
   def show
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
-    @notes = @order.order_notes.joins(:user).order("created_at desc")
 
     @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
@@ -65,7 +64,7 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    if @order.order_notes.blank? # that's Sweep order
+    if @order.order_activity_logs.blank? # that's Sweep order
       @order.set_import_note
     end
 
@@ -137,11 +136,9 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
-    order_notes = params[:order][:notes]
+    notes = params[:order][:notes]
     order_status = params[:order][:order_status]
-    if order_status == 'pushing'
-      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
-    end
+    notes << {note: "Pushed Order"} if order_status == 'pushing'
 
     respond_to do |format|
       Order.transaction do
@@ -150,12 +147,23 @@ class OrdersController < ApplicationController
 
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
-          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
+          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email],
+                                        sales_person_phone: params[:order][:sales_person_phone],
+                                        account_manager_email: params[:order][:account_contact_email],
+                                        account_manager_phone: params[:order][:account_manager_phone],
+                                        client_order_id: params[:order][:client_order_id],
+                                        client_advertiser_name: params[:order][:client_advertiser_name],
+                                        media_contact: mc, billing_contact: bc, sales_person: sales_person,
+                                        reach_client: reach_client, order_id: @order.id, account_manager: account_manager,
+                                        trafficking_contact_id: trafficking_contact.id,
+                                        state: (params[:order][:order_status] || "draft")
 
           @order.set_upload_note
 
-          order_notes.to_a.each do |note|
-            OrderNote.create note: note[:note], user: current_user, order: @order
+          notes.to_a.each do |note|
+            @order.order_activity_logs.create note: note[:note],
+                                              created_by: current_user,
+                                              activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT
           end
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
@@ -163,7 +171,7 @@ class OrdersController < ApplicationController
           if errors.blank?
             store_io_asset(params)
 
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[@io_detail.state.to_s.downcase.to_sym] } }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: @io_detail.state_desc } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
@@ -231,7 +239,8 @@ class OrdersController < ApplicationController
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
-          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
+          @order.order_activity_logs.create(note: note[:note], created_by: current_user,
+                                            activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT) if note[:id].blank?
         end
 
         if li_ads_errors.blank?
@@ -241,7 +250,7 @@ class OrdersController < ApplicationController
 
             io_asset = store_io_asset(params)
 
-            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
+            state = io_details.state_desc
             h = {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)}
             format.json { render json: h }
           else
@@ -286,7 +295,12 @@ class OrdersController < ApplicationController
       @orders = @orders.latest_updated
     end
 
-    respond_with(@orders)
+    respond_to do | format |
+      format.json
+      format.js do
+        render :json => @orders, :callback => params[:callback]
+      end
+    end
   end
 
   def delete
@@ -304,7 +318,7 @@ class OrdersController < ApplicationController
 
   def status
     order = Order.find(params[:id])
-    render json: {status: IoDetail::STATUS[order.io_detail.try(:state).to_sym]}
+    render json: {status: order.io_detail.try(:state_desc)}
   end
 
 private
@@ -437,6 +451,7 @@ private
       lineitem.audience_groups = li_targeting[:targeting][:selected_key_values].to_a.collect do |group_name|
         AudienceGroup.find_by(id: group_name[:id])
       end
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -551,6 +566,7 @@ private
             ad_object.save && ad_object.update_attributes(ad[:ad])
 
             ad_object.save_targeting(ad_targeting)
+            ad_object.is_and = ad_targeting[:targeting][:is_and]
 
             site_id = ad_targeting[:targeting][:site_id]
             zone = ad_targeting[:targeting][:zone]
@@ -625,6 +641,7 @@ private
         AudienceGroup.find_by(id: group_name[:id])
       end
       lineitem.audience_groups = selected_groups if !selected_groups.blank?
+      lineitem.is_and = li_targeting[:targeting][:is_and]
 
       custom_kv_errors = validate_custom_keyvalues(li_targeting[:targeting][:keyvalue_targeting])
       if !custom_kv_errors
@@ -697,6 +714,7 @@ private
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
+          ad_object.is_and = ad_targeting[:targeting][:is_and]
 
           custom_kv_errors = validate_custom_keyvalues(ad_object.reach_custom_kv_targeting)
 

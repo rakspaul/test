@@ -35,10 +35,14 @@
       <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
       <% } %>
-      </div>
+    </div>
   </div>
 
   <div class="tab custom-kv" style="display:none">
+    <div class="connect-checkbox">
+      <input type="checkbox" class="and_checkbox pull-left" <% if(is_and) { %> checked="checked" <% } %> />
+      <label class="pull-left"> AND </label>
+    </div>
     <i class="icon-question-sign pull-right custom-kv-help-icon" id="helpCustomKV"/>
     <textarea id="custom_kvs_textarea" rows="7" placeholder="Ex: btg=val.1, btg=val.2" class="custom-kvs-field"><%=keyvalue_targeting%></textarea>
   </div>
