@@ -751,19 +751,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         if(li) {
           li.revised_targeting = true;
 
-          if(!revisions.start_date['accepted']) {
+          if(revisions.start_date && !revisions.start_date['accepted']) {
             li.set('revised_start_date', revisions.start_date['proposed']);
           }
-          if(!revisions.end_date['accepted']) {
+          if(revisions.end_date && !revisions.end_date['accepted']) {
             li.set('revised_end_date', revisions.end_date['proposed']);
           }
-          if(!revisions.name['accepted']) {
+          if(revisions.name && !revisions.name['accepted']) {
             li.set('revised_name', revisions.name['proposed']);
           }
-          if(!revisions.volume['accepted']) {
+          if(revisions.volume && !revisions.volume['accepted']) {
             li.set('revised_volume', revisions.volume['proposed']);
           }
-          if(!revisions.rate['accepted']) {
+          if(revisions.rate && !revisions.rate['accepted']) {
             li.set('revised_rate', revisions.rate['proposed']);
           }
 
