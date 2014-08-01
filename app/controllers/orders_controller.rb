@@ -2,8 +2,6 @@ class OrdersController < ApplicationController
   include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_orders, :only => [:index, :delete]
-  before_filter :set_users, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -12,6 +10,36 @@ class OrdersController < ApplicationController
   respond_to :html, :json
 
   def index
+    @users = ReachUsersQuery.new(current_network).query
+    @rc = ReachClient.names(current_network)
+
+    @sort_direction = params[:sort_direction] || "desc"
+    @sort_field = params[:sort_column] || "id"
+
+    sort_column = params[:sort_column] || "orders.id"
+    sort_column = "orders.name" if sort_column == "order_name"
+    sort_column = "io_details.client_advertiser_name" if sort_column == "advertiser"
+
+    params[:reach_client] = ReachClient.of_network(current_network).find_by_name(params[:reach_client]).id if params[:reach_client].present?
+
+    @orders = Order.includes(:order_activity_logs, :network)
+      .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
+      .of_network(current_network)
+      .order("#{sort_column} #{@sort_direction}")
+      .page(params[:page]).per(50)
+
+    filter_params = params.slice(:status, :account_manager, :trafficker, :search_query, :reach_client)
+    filter_params.each do |key, value|
+      @orders = @orders.public_send("by_#{key}", value) if value.present?
+    end
+
+    if(current_user.agency_user?)
+      @orders = @orders.by_agency(current_user.agency)
+    elsif params[:my_orders].blank? or params[:my_orders] == "true"
+      @orders = @orders.by_user(current_user)
+    end
+
+    @orders = OrdersDecorator.decorate(@orders)
   end
 
   def show
@@ -40,12 +68,12 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    @reachui_users = load_users.limit(50)
+    @reachui_users = ReachUsersQuery.new(current_network).query
 
     @last_revision = if @order.revisions.empty?
       nil
     elsif @order.io_detail.try(:state) == "revisions_proposed"
-      revision = @order.revisions.last
+      revision = @order.revisions.first
       # we could only show the latest not accepted revision otherwise don't show any revisions at all
       revision.accepted ? nil : JSON.load(revision.object_changes)
     end
@@ -165,13 +193,9 @@ class OrdersController < ApplicationController
     @order.end_date = Time.zone.parse(order_param[:end_date])
     @order.sales_person_id = order_param[:sales_person_id].to_i
 
-    if !order_param[:revision_changes].blank?
-      changes = {lineitems: order_param[:revision_changes]}
-      @order.revisions.create(object_changes: JSON.dump(changes))
-    end
-
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
+    prev_state = io_details.state
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -197,17 +221,18 @@ class OrdersController < ApplicationController
       @order.user = current_user
     end
 
-    if order_param[:cancel_last_revision]
-      order_param.delete(:cancel_last_revision)
-      last_revision = @order.revisions.last
-      last_revision.update_attribute('accepted', true) if last_revision
-      if order_param[:order_status] !~ /ready_for_|pushing/
-        io_details.state = 'revisions_proposed'
-      end
-    end
-
     respond_to do |format|
       Order.transaction do
+        if !order_param[:revision_changes].blank? && params[:order][:revised_io_filename]
+          changes = {lineitems: order_param[:revision_changes], previous_state: prev_state}
+          @order.revisions.create(object_changes: JSON.dump(changes))
+        elsif !order_param[:revision_changes].blank? && (rev = @order.revisions.first) && !rev.accepted
+          # update existing revision
+          old_changes = JSON.load(rev.object_changes)
+          changes = {lineitems: order_param[:revision_changes], previous_state: old_changes['previous_state']}
+          rev.update_attribute(:object_changes, JSON.dump(changes))
+        end
+
         advertiser = create_advertiser(params[:order][:advertiser_name])
         @order.network_advertiser_id = advertiser.id
 
@@ -226,7 +251,8 @@ class OrdersController < ApplicationController
             io_asset = store_io_asset(params)
 
             state = io_details.state_desc
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
+            h = {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)}
+            format.json { render json: h }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -240,6 +266,23 @@ class OrdersController < ApplicationController
         end
       end
     end
+  end
+
+  def cancel_revisions
+    @order = Order.find(params[:id])
+    io_details = @order.io_detail
+    last_revision = @order.revisions.first
+    if last_revision
+      order_changes = JSON.load(last_revision.object_changes)
+
+      if order_changes["previous_state"]
+        io_details.update_column(:state, order_changes["previous_state"])
+      end
+
+      last_revision.update_attribute('accepted', true) if last_revision
+    end
+
+    render json: {response: 'success'}
   end
 
   def search
@@ -279,86 +322,6 @@ class OrdersController < ApplicationController
   end
 
 private
-
-  def set_users
-    @users = load_users
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
-  end
-
-  def set_orders
-    sort_column = params[:sort_column]? params[:sort_column] : "id"
-    sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
-    order_status = params[:order_status]? params[:order_status] : ""
-    am = params[:am]? params[:am] : ""
-    trafficker = params[:trafficker]? params[:trafficker] : ""
-    search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
-    rc = params[:rc]? ReachClient.of_network(current_network).find_by_name(params[:rc]).try(:id) : ""
-
-    if sort_column == "order_name"
-      sort_column = "name"
-    elsif sort_column == "advertiser"
-      sort_column = "io_details.client_advertiser_name"
-    end
-
-    if !sort_column && !session[:sort_column].blank?
-      sort_column = session[:sort_column]
-    end
-
-    if !sort_direction && !session[:sort_direction].blank?
-        sort_direction = session[:sort_direction]
-    end
-
-    if !order_status && !session[:order_status].blank?
-      order_status = session[:order_status]
-    end
-
-    if !am && !session[:am].blank?
-      am = session[:am]
-    end
-
-    if !trafficker && !session[:trafficker].blank?
-      trafficker = session[:trafficker]
-    end
-
-    if !search_query && !session[:search_query].blank?
-      search_query = session[:search_query]
-    end
-
-    if !orders_by_user && !session[:orders_by_user].blank?
-      orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
-    end
-
-    if !rc && !session[:rc].blank?
-      rc = session[:rc]
-    end
-
-    session[:sort_column] = sort_column
-    session[:sort_direction] = sort_direction
-    session[:order_status] = order_status
-    session[:orders_by_user] = orders_by_user
-    session[:am] = am
-    session[:trafficker] = trafficker
-    session[:search_query] = search_query
-    session[:rc] = rc
-
-    order_array = Order.includes(:advertiser).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
-                  .order("#{sort_column} #{sort_direction}")
-                  .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
-                  .for_agency(current_user.try(:agency), current_user.agency_user?)
-                  .filterByIdOrNameOrAdvertiser(search_query)
-                  .filterByReachClient(rc)
-
-    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-  end
-
-  def load_users
-    User.of_network(current_network).joins(:roles)
-    .where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK)
-    .order("first_name, last_name")
-  end
 
   def find_account_manager(params)
     p = params.require(:order).permit(:account_contact_name, :account_contact_phone)
@@ -444,7 +407,7 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_common_ad_sizes, :revised_added_ad_sizes,
+      :revised_start_date, :revised_end_date, :revised_common_ad_sizes, :revised_added_ad_sizes, 
       :revised_removed_ad_sizes, :revised_ad_sizes, :revised_name, :revised_volume, :revised_rate, :li_status,
       :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
@@ -571,7 +534,6 @@ private
 
           ad_object.description = ad[:ad][:description]
           ad_object.order_id = @order.id
-          ad_object.ad_type  = [ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD'
           ad_object.network = current_network
           ad_object.cost_type = "CPM"
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -602,9 +564,14 @@ private
 
           if ad_object.valid? && li_errors[i].try(:[], :ads).try(:[], j).blank?
             ad_object.save && ad_object.update_attributes(ad[:ad])
-            ad_object.save_targeting(ad_targeting)
 
+            ad_object.save_targeting(ad_targeting)
             ad_object.is_and = ad_targeting[:targeting][:is_and]
+
+            site_id = ad_targeting[:targeting][:site_id]
+            zone = ad_targeting[:targeting][:zone]
+            ad_object.save_zone(site_id, zone) unless zone.blank?
+
             custom_kv_errors = validate_custom_keyvalues(ad_targeting[:targeting][:keyvalue_targeting])
 
             ad_object.update_attribute(:reach_custom_kv_targeting, ad_targeting[:targeting][:keyvalue_targeting]) if !custom_kv_errors
@@ -744,7 +711,6 @@ private
           ad_object = lineitem.ads.build(ad[:ad])
           ad_object.order_id = @order.id
           ad_object.cost_type = "CPM"
-          ad_object.ad_type   = ([ 'Facebook', 'Mobile' ].include?(media_type) ? 'SPONSORSHIP' : 'STANDARD')
           ad_object.network_id = current_network.id
           ad_object.reach_custom_kv_targeting = ad_targeting[:targeting][:keyvalue_targeting]
           ad_object.alt_ad_id = lineitem.alt_ad_id
@@ -766,6 +732,10 @@ private
             ad_object.save
 
             ad_object.save_targeting(ad_targeting)
+
+            site_id = ad_targeting[:targeting][:site_id]
+            zone = ad_targeting[:targeting][:zone]
+            ad_object.save_zone(site_id, zone) unless zone.blank?
 
             ad_pricing = AdPricing.new ad: ad_object, pricing_type: "CPM", rate: ad[:ad][:rate], quantity: ad_quantity, value: ad_value, network: current_network
 

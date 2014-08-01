@@ -18,8 +18,11 @@ json = @ads.map do |ad|
     media_type_id:      ad.media_type_id,
     dfp_key_values:     ad.keyvalue_targeting,
     platform_id:        ad.platform.try(:id),
-    creatives: [],
-    is_and:             ad.is_and
+    is_and:             ad.is_and,
+    platform_name:      ad.platform.try(:name),
+    site_id:            ad.platform.try(:site_id),
+    zone:               ad.zone.try(:z_site),
+    creatives: []
   }}
 
   ad_item[:ad][:status] = Ad::STATUS[ad.status.downcase.to_sym] unless ad.status.blank?

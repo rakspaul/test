@@ -172,6 +172,12 @@ class Lineitem < ActiveRecord::Base
     read_attribute_before_type_cast('end_date').to_date
   end
 
+  def previous_revision
+    if !self.revisions.empty?
+      JSON.load(self.revisions.last.object_changes)
+    end
+  end
+
   def dfp_url
     client_order_id = order.io_detail.try(:client_order_id)
     client_network_id = order.io_detail.try(:reach_client).try(:client_network_id)
@@ -181,12 +187,6 @@ class Lineitem < ActiveRecord::Base
       url = DFP_URL
       return url.sub('!NETWORK_ID!', client_network_id.to_s).sub('!CLIENT_ORDER_ID!', client_order_id.to_s).sub('!CLIENT_LI_ID!', client_li_id.to_s)
      end
-  end
-
-  def previous_revision
-    if !self.revisions.empty?
-      JSON.load(self.revisions.last.object_changes)
-    end
   end
 
   private

@@ -78,11 +78,15 @@ if @last_revision
   json.last_revision do
     @last_revision["lineitems"].each do |li_id, changes|
       json.__send__(li_id) do
-        changes.each do |attr_name, attr_change|
-          json.__send__(attr_name) do
-            json.proposed attr_change['proposed']
-            json.was      attr_change['was']
-            json.accepted attr_change['accepted']
+        if "added_with_revision" == changes
+          json.added_with_revision true
+        else
+          changes.each do |attr_name, attr_change|
+            json.__send__(attr_name) do
+              json.proposed attr_change['proposed']
+              json.was      attr_change['was']
+              json.accepted attr_change['accepted']
+            end
           end
         end
       end

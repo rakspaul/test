@@ -2,6 +2,10 @@ json.id             creative.try(:id)
 json.ad_size        creative[:ad_size] || creative.size
 json.redirect_url   creative[:image_url] || creative.redirect_url
 
+if creative[:added_with_revision]
+  json.added_with_revision true
+end
+
 json.client_ad_id   creative[:ad_id] || creative.client_ad_id
 
 json.source_id      creative.try(:source_id)

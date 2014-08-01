@@ -44,7 +44,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -71,7 +70,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -131,7 +129,6 @@
         <%= lineitem.notes %>
       </span>
 
-
       <% if(lineitem.revised_name) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_name %></span>
@@ -141,7 +138,7 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
+
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
         Lineitem name should be less than 500 characters
@@ -165,7 +162,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container"></div>
       <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
         <%= lineitem.buffer %>
@@ -184,7 +180,6 @@
         </div>
       <% } %>
       <div style="clear:both"></div>
-      <span class="last-revision"></span>
       <div class="errors_container"></div>
     </div>
 

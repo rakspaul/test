@@ -110,15 +110,17 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           lineItems.models[index].set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
         }
 
-        var li_id = lineItems.models[index].get('id');
-        orderModel.attributes.revision_changes[li_id] = {};
-        orderModel.attributes.revision_changes[li_id]['start_date'] = {'proposed': revisions.start_date, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['end_date'] = {'proposed': revisions.end_date, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['name'] = {'proposed': revisions.name, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['volume'] = {'proposed': revisions.volume, 'accepted': false};
-        orderModel.attributes.revision_changes[li_id]['rate'] = {'proposed': revisions.rate, 'accepted': false};
-
         lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.ad_sizes!=null) || (revisions.rate!=null)) ? true : false));
+
+        var li = lineItems.models[index],
+            li_id = li.get('id');
+        orderModel.attributes.revision_changes[li_id] = {};
+        orderModel.attributes.revision_changes[li_id]['start_date'] = {'was': li.get('start_date'), 'proposed': revisions.start_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['end_date'] = {'was': li.get('end_date'), 'proposed': revisions.end_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['name'] = {'was': li.get('name'), 'proposed': revisions.name, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['volume'] = {'was': li.get('volume'), 'proposed': revisions.volume, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['rate'] = {'was': li.get('rate'), 'proposed': revisions.rate, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['ad_sizes'] = {'was': li.get('ad_sizes'), 'proposed': revisions.ad_sizes, 'accepted': false};
       });
     }
 
@@ -735,6 +737,61 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _liSetCallbacksAndShow: function(lineItemList) {
     lineItemList = lineItemList ? lineItemList : new ReachUI.LineItems.LineItemList();
 
+    if(lineItemList.order.get('last_revision')) {
+      _.each(lineItemList.order.get('last_revision'), function(revisions, li_id) {
+        // if this LI was added by previous revision IO show this with pink color
+        if(lineItemList.models[li_id-1] != null) {
+          lineItemList.models[li_id-1].set('revised', true);
+        }
+
+        var li = _.detect(lineItemList.models, function(model) {
+          return model.id == li_id;
+        });
+        if(li) {
+          li.revised_targeting = true;
+
+          if(!revisions.start_date['accepted']) {
+            li.set('revised_start_date', revisions.start_date['proposed']);
+          }
+          if(!revisions.end_date['accepted']) {
+            li.set('revised_end_date', revisions.end_date['proposed']);
+          }
+          if(!revisions.name['accepted']) {
+            li.set('revised_name', revisions.name['proposed']);
+          }
+          if(!revisions.volume['accepted']) {
+            li.set('revised_volume', revisions.volume['proposed']);
+          }
+          if(!revisions.rate['accepted']) {
+            li.set('revised_rate', revisions.rate['proposed']);
+          }
+
+          if(revisions.ad_sizes && revisions.ad_sizes['proposed'] && !revisions.ad_sizes['accepted']) {
+            var ad_sizes_splitted = li.get('ad_sizes').split(','),
+                revision_ad_sizes = _.map(revisions.ad_sizes['proposed'].split(','), function(a) { return a.trim() });
+
+            li.set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+            li.set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+            li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+          }
+
+          var start_date_changed_and_not_accepted = (revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
+            end_date_changed_and_not_accepted = (revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
+            name_changed_and_not_accepted = (revisions.name['proposed']!=null && !revisions.name['accepted']),
+            ad_sizes_changed_and_not_accepted = (revisions.ad_sizes && revisions.ad_sizes['proposed']!=null && !revisions.ad_sizes['accepted']),
+            volume_changed_and_not_accepted = (revisions.volume['proposed']!=null && !revisions.volume['accepted']),
+            rate_changed_and_not_accepted = (revisions.rate['proposed']!=null && !revisions.rate['accepted']);
+
+          li.set('revised', ((start_date_changed_and_not_accepted || end_date_changed_and_not_accepted || name_changed_and_not_accepted || ad_sizes_changed_and_not_accepted || volume_changed_and_not_accepted || rate_changed_and_not_accepted) ? true : false));
+
+          if(lineItemList.order.attributes.revision_changes == null) {
+            lineItemList.order.attributes.revision_changes = {};
+            lineItemList.order.attributes.revision_changes[li_id] = revisions;
+          }
+        }
+      });
+    }
+
     this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
@@ -746,7 +803,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       var platform = args.platform;
       var abbr = platform ? platform.get('naming_convention') : null;
       var platformId = platform ? platform.get('id') : null,
-          platformName = platform ? platform.get('name') : null;
+          platformName = platform ? platform.get('name') : null,
+          site_id = platform ? platform.get('site_id') : null
+
+      var advertiserName = lineItemList.order.get('advertiser_name');
+      var zoneName = advertiserName.replace(/[^a-z0-9\s]/gi, '').replace(/[\s]/g, '').toLowerCase()+'_'+ReachUI.getGUID();
 
       var ad_name = ordersController._generateAdName(li, type, abbr);
       var buffer = 1 + li.get('buffer') / 100;
@@ -761,9 +822,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         selected_geos: platform ? [] : _.clone(li.get('targeting').get('selected_geos')),
         selected_zip_codes: platform ? [] : li.get('targeting').get('selected_zip_codes'),
         audience_groups: platform ? [] : li.get('targeting').get('audience_groups'),
-        keyvalue_targeting: platform ? platform.get('dfp_key') + '=default' : li.get('targeting').get('keyvalue_targeting'),
+        keyvalue_targeting: platform ? platform.get('dfp_key') +'='+zoneName : li.get('targeting').get('keyvalue_targeting'),
         frequency_caps: platform ? [] : frequencyCaps,
-        type: type
+        type: type,
+        site_id: platform ? site_id : null,
+        zone: platform ? zoneName : null,
       });
 
       var creatives = li.get('creatives').models, li_creatives = [];
@@ -823,6 +886,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
+          if((null == li.get('id')) && li.get('revised')) {
+            EventsBus.trigger('lineitem:logRevision', "New Line Item "+li.get('alt_ad_id')+" Created");
+            lineItemList.order.attributes.revision_changes[li.get('alt_ad_id')] = 'added_with_revision';
+          }
+
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
@@ -873,7 +941,9 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
                 type: li_view.model.get('type'),
-                is_and: attrs.ad.is_and
+                is_and: attrs.ad.is_and,
+                site_id: attrs.ad.site_id,
+                zone: attrs.ad.zone
               })
             });
 

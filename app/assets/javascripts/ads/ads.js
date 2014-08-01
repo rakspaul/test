@@ -53,11 +53,18 @@
       }
       delete ad['selected_zip_codes'];
       delete ad['frequency_caps'];
+      delete ad['site_id'];
+      delete ad['zone'];
       return { ad: ad };
     },
 
-    getImps: function() {
-      return parseInt(String(this.get('volume')).replace(/,|\./g, ''));
+    getImpressions: function() {
+      return Math.round(String(this.get('volume')).replace(/,/g, ''));
+    },
+
+    getMediaCost: function() {
+      var cpm  = parseFloat(this.get('rate'));
+      return (this.getImpressions() / 1000.0) * cpm;
     }
   });
 
@@ -89,7 +96,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
-      this.model.set({ 'value': this.getMediaCost() }, { silent: true });
+      this.model.set({ 'value': this.model.getMediaCost() }, { silent: true });
     },
 
     events: {
@@ -105,6 +112,10 @@
       'click .ad-cancel-targeting-btn': 'cancelTargeting',
     },
 
+    modelEvents: {
+      'change:volume': '_recalculateMediaCost'
+    },
+
     ui: {
       targeting:            '.targeting-container',
       creatives_container:  '.ads-creatives-list-view',
@@ -114,15 +125,16 @@
       copy_targeting_btn:   '.ad-copy-targeting-btn',
       paste_targeting_btn:  '.ad-paste-targeting-btn',
       cancel_targeting_btn: '.ad-cancel-targeting-btn',
-      missing_geo_caution:  '.missing-geo-caution'
+      missing_geo_caution:  '.missing-geo-caution',
+      media_cost_value:     '.media-cost-value'
     },
 
     _recalculateMediaCost: function(options) {
-      var imps = this.getImressions();
-      var media_cost = this.getMediaCost();
+      var imps       = this.model.getImpressions();
+      var media_cost = this.model.getMediaCost();
 
-      this.model.set({ 'value':  media_cost }, options);
-      this.$el.find('.pure-u-1-12.media-cost span').html(accounting.formatMoney(media_cost, ''));
+      this.model.set({ 'value':  media_cost }, { silent: true });
+      this.ui.media_cost_value.html(accounting.formatMoney(media_cost, ''));
 
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
@@ -134,18 +146,15 @@
       }
     },
 
-    getImressions: function() {
-      return parseInt(String(this.model.get('volume')).replace(/,|\./g, ''));
-    },
-
-    getMediaCost: function() {
-      var cpm  = parseFloat(this.model.get('rate'));
-      return (this.getImressions() * cpm) / 1000.0;
-    },
-
     renderTargetingDialog: function() {
       this.targetingView = new ReachUI.Targeting.TargetingView({model: this.model.get('targeting'), parent_view: this});
       this.ui.targeting.html(this.targetingView.render().el);
+    },
+
+    _updateCreativesCaption: function() {
+      var creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
+      this.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
     },
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -153,10 +162,10 @@
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
           creatives_sizes = [],
-          creatives = this.model.get('creatives').models;
+          creatives = this.model.get('creatives').models,
+          edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       var creatives_visible = ($(self.ui.creatives_container).css('display') == 'block');
-      var edit_creatives_title = '<span class="pencil-icon"></span>Edit Creatives (' + creatives.length + ')';
 
       // toggle visibility of Creatives Dialog on LI level, so after rerendering visibility will be restored
       this.options.parent_view.creatives_visible[this.model.cid] = !this.options.parent_view.creatives_visible[this.model.cid];
@@ -166,7 +175,7 @@
       if (showed) {
         if (!creatives_visible) {
           this.ui.creatives_container.show('slow', function() {
-            self.$el.find('.toggle-ads-creatives-btn').html(edit_creatives_title);
+            self._updateCreativesCaption();
           });
         }
       } else {
@@ -190,7 +199,7 @@
         this.targetingView.hideTargeting();
       } else {
         this.$el.find('.toggle-ads-targeting-btn').html('Hide Targeting');
-        $(this.ui.targeting).show('slow');
+        this.targetingView.showTargeting();
       }
     },
 
@@ -281,7 +290,6 @@
             sum_ad_imps += imps;
           });
 
-          self._recalculateMediaCost({ silent: true });
           self.options.parent_view.recalculateUnallocatedImps();
           self.render();
         },
@@ -328,6 +336,7 @@
       }
 
       this.renderCreatives();
+      this._updateCreativesCaption();
 
       // if this Creatives List was open before the rerendering then open ("show") it again
       if(this.options.parent_view.creatives_visible[self.model.cid]) {
@@ -356,6 +365,45 @@
           }, { silent: true });
           var creativeView = new ReachUI.Creatives.CreativeView({model: creative, parent_view: ad_view});
           creatives_list_view.ui.creatives.append(creativeView.render().el);
+        });
+
+        // if there are removed ad_sizes in uploaded revision => strike-through corresponding creatives
+        if(li_view.model.get('revised_removed_ad_sizes')) {
+          _.each(li_view.model.get('revised_removed_ad_sizes'), function(ad_size) {
+            _.map(ad_view.model.get('creatives').models, function(c) {
+              if(c.get('ad_size') == ad_size) { 
+                c.set('removed_with_revision', true);
+              }
+            });          
+          });
+        }
+      }
+
+      // collect an array of ad_sizes attributes of added creatives to know the number of them
+      var already_created_from_revision = _.compact(_.map(ad_view.model.get('creatives').models, function(c) {
+        if(c.get('added_with_revision')) {
+          return c.get('ad_size');
+        }
+      }));
+
+      // if there are added ad_sizes in uploaded revision => add creative
+      if(li_view.model.get('revised_added_ad_sizes')) {
+        _.each(li_view.model.get('creatives').models, function(c) {
+          // if there are no such creative added yet
+          if(already_created_from_revision.length == 0) {
+            // then create one if this creative was added in revision
+            if(c.get('added_with_revision')) {
+              var creative = new ReachUI.Creatives.Creative({
+                'ad_size': c.get('ad_size'),
+                'order_id': li_view.model.get('order_id'),
+                'added_with_revision': true,
+                'client_ad_id': c.get('client_ad_id'),
+                'creative_type': c.get('creative_type'),
+                'redirect_url': c.get('redirect_url'),
+                'lineitem_id': li_view.model.get('id')}, { silent: true });
+              ad_view.model.get('creatives').add(creative);
+            }
+          }
         });
       }
     },
