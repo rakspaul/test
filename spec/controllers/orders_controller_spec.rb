@@ -126,7 +126,7 @@ describe OrdersController do
       it "create a new order note" do
         expect{
           post :create, io_request
-        }.to change(OrderActivityLog, :count).by(2)
+        }.to change(OrderNote, :count).by(2)
       end
     end
 
@@ -149,7 +149,7 @@ describe OrdersController do
 
       it "creates a note with 'Imported Order' text" do
         get :show, {id: @order.id}
-        expect(@order.order_activity_logs.last.note).to eq('Imported Order')
+        expect(@order.order_notes.last.note).to eq('Imported Order')
       end
 
       it "creates io_detail on order open" do

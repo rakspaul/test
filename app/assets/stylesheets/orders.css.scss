@@ -2,7 +2,7 @@ $text_color: #005c97;
 
 #details {
   width: 100%;
-//  overflow: auto;
+  overflow: auto;
 
   .content {
 
@@ -144,7 +144,7 @@ $text_color: #005c97;
       th {
         background: none repeat scroll 0 0 #F7F7F7;
         border-left: 1px solid #ededed;
-        color: $rui-th-color;
+        color: #4094C3;
         font-size: 12px;
         font-weight: bold;
         line-height: 16px;
@@ -329,21 +329,5 @@ $text_color: #005c97;
     .save-note-btn.spinner {
       background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
     }
-  }
-}
-
-.activities-table {
-  margin-top: 30px;
-}
-
-.order-action-buttons {
-  clear: both;
-  div {
-    display: inline-block;
-  }
-
-  .save-order-btn,
-  .push-order-btn {
-    float: none;
   }
 }

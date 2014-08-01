@@ -19,9 +19,9 @@
     initialize: function() {
       this.ads = [];
       this.creatives = [];
+      this.revised_targeting = false;
       this.platforms = [];
       this.is_blank_li = false;
-      this.revised_targeting = false;
     },
 
     defaults: function() {
@@ -34,8 +34,7 @@
         type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
-        uploaded: false,
-        is_and: false
+        uploaded: false
       }
     },
 
@@ -534,13 +533,6 @@
       });
     },
 
-    updateEditableField: function(name, value) {
-      var el = this.ui[name + '_editable'];
-      if (el) {
-        this._changeEditable(el, value);
-      }
-    },
-
     onRender: function() {
       this.stickit();
 
@@ -610,7 +602,7 @@
       li_view.ui.ads_list.append(ad_view.render().el);
       ReachUI.showCondensedTargetingOptions.apply(ad_view);
       if (0 == ad.getImpressions()) {
-        ad_view.ui.volume_editable.siblings('.errors_container').html("Impressions must be greater than 0.");
+        ad_view.$el.find('.volume .editable').siblings('.errors_container').html("Impressions must be greater than 0.");
       }
       li_view.recalculateUnallocatedImps();
     },
@@ -717,6 +709,8 @@
       });
     },
 
+    ///////////////////////////////////
+    ////////////////////////////////////////////
     // Toggle Creatives div (could be called both from LI level and from Creatives level: 'Done' button)
     _toggleCreativesDialog: function(e, showed) {
       var self = this,
@@ -807,7 +801,6 @@
 
     _changeMediaType: function(ev_or_type) {
       var type = typeof(ev_or_type) === "string" ? ev_or_type : $(ev_or_type.currentTarget).data('type');
-
       if (type == 'Video' && !this.model.get('master_ad_size')) {
         this.model.set({ 'master_ad_size': '1x1' }, { silent: true });
       }
@@ -1096,8 +1089,8 @@
       this._recalculateMediaCost();
       this._alignOrderStartDate();
       this._alignOrderEndDate();
-      this._updateCreativesCaption();
       this.recalculateUnallocatedImps();
+      this._updateCreativesCaption();
       this.model.collection._recalculateLiImpressionsMediaCost();
       this.model.attributes['revised'] = null;
     },
@@ -1172,6 +1165,7 @@
           });
           break;
       }
+      //this.recalculateUnallocatedImps();
     },
 
     _acceptRevision: function(e) {
@@ -1345,7 +1339,6 @@
     },
 
     _saveOrder: function() {
-      this._toggleSavePushbuttons({ hide: true });
       this._clearAllErrors();
       var lineitems = this.collection;
       var self = this;
@@ -1468,8 +1461,7 @@
               self._toggleSavePushbuttons({ hide: true });
               noty({text: "Your order has been saved and is pushing to the ad server", type: 'success', timeout: 5000});
               ReachUI.checkOrderStatus(response.order_id);
-              //Not required as Activity and Task functionality replace this.
-              //self.trigger('ordernote:reload');
+              self.trigger('ordernote:reload');
             } else if(response.order_status.match(/draft/i)) {
               self._toggleSavePushbuttons({ hide: false });
               noty({text: "Your order has been saved", type: 'success', timeout: 5000})
@@ -1502,8 +1494,6 @@
               }
               ReachUI.Orders.router.navigate('/'+ response.order_id, {trigger: true});
             }
-
-            ReachActivityTaskApp.ActivitiesTasks.enableRegion();
 
             // if there are any unallocated impressions disable "Push" button
             _.each(lineitems.models, function(li) {
@@ -1555,12 +1545,22 @@
         dialog.find('.push-btn').click(function() {
           dialog.find('.push-btn').off('click');
           dialog.modal('hide');
+          self._toggleSavePushbuttons({ hide: true });
           self._saveOrderWithStatus('pushing');
         });
         dialog.modal('show');
       } else {
+        this._toggleSavePushbuttons({ hide: true });
         this._saveOrderWithStatus('pushing');
       }
+    },
+
+    _submitOrderToAm: function() {
+      this._saveOrderWithStatus('ready_for_am');
+    },
+
+    _submitOrderToTrafficker: function() {
+      this._saveOrderWithStatus('ready_for_trafficker');
     },
 
     _saveOrderWithStatus: function(status) {
@@ -1617,6 +1617,8 @@
     events: {
       'click .save-order-btn:not(.disabled)':        '_saveOrder',
       'click .push-order-btn:not(.disabled)':        '_pushOrder',
+      'click .submit-am-btn':         '_submitOrderToAm',
+      'click .submit-trafficker-btn': '_submitOrderToTrafficker',
       'click .create-li-btn': '_createNewLI'
     },
 

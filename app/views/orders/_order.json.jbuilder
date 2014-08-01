@@ -11,7 +11,7 @@ json.advertiser_unknown       order.advertiser.blank? || order.advertiser.try(:a
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.order_status             io_detail.try(:state_desc)
+json.order_status             IoDetail::STATUS[io_detail.try(:state).to_s.to_sym]
 json.state                    io_detail.try(:state).to_s
 json.is_existing_order        is_existing_order
 

@@ -17,7 +17,7 @@ FactoryGirl.define do
   end
 
   factory :order do
-    sequence(:name) { |n| "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977 #{n}" }
+    name  "Rodenbaugh's on Audience Network / TWCC (10/3 - 12/29/13) - 788977"
     start_date 1.day.from_now
     end_date   22.day.from_now
     network { FactoryGirl.singleton :network }

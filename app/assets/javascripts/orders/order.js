@@ -41,8 +41,7 @@
     }
   });
 
-   //With Activity and Task functionality being introduced, we don't need this Notes model and its collection definitions here.
-   /*Orders.Note = Backbone.Model.extend({
+  Orders.Note = Backbone.Model.extend({
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.order.id + '/notes';
@@ -69,7 +68,7 @@
       this.order = order;
     },
 
-  }); */
+  });
 
   Orders.EmptyView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_search_empty'],
@@ -166,10 +165,6 @@
       _.each(lineItems.models, function(li, index) {
         li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
       });
-
-      ReachActivityTaskApp.ActivitiesTasks.disableRegion();
-      ReachActivityTaskApp.order = orderModel;
-
       this.trigger('io:uploaded', orderModel, lineItems);
     },
 
@@ -344,7 +339,6 @@
 
     regions: {
       top: ".top-region",
-      middle: ".middle-region",
       bottom: ".bottom-region"
     }
   });
@@ -428,8 +422,7 @@
     }
   });
 
-  //With Activity and Task functionality being introduced, we don't need these region definitions here.
-  /*ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
+  ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
     el: "#order-notes"
   });
 
@@ -626,5 +619,5 @@
     _onSaveFailure: function() {
 
     }
-  });  */
+  });
 })(ReachUI.namespace("Orders"));

@@ -137,24 +137,10 @@
     </div>
   </div>
 
-  <div class="trafficker-container">
-    <div class="field">
-      <p>Account Executive</p>
-      <span><%= order.sales_person_name%></span>
-    </div>
-    <div class="field">
-      <p>Trafficker</p>
-      <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
-      <div class="errors_container">
-     </div>
-    </div>
-    <div class="field">
-      <p>Account Manager</p>
-      <span><%= order.account_contact_name%></span>
-    </div>
-    <div class="field">
-      <p>Optimization</p>
-      <span><%= order.trafficking_contact_name%></span>
+  <div class="field trafficker-container">
+    <p>Trafficker</p>
+    <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
+    <div class="errors_container">
     </div>
   </div>
 

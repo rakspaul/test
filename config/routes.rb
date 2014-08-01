@@ -74,20 +74,8 @@ Reachui::Application.routes.draw do
     end
   end
 
-  resources :task_types, only: [:index, :search] do
-    collection do
-      get 'search'
-    end
-  end
-
-  #get 'task_types' => 'tasks#task_types'
-
-  post 'tasks/:id' => 'tasks#update'
 
   resources :orders do
-
-    resources :tasks, :only => [:index]
-
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
       member do
         get 'ads'
@@ -112,25 +100,7 @@ Reachui::Application.routes.draw do
     get 'export' => 'io_export#export'
 
     resources :notes, controller: 'order_notes'
-    resources :activities, controller: 'order_activity_logs'
-    resources :tasks, controller: 'tasks'
   end
-
-  resources :tasks do
-    collection do
-      get 'my_tasks'
-      get 'user_tasks'
-      get 'team_tasks'
-      get 'only_team_tasks'
-      get 'team_user_tasks'
-    end
-    get 'comments'
-    post 'add_comment' => 'tasks#add_comment'
-  end
-
-  post '/file_upload' => 'file_upload#upload', :as => :file_upload
-  get '/file_download/:id' => 'file_upload#download', :as => :file_download
-  get '/file_delete/:id' => 'file_upload#delete', :as => :file_delete
 
   resources :kendoui
   resources :ad_sizes, only: [:index]

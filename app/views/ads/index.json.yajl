@@ -18,7 +18,6 @@ json = @ads.map do |ad|
     media_type_id:      ad.media_type_id,
     dfp_key_values:     ad.keyvalue_targeting,
     platform_id:        ad.platform.try(:id),
-    is_and:             ad.is_and,
     platform_name:      ad.platform.try(:name),
     site_id:            ad.platform.try(:site_id),
     zone:               ad.zone.try(:z_site),

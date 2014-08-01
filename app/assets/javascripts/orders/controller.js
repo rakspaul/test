@@ -16,18 +16,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
+    var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
-
-    ReachActivityTaskApp.start({startedAt: "order_list"});
   },
 
   newOrder: function() {
-    // XXX: We don't have EditView view and probably we don't need new Order functionality
+    var order = new ReachUI.Orders.Order();
+    // TODO We don't have EditView view and probably we don't need new Order functionality
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
@@ -69,6 +69,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
       if(this.detailOrderView) {
         this.detailOrderView.remove();
         this.detailOrderView.unbind();
+      }
+
+      if(this.notes_list_view) {
+        this.notes_list_view.remove();
+        this.notes_list_view.unbind();
+
+        // unbinding logRevision event so logging wouldn't be done twice (or more times)
+        EventsBus.unbind('lineitem:logRevision', this.notes_list_view.logRevision, this.notes_list_view);
       }
 
       if(this.lineItemListView) {
@@ -136,10 +144,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   orderDetails: function(id) {
-    var self = this;
-
     this.selectedOrder = this.orderList.get(id);
-
     if(!this.selectedOrder) {
       var promise = this._fetchOrder(id);
       promise.then(this._showOrderDetailsAndLineItems);
@@ -210,8 +215,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showOrderDetailsAndLineItems: function(order) {
-    // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
-    ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
@@ -543,10 +546,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.detailOrderView = new ReachUI.Orders.DetailView({model: order});
     this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
 
+    var ordersController = this;
     this.orderDetailsLayout.top.show(this.detailOrderView);
-    if(order.isNew()) {
-      $(this.orderDetailsLayout.middle.el).hide();
-    }
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
@@ -750,19 +751,19 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         if(li) {
           li.revised_targeting = true;
 
-          if(!revisions.start_date['accepted']) {
+          if(revisions.start_date && !revisions.start_date['accepted']) {
             li.set('revised_start_date', revisions.start_date['proposed']);
           }
-          if(!revisions.end_date['accepted']) {
+          if(revisions.end_date && !revisions.end_date['accepted']) {
             li.set('revised_end_date', revisions.end_date['proposed']);
           }
-          if(!revisions.name['accepted']) {
+          if(revisions.name && !revisions.name['accepted']) {
             li.set('revised_name', revisions.name['proposed']);
           }
-          if(!revisions.volume['accepted']) {
+          if(revisions.volume && !revisions.volume['accepted']) {
             li.set('revised_volume', revisions.volume['proposed']);
           }
-          if(!revisions.rate['accepted']) {
+          if(revisions.rate && !revisions.rate['accepted']) {
             li.set('revised_rate', revisions.rate['proposed']);
           }
 
@@ -775,12 +776,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
           }
 
-          var start_date_changed_and_not_accepted = (revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
-            end_date_changed_and_not_accepted = (revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
-            name_changed_and_not_accepted = (revisions.name['proposed']!=null && !revisions.name['accepted']),
+          var start_date_changed_and_not_accepted = (revisions.start_date && revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
+            end_date_changed_and_not_accepted = (revisions.end_date && revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
+            name_changed_and_not_accepted = (revisions.name && revisions.name['proposed']!=null && !revisions.name['accepted']),
             ad_sizes_changed_and_not_accepted = (revisions.ad_sizes && revisions.ad_sizes['proposed']!=null && !revisions.ad_sizes['accepted']),
-            volume_changed_and_not_accepted = (revisions.volume['proposed']!=null && !revisions.volume['accepted']),
-            rate_changed_and_not_accepted = (revisions.rate['proposed']!=null && !revisions.rate['accepted']);
+            volume_changed_and_not_accepted = (revisions.volume && revisions.volume['proposed']!=null && !revisions.volume['accepted']),
+            rate_changed_and_not_accepted = (revisions.rate && revisions.rate['proposed']!=null && !revisions.rate['accepted']);
 
           li.set('revised', ((start_date_changed_and_not_accepted || end_date_changed_and_not_accepted || name_changed_and_not_accepted || ad_sizes_changed_and_not_accepted || volume_changed_and_not_accepted || rate_changed_and_not_accepted) ? true : false));
 
@@ -896,7 +897,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
           var type = li.get('type');
-          var is_and = li.get('is_and');
 
           li.set({
             'itemIndex': itemIndex,
@@ -907,8 +907,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               frequency_caps: frequency_caps,
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
-              type: type,
-              is_and:  is_and })
+              type: type })
           }, { silent: true });
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
@@ -941,9 +940,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
                 type: li_view.model.get('type'),
-                is_and: attrs.ad.is_and,
                 site_id: attrs.ad.site_id,
-                zone: attrs.ad.zone
+                zone: attrs.ad.zone,
               })
             });
 
@@ -984,7 +982,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
-
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
@@ -1002,13 +999,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
     this.orderDetailsLayout.bottom.show(this.lineItemListView);
 
-    //With Activity and Task functionality being introduced, we don't need notes controller any more so commenting it out.
     // order note reload
-    /*this.lineItemListView.on('ordernote:reload', function(){
+    this.lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
-    });*/
+    });
 
-    //this._showNotesView(lineItemList.order, this.lineItemListView);
+    this._showNotesView(lineItemList.order, this.lineItemListView);
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
     orderDetailsView.setLineItemView(this.lineItemListView);
@@ -1020,14 +1016,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         li.setBuffer(buffer);
       });
     }
-  }
+  },
 
-  //With Activity and Task functionality being introduced, we don't need this notes view any more so commenting it out.
-  /*_showNotesView: function(order, li_view) {
+  _showNotesView: function(order, li_view) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
     this.notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
     this.notesRegion.show(this.notes_list_view);
-  }, */
+  },
 });

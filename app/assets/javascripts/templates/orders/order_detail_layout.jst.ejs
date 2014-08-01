@@ -3,17 +3,7 @@
     No order selected
   </h4>
 </div>
+<div class="bottom-region">
 
-<div class="middle-region"></div>
-<div class="bottom-region"></div>
+</div>
 
-<!-- TODO: Move this into View.onDomRefresh() method, where View is responsible for showing this grid -->
-<script type="text/javascript">
-  function toggleResolvedTasksVisibility(elem) {
-    var $this = $(elem),
-        tbody = $this.closest("tbody.team-members-task-list-grid");
-
-    tbody.children(".task-resolved-row").toggle();
-    $this.toggleClass("active");
-  }
-</script>

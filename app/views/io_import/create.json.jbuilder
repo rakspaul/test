@@ -43,17 +43,21 @@ json.order do
     end
   end
 
-  unless @io_import.is_existing_order
-    json.notes do
+  json.notes do
+    if @io_import.is_existing_order
+      json.array! @io_import.existing_order.order_notes.includes(:user) do |note|
+        json.partial! 'order_notes/note.json.jbuilder', note: note
+      end
+    else
       json.array! @notes do |note|
-        json.created_by note[:username]
+        json.username note[:username]
         json.note note[:note]
         json.sent false
         json.created_at format_datetime(note[:created_at])
       end
     end
   end
-  
+
   json.billing_contacts do
     json.array! @io_import.billing_contacts do |bc|
       json.id bc.id

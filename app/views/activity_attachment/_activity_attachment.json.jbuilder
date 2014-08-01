@@ -1,1 +1,0 @@
-json.file_name activity_attachment.file_name

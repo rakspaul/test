@@ -28,14 +28,6 @@ class IoDetail < ActiveRecord::Base
   validates :reach_client_id, presence: true
 
   after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.state=~ /pushing/i }
-
-  def state_key
-    self.state.downcase.to_sym
-  end
-
-  def state_desc
-    STATUS[state_key]
-  end
 private
 
   def enqueue_for_push
@@ -49,6 +41,6 @@ private
     rmq.close
   rescue => e
     Rails.logger.warn e.message.inspect
-    self.update_attribute :state, 'failure'
+    self.update_attribute :state, STATUS[:failure]
   end
 end

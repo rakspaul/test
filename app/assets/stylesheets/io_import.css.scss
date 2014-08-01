@@ -307,7 +307,9 @@ $wide_input_width: 320px;
   }
 
   .toggle-general-info-button {
+    padding: 3px;
     clear: both;
+    position: relative;
     margin: 0px auto;
     border: 0px;
     color: $text_color;
@@ -315,7 +317,6 @@ $wide_input_width: 320px;
     width: 215px;
     padding: 5px;
     cursor: pointer;
-    text-align: center;
   }
 
   .imported-file-name {
@@ -323,7 +324,7 @@ $wide_input_width: 320px;
     border:1px dashed $text_color;
     float:left;
     padding:3px;
-    margin-right:30px;
+    margin-right:50px;
     font-family: 'Armata', sans-serif;
 
     .name {
@@ -406,21 +407,8 @@ $wide_input_width: 320px;
   }
 
   .trafficker-container {
-    float: left;
-    width: 50%;
-    .field {
-      width: 300px;
-      float: left;
-      > p {
-        text-align: left;
-        color: #005c97;
-        width: 40%;
-        float: left;
-        margin-right: 10px;
-        font-family: 'Armata', sans-serif;
-      }
-    }
-
+    float: right;
+    width: 33%;
   }
 
   .client-order-id{
@@ -864,16 +852,6 @@ $wide_input_width: 320px;
     }
   }
 
-  .client-id{
-    margin:40px 0 0 10px;
-    position: absolute;
-  }
-
-  .client-id-basic{
-    margin: 20px 0 0 10px;
-    position: absolute;
-  }
-
   .unallocated-imps {
     color: white;
     height: 32px;
@@ -897,9 +875,20 @@ $wide_input_width: 320px;
       padding-left: 10px;
     }
   }
+
+  .client-id{
+    margin:40px 0 0 10px;
+    position: absolute;
+  }
+
+  .client-id-basic{
+    margin: 20px 0 0 10px;
+    position: absolute;
+  }
 }
 
 .lineitems-summary-container {
+  margin:10px;
   font-size:13px;
   color:black;
   font-weight:normal;
@@ -949,6 +938,7 @@ $wide_input_width: 320px;
   margin: 0 10px 5px 0;
   font-family: 'Armata', sans-serif;
   font-size: 14px;
+  clear:left;
 
   &:hover{
     background-color: lighten($text_color, 10%);
@@ -961,22 +951,20 @@ $wide_input_width: 320px;
   }
 }
 
-.save-order-btn {
-  width: 90px;
-}
+
 
 .status-btn-container {
-  width: 100%;
-  padding: 0px;
-//  text-align: right;
+  margin: 0 10px 0 20px;
+  padding:0px;
+  text-align:right;
   font-family: 'Armata', sans-serif;
 
   .order-status {
     margin-top: 25px;
   }
 
-  .order-status,
-  .order-assignee{
+  .order-status, .order-assignee{
+    float: left;
     color: $text_color;
   }
 
@@ -1255,14 +1243,6 @@ $wide_input_width: 320px;
   .operation {
     color: $text_color;
     cursor: pointer;
-  }
-
-  .connect-checkbox{
-    margin-top:-10px;
-
-    label{
-      margin:1px 0 10px 5px;
-    }
   }
 }
 
