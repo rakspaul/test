@@ -776,12 +776,12 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
             li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
           }
 
-          var start_date_changed_and_not_accepted = (revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
-            end_date_changed_and_not_accepted = (revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
-            name_changed_and_not_accepted = (revisions.name['proposed']!=null && !revisions.name['accepted']),
+          var start_date_changed_and_not_accepted = (revisions.start_date && revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
+            end_date_changed_and_not_accepted = (revisions.end_date && revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
+            name_changed_and_not_accepted = (revisions.name && revisions.name['proposed']!=null && !revisions.name['accepted']),
             ad_sizes_changed_and_not_accepted = (revisions.ad_sizes && revisions.ad_sizes['proposed']!=null && !revisions.ad_sizes['accepted']),
-            volume_changed_and_not_accepted = (revisions.volume['proposed']!=null && !revisions.volume['accepted']),
-            rate_changed_and_not_accepted = (revisions.rate['proposed']!=null && !revisions.rate['accepted']);
+            volume_changed_and_not_accepted = (revisions.volume && revisions.volume['proposed']!=null && !revisions.volume['accepted']),
+            rate_changed_and_not_accepted = (revisions.rate && revisions.rate['proposed']!=null && !revisions.rate['accepted']);
 
           li.set('revised', ((start_date_changed_and_not_accepted || end_date_changed_and_not_accepted || name_changed_and_not_accepted || ad_sizes_changed_and_not_accepted || volume_changed_and_not_accepted || rate_changed_and_not_accepted) ? true : false));
 
