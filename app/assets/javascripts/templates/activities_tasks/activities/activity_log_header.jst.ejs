@@ -1,0 +1,110 @@
+<div class="pure-g-r">
+  <div class="pure-u-1-2 header-title">
+    <p class="heading"><i class="activity_log-icon"></i> Activity Log</p>
+  </div>
+  <div class="pure-u-1-2 header-controls text-right">
+    <button class="rui-btn filter" title="Filter by comments" data-filter-with="user_comment" id="btnFilterComments">
+      <i class="comment-icon"></i>
+    </button>
+    <button class="rui-btn filter" title="Filter by attachments" data-filter-with="attachment" id="btnFilterAttachments">
+      <i class="attachment-icon"></i>
+    </button>
+    <button class="rui-btn filter" title="Filter by urgent tasks" data-filter-with="alert" id="btnFilterAlerts">
+      <i class="alert-icon"></i>
+    </button>
+    <button class="rui-btn filter" title="Filter by tasks" data-filter-with="task" id="btnFilterTasks">
+      <i class="task_done-icon"></i>
+    </button>
+    <button class="rui-btn filter" title="Show full log" data-filter-with="all" id="btnFullLog">Full Log</button>
+  </div>
+</div>
+<div class="activity-input-control pure-g-r">
+  <div class="username pure-u-1-5">
+    <%= window.current_user_name %>
+  </div>
+  <div class="pure-u-4-5">
+    <div class="action-controls">
+      <div id="attachmentUploader">
+        <input type="file" name="file" id="activity_attachment" class="attachment-file-upload">
+        <i class="attachment-icon"></i>
+      </div>
+      <button id="btnShowTaskForm" class="rui-btn" title="Open Task Form">
+        <i class="task_done-icon"></i>
+        <i class="task_done_white-icon"></i>
+      </button>
+      <button id="btnSaveComment" class="rui-btn" title="Add Comment">
+        <i class="comment_white-icon"></i>
+      </button>
+    </div>
+    <div class="activity-comment-input-container">
+      <textarea id="activity_input" name="activity_input" placeholder="Note" rows="1" cols="26"><%= note%></textarea>
+      <div class="errors_container">
+        <% if (errors && errors.name) { %>
+          <%= errors.name[0] %>
+        <% } %>
+        </div>
+    </div>
+    <!-- XXX: Don't remove this button! Only append real content inside; use hide/show when there is an attachment -->
+    <div class="rui-btn" id="btnRemoveAttachment">
+      <!--TODO: prefix before "-icon" should be generated dynamically based on actual file type (file extension) -->
+      <i class="attachment-type archive-icon"></i>
+      <a id="attachment-file-name" href=""></a>
+      <i class="remove-btn"></i>
+    </div>
+  </div>
+</div>
+<!-- TODO: Extract this into separate template (and possibly - region?) -->
+<div id="task_form" class="task-form-region" style="display: none;">
+  <form class="form-inline" name="task_form">
+    <div class="pure-g-r">
+      <div class="pure-u-1-5"></div>
+      <div class="pure-u-4-5 controls-container">
+        <div class="pure-g-r">
+          <div class="pure-u-1">
+            <button id="btnSaveAlert" class="rui-btn <%= important ? 'active' : ''%>" title="Mark Task as important">
+              <i class="alert-icon"></i>
+            </button>
+            <div class="form-control-group task-type">
+              <i class="task_open-icon"></i>
+              <select id="task-types-selector" name="task_type_id" class="selectpicker" data-live-search="true">
+                <% _.each(ReachActivityTaskApp.taskTypes, function(tt) { %>
+                <option value="<%= tt.get('id')%>" <%= task_type_id == tt.get('id') ? 'selected' : ''%>><%= tt.get('type')%></option>
+                <%}); %>
+              </select>
+            </div>
+            <div class="form-control-group assignable-name">
+              <i class="user-icon"></i>
+              <select id="task-assignee-selector"></select>
+            </div>
+            <div class="form-control-group">
+              <i class="clock-icon"></i>
+              <span id="due-date-text" style="display: none">ASAP</span>
+              <input type="text" class="span2" value="<%= due_date %>" id="due-date" placeholder="Due Date">
+            </div>
+          </div>
+        </div>
+        <!-- Additional sub-form -->
+        <div id="pixel-request-subform" style="display: none;">
+          <div class="pure-g-r">
+            <div class="pure-u-1">
+              <label class="main">Pixel Type</label>
+              <label class="radio">
+                <input type="radio" name="pixel_type_switch" value="conversion"> Conversion
+              </label>
+              <label class="radio">
+                <input type="radio" name="pixel_type_switch" value="retargeting"> Retargeting
+              </label>
+            </div>
+          </div>
+          <div class="pure-g-r">
+            <div class="pure-u-1">
+              <input type="text" name="advertiser" placeholder="Advertiser" class="input-medium">&nbsp;
+              <input type="text" name="campaign" placeholder="Campaign" class="input-medium">&nbsp;
+              <input type="text" name="pixel_location" placeholder="Pixel Location" class="input-medium">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
