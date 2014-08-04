@@ -34,8 +34,7 @@
         type: 'Display',
         _delete_creatives: [],
         li_status: 'Draft',
-        uploaded: false,
-        is_and: false
+        uploaded: false
       }
     },
 

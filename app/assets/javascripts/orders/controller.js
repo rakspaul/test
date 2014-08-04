@@ -897,7 +897,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
           var frequency_caps = li.get('frequency_caps') ? li.get('frequency_caps') : [];
           var type = li.get('type');
-          var is_and = li.get('is_and');
 
           li.set({
             'itemIndex': itemIndex,
@@ -908,8 +907,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               frequency_caps: frequency_caps,
               audience_groups: ags.attributes,
               keyvalue_targeting: li.get('keyvalue_targeting'),
-              type: type,
-              is_and:  is_and })
+              type: type })
           }, { silent: true });
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
@@ -942,7 +940,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
                 ad_dfp_id: attrs.ad.source_id,
                 order_status: lineItemList.order.get('order_status'),
                 type: li_view.model.get('type'),
-                is_and: attrs.ad.is_and,
                 site_id: attrs.ad.site_id,
                 zone: attrs.ad.zone,
               })

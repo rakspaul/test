@@ -8,8 +8,7 @@
         start_date: moment().add('days', 1).format("YYYY-MM-DD"),
         end_date: moment().add('days', 15).format("YYYY-MM-DD"),
         _delete_creatives: [],
-        platform_id: null,
-        is_and: false
+        platform_id: null
       }
     },
 
