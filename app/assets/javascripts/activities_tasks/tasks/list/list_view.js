@@ -150,7 +150,10 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       this.options.taskView.render();
       ReachActivityTaskApp.trigger("task:details:closed");
 
-      ReachActivityTaskApp.trigger("activities:resetFilter");
+      // If the task detail is open inside the Order Details page, then reset filters for the activities pane as well.
+      if(this.model.collection.context == ReachActivityTaskApp.Entities.TaskPageContext.VIEW.INSIDE_ORDER) {
+        ReachActivityTaskApp.trigger("activities:resetFilter");
+      }
 
       //Note: we have to trigger tasks:list event when we are in assigned to me view.As there is a chance that user could change the assignee
       //to different user then that task is not valid in the assigned to me view.
@@ -436,13 +439,7 @@ ReachActivityTaskApp.module("ActivitiesTasks.Tasks.List",function(List,ReachActi
       // Add members of team
       _.each(teamMembers, function(teamMember) {
         if(teamMember.id == currentAssigneeId) teamMemberExists = true;
-        if(teamMember.id == defaultUserId) {
-          // Don't add to list since the user is already in it
-          teamMemberExists = true;
-        } else {
-          // Add unique user
-          optList.push({ id: teamMember.id, name: teamMember.name, group: 'team_users' });
-        }
+        optList.push({ id: teamMember.id, name: teamMember.name, group: 'team_users' });
       });
 
       // Add the current assignee to the list
