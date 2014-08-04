@@ -1,4 +1,4 @@
-- @orders.each do |order|
+- orders.each do |order|
   %tr
     - table_columns.each do |col|
       %td= order.public_send(col[:dmethod])
