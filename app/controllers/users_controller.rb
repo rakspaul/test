@@ -3,8 +3,6 @@ class UsersController < ApplicationController
 
   before_filter :set_users, :only => [:index, :search]
 
-  respond_to :json
-
   def index
   end
 
@@ -18,7 +16,12 @@ class UsersController < ApplicationController
       @users.where("email ilike :term OR (first_name || ' ' || last_name) ilike :term", {:term => "#{params[:search]}%"})
     end
 
-    respond_with(@users)
+    respond_to do | format |
+      format.json
+      format.js do
+        render :json => basic_user_info(@users), :callback => params[:callback]
+      end
+    end
   end
 
   private
@@ -28,4 +31,15 @@ class UsersController < ApplicationController
              .order("first_name, last_name")
   end
 
+  def basic_user_info(u)
+    list = u.map { | user |
+      {
+          id: user.id,
+          name: user.first_name << " " << user.last_name,
+          email: user.email
+      }
+    }
+
+    list.to_json
+  end
 end

@@ -29,6 +29,13 @@ class IoDetail < ActiveRecord::Base
 
   after_commit :enqueue_for_push, on: [:update, :create], if: lambda {|order| order.state=~ /pushing/i }
 
+  def state_key
+    self.state.downcase.to_sym
+  end
+
+  def state_desc
+    STATUS[state_key]
+  end
 private
 
   def enqueue_for_push
@@ -42,6 +49,6 @@ private
     rmq.close
   rescue => e
     Rails.logger.warn e.message.inspect
-    self.update_attribute :state, STATUS[:failure]
+    self.update_attribute :state, 'failure'
   end
 end

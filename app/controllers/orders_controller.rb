@@ -2,8 +2,6 @@ class OrdersController < ApplicationController
   include Authenticator, KeyValuesHelper
 
   before_filter :require_client_type_network_or_agency
-  before_filter :set_orders, :only => [:index, :delete]
-  before_filter :set_users, :only => [:index, :show, :delete]
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
 
@@ -12,11 +10,40 @@ class OrdersController < ApplicationController
   respond_to :html, :json
 
   def index
+    @users = ReachUsersQuery.new(current_network).query
+    @rc = ReachClient.names(current_network)
+
+    @sort_direction = params[:sort_direction] || "desc"
+    @sort_field = params[:sort_column] || "id"
+
+    sort_column = params[:sort_column] || "orders.id"
+    sort_column = "orders.name" if sort_column == "order_name"
+    sort_column = "io_details.client_advertiser_name" if sort_column == "advertiser"
+
+    params[:reach_client] = ReachClient.of_network(current_network).find_by_name(params[:reach_client]).id if params[:reach_client].present?
+
+    @orders = Order.includes(:order_activity_logs, :network)
+      .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
+      .of_network(current_network)
+      .order("#{sort_column} #{@sort_direction}")
+      .page(params[:page]).per(50)
+
+    filter_params = params.slice(:status, :account_manager, :trafficker, :search_query, :reach_client)
+    filter_params.each do |key, value|
+      @orders = @orders.public_send("by_#{key}", value) if value.present?
+    end
+
+    if(current_user.agency_user?)
+      @orders = @orders.by_agency(current_user.agency)
+    elsif params[:my_orders].blank? or params[:my_orders] == "true"
+      @orders = @orders.by_user(current_user)
+    end
+
+    @orders = OrdersDecorator.decorate(@orders)
   end
 
   def show
     @order = Order.of_network(current_network).includes(:advertiser).find(params[:id])
-    @notes = @order.order_notes.joins(:user).order("created_at desc")
 
     @pushing_errors = @order.io_detail.try(:state) =~ /failure|incomplete_push/i ? @order.io_logs.order("created_at DESC").limit(1) : []
 
@@ -37,11 +64,19 @@ class OrdersController < ApplicationController
       @order.set_import_note
     end
 
-    if @order.order_notes.blank? # that's Sweep order
+    if @order.order_activity_logs.blank? # that's Sweep order
       @order.set_import_note
     end
 
-    @reachui_users = load_users.limit(50)
+    @reachui_users = ReachUsersQuery.new(current_network).query
+
+    @last_revision = if @order.revisions.empty?
+      nil
+    elsif @order.io_detail.try(:state) == "revisions_proposed"
+      revision = @order.revisions.first
+      # we could only show the latest not accepted revision otherwise don't show any revisions at all
+      revision.accepted ? nil : JSON.load(revision.object_changes)
+    end
 
     respond_to do |format|
       format.html
@@ -101,11 +136,9 @@ class OrdersController < ApplicationController
     @order.network = current_network
     @order.user = current_user
 
-    order_notes = params[:order][:notes]
+    notes = params[:order][:notes]
     order_status = params[:order][:order_status]
-    if order_status == 'pushing'
-      order_notes << {note: "Pushed Order", created_at: Time.current.to_s(:db) , username: current_user }
-    end
+    notes << {note: "Pushed Order"} if order_status == 'pushing'
 
     respond_to do |format|
       Order.transaction do
@@ -114,12 +147,23 @@ class OrdersController < ApplicationController
 
         order_valid = @order.valid?
         if errors_list.blank? && order_valid && @order.save
-          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email], sales_person_phone: params[:order][:sales_person_phone], account_manager_email: params[:order][:account_contact_email], account_manager_phone: params[:order][:account_manager_phone], client_order_id: params[:order][:client_order_id], client_advertiser_name: params[:order][:client_advertiser_name], media_contact: mc, billing_contact: bc, sales_person: sales_person, reach_client: reach_client, order_id: @order.id, account_manager: account_manager, trafficking_contact_id: trafficking_contact.id, state: (params[:order][:order_status] || "draft")
+          @io_detail = IoDetail.create! sales_person_email: params[:order][:sales_person_email],
+                                        sales_person_phone: params[:order][:sales_person_phone],
+                                        account_manager_email: params[:order][:account_contact_email],
+                                        account_manager_phone: params[:order][:account_manager_phone],
+                                        client_order_id: params[:order][:client_order_id],
+                                        client_advertiser_name: params[:order][:client_advertiser_name],
+                                        media_contact: mc, billing_contact: bc, sales_person: sales_person,
+                                        reach_client: reach_client, order_id: @order.id, account_manager: account_manager,
+                                        trafficking_contact_id: trafficking_contact.id,
+                                        state: (params[:order][:order_status] || "draft")
 
           @order.set_upload_note
 
-          order_notes.to_a.each do |note|
-            OrderNote.create note: note[:note], user: current_user, order: @order
+          notes.to_a.each do |note|
+            @order.order_activity_logs.create note: note[:note],
+                                              created_by: current_user,
+                                              activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT
           end
 
           errors = save_lineitems_with_ads(params[:order][:lineitems])
@@ -127,7 +171,7 @@ class OrdersController < ApplicationController
           if errors.blank?
             store_io_asset(params)
 
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: IoDetail::STATUS[@io_detail.state.to_s.downcase.to_sym] } }
+            format.json { render json: {status: 'success', order_id: @order.id, order_status: @io_detail.state_desc } }
           else
             format.json { render json: {status: 'error', errors: errors_list.merge({lineitems: errors})} }
             raise ActiveRecord::Rollback
@@ -151,6 +195,7 @@ class OrdersController < ApplicationController
 
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})
+    prev_state = io_details.state
 
     io_details.client_advertiser_name = order_param[:client_advertiser_name]
     io_details.media_contact_id       = order_param[:media_contact_id] if order_param[:media_contact_id]
@@ -178,13 +223,24 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       Order.transaction do
+        if !order_param[:revision_changes].blank? && params[:order][:revised_io_filename]
+          changes = {lineitems: order_param[:revision_changes], previous_state: prev_state}
+          @order.revisions.create(object_changes: JSON.dump(changes))
+        elsif !order_param[:revision_changes].blank? && (rev = @order.revisions.first) && !rev.accepted
+          # update existing revision
+          old_changes = JSON.load(rev.object_changes)
+          changes = {lineitems: order_param[:revision_changes], previous_state: old_changes['previous_state']}
+          rev.update_attribute(:object_changes, JSON.dump(changes))
+        end
+
         advertiser = create_advertiser(params[:order][:advertiser_name])
         @order.network_advertiser_id = advertiser.id
 
         li_ads_errors = update_lineitems_with_ads(order_param[:lineitems])
 
         params[:order][:notes].to_a.each do |note|
-          OrderNote.create(note: note[:note], user: current_user, order: @order) if note[:id].blank?
+          @order.order_activity_logs.create(note: note[:note], created_by: current_user,
+                                            activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT) if note[:id].blank?
         end
 
         if li_ads_errors.blank?
@@ -194,8 +250,9 @@ class OrdersController < ApplicationController
 
             io_asset = store_io_asset(params)
 
-            state = IoDetail::STATUS[io_details.try(:state).to_s.to_sym]
-            format.json { render json: {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)} }
+            state = io_details.state_desc
+            h = {status: 'success', order_id: @order.id, order_status: state, revised_io_asset_id: io_asset.try(:id)}
+            format.json { render json: h }
           else
             Rails.logger.warn 'io_details.errors - ' + io_details.errors.inspect
             Rails.logger.warn '@order.errors - ' + @order.errors.inspect
@@ -211,6 +268,23 @@ class OrdersController < ApplicationController
     end
   end
 
+  def cancel_revisions
+    @order = Order.find(params[:id])
+    io_details = @order.io_detail
+    last_revision = @order.revisions.first
+    if last_revision
+      order_changes = JSON.load(last_revision.object_changes)
+
+      if order_changes["previous_state"]
+        io_details.update_column(:state, order_changes["previous_state"])
+      end
+
+      last_revision.update_attribute('accepted', true) if last_revision
+    end
+
+    render json: {response: 'success'}
+  end
+
   def search
     search_query = params[:search]
     @orders = Order.of_network(current_network).includes(:sales_person).includes(:user).limit(50)
@@ -221,7 +295,12 @@ class OrdersController < ApplicationController
       @orders = @orders.latest_updated
     end
 
-    respond_with(@orders)
+    respond_to do | format |
+      format.json
+      format.js do
+        render :json => @orders, :callback => params[:callback]
+      end
+    end
   end
 
   def delete
@@ -239,90 +318,10 @@ class OrdersController < ApplicationController
 
   def status
     order = Order.find(params[:id])
-    render json: {status: IoDetail::STATUS[order.io_detail.try(:state).to_sym]}
+    render json: {status: order.io_detail.try(:state_desc)}
   end
 
 private
-
-  def set_users
-    @users = load_users
-    @rc = ReachClient.of_network(current_network).select(:name).distinct.order("name asc")
-    @agency_user = is_agency_user?
-  end
-
-  def set_orders
-    sort_column = params[:sort_column]? params[:sort_column] : "id"
-    sort_direction = params[:sort_direction]? params[:sort_direction] : "desc"
-    order_status = params[:order_status]? params[:order_status] : ""
-    am = params[:am]? params[:am] : ""
-    trafficker = params[:trafficker]? params[:trafficker] : ""
-    search_query = params[:search_query].present? ? params[:search_query] : ""
-    orders_by_user = params[:orders_by_user]? params[:orders_by_user] : is_agency_user? ? "all_orders" : "my_orders"
-    rc = params[:rc]? ReachClient.of_network(current_network).find_by_name(params[:rc]).try(:id) : ""
-
-    if sort_column == "order_name"
-      sort_column = "name"
-    elsif sort_column == "advertiser"
-      sort_column = "io_details.client_advertiser_name"
-    end
-
-    if !sort_column && !session[:sort_column].blank?
-      sort_column = session[:sort_column]
-    end
-
-    if !sort_direction && !session[:sort_direction].blank?
-        sort_direction = session[:sort_direction]
-    end
-
-    if !order_status && !session[:order_status].blank?
-      order_status = session[:order_status]
-    end
-
-    if !am && !session[:am].blank?
-      am = session[:am]
-    end
-
-    if !trafficker && !session[:trafficker].blank?
-      trafficker = session[:trafficker]
-    end
-
-    if !search_query && !session[:search_query].blank?
-      search_query = session[:search_query]
-    end
-
-    if !orders_by_user && !session[:orders_by_user].blank?
-      orders_by_user = is_agency_user? ? "all_orders" : session[:orders_by_user]
-    end
-
-    if !rc && !session[:rc].blank?
-      rc = session[:rc]
-    end
-
-    session[:sort_column] = sort_column
-    session[:sort_direction] = sort_direction
-    session[:order_status] = order_status
-    session[:orders_by_user] = orders_by_user
-    session[:am] = am
-    session[:trafficker] = trafficker
-    session[:search_query] = search_query
-    session[:rc] = rc
-
-    order_array = Order.includes(:advertiser, :order_notes ).of_network(current_network).joins("LEFT JOIN io_details on io_details.order_id = orders.id")
-                  .order("#{sort_column} #{sort_direction}")
-                  .filterByStatus(order_status).filterByAM(am)
-                  .filterByTrafficker(trafficker).my_orders(current_user, orders_by_user)
-                  .for_agency(current_user.try(:agency), current_user.agency_user?)
-                  .filterByIdOrNameOrAdvertiser(search_query)
-                  .filterByReachClient(rc)
-
-    @orders = Kaminari.paginate_array(order_array).page(params[:page]).per(50)
-  end
-
-  def load_users
-    User.of_network(current_network).joins(:roles)
-    .where(roles: { name: Role::REACH_UI}, client_type: User::CLIENT_TYPE_NETWORK)
-    .order("first_name, last_name")
-  end
 
   def find_account_manager(params)
     p = params.require(:order).permit(:account_contact_name, :account_contact_phone)
@@ -408,7 +407,8 @@ private
       _delete_creatives_ids = li[:lineitem].delete(:_delete_creatives)
 
       [ :selected_geos, :itemIndex, :selected_key_values, :revised,
-      :revised_start_date, :revised_end_date, :revised_name, :revised_volume, :revised_rate, :li_status,
+      :revised_start_date, :revised_end_date, :revised_common_ad_sizes, :revised_added_ad_sizes,
+      :revised_removed_ad_sizes, :revised_ad_sizes, :revised_name, :revised_volume, :revised_rate, :li_status,
       :master_ad_size, :companion_ad_size, :dfp_url].each do |param|
         li[:lineitem].delete(param)
       end

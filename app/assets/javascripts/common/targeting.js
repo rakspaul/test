@@ -464,11 +464,6 @@
       this._renderSelectedTargetingOptions();
     },
 
-    _onSuccessCloseTargeting: function(event) {
-        this._updateCustomKVs();
-        this._closeTargetingDialog();
-    },
-
     // if the key value is valid then close the targeting dialog box
     _closeTargetingDialog: function() {
       if (this.isCustomKeyValueValid && this.isZipcodesValid && !this.isClosed) {
@@ -504,6 +499,11 @@
           this.$el.parent().hide('slow');
         }
       }
+    },
+
+    _onSuccessCloseTargeting: function(event) {
+      this._updateCustomKVs();
+      this._closeTargetingDialog();
     },
 
     _validateCustomKeyValues: function(customKeyValue, onSuccess, onFailure) {
@@ -615,7 +615,7 @@
       'click .tgt-item-kv-container .remove-btn': '_removeKVFromSelected',
       'click .tgt-item-geo-container .remove-btn': '_removeGeoFromSelected',
       'click .tgt-item-zip-container .remove-btn': '_removeZipFromSelected',
-      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap',
+      'click .tgt-item-frequency-caps-container .remove-btn': '_removeFrequencyCap'
     }
   });
 

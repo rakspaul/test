@@ -29,17 +29,24 @@ json.order do
       json.name revision[:name]
       json.volume revision[:volume]
       json.rate revision[:rate]
+      json.ad_sizes revision[:ad_sizes]
     end
   end
 
-  json.notes do
-    if @io_import.is_existing_order
-      json.array! @io_import.existing_order.order_notes.includes(:user) do |note|
-        json.partial! 'order_notes/note.json.jbuilder', note: note
+  if @io_import.is_existing_order
+    json.io_revised do
+      json.array! @io_import.existing_order.io_assets.io_revised do |io|
+        json.asset_id io.id
+        json.original_filename io.try(:asset_upload_name)
+        json.asset_created_at format_datetime(io.created_at)
       end
-    else
+    end
+  end
+
+  unless @io_import.is_existing_order
+    json.notes do
       json.array! @notes do |note|
-        json.username note[:username]
+        json.created_by note[:username]
         json.note note[:note]
         json.sent false
         json.created_at format_datetime(note[:created_at])
@@ -80,12 +87,19 @@ json.order do
 end
 
 json.lineitems do
+  i = 0
   json.array! @io_import.new_and_revised_lineitems do |lineitem|
     json.partial! 'lineitems/lineitem.json.builder', lineitem: lineitem
 
     json.creatives do
       li_creatives = if lineitem.id && @io_import.is_existing_order # means old LI => get old creatives
-        lineitem.creatives+lineitem.video_creatives
+        @io_import.new_and_revised_creatives[i].select do |ir|
+          if ir[:added_with_revision]
+            ir[:placement] == lineitem.name || ir[:placement] == @io_import.revisions[i][:name]
+          elsif ir.class == Creative
+            (lineitem.creatives+lineitem.video_creatives).detect{|c| c == ir}
+          end
+        end
       else # => get new ones from IO
         @io_import.inreds.select do |ir|
           ir[:placement]          == lineitem.name &&
@@ -102,5 +116,6 @@ json.lineitems do
         json.partial! 'creatives/creative.json.jbuilder', creative: inred
       end
     end
+    i += 1
   end
 end

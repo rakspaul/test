@@ -27,4 +27,18 @@ class ApplicationController < ActionController::Base
         redirect_to root_path
       end
     end
+
+  def not_found(status=404)
+    if params[:format] == 'json'
+      render :json => {}, :status => status, :content_type => 'application/json'
+    end
+    false
+  end
+
+  def error_message(error, status=500)
+    if params[:format] == 'json'
+      render :json => {:status => 'error', :errors => error}, :status => status, :content_type => 'application/json'
+    end
+    false
+  end
 end

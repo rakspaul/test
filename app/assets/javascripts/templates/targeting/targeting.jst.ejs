@@ -35,7 +35,7 @@
       <% for(var i = 0; i < _.keys(audience_groups).length; i++) { %>
       <input type="checkbox" name="<%= audience_groups[i]['name'] %>" value="<%= audience_groups[i]['id'] %>" <% if(_.indexOf(selected_kv_ids, audience_groups[i]['id']) >= 0) { %>checked="checked"<% } %>/> <%= audience_groups[i]['name'] %><br/>
       <% } %>
-      </div>
+    </div>
   </div>
 
   <div class="tab custom-kv" style="display:none">

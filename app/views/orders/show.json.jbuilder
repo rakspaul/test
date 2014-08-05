@@ -21,12 +21,6 @@ json.partial! 'orders/order',
     reach_client_network_id: @order.io_detail.try(:reach_client).try(:client_network_id)
   }
 
-json.notes do
-  json.array! @notes do |note|
-    json.partial! 'order_notes/note.json.jbuilder', note: note
-  end
-end
-
 json.billing_contacts do
   json.array! @billing_contacts do |bc|
     json.id bc.id
@@ -77,5 +71,25 @@ json.pushing_errors do
     json.creative_id error.creative_id
     json.ad_id   error.ad_id
     json.assignment_id error.assignment_id
+  end
+end
+
+if @last_revision
+  json.last_revision do
+    @last_revision["lineitems"].each do |li_id, changes|
+      json.__send__(li_id) do
+        if "added_with_revision" == changes
+          json.added_with_revision true
+        else
+          changes.each do |attr_name, attr_change|
+            json.__send__(attr_name) do
+              json.proposed attr_change['proposed']
+              json.was      attr_change['was']
+              json.accepted attr_change['accepted']
+            end
+          end
+        end
+      end
+    end
   end
 end

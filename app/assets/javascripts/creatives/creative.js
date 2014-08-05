@@ -199,6 +199,14 @@
           self.model.set($(this).data('name'), newValue); //update backbone model
         }
       });
+
+      if(this.model.get('added_with_revision')) {
+        this.$el.addClass('revision');
+      }
+
+      if(this.model.get('removed_with_revision')) {
+        this.$el.addClass('revision').find('.start-date, .end-date, .size, .javascript-code span, .creative-type, .client-ad-id').css('text-decoration', 'line-through');
+      }
     },
 
     _encodeHTML: function(code) {

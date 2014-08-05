@@ -16,18 +16,18 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   index: function() {
-    var order = new ReachUI.Orders.Order();
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
     uploadView.on('io:uploaded', this._ioUploaded, this);
     this.orderDetailsLayout.top.show(uploadView);
     this.orderDetailsLayout.bottom.reset();
+
+    ReachActivityTaskApp.start({startedAt: "order_list"});
   },
 
   newOrder: function() {
-    var order = new ReachUI.Orders.Order();
-    // TODO We don't have EditView view and probably we don't need new Order functionality
+    // XXX: We don't have EditView view and probably we don't need new Order functionality
     var uploadView = new ReachUI.Orders.UploadView();
 
     this._unselectOrder();
@@ -71,14 +71,6 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         this.detailOrderView.unbind();
       }
 
-      if(this.notes_list_view) {
-        this.notes_list_view.remove();
-        this.notes_list_view.unbind();
-
-        // unbinding logRevision event so logging wouldn't be done twice (or more times)
-        EventsBus.unbind('lineitem:logRevision', this.notes_list_view.logRevision, this.notes_list_view);
-      }
-
       if(this.lineItemListView) {
         this.lineItemListView.remove();
         this.lineItemListView.unbind();
@@ -97,6 +89,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
 
     // set revisions for every lineitem
     if(orderModel.get('revisions')) {
+      orderModel.set('revision_changes', {});
+
       _.each(orderModel.get('revisions'), function(revisions, index) {
         lineItems.models[index].revised_targeting = true;
         lineItems.models[index].set('revised_start_date', revisions.start_date);
@@ -104,7 +98,30 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         lineItems.models[index].set('revised_name', revisions.name);
         lineItems.models[index].set('revised_volume', revisions.volume);
         lineItems.models[index].set('revised_rate', revisions.rate);
-        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.rate!=null)) ? true : false));
+
+        if(revisions.ad_sizes) {
+          var ad_sizes_splitted = lineItems.models[index].get('ad_sizes').split(','),
+              revision_ad_sizes = _.map(revisions.ad_sizes.split(','), function(a) { return a.trim() });
+
+          lineItems.models[index].set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+
+          lineItems.models[index].set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+
+          lineItems.models[index].set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+        }
+
+        lineItems.models[index].set('revised', (((revisions.start_date!=null) || (revisions.end_date!=null) || (revisions.name!=null) || (revisions.volume!=null) || (revisions.ad_sizes!=null) || (revisions.rate!=null)) ? true : false));
+
+        var li = lineItems.models[index],
+            li_id = li.get('id');
+        orderModel.attributes.revision_changes[li_id] = {};
+
+        orderModel.attributes.revision_changes[li_id]['start_date'] = {'was': li.get('start_date'), 'proposed': revisions.start_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['end_date'] = {'was': li.get('end_date'), 'proposed': revisions.end_date, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['name'] = {'was': li.get('name'), 'proposed': revisions.name, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['volume'] = {'was': li.get('volume'), 'proposed': revisions.volume, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['rate'] = {'was': li.get('rate'), 'proposed': revisions.rate, 'accepted': false};
+        orderModel.attributes.revision_changes[li_id]['ad_sizes'] = {'was': li.get('ad_sizes'), 'proposed': revisions.ad_sizes, 'accepted': false};
       });
     }
 
@@ -120,7 +137,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   orderDetails: function(id) {
+    var self = this;
+
     this.selectedOrder = this.orderList.get(id);
+
     if(!this.selectedOrder) {
       var promise = this._fetchOrder(id);
       promise.then(this._showOrderDetailsAndLineItems);
@@ -191,6 +211,8 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   },
 
   _showOrderDetailsAndLineItems: function(order) {
+    // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
+    ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
@@ -522,8 +544,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     this.detailOrderView = new ReachUI.Orders.DetailView({model: order});
     this.detailOrderView.on('io:uploaded', this._ioUploaded, this);
 
-    var ordersController = this;
     this.orderDetailsLayout.top.show(this.detailOrderView);
+    if(order.isNew()) {
+      $(this.orderDetailsLayout.middle.el).hide();
+    }
 
     //turn x-editable plugin to inline mode
     $.fn.editable.defaults.mode = 'inline';
@@ -714,6 +738,61 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _liSetCallbacksAndShow: function(lineItemList) {
     lineItemList = lineItemList ? lineItemList : new ReachUI.LineItems.LineItemList();
 
+    if(lineItemList.order.get('last_revision')) {
+      _.each(lineItemList.order.get('last_revision'), function(revisions, li_id) {
+        // if this LI was added by previous revision IO show this with pink color
+        if(lineItemList.models[li_id-1] != null) {
+          lineItemList.models[li_id-1].set('revised', true);
+        }
+
+        var li = _.detect(lineItemList.models, function(model) {
+          return model.id == li_id;
+        });
+        if(li) {
+          li.revised_targeting = true;
+
+          if(revisions.start_date && !revisions.start_date['accepted']) {
+            li.set('revised_start_date', revisions.start_date['proposed']);
+          }
+          if(revisions.end_date && !revisions.end_date['accepted']) {
+            li.set('revised_end_date', revisions.end_date['proposed']);
+          }
+          if(revisions.name && !revisions.name['accepted']) {
+            li.set('revised_name', revisions.name['proposed']);
+          }
+          if(revisions.volume && !revisions.volume['accepted']) {
+            li.set('revised_volume', revisions.volume['proposed']);
+          }
+          if(revisions.rate && !revisions.rate['accepted']) {
+            li.set('revised_rate', revisions.rate['proposed']);
+          }
+
+          if(revisions.ad_sizes && revisions.ad_sizes['proposed'] && !revisions.ad_sizes['accepted']) {
+            var ad_sizes_splitted = li.get('ad_sizes').split(','),
+                revision_ad_sizes = _.map(revisions.ad_sizes['proposed'].split(','), function(a) { return a.trim() });
+
+            li.set('revised_common_ad_sizes', _.intersection(ad_sizes_splitted, revision_ad_sizes));
+            li.set('revised_added_ad_sizes', _.difference(revision_ad_sizes, ad_sizes_splitted));
+            li.set('revised_removed_ad_sizes', _.difference(ad_sizes_splitted, revision_ad_sizes));
+          }
+
+          var start_date_changed_and_not_accepted = (revisions.start_date && revisions.start_date['proposed']!=null && !revisions.start_date['accepted']),
+            end_date_changed_and_not_accepted = (revisions.end_date && revisions.end_date['proposed']!=null && !revisions.end_date['accepted']),
+            name_changed_and_not_accepted = (revisions.name && revisions.name['proposed']!=null && !revisions.name['accepted']),
+            ad_sizes_changed_and_not_accepted = (revisions.ad_sizes && revisions.ad_sizes['proposed']!=null && !revisions.ad_sizes['accepted']),
+            volume_changed_and_not_accepted = (revisions.volume && revisions.volume['proposed']!=null && !revisions.volume['accepted']),
+            rate_changed_and_not_accepted = (revisions.rate && revisions.rate['proposed']!=null && !revisions.rate['accepted']);
+
+          li.set('revised', ((start_date_changed_and_not_accepted || end_date_changed_and_not_accepted || name_changed_and_not_accepted || ad_sizes_changed_and_not_accepted || volume_changed_and_not_accepted || rate_changed_and_not_accepted) ? true : false));
+
+          if(lineItemList.order.attributes.revision_changes == null) {
+            lineItemList.order.attributes.revision_changes = {};
+          }
+          lineItemList.order.attributes.revision_changes[li_id] = revisions;
+        }
+      });
+    }
+
     this.lineItemListView = new ReachUI.LineItems.LineItemListView({collection: lineItemList});
 
     var ordersController = this;
@@ -808,6 +887,11 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         _.each(ordersController.lineItemListView.children._views, function(li_view, li_name) {
           var li            = li_view.model;
 
+          if((null == li.get('id')) && li.get('revised')) {
+            EventsBus.trigger('lineitem:logRevision', "New Line Item "+li.get('alt_ad_id')+" Created");
+            lineItemList.order.attributes.revision_changes[li.get('alt_ad_id')] = 'added_with_revision';
+          }
+
           var selected_geos  = li.get('selected_geos') ? li.get('selected_geos') : [];
           var zipcodes       = li.get('selected_zip_codes') ? li.get('selected_zip_codes') : [];
           var kv             = li.get('selected_key_values') ? li.get('selected_key_values') : [];
@@ -898,6 +982,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
               keyvalue_targeting: li_view.model.get('keyvalue_targeting'),
               type: li_view.model.get('type')})
           }, { silent: true });
+
           if (li.revised_targeting) {
             li.get('targeting').revised_targeting = true;
             li.revised_targeting = false;
@@ -915,12 +1000,13 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
     }
     this.orderDetailsLayout.bottom.show(this.lineItemListView);
 
+    //With Activity and Task functionality being introduced, we don't need notes controller any more so commenting it out.
     // order note reload
-    this.lineItemListView.on('ordernote:reload', function(){
+    /*this.lineItemListView.on('ordernote:reload', function(){
       ordersController.noteList.fetch({reset: true});
-    });
+    });*/
 
-    this._showNotesView(lineItemList.order, this.lineItemListView);
+    //this._showNotesView(lineItemList.order, this.lineItemListView);
 
     var orderDetailsView = this.orderDetailsLayout.top.currentView;
     orderDetailsView.setLineItemView(this.lineItemListView);
@@ -932,13 +1018,14 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         li.setBuffer(buffer);
       });
     }
-  },
+  }
 
-  _showNotesView: function(order, li_view) {
+  //With Activity and Task functionality being introduced, we don't need this notes view any more so commenting it out.
+  /*_showNotesView: function(order, li_view) {
     this.notesRegion = new ReachUI.Orders.NotesRegion();
     this.noteList = new ReachUI.Orders.NoteList(order.get('notes'));
     this.noteList.setOrder(order);
     this.notes_list_view = new ReachUI.Orders.NoteListView({collection: this.noteList, order: order, li_view: li_view});
     this.notesRegion.show(this.notes_list_view);
-  },
+  }, */
 });

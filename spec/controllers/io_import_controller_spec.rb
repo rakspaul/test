@@ -6,6 +6,7 @@ describe IoImportController do
   let(:io_file) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO.xlsx') }
   let(:io_file_revised) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_revised.xlsx') }
   let(:io_file_revised_w_new_lis) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_revised_new_lis.xlsx') }
+  let(:io_file_revised_ad_sizes_new_creatives) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_ad_sizes_R1.xlsx') }
   let(:io_file_multi_li) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_multi_LI.xlsx') }
   let(:io_file_w_prerolls) { Rack::Test::UploadedFile.new Rails.root.join('spec', 'fixtures', 'io_files', 'Collective_IO_prerolls.xlsx') }
 
@@ -14,6 +15,55 @@ describe IoImportController do
     AccountSession.create(account)
 
     request.env["HTTP_ACCEPT"] = 'application/json'
+  end
+
+  describe "revised ad_sizes" do
+    let(:data_source) { DataSource.create name: "Test Source", ident: "source ident" }
+    let(:collective_network) { Network.create name: 'Collective', :data_source => data_source }
+    let(:user) { FactoryGirl.create :user }
+
+    before do
+      start_date = Date.today.to_s+" 00:00:00"
+      end_date = (Date.today+10.days).to_s+" 23:59:59"
+      end_date2 = (Date.today+5.days).to_s+" 23:59:59"
+      @order = FactoryGirl.create :order, name: "RE TW BROWN & CHIARI ATTNY'S Q214 - 202986855", start_date: start_date, end_date: end_date
+      io_detail = FactoryGirl.create :io_detail, client_order_id: "202986855"
+
+      ReachClient.create name: "Time Warner Cable", abbr: "TWC", network_id: collective_network.id
+
+      ad_size1 = AdSize.create size: "300x250", width: 300, height: 250, network_id: user.network.id
+      ad_size2 = AdSize.create size: "728x90", width: 728, height: 90, network_id: user.network.id
+      ad_size3 = AdSize.create size: "160x600", width: 160, height: 600, network_id: user.network.id
+
+      creative = FactoryGirl.create :creative, size: "300x250", width: 300, height: 250, redirect_url: "adid=128676255;"
+      creative2 = FactoryGirl.create :creative, size: "160x600", width: 160, height: 600, redirect_url: "adid=128676255;"
+
+      lineitem = FactoryGirl.create :lineitem, start_date: start_date, end_date: end_date, name: "Buffalo DMA;AN;Keyword Targeting", volume: 250_000, order: @order, user: user
+ 
+      FactoryGirl.create :lineitem_assignment, start_date: start_date, end_date: end_date2, creative: creative, lineitem: lineitem
+      FactoryGirl.create :lineitem_assignment, start_date: start_date, end_date: end_date2, creative: creative2, lineitem: lineitem
+
+      @order.io_detail = io_detail
+      @order.save
+      @order.lineitems << lineitem
+    end
+
+    it "creates new li and assigns new creative to existing li" do
+      post 'create', { io_file: io_file_revised_ad_sizes_new_creatives, current_order_id: @order.id, format: :json }
+      data = JSON.parse(response.body)
+      expect(data['order']['is_existing_order']).to eq(true)
+      expect(data['lineitems'].count).to eq(2)
+      expect(data['lineitems'][0]['creatives'].count).to eq(3)
+      expect(data['lineitems'][1]['creatives'].count).to eq(3)
+
+      expect(data['lineitems'][0]['creatives'][0]['ad_size']).to eq("300x250")
+      expect(data['lineitems'][0]['creatives'][1]['ad_size']).to eq("160x600")
+      expect(data['lineitems'][0]['creatives'][2]['ad_size']).to eq("728x90")
+
+      expect(data['lineitems'][1]['creatives'][0]['ad_size']).to eq("160x600")
+      expect(data['lineitems'][1]['creatives'][1]['ad_size']).to eq("300x250")
+      expect(data['lineitems'][1]['creatives'][2]['ad_size']).to eq("728x90")
+    end
   end
 
   describe "revised orders" do

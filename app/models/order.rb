@@ -1,4 +1,7 @@
 class Order < ActiveRecord::Base
+
+  IMPORT_PUSH_NOTES = ['Imported Order', 'Pushed Order']
+
   cattr_accessor :current_user
 
   has_paper_trail ignore: [:updated_at]
@@ -15,13 +18,15 @@ class Order < ActiveRecord::Base
   has_many :lineitems, -> { order('name') }, inverse_of: :order, dependent: :destroy
   has_many :io_assets, dependent: :destroy
   has_many :ads, dependent: :destroy
-  has_many :order_notes, -> { order('created_at desc') }
   has_many :io_logs
+  has_many :revisions, lambda { order('created_at DESC') }
+  has_many :tasks
+  has_many :order_activity_logs, -> { order('created_at desc') }
 
   validates :start_date, :end_date, presence: true
   validates :network_advertiser_id, :user_id, :network_id, presence: true, numericality: { only_integer: true}
-  validate :validate_start_date, on: :create
   validates :name, uniqueness: { case_sensitive: false, message: "The order name is already used.", scope: :network_id }, presence: true
+  validate :validate_start_date, on: :create
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
 
   before_create :create_random_source_id, :make_order_inactive, :set_est_flight_dates
@@ -30,21 +35,39 @@ class Order < ActiveRecord::Base
   after_update :set_push_note
   before_update :check_est_flight_dates
 
+  scope :of_network, -> (network) { where(network: network) }
+  scope :by_status, -> (status) { where("io_details.state = '#{status}'") }
+  scope :by_account_manager, -> (am) { where("io_details.account_manager_id = ?", am) }
+  scope :by_trafficker, -> (trafficker) { where("io_details.trafficking_contact_id = ?", trafficker) }
+  scope :by_reach_client, -> (client) { where("io_details.reach_client_id = ?", rc) }
+  scope :by_search_term, -> (term) { where("orders.name ilike :q or io_details.client_advertiser_name ilike :q", q: "%#{term}%") }
+  scope :by_user, ->(user) { where("io_details.account_manager_id = :id OR io_details.trafficking_contact_id = :id", id: user.id) }
+  scope :by_reach_client, ->(reach_client) { where("io_details.reach_client_id = ?", reach_client) }
   scope :latest_updated, -> { order("last_modified desc") }
-  scope :filterByStatus, lambda { |status| where("io_details.state = '#{status}'") unless status.blank? }
-  scope :filterByAM, lambda { |am| where("io_details.account_manager_id = '#{am}'") unless am.blank? }
-  scope :filterByTrafficker, lambda { |trafficker| where("io_details.trafficking_contact_id = '#{trafficker}'") unless trafficker.blank? }
-  scope :my_orders, ->(user, orders_by_user) { where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'") if orders_by_user == "my_orders" }
-  scope :filterByIdOrNameOrAdvertiser, lambda {|query| where("orders.id::text ILIKE ? or orders.name ILIKE ? or orders.source_id ILIKE ? OR io_details.client_advertiser_name ILIKE ?", "%#{query}%", "%#{query}%", "%#{query}%","%#{query}%") unless query.blank? }
-  scope :for_agency, lambda {|agency, is_agency| where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id)) if is_agency}
-  scope :filterByReachClient, lambda { |rc| where("io_details.reach_client_id = ?", rc) unless rc.blank?  }
-
-  def self.of_network(network)
-    where(:network => network)
-  end
 
   def self.find_by_id_or_source_id(id)
-    where("id = :id or source_id = :id_s", id: id, id_s: id.to_s)
+    where("orders.id = :id or orders.source_id = :id_s", id: id, id_s: id.to_s)
+  end
+
+  def self.by_search_query(term)
+    id = Integer(term) rescue 0
+
+    # assume that number above 4 digit is search on 'id' or 'source id'
+    if id > 9999
+      find_by_id_or_source_id(id)
+    else
+      where("orders.name ilike :q or
+        io_details.client_advertiser_name ilike :q", q: "%#{term}%"
+      )
+    end
+  end
+
+  def self.by_user(user)
+    where("io_details.account_manager_id = '#{user.id}' OR io_details.trafficking_contact_id = '#{user.id}'")
+  end
+
+  def self.by_agency(agency)
+    where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id))
   end
 
   def total_impressions
@@ -60,7 +83,7 @@ class Order < ActiveRecord::Base
   end
 
   def dfp_url
-    "#{ network.try(:dfp_url) }/OrderDetail/orderId=#{ source_id }"
+    "#{network.try(:dfp_url)}/OrderDetail/orderId=#{source_id}"
   end
 
   def pushed_to_dfp?
@@ -68,17 +91,23 @@ class Order < ActiveRecord::Base
   end
 
   def latest_import_or_push_note
-    self.order_notes.find {|note| ['Imported Order', 'Pushed Order'].include?(note.note) }
+    @latest_import_or_push_note ||= self.order_activity_logs.find { |note| IMPORT_PUSH_NOTES.include?(note.note) }
   end
 
   def set_import_note
-    if !self.order_notes.detect{|n| n.note == "Imported Order"}
-      self.order_notes.create note: "Imported Order", user: current_user, order: self
+    unless import_note
+      self.order_activity_logs.create note: "Imported Order",
+                                      created_by: current_user,
+                                      activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                      order: self
     end
   end
 
   def set_upload_note
-    self.order_notes.create note: "Uploaded Order", user: current_user, order: self
+    self.order_activity_logs.create note: "Uploaded Order",
+                                    created_by: current_user,
+                                    activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                    order: self
   end
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
@@ -141,7 +170,10 @@ class Order < ActiveRecord::Base
 
     def set_push_note
       if self.io_detail.try(:state) == 'pushing'
-        self.order_notes.create note: "Pushed Order", user: current_user, order: self
+        self.order_activity_logs.create note: "Pushed Order",
+                                        created_by: current_user,
+                                        activity_type: OrderActivityLog::ActivityType::SYSTEM_COMMENT,
+                                        order: self
       end
     end
 
@@ -152,7 +184,7 @@ class Order < ActiveRecord::Base
       start_time = start_date.today? ? current : "00:00:00"
 
       self[:start_date] = "#{start_date} #{start_time}"
-      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s+" 23:59:59"
+      self[:end_date] = read_attribute_before_type_cast('end_date').to_date.to_s + " 23:59:59"
     end
 
     def check_est_flight_dates
@@ -166,5 +198,9 @@ class Order < ActiveRecord::Base
         _, end_time_was = end_date_was.to_s(:db).split(' ')
         self[:end_date] = "#{end_date} #{end_time_was.nil? ? end_time : end_time_was}"
       end
+    end
+
+    def import_note
+      self.order_activity_logs.detect{|activity| activity.note == "Imported Order"}
     end
 end

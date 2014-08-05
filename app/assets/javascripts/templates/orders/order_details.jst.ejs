@@ -64,6 +64,14 @@
 
   <div class="pushing-errors-order-level"></div>
 
+  <div style="clear:both"></div>
+
+  <% if('revisions_proposed' == order.state){ %>
+  <div class="cancel-revisions-btn" style="float:right;margin-right:20px;">
+    Cancel Revisions
+  </div>
+  <% } %>
+
   <div class="clearfix"></div>
 
   <div class="imported-file-name">
@@ -74,11 +82,6 @@
         <span><a href="/io_assets/<%= order.id %>.<%= io_asset_ext %>"><%= order.io_asset_filename %></a></span>
       <% } else { %>
         <span><%= order.io_asset_filename %></span>
-      <% } %>
-      <% if(order.is_existing_order && order.revised_io_filename) { %>
-        <div style="clear:both"></div>
-        <label>Revised IO File</label>
-        <span class="revised-io-filename"><%= order.revised_io_filename %></span>
       <% } %>
     </div>
     <div class="timestamp">
@@ -107,6 +110,15 @@
       <% }); %>
     <% } %>
 
+    <% if(order.is_existing_order && order.revised_io_filename) { %>
+      <div style="clear:both"></div>
+      <div class="name">
+        <label>Revised IO File</label>
+        <span class="revised-io-filename"><%= order.revised_io_filename %></span>
+        <div class="timestamp">just uploaded</div>
+      </div>
+    <% } %>
+
     <% if (order.id && order.io_creatives) { %>
       <% _.each(order.io_creatives, function(c) { %>
         <div class="name">
@@ -125,10 +137,24 @@
     </div>
   </div>
 
-  <div class="field trafficker-container">
-    <p>Trafficker</p>
-    <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
-    <div class="errors_container">
+  <div class="trafficker-container">
+    <div class="field">
+      <p>Account Executive</p>
+      <span><%= order.sales_person_name%></span>
+    </div>
+    <div class="field">
+      <p>Trafficker</p>
+      <span class="editable typeahead" data-type="typeahead" data-pk="1"><%= order.trafficking_contact_name %></span>
+      <div class="errors_container">
+     </div>
+    </div>
+    <div class="field">
+      <p>Account Manager</p>
+      <span><%= order.account_contact_name%></span>
+    </div>
+    <div class="field">
+      <p>Optimization</p>
+      <span><%= order.trafficking_contact_name%></span>
     </div>
   </div>
 
@@ -145,6 +171,11 @@
           <p>Advertiser Name</p>
           <% if(parseInt(order.source_id)) { %>
             <span><%= order.advertiser_name %></span>
+            <% if (order.advertiser_unknown) { %>
+              <div class="errors_container">
+                Advertiser has wrong type.
+              </div>
+            <% } %>
           <% } else { %>
             <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
               <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>

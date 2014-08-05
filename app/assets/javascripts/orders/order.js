@@ -41,7 +41,8 @@
     }
   });
 
-  Orders.Note = Backbone.Model.extend({
+   //With Activity and Task functionality being introduced, we don't need this Notes model and its collection definitions here.
+   /*Orders.Note = Backbone.Model.extend({
     url: function() {
       if(this.isNew()) {
         return '/orders/' + this.order.id + '/notes';
@@ -68,7 +69,7 @@
       this.order = order;
     },
 
-  });
+  }); */
 
   Orders.EmptyView = Backbone.Marionette.ItemView.extend({
     template: JST['templates/orders/order_search_empty'],
@@ -91,7 +92,8 @@
 
     events: {
       'click .toggle-general-info-button': '_toggleGeneralInfo',
-      'click #clientDfpUrl': '_openClientDFPUrl'
+      'click .cancel-revisions-btn'      : '_cancelRevisions',
+      'click #clientDfpUrl'              : '_openClientDFPUrl'
     },
 
     triggers: {
@@ -164,6 +166,10 @@
       _.each(lineItems.models, function(li, index) {
         li.set('creatives', new ReachUI.Creatives.CreativesList(data.result.lineitems[index].creatives));
       });
+
+      ReachActivityTaskApp.ActivitiesTasks.disableRegion();
+      ReachActivityTaskApp.order = orderModel;
+
       this.trigger('io:uploaded', orderModel, lineItems);
     },
 
@@ -196,6 +202,20 @@
           var general_info_visible = ($(this).css('display') == 'block');
           $('.toggle-general-info-button').html(general_info_visible ? '^ Hide General Information ^' : 'v Show General Information v');
         }
+      });
+    },
+ 
+    _cancelRevisions: function() {
+      var self = this;
+
+      // ajax-call to server-side to revert order's status
+      $.post('/orders/'+self.model.get('id')+'/cancel_revisions', function(response) {
+        //reload the page
+        var url = window.location.href;
+        if(window.location.href.indexOf('#') >= 0) {
+          url = window.location.href.split('#').join('/');
+        } 
+        window.location.href = url;
       });
     },
 
@@ -324,6 +344,7 @@
 
     regions: {
       top: ".top-region",
+      middle: ".middle-region",
       bottom: ".bottom-region"
     }
   });
@@ -407,7 +428,8 @@
     }
   });
 
-  ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
+  //With Activity and Task functionality being introduced, we don't need these region definitions here.
+  /*ReachUI.Orders.NotesRegion = Backbone.Marionette.Region.extend({
     el: "#order-notes"
   });
 
@@ -604,5 +626,5 @@
     _onSaveFailure: function() {
 
     }
-  });
+  });  */
 })(ReachUI.namespace("Orders"));

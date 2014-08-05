@@ -126,7 +126,7 @@ describe OrdersController do
       it "create a new order note" do
         expect{
           post :create, io_request
-        }.to change(OrderNote, :count).by(2)
+        }.to change(OrderActivityLog, :count).by(2)
       end
     end
 
@@ -149,7 +149,7 @@ describe OrdersController do
 
       it "creates a note with 'Imported Order' text" do
         get :show, {id: @order.id}
-        expect(@order.order_notes.last.note).to eq('Imported Order')
+        expect(@order.order_activity_logs.last.note).to eq('Imported Order')
       end
 
       it "creates io_detail on order open" do
@@ -398,6 +398,50 @@ describe OrdersController do
   end
 
   describe "PUT 'update'" do
+    context "save revised order" do
+      let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order update test') }
+      let!(:params) { io_request_w_ads }
+
+      before do
+        params['id'] = order.id
+        params['order']['lineitems'].each do |li|
+          li_id = order.lineitems.first.id
+          li['lineitem']['id'] = li_id
+          li['lineitem']['order_id'] = order.id
+          li['ads'].each do |ad|
+            ad['ad']['id'] = order.lineitems.first.ads.first.id
+            ad['ad']['order_id'] = order.id
+            ad['ad']['io_lineitem_id'] = li_id
+          end
+        end
+
+        params['order']['revised_io_filename'] = "test_file"
+        params['order']['revision_changes'] = {order.lineitems.first.id => {:start_date => {:proposed => "2014-02-24", :was => "2014-07-29", :accepted => false}, :end_date => {:proposed => "2014-02-28", :was => "2014-12-24", :accepted  => false}, :name => {:proposed => nil, :was => "Rochester", :accepted => false}, :volume => {:proposed => 9050, :accepted => true, :was => 450000}, :rate => {:proposed => 6.0, :accepted => true, :was => 2.0}}}
+      end
+
+      it "creates revision" do
+        expect {
+          post :update, params
+
+          expect(response).to be_success
+        }.to change(Revision,:count).by(1)
+      end
+
+      it "saves revision correctly" do
+        post :update, params
+        revision = JSON.load(Revision.first.object_changes)
+        expect(revision['lineitems'].count).to eq(1)
+        expect(revision['lineitems'][order.lineitems.first.id.to_s]["rate"]["was"]).to eq(2.0)
+      end
+
+      it "saves the previous state of the order" do
+        prev_state = order.io_detail.state
+        post :update, params
+        revision = JSON.load(Revision.first.object_changes)
+        expect(revision["previous_state"]).to eq(prev_state)
+      end
+    end
+
     context "valid order" do
       let!(:order) { FactoryGirl.create(:order_with_lineitem, name: 'order update test') }
       let!(:params) { io_request_w_ads }

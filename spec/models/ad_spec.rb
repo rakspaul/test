@@ -58,70 +58,70 @@ describe Ad do
 
     it "set display ad type" do
       ad.media_type = display_type
-      ad.send :set_type_params
+      ad.send :set_ad_type
       expect(ad.ad_type).to eq(Display::AD_TYPE)
     end
 
     it "set display priority" do
       ad.media_type = display_type
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Display::PRIORITY)
     end
 
     it "set display high priority" do
       ad.media_type = display_type
       ad.audience_groups << AudienceGroup.new
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Display::HIGH_PRIORITY)
     end
 
     it "set video ad type" do
       ad.media_type = video_type
-      ad.send :set_type_params
+      ad.send :set_ad_type
       expect(ad.ad_type).to eq(Video::AD_TYPE)
     end
 
     it "set video priority" do
       ad.media_type = video_type
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Video::PRIORITY)
     end
 
     it "set companion ad type" do
       ad.lineitem = lineitem_video
       ad.media_type = display_type
-      ad.send :set_type_params
+      ad.send :set_ad_type
       expect(ad.ad_type).to eq(Video::COMPANION_AD_TYPE)
     end
 
     it "set companion priority" do
       ad.lineitem = lineitem_video
       ad.media_type = display_type
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Video::COMPANION_PRIORITY)
     end
 
     it "set facebook ad type" do
       ad.media_type = facebook_type
-      ad.send :set_type_params
+      ad.send :set_ad_type
       expect(ad.ad_type).to eq(Facebook::AD_TYPE)
     end
 
     it "set facebook priority" do
       ad.media_type = facebook_type
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Facebook::PRIORITY)
     end
 
     it "set mobile ad type" do
       ad.media_type = mobile_type
-      ad.send :set_type_params
+      ad.send :set_ad_type
       expect(ad.ad_type).to eq(Mobile::AD_TYPE)
     end
 
     it "set mobile priority" do
       ad.media_type = mobile_type
-      ad.send :set_type_params
+      ad.send :set_priority
       expect(ad.priority).to eq(Mobile::PRIORITY)
     end
   end

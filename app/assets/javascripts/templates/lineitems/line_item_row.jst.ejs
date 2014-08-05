@@ -43,6 +43,7 @@
           <span class="decline-btn" data-name="start_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
       <div class="errors_container">
         <% if (wrong_start_date) { %>
         Start date cannot be in the past
@@ -68,6 +69,7 @@
           <span class="decline-btn" data-name="end_date"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
       <div class="errors_container">
         <% if (wrong_end_date) { %>
         End date cannot be in the past
@@ -94,9 +96,24 @@
           </li>
         </ul>
       </div>
-      <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
-        <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
-      </span>
+      <% if(lineitem.revised_common_ad_sizes || lineitem.revised_added_ad_sizes || lineitem.revised_removed_ad_sizes) { %>
+        <div style="clear:both"></div>
+        <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+          <%= lineitem.revised_common_ad_sizes.join(', ') %>
+        </span>
+        <span class="revision">
+          <%= lineitem.revised_added_ad_sizes %>
+          <span class="line-through"><%= lineitem.revised_removed_ad_sizes %></span>
+        </span>
+        <div class="revised-dialog" style="display:none">
+          <span class="accept-btn" data-name="ad_sizes"><span class="accept-img"/>Accept</span>
+          <span class="decline-btn" data-name="ad_sizes"><span class="decline-img"/>Decline</span>
+        </div>
+      <% } else { %>
+        <span class="editable editable-click" data-type="select2" data-name="lineitem-sizes" data-pk="1">
+          <%= lineitem.ad_sizes.replace(/,/gi, ', ') %>
+        </span>        
+      <% } %>
       <div class="errors_container"></div>
       <br/>
       <span class="toggle-creatives-btn operation"><span class="pencil-icon"></span>Edit Creatives (<%= lineitem.creatives.length %>)</span>
@@ -107,12 +124,6 @@
         <%= lineitem.name %>
       </span>
 
-      <div style="clear:both"></div>
-      <span class="editable notes notes-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" title="Line item notes">
-        <%= lineitem.notes %>
-      </span>
-
-
       <% if(lineitem.revised_name) { %>
         <div style="clear:both"></div>
         <span class="revision"><%= lineitem.revised_name %></span>
@@ -121,6 +132,11 @@
           <span class="decline-btn" data-name="name"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
+
+      <span class="editable notes notes-editable" data-type="text" data-name="name" data-pk="1" data-inputclass="wide-editable-text" title="Line item notes">
+        <%= lineitem.notes %>
+      </span>
 
       <div class="errors_container" style="clear:both">
         <% if(lineitem.name.length > 500) { %>
@@ -144,6 +160,7 @@
           <span class="decline-btn" data-name="volume"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
       <div class="errors_container"></div>
       <span class="editable buffer-editable" data-type="text" data-name="buffer" data-pk="1" contenteditable="true">
         <%= lineitem.buffer %>
@@ -161,6 +178,7 @@
           <span class="decline-btn" data-name="rate"><span class="decline-img"/>Decline</span>
         </div>
       <% } %>
+      <div style="clear:both"></div>
       <div class="errors_container"></div>
     </div>
 

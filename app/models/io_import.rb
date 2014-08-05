@@ -39,8 +39,9 @@ class IoImport
       @is_existing_order = true
       @existing_order = Order.find_by(id: @current_order_id)
       @existing_lineitems = @existing_order.lineitems.in_standard_order.map{|li| li.revised = false; li}
-      @original_filename = @existing_order.io_assets.try(:last).try(:asset_upload_name)
-      @original_created_at = @existing_order.io_assets.try(:last).try(:created_at).to_s
+      @existing_creatives = @existing_order.lineitems.collect{|li| li.creatives + li.video_creatives}
+      @original_filename = @existing_order.io_assets.details.try(:last).try(:asset_upload_name)
+      @original_created_at = @existing_order.io_assets.details.try(:last).try(:created_at).to_s
     end
 
     read_advertiser
@@ -69,9 +70,36 @@ class IoImport
     if @is_existing_order
       li_count = @existing_lineitems.count
       # old lineitems + new ones from revised IO
-      @existing_lineitems + @lineitems[li_count..-1].map{|li| li.revised = true; li}
+      if !@lineitems[li_count..-1].blank?
+        @existing_lineitems + @lineitems[li_count..-1].compact.map{|li| li.revised = true; li}
+      else
+        @existing_lineitems
+      end
     else
       @lineitems
+    end
+  end
+
+  def new_and_revised_creatives
+    if @is_existing_order
+      new_and_existing_creatives = []
+
+      @existing_creatives.each_with_index do |creatives, index|
+        ad_ids = creatives.map(&:client_ad_id).map(&:to_i).uniq
+        ad_sizes = creatives.map(&:size).uniq
+        new_creatives = []
+
+        @inreds.each do |new_creative|
+          if ad_ids.include?(new_creative[:ad_id]) && !ad_sizes.include?(new_creative[:ad_size])
+            new_creatives << new_creative
+          end
+        end
+
+        new_and_existing_creatives << (creatives + new_creatives.map{|c| c[:added_with_revision] = true; c})
+      end
+      new_and_existing_creatives
+    else
+      @inreds
     end
   end
 
@@ -165,6 +193,8 @@ class IoImport
       @existing_lineitems.each_with_index do |existing_li, index|
         local_revisions = {}
 
+        next if @lineitems[index].blank?
+
         if (@lineitems[index][:start_date].to_date.to_s != existing_li.start_date.to_date.to_s) && !@lineitems[index][:start_date].blank?
           local_revisions[:start_date] = @lineitems[index][:start_date].to_date.to_s
           @lineitems[index].revised = true
@@ -173,6 +203,12 @@ class IoImport
 
         if (@lineitems[index][:end_date].to_date.to_s != existing_li.end_date.to_date.to_s) && !@lineitems[index][:end_date].blank?
           local_revisions[:end_date] = @lineitems[index][:end_date].to_date.to_s
+          @lineitems[index].revised = true
+          existing_li.revised = true
+        end
+
+        if (@lineitems[index][:ad_sizes].split(',').map(&:strip).sort != existing_li.ad_sizes.split(',').map(&:strip).sort)
+          local_revisions[:ad_sizes] = @lineitems[index][:ad_sizes]
           @lineitems[index].revised = true
           existing_li.revised = true
         end
@@ -240,7 +276,7 @@ class IoImport
 
     def read_notes
       # array with hash in it, because OrdersController#show also use this format
-      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), username: @current_user.try(:full_name) }]
+      @notes = [{note: @reader.find_notes, created_at: Time.current.to_s(:db), created_by: @current_user.try(:full_name) }]
     end
 
     def find_sales_person

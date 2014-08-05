@@ -184,6 +184,10 @@ ReachUI.initialStartDate = function(startDate) {
   return initialStartDate;
 };
 
+ReachUI.dasherize = function(string) {
+  return string.replace(/_/g, '-');
+};
+
 ReachUI.omitAttribute = function(attributes, attr) {
   var result = [];
   if (attributes.models) {

@@ -7,6 +7,6 @@ class MediaType < ActiveRecord::Base
   end
 
   def reachui_type?
-    Object.const_defined?(self.category)
+    Object.const_get(self.category) rescue nil
   end
 end

@@ -6,12 +6,12 @@ json.active                   order.active
 
 json.advertiser_name          order.advertiser.try(:name)
 json.advertiser_id            order.advertiser.try(:id)
-json.advertiser_unknown       order.advertiser.blank?
+json.advertiser_unknown       order.advertiser.blank? || order.advertiser.try(:advertiser_type).try(:name) != AdvertiserType::ADVERTISER_TYPE
 
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.order_status             IoDetail::STATUS[io_detail.try(:state).to_s.to_sym]
+json.order_status             io_detail.try(:state_desc)
 json.state                    io_detail.try(:state).to_s
 json.is_existing_order        is_existing_order
 
@@ -63,3 +63,4 @@ json.client_order_id          io_detail.try(:client_order_id)
 json.trafficking_contact_email io_detail.try(:trafficking_contact).try(:email)
 json.trafficking_contact_name  io_detail.try(:trafficking_contact).try(:full_name)
 json.trafficking_contact_id    io_detail.try(:trafficking_contact).try(:id)
+

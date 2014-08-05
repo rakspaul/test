@@ -1,0 +1,230 @@
+// This file based on top of `activities_tasks` styles
+
+h2.team-name {
+  display: inline-block;
+  color: $rui-heading-text-color;
+}
+
+#taskListFilter {
+  list-style-type: none;
+  font-size: 20px;
+  float: left;
+  margin: 10px 20px;
+  padding: 0;
+  width: 98%;
+
+  li {
+    display: inline-block;
+    cursor: pointer;
+    color: $rui-heading-text-color;
+    margin-right: 20px;
+
+    a, a:visited {
+      color: $rui-heading-text-color;
+    }
+
+    a:hover {
+      color: $rui-text-hover-color;
+    }
+
+    &.active {
+      a {
+        color: $rui-text-hover-color;
+        cursor: default;
+      }
+    }
+  }
+}
+
+.team-task-list-container {
+  .date {
+    text-align: left;
+  }
+
+  .no-order {
+    font-size: 0.9em;
+    color: $rui-gray-color;
+  }
+
+  select {
+    width: auto;
+    margin: 2px;
+  }
+}
+
+#teamTasksSection {
+  .task-name {
+    cursor: default;
+  }
+}
+
+// Customization of pure-table styles
+.rui-pure-table {
+  width: 100%;
+  thead {
+    tr {
+      th {
+        background-color: #fff;
+        color: $rui-th-color;
+        text-align: center;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  tbody {
+    tr:hover {
+      background-color: $light-background;
+    }
+  }
+
+  &.pure-table {
+    border-color: transparent;
+    td {
+      font-family: Arial, sans-serif;
+      padding: 0.1em 0.5em;
+
+      .requester {
+        font-size: 13px;
+        font-family: Armata, Arial, sans-serif;
+      }
+    }
+  }
+
+  &.pure-table-horizontal {
+    th, td {
+      border-color: transparent;
+    }
+  }
+}
+
+.team-task-form-container {
+  width: 50%;
+  box-sizing: border-box;
+
+  // override global styles here
+  input, select, textarea {
+    margin-bottom: 0;
+  }
+
+  textarea {
+    background-color: transparent;
+    height: 20px;
+  }
+
+  .main-controls-container {
+    margin: 10px 0;
+    padding: 15px;
+    background-color: $light-background;
+
+    .username {
+      color: $rui-heading-text-color;
+      font-size: 12px;
+      font-family: Armata, Arial, sans-serif;
+    }
+  }
+}
+
+tbody.team-task-list-grid {
+  tr:last-child:hover {
+    background-color: transparent;
+  }
+}
+
+tbody.team-members-task-list-grid {
+  tr.team-member-name {
+    &:hover {
+      background-color: transparent;
+    }
+    td {
+      padding: 1em 1em;
+    }
+  }
+}
+
+.task-resolved-row {
+  @include opacity(50);
+}
+
+.toggle-resolved-tasks-btn {
+  &:not(.active) {
+    span.action-text-inactive {
+      display: inline;
+    }
+    span.action-text-active {
+      display: none;
+    }
+  }
+  &.active {
+    span.action-text-inactive {
+      display: none;
+    }
+    span.action-text-active {
+      display: inline;
+    }
+  }
+}
+
+// fix background when 'typeahead' control is inside element with colored background
+[class$=-order-name] {
+  .twitter-typeahead {
+    background-color: #fff;
+  }
+}
+
+// Customization for the team switch
+#teamSwitch {
+  margin-left: 15px;
+  display: inline-block;
+  cursor: pointer;
+  color: $text_color;
+  font-size: 13px;
+  border-bottom: 1px dashed $border_color;
+  padding: 2px 0;
+  outline: none;
+
+  .text > a {
+    text-decoration: none;
+  }
+
+  // NOTE: We are not precise in css selectors here, thus have to use !important to overwrite ui's styles
+  .menu {
+    font-size: 12px;
+    .item {
+      padding: 6px 10px !important;
+      border: 0 none;
+      &.active {
+        background-color: darken($rui-option-hover-bg, 10%) !important;
+        color: $rui-option-active-text !important;
+      }
+      &.selected, &:hover {
+        color: $rui-option-active-text !important;
+        background-color: $rui-option-hover-bg !important;
+      }
+    }
+  }
+}
+
+
+// XXX: Adjustments needed after wrong integration of HTML and JS parts
+.user-header {
+  margin-top: 30px;
+}
+
+.selectize-control.task-order-selector {
+  margin-left: 28px;
+  max-width: 80%;
+}
+
+.assignee-name {
+  margin: 2px 5px;
+
+  .selectize-control.single > .selectize-input {
+    white-space: nowrap;
+  }
+}
+
+.requester-name {
+  font-size: 13px;
+  font-family: Armata, Arial, sans-serif;
+}

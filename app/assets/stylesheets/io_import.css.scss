@@ -65,7 +65,6 @@ $wide_input_width: 320px;
   }
 
   .push-failed {
-    background: url(asset-path('push_failed_icon.png')) 0px 0px no-repeat;
     width: 16px;
     height: 16px;
     float: left;
@@ -136,6 +135,15 @@ $wide_input_width: 320px;
     font-family: 'Armata', sans-serif;
   }
 
+  .cancel-revisions-btn {
+    color: $text_color;
+    margin-left: 8px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   #revised_io_fileupload {
     cursor: pointer;
     background: url(asset-path('upload_io_icon.png')) 0px 0px no-repeat;
@@ -157,18 +165,25 @@ $wide_input_width: 320px;
     }
   }
 
-  .field.advertiser-name p {
-    height: 40px;
-  }
+  .field.advertiser-name {
+    p {
+      height: 40px;
+    }
 
-  .field.advertiser-name .tt-query {
-    background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
-    padding-left:20px;
-  }
+    .tt-query {
+      background: url(asset-path('magnifier_icon.png')) 2px 5px no-repeat;
+      padding-left:20px;
+    }
 
-  .field.advertiser-name .tt-hint {
-    padding-left:20px;
-  }
+    .tt-hint {
+      padding-left:20px;
+    }
+
+    .errors_container {
+      position: relative;
+      top: -20px;
+    }
+  }  
 
   .field.media-contact-name {
     margin-top: 70px !important;
@@ -292,9 +307,7 @@ $wide_input_width: 320px;
   }
 
   .toggle-general-info-button {
-    padding: 3px;
     clear: both;
-    position: relative;
     margin: 0px auto;
     border: 0px;
     color: $text_color;
@@ -302,6 +315,7 @@ $wide_input_width: 320px;
     width: 215px;
     padding: 5px;
     cursor: pointer;
+    text-align: center;
   }
 
   .imported-file-name {
@@ -309,7 +323,7 @@ $wide_input_width: 320px;
     border:1px dashed $text_color;
     float:left;
     padding:3px;
-    margin-right:50px;
+    margin-right:30px;
     font-family: 'Armata', sans-serif;
 
     .name {
@@ -392,8 +406,21 @@ $wide_input_width: 320px;
   }
 
   .trafficker-container {
-    float: right;
-    width: 33%;
+    float: left;
+    width: 50%;
+    .field {
+      width: 300px;
+      float: left;
+      > p {
+        text-align: left;
+        color: #005c97;
+        width: 40%;
+        float: left;
+        margin-right: 10px;
+        font-family: 'Armata', sans-serif;
+      }
+    }
+
   }
 
   .client-order-id{
@@ -496,12 +523,21 @@ $wide_input_width: 320px;
       background-color: $magenta_color !important;
     }
 
+    .last-revision {
+      color: $magenta_color;
+      margin-left: 8px;
+    }
+
     .revision {
       color: $magenta_color;
       margin-left: 8px;
 
       &:hover {
         cursor:pointer;
+      }
+
+      .line-through {
+        text-decoration:line-through;
       }
     }
 
@@ -540,6 +576,7 @@ $wide_input_width: 320px;
       display: block;
       border: 1px solid green;
       background-color: white;
+      z-index: 10;
 
       .accept-all-btn {
         clear: both;
@@ -827,6 +864,16 @@ $wide_input_width: 320px;
     }
   }
 
+  .client-id{
+    margin:40px 0 0 10px;
+    position: absolute;
+  }
+
+  .client-id-basic{
+    margin: 20px 0 0 10px;
+    position: absolute;
+  }
+
   .unallocated-imps {
     color: white;
     height: 32px;
@@ -850,20 +897,9 @@ $wide_input_width: 320px;
       padding-left: 10px;
     }
   }
-
-  .client-id{
-    margin:40px 0 0 10px;
-    position: absolute;
-  }
-
-  .client-id-basic{
-    margin: 20px 0 0 10px;
-    position: absolute;
-  }
 }
 
 .lineitems-summary-container {
-  margin:10px;
   font-size:13px;
   color:black;
   font-weight:normal;
@@ -913,7 +949,6 @@ $wide_input_width: 320px;
   margin: 0 10px 5px 0;
   font-family: 'Armata', sans-serif;
   font-size: 14px;
-  clear:left;
 
   &:hover{
     background-color: lighten($text_color, 10%);
@@ -926,20 +961,22 @@ $wide_input_width: 320px;
   }
 }
 
-
+.save-order-btn {
+  width: 90px;
+}
 
 .status-btn-container {
-  margin: 0 10px 0 20px;
-  padding:0px;
-  text-align:right;
+  width: 100%;
+  padding: 0px;
+//  text-align: right;
   font-family: 'Armata', sans-serif;
 
   .order-status {
     margin-top: 25px;
   }
 
-  .order-status, .order-assignee{
-    float: left;
+  .order-status,
+  .order-assignee{
     color: $text_color;
   }
 
