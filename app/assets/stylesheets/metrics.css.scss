@@ -1,0 +1,309 @@
+#order-metrics-region {
+  margin: 20px 40px;
+}
+
+.bordered {
+  padding: 0 0 0.5em;
+  border-bottom: 1px solid $rui-separator-color;
+}
+
+#order-metrics-container {
+  background-color: white;
+  z-index: 20;
+  background-repeat:no-repeat;
+  background-position:center;
+  &:not(.active) {
+    filter:alpha(opacity=20); /* IE */
+    opacity: 0.2; /* Safari, Opera */
+    -moz-opacity:0.20; /* FireFox */
+  }
+  &.active {
+    filter:alpha(opacity=100); /* IE */
+    opacity: 1; /* Safari, Opera */
+    -moz-opacity:1; /* FireFox */
+  }
+}
+
+#hideOrderMetricsBtn {
+  color: $text_color;
+  font-size: 11px;
+  &:not(.active) {
+    .action-hide {
+      display: block;
+    }
+    .action-show {
+      display: none;
+    }
+  }
+
+  span[class^=action-] {
+    span {
+      vertical-align: middle;
+    }
+  }
+
+  &.active {
+    .action-hide {
+      display: none;
+    }
+    .action-show {
+      display: block;
+    }
+  }
+}
+
+.date-range-holder {
+  margin-top: 10px;
+  font-size: 11px;
+  color: $rui-heading-text-color;
+  span {
+    vertical-align: middle;
+  }
+}
+
+.top-label-holder {
+  color: $secondary-text-color;
+  font-size: 11px;
+}
+
+.current-value {
+  margin-top: 10px;
+  font-size: 1.8em;
+  color: $rui-heading-text-color;
+  font-weight: bold;
+
+  &.underrate {
+    color: $rui-warning-color;
+  }
+}
+
+.bar-container {
+  position: relative;
+  border: 1px solid $border_color;
+
+  .progress-bar {
+    text-align: right;
+    padding: 10px;
+    background-color: $bg_color;
+    font-size: 1.8em;
+    color: $rui-heading-text-color;
+  }
+
+  .value {
+    position: absolute;
+    width: 100%;
+    right: 0;
+    top: 0;
+  }
+
+  .threshold-indicator {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 1px;
+    background-color: $magenta_color;
+  }
+}
+
+.custom-grid-padding {
+  .pure-g,
+  .pure-g-r {
+    > [class ^= pure-u-] {
+      box-sizing: border-box;
+      padding: 0.5em;
+    }
+  }
+}
+
+#performanceGraphsRegion {
+  @extend .custom-grid-padding;
+}
+
+.graph-filter {
+  font-size: 0.8em;
+  #graphPeriodSelector {
+    cursor: pointer;
+    text-align: center;
+    color: $rui-blue-color;
+    margin-right: 10px;
+    border: none;
+    font-size: 1em;
+    width: 120px;
+    border-bottom: 1px dashed $border_color;
+  }
+  .caret {
+    vertical-align: middle;
+  }
+
+  // This is to style innermost _select_ element
+  .input-medium {
+    width: 90px;
+  }
+}
+
+#graphContainer {
+  width: auto;
+  height: 100px;
+}
+
+
+// Styling of Line Item's Performance sections
+.li-performance-container {
+  margin: -15px 0 25px ;
+  margin-bottom: 25px;
+  font-size: 11px;
+
+  @extend .custom-grid-padding;
+}
+
+.last-update-info-container {
+  word-wrap: break-word;
+}
+.last-update-info {
+  font-weight: bold;
+  color: $label-text;
+}
+
+.rui-btn.add-record-btn {
+  border: 1px dashed $rui-input-border-color ;
+  color: $text_color;
+}
+
+.expected-metrics-container {
+  .bordered {
+    box-sizing: border-box;
+    border: 2px dashed $bg_color;
+    padding: 1em 3em 1em 0.5em !important;
+
+    &:after {
+      clear: both;
+    }
+  }
+
+  table.metrics-table {
+    width: auto;
+    box-sizing: border-box;
+
+    > thead > tr {
+      > th {
+        font-size: 14px;
+        text-align: center;
+        &:not(:first-of-type) {
+          border-bottom: 1px solid $bg_color;
+        }
+      }
+    }
+
+    > tbody > tr {
+      &:nth-of-type(2) {
+        > td {
+          padding-top: 15px;
+          &:first-child {
+            padding-top: 15px;
+          }
+        }
+      }
+      > td {
+        font-size: 11px;
+        text-align: right;
+        &:nth-child(1) {
+          padding: 0;
+          width: 24px
+        }
+        &:nth-child(2) {
+          text-align: center;
+        }
+        button {
+          visibility: hidden;
+        }
+
+        .editable {
+          cursor: pointer;
+        }
+      }
+      &:hover {
+        background-color: transparent;
+        > td {
+          button {
+            visibility: visible;
+          }
+        }
+      }
+
+      // this TR should be hidden and only used as a template for new dynamically added row
+      &.template {
+        display: none;
+      }
+    }
+
+    > tfoot {
+      tr {
+        td {
+          padding: 10px 0 0 33px !important;
+        }
+      }
+    }
+  }
+}
+
+.semi-bordered.wrapper {
+  position: relative;
+  border-width: 0 0 1px;
+  border-style: solid;
+  border-bottom-color: $border_color;
+  width: 116px;
+
+  .fake-input {
+    color: $text_color;
+
+    input {
+      margin: 0 !important;
+      border: 0 none !important;
+      text-align: right;
+      box-shadow: none !important;
+      width: 90% !important;
+      padding: 0 5px 0 0 !important;
+      font-size: 11px;
+
+      &:active, &:focus {
+        outline: none !important;
+        box-shadow: none !important;
+      }
+    }
+
+    &:before {
+      position: absolute;
+      content: "";
+      background-color: $border_color;
+      width: 1px;
+      left: 0;
+      top: 60%;
+      height: 40.03%; // .03 needed to fix position of this element in google chrome
+    }
+
+    &:after {
+      position: absolute;
+      content: "";
+      background-color: $border_color;
+      width: 1px;
+      right: 0;
+      top: 60%;
+      height: 40.03%; // .03 needed to fix position of this element in google chrome
+    }
+  }
+}
+
+.add-metric-btn {
+  margin-left: 10px !important;
+}
+
+.update-li-metrics {
+  font-size: 11px;
+}
+
+.li-add-3dp-data {
+  .plus-icon {
+    margin-right: 5px !important;
+    vertical-align: middle;
+  }
+}

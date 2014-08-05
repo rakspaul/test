@@ -42,6 +42,9 @@
 //= require chosen.jquery
 //= require selectize.min
 //= require semantic-dropdown
+//= require jquery.mockjax
+//= require jquery.flot
+//= require jquery.flot.time
 //= require_tree ./templates
 //= require utils/core
 //= require utils/errors
@@ -81,6 +84,9 @@
 //= require ./activities_tasks/tasks/list/list_controller.js
 //= require ./activities_tasks/tasks/list/list_view.js
 //= require ./activities_tasks/tasks/views/filter_view.js
+//= require metrics/metrics_module.js
+//= require metrics/order_metrics.js
+//= require metrics/order_metrics_graphs.js
 //= require ./common/empty.js
 //= require ./common/frequency_caps.js
 //= require ./common/targeting.js

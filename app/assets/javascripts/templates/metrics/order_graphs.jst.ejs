@@ -1,0 +1,131 @@
+<!-- TODO: Extract this HTML code into template for graphs and add necessary JS code to show in this region-->
+<div class="date-range-holder">
+  <i class="clock-icon"></i>
+  <span><%= startDate %> - <%= endDate %></span>
+</div>
+<!-- First row -->
+<div class="pure-g-r">
+  <div class="pure-u-1-6" style='padding-right:10px'>
+    <div class="top-label-holder">
+      <div class="pull-right">
+        <i class="flag-icon"></i> <%= bookedImpressions.toLocaleString() %>
+      </div>
+      <span>Total Imps.</span>
+    </div>
+    <div class="bar-container">
+      <!-- TODO: Move into View initializing -->
+      <% var stop_position = (bookedImpressions >= impressions) ? Math.round(impressions * 100 / bookedImpressions) : 100 %>
+      <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position %>%, #fff <%= stop_position %>%);">
+        <%= impressions.toLocaleString() %>
+      </div>
+    </div>
+  </div>
+  <div class="pure-u-1-12">
+    <span class="top-label-holder">Clicks</span>
+    <div class="current-value"><%= clicks.toLocaleString() %></div>
+  </div>
+  <div class="pure-u-1-12">
+    <span class="top-label-holder">CTR</span>
+    <div class="current-value underrate"><%= ctr %>%</div>
+  </div>
+  <div class="pure-u-1-6" style='padding-right:10px'>
+    <div class="top-label-holder">
+      <div class="pull-right">
+        <i class="flag-icon"></i> $<%= bookedRevenue.toLocaleString() %>
+      </div>
+      <span>Revenue</span>
+    </div>
+    <div class="bar-container">
+      <% var stop_position_2 = (bookedRevenue >= revenue) ? Math.round(revenue * 100 / bookedRevenue) : 100 %>
+      <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_2 %>%, #fff <%= stop_position_2 %>%);">
+        $<%= revenue.toLocaleString() %>
+      </div>
+    </div>
+  </div>
+  <div class="pure-u-1-12">
+    <span class="top-label-holder">Margin</span>
+    <div class="current-value underrate"><%= margin %>%</div>
+  </div>
+  <% if(false) { /* TODO: uncomment once implemented all necessary backend and JS parts */ %>
+  <div class="pure-u-1-12">
+      <span class="top-label-holder">
+        Completed View Rate
+        <i class="media-contact-icon"></i>
+      </span>
+    <div class="current-value underrate">15.4%</div>
+  </div>
+  <div class="pure-u-1-12">
+      <span class="top-label-holder">
+        CPA
+        <i class="media-contact-icon"></i>
+      </span>
+    <div class="current-value">$5.03</div>
+  </div>
+  <div class="pure-u-1-12">
+      <span class="top-label-holder">
+        <i class="flag-icon"></i> 1,000,000
+      </span>
+    <div class="bar-container">
+      <!-- FIXME: Left position of threshold indicator should be gotten from model's attribute -->
+      <div class="threshold-indicator" style="left: 75%;"></div>
+      <% var stop_position_small_1 = Math.round(4 * 100 / 6) %>
+      <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_small_1 %>%, #fff <%= stop_position_small_1 %>%);"></div>
+    </div>
+    <div>
+      <i class="display-icon"></i> 708,406
+    </div>
+  </div>
+  <div class="pure-u-1-12">
+      <span class="top-label-holder">
+        <i class="flag-icon"></i> 1,000,000
+      </span>
+    <div class="bar-container">
+      <div class="threshold-indicator" style="left: 30%;"></div>
+      <% var stop_position_small_1 = Math.round(1 * 100 / 4) %>
+      <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_small_1 %>%, #fff <%= stop_position_small_1 %>%);"></div>
+    </div>
+    <div>
+      <i class="mobile-icon"></i> 708,406
+    </div>
+  </div>
+  <% } %>
+</div>
+<br>
+<!-- Second row -->
+<% if (false) { /* TODO: Uncomment once implemented all necessary backend and JS parts */ %>
+<div class="pure-g-r">
+  <div class="pure-u-1-6">
+    <div class="top-label-holder">
+      <div class="pull-right">
+        <b>3P</b>
+      </div>
+      <span>XYZ System Total Imps</span>
+    </div>
+    <div class="bar-container">
+      <% var stop_position_3 = Math.round(3514200 * 100 / 4500000) %>
+      <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_3 %>%, #fff <%= stop_position_3 %>%);">
+        3,514,200
+      </div>
+    </div>
+  </div>
+  <div class="pure-u-1-12">
+    <span class="top-label-holder">Clicks <b>3P</b></span>
+    <div class="current-value">4,023</div>
+  </div>
+  <div class="pure-u-1-12">
+    <span class="top-label-holder">CTR <b>3P</b></span>
+    <div class="current-value">0,27%</div>
+  </div>
+  <div class="pure-u-2-3">
+    <div class="graph-filter">
+      <!-- TODO: Here should be used inline-edit for dates range and period view -->
+      <input id="graphPeriodSelector" name="daterange" placeholder="Select range">
+        <span>
+          <a data-source="/range_breakdown_options" data-mode="inline" data-value="daily" data-type="select"  id="graphPeriodBreakdownSelector" href="#" class="editable editable-click"></a>
+          <span class="caret"></span>
+        </span>
+    </div>
+    <div id="graphContainer"></div>
+  </div>
+</div>
+<% } %>

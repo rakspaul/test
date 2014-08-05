@@ -189,6 +189,7 @@
       <div class="errors_container"></div>
     </div>
   </div>
+
   <div class="pure-u-1 lineitem-status <%= lineitemStatusClass() %>" title="<%= lineitem.li_status%>">
     <%= lineitem.li_status%>
   </div>
@@ -199,6 +200,154 @@
 
 <div class="creatives-list-view" style="display:none"></div>
 <div style="clear:both"></div>
+
+<div class="li-performance-container">
+  <div class="pure-g-r">
+    <div class="pure-u-1-12">
+      <i class="graph-icon pull-right"></i>
+    </div>
+    <div class="pure-u-1-6">
+      <div class="top-label-holder">
+        <span>Total Imps.</span>
+      </div>
+      <div class="bar-container">
+        <!-- TODO: Move into View initializing -->
+        <% var li_stop_position = Math.round(4722655 * 100 / 5000000) %>
+        <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= li_stop_position %>%, #fff <%= li_stop_position %>%);">
+          4,722,655
+        </div>
+      </div>
+    </div>
+    <div class="pure-u-1-12">
+      <span class="top-label-holder">Clicks</span>
+      <div class="current-value">5,621</div>
+    </div>
+    <div class="pure-u-1-12">
+      <span class="top-label-holder">CTR</span>
+      <div class="current-value">0.22%</div>
+    </div>
+    <div class="pure-u-1-6">
+      <div class="top-label-holder">
+        <div class="pull-right">
+          <i class="flag-icon"></i>
+          <i class="alert-icon pull-right"></i>
+        </div>
+        <span>Revenue</span>
+      </div>
+      <div class="bar-container">
+        <% var li_stop_position_2 = Math.round(14056 * 100 / 15000) %>
+        <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= li_stop_position_2 %>%, #fff <%= li_stop_position_2 %>%);">
+          $14,056
+        </div>
+      </div>
+    </div>
+    <div class="pure-u-1-24">
+      <span class="top-label-holder">Margin</span>
+      <div class="current-value">46%</div>
+    </div>
+    <div class="pure-u-1-6 last-update-info-container">
+      Last update <span class="last-update-info">6 days ago</span>
+      <button class="rui-btn update-li-metrics">
+        <i class="pencil-icon"></i>&nbsp;Update
+      </button>
+    </div>
+    <div class="pure-u-1-5">
+      <button class="rui-btn li-add-3dp-data pull-right">
+        <i class="plus-icon"></i> Add 3rd Party Data
+      </button>
+    </div>
+  </div>
+  <!-- Table with expected metrics -->
+  <div class="expected-metrics-container">
+    <div class="pure-g">
+      <div class="pure-u-1-12"><!-- Just a spacer column //--></div>
+      <div class="pure-u-1-2">
+        <div class="pull-left bordered">
+          <table class="pure-table pure-table-horizontal rui-pure-table metrics-table">
+            <thead>
+              <tr>
+                <th>&nbsp;</th>
+                <th>Date</th>
+                <th>Total Imps</th>
+                <th>Clicks</th>
+                <th>CTR</th>
+              </tr>
+            </thead>
+            <tfoot>
+              <tr>
+                <td colspan="5">
+                  <button class="rui-btn add-record-btn semi-transparent">+ Add Record</button>
+                  <button class="rui-btn add-metric-btn semi-transparent">
+                    <i class="plus-icon"></i> Add Metric
+                  </button>
+                  <button class="rui-btn rui-btn-blue pull-right semi-transparent">Done</button>
+                </td>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr class="template">
+                <td><button class="rui-btn" title="Remove"><i class="cross"></i></button></td>
+                <td>
+                  <span class="editable popup" data-type="date" data-name="li_metrics_milestone_date" data-date-format="yyyy-mm-dd" data-pk="1"></span>
+                </td>
+                <td>
+                  <div class="semi-bordered wrapper pull-right">
+                    <div class="fake-input">
+                      <input type="text" name="li_<%= lineitem.id %>_total_imps">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="semi-bordered wrapper pull-right">
+                    <div class="fake-input">
+                      <input type="text" name="li_<%= lineitem.id %>_clicks">
+                    </div>
+                  </div>
+                </td>
+                <td>n/a</td>
+              </tr>
+              <tr>
+                <td><button class="rui-btn" title="Remove"><i class="cross"></i></button></td>
+                <td>
+                  <span class="editable custom" data-type="date" data-name="li_metrics_milestone_date" data-date-format="yyyy-mm-dd" data-pk="1"></span>
+                </td>
+                <td>
+                  <div class="semi-bordered wrapper pull-right">
+                    <div class="fake-input">
+                      <input type="text" name="li_<%= lineitem.id %>_total_imps">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="semi-bordered wrapper pull-right">
+                    <div class="fake-input">
+                      <input type="text" name="li_<%= lineitem.id %>_clicks">
+                    </div>
+                  </div>
+                </td>
+                <td>n/a</td>
+              </tr>
+              <tr>
+                <td><button class="rui-btn" title="Remove"><i class="cross"></i></button></td>
+                <td>06/27/2014</td>
+                <td>3,514,200</td>
+                <td>4,023</td>
+                <td>0.37%</td>
+              </tr>
+              <tr>
+                <td><button class="rui-btn" title="Remove"><i class="cross"></i></button></td>
+                <td>05/12/2014</td>
+                <td>1,150,017</td>
+                <td>2,545</td>
+                <td>0.24%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="ads-container"></div>
 <div style="clear:both"></div>
@@ -220,3 +369,14 @@
   <div class="unallocated-imps-caption pure-u-1-6 pull-right">Unallocated impressions</div>
   <div class="unallocated-imps-value pure-u-1-12 pull-right">0</div>
 </div>
+<script type="text/javascript">
+  $(function(){
+    $('[data-name="li_metrics_milestone_date"]').editable({
+      format: 'yyyy-mm-dd',
+      viewformat: 'dd/mm/yyyy',
+      datepicker: {
+        weekStart: 1
+      }
+    });
+  });
+</script>

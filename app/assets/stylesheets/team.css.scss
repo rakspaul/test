@@ -61,9 +61,9 @@ h2.team-name {
 // Customization of pure-table styles
 .rui-pure-table {
   width: 100%;
-  thead {
-    tr {
-      th {
+  > thead {
+    > tr {
+      > th {
         background-color: #fff;
         color: $rui-th-color;
         text-align: center;
@@ -72,8 +72,8 @@ h2.team-name {
     }
   }
 
-  tbody {
-    tr:hover {
+  > tbody {
+    > tr:hover {
       background-color: $light-background;
     }
   }

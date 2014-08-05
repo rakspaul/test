@@ -6,7 +6,7 @@ $hover-color: #B5E8FF; //#EDFAFF;
 $selected-row-bg-color: #2ea5dc;
 $selected-row-fg-color: #fff;
 $btn-bg: #fff;
-$btn-primary-bg: #005C97;
+$btn-primary-bg: #007ac9;;
 $btn-success-bg: #20C001;
 $btn-bg-hover: #2EA5DC;
 
@@ -41,7 +41,9 @@ $rui-text-active-color: #005C97;
 $rui-border-active-color: #005C97;
 $rui-option-hover-bg: #0088cc;
 $rui-option-active-text: #fff;
-
+$rui-separator-color: #a5ccf9;
+$rui-warning-color: #fd9828;
+$rui-blue-color: #0088cc;
 $rui-th-color: #4094C3;
 
 $default_font_size: 12px;
@@ -72,8 +74,11 @@ $icon_names:
   facebook,
   follow,
   follow_white,
+  graph,
   logout,
   media-contact,
+  maximize,
+  minimize,
   mobile,
   pencil,
   plus,
