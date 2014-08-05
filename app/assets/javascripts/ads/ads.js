@@ -153,7 +153,7 @@
         var targeting = new ReachUI.Targeting.Targeting({type: this.model.get('type')});
         this.model.set('targeting', targeting);
       }
-      this.model.set('value', this.getMediaCost());
+      this.model.set('value', this.model.getMediaCost());
     },
 
     onRender: function() {
@@ -197,21 +197,23 @@
         }
       });
 
-      this.$el.find('.start-date .editable.custom, .end-date .editable.custom').editable({
-        success: function(response, newValue) {
-          var date = moment(newValue).format("YYYY-MM-DD"),
-              field = $(this).data('name'),
-              creatives = self.model.get('creatives').models;
-          if (creatives) {
-            _.each(creatives, function(creative) {
-              creative.set(field, date);
-            });
+      _.each([ this.ui.start_date_editable, this.ui.end_date_editable ], function(el) {
+        el.editable({
+          success: function(response, newValue) {
+            var date = moment(newValue).format("YYYY-MM-DD"),
+                field = $(this).data('name'),
+                creatives = view.model.get('creatives').models;
+            if (creatives) {
+              _.each(creatives, function(creative) {
+                creative.set(field, date);
+              });
+            }
+            view.model.set(field, date);
+          },
+          datepicker: {
+            startDate: ReachUI.initialStartDate(view.model.get('start_date'))
           }
-          self.model.set(field, date);
-        },
-        datepicker: {
-          startDate: ReachUI.initialStartDate(self.model.get('start_date'))
-        }
+        })
       });
 
       if (this.model.get('targeting').attributes.audience_groups.length == 0) {
@@ -248,7 +250,7 @@
       // https://github.com/collectivemedia/reachui/issues/358
       // Catch ads with 0 impressions rather than throw an error
       var $errors_container = this.$el.find('.volume-editable').siblings('.errors_container');
-      if (this.getImpressions() == 0) {
+      if (this.model.getImpressions() == 0) {
         $errors_container.html("Impressions must be greater than 0.");
       } else {
         $errors_container.html('');
