@@ -1,4 +1,3 @@
-<!-- TODO: Extract this HTML code into template for graphs and add necessary JS code to show in this region-->
 <div class="date-range-holder">
   <i class="clock-icon"></i>
   <span><%= startDate %> - <%= endDate %></span>
@@ -13,7 +12,6 @@
       <span>Total Imps.</span>
     </div>
     <div class="bar-container">
-      <!-- TODO: Move into View initializing -->
       <% var stop_position = (bookedImpressions >= impressions) ? Math.round(impressions * 100 / bookedImpressions) : 100 %>
       <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position %>%, #fff <%= stop_position %>%);">
         <%= impressions.toLocaleString() %>
