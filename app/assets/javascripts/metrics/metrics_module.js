@@ -11,7 +11,10 @@ ReachMetricsApp.module("Metrics", function (Metrics, ReachMetricsApp, Backbone, 
   Metrics.addInitializer(function(options) {
     ReachMetricsApp.order = options.order;
 
-    ReachMetricsApp.trigger("performance:include:order:metrics");
+    // Show the metrics region IF the date is after 'yesterday'
+    if (!moment(ReachMetricsApp.order.get('start_date')).isAfter(moment().subtract('days', 1))) {
+      ReachMetricsApp.trigger("performance:include:order:metrics");
+    }
   });
 
 });
