@@ -183,7 +183,7 @@ $wide_input_width: 320px;
       position: relative;
       top: -20px;
     }
-  }  
+  }
 
   .field.media-contact-name {
     margin-top: 70px !important;
@@ -1239,6 +1239,10 @@ $wide_input_width: 320px;
     padding-left: 5px;
 
     .dma_type {
+      color: $magenta_color;
+    }
+
+    .country_type {
       color: $magenta_color;
     }
 

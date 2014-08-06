@@ -10,6 +10,9 @@ json.array! @geos do |geo|
     json.id           geo.id
     json.type         "State"
     json.country_code geo.country.name
+  elsif geo.class.to_s == "GeoTarget::Country"
+    json.id           geo.id
+    json.type         "Country"
   else
     json.id    geo.id
     json.type "DMA"
