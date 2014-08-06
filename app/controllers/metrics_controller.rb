@@ -10,7 +10,7 @@ class MetricsController < ApplicationController
   def get_token
     wrapper = ReportServiceWrapper.new(current_user)
 
-    render json: {current_user_id: current_user.id, tkn: wrapper.build_request_token}
+    render json: {current_user_id: current_user.id, tkn: wrapper.build_request_token, agency_user: current_user.agency_user?}
   end
 
   def get_cdb_export_uri

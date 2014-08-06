@@ -6,7 +6,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
     template: JST['templates/metrics/order_graphs'],
 
     ui: {
-
+      marginDiv: '#metrics-margin-div'
     },
 
     modelEvents: {
@@ -25,18 +25,18 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
                       "&cols=impressions,clicks,ctr,gross_rev,all_cogs" +
                       "&filter=order_id:" + ReachMetricsApp.order.id +
                       "&start_date=" + ReachMetricsApp.order.get('start_date') +
-                      "&precision=2&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
+                      "&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
 
       var self = this;
       $.getScript(metricsUrl, function(data) {
         var result = cdbResponse.records[0];
         self.model.set('impressions', parseInt(result.impressions ? result.impressions : 0));
         self.model.set('clicks', parseInt(result.clicks ? result.clicks : 0));
-        self.model.set('ctr', parseInt(result.ctr ? result.ctr : 0));
-        self.model.set('revenue', parseInt(result.gross_rev ? result.gross_rev : 0));
+        self.model.set('ctr', parseFloat(result.ctr ? (result.ctr * 100) : 0).toFixed(2));
+        self.model.set('revenue', parseFloat((result.gross_rev ? result.gross_rev : 0).toFixed(2)));
         var net_revenue = result.gross_rev - result.all_cogs;
         var gross_margin = (result.gross_rev != 0) ? ((net_revenue / result.gross_rev) * 100) : 0;
-        self.model.set('margin', parseInt(gross_margin));
+        self.model.set('margin', parseFloat(gross_margin.toFixed(2)));
       });
 
       // Get the data for impressions, clicks, ctr, gross_rev and all_cogs
@@ -45,7 +45,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
           "&cols=booked_impressions,booked_rev" +
           "&filter=order_id:" + ReachMetricsApp.order.id +
           "&start_date=" + ReachMetricsApp.order.get('start_date') +
-          "&precision=2&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
+          "&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
 
       $.getScript(metricsUrl, function(data) {
         var bookedImpressions = 0;
@@ -56,7 +56,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
         });
 
         self.model.set('bookedImpressions', parseInt(bookedImpressions));
-        self.model.set('bookedRevenue', parseInt(bookedRevenue));
+        self.model.set('bookedRevenue', parseFloat(bookedRevenue.toFixed(2)));
 
         // Enable the parent div's opacity
         $('#order-metrics-container').addClass('active');
@@ -71,6 +71,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
       $.getJSON('/token.json', function(response) {
         token = response.tkn;
         userId = response.current_user_id;
+        self.model.set('agencyUser', (response.agency_user === undefined) ? false : response.agency_user);
       }).done(function() {
         if (token && userId) {
           // Get the export uri
@@ -106,6 +107,7 @@ ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone,
 
   Entities.OrderMetrics = Backbone.Model.extend({
     defaults: {
+      agencyUser: true,
       startDate: '',
       endDate: '',
       impressions: 0,
