@@ -16,7 +16,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
     updateGraphs: function(userId, token, exportUri) {
       // Update start and end date
       this.model.set('startDate',
-          moment(new Date(ReachMetricsApp.order.get('start_date'))).format('DD MMM YYYY'));
+          moment(ReachMetricsApp.order.get('start_date')).format('DD MMM YYYY'));
       this.model.set('endDate', moment().subtract('days', 1).format('DD MMM YYYY'));
 
       // Get the data for impressions, clicks, ctr, gross_rev and all_cogs

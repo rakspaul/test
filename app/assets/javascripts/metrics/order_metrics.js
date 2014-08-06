@@ -8,7 +8,6 @@ ReachMetricsApp.module("Metrics.Order", function (Order, ReachMetricsApp, Backbo
   });
 
   ReachMetricsApp.on("performance:include:order:metrics", function(){
-    console.log("Show the metrics...");
     var orderMetricsLayout = new Order.Layout();
     ReachMetricsApp.orderMetricsRegion.show(orderMetricsLayout);
 
