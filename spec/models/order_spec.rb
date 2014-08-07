@@ -33,4 +33,14 @@ describe Order do
       expect(order2.valid?).to be false
     end
   end
+
+  context "search scope" do
+    let(:number_term)         { 1234567 }
+    let(:network)             { FactoryGirl.singleton :network }
+    let(:order_with_number)   { FactoryGirl.create(:order, name: 'Test search number in name 1234567', network: network) }
+
+    it "search number in order name" do
+      Order.joins(:io_detail).by_search_query(number_term).should include(order_with_number)
+    end
+  end
 end
