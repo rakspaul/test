@@ -5,6 +5,7 @@ $li_number_bg: #007ac9;
 $error_color: red;
 $dfp_zipcode_error_color: #fd9828;
 $magenta_color: #d02898;
+$blue_color: blue;
 $border_color: #0088cc;
 
 $ad_status_default_color: gray;
@@ -1243,7 +1244,7 @@ $wide_input_width: 320px;
     }
 
     .country_type {
-      color: $magenta_color;
+      color: $blue_color;
     }
 
     .state_type {
