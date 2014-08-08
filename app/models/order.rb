@@ -50,16 +50,9 @@ class Order < ActiveRecord::Base
   end
 
   def self.by_search_query(term)
-    id = Integer(term) rescue 0
-
-    # assume that number above 4 digit is search on 'id' or 'source id'
-    if id > 9999
-      find_by_id_or_source_id(id)
-    else
-      where("orders.name ilike :q or
-        io_details.client_advertiser_name ilike :q", q: "%#{term}%"
-      )
-    end
+    where("orders.id = :id or orders.source_id = :id_s or orders.name ilike :q or
+      io_details.client_advertiser_name ilike :q", id: term.to_i, id_s: term.to_s, q: "%#{term}%"
+    )
   end
 
   def self.by_user(user)
