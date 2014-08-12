@@ -23,7 +23,7 @@
    <div class="pure-u-1-6">
       <% wrong_start_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.start_date; %>
       <div class="pure-u-1-2 start-date pull-left<% if (wrong_start_date) { %> field_with_errors<% } %>">
-        <span class="editable date custom" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <span class="start-date-editable editable" data-type="date" data-name="start_date" data-date-format="yyyy-mm-dd" data-pk="1">
           <%= ad.start_date %>
         </span>
         <div class="errors_container">
@@ -35,7 +35,7 @@
 
       <% wrong_end_date = !ad.order_id && moment(ReachUI.currentTimeWithOffset("-5h")).format("YYYY-MM-DD") > ad.end_date %>
       <div class="pure-u-1-2 end-date pull-left<% if (wrong_end_date) { %> field_with_errors<% } %>">
-        <span class="editable date custom" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
+        <span class="end-date-editable editable" data-type="date" data-name="end_date" data-date-format="yyyy-mm-dd" data-pk="1">
           <%= ad.end_date %>
         </span>
         <div class="errors_container">
@@ -75,7 +75,7 @@
     </div>
 
     <div class="pure-u-1-3 name">
-      <span class="editable" data-type="text" data-pk="1" data-inputclass="wide-editable-text" data-name="description">
+      <span class="name-editable" data-type="text" data-pk="1" data-inputclass="wide-editable-text" data-name="description">
         <%= ad.description %>
       </span>
       <div class="errors_container"></div>
@@ -93,14 +93,14 @@
     </div>
 
     <div class="pure-u-1-12 volume number-field">
-      <span class="editable custom" data-type="text" data-name="volume" data-pk="1">
+      <span class="volume-editable" data-type="text" data-name="volume" data-pk="1">
         <%= accounting.formatNumber(ad.volume) %>
       </span>
       <div class="errors_container" style="clear:both"></div>
     </div>
 
     <div class="pure-u-1-12 rate number-field">
-      $ <span class="editable custom" data-type="text" data-name="rate" data-pk="1">
+      $ <span class="rate-editable" data-type="text" data-name="rate" data-pk="1">
         <%= accounting.formatMoney(ad.rate, '') %>
       </span>
       <div class="errors_container"></div>
