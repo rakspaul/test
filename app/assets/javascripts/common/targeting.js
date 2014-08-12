@@ -90,7 +90,7 @@
             }
             self.$el.find('.geo-checkboxes-container').html(geos_html);
           } else {
-            self.$el.find('.geo-checkboxes-container').html('No Cities/DMA/States where found');
+            self.$el.find('.geo-checkboxes-container').html('No Country/DMA/Cities/States where found');
           }
         });
       });
