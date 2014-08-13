@@ -87,6 +87,7 @@
 //= require metrics/metrics_module.js
 //= require metrics/order_metrics.js
 //= require metrics/order_metrics_graphs.js
+//= require entities/order_metrics.js
 //= require ./common/empty.js
 //= require ./common/frequency_caps.js
 //= require ./common/targeting.js

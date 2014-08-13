@@ -13,77 +13,25 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
       'change': 'render'
     },
 
-    updateGraphs: function(userId, token, exportUri) {
-      // Update start and end date
-      this.model.set('startDate',
-          moment(ReachMetricsApp.order.get('start_date')).format('DD MMM YYYY'));
-      this.model.set('endDate', moment().subtract('days', 1).format('DD MMM YYYY'));
-
-      // Get the data for impressions, clicks, ctr, gross_rev and all_cogs
-      var metricsUrl = exportUri +
-                      "?user_id=" + userId + "&tkn=" + token +
-                      "&cols=impressions,clicks,ctr,gross_rev,all_cogs" +
-                      "&filter=order_id:" + ReachMetricsApp.order.id +
-                      "&start_date=" + ReachMetricsApp.order.get('start_date') +
-                      "&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
-
-      var self = this;
-      $.getScript(metricsUrl, function(data) {
-        var result = cdbResponse.records[0];
-        self.model.set('impressions', parseInt(result.impressions ? result.impressions : 0));
-        self.model.set('clicks', parseInt(result.clicks ? result.clicks : 0));
-        self.model.set('ctr', parseFloat(result.ctr ? (result.ctr * 100) : 0).toFixed(2));
-        self.model.set('revenue', parseFloat((result.gross_rev ? result.gross_rev : 0).toFixed(2)));
-        var net_revenue = result.gross_rev - result.all_cogs;
-        var gross_margin = (result.gross_rev != 0) ? ((net_revenue / result.gross_rev) * 100) : 0;
-        self.model.set('margin', parseFloat(gross_margin.toFixed(2)));
-      });
-
-      // Get the data for impressions, clicks, ctr, gross_rev and all_cogs
-      metricsUrl = exportUri +
-          "?user_id=" + userId + "&tkn=" + token +
-          "&cols=booked_impressions,booked_rev" +
-          "&filter=order_id:" + ReachMetricsApp.order.id +
-          "&start_date=" + ReachMetricsApp.order.get('start_date') +
-          "&jsonp=updateMetrics&src=" + EXPORT_API_SRC;
-
-      $.getScript(metricsUrl, function(data) {
-        var bookedImpressions = 0;
-        var bookedRevenue = 0;
-        $.map(cdbResponse.records, function(e, i) {
-          bookedImpressions += e.booked_impressions;
-          bookedRevenue += e.booked_rev;
-        });
-
-        self.model.set('bookedImpressions', parseInt(bookedImpressions));
-        self.model.set('bookedRevenue', parseFloat(bookedRevenue.toFixed(2)));
-
-        // Enable the parent div's opacity
-        $('#order-metrics-container').addClass('active');
-      });
-    },
-
     updateMetrics: function() {
-      // Get token
       var self = this;
-      var token = undefined;
-      var userId = undefined;
-      $.getJSON('/token.json', function(response) {
-        token = response.tkn;
-        userId = response.current_user_id;
-        self.model.set('agencyUser', (response.agency_user === undefined) ? false : response.agency_user);
-      }).done(function() {
-        if (token && userId) {
-          // Get the export uri
-          var exportUri = undefined;
-
-          $.getJSON('/export_uri.json', function(response) {
-            exportUri = response.export_uri;
-          }).done(function() {
-            if (exportUri) {
-              self.updateGraphs(userId, token, exportUri);
-            }
-          });
+      // fetch the model
+      this.model.fetch({
+        success: function(response) {
+          // if campaign hasnt started, hide the performance region
+          if (response.get('not_started')) {
+            // hide metrics region
+            $('#order-metrics-region').removeClass('active');
+          } else {
+            // Make order metrics container active
+            $('#order-metrics-container').addClass('active');
+          }
+        },
+        error: function() {
+          console.log('Error fetching order metrics...');
+          self.model.set('errors', response.responseJSON.message[0]);
+          // Show an error message and enable the order metrics container
+          $('#order-metrics-container').removeClass('active');
         }
       });
     }
@@ -94,31 +42,10 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
   });
 
   ReachMetricsApp.on("performance:include:order:graphs", function(orderMetricsLayout){
-    var graphsLayout = new Graphs.View({model: new ReachMetricsApp.Entities.OrderMetrics()});
+    var graphsLayout = new Graphs.View({model: new ReachMetricsApp.Entities.OrderMetrics(ReachMetricsApp.order.id)});
     orderMetricsLayout.orderMetricsContainer.show(graphsLayout);
 
     ReachMetricsApp.trigger("performance:include:order:updateGraphs", graphsLayout);
-  });
-
-});
-
-
-ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone, Marionette, $, _) {
-
-  Entities.OrderMetrics = Backbone.Model.extend({
-    defaults: {
-      agencyUser: true,
-      startDate: '',
-      endDate: '',
-      impressions: 0,
-      bookedImpressions: 0,
-      clicks: 0,
-      ctr: 0,
-      revenue: 0,
-      bookedRevenue: 0,
-      margin: 0,
-      errors: {}
-    }
   });
 
 });

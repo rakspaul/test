@@ -1,7 +1,7 @@
 require 'open-uri'
 
 class ReportServiceWrapper
-  SUPPORTED_PARAMS = ['group', 'cols', 'start_date', 'end_date', 'filter', 'per_page', 'offset', 'sort', 'limit', 'format']
+  SUPPORTED_PARAMS = ['group', 'cols', 'start_date', 'end_date', 'filter', 'per_page', 'offset', 'sort', 'limit', 'format', 'src']
 
   def initialize(current_user)
     @current_user = current_user

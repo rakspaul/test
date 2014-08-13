@@ -1,5 +1,11 @@
 #order-metrics-region {
   margin: 20px 40px;
+  &.active {
+    display: block;
+  }
+  &:not(.active) {
+    display: none;
+  }
 }
 
 .bordered {

@@ -86,6 +86,8 @@ Reachui::Application.routes.draw do
 
   resources :orders do
 
+    get 'metrics' => 'metrics#order_metrics'
+
     resources :tasks, :only => [:index]
 
     resource :nielsen_campaign, controller: 'nielsen_campaign' do
@@ -95,6 +97,7 @@ Reachui::Application.routes.draw do
     end
 
     resources :lineitems do
+      get 'metrics' => 'metrics#lineitem_metrics'
       resources :creatives, :only => [:destroy]
     end
 
@@ -223,9 +226,6 @@ Reachui::Application.routes.draw do
       post 'validate'
     end
   end
-
-  get 'token' => 'metrics#get_token'
-  get 'export_uri' => 'metrics#get_cdb_export_uri'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

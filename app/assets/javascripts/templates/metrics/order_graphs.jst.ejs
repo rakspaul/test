@@ -1,18 +1,23 @@
 <div class="date-range-holder">
   <i class="clock-icon"></i>
-  <span><%= startDate %> - <%= endDate %></span>
+  <span><%= start_date %> - <%= end_date %></span>
+  <div class="errors_container">
+    <% if (errors) { %>
+    <%= errors %>
+    <% } %>
+  </div>
 </div>
 <!-- First row -->
 <div class="pure-g-r">
   <div class="pure-u-1-6" style='padding-right:10px'>
     <div class="top-label-holder">
       <div class="pull-right">
-        <i class="flag-icon"></i> <%= bookedImpressions.toLocaleString() %>
+        <i class="flag-icon"></i> <%= booked_impressions.toLocaleString() %>
       </div>
       <span>Total Imps.</span>
     </div>
     <div class="bar-container">
-      <% var stop_position = (bookedImpressions >= impressions) ? Math.round(impressions * 100 / bookedImpressions) : 100 %>
+      <% var stop_position = (booked_impressions >= impressions) ? Math.round(impressions * 100 / booked_impressions) : 100 %>
       <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position %>%, #fff <%= stop_position %>%);">
         <%= impressions.toLocaleString() %>
       </div>
@@ -29,18 +34,18 @@
   <div class="pure-u-1-6" style='padding-right:10px'>
     <div class="top-label-holder">
       <div class="pull-right">
-        <i class="flag-icon"></i> $<%= bookedRevenue.toLocaleString() %>
+        <i class="flag-icon"></i> $<%= booked_rev.toLocaleString() %>
       </div>
       <span>Revenue</span>
     </div>
     <div class="bar-container">
-      <% var stop_position_2 = (bookedRevenue >= revenue) ? Math.round(revenue * 100 / bookedRevenue) : 100 %>
+      <% var stop_position_2 = (booked_rev >= gross_rev) ? Math.round(gross_rev * 100 / booked_rev) : 100 %>
       <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_2 %>%, #fff <%= stop_position_2 %>%);">
-        $<%= revenue.toLocaleString() %>
+        $<%= gross_rev.toLocaleString() %>
       </div>
     </div>
   </div>
-  <div class="pure-u-1-12" id="metrics-margin-div" style='display: <%= (agencyUser) ? 'none' : 'inline-block' %>'>
+  <div class="pure-u-1-12" id="metrics-margin-div" style='display: <%= (agency_user) ? 'none' : 'inline-block' %>'>
     <span class="top-label-holder">Margin</span>
     <div class="current-value underrate"><%= margin %>%</div>
   </div>
