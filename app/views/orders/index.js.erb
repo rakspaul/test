@@ -1,2 +1,2 @@
-$('#orders').html('<%= escape_javascript render "order_table",:users =>@orders %>');
+$('#orders').html('<%= escape_javascript render "order_table",:orders =>@orders %>');
 $('#paginator').html('<%= escape_javascript(paginate(@orders, :remote => true).to_s) %>');

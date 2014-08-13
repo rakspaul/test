@@ -21,13 +21,14 @@ class GeoTarget < ActiveRecord::Base
     def find_sti_class(type_name)
       TYPES[type_name] or self
     end
- 
+
     def sti_name
       TYPES.invert[self]
     end
 
     def search(search_str)
       geos = []
+      geos += GeoTarget::Country.order(:name).where(['name ilike ?', "#{search_str}%"]).limit(10)
       geos += GeoTarget::DesignatedMarketArea.order(:name).where(['name ilike ?', "#{search_str}%"]).limit(10)
       geos += GeoTarget::State.in_us.xfp_present.order(:name).where(['name ilike ?', "#{search_str}%"]).limit(10)
       geos += GeoTarget::City.in_us.xfp_present.includes(:state).order(:name).where(['name ilike ?', "#{search_str}%"]).limit(10)

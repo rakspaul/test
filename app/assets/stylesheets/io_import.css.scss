@@ -5,6 +5,7 @@ $li_number_bg: #007ac9;
 $error_color: red;
 $dfp_zipcode_error_color: #fd9828;
 $magenta_color: #d02898;
+$blue_color: blue;
 $border_color: #0088cc;
 
 $ad_status_default_color: gray;
@@ -183,7 +184,7 @@ $wide_input_width: 320px;
       position: relative;
       top: -20px;
     }
-  }  
+  }
 
   .field.media-contact-name {
     margin-top: 70px !important;
@@ -1242,6 +1243,10 @@ $wide_input_width: 320px;
       color: $magenta_color;
     }
 
+    .country_type {
+      color: $blue_color;
+    }
+
     .state_type {
       color: green;
     }
@@ -1411,7 +1416,7 @@ table.creatives-content {
           -o-text-overflow: ellipsis;
         }
 
-        .start-date .date.custom, .end-date .date.custom {
+        .start-date-editable, .end-date-editable {
           cursor: pointer;
         }
 

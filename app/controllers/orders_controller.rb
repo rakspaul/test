@@ -17,6 +17,7 @@ class OrdersController < ApplicationController
     @sort_field = params[:sort_column] || "id"
 
     sort_column = params[:sort_column] || "orders.id"
+    sort_column = "orders.id" if sort_column == "id"
     sort_column = "orders.name" if sort_column == "order_name"
     sort_column = "io_details.client_advertiser_name" if sort_column == "advertiser"
 
