@@ -106,13 +106,13 @@
     $this.toggleClass("active");
     $("#order-metrics-container").toggle("slide", function() {
       // We need it to keep state of Performance section when user refreshed page in their browser
-      window.localStorage.setItem("order_metrics_visible",
-          $("#order-metrics-container").is(":visible") ? "true" : "false");
+      window.localStorage.setItem("order_metrics_hidden",
+          $("#order-metrics-container").is(":visible", false) ? "true" : "false");
     });
   });
 
-  if (window.localStorage.getItem("order_metrics_visible") !== "true") {
+  if (window.localStorage.getItem("order_metrics_hidden") === "true") {
     $("#order-metrics-container").hide();
-    $("#hideOrderMetricsBtn").addClass("active");
+    $("#hideOrderMetricsBtn").removeClass("active");
   }
 </script>

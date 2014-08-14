@@ -151,6 +151,11 @@
           }
         });
       }
+
+      // Hide the general information section if the performance data is available
+      if (moment(this.model.get('start_date')) < moment()) {
+        $('.general-info-container .columns').css('display', 'none');
+      }
     },
 
     _uploadStarted: function(e) {

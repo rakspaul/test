@@ -29,14 +29,14 @@
   </div>
   <div class="pure-u-1-12">
     <span class="top-label-holder">CTR</span>
-    <div class="current-value underrate"><%= ctr %>%</div>
+    <div class="current-value"><%= ctr %>%</div>
   </div>
   <div class="pure-u-1-6" style='padding-right:10px'>
     <div class="top-label-holder">
       <div class="pull-right">
         <i class="flag-icon"></i> $<%= booked_rev.toLocaleString() %>
       </div>
-      <span>Revenue</span>
+      <span>Media Cost</span>
     </div>
     <div class="bar-container">
       <% var stop_position_2 = (booked_rev >= gross_rev) ? Math.round(gross_rev * 100 / booked_rev) : 100 %>
@@ -47,7 +47,7 @@
   </div>
   <div class="pure-u-1-12" id="metrics-margin-div" style='display: <%= (agency_user) ? 'none' : 'inline-block' %>'>
     <span class="top-label-holder">Margin</span>
-    <div class="current-value underrate"><%= margin %>%</div>
+    <div class="current-value"><%= margin %>%</div>
   </div>
   <% if(false) { /* TODO: uncomment once implemented all necessary backend and JS parts */ %>
   <div class="pure-u-1-12">
