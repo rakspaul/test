@@ -78,6 +78,7 @@ ReachUI.Orders.OrderRestrictedController = Marionette.Controller.extend({
   },
 
   _showOrderDetailsAndLineItems: function(order) {
+    ReachMetricsApp.module("Metrics").start({order: this.selectedOrder});
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);

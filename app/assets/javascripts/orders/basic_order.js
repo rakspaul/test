@@ -30,6 +30,13 @@
         var client_dfp_url = "https://www.google.com/dfp/"+client_network_id+"#delivery/OrderDetail/orderId=" + client_order_id
         window.open(client_dfp_url);
       }
+    },
+
+    onDomRefresh: function() {
+      // Hide the general information section if the performance data is available
+      if (moment(this.model.get('start_date')) < moment().startOf('day')) {
+        $('.general-info-container .columns').css('display', 'none');
+      }
     }
 
   });

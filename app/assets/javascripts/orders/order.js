@@ -153,7 +153,7 @@
       }
 
       // Hide the general information section if the performance data is available
-      if (moment(this.model.get('start_date')) < moment()) {
+      if (moment(this.model.get('start_date')) < moment().startOf('day')) {
         $('.general-info-container .columns').css('display', 'none');
       }
     },
