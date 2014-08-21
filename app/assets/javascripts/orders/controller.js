@@ -583,6 +583,10 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
         order.set($(this).data('name'), newValue); //update backbone model;
       }
     });
+
+    $('.general-info-container .kpi-type select').on('change', function() {
+      order.set('kpi_type', $('.general-info-container .kpi-type select').val());
+    });
     this._setupTypeaheadFields(order);
     this._setupOrderDateFields(order);
   },

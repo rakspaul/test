@@ -48,6 +48,10 @@ json.reachui_users do
   end
 end
 
+json.kpi_types do
+  json.array! Order::KpiTypes.const_values
+end
+
 json.io_creatives do
   json.array! @order.io_assets.io_creatives do |io_creative|
     json.asset_id io_creative.id

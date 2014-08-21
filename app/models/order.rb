@@ -2,6 +2,18 @@ class Order < ActiveRecord::Base
 
   IMPORT_PUSH_NOTES = ['Imported Order', 'Pushed Order']
 
+  module KpiTypes
+    ACTIONS = 'Actions'
+    CLICKS = 'Clicks'
+    IMPRESSIONS = 'Impressions'
+    CTR = 'CTR'
+    VIDEO_COMPLETION = 'Video Completion'
+    CPA = 'CPA'
+    CPC = 'CPC'
+    CPM = 'CPM'
+    CPCV = 'CPCV'
+  end
+
   cattr_accessor :current_user
 
   has_paper_trail ignore: [:updated_at]
@@ -28,6 +40,7 @@ class Order < ActiveRecord::Base
   validates :name, uniqueness: { case_sensitive: false, message: "The order name is already used.", scope: :network_id }, presence: true
   validate :validate_start_date, on: :create
   validate :validate_advertiser_id, :validate_network_id, :validate_user_id, :validate_end_date_after_start_date
+  validate :validate_kpi_type_value
 
   before_create :create_random_source_id, :make_order_inactive, :set_est_flight_dates
   before_destroy :check_could_be_deleted
@@ -196,4 +209,30 @@ class Order < ActiveRecord::Base
     def import_note
       self.order_activity_logs.detect{|activity| activity.note == "Imported Order"}
     end
+
+    def validate_kpi_type_value
+      # Actions, Clicks, Impressions, CTR, Video Completion, CPA, CPCV, CPC, CPM
+      # The values for these types are Integer for (Actions, Clicks & Impressions),
+      #     % for (CTR and Video Completion) and $ with 2 digit decimal support for (CPA, CPCV, CPC, CPM)
+      # puts "kpi_type #{kpi_type}"
+      # puts "kpi_value #{kpi_value}"
+      return if self.kpi_type.blank? && self.kpi_value.blank?
+      self.errors.add(:kpi_value, "can't be empty") if self.kpi_type.present? && self.kpi_value.blank?
+      self.errors.add(:kpi_type, "can't be empty") if self.kpi_value.present? && self.kpi_type.blank?
+      if self.kpi_type.present? && self.kpi_value.present?
+        unless KpiTypes.const_values.include?(self.kpi_type)
+          self.errors.add(:kpi_type, "is invalid")
+          return
+        end
+        case self.kpi_type
+          when KpiTypes::ACTIONS, KpiTypes::CLICKS, KpiTypes::IMPRESSIONS
+            validates_numericality_of(:kpi_value, :only_integer => true)
+          when KpiTypes::CTR, KpiTypes::VIDEO_COMPLETION
+            validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100)
+          when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM, KpiTypes::CPCV
+            validates_numericality_of(:kpi_value, :greater_than => 0)
+        end
+      end
+    end
+
 end

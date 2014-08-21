@@ -1357,6 +1357,8 @@
           var errors_fields_correspondence = {
             reach_client: '.order-details .billing-contact-company',
             name: '.order-details .order-name',
+            kpi_value: '.order-details .kpi-value',
+            kpi_type: '.order-details .kpi-type',
             start_date: '.order-details .start-date',
             end_date: '.order-details .end-date',
             billing_contact: '.order-details .billing-contact-name',

@@ -131,7 +131,7 @@ class OrdersController < ApplicationController
       errors_list['account_manager'] = "this account manager was not found, please select another one"
     end
 
-    p = params.require(:order).permit(:name, :start_date, :end_date)
+    p = params.require(:order).permit(:name, :kpi_type, :kpi_value, :start_date, :end_date)
     @order = Order.new(p)
     @order.sales_person_id = sales_person.id if sales_person
     @order.network = current_network
@@ -193,6 +193,8 @@ class OrdersController < ApplicationController
     @order.start_date = Time.zone.parse(order_param[:start_date])
     @order.end_date = Time.zone.parse(order_param[:end_date])
     @order.sales_person_id = order_param[:sales_person_id].to_i
+    @order.kpi_type = order_param[:kpi_type]
+    @order.kpi_value = order_param[:kpi_value]
 
     # if we update DFP-imported order then we should create IoDetail also
     io_details = @order.io_detail || IoDetail.new({order_id: @order.id})

@@ -81,6 +81,10 @@ json.order do
     end
   end
 
+  json.kpi_types do
+    json.array! Order::KpiTypes.const_values
+  end
+
   json.pushing_errors do
     json.array! []
   end
