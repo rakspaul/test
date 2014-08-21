@@ -26,7 +26,6 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
             // Make order metrics container active
             $('#order-metrics-container').addClass('active');
           }
-          self.model.set('errors', 'The performance reporting system is unavailable. Please refresh the page at a later time to update the performance section.');
         },
         error: function() {
           console.log('Error fetching order metrics...');
