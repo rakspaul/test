@@ -1,34 +1,43 @@
 module OrdersHelper
-  ORDER_TABLE_COLUMNS = [
-    {column: "", size: 'x-small', dmethod: :delete_checkbox},
-    {column: "Status", dmethod: :order_status},
-    {column: "AMP Id / DFP Id", sortable: true, sort_column: 'id', size: 'medium', dmethod: :order_id_and_source_id_column},
-    {column: "Order Name", sortable: true, sort_column: 'order_name', size: 'order-name', dmethod: :order_name_column},
-    {column: "Client", dmethod: :reach_client_name},
-    {column: "Advertiser", sortable: true, sort_column: 'advertiser', dmethod: :client_advertiser_name},
-    {column: "Abbr", dmethod: :reach_client_abbr},
-    {column: "AM", dmethod: :account_manager_column},
-    {column: "Trafficker", dmethod: :trafficker_column},
-    {column: "Start Date", sortable: true, sort_column: 'start_date', size: 'small', dmethod: :start_date},
-    {column: "End Date", sortable: true, sort_column: 'end_date', size: 'small', dmethod: :end_date},
-  ]
 
-  AGENCY_ORDER_TABLE_COLUMNS = [
-    {column: "Status", dmethod: :order_status},
-    {column: "AMP Id / DFP Id", sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
-    {column: "Order Name", sortable: true, size: 'order-name', dmethod: :order_name_column},
-    {column: "Client", dmethod: :reach_client_name},
-    {column: "Advertiser", dmethod: :client_advertiser_name},
-    {column: "AM", dmethod: :account_manager_column},
-    {column: "Start Date", sortable: true, size: 'small', dmethod: :start_date},
-    {column: "End Date", sortable: true, size: 'small', dmethod: :end_date},
-  ]
+  include I18nHelper
+
+  def order_table_columns
+    arr = [{column: "", size: 'x-small', dmethod: :delete_checkbox},
+      {column: localised('common.status'), dmethod: :order_status},
+      {column: localised(identifier + '.amp_id'), sortable: true, sort_column: 'id', size: 'medium', dmethod: :order_id_and_source_id_column},
+      {column: localised(identifier + '.campaign') + ' ' + localised('common.name'), sortable: true, sort_column: 'order_name', size: 'order-name', dmethod: :order_name_column},
+      {column: localised('common.advertiser'), sortable: true, sort_column: 'advertiser', dmethod: :client_advertiser_name},
+      {column: localised('common.am'), dmethod: :account_manager_column},
+      {column: localised('common.trafficker'), dmethod: :trafficker_column},
+      {column: localised('common.start') + ' ' + localised('common.date'), sortable: true, sort_column: 'start_date', size: 'small', dmethod: :start_date},
+      {column: localised('common.end') + ' ' + localised('common.date'), sortable: true, sort_column: 'end_date', size: 'small', dmethod: :end_date},
+    ]
+    if identifier == CONVENTION_AGENCY
+      arr.insert(4,{column: localised('common.client'), dmethod: :reach_client_name})
+      arr.insert(5,{column: localised('common.abbr'), dmethod: :reach_client_abbr})
+    end
+    return arr
+  end
+
+  def agency_order_table_columns
+    [
+      {column: 'common.status', dmethod: :order_status},
+      {column: localised(identifier+ '.amp_id'), sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
+      {column: localised(identifier+'.campaign')+' ' + localised('common.name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
+      {column: localised('common.client'), dmethod: :reach_client_name},
+      {column: localised('common.advertiser'), dmethod: :client_advertiser_name},
+      {column: localised('common.am'), dmethod: :account_manager_column},
+      {column: localised('common.start') + ' ' + localised('common.date'), sortable: true, size: 'small', dmethod: :start_date},
+      {column: localised('common.end') + ' ' + localised('common.date'), sortable: true, size: 'small', dmethod: :end_date},
+    ]
+  end
 
   def table_columns
     if current_user.agency_user?
-      AGENCY_ORDER_TABLE_COLUMNS
+      agency_order_table_columns
     else
-      ORDER_TABLE_COLUMNS
+      order_table_columns
     end
   end
 

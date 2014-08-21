@@ -1,6 +1,6 @@
 class AccountSessionsController < ApplicationController
   include Authenticator
-
+  include DomainHelper
   layout "login"
 
   before_action :require_no_user, :only => [:new, :create]
@@ -21,11 +21,12 @@ class AccountSessionsController < ApplicationController
   def create
     @account_session = AccountSession.new(:login => params[:login],:password => params[:password])
     flash.now[:notice] = "Login successful." if @account_session.save
-
+    user = @account_session.account.user
     respond_with(@account_session) do |format|
       format.html do
-        if @account_session.errors.empty? then
-          if is_network_login(@account_session.account.user) || is_agency_login(@account_session.account.user)
+        if @account_session.errors.empty?
+          if (domain_reach? && (network_reach_user_login?(user) || agency_reach_user_login?(user))) \
+            || (domain_desk? && (network_cdesk_user_login?(user) || agency_cdesk_user_login?(user)))
             redirect_back_or_default orders_path
           else
             @account_session.destroy
@@ -59,12 +60,21 @@ class AccountSessionsController < ApplicationController
       end
     end
 
-    def is_network_login(user)
-      return (user.is_client_type(User::CLIENT_TYPE_NETWORK) && user.has_roles?([Role::REACH_UI]))
+    def network_reach_user_login?(user)
+      user.network_user? && user.has_roles?([Role::REACH_UI])
     end
 
-    def is_agency_login(user)
-      return (user.is_client_type(User::CLIENT_TYPE_AGENCY) && user.has_roles?([Role::REACH_UI])) && user.try(:agency).try(:reach_clients).length > 0
+    def agency_reach_user_login?(user)
+      user.agency_user? && user.has_roles?([Role::REACH_UI]) && user.agency.try(:reach_clients).try(:length) > 0
     end
+
+    def network_cdesk_user_login?(user)
+      user.network_user? && user.has_roles?([Role::CDESK])
+    end
+
+    def agency_cdesk_user_login?(user)
+      user.agency_user? && user.has_roles?([Role::CDESK])
+    end
+
 end
 

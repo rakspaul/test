@@ -1,0 +1,2 @@
+var I18n = I18n || {};
+I18n.translations = {"en":{"marketer":{"campaign":"Campaign","amp_id":"ID"},"agency":{"campaign":"Order","amp_id":"AMP Id / DFP Id"},"common":{"name":"Name","status":"Status","client":"Client","advertiser":"Advertiser","abbr":"abbr","am":"AM","trafficker":"Trafficker","start":"Start","date":"Date","end":"End"}}};
