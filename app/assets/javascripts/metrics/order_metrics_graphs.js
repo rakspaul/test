@@ -18,13 +18,20 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
       // fetch the model
       this.model.fetch({
         success: function(response) {
-          // if campaign hasnt started, hide the performance region
-          if (response.get('not_started')) {
-            // hide metrics region
-            $('#order-metrics-region').removeClass('active');
+          // If the response returned a "cdb_unavailable", then show error and show overlay for the order metrics region
+          if (response.get('cdb_unavailable')) {
+            $('#order_metrics_error').html('The performance reporting system is unavailable. Please try again later by refreshing the page.');
+            // Show an error message and enable the order metrics container
+            $('#order-metrics-container').removeClass('active');
           } else {
-            // Make order metrics container active
-            $('#order-metrics-container').addClass('active');
+            // if campaign hasnt started, hide the performance region
+            if (response.get('not_started')) {
+              // hide metrics region
+              $('#order-metrics-region').removeClass('active');
+            } else {
+              // Make order metrics container active
+              $('#order-metrics-container').addClass('active');
+            }
           }
         },
         error: function() {

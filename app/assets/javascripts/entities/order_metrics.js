@@ -13,7 +13,8 @@ ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone,
       gross_rev: 0,
       booked_rev: 0,
       margin: 0,
-      errors: ''
+      errors: '',
+      cdb_unavailable: false
     },
 
     initialize: function(options) {

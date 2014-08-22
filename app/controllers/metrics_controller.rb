@@ -15,41 +15,45 @@ class MetricsController < ApplicationController
     order = Order.find(params[:order_id])
     o_metrics = {}
 
-    # get the data from CDB only if the order's start date is before today
-    # #(data in cdb is only available until the previous day)
-    if order.start_date < Date.current.beginning_of_day
-      # Build query params for impressions, clicks, ctr, gross_rev and all_cogs
-      query_params = {}
-      query_params["start_date"] = order.start_date.to_formatted_s(:iso8601) #yyyy-mm-dd
-      query_params["end_date"] = order.end_date.to_formatted_s(:iso8601)
-      query_params["cols"] = 'impressions,clicks,ctr,gross_rev,all_cogs'
-      query_params["filter"] = 'order_id:' << order.id.to_s
-      query_params["src"] = EXPORT_SRC;
+    begin
+      # get the data from CDB only if the order's start date is before today
+      # #(data in cdb is only available until the previous day)
+      if order.start_date < Date.current.beginning_of_day
+        # Build query params for impressions, clicks, ctr, gross_rev and all_cogs
+        query_params = {}
+        query_params["start_date"] = order.start_date.to_formatted_s(:iso8601) #yyyy-mm-dd
+        query_params["end_date"] = order.end_date.to_formatted_s(:iso8601)
+        query_params["cols"] = 'impressions,clicks,ctr,gross_rev,all_cogs'
+        query_params["filter"] = 'order_id:' << order.id.to_s
+        query_params["src"] = EXPORT_SRC;
 
-      # Get record set 1
-      response = wrapper.load(query_params)
-      record_set_1 = ActiveSupport::JSON.decode(response) #Single record with all the columns
+        # Get record set 1
+        response = wrapper.load(query_params)
+        record_set_1 = ActiveSupport::JSON.decode(response) #Single record with all the columns
 
-      # Build query params for impressions, clicks, ctr, gross_rev and all_cogs
-      query_params = {}
-      query_params["start_date"] = order.start_date.to_formatted_s(:iso8601) #yyyy-mm-dd
-      query_params["end_date"] = order.end_date.to_formatted_s(:iso8601)
-      query_params["cols"] = 'booked_impressions,booked_rev'
-      query_params["filter"] = 'order_id:' << order.id.to_s
-      query_params["src"] = EXPORT_SRC;
+        # Build query params for impressions, clicks, ctr, gross_rev and all_cogs
+        query_params = {}
+        query_params["start_date"] = order.start_date.to_formatted_s(:iso8601) #yyyy-mm-dd
+        query_params["end_date"] = order.end_date.to_formatted_s(:iso8601)
+        query_params["cols"] = 'booked_impressions,booked_rev'
+        query_params["filter"] = 'order_id:' << order.id.to_s
+        query_params["src"] = EXPORT_SRC;
 
-      # Get record set 2
-      response = wrapper.load(query_params)
-      record_set_2 = ActiveSupport::JSON.decode(response) #Multiple records with the booked impressions and revenue
+        # Get record set 2
+        response = wrapper.load(query_params)
+        record_set_2 = ActiveSupport::JSON.decode(response) #Multiple records with the booked impressions and revenue
 
-      o_metrics = process_order_metrics record_set_1["records"][0], record_set_2["records"], order
+        o_metrics = process_order_metrics record_set_1["records"][0], record_set_2["records"], order
 
-      # Add agency user?
-      o_metrics["agency_user"] = current_user.agency_user?
+        # Add agency user?
+        o_metrics["agency_user"] = current_user.agency_user?
 
-      # Add start and end dates
-      o_metrics["start_date"] = order.start_date.to_formatted_s(:rfc822) #dd mmm yyyy
-      o_metrics["end_date"] = order.end_date.to_formatted_s(:rfc822)
+        # Add start and end dates
+        o_metrics["start_date"] = order.start_date.to_formatted_s(:rfc822) #dd mmm yyyy
+        o_metrics["end_date"] = order.end_date.to_formatted_s(:rfc822)
+      end
+    rescue
+      o_metrics["cdb_unavailable"] = true
     end
 
     render json: (o_metrics.size > 0 ? o_metrics.to_json : {not_started: true})
