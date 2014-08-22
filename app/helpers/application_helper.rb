@@ -11,16 +11,26 @@ module ApplicationHelper
       path: :reports_reports
     },
 
-    "Nielsen OCR" => {
-      controllers: ["NielsenOcrsController"],
-      path: :nielsen_ocrs
-    },
-
     "Admin" => {
       controllers: ["Admin::ReachClientsController", "Admin::AudienceGroupsController", "Admin::BlockSitesController", "Admin::BlockedAdvertisersController", "Admin::DefaultBlockListController", "Admin::BlockLogsController", "Admin::BlockViolationsController", "Admin::PlatformsController"],
       path: :admin_reach_clients
     }
   }
+
+  APP_NAVIGATION_BAR_CDESK = {
+
+    "Orders" => {
+      controllers: ["OrdersController","LineitemsController"],
+      path: :orders
+    },
+
+    "Reports" => {
+      controllers: ["Reports::ReportsController"],
+      path: :reports_reports
+    }
+
+  }
+
 
   APP_NAVIGATION_BAR_AGENCY = {
     "Orders" => {

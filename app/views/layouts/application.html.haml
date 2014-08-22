@@ -20,8 +20,12 @@
             = image_tag "cm_logo.jpg"
 
           %ul.nav
-            -if !current_user.agency_user?
+            -if !current_user.agency_user? && !domain_desk?
               - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
+                %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
+                  = link_to key, value[:path]
+            -elsif domain_desk?
+              - ApplicationHelper::APP_NAVIGATION_BAR_CDESK.each do |key, value|
                 %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
                   = link_to key, value[:path]
             -else

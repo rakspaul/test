@@ -22,9 +22,9 @@ module OrdersHelper
 
   def agency_order_table_columns
     [
-      {column: 'common.status', dmethod: :order_status},
-      {column: localised(identifier+ '.amp_id'), sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
-      {column: localised(identifier+'.campaign')+' ' + localised('common.name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
+      {column: localised(identifier + '.status'), dmethod: :order_status},
+      {column: localised(identifier + '.amp_id'), sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
+      {column: localised(identifier + '.campaign') + ' ' + localised(identifier + '.name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
       {column: localised(identifier + '.client'), dmethod: :reach_client_name},
       {column: localised(identifier + '.advertiser'), dmethod: :client_advertiser_name},
       {column: localised(identifier + '.am'), dmethod: :account_manager_column},
