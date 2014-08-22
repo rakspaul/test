@@ -15,7 +15,9 @@ ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone,
       margin: 0,
       errors: '',
       cdb_unavailable: false,
-      no_cdb_data: false
+      no_cdb_data: false,
+      kpi_type: undefined,
+      kpi_value_display: undefined
     },
 
     initialize: function(options) {
