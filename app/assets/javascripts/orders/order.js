@@ -151,6 +151,23 @@
           }
         });
       }
+
+      $('.order-details .kpi-value .editable').editable({
+        validate: function(value) {
+          if($.trim(value) == '') {
+            return;
+          }
+          if(isNaN(value)) {
+            return "Enter valid number";
+          }
+        },
+        success: function(response, newValue) {
+          self.model.set("kpi_value", newValue);
+          $('.order-details .kpi-value .errors_container').html('');
+          $('.order-details .kpi-value').removeClass('field_with_errors');
+        }
+      });
+
     },
 
     _uploadStarted: function(e) {

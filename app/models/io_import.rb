@@ -114,6 +114,7 @@ class IoImport
       if @is_existing_order
         @order = @existing_order
       else
+        p @reader.order
         @order = Order.new(@reader.order)
         @order.user = @current_user
         @order.network = @current_user.network
@@ -418,6 +419,8 @@ class IOExcelFileReader < IOReader
   ORDER_NAME_CELL                 = ['C', 19]
   ORDER_START_FLIGHT_DATE         = ['H', 25]
   ORDER_END_FLIGHT_DATE           = ['H', 26]
+  KPI_TYPE_CELL                   = ['C', 26]
+  KPI_VALUE_CELL                  = ['C', 27]
 
   ACCOUNT_CONTACT_NAME_CELL       = ['E', 12]
   ACCOUNT_CONTACT_PHONE_CELL      = ['E', 13]
@@ -536,11 +539,19 @@ class IOExcelFileReader < IOReader
   end
 
   def order
-    if @existing_order
-      { name: @existing_order.name.to_s }
-    else
-      { name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip }
-    end
+    hsh = if @existing_order
+            { name: @existing_order.name.to_s }
+          else
+            { name: @spreadsheet.cell(*ORDER_NAME_CELL).to_s.strip }
+          end
+    hsh.merge! kpi_data
+  end
+
+  def kpi_data
+    {
+      kpi_type: @spreadsheet.cell(*KPI_TYPE_CELL).to_s.strip,
+      kpi_value: @spreadsheet.cell(*KPI_VALUE_CELL).to_s.strip
+    }
   end
 
   def start_flight_date

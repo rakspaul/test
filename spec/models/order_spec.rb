@@ -32,6 +32,56 @@ describe Order do
       order2.name    = order.name
       expect(order2.valid?).to be false
     end
+
+    it "should validate the kpi_type & kpi_value" do
+      order.kpi_type.should be_nil
+      order.kpi_value.should be_nil
+      order.valid?.should be_true
+
+      order.update kpi_type: 'CPM'
+      order.valid?.should be_false
+      order.errors[:kpi_value].first.should == 'can\'t be empty'
+
+      order2.update kpi_value: '10'
+      order2.valid?.should be_false
+      order2.errors[:kpi_type].first.should == 'can\'t be empty'
+
+      #only integers are allowed for action, clicks & impressions
+      order2.update kpi_type: Order::KpiTypes::ACTIONS, kpi_value: '10'
+      order2.valid?.should be_true
+      order2.update kpi_type: Order::KpiTypes::CLICKS, kpi_value: 20
+      order2.valid?.should be_true
+      order2.update kpi_type: Order::KpiTypes::IMPRESSIONS, kpi_value: '10'
+      order2.valid?.should be_true
+
+      order2.update kpi_type: Order::KpiTypes::ACTIONS, kpi_value: '10.5'
+      order2.valid?.should be_false
+      order2.update kpi_type: Order::KpiTypes::CLICKS, kpi_value: 10.5
+      order2.valid?.should be_false
+      order2.update kpi_type: Order::KpiTypes::IMPRESSIONS, kpi_value: '10.5'
+      order2.valid?.should be_false
+
+      #percentage is allowed for CTR & Video Completion
+      order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '100.5'
+      order2.valid?.should be_false
+      order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '-0.5'
+      order2.valid?.should be_false
+
+      order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '90'
+      order2.valid?.should be_true
+      order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '5'
+      order2.valid?.should be_true
+
+      #CPA, CPC, CPM, CPCV is currency
+      order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '-100'
+      order2.valid?.should be_false
+      order2.update kpi_type: Order::KpiTypes::CPC, kpi_value: '5.123'
+      order2.valid?.should be_true
+      order2.update kpi_type: Order::KpiTypes::CPM, kpi_value: 100000
+      order2.valid?.should be_true
+      order2.update kpi_type: Order::KpiTypes::CPCV, kpi_value: '50.45'
+      order2.valid?.should be_true
+    end
   end
 
   context "search scope" do
