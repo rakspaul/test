@@ -224,6 +224,9 @@ Reachui::Application.routes.draw do
     end
   end
 
+  get 'token' => 'metrics#get_token'
+  get 'export_uri' => 'metrics#get_cdb_export_uri'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

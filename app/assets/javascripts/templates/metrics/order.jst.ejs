@@ -1,0 +1,118 @@
+<script type="text/javascript">
+  // Mock our /range_breakdown call
+  $.mockjax({
+    url: '/range_breakdown_options',
+    responseText: {daily:"Daily",weekly:"Weekly"}
+  });
+</script>
+<h2 class="heading bordered">
+  <button class="rui-btn pull-right" id="hideOrderMetricsBtn">
+    <span class="action-hide"><i class="minimize-icon"></i> <span>Hide</span></span>
+    <span class="action-show"><i class="maximize-icon"></i> <span>Show</span></span>
+  </button>
+  <i class="activity_log-icon"></i>
+  Performance
+</h2>
+<div id="order-metrics-container">
+</div>
+
+<!-- TODO: Move initialization into holding View -->
+<script type="text/javascript">
+  /*
+  $('#graphPeriodSelector').daterangepicker({
+    format: "DD MMM 'YY"
+  });
+
+  // Init range breakdown selector
+  $("#graphPeriodBreakdownSelector").editable({
+    showbuttons: false,
+    autotext: "always"
+  });
+
+  // Some sample data for the flot
+  var now = new Date().getTime();
+  var graphData = [
+        // Series 1
+        {
+          label: "CTR",
+          data: [
+            [now, 0.3],
+            [now + 2 * 3600*24*1000, 1.8],
+            [now + 3 * 3600*24*1000, 0.5],
+            [now + 4 * 3600*24*1000, 2.1],
+            [now + 5 * 3600*24*1000, 0.7]
+          ],
+          yaxis: 1
+        },
+        // Series 2
+        {
+          label: "Volume",
+          data: [
+            [now, 1.3],
+            [now + 2 * 3600*24*1000, 10],
+            [now + 3 * 3600*24*1000, 1.5],
+            [now + 4 * 3600*24*1000, 12.5],
+            [now + 5 * 3600*24*1000, 1.0]
+          ],
+          yaxis: 2
+        }
+      ],
+
+      graphOptions = {
+        grid: {
+          show: true,
+          borderWidth: 1
+        },
+        shadowSize: 0,
+        series: {
+          lines: { show: true }
+        },
+        legend: {
+          position: "nw",
+          backgroundOpacity: 1
+        },
+        xaxis: {
+          mode: "time",
+          timeformat: "%a",
+          tickSize: [1, "day"],
+          dayNames: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+        },
+        yaxis: {
+          position: "right"
+        },
+        yaxes: [
+          {
+            tickColor: null,
+            font: {
+              color: "#005C97"
+            }
+          },
+          {
+            font: {
+              color: "#FD9828"
+            }
+          }
+        ]
+      };
+
+  // and here the flot initiazation itself
+  $.plot($("#graphContainer"), graphData, graphOptions);
+  */
+
+
+  // Add handler to Hide/Show Performance section button
+  $("#hideOrderMetricsBtn").on("click", function(e) {
+    var $this = $(this);
+    $this.toggleClass("active");
+    $("#order-metrics-container").toggle("slide", function() {
+      // We need it to keep state of Performance section when user refreshed page in their browser
+      window.localStorage.setItem("order_metrics_visible",
+          $("#order-metrics-container").is(":visible") ? "true" : "false");
+    });
+  });
+
+  if (window.localStorage.getItem("order_metrics_visible") !== "true") {
+    $("#order-metrics-container").hide();
+    $("#hideOrderMetricsBtn").addClass("active");
+  }
+</script>

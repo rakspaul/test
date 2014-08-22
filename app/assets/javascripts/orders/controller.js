@@ -213,6 +213,7 @@ ReachUI.Orders.OrderController = Marionette.Controller.extend({
   _showOrderDetailsAndLineItems: function(order) {
     // Note: after order is being selected, then initiate the ReachActivityTask module by passing order and view context.
     ReachActivityTaskApp.start({startedAt: "order_details", order: this.selectedOrder});
+    ReachMetricsApp.module("Metrics").start({order: this.selectedOrder});
     order.select();
     this._showOrderDetails(order);
     this._showLineitemList(order);
