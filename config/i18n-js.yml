@@ -23,4 +23,4 @@
 
 translations:
 - file: "app/assets/javascripts/i18n/en.js"
-  only: ['en.marketer','en.agency','en.common']
+  only: ['en.marketer','en.agency']

@@ -10,6 +10,6 @@ module DomainHelper
     if request.host.match(/localhost/)
       return true
     end
-    request.host.match(/reach/)
+    return request.host.match(/reach/)
   end
 end

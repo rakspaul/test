@@ -15,11 +15,11 @@
           .pure-u
             .control-group.orders-control
               %label.control-label
-                Orders
+                #{localised(identifier+'.campaigns')}
               .controls
                 %select.filter-orders#orders_by_user
-                  %option{:value => "my_orders"} My Orders
-                  %option{:value => "all_orders"} All Orders
+                  %option{:value => "my_orders"} #{localised(identifier+'.my_orders')}
+                  %option{:value => "all_orders"} #{localised(identifier+'.all_orders')}
         .pure-u
           .control-group.status-control
             %label.control-label
@@ -40,14 +40,15 @@
         - unless current_user.agency_user?
           .pure-u
             .control-group.status-control
-              %label.control-label
-                Client
-              .controls
-                %select.filter-orders.rc
-                  %option All
-                  - @rc.each do |rc|
-                    %option{:value => rc.name}
-                      = "#{rc.name}"
+              - unless domain_desk?
+                %label.control-label
+                  Client
+                .controls
+                  %select.filter-orders.rc
+                    %option All
+                    - @rc.each do |rc|
+                      %option{:value => rc.name}
+                        = "#{rc.name}"
           .pure-u
             .control-group
               %label.control-label
