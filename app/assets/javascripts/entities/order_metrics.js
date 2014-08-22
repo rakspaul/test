@@ -14,7 +14,8 @@ ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone,
       booked_rev: 0,
       margin: 0,
       errors: '',
-      cdb_unavailable: false
+      cdb_unavailable: false,
+      no_cdb_data: false
     },
 
     initialize: function(options) {

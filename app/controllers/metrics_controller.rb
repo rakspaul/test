@@ -43,14 +43,18 @@ class MetricsController < ApplicationController
         response = wrapper.load(query_params)
         record_set_2 = ActiveSupport::JSON.decode(response) #Multiple records with the booked impressions and revenue
 
-        o_metrics = process_order_metrics record_set_1["records"][0], record_set_2["records"], order
+        if record_set_1["records"].size > 0 and record_set_2["records"].size > 0
+          o_metrics = process_order_metrics record_set_1["records"][0], record_set_2["records"], order
 
-        # Add agency user?
-        o_metrics["agency_user"] = current_user.agency_user?
+          # Add agency user?
+          o_metrics["agency_user"] = current_user.agency_user?
 
-        # Add start and end dates
-        o_metrics["start_date"] = order.start_date.to_formatted_s(:rfc822) #dd mmm yyyy
-        o_metrics["end_date"] = order.end_date.to_formatted_s(:rfc822)
+          # Add start and end dates
+          o_metrics["start_date"] = order.start_date.to_formatted_s(:rfc822) #dd mmm yyyy
+          o_metrics["end_date"] = order.end_date.to_formatted_s(:rfc822)
+        else
+          o_metrics["no_cdb_data"] = true
+        end
       end
     rescue
       o_metrics["cdb_unavailable"] = true

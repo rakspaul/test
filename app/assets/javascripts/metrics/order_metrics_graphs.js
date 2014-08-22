@@ -19,8 +19,11 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
       this.model.fetch({
         success: function(response) {
           // If the response returned a "cdb_unavailable", then show error and show overlay for the order metrics region
-          if (response.get('cdb_unavailable')) {
-            $('#order_metrics_error').html('The performance reporting system is unavailable. Please try again later by refreshing the page.');
+          if (response.get('cdb_unavailable') || response.get('no_cdb_data')) {
+            var errMsg = (response.get('cdb_unavailable')) ?
+                'The performance reporting system is unavailable. Please try again later by refreshing the page.' :
+                'Performance metrics are not available for this order.';
+            $('#order_metrics_error').html(errMsg);
             // Show an error message and enable the order metrics container
             $('#order-metrics-container').removeClass('active');
           } else {
