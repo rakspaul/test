@@ -15,6 +15,14 @@ module I18nHelper
     end
   end
 
+  def convention_agency
+    CONVENTION_AGENCY
+  end
+
+  def convention_marketer
+    CONVENTION_MARKETER
+  end
+
   def localised(text)
     I18n.t(text)
   end
