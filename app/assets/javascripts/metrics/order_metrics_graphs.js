@@ -29,7 +29,7 @@ ReachMetricsApp.module("Metrics.Order.Graphs", function (Graphs, ReachMetricsApp
         },
         error: function() {
           console.log('Error fetching order metrics...');
-          self.model.set('errors', 'The performance reporting system is unavailable. Please try again later by refreshing the page.');
+          $('#order_metrics_error').html('The performance reporting system is unavailable. Please try again later by refreshing the page.');
           // Show an error message and enable the order metrics container
           $('#order-metrics-container').removeClass('active');
         }
