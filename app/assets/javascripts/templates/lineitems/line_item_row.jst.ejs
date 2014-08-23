@@ -20,7 +20,7 @@
 <div class="li-table">
   <div class="li-row">
     <div class="pure-u-1-12 li-number <%= lineitem.revised === true ? 'revised':'' %> <%= lineitem.active === true ? 'active':'inactive' %>">
-      <span>Contract LI</span>
+      <span><%= localise(i18n_identifier + '.contract_li') %></span>
       <div style="clear:both"></div>
       <span class="item-number"><%= lineitem.alt_ad_id || lineitem.itemIndex %></span><br/>
 

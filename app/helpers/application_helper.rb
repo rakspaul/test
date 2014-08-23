@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include I18nHelper
   APP_NAVIGATION_BAR = {
 
     "Orders" => {
@@ -17,19 +18,21 @@ module ApplicationHelper
     }
   }
 
-  APP_NAVIGATION_BAR_CDESK = {
+  def app_navigation_bar_cdesk
+    {
 
-    "Orders" => {
-      controllers: ["OrdersController","LineitemsController"],
-      path: :orders
-    },
+      localised(identifier + ".campaigns") => {
+        controllers: ["OrdersController","LineitemsController"],
+        path: :orders
+      },
 
-    "Reports" => {
-      controllers: ["Reports::ReportsController"],
-      path: :reports_reports
+      localised(identifier + ".reports") => {
+        controllers: ["Reports::ReportsController"],
+        path: :reports_reports
+      }
+
     }
-
-  }
+  end
 
 
   APP_NAVIGATION_BAR_AGENCY = {

@@ -6,7 +6,7 @@ module OrdersHelper
     arr = [{column: "", size: 'x-small', dmethod: :delete_checkbox},
       {column: localised(identifier + '.status'), dmethod: :order_status},
       {column: localised(identifier + '.amp_id'), sortable: true, sort_column: 'id', size: 'medium', dmethod: :order_id_and_source_id_column},
-      {column: localised(identifier + '.campaign') + ' ' + localised(identifier + '.name'), sortable: true, sort_column: 'order_name', size: 'order-name', dmethod: :order_name_column},
+      {column: localised(identifier + '.campaign_name'), sortable: true, sort_column: 'order_name', size: 'order-name', dmethod: :order_name_column},
       {column: localised(identifier + '.advertiser'), sortable: true, sort_column: 'advertiser', dmethod: :client_advertiser_name},
       {column: localised(identifier + '.am'), dmethod: :account_manager_column},
       {column: localised(identifier + '.trafficker'), dmethod: :trafficker_column},
@@ -24,7 +24,7 @@ module OrdersHelper
     [
       {column: localised(identifier + '.status'), dmethod: :order_status},
       {column: localised(identifier + '.amp_id'), sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
-      {column: localised(identifier + '.campaign') + ' ' + localised(identifier + '.name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
+      {column: localised(identifier + '.campaign_name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
       {column: localised(identifier + '.client'), dmethod: :reach_client_name},
       {column: localised(identifier + '.advertiser'), dmethod: :client_advertiser_name},
       {column: localised(identifier + '.am'), dmethod: :account_manager_column},
