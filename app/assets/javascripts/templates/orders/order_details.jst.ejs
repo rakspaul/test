@@ -163,31 +163,33 @@
   <div class="general-info-container pure-g">
     <div class="columns">
       <div class="pure-u-1-3">
-        <div class="field network">
-          <p>Network</p>
-          <span>AMP Network CORE</span>
-        </div>
-        <div class="field advertiser-name">
-          <p>Advertiser Name</p>
-          <% if(parseInt(order.source_id)) { %>
-            <span><%= order.advertiser_name %></span>
-            <% if (order.advertiser_unknown) { %>
-              <div class="errors_container">
-                Advertiser has wrong type.
-              </div>
+        <% if(i18n_identifier == CONVENTION_AGENCY) { %>
+          <div class="field network">
+            <p>Network</p>
+            <span>AMP Network CORE</span>
+          </div>
+          <div class="field advertiser-name">
+            <p>Advertiser Name</p>
+            <% if(parseInt(order.source_id)) { %>
+              <span><%= order.advertiser_name %></span>
+              <% if (order.advertiser_unknown) { %>
+                <div class="errors_container">
+                  Advertiser has wrong type.
+                </div>
+              <% } %>
+            <% } else { %>
+              <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
+                <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>
+              </span>
             <% } %>
-          <% } else { %>
-            <span <% if(order.advertiser_unknown){ %> class="advertiser-unknown" <% } %>>
-              <input type="text" autocomplete="off" name="advertiser_name" value="<%= order.advertiser_name %>"/>
-            </span>
-          <% } %>
-        </div>
+          </div>
+        <% } %>
         <div class="field client-advertiser-name">
-          <p>Client's Advertiser Name</p>
+            <p><%= localise(i18n_identifier + '.adv_name') %></p>
           <span><%= order.client_advertiser_name %></span>
         </div>
         <div class="field order-name<% if (order.order_name_dup && !order.is_existing_order) { %> field_with_errors<% } %>">
-          <p>Order Name</p>
+          <p><%= localise(i18n_identifier + '.campaign_name') %></p>
           <span class="editable custom" data-type="text" data-pk="1" data-name="name" data-mode="popup" data-inputclass="wide-editable-text"><%= order.name %></span>
           <div class="errors_container">
           <% if (order.order_name_dup && !order.is_existing_order) { %>
@@ -196,7 +198,7 @@
           </div>
         </div>
         <div class="field client-order-id">
-          <p>Client Order ID</p>
+          <p><%= localise(i18n_identifier + '.client_camp_id') %></p>
           <div class="client-order-id">
             <span class="editable pull-left" data-type="text" data-pk="1" data-name="client_order_id"><%= order.client_order_id %></span>
           </div>
@@ -215,7 +217,7 @@
           <div class="errors_container"></div>
         </div>
         <div class="field total-media-cost">
-          <p>Total Media Cost</p>
+          <p><%= localise(i18n_identifier + '.total_spend') %></p>
           <span data-type="text" data-pk="1" data-name="total_media_cost">0</span>
         </div>
         <div class="field kpi-type">
@@ -278,7 +280,7 @@
 
         <div class="field media-contact-name">
           <p>
-            <span style="float:right">Media Contact</span>
+            <span style="float:right"><%= localise(i18n_identifier + '.media_contact') %></span>
             <span class="media-contact-icon pull-right" title="Media Contact"></span>
             <% if(order.media_contact_unknown) { %>
             <span class="contact-unknown-icon pull-left" title="Media Contact is not found in existing contacts"></span>

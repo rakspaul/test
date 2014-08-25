@@ -20,8 +20,12 @@
             = image_tag "cm_logo.jpg"
 
           %ul.nav
-            -if !current_user.agency_user?
+            -if !current_user.agency_user? && !domain_desk?
               - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
+                %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
+                  = link_to key, value[:path]
+            -elsif domain_desk?
+              - app_navigation_bar_cdesk.each do |key, value|
                 %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
                   = link_to key, value[:path]
             -else
@@ -62,4 +66,11 @@
       window.current_trafficker_name  = "#{@order.try(:io_detail).try(:trafficking_contact).try(:full_name)}";
       window.current_am_email         = "#{@order.try(:io_detail).try(:account_manager).try(:email)}";
       window.current_am_name          = "#{@order.try(:io_detail).try(:account_manager).try(:full_name)}";
-      window.server_time = "#{Time.current.strftime("%Y-%m-%d %H:%M:%S")}";
+      window.server_time              = "#{Time.current.strftime("%Y-%m-%d %H:%M:%S")}";
+      I18n.defaultLocale              = "en";
+      I18n.locale                     = "en";
+      window.i18n_identifier          = "#{identifier}";
+      window.CONVENTION_AGENCY        = "#{convention_agency}";
+      window.CONVENTION_MARKETER      = "#{convention_marketer}";
+      window.localise                 = function (text) { return I18n.t(text);}
+

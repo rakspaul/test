@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include I18nHelper
   APP_NAVIGATION_BAR = {
 
     "Orders" => {
@@ -11,16 +12,28 @@ module ApplicationHelper
       path: :reports_reports
     },
 
-    "Nielsen OCR" => {
-      controllers: ["NielsenOcrsController"],
-      path: :nielsen_ocrs
-    },
-
     "Admin" => {
       controllers: ["Admin::ReachClientsController", "Admin::AudienceGroupsController", "Admin::BlockSitesController", "Admin::BlockedAdvertisersController", "Admin::DefaultBlockListController", "Admin::BlockLogsController", "Admin::BlockViolationsController", "Admin::PlatformsController"],
       path: :admin_reach_clients
     }
   }
+
+  def app_navigation_bar_cdesk
+    {
+
+      localised(identifier + ".campaigns") => {
+        controllers: ["OrdersController","LineitemsController"],
+        path: :orders
+      },
+
+      localised(identifier + ".reports") => {
+        controllers: ["Reports::ReportsController"],
+        path: :reports_reports
+      }
+
+    }
+  end
+
 
   APP_NAVIGATION_BAR_AGENCY = {
     "Orders" => {

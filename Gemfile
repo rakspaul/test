@@ -130,3 +130,5 @@ gem "rjb"
 gem 'spreadsheet'
 
 gem 'kaminari'
+
+gem 'i18n-js'

@@ -39,6 +39,10 @@ class User < ActiveRecord::Base
     is_client_type(User::CLIENT_TYPE_AGENCY)
   end
 
+  def marketer_user?
+    is_client_type(User::CLIENT_TYPE_AGENCY)
+  end
+
   def has_roles?(role_names)
     roles.where(roles: {name: role_names.split(",")}).size == role_names.size
   end
