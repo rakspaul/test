@@ -2,6 +2,7 @@ require 'report_service_wrapper'
 
 class MetricsController < ApplicationController
   include Authenticator
+  include MetricsHelper
 
   EXPORT_SRC = "reachui"
 
@@ -26,7 +27,8 @@ class MetricsController < ApplicationController
         query_params["src"] = EXPORT_SRC;
 
         # Get record set 1
-        record_set_1 = fetch_metrics_data(query_params.merge("cols" => 'impressions,clicks,ctr,gross_rev,all_cogs'))
+        record_set_1 = fetch_metrics_data(query_params.merge(
+                                              "cols" => "impressions,clicks,ctr,gross_rev,all_cogs,#{cdb_kpi_fields(@order.kpi_type)}"))
 
         # Build query params for booked_impressions,booked_rev
         # Get record set 2
@@ -68,28 +70,36 @@ class MetricsController < ApplicationController
 
   def fetch_metrics_data query_params
     response = @wrapper.load(query_params)
+    json = nil
     begin
-      record_set_1 = ActiveSupport::JSON.decode(response) #Single record with all the columns
+      json = ActiveSupport::JSON.decode(response) #Single record with all the columns
     rescue MultiJson::LoadError => e
       Rails.logger.error "Invalid response from cdb: #{e.inspect}"
       raise e
     end
-    response
+    json
   end
 
-  def process_order_metrics(record_set1, record_set_2, order)
+  def process_order_metrics(record_set_1, record_set_2, order)
     metrics = {}
 
     # Process record set 1
-    metrics["impressions"] = record_set1["impressions"]
-    metrics["clicks"] = record_set1["clicks"]
+    ["impressions", "clicks", "post_imp", "post_click", "completion_100"].each do |field|
+      next unless record_set_1[field]
+      metrics[field] = record_set_1[field]
+    end
+    ["gross_ecpm", "gross_ecpc", "gross_ecpa", "gross_rev"].each do |field|
+      next unless record_set_1[field]
+      metrics[field] = record_set_1[field].round(2)
+    end
+
     # CTR in %
-    metrics["ctr"] = (record_set1["ctr"] * 100).round(2)
-    metrics["gross_rev"] = record_set1["gross_rev"].round(2)
+    metrics["ctr"] = (record_set_1["ctr"] * 100).round(2)
+    metrics["complete_rate"] = (record_set_1["complete_rate"] * 100).round(2) if record_set_1["complete_rate"]
 
     # Calculate margin
-    net_revenue = record_set1["gross_rev"] - record_set1["all_cogs"]
-    metrics["margin"] = (record_set1["gross_rev"] != 0) ? ((net_revenue / record_set1["gross_rev"]) * 100).round(2) : 0;
+    net_revenue = record_set_1["gross_rev"] - record_set_1["all_cogs"]
+    metrics["margin"] = (record_set_1["gross_rev"] != 0) ? ((net_revenue / record_set_1["gross_rev"]) * 100).round(2) : 0;
 
     # Process record set 2
     metrics["booked_impressions"] = 0
@@ -101,6 +111,19 @@ class MetricsController < ApplicationController
     }
     metrics["booked_rev"] = metrics["booked_rev"].round(2)
 
+    if @order.kpi_tracking_enabled?
+      metrics["kpi_type"] = @order.kpi_type
+
+      metrics["kpi_value"] = @order.kpi_value
+      metrics["kpi_value_display"] = kpi_value_display(@order.kpi_type, metrics["kpi_value"])
+
+      metrics["actual_kpi_value"] = actual_kpi_value(@order.kpi_type, metrics)
+      metrics["actual_kpi_value_display"] = kpi_value_display(@order.kpi_type, metrics["actual_kpi_value"])
+
+      metrics["kpi_value_display_color"] = track_kpi_value_progress(@order.kpi_type, metrics)
+    end
+
     metrics
   end
+
 end

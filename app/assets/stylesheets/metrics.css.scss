@@ -81,6 +81,10 @@
   &.underrate {
     color: $rui-warning-color;
   }
+
+  &.right-pacing {
+    color: $ad_status_delivering_color;
+  }
 }
 
 .bar-container {

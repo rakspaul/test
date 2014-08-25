@@ -129,17 +129,8 @@ class Order < ActiveRecord::Base
     nil
   end
 
-  def kpi_value_display
-    return unless self.kpi_type && self.kpi_value
-
-    case self.kpi_type
-      when KpiTypes::ACTIONS, KpiTypes::CLICKS, KpiTypes::IMPRESSIONS
-        self.kpi_value
-      when KpiTypes::CTR, KpiTypes::VIDEO_COMPLETION
-        "#{self.kpi_value}%"
-      when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM, KpiTypes::CPCV
-        "$#{self.kpi_value}"
-    end
+  def kpi_tracking_enabled?
+    self.kpi_type.present? && self.kpi_value.present?
   end
 
   private

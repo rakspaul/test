@@ -52,14 +52,9 @@
         <div class="pull-right">
           <i class="flag-icon"></i> <%= kpi_value_display %>
         </div>
-        <span>KPI:<%= kpi_type %></span>
+        <span>KPI: <%= kpi_type %></span>
       </div>
-      <div class="bar-container">
-        <% var stop_position_2 = (booked_rev >= gross_rev) ? Math.round(gross_rev * 100 / booked_rev) : 100 %>
-        <div class="progress-bar" style="background-image: linear-gradient(to right, #a5ccf9 <%= stop_position_2 %>%, #fff <%= stop_position_2 %>%);">
-          $<%= gross_rev.toLocaleString() %>
-        </div>
-      </div>
+      <div class="current-value pull-right <%= kpi_value_display_color %>"><%= actual_kpi_value_display %></div>
     </div>
   <% } %>
   <% if(false) { /* TODO: uncomment once implemented all necessary backend and JS parts */ %>

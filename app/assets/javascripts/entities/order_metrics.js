@@ -17,7 +17,9 @@ ReachMetricsApp.module("Entities", function(Entities, ReachMetricsApp, Backbone,
       cdb_unavailable: false,
       no_cdb_data: false,
       kpi_type: undefined,
-      kpi_value_display: undefined
+      kpi_value_display: undefined,
+      actual_kpi_value_display: undefined,
+      kpi_value_display_color: undefined
     },
 
     initialize: function(options) {
