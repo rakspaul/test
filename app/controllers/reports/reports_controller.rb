@@ -13,6 +13,10 @@ class Reports::ReportsController < ApplicationController
   def new
   end
 
+  def show
+    add_crumb(" Transparent Cost Report") {|instance| instance.send :reports_reports_path}
+  end
+
   def edit
     @report = ReportSchedule.of_user_by_id(current_user, params[:id])
     if @report
@@ -22,5 +26,6 @@ class Reports::ReportsController < ApplicationController
       redirect_to reports_reports_path
     end
   end
+
 
 end
