@@ -5,11 +5,15 @@ module I18nHelper
 
   def identifier
     if domain_desk?
-      if current_user.network_user? || current_user.marketer_user?
-        CONVENTION_MARKETER
-      end
+      CONVENTION_MARKETER
+    elsif domain_reach?
+      CONVENTION_AGENCY
     else
-      if current_user.network_user? || current_user.agency_user?
+      if current_user.has_roles?([Role::REACH_UI])
+        CONVENTION_AGENCY
+      elsif current_user.has_roles?([Role::CDESK])
+        CONVENTION_MARKETER
+      else
         CONVENTION_AGENCY
       end
     end
