@@ -20,6 +20,12 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S"
+      long: "%a, %d %b %Y %H:%M:%S %z"
+      short: "%Y-%m-%d"
+      date_with_time: "%Y-%m-%d %H:%M"
   marketer:
     campaign:      "Campaign"
     campaigns:     "Campaigns"

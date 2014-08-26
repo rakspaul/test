@@ -129,7 +129,11 @@ ReachUI.showCondensedTargetingOptions = function() {
 };
 
 ReachUI.checkOrderStatus = function(order_id) {
-  var current_order_state = $('.current-io-status-top .io-status').html().trim();
+  var current_order_state_html = $('.current-io-status-top .io-status').html();
+  if(current_order_state_html == undefined) {
+    return;
+  }
+  var current_order_state = current_order_state_html.trim();
   if (current_order_state) {
     current_order_state = current_order_state[0].toUpperCase() + current_order_state.slice(1);
   }

@@ -26,17 +26,24 @@
               Status
             .controls
               %select.filter-orders.status
-                %option{:value => "all"} All
-                %option{:value => "proposed"} Proposed
-                %option{:value => "draft"} Draft
-                %option{:value => "ready_for_trafficker"} Ready for Trafficker
-                %option{:value => "ready_for_am"} Ready for AM
-                %option{:value => "pushing"} Pushing
-                %option{:value => "pushed"} Pushed
-                %option{:value => "incomplete_push"} Incomplete Push
-                %option{:value => "failure"} Failure
-                %option{:value => "delivering"} Delivering
-                %option{:value => "completed"} Completed
+                -if identifier == convention_marketer
+                  %option{:value => "all"} All
+                  %option{:value => "draft"} Draft
+                  %option{:value => "delivering"} Delivering
+                  %option{:value => "completed"} Completed
+                -else
+                  %option{:value => "all"} All
+                  %option{:value => "proposed"} Proposed
+                  %option{:value => "draft"} Draft
+                  %option{:value => "ready_for_trafficker"} Ready for Trafficker
+                  %option{:value => "ready_for_am"} Ready for AM
+                  %option{:value => "pushing"} Pushing
+                  %option{:value => "pushed"} Pushed
+                  %option{:value => "incomplete_push"} Incomplete Push
+                  %option{:value => "failure"} Failure
+                  %option{:value => "delivering"} Delivering
+                  %option{:value => "completed"} Completed
+
         - unless current_user.agency_user?
           .pure-u
             .control-group.status-control

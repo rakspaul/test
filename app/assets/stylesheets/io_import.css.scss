@@ -261,6 +261,10 @@ $wide_input_width: 320px;
     line-height: 24px;
   }
 
+  .no-background {
+    background: none;
+  }
+
   .current-io-status-top.pushed-status {
     background: url(asset-path('dfp_icon.png')) left bottom no-repeat;
   }

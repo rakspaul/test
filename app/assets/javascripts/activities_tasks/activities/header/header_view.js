@@ -143,23 +143,31 @@ ReachActivityTaskApp.module("ActivitiesTasks.Activities.Header", function (Heade
       });
 
       if(this.model.get('assigned_by_id')) {
-          Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+          if(Header.task_assignee_selector[0] != undefined) {
+            Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+          }
       } else {
           var taskType = this.ui.taskTypeSelector.val();
           var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
           var assignee_id = thisTaskType.get('default_assignee_user_id') ?
                                   thisTaskType.get('default_assignee_user_id') :
                                   thisTaskType.get('default_assignee_id');
-          Header.task_assignee_selector[0].selectize.setValue(assignee_id);
+          if(Header.task_assignee_selector[0] != undefined) {
+            Header.task_assignee_selector[0].selectize.setValue(assignee_id);
+          }
           this.model.set('assigned_by_id', assignee_id);
       }
 
       if(this.model.get('assigned_by_id')) {
-        Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+        if(Header.task_assignee_selector[0] != undefined) {
+          Header.task_assignee_selector[0].selectize.setValue(this.model.get('assigned_by_id'));
+        }
       } else {
         var taskType = this.ui.taskTypeSelector.val();
         var thisTaskType = _.findWhere(ReachActivityTaskApp.taskTypes, {id: + taskType});
-        Header.task_assignee_selector[0].selectize.setValue(thisTaskType.get('default_assignee_id'));
+        if(Header.task_assignee_selector[0] != undefined) {
+          Header.task_assignee_selector[0].selectize.setValue(thisTaskType.get('default_assignee_id'));
+        }
       }
     },
 
