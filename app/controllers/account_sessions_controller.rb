@@ -28,6 +28,13 @@ class AccountSessionsController < ApplicationController
           if (domain_reach? && (network_reach_user_login?(user) || agency_reach_user_login?(user))) \
             || (domain_desk? && (network_cdesk_user_login?(user) || agency_cdesk_user_login?(user)))
             redirect_back_or_default orders_path
+          elsif (domain_reach? && (network_cdesk_user_login?(user) || agency_cdesk_user_login?(user))) \
+            ||  (domain_desk? && (network_reach_user_login?(user) || agency_reach_user_login?(user)))
+            @account_session.destroy
+            @account_session.errors.add(:base, "Access not enabled")
+            render :action => 'new'
+          elsif (!domain_desk? && !domain_reach?)
+            redirect_back_or_default orders_path
           else
             @account_session.destroy
             @account_session.errors.add(:base, "Invalid username/password" )

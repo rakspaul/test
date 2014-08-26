@@ -51,9 +51,9 @@
     <p class="adv-name"><%= order.reach_client_name %></p>
   </div>
 
-  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id))) { %> pushed-status <% } %>">
+  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id)) && i18n_identifier == CONVENTION_AGENCY) { %> pushed-status <% } else { %> no-background <% } %>">
     <span class="io-status"><%= order.order_status %></span>
-    <% if(!isNaN(parseInt(order.source_id))) { %>
+    <% if(!isNaN(parseInt(order.source_id)) && i18n_identifier == CONVENTION_AGENCY) { %>
       <div class="current-io-source-id">
         <a href="<%= order.dfp_url %>" target="_blank"><%= order.source_id %></a>
       </div>

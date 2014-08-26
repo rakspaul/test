@@ -15,7 +15,7 @@
       <% if(ad.platform_id) { %>
         <a href="javascript:void(0)" class="tag-icon" data-toggle="tooltip" data-placement="right" title="<%= ad.platform_name %>"></a>
       <% } %>
-      <% if(!isNaN(parseInt(ad.source_id)) && !ad.platform_id) { %>
+      <% if(!isNaN(parseInt(ad.source_id)) && !ad.platform_id && i18n_identifier == CONVENTION_AGENCY) { %>
         <div class="dfp-success"></div>
       <% } %>
     </div>
