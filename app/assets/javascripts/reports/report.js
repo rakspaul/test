@@ -212,23 +212,20 @@
     },
 
     costTransparentReport: function () {
-       var self = this;
-        this.metadata = new Report.Metadata();
-        this._initializeLayout();
-        this._initializeTableView();
-        this._intializePagination();
-        this._fetchDimensions().then(function () {
-            self._intializeDimensions();
-        });
-        this._fetchColumns().then(function () {
-            self._initializeColumns();
-            self._getDefaultDimensionAndMetrics();
-        });
-        this._initializeDatePicker();
-        this._initializeReportOptions();
-        this._initializeScheduleReport();
-
-      },
+      var self = this;
+      this.metadata = new Report.Metadata();
+      this._initializeLayout();
+      this._initializeTableView();
+      this._intializePagination();
+      $.when(this._fetchDimensions(), this._fetchColumns()).done(function() {
+        self._intializeDimensions();
+        self._initializeColumns();
+        self._getDefaultDimensionAndMetrics();
+      });
+      this._initializeDatePicker();
+      this._initializeReportOptions();
+      this._initializeScheduleReport();
+     },
 
 
       editReport: function(id) {
@@ -284,48 +281,44 @@
       this._initializeScheduleReport();
     },
 
-      _getDefaultDimensionAndMetrics: function () {
+    _getDefaultDimensionAndMetrics: function () {
+      var dimensions = [], columns = [], columnsToRemove = [];
+      var preSelectedDimensions = ['Campaign','Brand'];
+      var preSelectedMetrics = ['Total Spend','Inv Cost','Data Cost','Ad Serving Cost', 'Tech Cost','Rich Media Cost', 'Ad Verification Cost', 'Research Cost'];
 
-          var dimensions = [], columns = [], columnsToRemove = [];
+      // pre-selecting dimensions
+      for(var i = 0; i< preSelectedDimensions.length; i++){
+        var item =  this.availableDimensions.findWhere({name: preSelectedDimensions[i]});
+        if(item){
+          dimensions.push(item);
+          var itemColumn =  this.availableColumns.findWhere({internal_name: item.get('default_column') });
+          if(itemColumn){
+            columns.push(itemColumn);
+            columnsToRemove.push(itemColumn);
+           }
+         }
+        }
 
+       var imps = this.availableColumns.findWhere({internal_name: 'impressions'}),
+       clicks = this.availableColumns.findWhere({internal_name: 'clicks'});
+       if (imps && clicks) {
+         columns.push(imps);
+         columns.push(clicks);
+         columnsToRemove.push(imps);
+         columnsToRemove.push(clicks);
+        }
 
-          var preSelected_dimensions = ['Campaign','Brand'];
-          var preSelected_metrics = ['Total Spend','Inv Cost','Data Cost','Ad Serving Cost', 'Tech Cost','Rich Media Cost', 'Ad Verification Cost', 'Research Cost']
-
-          // pre-selecting dimensions
-          for(var i = 0; i< preSelected_dimensions.length; i++){
-              var item =  this.availableDimensions.findWhere({name: preSelected_dimensions[i]});
-              if(item){
-                  dimensions.push(item);
-              }
-
-             var item_column =  this.availableColumns.findWhere({internal_name: item.get('default_column') });
-              if(item_column){
-                  columns.push(item_column);
-                  columnsToRemove.push(item_column);
-              }
+       //pre-selecting metrics
+       for(var i=0; i<preSelectedMetrics.length ;i++){
+         var item =  this.availableColumns.findWhere({name: preSelectedMetrics[i] });
+         if(item){
+           columns.push(item);
+           columnsToRemove.push(item);
           }
-
-          var imps = this.availableColumns.findWhere({internal_name: 'impressions'}),
-              clicks = this.availableColumns.findWhere({internal_name: 'clicks'});
-          if (imps && clicks) {
-              columns.push(imps);
-              columns.push(clicks);
-              columnsToRemove.push(imps);
-              columnsToRemove.push(clicks);
-          }
-
-          //pre-selecting metrics
-          for(var i=0; i<preSelected_metrics.length ;i++){
-              var item =  this.availableColumns.findWhere({name: preSelected_metrics[i] });
-              if(item){
-                  columns.push(item);
-                  columnsToRemove.push(item);
-              }
-          }
-          this.metadata.addDimension(dimensions, columns);
-          this.availableColumns.remove(columnsToRemove);
-          this.availableDimensions.remove(dimensions);
+         }
+       this.metadata.addDimension(dimensions, columns);
+       this.availableColumns.remove(columnsToRemove);
+       this.availableDimensions.remove(dimensions);
       },
 
     _initializeLayout: function() {
