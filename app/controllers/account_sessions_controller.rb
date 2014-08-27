@@ -61,7 +61,7 @@ class AccountSessionsController < ApplicationController
         respond_to do |format|
           format.html do
             store_location
-            redirect_to orders_path
+            redirect_to(domain_desk? ? campaigns_path : orders_path)
           end
           format.xml{}
         end

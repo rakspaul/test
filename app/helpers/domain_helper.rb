@@ -5,7 +5,7 @@ module DomainHelper
     @domain_desk =  if Thread.current[:request].host.match(/localhost/)
                       ENV['DEPLOY_ENV'] == Role::CDESK
                     else
-                      request.host.match(/desk/)
+                      Thread.current[:request].host.match(/desk/)
                     end
   end
 
@@ -14,7 +14,7 @@ module DomainHelper
     @domain_reach = if Thread.current[:request].host.match(/localhost/)
                       ENV['DEPLOY_ENV'] == Role::REACH_UI
                     else
-                      request.host.match(/reach/)
+                      Thread.current[:request].host.match(/reach/)
                     end
   end
 end

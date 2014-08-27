@@ -22,8 +22,8 @@ module ApplicationHelper
     {
 
       localised(identifier + ".campaigns") => {
-        controllers: ["OrdersController","LineitemsController"],
-        path: :orders
+        controllers: ["CampaignsController", "LineitemsController"],
+        path: :campaigns
       },
 
       localised(identifier + ".reports") => {
@@ -37,7 +37,7 @@ module ApplicationHelper
 
   APP_NAVIGATION_BAR_AGENCY = {
     "Orders" => {
-      controllers: ["OrdersController","LineitemsController"],
+      controllers: ["OrdersController", "LineitemsController"],
       path: :orders
     }
   }
