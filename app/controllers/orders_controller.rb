@@ -1,11 +1,12 @@
 class OrdersController < ApplicationController
-  include Authenticator, KeyValuesHelper
+  include Authenticator, KeyValuesHelper, I18nHelper
 
   before_filter :require_client_type_network_or_agency
   before_filter :get_network_media_types, :only => [ :create, :update ]
   before_filter :set_current_user
+  before_filter :set_crumb_text
 
-  add_crumb("Orders") {|instance| instance.send :orders_path}
+  add_crumb(:crumb_value) {|instance| instance.send :orders_path}
 
   respond_to :html, :json
 
@@ -849,5 +850,9 @@ private
 
   def is_agency_user?
     current_user.agency_user? && current_user.has_roles?([Role::REACH_UI])
+  end
+
+  def set_crumb_text
+    @crumb_value = localised(identifier + '.campaigns')
   end
 end

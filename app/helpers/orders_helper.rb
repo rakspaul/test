@@ -21,16 +21,19 @@ module OrdersHelper
   end
 
   def agency_order_table_columns
-    [
+    array = [
       {column: localised(identifier + '.status'), dmethod: :order_status},
       {column: localised(identifier + '.amp_id'), sortable: true, size: 'medium', dmethod: :order_id_and_source_id_column},
       {column: localised(identifier + '.campaign_name'), sortable: true, size: 'order-name', dmethod: :order_name_column},
-      {column: localised(identifier + '.client'), dmethod: :reach_client_name},
       {column: localised(identifier + '.advertiser'), dmethod: :client_advertiser_name},
       {column: localised(identifier + '.am'), dmethod: :account_manager_column},
       {column: localised(identifier + '.start_date'), sortable: true, size: 'small', dmethod: :start_date},
       {column: localised(identifier + '.end_date'), sortable: true, size: 'small', dmethod: :end_date},
     ]
+    if identifier == CONVENTION_AGENCY
+      array.insert(3, {column: localised(identifier + '.client'), dmethod: :reach_client_name})
+    end
+    array
   end
 
   def table_columns

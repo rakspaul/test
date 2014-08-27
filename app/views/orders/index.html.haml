@@ -1,7 +1,9 @@
+-if domain_desk? && current_user.agency_user?
+  #advertiser_name.advertiser_name_top
+    #{current_user.agency.name}
 #order_layout.pure-g
   #details.pure-u
     .content
-
 .orders-content
   .orders-header
     .pure-g.header-filter
@@ -120,6 +122,7 @@
       pushState: false,
       root: "/orders"
     });
+
   });
 
   $('.actions-container i').click(function(event) {
