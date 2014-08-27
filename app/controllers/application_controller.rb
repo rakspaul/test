@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include DomainHelper
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -7,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_error
 
-  include DomainHelper
+  before_filter :store_request_in_thread
 
   protected
     def record_not_found_error
@@ -48,5 +50,9 @@ class ApplicationController < ActionController::Base
       render :json => {:status => 'error', :errors => error}, :status => status, :content_type => 'application/json'
     end
     false
+  end
+
+  def store_request_in_thread
+    Thread.current[:request] = request
   end
 end

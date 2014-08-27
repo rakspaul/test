@@ -84,7 +84,7 @@ Reachui::Application.routes.draw do
 
   post 'tasks/:id' => 'tasks#update'
 
-  resources :orders do
+  resources :orders, :campaigns do
 
     get 'metrics' => 'metrics#order_metrics'
 

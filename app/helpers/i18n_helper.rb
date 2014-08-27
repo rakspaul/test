@@ -1,5 +1,7 @@
 module I18nHelper
 
+  include DomainHelper
+
   CONVENTION_MARKETER = "marketer"
   CONVENTION_AGENCY = "agency"
 
@@ -25,6 +27,14 @@ module I18nHelper
 
   def convention_marketer
     CONVENTION_MARKETER
+  end
+
+  def convention_agency?
+    identifier == CONVENTION_AGENCY
+  end
+
+  def convention_marketer?
+    identifier == CONVENTION_MARKETER
   end
 
   def localised(text)

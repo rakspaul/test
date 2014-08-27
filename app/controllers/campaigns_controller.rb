@@ -1,0 +1,3 @@
+class CampaignsController < OrdersController
+
+end
