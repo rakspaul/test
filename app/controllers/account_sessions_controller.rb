@@ -21,7 +21,7 @@ class AccountSessionsController < ApplicationController
   def create
     @account_session = AccountSession.new(:login => params[:login],:password => params[:password])
     flash.now[:notice] = "Login successful." if @account_session.save
-    user = @account_session.account.user
+    user = @account_session.account.try(:user)
     respond_with(@account_session) do |format|
       format.html do
         if @account_session.errors.empty?
@@ -33,7 +33,8 @@ class AccountSessionsController < ApplicationController
             @account_session.destroy
             @account_session.errors.add(:base, "Access not enabled")
             render :action => 'new'
-          elsif (!domain_desk? && !domain_reach?)
+          elsif !domain_desk? && !domain_reach? && (network_reach_user_login?(user) || agency_reach_user_login?(user) \
+            || network_cdesk_user_login?(user) || agency_cdesk_user_login?(user))
             redirect_back_or_default orders_path
           else
             @account_session.destroy

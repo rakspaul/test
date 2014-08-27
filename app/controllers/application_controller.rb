@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found_error
 
+  include DomainHelper
+
   protected
     def record_not_found_error
       respond_to do |format|
@@ -24,6 +26,12 @@ class ApplicationController < ActionController::Base
 
     def require_client_type_network
       if (current_user && !current_user.network_user?)
+        redirect_to root_path
+      end
+    end
+
+    def require_client_type_network_on_reach
+      if (domain_reach? && current_user && !current_user.network_user?)
         redirect_to root_path
       end
     end

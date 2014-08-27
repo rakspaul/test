@@ -2,7 +2,7 @@ class Reports::ReportsController < ApplicationController
   include Authenticator
   respond_to :html, :json
 
-  before_filter :require_client_type_network
+  before_filter :require_client_type_network_on_reach
 
   add_crumb("Reports") {|instance| instance.send :reports_reports_path}
   add_crumb("New Report", only: "new") {|instance| instance.send :reports_reports_path}
@@ -11,6 +11,10 @@ class Reports::ReportsController < ApplicationController
   end
 
   def new
+  end
+
+  def show
+    add_crumb(" Transparent Cost Report") {|instance| instance.send :reports_reports_path}
   end
 
   def edit
@@ -22,5 +26,6 @@ class Reports::ReportsController < ApplicationController
       redirect_to reports_reports_path
     end
   end
+
 
 end

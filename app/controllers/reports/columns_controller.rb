@@ -1,8 +1,14 @@
 class Reports::ColumnsController < ApplicationController
-  include Authenticator
+  include Authenticator,I18nHelper, DomainHelper
   respond_to :json
 
   def index
-    respond_with(ReportColumns.all)
+    @columns = ReportColumns.all
+
+    @columns.each do |column|
+      column.name = localised("#{identifier}.report.#{column.internal_name}")
+    end
+
+    respond_with(@columns)
   end
 end
