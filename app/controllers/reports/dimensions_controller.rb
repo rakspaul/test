@@ -5,18 +5,13 @@ class Reports::DimensionsController < ApplicationController
   def index
     @dimensions = ReportDimensions.all
 
-    # Don't show Data Provider to a marketer
+   # Don't show Data Provider to a marketer
     if identifier == convention_marketer
-      for item in @dimensions
-        if item.name == 'Data Provider'
-          @dimensions.delete(item)
-        end
-      end
+      @dimensions.reject! {|dimension| dimension.name == 'Data Provider'}
     end
 
     # relabel order and advertiser for marketer
-
-    for dimension in @dimensions
+    @dimensions.each do |dimension|
       if dimension.name == 'Advertiser'
         dimension.name =  localised(identifier + '.advertiser')
 
