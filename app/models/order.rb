@@ -133,6 +133,15 @@ class Order < ActiveRecord::Base
     self.kpi_type.present? && self.kpi_value.present?
   end
 
+  def kpi_value
+    if self.kpi_type == KpiTypes::ACTIONS || self.kpi_type == KpiTypes::CLICKS || self.kpi_type == KpiTypes::IMPRESSIONS
+      super.to_i
+    else
+      super
+    end
+  end
+
+
   private
     def validate_advertiser_id
       errors.add :network_advertiser_id, "is invalid" unless Advertiser.exists?(self.network_advertiser_id)

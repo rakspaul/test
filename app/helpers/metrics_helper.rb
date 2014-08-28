@@ -48,7 +48,7 @@ module MetricsHelper
   def kpi_value_display(kpi_type, kpi_value)
     case kpi_type
       when Order::KpiTypes::IMPRESSIONS, Order::KpiTypes::CLICKS, Order::KpiTypes::ACTIONS
-        kpi_value
+        kpi_value.to_i
       when Order::KpiTypes::CPM, Order::KpiTypes::CPC, Order::KpiTypes::CPA, Order::KpiTypes::CPCV
         "$#{kpi_value}"
       when Order::KpiTypes::CTR, Order::KpiTypes::VIDEO_COMPLETION
