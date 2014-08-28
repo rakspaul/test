@@ -7,11 +7,9 @@ class Order < ActiveRecord::Base
     CLICKS = 'Clicks'
     IMPRESSIONS = 'Impressions'
     CTR = 'CTR'
-    VIDEO_COMPLETION = 'Video Completion'
     CPA = 'CPA'
     CPC = 'CPC'
     CPM = 'CPM'
-    CPCV = 'CPCV'
   end
 
   cattr_accessor :current_user
@@ -218,8 +216,6 @@ class Order < ActiveRecord::Base
       # Actions, Clicks, Impressions, CTR, Video Completion, CPA, CPCV, CPC, CPM
       # The values for these types are Integer for (Actions, Clicks & Impressions),
       #     % for (CTR and Video Completion) and $ with 2 digit decimal support for (CPA, CPCV, CPC, CPM)
-      # puts "kpi_type #{kpi_type}"
-      # puts "kpi_value #{kpi_value}"
       return if self.kpi_type.blank? && self.kpi_value.blank?
       self.errors.add(:kpi_value, "can't be empty") if self.kpi_type.present? && self.kpi_value.blank?
       self.errors.add(:kpi_type, "can't be empty") if self.kpi_value.present? && self.kpi_type.blank?
@@ -231,9 +227,9 @@ class Order < ActiveRecord::Base
         case self.kpi_type
           when KpiTypes::ACTIONS, KpiTypes::CLICKS, KpiTypes::IMPRESSIONS
             validates_numericality_of(:kpi_value, :only_integer => true)
-          when KpiTypes::CTR, KpiTypes::VIDEO_COMPLETION
+          when KpiTypes::CTR
             validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100)
-          when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM, KpiTypes::CPCV
+          when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM
             validates_numericality_of(:kpi_value, :greater_than => 0)
         end
       end

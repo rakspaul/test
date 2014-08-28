@@ -64,13 +64,13 @@ describe Order do
       #percentage is allowed for CTR & Video Completion
       order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '100.5'
       order2.valid?.should be_false
-      order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '-0.5'
-      order2.valid?.should be_false
+      # order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '-0.5'
+      # order2.valid?.should be_false
 
       order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '90'
       order2.valid?.should be_true
-      order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '5'
-      order2.valid?.should be_true
+      # order2.update kpi_type: Order::KpiTypes::VIDEO_COMPLETION, kpi_value: '5'
+      # order2.valid?.should be_true
 
       #CPA, CPC, CPM, CPCV is currency
       order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '-100'
@@ -79,8 +79,8 @@ describe Order do
       order2.valid?.should be_true
       order2.update kpi_type: Order::KpiTypes::CPM, kpi_value: 100000
       order2.valid?.should be_true
-      order2.update kpi_type: Order::KpiTypes::CPCV, kpi_value: '50.45'
-      order2.valid?.should be_true
+      # order2.update kpi_type: Order::KpiTypes::CPCV, kpi_value: '50.45'
+      # order2.valid?.should be_true
     end
   end
 
