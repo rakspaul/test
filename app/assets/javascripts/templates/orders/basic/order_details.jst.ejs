@@ -3,7 +3,7 @@
     <p class="heading"><%= order.name %></p>
   </div>
 
-  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id))) { %> pushed-status <% } %>">
+  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id)) && is_agency()) { %> pushed-status <% } %>">
     <span class="io-status"><%= order.order_status %></span>
   </div>
 
@@ -28,24 +28,26 @@
   <div class="general-info-container pure-g">
     <div class="columns">
       <div class="pure-u-1-3">
-        <div class="field network">
-          <p>Network</p>
-          <span>AMP Network CORE</span>
-        </div>
-        <div class="field advertiser-name">
-          <p>Advertiser Name</p>
-          <span><%= order.advertiser_name %></span>
-        </div>
+        <% if(is_agency()) { %>
+          <div class="field network">
+            <p>Network</p>
+            <span>AMP Network CORE</span>
+          </div>
+          <div class="field advertiser-name">
+            <p>Advertiser Name</p>
+            <span><%= order.advertiser_name %></span>
+          </div>
+        <% } %>
         <div class="field client-advertiser-name">
-          <p>Client's Advertiser Name</p>
+          <p><%= localise(i18n_identifier + '.adv_name') %></p>
           <span><%= order.client_advertiser_name %></span>
         </div>
         <div class="field order-name">
-          <p>Order Name</p>
+          <p><%= localise(i18n_identifier + '.campaign_name') %></p>
           <span><%= order.name %></span>
         </div>
         <div class="field client-order-id">
-          <p>Client Order ID</p>
+          <p><%= localise(i18n_identifier + '.client_camp_id') %></p>
           <div class="client-order-id">
             <span><%= order.client_order_id %></span>
           </div>
@@ -62,7 +64,7 @@
           <span class="date"><%= order.end_date %></span>
         </div>
         <div class="field total-media-cost">
-          <p>Total Media Cost</p>
+          <p><%= localise(i18n_identifier + '.total_spend') %></p>
           <span>0</span>
         </div>
       </div>
@@ -88,7 +90,7 @@
 
         <div class="field media-contact-name">
           <p>
-            <span style="float:right">Media Contact</span>
+            <span style="float:right"><%= localise(i18n_identifier + '.media_contact') %></span>
             <span class="media-contact-icon pull-right" title="Media Contact"></span>
           </p>
           <span><%= order.media_contact_name %></span>
