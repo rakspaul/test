@@ -2,7 +2,7 @@ login: &common
   adapter: postgresql
   encoding: utf8
   username: postgres
-  password:
+  password: 
   host: localhost
   port: 5432
   database: amp
@@ -17,6 +17,12 @@ qa:
   username: amts
   host: qa-ampapp1.collective-media.net
 
+newqa:
+  <<: *common
+  username: amp
+  password: amp0986N
+  host: 10.128.170.229
+
 stg:
   <<: *common
   username: amts
@@ -29,4 +35,4 @@ production:
 
 test:
   <<: *common
-  database: amp_test
+  database: amts_test
