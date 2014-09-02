@@ -67,6 +67,24 @@
           <p><%= localise(i18n_identifier + '.total_spend') %></p>
           <span>0</span>
         </div>
+        <% if(is_marketer()) { %>
+          <div class="field kpi-type">
+            <p>KPI Type</p>
+            <select name="kpi_type">
+              <option value=""></option>
+              <% _.each(order.kpi_types, function(kpi) { %>
+              <option value="<%= kpi %>" <%= order.kpi_type == kpi ? 'selected="selected"' : '' %>><%= kpi %></option>
+            <% }); %>
+            </select>
+            <div class="errors_container"></div>
+          </div>
+          <div class="field kpi-value">
+            <p>KPI Value</p>
+            <span class="editable" data-type="text" data-pk="1" data-mode="inline" data-name="kpi_value"><%= order.kpi_value %></span>
+            <div class="errors_container"></div>
+          </div>
+        <% } %>
+
       </div>
 
       <div class="pure-u-1-3">

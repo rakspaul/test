@@ -114,7 +114,6 @@ class IoImport
       if @is_existing_order
         @order = @existing_order
       else
-        p @reader.order
         @order = Order.new(@reader.order)
         @order.user = @current_user
         @order.network = @current_user.network
