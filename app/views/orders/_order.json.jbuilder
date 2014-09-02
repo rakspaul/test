@@ -11,8 +11,10 @@ json.advertiser_unknown       order.advertiser.blank? || order.advertiser.try(:a
 json.start_date               format_date order.start_date
 json.end_date                 format_date order.end_date
 
-json.kpi_type                 order.kpi_type
-json.kpi_value                order.kpi_value
+if convention_marketer?
+  json.kpi_type                 order.kpi_type
+  json.kpi_value                order.kpi_value
+end
 
 json.order_status             io_detail.try(:state_desc)
 json.state                    io_detail.try(:state).to_s

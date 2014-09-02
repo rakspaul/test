@@ -2,10 +2,12 @@ module MetricsHelper
   # gross_ecpc, gross_ecpa  (which are gross_rev / clicks and gross_rev / (total_post_click + total_post_imp) respectively..)
   def actual_kpi_value kpi_type, metrics
     case kpi_type
-      when Order::KpiTypes::IMPRESSIONS, Order::KpiTypes::CLICKS, Order::KpiTypes::CTR
+      when Order::KpiTypes::IMPRESSIONS, Order::KpiTypes::CLICKS
         metrics[kpi_type.downcase].to_i
       when Order::KpiTypes::ACTIONS
         metrics["post_click"] + metrics["post_imp"]
+      when Order::KpiTypes::CTR
+        metrics[kpi_type.downcase]
       when Order::KpiTypes::CPM, Order::KpiTypes::CPC, Order::KpiTypes::CPA
         # metrics["gross_rev"] / metrics["impressions"]
         # metrics["gross_rev"] / metrics["clicks"]

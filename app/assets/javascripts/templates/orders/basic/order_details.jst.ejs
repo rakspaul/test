@@ -3,7 +3,7 @@
     <p class="heading"><%= order.name %></p>
   </div>
 
-  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id)) && is_agency()) { %> pushed-status <% } %>">
+  <div class="current-io-status-top<% if(!isNaN(parseInt(order.source_id)) && is_agency()) { %> pushed-status <% } else { %> no-background <% } %>">
     <span class="io-status"><%= order.order_status %></span>
   </div>
 
@@ -67,6 +67,17 @@
           <p><%= localise(i18n_identifier + '.total_spend') %></p>
           <span>0</span>
         </div>
+        <% if(is_marketer() && order.kpi_type && order.kpi_value) { %>
+          <div class="field kpi-type">
+            <p>KPI Type</p>
+            <span><%= order.kpi_type %></span>
+          </div>
+          <div class="field kpi-value">
+            <p>KPI Value</p>
+            <span><%= order.kpi_value %></span>
+          </div>
+        <% } %>
+
       </div>
 
       <div class="pure-u-1-3">
