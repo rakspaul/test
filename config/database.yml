@@ -23,6 +23,12 @@ newqa:
   password: amp0986N
   host: 10.128.170.229
 
+newstg:
+  <<: *common
+  username: amp
+  password: amp0986N
+  host: 10.128.171.234
+
 stg:
   <<: *common
   username: amts
@@ -35,4 +41,6 @@ production:
 
 test:
   <<: *common
+  username: amp
+  password: amp0986N
   database: amts_test
