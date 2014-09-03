@@ -55,7 +55,7 @@ Reachui::Application.configure do
   config.search_contexts_in_network = '6'
 
   config.action_mailer.default_url_options = {
-    host: "http://104.131.251.79"
+    host: "http://qa-desk.collective.com"
   }
 
   config.action_mailer.raise_delivery_errors = true
