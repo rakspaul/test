@@ -21,5 +21,8 @@ test:
 qa:
   domain: 'qa-reach.collective.com'
 
+newqa: 
+  domain: 'qa-desk.collective.com'
+
 production:
   domain: 'reach.collective.com'
