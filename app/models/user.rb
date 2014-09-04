@@ -47,6 +47,10 @@ class User < ActiveRecord::Base
     roles.where(roles: {name: role_names.split(",")}).size == role_names.size
   end
 
+  def has_role?(role_name)
+    roles.where(roles: {name: role_name}).first
+  end
+
   def is_client_type(type)
     client_type == type
   end
