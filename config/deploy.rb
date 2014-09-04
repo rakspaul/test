@@ -57,6 +57,7 @@ set(:app_env)     { rails_env }
 
 require 'capistrano-unicorn'
 
+#before 'deploy:update_code', 'display_branch'
 before 'deploy:update_code', 'run_tests'
 
 after 'deploy:restart', 'unicorn:reload' # app IS NOT preloaded
