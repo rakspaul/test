@@ -71,7 +71,7 @@ class Order < ActiveRecord::Base
   end
 
   def self.by_agency(agency)
-    where("io_details.reach_client_id IN (?)", agency.try(:reach_clients).pluck(:id))
+    where("io_details.reach_client_id IN (?)", agency.try(:reach_clients, []).pluck(:id))
   end
 
   def total_impressions

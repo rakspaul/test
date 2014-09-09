@@ -9,6 +9,7 @@ require 'capybara/poltergeist'
 require 'simplecov'
 
 require File.dirname(__FILE__) + "/controller_macros"
+Dir[Rails.root.join("spec/support/*.rb")].each {|f| require f}
 
 include Authlogic::TestCase
 
@@ -45,6 +46,7 @@ RSpec.configure do |config|
   config.order = "random"
 
   config.include(ControllerMacros, :type => :controller)
+  config.include(Timecop)
 
   config.render_views = true
 end
