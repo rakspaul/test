@@ -1,5 +1,4 @@
-class Desk::AdvertisersController < ApplicationController
-  include Authenticator
+class Desk::AdvertisersController < Desk::DeskController
 
   before_filter :require_agency, :only => [:index, :search]
 

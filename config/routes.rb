@@ -230,10 +230,6 @@ Reachui::Application.routes.draw do
   namespace :desk do
     resources :campaigns, controller: 'orders' do
 
-    end
-  end
-
-  namespace :desk do
     resources :agency do
       resources :advertisers, :only => [:index] do
         collection do
