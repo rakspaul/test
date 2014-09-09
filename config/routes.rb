@@ -228,9 +228,19 @@ Reachui::Application.routes.draw do
   end
 
   namespace :desk do
-    resources :campaigns, controller: 'orders' do
+    resources :campaigns, controller: 'orders'
 
+    resources :agency do
+      resources :advertisers, :only => [:index] do
+        collection do
+          get 'search'
+        end
+      end
     end
+
+    get 'advertisers' => 'advertisers#list_network_advertisers'
+    get 'advertisers/search' => 'advertisers#search_network_advertisers'
+
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

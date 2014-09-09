@@ -22,6 +22,7 @@ FactoryGirl.define do
     end_date   22.day.from_now
     network { FactoryGirl.singleton :network }
     advertiser { FactoryGirl.singleton :advertiser }
+    agency {FactoryGirl.singleton :agency}
     user
     after(:create) do |ord|
       create_list(:io_detail, 1, order: ord)
@@ -246,7 +247,7 @@ FactoryGirl.define do
   factory :agency do
     name "Agency"
     source_id "R_#{SecureRandom.uuid}"
-    network { FactoryGirl.singleton :network }
+    network { Network.first || FactoryGirl.singleton(:network) }
   end
 
   factory :role do
