@@ -20,6 +20,7 @@ class Order < ActiveRecord::Base
   belongs_to :data_source
   belongs_to :network
   belongs_to :user
+  belongs_to :agency
   belongs_to :sales_person, foreign_key: :sales_person_id, class_name: 'SalesPeople'
 
   has_one :nielsen_campaign, dependent: :destroy
