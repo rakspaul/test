@@ -12,7 +12,7 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
     = yield(:head)
-  %body
+  %body{ 'ng-app' => "reachAdminApp" }
     .app_header#app_header
       .navbar
         .navbar-inner
