@@ -1,6 +1,6 @@
 class Desk::OrdersController < Desk::DeskController
 
-  respond_to :html, :json
+  respond_to :html, :json, :js
 
   before_filter :add_default_filter, :only => [:index]
 
@@ -24,12 +24,17 @@ class Desk::OrdersController < Desk::DeskController
                     .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
                     .order("#{param_sort_column} #{param_sort_direction}")
                     .page(params[:page]).per(5)
+
+    respond_to do | format |
+      format.json
+      format.js
+    end
   end
 
   private
 
   def param_sort_column
-    sort_field = params[:sort_column] || "id"
+    sort_field = params[:sort_column] || "start_date"
     sort_column = case sort_field
                     when "id"
                       "orders.id"
@@ -37,6 +42,10 @@ class Desk::OrdersController < Desk::DeskController
                       "orders.name"
                     when "advertiser"
                       "io_details.client_advertiser_name"
+                    when "status"
+                      "io_details.state"
+                    else
+                      sort_field
                   end
   end
 
