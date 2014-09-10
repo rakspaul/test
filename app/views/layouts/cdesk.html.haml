@@ -1,0 +1,20 @@
+!!!
+%html
+  %head
+    %meta{:charset => "utf-8"}
+    %title= content_for?(:title) ? yield(:title) : "Reach UI"
+    %meta{:content => "Collective Reach UI", :name => "description"}
+    %meta{:content => "Collective", :name => "author"}
+    %link{:rel => "shortcut icon", :href => "http://collective.com/wp-content/themes/okcm/images/favicon.ico", :type => "image/x-icon"}
+
+    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "//fonts.googleapis.com/css?family=Armata"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+    %link{:href => "/assets/views/campaignlist.html"}
+    = yield(:head)
+
+  %body{ 'ng-app' => "reachAdminApp" }
+
+  #ngViewPlaceHolder{'ng-view' => ''}
+    = content_for?(:content) ? yield(:content) : yield

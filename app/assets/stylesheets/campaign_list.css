@@ -1,0 +1,540 @@
+/* font- face declarations */
+@font-face {
+  font-family: 'trade-gothic-bold';
+  src: url('trade-gothic-bold.eot');
+  src: url('trade-gothic-bold.eot?#iefix') format('embedded-opentype'), url('trade-gothic-bold.woff') format('woff'), url('trade-gothic-bold.ttf') format('truetype'), url('trade-gothic-bold.svg#trade-gothic-bold') format('svg');
+}
+@font-face {
+  font-family: 'Trade-Gothic-LT-Bold-Condensed-N-2';
+  src: url('Trade-Gothic-LT-Bold-Condensed-No--20.eot');
+  src: url('Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix') format('embedded-opentype'), url('Trade-Gothic-LT-Bold-Condensed-No--20.woff') format('woff'), url('Trade-Gothic-LT-Bold-Condensed-No--20.ttf') format('truetype'), url('fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20') format('svg');
+}
+@font-face {
+  font-family: 'trade-gothic-no-2-bold';
+  src: url('Roboto-Bold.eot');
+  src: url('Roboto-Bold.eot?#iefix') format('embedded-opentype'), url('Roboto-Bold.woff') format('woff'), url('Roboto-Bold.ttf') format('truetype'), url('Roboto-Bold.svg#RobotoBold') format('svg');
+}
+@font-face {  
+  font-family: 'TradeGothicLTStd';
+  src: url('TradeGothicLTStd.eot');
+  src: url('TradeGothicLTStd.eot?#iefix') format('embedded-opentype'), url('TradeGothicLTStd.woff') format('woff'), url('TradeGothicLTStd.ttf') format('truetype'), url('TradeGothicLTStd.svg#TradeGothicLTStd') format('svg');
+}
+/* base variables */
+/* mixins */
+/* generic style */
+body {
+  height: auto;
+  background: #f8f8f8;
+  font-family: "trade-gothic-bold";
+  background-repeat: repeat;
+}
+.container {
+  width: 1115px;
+  margin: 0 auto;
+}
+.bold {
+  font-weight: bold;
+}
+.blue {
+  color: #6FD0F4;
+  font-size: 12pt;
+  font-family: Trade-Gothic-LT-Bold-Condensed-N-2;
+}
+.green {
+  color: #A9D479;
+  font-size: 12pt;
+  font-family: Trade-Gothic-LT-Bold-Condensed-N-2;
+}
+.seperator {
+  font-size: 12pt;
+}
+.kpi-text-container {
+  color: #bebebe;
+  font-size: 11pt;
+  text-align: left;
+  font-family: "trade-gothic-bold";
+}
+.kpi-num {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+.cpa-color {
+  color: #999;
+}
+button,
+i,
+input[type="submit"],
+a:hover,
+a:focus,
+.btn:focus,
+input:focus,
+textarea:focus,
+select:focus,
+input:focus:invalid:focus,
+textarea:focus:invalid:focus,
+select:focus:invalid:focus {
+  outline: none;
+}
+.lowerCase {
+  text-transform: lowercase;
+}
+.top-margin {
+  margin-top: -10px;
+}
+.marg-10 {
+  margin-top: 5px;
+  display: inline-block;
+}
+.loading-spiner-holder {
+  background: url("ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  height: 100%;
+  text-align: center;
+  width: 100%;
+  font-size: xx-large;
+  z-index: 98999;
+}
+#ajaxloader {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 99999999;
+  border: 8px solid #fff;
+  border-right-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 25px 2px #eee;
+  -webkit-animation: spin 1s linear infinite;
+  -o-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+}
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 1.0;
+  }
+  to {
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+/* header style */
+.navbar {
+  height: 80px;
+  border-radius: 0;
+  margin-bottom: 16px;
+  background: #0062a5;
+  background: linear-gradient(#007AC9, #1C89CF);
+  background: -moz-linear-gradient(#007AC9, #1C89CF);
+  background: -webkit-gradient(linear, center top, center bottom, from(#007AC9), to(#1C89CF));
+}
+.navbar #logo {
+  width: 150px;
+  margin-top: 16px;
+  margin-left: 32px;
+  display: block;
+  text-indent: -9999px;
+  background: url("collective-media-logo.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+.navbar .navbar-collapse.collapse .nav.navbar-nav {
+  margin-top: 8px;
+  margin-left: 45px;
+}
+.navbar .navbar-collapse.collapse .nav.navbar-nav li a {
+  color: #A6C7E6;
+  font-size: 14pt;
+  padding: 20px 30px;
+ }
+.navbar .navbar-collapse.collapse .nav.navbar-nav li a.active {
+  color: #fff;
+ }
+.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
+  margin-top: 25px;
+}
+.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
+  padding: 5px 35px 5px 15px;
+  font-size: 11pt;
+  border-right: 1px solid #81BEE5;
+}
+.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .hello { 
+  font-family: "TradeGothicLTStd";
+}
+.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .user-name {
+  color: #fff;
+} 
+.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
+  border-right: none;
+  padding-right: 10px;
+}
+.navbar .navbar-collapse .navbar-nav .buttonRegularText:hover,
+.navbar .navbar-collapse .navbar-nav .buttonRegularText:focus,
+.navbar .navbar-collapse .navbar-nav .buttonRegularText:active {
+  outline: none;
+  background: transparent;
+  color: #64b5e2;
+  font-size: 13pt;
+}
+
+/* detailed page style */
+#detailedPage.container .row-fluid .col-md-12 h1 {
+  color: #177AC6;
+  font-size: 20pt;
+  margin-bottom: 15px;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar {
+  height: 40px;
+  overflow: hidden;
+  padding: 5px 20px;
+  border-radius: 5px;
+  background: #F9B537;
+  margin-bottom: 15px;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul {
+  width: 100%;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li {
+  border-right: 1px solid #E0A331;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul .dwopdown-two {
+  padding-left: 20px;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a, 
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a:hover,
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a:focus {
+  color: #C68F2A;
+  font-size: 11pt;
+  padding: 5px 15px;
+  background: transparent;font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a .caret {
+  color: #ae7e26;
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active,  
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:hover,
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:focus {
+  color: #fff;
+  text-shadow: 0px -1px 1px #999;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active .caret {
+  color: #fff;
+  box-shadow: 0px -1px 0px #999;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head {
+  margin-bottom: 20px;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul {
+  padding: 0 20px 0 30px;
+  overflow: hidden; 
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li {
+  padding-left: 15px;
+  list-style: none;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:first-child {
+  padding-left: 0;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li span {
+  color: #999;
+  width: 96%;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 15px;
+  padding-bottom: 5px;
+  display: inline-block;
+  font-family: "TradeGothicLTStd";
+  border-bottom: 1px solid #bebebe;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li span.active {
+  color: #177AC6;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul {
+  padding: 0;
+  width: 95%;
+  border-bottom: 1px solid #bebebe;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li {
+  display: inline-block;
+  border-bottom: none;
+  padding-left: 5px;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li:first-child {
+  padding-left: 0;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) > ul li span {
+  border-bottom: none;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign {
+  height: 220px;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 5px;
+  padding: 17px 30px 15px;
+  box-shadow: 0 1px 1px #aaa;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-1 {
+  padding: 0;
+  text-align: center;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign div {
+  color: #999;
+  font-size: 10pt;
+  font-family: "TradeGothicLTStd";
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons {
+  margin-top: 60px;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons .icons-bckground {
+  border-radius: 20px; 
+  background: linear-gradient(#F9B537, #EBAB34);
+  background: -moz-linear-gradient(#F9B537, #EBAB34);    
+  background: -webkit-gradient(linear, center top, center bottom, from(#F9B537), to(#EBAB34));
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons > div:nth-child(2) {
+  margin-top: 20px;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .campaign-name {
+  color: #F9B537;
+  display: block;
+  font-size: 16pt;
+  font-weight: bold;
+  margin-bottom: 13px;
+  font-family: "trade-gothic-bold";
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand {
+  font-size:  10pt;
+  margin-bottom: 22px;
+  font-family: "TradeGothicLTStd";
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand .brand-type {
+  color: #bebebe;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration {
+  margin-bottom: 25px;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .date {
+  color: #999;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies {
+  width: 100px;
+  padding: 5px;
+  text-align: center;
+  border-radius: 15px;
+  background: #E9E6E0;
+  border-top: 1px solid #ccc;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies a:hover {
+  text-decoration: none;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies .strat-text {
+  color: #bebebe;
+  font-weight: bold;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-5 {
+  padding: 0;
+  font-size: 9pt;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-7 {
+  padding: 0;
+  text-align: right;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-7 .suffix {
+  font-size: 9pt;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-text-container {
+  color: #bebebe;
+  font-size: 11pt;
+  text-align: left;
+  font-family: "trade-gothic-bold";
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values, 
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span {
+  color: #999;
+  font-size: 12pt;
+  text-align: right;
+}
+#detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion {
+  margin-top: -2px;
+  background: url("accordion-line.png") no-repeat scroll 0 2px rgba(0, 0, 0, 0);
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion.first {
+  margin-top: 0;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in {
+  color: #999;
+  width: 990px;
+  height: 280px;
+  font-size: 10pt;
+  margin-top: 20px;
+  border-radius: 5px;
+  background: #E9E6E0;
+  font-family: "TradeGothicLTStd";
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid, 
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 {
+  padding-right: 0;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-1 {
+  padding: 0;
+  text-align: center;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .campaign-name {
+  color: #F9B537;
+  font-size: 13pt;
+  font-family: "trade-gothic-bold";
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion:last-child {
+  background: url("accordion-line-end.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details,
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div {
+  margin-top: 20px;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div img {
+  margin-right: 10px;
+  vertical-align: top;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 {
+  width: 540px;
+  padding: 15px;
+  height: 220px;
+  margin-top: 24px;
+  background: #fff;
+  border-radius: 5px;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6,
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-5,
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-7 {
+  padding: 0;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-5 {
+  font-size: 9pt;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-7 {
+  text-align: right;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-5 .kpi-num {
+  font-size: 12pt;
+}
+/* media queries */
+@media (max-width: 1280px) {
+  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 {
+    width: 53.333%;
+  }
+  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-5 {
+    width: 46.6667%;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .detailed-highcharts {
+    margin: 20px 7px;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
+    width: 95.5%;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid.global-filters .col-sm-12.col-md-8 .nav.nav-tabs li:last-child {
+    display: none;
+  }
+}
+@media (max-width: 1024px) {
+  .navbar > .container .navbar-brand,
+  .navbar > .container-fluid .navbar-brand {
+    font-size: 14pt;
+  }
+  .navbar .navbar-collapse .navbar-nav .buttonRegularText {
+    font-size: 11pt;
+  }
+  .wrapper .row-fluid .campaignBar .campaignBarHeader > .col-sm-7.col-md-6 .campaignTitles {
+    font-size: 14pt;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
+    width: 94.3%;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .inner-accordion .left-labels .detailedtopLevelLabels {
+    font-size: 10pt;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .inner-accordion .left-labels .detailedtopLevelValues {
+    font-size: 18pt;
+    margin-top: 0;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .detailed-highcharts {
+    margin: 20px 6px;
+  }
+  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 .col-sm-10.col-md-10 .col-sm-3.col-md-3 .largeValues {
+    font-size: 28pt;
+  }
+  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 .col-sm-10.col-md-10 .col-sm-3.col-md-3 .secondaryMetric1 {
+    font-size: 11px;
+  }
+}
+@media (max-width: 980px) {
+  /*.navbar .container-fluid .navbar-brand.col-sm-3.col-md-4.applicationName {
+        width: 33.3333%;
+    }*/
+  .navbar .navbar-collapse .navbar-nav .buttonRegularText {
+    font-size: 11pt;
+  }
+  .navbar > .container .navbar-brand,
+  .navbar > .container-fluid .navbar-brand {
+    font-size: 14pt;
+    margin-left: 20px;
+  }
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6,
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
+    text-align: center;
+  }
+  /*.wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6 > .pull-right,
+    .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 > .pull-right {
+        float: none !important;
+    }*/
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6 {
+    width: 40.667%;
+  }
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
+    width: 59.333%;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 {
+    width: 100%;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 .high-chart .highcharts-container {
+    margin: 30px auto 0;
+    text-align: center;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 .high-chart .xAxisLabels {
+    color: #879396;
+    font-size: 12pt;
+    text-align: center;
+    font-family: "Roboto";
+    text-transform: capitalize;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 {
+    padding: 10px 15px;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignTitles,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignTitles,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignDates,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignDates {
+    font-size: 11pt;
+  }
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignTopLevelDetails,
+  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignTopLevelDetails {
+    padding: 2px 0;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
+    width: 94%;
+  }
+}
+@media (max-width: 800px) {
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6,
+  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
+    width: 100%;
+  }
+  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
+    width: 93%;
+  }
+}

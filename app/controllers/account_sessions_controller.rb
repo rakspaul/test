@@ -28,7 +28,7 @@ class AccountSessionsController < ApplicationController
           if domain_reach? && reach_user?(user)
             redirect_back_or_default orders_path
           elsif domain_desk? && desk_user?(user)
-            redirect_back_or_default desk_campaigns_path
+            redirect_back_or_default campaigns_path
           elsif (domain_reach? && desk_user?(user)) || (domain_desk? && reach_user?(user))
             @account_session.destroy
             @account_session.errors.add(:base, "Access not enabled")

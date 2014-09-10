@@ -31,6 +31,8 @@ Reachui::Application.configure do
   config.assets.debug = true
 
   config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+  config.assets.paths << Rails.root.join('app', 'assets', 'views')
+  config.assets.paths << Rails.root.join('app', 'assets', 'images', 'cdesk')
   ## Custom application configurations
 
   # Set the reporting server url
