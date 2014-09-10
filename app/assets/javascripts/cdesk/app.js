@@ -10,16 +10,17 @@ var angObj = '';
     ]);
 
     angObj.config(function ($routeProvider, $httpProvider) {
-        $routeProvider.
-
-            when('/campaigns', { templateUrl: 'views/campaignlist.html', controller: 'campaignController'}).
-
-            otherwise({redirectTo: 'campaigns'});
+        $routeProvider
+            .when('/campaigns',
+                { templateUrl: 'assets/campaign_list.html',
+                  controller: 'campaignController'
+                })
+            .otherwise({redirectTo: 'campaigns/'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
 
     //angObj.constant('api', 'http://dev-desk.collective-media.net:4000/desk');
-   angObj.constant('api', 'http://192.168.10.58:3000/desk');
+   angObj.constant('api', '');
     
 
     /*

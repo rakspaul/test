@@ -1,5 +1,7 @@
 class Desk::OrdersController < Desk::DeskController
 
+  layout "cdesk"
+
   respond_to :html, :json, :js
 
   before_filter :add_default_filter, :only => [:index]
@@ -26,6 +28,7 @@ class Desk::OrdersController < Desk::DeskController
                     .page(params[:page]).per(5)
 
     respond_to do | format |
+      format.html
       format.json
       format.js
     end

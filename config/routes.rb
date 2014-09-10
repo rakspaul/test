@@ -84,7 +84,7 @@ Reachui::Application.routes.draw do
 
   post 'tasks/:id' => 'tasks#update'
 
-  resources :orders, :campaigns do
+  resources :orders do
 
     get 'metrics' => 'metrics#order_metrics'
 
@@ -227,8 +227,8 @@ Reachui::Application.routes.draw do
     end
   end
 
-  namespace :desk do
-    resources :campaigns, controller: 'orders'
+  # namespace :desk do
+    resources :campaigns, controller: 'desk/orders'
 
     resources :agency do
       resources :advertisers, :only => [:index] do
@@ -241,7 +241,7 @@ Reachui::Application.routes.draw do
     get 'advertisers' => 'advertisers#list_network_advertisers'
     get 'advertisers/search' => 'advertisers#search_network_advertisers'
 
-  end
+  # end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
