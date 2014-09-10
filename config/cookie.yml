@@ -13,7 +13,7 @@ secret_key_base: 0d8971419f4f07a296f0eb44a9383a6e35358679e4237f8eeffa9c2eedb03a5
 
 
 development:
-  domain: '.dev.collective.com'
+  domain: :all
 
 test:
   domain: :all

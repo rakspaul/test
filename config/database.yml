@@ -42,5 +42,5 @@ production:
 test:
   <<: *common
   username: amp
-  password: amp0986N
-  database: amts_test
+  password: 
+  database: amp_test

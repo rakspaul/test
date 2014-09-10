@@ -1,3 +1,42 @@
-#order_list_layout.pure-g
-  #details.pure-u
-    .content
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome | Collective</title>
+<link rel="icon" href="img/favicon/favicon.png" type="image/x-icon" />
+<link rel="stylesheet" type="text/css" media="screen" href="lib/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="lib/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="lib/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" type="text/css" href="lib/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="stylesheets/layout.css" />
+
+
+<!-- <script src="scripts/charts/line.js"></script>
+ -->
+<script src="lib/js/jquery.min.js"></script>
+
+<script src="lib/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="lib/js/jquery.multi-accordion-1.5.3.js"></script>
+<!-- fix this-->
+
+</head>
+
+<body ng-app="reachAdminApp" >
+<div id="ngViewPlaceHolder" ng-view="" ></div>
+<div class="loading-spiner-holder" loader ></div>
+
+<script src="lib/js/angular.min.js"></script>
+<script src="lib/js/bootstrap.min.js"></script>
+<script src="lib/js/angular-resource.min.js"></script>
+<script src="lib/js/angular-route.min.js"></script>
+<script src="lib/js/angular-cookies.js"></script>
+<!-- endbower -->
+
+<script src="scripts/app.js"></script>
+<script src="scripts/utils.js"></script>
+<!-- ServiceProvider -->
+<script src="scripts/services/dataservice.js"></script>
+
+<script src="scripts/controllers/campaignController.js"></script>
+<script src="scripts/models/campaign.js"></script>
+<script src="http://code.highcharts.com/3.0/highcharts.js"></script>
+<script src="lib/js/highcharts-ng.js"></script>
+</body>
+</html>
