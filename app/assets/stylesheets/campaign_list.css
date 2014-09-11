@@ -24,8 +24,6 @@
 /* generic style */
 body {
   height: auto;
-  background: #f8f8f8;
-  font-family: "TradeGothicLTStd-BdCn20";
   background-repeat: repeat;
 }
 .bold {
@@ -130,44 +128,59 @@ select:focus:invalid:focus {
   width: 1115px;
   margin: 0 auto;
 }
-#detailedPageNavbar.navbar .container #logo {
+#detailedPageNavbar.navbar #logo {
   display: block;
   margin-left: 30px;
 }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav {
   margin-top: 8px;
   margin-left: 0;
 }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav li a {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a {
   color: #A6C7E6;
   font-size: 14pt;
   padding: 20px 30px;
+  text-transform: uppercase;
   font-family: "TradeGothicLTStd-BdCn20";
  }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav li a.active {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.active a,
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.active a:hover,
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a:hover,
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a:focus {
   color: #fff;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s ease 0s;
  }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
   margin-top: 25px;
 }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
   padding: 5px 35px 5px 15px;
   font-size: 11pt;
   border-right: 1px solid #81BEE5;
 }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .hello { 
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li .hello { 
+  padding: 5px 0;
+  color: #a6c7e6;
+  font-size: 11pt;
+  display: inline-block;
   font-family: "TradeGothicLTStd";
 }
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .user-name {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li .user-name {
   color: #fff;
+  font-size: 11pt;
+  padding: 5px 35px 5px 0;
+  border-right: 1px solid #81BEE5;
+  font-family: "TradeGothicLTStd-BdCn20";
 } 
-#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
   border-right: none;
   padding-right: 10px;
 }
-#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:hover,
-#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:focus,
-#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:active {
+#detailedPageNavbar.navbar .navbar-collapse .navbar-nav .buttonRegularText:hover,
+#detailedPageNavbar.navbar .navbar-collapse .navbar-nav .buttonRegularText:focus,
+#detailedPageNavbar.navbar .navbar-collapse .navbar-nav .buttonRegularText:active {
   outline: none;
   background: transparent;
   color: #64b5e2;
@@ -184,7 +197,6 @@ select:focus:invalid:focus {
   font-size: 20pt;
   margin-bottom: 15px;
   font-family: "TradeGothicLTStd-BdCn20";
-
 }
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar {
   height: 40px;
@@ -335,7 +347,7 @@ select:focus:invalid:focus {
   margin-top: 20px;
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .campaign-name {
-  min-height:60px;
+  min-height: 60px;
   color: #F9B537;
   display: block;
   font-size: 16pt;
