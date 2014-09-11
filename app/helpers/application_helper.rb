@@ -22,7 +22,7 @@ module ApplicationHelper
     {
 
       localised(identifier + ".campaigns") => {
-        controllers: ["CampaignsController", "LineitemsController"],
+        controllers: ["Desk::OrdersController", "CampaignsController", "LineitemsController"],
         path: :campaigns
       },
 
