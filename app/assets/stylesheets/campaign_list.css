@@ -1,18 +1,18 @@
 /* font- face declarations */
 @font-face {
-  font-family: 'trade-gothic-bold';
-  src: url('trade-gothic-bold.eot');
-  src: url('trade-gothic-bold.eot?#iefix') format('embedded-opentype'), url('trade-gothic-bold.woff') format('woff'), url('trade-gothic-bold.ttf') format('truetype'), url('trade-gothic-bold.svg#trade-gothic-bold') format('svg');
+  font-family: 'TradeGothicLTStd-BdCn20';
+  src: url('TradeGothicLTStd-BdCn20.eot');
+  src: url('TradeGothicLTStd-BdCn20.eot?#iefix') format('embedded-opentype'), url('TradeGothicLTStd-BdCn20.woff') format('woff'), url('TradeGothicLTStd-BdCn20.ttf') format('truetype'), url('TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20') format('svg');
 }
 @font-face {
   font-family: 'Trade-Gothic-LT-Bold-Condensed-N-2';
   src: url('Trade-Gothic-LT-Bold-Condensed-No--20.eot');
-  src: url('Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix') format('embedded-opentype'), url('Trade-Gothic-LT-Bold-Condensed-No--20.woff') format('woff'), url('Trade-Gothic-LT-Bold-Condensed-No--20.ttf') format('truetype'), url('fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20') format('svg');
+  src: url('Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix') format('embedded-opentype'), url('Trade-Gothic-LT-Bold-Condensed-No--20.woff') format('woff'), url('Trade-Gothic-LT-Bold-Condensed-No--20.ttf') format('truetype'), url('Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20') format('svg');
 }
 @font-face {
   font-family: 'trade-gothic-no-2-bold';
-  src: url('Roboto-Bold.eot');
-  src: url('Roboto-Bold.eot?#iefix') format('embedded-opentype'), url('Roboto-Bold.woff') format('woff'), url('Roboto-Bold.ttf') format('truetype'), url('Roboto-Bold.svg#RobotoBold') format('svg');
+  src: url('trade-gothic-no-2-bold.eot');
+  src: url('trade-gothic-no-2-bold.eot?#iefix') format('embedded-opentype'), url('trade-gothic-no-2-bold.woff') format('woff'), url('trade-gothic-no-2-bold.ttf') format('truetype'), url('trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold') format('svg');
 }
 @font-face {  
   font-family: 'TradeGothicLTStd';
@@ -25,12 +25,8 @@
 body {
   height: auto;
   background: #f8f8f8;
-  font-family: "trade-gothic-bold";
+  font-family: "TradeGothicLTStd-BdCn20";
   background-repeat: repeat;
-}
-.container {
-  width: 1115px;
-  margin: 0 auto;
 }
 .bold {
   font-weight: bold;
@@ -52,13 +48,14 @@ body {
   color: #bebebe;
   font-size: 11pt;
   text-align: left;
-  font-family: "trade-gothic-bold";
+  font-family: "TradeGothicLTStd-BdCn20";
 }
 .kpi-num {
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
 }
 .cpa-color {
   color: #999;
+  text-transform: uppercase;
 }
 button,
 i,
@@ -120,7 +117,7 @@ select:focus:invalid:focus {
   }
 }
 /* header style */
-.navbar {
+#detailedPageNavbar.navbar {
   height: 80px;
   border-radius: 0;
   margin-bottom: 16px;
@@ -129,47 +126,48 @@ select:focus:invalid:focus {
   background: -moz-linear-gradient(#007AC9, #1C89CF);
   background: -webkit-gradient(linear, center top, center bottom, from(#007AC9), to(#1C89CF));
 }
-.navbar #logo {
-  width: 150px;
-  margin-top: 16px;
-  margin-left: 32px;
+#detailedPageNavbar.navbar .container {
+  width: 1115px;
+  margin: 0 auto;
+}
+#detailedPageNavbar.navbar .container #logo {
   display: block;
-  text-indent: -9999px;
-  background: url("collective-media-logo.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  margin-left: 30px;
 }
-.navbar .navbar-collapse.collapse .nav.navbar-nav {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav {
   margin-top: 8px;
-  margin-left: 45px;
+  margin-left: 0;
 }
-.navbar .navbar-collapse.collapse .nav.navbar-nav li a {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav li a {
   color: #A6C7E6;
   font-size: 14pt;
   padding: 20px 30px;
+  font-family: "TradeGothicLTStd-BdCn20";
  }
-.navbar .navbar-collapse.collapse .nav.navbar-nav li a.active {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav li a.active {
   color: #fff;
  }
-.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
   margin-top: 25px;
 }
-.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
   padding: 5px 35px 5px 15px;
   font-size: 11pt;
   border-right: 1px solid #81BEE5;
 }
-.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .hello { 
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .hello { 
   font-family: "TradeGothicLTStd";
 }
-.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .user-name {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a .user-name {
   color: #fff;
 } 
-.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
+#detailedPageNavbar.navbar .container .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
   border-right: none;
   padding-right: 10px;
 }
-.navbar .navbar-collapse .navbar-nav .buttonRegularText:hover,
-.navbar .navbar-collapse .navbar-nav .buttonRegularText:focus,
-.navbar .navbar-collapse .navbar-nav .buttonRegularText:active {
+#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:hover,
+#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:focus,
+#detailedPageNavbar.navbar .container .navbar-collapse .navbar-nav .buttonRegularText:active {
   outline: none;
   background: transparent;
   color: #64b5e2;
@@ -177,14 +175,19 @@ select:focus:invalid:focus {
 }
 
 /* detailed page style */
+#detailedPage.container {
+  width: 1115px;
+  margin: 0 auto;
+}
 #detailedPage.container .row-fluid .col-md-12 h1 {
   color: #177AC6;
   font-size: 20pt;
   margin-bottom: 15px;
+  font-family: "TradeGothicLTStd-BdCn20";
+
 }
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar {
   height: 40px;
-  overflow: hidden;
   padding: 5px 20px;
   border-radius: 5px;
   background: #F9B537;
@@ -195,6 +198,39 @@ select:focus:invalid:focus {
 }
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li {
   border-right: 1px solid #E0A331;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu {
+  padding: 0;
+  width: 200px;
+  border: none;
+  margin-top: 5px;
+  margin-left: -20px;
+  border-radius: 5px;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li {
+  border-right: none;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a {
+  color: #999;
+  font-size: 11pt;
+  padding: 12px 15px 5px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:first-child a {
+  margin: 15px 15px 0;
+  padding: 0 15px 10px 0;
+  border-bottom: 1px solid #bebebe;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a span.tick {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li.active a span.tick {
+  background: url("ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+}
+#detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:hover a span.tick {
+  background: url("ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
 }
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul .dwopdown-two {
   padding-left: 20px;
@@ -216,7 +252,7 @@ select:focus:invalid:focus {
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:hover,
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:focus {
   color: #fff;
-  text-shadow: 0px -1px 1px #999;
+  text-shadow: 0px -1px 1px #bbb;
 }
 #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active .caret {
   color: #fff;
@@ -244,6 +280,7 @@ select:focus:invalid:focus {
   margin-right: 15px;
   padding-bottom: 5px;
   display: inline-block;
+  text-transform: uppercase;
   font-family: "TradeGothicLTStd";
   border-bottom: 1px solid #bebebe;
 }
@@ -267,10 +304,12 @@ select:focus:invalid:focus {
   border-bottom: none;
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign {
-  height: 220px;
+  min-height: 220px;
   overflow: hidden;
   background: #fff;
+  position: relative;
   border-radius: 5px;
+  margin-bottom: 20px;
   padding: 17px 30px 15px;
   box-shadow: 0 1px 1px #aaa;
 }
@@ -296,12 +335,13 @@ select:focus:invalid:focus {
   margin-top: 20px;
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .campaign-name {
+  min-height:60px;
   color: #F9B537;
   display: block;
   font-size: 16pt;
   font-weight: bold;
   margin-bottom: 13px;
-  font-family: "trade-gothic-bold";
+  font-family: "TradeGothicLTStd-BdCn20";
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand {
   font-size:  10pt;
@@ -347,7 +387,7 @@ select:focus:invalid:focus {
   color: #bebebe;
   font-size: 11pt;
   text-align: left;
-  font-family: "trade-gothic-bold";
+  font-family: "TradeGothicLTStd-BdCn20";
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values, 
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span {
@@ -357,6 +397,9 @@ select:focus:invalid:focus {
 }
 #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num {
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+#detailedPage.container .row-fluid .col-md-12.inner-accordion-wrapper {
+  margin-top: -20px;
 }
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion {
   margin-top: -2px;
@@ -368,7 +411,7 @@ select:focus:invalid:focus {
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in {
   color: #999;
   width: 990px;
-  height: 280px;
+  min-height: 280px;
   font-size: 10pt;
   margin-top: 20px;
   border-radius: 5px;
@@ -386,7 +429,7 @@ select:focus:invalid:focus {
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .campaign-name {
   color: #F9B537;
   font-size: 13pt;
-  font-family: "trade-gothic-bold";
+  font-family: "TradeGothicLTStd-BdCn20";
 }
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion:last-child {
   background: url("accordion-line-end.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
@@ -412,129 +455,37 @@ select:focus:invalid:focus {
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-7 {
   padding: 0;
 }
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6:first-child {
+  padding-right: 10px;
+}
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6:last-child {
+  padding-left: 10px;
+}
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-5 {
   font-size: 9pt;
 }
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-7 {
   text-align: right;
 }
+#detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-7.kpi-text-container {
+  text-align: left;
+}
 #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-5 .kpi-num {
   font-size: 12pt;
 }
-/* media queries */
-@media (max-width: 1280px) {
-  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 {
-    width: 53.333%;
-  }
-  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-5 {
-    width: 46.6667%;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .detailed-highcharts {
-    margin: 20px 7px;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
-    width: 95.5%;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid.global-filters .col-sm-12.col-md-8 .nav.nav-tabs li:last-child {
-    display: none;
-  }
+#detailedPage.container .row-fluid .col-md-12.load-more {
+  text-align: center;
+  margin: 20px 0 50px;
 }
-@media (max-width: 1024px) {
-  .navbar > .container .navbar-brand,
-  .navbar > .container-fluid .navbar-brand {
-    font-size: 14pt;
-  }
-  .navbar .navbar-collapse .navbar-nav .buttonRegularText {
-    font-size: 11pt;
-  }
-  .wrapper .row-fluid .campaignBar .campaignBarHeader > .col-sm-7.col-md-6 .campaignTitles {
-    font-size: 14pt;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
-    width: 94.3%;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .inner-accordion .left-labels .detailedtopLevelLabels {
-    font-size: 10pt;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .inner-accordion .left-labels .detailedtopLevelValues {
-    font-size: 18pt;
-    margin-top: 0;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid #multiAccordion .detailed-highcharts {
-    margin: 20px 6px;
-  }
-  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 .col-sm-10.col-md-10 .col-sm-3.col-md-3 .largeValues {
-    font-size: 28pt;
-  }
-  .wrapper .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7 .col-sm-10.col-md-10 .col-sm-3.col-md-3 .secondaryMetric1 {
-    font-size: 11px;
-  }
+#detailedPage.container .row-fluid .col-md-12.load-more a {
+  color: #999;
+  font-size: 9pt;
+  font-weight: bold;
+  padding: 10px 20px; 
+  border-radius: 20px;
+  border: 1px solid #e6e6e6;
+  font-family: "trade-gothic-no-2-bold";
 }
-@media (max-width: 980px) {
-  /*.navbar .container-fluid .navbar-brand.col-sm-3.col-md-4.applicationName {
-        width: 33.3333%;
-    }*/
-  .navbar .navbar-collapse .navbar-nav .buttonRegularText {
-    font-size: 11pt;
-  }
-  .navbar > .container .navbar-brand,
-  .navbar > .container-fluid .navbar-brand {
-    font-size: 14pt;
-    margin-left: 20px;
-  }
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6,
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
-    text-align: center;
-  }
-  /*.wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6 > .pull-right,
-    .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 > .pull-right {
-        float: none !important;
-    }*/
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6 {
-    width: 40.667%;
-  }
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
-    width: 59.333%;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-sm-12.col-md-7,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 {
-    width: 100%;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 .high-chart .highcharts-container {
-    margin: 30px auto 0;
-    text-align: center;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBody .col-xs-12.col-sm-12.col-md-5 .high-chart .xAxisLabels {
-    color: #879396;
-    font-size: 12pt;
-    text-align: center;
-    font-family: "Roboto";
-    text-transform: capitalize;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 {
-    padding: 10px 15px;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignTitles,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignTitles,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignDates,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignDates {
-    font-size: 11pt;
-  }
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-7.col-md-6 .campaignTopLevelDetails,
-  .wrapper .container-fluid .row-fluid .campaignBar .campaignBarHeader .col-sm-5.col-md-6 .campaignTopLevelDetails {
-    padding: 2px 0;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
-    width: 94%;
-  }
-}
-@media (max-width: 800px) {
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-5.col-md-6,
-  .wrapper .container-fluid .row-fluid.buttonBar .col-sm-7.col-md-6 {
-    width: 100%;
-  }
-  #detailedPage.wrapper .container-fluid .row-fluid .col-sm-11.col-md-11 {
-    width: 93%;
-  }
+#detailedPage.container .row-fluid .col-md-12.load-more a:hover {
+  text-decoration: none;
 }

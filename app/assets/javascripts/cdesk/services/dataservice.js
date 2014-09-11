@@ -1,15 +1,23 @@
 /*global angObj*/
 (function () {
     "use strict";
-    angObj.factory("dataService", function ($http, api,  common) {
+    angObj.factory("dataService", function ($http, api,  common,campaign_api) {
         //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
        // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
         return {
 
             //API for campaign list //TODO: change - no parameters
-            getCampaignActiveInactive : function (agencyId, advertiserId) {
+            getCampaignActiveInactive : function (timestamp) {
+                
+
                 //var urlPath = (common.useTempData) ? common.useTempData +'/data.json' : api.host + '/agencies/' + agencyId + '/advertisers/' + advertiserId + '/campaigns';
-                var urlPath = (common.useTempData) ? common.useTempData +'/data.json' : api+ '/campaigns.js?callback=JSON_CALLBACK';
+                if(!timestamp){
+                    var urlPath = (common.useTempData) ? common.useTempData +'/data.json' : campaign_api+ '/campaigns.js?filter[date_filter]=last_week&callback=JSON_CALLBACK';
+                }else{
+                    var urlPath = (common.useTempData) ? common.useTempData +'/data.json' : campaign_api+ '/campaigns.js?filter[date_filter]=last_'+timestamp+'&callback=JSON_CALLBACK';
+                }
+              
+
               // console.log(urlPath);
                if(common.useTempData){
                     //mock data
@@ -48,15 +56,15 @@
             }//end of check    
 
             },
-             getCdbChartData : function (campaignId, advertiserId) {
+             getCdbChartData : function (campaignId) {
 
-                var urlPath = (common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+campaignId+'/bydays';
-
+                var urlPath = (!common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+campaignId+'/bydays';
+console.log(urlPath);
                 if(common.useTempData){
                     //mock data
                            return $http({url: urlPath , method : 'GET', cache : true
                                 }).then(function (response) {
-                                    // console.log(response.data);
+                                    
                                 return {
                                     status : "success",
                                     data : response.data
