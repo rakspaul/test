@@ -7,9 +7,9 @@
     %meta{:content => "Collective", :name => "author"}
     %link{:rel => "shortcut icon", :href => "http://collective.com/wp-content/themes/okcm/images/favicon.ico", :type => "image/x-icon"}
 
-    = stylesheet_link_tag    "application", :media => "all"
+    = stylesheet_link_tag    "cdesk_application", :media => "all"
     = stylesheet_link_tag    "//fonts.googleapis.com/css?family=Armata"
-    = javascript_include_tag "application"
+    = javascript_include_tag "cdesk_application"
     = csrf_meta_tags
     %link{:href => "/assets/views/campaignlist.html"}
     = yield(:head)
@@ -43,9 +43,10 @@
                 = link_to key, value[:path]
 
         %ul.nav.navbar-nav.navbar-right
-          %li.user-name
-            %span
+          %li
+            %span.hello
               Hello,&nbsp;
+            %span.user-name
               = current_user.first_name
           %li
             = link_to "Log out", signout_path
