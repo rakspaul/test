@@ -218,4 +218,12 @@
             }
         };
     });
+    
+    angObj.filter('spliter', function() {
+        return function(input, splitIndex) {
+            // do some bounds checking here to ensure it has that index
+        return input.split(' ')[splitIndex];
+        }
+    });
+
 }());
