@@ -26,7 +26,7 @@
                                     // console.log(response);
                                 return {
                                     status : "success",
-                                    data : response.data.orders
+                                    data : response.data
 
                                 };
                             }, function (error) {
@@ -41,7 +41,7 @@
                             .success(function (data, status, headers, config){
                                 return {
                                 status : "success",
-                                data : data.orders
+                                data : data
                                 };
                             })
                             .error(function (data, status, headers, config){
@@ -58,8 +58,8 @@
             },
              getCdbChartData : function (campaignId) {
 
-                var urlPath = (!common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+campaignId+'/bydays';
-console.log(urlPath);
+                //var urlPath = (common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+campaignId+'/bydays?start_date=2014-05-01&end_date=2014-05-06';
+                var urlPath = (common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+400170 +'/bydays?start_date=2014-05-01&end_date=2014-05-06';
                 if(common.useTempData){
                     //mock data
                            return $http({url: urlPath , method : 'GET', cache : true
@@ -78,20 +78,19 @@ console.log(urlPath);
                             });
                 }else{
                      // live data
-                            return $http.jsonp(urlPath)
-                            .success(function (data, status, headers, config){
+                           return $http({url: urlPath , method : 'GET', cache : false 
+                                }).then(function (response) {
+                                    
                                 return {
-                                status : "success",
-                                data : data.orders
+                                    status : "success",
+                                    data : response.data
+
                                 };
-                            })
-                            .error(function (data, status, headers, config){
-            //console.log(status+' error');
-                             return {
-                                status : "error",
-                                data : "error"
+                            }, function (error) {
+                                return {
+                                    status : "error",
+                                    data : error
                                 };
-                            
                             });
 
             }//end of check    
