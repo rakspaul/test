@@ -22,7 +22,7 @@ var angObj = '';
     });
 
     angObj.constant('campaign_api', '');
-    angObj.constant('api', '');
+    angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
    //angObj.constant('api', 'http://192.168.10.58:3000/desk');
     
 
