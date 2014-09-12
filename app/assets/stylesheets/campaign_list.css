@@ -24,6 +24,7 @@
 /* generic style */
 body {
   height: auto;
+  background: #f8f8f8;
   background-repeat: repeat;
 }
 .bold {

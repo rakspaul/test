@@ -17,20 +17,18 @@
 
                     if(common.useTempData){
                     //for local data
-                            //console.log(result);
-                            if (result.data.length > 0) {
-
-                                $scope.campaignList = campaign.setActiveInactiveCampaigns(result.data,timePeriod);
-
-                            }
+                        //console.log(result);
+                        $scope.marketerName = result.data.marketer_name;
+                        if (result.data.orders.length > 0) {
+                            $scope.campaignList = campaign.setActiveInactiveCampaigns(result.data.orders, timePeriod);
+                        }
 
                     }else{
                             //console.log(result.data.orders);
-                            if (result.data.orders.length > 0) {
-
-                                $scope.campaignList = campaign.setActiveInactiveCampaigns(result.data.orders,timePeriod);
-
-                            }
+                        $scope.marketerName = result.data.marketer_name;
+                        if (result.data.orders.length > 0) {
+                            $scope.campaignList = campaign.setActiveInactiveCampaigns(result.data.orders, timePeriod);
+                        }
                     }//end of check
                 });
 
