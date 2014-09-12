@@ -54,7 +54,7 @@ class Desk::OrdersController < Desk::DeskController
 
   def user_orders
     @arel = if current_user.agency_user?
-              Order.where(:agency => order.agency)
+              Order.where(:agency => current_user.agency)
             else
               Order.where(:network => current_network)
             end
