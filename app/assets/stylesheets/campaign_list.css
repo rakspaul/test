@@ -80,7 +80,7 @@ select:focus:invalid:focus {
   margin-top: 5px;
   display: inline-block;
 }
-.loading-spiner-holder {
+.loading-spinner-holder {
   background: url("ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   height: 100%;
   text-align: center;

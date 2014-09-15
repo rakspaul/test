@@ -13,19 +13,29 @@
                             ALL BRANDS <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                                <li class="active"><a href="#"><span class="tick"></span>ALL BRANDS</a></li>
-                                <li><a href="#"><span class="tick"></span>Maruti</a></li>
-                                <li><a href="#"><span class="tick"></span>Suzuki</a></li>
+                            <li class="active"><a href="#"><span class="tick"></span>ALL BRANDS</a></li>
+                            <li><a href="#"><span class="tick"></span>Maruti</a></li>
+                            <li><a href="#"><span class="tick"></span>Suzuki</a></li>
                         </ul>
                     </li>
                     <li class="dropdown dropdown-two">
-                        <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu" >
+                        <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
                             <span id="durationMenuText">LAST 7 DAYS</span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
-                            <li class="active"  ><a data-ng-click="init('week')"><span class="tick"></span> <span class="menuItemText">Last 7 days</span></a></li>
-                            <li ><a data-ng-click="init('month')"><span class="tick"></span><span class="menuItemText">Last 30 days</span></a></li>
+                            <li class="active"  >
+                                <a data-ng-click="init('last_week')">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText">Last 7 days</span>
+                                </a>
+                            </li>
+                            <li >
+                                <a data-ng-click="init('last_month')">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText">Last 30 days</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <!-- <form class="navbar-form navbar-right" role="search">
@@ -164,16 +174,16 @@
 
 <script type="text/javascript">
 //    $('.collapse').collapse();
-    $(document).ready(function(){
-            $( "#cdbMenu" ).click(function(){
-                    $( "#cdbDropdown" ).toggle();
-             });
-            $( ".menuItemText" ).click(function(){
-                    $("#cdbDropdown").toggle();
-                    $( "#durationMenuText").text($( this).text());
-                    $('#cdbDropdown').find('li.active').removeClass('active');
-                    $( this).parent().parent().addClass('active');
-            });
+    $(document).ready(function() {
+        $( "#cdbMenu" ).click(function() {
+            $( "#cdbDropdown" ).toggle();
+         });
+        $( ".menuItemText" ).click(function() {
+            $("#cdbDropdown").toggle();
+            $("#durationMenuText").text(angular.uppercase($(this).text()));
+            $('#cdbDropdown').find('li.active').removeClass('active');
+            $(this).parent().parent().addClass('active');
+        });
         $( document ).click(function() {
             if($("#cdbDropdown").is(':visible')) {
                 $("#cdbDropdown").hide();

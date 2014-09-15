@@ -46,7 +46,7 @@
                 '   <ul class="nav navbar-nav navbar-right">' +
                 '       <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
                 '   </ul>' +
-                '   <!--<loader class="loading-spiner-holder" data-loading >Loading...</loader>-->' +
+                '   <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
                 '   </div>' +
                 '   </div>' +
                 '</div>'
