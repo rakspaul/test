@@ -114,18 +114,3 @@
 //= require ./admin/platforms/platforms.js
 //= require i18n
 //= require ./i18n/en.js
-
-//= require bootstrap.min
-//= require angular.min
-//= require angular-cache-2.3.7
-//= require angular-cookies
-//= require angular-resource.min
-//= require angular-route.min
-//= require highcharts-ng
-//= require highcharts
-//= require cdesk/app
-//= require cdesk/charts/pacing
-//= require cdesk/controllers/campaign_controller
-//= require cdesk/models/campaign
-//= require cdesk/services/dataservice
-//= require cdesk/utils

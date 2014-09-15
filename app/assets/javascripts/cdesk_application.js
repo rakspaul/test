@@ -23,7 +23,6 @@
 //= require highcharts
 
 //= require cdesk/app
-//= require cdesk/charts/pacing
 //= require cdesk/charts/line
 //= require cdesk/controllers/campaign_controller
 //= require cdesk/models/campaign
