@@ -7,7 +7,7 @@
             var data = [],
                 datObj = [];
 
-            for (var i = 1; i < lineDate.length; i++) {
+            for (var i = 0; i < lineDate.length; i++) {
                 datObj[0] = i;
                 datObj[1] = lineDate[i]['y'];
                 data.push(datObj);
@@ -66,12 +66,12 @@
                     }
                 },
                 series: [{
-                    name: 'KPN12345',
+                    name: 'KPN: ',
                     data: data,
                     threshold: threshold,
                     negativeColor: '#6fd0f4',
                     /*54b2f9*/
-                    color: '#00FF00',
+                    color: '#6fd0f4',
                     /*14af00*/
                     tooltip: {
                         valueDecimals: 2
