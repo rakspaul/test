@@ -33,19 +33,16 @@
             });
         };
 
-
-
-       
-
         $scope.isLoading = function () {
             return $http.pendingRequests.length > 0;
         };
+
         $scope.$watch($scope.isLoading, function (v) {
             if (v) {
-                jQuery('.loading-spiner-holder').show();
+                jQuery('.loading-spinner-holder').show();
                 jQuery('#ngViewPlaceHolder').hide();
             } else {
-                jQuery('.loading-spiner-holder').hide();
+                jQuery('.loading-spinner-holder').hide();
                 jQuery('#ngViewPlaceHolder').show();
             }
         });

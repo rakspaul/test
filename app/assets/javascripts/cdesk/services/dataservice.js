@@ -9,14 +9,14 @@
             //API for campaign list //TODO: change - no parameters
             getCampaignActiveInactive: function (timeFilter) {
                 if(!timeFilter) {
-                    timeFilter = "week";
+                    timeFilter = "last_week";
                 }
                 var urlPath;
                 if(common.useTempData) {
                     urlPath = common.useTempData + '/data.json';
                 } else {
 
-                    urlPath = campaign_api + '/campaigns.js?filter[date_filter]=last_' + timeFilter + '&callback=JSON_CALLBACK';
+                    urlPath = campaign_api + '/campaigns.js?filter[date_filter]=' + timeFilter + '&callback=JSON_CALLBACK';
                 }
 
                 // console.log(urlPath);
@@ -37,7 +37,7 @@
                         }
                     );
                 } else {
-                // live data
+                    // live data
                     return $http.jsonp(urlPath)
                         .success(function (data, status, headers, config) {
                             return {
