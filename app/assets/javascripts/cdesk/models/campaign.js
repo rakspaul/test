@@ -9,7 +9,7 @@
                     if(!common.useTempData){
                             if(result.status == "success") {
                                 if(!angular.isUndefined(campaignList[obj].kpiType)){
-                                    if (result.data.data.measures_by_days.length >= 0) {
+                                    if (result.data.data.measures_by_days.length > 0) {
                                         var maxDays = result.data.data.measures_by_days;
                                         for (var i = 0; i < maxDays.length; i++) {
                                             var kpiType = (campaignList[obj].kpiType);
@@ -49,16 +49,14 @@
                                 kpiType : dataArr[obj].kpi_type,
                                 kpiValue : dataArr[obj].kpi_value,
                                 totalImpressions: dataArr[obj].total_impressions,
-                                totalMediaCost: dataArr[obj].total_media_cost,
+                                totalMediaCost: Math.round(dataArr[obj].total_media_cost),
                                 lineitemsCount : dataArr[obj].lineitems_count
                             });
                             this.getCdbLineChart(obj, campaignList);
                         // }) (obj);
                     }
                 }
-                if (JSON.stringify(campaignList).length > 2) {
-                    return campaignList;
-                }
+                return campaignList;
             }
 
             //setCdbChart
