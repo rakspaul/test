@@ -227,10 +227,10 @@ Reachui::Application.routes.draw do
     end
   end
 
-  # namespace :desk do
     get 'campaigns' => 'desk/orders#index'
     get 'campaigns/:id' => 'orders#show'
 
+  namespace :desk do
     resources :agency do
       resources :advertisers, :only => [:index] do
         collection do
@@ -241,8 +241,7 @@ Reachui::Application.routes.draw do
 
     get 'advertisers' => 'advertisers#list_network_advertisers'
     get 'advertisers/search' => 'advertisers#search_network_advertisers'
-
-  # end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
