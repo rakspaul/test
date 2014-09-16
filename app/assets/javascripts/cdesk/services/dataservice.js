@@ -4,6 +4,7 @@
     angObj.factory("dataService", function ($http, api,  common, campaign_api) {
         //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
        // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
+        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
         return {
 
             //API for campaign list //TODO: change - no parameters
