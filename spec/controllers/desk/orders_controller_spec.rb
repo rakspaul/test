@@ -13,17 +13,17 @@ describe Desk::OrdersController do
       adjust_time 1.month
       #orders created 1 month ago
       @order3 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 2.month.from_now
-      @order4 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 6.months.from_now
+      @order4 = FactoryGirl.create :order, :start_date => Time.now + 1.day, :end_date => 6.months.from_now
 
       adjust_time 1.month - 2.weeks
       #orders created 2 week ago
       @order5 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 6.days.from_now
       @order6 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 5.days.from_now
 
-      adjust_time 1.month - 1.week
+      adjust_time 1.week
       #orders created 1 week ago
       @order7 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 6.days.from_now
-      @order9 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 6.months.from_now
+      @order8 = FactoryGirl.create :order, :start_date => Time.now, :end_date => 6.months.from_now
 
       adjust_time 1.week
       #orders created this week
@@ -54,7 +54,7 @@ describe Desk::OrdersController do
     end
 
     it "should return orders delivering last one month" do
-      get 'index', {format: :json, date_filter: 'last_month'}
+      get 'index', format: :json, filter: {date_filter: 'last_month'}
       response.should be_success
 
       json = json_parse(response.body)
@@ -62,7 +62,7 @@ describe Desk::OrdersController do
       json[:total_pages].to_i.should == 2
       json[:orders].map{|o|o.fetch(:id)}.sort.should == [@order4, @order5, @order6, @order7, @order8].map(&:id).sort
 
-      get 'index', {format: :json, page: 2}
+      get 'index', format: :json, page: 2, filter: {date_filter: 'last_month'}
       response.should be_success
 
       json = json_parse(response.body)
