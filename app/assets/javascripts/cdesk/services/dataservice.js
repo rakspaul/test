@@ -8,7 +8,9 @@
         return {
 
             //API for campaign list //TODO: change - no parameters
-            getCampaignActiveInactive: function (timeFilter) {
+            getCampaignActiveInactive: function(page, timeFilter) {
+                page = page ? page : 1;
+
                 if(!timeFilter) {
                     timeFilter = "last_week";
                 }
@@ -16,8 +18,7 @@
                 if(common.useTempData) {
                     urlPath = common.useTempData + '/data.json';
                 } else {
-
-                    urlPath = campaign_api + '/campaigns.js?filter[date_filter]=' + timeFilter + '&callback=JSON_CALLBACK';
+                    urlPath = campaign_api + '/campaigns.js?filter[date_filter]=' + timeFilter + '&page=' + page + '&callback=JSON_CALLBACK';
                 }
 
                 // console.log(urlPath);

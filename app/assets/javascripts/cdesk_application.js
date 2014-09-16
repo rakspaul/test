@@ -19,6 +19,7 @@
 //= require angular-cookies
 //= require angular-resource.min
 //= require angular-route.min
+//= require ng-infinite-scroll.min
 //= require highcharts-ng
 //= require highcharts
 

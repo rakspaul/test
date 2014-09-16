@@ -6,14 +6,15 @@ var angObj = '';
         'ngResource', //ngResource module when querying and posting data to a REST API.
         'ngRoute',      //ngRoute to enable URL routing to your application
         'ngCookies',
-        'highcharts-ng'
+        'highcharts-ng',
+        'infinite-scroll'
     ]);
 
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/campaigns', {
                 templateUrl: 'assets/campaign_list.html',
-                controller: 'campaignController'
+                controller: 'CampaignsController'
             })
             .otherwise({redirectTo: 'campaigns'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];

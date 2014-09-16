@@ -1,7 +1,7 @@
-<div id="detailedPage" class="container" data-ng-init="init()">
+<div id="detailedPage" class="container" data-ng-init="campaigns.fetchCampaigns()">
     <div class="row-fluid">
         <div class="col-md-12">
-            <h1>{{marketerName}}</h1>
+            <h1>{{campaigns.marketerName}}</h1>
         </div>
     </div>
     <div class="row-fluid">
@@ -25,13 +25,13 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
                             <li class="active"  >
-                                <a data-ng-click="init('last_week')">
+                                <a data-ng-click="campaigns.fetchLastWeekCampaigns()">
                                     <span class="tick"></span>
                                     <span class="menuItemText">Last 7 days</span>
                                 </a>
                             </li>
                             <li >
-                                <a data-ng-click="init('last_month')">
+                                <a data-ng-click="campaigns.fetchLastMonthCampaigns()">
                                     <span class="tick"></span>
                                     <span class="menuItemText">Last 30 days</span>
                                 </a>
@@ -72,7 +72,8 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid" data-ng-repeat="campaign in campaignList">
+    <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0">
+    <div class="row-fluid" data-ng-repeat="campaign in campaigns.campaignList">
 
         <div class="col-md-12">
 
@@ -173,9 +174,8 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid">
-        <div class="col-md-12 load-more"><a href="#" class="load-more">LOAD MORE CAMPAIGNS</a></div>
     </div>
+    <div ng-show='campaigns.busy'>Loading data...</div>
 </div>
 
 <script type="text/javascript">
