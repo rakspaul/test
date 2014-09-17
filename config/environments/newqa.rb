@@ -12,19 +12,28 @@ Reachui::Application.configure do
   # preloads Rails for running tests, you may have to set it to true.
   config.eager_load = false
 
-  # Generate digests for assets URLs.
-  config.assets.digest = true
-
-  # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_assets  = true
-  config.static_cache_control = "public, max-age=3600"
-
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = false
 
   # Stores cached data
-  config.cache_store = :dalli_store
+  # config.cache_store = :dalli_store
+
+  # Configure static asset server for tests with Cache-Control for performance.
+  config.serve_static_assets  = true
+  config.static_cache_control = "public, max-age=3600"
+
+  # Generate digests for assets URLs.
+  config.assets.digest = true
+
+  # Add additional assets.
+  config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
+  config.assets.paths << Rails.root.join('app', 'assets', 'views')
+  config.assets.paths << Rails.root.join('app', 'assets', 'images', 'cdesk')
+
+  # Precompile additional assets.
+  # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
+  config.assets.precompile += %w(cdesk_application.js cdesk_application.css)
 
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = true
