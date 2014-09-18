@@ -231,7 +231,7 @@
             if(input && kpiType) {
                 if(kpiType == 'CTR') {
                     return $filter('number')(input, 2) + '%';
-                }else if(kpiType == 'CPC' || kpiType == 'CPA') {
+                }else if(kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') {
                     return '$' + $filter('number')(input, 2);
                 }else if(kpiType == 'Actions') {
                     return $filter('number')(input, 0); 
