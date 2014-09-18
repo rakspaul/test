@@ -13,7 +13,8 @@
  *= require bootstrap-theme.min.css
  *= require bootstrap-responsive.min.css
 
- *= require campaign_list.css
  *= require highcharts.css
  *= require_self
  */
+
+ @import "campaign_list.css.scss";
