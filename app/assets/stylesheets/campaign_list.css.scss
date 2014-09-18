@@ -1,26 +1,31 @@
+
+
+
+
+
 /* font- face declarations */
 @font-face {
   font-family: "TradeGothicLTStd-BdCn20";
-  src: url("TradeGothicLTStd-BdCn20.eot");
-  src: url("TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"), url("o") format("woff"), url("TradeGothicLTStd-BdCn20.ttf") format("truetype"), url("TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
+  src: url(asset-path("TradeGothicLTStd-BdCn20.eot"));
+  src: url(asset-path("TradeGothicLTStd-BdCn20.eot?#iefix")) format("embedded-opentype"), url(asset-path("TradeGothicLTStd-BdCn20.woff")) format("woff"), url(asset-path("TradeGothicLTStd-BdCn20.ttf")) format("truetype"), url(asset-path("TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20")) format("svg");
 }
 
 @font-face {
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-  src: url("Trade-Gothic-LT-Bold-Condensed-No--20.eot");
-  src: url("Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"), url("Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"), url("Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"), url("Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
+  src: url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.eot"));
+  src: url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix")) format("embedded-opentype"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.woff")) format("woff"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.ttf")) format("truetype"), url(asset-path("Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20")) format("svg");
 }
 
 @font-face {
   font-family: "trade-gothic-no-2-bold";
-  src: url("trade-gothic-no-2-bold.eot");
-  src: url("trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"), url("trade-gothic-no-2-bold.woff") format("woff"), url("trade-gothic-no-2-bold.ttf") format("truetype"), url("trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
+  src: url(asset-path("trade-gothic-no-2-bold.eot"));
+  src: url(asset-path("trade-gothic-no-2-bold.eot?#iefix")) format("embedded-opentype"), url(asset-path("trade-gothic-no-2-bold.woff")) format("woff"), url(asset-path("trade-gothic-no-2-bold.ttf")) format("truetype"), url(asset-path("trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold")) format("svg");
 }
 
 @font-face {
   font-family: "TradeGothicLTStd";
-  src: url("TradeGothicLTStd.eot");
-  src: url("TradeGothicLTStd.eot?#iefix") format("embedded-opentype"), url("TradeGothicLTStd.woff") format("woff"), url("TradeGothicLTStd.ttf") format("truetype"), url("TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
+  src: url(asset-path("TradeGothicLTStd.eot"));
+  src: url(asset-path("TradeGothicLTStd.eot?#iefix")) format("embedded-opentype"), url(asset-path("TradeGothicLTStd.woff")) format("woff"), url(asset-path("TradeGothicLTStd.ttf")) format("truetype"), url(asset-path("TradeGothicLTStd.svg#TradeGothicLTStd")) format("svg");
 }
 
 /* base variables */
@@ -43,6 +48,7 @@ $borderColor: #81bee5;
 @mixin FontColor($textColor, $fontSize, $fontFamily) {
   color: $textColor;
   font-size: $fontSize;
+  font-family: $fontFamily;
 }
 
 @mixin BackgroundLinearGradient($startColor, $endColor) {
@@ -122,35 +128,35 @@ button, i, input[type="submit"] {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_delivering.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .paused {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_paused.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .pushed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_paused.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .complete {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_complete.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 .draft {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_draft.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 /* strategies status */
@@ -158,33 +164,33 @@ button, i, input[type="submit"] {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_delivering_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .pushed {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_paused_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .complete {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_complete_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 #collapseOne .draft {
   width: 24px;
   height: 24px;
   display: inline-block;
-  background: url("status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/status_draft_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
 /* ajax-spinner-loader */
 .loading-spinner-holder {
-  background: url("ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   height: 100%;
   text-align: center;
   width: 100%;
@@ -339,10 +345,10 @@ button, i, input[type="submit"] {
                 display: inline-block;
               }
               &.active a span.tick {
-                background: url("ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+                background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
               &:hover a span.tick {
-                background: url("ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+                background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
             }
           }
@@ -522,7 +528,7 @@ button, i, input[type="submit"] {
     }
     .inner-accordion {
       margin-top: -2px;
-      background: url("accordion-line.png") no-repeat scroll 0 2px rgba(0, 0, 0, 0);
+      background: url(asset-path("cdesk/accordion-line.png")) no-repeat scroll 0 2px rgba(0, 0, 0, 0);
       &.first {
         margin-top: 0;
       }
@@ -551,7 +557,7 @@ button, i, input[type="submit"] {
         }
       }
       &:last-child {
-        background: url("accordion-line-end.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+        background: url(asset-path("cdesk/accordion-line-end.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
       }
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
         .col-md-4 .inner-accordion-details {
@@ -607,6 +613,6 @@ button, i, input[type="submit"] {
     margin: 20px;
     text-align: center;
     text-indent: -99999;
-    background: url("loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url(asset-path("cdesk/loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
 }

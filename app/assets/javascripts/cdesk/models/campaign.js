@@ -37,7 +37,7 @@
                         toSuffix: utils.formatDate(dataArr[obj].end_date),
                         campaignTitle: dataArr[obj].name,
                         brandName: dataArr[obj].brand_name,
-                        status : dataArr[obj].status,
+                        status : dataArr[obj].status || 'draft',
                         kpiType : dataArr[obj].kpi_type,
                         kpiValue : dataArr[obj].kpi_value,
                         totalImpressions: dataArr[obj].total_impressions,
