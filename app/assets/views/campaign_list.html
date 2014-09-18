@@ -98,7 +98,7 @@
             <div class="campaign">
                 <div class="col-md-1">
                     <div><span class={{campaign.status}}></span></div>
-                    <div><span class="marg-10"> {{campaign.status}}  </span></div>
+                    <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
                     <div class="edit-stats-icons">
                         <div>
                           <a ng-href="/campaigns/{{campaign.orderId}}">

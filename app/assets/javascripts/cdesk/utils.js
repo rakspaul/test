@@ -233,14 +233,27 @@
                     return $filter('number')(input, 2) + '%';
                 }else if(kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') {
                     return '$' + $filter('number')(input, 2);
-                }else if(kpiType == 'Actions') {
+                }else if(kpiType == 'Actions' || kpiType == 'Clicks' || kpiType == 'Impressions') {
                     return $filter('number')(input, 0); 
                 }else {
-                    return $filter('number')(input, 2);
+                    //unknown kpiType
+                    return $filter('number')(input, 0);
                 }
             }else {
                 return 'NA';
             }
+        }
+    });
+
+    angObj.filter('toCamelCase', function() {
+        return function(input) {
+            if(input == undefined) {
+                return '';
+            }
+            input = input.charAt(0).toUpperCase() + input.substr(1);
+            return input.replace(/(\-[a-z])/g, function($1) {
+                return $1.toUpperCase().replace('-', '');
+            });
         }
     });
 
