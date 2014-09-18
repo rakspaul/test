@@ -448,19 +448,20 @@ button, i, input[type="submit"] {
         &.edit-stats-icons {
           margin-top: 60px;
           #icon-campaign-edit.icons-bckground {
-            width: 24px;
-            height: 24px;
-            display: inline-block;
+            background: url(asset-path("icn_act_edit.png")) no-repeat scroll 0 0 #EBAB34;
             border-radius: 20px;
-            margin-top: -4px;
-            background: url(asset-path("icn_act_edit.png")) no-repeat -2px -2px #ebab34;
+            display: inline-block;
+            height: 30px;
+            margin-top: -8px;
+            width: 30px;
           }
           #icon-campaign-report.icons-bckground {
-            width: 24px;
-            height: 24px;
-            display: inline-block;
+            background: url(asset-path("icn_act_reports.png")) no-repeat scroll 0 0 #EBAB34;
             border-radius: 20px;
-            background: url(asset-path("icn_act_reports.png")) no-repeat -2px -2px #ebab34;
+            display: inline-block;
+            height: 30px;
+            margin-top: -5px;
+            width: 30px;
           }
           > div:nth-child(2) {
             margin-top: 20px;
