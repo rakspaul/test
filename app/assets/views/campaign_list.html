@@ -81,8 +81,14 @@
                     <div><span class={{campaign.status}}></span></div>
                     <div><span class="marg-10"> {{campaign.status}}  </span></div>
                     <div class="edit-stats-icons">
-                        <div><a ng-href="/campaigns/{{campaign.orderId}}"><img class="icons-bckground" src="/assets/icn_act_edit.png" alt="Edit-icon" /></a></div>
-                        <div><img class="icons-bckground" src="/assets/icn_act_reports.png" alt="Reports-icon" />    </div>
+                        <div>
+                          <a ng-href="/campaigns/{{campaign.orderId}}">
+                            <span class="icons-bckground" id="icon-campaign-edit"></span>
+                          </a>
+                        </div>
+                        <div>
+                          <span class="icons-bckground" id="icon-campaign-report"></span>
+                        </div>
                     </div>
                 </div>
 
@@ -148,7 +154,7 @@
                             <span class="bold">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
                         </div>
                         <div class="col-md-5 kpi-values">
-                            <img src="assets/icn_goal.png" alt="Goal-icon"/>
+                            <span class="kpi-goal"></span>
                             <span class="bold">{{campaign.kpiValue ? '$' + campaign.kpiValue : 'NA'}}</span>
                             <div>
                                 <span style="font-size: 10pt;">Avg.</span>

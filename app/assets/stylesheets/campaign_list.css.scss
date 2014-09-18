@@ -447,9 +447,20 @@ button, i, input[type="submit"] {
         @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
         &.edit-stats-icons {
           margin-top: 60px;
-          .icons-bckground {
+          #icon-campaign-edit.icons-bckground {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
             border-radius: 20px;
-            @include BackgroundLinearGradient(#f9b537, #ebab34);
+            margin-top: -4px;
+            background: url(asset-path("icn_act_edit.png")) no-repeat -2px -2px #ebab34;
+          }
+          #icon-campaign-report.icons-bckground {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            border-radius: 20px;
+            background: url(asset-path("icn_act_reports.png")) no-repeat -2px -2px #ebab34;
           }
           > div:nth-child(2) {
             margin-top: 20px;
@@ -518,6 +529,13 @@ button, i, input[type="submit"] {
           }
           .kpi-num {
             font-family: $secondaryFont;
+          }
+          .kpi-goal {
+            width: 24px;
+            height: 24px;
+            display: inline-block;
+            vertical-align: sub;
+            background: url(asset-path('icn_goal.png')) no-repeat 7px 7px rgba(0, 0, 0, 0) ;
           }
         }
       }
