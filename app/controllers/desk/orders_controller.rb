@@ -23,7 +23,7 @@ class Desk::OrdersController < Desk::DeskController
     # :lineitems - for lineitem/strategy count
     user_orders
     @orders = @arel.includes(:lineitems, :io_detail, :advertiser)
-                    .joins("LEFT JOIN io_details on io_details.order_id = orders.id")
+                    .where("io_details.state in ('delivering', 'draft', 'completed')")
                     .order("#{param_sort_column} #{param_sort_direction}")
                     .page(params[:page]).per(5)
 
@@ -37,16 +37,18 @@ class Desk::OrdersController < Desk::DeskController
   private
 
   def param_sort_column
-    sort_field = params[:sort_column] || "start_date"
+    sort_field = params[:sort_column] || "orders.start_date"
     sort_column = case sort_field
                     when "id"
                       "orders.id"
                     when "order_name"
                       "orders.name"
                     when "advertiser"
-                      "io_details.client_advertiser_name"
+                      "network_advertisers.name"
                     when "status"
                       "io_details.state"
+                    when "start_date"
+                      "orders.start_date"
                     else
                       sort_field
                   end
@@ -75,9 +77,9 @@ class Desk::OrdersController < Desk::DeskController
 
   def apply_date_filter
     # @arel = @arel.where("start_date <= #{params[:filter][:start_date]} and #{params[:filter][:end_date]} <= end_date")
-    @arel = @arel.where("(date('#{params[:filter][:start_date]}') <= start_date and date('#{params[:filter][:end_date]}') >= start_date) or
-                          (date('#{params[:filter][:start_date]}') <= end_date and date('#{params[:filter][:end_date]}') >= end_date) or
-                          (start_date <= date('#{params[:filter][:start_date]}') and end_date >= date('#{params[:filter][:end_date]}'))")
+    @arel = @arel.where("(date('#{params[:filter][:start_date]}') <= orders.start_date and date('#{params[:filter][:end_date]}') >= orders.start_date) or
+                          (date('#{params[:filter][:start_date]}') <= orders.end_date and date('#{params[:filter][:end_date]}') >= orders.end_date) or
+                          (orders.start_date <= date('#{params[:filter][:start_date]}') and orders.end_date >= date('#{params[:filter][:end_date]}'))")
   end
 
 
@@ -94,6 +96,9 @@ class Desk::OrdersController < Desk::DeskController
         params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
       when "last_year"
         params[:filter][:start_date] = 1.year.ago.beginning_of_day.to_date
+        params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
+      when "life_time"
+        params[:filter][:start_date] = 5.years.ago.beginning_of_day.to_date
         params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
       when "custom_dates"
         params[:filter][:start_date] = params[:filter][:start_date].to_date

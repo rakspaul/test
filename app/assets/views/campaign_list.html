@@ -25,15 +25,21 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
                             <li class="active"  >
-                                <a data-ng-click="campaigns.fetchLastWeekCampaigns()">
+                                <a data-ng-click="campaigns.fetchAllCampaigns('last_week')">
                                     <span class="tick"></span>
                                     <span class="menuItemText">Last 7 days</span>
                                 </a>
                             </li>
-                            <li >
-                                <a data-ng-click="campaigns.fetchLastMonthCampaigns()">
+                            <li>
+                                <a data-ng-click="campaigns.fetchAllCampaigns('last_month')">
                                     <span class="tick"></span>
                                     <span class="menuItemText">Last 30 days</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ng-click="campaigns.fetchAllCampaigns('life_time')">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText">Life time</span>
                                 </a>
                             </li>
                         </ul>
@@ -57,9 +63,21 @@
                     </li>
                     <li class="col-md-5">
                         <ul>
-                            <li> <span>CAMPAIGN </span></li>
-                                <li> <span> BRAND </span></li>
-                                <li><span class="active"> FLIGHT DATES </span></li>
+                            <li>
+                                <a data-ng-click="campaigns.sortCampaigns('order_name')">
+                                    <span class="{{campaigns.sortParam == 'order_name' ? 'active' : ''}}">CAMPAIGN </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ng-click="campaigns.sortCampaigns('advertiser')">
+                                    <span class="{{campaigns.sortParam == 'advertiser' ? 'active' : ''}}">BRAND</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-ng-click="campaigns.sortCampaigns('start_date')">
+                                    <span class="{{campaigns.sortParam == undefined || campaigns.sortParam == 'start_date' ? 'active' : ''}}">FLIGHT DATES</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="col-md-3">
@@ -95,9 +113,9 @@
 
                 <div class="col-md-5">
                     <span class="campaign-name"> {{campaign.campaignTitle}} </span>
-                    <div class="brand"> <span class="bold">
-                        {{campaign.brandName | spliter:0 }}
-    </span><span class="brand-type">{{campaign.brandName | spliter:1 }}</span>
+                    <div class="brand">
+                      <span class="bold">{{campaign.brandName | spliter:0 }}</span>
+                      <span class="brand-type">{{campaign.brandName | spliter:1 }}</span>
                     </div>
                     <div class="duration"> <!--<img src="../img/images/icn_flight_date.png" alt="Flight-icon" />-->
                         <span class="date">
