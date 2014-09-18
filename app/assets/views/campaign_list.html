@@ -174,17 +174,10 @@
                         </div>
                         <div class="col-md-5 kpi-values">
                             <img src="assets/icn_goal.png" alt="Goal-icon"/>
-                            <span class="bold" ng-if="!campaign.kpiValue">NA</span>
-                            <span class="bold" ng-if="campaign.kpiType == 'CTR'">{{campaign.kpiValue ?  (campaign.kpiValue|number:2 ) + '%': ''}}</span>
-                            <span class="bold" ng-if="campaign.kpiType == 'Action'">{{campaign.kpiValue ?  (campaign.kpiValue|number:0) : ''}}</span>
-                            <span class="bold" ng-if="campaign.kpiType == 'CPC' || campaign.kpiType == 'CPA'">{{campaign.kpiValue ? '$'+ (campaign.kpiValue|number:2 ) : ''}}</span>
+                            <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
                             <div>
                                 <span style="font-size: 10pt;">Avg.</span>
-                                <span class="bold" ng-if="!campaign.kpiAvgValue">NA</span>
-                                <span class="bold" ng-if="campaign.kpiType == 'CTR'">{{campaign.kpiAvgValue ?  (campaign.kpiAvgValue|number:2 ) + '%': ''}}</span>
-                                <span class="bold" ng-if="campaign.kpiType == 'Action'">{{campaign.kpiAvgValue ?  (campaign.kpiAvgValue|number:0) : ''}}</span>
-                                <span class="bold" ng-if="campaign.kpiType == 'CPC' || campaign.kpiType == 'CPA'">{{campaign.kpiAvgValue ? '$'+ (campaign.kpiAvgValue|number:2 ) : ''}}</span>
-
+                                <span class="bold">{{campaign.kpiAvgValue | kpiFormatter:campaign.kpiType}}</span>
                             </div>
                         </div>
                     </div>

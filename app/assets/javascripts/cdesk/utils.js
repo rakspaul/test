@@ -226,4 +226,22 @@
         }
     });
 
+    angObj.filter('kpiFormatter', function($filter) {
+        return function(input, kpiType) {
+            if(input && kpiType){
+                if(kpiType=='CTR'){
+                    return $filter('number')(input, 2)+'%';
+                }else if(kpiType=='CPC' || kpiType=='CPA'){
+                    return '$'+$filter('number')(input, 2);
+                }else if(kpiType=='Actions'){
+                    return $filter('number')(input, 0); 
+                }else{
+                    return $filter('number')(input, 2);
+                }
+            }else{
+                return 'NA';
+            }
+        }
+    });
+
 }());
