@@ -26,7 +26,7 @@
                     tooltip: {
                         useHTML:true,
                         formatter: function () {
-                            return '<div style="background:#fff;padding:5px;border:1px solid #ccc"> <b>' + this.series.name  + '</b><br/>' + this.x + ': ' + this.y+'</div>';
+                            return '<div class="chart-tool-tip" > <b>' + this.series.name  + '</b><br/>' + this.x + ': ' + this.y+'</div>';
                         }
                     },
                     title: {
