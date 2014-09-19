@@ -651,3 +651,33 @@ button, i, input[type="submit"] {
     background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
 }
+#brandsDropdown:focus {
+  background: white;
+}
+#brandsDropdown {
+  background: #F9B537;
+  border: none;
+  height:30px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-size: 11pt;
+}
+#brandsList {
+  height: 500px;
+  overflow: auto;
+}
+::-webkit-input-placeholder {
+  color: white;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  color: white;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: white;
+}
+
+:-ms-input-placeholder {
+  color: white;
+}
+

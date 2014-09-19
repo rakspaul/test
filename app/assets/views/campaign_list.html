@@ -9,16 +9,10 @@
             <div class="search-cum-navbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown" ng-controller="BrandsController">
-                        <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS">
+                        <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
                         <ul class="dropdown-menu" role="menu" id="brandsList">
-                            <li class="active">
-                                <a href="#">
-                                    <span class="tick"></span>
-                                    <span class="menuItemText">ALL BRANDS</span>
-                                </a>
-                            </li>
-                            <li ng-repeat="brand in brands | filter:selectedBrand.name | orderBy:'name'">
-                                <a href="#">
+                            <li ng-repeat="brand in brands | filter:selectedBrand.name" class="{{brand.className}}">
+                                <a data-ng-click="selectBrand(brand)">
                                     <span class="tick"></span>
                                     <span class="menuItemText">{{brand.name}}</span>
                                 </a>
@@ -27,26 +21,14 @@
                     </li>
                     <li class="dropdown dropdown-two">
                         <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
-                            <span id="durationMenuText">LAST 7 DAYS</span>
+                            <span ng-bind="campaignData.timePeriod"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
-                            <li class="active"  >
-                                <a data-ng-click="campaigns.fetchAllCampaigns('last_week')">
+                            <li ng-repeat="timeData in timePeriodList" class={{timeData.className}}>
+                                <a data-ng-click="selectPeriod(timeData)">
                                     <span class="tick"></span>
-                                    <span class="menuItemText">Last 7 days</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ng-click="campaigns.fetchAllCampaigns('last_month')">
-                                    <span class="tick"></span>
-                                    <span class="menuItemText">Last 30 days</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ng-click="campaigns.fetchAllCampaigns('life_time')">
-                                    <span class="tick"></span>
-                                    <span class="menuItemText">Lifetime</span>
+                                    <span class="menuItemText">{{timeData.display}}</span>
                                 </a>
                             </li>
                         </ul>
@@ -216,12 +198,6 @@
          });
         $("#brandsDropdown").click(function() {
             $("#brandsList").toggle();
-        });
-        $( ".menuItemText" ).click(function() {
-            $("#cdbDropdown").toggle();
-            $("#durationMenuText").text(angular.uppercase($(this).text()));
-            $('#cdbDropdown').find('li.active').removeClass('active');
-            $(this).parent().parent().addClass('active');
         });
         $( document ).click(function() {
             if($("#cdbDropdown").is(':visible')) {
