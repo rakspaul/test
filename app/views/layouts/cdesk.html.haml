@@ -56,3 +56,8 @@
   :javascript
     window.user_id                  = "#{current_user.id}";
     window.auth_token               = "#{auth_token}";
+    window.i18n_identifier          = "#{identifier}";
+    window.CONVENTION_AGENCY        = "#{convention_agency}";
+    window.CONVENTION_MARKETER      = "#{convention_marketer}";
+    window.is_network_user          = "#{current_user.network_user?}";
+    window.agency_id                = function () { return "#{current_user.agency_id}"; }

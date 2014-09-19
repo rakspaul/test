@@ -80,6 +80,24 @@
                             };
                         });
                 }//end of check
+            },
+
+            getBrands: function() {
+              var url = '/desk/advertisers.json';
+              return $http({url: url , method: 'GET', cache: true}).then(
+                function (response) {
+                  return {
+                    status : "success",
+                    data : response.data
+                  };
+                },
+                function (error) {
+                  return {
+                    status : "error",
+                    data : error
+                  };
+                }
+              );
             }
         };
     });

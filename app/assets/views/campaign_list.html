@@ -8,14 +8,21 @@
         <div class="col-md-12">
             <div class="search-cum-navbar">
                 <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a class="dropdown-toggle  active" data-toggle="dropdown" href="#">
-                            ALL BRANDS <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li class="active"><a href="#"><span class="tick"></span>ALL BRANDS</a></li>
-                            <li><a href="#"><span class="tick"></span>Maruti</a></li>
-                            <li><a href="#"><span class="tick"></span>Suzuki</a></li>
+                    <li class="dropdown" ng-controller="BrandsController">
+                        <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS">
+                        <ul class="dropdown-menu" role="menu" id="brandsList">
+                            <li class="active">
+                                <a href="#">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText">ALL BRANDS</span>
+                                </a>
+                            </li>
+                            <li ng-repeat="brand in brands | filter:selectedBrand.name | orderBy:'name'">
+                                <a href="#">
+                                    <span class="tick"></span>
+                                    <span class="menuItemText">{{brand.name}}</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="dropdown dropdown-two">
@@ -207,6 +214,9 @@
         $( "#cdbMenu" ).click(function() {
             $( "#cdbDropdown" ).toggle();
          });
+        $("#brandsDropdown").click(function() {
+            $("#brandsList").toggle();
+        });
         $( ".menuItemText" ).click(function() {
             $("#cdbDropdown").toggle();
             $("#durationMenuText").text(angular.uppercase($(this).text()));
@@ -216,6 +226,9 @@
         $( document ).click(function() {
             if($("#cdbDropdown").is(':visible')) {
                 $("#cdbDropdown").hide();
+            }
+            if(!$("#brandsDropdown").is(':focus')) {
+                $("#brandsList").hide();
             }
         });
     });
