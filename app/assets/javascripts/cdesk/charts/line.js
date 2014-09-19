@@ -75,6 +75,14 @@
                     /*14af00*/
                     tooltip: {
                         valueDecimals: 2
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    states:{
+                        hover: {
+                            enabled: false
+                        }
                     }
                 }],
                 title: {
