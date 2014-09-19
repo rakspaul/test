@@ -26,7 +26,7 @@ class OrderDecorator < Draper::Decorator
 
   def order_name_column
     h.content_tag(:div, class: 'order-title') do
-      link = convention_marketer? ? h.campaign_path(order) : h.order_path(order)
+      link = convention_marketer? ? h.order_path(order) : h.order_path(order)
       h.link_to object.name, link
     end + first_note
   end
@@ -84,7 +84,7 @@ class OrderDecorator < Draper::Decorator
   private
     def order_id_link
       h.content_tag(:span, class: 'amp-id', title: 'AMP ID') do
-        link = convention_marketer? ? h.campaign_path(order) : h.order_path(order)
+        link = convention_marketer? ? h.order_path(order) : h.order_path(order)
         h.link_to object.id, link
       end
     end

@@ -3,9 +3,6 @@ class Order < ActiveRecord::Base
   IMPORT_PUSH_NOTES = ['Imported Order', 'Pushed Order']
 
   module KpiTypes
-    ACTIONS = 'Actions'
-    CLICKS = 'Clicks'
-    IMPRESSIONS = 'Impressions'
     CTR = 'CTR'
     CPA = 'CPA'
     CPC = 'CPC'
@@ -132,14 +129,6 @@ class Order < ActiveRecord::Base
     self.kpi_type.present? && self.kpi_value.present?
   end
 
-  def kpi_value
-    if self.kpi_type == KpiTypes::ACTIONS || self.kpi_type == KpiTypes::CLICKS || self.kpi_type == KpiTypes::IMPRESSIONS
-      super.to_i
-    else
-      super
-    end
-  end
-
 
   private
     def validate_advertiser_id
@@ -235,8 +224,6 @@ class Order < ActiveRecord::Base
           return
         end
         case self.kpi_type
-          when KpiTypes::ACTIONS, KpiTypes::CLICKS, KpiTypes::IMPRESSIONS
-            validates_numericality_of(:kpi_value, :only_integer => true)
           when KpiTypes::CTR
             validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100)
           when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM

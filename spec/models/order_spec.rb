@@ -46,21 +46,6 @@ describe Order do
       order2.valid?.should be_false
       order2.errors[:kpi_type].first.should == 'can\'t be empty'
 
-      #only integers are allowed for action, clicks & impressions
-      order2.update kpi_type: Order::KpiTypes::ACTIONS, kpi_value: '10'
-      order2.valid?.should be_true
-      order2.update kpi_type: Order::KpiTypes::CLICKS, kpi_value: 20
-      order2.valid?.should be_true
-      order2.update kpi_type: Order::KpiTypes::IMPRESSIONS, kpi_value: '10'
-      order2.valid?.should be_true
-
-      order2.update kpi_type: Order::KpiTypes::ACTIONS, kpi_value: '10.5'
-      order2.valid?.should be_false
-      order2.update kpi_type: Order::KpiTypes::CLICKS, kpi_value: 10.5
-      order2.valid?.should be_false
-      order2.update kpi_type: Order::KpiTypes::IMPRESSIONS, kpi_value: '10.5'
-      order2.valid?.should be_false
-
       #percentage is allowed for CTR & Video Completion
       order2.update kpi_type: Order::KpiTypes::CTR, kpi_value: '100.5'
       order2.valid?.should be_false
