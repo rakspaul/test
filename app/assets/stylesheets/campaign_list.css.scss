@@ -532,11 +532,12 @@ button, i, input[type="submit"] {
             font-family: $secondaryFont;
           }
           .kpi-goal {
-            width: 24px;
-            height: 24px;
+            width: 17px;
+            height: 18px;
             display: inline-block;
             vertical-align: sub;
-            background: url(asset-path('cdesk/icn_goal.png')) no-repeat 7px 7px rgba(0, 0, 0, 0) ;
+            background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+
           }
         }
       }
@@ -632,6 +633,6 @@ button, i, input[type="submit"] {
     margin: 20px;
     text-align: center;
     text-indent: -99999;
-    background: url(asset-path("cdesk/loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
 }
