@@ -1,22 +1,19 @@
 class Desk::AdvertisersController < Desk::DeskController
 
-  before_filter :require_agency, :only => [:index, :search]
-
   respond_to :json
 
   def index
-    @advertisers = Order.where(:agency_id => @agency.id)
-                        .joins(:advertiser)
-                        .select('network_advertiser_id as id, network_advertisers.name as name').distinct
+    @advertisers = filtered_orders.joins(:advertiser)
+                    .select('network_advertiser_id as id, network_advertisers.name as name').distinct
   end
 
   def search
-    @advertisers_search = Order.where(:agency_id => @agency.id)
-                        .joins(:advertiser)
-                        .where("lower(network_advertisers.name) ilike lower(?)", "%#{params[:search]}%")
-                        .select('network_advertiser_id as id, network_advertisers.name as name').distinct
+    @advertisers_search = filtered_orders.joins(:advertiser)
+                          .where("lower(network_advertisers.name) ilike lower(?)", "%#{params[:search]}%")
+                          .select('network_advertiser_id as id, network_advertisers.name as name').distinct
   end
 
+  #below 2 actions are not used
   def list_network_advertisers
     @all_advertisers = Order.of_network(current_network)
                             .joins(:advertiser)
@@ -32,7 +29,11 @@ class Desk::AdvertisersController < Desk::DeskController
 
   private
 
-  def require_agency
-    @agency ||= Agency.find_by_id(params[:agency_id])
+  def filtered_orders
+    if current_user.network_user?
+      Order.of_network(current_network)
+    else
+      Order.of_agency(current_user.agency)
+    end
   end
 end
