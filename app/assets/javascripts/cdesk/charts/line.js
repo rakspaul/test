@@ -75,6 +75,14 @@
                     color: '#6fd0f4',
                     tooltip: {
                         valueDecimals: 2
+                    },
+                    marker: {
+                        enabled: false
+                    },
+                    states:{
+                        hover: {
+                            enabled: false
+                        }
                     }
                 }],
                 title: {
