@@ -1,8 +1,3 @@
-
-
-
-
-
 /* font- face declarations */
 @font-face {
   font-family: "TradeGothicLTStd-BdCn20";
@@ -316,11 +311,19 @@ button, i, input[type="submit"] {
       padding: 5px 20px;
       border-radius: 5px;
       background: #f9b537;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
       ul {
         width: 100%;
         li {
+          cursor: pointer;
           border-right: 1px solid #e0a331;
+          .sort-image-inactive {
+            width: 10px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: baseline;
+            background: url(asset-path("cdesk/static-caret.png")) no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+          }
           .dropdown-menu {
             padding: 0;
             width: 200px;
@@ -330,6 +333,7 @@ button, i, input[type="submit"] {
             border-radius: 5px;
             li {
               border-right: none;
+              cursor: pointer;
               a {
                 padding: 12px 15px 5px;
                 @include FontColor($textDarkGreyColor, 11pt, $secondaryFont);
@@ -344,10 +348,10 @@ button, i, input[type="submit"] {
                 height: 20px;
                 display: inline-block;
               }
-              &.active a span.tick {
-                background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
-              }
               &:hover a span.tick {
+                background: url(asset-path("cdesk/green-ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+              }
+              &.active a span.tick {
                 background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
             }
@@ -396,7 +400,9 @@ button, i, input[type="submit"] {
           &:first-child {
             padding-left: 0;
           }
-          span {
+          a {
+            cursor: pointer;
+            span {
             width: 96%;
             font-weight: bold;
             margin-right: 15px;
@@ -405,8 +411,49 @@ button, i, input[type="submit"] {
             text-transform: uppercase;
             border-bottom: 1px solid $textGreyColor;
             @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-            &.active {
-              color: $textHeadingColor;
+              &.active {
+                color: $textHeadingColor;
+              }
+              > span.default-sort, > span.ascending, > span.descending  {
+                margin: 0;
+                width: 8px;
+                padding: 0;
+                height: 13px;
+                vertical-align: top;
+                border-bottom: none;
+                display: inline-block;
+                background: transparent;
+              }
+            }
+            &:hover span > span.default-sort{
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: top;
+              border-bottom: none;
+              display: inline-block;
+              background: url(asset-path("cdesk/sort-blue.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+            }
+            &:hover span > span.ascending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url(asset-path("cdesk/ascending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+            }
+            &:hover span > span.descending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url(asset-path("cdesk/descending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
             }
           }
           &:nth-child(2) {
@@ -427,6 +474,10 @@ button, i, input[type="submit"] {
               border-bottom: none;
             }
           }
+        }
+        li.col-md-6.pull-right {
+          text-align: center;
+          padding: 0 5px 0 15px;
         }
       }
     }
@@ -523,10 +574,16 @@ button, i, input[type="submit"] {
         }
         .kpi-values {
           text-align: right;
-          @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
           div span {
             text-align: right;
             @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+          }
+          div > span:last-child {
+            @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          }
+          div > span.avg-text {
+            font-size: 10pt;
           }
           .kpi-num {
             font-family: $secondaryFont;
@@ -643,6 +700,10 @@ button, i, input[type="submit"] {
         }
       }
     }
+  }
+  .row-fluid .col-md-6.campaign-count {
+    margin-bottom: 0;
+    @include FontColor(#f9b537, 12pt, $secondaryFont);
   }
   .load-more {
     margin: 20px;
