@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="col-md-6 campaign-count">
-            Total 57 campaigns
+            Total {{campaigns.totalCount}} campaigns
         </div>
     </div>
     <div class="row-fluid">
@@ -65,21 +65,11 @@
                     </li>
                     <li class="col-md-5">
                         <ul>
-                            <li>
-                                <a data-ng-click="campaigns.sortCampaigns('order_name')">
-                                    <span class="{{campaigns.sortParam == 'order_name' ? 'active' : ''}}">CAMPAIGN <span class="default-sort"></span></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ng-click="campaigns.sortCampaigns('advertiser')">
-                                    <span class="{{campaigns.sortParam == 'advertiser' ? 'active' : ''}}">BRAND <span class="default-sort"></span></span>
-                                </a>
-                            </li>
-                            <li>
-                                <a data-ng-click="campaigns.sortCampaigns('start_date')">
-                                    <span class="{{campaigns.sortParam == undefined || campaigns.sortParam == 'start_date' ? 'active' : ''}}">FLIGHT DATES <span class="default-sort"></span></span>
-                                </a>
-                            </li>
+                          <li ng-repeat="sortField in campaigns.sortFieldList">
+                            <a data-ng-click="campaigns.sortCampaigns(sortField.key)">
+                              <span class="{{sortField.className}}">{{sortField.display}}<span class="{{campaigns.sortIcon(sortField.key)}}"></span></span>
+                            </a>
+                          </li>
                         </ul>
                     </li>
                     <li class="col-md-3">

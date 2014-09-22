@@ -6,7 +6,7 @@
             getCdbLineChart: function(obj, campaignList, timePeriod) {
                 dataService.getCdbChartData(campaignList[obj].orderId, timePeriod).then(function (result) {
                     var lineDate=[];
-                    if(result.status == "success") {
+                    if(result.status == "success" && !angular.isString(result.data)) {
                         if(!angular.isUndefined(campaignList[obj].kpiType)) {
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;

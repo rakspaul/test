@@ -26,6 +26,7 @@ class Desk::OrdersController < Desk::DeskController
                     .where("io_details.state in ('delivering', 'draft', 'completed')")
                     .order("#{param_sort_column} #{param_sort_direction}")
                     .page(params[:page]).per(5)
+                    .references(:lineitems, :io_detail, :advertiser)
 
     respond_to do | format |
       format.html
