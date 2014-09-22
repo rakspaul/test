@@ -502,3 +502,32 @@ select:focus:invalid:focus {
 #detailedPage.container .row-fluid .col-md-12.load-more a:hover {
   text-decoration: none;
 }
+#brandsDropdown:focus {
+    background: white;
+}
+#brandsDropdown {
+    background: #F9B537;
+    border: none;
+    height:30px;
+    font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+    font-size: 11pt;
+}
+#brandsList {
+    height: 500px;
+    overflow: auto;
+}
+::-webkit-input-placeholder {
+    color: white;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: white;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: white;
+}
+
+:-ms-input-placeholder {
+    color: white;
+}
