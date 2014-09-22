@@ -3,7 +3,7 @@
     "use strict";
     angObj.factory("line", function($timeout) {
 
-        var lineChart = function(lineDate, threshold) {
+        var lineChart = function(lineDate, threshold, kpiType) {
             var data = [],
                 datObj = [];
 
@@ -13,16 +13,16 @@
                 data.push(datObj);
                 datObj = [];
             }
+         
 
             return {
                 options: {
-                    credits:{
+                    credits: {
                         enabled:false
                     },
                     rangeSelector: {
                         selected: 1
                     },
-
                     title: {
                         text: null
                     },
@@ -40,11 +40,7 @@
                         gridLineWidth: 0,
                         minorGridLineWidth: 0,
                         plotBands: [{ // Light air
-                            from: threshold,
-                            to: 0,
                             color: '#fbdbd1',
-                            /*rgba(255, 0, 0, 0.1)',*/
-
                             label: {
                                 enabled: false,
                                 text: '',
@@ -66,13 +62,11 @@
                     }
                 },
                 series: [{
-                    name: 'KPN: ',
+                    name: kpiType,
                     data: data,
                     threshold: threshold,
                     negativeColor: '#6fd0f4',
-                    /*54b2f9*/
                     color: '#6fd0f4',
-                    /*14af00*/
                     tooltip: {
                         valueDecimals: 2
                     }
@@ -82,16 +76,12 @@
                 },
                 loading: false,
                 func: function(chart) {
-                    //setup some logic for the chart
                     $timeout(function() {
                         var extremes = chart.yAxis[0].getExtremes();
-                        //console.log(extremes);
                         chart.yAxis[0].addPlotBand({ // Light air
                             from: threshold,
-                            to: extremes.max,
+                            to: ( kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM' ) ? extremes.max : extremes.min,
                             color: '#fbdbd1',
-                            /*rgba(255, 0, 0, 0.1)',*/
-
                             label: {
                                 enabled: false,
                                 text: '',
@@ -100,11 +90,9 @@
                                 }
                             }
                         });
-                        //this.options.plotBands.to = extremes.max;
-                        //chart.addSeries({ name: 'Series A', data: data1 });
                     }, 1000);
-
                 }
+
             };
         };
         return {

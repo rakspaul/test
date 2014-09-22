@@ -542,6 +542,12 @@ button, i, input[type="submit"] {
         }
       }
     }
+    .highcharts span.no-chart {
+      padding:50px;
+      color:#a2a2a2;
+      display:block;
+      text-align: center; 
+    }
     &.inner-accordion-wrapper {
       margin-top: -20px;
       margin-bottom: 20px;
