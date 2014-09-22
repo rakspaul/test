@@ -4,38 +4,15 @@
 
     angObj.controller('CampaignsController', function($scope, Campaigns) {
       $scope.campaigns = new Campaigns();
-      $scope.timePeriodList = [createTimePeriodObject('Last 7 days','last_week','active'),
-                               createTimePeriodObject('Last 30 days','last_month'),
-                               createTimePeriodObject('Lifetime','life_time')];
-      $scope.campaignData = {};
-      $scope.campaignData.timePeriod = angular.uppercase($scope.timePeriodList[0].display);
-      $scope.selectPeriod = function(timePeriod) {
-        $scope.campaignData.timePeriod = angular.uppercase(timePeriod.display);
-        $("#cdbDropdown").toggle();
-        $scope.timePeriodList.forEach(function (period) {
-          if(period == timePeriod) {
-            period.className = 'active';
-          } else {
-            period.className = '';
-          }
-        });
-        $scope.campaigns.fetchAllCampaigns(timePeriod.key,$scope.campaigns.agencyId);
-      };
-      function createTimePeriodObject (display, key, className) {
-        var obj = {"display":display, "key":key};
-        if(className != undefined) {
-          obj.className = className;
-        } else {
-          obj.className = '';
-        }
-        return obj;
-      };
     });
 
 
     angObj.factory("Campaigns", function ($http, dataService, campaign, campaign_api) {
 
       var Campaigns = function() {
+        this.timePeriodList = buildTimePeriodList();
+        this.displayTimePeriod = angular.uppercase(this.timePeriodList[0].display);
+
         this.campaignList = [];
         this.busy = false;
         this.timePeriod = "last_week";
@@ -44,14 +21,23 @@
         this.sortParam;
         this.sortDirection;
         this.totalPages;
-        this.agencyId = 0;
+        this.brandId = 0;
 
         this.reset = function() {
           this.campaignList = [];
           this.busy = false;
           this.timePeriod = "last_week";
           this.nextPage = 1;
-          this.agencyId = 0;
+          this.brandId = 0;
+          this.sortParam = undefined;
+          this.sortDirection = undefined;
+          this.totalPages = undefined;
+        };
+
+        this.resetFilters = function() {
+          this.campaignList = [];
+          this.busy = false;
+          this.nextPage = 1;
           this.sortParam = undefined;
           this.sortDirection = undefined;
           this.totalPages = undefined;
@@ -64,7 +50,7 @@
           this.sortParam = undefined;
           this.sortDirection = undefined;
           this.totalPages = undefined;
-        }
+        };
       };
 
       Campaigns.prototype.fetchCampaigns = function() {
@@ -93,14 +79,24 @@
         });
       },
 
-      Campaigns.prototype.fetchAllCampaigns = function(period,agencyId) {
-        console.log('fetchAllCampaigns: ' + period);
-        this.reset();
-        if(agencyId != undefined && agencyId > 0) {
-          this.agencyId = agencyId;
+      Campaigns.prototype.filterByTimePeriod = function(timePeriod) {
+        this.displayTimePeriod = angular.uppercase(timePeriod.display);
+        $("#cdbDropdown").toggle();
+        this.timePeriodList.forEach(function (period) {
+          if(period == timePeriod) {
+            period.className = 'active';
+          } else {
+            period.className = '';
+          }
+        });
+        Campaigns.prototype._applyFilters.call(this, {timePeriod: timePeriod.key});
+      },
+
+      Campaigns.prototype.filterByBrand = function(brandId) {
+        $("#cdbDropdown").toggle();
+        if(brandId != undefined) {
+          Campaigns.prototype._applyFilters.call(this, {brand: brandId});
         }
-        this.timePeriod = period;
-        Campaigns.prototype.fetchCampaigns.call(this);
       },
 
       Campaigns.prototype.sortCampaigns = function(fieldName) {
@@ -122,15 +118,24 @@
         Campaigns.prototype.fetchCampaigns.call(this);
       },
 
+      Campaigns.prototype._applyFilters = function(filters) {
+        console.log('filter campaigns: ' + JSON.stringify(filters));
+        if(filters == undefined) {
+          return;
+        }
+        this.resetFilters();
+        filters.brand && (this.brandId = filters.brand);
+        filters.timePeriod && (this.timePeriod = filters.timePeriod);
+        Campaigns.prototype.fetchCampaigns.call(this);
+      },
+
       Campaigns.prototype._campaignServiceUrl = function() {
         var params = [
                     'filter[date_filter]=' + this.timePeriod,
                     'page=' + this.nextPage,
                     'callback=JSON_CALLBACK'
         ];
-        if(this.agencyId > 0) {
-          params.push('filter[advertiser_filter]=' + this.agencyId);
-        }
+        this.brandId > 0 && params.push('filter[advertiser_filter]=' + this.brandId);
         this.sortParam && params.push('sort_column=' + this.sortParam);
         this.sortDirection && params.push('sort_direction=' + this.sortDirection);
         return campaign_api + '/campaigns.js?' + params.join('&');
@@ -142,7 +147,21 @@
           return 'desc';
         }
         return 'asc';
+      },
+
+      buildTimePeriodList = function() {
+        return [createTimePeriodObject('Last 7 days', 'last_week', 'active'),
+          createTimePeriodObject('Last 30 days', 'last_month'),
+          createTimePeriodObject('Lifetime', 'life_time')];
+
+      },
+
+      createTimePeriodObject = function(display, key, className) {
+        var obj = {"display": display, "key": key};
+        obj.className = (className == undefined ? '' : className);
+        return obj;
       };
+
 
       return Campaigns;
     });

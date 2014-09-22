@@ -21,12 +21,12 @@
                     </li>
                     <li class="dropdown dropdown-two">
                         <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
-                            <span ng-bind="campaignData.timePeriod"></span>
+                            <span ng-bind="campaigns.displayTimePeriod"></span>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
-                            <li ng-repeat="timeData in timePeriodList" class={{timeData.className}}>
-                                <a data-ng-click="selectPeriod(timeData)">
+                            <li ng-repeat="timeData in campaigns.timePeriodList" class={{timeData.className}}>
+                                <a data-ng-click="campaigns.filterByTimePeriod(timeData)">
                                     <span class="tick"></span>
                                     <span class="menuItemText">{{timeData.display}}</span>
                                 </a>
