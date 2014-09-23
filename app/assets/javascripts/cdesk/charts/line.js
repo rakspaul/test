@@ -8,27 +8,27 @@
                 datObj = [];
 
             for (var i = 0; i < lineDate.length; i++) {
-                var chartDate=lineDate[i]['date'].split("-");
+                var chartDate = lineDate[i]['date'].split("-");
                 data.push([
-                    Date.UTC(parseInt(chartDate[0]), parseInt(chartDate[1] , 10)-1 , parseInt(chartDate[2])), 
+                    Date.UTC(parseInt(chartDate[0]), parseInt(chartDate[1] , 10) - 1 , parseInt(chartDate[2])), 
                     lineDate[i]['y'] 
                 ]);
             }
          
             return {
                 credits: {
-                    enabled:false
+                    enabled: false
                 },
                 rangeSelector: {
                     selected: 1
                 },
                 tooltip: {
-                    useHTML:true,
+                    useHTML: true,
                     dateTimeLabelFormats: {
                         day: '%e of %b'
                     },
                     formatter: function () {
-                        return '<div class="chart-tool-tip" > <b>' + this.series.name  + '</b><br/>' + Highcharts.dateFormat('%e', this.value)+'-'+Highcharts.dateFormat('%b', this.value)+ ': ' + this.y+'</div>';
+                        return '<div class="chart-tool-tip" >' + this.series.name  + '<br/>' + Highcharts.dateFormat('%e', this.value) + '-' + Highcharts.dateFormat('%b', this.value) + ': ' + this.y + '</div>';
                     }
                 },
                 title: {
@@ -102,9 +102,6 @@
                     threshold: threshold,
                     negativeColor: '#6fd0f4',
                     color: '#6fd0f4',
-                    /*tooltip: {
-                        valueDecimals: 2
-                    },*/
                     marker: {
                         enabled: false
                     },
@@ -119,7 +116,7 @@
                 func: function(chart) {
                     $timeout(function() {
                         var extremesX = chart.xAxis[0].getExtremes();
-                        chart.xAxis[1].setExtremes( extremesX.min-0.5 , extremesX.max + 0.5 );
+                        chart.xAxis[1].setExtremes( extremesX.min - 0.5 , extremesX.max + 0.5 );
                         var extremes = chart.yAxis[0].getExtremes();
                         chart.yAxis[0].addPlotBand({ // Light air
                             from: threshold,
