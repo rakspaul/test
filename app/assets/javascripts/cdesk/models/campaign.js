@@ -3,8 +3,8 @@
     "use strict";
     angObj.factory("campaign", ["dataService", "utils", "common", "line", function (dataService,  utils, common, line) {
         return {
-            getCdbLineChart: function(obj, campaignList){
-                dataService.getCdbChartData(campaignList[obj].orderId).then(function (result) {
+            getCdbLineChart: function(obj, campaignList, timePeriod) {
+                dataService.getCdbChartData(campaignList[obj].orderId, timePeriod).then(function (result) {
                     var lineDate=[];
                     if(result.status == "success") {
                         if(!angular.isUndefined(campaignList[obj].kpiType)) {
@@ -22,7 +22,7 @@
                 });
             },
 
-            setActiveInactiveCampaigns: function (dataArr) {
+            setActiveInactiveCampaigns: function (dataArr, timePeriod) {
                 var campaignList = [];
                 for (var obj in dataArr) {
                     if (!angular.isObject(dataArr[obj])) {
@@ -44,7 +44,7 @@
                         totalMediaCost: Math.round(dataArr[obj].total_media_cost),
                         lineitemsCount : dataArr[obj].lineitems_count
                     });
-                    this.getCdbLineChart(obj, campaignList);
+                    this.getCdbLineChart(obj, campaignList, timePeriod);
                 }
                 return campaignList;
             }
