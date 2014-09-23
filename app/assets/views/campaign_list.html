@@ -22,7 +22,7 @@
                     </li>
                     <li class="dropdown dropdown-two">
                         <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
-                            <span ng-bind="campaigns.displayTimePeriod"></span>
+                            <span id="durationMenuText" ng-bind="campaigns.displayTimePeriod"></span>
                             <span class="sort-image-inactive"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu" id="cdbDropdown">
@@ -67,7 +67,7 @@
                         <ul>
                           <li ng-repeat="sortField in campaigns.sortFieldList">
                             <a data-ng-click="campaigns.sortCampaigns(sortField.key)">
-                              <span class="{{sortField.className}}">{{sortField.display}}<span class="{{campaigns.sortIcon(sortField.key)}}"></span></span>
+                              <span class="{{sortField.className}}">{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
                             </a>
                           </li>
                         </ul>

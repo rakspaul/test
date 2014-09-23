@@ -388,6 +388,16 @@ button, i, input[type="submit"] {
           }
         }
       }
+      ul:first-child > li:first-child {
+        padding-right: 20px;
+        > input {
+          width: 80px;
+        }
+        > input::-webkit-input-placeholder { color: $textColorWhite; } 
+        > input::-moz-placeholder { color: $textColorWhite; }  
+        > input:-moz-placeholder { color: $textColorWhite; } 
+        > input:-ms-input-placeholder { color: $textColorWhite; }
+      }
     }
     .campaign-title-head {
       margin-bottom: 20px;
@@ -401,19 +411,24 @@ button, i, input[type="submit"] {
             padding-left: 0;
           }
           a {
+            width: 100%;
             cursor: pointer;
-            span {
-            width: 96%;
-            font-weight: bold;
-            margin-right: 15px;
-            padding-bottom: 5px;
+            padding-bottom: 2px;
             display: inline-block;
-            text-transform: uppercase;
             border-bottom: 1px solid $textGreyColor;
-            @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+            span {
+              width: 96%;
+              font-weight: bold;
+              margin-right: 15px;
+              display: inline-block;
+              /* padding-bottom: 5px; */
+              text-transform: uppercase;
+              /* border-bottom: 1px solid $textGreyColor; */
+              @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
               &.active {
                 color: $textHeadingColor;
               }
+
               > span.default-sort, > span.ascending, > span.descending {
                 margin: 0;
                 width: 8px;
@@ -421,19 +436,12 @@ button, i, input[type="submit"] {
                 height: 13px;
                 vertical-align: top;
                 border-bottom: none;
-                display: inline-block;
-                background: transparent;
+                display: inline;
+                background: url(asset-path("cdesk/sort-blue.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
               }
             }
-            &:hover span > span.ascending {
-              margin: 0;
-              width: 8px;
-              padding: 0;
-              height: 13px;
-              vertical-align: bottom;
-              border-bottom: none;
-              display: inline-block;
-              background: url(asset-path("cdesk/ascending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+            &:hover {
+              text-decoration: none;
             }
             > span > span.ascending {
               margin: 0;
@@ -457,27 +465,40 @@ button, i, input[type="submit"] {
             }
           }
           &:nth-child(2) {
-            ul {
-              padding: 0;
-              width: 95%;
-              border-bottom: 1px solid $textGreyColor;
-              li {
+            li a {
+              width: auto;
+              margin-bottom: 0;
+              border-bottom: none;
+              > span {
                 display: inline-block;
-                border-bottom: none;
-                padding-left: 5px;
-                &:first-child {
-                  padding-left: 0;
+                > span {
+                  top: 7px;
+                  position: absolute;
+                  display: inline-block;
                 }
               }
-            }
-            > ul li span {
-              border-bottom: none;
-            }
+            }  
+              ul {
+                padding: 0;
+                width: 95%;
+                border-bottom: 1px solid $textGreyColor;
+                li {
+                  display: inline-block;
+                  border-bottom: none;
+                  padding-left: 5px;
+                  &:first-child {
+                    padding-left: 0;
+                  }
+                }
+              }
+              > ul li span {
+                border-bottom: none;
+              }
           }
         }
         li.col-md-6.pull-right {
           text-align: center;
-          padding: 0 5px 0 15px;
+          padding: 0 15px;
         }
       }
     }
@@ -541,7 +562,7 @@ button, i, input[type="submit"] {
           }
         }
         #accordion .strategies {
-          width: 100px;
+          width: 130px;
           padding: 5px;
           text-align: center;
           border-radius: 15px;
