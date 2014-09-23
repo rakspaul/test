@@ -18,7 +18,7 @@
             entry.className = '';
           }
         });
-        $scope.campaigns.filterByBrand(brand.id);
+        $scope.campaigns.filterByBrand(brand);
       }
     });
   });

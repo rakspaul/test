@@ -90,19 +90,21 @@
                     <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
                     <div class="edit-stats-icons">
                         <div>
-                          <a ng-href="/campaigns/{{campaign.orderId}}">
+                          <a ng-click="campaigns.editCampaign(campaign, 'edit-campaign')">
                             <span class="icons-bckground" id="icon-campaign-edit"></span>
                           </a>
                         </div>
                         <div>
-                          <span class="icons-bckground" id="icon-campaign-report"></span>
+                          <a ng-click="campaigns.campaignReports(campaign)">
+                            <span class="icons-bckground" id="icon-campaign-report"></span>
+                          </a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-5">
                     <span class="campaign-name"> {{campaign.campaignTitle}} </span>
-                    <div class="brand"> 
+                    <div class="brand">
                         <span class="bold">{{campaign.brandName }}</span>
                         <span class="brand-type"><!-- Note: vertical will be placed here Refer [CD-324] --></span>
                     </div>
