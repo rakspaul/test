@@ -14,7 +14,10 @@
                     lineDate[i]['y'] 
                 ]);
             }
-         
+
+            var dataLength = data.length;
+            var timeInterval = dataLength/4;
+
             return {
                 credits: {
                     enabled: false
@@ -46,10 +49,9 @@
                             } else {
                                   return Highcharts.dateFormat('%e', this.value);
                             }
-                
                         }
                     },
-                    tickInterval: 1 * 24 * 3600 * 1000
+                    tickInterval : Math.ceil(timeInterval) * 24 * 3600 * 1000
                 },
                 {
                     lineWidth: 0,
@@ -62,8 +64,8 @@
                         formatter: function() {
                             return Highcharts.dateFormat('%b', this.value);
                         }
-                    }
-                    //do not delete this -> tickInterval: 7*24 * 3600 * 1000,
+                    },
+                    tickInterval : Math.ceil(timeInterval) * 24 * 3600 * 1000
                 }],
                 yAxis: {
                     labels: {
