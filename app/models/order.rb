@@ -82,7 +82,23 @@ class Order < ActiveRecord::Base
   end
 
   def total_media_cost
-    self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
+    @total_media_cost ||= self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
+  end
+
+  def expected_media_cost_during from_date, to_date
+    from_date = from_date.to_date if from_date.is_a?(Time)
+    to_date = to_date.to_date if to_date.is_a?(Time)
+
+    from_date = self.start_date if from_date < self.start_date
+    to_date = self.end_date if to_date > self.end_date
+
+    days = (to_date - from_date).to_i
+    self.media_cost_per_day * (days + 1)
+  end
+
+  def media_cost_per_day
+    days = (self.end_date - self.start_date).to_i
+    self.total_media_cost / (days + 1)
   end
 
   def dfp_url

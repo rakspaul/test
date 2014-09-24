@@ -69,6 +69,24 @@ describe Order do
     end
   end
 
+  context "media cost" do
+    before(:each) do
+      @order = FactoryGirl.create :order
+      line_item_1 = FactoryGirl.create :lineitem, :order => @order
+      line_item_2 = FactoryGirl.create :lineitem, :order => @order
+    end
+
+    it "should return the media cost per day" do
+      @order.media_cost_per_day.should.should == (1332 / 22.0)
+    end
+
+    it "should return the media cost for the duration" do
+      @order.expected_media_cost_during(12.days.from_now, 22.days.from_now).should.should == (1332 / 22.0) * 11
+
+      @order.expected_media_cost_during(15.days.from_now, 22.days.from_now).should.should == (1332 / 22.0) * 8
+    end
+  end
+
   context "search scope" do
     let(:number_term)         { 1234567 }
     let(:network)             { FactoryGirl.singleton :network }

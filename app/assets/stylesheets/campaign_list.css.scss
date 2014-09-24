@@ -30,9 +30,7 @@ $tertiaryFont: "TradeGothicLTStd";
 $quaternaryFont: "trade-gothic-no-2-bold";
 
 $textColorWhite: #fff;
-$textColorBlue: #6fd0f4;
 $textGreyColor: #bebebe;
-$textGreenColor: #a9d479;
 $textDarkGreyColor: #999;
 $textHelloColor: #a6c7e6;
 $textHeadingColor: #177ac6;
@@ -79,14 +77,6 @@ button, i, input[type="submit"] {
   font-weight: bold;
 }
 
-.blue {
-  @include FontColor($textColorBlue, 12pt, $secondaryFont);
-}
-
-.green {
-  @include FontColor($textGreenColor, 12pt, $secondaryFont);
-}
-
 .seperator {
   font-size: 12pt;
 }
@@ -101,8 +91,8 @@ button, i, input[type="submit"] {
 }
 
 .cpa-color {
-  color: $textDarkGreyColor;
   text-transform: uppercase;
+  @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
 }
 
 .lowerCase {
@@ -512,7 +502,7 @@ button, i, input[type="submit"] {
         }
         li.col-md-6.pull-right {
           text-align: center;
-          padding: 0 15px;
+          padding: 0 5px 15px;
         }
       }
     }
@@ -565,20 +555,38 @@ button, i, input[type="submit"] {
           display: block;
           min-height: 60px;
           font-weight: bold;
-          margin-bottom: 13px;
+          margin-bottom: 0;
           @include FontColor(#f9b537, 16pt, $primaryFont);
         }
         .brand {
-          margin-bottom: 22px;
+          margin-bottom: 20px;
           @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
           .brand-type {
             color: $textGreyColor;
           }
         }
         .duration {
-          margin-bottom: 25px;
+          margin-bottom: 10px;
           .date {
+            margin-bottom: 10px;
             color: $textDarkGreyColor;
+          }
+          .duration-bar {
+            width: 170px;
+            .progress {
+              height: 5px;
+              border-radius: 0;
+              margin-bottom: 7px;
+              .progress-bar {
+                @include BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+              }
+            }
+            .days-left {
+              text-align: right;
+              .day-count {
+                font-family: $primaryFont;
+              }
+            }
           }
         }
         #accordion .strategies {
@@ -598,11 +606,11 @@ button, i, input[type="submit"] {
         }
       }
       .col-md-3 .row-fluid {
-        .col-md-5 {
+        .col-md-10 {
           padding: 0;
           font-size: 9pt;
         }
-        .col-md-7 {
+        .col-md-2 {
           padding: 0;
           text-align: right;
           .suffix {
@@ -616,6 +624,9 @@ button, i, input[type="submit"] {
         .kpi-values {
           text-align: right;
           @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          .cumulative-text {
+            @include FontColor($textDarkGreyColor, 13px, $tertiaryFont);
+          }
           div span {
             text-align: right;
             @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
@@ -637,6 +648,55 @@ button, i, input[type="submit"] {
             background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
 
           }
+        }
+      }
+      .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
+        padding: 0;
+        margin-bottom: 20px;
+        text-align: left;
+        .imps {
+          text-align: right;
+        }
+        .imps-count {
+          text-align: right;
+          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+        }
+      }
+      .col-md-3.marg-10 .row-fluid .col-md-12 {
+        padding: 0;
+      }
+      .col-md-3.marg-10 .row-fluid .col-md-6 {
+        padding: 0;
+        text-align: right; 
+        .ctr-container {
+          .blue{
+            @include FontColor($textHeadingColor, 12pt, $primaryFont);
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            border: 1px solid #5EA9D8;
+            .progress-bar {
+              background: linear-gradient(to right, #6ebff0 , #1d7fc9); 
+              background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
+              background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
+              background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+            }
+          }
+        }
+        .ctr-value {
+          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+        }
+        .goal-image {
+          width: 17px;
+          height: 18px;
+          display: inline-block;
+          vertical-align: sub;
+          background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+        }
+        .action-data {
+          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
         }
       }
     }
