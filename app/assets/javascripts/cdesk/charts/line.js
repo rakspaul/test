@@ -10,7 +10,7 @@
             for (var i = 0; i < lineDate.length; i++) {
                 var chartDate = lineDate[i]['date'].split("-");
                 data.push([
-                    Date.UTC(parseInt(chartDate[0]), parseInt(chartDate[1] , 10) - 1 , parseInt(chartDate[2])), 
+                    Date.UTC(parseInt(chartDate[0]), parseInt(chartDate[1], 10) - 1 , parseInt(chartDate[2])),
                     lineDate[i]['y'] 
                 ]);
             }
@@ -41,10 +41,10 @@
                     type: 'datetime',
                     labels: {
                         formatter: function() {
-                            if(this.isFirst){
-                                 return Highcharts.dateFormat('%e', this.value);
-                            }else{
-                                return Highcharts.dateFormat('%e', this.value);
+                            if(this.isFirst) {
+                                  return Highcharts.dateFormat('%e', this.value);
+                            } else {
+                                  return Highcharts.dateFormat('%e', this.value);
                             }
                 
                         }
@@ -62,7 +62,7 @@
                         formatter: function() {
                             return Highcharts.dateFormat('%b', this.value);
                         }
-                    },
+                    }
                     //do not delete this -> tickInterval: 7*24 * 3600 * 1000,
                 }],
                 yAxis: {
@@ -116,11 +116,11 @@
                 func: function(chart) {
                     $timeout(function() {
                         var extremesX = chart.xAxis[0].getExtremes();
-                        chart.xAxis[1].setExtremes( extremesX.min - 0.5 , extremesX.max + 0.5 );
+                        chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
                         var extremes = chart.yAxis[0].getExtremes();
                         chart.yAxis[0].addPlotBand({ // Light air
                             from: threshold,
-                            to: ( kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM' ) ? extremes.max : extremes.min,
+                            to: (kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
                             color: '#fbdbd1',
                             label: {
                                 enabled: false,
