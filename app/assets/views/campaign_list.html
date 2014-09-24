@@ -85,7 +85,6 @@
     <div class="row-fluid" data-ng-repeat="campaign in campaigns.campaignList">
 
         <div class="col-md-12">
-
             <div class="campaign">
                 <div class="col-md-1">
                     <div><span class={{campaign.status}}></span></div>
@@ -120,6 +119,16 @@
                         {{campaign.endDate | date :' MMM' }}
                         {{campaign.endDate | date :' y' }}
                         </span>
+                        <div class="duration-bar">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
+                                    <span class="sr-only">60% Complete</span>
+                                </div>
+                            </div>
+                            <div class="days-left">
+                                <span class="day-count bold">10 </span>days left
+                            </div>
+                        </div>
                     </div>
                     <div class="panel-group" id="accordion">
                         <div>
@@ -135,42 +144,62 @@
                 </div>
 
                 <div class="col-md-3 marg-10">
-                    <div class="row-fluid">
-                        <div class="col-md-5 marg-10">
-                            Delivered Impr.
+                    <div class="row-fluid marg-10">
+                        <div class="col-md-6">
+                            Spend
                         </div>
-                        <div class="col-md-7">
-                            <span class="blue">103,240</span><span class="suffix"><span class="seperator"> / </span>{{campaign.totalImpressions | number}}</span>
-                        </div>
-                    </div>
-                    <div class="row-fluid">
-                        <div class="col-md-5">
-                                        Spend
-                        </div>
-                        <div class="col-md-7">
-                            <span class="green">$103,240</span><span class="suffix"><span class="seperator"> / </span>${{campaign.totalMediaCost | number}}</span>
+                        <div class="col-md-6">
+                            <div class="imps">Imps.</div>
+                            <div class="imps-count">{{campaign.totalImpressions | number}}</div> 
+
+                            <!-- <span class="blue">103,240</span><span class="suffix"><span class="seperator"> / </span></span> -->
                         </div>
                     </div>
                     <div class="row-fluid">
-                        <div class="col-md-12" style="padding: 0;">
-                            <div class="highcharts">
-                           <!--  <highchart config="chartConfig" chartTitle="" style="width:219px; height: 150px; margin: 0 auto; "></highchart> -->
+                        <div class="col-md-6">
+                            <div class="ctr-container">
+                                <div class="blue">
+                                    $20350
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                        <span class="sr-only">100% Complete</span>
+                                    </div>
+                                </div>
                             </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>CTR</div>
+                            <div class="ctr-value"> 5.55% </div>
+                        </div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="col-md-12">
+                            <div class="pull-right">
+                                Action Rate   
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="goal-image"></span> 
+                            <span class="action-data">$20,000</data>
+                        </div>
+                        <div class="col-md-6">
+                            <span class="action-data">34.42%</data>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="row-fluid">
-                        <div class="col-md-7 kpi-text-container">Cumulative KPI:
-                            <span class="bold">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
+                <div class="col-md-3 marg-10">
+                    <div class="row-fluid marg-10">
+                        <div class="col-md-2 kpi-text-container">
+                            <span class="cpa-color">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
                         </div>
-                        <div class="col-md-5 kpi-values">
-                            <span class="kpi-goal"></span>
-                            <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                        <div class="col-md-10 kpi-values">
+                            <span class="cumulative-text"> Cumulative Value </span> 
+                            <span class="bold"> {{campaign.kpiAvgValue | kpiFormatter:campaign.kpiType}}</span>
                             <div>
-                                <span class="avg-text">Avg.</span>
-                                <span class="bold">{{campaign.kpiAvgValue | kpiFormatter:campaign.kpiType}}</span>
+                                <span class="kpi-goal"></span>
+                                <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>    
                             </div>
                         </div>
                     </div>
