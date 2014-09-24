@@ -12,15 +12,17 @@
       var Campaigns = function() {
         this.timePeriodList = buildTimePeriodList();
         this.displayTimePeriod = angular.uppercase(this.timePeriodList[0].display);
+        this.sortFieldList = buildSortFieldList();
 
         this.campaignList = [];
         this.busy = false;
         this.timePeriod = "last_week";
         this.marketerName;
         this.nextPage = 1;
-        this.sortParam;
-        this.sortDirection;
+        this.sortParam = 'start_date';
+        this.sortDirection = 'desc';
         this.totalPages;
+        this.totalCount;
         this.brandId = 0;
 
         this.reset = function() {
@@ -38,9 +40,10 @@
           this.campaignList = [];
           this.busy = false;
           this.nextPage = 1;
-          this.sortParam = undefined;
-          this.sortDirection = undefined;
+          this.sortParam = 'start_date';
+          this.sortDirection = 'desc';
           this.totalPages = undefined;
+          this.totalCount = undefined;
         };
 
         this.resetSortParams = function() {
@@ -50,6 +53,7 @@
           this.sortParam = undefined;
           this.sortDirection = undefined;
           this.totalPages = undefined;
+          this.totalCount = undefined;
         };
       };
 
@@ -70,12 +74,17 @@
           self.nextPage += 1;
           self.marketerName = result.data.marketer_name;
           self.totalPages = result.data.total_pages;
+          self.totalCount = result.data.total_count;
           self.busy = false;
           if (result.data.orders.length > 0) {
             angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function(c, key) {
               this.push(c);
             }, self.campaignList);
           }
+        }, function(result) {
+          //failure
+          self.busy = false;
+          self.totalCount = 0;
         });
       },
 
@@ -113,9 +122,25 @@
         }
         !this.sortDirection && (this.sortDirection = 'asc');
         this.sortParam = fieldName;
+        this.sortFieldList.forEach(function (field) {
+          if(fieldName == field.key) {
+            field.className = 'active';
+          } else {
+            field.className = '';
+          }
+        });
 
         console.log('field: ' + this.sortParam + ' direction: ' + this.sortDirection);
         Campaigns.prototype.fetchCampaigns.call(this);
+      },
+
+      Campaigns.prototype.sortIcon = function(fieldName) {
+
+        if(this.sortParam == fieldName) {
+          return this.sortDirection == 'asc' ? 'ascending' : 'descending';
+        } else{
+          return '';
+        }
       },
 
       Campaigns.prototype._applyFilters = function(filters) {
@@ -147,6 +172,14 @@
           return 'desc';
         }
         return 'asc';
+      },
+
+      buildSortFieldList = function() {
+        return [
+          {display: 'Campaign', key: 'order_name'},
+          {display: 'Advertiser', key: 'advertiser'},
+          {display: 'Flight dates', key: 'start_date', className: 'active'}
+        ];
       },
 
       buildTimePeriodList = function() {

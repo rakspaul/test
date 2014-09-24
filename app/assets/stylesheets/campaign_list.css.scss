@@ -1,8 +1,3 @@
-
-
-
-
-
 /* font- face declarations */
 @font-face {
   font-family: "TradeGothicLTStd-BdCn20";
@@ -316,11 +311,19 @@ button, i, input[type="submit"] {
       padding: 5px 20px;
       border-radius: 5px;
       background: #f9b537;
-      margin-bottom: 15px;
+      margin-bottom: 5px;
       ul {
         width: 100%;
         li {
+          cursor: pointer;
           border-right: 1px solid #e0a331;
+          .sort-image-inactive {
+            width: 10px;
+            height: 12px;
+            display: inline-block;
+            vertical-align: baseline;
+            background: url(asset-path("cdesk/static-caret.png")) no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+          }
           .dropdown-menu {
             padding: 0;
             width: 200px;
@@ -330,6 +333,7 @@ button, i, input[type="submit"] {
             border-radius: 5px;
             li {
               border-right: none;
+              cursor: pointer;
               a {
                 padding: 12px 15px 5px;
                 @include FontColor($textDarkGreyColor, 11pt, $secondaryFont);
@@ -344,10 +348,10 @@ button, i, input[type="submit"] {
                 height: 20px;
                 display: inline-block;
               }
-              &.active a span.tick {
-                background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
-              }
               &:hover a span.tick {
+                background: url(asset-path("cdesk/green-ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+              }
+              &.active a span.tick {
                 background: url(asset-path("cdesk/ok.png")) no-repeat scroll 0 7px rgba(0, 0, 0, 0);
               }
             }
@@ -384,6 +388,16 @@ button, i, input[type="submit"] {
           }
         }
       }
+      ul:first-child > li:first-child {
+        padding-right: 20px;
+        > input {
+          width: 80px;
+        }
+        > input::-webkit-input-placeholder { color: $textColorWhite; } 
+        > input::-moz-placeholder { color: $textColorWhite; }  
+        > input:-moz-placeholder { color: $textColorWhite; } 
+        > input:-ms-input-placeholder { color: $textColorWhite; }
+      }
     }
     .campaign-title-head {
       margin-bottom: 20px;
@@ -397,36 +411,108 @@ button, i, input[type="submit"] {
             padding-left: 0;
           }
           span {
+            width: 100%;
+            padding-bottom: 2px;
+            display: inline-block;
+            border-bottom: 1px solid $textGreyColor;
             width: 96%;
             font-weight: bold;
             margin-right: 15px;
-            padding-bottom: 5px;
             display: inline-block;
+            /* padding-bottom: 5px; */
             text-transform: uppercase;
-            border-bottom: 1px solid $textGreyColor;
+            /* border-bottom: 1px solid $textGreyColor; */
             @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-            &.active {
-              color: $textHeadingColor;
+          }
+          a {
+            width: 100%;
+            cursor: pointer;
+            padding-bottom: 2px;
+            display: inline-block;
+            border-bottom: 1px solid $textGreyColor;
+            span {
+              width: 96%;
+              font-weight: bold;
+              margin-right: 15px;
+              display: inline-block;
+              /* padding-bottom: 5px; */
+              text-transform: uppercase;
+              /* border-bottom: 1px solid $textGreyColor; */
+              @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+              &.active {
+                color: $textHeadingColor;
+              }
+
+              > span.default-sort, > span.ascending, > span.descending {
+                margin: 0;
+                width: 8px;
+                padding: 0;
+                height: 13px;
+                vertical-align: top;
+                border-bottom: none;
+                display: inline;
+                background: url(asset-path("cdesk/sort-blue.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+              }
+            }
+            &:hover {
+              text-decoration: none;
+            }
+            > span > span.ascending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url(asset-path("cdesk/ascending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
+            }
+            > span > span.descending {
+              margin: 0;
+              width: 8px;
+              padding: 0;
+              height: 13px;
+              vertical-align: bottom;
+              border-bottom: none;
+              display: inline-block;
+              background: url(asset-path("cdesk/descending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
             }
           }
           &:nth-child(2) {
-            ul {
-              padding: 0;
-              width: 95%;
-              border-bottom: 1px solid $textGreyColor;
-              li {
+            li a {
+              width: auto;
+              margin-bottom: 0;
+              border-bottom: none;
+              > span {
                 display: inline-block;
-                border-bottom: none;
-                padding-left: 5px;
-                &:first-child {
-                  padding-left: 0;
+                > span {
+                  top: 7px;
+                  position: absolute;
+                  display: inline-block;
                 }
               }
-            }
-            > ul li span {
-              border-bottom: none;
-            }
+            }  
+              ul {
+                padding: 0;
+                width: 95%;
+                border-bottom: 1px solid $textGreyColor;
+                li {
+                  display: inline-block;
+                  border-bottom: none;
+                  padding-left: 5px;
+                  &:first-child {
+                    padding-left: 0;
+                  }
+                }
+              }
+              > ul li span {
+                border-bottom: none;
+              }
           }
+        }
+        li.col-md-6.pull-right {
+          text-align: center;
+          padding: 0 15px;
         }
       }
     }
@@ -490,7 +576,7 @@ button, i, input[type="submit"] {
           }
         }
         #accordion .strategies {
-          width: 100px;
+          width: 130px;
           padding: 5px;
           text-align: center;
           border-radius: 15px;
@@ -523,10 +609,16 @@ button, i, input[type="submit"] {
         }
         .kpi-values {
           text-align: right;
-          @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+          @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
           div span {
             text-align: right;
             @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+          }
+          div > span:last-child {
+            @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+          }
+          div > span.avg-text {
+            font-size: 10pt;
           }
           .kpi-num {
             font-family: $secondaryFont;
@@ -560,7 +652,7 @@ button, i, input[type="submit"] {
       margin-top: -20px;
       margin-bottom: 20px;
     }
-    
+
     .inner-accordion {
       margin-top: -2px;
       background: url(asset-path("cdesk/accordion-line.png")) no-repeat scroll 0 2px rgba(0, 0, 0, 0);
@@ -644,6 +736,10 @@ button, i, input[type="submit"] {
       }
     }
   }
+  .row-fluid .col-md-6.campaign-count {
+    margin-bottom: 0;
+    @include FontColor(#f9b537, 12pt, $secondaryFont);
+  }
   .load-more {
     margin: 20px;
     text-align: center;
@@ -660,6 +756,7 @@ button, i, input[type="submit"] {
   height:30px;
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
   font-size: 11pt;
+  cursor: pointer;
 }
 #brandsList {
   height: 500px;
