@@ -12,7 +12,8 @@
                         <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
                         <span class="sort-image-inactive"></span>
                         <ul class="dropdown-menu" role="menu" id="brandsList">
-                            <li ng-repeat="brand in brands | filter:selectedBrand.name" class="{{brand.className}}">
+                            <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter"
+                                ng-controller="BrandsListController" class="{{brand.className}}">
                                 <a data-ng-click="selectBrand(brand)">
                                     <span class="tick"></span>
                                     <span class="menuItemText">{{brand.name}}</span>

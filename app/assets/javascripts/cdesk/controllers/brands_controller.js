@@ -3,9 +3,10 @@
   angObj.controller('BrandsController', function ($scope, dataService) {
 
     dataService.getBrands().then(function (response) {
-
+      var ALL_BRANDS = 'ALL BRANDS';
+      $scope.ALL_BRANDS = ALL_BRANDS;
       $scope.brands = [
-        {'name': 'ALL BRANDS', 'id': -1, 'className': 'active'}
+        {'name': ALL_BRANDS, 'id': -1, 'className': 'active'}
       ].concat(response.data);
 
       $scope.selectBrand = function (brand) {
