@@ -12,6 +12,8 @@
     = javascript_include_tag "cdesk_application"
     = csrf_meta_tags
     %link{:href => "/assets/views/campaignlist.html"}
+
+    != render :partial => 'layouts/ga'
     = yield(:head)
 
   %body{ 'ng-app' => "cdeskApp" }

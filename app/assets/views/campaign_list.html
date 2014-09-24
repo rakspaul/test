@@ -9,8 +9,10 @@
             <div class="search-cum-navbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown" ng-controller="BrandsController">
-                        <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
-                        <span class="sort-image-inactive"></span>
+                        <div id="brandsDropdownDiv" style="display:inline;">
+                            <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
+                            <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
+                        </div>
                         <ul class="dropdown-menu" role="menu" id="brandsList">
                             <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter"
                                 ng-controller="BrandsListController" class="{{brand.className}}">
@@ -90,19 +92,21 @@
                     <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
                     <div class="edit-stats-icons">
                         <div>
-                          <a ng-href="/campaigns/{{campaign.orderId}}">
+                          <a ng-click="campaigns.editCampaign(campaign, 'edit-campaign')">
                             <span class="icons-bckground" id="icon-campaign-edit"></span>
                           </a>
                         </div>
                         <div>
-                          <span class="icons-bckground" id="icon-campaign-report"></span>
+                          <a ng-click="campaigns.campaignReports(campaign)">
+                            <span class="icons-bckground" id="icon-campaign-report"></span>
+                          </a>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-5">
                     <span class="campaign-name"> {{campaign.campaignTitle}} </span>
-                    <div class="brand"> 
+                    <div class="brand">
                         <span class="bold">{{campaign.brandName }}</span>
                         <span class="brand-type"><!-- Note: vertical will be placed here Refer [CD-324] --></span>
                     </div>
@@ -196,7 +200,7 @@
         $( "#cdbMenu" ).click(function() {
             $( "#cdbDropdown" ).toggle();
          });
-        $("#brandsDropdown").click(function() {
+        $("#brandsDropdownDiv").click(function() {
             $("#brandsList").toggle();
         });
         $( document ).click(function() {
@@ -204,7 +208,9 @@
                 $("#cdbDropdown").hide();
             }
             if(!$("#brandsDropdown").is(':focus')) {
-                $("#brandsList").hide();
+                if(event.target.id != "#brandsDropDownImg") {
+                    $("#brandsList").hide();
+                }
             }
         });
     });

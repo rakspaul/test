@@ -90,6 +90,7 @@
 
       Campaigns.prototype.filterByTimePeriod = function(timePeriod) {
         this.displayTimePeriod = angular.uppercase(timePeriod.display);
+
         $("#cdbDropdown").toggle();
         this.timePeriodList.forEach(function (period) {
           if(period == timePeriod) {
@@ -98,13 +99,18 @@
             period.className = '';
           }
         });
+
+        ga('send', 'event', 'time-period-filter', 'click', this.displayTimePeriod);
+
         Campaigns.prototype._applyFilters.call(this, {timePeriod: timePeriod.key});
       },
 
-      Campaigns.prototype.filterByBrand = function(brandId) {
+      Campaigns.prototype.filterByBrand = function(brand) {
         $("#cdbDropdown").toggle();
-        if(brandId != undefined) {
-          Campaigns.prototype._applyFilters.call(this, {brand: brandId});
+        if(brand != undefined) {
+          ga('send', 'event', 'brand-filter', 'click', brand.name);
+
+          Campaigns.prototype._applyFilters.call(this, {brand: brand.id});
         }
       },
 
@@ -130,17 +136,29 @@
           }
         });
 
-        console.log('field: ' + this.sortParam + ' direction: ' + this.sortDirection);
+        ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
+
         Campaigns.prototype.fetchCampaigns.call(this);
       },
 
       Campaigns.prototype.sortIcon = function(fieldName) {
 
-        if(this.sortParam == fieldName) {
+        if (this.sortParam == fieldName) {
           return this.sortDirection == 'asc' ? 'ascending' : 'descending';
-        } else{
+        } else {
           return '';
         }
+      },
+
+      Campaigns.prototype.editCampaign = function(campaign, placement) {
+        ga('send', 'event', placement, 'click', campaign.campaignTitle);
+        window.location = "campaigns/" + campaign.orderId;
+      },
+
+      Campaigns.prototype.campaignReports = function(campaign) {
+        ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle);
+        window.location = "reports/reports/" + campaign.orderId;
+
       },
 
       Campaigns.prototype._applyFilters = function(filters) {
