@@ -22,6 +22,7 @@
 //= require ng-infinite-scroll.min
 //= require highcharts-ng
 //= require highcharts
+//= require moment.min
 
 //= require cdesk/app
 //= require cdesk/charts/line

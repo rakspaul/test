@@ -158,7 +158,17 @@
       Campaigns.prototype.campaignReports = function(campaign) {
         ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle);
         window.location = "reports/reports/" + campaign.orderId;
+      }
 
+      Campaigns.prototype.durationLeft = function(campaign) {
+        return moment(campaign.endDate).diff(moment(), 'days');
+      },
+
+      Campaigns.prototype.durationCompletion = function(campaign) {
+        var totalDays = moment(campaign.endDate).diff(moment(campaign.startDate), 'days'),
+            daysOver = moment().diff(moment(campaign.startDate), 'days');
+
+        return Math.round((daysOver / totalDays) * 100);
       },
 
       Campaigns.prototype._applyFilters = function(filters) {

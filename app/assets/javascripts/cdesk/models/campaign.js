@@ -43,6 +43,7 @@
                         kpiValue : dataArr[obj].kpi_value,
                         totalImpressions: dataArr[obj].total_impressions,
                         totalMediaCost: Math.round(dataArr[obj].total_media_cost),
+                        expectedMediaCost: Math.round(dataArr[obj].expected_media_cost || 0),
                         lineitemsCount : dataArr[obj].lineitems_count
                     });
                     this.getCdbLineChart(obj, campaignList, timePeriod);
