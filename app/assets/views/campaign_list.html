@@ -140,7 +140,7 @@
                             Delivered Impr.
                         </div>
                         <div class="col-md-7">
-                            <span class="blue">103,240</span><span class="suffix"><span class="seperator"> / </span>{{campaign.totalImpressions | number}}</span>
+                            <span class="blue">{{campaigns.cdbDataMap[campaign.orderId].impressions | number}}</span><span class="suffix"><span class="seperator"> / </span>{{campaign.totalImpressions | number}}</span>
                         </div>
                     </div>
                     <div class="row-fluid">
@@ -148,7 +148,7 @@
                                         Spend
                         </div>
                         <div class="col-md-7">
-                            <span class="green">$103,240</span><span class="suffix"><span class="seperator"> / </span>${{campaign.totalMediaCost | number}}</span>
+                            <span class="green">${{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | number}}</span><span class="suffix"><span class="seperator"> / </span>${{campaign.totalMediaCost | number}}</span>
                         </div>
                     </div>
                     <div class="row-fluid">

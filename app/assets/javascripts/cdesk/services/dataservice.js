@@ -83,6 +83,15 @@
 
             getBrands: function() {
               var url = '/desk/advertisers.json';
+              return this.makeHttpGetRequest(url);
+            },
+
+            getCampaignData: function (periodKey,campaignId) {
+              var url = api + '/campaigns/' + campaignId + '?period=' + periodKey;
+              return this.makeHttpGetRequest(url);
+            },
+
+            makeHttpGetRequest: function (url) {
               return $http({url: url , method: 'GET', cache: true}).then(
                 function (response) {
                   return {

@@ -29,5 +29,7 @@
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
 //= require cdesk/models/campaign
+//= require cdesk/models/campaign_data
 //= require cdesk/services/dataservice
+//= require cdesk/services/transformer_service
 //= require cdesk/utils

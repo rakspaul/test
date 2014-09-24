@@ -7,13 +7,15 @@
     });
 
 
-    angObj.factory("Campaigns", function ($http, dataService, campaign, campaign_api) {
+    angObj.factory("Campaigns", function ($http, dataService, campaign, campaign_api, modelTransformer, CampaignData) {
 
       var Campaigns = function() {
         this.timePeriodList = buildTimePeriodList();
+        this.selectedTimePeriod = this.timePeriodList[0];
         this.displayTimePeriod = angular.uppercase(this.timePeriodList[0].display);
         this.sortFieldList = buildSortFieldList();
 
+        this.cdbDataMap = {}
         this.campaignList = [];
         this.busy = false;
         this.timePeriod = "last_week";
@@ -81,6 +83,12 @@
               this.push(c);
             }, self.campaignList);
           }
+          var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
+          angular.forEach(result.data.orders, function(value) {
+            dataService.getCampaignData(cdbApiKey,value.id).then(function (response) {
+              self.cdbDataMap[value.id] = modelTransformer.transform(response.data.data, CampaignData);
+            })
+          });
         }, function(result) {
           //failure
           self.busy = false;
@@ -89,6 +97,7 @@
       },
 
       Campaigns.prototype.filterByTimePeriod = function(timePeriod) {
+        this.selectedTimePeriod = timePeriod;
         this.displayTimePeriod = angular.uppercase(timePeriod.display);
 
         $("#cdbDropdown").toggle();
