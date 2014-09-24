@@ -72,7 +72,7 @@
           self.totalPages = result.data.total_pages;
           self.busy = false;
           if (result.data.orders.length > 0) {
-            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders), function(c, key) {
+            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function(c, key) {
               this.push(c);
             }, self.campaignList);
           }
@@ -162,6 +162,10 @@
         return obj;
       };
 
+      var timePeriodApiMapping = function(key) {
+        var apiObj = { 'last_week' : 'last_7_days', 'last_month' : 'last_30_days', 'life_time' : 'lifetime' };
+        return apiObj[key];
+      };
 
       return Campaigns;
     });

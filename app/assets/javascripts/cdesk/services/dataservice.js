@@ -44,10 +44,9 @@
                     }
             },
 
-            getCdbChartData: function (campaignId) {
-
-                //var urlPath = (common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/'+campaignId+'/bydays?start_date=2014-05-01&end_date=2014-05-06';
-                var urlPath = (common.useTempData) ? common.useTempData +'/cdb.json' : api+ '/campaigns/' + campaignId +'/bydays?start_date=2014-09-05&end_date=2014-09-11';
+            getCdbChartData: function (campaignId, timePeriod) {
+                 
+                var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;
                 if(common.useTempData) {
                     //mock data
                     return $http({url: urlPath , method : 'GET', cache : true}).then(
