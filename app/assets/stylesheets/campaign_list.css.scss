@@ -410,6 +410,20 @@ button, i, input[type="submit"] {
           &:first-child {
             padding-left: 0;
           }
+          span {
+            width: 100%;
+            padding-bottom: 2px;
+            display: inline-block;
+            border-bottom: 1px solid $textGreyColor;
+            width: 96%;
+            font-weight: bold;
+            margin-right: 15px;
+            display: inline-block;
+            /* padding-bottom: 5px; */
+            text-transform: uppercase;
+            /* border-bottom: 1px solid $textGreyColor; */
+            @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+          }
           a {
             width: 100%;
             cursor: pointer;
@@ -742,6 +756,7 @@ button, i, input[type="submit"] {
   height:30px;
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
   font-size: 11pt;
+  cursor: pointer;
 }
 #brandsList {
   height: 500px;

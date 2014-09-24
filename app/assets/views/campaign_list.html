@@ -52,16 +52,12 @@
             <div class="campaign-title-head">
                 <ul class="clearfix top-margin">
                     <li class="col-md-6 pull-right">
-                        <a>
-                            <span>Last 7 days</span>
-                        </a>
+                      <span class="time-period-hint" ng-bind="campaigns.displayTimePeriod"></span>
                     </li>
                 </ul>
                 <ul>
                     <li class="col-md-1">
-                        <a data-ng-click="">
-                            <span>STATUS <span class="default-sort"></span></span>
-                        </a> 
+                      <span>STATUS</span>
                     </li>
                     <li class="col-md-5">
                         <ul>
@@ -73,14 +69,10 @@
                         </ul>
                     </li>
                     <li class="col-md-3">
-                        <a data-ng-click="">
-                            <span> METRICS <span class="default-sort"></span></span>
-                        </a>
+                      <span>METRICS</span>
                     </li>
                     <li class="col-md-3">
-                        <a data-ng-click="">
-                            <span> KPI <span class="default-sort"></span></span>
-                        </a>
+                      <span>KPI</span>
                     </li>
                 </ul>
             </div>
