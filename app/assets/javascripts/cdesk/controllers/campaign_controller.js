@@ -244,7 +244,7 @@
       buildSortFieldList = function() {
         return [
           {display: 'Campaign', key: 'order_name'},
-          {display: 'Advertiser', key: 'advertiser'},
+          {display: 'Brand', key: 'advertiser'},
           {display: 'Flight dates', key: 'start_date', className: 'active'}
         ];
       },

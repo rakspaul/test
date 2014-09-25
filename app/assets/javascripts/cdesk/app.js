@@ -13,7 +13,7 @@ var angObj = '';
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/campaigns', {
-                templateUrl: 'assets/campaign_list.html',
+                templateUrl: 'campaign_list',
                 controller: 'CampaignsController'
             })
             .otherwise({redirectTo: 'campaigns'});
