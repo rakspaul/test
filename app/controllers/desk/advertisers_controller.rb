@@ -5,12 +5,14 @@ class Desk::AdvertisersController < Desk::DeskController
   def index
     @advertisers = filtered_orders.joins(:advertiser)
                     .select('network_advertiser_id as id, network_advertisers.name as name').distinct
+    @advertisers.sort! {|a, b| a[:name] <=> b[:name]}
   end
 
   def search
     @advertisers_search = filtered_orders.joins(:advertiser)
                           .where("lower(network_advertisers.name) ilike lower(?)", "%#{params[:search]}%")
                           .select('network_advertiser_id as id, network_advertisers.name as name').distinct
+    @advertisers_search.sort! {|a, b| a[:name] <=> b[:name]}
   end
 
   #below 2 actions are not used
