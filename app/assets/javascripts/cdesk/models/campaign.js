@@ -28,7 +28,7 @@
                         start_date: strategy.start_date,
                         end_date:strategy.end_date,
                         order_id: strategy.order_id,
-                        li_status: strategy.li_status || 'draft',
+                        li_status: strategy.li_status ,
                         ad_size: adSize,
                         selected_key_values: keyValues
                     });

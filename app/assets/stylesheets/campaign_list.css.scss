@@ -146,29 +146,29 @@ button, i, input[type="submit"] {
 
 /* strategies status */
 #collapseOne .Delivering {
-  width: 24px;
-  height: 24px;
+  width: 17px;
+  height: 17px;
   display: inline-block;
   background: url(asset-path("cdesk/status_delivering_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
-#collapseOne .pushed {
-  width: 24px;
-  height: 24px;
+#collapseOne .Pushed {
+  width: 17px;
+  height: 17px;
   display: inline-block;
   background: url(asset-path("cdesk/status_paused_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
-#collapseOne .complete {
-  width: 24px;
-  height: 24px;
+#collapseOne .Completed {
+  width: 17px;
+  height: 17px;
   display: inline-block;
   background: url(asset-path("cdesk/status_complete_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
-#collapseOne .draft {
-  width: 24px;
-  height: 24px;
+#collapseOne .Draft {
+  width: 17px;
+  height: 17px;
   display: inline-block;
   background: url(asset-path("cdesk/status_draft_small.png")) no-repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
@@ -592,6 +592,7 @@ button, i, input[type="submit"] {
         #accordion .strategies {
           width: 130px;
           padding: 5px;
+          cursor: pointer;
           text-align: center;
           border-radius: 15px;
           background: #e9e6e0;
@@ -708,6 +709,12 @@ button, i, input[type="submit"] {
       text-align: center;
     }
 
+    .highcharts span.strategies-no-chart {
+      padding: 15px;
+      display: block;
+      text-align: center;
+    }
+
     .highcharts div.chart-tool-tip {
       padding:5px;
       background:#fff;
@@ -756,8 +763,7 @@ button, i, input[type="submit"] {
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
         .col-md-4 {
           .inner-accordion-details {
-            margin-top: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             > div {
               span {
                 margin-right: 5px;
@@ -794,7 +800,6 @@ button, i, input[type="submit"] {
           }
           .inner-accordion-duration {
             .duration {
-              margin-bottom: 10px;
               .date {
                 margin-bottom: 10px;
                 color: $textDarkGreyColor;
@@ -828,6 +833,7 @@ button, i, input[type="submit"] {
           background: $textColorWhite;
           border-radius: 5px;
           .col-md-6 .row-fluid {
+            margin-bottom: 10px;
             .col-md-6 {
               padding: 0;
               text-align: right;
@@ -840,7 +846,11 @@ button, i, input[type="submit"] {
               }
               .ctr-container {
                 .blue{
+                  height: 20px;
                   @include FontColor($textHeadingColor, 12pt, $primaryFont);
+                }
+                .blue.margin-twenty {
+                  margin-top: -20px;
                 }
                 .progress {
                   height: 28px;
@@ -903,7 +913,7 @@ button, i, input[type="submit"] {
           }
           .col-md-6 .row-fluid:first-child {
             text-align: left;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
           }
         }
       }
@@ -971,10 +981,10 @@ button, i, input[type="submit"] {
 
 #highcharts {
   width: 219px; 
-  height: 200px;
+  height: 140px;
 }
 
 #highcharts-strategies {
   width: 219px; 
-  height: 150px;
+  height: 140px;
 }
