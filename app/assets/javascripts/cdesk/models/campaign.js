@@ -10,7 +10,7 @@
             }
             return str.substring(0, str.length - 1);
         };
-        var createStrategyObject= function(strategyData, timePeriod, campaignId, kpiType) {
+        var createStrategyObject= function(strategyData, timePeriod, campaignId, kpiType, kpiValue) {
                 var strategyObj = [], adSize = '', keyValues = '';
                 for(var index in strategyData) {
                     var strategy = strategyData[index];
@@ -32,12 +32,12 @@
                         ad_size: adSize,
                         selected_key_values: keyValues
                     });
-                    getStrategyCdbLineChart(index, strategyObj, timePeriod, campaignId, kpiType);
+                    getStrategyCdbLineChart(index, strategyObj, timePeriod, campaignId, kpiType, kpiValue);
                 }
                 return strategyObj;
             };
 
-        var getStrategyCdbLineChart= function(obj, strategyList, timePeriod, campaignId, kpiType) {
+        var getStrategyCdbLineChart= function(obj, strategyList, timePeriod, campaignId, kpiType, kpiValue) {
                var sKpiType=kpiType;
                 dataService.getCdbChartData(campaignId, timePeriod, 'strategies', strategyList[obj].id).then(function (result) {
                     var lineData=[];
@@ -50,7 +50,7 @@
                                     var kpiTypeLower = angular.lowercase(kpiType);
                                     lineData.push({ 'x': i + 1, 'y': parseFloat(maxDays[i][kpiTypeLower]), 'date': maxDays[i]['date'] });
                                 }                             
-                                strategyList[obj].chart = new line.highChart(lineData, parseFloat(5), sKpiType);
+                                strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType);
                             }
                         }
                     }
@@ -60,16 +60,16 @@
         return {
 
             
-            getStrategyList: function(obj, campaignList, timePeriod, kpiType) {
+            getStrategyList: function(obj, campaignList, timePeriod, kpiType, kpiValue) {
                 var url = '/orders/' + campaignList[obj].orderId + '/lineitems.json';
                 dataService.getCampaignStrategies(url).then(function (result) {
                     var strategyList = [];
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(result.data.length <= 3){
-                            campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType);
+                            campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType, kpiValue);
                         }else{
-                            campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType);
-                            campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType);
+                            campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
+                            campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
                         }
                     }
                });
@@ -122,7 +122,7 @@
                         campaignStrategiesLoadMore:null
                     });
 
-                    this.getStrategyList(obj, campaignList, timePeriod, dataArr[obj].kpi_type)
+                    this.getStrategyList(obj, campaignList, timePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
                     this.getCdbLineChart(obj, campaignList, timePeriod);
 
                     
