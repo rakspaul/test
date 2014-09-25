@@ -681,9 +681,9 @@ button, i, input[type="submit"] {
           .blue {
             height: 20px;
             @include FontColor($textHeadingColor, 12pt, $primaryFont);
-            .top-margin-20 {
-              margin-top: -20px;
-            }
+          }
+          .blue.margin-twenty {
+            margin-top: -20px;
           }
           .progress {
             height: 28px;
@@ -699,9 +699,9 @@ button, i, input[type="submit"] {
           .blue {
             height: 20px;
             @include FontColor(#E4696C, 12pt, $primaryFont);
-            .top-margin-20 {
-              margin-top: -20px;
-            }
+          }
+          .blue.margin-twenty {
+            margin-top: -20px;
           }
           .progress {
             height: 28px;
@@ -717,7 +717,7 @@ button, i, input[type="submit"] {
           .blue {
             height: 20px;
             @include FontColor(#FB8917, 12pt, $primaryFont);
-            .top-margin-20 {
+            .margin-twenty {
               margin-top: -20px;
             }
           }
