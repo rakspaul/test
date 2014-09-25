@@ -5,15 +5,26 @@
     angObj.controller('CampaignsController', function($scope, Campaigns) {
       $scope.campaigns = new Campaigns();
       
-      $scope.showStrategies = function(id) {
-           $('#strategies-accordion-' + id).toggle();
+      $scope.showStrategies = function(campaignId, strategiesCount) {
+        if(strategiesCount > 0) {
+          $('#strategies-accordion-' + campaignId).toggle();
+        }          
       };
 
-      $scope.loadMoreStrategies = function() {
-          console.log('load more strategies');
+      $scope.loadMoreStrategies = function(campaignId) {
+          var campaignArray = $scope.campaigns.campaignList, pageSize = 3;
+          for(var index in campaignArray) {
+            if(campaignArray[index].orderId === parseInt(campaignId)){
+              var loadMoreData = campaignArray[index].campaignStrategiesLoadMore;
+              if(loadMoreData.length) {
+                var moreData = loadMoreData.splice(0, pageSize)
+                for(var len=0; len < moreData.length; len++){
+                    $scope.campaigns.campaignList[index].campaignStrategies.push(moreData[len]);   
+                } 
+              }
+            }
+          }          
       }
-
-
     });
 
 

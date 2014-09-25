@@ -111,13 +111,9 @@
                     </div>
                     <div class="duration"> <!--<img src="../img/images/icn_flight_date.png" alt="Flight-icon" />-->
                         <span class="date">
-                        {{campaign.startDate | date :'d' }}
-                        {{campaign.startDate | date :' MMM' }}
-                        {{campaign.startDate | date :' y' }}
+                        {{campaign.startDate | date :'d MMM y' }}
                          -
-                        {{campaign.endDate | date :'d' }}
-                        {{campaign.endDate | date :' MMM' }}
-                        {{campaign.endDate | date :' y' }}
+                        {{campaign.endDate | date :'d MMM y' }}
                         </span>
                         <div class="duration-bar">
                             <div class="progress">
@@ -136,7 +132,7 @@
                     <div class="panel-group" id="accordion">
                         <div>
                             <div class="strategies">
-                                <div class="panel-title" ng-click="showStrategies(campaign.orderId)">
+                                <div class="panel-title" ng-click="showStrategies(campaign.orderId, campaign.lineitemsCount)">
                                    <!--  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"> -->
                                         <span class="bold">{{campaign.lineitemsCount}} </span> <span class="strat-text"> Strategies </span>
                                     <!-- </a> -->
@@ -227,6 +223,7 @@
         
         <!-- strategies -->
         <div id="strategies-accordion-{{campaign.orderId}}" class="col-md-12 inner-accordion-wrapper">
+            <div ng-show='!campaign.campaignStrategies' class="load-more">&nbsp;</div>
             <div id="collapseOne" class="clearfix inner-accordion  first"  ng-repeat="strategy in campaign.campaignStrategies">
                 <div  class="panel-collapse collapse in pull-right">
                     <div class="panel-body row-fluid">
@@ -236,11 +233,11 @@
                                 <div><span class="marg-10"> {{strategy.li_status}} </span></div>
                             </div>
                             <div class="col-md-4">
-                                <span class="campaign-name"> {{strategy.name}}</span>
+                                <span class="campaign-name"> {{strategy.name | truncateString : 78}}</span>
                                 <div class="inner-accordion-details">
                                     <div>
                                         <span class="audience-icon"></span>
-                                        <span> {{strategy.selected_key_values}}[...]</span>
+                                        <span> {{strategy.selected_key_values | truncateString : 78}}</span>
                                     </div>
                                     <div>
                                         <span class="globe-icon"></span>
@@ -252,7 +249,7 @@
                                     </div>
                                     <div class="duration">
                                         <span class="device-icon"></span>
-                                        <span>{{strategy.ad_size ? strategy.ad_size :'[...]'}}</span>
+                                        <span>{{(strategy.ad_size ? (strategy.ad_size | truncateString : 50) :'[...]')}}</span>
                                     </div>
                                 </div>
                                 <div class="inner-accordion-duration">
@@ -352,7 +349,7 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="load-more-strategies"><a ng-click="loadMoreStrategies()"> Load More Strategies</a></div>  -->
+        <div ng-if='campaign.campaignStrategiesLoadMore.length' class="load-more-strategies"><a ng-click="loadMoreStrategies(campaign.orderId)"> Load More Strategies</a></div>  
         <!-- strategies ends-->
     </div>
     </div>

@@ -257,4 +257,10 @@
         }
     });
 
+    angObj.filter('truncateString', function() {
+        return function(input, stringLength) {
+            return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
+        }
+    });
+
 }());
