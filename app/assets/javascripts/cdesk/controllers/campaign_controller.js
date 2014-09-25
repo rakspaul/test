@@ -11,14 +11,14 @@
 
       var Campaigns = function() {
         this.timePeriodList = buildTimePeriodList();
-        this.selectedTimePeriod = this.timePeriodList[0];
-        this.displayTimePeriod = angular.uppercase(this.timePeriodList[0].display);
+        this.selectedTimePeriod = this.timePeriodList[2];
+        this.displayTimePeriod = angular.uppercase(this.selectedTimePeriod.display);
         this.sortFieldList = buildSortFieldList();
 
         this.cdbDataMap = {}
         this.campaignList = [];
         this.busy = false;
-        this.timePeriod = "last_week";
+        this.timePeriod = this.selectedTimePeriod.key;
         this.marketerName;
         this.nextPage = 1;
         this.sortParam = 'start_date';
@@ -30,7 +30,7 @@
         this.reset = function() {
           this.campaignList = [];
           this.busy = false;
-          this.timePeriod = "last_week";
+          this.timePeriod = 'life_time';
           this.nextPage = 1;
           this.brandId = 0;
           this.sortParam = undefined;
@@ -228,9 +228,9 @@
       },
 
       buildTimePeriodList = function() {
-        return [createTimePeriodObject('Last 7 days', 'last_week', 'active'),
+        return [createTimePeriodObject('Last 7 days', 'last_week'),
           createTimePeriodObject('Last 30 days', 'last_month'),
-          createTimePeriodObject('Lifetime', 'life_time')];
+          createTimePeriodObject('Lifetime', 'life_time', 'active')];
 
       },
 
