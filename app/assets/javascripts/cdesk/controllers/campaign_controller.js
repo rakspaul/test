@@ -6,7 +6,7 @@
       $scope.campaigns = new Campaigns();
       
       $scope.showStrategies = function(id) {
-           $('#strategies-accordion-'+id).toggle();
+           $('#strategies-accordion-' + id).toggle();
       };
 
       $scope.loadMoreStrategies = function() {

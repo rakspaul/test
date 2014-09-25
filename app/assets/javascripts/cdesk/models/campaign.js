@@ -6,10 +6,9 @@
         var appendStrategyData = function(obj, key) {
             var str = '';
             for(var c in obj){
-                str += obj[c][key]+' ';
+                str += obj[c][key] + ' ';
             }
-           
-            return str.substring(0, str.length-1);
+            return str.substring(0, str.length - 1);
         };
         var createStrategyObject= function(strategyData, timePeriod, campaignId, kpiType) {
                 var strategyObj = [], adSize = '', keyValues = '';
@@ -40,7 +39,7 @@
 
         var getStrategyCdbLineChart= function(obj, strategyList, timePeriod, campaignId, kpiType) {
                var sKpiType=kpiType;
-                dataService.getCdbChartData(campaignId, timePeriod, 'strategies',strategyList[obj].id).then(function (result) {
+                dataService.getCdbChartData(campaignId, timePeriod, 'strategies', strategyList[obj].id).then(function (result) {
                     var lineData=[];
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(sKpiType != undefined || sKpiType != null) {
@@ -62,23 +61,18 @@
 
             
             getStrategyList: function(obj, campaignList, timePeriod, kpiType) {
-
-
                 var url = '/orders/' + campaignList[obj].orderId + '/lineitems.json';
                 dataService.getCampaignStrategies(url).then(function (result) {
                     var strategyList = [];
                     if(result.status == "success" && !angular.isString(result.data)) {
-                    if(result.data.length <= 3){
-                        campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType);
-                    }else{
-                        campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType);
-                        campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType);
-                    }
-
-
+                        if(result.data.length <= 3){
+                            campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType);
+                        }else{
+                            campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType);
+                            campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType);
+                        }
                     }
                });
-
             },
 
             getCdbLineChart: function(obj, campaignList, timePeriod) {
@@ -108,8 +102,6 @@
                     if (!angular.isObject(dataArr[obj])) {
                         continue;
                     }
-
-                    
 
                     campaignList.push({
                         orderId: dataArr[obj].id,
