@@ -13,7 +13,14 @@
     this.spend = 0;
 
     this.getGrossRev = function() {
-      return Math.round(this.gross_rev*100)/100;
+      return this.roundOff(this.gross_rev,2);
+    }
+    this.getCTR = function() {
+      return this.roundOff(this.ctr,2);
+    }
+    this.roundOff = function(value,places) {
+      var factor = Math.pow(10,places);
+      return Math.round(value*factor)/factor;
     }
   }
   angObj.value('CampaignData',CampaignCDBData);
