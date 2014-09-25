@@ -170,6 +170,14 @@
       }
 
       Campaigns.prototype.durationLeft = function(campaign) {
+        if(moment() < moment(campaign.startDate)) {
+          //campaign yet to start
+          return 0;
+        }
+        if(moment(campaign.endDate) < moment()) {
+          //campaign ended
+          return -1;
+        }
         return moment(campaign.endDate).diff(moment(), 'days');
       },
 

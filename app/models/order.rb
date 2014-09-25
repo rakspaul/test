@@ -85,14 +85,16 @@ class Order < ActiveRecord::Base
     @total_media_cost ||= self.lineitems.inject(0.0){|sum, li| sum += li.value.to_f }
   end
 
-  def expected_media_cost_during from_date, to_date
-    from_date = from_date.to_date if from_date.is_a?(Time)
-    to_date = to_date.to_date if to_date.is_a?(Time)
+  def expected_media_cost_during window_start_date, window_end_date
+    window_start_date = window_start_date.to_date if window_start_date.is_a?(Time)
+    window_end_date = window_end_date.to_date if window_end_date.is_a?(Time)
 
-    from_date = self.start_date if from_date < self.start_date
-    to_date = self.end_date if to_date > self.end_date
+    window_start_date = self.start_date if window_start_date < self.start_date
+    window_end_date = self.end_date if window_end_date > self.end_date
 
-    days = (to_date - from_date).to_i
+    days = (window_end_date - window_start_date).to_i
+    return 0 if days < 0
+
     self.media_cost_per_day * (days + 1)
   end
 

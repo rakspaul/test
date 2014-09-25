@@ -124,9 +124,13 @@
                                 <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{campaigns.durationCompletion(campaign)}}%;">
                                 </div>
                             </div>
-                            <div class="days-left">
-                                <span class="day-count bold">{{campaigns.durationLeft(campaign)}}</span> Days left
-                            </div>
+                          <div class="days-left" ng-switch on="campaigns.durationLeft(campaign)">
+                            <span ng-switch-when="0">Yet to start</span>
+                            <span ng-switch-when="-1">Ended</span>
+                            <span ng-switch-default>
+                              <span class="day-count bold">{{campaigns.durationLeft(campaign)}}</span> Days left
+                            </span>
+                          </div>
                         </div>
                     </div>
                     <div class="panel-group" id="accordion">
