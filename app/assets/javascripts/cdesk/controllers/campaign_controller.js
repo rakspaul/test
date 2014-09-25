@@ -30,7 +30,7 @@
         this.reset = function() {
           this.campaignList = [];
           this.busy = false;
-          this.timePeriod = this.selectedTimePeriod.key;
+          this.timePeriod = 'life_time';
           this.nextPage = 1;
           this.brandId = 0;
           this.sortParam = undefined;
