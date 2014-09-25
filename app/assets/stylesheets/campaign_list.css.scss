@@ -51,6 +51,13 @@ $borderColor: #81bee5;
   background: -webkit-gradient(linear, center top, center bottom, from($startColor), to($endColor));
 }
 
+@mixin BackgroundLinearGradientLeftToRight($startColor, $endColor) {
+  background: linear-gradient(to right, $startColor , $endColor); 
+  background: -o-linear-gradient(left, $startColor, $endColor);
+  background: -moz-linear-gradient(left,$startColor, $endColor);
+  background: -webkit-linear-gradient(left,$startColor, $endColor);
+}
+
 /* generic style */
 body {
   height: auto;
@@ -502,7 +509,7 @@ button, i, input[type="submit"] {
         }
         li.col-md-6.pull-right {
           text-align: center;
-          padding: 0 5px 15px;
+          padding: 0 5px 15px 15px;
         }
       }
     }
@@ -618,6 +625,7 @@ button, i, input[type="submit"] {
           }
         }
         .kpi-text-container {
+          padding-left: 5px;
           text-align: left;
           @include FontColor($textGreyColor, 11pt, $primaryFont);
         }
@@ -651,8 +659,8 @@ button, i, input[type="submit"] {
         }
       }
       .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
-        padding: 0;
-        margin-bottom: 20px;
+        padding: 0 0 0 5px;
+        margin-bottom: 10px;
         text-align: left;
         .imps {
           text-align: right;
@@ -666,22 +674,60 @@ button, i, input[type="submit"] {
         padding: 0;
       }
       .col-md-3.marg-10 .row-fluid .col-md-6 {
-        padding: 0;
-        text-align: right; 
+        padding: 0 5px;
+        text-align: right;
+        margin-bottom: 10px; 
         .ctr-container {
-          .blue{
+          .blue {
+            height: 20px;
             @include FontColor($textHeadingColor, 12pt, $primaryFont);
+            .top-margin-20 {
+              margin-top: -20px;
+            }
           }
           .progress {
             height: 28px;
             margin-bottom: 0;
             border-radius: 0;
-            border: 1px solid #5EA9D8;
             .progress-bar {
-              background: linear-gradient(to right, #6ebff0 , #1d7fc9); 
-              background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
-              background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
-              background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+              border: 1px solid #5EA9D8;
+              @include BackgroundLinearGradientLeftToRight(#6EBFF0, #1D7FC9);
+            }
+          }
+        }
+        .ctr-container.red {
+          .blue {
+            height: 20px;
+            @include FontColor(#E4696C, 12pt, $primaryFont);
+            .top-margin-20 {
+              margin-top: -20px;
+            }
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            .progress-bar {
+              border: 1px solid #E4696C;
+              @include BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+            }
+          }
+        }
+        .ctr-container.amber {
+          .blue {
+            height: 20px;
+            @include FontColor(#FB8917, 12pt, $primaryFont);
+            .top-margin-20 {
+              margin-top: -20px;
+            }
+          }
+          .progress {
+            height: 28px;
+            margin-bottom: 0;
+            border-radius: 0;
+            .progress-bar {
+              border: 1px solid #FB8917;
+              @include BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
             }
           }
         }
