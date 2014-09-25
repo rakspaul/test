@@ -5,12 +5,12 @@
     angObj.controller('CampaignsController', function($scope, Campaigns) {
       $scope.campaigns = new Campaigns();
       
-      $scope.showStrategies = function(id){
+      $scope.showStrategies = function(id) {
            $('#strategies-accordion-'+id).toggle();
       };
 
-      $scope.loadMoreStrategies = function(){
-        console.log('load more strategies');
+      $scope.loadMoreStrategies = function() {
+          console.log('load more strategies');
       }
 
 
