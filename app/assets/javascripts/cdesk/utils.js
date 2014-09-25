@@ -18,9 +18,14 @@
             title += '</div>';
             return  title;
         };
+        var roundOff = function(value,places) {
+          var factor = Math.pow(10,places);
+          return Math.round(value*factor)/factor;
+        };
         return {
             formatDate: formatDate,
-            makeTitle: makeTitle
+            makeTitle: makeTitle,
+            roundOff: roundOff
         };
     }]);
 

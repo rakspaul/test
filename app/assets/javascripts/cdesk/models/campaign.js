@@ -13,9 +13,8 @@
                                 for (var i = 0; i < maxDays.length; i++) {
                                     var kpiType = (campaignList[obj].kpiType),
                                     kpiTypeLower = angular.lowercase(kpiType);
-                                    lineDate.push({ 'x': i + 1, 'y': maxDays[i][kpiTypeLower], 'date': maxDays[i]['date'] });
-
-                                }                             
+                                    lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                                }
                                 campaignList[obj].chart = new line.highChart(lineDate, parseFloat(campaignList[obj].kpiValue), campaignList[obj].kpiType);
                             }
                         }
