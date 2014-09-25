@@ -4,6 +4,16 @@
 
     angObj.controller('CampaignsController', function($scope, Campaigns) {
       $scope.campaigns = new Campaigns();
+      
+      $scope.showStrategies = function(id){
+           $('#strategies-accordion-'+id).toggle();
+      };
+
+      $scope.loadMoreStrategies = function(){
+        console.log('load more strategies');
+      }
+
+
     });
 
 
@@ -80,7 +90,7 @@
           self.busy = false;
           if (result.data.orders.length > 0) {
             angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function(c, key) {
-              this.push(c);
+              this.push(c);              
             }, self.campaignList);
           }
           var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
@@ -93,7 +103,8 @@
           //failure
           self.busy = false;
           self.totalCount = 0;
-        });
+        });       
+
       },
 
       Campaigns.prototype.filterByTimePeriod = function(timePeriod) {

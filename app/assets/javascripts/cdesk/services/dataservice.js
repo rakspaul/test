@@ -8,7 +8,7 @@
         return {
 
             //API for campaign list //TODO: change - no parameters
-            getCampaignActiveInactive: function(urlPath) {
+            getCampaignActiveInactive: function (urlPath) {
                 if(common.useTempData) {
                     //mock data
                     return $http({url: urlPath , method : 'GET', cache : true}).then(
@@ -44,9 +44,32 @@
                     }
             },
 
-            getCdbChartData: function (campaignId, timePeriod) {
+            getCampaignStrategies: function (urlPath) {
+     
+                    return $http({url: urlPath , method : 'GET', cache : true}).then(
+                        function (response) {
+                            return {
+                                status : "success",
+                                data : response.data
+                            };
+                        },
+                        function (error) {
+                            return {
+                                status : "error",
+                                data : error
+                            };
+                        }
+                    );
+               
+            },
+
+            getCdbChartData: function (campaignId, timePeriod, type, strategyId) {
                  
-                var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;
+                if(type == 'campaigns') {
+                    var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;    
+                }else if(type == 'strategies') {
+                    var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?period=' + timePeriod;
+                }
                 if(common.useTempData) {
                     //mock data
                     return $http({url: urlPath , method : 'GET', cache : true}).then(

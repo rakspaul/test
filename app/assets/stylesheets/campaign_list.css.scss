@@ -715,6 +715,7 @@ button, i, input[type="submit"] {
     }
 
     &.inner-accordion-wrapper {
+      display: none;
       margin-top: -20px;
       margin-bottom: 20px;
     }
@@ -728,7 +729,7 @@ button, i, input[type="submit"] {
       .panel-collapse.collapse.in {
         width: 990px;
         margin-top: 20px;
-        min-height: 280px;
+        min-height: 240px;
         border-radius: 5px;
         background: #e9e6e0;
         @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
@@ -753,52 +754,172 @@ button, i, input[type="submit"] {
         background: url(asset-path("cdesk/accordion-line-end.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
       }
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
-        .col-md-4 .inner-accordion-details {
-          margin-top: 20px;
-          > div {
+        .col-md-4 {
+          .inner-accordion-details {
             margin-top: 20px;
-            img {
-              margin-right: 10px;
-              vertical-align: top;
+            margin-bottom: 20px;
+            > div {
+              span {
+                margin-right: 5px;
+                vertical-align: baseline;
+              }
+              .audience-icon {
+                width: 16px;
+                height: 16px;
+                display: inline-block;
+                background: url(asset-path("cdesk/icn_audience.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .globe-icon {
+                width: 16px;
+                height: 16px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url(asset-path("cdesk/icn_globe.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .location-icon {
+                width: 17px;
+                height: 17px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url(asset-path("cdesk/icn_location.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+              .device-icon {
+                width: 17px;
+                height: 17px;
+                vertical-align: sub;
+                display: inline-block;
+                background: url(asset-path("cdesk/icn_size.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+              }
+            }
+          }
+          .inner-accordion-duration {
+            .duration {
+              margin-bottom: 10px;
+              .date {
+                margin-bottom: 10px;
+                color: $textDarkGreyColor;
+              }
+              .duration-bar {
+                width: 170px;
+                .progress {
+                  height: 5px;
+                  border-radius: 0;
+                  margin-bottom: 7px;
+                  .progress-bar {
+                    @include BackgroundLinearGradient(#8dc9eb, #7ac3ed);
+                  }
+                }
+                .days-left {
+                  text-align: right;
+                  .day-count {
+                    font-family: $primaryFont;
+                  }
+                }
+              }
             }
           }
         }
         .col-md-7 {
           width: 540px;
           padding: 15px;
-          height: 220px;
+          height: 185px;
           margin-top: 24px;
+          overflow: hidden;
           background: $textColorWhite;
           border-radius: 5px;
-          .col-md-6 {
-            padding: 0;
-            .row-fluid {
-              .col-md-5, .col-md-7 {
-                padding: 0;
-              }
-            }
-            &:first-child {
-              padding-right: 10px;
-            }
-            &:last-child {
-              padding-left: 10px;
-            }
-            .row-fluid {
-              .col-md-5 {
-                font-size: 9pt;
-              }
-              .col-md-7 {
+          .col-md-6 .row-fluid {
+            .col-md-6 {
+              padding: 0;
+              text-align: right;
+              .imps {
                 text-align: right;
-                &.kpi-text-container {
-                  text-align: left;
+              }
+              .imps-count {
+                text-align: right;
+                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              }
+              .ctr-container {
+                .blue{
+                  @include FontColor($textHeadingColor, 12pt, $primaryFont);
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  border: 1px solid #5EA9D8;
+                  .progress-bar {
+                    background: linear-gradient(to right, #6ebff0 , #1d7fc9); 
+                    background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
+                    background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
+                    background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+                  }
                 }
               }
-              .col-md-5 .kpi-num {
-                font-size: 12pt;
+              .ctr-value {
+                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              }
+              .goal-image {
+                width: 17px;
+                height: 18px;
+                display: inline-block;
+                vertical-align: sub;
+                background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
+              }
+              .action-data {
+                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              }
+            }
+            .kpi-text-container {
+              text-align: left;
+              @include FontColor($textGreyColor, 11pt, $primaryFont);
+            }
+            .kpi-values {
+              text-align: right;
+              @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              .cumulative-text {
+                @include FontColor($textDarkGreyColor, 13px, $tertiaryFont);
+              }
+              div span {
+                text-align: right;
+                @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
+              }
+              div > span:last-child {
+                @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+              }
+              div > span.avg-text {
+                font-size: 10pt;
+              }
+              .kpi-num {
+                font-family: $secondaryFont;
+              }
+              .kpi-goal {
+                width: 17px;
+                height: 18px;
+                display: inline-block;
+                vertical-align: sub;
+                background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
               }
             }
           }
+          .col-md-6 .row-fluid:first-child {
+            text-align: left;
+            margin-bottom: 20px;
+          }
         }
+      }
+    }
+  }
+  .load-more-strategies {
+    margin: 30px auto;
+    text-align: center;
+    a {
+      border-radius: 20px;
+      padding: 8px 25px 6px;
+      border: 1px solid #ddd;
+      @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
+      &:hover {
+        text-decoration: none;
+        @include FontColor($textDarkGreyColor, 12pt, $primaryFont);
       }
     }
   }
@@ -851,4 +972,9 @@ button, i, input[type="submit"] {
 #highcharts {
   width: 219px; 
   height: 200px;
+}
+
+#highcharts-strategies {
+  width: 219px; 
+  height: 150px;
 }
