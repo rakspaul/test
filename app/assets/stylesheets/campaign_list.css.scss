@@ -398,6 +398,9 @@ button, i, input[type="submit"] {
     }
     .campaign-title-head {
       margin-bottom: 20px;
+      .clearfix.top-margin {
+        margin-bottom: 0;
+      }
       ul {
         padding: 0 20px 0 30px;
         overflow: hidden;
@@ -902,12 +905,45 @@ button, i, input[type="submit"] {
                   height: 28px;
                   margin-bottom: 0;
                   border-radius: 0;
-                  border: 1px solid #5EA9D8;
                   .progress-bar {
-                    background: linear-gradient(to right, #6ebff0 , #1d7fc9); 
-                    background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
-                    background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
-                    background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+                    border: 1px solid #5ea9d8;
+                    @include BackgroundLinearGradientLeftToRight(#6ebff0 , #1d7fc9);
+                  }
+                }
+              }
+              .ctr-container.red {
+                .blue {
+                  height: 20px;
+                  @include FontColor(#E4696C, 12pt, $primaryFont);
+                }
+                .blue.margin-twenty {
+                  margin-top: -20px;
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  .progress-bar {
+                    border: 1px solid #E4696C;
+                    @include BackgroundLinearGradientLeftToRight(#FAC7C8, #F75256);
+                  }
+                }
+              }
+              .ctr-container.amber {
+                .blue {
+                  height: 20px;
+                  @include FontColor(#FB8917, 12pt, $primaryFont);
+                  .margin-twenty {
+                    margin-top: -20px;
+                  }
+                }
+                .progress {
+                  height: 28px;
+                  margin-bottom: 0;
+                  border-radius: 0;
+                  .progress-bar {
+                    border: 1px solid #FB8917;
+                    @include BackgroundLinearGradientLeftToRight(#F7B842, #FC8917);
                   }
                 }
               }
