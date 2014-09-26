@@ -229,6 +229,7 @@ Reachui::Application.routes.draw do
 
     get 'campaigns' => 'desk/orders#index'
     get 'campaigns/:id' => 'orders#show'
+    get 'campaigns/:order_id/lineitems' => 'desk/lineitems#index'
 
   namespace :desk do
     resources :advertisers, :only => [:index] do

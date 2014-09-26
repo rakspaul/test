@@ -80,10 +80,6 @@ describe Order do
       adjust_time 10.days
     end
 
-    it "should return the media cost per day" do
-      @order.media_cost_per_day.should.should == (1332 / 22.0)
-    end
-
     it "should return the media cost for the duration" do
       # lifetime
       @order.expected_media_cost_during(5.years.ago, 5.years.from_now).should.should == (1332 / 22.0) * 9

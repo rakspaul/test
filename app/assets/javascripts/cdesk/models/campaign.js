@@ -92,8 +92,10 @@
         return {
        
             getStrategyList: function(obj, campaignList, timePeriod, kpiType, kpiValue) {
+
                 var url = '/orders/' + campaignList[obj].orderId + '/lineitems.json';
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
+
                     var strategyList = [];
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(result.data.length <= 3){
