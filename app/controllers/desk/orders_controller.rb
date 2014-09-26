@@ -2,6 +2,8 @@ class Desk::OrdersController < Desk::DeskController
 
   layout "cdesk"
 
+  include Desk::CommonHelper
+
   respond_to :html, :json, :js
 
   before_filter :add_default_filter, :only => [:index]
@@ -83,28 +85,5 @@ class Desk::OrdersController < Desk::DeskController
     @arel = @arel.where("(date('#{window_start_date}') <= orders.start_date and date('#{window_end_date}') >= orders.start_date) or
                           (date('#{window_start_date}') <= orders.end_date and date('#{window_end_date}') >= orders.end_date) or
                           (orders.start_date <= date('#{window_start_date}') and orders.end_date >= date('#{window_end_date}'))")
-  end
-
-  def add_default_filter
-    # default filter
-    params[:filter] ||= {"date_filter" => "last_week"}
-    params[:filter][:date_filter] ||= "last_week"
-    case params[:filter][:date_filter]
-      when "last_week"
-        params[:filter][:start_date] = 7.days.ago.beginning_of_day.to_date
-        params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
-      when "last_month"
-        params[:filter][:start_date] = 1.month.ago.beginning_of_day.to_date
-        params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
-      when "last_year"
-        params[:filter][:start_date] = 1.year.ago.beginning_of_day.to_date
-        params[:filter][:end_date] = Date.yesterday.end_of_day.to_date
-      when "life_time"
-        params[:filter][:start_date] = 5.years.ago.beginning_of_day.to_date
-        params[:filter][:end_date] = 5.years.from_now.end_of_day.to_date
-      when "custom_dates"
-        params[:filter][:start_date] = params[:filter][:start_date].to_date
-        params[:filter][:end_date] = params[:filter][:end_date].to_date
-    end
   end
 end

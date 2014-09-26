@@ -86,28 +86,7 @@ class Order < ActiveRecord::Base
   end
 
   def expected_media_cost_during window_start_date, window_end_date
-    #campaign yet to start
-    return 0 if self.start_date > Date.today
-
-    window_start_date = window_start_date.to_date if window_start_date.is_a?(Time)
-    window_end_date = window_end_date.to_date if window_end_date.is_a?(Time)
-
-    window_start_date = self.start_date if window_start_date < self.start_date
-    window_end_date = self.end_date if window_end_date > self.end_date
-
-    Date.yesterday.tap do |yday|
-      window_end_date = yday if window_end_date > yday
-    end
-
-    days = (window_end_date - window_start_date).to_i
-    return 0 if days < 0
-
-    self.media_cost_per_day * (days + 1)
-  end
-
-  def media_cost_per_day
-    days = (self.end_date - self.start_date).to_i
-    self.total_media_cost / (days + 1)
+    self.lineitems.inject(0.0){|sum, li| sum += li.expected_media_cost_during(window_start_date, window_end_date).to_f }
   end
 
   def dfp_url
