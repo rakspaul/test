@@ -288,15 +288,15 @@
                                     </div>
                                     <div class="row-fluid">
                                         <div class="col-md-6">
-                                            <div class="ctr-container">
+                                            <div class="ctr-container {{getSpendClassForStrategy(strategy)}}">
                                                 <div class="blue margin-twenty">
                                                     ${{strategy.grossRev | number}}
                                                 </div>
                                                 <div class="blue">
-                                                    
+                                                    {{getSpendDiffForStrategy(strategy)}}%
                                                 </div>
                                                 <div class="progress">
-                                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                                    <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{getSpendWidthForStrategy(strategy)}}%;">
                                                         <span class="sr-only">100% Complete</span>
                                                     </div>
                                                 </div>

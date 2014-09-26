@@ -51,7 +51,6 @@
                 } else if(type == 'list') {
                     apiUrl = urlPath;
                 }
-                console.log('call url- '+type+' - '+apiUrl);
                 return $http({url: apiUrl , method : 'GET', cache : true}).then(
                     function (response) {
                         return {
