@@ -86,6 +86,9 @@ class Order < ActiveRecord::Base
   end
 
   def expected_media_cost_during window_start_date, window_end_date
+    #campaign yet to start
+    return 0 if self.start_date > Date.today
+
     window_start_date = window_start_date.to_date if window_start_date.is_a?(Time)
     window_end_date = window_end_date.to_date if window_end_date.is_a?(Time)
 
