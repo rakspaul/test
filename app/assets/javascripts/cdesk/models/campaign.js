@@ -25,20 +25,49 @@
                     if(strategy.selected_key_values.length > 0) {
                          keyValues = appendStrategyData(strategy.selected_key_values, 'title');
                     }
+                    var status;
+                    if(strategy.li_status == "Ready"){
+                        status = "Draft";
+                    }else{
+                        status = strategy.li_status;
+                    }
                     strategyObj.push({
                         id: strategy.id,
                         name: strategy.name,
                         start_date: strategy.start_date,
                         end_date:strategy.end_date,
                         order_id: strategy.order_id,
-                        li_status: strategy.li_status ,
+                        li_status: status,
                         ad_size: adSize,
-                        selected_key_values: keyValues
+                        selected_key_values: keyValues,
+                        totalImpressions: null,
+                        grossRev: null,
+                        expectedMediaCost: null,
+                        ctr: 0,
+                        actionRate: 0,
+                        chart: null
+
                     });
                     getStrategyCdbLineChart(index, strategyObj, timePeriod, campaignId, kpiType, kpiValue);
+                    getStrategyMetrics(index, strategyObj, timePeriod, campaignId);
                 }
                 return strategyObj;
             };
+        var getStrategyMetrics = function(index, strategyObj, timePeriod, campaignId) {
+            var url = '/campaigns/' + campaignId + '/strategies/' + strategyObj[index].id + '?period=' + timePeriod; 
+            console.log('metrics:'+url);
+            dataService.getCampaignStrategies(url, 'metrics').then(function (result) {
+                console.log(result);
+               /* var strategyList = [];*/
+                if(result.status == "success" && !angular.isString(result.data.data)) {
+                    console.log('Houston, we have some data!');
+                    strategyObj[index].totalImpressions = result.data.data.impressions;
+                    strategyObj[index].grossRev = result.data.data.gross_rev;
+                    strategyObj[index].ctr = result.data.data.ctr;
+                    strategyObj[index].actionRate = result.data.data.action_rate;
+                }
+           });
+        };
 
         var getStrategyCdbLineChart = function(obj, strategyList, timePeriod, campaignId, kpiType, kpiValue) {
                var sKpiType=kpiType;
@@ -51,7 +80,7 @@
                                 for (var i = 0; i < maxDays.length; i++) {
                                     var kpiType = (sKpiType);
                                     var kpiTypeLower = angular.lowercase(kpiType);
-                                    lineData.push({ 'x': i + 1, 'y': parseFloat(maxDays[i][kpiTypeLower]), 'date': maxDays[i]['date'] });
+                                    lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                 }                             
                                 strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType);
                             }
@@ -64,7 +93,7 @@
        
             getStrategyList: function(obj, campaignList, timePeriod, kpiType, kpiValue) {
                 var url = '/orders/' + campaignList[obj].orderId + '/lineitems.json';
-                dataService.getCampaignStrategies(url).then(function (result) {
+                dataService.getCampaignStrategies(url, 'list').then(function (result) {
                     var strategyList = [];
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(result.data.length <= 3){
