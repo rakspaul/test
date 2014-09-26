@@ -214,14 +214,20 @@
         }
       },
 
-      Campaigns.prototype.editCampaign = function(campaign, placement) {
-        ga('send', 'event', placement, 'click', campaign.campaignTitle);
-        window.location = "campaigns/" + campaign.orderId;
+      Campaigns.prototype.editCampaign = function(campaign) {
+        ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {'hitCallback':
+          function () {
+            document.location = "campaigns/" + campaign.orderId;
+          }
+        });
       },
 
       Campaigns.prototype.campaignReports = function(campaign) {
-        ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle);
-        window.location = "reports/reports/" + campaign.orderId;
+        ga('send', 'event', 'campaign-report', 'click', campaign.campaignTitle, {'hitCallback':
+          function () {
+            document.location = "reports/reports/" + campaign.orderId;
+          }
+        });
       }
 
       Campaigns.prototype.durationLeft = function(campaign) {

@@ -91,12 +91,12 @@
                     <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
                     <div class="edit-stats-icons">
                         <div>
-                          <a ng-click="campaigns.editCampaign(campaign, 'edit-campaign')">
+                          <a href="campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)">
                             <span class="icons-bckground" id="icon-campaign-edit"></span>
                           </a>
                         </div>
                         <div>
-                          <a ng-click="campaigns.campaignReports(campaign)">
+                          <a href="reports/reports/{{campaign.orderId}}" ng-click="campaigns.campaignReports(campaign)">
                             <span class="icons-bckground" id="icon-campaign-report"></span>
                           </a>
                         </div>
