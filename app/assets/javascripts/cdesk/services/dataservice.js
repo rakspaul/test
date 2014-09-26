@@ -44,8 +44,15 @@
                     }
             },
 
-            getCampaignStrategies: function (urlPath) {
-                return $http({url: urlPath , method : 'GET', cache : true}).then(
+            getCampaignStrategies: function (urlPath, type) {
+                var apiUrl;
+                if(type == 'metrics') {
+                    apiUrl = api + urlPath;
+                } else if(type == 'list') {
+                    apiUrl = urlPath;
+                }
+                console.log('call url- '+type+' - '+apiUrl);
+                return $http({url: apiUrl , method : 'GET', cache : true}).then(
                     function (response) {
                         return {
                             status : "success",
@@ -62,10 +69,11 @@
             },
 
             getCdbChartData: function (campaignId, timePeriod, type, strategyId) {
+                var urlPath;
                 if(type == 'campaigns') {
-                    var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;    
+                    urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;    
                 }else if(type == 'strategies') {
-                    var urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?period=' + timePeriod;
+                    urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?period=' + timePeriod;
                 }
                 if(common.useTempData) {
                     //mock data

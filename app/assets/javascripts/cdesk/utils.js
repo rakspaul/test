@@ -268,4 +268,11 @@
         }
     });
 
+    angObj.filter('roundThisOff', function() {
+        return function(input, places) {
+                var factor = Math.pow(10,places);
+                return Math.round(input*factor)/factor;
+        }
+    });
+
 }());
