@@ -21,7 +21,7 @@ var angObj = '';
     });
 
     angObj.constant('campaign_api', '');
-    angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
+    angObj.constant('api', 'http://qa-desk.collective-media.net:5000');
 
     /*
      * Used for UI related text changes
