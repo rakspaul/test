@@ -86,9 +86,9 @@
 
         return {
        
-            getStrategyList: function(obj, campaignList, timePeriod, kpiType, kpiValue) {
+            getStrategyList: function(obj, campaignList, timePeriod, cdeskTimePeriod, kpiType, kpiValue) {
 
-                var url = '/campaigns/' + campaignList[obj].orderId + '/lineitems.json';
+                var url = '/campaigns/' + campaignList[obj].orderId + '/lineitems.json?filter[date_filter]=' + cdeskTimePeriod;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
                     var strategyList = [];
@@ -122,7 +122,7 @@
                 });
             },
 
-            setActiveInactiveCampaigns: function (dataArr, timePeriod) {
+            setActiveInactiveCampaigns: function (dataArr, timePeriod, cdeskTimePeriod) {
                 var campaignList = [];
                
                 for (var obj in dataArr) {
@@ -149,7 +149,7 @@
                         campaignStrategiesLoadMore:null
                     });
 
-                    this.getStrategyList(obj, campaignList, timePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
+                    this.getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
                     this.getCdbLineChart(obj, campaignList, timePeriod);
 
                     

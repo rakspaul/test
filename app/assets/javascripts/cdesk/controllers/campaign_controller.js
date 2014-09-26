@@ -136,7 +136,7 @@
           self.busy = false;
           if (result.data.orders.length > 0) {
             var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function (campaign) {
+            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod), function (campaign) {
               this.push(campaign);
               dataService.getCampaignData(cdbApiKey, campaign.orderId).then(function (response) {
                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
