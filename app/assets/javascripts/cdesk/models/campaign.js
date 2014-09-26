@@ -42,11 +42,10 @@
                         selected_key_values: keyValues,
                         totalImpressions: null,
                         grossRev: null,
-                        expectedMediaCost: null,
+                        expectedMediaCost: strategy.expected_media_cost,
                         ctr: 0,
                         actionRate: 0,
                         chart: null
-
                     });
                     getStrategyCdbLineChart(index, strategyObj, timePeriod, campaignId, kpiType, kpiValue);
                     getStrategyMetrics(index, strategyObj, timePeriod, campaignId);
@@ -55,12 +54,8 @@
             };
         var getStrategyMetrics = function(index, strategyObj, timePeriod, campaignId) {
             var url = '/campaigns/' + campaignId + '/strategies/' + strategyObj[index].id + '?period=' + timePeriod; 
-            console.log('metrics:'+url);
             dataService.getCampaignStrategies(url, 'metrics').then(function (result) {
-                console.log(result);
-               /* var strategyList = [];*/
                 if(result.status == "success" && !angular.isString(result.data.data)) {
-                    console.log('Houston, we have some data!');
                     strategyObj[index].totalImpressions = result.data.data.impressions;
                     strategyObj[index].grossRev = result.data.data.gross_rev;
                     strategyObj[index].ctr = result.data.data.ctr;
@@ -93,7 +88,7 @@
        
             getStrategyList: function(obj, campaignList, timePeriod, kpiType, kpiValue) {
 
-                var url = '/orders/' + campaignList[obj].orderId + '/lineitems.json';
+                var url = '/campaigns/' + campaignList[obj].orderId + '/lineitems.json';
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
                     var strategyList = [];

@@ -11,9 +11,14 @@
     this.cpc = 0;
     this.cpa = 0;
     this.spend = 0;
+    this.action_rate = 0;
 
     this.getGrossRev = function() {
       return this.roundOff(this.gross_rev,2);
+    }
+
+    this.getActionRate = function() {
+      return this.roundOff(this.action_rate, 2)
     }
     this.getCTR = function() {
       return this.roundOff(this.ctr,2);
