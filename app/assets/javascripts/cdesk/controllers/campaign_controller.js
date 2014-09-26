@@ -34,16 +34,33 @@
         }
         var spend = campaignCDBObj.getGrossRev();
         var expectedSpend = campaign.expectedMediaCost;
-        if(expectedSpend == 0) {
+        return $scope.getPercentDiff(expectedSpend, spend);
+      };
+      $scope.getPercentDiff = function(expected, actual) {
+        var spendDifference = 0;
+        if(expected == 0) {
           spendDifference = 0;
         } else {
-          spendDifference = utils.roundOff((spend - expectedSpend) * 100 / expectedSpend, 2);
+          spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
         }
         return spendDifference;
-      };
-
+      }
+      $scope.getSpendDiffForStrategy = function (strategy) {
+        if(strategy == undefined) {
+          return 0;
+        }
+        var expectedSpend = strategy.expectedMediaCost;
+        return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
+      }
       $scope.getSpendClass = function(campaign) {
         var spendDifference = $scope.getSpendDifference(campaign);
+        return $scope.getClassFromDiff(spendDifference);
+      };
+      $scope.getSpendClassForStrategy = function(strategy) {
+        var spendDifference = $scope.getSpendDiffForStrategy(strategy);
+        return $scope.getClassFromDiff(spendDifference);
+      }
+      $scope.getClassFromDiff = function(spendDifference) {
         if(spendDifference > -1) {
           return 'blue';
         }
@@ -51,10 +68,16 @@
           return 'amber';
         }
         return 'red';
-      };
-
+      }
       $scope.getSpendWidth = function(campaign) {
         var actualWidth = 100 + $scope.getSpendDifference(campaign);
+        if(actualWidth > 100) {
+          actualWidth = 100;
+        }
+        return actualWidth;
+      }
+      $scope.getSpendWidthForStrategy = function(strategy) {
+        var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
         if(actualWidth > 100) {
           actualWidth = 100;
         }
