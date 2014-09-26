@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angObj.controller('CampaignsController', function($scope, Campaigns) {
+    angObj.controller('CampaignsController', function($scope, Campaigns, utils) {
       $scope.campaigns = new Campaigns();
       
       $scope.showStrategies = function(campaignId, strategiesCount) {
@@ -24,6 +24,41 @@
               }
             }
           }          
+      };
+
+      $scope.getSpendDifference = function(campaign) {
+        var spendDifference = 0;
+        var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+        if(campaignCDBObj == undefined) {
+          return spendDifference;
+        }
+        var spend = campaignCDBObj.getGrossRev();
+        var expectedSpend = campaign.expectedMediaCost;
+        if(expectedSpend == 0) {
+          spendDifference = 0;
+        } else {
+          spendDifference = utils.roundOff((spend - expectedSpend) * 100 / expectedSpend, 2);
+        }
+        return spendDifference;
+      };
+
+      $scope.getSpendClass = function(campaign) {
+        var spendDifference = $scope.getSpendDifference(campaign);
+        if(spendDifference > -1) {
+          return 'blue';
+        }
+        if(spendDifference <= -1 && spendDifference > -10) {
+          return 'amber';
+        }
+        return 'red';
+      };
+
+      $scope.getSpendWidth = function(campaign) {
+        var actualWidth = 100 + $scope.getSpendDifference(campaign);
+        if(actualWidth > 100) {
+          actualWidth = 100;
+        }
+        return actualWidth;
       }
     });
 
@@ -100,16 +135,14 @@
           self.totalCount = result.data.total_count;
           self.busy = false;
           if (result.data.orders.length > 0) {
-            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function(c, key) {
-              this.push(c);              
+            var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
+            angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod)), function (campaign) {
+              this.push(campaign);
+              dataService.getCampaignData(cdbApiKey, campaign.orderId).then(function (response) {
+                self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
+              })
             }, self.campaignList);
           }
-          var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-          angular.forEach(result.data.orders, function(value) {
-            dataService.getCampaignData(cdbApiKey,value.id).then(function (response) {
-              self.cdbDataMap[value.id] = modelTransformer.transform(response.data.data, CampaignData);
-            })
-          });
         }, function(result) {
           //failure
           self.busy = false;
@@ -232,7 +265,6 @@
         this.sortDirection && params.push('sort_direction=' + this.sortDirection);
         return campaign_api + '/campaigns.js?' + params.join('&');
       };
-
 
       var toggleSortDirection = function(dir) {
         if(dir == 'asc') {
