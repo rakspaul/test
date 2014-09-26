@@ -71,9 +71,13 @@ describe Order do
 
   context "media cost" do
     before(:each) do
-      @order = FactoryGirl.create :order
-      line_item_1 = FactoryGirl.create :lineitem, :order => @order
-      line_item_2 = FactoryGirl.create :lineitem, :order => @order
+      freeze_time 10.days.ago.beginning_of_day
+
+      @order = FactoryGirl.create :order, :start_date => 1.day.from_now, :end_date => 22.days.from_now
+      line_item_1 = FactoryGirl.create :lineitem, :order => @order, :start_date => 1.day.from_now, :end_date => 22.days.from_now
+      line_item_2 = FactoryGirl.create :lineitem, :order => @order, :start_date => 1.day.from_now, :end_date => 22.days.from_now
+
+      adjust_time 10.days
     end
 
     it "should return the media cost per day" do
@@ -81,9 +85,14 @@ describe Order do
     end
 
     it "should return the media cost for the duration" do
-      @order.expected_media_cost_during(12.days.from_now, 22.days.from_now).should.should == (1332 / 22.0) * 11
+      # lifetime
+      @order.expected_media_cost_during(5.years.ago, 5.years.from_now).should.should == (1332 / 22.0) * 9
 
-      @order.expected_media_cost_during(15.days.from_now, 22.days.from_now).should.should == (1332 / 22.0) * 8
+      # past week
+      @order.expected_media_cost_during(7.days.ago, 1.day.ago).should.should == (1332 / 22.0) * 7
+
+      # past month
+      @order.expected_media_cost_during(31.days.ago, 1.day.ago).should.should == (1332 / 22.0) * 9
     end
   end
 

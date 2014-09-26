@@ -95,6 +95,10 @@ class Order < ActiveRecord::Base
     window_start_date = self.start_date if window_start_date < self.start_date
     window_end_date = self.end_date if window_end_date > self.end_date
 
+    Date.yesterday.tap do |yday|
+      window_end_date = yday if window_end_date > yday
+    end
+
     days = (window_end_date - window_start_date).to_i
     return 0 if days < 0
 
