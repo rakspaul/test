@@ -34,8 +34,8 @@
                     strategyObj.push({
                         id: strategy.id,
                         name: strategy.name,
-                        start_date: strategy.start_date,
-                        end_date:strategy.end_date,
+                        startDate: strategy.start_date,
+                        endDate: strategy.end_date,
                         order_id: strategy.order_id,
                         li_status: status,
                         ad_size: adSize,

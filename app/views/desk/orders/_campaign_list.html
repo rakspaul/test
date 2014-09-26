@@ -258,19 +258,22 @@
                                 <div class="inner-accordion-duration">
                                     <div class="duration"> 
                                         <span class="date">
-                                        {{strategy.start_date | date :'d MMM y' }} 
+                                        {{strategy.startDate | date :'d MMM y' }} 
                                             -  
-                                        {{strategy.end_date | date :'d MMM y' }} 
+                                        {{strategy.endDate | date :'d MMM y' }} 
                                         </span>
                                         <div class="duration-bar">
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 75%;">
-                                                    <span class="sr-only">60% Complete</span>
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: {{campaigns.durationCompletion(strategy)}}%;">
                                                 </div>
                                             </div>
-                                            <div class="days-left">
-                                                <span class="day-count bold">10 </span>Days Left
-                                            </div>
+                                          <div class="days-left" ng-switch on="campaigns.durationLeft(strategy)">
+                                            <span ng-switch-when="0">Yet to start</span>
+                                            <span ng-switch-when="-1">Ended</span>
+                                            <span ng-switch-default>
+                                              <span class="day-count bold">{{campaigns.durationLeft(strategy)}}</span> Days left
+                                            </span>
+                                          </div>
                                         </div>
                                     </div>
                                 </div>
