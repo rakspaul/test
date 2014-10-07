@@ -27,8 +27,11 @@
 //= require cdesk/app
 //= require cdesk/charts/line
 //= require cdesk/controllers/campaign_controller
+//= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
+//= require cdesk/directives/campaign
+//= require cdesk/directives/campaignsort
 //= require cdesk/models/campaign
 //= require cdesk/models/campaign_data
 //= require cdesk/services/dataservice

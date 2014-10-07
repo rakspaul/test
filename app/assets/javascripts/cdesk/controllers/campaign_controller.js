@@ -2,14 +2,18 @@
 (function () {
     'use strict';
 
-    angObj.controller('CampaignsController', function($scope, Campaigns, utils) {
+    angObj.controller('CampaignsController', function($scope, Campaigns, utils, $location) {
       $scope.campaigns = new Campaigns();
       
-      $scope.showStrategies = function(campaignId, strategiesCount) {
+      /*$scope.showStrategies = function(campaignId, strategiesCount) {
         if(strategiesCount > 0) {
           $('#strategies-accordion-' + campaignId).toggle();
         }          
-      };
+      };*/
+      $scope.$on("fromCampaignDetails", function (event, args) {
+        console.log(args.campaignId);
+        $scope.loadMoreStrategies(args.campaignId);
+      });
 
       $scope.loadMoreStrategies = function(campaignId) {
           var campaignArray = $scope.campaigns.campaignList, pageSize = 3;
@@ -24,6 +28,10 @@
               }
             }
           }          
+      };
+
+      $scope.goToLocation = function(url){
+        utils.goToLocation(url);
       };
 
       $scope.getSpendDifference = function(campaign) {

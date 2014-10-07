@@ -1,0 +1,31 @@
+<div class="row-fluid">
+        <div class="col-md-12">
+            <div class="campaign-title-head">
+                <ul class="clearfix top-margin">
+                    <li class="col-md-6 pull-right">
+                      <span class="time-period-hint" ng-bind="campaigns.displayTimePeriod"></span>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="col-md-1">
+                      <span>STATUS</span>
+                    </li>
+                    <li class="col-md-5">
+                        <ul>
+                          <li ng-repeat="sortField in campaigns.sortFieldList">
+                            <a data-ng-click="campaigns.sortCampaigns(sortField.key)">
+                              <span class="{{sortField.className}}">{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
+                            </a>
+                          </li>
+                        </ul>
+                    </li>
+                    <li class="col-md-3">
+                      <span>METRICS</span>
+                    </li>
+                    <li class="col-md-3">
+                      <span>KPI</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
