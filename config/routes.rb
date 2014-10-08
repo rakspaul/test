@@ -101,7 +101,11 @@ Reachui::Application.routes.draw do
       resources :creatives, :only => [:destroy]
     end
 
-    resources :ads, :only => [:index]
+    resources :ads, :only => [:index] do
+      collection do
+        get 'ads'
+      end
+    end
 
     member do
       post 'change_status', 'cancel_revisions'

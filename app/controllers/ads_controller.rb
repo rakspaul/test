@@ -1,6 +1,8 @@
 class AdsController < ActionController::Base
   include Authenticator
 
+  before_filter :require_order, :only => [:index, :ads]
+
   respond_to :json
 
   def index
@@ -13,10 +15,19 @@ class AdsController < ActionController::Base
               :geo_targets,
               :audience_groups,
               {:creatives => :lineitem_assignment}
-            ).where(["order_id = ?", params[:order_id].to_i])
+            ).where(["order_id = ?", @order.id])
     respond_to do |format|
       format.json
     end
   end
 
+  def ads
+    @ads = Ad.where(["order_id = ?", @order.id])
+  end
+
+  private
+
+  def require_order
+    @order ||= Order.find_by_id(params[:order_id])
+  end
 end

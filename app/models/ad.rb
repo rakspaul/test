@@ -75,11 +75,11 @@ class Ad < ActiveRecord::Base
 
   # temporary fix [https://github.com/collectivemedia/reachui/issues/814]
   def start_date
-    read_attribute_before_type_cast('start_date').to_date
+    read_attribute_before_type_cast('start_date').try(:to_date)
   end
 
   def end_date
-    read_attribute_before_type_cast('end_date').to_date
+    read_attribute_before_type_cast('end_date').try(:to_date)
   end
 
   def type
