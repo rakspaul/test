@@ -1107,7 +1107,14 @@ button, i, input[type="submit"] {
             }
           }
         }
+        /*styling by saudamini*/
+        .report_title.col-md-12 {
+          float: none;
+          clear: both;
+        }
+        /*end of styling by saudamini*/
         .col-md-12 {
+
           .brand {
             @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
             .brand-type {
@@ -1166,6 +1173,9 @@ button, i, input[type="submit"] {
               padding-left: 20px;
               table {
                 width: 470px;
+                .tr_selected {
+                    border: 1px solid #ccc;
+                }
                 tr {
                   width: 470px;
                   padding: 5px;
@@ -1179,9 +1189,17 @@ button, i, input[type="submit"] {
                     }
                   }
                   td:first-child {
-                    width: 30px;
-                    background: #e7e3e3;
                     text-align: center;
+                    height: 18px;
+                    width: 18px;
+                    background: transparent;
+                    display: block;
+                    border: solid 4px #ccc;
+                    border-radius: 18px;
+                    -moz-border-radius: 18px;
+                    -webkit-border-radius: 18px;
+                    padding: 0px;
+                    margin: 5px;
                   }
                   td:nth-child(2) {
                     width: 100px;
@@ -1202,9 +1220,7 @@ button, i, input[type="submit"] {
                       text-transform: uppercase;
                     }
                   }
-                  &:hover {
-                    border: 1px solid #ccc;
-                  }
+                  
                 }
               }
             }
@@ -1235,3 +1251,179 @@ button, i, input[type="submit"] {
     }
   }
 }
+
+
+/*styling by saudamini*/
+
+.actions_holder {
+  width: 920px ;
+  margin:  30px auto 20px ;
+  color: #999 ;
+  font-size: 14px ;
+  .row {
+    margin : 0px ;
+  }
+  label {
+    font-weight: normal;
+  }
+  .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
+    padding: 0px ;
+  }
+  .action_dd {
+    float: left;
+    margin-right: 35px ;
+    overflow:hidden;
+    max-width:172px;
+    border: solid 1px #d9d9d9 ;
+    border-radius : 5px ;
+    -moz-border-radius : 5px ;
+    -webkit-border-radius : 5px ;
+    background: url(asset-path("cdesk/arrow.png")) no-repeat right center;
+    select {
+      padding: 5px 20px 5px 10px ; 
+      -webkit-appearance: none;  
+      max-width:198px;
+      -moz-appearance: none;
+      text-indent: 0.01px; 
+      text-overflow: "";  
+      background: transparent;
+      width: 111%;
+      -webkit-appearance: none;
+      border: 0px ;
+    }
+    select:focus {
+      outline: 0px ;  
+    }
+  }
+  .action_dd_third {
+    margin-right: 0px ;
+    max-width: 235px ;
+    select  {
+      max-width: 268px ;
+    }
+  }
+  .action_filter_heading {
+    font-weight: bold ;
+    text-transform: uppercase;
+    float: left;
+    margin: 8px 0px 0 0;
+    text-align: left !important;
+  }
+  .action_dd_last {
+    text-align: right;
+    float: none;
+    margin-bottom: 20px ;
+    width: 100% ;
+  }
+  .note_area {
+    position: relative;
+    margin-top: 15px ;
+    padding : 0px 0px 2px 5px ;
+    width: 94%;
+    .note_area_border {
+      position: absolute;
+      bottom: 0px ;
+      border : solid 2px #bebebe ;
+      border-top: 0px ;
+      height: 12px ;
+      width: 100% ;
+      left: 0px ;
+    }
+  }
+  .action_submit {
+    float: right;
+    height: 30px ;
+    width: 65px ;
+    @include FontColor($textColorWhite, 14pt, $primaryFont);
+    background: #f5b236 ;
+    border: 0px ;
+    outline: 0px ;
+    border-radius: 5px ;
+    -moz-border-radius: 5px ;
+    -webkit-border-radius: 5px ;
+    text-align: center;
+    padding: 3px ;
+    background: #f9b537; /* Old browsers */
+    background: -moz-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9b537), color-stop(0%,#f9b537), color-stop(98%,#ebab34), color-stop(98%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9b537', endColorstr='#ebab34',GradientType=0 ); /* IE6-9 */
+  }
+  .external_chkbox {
+    float: left;
+    margin-top: 4px;
+    /* SQUARED FOUR */
+    .squaredFour {
+      width: 20px;    
+      margin: 0px 5px 0 0;
+      position: relative;
+      float: left;
+      input[type="checkbox"] {
+        visibility: hidden;
+      }
+      input[type="checkbox"]:focus {
+        outline: 0px ;
+      }
+      label {
+        cursor: pointer;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: 0;
+        left: 0px;
+        border-radius: 4px;
+        border: solid 1px #d9d9d9;
+       }
+      label:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+        filter: alpha(opacity=0);
+        opacity: 0;
+        content: '';
+        position: absolute;
+        width: 9px;
+        height: 5px;
+        background: transparent;
+        top: 5px;
+        left: 5px;
+        border: 3px solid #333;
+        border-top: none;
+        border-right: none;
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+      }
+      label:hover::after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+        filter: alpha(opacity=30);
+        opacity: 0.5;
+       }
+       input[type=checkbox]:checked + label:after {
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+        filter: alpha(opacity=100);
+        opacity: 1;
+       }
+    }
+    .squaredFourTxt {
+      float: left;
+    }
+  }
+}
+
+/*end of styling by saudamini*/
+
+
+
+
+
+
+
+
+
+
+
+
