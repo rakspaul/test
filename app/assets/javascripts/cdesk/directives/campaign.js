@@ -3,11 +3,14 @@
     angObj.directive('campaignStrategyCard', function (utils) {
         return {
             restrict:'EAC',
+
             scope: {
                 campaign: '=',
                 campaigns: '='
             },
-            templateUrl:'/assets/cdesk/partials/campaign_strategy_card.html',
+
+            templateUrl: 'campaign_strategy_card',
+
             link: function ($scope, element, attrs) { 
                 //To show the accorsponding strategy card
                 $scope.showStrategies = function(campaignId, strategiesCount) {
