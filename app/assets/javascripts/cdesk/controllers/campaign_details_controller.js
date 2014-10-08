@@ -2,7 +2,7 @@
 (function () {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, campaign, Campaigns) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, campaign, Campaigns, actionChart) {
 
         //temporary - using hard coded data
         //TODO - sprint4 task use factory data from existing models
@@ -10,9 +10,10 @@
 
         campaign.getCdbLineChart(0, $scope.campaign, 'last_7_days');
 
-        
+        console.log($scope.campaign.actionChart);
         $scope.campaignId = $routeParams.campaignId;        
         $scope.campaign = $scope.campaign[0];
+        $scope.campaign.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
         $scope.loadMoreStrategies = function (campaignId) {
             var campaignArray = $scope.campaign,
