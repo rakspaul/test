@@ -4,11 +4,11 @@
         return {
             restrict:'EAC',
             scope: {
-                campaign: '='
+                campaign: '=',
+                campaigns: '='
             },
             templateUrl:'/assets/cdesk/partials/campaign_strategy_card.html',
             link: function ($scope, element, attrs) { 
-
                 //To show the accorsponding strategy card
                 $scope.showStrategies = function(campaignId, strategiesCount) {
                     if(strategiesCount > 0) {

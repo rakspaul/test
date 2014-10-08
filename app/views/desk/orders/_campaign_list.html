@@ -55,7 +55,7 @@
     <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0">
     <div class="row-fluid" data-ng-repeat="campaign in campaigns.campaignList">
         <!-- campaign strategy card -->
-            <div campaign-strategy-card campaign="campaign"></div>
+            <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
     </div>
     </div>
     <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
