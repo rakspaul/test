@@ -16,7 +16,7 @@ var angObj = '';
                 templateUrl: 'campaign_list',
                 controller: 'CampaignsController'
             })
-            .when('/campaign_details/:campaignId', {
+            .when('/campaigns/:campaignId', {
                 templateUrl: 'campaign_details',
                 controller: 'CampaignDetailsController'
             })
@@ -31,7 +31,7 @@ var angObj = '';
      * Used for UI related text changes
      * */
     angObj.constant('common', {
-        title: 'Multi screen Audience Dashboard',
+        title: 'Collective Desk',
 //        useTempData:'tempdata' //null for actual api endpoint
         useTempData: null
     });
