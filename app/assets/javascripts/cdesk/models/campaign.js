@@ -93,11 +93,13 @@
 
                     var strategyList = [];
                     if(result.status == "success" && !angular.isString(result.data)) {
-                        if(result.data.length <= 3){
-                            campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType, kpiValue);
-                        }else{
-                            campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
-                            campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
+                        if(result.data.length >= 0) {
+                            if(result.data.length <= 3) {
+                                campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj].orderId, kpiType, kpiValue);
+                            } else {
+                                campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
+                                campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj].orderId, kpiType, kpiValue);
+                            }
                         }
                     }
                });
