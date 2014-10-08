@@ -10,7 +10,7 @@
 
         campaign.getCdbLineChart(0, $scope.campaign, 'last_7_days');
 
-        console.log($scope.campaign.actionChart);
+    
         $scope.campaignId = $routeParams.campaignId;        
         $scope.campaign = $scope.campaign[0];
         $scope.campaign.actionChart = actionChart.lineChart();
