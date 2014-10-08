@@ -16,18 +16,22 @@ var angObj = '';
                 templateUrl: 'campaign_list',
                 controller: 'CampaignsController'
             })
+            .when('/campaigns/:campaignId', {
+                templateUrl: 'campaign_details',
+                controller: 'CampaignDetailsController'
+            })
             .otherwise({redirectTo: 'campaigns'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
 
     angObj.constant('campaign_api', '');
-    angObj.constant('api', 'http://qa-desk.collective.com:5000');
+    angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
 
     /*
      * Used for UI related text changes
      * */
     angObj.constant('common', {
-        title: 'Multi screen Audience Dashboard',
+        title: 'Collective Desk',
 //        useTempData:'tempdata' //null for actual api endpoint
         useTempData: null
     });

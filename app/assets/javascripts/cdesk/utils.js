@@ -1,7 +1,7 @@
 /*global angular, angObj, jQuery*/
 (function () {
     'use strict';
-    angObj.factory('utils', [ function () {
+    angObj.factory('utils', ["$location", function ($location) {
         var formatDate = function (input) {
             var date = new Date(input);
             var dayOfMonth = date.getDate();
@@ -22,10 +22,14 @@
           var factor = Math.pow(10,places);
           return Math.round(value*factor)/factor;
         };
+        var goToLocation = function(url){
+            $location.url(url);
+        };
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
-            roundOff: roundOff
+            roundOff: roundOff,
+            goToLocation: goToLocation
         };
     }]);
 
