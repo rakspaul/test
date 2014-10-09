@@ -4,7 +4,7 @@
             <div class="detailed-campaign-bar clearfix">
                 <div class="col-md-10">
                     <h1 class="detailed-campaign-name">
-                        Fall 2014 Toyota Camery New Generation Launch
+                        {{campaign.campaignTitle}}
                     </h1>
                 </div>
                 <div class="col-md-1">
@@ -19,8 +19,8 @@
                 </div>
                 <div class="col-md-12 report_title">
                     <div class="brand">
-                        <span class="bold">Camry</span>
-                        <span class="brand-type"> Automative</span>
+                        <span class="bold">{{campaign.brandName}}</span>
+                        <span class="brand-type"> </span>
                     </div>
                 </div>
 
@@ -98,7 +98,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="highcharts" id="details_chart">
-                            <highchart id="highcharts" config="campaign.actionChart" chartTitle=""></highchart>
+                            <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
                         </div>
                     </div>
                 </div>
