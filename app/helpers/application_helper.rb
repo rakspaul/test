@@ -65,4 +65,8 @@ module ApplicationHelper
       h(creative.try(:html_code).try(:[], 0..60))
     end
   end
+
+  def reports_api_url
+    Rails.application.config.reporting_uri
+  end
 end
