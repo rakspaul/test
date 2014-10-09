@@ -32,6 +32,20 @@
                                 }
                             }
                         },
+                        series: {
+                            cursor: 'pointer',
+                            point: {
+                                events: {
+                                    click: function () {
+                                        if(this.note.id){
+                                            $('#actionItem_'+this.note.id).siblings().removeClass('action_selected').end().addClass('action_selected');     
+                                            //$('.campaign-performance-match').scrollTop($('#actionItem_'+this.note.id).top); 
+                                            $('#action-container:first').animate({scrollTop: $('#actionItem_'+this.note.id).offset().top}, 1000);                                  
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     yAxis: {
                         maxPadding:0,
@@ -92,7 +106,8 @@
                             },
                             y: 71.5,
                             note: {
-                                text: 'Optimised geo to include the whole area'
+                                text: 'Optimised geo to include the whole area',
+                                id: '0'
                             }
                         }, {
                             marker: {
@@ -106,7 +121,8 @@
                             },
                             y: 81.5,
                             note: {
-                                text: 'The new creatives are in!'
+                                text: 'The new creatives are in!',                                
+                                id: '0'
                             }
                         },
                         106.4,
@@ -123,11 +139,42 @@
                             },
                             y: 148.6,
                             note: {
-                                text: 'Client signed!'
+                                text: 'Client signed!',
+                                id: '0'
+                            }
+                        },
+                        {
+                            marker: {
+                                enabled: true,
+                                fillColor: '#FFFFFF',
+                                lineWidth: 4,
+                                lineColor: "#1786FF", // inherit from series
+                                radius: 7,
+                                borderRadius: 2
+                            },
+                            y: 148.6,
+                            note: {
+                                text: 'Client signed!',
+                                id: '0'
                             }
                         },
                         178.5,
                         216.4,
+                        {
+                            marker: {
+                                enabled: true,
+                                fillColor: '#FFFFFF',
+                                lineWidth: 4,
+                                lineColor: "#1786FF", // inherit from series
+                                radius: 7,
+                                borderRadius: 2
+                            },
+                            y: 148.6,
+                            note: {
+                                text: 'Client signed!',
+                                id: '0'
+                            }
+                        },
                         95.6,
                         54.4
                     ],
