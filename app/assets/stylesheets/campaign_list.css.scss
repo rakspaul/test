@@ -1171,6 +1171,74 @@ button, i, input[type="submit"] {
               margin-top: 25px;
               overflow-y: auto;
               padding-left: 20px;
+
+              /*styling by saudamini*/
+
+              font-size: 14px ;
+              .each_action_performance {
+                margin-right: 10px !important;
+                padding: 7px ; 
+                border: 2px solid transparent;
+              }
+              .action_selected {
+                border: 2px solid #f8f8f8;
+              }
+              
+              .row {
+                margin: 0px ;
+              }
+              .each_action_perf_note {
+                margin: 10px 0 ;
+              }
+              .each_action_perf_header {
+                margin-top: 1px ;
+              }
+              .col-md-11.each_campaign_perf_details {
+                text-transform: none ;
+                padding: 0px ;
+              }
+              .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
+                padding: 0px ;
+              }
+              .action_filter , .each_action_time {
+                margin-right: 12px;
+                word-wrap: break-word;
+                text-align: center;
+                @include FontColor( #bebebe, 14px, $tertiaryFont);
+                font-weight: 700;
+                float: right;
+              }
+              .each_action_time {
+                text-align: right ;
+                margin-right: 0px ; 
+              }
+              .each_action_perf_filter {
+                color: #bebebe ;
+                /*font-family: Avenir;*/
+              }
+              .circle_action {
+                text-align: center;
+                height: 18px;
+                width: 18px;
+                background: transparent;
+                display: block;
+                border: solid 4px #f5b236;
+                border-radius: 18px;
+                -moz-border-radius: 18px;
+                -webkit-border-radius: 18px;
+                padding: 0px;
+                margin: 0px 5px 0 0;
+              }
+              .each_action_name {
+               @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
+               font-weight: 700;
+               width: 30%;
+               float: left;
+              }
+
+
+              /*end of styling by saudamini*/
+
               table {
                 width: 470px;
                 .tr_selected {
@@ -1189,17 +1257,7 @@ button, i, input[type="submit"] {
                     }
                   }
                   td:first-child {
-                    text-align: center;
-                    height: 18px;
-                    width: 18px;
-                    background: transparent;
-                    display: block;
-                    border: solid 4px #ccc;
-                    border-radius: 18px;
-                    -moz-border-radius: 18px;
-                    -webkit-border-radius: 18px;
-                    padding: 0px;
-                    margin: 5px;
+                    
                   }
                   td:nth-child(2) {
                     width: 100px;
@@ -1232,6 +1290,9 @@ button, i, input[type="submit"] {
         margin-top: 3px;
         padding: 25px 45px;
         background: $textColorWhite;
+        .spend_detail {
+          margin-left : 25px ;
+        }
         .col-md-3, .col-md-2 {
           .col-md-12:first-child {
             font-weight: bold;
@@ -1328,6 +1389,17 @@ button, i, input[type="submit"] {
       height: 12px ;
       width: 100% ;
       left: 0px ;
+    }
+    .action_textarea {
+      border: 0px;
+      background: transparent;
+      overflow-y: auto;
+      width: 100%;
+      resize: none;
+      height: 50px;
+      height: 40px;
+      padding-bottom: 0;
+      padding-top: 0px;
     }
   }
   .action_submit {
