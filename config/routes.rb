@@ -232,7 +232,7 @@ Reachui::Application.routes.draw do
   end
 
     get 'campaigns' => 'desk/orders#index'
-    get 'campaigns/:id' => 'orders#show'
+    get 'campaigns/:id' => 'desk/orders#show'
     get 'campaigns/:order_id/lineitems' => 'desk/lineitems#index'
 
   namespace :desk do

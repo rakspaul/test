@@ -57,7 +57,7 @@ en:
     ad:              "Tactic"
     cost:            "Total Spend"
 
-    campaigns_path: "/campaigns"
+    campaigns_path: "/orders"
 
     report:
       advertiser_name:   "Campaign name"

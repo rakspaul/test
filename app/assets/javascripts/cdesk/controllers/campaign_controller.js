@@ -253,7 +253,7 @@
             Campaigns.prototype.editCampaign = function(campaign) {
                 ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
                     'hitCallback': function() {
-                        document.location = "campaigns/" + campaign.orderId;
+                        document.location = "orders/" + campaign.orderId;
                     }
                 });
             },

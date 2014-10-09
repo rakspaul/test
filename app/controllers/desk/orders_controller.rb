@@ -6,7 +6,8 @@ class Desk::OrdersController < Desk::DeskController
 
   respond_to :html, :json, :js
 
-  before_filter :add_default_filter, :only => [:index]
+  before_filter :add_default_filter, :only => [:index, :show]
+  before_filter :require_order, :only => [:show]
 
   # Accepted parameters:
   #   sort_direction, sort_column for sorting
@@ -35,6 +36,10 @@ class Desk::OrdersController < Desk::DeskController
       format.json
       format.js
     end
+  end
+
+  def show
+
   end
 
   private
@@ -85,5 +90,9 @@ class Desk::OrdersController < Desk::DeskController
     @arel = @arel.where("(date('#{window_start_date}') <= orders.start_date and date('#{window_end_date}') >= orders.start_date) or
                           (date('#{window_start_date}') <= orders.end_date and date('#{window_end_date}') >= orders.end_date) or
                           (orders.start_date <= date('#{window_start_date}') and orders.end_date >= date('#{window_end_date}'))")
+  end
+
+  def require_order
+    @order ||= Order.find_by_id(params[:id])
   end
 end
