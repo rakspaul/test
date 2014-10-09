@@ -7,10 +7,11 @@
                 options: {
                     chart: {
                         width: 500,
-                        height: 330
+                        height: 330,
+                        margin: [40, 0, 30, 60]
                     },
                     title: {
-                        text: 'yo',
+                        text: '',
                         style: {
                             "color": "#ffffff"
                         }
@@ -21,14 +22,26 @@
                     legend: {
                         enabled: false
                     },
+                    plotOptions : {
+                        line : {
+                            dataLabels : {
+                                enabled : true,
+                                y: -10,
+                                formatter : function() {
+                                    return '$'+this.y;
+                                }
+                            }
+                        },
+                    },
                     yAxis: {
-
+                        maxPadding:0,
+                        minPadding:0,
                         title: {
                             align: 'high',
                             offset: 13,
                             text: 'CPA',
                             rotation: 0,
-                            y: -10
+                            y: -20
                         },
                         lineWidth: 1,
                         tickWidth: 0,
@@ -41,22 +54,19 @@
                         }
                     },
                     xAxis: {
+                        maxPadding:0,
+                        minPadding:0,
                         tickWidth: 0,
                         categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
                     },
                     tooltip: {
-                        crosshairs: true,
-
-                        formatter: function() {
-                            console.log(this);
-                            if (typeof(this.point.options.note) === 'undefined') {
-                                return this.series.name + ':' + ' <b> $' + this.point.y + '</b><br/>';
-                            } else {
-                                return this.series.name + ':' + ' <b> $' + this.point.y + '<br>' + this.point.options.note.text + '</b><br/>';
-                            }
-
-
-                        }
+                        crosshairs: [{
+                            dashStyle: 'dash'
+                        },
+                        {
+                            dashStyle: 'dash'
+                        }],
+                        enabled: false
                     },
                 },
                 series: [{
@@ -125,6 +135,22 @@
                 }],
                 loading: false,
                 func: function(chart) {
+                    var kpiType = "CPA";
+                    var threshold = 100;
+                    chart.renderer.image('/assets/cdesk/icn_goal.png', 0, 185, 17, 17).add();      
+                    chart.yAxis[0].addPlotBand({ // Light air
+                        from: threshold,
+                        to: chart.yAxis[0].chart.plotSizeY,
+                        //(kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
+                        color: '#fbdbd1',
+                        label: {
+                            enabled: false,
+                            text: '',
+                            style: {
+                                color: 'red'
+                            }
+                        }
+                    });
                 }
             }
         };
