@@ -47,7 +47,7 @@ Reachui::Application.configure do
   config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
 
   #Set the reporting UI url
-  config.reporting_uri ='http://localhost:5100/'
+  config.reporting_uri ='http://localhost:5100'
 
   # audience group segment search
   # comma separated string of network ids
