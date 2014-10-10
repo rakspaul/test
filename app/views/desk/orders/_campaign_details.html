@@ -121,7 +121,7 @@
                     <div class="col-md-12">
                        
                         <div id="action-container" class="campaign-performance-match">
-                            <div id="actionItem_{{$index}}"class="row each_action_performance" ng-repeat='action in actionItems'>
+                            <div ng-if="actionItems" id="actionItem_{{$index}}"class="row each_action_performance" ng-repeat='action in actionItems'>
                                 <div class="circle_action col-md-1"></div>
                                 <div class="each_campaign_perf_details col-md-11">
                                     <div class="row each_action_perf_header clearfix">
@@ -135,6 +135,13 @@
                                     <div class="each_action_perf_filter">Toyota Camry for Female HHI</div>
                                 </div>
                             </div>
+                            <div ng-if="!actionItems" id="noActionItem"class="row each_action_performance">
+                                <div class="each_campaign_perf_details col-md-11">
+                                    <div class="each_action_perf_filter">
+                                        No Actions Available
+                                    </div>
+                                </div>
+                            </div>
                            
                         </div>
                     </div>
@@ -146,23 +153,31 @@
                         Flight Dates
                     </div>
                     <div class="col-md-12">
-                        28 Oct 2014 - 29 Nov 2014
+                        {{campaign.startDate | date :'d MMM y' }}
+                         -
+                        {{campaign.endDate | date :'d MMM y' }}
                     </div>
                 </div>
                 <div class="col-md-3 spend_detail">
                     <div class="col-md-12">
                         TOTAL CAMPAIGN BUDGET
                     </div>
-                    <div class="col-md-12">
-                        $630750
+                    <div class="col-md-12" ng-if="campaign.totalMediaCost">
+                        ${{campaign.totalMediaCost}}
+                    </div>
+                    <div class="col-md-12" ng-if="!campaign.totalMediaCost">
+                        NA
                     </div>
                 </div>
                 <div class="col-md-2">
                     <div class="col-md-12">
                         KPI
                     </div>
-                    <div class="col-md-12">
-                        3.5 <span>CPM</span>
+                    <div class="col-md-12" ng-if="campaign.kpiValue && campaign.kpiType">
+                        {{campaign.kpiValue}} <span>{{campaign.kpiType}}</span>
+                    </div>
+                    <div class="col-md-12" ng-if="!campaign.kpiValue && !campaign.kpiType">
+                        NA
                     </div>
                 </div>
             </div>
