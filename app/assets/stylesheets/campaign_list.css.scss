@@ -1149,6 +1149,22 @@ button, i, input[type="submit"] {
               font-weight: bold;
               text-transform: uppercase;
               @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+              /*styling by saudamini*/
+              .campaign-external-dd-holder {
+                display: inline-block;
+                background: url(asset-path("cdesk/descending.png")) no-repeat right 4px;
+                width: 80px;
+                overflow: hidden;
+                .campaign-external-sort-dd {
+                  @include FontColor($textHeadingColor, 12px, $tertiaryFont);
+                  border: 0;
+                  background: transparent;
+                  text-transform: uppercase;
+                  width: 100px;
+                  
+                }
+              }
+              /*end of styling by saudamini*/
               .campaign-external-sort {
                 display: inline-block;
                 text-transform: uppercase;
