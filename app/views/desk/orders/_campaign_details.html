@@ -109,12 +109,16 @@
                         </div>
                         <div class="col-md-6">
                             <span class="campaign-external-dd-holder pull-right">
-                                <label>
-                                    <select class="campaign-external-sort-dd">
-                                        <option>All</option>
-                                        <option>External</option>
-                                    </select>
-                                </label>
+                                <div class="dropdown campaign-external-dd-holder">
+                                      <span class="dropdown_ul_text" data-toggle="dropdown">
+                                          <span class="dd_txt">External</span>
+                                          <span class="arrrow_img"></span>
+                                      </span>
+                                      <ul class="dropdown_ul dropdown-menu">
+                                          <li>All</li>
+                                          <li>External</li>
+                                      </ul>
+                                  </div>
                             </span>
                         </div>
                     </div>
@@ -193,3 +197,18 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $( ".dropdown_ul_text" ).click(function() {
+          $( ".dropdown_ul" ).toggle();
+       });
+      $(".dropdown_ul li").click( function() {
+        $(".dd_txt").text($(this).text()) ;
+      }) ;
+      $( document ).click(function() {
+          if($(".dropdown_ul").is(':visible')) {
+              $(".dropdown_ul").hide();
+          }
+      });
+  });
+</script>
