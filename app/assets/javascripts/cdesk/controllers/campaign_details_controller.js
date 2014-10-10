@@ -1,21 +1,46 @@
 /*global angObj*/
-(function () {
+(function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, campaign, Campaigns, actionChart) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, campaign, Campaigns, actionChart, dataService, apiPaths) {
 
-        //temporary - using hard coded data
-        //TODO - sprint4 task use factory data from existing models
-        $scope.campaign = [{ "orderId": 401459, "startDate": "2014-02-07", "fromSuffix": "th", "endDate": "2014-12-31", "toSuffix": "st", "campaignTitle": "RE SZ WDBJ Piedmont Eye Center Q114", "brandName": "Piedmont Eye Center", "status": "draft", "kpiType": "Clicks", "kpiValue": "1.0", "totalImpressions": 1100000, "totalMediaCost": 3300, "expectedMediaCost": 2390, "lineitemsCount": 11, "campaignStrategies": [ { "id": 2591, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-02-07", "endDate": "2014-03-01", "order_id": 401459, "li_status": "Completed", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100007", "grossRev": "300.021", "expectedMediaCost": "300.00", "ctr": "0.00023", "actionRate": "0", "chart": null }, { "id": 2592, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-03-01", "endDate": "2014-04-01", "order_id": 401459, "li_status": "Delivering", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100036", "grossRev": "300.108", "expectedMediaCost": "300.00", "ctr": "0.00037", "actionRate": "0", "chart": null }, { "id": 2593, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-04-01", "endDate": "2014-05-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100052", "grossRev": "300.156", "expectedMediaCost": "300.00", "ctr": "0.00017", "actionRate": "0", "chart": null } ], "campaignStrategiesLoadMore": [ { "id": 2594, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-05-01", "endDate": "2014-06-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100021", "grossRev": "300.063", "expectedMediaCost": "300.00", "ctr": "0.00015", "actionRate": "0", "chart": null }, { "id": 2595, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-06-01", "endDate": "2014-07-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100029", "grossRev": "300.087", "expectedMediaCost": "300.00", "ctr": "0.00027", "actionRate": "0", "chart": null }, { "id": 2596, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-07-01", "endDate": "2014-08-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100036", "grossRev": "300.108", "expectedMediaCost": "300.00", "ctr": "0.00029", "actionRate": "0", "chart": null }, { "id": 2597, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-08-01", "endDate": "2014-09-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100021", "grossRev": "300.063", "expectedMediaCost": "300.00", "ctr": "0.00023", "actionRate": "0", "chart": null }, { "id": 2598, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-09-01", "endDate": "2014-10-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": "100199", "grossRev": "300.597", "expectedMediaCost": "290.32", "ctr": "0.000309", "actionRate": "0", "chart": null }, { "id": 2599, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-10-01", "endDate": "2014-11-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": null, "grossRev": null, "expectedMediaCost": "0.00", "ctr": 0, "actionRate": 0, "chart": null }, { "id": 2600, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-11-01", "endDate": "2014-12-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": null, "grossRev": null, "expectedMediaCost": "0.00", "ctr": 0, "actionRate": 0, "chart": null }, { "id": 2601, "name": "AMP Network_Adults 18-65, Health, Education, Business_Roanoke DMA", "startDate": "2014-12-01", "endDate": "2015-01-01", "order_id": 401459, "li_status": "Draft", "ad_size": "", "selected_key_values": "Age : 18-24 Age : 25-34 Age : 35-44 Age : 45-54 Age : 55-64 Business Health Education", "totalImpressions": null, "grossRev": null, "expectedMediaCost": "0.00", "ctr": 0, "actionRate": 0, "chart": null } ] }];
+        var campaignList = [];
+        $scope.details = {
+                campaign: null,
+                details: null
+            }
+        //API call for campaign details
+        var url = "/campaigns/" + $routeParams.campaignId + ".json";
 
-        campaign.getCdbLineChart(0, $scope.campaign, 'last_7_days');
+        dataService.getSingleCampaign(url).then(function(result) {
+            if (result.data) {
+                var dataArr = [result.data];
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'last_7_days', 'last_week')[0];
+            }
+        }, function(result) {
+            console.log('call failed');
+        });
 
-    
-        $scope.campaignId = $routeParams.campaignId;        
-        $scope.campaign = $scope.campaign[0];
-        $scope.campaign.actionChart = actionChart.lineChart();
+        var actionUrl = apiPaths.actionDetails + "/reports/campaigns/1723/actions";
+
+        dataService.getActionItems(actionUrl).then(function(result) {
+            var actionItemsArray = [];
+            var actionItems = result.data.data;
+            if (actionItems.length > 0) {
+                for(var i=0; i<actionItems.length; i++){
+                    for(var j=0; j<actionItems[i].action.length; j++){
+                        actionItemsArray.push(actionItems[i].action[j]);
+                    }
+                }
+                $scope.actionItems = actionItemsArray;
+            }
+        }, function(result) {
+            console.log('call failed');
+        });
+
+        $scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
-        $scope.loadMoreStrategies = function (campaignId) {
+        $scope.loadMoreStrategies = function(campaignId) {
             var campaignArray = $scope.campaign,
                 pageSize = 3;
             var loadMoreData = campaignArray.campaignStrategiesLoadMore;
@@ -27,7 +52,7 @@
             }
         };
 
-        var filterObject = new Campaigns();            
+        var filterObject = new Campaigns();
         $scope.campaigns = filterObject;
     });
 }());

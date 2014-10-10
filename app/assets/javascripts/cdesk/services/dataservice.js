@@ -43,6 +43,39 @@
                         });
                     }
             },
+            getSingleCampaign: function (urlPath) {
+                return $http({url: urlPath , method : 'GET', cache : true}).then(
+                        function (response) {
+                            return {
+                                status : "success",
+                                data : response.data
+                            };
+                        },
+                        function (error) {
+                            return {
+                                status : "error",
+                                data : error
+                            };
+                        }
+                    );
+            },
+
+            getActionItems: function (urlPath) {
+                    return $http({url: urlPath , method : 'GET', cache : true}).then(
+                        function (response) {
+                            return {
+                                status : "success",
+                                data : response.data
+                            };
+                        },
+                        function (error) {
+                            return {
+                                status : "error",
+                                data : error
+                            };
+                        }
+                    );
+            },
 
             getCampaignStrategies: function (urlPath, type) {
                 var apiUrl;
