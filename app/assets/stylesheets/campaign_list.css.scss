@@ -1152,7 +1152,7 @@ button, i, input[type="submit"] {
               /*styling by saudamini*/
               .campaign-external-dd-holder {
                 display: inline-block;
-                background: url("/assets/cdesk/descending.png") no-repeat right 4px;
+                background: url(asset-path("cdesk/descending.png")) no-repeat right 4px;
                 width: 80px;
                 overflow: hidden;
                 .campaign-external-sort-dd {
