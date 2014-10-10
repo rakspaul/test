@@ -10,18 +10,18 @@
                 details: null
             }
         //API call for campaign details
-        var url = "/campaigns/" + $routeParams.campaignId + ".json";
+        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
 
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.data) {
                 var dataArr = [result.data];
-                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'last_7_days', 'last_week')[0];
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'lifetime', 'life_time')[0];
             }
         }, function(result) {
             console.log('call failed');
         });
 
-        var actionUrl = apiPaths.actionDetails + "/reports/campaigns/1723/actions";
+        var actionUrl = apiPaths.actionDetails + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
 
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [];
