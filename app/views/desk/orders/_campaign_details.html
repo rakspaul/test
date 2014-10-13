@@ -167,7 +167,7 @@
                         TOTAL CAMPAIGN BUDGET
                     </div>
                     <div class="col-md-12" ng-if="campaign.totalMediaCost">
-                        ${{campaign.totalMediaCost}}
+                        ${{campaign.totalMediaCost | number}}
                     </div>
                     <div class="col-md-12" ng-if="!campaign.totalMediaCost">
                         NA
@@ -178,7 +178,7 @@
                         KPI
                     </div>
                     <div class="col-md-12" ng-if="campaign.kpiValue && campaign.kpiType">
-                        {{campaign.kpiValue}} <span>{{campaign.kpiType}}</span>
+                        {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} <span>{{campaign.kpiType}}</span>
                     </div>
                     <div class="col-md-12" ng-if="!campaign.kpiValue && !campaign.kpiType">
                         NA
@@ -193,7 +193,7 @@
             <!--Directive for Campaign sort -->
             <div campaign-sort campaigns="campaigns"></div>
             <!--reusing the campaign and strategy partial view -->
-            <div campaign-strategy-card campaign="campaign"></div>
+            <div campaign-strategy-card campaign="campaign" campaigns="campaigns"></div>
         </div>
     </div>
 </div>

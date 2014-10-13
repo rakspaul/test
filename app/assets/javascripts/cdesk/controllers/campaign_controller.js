@@ -35,63 +35,7 @@
             utils.goToLocation(url);
         };
 
-        $scope.getSpendDifference = function(campaign) {
-            var spendDifference = 0;
-            var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
-            if (campaignCDBObj == undefined) {
-                return spendDifference;
-            }
-            var spend = campaignCDBObj.getGrossRev();
-            var expectedSpend = campaign.expectedMediaCost;
-            return $scope.getPercentDiff(expectedSpend, spend);
-        };
-        $scope.getPercentDiff = function(expected, actual) {
-            var spendDifference = 0;
-            if (expected == 0) {
-                spendDifference = 0;
-            } else {
-                spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
-            }
-            return spendDifference;
-        }
-        $scope.getSpendDiffForStrategy = function(strategy) {
-            if (strategy == undefined) {
-                return 0;
-            }
-            var expectedSpend = strategy.expectedMediaCost;
-            return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
-        }
-        $scope.getSpendClass = function(campaign) {
-            var spendDifference = $scope.getSpendDifference(campaign);
-            return $scope.getClassFromDiff(spendDifference);
-        };
-        $scope.getSpendClassForStrategy = function(strategy) {
-            var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-            return $scope.getClassFromDiff(spendDifference);
-        }
-        $scope.getClassFromDiff = function(spendDifference) {
-            if (spendDifference > -1) {
-                return 'blue';
-            }
-            if (spendDifference <= -1 && spendDifference > -10) {
-                return 'amber';
-            }
-            return 'red';
-        }
-        $scope.getSpendWidth = function(campaign) {
-            var actualWidth = 100 + $scope.getSpendDifference(campaign);
-            if (actualWidth > 100) {
-                actualWidth = 100;
-            }
-            return actualWidth;
-        }
-        $scope.getSpendWidthForStrategy = function(strategy) {
-            var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
-            if (actualWidth > 100) {
-                actualWidth = 100;
-            }
-            return actualWidth;
-        }
+        
     });
 
 
@@ -147,7 +91,7 @@
             };
         };
 
-        Campaigns.prototype.fetchCampaigns = function() {
+            Campaigns.prototype.fetchCampaigns = function() {
                 if (this.busy) {
                     console.log('returning as the service is busy: ' + this.timePeriod);
                     return;
@@ -266,23 +210,27 @@
                 });
             }
 
-        Campaigns.prototype.durationLeft = function(campaign) {
-                if (moment() < moment(campaign.startDate)) {
-                    //campaign yet to start
-                    return 0;
+            Campaigns.prototype.durationLeft = function(campaign) {
+                if(campaign !== undefined) {
+                    if (moment() < moment(campaign.startDate)) {
+                        //campaign yet to start
+                        return 0;
+                    }
+                    if (moment(campaign.endDate) < moment()) {
+                        //campaign ended
+                        return -1;
+                    }
+                    return moment(campaign.endDate).diff(moment(), 'days');
                 }
-                if (moment(campaign.endDate) < moment()) {
-                    //campaign ended
-                    return -1;
-                }
-                return moment(campaign.endDate).diff(moment(), 'days');
             },
 
             Campaigns.prototype.durationCompletion = function(campaign) {
-                var totalDays = moment(campaign.endDate).diff(moment(campaign.startDate), 'days'),
-                    daysOver = moment().diff(moment(campaign.startDate), 'days');
+                if(campaign !== undefined) {
+                    var totalDays = moment(campaign.endDate).diff(moment(campaign.startDate), 'days'),
+                        daysOver = moment().diff(moment(campaign.startDate), 'days');
 
-                return Math.round((daysOver / totalDays) * 100);
+                    return Math.round((daysOver / totalDays) * 100);
+                }
             },
 
             Campaigns.prototype._applyFilters = function(filters) {

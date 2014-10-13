@@ -2,8 +2,10 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, campaign, Campaigns, actionChart, dataService, apiPaths) {
-
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths) {
+        
+        $scope.campaigns = new Campaigns();
+        
         var campaignList = [];
         $scope.details = {
                 campaign: null,
@@ -16,6 +18,9 @@
             if (result.data) {
                 var dataArr = [result.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'lifetime', 'life_time')[0];
+                dataService.getCampaignData('lifetime', $routeParams.campaignId).then(function(response) {
+                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
+                });
             }
         }, function(result) {
             console.log('call failed');
@@ -51,6 +56,8 @@
                 }
             }
         };
+
+
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;

@@ -67,16 +67,17 @@
                 </div>
             </div>
             <div class="row-fluid">
+                
                 <div class="col-md-6">
-                    <div class="ctr-container {{$parent.getSpendClass(campaign)}}">
+                    <div class="ctr-container {{getSpendClass(campaign)}}">
                         <div class="blue margin-twenty">
                             ${{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | number}}
                         </div>
                         <div class="blue">
-                            {{$parent.getSpendDifference(campaign)}}%
+                            {{getSpendDifference(campaign)}}%
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{$parent.getSpendWidth(campaign)}}%;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{getSpendWidth(campaign)}}%;">
                                 <span class="sr-only">100% Complete</span>
                             </div>
                         </div>
@@ -200,15 +201,15 @@
                                 </div>
                                 <div class="row-fluid">
                                     <div class="col-md-6">
-                                        <div class="ctr-container {{$parent.$parent.getSpendClassForStrategy(strategy)}}">
+                                        <div class="ctr-container {{$parent.getSpendClassForStrategy(strategy)}}">
                                             <div class="blue margin-twenty">
                                                 ${{strategy.grossRev | number}}
                                             </div>
                                             <div class="blue">
-                                                {{$parent.$parent.getSpendDiffForStrategy(strategy)}}%
+                                                {{$parent.getSpendDiffForStrategy(strategy)}}%
                                             </div>
                                             <div class="progress">
-                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{$parent.$parent.getSpendWidthForStrategy(strategy)}}%;">
+                                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: {{$parent.getSpendWidthForStrategy(strategy)}}%;">
                                                     <span class="sr-only">100% Complete</span>
                                                 </div>
                                             </div>
