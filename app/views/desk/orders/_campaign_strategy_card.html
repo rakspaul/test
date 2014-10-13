@@ -203,7 +203,7 @@
                                     <div class="col-md-6">
                                         <div class="ctr-container {{$parent.getSpendClassForStrategy(strategy)}}">
                                             <div class="blue margin-twenty">
-                                                ${{strategy.grossRev | number}}
+                                                ${{strategy.grossRev | number : 2}}
                                             </div>
                                             <div class="blue">
                                                 {{$parent.getSpendDiffForStrategy(strategy)}}%
