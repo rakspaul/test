@@ -26,45 +26,37 @@
 
                 <div class="row actions_holder clearfix">
 
-                      <form>
+                      <form ng-submit="createAction()" ng-controller="ActionsController">
                         <div class="row actions_filters">
                               <div class="col-md-1 action_filter_heading">Action</div>
                               <div class="col-md-9">
                                 
                                 <div class="row">
                                   <div class="col-md-3 action_dd">
-                                    <select  >
-                                      <option>Optimization</option>
-                                      <option>Lorem Ipsum</option>
-                                      <option>Lorem Ipsum</option>
+                                    <select ng-model="action.selectedType" ng-required="true" ng-options="type.name for type in action.types | orderBy:'name'">
+                                        <option value="">- Action Type -</option>
                                     </select>
                                   </div>
                                   <div class="col-md-3 action_dd">
-                                    <select  >
-                                      <option>Geo</option>
-                                      <option>Lorem Ipsum</option>
-                                      <option>Lorem Ipsum</option>
+                                    <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'">
+                                        <option value="">- Optimization Type -</option>
                                     </select>
                                   </div>
                                   <div class="col-md-5 action_dd action_dd_third">
-                                    <select  >
-                                      <option>Toyota Camry for Female HHI</option>
-                                      <option>Lorem Ipsum</option>
-                                      <option>Lorem Ipsum</option>
+                                    <select ng-model="tactics.selected" ng-required="true" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" >
+                                        <option value="">- Tactic -</option>
                                     </select>
                                   </div>
                                 </div>
                                 <div class="note_area">
-                                  <textarea class="action_textarea">Optimized geo to include the whole area. This will surely help the delivery. As per our Email discussion</textarea>
+                                  <textarea ng-model="action.name" ng-required="true" class="action_textarea placeholder_grey" placeholder="Enter optimization message here"></textarea>
                                   <div class="note_area_border"></div>
                                 </div>  
                               </div>
                               <div class="col-md-2">
                                 <div class="row action_dd action_dd_last">
-                                  <select  >
-                                    <option>Metric Impacted</option>
-                                    <option>Lorem Ipsum</option>
-                                    <option>Lorem Ipsum</option>
+                                  <select ng-model="metrics.selected" ng-required="true" ng-options="metric for metric in metrics.all">
+                                      <option value="">- Metric Impacted -</option>
                                   </select>
                                 </div>
                               </div>
@@ -72,7 +64,7 @@
                                 <input type="submit" class="action_submit" value="Submit">    
                                 <div class="external_chkbox clearfix">
                                     <div class="squaredFour">
-                                      <input type="checkbox" id="squaredFour"  />
+                                      <input type="checkbox" ng-model="action.external" id="squaredFour"  />
                                       <label for="squaredFour"></label>
                                       
                                     </div>       

@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
     "use strict";
-    angObj.factory("dataService", function ($http, api,  common, campaign_api) {
+    angObj.factory("dataService", function ($http, api,  apiPaths, common, campaign_api) {
         //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
        // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
         $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
@@ -143,16 +143,48 @@
 
             getBrands: function() {
               var url = '/desk/advertisers.json';
-              return this.makeHttpGetRequest(url);
+              return this.fetch(url);
+            },
+
+            getActions: function() {
+              var url = apiPaths.actionDetails + '/actionTypes';
+              return this.fetch(url);
+            },
+
+            getTactics: function(orderId) {
+              var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
+              return this.fetch(url)
             },
 
             getCampaignData: function (periodKey,campaignId) {
               var url = api + '/campaigns/' + campaignId + '?period=' + periodKey;
-              return this.makeHttpGetRequest(url);
+              return this.fetch(url);
             },
 
-            makeHttpGetRequest: function (url) {
+            createAction: function (data) {
+              var url = apiPaths.actionDetails + '/actions';
+              return this.post(url, data);
+            },
+
+            fetch: function (url) {
               return $http({url: url , method: 'GET', cache: true}).then(
+                function (response) {
+                  return {
+                    status : "success",
+                    data : response.data
+                  };
+                },
+                function (error) {
+                  return {
+                    status : "error",
+                    data : error
+                  };
+                }
+              );
+            },
+
+            post: function(url, data) {
+              return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
                 function (response) {
                   return {
                     status : "success",

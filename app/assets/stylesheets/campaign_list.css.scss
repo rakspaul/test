@@ -1038,24 +1038,24 @@ button, i, input[type="submit"] {
   font-size: 11pt;
   cursor: pointer;
 }
+#brandsDropdown::-webkit-input-placeholder {
+  color: white;
+}
+
+#brandsDropdown:-moz-placeholder { /* Firefox 18- */
+  color: white;
+}
+
+#brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
+  color: white;
+}
+
+#brandsDropdown:-ms-input-placeholder {
+  color: white;
+}
 #brandsList {
   height: 500px;
   overflow: auto;
-}
-::-webkit-input-placeholder {
-  color: white;
-}
-
-:-moz-placeholder { /* Firefox 18- */
-  color: white;
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-  color: white;
-}
-
-:-ms-input-placeholder {
-  color: white;
 }
 
 .highcharts-container .highcharts-tooltip {
@@ -1384,7 +1384,7 @@ button, i, input[type="submit"] {
       text-indent: 0.01px; 
       text-overflow: "";  
       background: transparent;
-      width: 111%;
+      width: 100%;
       -webkit-appearance: none;
       border: 0px ;
     }
@@ -1519,6 +1519,20 @@ button, i, input[type="submit"] {
     .squaredFourTxt {
       float: left;
     }
+  }
+  .placeholder_grey::-webkit-input-placeholder {
+    color: $textGreyColor;
+  }
+  .placeholder_grey::-moz-placeholder {
+    color: $textGreyColor;
+  }
+  /* firefox 19+ */
+  .placeholder_grey:-ms-input-placeholder {
+    color: $textGreyColor;
+  }
+  /* ie */
+  .placeholder_grey:-moz-placeholder {
+    color: $textGreyColor;
   }
 }
 

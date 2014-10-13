@@ -31,10 +31,14 @@
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
+//= require cdesk/controllers/actions_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaignsort
 //= require cdesk/models/campaign
 //= require cdesk/models/campaign_data
+//= require cdesk/models/action_type
+//= require cdesk/models/action_sub_type
+//= require cdesk/models/tactic
 //= require cdesk/services/dataservice
 //= require cdesk/services/transformer_service
 //= require cdesk/utils
