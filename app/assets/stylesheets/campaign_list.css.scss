@@ -1250,7 +1250,7 @@ button, i, input[type="submit"] {
               }
               .each_action_perf_filter {
                 color: #bebebe ;
-                /*font-family: Avenir;*/
+                
               }
               .circle_action {
                 text-align: center;
@@ -1351,6 +1351,10 @@ button, i, input[type="submit"] {
 
 
 /*styling by saudamini*/
+@font-face {
+  font-family: "Avenir";
+  src: url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype") ;
+}
 
 .actions_holder {
   width: 920px ;
@@ -1387,6 +1391,7 @@ button, i, input[type="submit"] {
       width: 111%;
       -webkit-appearance: none;
       border: 0px ;
+      font-family: "Avenir" ;
     }
     select:focus {
       outline: 0px ;  
@@ -1436,6 +1441,7 @@ button, i, input[type="submit"] {
       height: 40px;
       padding-bottom: 0;
       padding-top: 0px;
+      font-family: "Avenir" ;
     }
   }
   .action_submit {
@@ -1518,6 +1524,7 @@ button, i, input[type="submit"] {
     }
     .squaredFourTxt {
       float: left;
+      font-family: "Avenir" ;
     }
   }
 }
