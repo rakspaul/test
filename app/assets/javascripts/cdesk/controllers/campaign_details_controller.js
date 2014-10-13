@@ -34,6 +34,7 @@
             if (actionItems.length > 0) {
                 for(var i=0; i<actionItems.length; i++){
                     for(var j=0; j<actionItems[i].action.length; j++){
+                        actionItems[i].action[j].ad_name = actionItems[i].ad_name;
                         actionItemsArray.push(actionItems[i].action[j]);
                     }
                 }

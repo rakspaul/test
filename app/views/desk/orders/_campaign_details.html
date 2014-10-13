@@ -132,11 +132,11 @@
                                         <div class="each_action_name">{{action.created_by_name}}</div>
                                         <div class="each_action_time"> {{action.created_at | date : 'hh:m a'}}</div>
                                         <div class="action_filter each_action_impact">Impacts {{action.metric_impacted}}</div>
-                                        <div class="action_filter each_action_geo">Geo</div>
+                                        <div class="action_filter each_action_geo">{{action.action_sub_types | displayActionSubtypes}}</div>
                                         <div class="action_filter each_action_opt">{{action.action_type_name}}</div>
                                     </div>
                                     <div class="each_action_perf_note">{{action.comment}}</div>
-                                    <div class="each_action_perf_filter">Toyota Camry for Female HHI</div>
+                                    <div class="each_action_perf_filter">{{action.ad_name}}</div>
                                 </div>
                             </div>
                             <div ng-if="!actionItems" id="noActionItem"class="row each_action_performance">

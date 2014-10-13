@@ -279,4 +279,22 @@
         }
     });
 
+    angObj.filter('displayActionSubtypes', function() {
+        return function(actionSubTypes) {
+            var length = actionSubTypes.length,
+                subType = "";
+            if (length > 1) {
+                for (var i = 0; i < actionSubTypes.length; i++) {
+                    subType += actionSubTypes[i].name;
+                    if (i != actionSubTypes.length - 1) {
+                        subType += ", ";
+                    }
+                }
+                return subType;
+            } else {
+                return actionSubTypes[0].name;
+            }
+        }
+    });
+
 }());

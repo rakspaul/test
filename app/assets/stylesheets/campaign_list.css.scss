@@ -1237,12 +1237,19 @@ button, i, input[type="submit"] {
                 padding: 0px ;
               }
               .action_filter , .each_action_time {
-                margin-right: 12px;
+                margin-right: 5px;
                 word-wrap: break-word;
                 text-align: center;
                 @include FontColor( #bebebe, 14px, $tertiaryFont);
                 font-weight: 700;
                 float: right;
+              }
+              .action_filter {
+                max-width: 100px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 60px;
               }
               .each_action_time {
                 text-align: right ;
