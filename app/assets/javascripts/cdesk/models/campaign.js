@@ -58,7 +58,7 @@
                 if(result.status == "success" && !angular.isString(result.data.data)) {
                     strategyObj[index].totalImpressions = result.data.data.impressions;
                     strategyObj[index].grossRev = result.data.data.gross_rev;
-                    strategyObj[index].ctr = result.data.data.ctr;
+                    strategyObj[index].ctr = result.data.data.ctr * 100;
                     strategyObj[index].actionRate = result.data.data.action_rate;
                 }
            });

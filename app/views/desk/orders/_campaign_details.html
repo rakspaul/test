@@ -97,8 +97,11 @@
                         Campaign Performance
                     </div>
                     <div class="col-md-12">
-                        <div class="highcharts" id="details_chart">
+                        <div ng-if="details.actionChart" class="highcharts" id="details_chart">
                             <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
+                        </div>
+                        <div ng-if="!details.actionChart" class="highcharts" id="details_chart">
+                            Data Not Available
                         </div>
                     </div>
                 </div>
@@ -125,18 +128,18 @@
                     <div class="col-md-12">
                        
                         <div id="action-container" class="campaign-performance-match">
-                            <div ng-if="actionItems" id="actionItem_{{$index}}"class="row each_action_performance" ng-repeat='action in actionItems'>
-                                <div class="circle_action col-md-1"></div>
+                            <div ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat='action in actionItems'>
+                                <div class="circle_action col-md-1" style="border:solid 4px {{action.action_color}}"></div>
                                 <div class="each_campaign_perf_details col-md-11">
                                     <div class="row each_action_perf_header clearfix">
                                         <div class="each_action_name">{{action.created_by_name}}</div>
-                                        <div class="each_action_time"> {{action.created_at | date : 'hh:m a'}}</div>
+                                        <div class="each_action_time"> {{action.created_at | formatActionDate }}</div>
                                         <div class="action_filter each_action_impact">Impacts {{action.metric_impacted}}</div>
-                                        <div class="action_filter each_action_geo">Geo</div>
+                                        <div class="action_filter each_action_geo">{{action.action_sub_types | displayActionSubtypes}}</div>
                                         <div class="action_filter each_action_opt">{{action.action_type_name}}</div>
                                     </div>
                                     <div class="each_action_perf_note">{{action.comment}}</div>
-                                    <div class="each_action_perf_filter">Toyota Camry for Female HHI</div>
+                                    <div class="each_action_perf_filter">{{action.ad_name}}</div>
                                 </div>
                             </div>
                             <div ng-if="!actionItems" id="noActionItem"class="row each_action_performance">

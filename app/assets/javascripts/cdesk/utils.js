@@ -279,4 +279,38 @@
         }
     });
 
+    angObj.filter('displayActionSubtypes', function() {
+        return function(actionSubTypes) {
+            var length = actionSubTypes.length,
+                subType = "";
+            if (length > 1) {
+                for (var i = 0; i < actionSubTypes.length; i++) {
+                    subType += actionSubTypes[i].name;
+                    if (i != actionSubTypes.length - 1) {
+                        subType += ", ";
+                    }
+                }
+                return subType;
+            } else {
+                return actionSubTypes[0].name;
+            }
+        }
+    });
+
+    angObj.filter('formatActionDate', function($filter) {
+        return function(input) {
+            var _date = new Date(input), 
+                formatDate = "";
+            if(moment(_date).diff(moment(), 'days') == 0) {
+                //today - format 01:29 PM
+                formatDate = $filter('date')(_date, 'h:m a');
+            } else {
+                //in the past - format 05 Oct '14 01:22 PM
+                formatDate = $filter('date')(_date, "d MMM ''''yy h:m a");
+            }
+            return formatDate;
+        }
+    });
+
+
 }());
