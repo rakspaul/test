@@ -215,8 +215,7 @@
                         chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
                         var extremes = chart.yAxis[0].getExtremes();
                         chart.yAxis[0].addPlotBand({ // Light air
-                            from: threshold, //TODO: need a condition here as well.
-                            //TODO: if CTR, Clicks, Action we need to do the math here
+                            from: threshold, 
                             to: (kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
                             color: '#fbdbd1',
                             label: {
@@ -227,9 +226,6 @@
                                 }
                             }
                         });
-                    console.log(threshold);
-                    console.log((kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min);
-                    console.log(chart.series[0]);
                     }, 1000);
                 }
             }

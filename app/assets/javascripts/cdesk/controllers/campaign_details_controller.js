@@ -35,8 +35,8 @@
                 for(var i = actionItems.length-1; i >= 0; i--){
                     for(var j = actionItems[i].action.length - 1; j >= 0; j--){
                         actionItems[i].action[j].action_color = actionColors[counter % 9];
-                        actionItems[i].action[j].ad_name = actionItems[i].ad_name;
-                        actionItems[i].action[j].ad_id = actionItems[i].ad_id;
+                        //actionItems[i].action[j].ad_name = actionItems[i].ad_name;
+                        //actionItems[i].action[j].ad_id = actionItems[i].ad_id;
                         actionItemsArray.push(actionItems[i].action[j]);
                         counter++;
                     }
