@@ -38,9 +38,9 @@
 
     $scope.createAction = function () {
       var data = {};
-//      data.action_sub_type_ids = [$scope.action.selectedSubType.id];
+      data.action_sub_type_ids = [$scope.action.selectedSubType.id];
       data.make_external = $scope.action.external;
-      data.ad_d = $scope.tactics.selected.id;
+      data.ad_id = $scope.tactics.selected.id;
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
       data.created_by_id = parseInt(user_id);
