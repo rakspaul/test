@@ -37,6 +37,7 @@
     $scope.metrics = metrics;
 
     $scope.createAction = function () {
+      $scope.action.submitBtnDisabled = true;
       var data = {};
       data.action_sub_type_ids = [$scope.action.selectedSubType.id];
       data.make_external = $scope.action.external;
@@ -49,7 +50,20 @@
       data.updated_at = now;*/
       data.action_type_id = $scope.action.selectedType.id;
       console.log(data);
-      dataService.createAction(data);
+      dataService.createAction(data).then( function (response){
+        resetActionFormData();
+      }, function (response) {
+        resetActionFormData();
+      });
+    }
+    function resetActionFormData() {
+      $scope.action.submitBtnDisabled = false;
+      $scope.action.external = false;
+      $scope.action.name = '';
+      $scope.action.selectedType = undefined;
+      $scope.action.selectedSubType = undefined;
+      $scope.tactics.selected = undefined;
+      $scope.metrics.selected = undefined;
     }
   });
 }());
