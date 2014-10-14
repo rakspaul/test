@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  var CampaignCDBData = function() {
+  var CampaignCDBData = function () {
     this.id = 0;
     this.name = '';
     this.impressions = 0;
@@ -13,20 +13,20 @@
     this.spend = 0;
     this.action_rate = 0;
 
-    this.getGrossRev = function() {
-      return this.roundOff(this.gross_rev,2);
+    this.getGrossRev = function () {
+      return this.roundOff(this.gross_rev, 2);
     }
 
-    this.getActionRate = function() {
+    this.getActionRate = function () {
       return this.roundOff(this.action_rate, 2)
     }
-    this.getCTR = function() {
-      return this.roundOff(this.ctr,2);
+    this.getCTR = function () {
+      return this.roundOff(this.ctr, 2);
     }
-    this.roundOff = function(value,places) {
-      var factor = Math.pow(10,places);
-      return Math.round(value*factor)/factor;
+    this.roundOff = function (value, places) {
+      var factor = Math.pow(10, places);
+      return Math.round(value * factor) / factor;
     }
   }
-  angObj.value('CampaignData',CampaignCDBData);
+  angObj.value('CampaignData', CampaignCDBData);
 }());
