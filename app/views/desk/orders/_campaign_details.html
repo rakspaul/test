@@ -24,7 +24,7 @@
                     </div>
                 </div>
 
-                <div class="row actions_holder clearfix">
+                <div ng-show="is_network_user" class="row actions_holder clearfix">
 
                       <form ng-submit="createAction()" ng-controller="ActionsController">
                         <div class="row actions_filters">
@@ -102,7 +102,7 @@
                         <div class="col-md-6">	       
                             History Of Actions
                         </div>
-                        <div class="col-md-6">
+                        <div ng-show="is_network_user" class="col-md-6">
                             <span class="campaign-external-dd-holder pull-right">
                                 <div class="dropdown campaign-external-dd-holder">
                                       <span class="dropdown_ul_text" data-toggle="dropdown">

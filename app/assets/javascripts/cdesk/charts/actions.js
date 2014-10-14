@@ -205,7 +205,7 @@
                                             position += 10;
                                         }
                                         drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment);
-                                        console.log('id:'+actionItems[j].ad_id + '' + actionItems[j].id);
+//                                        console.log('id:'+actionItems[j].ad_id + '' + actionItems[j].id);
                                         counter++;
                                     }
                                 }
