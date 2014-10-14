@@ -1,8 +1,8 @@
 (function () {
   "use strict";
-  var Tactic = function() {
+  var Tactic = function () {
     this.id = 0;
     this.name = '';
   }
-  angObj.value('Tactic',Tactic);
+  angObj.value('Tactic', Tactic);
 }());
