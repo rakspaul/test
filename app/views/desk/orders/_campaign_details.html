@@ -120,15 +120,15 @@
                     <div class="col-md-12">
                        
                         <div id="action-container" class="campaign-performance-match">
-                            <div ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat='action in actionItems'>
+                            <div ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat="action in actionItems | orderBy:'created_at':true">
                                 <div class="circle_action col-md-1" style="border:solid 4px {{action.action_color}}"></div>
                                 <div class="each_campaign_perf_details col-md-11">
                                     <div class="row each_action_perf_header clearfix">
                                         <div class="each_action_name">{{action.created_by_name}}</div>
-                                        <div class="each_action_time"> {{action.created_at | formatActionDate }}</div>
-                                        <div class="action_filter each_action_impact">Impacts {{action.metric_impacted}}</div>
-                                        <div class="action_filter each_action_geo">{{action.action_sub_types | displayActionSubtypes}}</div>
-                                        <div class="action_filter each_action_opt">{{action.action_type_name}}</div>
+                                        <div class="each_action_time" title="{{action.created_at | formatActionDate }}"> {{action.created_at | formatActionDate }}</div>
+                                        <div class="action_filter each_action_impact" title="Impacts {{action.metric_impacted}}">Impacts {{action.metric_impacted}}</div>
+                                        <div class="action_filter each_action_geo" title="{{action.action_sub_type | displayActionSubtypes}}">{{action.action_sub_type | displayActionSubtypes}}</div>
+                                        <div class="action_filter each_action_opt" title="{{action.action_type_name}}">{{action.action_type_name}}</div>
                                     </div>
                                     <div class="each_action_perf_note">{{action.comment}}</div>
                                     <div class="each_action_perf_filter">{{action.ad_name}}</div>

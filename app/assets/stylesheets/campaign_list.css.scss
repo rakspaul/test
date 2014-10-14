@@ -1248,12 +1248,12 @@ button, i, input[type="submit"] {
                 font-weight: 700;
                 float: right;
               }
-              .action_filter {
+              .action_filter , .each_action_time {
                 max-width: 100px;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                width: 60px;
+                width: 65px;
               }
               .each_action_time {
                 text-align: right ;

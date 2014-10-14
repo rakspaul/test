@@ -306,10 +306,10 @@
                 formatDate = "";
             if(moment(_date).diff(moment(), 'days') == 0) {
                 //today - format 01:29 PM
-                formatDate = $filter('date')(_date, 'h:m a');
+                formatDate = $filter('date')(_date, 'h:mm a');
             } else {
                 //in the past - format 05 Oct '14 01:22 PM
-                formatDate = $filter('date')(_date, "d MMM ''''yy h:m a");
+                formatDate = $filter('date')(_date, "d MMM ''''yy h:mm a");
             }
             return formatDate;
         }
