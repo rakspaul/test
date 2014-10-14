@@ -182,7 +182,7 @@
                             enabled: false
                         }
                     },
-                    name: 'CPA',
+                    name: kpiType,
                     data: data,
                     color: "#6fd0f4"
                 }],
@@ -196,7 +196,6 @@
                             for(i = chart.series[0].data.length-1; i >= 0; i--) {
                                 position = 0;
                                 for(var j = actionItems.length-1; j >= 0 ; j--) {
-                                    console.log('j'+j);
                                     var dateUTC = new Date(actionItems[j].created_at);
                                     var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
                                     if(chart.series[0].data[i].x == actionUTC){
@@ -206,6 +205,7 @@
                                             position += 10;
                                         }
                                         drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment);
+                                        console.log('id:'+actionItems[j].ad_id + '' + actionItems[j].id);
                                         counter++;
                                     }
                                 }
@@ -214,9 +214,9 @@
                         var extremesX = chart.xAxis[0].getExtremes();
                         chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
                         var extremes = chart.yAxis[0].getExtremes();
-                        console.log((kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min);
                         chart.yAxis[0].addPlotBand({ // Light air
-                            from: threshold,
+                            from: threshold, //TODO: need a condition here as well.
+                            //TODO: if CTR, Clicks, Action we need to do the math here
                             to: (kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
                             color: '#fbdbd1',
                             label: {
@@ -227,7 +227,9 @@
                                 }
                             }
                         });
-
+                    console.log(threshold);
+                    console.log((kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min);
+                    console.log(chart.series[0]);
                     }, 1000);
                 }
             }

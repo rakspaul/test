@@ -281,6 +281,9 @@
 
     angObj.filter('displayActionSubtypes', function() {
         return function(actionSubTypes) {
+            if(actionSubTypes === undefined) {
+                return "-";
+            }
             var length = actionSubTypes.length,
                 subType = "";
             if (length > 1) {
