@@ -238,11 +238,11 @@
     angObj.filter('kpiFormatter', function($filter) {
         return function(input, kpiType) {
             if(input && kpiType) {
-                if(kpiType == 'CTR') {
+                if(kpiType.toLowerCase() == 'ctr') {
                     return $filter('number')(input, 2) + '%';
-                }else if(kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') {
+                }else if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
                     return '$' + $filter('number')(input, 2);
-                }else if(kpiType == 'Actions' || kpiType == 'Clicks' || kpiType == 'Impressions') {
+                }else if(kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
                     return $filter('number')(input, 0); 
                 }else {
                     //unknown kpiType
