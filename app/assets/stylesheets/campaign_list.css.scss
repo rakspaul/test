@@ -1140,6 +1140,9 @@ button, i, input[type="submit"] {
             font-weight: bold;
             text-transform: uppercase;
             @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
+            .campaign-performance-match {
+              font-weight: normal;
+            }
             .highcharts {
               width: 100%;
               height: 320px;
@@ -1224,7 +1227,8 @@ button, i, input[type="submit"] {
                 margin: 0px ;
               }
               .each_action_perf_note {
-                margin: 10px 0 ;
+                margin: 4px 0 ;
+                font-family:  "Avenir-Roman" ;
               }
               .each_action_perf_header {
                 margin-top: 1px ;
@@ -1257,7 +1261,7 @@ button, i, input[type="submit"] {
               }
               .each_action_perf_filter {
                 color: #bebebe ;
-                /*font-family: Avenir;*/
+                font-family:  "Avenir-Roman" ;
               }
               .circle_action {
                 text-align: center;
@@ -1358,6 +1362,10 @@ button, i, input[type="submit"] {
 
 
 /*styling by saudamini*/
+@font-face {
+  font-family: "Avenir-Roman";
+  src: url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype") ;
+}
 
 .actions_holder {
   width: 920px ;
@@ -1394,6 +1402,7 @@ button, i, input[type="submit"] {
       width: 111%;
       -webkit-appearance: none;
       border: 0px ;
+      font-family: "Avenir-Roman" ;
     }
     select:focus {
       outline: 0px ;  
@@ -1410,8 +1419,9 @@ button, i, input[type="submit"] {
     font-weight: bold ;
     text-transform: uppercase;
     float: left;
-    margin: 8px 0px 0 0;
+    margin: 5px 0px 0 0;
     text-align: left !important;
+    font-family: "trade-gothic-no-2-bold" ;
   }
   .action_dd_last {
     text-align: right;
@@ -1443,6 +1453,7 @@ button, i, input[type="submit"] {
       height: 40px;
       padding-bottom: 0;
       padding-top: 0px;
+      font-family: "Avenir-Roman" ;
     }
   }
   .action_submit {
@@ -1525,6 +1536,7 @@ button, i, input[type="submit"] {
     }
     .squaredFourTxt {
       float: left;
+      font-family: "Avenir-Roman" ;
     }
   }
 }
