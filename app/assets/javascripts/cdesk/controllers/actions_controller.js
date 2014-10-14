@@ -2,7 +2,10 @@
   'use strict';
   angObj.controller('ActionsController', function ($scope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic) {
     dataService.getActions().then(function (response) {
-      var action = {types: []};
+      var action = {};
+      action.types = [];
+      action.external = false;
+      action.name = '';
       var result = response.data.data;
       for (var i = 0; i < result.length; i++) {
         action.types[i] = modelTransformer.transform(result[i], ActionType);
@@ -12,8 +15,6 @@
       }
 //      action.selectedType = action.types[0];
 //      action.selectedSubType = action.selectedType.subTypes[0];
-      action.external = false;
-      action.name = '';
       $scope.action = action;
       $scope.setAction = function () {
         $scope.action.selectedSubType = $scope.action.selectedType.subTypes[0];
@@ -37,15 +38,17 @@
 
     $scope.createAction = function () {
       var data = {};
-//      data.actionSubTypeIds = [$scope.action.selectedSubType.id];
-      data.makeExternal = $scope.action.external;
-      data.adId = $scope.tactics.selected.id;
-      data.metricImpacted = $scope.metrics.selected;
+//      data.action_sub_type_ids = [$scope.action.selectedSubType.id];
+      data.make_external = $scope.action.external;
+      data.ad_d = $scope.tactics.selected.id;
+      data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
-      data.createdById = parseInt(user_id);
-      var now = $filter('date')(new Date(), 'yyyy-MM-dd');
-      data.createdAt = now;
-      data.updatedAt = now;
+      data.created_by_id = parseInt(user_id);
+      /*var now = $filter('date')(new Date(), 'yyyy-MM-dd');
+      data.created_at = now;
+      data.updated_at = now;*/
+      data.action_type_id = $scope.action.selectedType.id;
+      console.log(data);
       dataService.createAction(data);
     }
   });
