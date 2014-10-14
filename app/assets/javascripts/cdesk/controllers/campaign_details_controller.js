@@ -32,8 +32,8 @@
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;
             if (actionItems.length > 0) {
-                for(var i=0; i<actionItems.length; i++){
-                    for(var j=0; j<actionItems[i].action.length; j++){
+                for(var i = actionItems.length-1; i >= 0; i--){
+                    for(var j = actionItems[i].action.length - 1; j >= 0; j--){
                         actionItems[i].action[j].action_color = actionColors[counter % 9];
                         actionItems[i].action[j].ad_name = actionItems[i].ad_name;
                         actionItems[i].action[j].ad_id = actionItems[i].ad_id;

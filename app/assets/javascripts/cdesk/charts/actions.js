@@ -193,9 +193,10 @@
                     $timeout(function() {
                         var counter = 0, flag = [], position = 0 ;
                         if(actionItems) {
-                            for(i = 0; i< chart.series[0].data.length; i++) {
+                            for(i = chart.series[0].data.length-1; i >= 0; i--) {
                                 position = 0;
-                                for(var j = 0; j < actionItems.length; j++) {
+                                for(var j = actionItems.length-1; j >= 0 ; j--) {
+                                    console.log('j'+j);
                                     var dateUTC = new Date(actionItems[j].created_at);
                                     var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
                                     if(chart.series[0].data[i].x == actionUTC){
