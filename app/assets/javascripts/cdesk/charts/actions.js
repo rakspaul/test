@@ -2,6 +2,10 @@
 (function() {
     "use strict";
     angObj.factory("actionChart", function($timeout, actionColors) {
+        var kpiPrefix = function (kpiType) {
+            var kpiTypeLower = kpiType.toLowerCase();
+            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
+        }
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment) {
             var text, textBG;
             //full customisation for flags/markers
@@ -26,9 +30,7 @@
                     //check if left side
                     correctionX = (chart.plotWidth - x) * 2 - 10;
                 }
-                if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm'){
-                    symbol = '$';
-                }
+                symbol = kpiPrefix(kpiType);
                 text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
                     .attr({
                     zIndex: 16
@@ -135,12 +137,7 @@
                         tickWidth: 0,
                         labels: {
                             formatter: function() {
-                                if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm'){
-                                    return '$' + this.value;
-                                } else {
-                                    return this.value;
-                                }
-                                
+                                return kpiPrefix(kpiType) + this.value;
                             }
                         },
                         plotBands: [{ // Light air
@@ -173,10 +170,7 @@
                         }],
                         enabled: true,
                         formatter: function() {
-                            var symbol='';
-                            if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm'){
-                                symbol='$';
-                            }
+                            var symbol = kpiPrefix(kpiType);
                             if (typeof(this.point.options.note) === 'undefined') {
                                 return this.series.name + ':' + ' <b>'+ symbol + this.point.y + '</b><br/>';
                             } else {
