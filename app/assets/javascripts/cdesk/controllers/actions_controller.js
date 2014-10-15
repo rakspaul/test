@@ -32,7 +32,7 @@
 //      $scope.tactics.selected = tactics[0];
     });
     var metrics = {};
-    metrics.all = ['CTR', 'CVR', 'CPM', 'CPA', 'Action Rate', 'Delivery (Impressions)'];
+    metrics.all = ['CPA', 'CPC', 'CPM', 'CTR', 'Action Rate', 'Delivery (Impressions)'];
 //    metrics.selected = metrics.all[0];
     $scope.metrics = metrics;
 
