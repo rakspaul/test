@@ -122,7 +122,7 @@
                         var extremes = chart.yAxis[0].getExtremes();
                         chart.yAxis[0].addPlotBand({ // Light air
                             from: threshold,
-                            to: (kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
+                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
                             color: '#fbdbd1',
                             label: {
                                 enabled: false,

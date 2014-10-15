@@ -2,6 +2,10 @@
 (function() {
     "use strict";
     angObj.factory("actionChart", function($timeout, actionColors) {
+        var kpiPrefix = function (kpiType) {
+            var kpiTypeLower = kpiType.toLowerCase();
+            return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
+        }
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment) {
             var text, textBG;
             //full customisation for flags/markers
@@ -21,11 +25,13 @@
                 var x = event.offsetX;
                 var y = event.offsetY;
                 var correctionX = 0;
+                var symbol = '';
                 if ((chart.plotWidth - x) < 0) {
                     //check if left side
                     correctionX = (chart.plotWidth - x) * 2 - 10;
                 }
-                text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>$" + this.getAttribute('kpiValue') + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
+                symbol = kpiPrefix(kpiType);
+                text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
                     .attr({
                     zIndex: 16
                 }).css({
@@ -131,7 +137,7 @@
                         tickWidth: 0,
                         labels: {
                             formatter: function() {
-                                return '$' + this.value;
+                                return kpiPrefix(kpiType) + this.value;
                             }
                         },
                         plotBands: [{ // Light air
@@ -164,10 +170,11 @@
                         }],
                         enabled: true,
                         formatter: function() {
+                            var symbol = kpiPrefix(kpiType);
                             if (typeof(this.point.options.note) === 'undefined') {
-                                return this.series.name + ':' + ' <b> $' + this.point.y + '</b><br/>';
+                                return this.series.name + ':' + ' <b>'+ symbol + this.point.y + '</b><br/>';
                             } else {
-                                return this.series.name + ':' + ' <b> $' + this.point.y + '<br>' + this.point.options.note.text + '</b><br/>';
+                                return this.series.name + ':' + ' <b>' + symbol + this.point.y + '<br>' + this.point.options.note.text + '</b><br/>';
                             }
                         }
                     },
@@ -189,7 +196,8 @@
                 loading: false,
                 func: function(chart) {
                     //drawMarker(chart, 200,280,null,965192010);
-                    /*chart.renderer.image('/assets/cdesk/icn_goal.png', 0, 100, 17, 17).add();      */
+                    //chart.renderer.image('/assets/cdesk/icn_goal.png', 0, 100, 17, 17);
+                    //height: 300 + Math.round(testData[0][0] / 100) * 100add();      
                     $timeout(function() {
                         var counter = 0, flag = [], position = 0 ;
                         if(actionItems) {
@@ -205,7 +213,6 @@
                                             position += 10;
                                         }
                                         drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment);
-//                                        console.log('id:'+actionItems[j].ad_id + '' + actionItems[j].id);
                                         counter++;
                                     }
                                 }
@@ -216,7 +223,7 @@
                         var extremes = chart.yAxis[0].getExtremes();
                         chart.yAxis[0].addPlotBand({ // Light air
                             from: threshold, 
-                            to: (kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') ? extremes.max : extremes.min,
+                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
                             color: '#fbdbd1',
                             label: {
                                 enabled: false,
@@ -226,6 +233,11 @@
                                 }
                             }
                         });
+                    
+                        var renderPos;
+                        if(threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                            chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop/2, 17, 17).add();  
+                        }
                     }, 1000);
                 }
             }

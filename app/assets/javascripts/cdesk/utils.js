@@ -238,11 +238,11 @@
     angObj.filter('kpiFormatter', function($filter) {
         return function(input, kpiType) {
             if(input && kpiType) {
-                if(kpiType == 'CTR') {
+                if(kpiType.toLowerCase() == 'ctr') {
                     return $filter('number')(input, 2) + '%';
-                }else if(kpiType == 'CPC' || kpiType == 'CPA' || kpiType == 'CPM') {
+                }else if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
                     return '$' + $filter('number')(input, 2);
-                }else if(kpiType == 'Actions' || kpiType == 'Clicks' || kpiType == 'Impressions') {
+                }else if(kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
                     return $filter('number')(input, 0); 
                 }else {
                     //unknown kpiType
@@ -306,10 +306,10 @@
                 formatDate = "";
             if(moment(_date).diff(moment(), 'days') == 0) {
                 //today - format 01:29 PM
-                formatDate = $filter('date')(_date, 'h:m a');
+                formatDate = $filter('date')(_date, 'h:mm a');
             } else {
                 //in the past - format 05 Oct '14 01:22 PM
-                formatDate = $filter('date')(_date, "d MMM ''''yy h:m a");
+                formatDate = $filter('date')(_date, "d MMM ''''yy h:mm a");
             }
             return formatDate;
         }
