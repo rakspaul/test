@@ -25,11 +25,11 @@ var angObj = '';
     });
 
     angObj.constant('campaign_api', '');
-    angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
+    angObj.constant('api', 'https://qa-desk.collective.com:5000');
 
     var urlPaths = {
-        campaignDetails: 'http://dev-desk.collective-media.net:4000', 
-        actionDetails: 'http://dev-desk.collective-media.net:9000'
+        campaignDetails: 'https://qa-desk.collective.com',
+        actionDetails: 'https://qa-desk.collective.com:9000'
     };
     angObj.constant('apiPaths', urlPaths);
 
