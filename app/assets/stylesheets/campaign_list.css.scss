@@ -1135,7 +1135,13 @@ button, i, input[type="submit"] {
         height: 410px;
         padding: 25px 45px;
         background: $textColorWhite;
-        .col-md-6 {
+        .camp-perf-graph {
+          width: 40% ;
+        }
+        .camp-perf-history {
+          width : 60% ;
+        }
+        .campaign-performance-container-sections {
           .col-md-12 {
             font-weight: bold;
             text-transform: uppercase;
@@ -1205,7 +1211,7 @@ button, i, input[type="submit"] {
               }
             }
             .campaign-performance-match {
-              width: 508px;
+             /* width: 508px;*/
               height: 290px;
               margin-top: 25px;
               overflow-y: auto;
@@ -1236,12 +1242,13 @@ button, i, input[type="submit"] {
               .col-md-11.each_campaign_perf_details {
                 text-transform: none ;
                 padding: 0px ;
+                width: 520px;
               }
               .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
                 padding: 0px ;
               }
               .action_filter , .each_action_time {
-                margin-right: 5px;
+                margin-right: 8px;
                 word-wrap: break-word;
                 text-align: center;
                 @include FontColor( #bebebe, 14px, $tertiaryFont);
@@ -1253,7 +1260,7 @@ button, i, input[type="submit"] {
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
-                width: 65px;
+                width: 84px;
               }
               .each_action_time {
                 text-align: right ;
