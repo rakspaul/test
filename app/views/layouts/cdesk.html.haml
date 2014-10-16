@@ -38,8 +38,6 @@
             - app_navigation_bar_cdesk.each do |key, value|
               %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
                 = link_to key, value[:path]
-            %li
-              = link_to "New Reports", "#{reports_api_url}#/tactics"
           -else
             - ApplicationHelper::APP_NAVIGATION_BAR_AGENCY.each do |key, value|
               %li{:class => ("active" if value[:controllers].include?(controller.class.name))}

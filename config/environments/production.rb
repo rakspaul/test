@@ -88,7 +88,7 @@ Reachui::Application.configure do
   config.report_service_uri = 'http://cm.ssp.collective-media.net/export'
 
   #Set the reporting UI url
-  config.reporting_uri = 'http://localhost:5000'
+  config.reporting_uri = 'http://qa-desk.collective.com:5000'
 
 
   # audience group segment search
