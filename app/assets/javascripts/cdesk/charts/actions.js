@@ -74,7 +74,7 @@
             return {
                 options: {
                     chart: {
-                        width: 500,
+                        width: 400,
                         height: 330,
                         margin: [20, 0, 50, 60]
                     },
