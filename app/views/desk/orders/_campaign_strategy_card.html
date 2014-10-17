@@ -112,7 +112,7 @@
                 </div>
                 <div class="col-md-10 kpi-values">
                     <span class="cumulative-text"> Cumulative Value </span>
-                    <span class="bold"> {{campaign.kpiAvgValue | kpiFormatter:campaign.kpiType}}</span>
+                    <span class="bold"> {{campaigns.cdbDataMap[campaign.orderId].map(campaign.kpiType) | kpiFormatter:campaign.kpiType}}</span>
                     <div>
                         <span class="kpi-goal"></span>
                         <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
@@ -242,7 +242,7 @@
                                     </div>
                                     <div class="col-md-10 kpi-values">
                                         <span class="cumulative-text"> Cumulative Value </span>
-                                        <span class="bold"> {{campaign.kpiAvgValue | kpiFormatter:campaign.kpiType}}</span>
+                                        <span class="bold"> {{strategy.map[campaign.kpiType] | kpiFormatter:campaign.kpiType}}</span>
                                         <div>
                                             <span class="kpi-goal"></span>
                                             <span class="bold">{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
