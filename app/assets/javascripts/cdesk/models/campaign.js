@@ -60,6 +60,13 @@
                     strategyObj[index].grossRev = result.data.data.gross_rev;
                     strategyObj[index].ctr = result.data.data.ctr * 100;
                     strategyObj[index].actionRate = result.data.data.action_rate;
+                    strategyObj[index].map = {};
+                    strategyObj[index].map['cpa'] = result.data.data.cpa;
+                    strategyObj[index].map['cpc'] = result.data.data.cpc;
+                    strategyObj[index].map['cpm'] = result.data.data.cpm;
+                    strategyObj[index].map['clicks'] = result.data.data.clicks;
+                    strategyObj[index].map['action_rate'] = result.data.data.action_rate;
+                    strategyObj[index].map['ctr'] = result.data.data.ctr * 100;
                 }
            });
         };
