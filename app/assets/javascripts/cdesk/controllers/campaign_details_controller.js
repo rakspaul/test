@@ -31,7 +31,6 @@
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;
-          console.log(actionItems);
           var strategyByActionId = {};
             if (actionItems.length > 0) {
                 for(var i = actionItems.length-1; i >= 0; i--){
