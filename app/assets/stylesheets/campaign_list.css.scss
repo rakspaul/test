@@ -1369,12 +1369,12 @@ button, i, input[type="submit"] {
 
 
 /*styling by saudamini*/
-
-@font-face {
-    font-family: "Avenir";
-    src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"), 
-    url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
-}
+//
+//@font-face {
+//    font-family: "Avenir";
+//    src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
+//    url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
+//}
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -1565,6 +1565,2317 @@ button, i, input[type="submit"] {
 
 /*end of styling by saudamini*/
 
+
+
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the top of the
+ * compiled file, but it's generally better to create a new file per style scope.
+ *
+
+
+
+
+
+
+
+ */
+/* font- face declarations */
+@font-face {
+  font-family: "TradeGothicLTStd-BdCn20";
+  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot");
+  src: url("/assets/fonts/TradeGothicLTStd-BdCn20.eot?#iefix") format("embedded-opentype"),
+  url("/assets/fonts/TradeGothicLTStd-BdCn20.woff") format("woff"),
+  url("/assets/fonts/TradeGothicLTStd-BdCn20.ttf") format("truetype"),
+  url("/assets/fonts/TradeGothicLTStd-BdCn20.svg#TradeGothicLTStd-BdCn20") format("svg");
+}
+
+@font-face {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot");
+  src: url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.eot?#iefix") format("embedded-opentype"),
+  url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.woff") format("woff"),
+  url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.ttf") format("truetype"),
+  url("/assets/fonts/Trade-Gothic-LT-Bold-Condensed-No--20.svg#Trade-Gothic-LT-Bold-Condensed-No--20") format("svg");
+}
+
+@font-face {
+  font-family: "trade-gothic-no-2-bold";
+  src: url("/assets/fonts/trade-gothic-no-2-bold.eot");
+  src: url("/assets/fonts/trade-gothic-no-2-bold.eot?#iefix") format("embedded-opentype"),
+  url("/assets/fonts/trade-gothic-no-2-bold.woff") format("woff"),
+  url("/assets/fonts/trade-gothic-no-2-bold.ttf") format("truetype"),
+  url("/assets/fonts/trade-gothic-no-2-bold.svg#trade-gothic-no-2-bold") format("svg");
+}
+
+@font-face {
+  font-family: "TradeGothicLTStd";
+  src: url("/assets/fonts/TradeGothicLTStd.eot");
+  src: url("/assets/fonts/TradeGothicLTStd.eot?#iefix") format("embedded-opentype"),
+  url("/assets/fonts/TradeGothicLTStd.woff") format("woff"),
+  url("/assets/fonts/TradeGothicLTStd.ttf") format("truetype"),
+  url("/assets/fonts/TradeGothicLTStd.svg#TradeGothicLTStd") format("svg");
+}
+/*@font-face {
+    font-family: "Avenir";
+    src: url("/assets/fonts/Avenir/Avenir_LT_55_Roman.woff") format("woff"),
+    url("/assets/fonts/Avenir/Avenir_LT_55_Roman.ttf") format("truetype");
+}*/
+
+
+/* base variables */
+/* mixins */
+/* generic style */
+/* line 63, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+body {
+  height: auto;
+  background: #f8f8f8;
+  background-repeat: repeat;
+  padding: 0px;
+}
+
+/* line 69, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.btn:focus, input:focus, textarea:focus, select:focus, input:focus:invalid:focus, textarea:focus:invalid:focus, select:focus:invalid:focus {
+  outline: none;
+}
+
+/* line 74, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+a:hover, a:focus {
+  outline: none;
+}
+
+/* line 79, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+button, i, input[type="submit"] {
+  outline: none;
+}
+
+/* classes defined */
+/* line 84, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.bold {
+  font-weight: bold;
+}
+
+/* line 88, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.seperator {
+  font-size: 12pt;
+}
+
+/* line 92, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.kpi-text-container {
+  text-align: left;
+  color: #bebebe;
+  font-size: 11pt;
+  /* font-family: "TradeGothicLTStd-BdCn20"; */
+}
+
+/* line 97, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.kpi-num {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+
+/* line 101, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.cpa-color {
+  text-transform: uppercase;
+  color: #999999;
+  font-size: 14px;
+  font-family: "TradeGothicLTStd";
+}
+
+/* line 106, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.lowerCase {
+  text-transform: lowercase;
+}
+
+/* line 110, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.top-margin {
+  margin-top: -10px;
+}
+
+/* line 114, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.marg-10 {
+  margin-top: 5px;
+  display: inline-block;
+}
+
+/* status classes */
+/* line 120, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.delivering {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_delivering.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 127, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.paused {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 134, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.pushed {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_paused.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 141, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.complete {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_complete.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 148, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.draft {
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_draft.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* strategies status */
+/* line 156, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#collapseOne .Delivering {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_delivering_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 163, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#collapseOne .Pushed {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_paused_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 170, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#collapseOne .Completed {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_complete_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* line 177, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#collapseOne .Draft {
+  width: 17px;
+  height: 17px;
+  display: inline-block;
+  background: url("/assets/cdesk/status_draft_small.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+/* ajax-spinner-loader */
+/* line 185, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.loading-spinner-holder {
+  background: url("/assets/cdesk/ajax-loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  height: 100%;
+  text-align: center;
+  width: 100%;
+  font-size: xx-large;
+  z-index: 98999;
+}
+
+/* line 194, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#ajaxloader {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  z-index: 99999999;
+  border: 8px solid white;
+  border-right-color: transparent;
+  border-radius: 50%;
+  box-shadow: 0 0 25px 2px #eeeeee;
+  -webkit-animation: spin 1s linear infinite;
+  -o-animation: spin 1s linear infinite;
+  -moz-animation: spin 1s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  /* line 209, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+  from {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+
+  /* line 213, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+  50% {
+    transform: rotate(180deg);
+    opacity: 1;
+  }
+
+  /* line 217, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+  to {
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+
+/* header style */
+/* line 225, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar {
+  height: 80px;
+  border-radius: 0;
+  margin-bottom: 16px;
+  background: #007ac9;
+  background: linear-gradient(#007ac9, #1c89cf);
+  background: -moz-linear-gradient(#007ac9, #1c89cf);
+  background: -webkit-gradient(linear, center top, center bottom, from(#007ac9), to(#1c89cf));
+}
+/* line 230, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .container {
+  width: 1115px;
+  margin: 0 auto;
+}
+/* line 234, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar #logo {
+  display: block;
+  margin-left: 30px;
+}
+/* line 239, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav {
+  margin-top: 8px;
+  margin-left: 0;
+}
+/* line 243, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a {
+  padding: 20px 30px;
+  text-transform: uppercase;
+  color: #a6c7e6;
+  font-size: 14pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 248, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.active a {
+  color: white;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+/* line 253, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.active a:hover {
+  color: white;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+/* line 261, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a:hover, #detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li a:focus {
+  color: white;
+  box-shadow: none;
+  background: transparent;
+  transition: all 0.3s ease 0s;
+}
+/* line 269, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right {
+  margin-top: 25px;
+}
+/* line 272, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li a {
+  padding: 5px 35px 5px 15px;
+  font-size: 11pt;
+  border-right: 1px solid #81bee5;
+}
+/* line 277, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li .hello {
+  padding: 5px 0;
+  display: inline-block;
+  color: #a6c7e6;
+  font-size: 11pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 282, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li .user-name {
+  padding: 5px 35px 5px 0;
+  border-right: 1px solid #81bee5;
+  color: white;
+  font-size: 11pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 287, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav.navbar-right li:last-child a {
+  border-right: none;
+  padding-right: 10px;
+}
+
+/* detailed page style */
+/* line 299, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container, #detailedPage.container {
+  width: 1115px;
+  margin: 0 auto;
+}
+/* line 303, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 h1, #detailedPage.container .row-fluid .col-md-12 h1 {
+  margin-bottom: 15px;
+  color: #177ac6;
+  font-size: 20pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 307, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar {
+  height: 40px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  background: #f9b537;
+  margin-bottom: 5px;
+}
+/* line 313, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul {
+  width: 100%;
+}
+/* line 315, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li {
+  cursor: pointer;
+  border-right: 1px solid #e0a331;
+}
+/* line 318, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .sort-image-inactive, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .sort-image-inactive {
+  width: 10px;
+  height: 12px;
+  display: inline-block;
+  vertical-align: baseline;
+  /*background: url("/assets/cdesk/static-caret.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);*/
+}
+/* line 325, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu {
+  padding: 0;
+  width: 200px;
+  border: none;
+  margin-top: 5px;
+  margin-left: -20px;
+  border-radius: 5px;
+}
+/* line 332, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li {
+  border-right: none;
+  cursor: pointer;
+}
+/* line 335, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a {
+  padding: 12px 15px 5px;
+  color: #999999;
+  font-size: 11pt;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 339, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:first-child a, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:first-child a {
+  margin: 15px 15px 0;
+  padding: 0 15px 10px 0;
+  border-bottom: 1px solid #bebebe;
+}
+/* line 344, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a span.tick, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li a span.tick {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+/* line 349, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:hover a span.tick, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li:hover a span.tick {
+  background: url("/assets/cdesk/green-ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+}
+/* line 352, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li.active a span.tick, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li .dropdown-menu li.active a span.tick {
+  background: url("/assets/cdesk/ok.png") no-repeat scroll 0 7px rgba(0, 0, 0, 0);
+}
+/* line 358, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul .dwopdown-two, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul .dwopdown-two {
+  padding-left: 20px;
+}
+/* line 361, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a {
+  padding: 5px 15px;
+  background: transparent;
+  color: #c68f2a;
+  font-size: 11pt;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 365, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a:hover, #campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a:focus, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a:hover, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a:focus {
+  padding: 5px 15px;
+  background: transparent;
+  color: #c68f2a;
+  font-size: 11pt;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 370, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a .caret, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a .caret {
+  color: #ae7e26;
+  margin-left: 10px;
+  margin-bottom: 3px;
+}
+/* line 375, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active {
+  color: white;
+  text-shadow: 0px -1px 1px #bbbbbb;
+}
+/* line 378, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:hover, #campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:focus, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:hover, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active:focus {
+  color: white;
+  text-shadow: 0px -1px 1px #bbbbbb;
+}
+/* line 382, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active .caret, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul li a.active .caret {
+  color: white;
+  box-shadow: 0px -1px 0px #999999;
+}
+/* line 389, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child {
+  padding-right: 20px;
+}
+/* line 391, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input {
+  width: 80px;
+}
+/* line 394, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input::-webkit-input-placeholder, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input::-webkit-input-placeholder {
+  color: white;
+}
+/* line 395, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input::-moz-placeholder, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input::-moz-placeholder {
+  color: white;
+}
+/* line 396, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input:-moz-placeholder, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input:-moz-placeholder {
+  color: white;
+}
+/* line 397, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input:-ms-input-placeholder, #detailedPage.container .row-fluid .col-md-12 .search-cum-navbar ul:first-child > li:first-child > input:-ms-input-placeholder {
+  color: white;
+}
+/* line 400, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head {
+  margin-bottom: 20px;
+}
+/* line 402, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head .clearfix.top-margin, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head .clearfix.top-margin {
+  margin-bottom: 0;
+}
+/* line 405, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul {
+  padding: 0 20px 0 30px;
+  overflow: hidden;
+}
+/* line 408, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li {
+  padding-left: 15px;
+  list-style: none;
+}
+/* line 411, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:first-child, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:first-child {
+  padding-left: 0;
+}
+/* line 414, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li span, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li span {
+  width: 100%;
+  padding-bottom: 2px;
+  display: inline-block;
+  border-bottom: 1px solid #bebebe;
+  width: 96%;
+  font-weight: bold;
+  margin-right: 15px;
+  display: inline-block;
+  /* padding-bottom: 5px; */
+  text-transform: uppercase;
+  /* border-bottom: 1px solid $textGreyColor; */
+  color: #999999;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 428, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a {
+  width: 100%;
+  cursor: pointer;
+  padding-bottom: 2px;
+  display: inline-block;
+  border-bottom: 1px solid #bebebe;
+}
+/* line 434, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a span, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a span {
+  width: 96%;
+  font-weight: bold;
+  margin-right: 15px;
+  display: inline-block;
+  /* padding-bottom: 5px; */
+  text-transform: uppercase;
+  /* border-bottom: 1px solid $textGreyColor; */
+  color: #999999;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 443, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a span.active, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a span.active {
+  color: #177ac6;
+}
+/* line 447, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.default-sort, #campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.ascending, #campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.descending, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.default-sort, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.ascending, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a span > span.descending {
+  margin: 0;
+  width: 8px;
+  padding: 0;
+  height: 13px;
+  vertical-align: top;
+  border-bottom: none;
+  display: inline;
+  background: url("/assets/cdesk/sort-blue.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+}
+/* line 458, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a:hover, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a:hover {
+  text-decoration: none;
+}
+/* line 461, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a > span > span.ascending, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a > span > span.ascending {
+  margin: 0;
+  width: 8px;
+  padding: 0;
+  height: 13px;
+  vertical-align: bottom;
+  border-bottom: none;
+  display: inline-block;
+  background: url("/assets/cdesk/ascending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+}
+/* line 471, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li a > span > span.descending, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li a > span > span.descending {
+  margin: 0;
+  width: 8px;
+  padding: 0;
+  height: 13px;
+  vertical-align: bottom;
+  border-bottom: none;
+  display: inline-block;
+  background: url("/assets/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+}
+/* line 483, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a {
+  width: auto;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+/* line 487, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a > span, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a > span {
+  display: inline-block;
+}
+/* line 489, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a > span > span, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) li a > span > span {
+  top: 7px;
+  position: absolute;
+  display: inline-block;
+}
+/* line 496, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul {
+  padding: 0;
+  width: 95%;
+  border-bottom: 1px solid #bebebe;
+}
+/* line 500, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li {
+  display: inline-block;
+  border-bottom: none;
+  padding-left: 5px;
+}
+/* line 504, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li:first-child, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) ul li:first-child {
+  padding-left: 0;
+}
+/* line 509, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) > ul li span, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li:nth-child(2) > ul li span {
+  border-bottom: none;
+}
+/* line 514, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign-title-head ul li.col-md-6.pull-right, #detailedPage.container .row-fluid .col-md-12 .campaign-title-head ul li.col-md-6.pull-right {
+  text-align: center;
+  padding: 0 5px 15px 15px;
+}
+/* line 520, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign, #detailedPage.container .row-fluid .col-md-12 .campaign {
+  min-height: 220px;
+  overflow: hidden;
+  background: white;
+  position: relative;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  padding: 17px 30px 15px;
+  box-shadow: 0 1px 1px #aaaaaa;
+}
+/* line 529, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-1, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-1 {
+  padding: 0;
+  text-align: center;
+}
+/* line 533, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div, #detailedPage.container .row-fluid .col-md-12 .campaign div {
+  color: #999999;
+  font-size: 10pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 535, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons, #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons {
+  margin-top: 60px;
+}
+/* line 537, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground, #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground {
+  background: url("/assets/icn_act_edit.png") no-repeat scroll 0 0 #ebab34;
+  border-radius: 20px;
+  display: inline-block;
+  height: 30px;
+  margin-top: -8px;
+  width: 30px;
+}
+/* line 544, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground:hover, #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-edit.icons-bckground:hover {
+  cursor: pointer;
+}
+/* line 548, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground, #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground {
+  background: url("/assets/icn_act_reports.png") no-repeat scroll 0 0 #ebab34;
+  border-radius: 20px;
+  display: inline-block;
+  height: 30px;
+  margin-top: -5px;
+  width: 30px;
+}
+/* line 555, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground:hover, #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons #icon-campaign-report.icons-bckground:hover {
+  cursor: pointer;
+}
+/* line 559, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign div.edit-stats-icons > div:nth-child(2), #detailedPage.container .row-fluid .col-md-12 .campaign div.edit-stats-icons > div:nth-child(2) {
+  margin-top: 20px;
+}
+/* line 565, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .campaign-name, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .campaign-name {
+  display: block;
+  min-height: 60px;
+  font-weight: bold;
+  margin-bottom: 0;
+  color: #f9b537;
+  font-size: 16pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 572, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .brand, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand {
+  margin-bottom: 20px;
+  color: #999999;
+  font-size: 10pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 575, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .brand .brand-type, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .brand .brand-type {
+  color: #bebebe;
+}
+/* line 579, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration {
+  margin-bottom: 10px;
+}
+/* line 581, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .date, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .date {
+  margin-bottom: 10px;
+  color: #999999;
+}
+/* line 585, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar {
+  width: 170px;
+}
+/* line 587, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .progress, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .progress {
+  height: 5px;
+  border-radius: 0;
+  margin-bottom: 7px;
+}
+/* line 591, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .progress .progress-bar {
+  background: #8dc9eb;
+  background: linear-gradient(#8dc9eb, #7ac3ed);
+  background: -moz-linear-gradient(#8dc9eb, #7ac3ed);
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dc9eb), to(#7ac3ed));
+}
+/* line 595, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left {
+  text-align: right;
+}
+/* line 597, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left .day-count, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 .duration .duration-bar .days-left .day-count {
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 603, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies {
+  width: 130px;
+  padding: 5px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 15px;
+  background: #e9e6e0;
+  border-top: 1px solid #cccccc;
+}
+/* line 611, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies a:hover, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies a:hover {
+  text-decoration: none;
+}
+/* line 614, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies .strat-text, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-5 #accordion .strategies .strat-text {
+  font-weight: bold;
+  color: #bebebe;
+}
+/* line 621, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-10, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-10 {
+  padding: 0;
+  font-size: 9pt;
+}
+/* line 625, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-2, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-2 {
+  padding: 0;
+  text-align: right;
+}
+/* line 628, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-2 .suffix, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .col-md-2 .suffix {
+  font-size: 9pt;
+}
+/* line 632, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-text-container, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-text-container {
+  padding-left: 5px;
+  text-align: left;
+  color: #bebebe;
+  font-size: 11pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 637, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 640, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .cumulative-text {
+  color: #999999;
+  font-size: 13px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 643, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div span {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 647, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span:last-child {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 650, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span.avg-text, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values div > span.avg-text {
+  font-size: 10pt;
+}
+/* line 653, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-num {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 656, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-goal, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3 .row-fluid .kpi-values .kpi-goal {
+  width: 17px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: sub;
+  background: url("/assets/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+}
+/* line 666, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 {
+  padding: 0 0 0 5px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+/* line 670, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps {
+  text-align: right;
+}
+/* line 673, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps-count, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid.marg-10 .col-md-6 .imps-count {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 678, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-12, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-12 {
+  padding: 0;
+}
+/* line 681, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 {
+  padding: 0 5px;
+  text-align: right;
+  margin-bottom: 10px;
+}
+/* line 686, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue {
+  height: 20px;
+  color: #177ac6;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 690, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty {
+  margin-top: -20px;
+}
+/* line 693, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 697, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container .progress .progress-bar {
+  border: 1px solid #5EA9D8;
+  background: linear-gradient(to right, #6ebff0, #1d7fc9);
+  background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+}
+/* line 704, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue {
+  height: 20px;
+  color: #e4696c;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 708, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty {
+  margin-top: -20px;
+}
+/* line 711, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 715, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar {
+  border: 1px solid #E4696C;
+  background: linear-gradient(to right, #fac7c8, #f75256);
+  background: -o-linear-gradient(left, #fac7c8, #f75256);
+  background: -moz-linear-gradient(left, #fac7c8, #f75256);
+  background: -webkit-linear-gradient(left, #fac7c8, #f75256);
+}
+/* line 722, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue {
+  height: 20px;
+  color: #fb8917;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 725, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty {
+  margin-top: -20px;
+}
+/* line 729, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 733, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar {
+  border: 1px solid #FB8917;
+  background: linear-gradient(to right, #f7b842, #fc8917);
+  background: -o-linear-gradient(left, #f7b842, #fc8917);
+  background: -moz-linear-gradient(left, #f7b842, #fc8917);
+  background: -webkit-linear-gradient(left, #f7b842, #fc8917);
+}
+/* line 739, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-value, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .ctr-value {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 742, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .goal-image, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .goal-image {
+  width: 17px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: sub;
+  background: url("/assets/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+}
+/* line 749, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data, #detailedPage.container .row-fluid .col-md-12 .campaign .col-md-3.marg-10 .row-fluid .col-md-6 .action-data {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 755, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .highcharts span.no-chart, #detailedPage.container .row-fluid .col-md-12 .highcharts span.no-chart {
+  padding: 50px;
+  color: #a2a2a2;
+  display: block;
+  text-align: center;
+}
+/* line 762, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .highcharts span.strategies-no-chart, #detailedPage.container .row-fluid .col-md-12 .highcharts span.strategies-no-chart {
+  padding: 15px;
+  display: block;
+  text-align: center;
+}
+/* line 768, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .highcharts div.chart-tool-tip, #detailedPage.container .row-fluid .col-md-12 .highcharts div.chart-tool-tip {
+  padding: 5px;
+  background: #fff;
+  border: 1px solid #ccc;
+}
+/* line 774, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12.inner-accordion-wrapper, #detailedPage.container .row-fluid .col-md-12.inner-accordion-wrapper {
+  display: none;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+/* line 780, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion, #detailedPage.container .row-fluid .col-md-12 .inner-accordion {
+  margin-top: -2px;
+  background: url("/assets/cdesk/accordion-line.png") no-repeat scroll 0 2px rgba(0, 0, 0, 0);
+}
+/* line 783, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion.first, #detailedPage.container .row-fluid .col-md-12 .inner-accordion.first {
+  margin-top: 0;
+}
+/* line 786, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in {
+  width: 990px;
+  margin-top: 20px;
+  min-height: 240px;
+  border-radius: 5px;
+  background: #e9e6e0;
+  color: #999999;
+  font-size: 10pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 793, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid {
+  padding-right: 0;
+}
+/* line 795, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 {
+  padding-right: 0;
+}
+/* line 798, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-1, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-1 {
+  padding: 0;
+  text-align: center;
+}
+/* line 802, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .campaign-name, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .campaign-name {
+  font-family: "TradeGothicLTStd-BdCn20";
+  color: #f9b537;
+  font-size: 13pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 810, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion:last-child, #detailedPage.container .row-fluid .col-md-12 .inner-accordion:last-child {
+  background: url("/assets/cdesk/accordion-line-end.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+/* line 815, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details {
+  margin-bottom: 10px;
+}
+/* line 818, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div span, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div span {
+  margin-right: 5px;
+  vertical-align: baseline;
+}
+/* line 822, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .audience-icon, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .audience-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-block;
+  background: url("/assets/cdesk/icn_audience.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+/* line 828, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .globe-icon, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .globe-icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: sub;
+  display: inline-block;
+  background: url("/assets/cdesk/icn_globe.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+/* line 835, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .location-icon, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .location-icon {
+  width: 17px;
+  height: 17px;
+  vertical-align: sub;
+  display: inline-block;
+  background: url("/assets/cdesk/icn_location.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+/* line 842, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .device-icon, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-details > div .device-icon {
+  width: 17px;
+  height: 17px;
+  vertical-align: sub;
+  display: inline-block;
+  background: url("/assets/cdesk/icn_size.png") no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+}
+/* line 853, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .date, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .date {
+  margin-bottom: 10px;
+  color: #999999;
+}
+/* line 857, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar {
+  width: 170px;
+}
+/* line 859, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .progress, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .progress {
+  height: 5px;
+  border-radius: 0;
+  margin-bottom: 7px;
+}
+/* line 863, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .progress .progress-bar {
+  background: #8dc9eb;
+  background: linear-gradient(#8dc9eb, #7ac3ed);
+  background: -moz-linear-gradient(#8dc9eb, #7ac3ed);
+  background: -webkit-gradient(linear, center top, center bottom, from(#8dc9eb), to(#7ac3ed));
+}
+/* line 867, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .days-left, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .days-left {
+  text-align: right;
+}
+/* line 869, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .days-left .day-count, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-4 .inner-accordion-duration .duration .duration-bar .days-left .day-count {
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 877, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 {
+  width: 540px;
+  padding: 15px;
+  height: 185px;
+  margin-top: 24px;
+  overflow: hidden;
+  background: white;
+  border-radius: 5px;
+}
+/* line 885, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid {
+  margin-bottom: 10px;
+}
+/* line 887, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 {
+  padding: 0;
+  text-align: right;
+}
+/* line 890, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .imps, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .imps {
+  text-align: right;
+}
+/* line 893, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .imps-count, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .imps-count {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 898, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .blue, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .blue {
+  height: 20px;
+  color: #177ac6;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 902, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .blue.margin-twenty {
+  margin-top: -20px;
+}
+/* line 905, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .progress, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 909, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container .progress .progress-bar {
+  border: 1px solid #5ea9d8;
+  background: linear-gradient(to right, #6ebff0, #1d7fc9);
+  background: -o-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -moz-linear-gradient(left, #6ebff0, #1d7fc9);
+  background: -webkit-linear-gradient(left, #6ebff0, #1d7fc9);
+}
+/* line 916, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .blue, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .blue {
+  height: 20px;
+  color: #e4696c;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 920, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .blue.margin-twenty {
+  margin-top: -20px;
+}
+/* line 923, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .progress, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 927, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.red .progress .progress-bar {
+  border: 1px solid #E4696C;
+  background: linear-gradient(to right, #fac7c8, #f75256);
+  background: -o-linear-gradient(left, #fac7c8, #f75256);
+  background: -moz-linear-gradient(left, #fac7c8, #f75256);
+  background: -webkit-linear-gradient(left, #fac7c8, #f75256);
+}
+/* line 934, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .blue, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .blue {
+  height: 20px;
+  color: #fb8917;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 937, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .blue .margin-twenty {
+  margin-top: -20px;
+}
+/* line 941, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .progress, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .progress {
+  height: 28px;
+  margin-bottom: 0;
+  border-radius: 0;
+}
+/* line 945, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-container.amber .progress .progress-bar {
+  border: 1px solid #FB8917;
+  background: linear-gradient(to right, #f7b842, #fc8917);
+  background: -o-linear-gradient(left, #f7b842, #fc8917);
+  background: -moz-linear-gradient(left, #f7b842, #fc8917);
+  background: -webkit-linear-gradient(left, #f7b842, #fc8917);
+}
+/* line 951, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-value, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .ctr-value {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 954, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .goal-image, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .goal-image {
+  width: 17px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: sub;
+  background: url("/assets/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+}
+/* line 961, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .action-data, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .col-md-6 .action-data {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 965, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-text-container, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-text-container {
+  text-align: left;
+  color: #bebebe;
+  font-size: 11pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 969, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 972, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .cumulative-text, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .cumulative-text {
+  color: #999999;
+  font-size: 13px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 975, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div span, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div span {
+  text-align: right;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 979, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div > span:last-child, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div > span:last-child {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 982, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div > span.avg-text, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values div > span.avg-text {
+  font-size: 10pt;
+}
+/* line 985, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .kpi-num, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .kpi-num {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 988, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .kpi-goal, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid .kpi-values .kpi-goal {
+  width: 17px;
+  height: 18px;
+  display: inline-block;
+  vertical-align: sub;
+  background: url("/assets/cdesk/icn_goal.png") no-repeat 0px 0px rgba(0, 0, 0, 0);
+}
+/* line 997, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid:first-child, #detailedPage.container .row-fluid .col-md-12 .inner-accordion .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > .col-md-7 .col-md-6 .row-fluid:first-child {
+  text-align: left;
+  margin-bottom: 10px;
+}
+/* line 1005, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .load-more-strategies, #detailedPage.container .load-more-strategies {
+  cursor: pointer;
+  margin: 30px auto;
+  text-align: center;
+}
+/* line 1009, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .load-more-strategies a, #detailedPage.container .load-more-strategies a {
+  border-radius: 20px;
+  padding: 8px 25px 6px;
+  border: 1px solid #ddd;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 1014, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .load-more-strategies a:hover, #detailedPage.container .load-more-strategies a:hover {
+  text-decoration: none;
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 1020, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-6.campaign-count, #detailedPage.container .row-fluid .col-md-6.campaign-count {
+  margin-bottom: 0;
+  color: #f9b537;
+  font-size: 12pt;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+/* line 1024, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .load-more, #detailedPage.container .load-more {
+  margin: 20px;
+  text-align: center;
+  text-indent: -99999;
+  background: url("/assets/loading.gif") no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+}
+
+/* line 1031, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#brandsDropdown:focus {
+  background: white;
+}
+
+/* line 1034, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#brandsDropdown {
+  background: #F9B537;
+  border: none;
+  height: 30px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  font-size: 11pt;
+  cursor: pointer;
+}
+
+/* line 1042, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#brandsList {
+  height: 500px;
+  overflow: auto;
+}
+
+/* line 1046, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+::-webkit-input-placeholder {
+  color: white;
+}
+
+/* line 1050, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+:-moz-placeholder {
+  /* Firefox 18- */
+  color: white;
+}
+
+/* line 1054, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+::-moz-placeholder {
+  /* Firefox 19+ */
+  color: white;
+}
+
+/* line 1058, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+:-ms-input-placeholder {
+  color: white;
+}
+
+/* line 1062, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.highcharts-container .highcharts-tooltip {
+  visibility: visible !important;
+}
+
+/* line 1066, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#highcharts {
+  width: 219px;
+  height: 140px;
+}
+
+/* line 1071, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#highcharts-strategies {
+  width: 219px;
+  height: 140px;
+}
+
+/* line 1080, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix {
+  /*styling by saudamini*/
+  /*end of styling by saudamini*/
+}
+/* line 1082, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-10 h1 {
+  color: #f9b537;
+  font-size: 20pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 1086, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 {
+  padding: 0;
+  text-align: right;
+}
+/* line 1089, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-edit.icons-bckground {
+  width: 40px;
+  margin-top: 10px;
+  border-radius: 20px;
+  display: inline-block;
+  height: 40px;
+  background: url("/assets/icn_act_edit.png") no-repeat scroll 5px 5px #ebab34;
+}
+/* line 1095, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-edit.icons-bckground:hover {
+  cursor: pointer;
+}
+/* line 1099, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-report.icons-bckground {
+  width: 40px;
+  height: 40px;
+  margin-top: 10px;
+  border-radius: 20px;
+  display: inline-block;
+  background: url("/assets/icn_act_reports.png") no-repeat scroll 5px 5px #ebab34;
+}
+/* line 1106, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-1 #icon-campaign-report.icons-bckground:hover {
+  cursor: pointer;
+}
+/* line 1112, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .report_title.col-md-12 {
+  float: none;
+  clear: both;
+}
+/* line 1119, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-12 .brand {
+  color: #999999;
+  font-size: 12pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1121, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container .row-fluid .col-md-12 .detailed-campaign-bar.clearfix .col-md-12 .brand .brand-type {
+  color: #ccc;
+}
+/* line 1129, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper {
+  width: 1150px;
+  margin-top: 10px;
+  margin-left: -30px;
+}
+/* line 1133, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 {
+  padding: 0;
+}
+/* line 1135, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container {
+  height: 410px;
+  padding: 25px 45px;
+  background: white;
+}
+/* line 1140, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #999999;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1144, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .highcharts {
+  width: 100%;
+  height: 320px;
+  margin-top: 10px;
+}
+/* line 1149, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .col-md-6 {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #999999;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1153, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .col-md-6 .campaign-external-sort {
+  display: inline-block;
+  text-transform: uppercase;
+  color: #177ac6;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1157, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .col-md-6 .campaign-external-sort span.descending {
+  margin: 0;
+  width: 8px;
+  padding: 0;
+  height: 13px;
+  vertical-align: bottom;
+  border-bottom: none;
+  display: inline-block;
+  background: url("/assets/cdesk/descending.png") no-repeat 0 0px rgba(0, 0, 0, 0);
+}
+/* line 1169, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match {
+  width: 508px;
+  height: 290px;
+  margin-top: 25px;
+  overflow-y: auto;
+  padding-left: 20px;
+  /*styling by saudamini*/
+  font-size: 14px;
+  /*end of styling by saudamini*/
+}
+/* line 1179, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_performance {
+  margin-right: 10px !important;
+  padding: 7px;
+  border: 2px solid transparent;
+}
+/* line 1184, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .action_selected {
+  border: 2px solid #f8f8f8;
+}
+/* line 1188, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .row {
+  margin: 0px;
+}
+/* line 1191, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_perf_note {
+  margin: 10px 0;
+}
+/* line 1194, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_perf_header {
+  margin-top: 1px;
+}
+/* line 1197, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-11.each_campaign_perf_details {
+  text-transform: none;
+  padding: 0px;
+}
+/* line 1201, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-1, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-2, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-3, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-4, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-5, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-6, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-7, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-8, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-9, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-10, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-11, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .col-md-12 {
+  padding: 0px;
+}
+/* line 1204, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .action_filter, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_time {
+  margin-right: 12px;
+  word-wrap: break-word;
+  text-align: center;
+  color: #bebebe;
+  font-size: 14px;
+  font-family: "TradeGothicLTStd";
+  font-weight: 700;
+  float: right;
+}
+/* line 1212, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_time {
+  text-align: right;
+  margin-right: 0px;
+}
+/* line 1216, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_perf_filter {
+  color: #bebebe;
+  /*font-family: Avenir;*/
+}
+/* line 1220, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .circle_action {
+  text-align: center;
+  height: 18px;
+  width: 18px;
+  background: transparent;
+  display: block;
+  border: solid 4px #117B8A;
+  border-radius: 18px;
+  -moz-border-radius: 18px;
+  -webkit-border-radius: 18px;
+  padding: 0px;
+  margin: 0px 5px 0 0;
+}
+/* line 1233, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match .each_action_name {
+  color: #999999;
+  font-size: 14px;
+  font-family: "TradeGothicLTStd";
+  font-weight: 700;
+  width: 30%;
+  float: left;
+}
+/* line 1243, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table {
+  width: 470px;
+}
+/* line 1245, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table .tr_selected {
+  border: 1px solid #ccc;
+}
+/* line 1248, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr {
+  width: 470px;
+  padding: 5px;
+  display: -moz-box;
+  display: -webkit-box;
+  border: 1px solid transparent;
+}
+/* line 1254, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td {
+  border-top: none;
+}
+/* line 1256, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td span, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td div {
+  text-transform: none;
+}
+/* line 1263, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td:nth-child(2) {
+  width: 100px;
+  padding: 8px 0px 8px 4px;
+}
+/* line 1266, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td:nth-child(2) span {
+  color: #999999;
+  font-size: 10pt;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1270, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td:nth-child(3) {
+  width: 215px;
+  padding-right: 0;
+}
+/* line 1274, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td:last-child {
+  width: 110px;
+  padding: 8px 4px 8px 0;
+  text-align: right;
+}
+/* line 1278, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container .col-md-6 .col-md-12 .campaign-performance-match table tr td:last-child span {
+  text-transform: uppercase;
+}
+/* line 1289, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two {
+  height: 130px;
+  margin-top: 3px;
+  padding: 25px 45px;
+  background: white;
+}
+/* line 1294, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .spend_detail {
+  margin-left: 25px;
+}
+/* line 1298, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-3 .col-md-12:first-child, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-2 .col-md-12:first-child {
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #999999;
+  font-size: 12px;
+  font-family: "TradeGothicLTStd";
+}
+/* line 1303, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-3 .col-md-12:last-child, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-2 .col-md-12:last-child {
+  margin-top: 15px;
+  text-transform: none;
+  color: #177ac6;
+  font-size: 15pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+}
+/* line 1307, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+#campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-3 .col-md-12:last-child span, #campaignDetail.container #campaignPerformanceWrapper .col-md-12 .campaign-performance-container-two .col-md-2 .col-md-12:last-child span {
+  text-transform: uppercase;
+}
+
+/*styling by saudamini*/
+/* line 1320, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder {
+  width: 920px;
+  margin: 30px auto 20px;
+  color: #999999;
+  font-size: 14px;
+}
+/* line 1325, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .row {
+  margin: 0px;
+}
+/* line 1328, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder label {
+  font-weight: normal;
+}
+/* line 1331, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .col-md-1, .actions_holder .col-md-2, .actions_holder .col-md-3, .actions_holder .col-md-4, .actions_holder .col-md-5, .actions_holder .col-md-6, .actions_holder .col-md-7, .actions_holder .col-md-8, .actions_holder .col-md-9, .actions_holder .col-md-10, .actions_holder .col-md-11, .actions_holder .col-md-12 {
+  padding: 0px;
+}
+/* line 1334, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd {
+  float: left;
+  margin-right: 35px;
+  overflow: hidden;
+  max-width: 172px;
+  border: solid 1px #d9d9d9;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  /*background: url("/assets/cdesk/arrow.png") no-repeat right center;*/
+}
+/* line 1344, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd select {
+  padding: 5px 20px 5px 10px;
+  -webkit-appearance: none;
+  max-width: 198px;
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+  background: transparent;
+  width: 111%;
+  -webkit-appearance: none;
+  border: 0px;
+}
+/* line 1356, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd select:focus {
+  outline: 0px;
+}
+/* line 1360, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd_third {
+  margin-right: 0px;
+  max-width: 235px;
+}
+/* line 1363, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd_third select {
+  max-width: 268px;
+}
+/* line 1367, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_filter_heading {
+  font-weight: bold;
+  text-transform: uppercase;
+  float: left;
+  margin: 8px 0px 0 0;
+  text-align: left !important;
+}
+/* line 1374, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_dd_last {
+  text-align: right;
+  float: none;
+  margin-bottom: 20px;
+  width: 100%;
+}
+/* line 1380, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .note_area {
+  position: relative;
+  margin-top: 15px;
+  padding: 0px 0px 2px 5px;
+  width: 94%;
+}
+/* line 1385, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .note_area .note_area_border {
+  position: absolute;
+  bottom: 0px;
+  border: solid 2px #bebebe;
+  border-top: 0px;
+  height: 12px;
+  width: 100%;
+  left: 0px;
+}
+/* line 1394, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .note_area .action_textarea {
+  border: 0px;
+  background: transparent;
+  overflow-y: auto;
+  width: 100%;
+  resize: none;
+  height: 50px;
+  height: 40px;
+  padding-bottom: 0;
+  padding-top: 0px;
+}
+/* line 1406, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .action_submit {
+  float: right;
+  height: 30px;
+  width: 65px;
+  color: white;
+  font-size: 14pt;
+  /*font-family: "TradeGothicLTStd-BdCn20";*/
+  background: #f5b236;
+  border: 0px;
+  outline: 0px;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  text-align: center;
+  padding: 3px;
+  background: #f9b537;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f9b537), color-stop(0%, #f9b537), color-stop(98%, #ebab34), color-stop(98%, #ebab34), color-stop(100%, #ebab34), color-stop(100%, #ebab34), color-stop(100%, #ebab34), color-stop(100%, #ebab34));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9b537', endColorstr='#ebab34',GradientType=0 );
+  /* IE6-9 */
+}
+/* line 1428, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox {
+  float: left;
+  margin-top: 4px;
+  /* SQUARED FOUR */
+}
+/* line 1432, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour {
+  width: 20px;
+  margin: 0px 5px 0 0;
+  position: relative;
+  float: left;
+}
+/* line 1437, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour input[type="checkbox"] {
+  visibility: hidden;
+}
+/* line 1440, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour input[type="checkbox"]:focus {
+  outline: 0px;
+}
+/* line 1443, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour label {
+  cursor: pointer;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 0;
+  left: 0px;
+  border-radius: 4px;
+  border: solid 1px #d9d9d9;
+}
+/* line 1453, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+  opacity: 0;
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 5px;
+  background: transparent;
+  top: 5px;
+  left: 5px;
+  border: 3px solid #333;
+  border-top: none;
+  border-right: none;
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+}
+/* line 1473, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour label:hover::after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  filter: alpha(opacity=30);
+  opacity: 0.5;
+}
+/* line 1478, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFour input[type=checkbox]:checked + label:after {
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+/* line 1484, /var/www/collective-workspace/reachui/app/assets/stylesheets/campaign_list.css.scss */
+.actions_holder .external_chkbox .squaredFourTxt {
+  float: left;
+}
+
+/*end of styling by saudamini*/
+
+
+
+
+
+
+
+
+
+
+/* REPORTS STYLING */
+
+
+.row.reports_section {
+  display: none;
+  min-height: 440px ;
+  width: 1056px ;
+  margin: 20px auto ;
+  border-radius: 5px ;
+  -moz-border-radius: 5px ;
+  -webkit-border-radius: 5px ;
+  color: #999 ;
+  font-size: 14px ;
+  padding: 20px 36px ;
+  background: #fff ;
+  box-shadow: 0 1px 1px #aaaaaa;
+}
+.reports_graph_top_section {
+  min-height: 240px ;
+  width: 1056px ;
+  margin: 20px auto ;
+  border-radius: 5px ;
+  -moz-border-radius: 5px ;
+  -webkit-border-radius: 5px ;
+  color: #999 ;
+  font-size: 14px ;
+  padding: 22px 36px ;
+  background: #fff ;
+  box-shadow: 0 1px 1px #aaaaaa;
+}
+.rep_graph_holder {
+  margin: 20px ;
+  min-height: 200px ;
+}
+.reports_graph_top_section .rep_graph_heading {
+  font-family: TradeGothicLTStd;
+  color: #f9b537;
+  font-size: 16px;
+  font-weight: 700;
+}
+.reports_section_details_container {
+  position: relative;
+  background: #fff ;
+  min-height: 200px ;
+  border: solid 1px #ccc ;
+  margin-bottom: 20px ;
+  border-left: solid 5px #a9d479 ;
+
+}
+.each_reports_row_heading .each_rep_col_holder {
+  border-bottom: solid 2px #ccc;
+  padding: 0px 16px 8px ;
+  border-left : solid 5px transparent ;
+}
+.reports_section_details_more .each_reports_row:nth-last-child(2) {
+  border-bottom : 0px ;
+}
+.reports_section_details_container {
+  border-bottom : 0px ;
+}
+.one_section_report_heading {
+  color: #a9d479;
+  cursor: pointer;
+  font-family: TradeGothicLTStd;
+  font-size: 16px;
+  font-weight: 700;
+  margin: 30px 0 20px 0;
+  padding-top: 20px;
+}
+.load_more_rows {
+  background: url("/assets/img/green_arrow.png") no-repeat center center #ccc;
+  width: 1056px;
+  height: 40px;
+  position: absolute;
+  bottom: -20px;
+  text-align: center;
+  padding-top: 10px;
+  left: -5px;
+  cursor: pointer;
+  opacity: 0.8;
+  background: #feffff; /* Old browsers */
+  background: -moz-linear-gradient(top, #feffff 0%, #ebebeb 35%, #ebebeb 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffff), color-stop(35%,#ebebeb), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
+
+}
+.one_section_report_heading .green_color {
+  color: #a9d479;
+}
+.each_reports_row {
+  padding: 20px 16px ;
+}
+.each_reports_row_details {
+
+  font-size: 14px ;
+  color: #4a4a4a ;
+  font-family: "Avenir" ;
+  border-bottom: solid 1px #ccc;
+}
+.each_reports_row_details:hover {
+  background: rgba(169, 212, 121 , 0.3);
+}
+.each_reports_row_heading {
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2" ;
+  color: #4a4a4a ;
+  font-size: 12px ;
+  text-transform: uppercase;
+  padding : 10px 0 0 0 ;
+}
+.each_rep_col_holder .each_rep_col {
+  float: left;
+  width: 100px;
+  text-align: center;
+  overflow: hidden;
+  height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.each_rep_col_holder .first_col {
+  width: 150px ;
+}
+.each_reports_row_details .each_rep_col_holder .first_col {
+  text-align: left;
+}
+.each_rep_col_holder .sixth_col , .each_rep_col_holder  .nine_col {
+  width : 80px ;
+}
+.each_report_text_row .each_report_text_col {
+  float: left;
+  color : #6F6E6E ;
+}
+.each_report_text_row .each_report_text_col.report_time {
+  color: #777 ;
+  font-weight: bold ;
+  margin-right : 5px ;
+}
+.each_rep_col_holder .each_rep_col.positive_text {
+  color: #78bb68;
+
+}
+.each_rep_col_holder .each_rep_col .arrow_img {
+  display: inline-block;
+  height: 11px;
+  width: 8px;
+}
+.each_rep_col_holder .each_rep_col.positive_text .arrow_img  {
+  background: url("/assets/img/green_arrow.png") no-repeat;
+}
+.each_rep_col_holder .each_rep_col.negative_text  {
+  color: #f74d51 ;
+}
+.each_rep_col_holder .each_rep_col.negative_text .arrow_img {
+  background: url("/assets/img/red_arrow.png") no-repeat right bottom ;
+}
+.each_report_text_row .report_text {
+  font-style: italic;
+  margin-left : 20px ;
+}
+.each_report_text_row {
+  margin-top: 5px ;
+}
+.after_before_subheadings {
+  float: left;
+  width: 264px;
+  border-bottom: solid 1px #ccc;
+  margin: 0 20px 10px 0;
+  padding: 0 0 10px 16px;
+  color: #777;
+}
+.before_subheading {
+  margin-left: 381px;
+}
+.after_subheading {
+  padding-left: 14px ;
+}
+.type2_section_reports .one_section_report_heading {
+
+  color : #f9b537 ;
+}
+.type2_section_reports  .reports_section_details_container {
+  border-left: solid 5px #f9b537 ;
+}
+.type3_section_reports .one_section_report_heading {
+  color : #177ac6 ;
+}
+.one_section_report_heading .not_optimized_style {
+  color: #777 ;
+  font-size: 12px ;
+  font-family: "Avenir" ;
+}
+
+.reports_section  table {
+  width : 100% ;
+}
+.reports_section .reports_subheadings {
+  /*font-family: TradeGothicLTStd;*/
+  color: #f9b537;
+  font-size: 16px;
+  font-weight: 700;
+}
+.reports_tr td {
+  font-family: Avenir;
+  color: #999999;
+  font-size: 14px;
+  max-width: 100px ;
+  width : 100px ;
+  min-width : 100px ;
+
+}
+.reports_th td {
+  font-family: "trade-gothic-no-2-bold" ;
+  color: #999999;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-align: center;
+}
+.reports_th table td:hover {
+  color: #177ac6;
+  background-image: url("/assets/img/header_arrow.png");
+  background-repeat: no-repeat;
+  background-position: 90px center;
+}
+
+
+.reports_val td {
+  overflow: hidden;
+  height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 10px 0 25px ;
+  text-align: center;
+}
+.reports_val td:nth-child(3) {
+  padding-left: 15px ;
+}
+.reports_val .positive_td {
+  color: #78bb68;
+  background: url("/assets/img/green_arrow.png") no-repeat center 4px;
+  padding-left: 0px;
+}
+.reports_val .negative_td {
+  color: #f74d51;
+  background: url("/assets/img/red_arrow.png") no-repeat center center;
+  padding-left: 0px;
+}
+
+.reports_val span.positive_sign , .reports_val span.negative_sign  {
+  display: none;
+}
+.reports_val .negative_td span.negative_sign  {
+  margin-right: 6px;
+  display: inline-block;
+}
+.reports_val .positive_td span.positive_sign  {
+  display: inline-block;
+}
+
+.reports_subheadings td {
+  padding: 20px 0 5px ;
+}
+.reports_tr td:first-child {
+  width: 330px ;
+  text-align: left;
+  padding-left: 0px;
+}
+.reports_tr table td:first-child {
+  background-position: 300px center;
+}
+.reports_tr td:nth-child(2) {
+  max-width: 180px ;
+  width : 180px ;
+}
+.reports_tr table td:nth-child(2) {
+  background-position: 164px center;
+}
+.reports_val td:nth-child(2) {
+  text-align: left;
+
+}
+.reports_top_heading {
+  color: #f9b537;
+  font-size: 20pt;
+  font-family: "TradeGothicLTStd-BdCn20";
+  margin-bottom: 20px;
+}
+/*.nice_dd {*/
+/*float: left;*/
+/*margin-right: 35px;*/
+/*overflow: hidden;*/
+/*max-width: 572px;*/
+/*border: solid 1px #d9d9d9;*/
+/*border-radius: 5px;*/
+/*-moz-border-radius: 5px;*/
+/*-webkit-border-radius: 5px;*/
+/*padding: 0;*/
+/*background: url("/assets/cdesk/arrow.png") no-repeat right center;*/
+/*margin: 0 0 10px 10px;*/
+/*}*/
+/*.nice_dd select {*/
+/*padding: 5px 20px 5px 10px;*/
+/*-webkit-appearance: none;*/
+/*max-width: 598px;*/
+/*-moz-appearance: none;*/
+/*text-indent: 0.01px;*/
+/*text-overflow: "";*/
+/*background: transparent;*/
+/*width: 111%;*/
+/*-webkit-appearance: none;*/
+/*border: 0px;*/
+/*font-family: Avenir;*/
+/*color: #999999;*/
+/*font-size: 14px;*/
+/*}*/
+/*.nice_dd select:focus {*/
+/*outline: 0px ;*/
+/*}*/
+.total_reports_page {
+  margin: 0px auto 40px ;
+  width: 1056px;
+}
+.total_reports_page .row {
+  margin: 0px ;
+}
+.campaigns_dd_reports_heading {
+  text-transform: uppercase;
+  margin-top: 4px;
+  font-family: TradeGothicLTStd;
+  margin-right: 10px;
+  font-size : 12px ;
+}
+.reports_tabs span {
+  display: block;
+  float: left;
+  text-transform: uppercase;
+  margin-right: 52px ;
+  font-family: "TradeGothicLTStd-BdCn20";
+  color: #999999;
+  font-size: 16px;
+  cursor: pointer;
+}
+.reports_tabs span.report_tab_sel {
+  color: #177ac6;
+}
+.reports_tabs {
+  margin-bottom: 20px ;
+}
+.nice_dd {
+  display: none;
+  float: left;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  /*background: url("/assets/cdesk/arrow.png") no-repeat right center;*/ background-color: #f9b537;
+  font-family: TradeGothicLTStd; color: #ffffff;
+  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+.back_link {
+  color: #177ac6;
+  font-family: "TradeGothicLTStd-BdCn20";
+  font-size: 16px;
+  margin: 0px 0 20px;
+  text-transform: uppercase;
+}
+.nice_dd select {
+  padding: 0px 20px 0px 10px;
+  -webkit-appearance: none;
+  max-width: 168px;
+  -moz-appearance: none;
+  text-indent: 0.01px;
+  text-overflow: "";
+  background: transparent;
+  width: 98%;
+  -webkit-appearance: none;
+  border: 0px;
+  font-family: Avenir;
+  color: #fff;
+  font-family: TradeGothicLTStd; color: #ffffff;
+  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */ text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
+  height: 25px;
+  max-width: 138px;
+  box-shadow: 0px 0px 0px transparent;
+  -webkit-box-shadow: 0px 0px 0px transparent;
+  -moz-box-shadow: 0px 0px 0px transparent;
+  background-image: url("/assets/img/arrow_white.png");
+  background-repeat: no-repeat;
+  background-position: 130px 5px;
+}
+.nice_dd select#campaign_drop_down {
+
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075);
+  border: solid 1px #EBCECE;
+  width: 400px;
+  max-width: 400px;
+}
+.nice_dd select:focus {
+  outline: 0px ;
+  border : 0px ;
+  box-shadow: 0px 0px 0px transparent;
+}
+.nice_dd select option {
+  color : #666 ;
+}
+.campaigns_sel_list_header {
+  border-left: solid 1px #ccc;
+  border-right: solid 1px #ccc;
+  padding: 0 30px;
+  height: 24px;
+}
+/* END OF REPORTS STYLING */
+
+.nice_dd select {
+  max-width: 138px;
+  box-shadow: 0px 0px 0px transparent;
+  -webkit-box-shadow: 0px 0px 0px transparent;
+  -moz-box-shadow: 0px 0px 0px transparent;
+  background-image: url("../img/arrow_white.png");
+  background-repeat: no-repeat;
+  background-position: 130px 5px;
+}
+.campaigns_dd_reports_heading {
+  font-size : 12px ;
+}
+.campaigns_sel_list_header {
+  margin-left : 20px ;
+}
+#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.header_tab_highlight a {
+  color : #fff ;
+}
+.nice_dd select#campaign_drop_down {
+  background-position: 380px 5px;
+}
+.nice_dd select#campaign_drop_down {
+  float : left ;
+
+}
+.nice_dd select {
+  padding-top : 3px ;
+}
+.reports_tr td:first-child {
+  min-width : 330px ;
+}
+
+.reports_th table td {
+  border-right : solid 1px #ccc ;
+}
 
 
 

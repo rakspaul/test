@@ -20,6 +20,10 @@ var angObj = '';
                 templateUrl: 'campaign_details',
                 controller: 'CampaignDetailsController'
             })
+            .when('/campaigns/:campaignId/optimization', {
+              templateUrl: 'optimization',
+              controller: 'OptimizationController'
+            })
             .otherwise({redirectTo: 'campaigns'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
