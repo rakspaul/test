@@ -32,6 +32,7 @@
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
 //= require cdesk/controllers/actions_controller
+//= require cdesk/controllers/optimization_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaignsort
 //= require cdesk/models/campaign

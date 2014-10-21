@@ -31,6 +31,8 @@
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;
+          console.log(actionItems);
+          var strategyByActionId = {};
             if (actionItems.length > 0) {
                 for(var i = actionItems.length-1; i >= 0; i--){
                     for(var j = actionItems[i].action.length - 1; j >= 0; j--){
@@ -38,9 +40,11 @@
                         //actionItems[i].action[j].ad_name = actionItems[i].ad_name;
                         //actionItems[i].action[j].ad_id = actionItems[i].ad_id;
                         actionItemsArray.push(actionItems[i].action[j]);
+                      strategyByActionId[actionItems[i].action[j].id] = actionItems[i];
                         counter++;
                     }
                 }
+              $scope.strategyByActionId = strategyByActionId;
                 $scope.actionItems = actionItemsArray;
             }
         }, function(result) {
@@ -79,7 +83,6 @@
                 }
             }
         });
-
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;

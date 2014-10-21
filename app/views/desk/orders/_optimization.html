@@ -1,0 +1,325 @@
+<!--<div class="navbar navbar-default" id="detailedPageNavbar">
+    <div class="container">
+        <div class="navbar-header">
+            &lt;!&ndash;<button class="navbar-toggle collapsed" data-target="navbar-collapse" data-toggle="collapse" type="button">&ndash;&gt;
+                &lt;!&ndash;<div class="sr-only">Toggle navigation</div>&ndash;&gt;
+                &lt;!&ndash;<div class="icon-bar"></div>&ndash;&gt;
+                &lt;!&ndash;<div class="icon-bar"></div>&ndash;&gt;
+                &lt;!&ndash;<div class="icon-bar"></div>&ndash;&gt;
+                &lt;!&ndash;<div class="icon-bar"></div>&ndash;&gt;
+            &lt;!&ndash;</button>&ndash;&gt;
+            <a class="navbar-brand" href="#" id="logo">
+                <img alt="Collective media logo" src="/assets/img/collective-media-logo.png" width="170">
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a>Campaigns</a>
+                </li>
+                <li class="header_tab_highlight">
+                    <a href="/#/reports">Reports</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+            <span class="hello">
+              Hello,&nbsp;
+            </span>
+            <span class="user-name">
+              Collective
+            </span>
+                </li>
+                <li>
+                    <a >Log out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>-->
+
+
+<div class="campaign-list-container">
+<div id="detailedPage" class="container">
+
+
+
+</div>
+
+
+<div class="total_reports_page">
+
+<div class="reports_header_section">
+    <!--<div class="back_link" href="{{reach}}">< Back to campaign</div>-->
+    <a class="back_link" href={{reachUrl}} >< Back to campaign</a>
+
+    <div class="row campaigns_dropdown_reports clearfix">
+        <div class="pull-left nice_dd" campaign-list="">
+        </div>
+    </div>
+
+    <div class="reports_top_heading">
+        {{campaign_name}}
+    </div>
+    <div class="reports_tabs clearfix">
+
+        <span>Metrics</span>
+        <span>Domain</span>
+        <span>Cost</span>
+        <span class="report_tab_sel">Optimization Impact</span>
+    </div>
+
+
+</div>
+<div class="reports_graph_top_section" >
+    <div class="rep_graph_heading">
+        Toyota Camry for Female HHI
+
+        <!-- gaurav -->
+        <div class="col-md-12">
+            <div ng-if="details.actionChartForStrategy" class="highcharts" id="details_chart">
+                <highchart id="highcharts" config="details.actionChartForStrategy" chartTitle=""></highchart>
+            </div>
+            <div ng-if="!details.actionChartForStrategy" class="highcharts" id="details_chart">
+                Data Not Available
+            </div>
+        </div>
+        <!-- gaurav -->
+    </div>
+    <div class="rep_graph_holder">
+    </div>
+</div>
+
+<div class="each_reports_row each_reports_row_heading">
+    <div class="after_before_subheadings_holder clearfix">
+        <div class="after_before_subheadings before_subheading">Before</div>
+        <div class="after_before_subheadings after_subheading">After</div>
+    </div>
+    <div class="each_rep_col_holder clearfix">
+        <div class="each_rep_col first_col">Optimization Type</div>
+        <div class="each_rep_col sec_col">Date Optimized</div>
+        <div class="each_rep_col third_col">Metric</div>
+        <div class="each_rep_col forth_col">Date from</div>
+        <div class="each_rep_col fifth_col">Date to</div>
+        <div class="each_rep_col sixth_col">Value</div>
+        <div class="each_rep_col seventh_col">Date from</div>
+        <div class="each_rep_col eight_col">Date to</div>
+        <div class="each_rep_col nine_col">Value</div>
+        <div class="each_rep_col ten_col">Change %</div>
+    </div>
+
+</div>
+
+<div class="one_section_reports_holder type1_section_reports" >
+    <div class="one_section_report_heading">
+        Toyota Camry for Female (18-23 y.o)
+    </div>
+    <div class="reports_section_details_container reports_section_details_more" >
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other Lorem Ipsum</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col positive_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col negative_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col positive_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+        <div class="load_more_rows">&#9660;</div>
+
+
+    </div>
+</div>
+
+<div class="one_section_reports_holder type2_section_reports" >
+    <div class="one_section_report_heading">
+        Toyota Camry for Female (18-23 y.o)
+    </div>
+    <div class="reports_section_details_container" >
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other Lorem Ipsum</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col positive_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col negative_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+        <div class="each_reports_row each_reports_row_details">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Exchange/Other</div>
+                <div class="each_rep_col sec_col">29 Sep 2014</div>
+                <div class="each_rep_col third_col">CPA</div>
+                <div class="each_rep_col forth_col">29 Sep 2014</div>
+                <div class="each_rep_col fifth_col">29 Sep 2014</div>
+                <div class="each_rep_col sixth_col">2</div>
+                <div class="each_rep_col seventh_col">29 Sep 2014</div>
+                <div class="each_rep_col eight_col">29 Sep 2014</div>
+                <div class="each_rep_col nine_col">2</div>
+                <div class="each_rep_col ten_col positive_text">
+                    <span>+66%</span>
+                    <span class="arrow_img"></span>
+                </div>
+            </div>
+            <div class="each_report_text_row clearfix">
+                <div class="each_report_text_col report_time">6.22 PM</div>
+                <div class="each_report_text_col report_person_name">Alexandra Piechota</div>
+                <div class="each_report_text_col report_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="one_section_reports_holder type3_section_reports" >
+    <div class="one_section_report_heading">
+        Toyota Camry for Female (18-23 y.o) <span class="not_optimized_style">Not Optimized</span>
+    </div>
+
+</div>
+
+
+
+<div class="row reports_section">
+    <table>
+        <tr class="reports_tr reports_th">
+            <td>
+                <table>
+                    <tr>
+                        <td ng-click="sorting('ad_name', false)">Strategy / Tactic</td>
+                        <td ng-click="sorting('action_sub_type[0].name', false)">Optimization <br> Type</td>
+                        <td ng-click="sorting('created_at', true)" class=reports_tab_active">Optimized  <br> on</td>
+                        <td ng-click="sorting('metric_value_before',true)">Daily Avg <br>Before</td>
+                        <td ng-click="sorting('metric_value_after',true)">Daily Avg<br> After</td>
+                        <td  >Change <br>%</td>
+                        <td ng-click="sorting('metric_impacted',true)">Optimization<br> Goal</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr ng-repeat=" lineItem in optimizationData">
+            <td>
+                <table>
+                    <tr class="reports_subheadings">
+                        <td>{{lineItem.lineItemName}}</td>
+                    </tr>
+
+                    <tr class="reports_tr reports_val" ng-repeat=" action in lineItem.action | orderBy:orderByField:reverseSort">
+
+
+                        <td style="text-align:left" title="{{action.ad_name}}">
+                            {{action.ad_name}}</td>
+                        <td style="text-align:left" title="{{action.action_sub_type[0].name}}">{{action.action_sub_type[0].name}}</td>
+                        <td style="text-align:left"  >{{action.created_at | date:'dd/MM/yyyy'}}</td>
+                        <td style="text-align:left" >{{action.metric_value_before}}</td>
+                        <td style="text-align:left" >{{action.metric_value_after}}</td>
+                        <td style="text-align:left" ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" ><span class="positive_sign">+</span><span class="negative_sign">-</span>  {{roundOff(action.metric_percent_change,0)}}%
+                            <!--ng-class="{positive_td: (action.metric_impacted=({{action.metric_value_after}} - {{action.metric_value_before}})>0) , negative_td:({{action.metric_value_after}} - {{action.metric_value_before}}) <0  }">-->
+                            <!--<span class="positive_sign">+</span><span class="negative_sign">-</span>  {{roundOff(action.metric_percent_change,0)}}%-->
+                        </td>
+                        <td style="text-align:left" >{{action.metric_impacted}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</div>
