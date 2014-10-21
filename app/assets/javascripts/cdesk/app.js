@@ -20,7 +20,7 @@ var angObj = '';
                 templateUrl: 'campaign_details',
                 controller: 'CampaignDetailsController'
             })
-            .when('/campaigns/:campaignId/strategies/:strategyId', {
+            .when('/campaigns/:campaignId/optimization', {
               templateUrl: 'optimization',
               controller: 'OptimizationController'
             })
