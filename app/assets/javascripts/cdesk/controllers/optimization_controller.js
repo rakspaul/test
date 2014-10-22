@@ -102,18 +102,19 @@ var angObj = angObj || {};
 
 
         $scope.loadCdbDataForStrategy = function () {
+
             dataService.getCdbChartData($scope.clicked.orderId, 'lifetime', 'strategies', $scope.clicked.strategy.lineitemId).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    if (!angular.isUndefined($scope.$parent.campaign.kpiType)) {
+                    if (!angular.isUndefined(dataTransferService.getClickedKpiType())) {
                         if (result.data.data.measures_by_days.length > 0) {
                             var maxDays = result.data.data.measures_by_days;
                             for (var i = 0; i < maxDays.length; i++) {
-                                var kpiType = ($scope.$parent.campaign.kpiType),
-                                    kpiTypeLower = angular.lowercase(kpiType);
+                                var kpiTypeLower = angular.lowercase(dataTransferService.getClickedKpiType());
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
-                            $scope.details.chartForStrategy = actionChart.lineChart(lineData, parseFloat($scope.$parent.campaign.kpiValue), $scope.$parent.campaign.kpiType, $scope.$parent.actionItems);
+                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems());
+                            console.log($scope.chartForStrategy);
                         }
                     }
                 }
