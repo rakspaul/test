@@ -1,6 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
+
     angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService,actionChart ) {
 
        var tactics = new Array();
