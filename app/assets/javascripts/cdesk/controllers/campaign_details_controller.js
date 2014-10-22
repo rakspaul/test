@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils,dataTransferService) {
         
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = is_network_user;
@@ -98,6 +98,16 @@
                 }
             }
         });
+
+        $scope.setOptimizationData = function( campaign, action, strategyByActionId){
+            var param = {
+                selectedCampaign :campaign,
+                selectedStrategy : strategyByActionId[action.id],
+                selectedAction : action
+            };
+            dataTransferService.initOptimizationData(param);
+            utils.goToLocation('/campaigns/' +  campaign.orderId + '/optimization');
+        };
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;
