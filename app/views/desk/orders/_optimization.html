@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <div class="reports_top_heading">{{campaignName}}
+    <div class="reports_top_heading">{{clicked.campaignName}}
     </div>
     <div class="reports_tabs clearfix">
 
@@ -76,10 +76,11 @@
 
         <!-- gaurav -->
         <div class="col-md-12">
-            <div ng-if="details.actionChartForStrategy" class="highcharts" id="details_chart">
-                <highchart id="highcharts" config="details.actionChartForStrategy" chartTitle=""></highchart>
+            <div ng-if="details.chartForStrategy" class="highcharts" id="details_chart">
+                <highchart config="details.chartForStrategy" chartTitle=""></highchart>
+
             </div>
-            <div ng-if="!details.actionChartForStrategy" class="highcharts" id="details_chart">
+            <div ng-if="!details.chartForStrategy" class="highcharts" id="details_chart">
                 Data Not Available
             </div>
         </div>

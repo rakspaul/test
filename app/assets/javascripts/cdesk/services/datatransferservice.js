@@ -8,8 +8,8 @@ var angObj = angObj || {} ;
             initOptimizationData : function(param){
                 campaignId = param.selectedCampaign.orderId;
                 campaignName = param.selectedCampaign.campaignTitle ;
-                clickedAction = param.selectedStrategy ;
-                clickedStrategy = param.selectedCampaign ;
+                clickedStrategy = param.selectedStrategy ;
+                clickedAction = param.selectedAction ;
             },
 
             getClickedCampaignId : function(){
