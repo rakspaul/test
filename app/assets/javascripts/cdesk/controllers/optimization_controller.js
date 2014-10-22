@@ -3,7 +3,7 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService,actionChart ) {
 
-
+       var tactics = new Array();
         $scope.init = function () {
 
             $scope.clicked = {};
@@ -13,21 +13,59 @@ var angObj = angObj || {};
             $scope.clicked.orderId = dataTransferService.getClickedCampaignId();
 
             $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
-            console.log("clicked strategy is ");
-            console.log($scope.clicked.strategy);
-
             $scope.lineItemName = $scope.clicked.strategy.lineItemName;
-            $scope.actions = $scope.clicked.strategy.action;
+
+           $scope.loadTableData();
 
             $scope.loadCdbDataForStrategy();
-
         };
+
+
 
         $scope.orderByField = 'created_at';
         $scope.reverseSort = true;
         $scope.sorting = function (orderBy, sortingOrder) {
             $scope.orderByField = orderBy;
             $scope.reverseSort = !$scope.reverseSort;
+
+        };
+
+        $scope.loadTableData = function(){
+            var tacticList = [];
+            var actionItems = $scope.clicked.strategy.action;
+            for(var index in actionItems) {
+                var tactic_id = actionItems[index].ad_id;
+                var grouped = false;
+                if (tacticList.length > 0) {
+
+                    for (var i in tacticList) {
+                        if (tactic_id === tacticList[i].ad_id) {
+                            grouped = true;
+                            tacticList[i].actionList.push(actionItems[index]);
+                            break;
+                        }
+                    }
+                    if (!grouped) {
+                        var tactic = {};
+                        tactic.ad_id = actionItems[index].ad_id;
+                        tactic.ad_name = actionItems[index].ad_name;
+                        tactic.actionList = [];
+                        tactic.actionList.push(actionItems[index]);
+                        tacticList.push(tactic);
+                    }
+                }
+                else {
+                    var tactic = {};
+                    tactic.ad_id = actionItems[index].ad_id;
+                    tactic.ad_name = actionItems[index].ad_name;
+                    tactic.actionList = [];
+                    tactic.actionList.push(actionItems[index]);
+
+                    tacticList.push(tactic);
+
+                }
+            }
+            $scope.tacticList = tacticList ;
 
         };
 
@@ -43,6 +81,14 @@ var angObj = angObj || {};
 
         };
 
+
+        $scope.roundOff = function(value,places) {
+            var factor = Math.pow(10,places);
+            var rounded= Math.round(value*factor)/factor;
+            return Math.abs(rounded);
+        };
+
+
         $scope.formatMetric = function (val1, metricImpacted) {
             if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
                 return '$' + val1;
@@ -52,6 +98,8 @@ var angObj = angObj || {};
             else
                 return val1;
         };
+
+
 
         $scope.loadCdbDataForStrategy = function () {
             dataService.getCdbChartData($scope.clicked.orderId, 'lifetime', 'strategies', $scope.clicked.strategy.lineitemId).then(function (result) {
