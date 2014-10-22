@@ -1,6 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
+
     angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService,actionChart ) {
 
        var tactics = new Array();
@@ -17,8 +18,7 @@ var angObj = angObj || {};
             $scope.lineItemName = $scope.clicked.strategy.lineItemName;
 
            $scope.loadTableData();
-
-            $scope.loadCdbDataForStrategy();
+           $scope.loadCdbDataForStrategy();
         };
 
 
