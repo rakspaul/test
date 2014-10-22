@@ -3,7 +3,7 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart, $timeout) {
 
-        var tactics = new Array();
+       var tactics = new Array();
         $scope.init = function () {
             //To set the active tab for reports
 
@@ -16,7 +16,7 @@ var angObj = angObj || {};
             $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
             $scope.lineItemName = $scope.clicked.strategy.lineItemName;
 
-            $scope.loadTableData();
+           $scope.loadTableData();
 
             $scope.loadCdbDataForStrategy();
         };
@@ -28,6 +28,45 @@ var angObj = angObj || {};
         $scope.sorting = function (orderBy, sortingOrder) {
             $scope.orderByField = orderBy;
             $scope.reverseSort = !$scope.reverseSort;
+
+        };
+
+        $scope.loadTableData = function(){
+            var tacticList = [];
+            var actionItems = $scope.clicked.strategy.action;
+            for(var index in actionItems) {
+                var tactic_id = actionItems[index].ad_id;
+                var grouped = false;
+                if (tacticList.length > 0) {
+
+                    for (var i in tacticList) {
+                        if (tactic_id === tacticList[i].ad_id) {
+                            grouped = true;
+                            tacticList[i].actionList.push(actionItems[index]);
+                            break;
+                        }
+                    }
+                    if (!grouped) {
+                        var tactic = {};
+                        tactic.ad_id = actionItems[index].ad_id;
+                        tactic.ad_name = actionItems[index].ad_name;
+                        tactic.actionList = [];
+                        tactic.actionList.push(actionItems[index]);
+                        tacticList.push(tactic);
+                    }
+                }
+                else {
+                    var tactic = {};
+                    tactic.ad_id = actionItems[index].ad_id;
+                    tactic.ad_name = actionItems[index].ad_name;
+                    tactic.actionList = [];
+                    tactic.actionList.push(actionItems[index]);
+
+                    tacticList.push(tactic);
+
+                }
+            }
+            $scope.tacticList = tacticList ;
 
         };
 
@@ -131,8 +170,6 @@ var angObj = angObj || {};
             else
                 return val1;
         };
-
-
 
 
 
