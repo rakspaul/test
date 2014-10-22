@@ -2,7 +2,7 @@ var angObj = angObj || {} ;
 (function (){
     'use strict';
     angObj.factory("dataTransferService" , function($http){
-         var campaignId = '', clickedAction = '', clickedStrategy = '', campaignName = '', clickedKpiType='', clickedKpiValue='', clickedActionItems='';
+        var campaignId = '', clickedAction = '', clickedStrategy = '', campaignName = '', clickedKpiType='', clickedKpiValue='', clickedActionItems='';
         return {
 
             initOptimizationData : function(param){
@@ -22,7 +22,7 @@ var angObj = angObj || {} ;
                 return campaignName;
             },
             getClickedStrategy : function(){
-               return clickedStrategy;
+                return clickedStrategy;
             },
             getClickedAction : function(){
                 return clickedAction;
