@@ -39,11 +39,11 @@
         <!-- gaurav -->
         <div class="col-md-12">
 
-            <div ng-if="details.chartForStrategy" class="highcharts" id="details_chart">
-                <highchart config="details.chartForStrategy" chartTitle=""></highchart>
+            <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
+                <highchart config="chartForStrategy" chartTitle=""></highchart>
 
             </div>
-            <div ng-if="!details.chartForStrategy" class="highcharts" id="details_chart">
+            <div ng-if="!chartForStrategy" class="highcharts" id="details_chart">
                 Data Not Available
             </div>
         </div>
