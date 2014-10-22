@@ -1,17 +1,20 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, dataService, utils,$http) {
+    angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService ) {
 
-      $scope.setParamsAndLoad =function (orderId,action,strategyByActionId) {
-         $scope.clickedStrategy = strategyByActionId[action.id];
-        utils.goToLocation('/campaigns/' + orderId + '/optimization');
 
-        /*console.log("clicked values: "+orderId);
-        console.log(action);
-        console.log(strategiesById[action.id]);*/
 
-      }
+        $scope.init =function () {
+            $scope.campaignName =  dataTransferService.getClickedCampaignName();
+            $scope.campaingId = dataTransferService.getClickedCampaignId();
+            $scope.clickedStrategy = dataTransferService.getClickedStrategy();
+            $scope.clickedAction = dataTransferService.getClickedAction() ;
+
+            $scope.reachUrl = '/campaigns#/campaigns/'+$scope.campaingId ;
+            console.log("clicked strategy is ");
+            console.log($scope.clickedStrategy);
+      };
 
        $scope.orderByField = 'created_at' ;
        $scope.reverseSort = true;
@@ -19,7 +22,7 @@ var angObj = angObj || {};
             $scope.orderByField = orderBy ;
             $scope.reverseSort = !$scope.reverseSort ;
 
-        }
+        };
 
 
         $scope.colorCoding = function(val1, val2, matricImpacted){
