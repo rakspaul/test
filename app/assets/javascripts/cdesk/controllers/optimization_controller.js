@@ -1,10 +1,9 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart, $timeout) {
 
-    angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService,actionChart ) {
-
-       var tactics = new Array();
+        var tactics = new Array();
         $scope.init = function () {
             //To set the active tab for reports
 
@@ -17,8 +16,9 @@ var angObj = angObj || {};
             $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
             $scope.lineItemName = $scope.clicked.strategy.lineItemName;
 
-           $scope.loadTableData();
-           $scope.loadCdbDataForStrategy();
+            $scope.loadTableData();
+
+            $scope.loadCdbDataForStrategy();
         };
 
 
@@ -29,6 +29,17 @@ var angObj = angObj || {};
             $scope.orderByField = orderBy;
             $scope.reverseSort = !$scope.reverseSort;
 
+        };
+
+
+        $scope.campaignSelected = function(id) {
+            var myContainer = $('#action-container:first');
+            var scrollTo = $('#actionItem_' + id);
+            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+            myContainer.animate({
+                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+            });
+            localStorage.removeItem('actionSel');
         };
 
         $scope.loadTableData = function(){
@@ -68,6 +79,13 @@ var angObj = angObj || {};
                 }
             }
             $scope.tacticList = tacticList ;
+            var action = dataTransferService.getClickedAction();
+            var actionId = action.ad_id+''+action.id;
+            if(actionId !== null) {
+                $timeout(function() {
+                    $scope.campaignSelected(actionId);
+                }, 1000);
+            }
 
         };
 
@@ -90,16 +108,31 @@ var angObj = angObj || {};
             return Math.abs(rounded);
         };
 
+        $scope.goToGraph = function(id) {
+            $("html,body").animate ( {scrollTop:0}, '300');
+        };
+
+        $scope.showSelected = function(id){
+            $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
+            //localStorage.setItem('actionSel' , 'actionItem_'+id);
+        };
+
 
         $scope.formatMetric = function (val1, metricImpacted) {
+
+
             if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
                 return '$' + val1;
-            else if (metricImpacted === "Delivery (Impressions)")
+            else if (metricImpacted === "Delivery (Impressions)") {
+
                 return val1.toLocaleString();
+            }
 
             else
                 return val1;
         };
+
+
 
 
 
@@ -116,11 +149,18 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems(), 1000, 250);
-                           // console.log($scope.chartForStrategy);
                         }
                     }
+
                 }
             });
+        };
+
+        $scope.showIcon = function () {
+            $scope.shouldShowIcon = true;
+        };
+        $scope.hideIcon = function () {
+            $scope.shouldShowIcon = false;
         };
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
