@@ -103,7 +103,8 @@
             var param = {
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
-                selectedAction : action
+                selectedAction : action,
+                selectedActionItems : $scope.actionItems
             };
             dataTransferService.initOptimizationData(param);
             utils.goToLocation('/campaigns/' +  campaign.orderId + '/optimization');
