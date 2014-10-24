@@ -59,7 +59,7 @@
                 });
             }).add();
         };
-        var lineChart = function(lineData, threshold, kpiType, actionItems) {
+        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height) {
             var data = [];
             for (var i = 0; i < lineData.length; i++) {
                 var chartData = lineData[i]['date'].split("-");
@@ -74,8 +74,8 @@
             return {
                 options: {
                     chart: {
-                        width: 400,
-                        height: 330,
+                        width: width ? width: 400,
+                        height: height ? height : 330,
                         margin: [20, 0, 50, 60]
                     },
                     title: {
