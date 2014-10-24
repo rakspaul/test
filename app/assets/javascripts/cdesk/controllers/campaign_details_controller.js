@@ -10,7 +10,7 @@
         $scope.details = {
                 campaign: null,
                 details: null
-            }
+            };
         //API call for campaign details
         var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
 
@@ -64,6 +64,14 @@
             }
         };
 
+        $scope.makeCampaignSelected = function(id) {
+            var myContainer = $('#action-container:first');
+            var scrollTo = $('#actionItem_' + id);
+            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+            myContainer.animate({
+                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+            });
+        };
 
         //API call for campaign chart
         dataService.getCdbChartData($routeParams.campaignId, 'lifetime', 'campaigns', null).then(function (result) {
@@ -78,6 +86,9 @@
                             lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                         }
                         $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330);
+                        if(localStorage.getItem('actionSel' ) !== null) {
+                            $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
+                        }
                     }
                 }
             }
@@ -96,5 +107,8 @@
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
     });
+
 }());

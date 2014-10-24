@@ -73,8 +73,8 @@
     <div class="one_section_report_heading">
         {{tactic.ad_name}}
     </div>
-    <div class="reports_section_details_container reports_section_details_more">
-        <div class="each_reports_row each_reports_row_details"  ng-repeat="action in tactic.actionList">
+    <div class="reports_section_details_container reports_section_details_more" id="action-container">
+        <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList" id="actionItem_{{action.ad_id}}{{action.id}}">
             <div class="each_rep_col_holder clearfix" >
                 <div class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
                 <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
@@ -96,7 +96,7 @@
                 <div class="each_report_text_col report_text">{{action.comment}}</div>
             </div>
         </div>
-        <div class="load_more_rows">&#9660;</div>
+        <div class="load_more_rows">&#9660;</div><!-- data-ng-click="loadTableData( (tactic.actionList / 3 ) + 1)"-->
     </div>
 </div>
 </div>

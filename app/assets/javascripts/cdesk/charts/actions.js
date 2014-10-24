@@ -7,6 +7,7 @@
             return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
         }
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment) {
+
             var text, textBG;
             //full customisation for flags/markers
             chart.renderer.circle(xPos, yPos, 7).attr({
@@ -53,6 +54,7 @@
                 //click and scroll action functionality
                 var myContainer = $('#action-container:first');
                 var scrollTo = $('#actionItem_' + this.id);
+                localStorage.setItem('actionSel' , this.id);
                 scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
                 myContainer.animate({
                     scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
@@ -197,15 +199,22 @@
                 func: function(chart) {
                     //drawMarker(chart, 200,280,null,965192010);
                     //chart.renderer.image('/assets/cdesk/icn_goal.png', 0, 100, 17, 17);
-                    //height: 300 + Math.round(testData[0][0] / 100) * 100add();      
+                    //height: 300 + Math.round(testData[0][0] / 100) * 100add();
+
                     $timeout(function() {
+                        /*actionItems[0].created_at = 1396310400000;
+                        actionItems[1].created_at = 1396396800000;//1413459349308;
+                        actionItems[2].created_at = 1396483200000;//1413465390116;
+                        actionItems[3].created_at = 1398038400000;*/
                         var counter = 0, flag = [], position = 0 ;
                         if(actionItems) {
+
                             for(i = chart.series[0].data.length-1; i >= 0; i--) {
                                 position = 0;
                                 for(var j = actionItems.length-1; j >= 0 ; j--) {
                                     var dateUTC = new Date(actionItems[j].created_at);
                                     var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+
                                     if(chart.series[0].data[i].x == actionUTC){
                                         if(flag[actionUTC] === undefined){
                                             flag[actionUTC] = 1;
