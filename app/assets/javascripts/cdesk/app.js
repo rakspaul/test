@@ -17,6 +17,7 @@ var angObj = '';
       'underscore']
   );
 
+
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/campaigns', {
@@ -57,6 +58,7 @@ var angObj = '';
     });
 
     angObj.run(function ($rootScope, $location, $cookies) {
+
         $rootScope.$on('$locationChangeStart', function () {
             if (($cookies.token === undefined) && ($location.path() !== '/login')) {
              //   $location.url('/login');

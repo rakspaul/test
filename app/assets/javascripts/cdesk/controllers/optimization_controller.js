@@ -5,6 +5,7 @@ var angObj = angObj || {};
 
        var tactics = new Array();
         $scope.init = function () {
+            //To set the active tab for reports
 
             $scope.clicked = {};
             $scope.clicked.strategy = dataTransferService.getClickedStrategy();
@@ -65,6 +66,7 @@ var angObj = angObj || {};
 
                 }
             }
+            console.log(tacticList);
             $scope.tacticList = tacticList ;
 
         };
@@ -113,7 +115,7 @@ var angObj = angObj || {};
                                 var kpiTypeLower = angular.lowercase(dataTransferService.getClickedKpiType());
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
-                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems());
+                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems(), 1000, 250);
                             console.log($scope.chartForStrategy);
                         }
                     }
