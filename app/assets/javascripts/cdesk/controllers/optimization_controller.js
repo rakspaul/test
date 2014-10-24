@@ -34,6 +34,7 @@ var angObj = angObj || {};
         $scope.loadTableData = function(){
             var tacticList = [];
             var actionItems = $scope.clicked.strategy.action;
+
             for(var index in actionItems) {
                 var tactic_id = actionItems[index].ad_id;
                 var grouped = false;
@@ -66,7 +67,6 @@ var angObj = angObj || {};
 
                 }
             }
-            console.log(tacticList);
             $scope.tacticList = tacticList ;
 
         };
@@ -116,12 +116,13 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems(), 1000, 250);
-                            console.log($scope.chartForStrategy);
+                           // console.log($scope.chartForStrategy);
                         }
                     }
                 }
             });
         };
-
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
     });
 }());

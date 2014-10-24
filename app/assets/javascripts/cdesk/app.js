@@ -46,6 +46,7 @@ var angObj = '';
      * */
     angObj.constant('common', {
         title: 'Collective Desk',
+        selectTab:$("ul.nav:first").find('.active').removeClass('active').end(),
 //        useTempData:'tempdata' //null for actual api endpoint
         useTempData: null
     });
