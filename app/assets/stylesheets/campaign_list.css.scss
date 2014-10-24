@@ -1773,7 +1773,7 @@ button, i, input[type="submit"] {
   text-overflow: ellipsis;
 }
 .each_rep_col_holder .first_col {
-  width: 150px ;
+  width: 140px ;
 }
 .each_reports_row_details .each_rep_col_holder .first_col {
   text-align: left;
@@ -1790,18 +1790,20 @@ button, i, input[type="submit"] {
   font-weight: bold ;
   margin-right : 5px ;
 }
-.each_rep_col_holder .each_rep_col.positive_text {
+/*.each_rep_col_holder .each_rep_col.positive_text {
   color: #78bb68;
 
-}
+}*/
 .each_rep_col_holder .each_rep_col .arrow_img {
   display: inline-block;
   height: 11px;
   width: 8px;
 }
+
 .each_rep_col_holder .each_rep_col.negative_text  {
   color: #f74d51 ;
 }
+
 .each_report_text_row .report_text {
   font-style: italic;
   margin-left : 20px ;
@@ -2069,8 +2071,8 @@ button, i, input[type="submit"] {
 }
 
 .endOfRow {
-  clear: both ;
-
+  clear: both;
+}
 
 .each_reports_row .positive_td {
   color: #78bb68;
@@ -2082,6 +2084,18 @@ button, i, input[type="submit"] {
 
   padding-left: 0px;
 }
+
+.each_reports_row span.positive_sign , .each_reports_row span.negative_sign  {
+  display: none;
+}
+.each_reports_row .negative_td span.negative_sign  {
+  /*    margin-right: 6px;*/
+  display: inline-block;
+}
+.each_reports_row .positive_td span.positive_sign  {
+  display: inline-block;
+}
+
 .each_rep_col_holder .each_rep_col.negative_td .arrow_img {
   background: url(asset-path("cdesk/red_arrow.png")) no-repeat right bottom ;
 }
