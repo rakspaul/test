@@ -4,10 +4,12 @@
             <div><span class={{campaign.status}}></span></div>
             <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
             <div class="edit-stats-icons">
-                <div>
-                    <a href="orders/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)">
+                <div class="action_with_val">
+                    <a href="orders/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder">
                         <span class="icons-bckground" id="icon-campaign-edit"></span>
+                        <span class="action_bubble">10</span>
                     </a>
+
                 </div>
                 <div>
                     <a href="reports/reports/{{campaign.orderId}}" ng-click="campaigns.campaignReports(campaign)">

@@ -533,6 +533,25 @@ button, i, input[type="submit"] {
         @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
         &.edit-stats-icons {
           margin-top: 60px;
+          .action_bubble {
+
+            position: absolute;
+            top: -16px;
+            right: -2px;
+            height: 15px;
+            width: 15px;
+            color: #fff;
+            background: #007ac9;
+            border-radius: 15px;
+            font-size: 8px;
+            text-align: center;
+            padding: 3px 2px 0 0px;
+
+            } 
+            .action_bubble_holder {
+              position: relative;
+              display: inline-block;
+            }
           #icon-campaign-edit.icons-bckground {
             background: url(asset-path("icn_act_edit.png")) no-repeat scroll 0 0 #EBAB34;
             border-radius: 20px;
