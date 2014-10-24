@@ -9,6 +9,7 @@ var angObj = '';
         'highcharts-ng',
         'infinite-scroll'
     ]);
+    //var bannerSelect = $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
 
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
@@ -50,6 +51,7 @@ var angObj = '';
     });
 
     angObj.run(function ($rootScope, $location, $cookies) {
+
         $rootScope.$on('$locationChangeStart', function () {
             if (($cookies.token === undefined) && ($location.path() !== '/login')) {
              //   $location.url('/login');
