@@ -9,13 +9,13 @@
 
       //API for campaign list //TODO: change - no parameters
       getCampaignActiveInactive: function (urlPath) {
-        if (common.useTempData) {
+        /*if (!common.useTempData) {*/
           //mock data
           return $http({url: urlPath, method: 'GET', cache: true}).then(
             function (response) {
               return {
                 status: "success",
-                data: response.data
+                data: response.data.data
               };
             },
             function (error) {
@@ -25,7 +25,7 @@
               };
             }
           );
-        } else {
+        /*} else {
           // live data
           return $http.jsonp(urlPath)
             .success(function (data, status, headers, config) {
@@ -41,7 +41,7 @@
                 data: "error"
               };
             });
-        }
+        }*/
       },
       getSingleCampaign: function (urlPath) {
         return $http({url: urlPath, method: 'GET', cache: true}).then(

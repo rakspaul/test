@@ -39,7 +39,7 @@
     });
 
 
-    angObj.factory("Campaigns", function($http, dataService, campaign, campaign_api, modelTransformer, CampaignData) {
+    angObj.factory("Campaigns", function($http, dataService, campaign, apiPaths, modelTransformer, CampaignData) {
 
         var Campaigns = function() {
             this.timePeriodList = buildTimePeriodList();
@@ -104,7 +104,7 @@
                 this.busy = true;
                 var self = this,
                     url = Campaigns.prototype._campaignServiceUrl.call(this);
-                console.log('fetching campaigns: ' + url);
+                console.log('fetching from new campaigns api: ' + url);
                 dataService.getCampaignActiveInactive(url).then(function(result) {
                     self.nextPage += 1;
                     self.marketerName = result.data.marketer_name;
@@ -246,14 +246,14 @@
 
             Campaigns.prototype._campaignServiceUrl = function() {
                 var params = [
-                    'filter[date_filter]=' + this.timePeriod,
+                    'date_filter=' + this.timePeriod,
                     'page=' + this.nextPage,
                     'callback=JSON_CALLBACK'
                 ];
-                this.brandId > 0 && params.push('filter[advertiser_filter]=' + this.brandId);
+                this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
                 this.sortParam && params.push('sort_column=' + this.sortParam);
                 this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                return campaign_api + '/campaigns.js?' + params.join('&');
+                return apiPaths.newCampaignsApi + '/desk/campaigns/'+user_id+'?' + params.join('&');
             };
 
         var toggleSortDirection = function(dir) {
