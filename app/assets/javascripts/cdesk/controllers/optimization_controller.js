@@ -78,7 +78,6 @@ var angObj = angObj || {};
 
                 }
             }
-            console.log(tacticList);
             $scope.tacticList = tacticList ;
             var action = dataTransferService.getClickedAction();
             var actionId = action.ad_id+''+action.id;
