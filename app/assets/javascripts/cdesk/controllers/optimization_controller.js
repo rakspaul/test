@@ -235,6 +235,7 @@ var angObj = angObj || {};
         $scope.hideIcon = function (id) {
             $scope.iconIdToShow = -1;
         };
+
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
     });
