@@ -1773,7 +1773,7 @@ button, i, input[type="submit"] {
   text-overflow: ellipsis;
 }
 .each_rep_col_holder .first_col {
-  width: 140px ;
+  width: 150px ;
 }
 .each_reports_row_details .each_rep_col_holder .first_col {
   text-align: left;
@@ -1790,20 +1790,18 @@ button, i, input[type="submit"] {
   font-weight: bold ;
   margin-right : 5px ;
 }
-/*.each_rep_col_holder .each_rep_col.positive_text {
+.each_rep_col_holder .each_rep_col.positive_text {
   color: #78bb68;
 
-}*/
+}
 .each_rep_col_holder .each_rep_col .arrow_img {
   display: inline-block;
   height: 11px;
   width: 8px;
 }
-
 .each_rep_col_holder .each_rep_col.negative_text  {
   color: #f74d51 ;
 }
-
 .each_report_text_row .report_text {
   font-style: italic;
   margin-left : 20px ;
