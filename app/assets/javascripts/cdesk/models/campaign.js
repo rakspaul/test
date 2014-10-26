@@ -155,7 +155,7 @@
                         totalMediaCost: Math.round(dataArr[obj].total_media_cost),
                         expectedMediaCost: Math.round(dataArr[obj].expected_media_cost || 0),
                         lineitemsCount: dataArr[obj].lineitems_count,
-                        actionsCount: dataArr[obj].actions_count,
+                        actionsCount: dataArr[obj].actions_count || 0,
                         campaignStrategies:null,
                         campaignStrategiesLoadMore:null
                     });
