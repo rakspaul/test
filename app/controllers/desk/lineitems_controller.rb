@@ -11,7 +11,7 @@ class Desk::LineitemsController < LineitemsController
       lineitem.ads.load
 
       ads_count = lineitem.ads.inject(0) {|count| count = count + 1; count}
-      puts ads_count
+      
       if  ads_count > 0
 
         if lineitem.ads.select{|ad| ad.status == Ad::DELIVERING}.first
