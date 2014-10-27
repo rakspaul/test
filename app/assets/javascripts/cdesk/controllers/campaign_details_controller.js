@@ -26,7 +26,7 @@
             console.log('call failed');
         });
 
-        var actionUrl = apiPaths.actionDetails + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
+        var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
 
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [] , counter = 0;   

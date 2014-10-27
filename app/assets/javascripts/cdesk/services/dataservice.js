@@ -147,7 +147,7 @@
       },
 
       getActions: function () {
-        var url = apiPaths.actionDetails + '/actionTypes';
+        var url = apiPaths.apiSerivicesUrl + '/actionTypes';
         return this.fetch(url);
       },
 
@@ -162,7 +162,7 @@
       },
 
       createAction: function (data) {
-        var url = apiPaths.actionDetails + '/actions';
+        var url = apiPaths.apiSerivicesUrl + '/actions';
         return this.post(url, data);
       },
 

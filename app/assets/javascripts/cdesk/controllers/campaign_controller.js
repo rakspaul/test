@@ -253,7 +253,7 @@
                 this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
                 this.sortParam && params.push('sort_column=' + this.sortParam);
                 this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                return apiPaths.newCampaignsApi + '/desk/campaigns/'+user_id+'?' + params.join('&');
+                return apiPaths.apiSerivicesUrl + '/desk/campaigns?user_id='+user_id+'&' + params.join('&');
             };
 
         var toggleSortDirection = function(dir) {

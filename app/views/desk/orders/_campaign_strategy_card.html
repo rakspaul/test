@@ -5,9 +5,9 @@
             <div><span class="marg-10"> {{campaign.status | toCamelCase}}  </span></div>
             <div class="edit-stats-icons">
                 <div class="action_with_val">
-                    <a href="orders/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder">
+                    <a ng-click="goToLocation('/campaigns/' + campaign.orderId)" class="action_bubble_holder">
                         <span class="icons-bckground" id="icon-campaign-edit"></span>
-                        <span class="action_bubble">{{campaign.actionsCount}}</span>
+                        <span class="action_bubble" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
                     </a>
 
                 </div>

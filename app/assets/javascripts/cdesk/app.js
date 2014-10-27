@@ -33,8 +33,7 @@ var angObj = '';
 
     var urlPaths = {
         campaignDetails: 'https://qa-desk.collective.com',
-        actionDetails: 'http://qa-desk.collective.com:9000',
-        newCampaignsApi: 'http://dev-desk.collective-media.net:9000'
+        apiSerivicesUrl: 'http://dev-desk.collective-media.net:9000'
     };
     angObj.constant('apiPaths', urlPaths);
 
