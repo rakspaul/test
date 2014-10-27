@@ -30,7 +30,7 @@
 
 
 </div>
-<div class="reports_graph_top_section" >
+<div class="reports_graph_top_section" id="graph" >
     <div class="rep_graph_heading">
         Toyota Camry for Female HHI
 
@@ -59,11 +59,7 @@
         <div class="each_rep_col first_col">Optimization Type</div>
         <div class="each_rep_col sec_col">Date Optimized</div>
         <div class="each_rep_col third_col">Metric</div>
-        <div class="each_rep_col forth_col">Date from</div>
-        <div class="each_rep_col fifth_col">Date to</div>
         <div class="each_rep_col sixth_col">Value</div>
-        <div class="each_rep_col seventh_col">Date from</div>
-        <div class="each_rep_col eight_col">Date to</div>
         <div class="each_rep_col nine_col">Value</div>
         <div class="each_rep_col ten_col">Change %</div>
     </div>
@@ -73,19 +69,18 @@
 <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" >
     <div class="one_section_report_heading">
         {{tactic.ad_name}}
+        <span style="float:right;"><a ng-click="goToGraph()"> Graph</a></span>
     </div>
+
     <div class="reports_section_details_container reports_section_details_more" id="action-container">
         <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList" id="actionItem_{{action.ad_id}}{{action.id}}">
             <div class="each_rep_col_holder clearfix" >
-                <div class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
+                <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
                 <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                <div class="each_rep_col third_col">{{action.metric_impacted}}</div>
-                <div class="each_rep_col forth_col">29 Sep 2014</div>
-                <div class="each_rep_col fifth_col">29 Sep 2014</div>
-                <div class="each_rep_col sixth_col">{{action.metric_value_before}}</div>
-                <div class="each_rep_col seventh_col">29 Sep 2014</div>
-                <div class="each_rep_col eight_col">29 Sep 2014</div>
-                <div class="each_rep_col nine_col">{{action.metric_value_after}}</div>
+                <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
+
+                <div class="each_rep_col sixth_col">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
+                <div class="each_rep_col nine_col">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
                 <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
                     <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
                     <span class="arrow_img"></span>
@@ -93,8 +88,8 @@
             </div>
             <div class="each_report_text_row clearfix">
                 <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
-                <div class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
-                <div class="each_report_text_col report_text">{{action.comment}}</div>
+                <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
+                <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
             </div>
         </div>
         <div class="load_more_rows">&#9660;</div><!-- data-ng-click="loadTableData( (tactic.actionList / 3 ) + 1)"-->
