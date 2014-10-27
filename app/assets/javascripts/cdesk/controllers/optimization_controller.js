@@ -216,12 +216,11 @@ var angObj = angObj || {};
         };
 
         $scope.showIcon = function () {
-            $scope.shouldShowIcon = true;
+          $scope.shouldShowIcon = true;
         };
         $scope.hideIcon = function () {
-            $scope.shouldShowIcon = false;
+          $scope.shouldShowIcon = false;
         };
-
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
     });
