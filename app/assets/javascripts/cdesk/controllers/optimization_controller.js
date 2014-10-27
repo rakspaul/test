@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart, $timeout) {
 
        var tactics = new Array();
         $scope.init = function () {
@@ -29,6 +29,16 @@ var angObj = angObj || {};
             $scope.orderByField = orderBy;
             $scope.reverseSort = !$scope.reverseSort;
 
+        };
+
+
+        $scope.campaignSelected = function(id) {
+            var myContainer = $('#action-container:first');
+            var scrollTo = $('#actionItem_' + id);
+            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+            myContainer.animate({
+                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+            });
         };
 
         $scope.loadTableData = function(){
@@ -68,6 +78,14 @@ var angObj = angObj || {};
                 }
             }
             $scope.tacticList = tacticList ;
+            var action = dataTransferService.getClickedAction();
+            var actionId = action.ad_id+''+action.id;
+            console.log($location.path());
+            if(actionId !== null) {
+                $timeout(function() {
+                    $scope.campaignSelected(actionId);
+                }, 1000);
+            }
 
         };
 
@@ -110,14 +128,7 @@ var angObj = angObj || {};
                 return val1;
         };
 
-        $scope.campaignSelected = function(id) {
-            var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
-        };
+
 
 
 
@@ -137,12 +148,7 @@ var angObj = angObj || {};
                            // console.log($scope.chartForStrategy);
                         }
                     }
-                    var action = dataTransferService.getClickedAction();
-                    var actionId = action.ad_id+''+action.id;
-                    console.log($location.path());
-                    if(actionId !== null) {
-                        $scope.campaignSelected(actionId);
-                    }
+
                 }
             });
         };
