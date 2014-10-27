@@ -1754,9 +1754,6 @@ button, i, input[type="submit"] {
   font-family: "Avenir" ;
   border-bottom: solid 1px #ccc;
 }
-.each_reports_row_details:hover {
-  background: rgba(169, 212, 121 , 0.3);
-}
 .each_reports_row_heading {
   font-family: "Trade-Gothic-LT-Bold-Condensed-N-2" ;
   color: #4a4a4a ;
@@ -2104,6 +2101,11 @@ button, i, input[type="submit"] {
   background-color: rgba(169, 212, 121, 0.3);
 }
 
+.graph_icon {
+  float:right;
+  width: 20px;
+  height: 20px;
+}
 
 
 
