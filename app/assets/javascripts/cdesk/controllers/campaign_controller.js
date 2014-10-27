@@ -31,6 +31,26 @@
             }
         };
 
+        $scope.loadMoreTactics = function(strategyId, campaignId) {
+            var campaignArray = $scope.campaigns.campaignList,
+                pageSize = 3;
+            for (var index in campaignArray) {
+                if (campaignArray[index].orderId === parseInt(campaignId)) {
+                    for (var i in campaignArray[index].campaignStrategies) {
+                        if (campaignArray[index].campaignStrategies[i].id === parseInt(strategyId)) {
+                            var loadMoreData = campaignArray[index].campaignStrategies[i].strategyTacticsLoadMore;
+                            if (loadMoreData.length) {
+                                var moreData = loadMoreData.splice(0, pageSize)
+                                for (var len = 0; len < moreData.length; len++) {
+                                    $scope.campaigns.campaignList[index].campaignStrategies[i].strategyTactics.push(moreData[len]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
         $scope.goToLocation = function(url) {
             utils.goToLocation(url);
         };

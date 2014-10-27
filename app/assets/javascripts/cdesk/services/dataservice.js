@@ -141,6 +141,11 @@
         }//end of check
       },
 
+      getStrategyTacticList: function(strategyId){
+        var url = apiPaths.apiSerivicesUrl + '/strategy/' + strategyId + '/tactics';
+        return this.fetch(url);
+      },
+
       getBrands: function () {
         var url = '/desk/advertisers.json';
         return this.fetch(url);

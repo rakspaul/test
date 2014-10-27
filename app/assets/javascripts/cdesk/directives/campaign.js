@@ -84,9 +84,18 @@
                     }          
                 };
 
+                $scope.showTactics = function(strategyId, tacticsCount) {
+                      $('#tactics-accordion-' + strategyId).toggle();       
+                };
+
                 //This will call the Parent controllers loadMoreStrategies function
                 $scope.loadMoreStrategies = function(campaignId) {
                     $scope.$parent.loadMoreStrategies(campaignId);         
+                };
+
+                //This will call the Parent controllers loadMoreTactics function
+                $scope.loadMoreTactics = function(strategyId, campaignId) {
+                    $scope.$parent.loadMoreTactics(strategyId, campaignId);         
                 };
 
                 //This is called when the user clicks on the campaign title
