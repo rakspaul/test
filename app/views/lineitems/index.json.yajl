@@ -25,7 +25,7 @@ json = @lineitems.map do |lineitem|
     selected_key_values: [],
     frequency_caps:      [],
     dfp_url:            lineitem.dfp_url,
-    ad_count:           lineitem.ads.count
+    ads_count:          lineitem.ads.count
   }
 
   if lineitem.video?
