@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, dataService, utils, $http,dataTransferService,actionChart ) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart ) {
 
        var tactics = new Array();
         $scope.init = function () {
@@ -90,12 +90,21 @@ var angObj = angObj || {};
             return Math.abs(rounded);
         };
 
+        $scope.goToGraph = function() {
+            $location.hash('graph');
+            $anchorScroll;
+        };
+
 
         $scope.formatMetric = function (val1, metricImpacted) {
+
+
             if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
                 return '$' + val1;
-            else if (metricImpacted === "Delivery (Impressions)")
+            else if (metricImpacted === "Delivery (Impressions)") {
+
                 return val1.toLocaleString();
+            }
 
             else
                 return val1;
