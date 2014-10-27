@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart ) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart) {
 
        var tactics = new Array();
         $scope.init = function () {
@@ -139,6 +139,7 @@ var angObj = angObj || {};
                     }
                     var action = dataTransferService.getClickedAction();
                     var actionId = action.ad_id+''+action.id;
+                    console.log($location.path());
                     if(actionId !== null) {
                         $scope.campaignSelected(actionId);
                     }
