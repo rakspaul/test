@@ -81,7 +81,6 @@ var angObj = angObj || {};
             $scope.tacticList = tacticList ;
             var action = dataTransferService.getClickedAction();
             var actionId = action.ad_id+''+action.id;
-            console.log($location.path());
             if(actionId !== null) {
                 $timeout(function() {
                     $scope.campaignSelected(actionId);
@@ -169,6 +168,11 @@ var angObj = angObj || {};
 
         $scope.goToGraph = function(id) {
             $("html,body").animate ( {scrollTop:0}, '300');
+        };
+
+        $scope.showSelected = function(id){
+            $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
+            //localStorage.setItem('actionSel' , 'actionItem_'+id);
         };
 
         $scope.showSelected = function(id){
