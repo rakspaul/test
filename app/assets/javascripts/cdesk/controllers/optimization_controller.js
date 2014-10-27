@@ -206,15 +206,6 @@ var angObj = angObj || {};
                 return val1;
         };
 
-        $scope.campaignSelected = function(id) {
-            var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
-        };
-
 
 
 
@@ -233,12 +224,7 @@ var angObj = angObj || {};
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems(), 1000, 250);
                         }
                     }
-                    var action = dataTransferService.getClickedAction();
-                    var actionId = action.ad_id+''+action.id;
-                    console.log($location.path());
-                    if(actionId !== null) {
-                        $scope.campaignSelected(actionId);
-                    }
+
                 }
             });
         };
