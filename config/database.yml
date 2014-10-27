@@ -4,7 +4,7 @@ login: &common
   username: postgres
   password: 
   host: localhost
-  port: 5433
+  port: 5432
   database: amp
   min_messages: warning # silence the NOTICE: messages from postgres
 
