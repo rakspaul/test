@@ -1,94 +1,94 @@
-
 <div class="campaign-list-container" data-ng-init="init()">
-<div id="detailedPage" class="container">
+    <div id="detailedPage" class="container">
 
 
 
-</div>
-
-
-<div class="total_reports_page">
-
-<div class="reports_header_section">
-    <!--<div class="back_link" href="{{reach}}">< Back to campaign</div>-->
-    <a class="back_link" href={{reachUrl}} >< Back to campaign</a>
-
-    <div class="row campaigns_dropdown_reports clearfix">
-        <div class="pull-left nice_dd" campaign-list="">
-        </div>
-    </div>
-
-    <div class="reports_top_heading">{{clicked.campaignName}}
-    </div>
-    <div class="reports_tabs clearfix">
-
-        <span>Metrics</span>
-        <span>Domain</span>
-        <span>Cost</span>
-        <span class="report_tab_sel">Optimization Impact</span>
     </div>
 
 
-</div>
-<div class="reports_graph_top_section" id="graph" >
-    <div class="rep_graph_heading">
-        Toyota Camry for Female HHI
+    <div class="total_reports_page">
 
-        <!-- gaurav -->
-        <div class="col-md-12">
-            <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
-                <highchart config="chartForStrategy" chartTitle=""></highchart>
+        <div class="reports_header_section">
+            <!--<div class="back_link" href="{{reach}}">< Back to campaign</div>-->
+            <a class="back_link" href={{reachUrl}} >< Back to campaign</a>
 
-            </div>
-            <div ng-if="!chartForStrategy" class="highcharts" id="details_chart">
-                Data Not Available
-            </div>
-        </div>
-        <!-- gaurav -->
-    </div>
-    <div class="rep_graph_holder">
-    </div>
-</div>
-
-<div class="each_reports_row each_reports_row_heading">
-    <div class="each_rep_col_holder clearfix">
-        <div class="each_rep_col first_col">Optimization Type</div>
-        <div class="each_rep_col sec_col">Date Optimized</div>
-        <div class="each_rep_col third_col">Metric</div>
-        <div class="each_rep_col sixth_col">Before Value</div>
-        <div class="each_rep_col nine_col">After Value</div>
-        <div class="each_rep_col ten_col">Change %</div>
-    </div>
-
-</div>
-
-<div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" >
-    <div class="one_section_report_heading">
-        {{tactic.ad_name}}
-    </div>
-
-    <div class="reports_section_details_container reports_section_details_more" id="action-container">
-        <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon()" ng-mouseleave="hideIcon()">
-            <div class="each_rep_col_holder clearfix" >
-                <img id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="shouldShowIcon" src="assets/cdesk/graphIcon.png" class="graph_icon"/>
-                <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
-                <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
-
-                <div class="each_rep_col sixth_col">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
-                <div class="each_rep_col nine_col">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
-                <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
-                    <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
-                    <span class="arrow_img"></span>
+            <div class="row campaigns_dropdown_reports clearfix">
+                <div class="pull-left nice_dd" campaign-list="">
                 </div>
             </div>
-            <div class="each_report_text_row clearfix">
-                <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
-                <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
-                <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
+
+            <div class="reports_top_heading">{{clicked.campaignName}}
+            </div>
+            <div class="reports_tabs clearfix">
+
+                <span>Metrics</span>
+                <span>Domain</span>
+                <span>Cost</span>
+                <span class="report_tab_sel">Optimization Impact</span>
+            </div>
+
+
+        </div>
+        <div class="reports_graph_top_section" id="graph" >
+            <div class="rep_graph_heading">
+                Toyota Camry for Female HHI
+
+                <!-- gaurav -->
+                <div class="col-md-12">
+                    <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
+                        <highchart config="chartForStrategy" chartTitle=""></highchart>
+
+                    </div>
+                    <div ng-if="!chartForStrategy" class="highcharts" id="details_chart">
+                        Data Not Available
+                    </div>
+                </div>
+                <!-- gaurav -->
+            </div>
+            <div class="rep_graph_holder">
             </div>
         </div>
-        <div class="load_more_rows">&#9660;</div><!-- data-ng-click="loadTableData( (tactic.actionList / 3 ) + 1)"-->
+
+        <div class="each_reports_row each_reports_row_heading">
+            <div class="each_rep_col_holder clearfix">
+                <div class="each_rep_col first_col">Optimization Type</div>
+                <div class="each_rep_col sec_col">Date Optimized</div>
+                <div class="each_rep_col third_col">Metric</div>
+                <div class="each_rep_col sixth_col">Before Value</div>
+                <div class="each_rep_col nine_col">After Value</div>
+                <div class="each_rep_col ten_col">Change %</div>
+            </div>
+
+        </div>
+
+        <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" >
+            <div class="one_section_report_heading">
+                {{tactic.ad_name}}
+            </div>
+
+            <div class="reports_section_details_container reports_section_details_more" id="action-container">
+                <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id)">
+                    <div class="each_rep_col_holder clearfix" >
+                        <img id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id" src="assets/cdesk/graphIcon.png" class="graph_icon"/>
+                        <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
+                        <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                        <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
+
+                        <div class="each_rep_col sixth_col">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
+                        <div class="each_rep_col nine_col">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
+                        <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
+                            <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
+                            <span class="arrow_img"></span>
+                        </div>
+                    </div>
+                    <div class="each_report_text_row clearfix">
+                        <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
+                        <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
+                        <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
+                    </div>
+                </div>
+
+                <div class="load_more_rows">&#9660;</div>
+            </div>
+        </div>
     </div>
-</div>
-</div>
