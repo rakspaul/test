@@ -27,13 +27,13 @@ var angObj = '';
             .otherwise({redirectTo: 'campaigns'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
-
+    //new campaigns api
     angObj.constant('campaign_api', '');
     angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
 
     var urlPaths = {
         campaignDetails: 'https://qa-desk.collective.com',
-        actionDetails: 'http://qa-desk.collective.com:9000'
+        apiSerivicesUrl: 'http://dev-desk.collective-media.net:9000'
     };
     angObj.constant('apiPaths', urlPaths);
 

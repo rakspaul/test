@@ -24,7 +24,8 @@
       return this.roundOff(this.ctr, 2);
     }
     this.map = function (value) {
-      return eval('this.'+value);
+      return this[value];
+      //return eval('this.'+value);
     }
     this.roundOff = function (value, places) {
       var factor = Math.pow(10, places);

@@ -49,6 +49,7 @@
                     });
                     getStrategyCdbLineChart(index, strategyObj, timePeriod, campaignId, kpiType, kpiValue);
                     getStrategyMetrics(index, strategyObj, timePeriod, campaignId);
+                    //getTacticList
                 }
                 return strategyObj;
             };
@@ -147,13 +148,14 @@
                         toSuffix: utils.formatDate(dataArr[obj].end_date),
                         campaignTitle: dataArr[obj].name,
                         brandName: dataArr[obj].brand_name,
-                        status : dataArr[obj].status || 'draft',
-                        kpiType : dataArr[obj].kpi_type,
-                        kpiValue : dataArr[obj].kpi_value,
+                        status: dataArr[obj].status || 'draft',
+                        kpiType: dataArr[obj].kpi_type,
+                        kpiValue: dataArr[obj].kpi_value,
                         totalImpressions: dataArr[obj].total_impressions,
                         totalMediaCost: Math.round(dataArr[obj].total_media_cost),
                         expectedMediaCost: Math.round(dataArr[obj].expected_media_cost || 0),
-                        lineitemsCount : dataArr[obj].lineitems_count,
+                        lineitemsCount: dataArr[obj].lineitems_count,
+                        actionsCount: dataArr[obj].actions_count || 0,
                         campaignStrategies:null,
                         campaignStrategiesLoadMore:null
                     });
