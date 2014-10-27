@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils,dataTransferService) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils,dataTransferService, $location) {
         
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = is_network_user;
@@ -102,7 +102,11 @@
                             lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                         }
                         $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330);
-                        if(localStorage.getItem('actionSel' ) !== null) {
+                        var str = $location.path()
+                        str = str.split('/');
+                        var url = str[str.length - 1];
+                        console.log(str[str.length - 1]);
+                        if((localStorage.getItem('actionSel' ) !== null) && (url != optimization)) {
                             $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                         }
                     }
@@ -118,6 +122,7 @@
                 selectedActionItems : $scope.actionItems
             };
             dataTransferService.initOptimizationData(param);
+
             utils.goToLocation('/campaigns/' +  campaign.orderId + '/optimization');
         };
 

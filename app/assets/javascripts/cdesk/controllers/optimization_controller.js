@@ -235,6 +235,7 @@ var angObj = angObj || {};
                     }
                     var action = dataTransferService.getClickedAction();
                     var actionId = action.ad_id+''+action.id;
+                    console.log($location.path());
                     if(actionId !== null) {
                         $scope.campaignSelected(actionId);
                     }
