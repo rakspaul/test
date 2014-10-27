@@ -109,9 +109,8 @@ var angObj = angObj || {};
             return Math.abs(rounded);
         };
 
-        $scope.goToGraph = function() {
-            $location.hash('graph');
-            $anchorScroll;
+        $scope.goToGraph = function(id) {
+          $("html,body").animate ( {scrollTop:0}, '300');
         };
 
 
@@ -152,6 +151,13 @@ var angObj = angObj || {};
 
                 }
             });
+        };
+
+        $scope.showIcon = function () {
+          $scope.shouldShowIcon = true;
+        };
+        $scope.hideIcon = function () {
+          $scope.shouldShowIcon = false;
         };
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
