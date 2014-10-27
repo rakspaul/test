@@ -1765,7 +1765,7 @@ button, i, input[type="submit"] {
 }
 .each_rep_col_holder .each_rep_col {
   float: left;
-  width: 100px;
+  width: 150px;
   text-align: center;
   overflow: hidden;
   height: 20px;
@@ -1773,14 +1773,14 @@ button, i, input[type="submit"] {
   text-overflow: ellipsis;
 }
 .each_rep_col_holder .first_col {
-  width: 140px ;
+  width: 240px ;
 }
 .each_reports_row_details .each_rep_col_holder .first_col {
   text-align: left;
 }
-.each_rep_col_holder .sixth_col , .each_rep_col_holder  .nine_col {
+/*.each_rep_col_holder .sixth_col , .each_rep_col_holder  .nine_col {
   width : 80px ;
-}
+}*/
 .each_report_text_row .each_report_text_col {
   float: left;
   color : #6F6E6E ;
@@ -1813,17 +1813,17 @@ button, i, input[type="submit"] {
 }
 .after_before_subheadings {
   float: left;
-  width: 264px;
+  width: 43px;
   border-bottom: solid 1px #ccc;
-  margin: 0 20px 10px 0;
-  padding: 0 0 10px 16px;
+  margin: 0 107px 10px 0;
+  padding: 0 0 10px 4px;
   color: #777;
 }
 .before_subheading {
-  margin-left: 381px;
+  margin-left: 616px;
 }
 .after_subheading {
-  padding-left: 14px ;
+  padding-left: 7px ;
 }
 .type2_section_reports .one_section_report_heading {
 
