@@ -39,6 +39,7 @@ var angObj = angObj || {};
             myContainer.animate({
                 scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
             });
+            localStorage.removeItem('actionSel');
         };
 
         $scope.loadTableData = function(){
