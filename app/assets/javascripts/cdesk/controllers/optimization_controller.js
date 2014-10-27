@@ -206,15 +206,6 @@ var angObj = angObj || {};
                 return val1;
         };
 
-        $scope.campaignSelected = function(id) {
-            var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
-        };
-
 
 
 
@@ -234,11 +225,6 @@ var angObj = angObj || {};
                         }
                     }
 
-                    var action = dataTransferService.getClickedAction();
-                    var actionId = action.ad_id+''+action.id;
-                    if(actionId !== null) {
-                        $scope.campaignSelected(actionId);
-                    }
                 }
             });
         };
@@ -249,7 +235,6 @@ var angObj = angObj || {};
         $scope.hideIcon = function (id) {
             $scope.iconIdToShow = -1;
         };
-
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
     });
