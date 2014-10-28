@@ -1684,7 +1684,7 @@ button, i, input[type="submit"] {
   margin: 20px ;
   min-height: 200px ;
 }
-.reports_graph_top_section .rep_graph_heading {
+.reports_graph_top_section .rep_graph_heading .graph_rep_stl{
   font-family: TradeGothicLTStd;
   color: #f9b537;
   font-size: 16px;
@@ -1789,9 +1789,6 @@ button, i, input[type="submit"] {
   margin-right : 5px ;
 }
 
-.each_rep_col_holder .each_rep_col.positive_text {
-  color: #78bb68;
-}
 .each_rep_col_holder .each_rep_col .arrow_img {
   display: inline-block;
   height: 11px;
