@@ -2,13 +2,20 @@
 var angObj = '';
 (function () {
     'use strict'; //This strict context prevents certain actions from being taken and throws more exceptions.
-    angObj = angular.module('cdeskApp', [
-        'ngResource', //ngResource module when querying and posting data to a REST API.
-        'ngRoute',      //ngRoute to enable URL routing to your application
-        'ngCookies',
-        'highcharts-ng',
-        'infinite-scroll'
-    ]);
+
+  var underscore = angular.module('underscore', []);
+  underscore.factory('_', function() {
+    return window._; // assumes underscore has already been loaded on the page
+  });
+
+  angObj = angular.module('cdeskApp',
+    ['ngResource', //ngResource module when querying and posting data to a REST API.
+      'ngRoute',      //ngRoute to enable URL routing to your application
+      'ngCookies',
+      'highcharts-ng',
+      'infinite-scroll',
+      'underscore']
+  );
 
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider

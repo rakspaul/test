@@ -64,6 +64,22 @@
             }
         };
 
+        $scope.loadMoreTactics = function(strategyId, campaignId) {
+            var campaignArray = $scope.campaign,
+                pageSize = 3;
+            for(var i in campaignArray.campaignStrategies){
+                if(campaignArray.campaignStrategies[i].id === parseInt(strategyId)){
+                    var loadMoreData = campaignArray.campaignStrategies[i].strategyTacticsLoadMore;
+                    if (loadMoreData.length) {
+                        var moreData = loadMoreData.splice(0, pageSize)
+                        for (var len = 0; len < moreData.length; len++) {
+                            $scope.campaign.campaignStrategies[i].strategyTactics.push(moreData[len]);
+                        }
+                    }
+                }
+            }    
+        };
+
 
         //API call for campaign chart
         dataService.getCdbChartData($routeParams.campaignId, 'lifetime', 'campaigns', null).then(function (result) {
