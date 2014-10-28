@@ -41,7 +41,7 @@
                      zipValues = appendZipData(tactic.targeting.zip_targeting);
                 }
 
-                if(tactic.status.toLowerCase() == "ready" || tactic.status === undefined){
+                if(tactic.status === undefined || tactic.status.toLowerCase() == "ready"){
                     status = "Draft";
                 }else{
                     status = tactic.status;
