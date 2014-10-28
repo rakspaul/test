@@ -64,8 +64,9 @@
                     actionRate: 0,
                     chart: null
                 });
-                getTacticsCdbLineChart(index, tacticObj, timePeriod, campaignId, strategyId, kpiType, kpiValue);
-                getTacticsMetrics(index, tacticObj, timePeriod, campaignId, strategyId);
+                //Once CDB for tactics is ready fire these calls
+                //getTacticsCdbLineChart(index, tacticObj, timePeriod, campaignId, strategyId, kpiType, kpiValue);
+                //getTacticsMetrics(index, tacticObj, timePeriod, campaignId, strategyId);
             }
             return tacticObj;
         };
@@ -153,6 +154,7 @@
                     order_id: strategy.order_id,
                     li_status: status,
                     ad_size: adSize,
+                    tactics_count: strategy.ads_count || 0,
                     selected_key_values: keyValues,
                     totalImpressions: null,
                     grossRev: null,
