@@ -17,6 +17,7 @@ var angObj = '';
       'underscore']
   );
 
+
     angObj.config(function ($routeProvider, $httpProvider) {
         $routeProvider
             .when('/campaigns', {
@@ -52,11 +53,13 @@ var angObj = '';
      * */
     angObj.constant('common', {
         title: 'Collective Desk',
+        selectTab:$("ul.nav:first").find('.active').removeClass('active').end(),
 //        useTempData:'tempdata' //null for actual api endpoint
         useTempData: null
     });
 
     angObj.run(function ($rootScope, $location, $cookies) {
+
         $rootScope.$on('$locationChangeStart', function () {
             if (($cookies.token === undefined) && ($location.path() !== '/login')) {
              //   $location.url('/login');

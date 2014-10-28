@@ -43,4 +43,5 @@
 //= require cdesk/models/tactic
 //= require cdesk/services/dataservice
 //= require cdesk/services/transformer_service
+//= require cdesk/services/datatransferservice
 //= require cdesk/utils
