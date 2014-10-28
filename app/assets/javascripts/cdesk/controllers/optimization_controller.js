@@ -175,6 +175,17 @@ var angObj = angObj || {};
             //localStorage.setItem('actionSel' , 'actionItem_'+id);
         };
 
+
+        $scope.roundOff = function(value,places) {
+            var factor = Math.pow(10,places);
+            var rounded= Math.round(value*factor)/factor;
+            return Math.abs(rounded);
+        };
+
+        $scope.goToGraph = function(id) {
+          $("html,body").animate ( {scrollTop:0}, '300');
+        };
+
         $scope.showSelected = function(id){
             $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
             //localStorage.setItem('actionSel' , 'actionItem_'+id);
@@ -194,7 +205,6 @@ var angObj = angObj || {};
             else
                 return val1;
         };
-
 
 
 
