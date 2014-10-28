@@ -6,13 +6,13 @@
             var kpiTypeLower = kpiType.toLowerCase();
             return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
         }
-        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment) {
+        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, defaultGrey) {
 
             var text, textBG;
             //full customisation for flags/markers
             chart.renderer.circle(xPos, yPos, 7).attr({
                 fill: '#ffffff',
-                stroke: markerColor || 'grey',
+                stroke: (defaultGrey) ? 'grey' : markerColor || 'grey',
                 'stroke-width': 4,
                 id: actionId || 'NA',
                 kpiType: kpiType || 'NA',
@@ -50,18 +50,24 @@
             }).on('mouseout', function (event) {
                 text.destroy();
                 textBG.destroy();
-            }).on('click', function () {
+            }).on('click', function (circleObj) {
+                if(defaultGrey) {
+                    $('circle').attr('stroke', 'grey');
+                    $('circle#' + circleObj.target.id).attr('stroke', 'green');
+                }
                 //click and scroll action functionality
                 var myContainer = $('#action-container:first');
                 var scrollTo = $('#actionItem_' + this.id);
                 localStorage.setItem('actionSel' , this.id);
-                scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-                myContainer.animate({
-                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                });
+                if(scrollTo.length) {
+                    scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+                    myContainer.animate({
+                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                    });
+                }
             }).add();
         };
-        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height) {
+        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, orderId) {
             var data = [];
             for (var i = 0; i < lineData.length; i++) {
                 var chartData = lineData[i]['date'].split("-");
@@ -221,11 +227,15 @@
                                         }else{
                                             position += 10;
                                         }
-                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment);
+                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
                                         counter++;
                                     }
                                 }
                             }
+                        }
+                        if(orderId !== undefined) {
+                            var id = orderId.action.ad_id+''+orderId.action.id;
+                            $('circle#' + id).attr('stroke', 'green');
                         }
                         var extremesX = chart.xAxis[0].getExtremes();
                         chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
