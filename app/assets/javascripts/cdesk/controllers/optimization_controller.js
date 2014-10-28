@@ -90,64 +90,6 @@ var angObj = angObj || {};
         };
 
 
-        $scope.campaignSelected = function(id) {
-            var myContainer = $('#action-container:first');
-            var scrollTo = $('#actionItem_' + id);
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
-            localStorage.removeItem('actionSel');
-        };
-
-        $scope.loadTableData = function(){
-            var tacticList = [];
-            var actionItems = $scope.clicked.strategy.action;
-
-            for(var index in actionItems) {
-                var tactic_id = actionItems[index].ad_id;
-                var grouped = false;
-                if (tacticList.length > 0) {
-
-                    for (var i in tacticList) {
-                        if (tactic_id === tacticList[i].ad_id) {
-                            grouped = true;
-                            tacticList[i].actionList.push(actionItems[index]);
-                            break;
-                        }
-                    }
-                    if (!grouped) {
-                        var tactic = {};
-                        tactic.ad_id = actionItems[index].ad_id;
-                        tactic.ad_name = actionItems[index].ad_name;
-                        tactic.actionList = [];
-                        tactic.actionList.push(actionItems[index]);
-                        tacticList.push(tactic);
-                    }
-                }
-                else {
-                    var tactic = {};
-                    tactic.ad_id = actionItems[index].ad_id;
-                    tactic.ad_name = actionItems[index].ad_name;
-                    tactic.actionList = [];
-                    tactic.actionList.push(actionItems[index]);
-
-                    tacticList.push(tactic);
-
-                }
-            }
-            $scope.tacticList = tacticList ;
-            var action = dataTransferService.getClickedAction();
-            var actionId = action.ad_id+''+action.id;
-            if(actionId !== null) {
-                $timeout(function() {
-                    $scope.campaignSelected(actionId);
-                }, 1000);
-            }
-
-        };
-
-
         $scope.colorCoding = function (val1, val2, matricImpacted) {
             if (val1 == val2)
                 return "";
@@ -159,21 +101,6 @@ var angObj = angObj || {};
 
         };
 
-
-        $scope.roundOff = function(value,places) {
-            var factor = Math.pow(10,places);
-            var rounded= Math.round(value*factor)/factor;
-            return Math.abs(rounded);
-        };
-
-        $scope.goToGraph = function(id) {
-            $("html,body").animate ( {scrollTop:0}, '300');
-        };
-
-        $scope.showSelected = function(id){
-            $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
-            //localStorage.setItem('actionSel' , 'actionItem_'+id);
-        };
 
 
         $scope.roundOff = function(value,places) {
@@ -205,8 +132,6 @@ var angObj = angObj || {};
             else
                 return val1;
         };
-
-
 
 
         $scope.loadCdbDataForStrategy = function () {
