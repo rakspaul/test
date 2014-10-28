@@ -41,7 +41,7 @@
                      zipValues = appendZipData(tactic.targeting.zip_targeting);
                 }
 
-                if(tactic.status == "Ready" || tactic.status === undefined){
+                if(tactic.status.toLowerCase() == "ready" || tactic.status === undefined){
                     status = "Draft";
                 }else{
                     status = tactic.status;
@@ -53,6 +53,7 @@
                     startDate: tactic.start_date,
                     endDate: tactic.end_date,
                     ad_size: tactic.ad_size,
+                    platform: tactic.platform,
                     status: status,
                     audience_targeting: adSize || null,
                     zip_targeting: zipValues,

@@ -266,6 +266,16 @@
         }
     });
 
+    angObj.filter('toTitleCase', function() {
+        return function(input) {
+            if(input == undefined) {
+                return '';
+            }
+            input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
+            return input;
+        }
+    });
+
     angObj.filter('truncateString', function() {
         return function(input, stringLength) {
             return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');

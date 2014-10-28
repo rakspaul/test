@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-md-6 campaign-count">
-            Total {{campaigns.totalCount}} Campaigns
+            Total {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} 
         </div>
     </div>
     <!--filter partial view-->

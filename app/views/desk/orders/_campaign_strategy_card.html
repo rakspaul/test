@@ -49,7 +49,7 @@
                 <div>
                     <div class="strategies">
                         <div class="panel-title" ng-click="showStrategies(campaign.orderId, campaign.lineitemsCount)">
-                            <span class="bold">{{campaign.lineitemsCount}} </span> <span class="strat-text"> Strategies </span>
+                            <span class="bold">{{campaign.lineitemsCount}} </span> <span class="strat-text"> {{(campaign.lineitemsCount == 0 || campaign.lineitemsCount > 1)? "Strategies" : "Strategy" }}</span>
 
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                                 <div>
                                     <div class="tactics">
                                         <div class="panel-title" ng-click="showTactics(strategy.id, strategy.tactics_count)">
-                                            <span class="bold">{{strategy.tactics_count}}</span> <span class="tactics-text"> Tactics </span>
+                                            <span class="bold">{{strategy.tactics_count}}</span> <span class="tactics-text"> {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }} </span>
 
                                         </div>
                                     </div>
@@ -290,13 +290,13 @@
                             <div class="col-md-12">
                                 <div class="col-md-1">
                                     <div>
-                                        <span class="{{tactic.status}}"></span>
-                                        <div><span class="marg-10"> {{tactic.status}} </span>
+                                        <span class="{{tactic.status | toTitleCase}}"></span>
+                                        <div><span class="marg-10"> {{tactic.status | toTitleCase}}</span>
                                         </div>
                                     </div>
                                     <div class="marg-top-style">
                                         <span class="{{tactic.status}}"></span>
-                                        <div><span class="marg-10">AppNexus</span>
+                                        <div><span class="marg-10">{{tactic.platform}}</span>
                                         </div>
                                     </div>
                                 </div>
