@@ -229,11 +229,11 @@ var angObj = angObj || {};
             });
         };
 
-        $scope.showIcon = function () {
-          $scope.shouldShowIcon = true;
+        $scope.showIcon = function (id) {
+          $scope.iconIdToShow = id;
         };
-        $scope.hideIcon = function () {
-          $scope.shouldShowIcon = false;
+        $scope.hideIcon = function (id) {
+          $scope.iconIdToShow = -1;
         };
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:last').addClass('active');
