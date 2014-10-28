@@ -235,6 +235,7 @@ var angObj = angObj || {};
         };
 
         $scope.showIcon = function (id) {
+
             $scope.iconIdToShow = id;
         };
         $scope.hideIcon = function (id) {
