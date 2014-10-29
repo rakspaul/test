@@ -52,8 +52,8 @@
                 textBG.destroy();
             }).on('click', function (circleObj) {
                 if(defaultGrey) {
-                    $('circle').attr('stroke', 'grey');
-                    $('circle#' + circleObj.target.id).attr('stroke', 'green');
+                    $('circle').attr({stroke: 'grey', fill:'#ffffff'});
+                    $('circle#' + circleObj.target.id).attr({stroke: 'green', fill:'green'});
                 }
                 //click and scroll action functionality
                 var myContainer = $('#action-container:first');
@@ -208,10 +208,10 @@
                     //height: 300 + Math.round(testData[0][0] / 100) * 100add();
 
                     $timeout(function() {
-                        /*actionItems[0].created_at = 1396310400000;
+                        actionItems[0].created_at = 1396310400000;
                         actionItems[1].created_at = 1396396800000;//1413459349308;
                         actionItems[2].created_at = 1396483200000;//1413465390116;
-                        actionItems[3].created_at = 1398038400000;*/
+                        actionItems[3].created_at = 1398038400000;
                         var counter = 0, flag = [], position = 0 ;
                         if(actionItems) {
 
