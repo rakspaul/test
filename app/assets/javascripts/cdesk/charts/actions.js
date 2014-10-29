@@ -51,12 +51,14 @@
                 text.destroy();
                 textBG.destroy();
             }).on('click', function (circleObj) {
+                var myContainer = $('#action-container:first');
                 if(defaultGrey) {
                     $('circle').attr({stroke: 'grey', fill:'#ffffff'});
                     $('circle#' + circleObj.target.id).attr({stroke: 'green', fill:'green'});
+                    var myContainer = $('.reports_section_details_container');
                 }
                 //click and scroll action functionality
-                var myContainer = $('#action-container:first');
+
                 var scrollTo = $('#actionItem_' + this.id);
                 localStorage.setItem('actionSel' , this.id);
                 if(scrollTo.length) {
