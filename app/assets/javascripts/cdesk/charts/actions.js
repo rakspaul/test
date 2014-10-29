@@ -235,7 +235,7 @@
                         }
                         if(orderId !== undefined) {
                             var id = orderId.action.ad_id+''+orderId.action.id;
-                            $('circle#' + id).attr('stroke', 'green');
+                            $('circle#' +id).attr({stroke: 'green', fill:'green'});
                         }
                         var extremesX = chart.xAxis[0].getExtremes();
                         chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
