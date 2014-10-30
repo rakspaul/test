@@ -33,7 +33,8 @@ var angObj = angObj || {};
 
 
         $scope.campaignSelected = function(id) {
-            var myContainer = $('#action-container:first');
+            var myContainer = $('.reports_section_details_container');//$('#action-container:first');
+
             var scrollTo = $('#actionItem_' + id);
             scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
             myContainer.animate({
@@ -114,9 +115,11 @@ var angObj = angObj || {};
         };
 
         $scope.showSelected = function(id){
-            $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
-            $('circle').attr('stroke', 'grey');
-            $('circle#' +id).attr('stroke', 'green');
+            //$('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
+            $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
+
+            $('circle').attr({stroke: 'grey', fill:'#ffffff'});
+            $('circle#' +id).attr({stroke: 'green', fill:'green'});
             //localStorage.setItem('actionSel' , 'actionItem_'+id);
         };
 

@@ -51,12 +51,14 @@
                 text.destroy();
                 textBG.destroy();
             }).on('click', function (circleObj) {
+                var myContainer = $('#action-container:first');
                 if(defaultGrey) {
-                    $('circle').attr('stroke', 'grey');
-                    $('circle#' + circleObj.target.id).attr('stroke', 'green');
+                    $('circle').attr({stroke: 'grey', fill:'#ffffff'});
+                    $('circle#' + circleObj.target.id).attr({stroke: 'green', fill:'green'});
+                    var myContainer = $('.reports_section_details_container');
                 }
                 //click and scroll action functionality
-                var myContainer = $('#action-container:first');
+
                 var scrollTo = $('#actionItem_' + this.id);
                 localStorage.setItem('actionSel' , this.id);
                 if(scrollTo.length) {
@@ -235,7 +237,7 @@
                         }
                         if(orderId !== undefined) {
                             var id = orderId.action.ad_id+''+orderId.action.id;
-                            $('circle#' + id).attr('stroke', 'green');
+                            $('circle#' +id).attr({stroke: 'green', fill:'green'});
                         }
                         var extremesX = chart.xAxis[0].getExtremes();
                         chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
