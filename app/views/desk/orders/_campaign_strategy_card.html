@@ -295,8 +295,8 @@
                                         </div>
                                     </div>
                                     <div class="marg-top-style">
-                                        <span class="{{tactic.status}}"></span>
-                                        <div><span class="marg-10">{{tactic.platform}}</span>
+                                        <span style="{{tactic.platform_icon | platformIconCss : assets.platform_icon}}"></span>
+                                        <div><span class="marg-10" ng-if="tactic.platform_name">{{tactic.platform_name}}</span>
                                         </div>
                                     </div>
                                 </div>

@@ -325,5 +325,20 @@
         }
     });
 
+    angObj.filter('platformIconCss', function() {
+        return function(input, defaultIcon) {
+            var _style = "",
+                icon = input;
+            if(input === undefined || input == "") {
+                icon = defaultIcon || assets.platform_icon;
+            }
+            _style = "background:url('"+icon+"') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
+            +"width: 17px;"
+            +"height: 17px;"
+            +"display: inline-block;";
+            return _style;
+        }
+    });
+
 
 }());
