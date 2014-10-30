@@ -89,12 +89,16 @@
                         Campaign Performance
                     </div>
                     <div class="col-md-12">
-                        <div ng-if="details.actionChart" class="highcharts" id="details_chart">
-                            <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
-                        </div>
-                        <div ng-if="!details.actionChart" class="highcharts" id="details_chart">
-                            Data Not Available
-                        </div>
+
+                        <span ng-switch="details.actionChart">
+                            <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                            <span ng-switch-default>
+                                <div ng-if="details.actionChart" class="highcharts" id="details_chart">
+                                    <highchart id="highcharts" config="details.actionChart" chartTitle=""></highchart>
+                                </div>
+                            </span>
+                        </span>
                     </div>
                 </div>
                 <div class="col-md-6 campaign-performance-container-sections camp-perf-history">

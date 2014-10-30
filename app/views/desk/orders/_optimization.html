@@ -35,13 +35,16 @@
 
                 <!-- gaurav -->
                 <div class="col-md-12">
-                    <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
-                        <highchart config="chartForStrategy" chartTitle=""></highchart>
 
-                    </div>
-                    <div ng-if="!chartForStrategy" class="highcharts" id="details_chart">
-                        Data Not Available
-                    </div>
+                     <span ng-switch="chartForStrategy">
+                            <span ng-switch-when="true" class="load-more">&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Available</span>
+                            <span ng-switch-default>
+                                <div ng-if="chartForStrategy" class="highcharts" id="details_chart">
+                                    <highchart id="highcharts" config="chartForStrategy" chartTitle=""></highchart>
+                                </div>
+                            </span>
+                        </span>
                 </div>
                 <!-- gaurav -->
             </div>
