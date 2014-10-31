@@ -9,7 +9,8 @@
         var campaignList = [];
         $scope.details = {
                 campaign: null,
-                details: null
+                details: null,
+                actionChart :true
             };
         //API call for campaign details
         var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
@@ -107,7 +108,11 @@
                             $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                         }
                     }
+                }else{
+                  $scope.details.actionChart = false;
                 }
+            }else{
+               $scope.details.actionChart = false;
             }
         });
 

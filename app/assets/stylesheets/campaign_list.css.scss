@@ -1356,6 +1356,7 @@ button, i, input[type="submit"] {
               .each_action_perf_filter {
                 color: #bebebe ;
                 font-family:  "Avenir-Roman" ;
+
               }
               .circle_action {
                 text-align: center;
@@ -2124,3 +2125,29 @@ button, i, input[type="submit"] {
 
 
 
+#campaignDetail.container .camp-perf-graph .load-more {
+  margin: 60px auto 0;
+  display: block;
+}
+#campaignDetail.container .camp-perf-graph .no-chart {
+  text-align: center;
+  margin-top: 40px;
+  display: block;
+  font-weight: normal;
+  color: #bebebe;
+  text-transform: capitalize;
+  font-family: "Avenir-Roman";
+  font-size: 14px;
+}
+.reports_graph_top_section .load-more {
+    text-align: center;
+    text-indent: -99999;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    margin: 100px auto;
+    display: block;
+}
+.reports_graph_top_section .no-chart {
+  text-align: center ;
+  margin-top : 100px ;
+  display: block;
+}

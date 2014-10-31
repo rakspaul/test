@@ -138,7 +138,7 @@ var angObj = angObj || {};
                 return val1;
         };
 
-
+        $scope.chartForStrategy=true;
         $scope.loadCdbDataForStrategy = function () {
 
             dataService.getCdbChartData($scope.clicked.orderId, 'lifetime', 'strategies', $scope.clicked.strategy.lineitemId).then(function (result) {
@@ -152,11 +152,13 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(dataTransferService.getClickedKpiValue()), dataTransferService.getClickedKpiType(), dataTransferService.getClickedActionItems(), 990, 250, true, $scope.clicked);
-
                            // console.log($scope.chartForStrategy);
                         }
+                    }else{
+                        $scope.chartForStrategy=false;
                     }
-
+                }else{
+                    $scope.chartForStrategy=false;
                 }
             });
         };

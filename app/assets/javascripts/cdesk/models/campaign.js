@@ -234,6 +234,7 @@
             getCdbLineChart: function(obj, campaignList, timePeriod) {
                 dataService.getCdbChartData(campaignList[obj].orderId, timePeriod, 'campaigns', null).then(function (result) {
                     var lineDate = [];
+                    campaignList[obj].chart = true;
                     if(result.status == "success" && !angular.isString(result.data)) {
                         if(!angular.isUndefined(campaignList[obj].kpiType)) {
                             if(result.data.data.measures_by_days.length > 0) {
@@ -246,6 +247,8 @@
                                 campaignList[obj].chart = new line.highChart(lineDate, parseFloat(campaignList[obj].kpiValue), campaignList[obj].kpiType);
                             }
                         }
+                    }else{
+                            campaignList[obj].chart = false;
                     }
                 });
             },
@@ -275,6 +278,7 @@
                         lineitemsCount: dataArr[obj].lineitems_count,
                         actionsCount: dataArr[obj].actions_count || 0,
                         campaignStrategies:null,
+                        chart:true,
                         campaignStrategiesLoadMore:null
                     });
 
