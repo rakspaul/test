@@ -122,7 +122,6 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                       
                         <div id="action-container" class="campaign-performance-match">
                             <div ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
                                 <div class="circle_action col-md-1" style="border:solid 4px {{action.action_color}}"></div>
