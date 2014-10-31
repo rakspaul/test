@@ -335,7 +335,8 @@
             _style = "background:url('"+icon+"') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
             +"width: 17px;"
             +"height: 17px;"
-            +"display: inline-block;";
+            +"display: inline-block;"
+            +'background-size:17px;"';
             return _style;
         }
     });
