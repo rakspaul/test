@@ -2,8 +2,9 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils,dataTransferService) {
-        
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService) {
+
+
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = is_network_user;
         var campaignList = [];
@@ -19,6 +20,7 @@
             if (result.data) {
                 var dataArr = [result.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'lifetime', 'life_time')[0];
+
                 dataService.getCampaignData('lifetime', $routeParams.campaignId).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
                 });
@@ -84,10 +86,12 @@
         $scope.makeCampaignSelected = function(id) {
             var myContainer = $('#action-container:first');
             var scrollTo = $('#actionItem_' + id);
+            if(scrollTo.length) {
             scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
             myContainer.animate({
                 scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
             });
+            }
         };
 
         //API call for campaign chart
@@ -125,6 +129,7 @@
                 selectedAction : action,
                 selectedActionItems : $scope.actionItems
             };
+
             dataTransferService.initOptimizationData(param);
 
             utils.goToLocation('/campaigns/' +  campaign.orderId + '/optimization');

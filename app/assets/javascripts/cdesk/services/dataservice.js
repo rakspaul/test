@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  angObj.factory("dataService", function ($http, api, apiPaths, common, campaign_api) {
+  angObj.factory("dataService", function ($http, api, apiPaths, common, campaign_api, dataTransferService) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
@@ -100,12 +100,18 @@
         );
       },
 
-      getCdbChartData: function (campaignId, timePeriod, type, strategyId) {
+      getCdbChartData: function (campaignId, timePeriod, type, strategyId, useDates) {
         var urlPath;
+        var  durationQuery= 'period=' + timePeriod;
         if (type == 'campaigns') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?'+durationQuery
         } else if (type == 'strategies') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?period=' + timePeriod;
+           //if(timePeriod != 'lifetime'){
+                if(useDates) {
+                    durationQuery = 'start_date=' + dataTransferService.getClickedCampaignStartDate() + '&end_date=' + dataTransferService.getClickedCampaignEndDate();
+                }
+           //}
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?'+durationQuery
         }
         if (common.useTempData) {
           //mock data

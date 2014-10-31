@@ -2,11 +2,13 @@ var angObj = angObj || {} ;
 (function (){
     'use strict';
     angObj.factory("dataTransferService" , function($http){
-        var campaignId = '', clickedAction = '', clickedStrategy = '', campaignName = '', clickedKpiType='', clickedKpiValue='', clickedActionItems='';
+        var campaignId = '', clickedAction = '', clickedStrategy = '', campaignName = '', clickedKpiType='', clickedKpiValue='', clickedActionItems='', endDate='', startDate='';
         return {
 
             initOptimizationData : function(param){
                 campaignId = param.selectedCampaign.orderId;
+                startDate = param.selectedCampaign.startDate;
+                endDate = param.selectedCampaign.endDate;
                 campaignName = param.selectedCampaign.campaignTitle ;
                 clickedStrategy = param.selectedStrategy ;
                 clickedAction = param.selectedAction ;
@@ -35,6 +37,12 @@ var angObj = angObj || {} ;
             },
             getClickedActionItems : function(){
                 return clickedActionItems;
+            },
+            getClickedCampaignStartDate : function(){
+                return startDate;
+            },
+            getClickedCampaignEndDate : function(){
+                return endDate;
             }
 
         };

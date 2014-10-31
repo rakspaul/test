@@ -17,7 +17,6 @@ var angObj = angObj || {};
             $scope.lineItemName = $scope.clicked.strategy.lineItemName;
 
             $scope.loadTableData();
-
             $scope.loadCdbDataForStrategy();
         };
 
@@ -34,12 +33,13 @@ var angObj = angObj || {};
 
         $scope.campaignSelected = function(id) {
             var myContainer = $('.reports_section_details_container');//$('#action-container:first');
-
             var scrollTo = $('#actionItem_' + id);
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-            myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-            });
+            if(scrollTo.length) {
+                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + this.id).addClass('action_selected');
+                myContainer.animate({
+                    scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                });
+            }
             localStorage.removeItem('actionSel');
         };
 
@@ -140,8 +140,9 @@ var angObj = angObj || {};
 
         $scope.chartForStrategy=true;
         $scope.loadCdbDataForStrategy = function () {
+            //var brandDuration = (dataTransferService.getBrandDuration() !== undefined) ? dataTransferService.getBrandDuration() :  'lifetime';
 
-            dataService.getCdbChartData($scope.clicked.orderId, 'lifetime', 'strategies', $scope.clicked.strategy.lineitemId).then(function (result) {
+            dataService.getCdbChartData($scope.clicked.orderId, 'lifetime'/*brandDuration*/, 'strategies', $scope.clicked.strategy.lineitemId, true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if (!angular.isUndefined(dataTransferService.getClickedKpiType())) {
