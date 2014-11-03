@@ -142,7 +142,7 @@ var angObj = angObj || {};
         $scope.loadCdbDataForStrategy = function () {
             //var brandDuration = (dataTransferService.getBrandDuration() !== undefined) ? dataTransferService.getBrandDuration() :  'lifetime';
 
-            dataService.getCdbChartData($scope.clicked.orderId, 'lifetime'/*brandDuration*/, 'strategies', $scope.clicked.strategy.lineitemId, true).then(function (result) {
+            dataService.getCdbChartData({ orderId: $scope.clicked.orderId}, 'lifetime'/*brandDuration*/, 'strategies', $scope.clicked.strategy.lineitemId, true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if (!angular.isUndefined(dataTransferService.getClickedKpiType())) {
