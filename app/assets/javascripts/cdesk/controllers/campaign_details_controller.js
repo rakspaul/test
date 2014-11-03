@@ -93,7 +93,6 @@
             }
         };
 
-
         $timeout(function(){
             //API call for campaign chart
             dataService.getCdbChartData($scope.campaign, 'lifetime', 'campaigns', null, true).then(function (result) {
