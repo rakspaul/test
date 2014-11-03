@@ -1458,11 +1458,11 @@ button, i, input[type="submit"] {
 
 /*styling by saudamini*/
 
-/*@font-face {
+@font-face {
     font-family: "Avenir";
     src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
     url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
-}*/
+}
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -1498,7 +1498,7 @@ button, i, input[type="submit"] {
       width: 100%;
       -webkit-appearance: none;
       border: 0px ;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
     select:focus {
       outline: 0px ;  
@@ -1549,7 +1549,7 @@ button, i, input[type="submit"] {
       height: 40px;
       padding-bottom: 0;
       padding-top: 0px;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
   }
   .action_submit {
@@ -1632,7 +1632,7 @@ button, i, input[type="submit"] {
     }
     .squaredFourTxt {
       float: left;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
   }
   .placeholder_grey::-webkit-input-placeholder {
@@ -1652,7 +1652,7 @@ button, i, input[type="submit"] {
 }
 
 /* REPORTS STYLING */
-
+/*
 
 .row.reports_section {
   display: none;
@@ -1722,25 +1722,7 @@ button, i, input[type="submit"] {
 }
 .load_more_rows {
   display : none ;
-  background: #ccc;
-  width: 1056px;
-  height: 40px;
-  position: absolute;
-  bottom: 0px;
-  text-align: center;
-  padding-top: 10px;
-  left: -5px;
-  cursor: pointer;
-  opacity: 0.8;
-  background: #feffff; /* Old browsers */
-  background: -moz-linear-gradient(top, #feffff 0%, #ebebeb 35%, #ebebeb 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffff), color-stop(35%,#ebebeb), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
-
+  
 }
 .one_section_report_heading .green_color {
   color: #a9d479;
@@ -1777,9 +1759,7 @@ button, i, input[type="submit"] {
 .each_reports_row_details .each_rep_col_holder .first_col {
   text-align: left;
 }
-/*.each_rep_col_holder .sixth_col , .each_rep_col_holder  .nine_col {
-  width : 80px ;
-}*/
+
 .each_report_text_row .each_report_text_col {
   float: left;
   color : #6F6E6E ;
@@ -1839,7 +1819,7 @@ button, i, input[type="submit"] {
   width : 100% ;
 }
 .reports_section .reports_subheadings {
-  /*font-family: TradeGothicLTStd;*/
+
   color: #f9b537;
   font-size: 16px;
   font-weight: 700;
@@ -1969,7 +1949,7 @@ button, i, input[type="submit"] {
   -webkit-border-radius: 4px;
   background-color: #f9b537;
   font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */
+  font-size: 14px; 
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
@@ -1997,7 +1977,7 @@ button, i, input[type="submit"] {
   font-family: Avenir;
   color: #fff;
   font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */ text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
+  font-size: 14px; text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
   height: 25px;
   max-width: 138px;
   box-shadow: 0px 0px 0px transparent;
@@ -2028,7 +2008,7 @@ button, i, input[type="submit"] {
   padding: 0 30px;
   height: 24px;
 }
-/* END OF REPORTS STYLING */
+
 
 .nice_dd select {
   max-width: 138px;
@@ -2083,7 +2063,7 @@ button, i, input[type="submit"] {
   display: none;
 }
 .each_reports_row .negative_td span.negative_sign  {
-  /*    margin-right: 6px;*/
+  
   display: inline-block;
 }
 .each_reports_row .positive_td span.positive_sign  {
@@ -2102,7 +2082,7 @@ button, i, input[type="submit"] {
   display: none;
 }
 .each_reports_row .negative_td span.negative_sign  {
-  /*    margin-right: 6px;*/
+  
   display: inline-block;
 }
 .each_reports_row .positive_td span.positive_sign {
@@ -2123,7 +2103,7 @@ button, i, input[type="submit"] {
 { padding-left : 0px ; }
 
 
-
+*/
 
 #campaignDetail.container .camp-perf-graph .load-more {
   margin: 60px auto 0;
@@ -2136,18 +2116,6 @@ button, i, input[type="submit"] {
   font-weight: normal;
   color: #bebebe;
   text-transform: capitalize;
-  font-family: "Avenir-Roman";
+  font-family: "Avenir";
   font-size: 14px;
-}
-.reports_graph_top_section .load-more {
-    text-align: center;
-    text-indent: -99999;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-    margin: 100px auto;
-    display: block;
-}
-.reports_graph_top_section .no-chart {
-  text-align: center ;
-  margin-top : 100px ;
-  display: block;
 }
