@@ -338,6 +338,7 @@
 		margin-right: 22px ;
 		padding-bottom: 8px;
 		border-bottom: solid 2px transparent ;
+		cursor: default;
 	}
 	span.active_tab {
 		border-bottom: solid 2px #ccc ;
@@ -349,6 +350,14 @@
 }
 .inventory_reports_container {
 	font-family: "Avenir";
+	.dropdown_ul_text {
+		cursor: pointer;
+	}
+	.dropdown-menu li {
+		cursor: default;
+		margin-bottom: 8px;
+		line-height: 15px;
+	}
 	.download_report {
 		border: solid 1px #359eea ;
 		color : #359eea ;
