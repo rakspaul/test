@@ -419,9 +419,7 @@ button, i, input[type="submit"] {
             font-weight: bold;
             margin-right: 15px;
             display: inline-block;
-            /* padding-bottom: 5px; */
             text-transform: uppercase;
-            /* border-bottom: 1px solid $textGreyColor; */
             @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
           }
           a {
@@ -435,9 +433,7 @@ button, i, input[type="submit"] {
               font-weight: bold;
               margin-right: 15px;
               display: inline-block;
-              /* padding-bottom: 5px; */
               text-transform: uppercase;
-              /* border-bottom: 1px solid $textGreyColor; */
               @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
               &.active {
                 color: $textHeadingColor;
@@ -534,7 +530,6 @@ button, i, input[type="submit"] {
         &.edit-stats-icons {
           margin-top: 60px;
           .action_bubble {
-
             position: absolute;
             top: -16px;
             right: -2px;
@@ -677,7 +672,6 @@ button, i, input[type="submit"] {
             display: inline-block;
             vertical-align: sub;
             background: url(asset-path("cdesk/icn_goal.png")) no-repeat 0px 0px rgba(0, 0, 0, 0);
-
           }
         }
       }
@@ -769,32 +763,27 @@ button, i, input[type="submit"] {
         }
       }
     }
-
     .highcharts span.no-chart {
       padding: 50px;
       color: #a2a2a2;
       display: block;
       text-align: center;
     }
-
     .highcharts span.strategies-no-chart {
       padding: 15px;
       display: block;
       text-align: center;
     }
-
     .highcharts div.chart-tool-tip {
       padding:5px;
       background:#fff;
       border: 1px solid #ccc;
     }
-
     &.inner-accordion-wrapper {
       display: none;
       margin-top: -20px;
       margin-bottom: 20px;
     }
-
     .inner-accordion {
       margin-top: -2px;
       background: url(asset-path("cdesk/accordion-line.png")) no-repeat scroll -43px 2px rgba(0, 0, 0, 0);
@@ -839,8 +828,7 @@ button, i, input[type="submit"] {
 
           .panel-body.row-fluid {
             .col-md-12 {
-              > {
-                
+              > { 
                 .col-md-7 {
                   padding-top: 50px !important;
                   height: 232px !important;
@@ -1127,15 +1115,12 @@ button, i, input[type="submit"] {
 #brandsDropdown::-webkit-input-placeholder {
   color: white;
 }
-
 #brandsDropdown:-moz-placeholder { /* Firefox 18- */
   color: white;
 }
-
 #brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
   color: white;
 }
-
 #brandsDropdown:-ms-input-placeholder {
   color: white;
 }
@@ -1143,22 +1128,17 @@ button, i, input[type="submit"] {
   height: 500px;
   overflow: auto;
 }
-
 .highcharts-container .highcharts-tooltip {
   visibility: visible !important;
 }
-
 #highcharts {
   width: 219px; 
   height: 140px;
 }
-
 #highcharts-strategies {
   width: 219px; 
   height: 140px;
 }
-
-
 #campaignDetail.container {
   .row-fluid {
     .col-md-12 {
@@ -1193,14 +1173,11 @@ button, i, input[type="submit"] {
             }
           }
         }
-        /*styling by saudamini*/
         .report_title.col-md-12 {
           float: none;
           clear: both;
         }
-        /*end of styling by saudamini*/
         .col-md-12 {
-
           .brand {
             @include FontColor($textDarkGreyColor, 12pt, $tertiaryFont);
             .brand-type {
@@ -1245,7 +1222,6 @@ button, i, input[type="submit"] {
               font-weight: bold;
               text-transform: uppercase;
               @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-              /*styling by saudamini*/
               .campaign-external-dd-holder {
                 display: inline-block;
                 cursor: default;
@@ -1279,7 +1255,6 @@ button, i, input[type="submit"] {
                   
                 }
               }
-              /*end of styling by saudamini*/
               .campaign-external-sort {
                 display: inline-block;
                 text-transform: uppercase;
@@ -1297,14 +1272,10 @@ button, i, input[type="submit"] {
               }
             }
             .campaign-performance-match {
-             /* width: 508px;*/
               height: 290px;
               margin-top: 25px;
               overflow-y: auto;
               padding-left: 20px;
-
-              /*styling by saudamini*/
-
               font-size: 14px ;
               .each_action_performance {
                 margin-right: 10px !important;
@@ -1321,7 +1292,7 @@ button, i, input[type="submit"] {
               }
               .each_action_perf_note {
                 margin: 4px 0 ;
-                font-family:  "Avenir-Roman" ;
+                font-family:  "Avenir" ;
               }
               .each_action_perf_header {
                 margin-top: 1px ;
@@ -1355,7 +1326,7 @@ button, i, input[type="submit"] {
               }
               .each_action_perf_filter {
                 color: #bebebe ;
-                font-family:  "Avenir-Roman" ;
+                font-family:  "Avenir" ;
 
               }
               .circle_action {
@@ -1377,10 +1348,6 @@ button, i, input[type="submit"] {
                width: 30%;
                float: left;
               }
-
-
-              /*end of styling by saudamini*/
-
               table {
                 width: 470px;
                 .tr_selected {
@@ -1455,10 +1422,8 @@ button, i, input[type="submit"] {
   }
 }
 
-
-/*styling by saudamini*/
-
-/*@font-face {
+/*
+@font-face {
     font-family: "Avenir";
     src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
     url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
@@ -1498,7 +1463,7 @@ button, i, input[type="submit"] {
       width: 100%;
       -webkit-appearance: none;
       border: 0px ;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
     select:focus {
       outline: 0px ;  
@@ -1549,7 +1514,7 @@ button, i, input[type="submit"] {
       height: 40px;
       padding-bottom: 0;
       padding-top: 0px;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
   }
   .action_submit {
@@ -1565,7 +1530,7 @@ button, i, input[type="submit"] {
     -webkit-border-radius: 5px ;
     text-align: center;
     padding: 3px ;
-    background: #f9b537; /* Old browsers */
+    background: #f9b537;
     background: -moz-linear-gradient(top, #f9b537 0%, #f9b537 0%, #ebab34 98%, #ebab34 98%, #ebab34 100%, #ebab34 100%, #ebab34 100%, #ebab34 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f9b537), color-stop(0%,#f9b537), color-stop(98%,#ebab34), color-stop(98%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34), color-stop(100%,#ebab34)); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(top, #f9b537 0%,#f9b537 0%,#ebab34 98%,#ebab34 98%,#ebab34 100%,#ebab34 100%,#ebab34 100%,#ebab34 100%); /* Chrome10+,Safari5.1+ */
@@ -1577,7 +1542,6 @@ button, i, input[type="submit"] {
   .external_chkbox {
     float: left;
     margin-top: 4px;
-    /* SQUARED FOUR */
     .squaredFour {
       width: 20px;    
       margin: 0px 5px 0 0;
@@ -1632,7 +1596,7 @@ button, i, input[type="submit"] {
     }
     .squaredFourTxt {
       float: left;
-      font-family: "Avenir-Roman" ;
+      font-family: "Avenir" ;
     }
   }
   .placeholder_grey::-webkit-input-placeholder {
@@ -1641,513 +1605,30 @@ button, i, input[type="submit"] {
   .placeholder_grey::-moz-placeholder {
     color: $textGreyColor;
   }
-  /* firefox 19+ */
   .placeholder_grey:-ms-input-placeholder {
     color: $textGreyColor;
   }
-  /* ie */
   .placeholder_grey:-moz-placeholder {
     color: $textGreyColor;
   }
 }
 
-/* REPORTS STYLING */
-
-
-.row.reports_section {
-  display: none;
-  min-height: 440px ;
-  width: 1056px ;
-  margin: 20px auto ;
-  border-radius: 5px ;
-  -moz-border-radius: 5px ;
-  -webkit-border-radius: 5px ;
-  color: #999 ;
-  font-size: 14px ;
-  padding: 20px 36px ;
-  background: #fff ;
-  box-shadow: 0 1px 1px #aaaaaa;
-}
-.reports_graph_top_section {
-  min-height: 240px ;
-  width: 1056px ;
-  margin: 20px auto ;
-  border-radius: 5px ;
-  -moz-border-radius: 5px ;
-  -webkit-border-radius: 5px ;
-  color: #999 ;
-  font-size: 14px ;
-  padding: 22px 36px ;
-  background: #fff ;
-  box-shadow: 0 1px 1px #aaaaaa;
-}
-.rep_graph_holder {
-  margin: 20px ;
-  min-height: 200px ;
-}
-.reports_graph_top_section .rep_graph_heading .graph_rep_stl{
-  font-family: TradeGothicLTStd;
-  color: #f9b537;
-  font-size: 16px;
-  font-weight: 700;
-}
-.reports_section_details_container {
-  position: relative;
-  background: #fff ;
-  min-height: 200px ;
-  border: solid 1px #ccc ;
-  margin-bottom: 20px ;
-  border-left: solid 5px #a9d479 ;
-  max-height: 431px;
-  overflow-y: auto;
-
-}
-.each_reports_row_heading .each_rep_col_holder {
-  border-bottom: solid 2px #ccc;
-  padding: 0px 16px 8px ;
-  border-left : solid 5px transparent ;
-}
-.reports_section_details_more .each_reports_row:nth-last-child(2) {
-  border-bottom : 0px ;
+#campaignDetail.container {
+  .camp-perf-graph {
+     .load-more {
+        margin: 60px auto 0;
+        display: block;
+     }
+     .no-chart {
+        text-align: center;
+        margin-top: 40px;
+        display: block;
+        font-weight: normal;
+        color: #bebebe;
+        text-transform: capitalize;
+        font-family: "Avenir";
+        font-size: 14px;
+      }
+  }
 }
 
-.one_section_report_heading {
-  color: #a9d479;
-  cursor: pointer;
-  font-family: TradeGothicLTStd;
-  font-size: 16px;
-  font-weight: 700;
-  margin: 30px 0 20px 0;
-  padding-top: 20px;
-}
-.load_more_rows {
-  display : none ;
-  background: #ccc;
-  width: 1056px;
-  height: 40px;
-  position: absolute;
-  bottom: 0px;
-  text-align: center;
-  padding-top: 10px;
-  left: -5px;
-  cursor: pointer;
-  opacity: 0.8;
-  background: #feffff; /* Old browsers */
-  background: -moz-linear-gradient(top, #feffff 0%, #ebebeb 35%, #ebebeb 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#feffff), color-stop(35%,#ebebeb), color-stop(100%,#ebebeb)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* IE10+ */
-  background: linear-gradient(to bottom, #feffff 0%,#ebebeb 35%,#ebebeb 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffff', endColorstr='#ebebeb',GradientType=0 ); /* IE6-9 */
-
-}
-.one_section_report_heading .green_color {
-  color: #a9d479;
-}
-.each_reports_row {
-  padding: 20px 16px ;
-}
-.each_reports_row_details {
-
-  font-size: 14px ;
-  color: #4a4a4a ;
-  font-family: "Avenir" ;
-  border-bottom: solid 1px #ccc;
-}
-.each_reports_row_heading {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2" ;
-  color: #4a4a4a ;
-  font-size: 12px ;
-  text-transform: uppercase;
-  padding : 10px 0 0 0 ;
-}
-.each_rep_col_holder .each_rep_col {
-  float: left;
-  width: 150px;
-  text-align: center;
-  overflow: hidden;
-  height: 20px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.each_rep_col_holder .first_col {
-  width: 230px ;
-}
-.each_reports_row_details .each_rep_col_holder .first_col {
-  text-align: left;
-}
-/*.each_rep_col_holder .sixth_col , .each_rep_col_holder  .nine_col {
-  width : 80px ;
-}*/
-.each_report_text_row .each_report_text_col {
-  float: left;
-  color : #6F6E6E ;
-}
-.each_report_text_row .each_report_text_col.report_time {
-  color: #777 ;
-  font-weight: bold ;
-  margin-right : 5px ;
-}
-
-.each_rep_col_holder .each_rep_col .arrow_img {
-  display: inline-block;
-  height: 11px;
-  width: 8px;
-}
-.each_rep_col_holder .each_rep_col.negative_text  {
-  color: #f74d51 ;
-}
-.each_report_text_row .report_text {
-  font-style: italic;
-  margin-left : 20px ;
-}
-.each_report_text_row {
-  margin-top: 5px ;
-}
-.after_before_subheadings {
-  float: left;
-  width: 43px;
-  border-bottom: solid 1px #ccc;
-  margin: 0 107px 10px 0;
-  padding: 0 0 10px 4px;
-  color: #777;
-}
-.before_subheading {
-  margin-left: 616px;
-}
-.after_subheading {
-  padding-left: 7px ;
-}
-.type2_section_reports .one_section_report_heading {
-
-  color : #f9b537 ;
-}
-.type2_section_reports  .reports_section_details_container {
-  border-left: solid 5px #f9b537 ;
-}
-.type3_section_reports .one_section_report_heading {
-  color : #177ac6 ;
-}
-.one_section_report_heading .not_optimized_style {
-  color: #777 ;
-  font-size: 12px ;
-  font-family: "Avenir" ;
-}
-
-.reports_section  table {
-  width : 100% ;
-}
-.reports_section .reports_subheadings {
-  /*font-family: TradeGothicLTStd;*/
-  color: #f9b537;
-  font-size: 16px;
-  font-weight: 700;
-}
-.reports_tr td {
-  font-family: Avenir;
-  color: #999999;
-  font-size: 14px;
-  max-width: 100px ;
-  width : 100px ;
-  min-width : 100px ;
-
-}
-.reports_th td {
-  font-family: "trade-gothic-no-2-bold" ;
-  color: #999999;
-  font-size: 12px;
-  text-transform: uppercase;
-  text-align: center;
-}
-.reports_th table td:hover {
-  color: #177ac6;
-
-  background-repeat: no-repeat;
-  background-position: 90px center;
-}
-
-
-.reports_val td {
-  overflow: hidden;
-  height: 20px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  padding: 0 10px 0 25px ;
-  text-align: center;
-}
-.reports_val td:nth-child(3) {
-  padding-left: 15px ;
-}
-.reports_val .positive_td {
-  color: #78bb68;
-
-  padding-left: 0px;
-}
-.reports_val .negative_td {
-  color: #f74d51;
-
-  padding-left: 0px;
-}
-
-.reports_val span.positive_sign , .reports_val span.negative_sign  {
-  display: none;
-}
-.reports_val .negative_td span.negative_sign  {
-  margin-right: 6px;
-  display: inline-block;
-}
-.reports_val .positive_td span.positive_sign  {
-  display: inline-block;
-}
-
-.reports_subheadings td {
-  padding: 20px 0 5px ;
-}
-.reports_tr td:first-child {
-  width: 330px ;
-  text-align: left;
-  padding-left: 0px;
-}
-.reports_tr table td:first-child {
-  background-position: 300px center;
-}
-.reports_tr td:nth-child(2) {
-  max-width: 180px ;
-  width : 180px ;
-}
-.reports_tr table td:nth-child(2) {
-  background-position: 164px center;
-}
-.reports_val td:nth-child(2) {
-  text-align: left;
-
-}
-.reports_top_heading {
-  color: #f9b537;
-  font-size: 20pt;
-  font-family: "TradeGothicLTStd-BdCn20";
-  margin-bottom: 20px;
-  margin-top: 10px;
-}
-
-.total_reports_page {
-  margin: 0px auto 40px ;
-  width: 1056px;
-}
-.total_reports_page .row {
-  margin: 0px ;
-}
-.campaigns_dd_reports_heading {
-  text-transform: uppercase;
-  margin-top: 4px;
-  font-family: TradeGothicLTStd;
-  margin-right: 10px;
-  font-size : 12px ;
-}
-.reports_tabs span {
-  display: block;
-  float: left;
-  text-transform: uppercase;
-  margin-right: 52px ;
-  font-family: "TradeGothicLTStd-BdCn20";
-  color: #999999;
-  font-size: 16px;
-  cursor: pointer;
-}
-.reports_tabs span.report_tab_sel {
-  color: #177ac6;
-}
-.reports_tabs {
-  margin-bottom: 20px ;
-}
-.nice_dd {
-  display: none;
-  float: left;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  background-color: #f9b537;
-  font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 10px;
-}
-.back_link {
-  color: #177ac6;
-  font-family: "TradeGothicLTStd-BdCn20";
-  font-size: 16px;
-  margin: 0px 0 20px;
-  text-transform: uppercase;
-  background: url(asset-path("assets/cdesk/icn_back.png")) no-repeat left top ;
-  padding: 1px 0 0 14px ;
-}
-.nice_dd select {
-  padding: 0px 20px 0px 10px;
-  -webkit-appearance: none;
-  max-width: 168px;
-  -moz-appearance: none;
-  text-indent: 0.01px;
-  text-overflow: "";
-  background: transparent;
-  width: 98%;
-  -webkit-appearance: none;
-  border: 0px;
-  font-family: Avenir;
-  color: #fff;
-  font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */ text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
-  height: 25px;
-  max-width: 138px;
-  box-shadow: 0px 0px 0px transparent;
-  -webkit-box-shadow: 0px 0px 0px transparent;
-  -moz-box-shadow: 0px 0px 0px transparent;
-  background-image: url(asset-path("cdesk/arrow_white.png"));
-  background-repeat: no-repeat;
-  background-position: 130px 5px;
-}
-.nice_dd select#campaign_drop_down {
-
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075);
-  border: solid 1px #EBCECE;
-  width: 400px;
-  max-width: 400px;
-}
-.nice_dd select:focus {
-  outline: 0px ;
-  border : 0px ;
-  box-shadow: 0px 0px 0px transparent;
-}
-.nice_dd select option {
-  color : #666 ;
-}
-.campaigns_sel_list_header {
-  border-left: solid 1px #ccc;
-  border-right: solid 1px #ccc;
-  padding: 0 30px;
-  height: 24px;
-}
-/* END OF REPORTS STYLING */
-
-.nice_dd select {
-  max-width: 138px;
-  box-shadow: 0px 0px 0px transparent;
-  -webkit-box-shadow: 0px 0px 0px transparent;
-  -moz-box-shadow: 0px 0px 0px transparent;
-  background-image: url("../img/arrow_white.png");
-  background-repeat: no-repeat;
-  background-position: 130px 5px;
-}
-.campaigns_dd_reports_heading {
-  font-size : 12px ;
-}
-.campaigns_sel_list_header {
-  margin-left : 20px ;
-}
-#detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.header_tab_highlight a {
-  color : #fff ;
-}
-.nice_dd select#campaign_drop_down {
-  background-position: 380px 5px;
-}
-.nice_dd select#campaign_drop_down {
-  float : left ;
-
-}
-.nice_dd select {
-  padding-top : 3px ;
-}
-.reports_tr td:first-child {
-  min-width : 330px ;
-}
-
-.reports_th table td {
-  border-right : solid 1px #ccc ;
-}
-
-.endOfRow {
-  clear: both;
-}
-
-.each_reports_row .positive_td {
-  color: #78bb68;
-  padding-left: 0px;
-}
-.each_reports_row .negative_td {
-  color: #f74d51;
-  padding-left: 0px;
-}
-
-.each_reports_row span.positive_sign , .each_reports_row span.negative_sign  {
-  display: none;
-}
-.each_reports_row .negative_td span.negative_sign  {
-  /*    margin-right: 6px;*/
-  display: inline-block;
-}
-.each_reports_row .positive_td span.positive_sign  {
-  display: inline-block;
-}
-
-.each_rep_col_holder .each_rep_col.negative_td .arrow_img {
-  background: url(asset-path("assets/cdesk/red_arrow.png")) no-repeat right bottom ;
-}
-.each_rep_col_holder .each_rep_col.positive_td .arrow_img  {
-  background: url(asset-path("assets/cdesk/green_arrow.png")) no-repeat ;
-}
-
-
-.each_reports_row span.positive_sign , .each_reports_row span.negative_sign  {
-  display: none;
-}
-.each_reports_row .negative_td span.negative_sign  {
-  /*    margin-right: 6px;*/
-  display: inline-block;
-}
-.each_reports_row .positive_td span.positive_sign {
-  display: inline-block;
-}
-
-.reports_section_details_container .action_selected {
-  background-color: rgba(169, 212, 121, 0.3);
-}
-
-.graph_icon {
-  float:right;
-  width: 20px;
-  height: 20px;
-}
-
-.reports_graph_top_section .col-md-12
-{ padding-left : 0px ; }
-
-
-
-
-#campaignDetail.container .camp-perf-graph .load-more {
-  margin: 60px auto 0;
-  display: block;
-}
-#campaignDetail.container .camp-perf-graph .no-chart {
-  text-align: center;
-  margin-top: 40px;
-  display: block;
-  font-weight: normal;
-  color: #bebebe;
-  text-transform: capitalize;
-  font-family: "Avenir-Roman";
-  font-size: 14px;
-}
-.reports_graph_top_section .load-more {
-    text-align: center;
-    text-indent: -99999;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-    margin: 100px auto;
-    display: block;
-}
-.reports_graph_top_section .no-chart {
-  text-align: center ;
-  margin-top : 100px ;
-  display: block;
-}

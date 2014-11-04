@@ -32,6 +32,11 @@ var angObj = '';
               templateUrl: 'optimization',
               controller: 'OptimizationController'
             })
+            .when('/inventory', {
+              templateUrl: 'inventory'              
+              //controller: 'InventoryController'
+              
+            })
             .otherwise({redirectTo: 'campaigns'});
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
