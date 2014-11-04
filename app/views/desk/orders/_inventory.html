@@ -16,6 +16,7 @@
 		            <span class="arrrow_img"></span>
 		        </span>
 		        <ul class="dropdown_ul dropdown-menu">
+		        	<li>Toyota Corporation Campaign</li>
 		            <li>Lorem Ipsum 1</li>
 		            <li>Lorem Ipsum 2</li>
 		        </ul>
@@ -29,6 +30,7 @@
 		            <span class="arrrow_img"></span>
 		        </span>
 		        <ul class="dropdown_ul dropdown-menu">
+		        	<li>Last 7 days</li>
 		            <li>Last month</li>
 		            <li>Last Year</li>
 		        </ul>
@@ -42,6 +44,7 @@
 	            <span class="arrrow_img"></span>
 	        </span>
 	        <ul class="dropdown_ul dropdown-menu">
+	        	<li>Toyota Corporation Campaign</li>
 	            <li>Lorem Ipsum 3</li>
 	            <li>Lorem Ipsum 4</li>
 	        </ul>
@@ -167,7 +170,16 @@
 $(document).ready( function() {
 	$(".chart_accordion_heading").click(function(){
 		$(this).closest(".each_chart_accordion_holder").find(".inventory_strategy_chart").toggle() ;
-	}) ;
+	});
+	$(".inventory_tabs > span").click(function(){
+		$(".inventory_tab_active").removeClass("inventory_tab_active") ;
+		$(this).addClass("inventory_tab_active") ;
+	});
+	$(".dropdown_ul li").click( function() {
+          $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+    }) ;
+
+
 }) ;
 
 </script>
