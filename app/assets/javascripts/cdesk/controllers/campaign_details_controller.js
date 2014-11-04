@@ -92,7 +92,7 @@
 
         //API call for campaign chart
         dataService.getCdbChartData($routeParams.campaignId, 'lifetime', 'campaigns', null).then(function (result) {
-            var lineData = [];
+            var lineData = [], showExternal = true;
             if(result.status == "success" && !angular.isString(result.data)) {
                 if(!angular.isUndefined($scope.campaign.kpiType)) {
                     if(result.data.data.measures_by_days.length > 0) {
@@ -102,7 +102,8 @@
                             kpiTypeLower = angular.lowercase(kpiType);
                             lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                         }
-                        $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330);
+                        $scope.details.lineData = lineData;
+                        $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
 
                         if((localStorage.getItem('actionSel' ) !== null)) {
                             $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
@@ -115,6 +116,7 @@
                $scope.details.actionChart = false;
             }
         });
+
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
             var param = {
@@ -132,6 +134,12 @@
         $scope.campaigns = filterObject;
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+    
+        $scope.watchFilter = function(filter, showExternal) {
+            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
+            return filter;
+        };
+
     });
 
 }());

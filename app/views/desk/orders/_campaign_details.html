@@ -113,9 +113,9 @@
                                           <span class="dd_txt">External</span>
                                           <span class="arrrow_img"></span>
                                       </span>
-                                      <ul class="dropdown_ul dropdown-menu">
-                                          <li>All</li>
-                                          <li>External</li>
+                                      <ul class="dropdown_ul dropdown-menu" ng-init="myFilter = {make_external: true}">
+                                          <li ng-click="myFilter = watchFilter(null, false)">All</li>
+                                          <li ng-click="myFilter = watchFilter({make_external: true}, true)">External</li>
                                       </ul>
                                   </div>
                             </span>
@@ -124,7 +124,7 @@
                     <div class="col-md-12">
                        
                         <div id="action-container" class="campaign-performance-match">
-                            <div ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat="action in actionItems | orderBy:'created_at':true">
+                            <div ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}"class="row each_action_performance" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:myFilter">
                                 <div class="circle_action col-md-1" style="border:solid 4px {{action.action_color}}"></div>
                                 <div class="each_campaign_perf_details col-md-11">
                                     <div class="row each_action_perf_header clearfix">
