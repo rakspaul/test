@@ -135,7 +135,7 @@
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
     
-        $scope.watchFilter = function(filter, showExternal) {
+        $scope.watchActionFilter = function(filter, showExternal) {
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
             return filter;
         };
