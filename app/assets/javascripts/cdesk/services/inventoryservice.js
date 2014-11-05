@@ -9,9 +9,11 @@
                 return this.fetch(url);
             },
 
-            getCampaingsForUser: function(userId) {
-                var url ='/campaigns/meta?user_id='+userId;
-                this.fetch(url);
+            getCampaingsForUser: function() {
+                console.log("user id is ");
+                console.log(user_id);
+                var url ='/campaigns/meta?user_id='+user_id;
+                return this.fetch(url);
             },
 
             getCategoryDataForStrategy: function (param) {
