@@ -69,7 +69,7 @@
                 }
             }).add();
         };
-        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, orderId) {
+        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, orderId, external) {
             var data = [];
             for (var i = 0; i < lineData.length; i++) {
                 var chartData = lineData[i]['date'].split("-");
@@ -207,23 +207,31 @@
                 func: function(chart) {
                     $timeout(function() {
                         /*Example. actionItems[1].created_at = 1396396800000;//1413459349308;*/
-                        var counter = 0, flag = [], position = 0 ;
-                        if(actionItems) {
+                        var counter = 0, flag = [], position = 0, showExternal;
 
+                        if(external != undefined && external == true) {
+                            //filter applied
+                            showExternal = true;
+                        }
+
+                        if(actionItems) {
                             for(i = chart.series[0].data.length-1; i >= 0; i--) {
                                 position = 0;
                                 for(var j = actionItems.length-1; j >= 0 ; j--) {
                                     var dateUTC = new Date(actionItems[j].created_at);
                                     var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
-
                                     if(chart.series[0].data[i].x == actionUTC){
-                                        if(flag[actionUTC] === undefined){
+                                        if(flag[actionUTC] === undefined) {
                                             flag[actionUTC] = 1;
                                         }else{
                                             position += 10;
                                         }
-                                        drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
-                                        counter++;
+                                        if((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
+                                            //showing markers based on filter type
+                                            drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
+                                            counter++;
+                                        }
+                                         
                                     }
                                 }
                             }
