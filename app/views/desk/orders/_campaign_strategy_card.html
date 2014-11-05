@@ -158,11 +158,11 @@
                             <div class="inner-accordion-details">
                                 <div>
                                     <span class="audience-icon"></span>
-                                    <span> {{strategy.selected_key_values | truncateString : 78}}</span>
+                                    <span>{{(strategy.selected_key_values ? (strategy.selected_key_values | truncateString : 78) :'[...]')}}</span>
                                 </div>
                                 <div>
                                     <span class="globe-icon"></span>
-                                    <span> Milwaukee, WI Charlotte, NC Washington, DC [...]</span>
+                                    <span>{{(strategy.selected_geos ? (strategy.selected_geos | truncateString : 50) :'[...]')}}</span>
                                 </div>
                                 <div>
                                     <span class="location-icon"></span>
@@ -391,7 +391,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <span class="goal-image"></span>
-                                                <span class="action-data">${{tactic.expectedMediaCost | number}}</span>
+                                                <span class="action-data">${{tactic.expectedMediaCost | number : 0}}</span>
                                             </div>
                                             <div class="col-md-6">
                                                 <span class="action-data">{{tactic.actionRate | roundThisOff : 2}}%</span>
