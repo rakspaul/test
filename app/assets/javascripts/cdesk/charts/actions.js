@@ -62,7 +62,9 @@
                 var scrollTo = $('#actionItem_' + this.id);
                 localStorage.setItem('actionSel' , this.id);
                 if(scrollTo.length) {
-                    scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+                    //scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+                    myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
+
                     myContainer.animate({
                         scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                     });

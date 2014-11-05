@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  angObj.factory("dataService", function ($http, api, apiPaths, common, campaign_api) {
+  angObj.factory("dataService", function ($http, api, apiPaths, common, campaign_api, dataTransferService) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
@@ -100,12 +100,19 @@
         );
       },
 
-      getCdbChartData: function (campaignId, timePeriod, type, strategyId) {
+      getCdbChartData: function (campaign, timePeriod, type, strategyId, useDates) {
         var urlPath;
+        var campaignId= campaign.orderId ? campaign.orderId : dataTransferService.getClickedCampaignId();
+        var  durationQuery= 'period=' + timePeriod;
+        if(useDates) {
+            var sd = dataTransferService.getClickedCampaignStartDate() ? dataTransferService.getClickedCampaignStartDate() : campaign.startDate;
+            var ed = dataTransferService.getClickedCampaignEndDate() ? dataTransferService.getClickedCampaignEndDate() : campaign.endDate;
+            durationQuery = 'start_date=' +sd  + '&end_date=' + ed;
+        }
         if (type == 'campaigns') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?period=' + timePeriod;
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?'+durationQuery
         } else if (type == 'strategies') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?period=' + timePeriod;
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?'+durationQuery
         }
         if (common.useTempData) {
           //mock data
@@ -161,8 +168,13 @@
         return this.fetch(url)
       },
 
-      getCampaignData: function (periodKey, campaignId) {
-        var url = api + '/campaigns/' + campaignId + '?period=' + periodKey;
+      getCampaignData: function (periodKey, campaign) {
+          var qs = '?period=' + periodKey;
+          if(periodKey === 'lifetime'){
+              qs = '?start_date='+campaign.startDate+'&end_date='+campaign.endDate;
+          }
+        var url = api + '/campaigns/' + campaign.orderId + qs;
+          //console.log(url);
         return this.fetch(url);
       },
 

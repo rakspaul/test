@@ -124,7 +124,7 @@
                         var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                         angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod), function(campaign) {
                             this.push(campaign);
-                            dataService.getCampaignData(cdbApiKey, campaign.orderId).then(function(response) {
+                            dataService.getCampaignData(cdbApiKey, campaign).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
                             })
                         }, self.campaignList);
