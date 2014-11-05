@@ -203,6 +203,7 @@
                 }
 
             };
+            
         };
         return {
             highChart: columnChart
