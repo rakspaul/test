@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http,inventoryService) {
+    angObj.controller('InventoryController', function ($scope, $http,inventoryService, columnline) {
 
         $scope.init = function () {
             console.log("Inside init method on inventroyController");
@@ -25,6 +25,9 @@ var angObj = angObj || {};
                 });
             };
 
+
+        //Chart
+       $scope. inventoryChart= columnline.highChart();
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
     });

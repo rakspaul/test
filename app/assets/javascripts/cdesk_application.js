@@ -28,6 +28,7 @@
 //= require cdesk/app
 //= require cdesk/charts/line
 //= require cdesk/charts/actions
+//= require cdesk/charts/columnline
 //= require cdesk/controllers/campaign_controller
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
