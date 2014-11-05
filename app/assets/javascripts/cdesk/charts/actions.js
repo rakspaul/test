@@ -208,9 +208,52 @@
                 loading: false,
                 func: function(chart) {
                     $timeout(function() {
-                        /*Example. actionItems[1].created_at = 1396396800000;//1413459349308;*/
                         var counter = 0, flag = [], position = 0, showExternal;
 
+                        //override for redzone test
+                        //kpiType = "clicks";
+                        //threshold = 100;
+
+                        //red zone calculations
+                        var extremesX = chart.xAxis[0].getExtremes();
+                        chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
+                        var extremes = chart.yAxis[0].getExtremes();
+                        
+                        if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                            if(extremes.max <= threshold) {
+                                //check if threshold outside chart (red zone is from above the threshold to max value (that is regenerated if outside graph))
+                                chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max) + 0.5);
+                            }
+                        } else {
+                            //for kpi types - clicks, impressions etc (redzone is from threshold to zero)
+                            if(extremes.max < threshold) {
+                                //check if threshold outside chart
+                                chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max));
+                            }
+                        }
+
+                        //plotting red zone
+                        extremes = chart.yAxis[0].getExtremes();
+                        chart.yAxis[0].addPlotBand({ // Light air
+                            from: threshold, 
+                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
+                            color: '#fbdbd1',
+                            label: {
+                                enabled: false,
+                                text: '',
+                                style: {
+                                    color: 'red'
+                                }
+                            }
+                        });
+
+                        //rendering threshold marker image in y-axis
+                        var renderPos;
+                        if(threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                            chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop/2, 17, 17).add();  
+                        }
+
+                        //rendering action markers after red zone manipulation
                         if(external != undefined && external == true) {
                             //filter applied
                             showExternal = true;
@@ -221,6 +264,7 @@
                                 position = 0;
                                 for(var j = actionItems.length-1; j >= 0 ; j--) {
                                     var dateUTC = new Date(actionItems[j].created_at);
+                                    //example. actionItems[1].created_at  1396396800000 converted to UTC 1413459349308;
                                     var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
                                     if(chart.series[0].data[i].x == actionUTC){
                                         if(flag[actionUTC] === undefined) {
@@ -238,30 +282,12 @@
                                 }
                             }
                         }
+
                         if(orderId !== undefined) {
                             var id = orderId.action.ad_id+''+orderId.action.id;
                             $('circle#' +id).attr({stroke: 'green', fill:'green'});
                         }
-                        var extremesX = chart.xAxis[0].getExtremes();
-                        chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
-                        var extremes = chart.yAxis[0].getExtremes();
-                        chart.yAxis[0].addPlotBand({ // Light air
-                            from: threshold, 
-                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
-                            color: '#fbdbd1',
-                            label: {
-                                enabled: false,
-                                text: '',
-                                style: {
-                                    color: 'red'
-                                }
-                            }
-                        });
-                    
-                        var renderPos;
-                        if(threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                            chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop/2, 17, 17).add();  
-                        }
+
                     }, 1000);
                 }
             }
