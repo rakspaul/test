@@ -10,20 +10,27 @@ var angObj = angObj || {};
                 name: 'RE SZ WDBJ Piedmont Eye Center Q114'
             };
 
+        $scope.campaignlist();
         $scope.strategylist($scope.selectedCampaign.id);
 
+        };
 
+        $scope.campaignlist = function(){
+             inventoryService.getCampaingsForUser().then(function(result){
+               $scope.campaingns = result.data.data;
+                 console.log($scope.campaingns);
+            });
         };
 
 
 
             $scope.strategylist = function(campaignId) {
-
                 inventoryService.getStrategiesForCampaign(campaignId).then(function(result){
                     $scope.strategies = result.data.data;
-
                 });
+              //  $scope.selectedStrategy = $scope.strategies[0];
             };
+
 
 
         //Chart
