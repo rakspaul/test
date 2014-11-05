@@ -9,26 +9,15 @@
                 this.fetch(url);
             },
 
-//            getInventoryDataForStrategy: function(urlPath){
-//                return $http({
-//                    url : urlPath ,
-//                    method : 'GET',
-//                    cache : false
-//                }).then(function (response){
-//                    return {
-//                        status : "success",
-//                        data : response.data.data
-//
-//                    };
-//                }, function (error) {
-//                    return {
-//                        status : "error",
-//                        data : error
-//                    };
-//                });
-//
-//            },
+            getCampaingsForUser: function(userId) {
+                var url ='/campaigns/meta?user_id='+userId;
+                this.fetch(url);
+            },
 
+            getCategoryDataForStrategy: function (param) {
+                var url='/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/category?kpi_type='+param.kpi_type;
+                this.fetch(url);
+            },
 
             fetch: function (url) {
                 return $http({
