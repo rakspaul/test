@@ -12,20 +12,28 @@ var angObj = angObj || {};
                 kpiType:'CPA'
             };
 
+        $scope.campaignlist();
         $scope.strategylist($scope.selectedCampaign.id);
 
+        };
 
+        $scope.campaignlist = function(){
+             inventoryService.getCampaingsForUser().then(function(result){
+               $scope.campaingns = result.data.data;
+                 console.log($scope.campaingns);
+            });
         };
 
 
 
             $scope.strategylist = function(campaignId) {
-
                 inventoryService.getStrategiesForCampaign(campaignId).then(function(result){
                     $scope.strategies = result.data.data;
-
                 });
+
                 $scope.getStrategyChart({campaign_id: campaignId, strategyId: $scope.selectedCampaign.strategyId, kpi_type:$scope.selectedCampaign.kpiType});
+
+              //  $scope.selectedStrategy = $scope.strategies[0];
             };
 
         $scope.getStrategyChart = function(param){
@@ -35,9 +43,6 @@ var angObj = angObj || {};
 
             });
         };
-
-
-        //$scope. inventoryChart= columnline.highChart();
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
