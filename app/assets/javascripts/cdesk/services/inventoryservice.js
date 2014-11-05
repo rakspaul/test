@@ -16,7 +16,9 @@
             },
 
             getCategoryDataForStrategy: function (param) {
+
                 var url= apiPaths.apiSerivicesUrl +'/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/'+param.domain+'?kpi_type='+param.kpi_type + '&date_filter='+ param.time_filter;
+
                 return this.fetch(url);
             },
 

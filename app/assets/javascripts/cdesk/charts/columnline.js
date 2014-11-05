@@ -7,6 +7,7 @@
             /*console.log("======================");
              console.log("kpIType :"+ kpIType);
              console.log("======================");*/
+
             var xData = [],
                 impLine = [],
                 kpiColumn = [];
@@ -47,6 +48,7 @@
                      }
                      }
                      },*/
+
                     colors: [
                         '#2e8ed3',
                         '#45a1e3',
@@ -69,6 +71,7 @@
                                 return  '';
                             }
                         },
+
                         style: {
                             padding: 10,
                             fontWeight: 'bold'
@@ -82,6 +85,7 @@
                         lineColor: 'grey',
                         tickWidth: 0,
                         labels: {
+
                             enabled: true,
                             formatter: function() {
                                 if (this) {
@@ -90,6 +94,8 @@
                                     return  '';
                                 }
                             }
+
+
                         },
                         title: {
                             align: 'high',
@@ -165,6 +171,7 @@
                     yAxis: 1,
                     data: kpiColumn,
                     tooltip: {
+
                         enabled: false
                         // valueSuffix: ' mm'
                         //pointFormat: "{point.y:.2f}",
@@ -177,6 +184,7 @@
                     tooltip: {
                         enabled: false
                         //pointFormat: "{point.y:.2f}",
+
                         //valueSuffix: '°C'
                     },
                     color: '#00bff0',
