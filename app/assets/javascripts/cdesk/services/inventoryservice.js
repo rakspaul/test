@@ -1,4 +1,3 @@
-/*global angObj*/
 (function () {
     "use strict";
     angObj.factory("inventoryService", function ($http, api, apiPaths, common, campaign_api) {
