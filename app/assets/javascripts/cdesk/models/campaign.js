@@ -131,7 +131,7 @@
         };
 
         var createStrategyObject = function(strategyData, timePeriod, campaign, kpiType, kpiValue) {
-            var strategyObj = [], adSize = '', keyValues = '', geos=''; ;
+            var strategyObj = [], adSize = '', keyValues = '', geos = '';
             for(var index in strategyData) {
                 var strategy = strategyData[index];
                 //Iterating the creatives object
