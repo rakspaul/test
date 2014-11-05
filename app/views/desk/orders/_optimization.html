@@ -70,7 +70,7 @@
             </div>
 
             <div class="reports_section_details_container reports_section_details_more" id="action-container">
-                <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at'" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id)">
+                <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id)">
                     <div class="each_rep_col_holder clearfix" >
                         <img id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id" src="assets/cdesk/graphIcon.png" class="graph_icon"/>
                         <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
