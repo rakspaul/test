@@ -15,16 +15,14 @@ var angObj = angObj || {};
 
         };
 
-            $scope.strategylist = function(campaingId) {
-                console.log("inventroy_controller strategyList function ")
 
-                inventoryService.getStrategiesForCampaign(campaingId).then(function (result) {
-                    console.log("Strategies data is ");
-                    console.log(result.data);
 
-                    $scope.strategies = result.data;
+            $scope.strategylist = function(campaignId) {
 
-                })
+                inventoryService.getStrategiesForCampaign(campaignId).then(function(result){
+                    $scope.strategies = result.data.data;
+
+                });
             };
 
         //Hot fix to show the campaign tab selected
