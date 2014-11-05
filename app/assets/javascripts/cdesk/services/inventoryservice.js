@@ -4,9 +4,9 @@
     angObj.factory("inventoryService", function ($http, api, apiPaths, common, campaign_api) {
         $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
         return {
-            getStrategiesForCampaign: function(campaingId){
-                var url= '/campaigns/'+ campaingId +'/strategies/meta' ;
-                this.fetch(url);
+            getStrategiesForCampaign: function(campaingId) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';
+                return this.fetch(url);
             },
 
             getCampaingsForUser: function(userId) {
@@ -36,9 +36,8 @@
                             status: "error",
                             data: error
                         };
-                    }
-                );
-            },
+                    });
+            }
 
         };
     });
