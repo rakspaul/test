@@ -16,7 +16,9 @@
 
             getCategoryDataForStrategy: function (param) {
                 var url='/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/category?kpi_type='+param.kpi_type;
-                this.fetch(url);
+                //Temporary
+                //var url = 'http://localhost:3000/assets/cdesk/charts/chart.json';
+                return this.fetch(url);
             },
 
             fetch: function (url) {
