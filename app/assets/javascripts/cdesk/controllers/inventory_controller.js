@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, inventoryService, $http) {
+    angObj.controller('InventoryController', function ($scope, $http,inventoryService) {
 
         $scope.init = function () {
             console.log("Inside init method on inventroyController");
@@ -11,6 +11,7 @@ var angObj = angObj || {};
             };
 
         $scope.strategylist($scope.selectedCampaign.id);
+
 
         };
 
