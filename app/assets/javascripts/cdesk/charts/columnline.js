@@ -1,176 +1,208 @@
-/*global angObj, angular*/
 (function() {
     "use strict";
     angObj.factory("columnline", function($timeout) {
 
-        var columnChart = function(lineDate, threshold, kpiType) {
-            var data = [],
-                datObj = [];
-
-
+        var columnChart = function(chartData, kpIType) {
+            /*console.log("======================");
+             console.log("kpIType :"+ kpIType);
+             console.log("======================");*/
+            var xData = [],
+                impLine = [],
+                kpiColumn = [];
+            for (var i = 0; i < chartData.length; i++) {
+                //xData.push(chartData[i].domain_data);
+                xData.push({custom: i, y: chartData[i].domain_data });
+                impLine.push(chartData[i].impressions);
+                kpiColumn.push(chartData[i].kpi_value);
+            }
+            var i = 1;
             return {
-                credits: {
-                    enabled: false
-                },
-                rangeSelector: {
-                    selected: 1
-                },
-                tooltip: {
-                    useHTML: true,
-                    dateTimeLabelFormats: {
-                        day: '%e of %b'
-                    },
-                    formatter: function () {
-                        return '<div class="chart-tool-tip" >' + this.series.name  + '<br/>' + Highcharts.dateFormat('%e', this.value) + '-' + Highcharts.dateFormat('%b', this.value) + ': ' + this.y + '</div>';
-                    }
-                },
-                title: {
-                    text: null
-                },
-                legend: {
-                    enabled: false
-                },
-                xAxis: [{
-                    categories: ['iab-tech', 'iab-movies', 'iab-sports', 'iab-vtech', 'iab-dadatech', 'iab-whoknows',
-                        'iab-whatever', 'iab-iamtired', 'iab-cool', 'iab-music', 'iab-karaoke', 'iab-rap'],
-                    lineWidth: 0,
-                    minorGridLineWidth: 0,
-                    lineColor: 'transparent',
-                    tickWidth: 0,
-                    labels:{
-                        enabled:false
-                    }
-                }
-                  ],
 
-                yAxis: [{ // Primary yAxis
-                    labels: {
-                        enabled:false,
-                        format: '',
+                //This is not a highcharts object. It just looks a little like one!
+                options: {
+                    //This is the Main Highcharts chart config. Any Highchart options are valid here.
+                    //will be ovverriden by values specified below.
+                    chart: {
+                        type: 'column',
+                        width: 400,
+                        height: 260,
+                        margin: [20, 40, 30, 40]
+                    },
+                    /* plotOptions: {
+                     column: {
+                     dataLabels: {
+                     inside: true,
+                     enabled: true,
+                     verticalAlign:'bottom',
+                     color: '#ffffff',
+                     style: {
+                     fontFamily: '"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif', // default font
+                     fontSize: '14px',
+                     fontWeight: 'bold'
+                     },
+                     formatter: function () {
+                     return parseInt(this.point.category.custom + 1);
+                     }
+                     }
+                     }
+                     },*/
+                    colors: [
+                        '#2e8ed3',
+                        '#45a1e3',
+                        '#76bef2',
+                        '#8ccdfc',
+                        '#d2dee7'
+                    ],
+                    credits: {
+                        enabled: false
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            if (this.key) {
+                                var currency =(kpIType === 'CTR')? '' : '$';
+                                return  this.key.y +' : '+currency+''+Highcharts.numberFormat(this.y, 1);
+                            } else {
+                                return  '';
+                            }
+                        },
                         style: {
-                            color: Highcharts.getOptions().colors[1]
+                            padding: 10,
+                            fontWeight: 'bold'
                         }
                     },
-                    title: {
-                        text: '',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
+                    xAxis: {
+                        categories: xData,
+                        lineWidth: 1,
+                        minorGridLineWidth: 0,
+                        gridLineWidth: 0,
+                        lineColor: 'grey',
+                        tickWidth: 0,
+                        labels: {
+                            enabled: true,
+                            formatter: function() {
+                                if (this) {
+                                    return parseInt(i++);
+                                } else {
+                                    return  '';
+                                }
+                            }
+                        },
+                        title: {
+                            align: 'high',
+                            offset: 5,
+                            text: '',
+                            rotation: 0,
+                            y: -5
                         }
+                    },
+
+                    yAxis: [{ // Primary yAxis
+                        labels: {
+                            enabled: true,
+                            formatter: function() {
+                                if (this.value) {
+                                    return Highcharts.numberFormat(this.value, 1);
+                                } else {
+                                    return Highcharts.numberFormat(this.value, 1);
+                                }
+                            }
+                        },
+                        tickWidth: 1,
+                        lineWidth: 1,
+                        gridLineWidth: 0,
+                        //lineColor: 'grey',
+                        minorGridLineWidth: 0,
+                        opposite: true,
+
+                        title: {
+                            align: 'high',
+                            offset: 5,
+                            text: 'Imps.',
+                            rotation: 0,
+                            y: -5,
+                            x: -20
+                        }
+                    }, { // Secondary yAxis
+                        title: {
+                            align: 'high',
+                            offset: 5,
+                            text: kpIType,
+                            rotation: 0,
+                            y: -5,
+                            x: 40
+                        },
+                        labels: {
+                            enabled: true,
+                            formatter: function() {
+                                if (this.value) {
+                                    return '$' + Highcharts.numberFormat(this.value, 1);
+                                } else {
+                                    return '$' + Highcharts.numberFormat(this.value, 1);
+                                }
+                            }
+                        },
+                        lineWidth: 1,
+                        tickWidth: 1,
+                        gridLineWidth: 0,
+                        //lineColor: 'grey',
+                        minorGridLineWidth: 0,
+                        opposite: false
+
+                    }],
+                    //Title configuration (optional)
+                    title: {
+                        text: ' '
                     }
-                }, { // Secondary yAxis
-                    title: {
-                        text: '',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    labels: {
-                        enabled:false,
-                        format: '{value} mm',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    opposite: true
-                }],
+                },
+                //Series object (optional) - a list of series using normal highcharts series options.
                 series: [{
                     name: '',
                     type: 'column',
                     yAxis: 1,
-                    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+                    data: kpiColumn,
                     tooltip: {
-                        valueSuffix: ' mm'
-                    }
+                        enabled: false
+                        // valueSuffix: ' mm'
+                        //pointFormat: "{point.y:.2f}",
 
+                    }
                 }, {
                     name: '',
                     type: 'line',
-                    data: [2332, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                    data: impLine,
                     tooltip: {
-                        valueSuffix: '°C'
+                        enabled: false
+                        //pointFormat: "{point.y:.2f}",
+                        //valueSuffix: '°C'
+                    },
+                    color: '#00bff0',
+                    marker: {
+                        enabled: true,
+                        fillColor: '#0978c9'
+                    },
+                    states: {
+                        hover: {
+                            enabled: false
+                        }
                     }
                 }],
+
+                //Boolean to control showng loading status on chart (optional)
                 loading: false,
+
+                //Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
+                useHighStocks: false,
+                //size (optional) if left out the chart will default to size of the div or something sensible.
+
+                //function (optional)
                 func: function(chart) {
-                    //
+                    //setup some logic for the chart
                 }
 
             };
-         /*   return  {
-                chart: {
-                    width: 295,
-                    height: 240
-                },
-                title: {
-                    text: ' '
-                },
-                subtitle: {
-                    text: ' '
-                },
-                xAxis: [{
-                    enabled:false,
-                    categories: ['iab-tech', 'iab-movies', 'iab-sports', 'iab-vtech', 'iab-dadatech', 'iab-whoknows',
-                        'iab-whatever', 'iab-iamtired', 'iab-cool', 'iab-music', 'iab-karaoke', 'iab-rap']
-                }],
-                yAxis: [{ // Primary yAxis
-                    labels: {
-                        format: '',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
-                        }
-                    },
-                    title: {
-                        text: '',
-                        style: {
-                            color: Highcharts.getOptions().colors[1]
-                        }
-                    }
-                }, { // Secondary yAxis
-                    title: {
-                        text: '',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    labels: {
-                        enabled:false,
-                        format: '{value} mm',
-                        style: {
-                            color: Highcharts.getOptions().colors[0]
-                        }
-                    },
-                    opposite: true
-                }],
-                tooltip: {
-                    shared: true
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    x: 120,
-                    verticalAlign: 'top',
-                    y: 100,
-                    floating: true,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-                },
-                series: [{
-                    name: '',
-                    type: 'column',
-                    yAxis: 1,
-                    data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
-                    tooltip: {
-                        valueSuffix: ' mm'
-                    }
-
-                }, {
-                    name: '',
-                    type: 'line',
-                    data: [2332, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
-                    tooltip: {
-                        valueSuffix: '°C'
-                    }
-                }]
-            };*/
         };
         return {
             highChart: columnChart
