@@ -22,7 +22,6 @@
 		        </ul>
 		    </div>
 		    <div class="pull-right download_report">
-				Download Report
 			</div>
 		    <div class="pull-right dropdown dropdown_type3">
 		    	<span class="dropdown_ul_text" data-toggle="dropdown">
@@ -178,7 +177,17 @@ $(document).ready( function() {
 	$(".dropdown_ul li").click( function() {
           $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
     }) ;
-
+	$(".performance_selection").click( function(){
+		console.log( $(this).find(".performance_symbol").hasClass("top_perf_symbol")  ) ;
+		if( $(this).find(".performance_symbol").hasClass("top_perf_symbol") ) {
+			$(".performance_symbol").removeClass("top_perf_symbol") ;
+			$(".performance_text").text("Bottom Performance") ;
+		} else {
+			$(".performance_symbol").addClass("top_perf_symbol") ;
+			$(".performance_text").text("Top Performance") ;
+		}
+		
+	});
 
 }) ;
 
