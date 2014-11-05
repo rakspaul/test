@@ -19,7 +19,7 @@
             if (result.data) {
                 var dataArr = [result.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'lifetime', 'life_time')[0];
-
+                $scope.getCdbChartData($scope.campaign);
                 dataService.getCampaignData('lifetime', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
                 });
@@ -33,7 +33,7 @@
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;
-          var strategyByActionId = {};
+            var strategyByActionId = {};
             if (actionItems.length > 0) {
                 for(var i = actionItems.length-1; i >= 0; i--){
                     for(var j = actionItems[i].action.length - 1; j >= 0; j--){
@@ -93,33 +93,33 @@
             }
         };
 
-        $timeout(function(){
+        $scope.getCdbChartData = function(campaign) {
             //API call for campaign chart
-            dataService.getCdbChartData($scope.campaign, 'lifetime', 'campaigns', null, true).then(function (result) {
-                var lineData = [], showExternal = true;;
-                if(result.status == "success" && !angular.isString(result.data)) {
-                    if(!angular.isUndefined($scope.campaign.kpiType)) {
-                        if(result.data.data.measures_by_days.length > 0) {
+            dataService.getCdbChartData(campaign, 'lifetime', 'campaigns', null, true).then(function (result) {
+                var lineData = [], showExternal = true;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    if (!angular.isUndefined($scope.campaign.kpiType)) {
+                        if (result.data.data.measures_by_days.length > 0) {
                             var maxDays = result.data.data.measures_by_days;
                             var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
                             for (var i = 0; i < maxDays.length; i++) {
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
-                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
+                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330, null, undefined, showExternal);
 
-                            if((localStorage.getItem('actionSel' ) !== null)) {
+                            if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
                             }
                         }
-                    }else{
-                      $scope.details.actionChart = false;
+                    } else {
+                        $scope.details.actionChart = false;
                     }
-                }else{
-                   $scope.details.actionChart = false;
+                } else {
+                    $scope.details.actionChart = false;
                 }
             });
-        }, 1000);
+        };
 
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
