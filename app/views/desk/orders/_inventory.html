@@ -36,18 +36,22 @@
 		    </div>
 			
 		</div>
+
+        <div class="dropdown dropdown_type2">
+        <select ng-model="selectedStrategy">
+            <option ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name}}</option>
+        </select>
+        </div>
 		
-		<div class="dropdown dropdown_type2">
-	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt">Toyota Corporation Campaign</span>
-	            <span class="arrrow_img"></span>
-	        </span>
-	        <ul class="dropdown_ul dropdown-menu">
-	        	<li>Toyota Corporation Campaign</li>
-	            <li>Lorem Ipsum 3</li>
-	            <li>Lorem Ipsum 4</li>
-	        </ul>
-	    </div>
+		<!--<div class="dropdown dropdown_type2">-->
+	        <!--<span class="dropdown_ul_text " data-toggle="dropdown">-->
+	            <!--<span class="dd_txt">Toyota Corporation Campaign</span>-->
+	            <!--<span class="arrrow_img"></span>-->
+	        <!--</span>-->
+	        <!--<ul class="dropdown_ul dropdown-menu"ng-repeat="strategy in strategies" data-ng-click="onStrategySelect()">-->
+	        	<!--<li>{{strategy.name}}</li>-->
+	        <!--</ul>-->
+	    <!--</div>-->
 	    <div class="inventory_charts_details_holder">
 	    
 		    <div class="clearfix chart_inventory_header">
