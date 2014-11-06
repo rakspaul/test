@@ -4,7 +4,9 @@
     angObj.factory("columnline", function($timeout) {
 
         var columnChart = function(chartData, kpIType) {
-
+            /*console.log("======================");
+            console.log("kpIType :"+ kpIType);
+            console.log("======================");*/
             var xData = [],
                 impLine = [],
                 kpiColumn = [];

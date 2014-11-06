@@ -29,6 +29,13 @@ var angObj = angObj || {};
             cssClass: 'top_perf_symbol'
         };
 
+        $scope.tacticList ={
+                tacticList:[],
+                topPerformance: [],
+                bottomPerformance: [],
+                show:'topPerformance'
+        };
+
         $scope.init = function () {
             $scope.campaignlist();
         };
@@ -54,6 +61,7 @@ var angObj = angObj || {};
         };
 
         $scope.strategylist = function (campaignId) {
+            console.log('CALLED strategylist ');
             inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
@@ -61,24 +69,37 @@ var angObj = angObj || {};
                     $scope.selectedStrategy.name = $scope.strategies[0].name;
                 }
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
+
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
             });
 
         };
 
         $scope.getTacticList = function (param) {
+            console.log("CALLED  getTacticList");
             inventoryService.getAllTacticDomainData(param).then(function (result) {
-                $scope.tacticList = result.data.data[0].tactics;
+                $scope.tacticList.tacticList = result.data.data[0].tactics;
+                for (var t in  $scope.tacticList.tacticList) {
+                    var topPerformance=[],bottomPerformance=[];
+                   // console.log($scope.tacticList.tacticList[t].id);
+                    var resultTableData =  $scope.tacticList.tacticList[t].inv_metrics;
 
-                for (var data in  $scope.tacticList.inv_metrics) {
-                    if (resultTableData[data].tb === 1) {
-                        $scope.strategyTable.topPerformance.push(resultTableData[data]);
+                    for (var data in resultTableData) {
+                        if (resultTableData[data].tb === 1) {
 
-                    } else {
-                        $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
+                             topPerformance.push(resultTableData[data]);
+                        } else {
+                            bottomPerformance.push(resultTableData[data]);
+                        }
                     }
-                }
+                    topPerformance = topPerformance.slice(0,5);
+                    bottomPerformance = bottomPerformance.slice(0,5);
 
+                    $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:topPerformance, chart:columnline.highChart(topPerformance, $scope.selected_filters.kpi_type) });
+                    $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:bottomPerformance, chart:columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type)});
+                }
+                /*console.log("==================");
+                console.log($scope.tacticList);*/
             });
         }
 
@@ -102,7 +123,7 @@ var angObj = angObj || {};
                 }
                 //Default show the top performance strategies
                 $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
-                $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selectedCampaign.kpiType);
+                $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                 if ($scope.inventoryChart === undefined || $scope.inventoryChart === null || resultTableData === undefined) {
                     $scope.inventoryChart = false;
                 }
@@ -115,12 +136,14 @@ var angObj = angObj || {};
                 $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0, 5);
                 $scope.strategyTable.show = 'Bottom';
                 $scope.strategyTable.cssClass = '';
+                $scope.tacticList.show = 'bottomPerformance';
             } else {
                 $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
                 $scope.strategyTable.show = 'Top';
                 $scope.strategyTable.cssClass = 'top_perf_symbol';
+                $scope.tacticList.show = 'topPerformance';
             }
-            $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selectedCampaign.kpiType);
+            $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
         };
 
         //Function called when the user clicks on the strategy dropdown
@@ -130,6 +153,7 @@ var angObj = angObj || {};
             $scope.selectedStrategy.name = $(e.target).text();
             $scope.$apply();
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
+            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
 
         });
         //Function called when the user clicks on the campaign dropdown
@@ -139,6 +163,7 @@ var angObj = angObj || {};
             $scope.selectedCampaign.name = $(e.target).text();
             $scope.$apply();
             $scope.strategylist($scope.selectedCampaign.id);
+
         });
 
         //Function called when the user clicks on the CPA dropdown
@@ -148,7 +173,7 @@ var angObj = angObj || {};
             $scope.$apply();
             console.log("selected kpi is " + $scope.selected_filters.kpi_type);
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
-
+            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
         });
 
         //Function called when the user clicks on the category tabs
@@ -158,7 +183,7 @@ var angObj = angObj || {};
             $('.page_loading').css({'display': 'block'});
             $scope.$apply();
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
-
+            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.category });
         });
 
 
