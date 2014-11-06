@@ -12,7 +12,7 @@
             getCampaingsForUser: function() {
                 console.log("user id is ");
                 console.log(user_id);
-                var url ='/campaigns/meta?user_id='+user_id;
+                var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+user_id;
                 return this.fetch(url);
             },
 
