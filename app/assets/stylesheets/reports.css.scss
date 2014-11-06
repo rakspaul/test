@@ -347,6 +347,15 @@
 .reports_main_page_holder {
 	margin: 0px auto 40px;
 	width: 1056px;
+  .page_loading {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174 , 0.8);
+    z-index: 1;
+  }
 }
 .inventory_reports_container {
 	font-family: "Avenir";
