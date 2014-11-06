@@ -162,6 +162,7 @@
                     ad_size: adSize,
                     tactics_count: strategy.ads_count || 0,
                     selected_key_values: keyValues,
+                    selected_geos: geos,
                     totalImpressions: null,
                     grossRev: null,
                     expectedMediaCost: strategy.expected_media_cost,
