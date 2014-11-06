@@ -46,7 +46,7 @@ var angObj = '';
 
     var urlPaths = {
         campaignDetails: 'https://qa-desk.collective.com',
-        apiSerivicesUrl: 'http://qa-desk.collective.com:9000'
+        apiSerivicesUrl: 'http://localhost:9011'
     };
     angObj.constant('apiPaths', urlPaths);
 
