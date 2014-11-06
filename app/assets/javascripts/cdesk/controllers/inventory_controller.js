@@ -89,6 +89,7 @@ var angObj = angObj || {};
                 }
             });
 
+
         };
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
@@ -159,6 +160,7 @@ var angObj = angObj || {};
                 }
             });
         };
+
 
         //Function called when the user clicks on the 'Top performance' button
         $scope.showPerformance = function (flag) {
