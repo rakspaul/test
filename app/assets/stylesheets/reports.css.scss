@@ -530,6 +530,13 @@
 		.inventory_strategy_chart {
 			border-top: 0px ;
 		}
+
+        .closed{
+          display: none;
+        }
+        .open{
+          display : block;
+        }
 	}
 	.inventory_tabs {
 		text-transform: uppercase;
