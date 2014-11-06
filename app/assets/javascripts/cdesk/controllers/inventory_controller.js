@@ -33,6 +33,9 @@ var angObj = angObj || {};
         $scope.campaignlist = function(){
              inventoryService.getCampaingsForUser().then(function(result){
                $scope.campaingns = result.data.data;
+                 if(result.status ==="OK" || result.status === "success"){
+                     $('.page_loading').css({'display': 'none'});
+                 }
 
                  if(typeof  $scope.campaingns !== 'undefined' &&  $scope.campaingns.length > 0) {
                      $scope.selectedCampaign.id = $scope.campaingns[0].campaign_id;
@@ -69,6 +72,9 @@ var angObj = angObj || {};
         //Function called to draw the Strategy chart
         $scope.getStrategyChart = function(param){
             inventoryService.getCategoryDataForStrategy(param).then(function(result){
+                if(result.status ==="OK" || result.status === "success"){
+                    $('.page_loading').css({'display': 'none'});
+                }
                 var resultTableData = result.data.data[0].inv_metrics;
 
                 for(var data in resultTableData){
@@ -79,8 +85,9 @@ var angObj = angObj || {};
                         $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
                     }
                 }
+                console.log('tabke data is ss');
                 //Default show the top performance strategies
-                $scope.strategyTableData = $scope.strategyTable.topPerformance;
+                $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0,5);
                 $scope. inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selectedCampaign.kpiType);
                 if($scope. inventoryChart === undefined || $scope. inventoryChart === null || resultTableData === undefined) {
                     $scope.inventoryChart = false;
@@ -92,11 +99,11 @@ var angObj = angObj || {};
         //Function called when the user clicks on the 'Top performance' button
         $scope.showPerformance = function(flag){
             if(flag === 'Top'){
-                $scope.strategyTableData = $scope.strategyTable.bottomPerformance;
+                $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0,5);
                 $scope.strategyTable.show='Bottom';
                 $scope.strategyTable.cssClass='';
             }else{
-                $scope.strategyTableData = $scope.strategyTable.topPerformance
+                $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0,5);
                 $scope.strategyTable.show='Top';
                 $scope.strategyTable.cssClass='top_perf_symbol';
             }
@@ -105,15 +112,30 @@ var angObj = angObj || {};
 
 
         $('#strategies_list').click(function(e){
+            $('.page_loading').css({'display': 'block'});
             $scope.selectedStrategy.id = $(e.target).attr('value');
             $scope.selectedStrategy.name =  $(e.target).text();
             $scope.$apply();
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type });
+
         });
         $('#campaigns_list').click(function(e){
+            $('.page_loading').css({'display': 'block'});
             $scope.selectedCampaign.id = $(e.target).attr('value');
             $scope.selectedCampaign.name =  $(e.target).text();
             $scope.$apply();
+            $scope.strategylist( $scope.selectedCampaign.id );
         });
+
+        $('#kpi_list').click(function(e){
+            $('.page_loading').css({'display': 'block'});
+            $scope.selected_filters.kpi_type = $(e.target).text();
+            $scope.$apply();
+            console.log("selected kpi is "+  $scope.selected_filters.kpi_type );
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type });
+
+        });
+
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
