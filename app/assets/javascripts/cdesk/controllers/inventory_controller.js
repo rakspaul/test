@@ -98,8 +98,6 @@ var angObj = angObj || {};
                     $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:topPerformance, chart:columnline.highChart(topPerformance, $scope.selected_filters.kpi_type) });
                     $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:bottomPerformance, chart:columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type)});
                 }
-                /*console.log("==================");
-                console.log($scope.tacticList);*/
             });
         }
 
@@ -145,6 +143,16 @@ var angObj = angObj || {};
             }
             $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
         };
+
+        //Function to expand and collide tactic accordian.
+        $scope.clickTactic = function(id){
+            console.log("tactic accordian is clicked");
+            console.log(id);
+            $('#tactic_'+id+'_body').toggle();
+
+
+        }
+
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
             $('.page_loading').css({'display': 'block'});

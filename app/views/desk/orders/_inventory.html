@@ -113,16 +113,16 @@
 		    </div>
 	    </div>
 
-	    <div  id="tactic_{{$index+1}}" class="each_chart_accordion_holder" ng-repeat="tactic in tacticList[tacticList.show]">
+	    <div  class="each_chart_accordion_holder" ng-repeat="tactic in tacticList[tacticList.show]" >
 
-	    	<div class="chart_accordion_heading">
+	    	<div  id="tactic_{{$index}}"  class="chart_accordion_heading" ng-click="clickTactic($index)">
 	    		 {{tactic.name}}
 	    	</div>
-	    	<div class="inventory_strategy_chart clearfix">
+	    	<div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} " id="tactic_{{$index}}_body" >
 		    	<div class="pull-left inventory_chart">
                     <highchart id="highcharts" config="tactic.chart" chartTitle=""></highchart>
 		    	</div>
-		    	<div class="inventory_chart_details_list" id="tactic_{{$index+1}}_body">
+		    	<div class="inventory_chart_details_list" >
 			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-repeat="tableData in tactic.data">
 			    		<span class="row_index">{{$index + 1}}</span>
 			    		<span class="url_val" title="{{tableData.domain_data}}" >{{tableData.domain_data | formatUrl}}</span>
