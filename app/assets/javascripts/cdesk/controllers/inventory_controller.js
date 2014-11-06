@@ -10,13 +10,13 @@ var angObj = angObj || {};
         };
 
         $scope.selectedStrategy = {
-
             id: '-1',
             name: 'No Strategy Found'
         };
 
         $scope.selected_filters = {
             time_filter: 'lifetime',
+            time_filter_text: 'Last Year',
             kpi_type: 'CPA',
             tb: '1',
             domain: 'category'
@@ -35,6 +35,12 @@ var angObj = angObj || {};
                 bottomPerformance: [],
                 show:'topPerformance'
         };
+
+        $scope.durationFilter=[
+            {value: 'weekly',  text: 'Last 7 days'},
+            {value: 'monthly',  text: 'Last month'},
+            {value: 'lifetime',  text: 'Last Year'}
+        ];
 
         $scope.init = function () {
             $scope.campaignlist();
@@ -158,9 +164,7 @@ var angObj = angObj || {};
             console.log("tactic accordian is clicked");
             console.log(id);
             $('#tactic_'+id+'_body').toggle();
-
-
-        }
+        };
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
@@ -168,11 +172,8 @@ var angObj = angObj || {};
             $scope.selectedStrategy.id = $(e.target).attr('value');
             $scope.selectedStrategy.name = $(e.target).text();
             $scope.$apply();
-
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-
-
         });
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
@@ -181,12 +182,12 @@ var angObj = angObj || {};
             $scope.selectedCampaign.name = $(e.target).text();
             $scope.$apply();
             $scope.strategylist($scope.selectedCampaign.id);
-
         });
 
         $('#time_filter_list').click(function(e){
             $('.page_loading').css({'display': 'block'});
             $scope.selected_filters.time_filter= $(e.target).attr('value');
+            $scope.selected_filters.time_filter_text= $(e.target).text();
             $scope.$apply();
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
         });
@@ -200,8 +201,6 @@ var angObj = angObj || {};
 
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-
-
         });
 
         //Function called when the user clicks on the category tabs
@@ -210,10 +209,8 @@ var angObj = angObj || {};
             $scope.selected_filters.domain = $(e.target).attr('_key');
             $('.page_loading').css({'display': 'block'});
             $scope.$apply();
-
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-
         });
 
         //Function called when the user scrolls the document
