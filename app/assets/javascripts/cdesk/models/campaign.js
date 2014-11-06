@@ -131,12 +131,16 @@
         };
 
         var createStrategyObject = function(strategyData, timePeriod, campaign, kpiType, kpiValue) {
-            var strategyObj = [], adSize = '', keyValues = '';
+            var strategyObj = [], adSize = '', keyValues = '', geos = '';
             for(var index in strategyData) {
                 var strategy = strategyData[index];
                 //Iterating the creatives object
                 if(strategy.creatives.length > 0) {
                     adSize = appendStrategyData(strategy.creatives, 'ad_size');
+                }
+
+                if(strategy.selected_geos.length > 0) {
+                    geos = appendStrategyData(strategy.selected_geos, 'title');
                 }
 
                 if(strategy.selected_key_values.length > 0) {
