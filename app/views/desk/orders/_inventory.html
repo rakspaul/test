@@ -34,15 +34,25 @@
 		            <li>Last Year</li>
 		        </ul>
 		    </div>
+            <!--<div class="dropdown dropdown_type2">-->
+            <!--<select ng-model="selectedStrategy">-->
+            <!--<option ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name}}</option>-->
+            <!--</select>-->
+            <!--</div>-->
 			
 		</div>
 
         <div class="dropdown dropdown_type2">
-        <select ng-model="selectedStrategy">
-            <option ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name}}</option>
-        </select>
+	        <span class="dropdown_ul_text " data-toggle="dropdown">
+	            <span class="dd_txt">{{selectedStrategy.name}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+        <ul id="strategies_list" class="dropdown_ul dropdown-menu">
+            <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name}}</li>
+        </ul>
         </div>
-		
+
+
 		<!--<div class="dropdown dropdown_type2">-->
 	        <!--<span class="dropdown_ul_text " data-toggle="dropdown">-->
 	            <!--<span class="dd_txt">Toyota Corporation Campaign</span>-->
