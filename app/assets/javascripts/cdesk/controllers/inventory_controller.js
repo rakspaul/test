@@ -42,6 +42,8 @@ var angObj = angObj || {};
             {value: 'lifetime',  text: 'Last Year'}
         ];
 
+        $scope.kpiTypeFilter=['CPA', 'CPC', 'CPM', 'CTR'];
+
         $scope.init = function () {
             $scope.campaignlist();
         };
@@ -208,6 +210,8 @@ var angObj = angObj || {};
             console.log($(e.target).attr('_key'));
             $scope.selected_filters.domain = $(e.target).attr('_key');
             $('.page_loading').css({'display': 'block'});
+            $(".inventory_tab_active").removeClass("inventory_tab_active") ;
+            $(e.target).parent().addClass("inventory_tab_active") ;
             $scope.$apply();
             $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
