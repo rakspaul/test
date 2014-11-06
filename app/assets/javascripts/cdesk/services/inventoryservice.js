@@ -10,16 +10,15 @@
             },
 
             getCampaingsForUser: function() {
-                console.log("user id is ");
-                console.log(user_id);
                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+user_id;
                 return this.fetch(url);
+
             },
 
             getCategoryDataForStrategy: function (param) {
-                var url='/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/category?kpi_type='+param.kpi_type;
-                //Temporary
-                //var url = 'http://localhost:3000/assets/cdesk/charts/chart.json';
+                console.log(param);
+                var url= apiPaths.apiSerivicesUrl +'/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/category?kpi_type='+param.kpi_type;
+
                 return this.fetch(url);
             },
 
