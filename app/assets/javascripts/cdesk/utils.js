@@ -341,5 +341,27 @@
         }
     });
 
+    //Used in _inventory.html file
+    angObj.filter('formatUrl', function() {
+        return function(url) {
+            if(url === undefined || url == "") {
+                return url;
+            }
+            if(url.length > 15) {
+                return url.substring(0, 15) + '...' + url.substring(url.length - 15);
+            }else{
+                return url;
+            }
+        }
+    });
+    angObj.filter('appendDollor', function() {
+        return function(val, type) {
+            if(val === undefined || val == "") {
+                return val;
+            }
+
+            return (type == 'CTR') ? val : '$'+val;
+        }
+    });
 
 }());
