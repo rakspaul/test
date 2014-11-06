@@ -1,5 +1,6 @@
 <div class="reports_main_page_holder">
-
+    <div class="page_loading">
+    </div>
 	<div class="reports_header_tabs_holder">
 			<span>Optimization Impact</span>
 			<span>Cost</span>
@@ -54,11 +55,11 @@
 
         <div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt">{{selectedStrategy.name}}</span>
+	            <span class="dd_txt">{{selectedStrategy.name | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
         <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-            <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name}}</li>
+            <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl}}</li>
         </ul>
         </div>
 
@@ -81,9 +82,9 @@
 		    		<span><a href="javascript:void(0);">Full Domains</a></span>
 		    	</div>
 		    	<div class="chart_details_cols_row inventory_chart_details_list clearfix">
-			    	<div class="pull-left performance_selection clearfix">
+			    	<div class="pull-left performance_selection clearfix" data-ng-click="showPerformance(strategyTable.show)">
                         <span class="performance_symbol {{strategyTable.cssClass}}"></span>
-                        <span class="performance_text" data-ng-click="showPerformance(strategyTable.show)">{{strategyTable.show}} Performance</span>
+                        <span class="performance_text" >{{strategyTable.show}} Performance</span>
 			    	</div>
 			    	<div class="pull-right imps_del_col">
 			    		Imps. Delivered
@@ -94,7 +95,7 @@
 					            <span class="dd_txt">CPA</span>
 					            <span class="arrrow_img"></span>
 					        </span>
-					        <ul class="dropdown_ul dropdown-menu">
+					        <ul id="kpi_list" class="dropdown_ul dropdown-menu">
 					            <li>CPA</li>
 					            <li>CPC</li>
 					            <li>CPM</li>
@@ -125,7 +126,7 @@
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{stable.domain_data}}" >{{stable.domain_data | formatUrl}}</span>
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
-                        <span class="cpa_col cpa_data pull-right" >{{stable.kpi_value | appendDollor : selectedCampaign.kpiType }}</span>
+                        <span class="cpa_col cpa_data pull-right" >{{stable.kpi_value | appendDollor : selected_filters.kpi_type }}</span>
 
                     </div>
                 </div>
