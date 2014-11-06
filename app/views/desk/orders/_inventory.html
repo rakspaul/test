@@ -43,7 +43,7 @@
 
         <div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt">{{selectedStrategy.name | formatUrl}}</span>
+	            <span class="dd_txt" >{{selectedStrategy.name | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
 
@@ -55,10 +55,10 @@
 	    <div class="inventory_charts_details_holder">
 	    
 		    <div class="clearfix chart_inventory_header">
-		    	<div class="pull-left clearfix inventory_tabs">
-		    		<span  class="inventory_tab_active"><a href="javascript:void(0);">Site Categories</a></span>
-		    		<span><a href="javascript:void(0);">Parent Domains</a></span>
-		    		<span><a href="javascript:void(0);">Full Domains</a></span>
+		    	<div class="pull-left clearfix inventory_tabs" id="category_change">
+		    		<span  class="inventory_tab_active"><a href="javascript:void(0);" _key="category">Site Categories</a></span>
+		    		<span><a href="javascript:void(0);"  _key="parentdomains">Parent Domains</a></span>
+		    		<span><a href="javascript:void(0);" _key="fulldomains">Full Domains</a></span>
 		    	</div>
 		    	<div class="chart_details_cols_row inventory_chart_details_list clearfix">
 			    	<div class="pull-left performance_selection clearfix" data-ng-click="showPerformance(strategyTable.show)">

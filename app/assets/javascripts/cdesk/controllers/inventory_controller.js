@@ -18,7 +18,8 @@ var angObj = angObj || {};
         $scope.selected_filters ={
             time_filter:'lifetime',
             kpi_type:'CPA',
-            tb:'1'
+            tb:'1',
+            category:'category'
         };
 
         $scope.strategyTable = {
@@ -53,21 +54,14 @@ var angObj = angObj || {};
         };
 
             $scope.strategylist = function(campaignId) {
-                console.log("inside strategy Mehtod . camaing id "+ campaignId)
                     inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
-
                         $scope.strategies = result.data.data;
-
-                        if (typeof  $scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
+                        if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                             $scope.selectedStrategy.id = $scope.strategies[0].id;
                             $scope.selectedStrategy.name = $scope.strategies[0].name;
                         }
-                        console.log($scope.selectedStrategy);
-
+                        $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type, category: $scope.selected_filters.category });
                     });
-
-                    $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type });
-
             };
 
         $scope.inventoryChart = true;
@@ -87,7 +81,6 @@ var angObj = angObj || {};
                         $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
                     }
                 }
-                console.log('tabke data is ss');
                 //Default show the top performance strategies
                 $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0,5);
                 $scope. inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selectedCampaign.kpiType);
@@ -111,14 +104,16 @@ var angObj = angObj || {};
             $scope. inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selectedCampaign.kpiType);
         };
 
+        //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function(e){
             $('.page_loading').css({'display': 'block'});
             $scope.selectedStrategy.id = $(e.target).attr('value');
             $scope.selectedStrategy.name =  $(e.target).text();
             $scope.$apply();
-            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type });
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type, category: $scope.selected_filters.category });
 
         });
+        //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function(e){
             $('.page_loading').css({'display': 'block'});
             $scope.selectedCampaign.id = $(e.target).attr('value');
@@ -127,12 +122,23 @@ var angObj = angObj || {};
             $scope.strategylist( $scope.selectedCampaign.id );
         });
 
+        //Function called when the user clicks on the CPA dropdown
         $('#kpi_list').click(function(e){
             $('.page_loading').css({'display': 'block'});
             $scope.selected_filters.kpi_type = $(e.target).text();
             $scope.$apply();
             console.log("selected kpi is "+  $scope.selected_filters.kpi_type );
-            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type });
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type, category: $scope.selected_filters.category });
+
+        });
+
+        //Function called when the user clicks on the category tabs
+        $('#category_change').click(function(e){
+            console.log($(e.target).attr('_key'));
+            $scope.selected_filters.category = $(e.target).attr('_key');
+            $('.page_loading').css({'display': 'block'});
+            $scope.$apply();
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId:  $scope.selectedStrategy.id, kpi_type:  $scope.selected_filters.kpi_type, category: $scope.selected_filters.category });
 
         });
 

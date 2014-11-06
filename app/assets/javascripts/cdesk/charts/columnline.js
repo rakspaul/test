@@ -14,7 +14,7 @@
                 impLine.push(chartData[i].impressions);
                 kpiColumn.push(chartData[i].kpi_value);
             }
-            var i = 0;
+            var i = 1;
             return {
 
                 //This is not a highcharts object. It just looks a little like one!
@@ -25,9 +25,9 @@
                         type: 'column',
                         width: 400,
                         height: 260,
-                        margin: [20, 30, 20, 40]
+                        margin: [20, 40, 20, 40]
                     },
-                    plotOptions: {
+                   /* plotOptions: {
                         column: {
                             dataLabels: {
                                 inside: true,
@@ -44,7 +44,7 @@
                                 }
                             }
                         }
-                    },
+                    },*/
                     colors: [
                         '#2e8ed3',
                         '#45a1e3',
@@ -59,6 +59,13 @@
                         enabled: false
                     },
                     tooltip: {
+                        formatter: function() {
+                            if (this.key) {
+                                return  this.key.y +' : '+Highcharts.numberFormat(this.y, 1);
+                            } else {
+                                return  '';
+                            }
+                        },
                         style: {
                             padding: 10,
                             fontWeight: 'bold'
@@ -72,7 +79,14 @@
                         lineColor: 'grey',
                         tickWidth: 0,
                         labels: {
-                            enabled: false
+                            enabled: true,
+                            formatter: function() {
+                                if (this) {
+                                    return parseInt(i++);
+                                } else {
+                                    return  '';
+                                }
+                            }
                         },
                         title: {
                             align: 'high',
@@ -148,17 +162,18 @@
                     yAxis: 1,
                     data: kpiColumn,
                     tooltip: {
-                        enabled: false,
+                        enabled: false
                         // valueSuffix: ' mm'
-                        pointFormat: "{point.y:.2f}"
+                        //pointFormat: "{point.y:.2f}",
+
                     }
                 }, {
                     name: '',
                     type: 'line',
                     data: impLine,
                     tooltip: {
-                        enabled: false,
-                        pointFormat: "{point.y:.2f}"
+                        enabled: false
+                        //pointFormat: "{point.y:.2f}",
                         //valueSuffix: '°C'
                     },
                     color: '#00bff0',

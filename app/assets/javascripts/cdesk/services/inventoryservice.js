@@ -20,7 +20,7 @@
             getCategoryDataForStrategy: function (param) {
                 console.log(param);
                 var url = 'http://localhost:3000/assets/cdesk/tmp/chart.json';
-               // var url= apiPaths.apiSerivicesUrl +'/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/category?kpi_type='+param.kpi_type;
+                //var url= apiPaths.apiSerivicesUrl +'/campaigns/'+ param.campaign_id+ '/strategies/'+param.strategyId+'/inventory/'+param.category+'?kpi_type='+param.kpi_type;
 
                 return this.fetch(url);
             },
