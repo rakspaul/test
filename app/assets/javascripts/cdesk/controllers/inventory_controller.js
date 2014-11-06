@@ -74,33 +74,42 @@ var angObj = angObj || {};
             });
 
         };
-
+        //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
-            console.log("CALLED  getTacticList");
             inventoryService.getAllTacticDomainData(param).then(function (result) {
                 $scope.tacticList.tacticList = result.data.data[0].tactics;
+                $scope.tacticList.topPerformance=[], $scope.tacticList.bottomPerformance=[];
                 for (var t in  $scope.tacticList.tacticList) {
-                    var topPerformance=[],bottomPerformance=[];
-                   // console.log($scope.tacticList.tacticList[t].id);
+                    var topPerformance=[], bottomPerformance=[];
                     var resultTableData =  $scope.tacticList.tacticList[t].inv_metrics;
-
                     for (var data in resultTableData) {
                         if (resultTableData[data].tb === 1) {
-
                              topPerformance.push(resultTableData[data]);
-                        } else {
+                        } else if (resultTableData[data].tb === 0) {
                             bottomPerformance.push(resultTableData[data]);
                         }
                     }
                     topPerformance = topPerformance.slice(0,5);
                     bottomPerformance = bottomPerformance.slice(0,5);
-
-                    $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:topPerformance, chart:columnline.highChart(topPerformance, $scope.selected_filters.kpi_type) });
-                    $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:bottomPerformance, chart:columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type)});
+                    var topChartObj = true, bottomChartObj= true;
+                    if(topPerformance.length > 4) {
+                        topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
+                    }
+                    if(topChartObj === undefined || topPerformance.length == 0){
+                        var topChartObj = false;
+                    }
+                    //For Bottom Chart
+                    if(bottomPerformance.length > 4) {
+                        bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type);
+                    }
+                    if(topChartObj === undefined || bottomPerformance.length == 0){
+                      var bottomChartObj = false;
+                    }
+                    $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:topPerformance, chart : topChartObj });
+                    $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name : $scope.tacticList.tacticList[t].name, data:bottomPerformance, chart:bottomChartObj });
                 }
             });
-        }
-
+        };
 
         $scope.inventoryChart = true;
         //Function called to draw the Strategy chart
@@ -207,8 +216,10 @@ var angObj = angObj || {};
 
         });
 
-
-
+        //Function called when the user scrolls the document
+        $(window).scroll(function(e){
+            $(".page_loading").height($(document).height());
+        });
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');

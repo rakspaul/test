@@ -92,7 +92,7 @@
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="inventoryChart">
-                                    <highchart id="highcharts" config="inventoryChart" chartTitle=""></highchart>
+                                    <highchart config="inventoryChart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!inventoryChart">
                                     <span class="no-chart">Data Not Avaiable<!-- (PARTIAL CHART)-->.</span>
@@ -120,7 +120,19 @@
 	    	</div>
 	    	<div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} " id="tactic_{{$index}}_body" >
 		    	<div class="pull-left inventory_chart">
-                    <highchart id="highcharts" config="tactic.chart" chartTitle=""></highchart>
+                    <span ng-switch="tactic.chart">
+                            <span ng-switch-when="true" class="no-chart load-more">Load...&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                            <span ng-switch-default>
+                                <div class="highcharts" ng-if="tactic.chart">
+                                    <highchart config="tactic.chart" chartTitle=""></highchart>
+                                </div>
+                                <div class="highcharts" ng-if="!tactic.chart">
+                                    <span class="no-chart">Data Not Avaiable<!-- (PARTIAL CHART)-->.</span>
+                                </div>
+                            </span>
+                        </span>
+
 		    	</div>
 		    	<div class="inventory_chart_details_list" >
 			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-repeat="tableData in tactic.data">
@@ -138,17 +150,5 @@
 
 
 <script type="text/javascript">
-$(document).ready( function() {
-	$(".chart_accordion_heading").click(function(){
-		$(this).closest(".each_chart_accordion_holder").find(".inventory_strategy_chart").toggle() ;
-	});
-	$(".inventory_tabs > span").click(function(){
-		$(".inventory_tab_active").removeClass("inventory_tab_active") ;
-		$(this).addClass("inventory_tab_active") ;
-	});
-	$(".dropdown_ul li").click( function() {
-          $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
-    }) ;
 
-}) ;
 </script>
