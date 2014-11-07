@@ -19,12 +19,14 @@
             return str.substring(0, str.length - 1);
         };
 
-        var createTacticObject = function(tacticData, timePeriod, campaignId, strategyId, kpiType, kpiValue) {
+        var createTacticObject = function(tacticData, timePeriod, campaign, strategyId, kpiType, kpiValue) {
             var tacticObj = [], 
                 status = '', 
                 adSize = '', 
                 geoValues = '', 
-                zipValues = '';
+                zipValues = '',
+                filterStartDate = '',
+                filterEndDate = '';
 
             for(var index in tacticData) {
                 var tactic = tacticData[index];
@@ -66,60 +68,82 @@
                     actionRate: 0,
                     chart: null
                 });
-                //Once CDB for tactics is ready fire these calls
-                //getTacticsCdbLineChart(index, tacticObj, timePeriod, campaignId, strategyId, kpiType, kpiValue);
-                //getTacticsMetrics(index, tacticObj, timePeriod, campaignId, strategyId);
+                
+                //based on time period use period dates or flight dates
+                switch(timePeriod) {
+                    case 'last_7_days':
+                    case 'last_30_days':
+                        //campaign period dates for timefiltering
+                        filterStartDate = campaign.periodStartDate;
+                        filterEndDate = campaign.periodEndDate;
+                        break;
+                    case 'lifetime': 
+                    default:
+                        //campaign flight dates for timefilter
+                        filterStartDate = campaign.startDate;
+                        filterEndDate = campaign.endDate;
+                }
+
+                getTacticsCdbLineChart(index, tacticObj, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate);
+                
+                for(var i in campaign.tacticMetrics) {
+                    if(campaign.tacticMetrics[i].id == tactic.id){
+                        getTacticsMetrics(index, tacticObj, campaign.tacticMetrics[i].data);
+                    }
+                }
             }
             return tacticObj;
         };
 
-        var getTacticList = function(index, strategyObj, timePeriod, campaignId, strategyId, kpiType, kpiValue) {
+        var getTacticList = function(index, strategyObj, timePeriod, campaign, strategyId, kpiType, kpiValue) {
             dataService.getStrategyTacticList(strategyId).then(function (response) {
                 var result = response.data,
                     pageSize = 3;
                 if(result.status == "OK" && !angular.isString(result.data)) {
                     if(result.data.length >= 0) {
                         if(result.data.length <= pageSize) {
-                            strategyObj[index].strategyTactics = createTacticObject(result.data, timePeriod, strategyId, kpiType, kpiValue);
+                            strategyObj[index].strategyTactics = createTacticObject(result.data, timePeriod,campaign, strategyId, kpiType, kpiValue);
                         } else {
-                            strategyObj[index].strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaignId, strategyId, kpiType, kpiValue);
-                            strategyObj[index].strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaignId, strategyId, kpiType, kpiValue);
+                            strategyObj[index].strategyTactics = createTacticObject(result.data.slice(0,pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
+                            strategyObj[index].strategyTacticsLoadMore = createTacticObject(result.data.slice(pageSize), timePeriod, campaign, strategyId, kpiType, kpiValue);
                         }
                     }
                 }
             });
 
         };
-
-        var getTacticsMetrics = function(index, tacticObj, timePeriod, campaignId, strategyId) {
-            var url = '/campaigns/' + campaignId + '/strategies/' + tacticObj[index].id + '?period=' + timePeriod; 
-            dataService.getCampaignStrategies(url, 'metrics').then(function (result) {
-                if(result.status == "success" && !angular.isString(result.data.data)) {
-                    tacticObj[index].totalImpressions = result.data.data.impressions;
-                    tacticObj[index].grossRev = result.data.data.gross_rev;
-                    tacticObj[index].ctr = result.data.data.ctr * 100;
-                    tacticObj[index].actionRate = result.data.data.action_rate;
-                    tacticObj[index].map = {};
-                    tacticObj[index].map['cpa'] = result.data.data.cpa;
-                    tacticObj[index].map['cpc'] = result.data.data.cpc;
-                    tacticObj[index].map['cpm'] = result.data.data.cpm;
-                    tacticObj[index].map['clicks'] = result.data.data.clicks;
-                    tacticObj[index].map['action_rate'] = result.data.data.action_rate;
-                    tacticObj[index].map['ctr'] = result.data.data.ctr * 100;
-                }
-           });
+         
+        var getTacticsMetrics = function(index, tacticObj, tacticMetrics) {
+            if(!angular.isString(tacticMetrics)) {
+                tacticObj[index].totalImpressions = tacticMetrics.impressions;
+                tacticObj[index].grossRev = tacticMetrics.gross_rev;
+                tacticObj[index].ctr = tacticMetrics.ctr * 1000;
+                tacticObj[index].actionRate = tacticMetrics.action_rate;
+                tacticObj[index].map = {};
+                tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
+                tacticObj[index].map['cpc'] = tacticMetrics.gross_ecpc;
+                tacticObj[index].map['cpm'] = tacticMetrics.gross_ecpm;
+                tacticObj[index].map['clicks'] = tacticMetrics.clicks;
+                tacticObj[index].map['action_rate'] = tacticMetrics.action_rate;
+                tacticObj[index].map['ctr'] = tacticMetrics.ctr * 1000;
+            }
         };
 
-        var getTacticsCdbLineChart = function(obj, tacticsList, timePeriod, campaignId, strategyId, kpiType, kpiValue) {
-           var sKpiType=kpiType;
-            dataService.getCdbChartData(campaignId, timePeriod, 'strategies', tacticsList[obj].id, true).then(function (result) {
+        var getTacticsCdbLineChart = function(obj, tacticsList, timePeriod, campaign, strategyId, kpiType, kpiValue, filterStartDate, filterEndDate) {
+            var sKpiType = kpiType,
+            kpiMap = {
+                'cpc': 'gross_ecpc',
+                'cpa': 'gross_ecpa',
+                'cpm': 'gross_ecpm'
+            };
+            dataService.getCdbTacticsChartData(campaign.orderId, strategyId, tacticsList[obj].id, timePeriod, filterStartDate, filterEndDate).then(function (result) {
                 var lineData=[];
-                if(result.status == "success" && !angular.isString(result.data)) {
+                if(result.status == "success" && !angular.isString(result.data)) { 
                     if(sKpiType != undefined || sKpiType != null) {
-                        if(result.data.data.measures_by_days.length > 0) {
-                            var maxDays = result.data.data.measures_by_days;
+                        if(result.data.data.length > 0) {
+                            var maxDays = result.data.data;
                             for (var i = 0; i < maxDays.length; i++) {
-                                var kpiType = (sKpiType);
+                                var kpiType = kpiMap[sKpiType] ? kpiMap[sKpiType] : sKpiType;
                                 var kpiTypeLower = angular.lowercase(kpiType);
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }                             
@@ -220,9 +244,7 @@
             });
         };
 
-        return {
-       
-            getStrategyList: function(obj, campaignList, timePeriod, cdeskTimePeriod, kpiType, kpiValue) {
+        var getStrategyList = function(obj, campaignList, timePeriod, cdeskTimePeriod, kpiType, kpiValue) {
 
                 var url = '/campaigns/' + campaignList[obj].orderId + '/lineitems.json?filter[date_filter]=' + cdeskTimePeriod;
                 dataService.getCampaignStrategies(url, 'list').then(function (result) {
@@ -239,9 +261,9 @@
                         }
                     }
                });
-            },
+            };
 
-            getCdbLineChart: function(obj, campaignList, timePeriod) {
+            var getCdbLineChart = function(obj, campaignList, timePeriod) {
                 dataService.getCdbChartData(campaignList[obj], timePeriod, 'campaigns', null, true).then(function (result) {
                     var lineDate = [];
                     campaignList[obj].chart = true;
@@ -261,10 +283,16 @@
                             campaignList[obj].chart = false;
                     }
                 });
-            },
+            };
 
-            setActiveInactiveCampaigns: function (dataArr, timePeriod, cdeskTimePeriod) {
-                var campaignList = [];
+        return {
+       
+            
+
+            setActiveInactiveCampaigns: function (dataArr, timePeriod, cdeskTimePeriod, periodStartDate, periodEndDate) {
+                var campaignList = [],
+                    filterStartDate = '',
+                    filterEndDate = '';
                
                 for (var obj in dataArr) {
                     if (!angular.isObject(dataArr[obj])) {
@@ -273,6 +301,8 @@
 
                     campaignList.push({
                         orderId: dataArr[obj].id,
+                        periodStartDate: periodStartDate,
+                        periodEndDate: periodStartDate,
                         startDate: dataArr[obj].start_date,
                         fromSuffix: utils.formatDate(dataArr[obj].start_date),
                         endDate: dataArr[obj].end_date,
@@ -288,14 +318,39 @@
                         lineitemsCount: dataArr[obj].lineitems_count,
                         actionsCount: dataArr[obj].actions_count || 0,
                         campaignStrategies:null,
+                        tacticMetrics: [],
                         chart:true,
                         campaignStrategiesLoadMore:null
                     });
 
-                    this.getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
-                    this.getCdbLineChart(obj, campaignList, timePeriod);
+                    //based on time period use period dates or flight dates
+                    switch(timePeriod) {
+                        case 'last_7_days':
+                        case 'last_30_days':
+                            //campaign period dates for timefiltering
+                            filterStartDate = periodStartDate;
+                            filterEndDate = periodEndDate;
+                            break;
+                        case 'lifetime': 
+                        default:
+                            //campaign flight dates for timefilter
+                            filterStartDate = dataArr[obj].start_date;
+                            filterEndDate = dataArr[obj].end_date;
+                    }
 
-                    
+                    dataService.getCdbTacticsMetrics(dataArr[obj].id, filterStartDate, filterEndDate).then(function (result) {
+                        if(result.status == "success" && !angular.isString(result.data)) { 
+                                if(result.data.data.length > 0) {
+                                    var tacticsData = result.data.data;
+                                    for (var i = 0; i < tacticsData.length; i++) {
+                                        campaignList[obj].tacticMetrics.push({id: tacticsData[i].ad_id, data: tacticsData[i]});
+                                    }      
+                                }
+                        }
+                        getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
+                        getCdbLineChart(obj, campaignList, timePeriod);
+                    });
+
                 }
                 return campaignList;
             }
