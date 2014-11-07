@@ -89,7 +89,6 @@ var angObj = angObj || {};
                 }
             });
 
-
         };
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
@@ -141,7 +140,6 @@ var angObj = angObj || {};
             inventoryService.getCategoryDataForStrategy(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                     // $('.page_loading').css({'display': 'none'});
-
                 }
                 var resultTableData = result.data.data[0].inv_metrics;
 
@@ -153,17 +151,14 @@ var angObj = angObj || {};
                         $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
                     }
                 }
-                console.log('tabke data is ss');
                 //Default show the top performance strategies
                 $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
                 $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
                 if ($scope.inventoryChart === undefined || $scope.inventoryChart === null || resultTableData === undefined) {
-
                     $scope.inventoryChart = false;
                 }
             });
         };
-
 
         //Function called when the user clicks on the 'Top performance' button
         $scope.showPerformance = function (flag) {
@@ -180,7 +175,6 @@ var angObj = angObj || {};
                     $scope.tacticList.show = 'topPerformance';
                 }
                 $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
-
             }
         };
 
@@ -252,9 +246,7 @@ var angObj = angObj || {};
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
-
         });
-
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
