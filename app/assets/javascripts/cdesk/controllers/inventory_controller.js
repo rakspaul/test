@@ -15,7 +15,7 @@ var angObj = angObj || {};
         };
 
         $scope.selected_filters = {
-            time_filter: 'lifetime',
+            time_filter: 'life_time',
             time_filter_text: 'Last Year',
             kpi_type: 'CPA',
             tb: '1',
@@ -39,7 +39,7 @@ var angObj = angObj || {};
         $scope.durationFilter=[
             {value: 'weekly',  text: 'Last 7 days'},
             {value: 'monthly',  text: 'Last month'},
-            {value: 'lifetime',  text: 'Last Year'}
+            {value: 'life_time',  text: 'Last Year'}
         ];
 
         $scope.kpiTypeFilter=['CPA', 'CPC', 'CPM', 'CTR'];
@@ -52,7 +52,7 @@ var angObj = angObj || {};
             inventoryService.getCampaingsForUser().then(function (result) {
                 $scope.campaingns = result.data.data.slice(0,100);
                 if (result.status === "OK" || result.status === "success") {
-                    $('.page_loading').css({'display': 'none'});
+//                    $('.page_loading').css({'display': 'none'});
                 }
 
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
