@@ -347,6 +347,17 @@
 .reports_main_page_holder {
 	margin: 0px auto 40px;
 	width: 1056px;
+  .load-more {
+    margin: 80px auto 0;
+    display: block;
+    width: 30px;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  }
+  .no-chart {
+    margin: 80px auto 0;
+    display: block;
+    text-align: center;
+  }
   .page_loading {
     height: 100%;
     width: 100%;

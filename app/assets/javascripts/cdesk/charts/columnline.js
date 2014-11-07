@@ -27,7 +27,7 @@
                         type: 'column',
                         width: 400,
                         height: 260,
-                        margin: [20, 40, 20, 40]
+                        margin: [20, 40, 30, 40]
                     },
                    /* plotOptions: {
                         column: {
@@ -63,7 +63,8 @@
                     tooltip: {
                         formatter: function() {
                             if (this.key) {
-                                return  this.key.y +' : '+Highcharts.numberFormat(this.y, 1);
+                                var currency =(kpIType === 'CTR')? '' : '$';
+                                return  this.key.y +' : '+currency+''+Highcharts.numberFormat(this.y, 1);
                             } else {
                                 return  '';
                             }

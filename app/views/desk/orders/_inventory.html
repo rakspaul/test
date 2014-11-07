@@ -79,7 +79,7 @@
 		    	<div class="pull-left inventory_chart">
                       <span ng-switch="inventoryChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="inventoryChart">
                                     <highchart config="inventoryChart" chartTitle=""></highchart>
@@ -90,11 +90,14 @@
                             </span>
                         </span>
 		    	</div>
-                <div class="inventory_chart_details_list" data-ng-repeat="stable in strategyTableData">
+                <div class="inventory_chart_details_list" data-ng-repeat="stable in strategyTableData | orderBy:'kpi_value':true ">
 
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix" >
                         <span class="row_index">{{$index + 1}}</span>
-                        <span class="url_val" title="{{stable.domain_data}}" >{{stable.domain_data | formatUrl}}</span>
+                        <span class="url_val" title="{{stable.domain_data}}" ng-if="selected_filters.domain !== 'fulldomains' "> {{ stable.domain_data | formatUrl }}</span>
+                        <span class="url_val" title="{{stable.domain_data}}"  ng-if="selected_filters.domain == 'fulldomains' ">
+                            <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl }}</a>
+                         </span>
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
                         <span class="cpa_col cpa_data pull-right" >{{stable.kpi_value | appendDollor : selected_filters.kpi_type }}</span>
 
@@ -103,7 +106,7 @@
 		    </div>
 	    </div>
 
-	    <div  class="each_chart_accordion_holder" ng-repeat="tactic in tacticList[tacticList.show]" >
+	    <div  class="each_chart_accordion_holder" ng-repeat="tactic in tacticList[tacticList.show] | orderBy :'kpi_value':true" >
 
 	    	<div  id="tactic_{{$index}}"  class="chart_accordion_heading" ng-click="clickTactic($index)">
 	    		 {{tactic.name}}
@@ -112,7 +115,7 @@
 		    	<div class="pull-left inventory_chart">
                     <span ng-switch="tactic.chart">
                             <span ng-switch-when="true" class="no-chart load-more">Load...&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="tactic.chart">
                                     <highchart config="tactic.chart" chartTitle=""></highchart>
@@ -127,8 +130,11 @@
 		    	<div class="inventory_chart_details_list" >
 			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-repeat="tableData in tactic.data">
 			    		<span class="row_index">{{$index + 1}}</span>
-			    		<span class="url_val" title="{{tableData.domain_data}}" >{{tableData.domain_data | formatUrl}}</span>
-			    		<span class="imps_del_data imps_del_col pull-right">{{tableData.impressions}}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}" ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl }}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}"  ng-if="selected_filters.domain == 'fulldomains' ">
+                            <a href="{{ tableData.domain_data}}" target='_blank'> {{ tableData.domain_data | formatUrl }}</a>
+                         </span>
+			    		<span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
 			    		<span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type}}</span>
 			    	</div>
 		    	</div>
