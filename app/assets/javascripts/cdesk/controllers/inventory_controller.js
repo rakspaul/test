@@ -6,12 +6,12 @@ var angObj = angObj || {};
 
         $scope.selectedCampaign = {
             id: '-1',
-            name: 'No Campaign Found'
+            name: 'loading...'
         };
 
         $scope.selectedStrategy = {
             id: '-1',
-            name: 'No Strategy Found'
+            name: 'loading...'
         };
 
         $scope.selected_filters = {
@@ -61,6 +61,12 @@ var angObj = angObj || {};
                     console.log("selected campaing is ")
                     console.log($scope.selectedCampaign);
                 }
+                else{
+                    if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
+                        $scope.selectedCampaign.id = -1;
+                        $scope.selectedCampaign.name = "No campaign found";
+                    }
+                }
                 if ($scope.selectedCampaign.id !== -1) {
                     console.log("Get strategy method is called" + $scope.selectedCampaign.id);
                     $scope.strategylist($scope.selectedCampaign.id);
@@ -75,6 +81,10 @@ var angObj = angObj || {};
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                     $scope.selectedStrategy.id = $scope.strategies[0].id;
                     $scope.selectedStrategy.name = $scope.strategies[0].name;
+                }
+                else{ //  means empty strategy list
+                    $scope.selectedStrategy.id = -1;
+                    $scope.selectedStrategy.name = "No strategy found";
                 }
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain,time_filter: $scope.selected_filters.time_filter });
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter});
