@@ -347,11 +347,11 @@
             if(url === undefined || url == "") {
                 return url;
             }
-            if(url === "No campaign found" || url == "No strategy found") {
+            if(url === "No Campaign Found" || url == "No Strategy Found") {
                 return url;
             }
-            if(url.length > 15) {
-                return url.substring(0, 15) + '...' + url.substring(url.length - 15);
+            if(url.length > 33) {
+                return url.substring(0, 15) + ' ... ' + url.substring(url.length - 15);
             }else{
                 return url;
             }

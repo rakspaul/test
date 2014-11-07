@@ -12,7 +12,7 @@
 		<div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1">
 	        <span class="dropdown_ul_text" data-toggle="dropdown">
-	            <span class="dd_txt">{{selectedCampaign.name}}</span>
+	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
                 <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
@@ -36,12 +36,12 @@
 
         <div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt" >{{selectedStrategy.name | formatUrl}}</span>
+	            <span class="dd_txt"  title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
 
         <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-            <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl}}</li>
+            <li ng-repeat="strategy in strategies" value="{{strategy.id}}" >{{strategy.name | formatUrl}}</li>
         </ul>
         </div>
 
