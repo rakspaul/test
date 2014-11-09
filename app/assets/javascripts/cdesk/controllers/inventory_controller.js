@@ -93,7 +93,7 @@ var angObj = angObj || {};
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
             inventoryService.getAllTacticDomainData(param).then(function (result) {
-                if(result.data !== 'undefined' && result.data.length >0) {
+            //    if(result.data !== 'undefined' && result.data.length >0) {
                     $scope.tacticList.tacticList = result.data.data[0].tactics;
                     $scope.tacticList.topPerformance = [], $scope.tacticList.bottomPerformance = [];
                     for (var t in  $scope.tacticList.tacticList) {
@@ -125,12 +125,12 @@ var angObj = angObj || {};
                         $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj });
                         $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj });
                     }
-                }
-                else{
-                   var bottomChartObj = false;
-                   var topChartObj = false;
-                   $scope.inventoryChart = false;
-                }
+//                }
+//                else{
+//                   var bottomChartObj = false;
+//                   var topChartObj = false;
+//                   $scope.inventoryChart = false;
+//                }
             });
         };
 
