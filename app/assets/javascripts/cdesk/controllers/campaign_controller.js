@@ -119,10 +119,13 @@
                     self.marketerName = result.data.marketer_name;
                     self.totalPages = result.data.total_pages;
                     self.totalCount = result.data.total_count;
+                    self.periodStartDate = result.data.period_start_date;
+                    self.periodEndDate = result.data.period_end_date;
+
                     self.busy = false;
                     if (result.data.orders.length > 0) {
                         var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-                        angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod), function(campaign) {
+                        angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod, self.periodStartDate, self.periodEndDate), function(campaign) {
                             this.push(campaign);
                             dataService.getCampaignData(cdbApiKey, campaign).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);

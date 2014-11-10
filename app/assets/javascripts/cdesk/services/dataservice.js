@@ -148,6 +148,16 @@
         }//end of check
       },
 
+      getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate){
+       var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+        return this.fetch(url);
+      },
+
+      getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate){
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+        return this.fetch(url);
+      },
+
       getStrategyTacticList: function(strategyId){
         var url = apiPaths.apiSerivicesUrl + '/strategy/' + strategyId + '/tactics';
         return this.fetch(url);
