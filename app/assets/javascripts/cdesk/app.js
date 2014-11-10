@@ -28,7 +28,7 @@ var angObj = '';
                 templateUrl: 'campaign_details',
                 controller: 'CampaignDetailsController'
             })
-            .when('/campaigns/:campaignId/optimization', {
+            .when('/optimization', {
               templateUrl: 'optimization',
               controller: 'OptimizationController'
             })
@@ -38,6 +38,7 @@ var angObj = '';
               
             })
             .otherwise({redirectTo: 'campaigns'});
+     //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
     });
     //new campaigns api
