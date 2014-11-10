@@ -125,7 +125,6 @@ var angObj = angObj || {};
                     $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj });
                     $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj });
                 }
-
 //                }
 //                else{
 //                   var bottomChartObj = false;
@@ -206,7 +205,6 @@ var angObj = angObj || {};
         });
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
-
             // $('.page_loading').css({'display': 'block'});
             if($scope.checkStatus()) {
                 $scope.selectedCampaign.id = $(e.target).attr('value');
@@ -218,7 +216,6 @@ var angObj = angObj || {};
 
         $('#time_filter_list').click(function(e){
             //  $('.page_loading').css({'display': 'block'});
-
             if($scope.checkStatus()) {
                 $scope.selected_filters.time_filter = $(e.target).attr('value');
                 $scope.selected_filters.time_filter_text = $(e.target).text();
@@ -229,9 +226,7 @@ var angObj = angObj || {};
 
         //Function called when the user clicks on the CPA dropdown
         $('#kpi_list').click(function (e) {
-
             // $('.page_loading').css({'display': 'block'});
-
             if($scope.checkStatus()) {
                 $scope.selected_filters.kpi_type = $(e.target).text();
                 $scope.$apply();
