@@ -117,7 +117,7 @@
             if(!angular.isString(tacticMetrics)) {
                 tacticObj[index].totalImpressions = tacticMetrics.impressions;
                 tacticObj[index].grossRev = tacticMetrics.gross_rev;
-                tacticObj[index].ctr = tacticMetrics.ctr * 1000;
+                tacticObj[index].ctr = tacticMetrics.ctr * 100;
                 tacticObj[index].actionRate = tacticMetrics.action_rate;
                 tacticObj[index].map = {};
                 tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
@@ -125,7 +125,7 @@
                 tacticObj[index].map['cpm'] = tacticMetrics.gross_ecpm;
                 tacticObj[index].map['clicks'] = tacticMetrics.clicks;
                 tacticObj[index].map['action_rate'] = tacticMetrics.action_rate;
-                tacticObj[index].map['ctr'] = tacticMetrics.ctr * 1000;
+                tacticObj[index].map['ctr'] = tacticMetrics.ctr * 100;
             }
         };
 
