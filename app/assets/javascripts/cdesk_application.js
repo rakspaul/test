@@ -28,12 +28,14 @@
 //= require cdesk/app
 //= require cdesk/charts/line
 //= require cdesk/charts/actions
+//= require cdesk/charts/columnline
 //= require cdesk/controllers/campaign_controller
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
 //= require cdesk/controllers/actions_controller
 //= require cdesk/controllers/optimization_controller
+//= require cdesk/controllers/inventory_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaignsort
 //= require cdesk/models/campaign
@@ -42,6 +44,7 @@
 //= require cdesk/models/action_sub_type
 //= require cdesk/models/tactic
 //= require cdesk/services/dataservice
+//= require cdesk/services/inventoryservice
 //= require cdesk/services/transformer_service
 //= require cdesk/services/datatransferservice
 //= require cdesk/utils

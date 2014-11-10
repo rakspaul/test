@@ -1,194 +1,145 @@
 <div class="reports_main_page_holder">
 
-	<div class="reports_header_tabs_holder">
-			<span>Optimization Impact</span>
-			<span>Cost</span>
-			<span>Performance</span>
-			<span class="active_tab">Inventory</span>
-	</div>
+    <div class="reports_header_tabs_holder">
+        <span>Optimization Impact</span>
+        <span>Cost</span>
+        <span>Performance</span>
+        <span class="active_tab">Inventory</span>
+    </div>
 
-	<div class="inventory_reports_container">
-		
-		<div class="clearfix inventory_header">
-			<div class="pull-left dropdown dropdown_type1">
-		        <span class="dropdown_ul_text" data-toggle="dropdown">
-		            <span class="dd_txt">Toyota Corporation Campaign</span>
-		            <span class="arrrow_img"></span>
-		        </span>
-		        <ul class="dropdown_ul dropdown-menu">
-		        	<li>Toyota Corporation Campaign</li>
-		            <li>Lorem Ipsum 1</li>
-		            <li>Lorem Ipsum 2</li>
-		        </ul>
-		    </div>
-		    <div class="pull-right download_report">
-			</div>
-		    <div class="pull-right dropdown dropdown_type3">
-		    	<span class="dropdown_ul_text" data-toggle="dropdown">
-		            <span class="dd_txt">Last 7 days</span>
-		            <span class="arrrow_img"></span>
-		        </span>
-		        <ul class="dropdown_ul dropdown-menu">
-		        	<li>Last 7 days</li>
-		            <li>Last month</li>
-		            <li>Last Year</li>
-		        </ul>
-		    </div>
-			
-		</div>
-		
-		<div class="dropdown dropdown_type2">
-	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt">Toyota Corporation Campaign</span>
+    <div class="inventory_reports_container" data-ng-init="init()">
+
+        <div class="clearfix inventory_header">
+            <div class="pull-left dropdown dropdown_type1">
+	        <span class="dropdown_ul_text" data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
-	        <ul class="dropdown_ul dropdown-menu">
-	        	<li>Toyota Corporation Campaign</li>
-	            <li>Lorem Ipsum 3</li>
-	            <li>Lorem Ipsum 4</li>
-	        </ul>
-	    </div>
-	    <div class="inventory_charts_details_holder">
-	    
-		    <div class="clearfix chart_inventory_header">
-		    	<div class="pull-left clearfix inventory_tabs">
-		    		<span><a href="javascript:void(0);">Site Categories</a></span>
-		    		<span class="inventory_tab_active"><a href="javascript:void(0);">Parent Domains</a></span>
-		    		<span><a href="javascript:void(0);">Full Domains</a></span>
-		    	</div>
-		    	<div class="chart_details_cols_row inventory_chart_details_list clearfix">
-			    	<div class="pull-left performance_selection clearfix">
-		    			<span class="performance_symbol top_perf_symbol"></span>
-		    			<span class="performance_text">Top Performance</span>
-			    	</div>
-			    	<div class="pull-right imps_del_col">
-			    		Imps. Delivered
-			    	</div>
-			    	<div class="pull-right cpa_dropdown cpa_col">
-			    		<div class="dropdown">
+                <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
+                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name}}</li>
+                </ul>
+            </div>
+
+            <div class="pull-right download_report">
+            </div>
+            <div class="pull-right dropdown dropdown_type3">
+		    	<span class="dropdown_ul_text" data-toggle="dropdown">
+		            <span class="dd_txt">{{selected_filters.time_filter_text}}</span>
+		            <span class="arrrow_img"></span>
+		        </span>
+
+                <ul id="time_filter_list" class="dropdown_ul dropdown-menu">
+                    <li   ng-repeat="duration in durationFilter" value="{{duration.value}}">{{duration.text}}</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="dropdown dropdown_type2">
+	        <span class="dropdown_ul_text " data-toggle="dropdown">
+	            <span class="dd_txt"  title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+
+            <ul id="strategies_list" class="dropdown_ul dropdown-menu">
+                <li ng-repeat="strategy in strategies" value="{{strategy.id}}" >{{strategy.name | formatUrl}}</li>
+            </ul>
+
+        </div>
+
+        <div class="inventory_charts_details_holder">
+
+            <div class="clearfix chart_inventory_header">
+                <div class="pull-left clearfix inventory_tabs" id="category_change">
+                    <span  class="inventory_tab_active"><a href="javascript:void(0);" _key="category">Site Categories</a></span>
+                    <span><a href="javascript:void(0);"  _key="parentdomains">Parent Domains</a></span>
+                    <span><a href="javascript:void(0);" _key="fulldomains">Full Domains</a></span>
+                </div>
+                <div class="chart_details_cols_row inventory_chart_details_list clearfix">
+                    <div class="pull-left performance_selection clearfix" data-ng-click="showPerformance(strategyTable.show)">
+                        <span class="performance_symbol {{strategyTable.cssClass}}"></span>
+                        <span class="performance_text" >{{strategyTable.show}} Performance</span>
+                    </div>
+                    <div class="pull-right imps_del_col">
+                        Imps. Delivered
+                    </div>
+                    <div class="pull-right cpa_dropdown cpa_col">
+                        <div class="dropdown">
 					    	<span class="dropdown_ul_text" data-toggle="dropdown">
-					            <span class="dd_txt">CPA</span>
+					            <span class="dd_txt">{{selected_filters.kpi_type}}</span>
 					            <span class="arrrow_img"></span>
 					        </span>
-					        <ul class="dropdown_ul dropdown-menu">
-					            <li>CPA</li>
-					            <li>CPC</li>
-					            <li>CPM</li>
-					            <li>CTR</li>
-					        </ul>
-					    </div>
-			    	</div>
-		    	</div>
-		    </div>    
-		    <div class="inventory_strategy_chart clearfix">
-		    	<div class="pull-left inventory_chart">
-		    	</div>
-		    	<div class="inventory_chart_details_list">
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">1</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">2</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">3</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">4</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">5</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-		    	</div>
-		    </div>
-	    </div>
-	    <div class="each_chart_accordion_holder">
-	    	<div class="chart_accordion_heading">
-	    		Toyota Corporation Campaign (18-23 y.o.)
-	    	</div>
-	    	<div class="inventory_strategy_chart clearfix">
-		    	<div class="pull-left inventory_chart">
-		    	</div>
-		    	<div class="inventory_chart_details_list">
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">1</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">2</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">3</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">3</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-			    	<div class="chart_details_cols_row inventory_each_chart_details clearfix" >
-			    		<span class="row_index">4</span>
-			    		<span class="url_val" title="https://lorem-ipsum-lorem-ipsum-lorem-ipsum" >https://lorem-ipsum-...-lorem-ipsum</span>
-			    		<span class="imps_del_data imps_del_col pull-right">1 000 000</span>
-			    		<span class="cpa_col cpa_data pull-right">$0.5</span>
-			    	</div>
-		    	</div>
-		    </div>
 
-	    </div>
-	</div>
+                            <ul id="kpi_list" class="dropdown_ul dropdown-menu">
+                                <li ng-repeat="kpiType in kpiTypeFilter">{{kpiType}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="inventory_strategy_chart clearfix">
+                <div class="pull-left inventory_chart">
+                      <span ng-switch="inventoryChart">
+                            <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
+                            <span ng-switch-default>
+                                <div class="highcharts" ng-if="inventoryChart">
+                                    <highchart config="inventoryChart" chartTitle=""></highchart>
+                                </div>
+                                <div class="highcharts" ng-if="!inventoryChart">
+                                    <span class="no-chart">Data Not Avaiable<!-- (PARTIAL CHART)-->.</span>
+                                </div>
+                            </span>
+                        </span>
+                </div>
+                <div class="inventory_chart_details_list" data-ng-repeat="stable in strategyTableData | orderBy:'kpi_value':true ">
 
+                    <div class="chart_details_cols_row inventory_each_chart_details clearfix" >
+                        <span class="row_index">{{$index + 1}}</span>
+                        <span class="url_val" title="{{stable.domain_data}}" ng-if="selected_filters.domain !== 'fulldomains' "> {{ stable.domain_data | formatUrl }}</span>
+                        <span class="url_val" title="{{stable.domain_data}}"  ng-if="selected_filters.domain == 'fulldomains' ">
+                            <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl }}</a>
+                         </span>
+                        <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
+                        <span class="cpa_col cpa_data pull-right" >{{stable.kpi_value | appendDollor : selected_filters.kpi_type }}</span>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div  class="each_chart_accordion_holder" ng-repeat="tactic in tacticList[tacticList.show] | orderBy :'kpi_value':true" >
+
+            <div  id="tactic_{{$index}}"  class="chart_accordion_heading" ng-click="clickTactic($index)">
+                {{tactic.name}}
+            </div>
+            <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} " id="tactic_{{$index}}_body" >
+                <div class="pull-left inventory_chart">
+                    <span ng-switch="tactic.chart">
+                            <span ng-switch-when="true" class="no-chart load-more">Load...&nbsp;</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
+                            <span ng-switch-default>
+                                <div class="highcharts" ng-if="tactic.chart">
+                                    <highchart config="tactic.chart" chartTitle=""></highchart>
+                                </div>
+                                <div class="highcharts" ng-if="!tactic.chart">
+                                    <span class="no-chart">Data Not Avaiable<!-- (PARTIAL CHART)-->.</span>
+                                </div>
+                            </span>
+                        </span>
+                </div>
+                <div class="inventory_chart_details_list" >
+                    <div class="chart_details_cols_row inventory_each_chart_details clearfix" ng-repeat="tableData in tactic.data">
+                        <span class="row_index">{{$index + 1}}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}" ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl }}</span>
+                        <span class="url_val" title="{{tableData.domain_data}}"  ng-if="selected_filters.domain == 'fulldomains' ">
+                            <a href="{{ tableData.domain_data}}" target='_blank'> {{ tableData.domain_data | formatUrl }}</a>
+                         </span>
+                        <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
+                        <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
-
-
-<script type="text/javascript">
-$(document).ready( function() {
-	$(".chart_accordion_heading").click(function(){
-		$(this).closest(".each_chart_accordion_holder").find(".inventory_strategy_chart").toggle() ;
-	});
-	$(".inventory_tabs > span").click(function(){
-		$(".inventory_tab_active").removeClass("inventory_tab_active") ;
-		$(this).addClass("inventory_tab_active") ;
-	});
-	$(".dropdown_ul li").click( function() {
-          $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
-    }) ;
-	$(".performance_selection").click( function(){
-		console.log( $(this).find(".performance_symbol").hasClass("top_perf_symbol")  ) ;
-		if( $(this).find(".performance_symbol").hasClass("top_perf_symbol") ) {
-			$(".performance_symbol").removeClass("top_perf_symbol") ;
-			$(".performance_text").text("Bottom Performance") ;
-		} else {
-			$(".performance_symbol").addClass("top_perf_symbol") ;
-			$(".performance_text").text("Top Performance") ;
-		}
-		
-	});
-
-}) ;
-
-</script>

@@ -33,8 +33,8 @@ var angObj = '';
               controller: 'OptimizationController'
             })
             .when('/inventory', {
-              templateUrl: 'inventory'              
-              //controller: 'InventoryController'
+              templateUrl: 'inventory' ,
+              controller: 'InventoryController'
               
             })
             .otherwise({redirectTo: 'campaigns'});
