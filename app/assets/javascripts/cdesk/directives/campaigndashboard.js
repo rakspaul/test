@@ -15,19 +15,19 @@
                 $scope.getPendingWidth = function() {
                     var _total = $scope.campaigns.dashboard.pending ? $scope.campaigns.dashboard.pending.total : 0;
                     var _Total = $scope.campaigns.dashboard ? $scope.campaigns.dashboard.total : 0;       
-                    return parseFloat((_total/_Total) * 100, 2);
+                    return parseFloat((_total/_Total) * 100, 2) - 20;
                 }
 
                 $scope.getCompletedWidth = function() {
                     var _total = $scope.campaigns.dashboard.completed ? $scope.campaigns.dashboard.completed.total : 0;
                     var _Total = $scope.campaigns.dashboard ? $scope.campaigns.dashboard.total : 0;       
-                    return parseFloat((_total/_Total) * 100, 2);
+                    return parseFloat((_total/_Total) * 100, 2) + 10;
                 }
 
                 $scope.getActiveWidth = function() {
                     var _total = $scope.campaigns.dashboard.active ? $scope.campaigns.dashboard.active.total : 0;
                     var _Total = $scope.campaigns.dashboard ? $scope.campaigns.dashboard.total : 0;      
-                    return parseFloat((_total/_Total) * 100, 2);
+                    return parseFloat((_total/_Total) * 100, 2) + 10;
                 }
 
                 //internal band
