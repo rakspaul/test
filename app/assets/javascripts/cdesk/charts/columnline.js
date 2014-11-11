@@ -65,7 +65,7 @@
                         formatter: function() {
                             if (this.key) {
                                 var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
-                                var yVal = Highcharts.numberFormat(this.y, 1);
+                                var yVal = this.y;
                                 if(this.series.name !== 'Series 1'){
                                     yVal = Math.round(Highcharts.numberFormat(this.y, 1));
                                 }
