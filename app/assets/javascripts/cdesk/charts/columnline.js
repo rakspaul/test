@@ -64,8 +64,8 @@
                     tooltip: {
                         formatter: function() {
                             if (this.key) {
-                                var currency =(kpIType === 'CTR')? '' : '$';
-                                return  this.key.y +' : '+currency+''+Highcharts.numberFormat(this.y, 1);
+                                var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
+                                return  this.key.y +' : '+currency+''+Math.round(Highcharts.numberFormat(this.y, 1));
                             } else {
                                 return  '';
                             }
@@ -144,9 +144,10 @@
                             enabled: true,
                             formatter: function() {
                                 if (this.value) {
-                                    return '$' + Highcharts.numberFormat(this.value, 1);
+                                    var currency =(kpIType === 'CTR')? '' : '$';
+                                    return currency + Highcharts.numberFormat(this.value, 1);
                                 } else {
-                                    return '$' + Highcharts.numberFormat(this.value, 1);
+                                    return Highcharts.numberFormat(this.value, 1);
                                 }
                             }
                         },
