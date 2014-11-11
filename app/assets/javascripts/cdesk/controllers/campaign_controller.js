@@ -70,7 +70,7 @@
             this.totalCount;
             this.brandId = 0;
             this.dashboard = {
-                filterActive : '(active)',
+                filterActive : '(active, underperforming)',
                 filterReady : undefined,
                 filterDraft : undefined,
                 filterCompleted : undefined,
