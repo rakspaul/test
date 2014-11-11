@@ -65,7 +65,11 @@
                         formatter: function() {
                             if (this.key) {
                                 var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
-                                return  this.key.y +' : '+currency+''+Math.round(Highcharts.numberFormat(this.y, 1));
+                                var yVal = Highcharts.numberFormat(this.y, 1);
+                                if(this.series.name !== 'Series 1'){
+                                    yVal = Math.round(Highcharts.numberFormat(this.y, 1));
+                                }
+                                return  this.key.y +' : '+currency+''+yVal;
                             } else {
                                 return  '';
                             }
