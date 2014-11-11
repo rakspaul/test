@@ -43,11 +43,11 @@ var angObj = '';
     });
     //new campaigns api
     angObj.constant('campaign_api', '');
-    angObj.constant('api', 'http://dev-desk.collective-media.net:5000');
+    angObj.constant('api', 'http://qa-desk.collective.com:5000');
 
     var urlPaths = {
-        campaignDetails: 'http://dev-desk.collective-media.net',
-        apiSerivicesUrl: 'http://dev-desk.collective-media.net:9000'
+        campaignDetails: 'http://qa-desk.collective.com:8080',
+        apiSerivicesUrl: 'http://qa-desk.collective.com:9000'
     };
     angObj.constant('apiPaths', urlPaths);
 
