@@ -290,13 +290,31 @@
             
 
             setActiveInactiveCampaigns: function (dataArr, timePeriod, cdeskTimePeriod, periodStartDate, periodEndDate) {
-                var campaignList = [],
+                var status = '',
+                    campaignList = [],
                     filterStartDate = '',
                     filterEndDate = '';
                
                 for (var obj in dataArr) {
                     if (!angular.isObject(dataArr[obj])) {
                         continue;
+                    }
+
+                    status = (dataArr[obj].status).toLowerCase();
+                    switch(status){
+                        case 'ready' :
+                        case 'draft' :
+                            status = 'draft';
+                            break;
+                        case 'active' :
+                        case 'delivering' :
+                            status = 'delivering';
+                            break;
+                        case 'completed' :
+                            status = 'completed';
+                            break;
+                        default :
+                            status = undefined;
                     }
 
                     campaignList.push({
@@ -310,6 +328,7 @@
                         campaignTitle: dataArr[obj].name,
                         brandName: dataArr[obj].brand_name,
                         status: dataArr[obj].status || 'draft',
+                        statusIcon : status,
                         kpiType: dataArr[obj].kpi_type,
                         kpiValue: dataArr[obj].kpi_value,
                         totalImpressions: dataArr[obj].total_impressions,

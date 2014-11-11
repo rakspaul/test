@@ -70,7 +70,7 @@
             this.totalCount;
             this.brandId = 0;
             this.dashboard = {
-                filterActive : '(active, underperforming)',
+                filterActive : '(active,underperforming)',
                 filterReady : undefined,
                 filterDraft : undefined,
                 filterCompleted : undefined,
@@ -195,6 +195,8 @@
 
             Campaigns.prototype.dashboardFilter = function(type, state) {
 
+                this.reset();
+                
                 if (type == 'pending' && state == "draft") {
 
                     if (this.dashboard.status.pending.draft == 'active') {
@@ -222,10 +224,10 @@
                             this.dashboard.filterActive = undefined;
                             this.dashboard.status.active.ontrack = '';
                         } else if (this.dashboard.status.active.ontrack == 'active') {
-                            this.dashboard.filterActive = '(active, underperforming)';
+                            this.dashboard.filterActive = '(active,underperforming)';
                             this.dashboard.status.active.ontrack = '';
                         } else {
-                            this.dashboard.filterActive = '(active, onTrack)';
+                            this.dashboard.filterActive = '(active,onTrack)';
                             this.dashboard.status.active.ontrack = 'active';
                         }
 
@@ -235,7 +237,7 @@
                             this.dashboard.filterActive = undefined;
                             this.dashboard.status.active.ontrack = '';
                         } else if (this.dashboard.status.active.ontrack == 'active') {
-                            this.dashboard.filterActive = '(active, underperforming)';
+                            this.dashboard.filterActive = '(active,underperforming)';
                             this.dashboard.status.active.ontrack = '';
                         } else {
                             this.dashboard.filterActive = '(active)';
@@ -248,10 +250,10 @@
                             this.dashboard.filterActive = undefined;
                             this.dashboard.status.active.underperforming = '';
                         } else if (this.dashboard.status.active.underperforming == 'active') {
-                            this.dashboard.filterActive = '(active, onTrack)';
+                            this.dashboard.filterActive = '(active,onTrack)';
                             this.dashboard.status.active.underperforming = '';
                         } else {
-                            this.dashboard.filterActive = '(active, underperforming)';
+                            this.dashboard.filterActive = '(active,underperforming)';
                             this.dashboard.status.active.underperforming = 'active';
                         }
 
@@ -261,7 +263,7 @@
                             this.dashboard.filterActive = undefined;
                             this.dashboard.status.active.underperforming = '';
                         } else if (this.dashboard.status.active.underperforming == 'active') {
-                            this.dashboard.filterActive = '(active, onTrack)';
+                            this.dashboard.filterActive = '(active,onTrack)';
                             this.dashboard.status.active.underperforming = '';
                         } else {
                             this.dashboard.filterActive = '(active)';
@@ -279,10 +281,10 @@
                             this.dashboard.filterCompleted = undefined;
                             this.dashboard.status.completed.ontrack = '';
                         } else if (this.dashboard.status.completed.ontrack == 'active') {
-                            this.dashboard.filterCompleted = '(completed, underperforming)';
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
                             this.dashboard.status.completed.ontrack = '';
                         } else {
-                            this.dashboard.filterCompleted = '(completed, onTrack)';
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
                             this.dashboard.status.completed.ontrack = 'active';
                         }
 
@@ -292,7 +294,7 @@
                             this.dashboard.filterCompleted = undefined;
                             this.dashboard.status.completed.ontrack = '';
                         } else if (this.dashboard.status.completed.ontrack == 'active') {
-                            this.dashboard.filterCompleted = '(completed, underperforming)';
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
                             this.dashboard.status.completed.ontrack = '';
                         } else {
                             this.dashboard.filterCompleted = '(completed)';
@@ -304,10 +306,10 @@
                             this.dashboard.filterCompleted = undefined;
                             this.dashboard.status.completed.underperforming = '';
                         } else if (this.dashboard.status.completed.underperforming == 'active') {
-                            this.dashboard.filterCompleted = '(completed, onTrack)';
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
                             this.dashboard.status.completed.underperforming = '';
                         } else {
-                            this.dashboard.filterCompleted = '(completed, underperforming)';
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
                             this.dashboard.status.completed.underperforming = 'active';
                         }
 
@@ -316,7 +318,7 @@
                             this.dashboard.filterCompleted = undefined;
                             this.dashboard.status.completed.underperforming = '';
                         } else if (this.dashboard.status.completed.underperforming == 'active') {
-                            this.dashboard.filterCompleted = '(completed, onTrack)';
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
                             this.dashboard.status.completed.underperforming = '';
                         } else {
                             this.dashboard.filterCompleted = '(completed)';
@@ -329,6 +331,7 @@
                 }
 
                 //get the campaign list 
+                this.campaignList = [];
                 Campaigns.prototype.fetchCampaigns.call(this);
             },
 
