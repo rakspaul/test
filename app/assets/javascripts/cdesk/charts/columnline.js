@@ -67,7 +67,7 @@
                                 var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
                                 var yVal = this.y;
                                 if(this.series.name !== 'Series 1'){
-                                    yVal = Math.round(Highcharts.numberFormat(this.y, 1));
+                                    yVal = Highcharts.numberFormat(Math.round(this.y), 1);
                                 }
                                 return  this.key.y +' : '+currency+''+yVal;
                             } else {
