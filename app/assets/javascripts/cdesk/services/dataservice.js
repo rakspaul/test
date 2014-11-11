@@ -148,6 +148,10 @@
         }//end of check
       },
 
+      getCampaignDashboardData: function(url){
+        return this.fetch(url);
+      },
+      
       getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate){
        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
         return this.fetch(url);

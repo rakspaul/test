@@ -38,6 +38,7 @@
 //= require cdesk/controllers/inventory_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaignsort
+//= require cdesk/directives/campaigndashboard
 //= require cdesk/models/campaign
 //= require cdesk/models/campaign_data
 //= require cdesk/models/action_type

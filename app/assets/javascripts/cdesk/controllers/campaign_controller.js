@@ -4,7 +4,9 @@
 
     angObj.controller('CampaignsController', function($scope, Campaigns, utils, $location, _) {
       $scope.campaigns = new Campaigns();
-
+      
+      $scope.campaigns.fetchDashboardData();
+      
       $scope.$on("fromCampaignDetails", function(event, args) {
         $scope.loadMoreStrategies(args.campaignId);
       });
@@ -67,6 +69,26 @@
             this.totalPages;
             this.totalCount;
             this.brandId = 0;
+            this.dashboard = {
+                filterActive : '(active,underperforming)',
+                filterReady : undefined,
+                filterDraft : undefined,
+                filterCompleted : undefined,
+                status : {
+                    active : {
+                        underperforming : 'active',
+                        ontrack : ''
+                    },
+                    pending : {
+                        draft : '',
+                        ready : ''
+                    },
+                    completed : {
+                        underperforming : '',
+                        ontrack : ''
+                    }
+                }
+            };
 
             this.reset = function() {
                 this.campaignList = [];
@@ -140,6 +162,179 @@
 
             },
 
+            Campaigns.prototype.fetchDashboardData = function() {
+                var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+                    self = this;
+
+                dataService.getCampaignDashboardData(url).then(function(result) {
+                    if(result.status == "success" && !angular.isString(result.data)){
+                        self.dashboard.pending = {
+                            total : result.data.data.draft + result.data.data.ready,
+                            draft : result.data.data.draft,
+                            ready :  result.data.data.ready
+                        };
+                        self.dashboard.active = {
+                            total : result.data.data.active.ontrack + result.data.data.active.underperforming,
+                            ontrack : result.data.data.active.ontrack,
+                            underperforming :  result.data.data.active.underperforming
+                        };
+                        self.dashboard.completed = {
+                            total : result.data.data.completed.ontrack + result.data.data.completed.underperforming,
+                            ontrack : result.data.data.completed.ontrack,
+                            underperforming :  result.data.data.completed.underperforming
+                        };
+                        self.dashboard.total =  self.dashboard.pending.total +
+                                                self.dashboard.active.total +
+                                                self.dashboard.completed.total;
+
+                    }
+                });
+
+
+            },
+
+            Campaigns.prototype.dashboardFilter = function(type, state) {
+
+                this.reset();
+                
+                if (type == 'pending' && state == "draft") {
+
+                    if (this.dashboard.status.pending.draft == 'active') {
+                        this.dashboard.filterDraft = undefined;
+                        this.dashboard.status.pending.draft = '';
+                    } else {
+                        this.dashboard.filterDraft = '(draft)';
+                        this.dashboard.status.pending.draft = 'active';
+                    }
+
+                } else if (type == 'pending' && state == "ready") {
+
+                    if (this.dashboard.status.pending.ready == 'active') {
+                        this.dashboard.filterReady = undefined;
+                        this.dashboard.status.pending.ready = '';
+                    } else {
+                        this.dashboard.filterReady = '(ready)';
+                        this.dashboard.status.pending.ready = 'active';
+                    }
+
+                } else if ((type == 'active' && state == "ontrack") || (type == 'active' && state == "underperforming")) {
+
+                    if (state == "ontrack" && this.dashboard.status.active.underperforming == '') {
+                        if (this.dashboard.status.active.ontrack == 'active' && this.dashboard.status.active.underperforming == '') {
+                            this.dashboard.filterActive = undefined;
+                            this.dashboard.status.active.ontrack = '';
+                        } else if (this.dashboard.status.active.ontrack == 'active') {
+                            this.dashboard.filterActive = '(active,underperforming)';
+                            this.dashboard.status.active.ontrack = '';
+                        } else {
+                            this.dashboard.filterActive = '(active,onTrack)';
+                            this.dashboard.status.active.ontrack = 'active';
+                        }
+
+                    } else if (state == "ontrack" && this.dashboard.status.active.underperforming == 'active') {
+
+                        if (this.dashboard.status.active.ontrack == 'active' && this.dashboard.status.active.underperforming == '') {
+                            this.dashboard.filterActive = undefined;
+                            this.dashboard.status.active.ontrack = '';
+                        } else if (this.dashboard.status.active.ontrack == 'active') {
+                            this.dashboard.filterActive = '(active,underperforming)';
+                            this.dashboard.status.active.ontrack = '';
+                        } else {
+                            this.dashboard.filterActive = '(active)';
+                            this.dashboard.status.active.ontrack = 'active';
+                        }
+
+                    } else if (state == "underperforming" && this.dashboard.status.active.ontrack == '') {
+
+                        if (this.dashboard.status.active.underperforming == 'active' && this.dashboard.status.active.ontrack == '') {
+                            this.dashboard.filterActive = undefined;
+                            this.dashboard.status.active.underperforming = '';
+                        } else if (this.dashboard.status.active.underperforming == 'active') {
+                            this.dashboard.filterActive = '(active,onTrack)';
+                            this.dashboard.status.active.underperforming = '';
+                        } else {
+                            this.dashboard.filterActive = '(active,underperforming)';
+                            this.dashboard.status.active.underperforming = 'active';
+                        }
+
+                    } else if (state == "underperforming" && this.dashboard.status.active.ontrack == 'active') {
+
+                        if (this.dashboard.status.active.underperforming == 'active' && this.dashboard.status.active.ontrack == '') {
+                            this.dashboard.filterActive = undefined;
+                            this.dashboard.status.active.underperforming = '';
+                        } else if (this.dashboard.status.active.underperforming == 'active') {
+                            this.dashboard.filterActive = '(active,onTrack)';
+                            this.dashboard.status.active.underperforming = '';
+                        } else {
+                            this.dashboard.filterActive = '(active)';
+                            this.dashboard.status.active.underperforming = 'active';
+                        }
+
+
+                    }
+
+                } else if ((type == 'completed' && state == "ontrack") || (type == 'completed' && state == "underperforming")) {
+
+                    if (state == "ontrack" && this.dashboard.status.completed.underperforming == '') {
+
+                        if (this.dashboard.status.completed.ontrack == 'active' && this.dashboard.status.completed.underperforming == '') {
+                            this.dashboard.filterCompleted = undefined;
+                            this.dashboard.status.completed.ontrack = '';
+                        } else if (this.dashboard.status.completed.ontrack == 'active') {
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
+                            this.dashboard.status.completed.ontrack = '';
+                        } else {
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
+                            this.dashboard.status.completed.ontrack = 'active';
+                        }
+
+                    } else if (state == "ontrack" && this.dashboard.status.completed.underperforming == 'active') {
+
+                        if (this.dashboard.status.completed.ontrack == 'active' && this.dashboard.status.completed.underperforming == '') {
+                            this.dashboard.filterCompleted = undefined;
+                            this.dashboard.status.completed.ontrack = '';
+                        } else if (this.dashboard.status.completed.ontrack == 'active') {
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
+                            this.dashboard.status.completed.ontrack = '';
+                        } else {
+                            this.dashboard.filterCompleted = '(completed)';
+                            this.dashboard.status.completed.ontrack = 'active';
+                        }
+
+                    } else if (state == "underperforming" && this.dashboard.status.completed.ontrack == '') {
+                        if (this.dashboard.status.completed.underperforming == 'active' && this.dashboard.status.completed.ontrack == '') {
+                            this.dashboard.filterCompleted = undefined;
+                            this.dashboard.status.completed.underperforming = '';
+                        } else if (this.dashboard.status.completed.underperforming == 'active') {
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
+                            this.dashboard.status.completed.underperforming = '';
+                        } else {
+                            this.dashboard.filterCompleted = '(completed,underperforming)';
+                            this.dashboard.status.completed.underperforming = 'active';
+                        }
+
+                    } else if (state == "underperforming" && this.dashboard.status.completed.ontrack == 'active') {
+                        if (this.dashboard.status.completed.underperforming == 'active' && this.dashboard.status.completed.ontrack == '') {
+                            this.dashboard.filterCompleted = undefined;
+                            this.dashboard.status.completed.underperforming = '';
+                        } else if (this.dashboard.status.completed.underperforming == 'active') {
+                            this.dashboard.filterCompleted = '(completed,onTrack)';
+                            this.dashboard.status.completed.underperforming = '';
+                        } else {
+                            this.dashboard.filterCompleted = '(completed)';
+                            this.dashboard.status.completed.underperforming = 'active';
+                        }
+
+                    }
+
+
+                }
+
+                //get the campaign list 
+                this.campaignList = [];
+                Campaigns.prototype.fetchCampaigns.call(this);
+            },
+
             Campaigns.prototype.filterByTimePeriod = function(timePeriod) {
                 this.selectedTimePeriod = timePeriod;
                 this.displayTimePeriod = angular.uppercase(timePeriod.display);
@@ -158,6 +353,9 @@
                 Campaigns.prototype._applyFilters.call(this, {
                     timePeriod: timePeriod.key
                 });
+
+                //populating dashboard filter with new data
+                Campaigns.prototype.fetchDashboardData.call(this);
             },
 
             Campaigns.prototype.filterByBrand = function(brand) {
@@ -265,7 +463,11 @@
                 this.brandId > 0 && params.push('advertiser_filter=' + this.brandId);
                 this.sortParam && params.push('sort_column=' + this.sortParam);
                 this.sortDirection && params.push('sort_direction=' + this.sortDirection);
-                return apiPaths.apiSerivicesUrl + '/desk/campaigns?user_id='+user_id+'&' + params.join('&');
+                this.dashboard.filterActive && params.push('conditions=' + this.dashboard.filterActive);
+                this.dashboard.filterReady && params.push('conditions=' + this.dashboard.filterReady);
+                this.dashboard.filterDraft && params.push('conditions=' + this.dashboard.filterDraft);
+                this.dashboard.filterCompleted && params.push('conditions=' + this.dashboard.filterCompleted);
+                return apiPaths.apiSerivicesUrl + '/desk/campaigns/bystate?user_id='+user_id+'&' + params.join('&');
             };
 
         var toggleSortDirection = function(dir) {
