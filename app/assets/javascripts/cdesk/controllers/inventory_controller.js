@@ -213,7 +213,7 @@ var angObj = angObj || {};
 
         $scope.checkStatus = function () {
             $scope.inventoryChart = true;
-            $scope.tacticList[$scope.tacticList.show][0].chart= true;
+           // $scope.tacticList[$scope.tacticList.show][0].chart= true;
             if ($scope.selectedCampaign.name == 'Loading...' ||
                 $scope.selectedStrategy.name == 'Loading...' ||
                 $scope.selectedCampaign.name == 'No Campaign Found' ||
