@@ -28,7 +28,7 @@ module ApplicationHelper
 
       localised(identifier + ".reports") => {
         :controllers => ["Reports::ReportsController"],
-        :path => current_user.has_role?(Role::CDESK) ? "#{reports_api_url}#/reports" : :reports_reports
+        :path => current_user.has_role?(Role::CDESK) ? "#inventory" : :reports_reports
       }
     }
   end

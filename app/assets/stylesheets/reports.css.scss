@@ -339,9 +339,15 @@
 		padding-bottom: 8px;
 		border-bottom: solid 2px transparent ;
 		cursor: default;
+        a {
+          text-decoration: none;
+        }
 	}
 	span.active_tab {
 		border-bottom: solid 2px #575e63 ;
+        a {
+          text-decoration: none;
+        }
 	}
 }
 .reports_main_page_holder {
@@ -405,6 +411,9 @@
 	.download_report:hover {
 		background: url(asset-path("cdesk/download_report_btn_hover.png")) no-repeat center center  ;
 	}
+    .download_anchor {
+      display : block
+    }
 	.dropdown_type3 {
 		margin: 8px 40px 0 0;
 		background: url(asset-path("cdesk/lifetime_icon.png")) no-repeat 2px 3px  ;
@@ -433,6 +442,8 @@
 	}
 	.dropdown-menu {
 		padding: 0px ;
+        max-height: 200px;
+        overflow-y: auto;
 	}
 	.performance_selection {
 		.performance_symbol {
@@ -521,6 +532,13 @@
 		}
 
 	}
+    .data_not_found {
+      .span{
+        font-weight: bold;
+        font-size: 18px;
+        color: #313233;
+      }
+    }
 	
 	.imps_del_col {
 		width: 120px;

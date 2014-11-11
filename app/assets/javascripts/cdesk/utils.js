@@ -11,18 +11,18 @@
             return  suf;
         };
         var makeTitle = function (input) {
-            var title='<div id="legend">';
-            for(var i=0; i<input.length; i++){
-                title += '<a id="a'+(i+1)+'">'+input[i]+'</a>';
+            var title = '<div id="legend">';
+            for (var i = 0; i < input.length; i++) {
+                title += '<a id="a' + (i + 1) + '">' + input[i] + '</a>';
             }
             title += '</div>';
             return  title;
         };
-        var roundOff = function(value,places) {
-          var factor = Math.pow(10,places);
-          return Math.round(value*factor)/factor;
+        var roundOff = function (value, places) {
+            var factor = Math.pow(10, places);
+            return Math.round(value * factor) / factor;
         };
-        var goToLocation = function(url){
+        var goToLocation = function (url) {
             $location.url(url);
         };
         return {
@@ -98,20 +98,20 @@
             }
         };
     });
-    
+
     //Details-Banner-Directive
     angObj.directive('campaignDetailsBanner', function () {
         return{
             restrict: 'AE',
             scope: {
-            	camapignTitle: '@',
-            	startDate :'@start',
-                fromSuffix :'@fromsuffix',
-                endDate :'@end',
-                toSuffix :'@tosuffix',
-                back :'=back'
+                camapignTitle: '@',
+                startDate: '@start',
+                fromSuffix: '@fromsuffix',
+                endDate: '@end',
+                toSuffix: '@tosuffix',
+                back: '=back'
             },
-            templateUrl : '../views/detailsbanner.html'
+            templateUrl: '../views/detailsbanner.html'
         };
     });
 
@@ -122,50 +122,49 @@
                 measures: "=",
                 dimensions: "=",
                 updateparent: '&',
-                measurementList :"=",
+                measurementList: "=",
                 dimensionList: "=",
-                groupList :"=",
-                updateTo :"="
+                groupList: "=",
+                updateTo: "="
             },
-            template:
-                 '<ul class="nav navbar-nav">'+
-                 '<li class="dropdown">'+
-                     '<a class="dropdown-toggle" data-toggle="dropdown">'+
-                         '<span id="measuresLabel" >{{measures}}</span>'+ 
-                     '</a>'+
-                     '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">'+
-                         '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>'+
-                         '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>'+
-                         '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>'+
-                         '</ul>'+
-                 '</li>'+
-                 '<li> BY </li>'+
-                 '<li class="dropdown">'+
-                     '<a class="dropdown-toggle"  data-toggle="dropdown">'+
-                         '<span id="dimensionLabel">{{dimensions}}</span>'+
-                     '</a>'+
-                    '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">'+  
-                         '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>'+
-                         '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER"> GENDER </a></li>'+    
-                         '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET"> INMARKET </a></li>'+
-                       '</ul>'+
-                    '</li>'+
-             '</ul>'+
-             '<button type="button" class="close" data-dismiss="widget">'+
-                 '<span aria-hidden="true">&times;</span>'+
-                 '<span class="sr-only">Close</span>'+
-             '</button>',
-            link: function($scope, elem, attrs) {
-                elem.find('#measuresOptions li a').bind('click', function(e) {
-                       var messureText = $(this).attr('rel');
+            template: '<ul class="nav navbar-nav">' +
+                '<li class="dropdown">' +
+                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                '<span id="measuresLabel" >{{measures}}</span>' +
+                '</a>' +
+                '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
+                '</ul>' +
+                '</li>' +
+                '<li> BY </li>' +
+                '<li class="dropdown">' +
+                '<a class="dropdown-toggle"  data-toggle="dropdown">' +
+                '<span id="dimensionLabel">{{dimensions}}</span>' +
+                '</a>' +
+                '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>' +
+                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER"> GENDER </a></li>' +
+                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET"> INMARKET </a></li>' +
+                '</ul>' +
+                '</li>' +
+                '</ul>' +
+                '<button type="button" class="close" data-dismiss="widget">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '<span class="sr-only">Close</span>' +
+                '</button>',
+            link: function ($scope, elem, attrs) {
+                elem.find('#measuresOptions li a').bind('click', function (e) {
+                    var messureText = $(this).attr('rel');
                     elem.find("#measuresLabel").html(messureText);
-                       $scope.$apply($scope.$parent.changeAudienceKPI(messureText.toLowerCase(), elem.find("#dimensionLabel").text().toLowerCase(), $scope.updateTo));
-                  });
-                elem.find('#dimensionOptions li a').bind('click', function(e) {
-                       var dimensionText = $(this).attr('rel');
+                    $scope.$apply($scope.$parent.changeAudienceKPI(messureText.toLowerCase(), elem.find("#dimensionLabel").text().toLowerCase(), $scope.updateTo));
+                });
+                elem.find('#dimensionOptions li a').bind('click', function (e) {
+                    var dimensionText = $(this).attr('rel');
                     elem.find("#dimensionLabel").html(dimensionText);
-                       $scope.$apply($scope.$parent.changeAudienceKPI(elem.find("#measuresLabel").text().toLowerCase(), dimensionText.toLowerCase(),$scope.updateTo));
-                  });
+                    $scope.$apply($scope.$parent.changeAudienceKPI(elem.find("#measuresLabel").text().toLowerCase(), dimensionText.toLowerCase(), $scope.updateTo));
+                });
             }
         };
     });
@@ -178,97 +177,96 @@
                 measures: "=",
                 dimensions: "=",
                 updateparent: '&',
-                measurementList :"=",
+                measurementList: "=",
                 dimensionList: "=",
-                groupList :"=",
-                updateTo :"="
+                groupList: "=",
+                updateTo: "="
             },
-            template:
-                '<ul class="nav navbar-nav">'+
-                '<li class="dropdown">'+
-                '<a class="dropdown-toggle" data-toggle="dropdown">'+
-                '<span id="measuresLabel" >{{measures}}</span>'+
-                '</a>'+
-                '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">'+
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>'+
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>'+
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>'+
-                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="SPEND"> SPEND </a></li>'+
-                '</ul>'+
-                '</li>'+
-                '<li> BY </li>'+
-                '<li class="dropdown">'+
-                '<a class="dropdown-toggle"  data-toggle="dropdown">'+
-                '<span id="dimensionLabel">{{dimensions}}</span>'+
-                '</a>'+
-                '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">'+
-                '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION"> REGION </a></li>'+
-                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES"> SITES </a></li>'+
-                '</ul>'+
-                '</li>'+
-                '</ul>'+
-                '<button type="button" class="close" data-dismiss="widget">'+
-                '<span aria-hidden="true">&times;</span>'+
-                '<span class="sr-only">Close</span>'+
+            template: '<ul class="nav navbar-nav">' +
+                '<li class="dropdown">' +
+                '<a class="dropdown-toggle" data-toggle="dropdown">' +
+                '<span id="measuresLabel" >{{measures}}</span>' +
+                '</a>' +
+                '<ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1" id="measuresOptions">' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="IMPRESSIONS"> IMPRESSIONS </a></li>' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CTR"> CTR </a></li>' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="CVR"> CVR </a></li>' +
+                '<li><a href="javascript://" tabindex="-1" role="tab" data-toggle="" rel="SPEND"> SPEND </a></li>' +
+                '</ul>' +
+                '</li>' +
+                '<li> BY </li>' +
+                '<li class="dropdown">' +
+                '<a class="dropdown-toggle"  data-toggle="dropdown">' +
+                '<span id="dimensionLabel">{{dimensions}}</span>' +
+                '</a>' +
+                '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION"> REGION </a></li>' +
+                '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES"> SITES </a></li>' +
+                '</ul>' +
+                '</li>' +
+                '</ul>' +
+                '<button type="button" class="close" data-dismiss="widget">' +
+                '<span aria-hidden="true">&times;</span>' +
+                '<span class="sr-only">Close</span>' +
                 '</button>',
-            link: function($scope, elem, attrs) {
-                elem.find('#measuresOptions li a').bind('click', function(e) {
+            link: function ($scope, elem, attrs) {
+                elem.find('#measuresOptions li a').bind('click', function (e) {
                     var messureText = $(this).attr('rel');
                     elem.find("#measuresLabel").html(messureText);
-                    
+
                     $scope.$apply($scope.$parent.changeCDBKPI(messureText.toLowerCase(), elem.find("#dimensionLabel").text().toLowerCase(), $scope.updateTo));
-                    
+
                 });
-                elem.find('#dimensionOptions li a').bind('click', function(e) {
+                elem.find('#dimensionOptions li a').bind('click', function (e) {
                     var dimensionText = $(this).attr('rel');
                     elem.find("#dimensionLabel").html(dimensionText);
-                    $scope.$apply($scope.$parent.changeCDBKPI(elem.find("#measuresLabel").text().toLowerCase(), dimensionText.toLowerCase(),$scope.updateTo));
+                    $scope.$apply($scope.$parent.changeCDBKPI(elem.find("#measuresLabel").text().toLowerCase(), dimensionText.toLowerCase(), $scope.updateTo));
                 });
             }
         };
     });
-    
-    angObj.filter('spliter', function() {
-        return function(input, splitIndex) {
+
+    angObj.filter('spliter', function () {
+        return function (input, splitIndex) {
             // do some bounds checking here to ensure it has that index
-        return input.split(' ')[splitIndex];
+            return input.split(' ')[splitIndex];
         }
     });
 
-    angObj.filter('kpiFormatter', function($filter) {
-        return function(input, kpiType) {
-            if(input && kpiType) {
-                if(kpiType.toLowerCase() == 'ctr') {
+    angObj.filter('kpiFormatter', function ($filter) {
+        return function (input, kpiType) {
+            if (input && kpiType) {
+                if (kpiType.toLowerCase() == 'ctr') {
                     return $filter('number')(input, 2) + '%';
-                }else if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                } else if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
                     return '$' + $filter('number')(input, 2);
-                }else if(kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
-                    return $filter('number')(input, 0); 
-                }else {
+                } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
+                    return $filter('number')(input, 0);
+                } else {
                     //unknown kpiType
                     return $filter('number')(input, 0);
                 }
-            }else {
+            } else {
                 return 'NA';
             }
         }
     });
 
-    angObj.filter('toCamelCase', function() {
-        return function(input) {
-            if(input == undefined) {
+    angObj.filter('toCamelCase', function () {
+        return function (input) {
+            if (input == undefined) {
                 return '';
             }
             input = input.charAt(0).toUpperCase() + input.substr(1);
-            return input.replace(/(\-[a-z])/g, function($1) {
+            return input.replace(/(\-[a-z])/g, function ($1) {
                 return $1.toUpperCase().replace('-', '');
             });
         }
     });
 
-    angObj.filter('toTitleCase', function() {
-        return function(input) {
-            if(input == undefined) {
+    angObj.filter('toTitleCase', function () {
+        return function (input) {
+            if (input == undefined) {
                 return '';
             }
             input = input.charAt(0).toUpperCase() + input.substr(1).toLowerCase();
@@ -276,22 +274,22 @@
         }
     });
 
-    angObj.filter('truncateString', function() {
-        return function(input, stringLength) {
+    angObj.filter('truncateString', function () {
+        return function (input, stringLength) {
             return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
         }
     });
 
-    angObj.filter('roundThisOff', function() {
-        return function(input, places) {
-                var factor = Math.pow(10,places);
-                return Math.round(input*factor)/factor;
+    angObj.filter('roundThisOff', function () {
+        return function (input, places) {
+            var factor = Math.pow(10, places);
+            return Math.round(input * factor) / factor;
         }
     });
 
-    angObj.filter('displayActionSubtypes', function() {
-        return function(actionSubTypes) {
-            if(actionSubTypes === undefined) {
+    angObj.filter('displayActionSubtypes', function () {
+        return function (actionSubTypes) {
+            if (actionSubTypes === undefined) {
                 return "-";
             }
             var length = actionSubTypes.length,
@@ -310,11 +308,11 @@
         }
     });
 
-    angObj.filter('formatActionDate', function($filter) {
-        return function(input) {
-            var _date = new Date(input), 
+    angObj.filter('formatActionDate', function ($filter) {
+        return function (input) {
+            var _date = new Date(input),
                 formatDate = "";
-            if(moment(_date).diff(moment(), 'days') == 0) {
+            if (moment(_date).diff(moment(), 'days') == 0) {
                 //today - format 01:29 PM
                 formatDate = $filter('date')(_date, 'h:mm a');
             } else {
@@ -325,47 +323,47 @@
         }
     });
 
-    angObj.filter('platformIconCss', function() {
-        return function(input, defaultIcon) {
+    angObj.filter('platformIconCss', function () {
+        return function (input, defaultIcon) {
             var _style = "",
                 icon = input;
-            if(input === undefined || input == "") {
+            if (input === undefined || input == "") {
                 icon = defaultIcon || assets.platform_icon;
             }
-            _style = "background:url('"+icon+"') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
-            +"width: 17px;"
-            +"height: 17px;"
-            +"display: inline-block;"
-            +'background-size:17px;"';
+            _style = "background:url('" + icon + "') no-repeat scroll 0 0 rgba(0, 0, 0, 0);"
+                + "width: 17px;"
+                + "height: 17px;"
+                + "display: inline-block;"
+                + 'background-size:17px;"';
             return _style;
         }
     });
 
     //Used in _inventory.html file
-    angObj.filter('formatUrl', function() {
-        return function(url) {
-            if(url === undefined || url == "") {
+    angObj.filter('formatUrl', function () {
+        return function (url) {
+            if (url === undefined || url == "") {
                 return url;
             }
 
-            if(url === "No Campaign Found" || url == "No Strategy Found") {
+            if (url === "No Campaign Found" || url == "No Strategy Found") {
                 return url;
             }
-            if(url.length > 33) {
+            if (url.length > 33) {
                 return url.substring(0, 15) + ' ... ' + url.substring(url.length - 15);
 
-            }else{
+            } else {
                 return url;
             }
         }
     });
-    angObj.filter('appendDollor', function() {
-        return function(val, type) {
-            if(val === undefined || val == "") {
+    angObj.filter('appendDollor', function () {
+        return function (val, type) {
+            if (val === undefined || val == "") {
                 return val;
             }
 
-            return (type == 'CTR') ? val : '$'+val;
+            return (type == 'CTR') ? val : '$' + val;
         }
     });
 
