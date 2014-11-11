@@ -56,6 +56,7 @@ var angObj = angObj || {};
 
         $scope.campaignlist = function () {
             inventoryService.getCampaingsForUser().then(function (result) {
+
                 $scope.campaingns = result.data.data.slice(0, 100);
                 if (result.status === "OK" || result.status === "success") {
 //                    $('.page_loading').css({'display': 'none'});
@@ -201,7 +202,7 @@ var angObj = angObj || {};
                     $scope.tacticList.show = 'topPerformance';
                 }
                 $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
-                $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+               // $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
         };
 
@@ -248,7 +249,8 @@ var angObj = angObj || {};
                     $scope.selectedStrategy.id= -1;
                     $scope.selectedStrategy.name = "No Strategy Found";
                 }
-
+                $scope.inventoryChart = true;
+                $scope.tacticList[$scope.tacticList.show][0].chart= true;
         });
 
         $('#time_filter_list').click(function (e) {
