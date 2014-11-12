@@ -363,7 +363,8 @@
                 return val;
             }
 
-            return (type == 'CTR' || type == 'action_rate') ? val : '$' + val;
+            return (type == 'CTR'  || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
+
         }
     });
 

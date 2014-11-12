@@ -127,7 +127,8 @@ var angObj = angObj || {};
                                     bottomPerformance.push(resultTableData[data]);
                                 }
                             }
-                          //  bottomPerformance.sort(sortNumber);
+                            bottomPerformance.sort(sortNumber);
+
                             topPerformance = topPerformance.slice(0, 5);
                             bottomPerformance = bottomPerformance.slice(0, 5);
                             var topChartObj = true, bottomChartObj = true;
@@ -156,6 +157,10 @@ var angObj = angObj || {};
             });
         };
 
+        var sortNumber = function(a,b) {
+            return a.kpi_value - b.kpi_value;
+        };
+
         $scope.inventoryChart = true;
 
         //Function called to draw the Strategy chart
@@ -174,7 +179,9 @@ var angObj = angObj || {};
                                 $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
                             }
                         }
-                        //$scope.strategyTable.bottomPerformance.sort(sortNumber);
+
+                        $scope.strategyTable.bottomPerformance.sort(sortNumber);
+
                         //Default show the top performance strategies
                         $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
                         $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
@@ -259,7 +266,9 @@ var angObj = angObj || {};
                     $scope.selectedStrategy.name = "No Strategy Found";
                 }
                 $scope.inventoryChart = true;
-                $scope.tacticList[$scope.tacticList.show][0].chart= true;
+            if($scope.tacticList[$scope.tacticList.show][0]) {
+                $scope.tacticList[$scope.tacticList.show][0].chart = true;
+            }
         });
 
         $('#time_filter_list').click(function (e) {
