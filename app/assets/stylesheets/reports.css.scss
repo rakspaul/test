@@ -470,9 +470,13 @@
 		padding: 20px 10px;
 		.inventory_chart {
 			height: 240px;
-			width: 295px;
+			width: 335px;
 			margin-right: 70px;
 			margin-left: 40px;
+          .highcharts_kpi_titles {
+            margin-left: 56px;
+            color: #666;
+          }
 		}
 		.inventory_each_chart_details {
 			margin-bottom : 10px ;

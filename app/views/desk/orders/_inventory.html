@@ -79,12 +79,17 @@
                 </div>
             </div>
             <div ng-if="strategyFound" class="inventory_strategy_chart clearfix">
+
                 <div class="pull-left inventory_chart">
                       <span ng-switch="inventoryChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="inventoryChart">
+                                    <div class="clearfix highcharts_kpi_titles">
+                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
+                                        <span class="pull-right">Imps</span>
+                                    </div>
                                     <highchart config="inventoryChart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!inventoryChart">
@@ -130,6 +135,10 @@
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="tactic.chart">
+                                    <div class="clearfix highcharts_kpi_titles">
+                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
+                                        <span class="pull-right">Imps</span>
+                                    </div>
                                     <highchart config="tactic.chart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!tactic.chart">
