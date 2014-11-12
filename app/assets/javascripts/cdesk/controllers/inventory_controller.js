@@ -57,7 +57,7 @@ var angObj = angObj || {};
         $scope.campaignlist = function () {
             inventoryService.getCampaingsForUser().then(function (result) {
 
-                $scope.campaingns = result.data.data.slice(0, 100);
+                $scope.campaingns = result.data.data.slice(0, 1000);
                 if (result.status === "OK" || result.status === "success") {
 //                    $('.page_loading').css({'display': 'none'});
                 }

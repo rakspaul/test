@@ -132,7 +132,7 @@
 
             dataTransferService.initOptimizationData(param);
 
-            utils.goToLocation('/campaigns/' +  campaign.orderId + '/optimization');
+            utils.goToLocation('/optimization');
         };
 
         var filterObject = new Campaigns();
