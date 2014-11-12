@@ -2,29 +2,52 @@
     "use strict";
     angObj.factory("columnline", function($timeout) {
 
+
+        var  getRepString = function(x) {
+            //if(isNaN(x)) return x;
+            var y = Math.abs(x);
+
+            if(y < 9999) {
+                return x;
+            }
+
+            if(y < 1000000) {
+                return Math.round(x/1000) + "K";
+            }
+            if( y < 10000000) {
+                return (x/1000000).toFixed(2) + "M";
+            }
+
+            if(y < 1000000000) {
+                return Math.round((x/1000000)) + "M";
+            }
+
+            if(y < 1000000000000) {
+                return Math.round((x/1000000000)) + "B";
+            }
+
+            return "1T+";
+        };
         var columnChart = function(chartData, kpIType) {
 
             var xData = [],
                 impLine = [],
                 kpiColumn = [];
+
             for (var i = 0; i < chartData.length; i++) {
-                //xData.push(chartData[i].domain_data);
                 xData.push({custom: i, y: chartData[i].domain_data });
                 impLine.push(chartData[i].impressions);
                 kpiColumn.push(chartData[i].kpi_value);
             }
+
             var i = 1;
             return {
-
-                //This is not a highcharts object. It just looks a little like one!
                 options: {
-                    //This is the Main Highcharts chart config. Any Highchart options are valid here.
-                    //will be ovverriden by values specified below.
                     chart: {
                         type: 'column',
                         width: 400,
                         height: 260,
-                        margin: [20, 40, 30, 50]
+                        margin: [20, 60, 30, 50]
                     },
 
                     colors: [
@@ -91,12 +114,15 @@
                     yAxis: [{ // Primary yAxis
                         labels: {
                             enabled: true,
+
+
                             formatter: function() {
-                                if (this.value) {
-                                    return Highcharts.numberFormat(this.value, 1);
-                                } else {
-                                    return Highcharts.numberFormat(this.value, 1);
-                                }
+
+                              //  if (this.value) {
+                                    return getRepString(this.value);
+                              /*  } else {
+                                    return '';
+                                }*/
                             }
                         },
                         tickWidth: 1,
@@ -109,29 +135,30 @@
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: 'Imps.',
+                            text: 'Imps',
                             rotation: 0,
-                            y: -5,
-                            x: -20
+                            y: -10,
+                            x: 33
                         }
                     }, { // Secondary yAxis
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: kpIType,
+                            text:kpIType,
                             rotation: 0,
-                            y: -5,
-                            x: 40
+                            y: -10,
+                            x: -10
                         },
                         labels: {
                             enabled: true,
                             formatter: function() {
-                                if (this.value) {
+                               // if (!isNaN(this.value)) {
                                     var currency =(kpIType === 'CTR')? '' : '$';
-                                    return currency + Highcharts.numberFormat(this.value, 1);
-                                } else {
-                                    return Highcharts.numberFormat(this.value, 1);
-                                }
+                                    var $returnLabel =  currency + Highcharts.numberFormat(this.value, 2);
+                                    return $returnLabel;
+                               /* } else {
+                                    return '';
+                                }*/
                             }
                         },
                         lineWidth: 1,

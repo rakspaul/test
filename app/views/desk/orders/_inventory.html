@@ -79,12 +79,17 @@
                 </div>
             </div>
             <div ng-if="strategyFound" class="inventory_strategy_chart clearfix">
+
                 <div class="pull-left inventory_chart">
                       <span ng-switch="inventoryChart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="inventoryChart">
+                                    <!--<div class="clearfix highcharts_kpi_titles">
+                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
+                                        <span class="pull-right">Imps</span>
+                                    </div>-->
                                     <highchart config="inventoryChart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!inventoryChart">
@@ -94,7 +99,7 @@
                         </span>
                 </div>
                 <div class="inventory_chart_details_list"
-                     data-ng-repeat="stable in strategyTableData | orderBy:'kpi_value':true ">
+                     data-ng-repeat="stable in strategyTableData ">
 
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                         <span class="row_index">{{$index + 1}}</span>
@@ -105,7 +110,7 @@
                             <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl }}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
-                        <span class="cpa_col cpa_data pull-right">{{stable.kpi_value | appendDollor : selected_filters.kpi_type }}</span>
+                        <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
 
                     </div>
                 </div>
@@ -117,7 +122,7 @@
             </div>
         </div>
         <div ng-if="strategyFound" class="each_chart_accordion_holder"
-             ng-repeat="tactic in tacticList[tacticList.show] | orderBy :'kpi_value':true">
+             ng-repeat="tactic in tacticList[tacticList.show]">
 
             <div id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
                 {{tactic.name}}
@@ -130,6 +135,10 @@
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="tactic.chart">
+                                    <!--<div class="clearfix highcharts_kpi_titles">
+                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
+                                        <span class="pull-right">Imps</span>
+                                    </div>-->
                                     <highchart config="tactic.chart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!tactic.chart">
@@ -141,7 +150,7 @@
                 </div>
                 <div class="inventory_chart_details_list">
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                         ng-repeat="tableData in tactic.data | orderBy : 'kpi_value':true">
+                         ng-repeat="tableData in tactic.data">
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
                               ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl }}</span>
