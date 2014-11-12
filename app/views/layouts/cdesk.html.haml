@@ -7,6 +7,10 @@
     %meta{:content => "Collective", :name => "author"}
     %link{:rel => "shortcut icon", :href => "http://collective.com/wp-content/themes/okcm/images/favicon.ico", :type => "image/x-icon"}
 
+    :javascript
+      window.scala_api                = "#{scala_api_url}";
+      window.nodejs_api                = "#{nodejs_api_url}";
+
     = stylesheet_link_tag    "cdesk_application", :media => "all"
     = stylesheet_link_tag    "//fonts.googleapis.com/css?family=Armata"
     = javascript_include_tag "cdesk_application"

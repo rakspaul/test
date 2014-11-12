@@ -68,4 +68,12 @@ module ApplicationHelper
   def reports_api_url
     Rails.application.config.reporting_uri
   end
+
+  def scala_api_url
+    Rails.application.config.scala_api
+  end
+
+  def nodejs_api_url
+    Rails.application.config.nodejs_api
+  end
 end
