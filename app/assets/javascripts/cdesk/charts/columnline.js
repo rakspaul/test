@@ -45,7 +45,7 @@
                     chart: {
                         type: 'column',
                         width: 400,
-                        height: 235,
+                        height: 260,
                         margin: [20, 60, 30, 50]
                     },
                     colors: [
@@ -115,6 +115,7 @@
 
 
                             formatter: function() {
+
                               //  if (this.value) {
                                     return getRepString(this.value);
                               /*  } else {
@@ -132,19 +133,19 @@
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: ' ',
+                            text: 'Imps',
                             rotation: 0,
                             y: -10,
-                            x: -10
+                            x: 33
                         }
                     }, { // Secondary yAxis
                         title: {
                             align: 'high',
                             offset: 5,
-                            text: ' ',
+                            text:kpIType,
                             rotation: 0,
                             y: -10,
-                            x: 30
+                            x: -10
                         },
                         labels: {
                             enabled: true,
