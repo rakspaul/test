@@ -7,19 +7,19 @@
             var xData = [],
                 impLine = [],
                 kpiColumn = [];
+
+            function sortNumber(a,b) {
+                return b.kpi_value - a.kpi_value;
+            }
+            chartData.sort(sortNumber);
             for (var i = 0; i < chartData.length; i++) {
-                //xData.push(chartData[i].domain_data);
                 xData.push({custom: i, y: chartData[i].domain_data });
                 impLine.push(chartData[i].impressions);
                 kpiColumn.push(chartData[i].kpi_value);
             }
             var i = 1;
             return {
-
-                //This is not a highcharts object. It just looks a little like one!
                 options: {
-                    //This is the Main Highcharts chart config. Any Highchart options are valid here.
-                    //will be ovverriden by values specified below.
                     chart: {
                         type: 'column',
                         width: 400,
