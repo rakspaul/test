@@ -52,8 +52,8 @@
             <div class="clearfix chart_inventory_header">
                 <div class="pull-left clearfix inventory_tabs" id="category_change">
                     <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories">Site Categories</a></span>
-                    <span><a href="javascript:void(0);" _key="parentdomains">Parent Domains</a></span>
-                    <span><a href="javascript:void(0);" _key="fulldomains">Full Domains</a></span>
+                    <span><a href="javascript:void(0);" _key="parentdomains">Domains</a></span>
+                    <span><a href="javascript:void(0);" _key="fulldomains"> Full Sites</a></span>
                 </div>
                 <div class="chart_details_cols_row inventory_chart_details_list clearfix">
                     <div class="pull-left performance_selection clearfix"
@@ -67,12 +67,12 @@
                     <div class="pull-right cpa_dropdown cpa_col">
                         <div class="dropdown">
 					    	<span class="dropdown_ul_text" data-toggle="dropdown">
-					            <span class="dd_txt">{{selected_filters.kpi_type}}</span>
+					            <span class="dd_txt">{{selected_filters.kpi_type_text}}</span>
 					            <span class="arrrow_img"></span>
 					        </span>
 
                             <ul id="kpi_list" class="dropdown_ul dropdown-menu">
-                                <li ng-repeat="kpiType in kpiTypeFilter">{{kpiType}}</li>
+                                <li ng-repeat="kpiType in kpiTypeFilter" value="{{kpiType.value}}">{{kpiType.text}}</li>
                             </ul>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                                 }}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
-                        <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type}}</span>
+                        <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
                     </div>
                 </div>
             </div>

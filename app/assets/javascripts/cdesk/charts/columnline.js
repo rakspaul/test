@@ -3,9 +3,6 @@
     angObj.factory("columnline", function($timeout) {
 
         var columnChart = function(chartData, kpIType) {
-            /*console.log("======================");
-             console.log("kpIType :"+ kpIType);
-             console.log("======================");*/
 
             var xData = [],
                 impLine = [],
@@ -27,26 +24,8 @@
                         type: 'column',
                         width: 400,
                         height: 260,
-                        margin: [20, 40, 30, 40]
+                        margin: [20, 40, 30, 50]
                     },
-                    /* plotOptions: {
-                     column: {
-                     dataLabels: {
-                     inside: true,
-                     enabled: true,
-                     verticalAlign:'bottom',
-                     color: '#ffffff',
-                     style: {
-                     fontFamily: '"Lucida Grande", "Lucida Sans Unicode", Verdana, Arial, Helvetica, sans-serif', // default font
-                     fontSize: '14px',
-                     fontWeight: 'bold'
-                     },
-                     formatter: function () {
-                     return parseInt(this.point.category.custom + 1);
-                     }
-                     }
-                     }
-                     },*/
 
                     colors: [
                         '#2e8ed3',
@@ -67,7 +46,7 @@
                                 var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
                                 var yVal = this.y;
                                 if(this.series.name !== 'Series 1'){
-                                    yVal = Highcharts.numberFormat(Math.round(this.y), 1);
+                                    yVal = Highcharts.numberFormat(Math.round(this.y), 0);
                                 }
                                 return  this.key.y +' : '+currency+''+yVal;
                             } else {

@@ -363,7 +363,7 @@
                 return val;
             }
 
-            return (type == 'CTR') ? val : '$' + val;
+            return (type == 'CTR' || type == 'action_rate') ? val : '$' + val;
         }
     });
 
