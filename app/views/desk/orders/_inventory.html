@@ -141,7 +141,7 @@
                 </div>
                 <div class="inventory_chart_details_list">
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix"
-                         ng-repeat="tableData in tactic.data">
+                         ng-repeat="tableData in tactic.data | orderBy : 'kpi_value':true">
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
                               ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl }}</span>
