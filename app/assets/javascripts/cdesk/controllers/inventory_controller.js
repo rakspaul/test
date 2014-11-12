@@ -18,6 +18,7 @@ var angObj = angObj || {};
             time_filter: 'life_time',
             time_filter_text: 'Last Year',
             kpi_type: 'CPA',
+            kpi_type_text: 'CPA',
             tb: '1',
             domain: 'categories'
         };
@@ -44,7 +45,14 @@ var angObj = angObj || {};
 
         $scope.strategyFound = false;
 
-        $scope.kpiTypeFilter = ['CPA', 'CPC', 'CPM', 'CTR'];
+        $scope.kpiTypeFilter = [
+            {value: 'CPA', text: 'CPA'},
+            {value: 'CPC', text: 'CPC'},
+            {value: 'CPM', text: 'CPM'},
+            {value: 'CTR', text: 'CTR'},
+            {value: 'action_rate', text: 'Action Rate'}
+
+           ];
 
         $scope.init = function () {
             $scope.campaignlist();
@@ -59,7 +67,6 @@ var angObj = angObj || {};
 
                 $scope.campaingns = result.data.data.slice(0, 1000);
                 if (result.status === "OK" || result.status === "success") {
-//                    $('.page_loading').css({'display': 'none'});
                 }
 
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
@@ -120,6 +127,7 @@ var angObj = angObj || {};
                                     bottomPerformance.push(resultTableData[data]);
                                 }
                             }
+                          //  bottomPerformance.sort(sortNumber);
                             topPerformance = topPerformance.slice(0, 5);
                             bottomPerformance = bottomPerformance.slice(0, 5);
                             var topChartObj = true, bottomChartObj = true;
@@ -166,6 +174,7 @@ var angObj = angObj || {};
                                 $scope.strategyTable.bottomPerformance.push(resultTableData[data]);
                             }
                         }
+                        //$scope.strategyTable.bottomPerformance.sort(sortNumber);
                         //Default show the top performance strategies
                         $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
                         $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
@@ -269,7 +278,8 @@ var angObj = angObj || {};
         $('#kpi_list').click(function (e) {
             // $('.page_loading').css({'display': 'block'});
             if ($scope.checkStatus()) {
-                $scope.selected_filters.kpi_type = $(e.target).text();
+                $scope.selected_filters.kpi_type = $(e.target).attr('value');
+                $scope.selected_filters.kpi_type_text = $(e.target).text();
                 $scope.$apply();
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
@@ -290,6 +300,7 @@ var angObj = angObj || {};
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
         });
+
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
