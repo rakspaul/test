@@ -366,9 +366,11 @@
                                     }      
                                 }
                         }
-                        getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
-                        getCdbLineChart(obj, campaignList, timePeriod);
+                        
                     });
+                    
+                    getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
+                    getCdbLineChart(obj, campaignList, timePeriod);
 
                 }
                 return campaignList;

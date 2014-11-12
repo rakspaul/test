@@ -89,6 +89,16 @@
                     }
                 }
             };
+            this.resetDasboard = function() {
+                this.campaignList = [];
+                this.busy = false;
+                this.timePeriod = 'life_time';
+                this.nextPage = 1;
+                //this.brandId = 0;
+                this.sortParam = undefined;
+                this.sortDirection = undefined;
+                this.totalPages = undefined;
+            };
 
             this.reset = function() {
                 this.campaignList = [];
@@ -195,7 +205,7 @@
 
             Campaigns.prototype.dashboardFilter = function(type, state) {
 
-                this.reset();
+                this.resetDasboard();
                 
                 if (type == 'pending' && state == "draft") {
 
