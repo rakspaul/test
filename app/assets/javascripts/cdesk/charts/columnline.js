@@ -218,7 +218,15 @@
 
                 //function (optional)
                 func: function(chart) {
+
+
+                    $timeout(function() {
+                        if(impLine.allValuesSame()) {
+                            var extremesX = chart.yAxis[0].getExtremes();
+                            chart.yAxis[0].setExtremes(0, extremesX.max * 2);
+                        }
                     //setup some logic for the chart
+                }, 1000);
                 }
 
             };

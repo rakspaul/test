@@ -67,7 +67,7 @@
 
 <script type="text/javascript">
 //    $('.collapse').collapse();
-    $(document).ready(function(event) {
+    $(document).ready(function() {
 
         $( "#cdbMenu" ).click(function() {
             $( "#cdbDropdown" ).toggle();
@@ -75,7 +75,7 @@
         $("#brandsDropdownDiv").click(function() {
             $("#brandsList").toggle();
         });
-        $( document ).click(function() {
+        $( document ).click(function(event) {
             if($("#cdbDropdown").is(':visible')) {
                 $("#cdbDropdown").hide();
             }
