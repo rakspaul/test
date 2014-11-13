@@ -11,12 +11,12 @@
 
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1">
-	        <span class="dropdown_ul_text" data-toggle="dropdown">
-	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl}}</span>
+	        <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl: 26}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
                 <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
-                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name}}</li>
+                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
                 </ul>
             </div>
 
@@ -38,12 +38,12 @@
 
         <div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
-	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl}}</span>
+	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
 
             <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-                <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl}}</li>
+                <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
             </ul>
         </div>
 
@@ -51,9 +51,9 @@
 
             <div class="clearfix chart_inventory_header">
                 <div class="pull-left clearfix inventory_tabs" id="category_change">
-                    <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories">Site Categories</a></span>
+                    <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories">Categories</a></span>
                     <span><a href="javascript:void(0);" _key="parentdomains">Domains</a></span>
-                    <span><a href="javascript:void(0);" _key="fulldomains"> Full Sites</a></span>
+                    <span><a href="javascript:void(0);" _key="fulldomains">URLs</a></span>
                 </div>
                 <div class="chart_details_cols_row inventory_chart_details_list clearfix">
                     <div class="pull-left performance_selection clearfix"
@@ -104,11 +104,13 @@
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{stable.domain_data}}"
-                              ng-if="selected_filters.domain !== 'fulldomains' "> {{ stable.domain_data | formatUrl }}</span>
+                              ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl:20 }}</span>
+
                         <span class="url_val" title="{{stable.domain_data}}"
-                              ng-if="selected_filters.domain == 'fulldomains' ">
-                            <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl }}</a>
+                              ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
+                            <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl :20 }}</a>
                          </span>
+
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
                         <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
 
@@ -153,10 +155,10 @@
                          ng-repeat="tableData in tactic.data">
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
-                              ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl }}</span>
+                              ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl:20 }}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
                               ng-if="selected_filters.domain == 'fulldomains' ">
-                            <a href="{{ tableData.domain_data}}" target='_blank'> {{ tableData.domain_data | formatUrl
+                            <a href="{{ tableData.domain_data}}" target='_blank'> {{ tableData.domain_data | formatUrl:20
                                 }}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
