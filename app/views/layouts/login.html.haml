@@ -3,10 +3,9 @@
   %head
     %meta{:charset => "utf-8"}
     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1, maximum-scale=1"}
-
     :javascript
-          window.scala_api                = "#{scala_api_url}";
-          window.nodejs_api                = "#{nodejs_api_url}";
+      window.scala_api                = "#{scala_api_url}";
+      window.nodejs_api                = "#{nodejs_api_url}";
 
     %title= content_for?(:title) ? yield(:title) : "Reach UI"
     %meta{:content => "Collective Reach UI", :name => "description"}
