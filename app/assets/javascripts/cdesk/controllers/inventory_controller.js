@@ -299,7 +299,9 @@ var angObj = angObj || {};
         $('#category_change').click(function (e) {
             if ($scope.checkStatus()) {
 
-
+                $scope.strategyTable.show = 'Top';
+                $scope.strategyTable.cssClass = 'top_perf_symbol';
+                $scope.tacticList.show = 'topPerformance';
                $scope.selected_filters.domain = $(e.target).attr('_key');
                 $(".inventory_tab_active").removeClass("inventory_tab_active");
                 $(e.target).parent().addClass("inventory_tab_active");

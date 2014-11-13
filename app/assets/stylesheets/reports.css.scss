@@ -433,6 +433,18 @@
 		font-size: 26px ;
 		color: #313233 ;
 		font-weight: bold;
+      .dropdown_ul_text {
+        .dd_txt {
+          /*text-transform: lowercase;*/
+          max-width: 660px;
+          overflow: hidden;
+          display: inline-block;
+          height: 40px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          float: left;
+        }
+      }
 	}
 	.dropdown_type2 {
 		font-size: 18px ;
@@ -496,18 +508,16 @@
 				color: #2a2727 ;
 			}
 			.url_val {
-				padding: 8px 10px;
-				box-shadow: inset 0px 2px 1px #ebebeb;
-				border: solid 1px #e5ecef;
-				margin: 0px 0px 0px 10px ;
-				border-radius: 2px;
-				color: #808080;
-				font-size: 13px;
-				line-height: 18px;
-				width: 260px;
-				height: 36px;
-				overflow: hidden;
-				white-space: nowrap;
+              padding: 8px 10px;
+              margin: 0px 0px 0px 10px;
+              line-height: 18px;
+              width: 260px;
+              height: 36px;
+              overflow: hidden;
+              white-space: nowrap;
+              font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+              font-size: 16px;
+              color: #2a2727;
 			}
 		}	
 	}

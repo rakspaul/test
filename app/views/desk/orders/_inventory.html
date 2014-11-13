@@ -11,7 +11,7 @@
 
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1">
-	        <span class="dropdown_ul_text" data-toggle="dropdown">
+	        <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
 	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl}}</span>
 	            <span class="arrrow_img"></span>
 	        </span>
@@ -103,12 +103,15 @@
 
                     <div class="chart_details_cols_row inventory_each_chart_details clearfix">
                         <span class="row_index">{{$index + 1}}</span>
+
                         <span class="url_val" title="{{stable.domain_data}}"
-                              ng-if="selected_filters.domain !== 'fulldomains' "> {{ stable.domain_data | formatUrl }}</span>
+                              ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ stable.domain_data | formatUrl }}</span>
+
                         <span class="url_val" title="{{stable.domain_data}}"
-                              ng-if="selected_filters.domain == 'fulldomains' ">
+                              ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
                             <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl }}</a>
                          </span>
+
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
                         <span class="cpa_col cpa_data pull-right">{{stable.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>
 

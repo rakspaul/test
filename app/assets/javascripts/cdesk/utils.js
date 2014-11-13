@@ -349,8 +349,9 @@
             if (url === "No Campaign Found" || url == "No Strategy Found") {
                 return url;
             }
-            if (url.length > 33) {
-                return url.substring(0, 15) + ' ... ' + url.substring(url.length - 15);
+            var l = 26;
+            if (url.length >  parseInt(l * 2     + 3)) {
+                return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
 
             } else {
                 return url;
