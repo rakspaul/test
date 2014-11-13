@@ -40,7 +40,7 @@ var angObj = angObj || {};
         $scope.durationFilter = [
             {value: 'weekly', text: 'Last 7 days'},
             {value: 'monthly', text: 'Last month'},
-            {value: 'life_time', text: 'Last Year'}
+            {value: 'life_time', text: 'Life Time'}
         ];
 
         $scope.strategyFound = false;

@@ -25,6 +25,7 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
+
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
@@ -341,7 +342,7 @@
 
     //Used in _inventory.html file
     angObj.filter('formatUrl', function () {
-        return function (url) {
+        return function (url, l) {
             if (url === undefined || url == "") {
                 return url;
             }
@@ -349,7 +350,10 @@
             if (url === "No Campaign Found" || url == "No Strategy Found") {
                 return url;
             }
-            var l = 26;
+            if(l === undefined){
+                var l = 20;
+            }
+           // var l = 26;
             if (url.length >  parseInt(l * 2     + 3)) {
                 return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
 
@@ -358,6 +362,9 @@
             }
         }
     });
+
+
+
     angObj.filter('appendDollor', function () {
         return function (val, type) {
             if (val === undefined || val == "") {
