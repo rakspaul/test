@@ -38,9 +38,6 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
 
-  #Set the reporting UI url
-  config.reporting_uri = 'http://dev-desk.collective-media.net:5000'
-
   # audience group segment search
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
@@ -48,6 +45,9 @@ Reachui::Application.configure do
   # audience group context search
   # network to search for context
   config.search_contexts_in_network = '6'
+
+  config.scala_api = 'http://dev-desk.collective-media.net:9000'
+  config.nodejs_api = 'http://dev-desk.collective-media.net:5000'
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true

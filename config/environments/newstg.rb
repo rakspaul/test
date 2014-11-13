@@ -88,12 +88,12 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://stg-cm.ssp.collective-media.net/export'
 
-  #Set the reporting UI url
-  config.reporting_uri = 'http://qa-desk.collective.com:5000'
-
   # audience group segment search
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
+
+  config.scala_api = 'http://qa-desk.collective.com:9000'
+  config.nodejs_api = 'http://qa-desk.collective.com:5000'
 
   # audience group context search
   # network to search for context
