@@ -40,7 +40,7 @@
                 kpiColumn.push(chartData[i].kpi_value);
             }
 
-            var i = 1;
+
             return {
                 options: {
                     chart: {
@@ -94,7 +94,7 @@
                             enabled: true,
                             formatter: function() {
                                 if (this) {
-                                    return parseInt(i++);
+                                    return parseInt(this.value.custom + 1);
                                 } else {
                                     return  '';
                                 }
