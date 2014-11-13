@@ -16,7 +16,7 @@ var angObj = angObj || {};
 
         $scope.selected_filters = {
             time_filter: 'life_time',
-            time_filter_text: 'Last Year',
+            time_filter_text: 'Life Time',
             kpi_type: 'CPA',
             kpi_type_text: 'CPA',
             tb: '1',
