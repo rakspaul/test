@@ -341,10 +341,11 @@
 		cursor: default;
         a {
           text-decoration: none;
+          color: #434648;
         }
 	}
 	span.active_tab {
-		border-bottom: solid 2px #575e63 ;
+		border-bottom: solid 2px #4eabef ;
         a {
           text-decoration: none;
         }
@@ -630,6 +631,161 @@
 				border-radius: 5px 0px 0px 0px;
 				-moz-border-radius: 5px 0px 0px 0px ;
 				-webkit-border-radius: 5px 0px 0px 0px ;
+			}
+		}
+	}
+}
+.viewability_details_outer_container {
+	margin-top: 50px ;
+	.each_col {
+			float: left;
+			width: 120px;
+			margin: 0 15px;
+			font-family : "Trade-Gothic-LT-Bold-Condensed-N-2" ;
+			font-size: 14px ;
+			color: #2a2727 ;
+			padding-top: 20px ;
+			> span {
+				text-align: center;
+				display: block;
+				text-transform: uppercase;
+				color: #313233;
+				font-size: 12px;
+			}
+			.sub_col {
+				span {
+					display: block;
+					float: left;
+				}
+				span:last-child {
+					float: right;
+				}
+			}
+
+			.sub_col:before, .sub_col:after {
+				display: table;
+				line-height: 0;
+				content: "";
+			}
+			.sub_col:after {
+				clear: both;
+			}
+	}
+	
+	.first_col {
+		width : 160px ;
+		color: #313233 ;
+		font-size: 14px;
+		padding-top: 10px;
+		.campaign_spec {
+			font-size: 12px ;
+			font-family: "Avenir" ;
+		}
+	}
+	.sec_col {
+		width: 124px ;
+		padding-top: 5px ;
+		.graph_col {
+			.full_graph_line {
+				width: 124px;
+				height: 8px;
+				background: #cceaff;
+				margin: 10px auto;
+				border-radius: 2px;
+				-moz-border-radius: 2px;
+				-webkit-border-radius: 2px;
+			}
+			.filled_graph_line {
+				height: 8px;
+				width: 100px;
+				background: #1787d8;
+				border-radius: 2px 0 0 2px;
+				-moz-border-radius: 2px 0 0 2px;
+				-webkit-border-radius: 2px 0 0 2px;
+			}
+			.fully_filled {
+				border-radius: 2px;
+				-moz-border-radius: 2px;
+				-webkit-border-radius: 2px;
+			}
+			.graph_end_points {
+				color: #7d8a93 ;
+				font-size: 12px ;
+				font-family: "Avenir" ;
+				span {
+					display: block;
+					float: left;
+				}
+				span:last-child {
+					float: right;
+				}
+			}
+		}
+	}
+	.fifth_col {
+		.sub_col {
+			span {
+				width : 33%;
+				text-align: center;
+			}
+		}
+	}
+	.sixth_col {
+		text-align: center;
+		width: 125px ;
+	}
+	.seventh_col {
+		text-align: right;
+		float: right;
+		width : 50px ;
+		margin-left: 0;
+		color : #313233 ;
+	}
+	.viewability_header {
+		background: #f5f9fd;
+		border: solid 1px #e5ecef;
+		padding: 10px 20px;
+		.each_col {
+			font-family: "Avenir" ;
+			padding-top: 0px ;
+		}
+		.first_col , .seventh_col {
+			padding-top: 20px ;
+			text-transform: uppercase;
+		}
+		.seventh_col {
+			margin: 0 ;
+			.dropdown_ul {
+				text-align: left;
+				min-width: 80px;
+				left: -8px;
+			}
+		}
+		.sub_col {
+			border-top: solid 1px #ccc;
+			margin-top: 8px;
+			padding-top: 8px;
+		}
+	}
+	.strategy_total_container {
+		.strategy_total_container_header {
+
+
+			background: #f5f9fd;
+			border: solid 1px #e5ecef;
+			padding: 20px;
+			
+			.first_col {
+				font-size: 18px ;
+			}
+
+		}
+		.all_strategies_holder {
+			.each_strategy_holder {
+				padding: 20px 20px 20px 0;
+				margin: 10px 0 0 20px;
+				border: solid 1px #e5ecef;
+				background: #f8faff;
 			}
 		}
 	}

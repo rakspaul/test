@@ -37,6 +37,10 @@ var angObj = '';
               controller: 'InventoryController'
               
             })
+            .when('/viewability', {
+                templateUrl: 'viewability'
+               // controller: 'viewabilityController'
+            })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
