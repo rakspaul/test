@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http,apiPaths, inventoryService, columnline) {
+    angObj.controller('InventoryController', function ($scope, $http,apiPaths, inventoryService, columnline, utils) {
 
 
         $scope.selectedCampaign = {
@@ -37,22 +37,8 @@ var angObj = angObj || {};
             show: 'topPerformance'
         };
 
-        $scope.durationFilter = [
-            {value: 'weekly', text: 'Last 7 days'},
-            {value: 'monthly', text: 'Last month'},
-            {value: 'life_time', text: 'Life Time'}
-        ];
-
+        $scope.filters = utils.reportsDropDowns();
         $scope.strategyFound = false;
-
-        $scope.kpiTypeFilter = [
-            {value: 'CPA', text: 'CPA'},
-            {value: 'CPC', text: 'CPC'},
-            {value: 'CPM', text: 'CPM'},
-            {value: 'CTR', text: 'CTR'},
-            {value: 'action_rate', text: 'Action Rate'}
-
-           ];
 
         $scope.init = function () {
             $scope.campaignlist();

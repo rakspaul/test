@@ -25,20 +25,13 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
-        var allValuesSame = function(arr) {
-          for(var i = 1; i < arr.length; i++) {
-            if(arr[i] !== arr[0])
-              return false;
-          }
-          return true;
-        }
 
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
             roundOff: roundOff,
-            goToLocation: goToLocation,
-            allValuesSame: allValuesSame
+            goToLocation: goToLocation
+
         };
     }]);
 
