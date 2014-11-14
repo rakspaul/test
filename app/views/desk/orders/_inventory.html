@@ -1,10 +1,7 @@
 <div class="reports_main_page_holder">
 
     <div class="reports_header_tabs_holder">
-        <span><a href="#/optimization"  > Optimization Impact</a></span>
-        <span><a href="#/cost" >Cost</a></span>
-        <span><a href="#/performance"  >Performance</a></span>
-        <span class="active_tab"><a href="#/inventory">Inventory</a></span>
+        <span ng-repeat="tab in filters.tabs"  ng-class="{'active_tab': tab.href == 'viewability' }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
     </div>
 
     <div class="inventory_reports_container" data-ng-init="init()">
@@ -31,7 +28,7 @@
 		        </span>
 
                 <ul id="time_filter_list" class="dropdown_ul dropdown-menu">
-                    <li ng-repeat="duration in durationFilter" value="{{duration.value}}">{{duration.text}}</li>
+                    <li ng-repeat="duration in filters.duration" value="{{duration.value}}">{{duration.text}}</li>
                 </ul>
             </div>
         </div>
@@ -72,7 +69,7 @@
 					        </span>
 
                             <ul id="kpi_list" class="dropdown_ul dropdown-menu">
-                                <li ng-repeat="kpiType in kpiTypeFilter" value="{{kpiType.value}}">{{kpiType.text}}</li>
+                                <li ng-repeat="kpiType in filters.kpiTypes" value="{{kpiType.value}}">{{kpiType.text}}</li>
                             </ul>
                         </div>
                     </div>
