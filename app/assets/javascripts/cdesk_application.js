@@ -36,9 +36,12 @@
 //= require cdesk/controllers/actions_controller
 //= require cdesk/controllers/optimization_controller
 //= require cdesk/controllers/inventory_controller
+//= require cdesk/controllers/viewability_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaignsort
 //= require cdesk/directives/campaigndashboard
+//= require cdesk/directives/reportfilters
+//= require cdesk/models/domain_reports
 //= require cdesk/models/campaign
 //= require cdesk/models/campaign_data
 //= require cdesk/models/action_type

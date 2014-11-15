@@ -60,9 +60,11 @@
                         {value: 'CPM', text: 'CPM'},
                         {value: 'CTR', text: 'CTR'},
                         {value: 'action_rate', text: 'Action Rate'}
-                    ]
+                    ],
+                    activeTab : document.location.hash.substring(2)
                 }
         };
+
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
