@@ -1,26 +1,19 @@
 <div class="reports_main_page_holder">
 
     <div class="reports_header_tabs_holder">
-        <span><a href="#/optimization"  > Optimization Impact</a></span>
-        <span><a href="#/cost" >Cost</a></span>
-        <span><a href="#/performance"  >Performance</a></span>
-        <span><a href="#/inventory">Inventory</a></span>
-        <span class="active_tab"><a href="#/Viewablitity">Viewablitity</a></span>
+        <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
     </div>
 
     <div class="inventory_reports_container" data-ng-init="init()">
 
         <div class="clearfix inventory_header">
             <div class="pull-left dropdown dropdown_type1">
-            <span class="dropdown_ul_text" data-toggle="dropdown">
-                <span class="dd_txt" title="Toyota Corporation Campaign">Toyota Corporation Campaign</span>
-                <span class="arrrow_img"></span>
-            </span>
-                <ul class="dropdown_ul dropdown-menu">
-                    <li>Toyota Corporation Campaign </li>
-                    <li>Lorem Ipsum 1 </li>
-                    <li>Lorem Ipsum 2 </li>
-                    <li>Lorem Ipsum 3 </li>
+	        <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl: 26}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+                <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
+                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
                 </ul>
             </div>
 
@@ -29,31 +22,18 @@
                </a>
             </div>
             <div class="pull-right dropdown dropdown_type3">
-                <span class="dropdown_ul_text" data-toggle="dropdown">
-                    <span class="dd_txt">Lifetime</span>
-                    <span class="arrrow_img"></span>
-                </span>
-
-                <ul id="time_filter_list" class="dropdown_ul dropdown-menu">
-                    <li>Lifetime</li>
-                    <li>Last Week</li>
-                    <li>Last Day</li>
-                    <li>Last Month</li>
-                </ul>
+                <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
             </div>
         </div>
 
         <div class="dropdown dropdown_type2">
-            <span class="dropdown_ul_text " data-toggle="dropdown">
-                <span class="dd_txt" title="gfdgfdg">Toyota Camry for Female HHI</span>
-                <span class="arrrow_img"></span>
-            </span>
+	        <span class="dropdown_ul_text " data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
 
             <ul id="strategies_list" class="dropdown_ul dropdown-menu">
-                <li>Toyota Camry for Female HHI</li>
-                <li>Lorem Ipsum 1 </li>
-                <li>Lorem Ipsum 2 </li>
-                <li>Lorem Ipsum 3 </li>
+                <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
             </ul>
         </div>
 
@@ -109,17 +89,7 @@
                 <div class="each_col seventh_col" >
                     
                         <div class="dropdown">
-                            <span class="dropdown_ul_text" data-toggle="dropdown">
-                                <span class="dd_txt">CPA</span>
-                                <span class="arrrow_img"></span>
-                            </span>
-
-                            <ul class="dropdown_ul dropdown-menu">
-                                <li>CPA</li>
-                                <li>CPA</li>
-                                <li>CPA</li>
-                                <li>CPA</li>
-                            </ul>
+                            <report-filters  selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>
                         </div>
                     
                     

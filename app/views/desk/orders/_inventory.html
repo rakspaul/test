@@ -1,7 +1,7 @@
 <div class="reports_main_page_holder">
 
     <div class="reports_header_tabs_holder">
-        <span ng-repeat="tab in filters.tabs"  ng-class="{'active_tab': tab.href == 'viewability' }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+        <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
     </div>
 
     <div class="inventory_reports_container" data-ng-init="init()">
@@ -22,14 +22,9 @@
                </a>
             </div>
             <div class="pull-right dropdown dropdown_type3">
-		    	<span class="dropdown_ul_text" data-toggle="dropdown">
-		            <span class="dd_txt">{{selected_filters.time_filter_text}}</span>
-		            <span class="arrrow_img"></span>
-		        </span>
 
-                <ul id="time_filter_list" class="dropdown_ul dropdown-menu">
-                    <li ng-repeat="duration in filters.duration" value="{{duration.value}}">{{duration.text}}</li>
-                </ul>
+               <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
+
             </div>
         </div>
 
@@ -63,14 +58,9 @@
                     </div>
                     <div class="pull-right cpa_dropdown cpa_col">
                         <div class="dropdown">
-					    	<span class="dropdown_ul_text" data-toggle="dropdown">
-					            <span class="dd_txt">{{selected_filters.kpi_type_text}}</span>
-					            <span class="arrrow_img"></span>
-					        </span>
 
-                            <ul id="kpi_list" class="dropdown_ul dropdown-menu">
-                                <li ng-repeat="kpiType in filters.kpiTypes" value="{{kpiType.value}}">{{kpiType.text}}</li>
-                            </ul>
+                            <report-filters  selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes" flag="kpitypes"></report-filters>
+
                         </div>
                     </div>
                 </div>
@@ -83,10 +73,6 @@
                             <span ng-switch-when="false" class="no-chart">Data Not Avaiable</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="inventoryChart">
-                                    <!--<div class="clearfix highcharts_kpi_titles">
-                                        <span class="pull-left">{{selected_filters.kpi_type}}</span>
-                                        <span class="pull-right">Imps</span>
-                                    </div>-->
                                     <highchart config="inventoryChart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!inventoryChart">
