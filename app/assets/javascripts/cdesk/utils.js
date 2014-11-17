@@ -25,12 +25,20 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
+        var allValuesSame = function(arr) {
+          for(var i = 1; i < arr.length; i++) {
+            if(arr[i] !== arr[0])
+              return false;
+          }
+          return true;
+        }
 
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
             roundOff: roundOff,
-            goToLocation: goToLocation
+            goToLocation: goToLocation,
+            allValuesSame: allValuesSame
         };
     }]);
 
@@ -374,16 +382,5 @@
             return (type == 'CTR'  || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
         }
     });
-
-    Array.prototype.allValuesSame = function() {
-
-        for(var i = 1; i < this.length; i++)
-        {
-            if(this[i] !== this[0])
-                return false;
-        }
-
-        return true;
-    }
 
 }());
