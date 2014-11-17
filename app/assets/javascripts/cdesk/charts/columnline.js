@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    angObj.factory("columnline", function($timeout) {
+    angObj.factory("columnline", function($timeout, utils) {
 
 
         var  getRepString = function(x) {
@@ -221,7 +221,7 @@
 
 
                     $timeout(function() {
-                        if(impLine.allValuesSame()) {
+                        if(utils.allValuesSame(impLine)) {
                             var extremesX = chart.yAxis[0].getExtremes();
                             chart.yAxis[0].setExtremes(0, extremesX.max * 2);
                         }
