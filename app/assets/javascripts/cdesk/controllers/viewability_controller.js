@@ -120,10 +120,14 @@ var angObj = angObj || {};
             inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                    console.log('Current campaignId '+ campaignId);
+                    if(dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
+                        $scope.selectedStrategy.id = $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = $scope.strategies[0].name;
+                    }else {
+                        $scope.selectedStrategy.id =  dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') :  $scope.strategies[0].name;
+                    }
 
-                    $scope.selectedStrategy.id =  dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
-                    $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') :  $scope.strategies[0].name;
                     //Call the chart to load with the changed campaign id and strategyid
                      $scope.getStrategyList({campaign_id: campaignId, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
                 }
@@ -141,10 +145,8 @@ var angObj = angObj || {};
             var id = $(e.target).attr('value'), txt = $(e.target).text();
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-            console.log('Stored campaignId '+ dataTransferService.getDomainReportsValue('campaignId'));
-            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt});
+            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt, 'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId')});
             $scope.$apply();
-
             if($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
             }else{

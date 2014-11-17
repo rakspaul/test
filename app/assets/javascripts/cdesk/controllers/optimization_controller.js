@@ -32,7 +32,7 @@ var angObj = angObj || {};
         };
 
 
-        $scope.filters = utils.reportsDropDowns();
+        $scope.filters = domainReports.getReportsDropDowns();
         $scope.orderByField = 'created_at';
         $scope.reverseSort = true;
         $scope.sorting = function (orderBy, sortingOrder) {
@@ -66,6 +66,7 @@ var angObj = angObj || {};
                     for (var i in tacticList) {
                         if (tactic_id === tacticList[i].ad_id) {
                             grouped = true;
+                            tacticList[i].actionList = [];
                             tacticList[i].actionList.push(actionItems[index]);
                             break;
                         }
@@ -222,8 +223,13 @@ var angObj = angObj || {};
             inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                    $scope.selectedStrategy.id =  dataTransferService.getClickedStrategyId() ? dataTransferService.getClickedStrategyId() : $scope.strategies[0].id;
-                    $scope.selectedStrategy.name = dataTransferService.getClickedStrategyName() ? dataTransferService.getClickedStrategyName() : $scope.strategies[0].name;
+                    if(dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
+                        $scope.selectedStrategy.id = $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = $scope.strategies[0].name;
+                    }else {
+                        $scope.selectedStrategy.id =  dataTransferService.getClickedStrategyId() ? dataTransferService.getClickedStrategyId() : $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = dataTransferService.getClickedStrategyName() ? dataTransferService.getClickedStrategyName() : $scope.strategies[0].name;
+                    }
                     //Call the chart to load with the changed campaign id and strategyid
                     $scope.chartForStrategy=true;
                     $scope.loadCdbDataForStrategy()
@@ -241,7 +247,7 @@ var angObj = angObj || {};
             var id = $(e.target).attr('value'), txt = $(e.target).text();
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt});
+            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt, 'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId')});
             $scope.$apply();
 
             if($scope.selectedCampaign.id !== -1) {

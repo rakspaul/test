@@ -2,6 +2,17 @@ var angObj = angObj || {} ;
 (function (){
     'use strict';
     angObj.factory("dataTransferService" , function($http){
+        localStorage.setItem( 'campaignDetails', JSON.stringify({
+            campaignId : null,
+            campaignName:null,
+            strategyId : null,
+            strategyName : null,
+            filterDurationType:null,
+            filterDurationValue:null,
+            filterKpiType:null,
+            filterKpiValue:null,
+            previousCampaignId:null
+        }));
         return {
             initOptimizationData : function(param){
                 localStorage.setItem( 'campaignDetails', JSON.stringify({
@@ -19,7 +30,8 @@ var angObj = angObj || {} ;
                     filterDurationType:null,
                     filterDurationValue:null,
                     filterKpiType:null,
-                    filterKpiValue:null
+                    filterKpiValue:null,
+                    previousCampaignId:null
                 }));
             },
             getDomainReportsValue : function(key){
