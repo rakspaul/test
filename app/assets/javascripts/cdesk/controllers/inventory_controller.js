@@ -84,10 +84,14 @@ var angObj = angObj || {};
             inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                    console.log('Current campaignId '+ campaignId);
-                    console.log('Stored campaignId '+ dataTransferService.getDomainReportsValue('campaignId'));
-                    $scope.selectedStrategy.id =  dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
-                    $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') :  $scope.strategies[0].name;
+                    //If a different campaign is selected, then load the first strategy data
+                    if(dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
+                        $scope.selectedStrategy.id = $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = $scope.strategies[0].name;
+                    }else {
+                        $scope.selectedStrategy.id = dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
+                        $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') : $scope.strategies[0].name;
+                    }
                     $scope.strategyFound=true;
                     $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                     $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter});
@@ -235,7 +239,6 @@ var angObj = angObj || {};
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
-
             if ($scope.checkStatus()) {
                 var id = $(e.target).attr('value'), txt = $(e.target).text();
                 $scope.selectedStrategy.id =id;
@@ -251,18 +254,17 @@ var angObj = angObj || {};
             var id = $(e.target).attr('value'), txt = $(e.target).text();
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-
-            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt});
-                $scope.$apply();
-                $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?aggregation_period='+  $scope.selected_filters.time_filter ;
-                if($scope.selectedCampaign.id !== -1) {
-                    $scope.strategylist($scope.selectedCampaign.id);
-                }
-               else{
-                    $scope.selectedStrategy.id= -1;
-                    $scope.selectedStrategy.name = "No Strategy Found";
-                }
-                $scope.inventoryChart = true;
+            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt, 'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId')});
+            $scope.$apply();
+            $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?aggregation_period='+  $scope.selected_filters.time_filter ;
+            if($scope.selectedCampaign.id !== -1) {
+                $scope.strategylist($scope.selectedCampaign.id);
+            }
+           else{
+                $scope.selectedStrategy.id= -1;
+                $scope.selectedStrategy.name = "No Strategy Found";
+            }
+            $scope.inventoryChart = true;
             if($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;
             }
