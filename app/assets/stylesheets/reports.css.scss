@@ -732,14 +732,15 @@
 	}
 	.sixth_col {
 		text-align: center;
-		width: 125px ;
+		width: 110px ;
 	}
 	.seventh_col {
 		text-align: right;
 		float: right;
-		width : 50px ;
-		margin-left: 0;
+		width : 70px ;
+		margin: 0;
 		color : #313233 ;
+        font-size: 12px;
 	}
 	.viewability_header {
 		background: #f5f9fd;
@@ -757,8 +758,9 @@
 			margin: 0 ;
 			.dropdown_ul {
 				text-align: left;
-				min-width: 80px;
-				left: -8px;
+                min-width: 110px;
+                left: -8px;
+                font-size: 12px;
 			}
 		}
 		.sub_col {

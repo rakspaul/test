@@ -355,7 +355,7 @@
                 var l = 20;
             }
            // var l = 26;
-            if (url.length >  parseInt(l * 2     + 3)) {
+            if (url.length >  parseInt(l * 2 + 3)) {
                 return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
 
             } else {

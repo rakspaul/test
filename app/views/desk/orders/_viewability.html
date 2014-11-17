@@ -96,7 +96,8 @@
                 </div>
             </div>
             <div class="strategy_total_container ">
-                <div class="strategy_total_container_header clearfix">
+
+                <div class="strategy_total_container_header clearfix" ng-repeat="strategy in strategiesList.view_metrics">
                 
                     <div class="each_col first_col">
                         Strategy total:
@@ -109,41 +110,41 @@
                                 </div>
                             </div>
                             <div class="clearfix graph_end_points">
-                                <span>110,456</span>
-                                <span>59.9%</span>
+                                <span>{{strategy.delivered_imps | number}}</span>
+                                <span>{{strategy.total_imps}}%</span>
                             </div>
                         </div>
                     </div>
                     <div class="each_col third_col">
                         <div class="sub_col">
-                            <span>110,456</span>
-                            <span>59.9%</span>
+                            <span> {{strategy.measurable_imps | number}}</span>
+                            <span>{{strategy.perc_measurable}}%</span>
                         </div>
                     </div>
                     <div class="each_col forth_col">
                         <div class="sub_col">
-                            <span>110,456</span>
-                            <span>59.9%</span>
+                            <span> {{strategy.viewable_imps | number}}</span>
+                            <span>{{strategy.perc_viewable}}%</span>
                         </div>
                     </div>
                     <div class="each_col fifth_col">
                         <div class="sub_col">
-                            <span>33%</span>
-                            <span>59%</span>
-                            <span>32%</span>
+                            <span>{{strategy.perc_viewable_imps1s}}%</span>
+                            <span>{{strategy.perc_viewable_imps5s}}%</span>
+                            <span>{{strategy.perc_viewable_imps15s}}%</span>
                         </div>
                     </div>
                     <div class="each_col sixth_col">
-                        15,5
+                        {{strategy.median_viewable_time | number}}
                     </div>
                     <div class="each_col seventh_col">
-                        $0.15
+                        {{strategy[selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
                     </div>
                 </div>
                 <div class="all_strategies_holder">
-                    <div class="each_strategy_holder clearfix">
-                        <div class="each_col first_col">
-                            Toyota Camry for Female
+                    <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategiesList.tacticsList[0].tactics">
+                        <div class="each_col first_col" title="{{tactic.Tactic_name}}">
+                            {{tactic.Tactic_name | formatUrl : 10}}
                             <div class="campaign_spec">(18-23 y.o.)</div>
                         </div>
                         <div class="each_col sec_col">
@@ -154,79 +155,35 @@
                                     </div>
                                 </div>
                                 <div class="clearfix graph_end_points">
-                                    <span>110,456</span>
-                                    <span>59.9%</span>
+                                    <span>{{tactic.view_metrics[0].delivered_imps | number}}</span>
+                                    <span>{{tactic.view_metrics[0].total_imps}}%</span>
                                 </div>
                             </div>
                         </div>
                         <div class="each_col third_col">
                             <div class="sub_col">
-                                <span>110,456</span>
-                                <span>59.9%</span>
+                                <span> {{tactic.view_metrics[0].measurable_imps | number}}</span>
+                                <span>{{tactic.view_metrics[0].perc_measurable}}%</span>
                             </div>
                         </div>
                         <div class="each_col forth_col">
                             <div class="sub_col">
-                                <span>110,456</span>
-                                <span>59.9%</span>
+                                <span> {{tactic.view_metrics[0].viewable_imps | number}}</span>
+                                <span>{{tactic.view_metrics[0].perc_viewable}}%</span>
                             </div>
                         </div>
                         <div class="each_col fifth_col">
                             <div class="sub_col">
-                                <span>33%</span>
-                                <span>59%</span>
-                                <span>32%</span>
+                                <span>{{tactic.view_metrics[0].perc_viewable_imps1s}}%</span>
+                                <span>{{tactic.view_metrics[0].perc_viewable_imps5s}}%</span>
+                                <span>{{tactic.view_metrics[0].perc_viewable_imps15s}}%</span>
                             </div>
                         </div>
                         <div class="each_col sixth_col">
-                            15,5
+                            {{tactic.view_metrics[0].median_viewable_time | number}}
                         </div>
                         <div class="each_col seventh_col">
-                            $0.15
-                        </div>
-                    </div>
-                    <div class="each_strategy_holder clearfix">
-                        <div class="each_col first_col">
-                            Toyota Camry for Female
-                            <div class="campaign_spec">(18-23 y.o.)</div>
-                        </div>
-                        <div class="each_col sec_col">
-                            <div class="graph_col">
-                                <div class="full_graph_line">
-                                    <div class="filled_graph_line">
-
-                                    </div>
-                                </div>
-                                <div class="clearfix graph_end_points">
-                                    <span>110,456</span>
-                                    <span>59.9%</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="each_col third_col">
-                            <div class="sub_col">
-                                <span>110,456</span>
-                                <span>59.9%</span>
-                            </div>
-                        </div>
-                        <div class="each_col forth_col">
-                            <div class="sub_col">
-                                <span>110,456</span>
-                                <span>59.9%</span>
-                            </div>
-                        </div>
-                        <div class="each_col fifth_col">
-                            <div class="sub_col">
-                                <span>33%</span>
-                                <span>59%</span>
-                                <span>32%</span>
-                            </div>
-                        </div>
-                        <div class="each_col sixth_col">
-                            15,5
-                        </div>
-                        <div class="each_col seventh_col">
-                            $0.15
+                            {{tactic.view_metrics[0][selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
                         </div>
                     </div>
                 </div>
