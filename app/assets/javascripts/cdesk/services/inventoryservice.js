@@ -10,18 +10,34 @@
 
             getCampaingsForUser: function () {
               //  var url = '/assets/cdesk/tmp/campaings.json';
-                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+user_id;
+                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id=11127';
                 return this.fetch(url);
 
             },
 
             getStrategyDomainData: function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/inventory/' + param.domain + '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
+                console.log(url);
                 return this.fetch(url);
             },
 
             getAllTacticDomainData: function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/tactics/inventory/' + param.domain + '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
+                console.log(url);
+                return this.fetch(url);
+            },
+
+            getViewablityStrategies : function (param) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/viewReport?date_filter=' + param.time_filter;
+                console.log(url);
+                var url = 'http://localhost:3000/assets/cdesk/tmp/StrategyJSON.json';
+                return this.fetch(url);
+            },
+
+            getViewablityStrategiesTactics : function (param) {
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/tactics/viewReport?date_filter=' + param.time_filter;
+                console.log(url);
+                var url = 'http://localhost:3000/assets/cdesk/tmp/TacticsJSON.json';
                 return this.fetch(url);
             },
 

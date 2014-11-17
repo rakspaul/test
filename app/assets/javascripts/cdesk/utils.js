@@ -25,52 +25,11 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
-        var reportsDropDowns = function(){
-                return {
-                    'tabs' : [
-                        {
-                            href:'optimization',
-                            title: 'Optimization Impact'
-                        },
-                        {
-                            href:'#',
-                            title: 'Cost'
-                        },
-                        {
-                            href:'#',
-                            title: 'Performance'
-                        },
-                        {
-                            href:'inventory',
-                            title: 'Inventory'
-                        },
-                        {
-                            href:'viewability',
-                            title: 'Viewability'
-                        }
-                    ],
-                    'duration' : [
-                        {value: 'weekly', text: 'Last 7 days'},
-                        {value: 'monthly', text: 'Last month'},
-                        {value: 'life_time', text: 'Life Time'}
-                    ],
-                    'kpiTypes' : [
-                        {value: 'CPA', text: 'CPA'},
-                        {value: 'CPC', text: 'CPC'},
-                        {value: 'CPM', text: 'CPM'},
-                        {value: 'CTR', text: 'CTR'},
-                        {value: 'action_rate', text: 'Action Rate'}
-                    ],
-                    activeTab : document.location.hash.substring(2)
-                }
-        };
-
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
             roundOff: roundOff,
-            goToLocation: goToLocation,
-            reportsDropDowns: reportsDropDowns
+            goToLocation: goToLocation
         };
     }]);
 
@@ -394,7 +353,7 @@
                 var l = 20;
             }
            // var l = 26;
-            if (url.length >  parseInt(l * 2     + 3)) {
+            if (url.length >  parseInt(l * 2 + 3)) {
                 return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
 
             } else {

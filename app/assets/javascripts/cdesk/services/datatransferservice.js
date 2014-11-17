@@ -2,7 +2,6 @@ var angObj = angObj || {} ;
 (function (){
     'use strict';
     angObj.factory("dataTransferService" , function($http){
-
         return {
             initOptimizationData : function(param){
                 localStorage.setItem( 'campaignDetails', JSON.stringify({
@@ -16,11 +15,15 @@ var angObj = angObj || {} ;
                     clickedKpiValue  :  param.selectedCampaign.kpiValue,
                     clickedActionItems  :  param.selectedActionItems,
                     strategyId : null,
-                    strategyName : null
+                    strategyName : null,
+                    filterDurationType:null,
+                    filterDurationValue:null,
+                    filterKpiType:null,
+                    filterKpiValue:null
                 }));
             },
-            getObjectValue : function(key){
-                if(JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined) {
+            getDomainReportsValue : function(key){
+                if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined) {
                     return JSON.parse(localStorage.getItem('campaignDetails'))[key];
                 }else{
                     return false;
@@ -76,16 +79,16 @@ var angObj = angObj || {} ;
                     return JSON.parse( localStorage['campaignList']);
                 }
             },
+            //@obj format :{campaignDetails key : value, ...});
             updateExistingStorageObjects : function(obj){
                 if(localStorage['campaignDetails'] === undefined){
                     return false;
                 }else {
+                    var storedObj = JSON.parse(localStorage['campaignDetails']);
                     for(var key in obj) {
-                        var storedObj = JSON.parse(localStorage['campaignDetails']);
                         storedObj[key] = obj[key];
-                       localStorage['campaignDetails'] = JSON.stringify(storedObj);
                     }
-
+                    localStorage['campaignDetails'] = JSON.stringify(storedObj);
                 }
             }
 

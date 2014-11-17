@@ -38,8 +38,8 @@ var angObj = '';
               
             })
             .when('/viewability', {
-                templateUrl: 'viewability'
-               // controller: 'viewabilityController'
+                templateUrl: 'viewability',
+                controller: 'viewabilityController'
             })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
