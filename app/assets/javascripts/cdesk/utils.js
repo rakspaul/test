@@ -1,4 +1,3 @@
-/*global angular, angObj, jQuery*/
 (function () {
     'use strict';
     angObj.factory('utils', ["$location", function ($location) {
@@ -8,7 +7,7 @@
             var suffixes = ["th", "st", "nd", "rd"];
             var relevantDigits = (dayOfMonth < 30) ? dayOfMonth % 20 : dayOfMonth % 30;
             var suf = (relevantDigits <= 3) ? suffixes[relevantDigits] : suffixes[0];
-            return  suf;
+            return suf;
         };
         var makeTitle = function (input) {
             var title = '<div id="legend">';
@@ -16,7 +15,7 @@
                 title += '<a id="a' + (i + 1) + '">' + input[i] + '</a>';
             }
             title += '</div>';
-            return  title;
+            return title;
         };
         var roundOff = function (value, places) {
             var factor = Math.pow(10, places);
@@ -25,15 +24,21 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
+        var allValuesSame = function (arr) {
+            for (var i = 1; i < arr.length; i++) {
+                if (arr[i] !== arr[0])
+                    return false;
+            }
+            return true;
+        }
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
             roundOff: roundOff,
-            goToLocation: goToLocation
-
+            goToLocation: goToLocation,
+            allValuesSame: allValuesSame
         };
     }]);
-
     angObj.directive('welcomeUser', function (common) {
         return{
             restrict: 'AE',
@@ -41,26 +46,25 @@
                 username: '@username'
             },
             template: '<div class="navbar" role="navigation">' +
-                '   <div class="container-fluid">' +
-                '       <div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
-                '       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
-                '           <span class="sr-only">Toggle navigation</span>' +
-                '           <span class="icon-bar"></span>' +
-                '           <span class="icon-bar"></span>' +
-                '           <span class="icon-bar"></span>' +
-                '       </button>' +
-                '       <a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
-                '   </div>' +
-                '   <span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
-                '   <div class="navbar-collapse collapse" >' +
-                '   <ul class="nav navbar-nav navbar-right">' +
-                '       <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
-                '   </ul>' +
-                '   <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
-                '   </div>' +
-                '   </div>' +
+                ' <div class="container-fluid">' +
+                ' <div class="navbar-header col-xs-6 col-sm-2 col-md-3">' +
+                ' <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">' +
+                ' <span class="sr-only">Toggle navigation</span>' +
+                ' <span class="icon-bar"></span>' +
+                ' <span class="icon-bar"></span>' +
+                ' <span class="icon-bar"></span>' +
+                ' </button>' +
+                ' <a id="logo" class="navbar-brand" href="#">Collective Media</a>' +
+                ' </div>' +
+                ' <span class="navbar-brand col-xs-4 col-sm-6 col-md-6 applicationName">' + common.title + '</span>' +
+                ' <div class="navbar-collapse collapse" >' +
+                ' <ul class="nav navbar-nav navbar-right">' +
+                ' <li><a class="buttonRegularText" >Welcome, {{username}}</a></li>' +
+                ' </ul>' +
+                ' <!--<loader class="loading-spinner-holder" data-loading >Loading...</loader>-->' +
+                ' </div>' +
+                ' </div>' +
                 '</div>'
-
         };
     });
     angObj.directive('loader', function ($http) {
@@ -83,8 +87,6 @@
             }
         };
     });
-
-
     angObj.directive('scrollOnClick', function ($routeParams) {
         return {
             restrict: 'A',
@@ -99,8 +101,7 @@
             }
         };
     });
-
-    //Details-Banner-Directive
+//Details-Banner-Directive
     angObj.directive('campaignDetailsBanner', function () {
         return{
             restrict: 'AE',
@@ -115,7 +116,6 @@
             templateUrl: '../views/detailsbanner.html'
         };
     });
-
     angObj.directive('makeTitle', function () {
         return{
             restrict: 'AE',
@@ -141,10 +141,10 @@
                 '</li>' +
                 '<li> BY </li>' +
                 '<li class="dropdown">' +
-                '<a class="dropdown-toggle"  data-toggle="dropdown">' +
+                '<a class="dropdown-toggle" data-toggle="dropdown">' +
                 '<span id="dimensionLabel">{{dimensions}}</span>' +
                 '</a>' +
-                '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
                 '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="AGE"> AGE </a></li>' +
                 '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="GENDER"> GENDER </a></li>' +
                 '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="INMARKET"> INMARKET </a></li>' +
@@ -169,8 +169,6 @@
             }
         };
     });
-
-
     angObj.directive('makeTitleCdb', function () {
         return{
             restrict: 'AE',
@@ -197,10 +195,10 @@
                 '</li>' +
                 '<li> BY </li>' +
                 '<li class="dropdown">' +
-                '<a class="dropdown-toggle"  data-toggle="dropdown">' +
+                '<a class="dropdown-toggle" data-toggle="dropdown">' +
                 '<span id="dimensionLabel">{{dimensions}}</span>' +
                 '</a>' +
-                '<ul  id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
+                '<ul id="dimensionOptions" aria-labelledby="myTabDrop1" role="menu" class="dropdown-menu">' +
                 '<li><a data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="REGION"> REGION </a></li>' +
                 '<li><a style="" data-toggle="" role="tab" tabindex="-1" href="javascript://" rel="SITES"> SITES </a></li>' +
                 '</ul>' +
@@ -214,9 +212,7 @@
                 elem.find('#measuresOptions li a').bind('click', function (e) {
                     var messureText = $(this).attr('rel');
                     elem.find("#measuresLabel").html(messureText);
-
                     $scope.$apply($scope.$parent.changeCDBKPI(messureText.toLowerCase(), elem.find("#dimensionLabel").text().toLowerCase(), $scope.updateTo));
-
                 });
                 elem.find('#dimensionOptions li a').bind('click', function (e) {
                     var dimensionText = $(this).attr('rel');
@@ -226,14 +222,12 @@
             }
         };
     });
-
     angObj.filter('spliter', function () {
         return function (input, splitIndex) {
-            // do some bounds checking here to ensure it has that index
+// do some bounds checking here to ensure it has that index
             return input.split(' ')[splitIndex];
         }
     });
-
     angObj.filter('kpiFormatter', function ($filter) {
         return function (input, kpiType) {
             if (input && kpiType) {
@@ -244,7 +238,7 @@
                 } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
                     return $filter('number')(input, 0);
                 } else {
-                    //unknown kpiType
+//unknown kpiType
                     return $filter('number')(input, 0);
                 }
             } else {
@@ -252,7 +246,6 @@
             }
         }
     });
-
     angObj.filter('toCamelCase', function () {
         return function (input) {
             if (input == undefined) {
@@ -264,7 +257,6 @@
             });
         }
     });
-
     angObj.filter('toTitleCase', function () {
         return function (input) {
             if (input == undefined) {
@@ -274,20 +266,17 @@
             return input;
         }
     });
-
     angObj.filter('truncateString', function () {
         return function (input, stringLength) {
             return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
         }
     });
-
     angObj.filter('roundThisOff', function () {
         return function (input, places) {
             var factor = Math.pow(10, places);
             return Math.round(input * factor) / factor;
         }
     });
-
     angObj.filter('displayActionSubtypes', function () {
         return function (actionSubTypes) {
             if (actionSubTypes === undefined) {
@@ -308,22 +297,20 @@
             }
         }
     });
-
     angObj.filter('formatActionDate', function ($filter) {
         return function (input) {
             var _date = new Date(input),
                 formatDate = "";
             if (moment(_date).diff(moment(), 'days') == 0) {
-                //today - format 01:29 PM
+//today - format 01:29 PM
                 formatDate = $filter('date')(_date, 'h:mm a');
             } else {
-                //in the past - format 05 Oct '14 01:22 PM
+//in the past - format 05 Oct '14 01:22 PM
                 formatDate = $filter('date')(_date, "d MMM ''''yy h:mm a");
             }
             return formatDate;
         }
     });
-
     angObj.filter('platformIconCss', function () {
         return function (input, defaultIcon) {
             var _style = "",
@@ -339,40 +326,32 @@
             return _style;
         }
     });
-
-    //Used in _inventory.html file
+//Used in _inventory.html file
     angObj.filter('formatUrl', function () {
         return function (url, l) {
             if (url === undefined || url == "") {
                 return url;
             }
-
             if (url === "No Campaign Found" || url == "No Strategy Found") {
                 return url;
             }
-            if(l === undefined){
+            if (l === undefined) {
                 var l = 20;
             }
-           // var l = 26;
-            if (url.length >  parseInt(l * 2 + 3)) {
+// var l = 26;
+            if (url.length > parseInt(l * 2 + 3)) {
                 return url.substring(0, l) + ' ... ' + url.substring(url.length - l);
-
             } else {
                 return url;
             }
         }
     });
-
-
-
     angObj.filter('appendDollor', function () {
         return function (val, type) {
             if (val === undefined || val == "") {
                 return val;
             }
-
-            return (type == 'CTR'  || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
+            return (type == 'CTR' || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
         }
     });
-
 }());
