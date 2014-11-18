@@ -25,7 +25,6 @@
         var goToLocation = function (url) {
             $location.url(url);
         };
-
         return {
             formatDate: formatDate,
             makeTitle: makeTitle,
