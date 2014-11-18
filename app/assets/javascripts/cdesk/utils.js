@@ -354,4 +354,12 @@
             return (type == 'CTR' || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
         }
     });
+    angObj.filter('calculatePerc', function () {
+        return function (val) {
+            if (val === undefined || val == "") {
+                return val;
+            }
+            return parseInt((val / 100 )* 124);
+        }
+    });
 }());
