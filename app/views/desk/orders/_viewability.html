@@ -18,8 +18,20 @@
             </div>
 
             <div class="pull-right download_report" >
-               <a class="download_anchor" href="">&nbsp;
-               </a>
+               
+                <div class="dropdown">
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" href="">&nbsp;
+                        </a>
+                    </span>
+
+                    <ul class="dropdown_ul dropdown-menu">
+                        <li>Viewability by Tactic</li>
+                        <li>Viewability by Domain</li>
+                        <li>Viewability by Publisher</li>
+                    </ul>
+                </div>
+
             </div>
             <div class="pull-right dropdown dropdown_type3">
                 <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
@@ -40,19 +52,7 @@
         <div class="viewability_details_outer_container">
             <div class="viewability_header clearfix">
                 <div class="each_col first_col" >
-                    <div class="dropdown">
-                            <span class="dropdown_ul_text" data-toggle="dropdown">
-                                <span class="dd_txt">Tactic</span>
-                                <!--<span class="arrrow_img"></span>-->
-                            </span>
-
-                            <!--<ul class="dropdown_ul dropdown-menu">
-                                <li>Tactic</li>
-                                <li>Tactic</li>
-                                <li>Tactic</li>
-                                <li>Tactic</li>
-                            </ul>-->
-                    </div>
+                    <span>Tactic</span>
                 </div>
                 <div class="each_col sec_col" >
                     <span>Impressions</span>
@@ -143,47 +143,52 @@
                 </div>
                 <div class="all_strategies_holder">
                     <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategiesList.tacticsList[0].tactics">
-                        <div class="each_col first_col" title="{{tactic.Tactic_name}}">
-                            {{tactic.Tactic_name | formatUrl : 15}}
-                            <!--<div class="campaign_spec">(18-23 y.o.)</div>-->
+                        <div class="linkage_lines">
                         </div>
-                        <div class="each_col sec_col">
-                            <div class="graph_col">
-                                <div class="full_graph_line">
-                                    <div class="filled_graph_line fully_filled" style="width:{{tactic.view_metrics[0].total_imps | calculatePerc }}px;">
+                        <div class="each_strategy clearfix">
+                                
+                                <div class="each_col first_col" title="{{tactic.Tactic_name}}">
+                                    {{tactic.Tactic_name | formatUrl : 15}}
+                                    <!--<div class="campaign_spec">(18-23 y.o.)</div>-->
+                                </div>
+                                <div class="each_col sec_col">
+                                    <div class="graph_col">
+                                        <div class="full_graph_line">
+                                            <div class="filled_graph_line fully_filled" style="width:{{tactic.view_metrics[0].total_imps | calculatePerc }}px;">
 
+                                            </div>
+                                        </div>
+                                        <div class="clearfix graph_end_points">
+                                            <span>{{tactic.view_metrics[0].delivered_imps | number:0}}</span>
+                                            <span>{{tactic.view_metrics[0].total_imps| number:0}}%</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="clearfix graph_end_points">
-                                    <span>{{tactic.view_metrics[0].delivered_imps | number:0}}</span>
-                                    <span>{{tactic.view_metrics[0].total_imps| number:0}}%</span>
+                                <div class="each_col third_col">
+                                    <div class="sub_col">
+                                        <span> {{tactic.view_metrics[0].measurable_imps | number:0}}</span>
+                                        <span>{{tactic.view_metrics[0].perc_measurable| number:0}}%</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="each_col third_col">
-                            <div class="sub_col">
-                                <span> {{tactic.view_metrics[0].measurable_imps | number:0}}</span>
-                                <span>{{tactic.view_metrics[0].perc_measurable| number:0}}%</span>
-                            </div>
-                        </div>
-                        <div class="each_col forth_col">
-                            <div class="sub_col">
-                                <span> {{tactic.view_metrics[0].viewable_imps| number:0}}</span>
-                                <span>{{tactic.view_metrics[0].perc_viewable | number:0}}%</span>
-                            </div>
-                        </div>
-                        <div class="each_col fifth_col">
-                            <div class="sub_col">
-                                <span>{{tactic.view_metrics[0].perc_viewable_imps1s | number:0}}%</span>
-                                <span>{{tactic.view_metrics[0].perc_viewable_imps5s | number:0}}%</span>
-                                <span>{{tactic.view_metrics[0].perc_viewable_imps15s | number:0}}%</span>
-                            </div>
-                        </div>
-                        <div class="each_col sixth_col">
-                            {{tactic.view_metrics[0].median_viewable_time | number:0}}
-                        </div>
-                        <div class="each_col seventh_col">
-                            {{tactic.view_metrics[0][selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+                                <div class="each_col forth_col">
+                                    <div class="sub_col">
+                                        <span> {{tactic.view_metrics[0].viewable_imps| number:0}}</span>
+                                        <span>{{tactic.view_metrics[0].perc_viewable | number:0}}%</span>
+                                    </div>
+                                </div>
+                                <div class="each_col fifth_col">
+                                    <div class="sub_col">
+                                        <span>{{tactic.view_metrics[0].perc_viewable_imps1s | number:0}}%</span>
+                                        <span>{{tactic.view_metrics[0].perc_viewable_imps5s | number:0}}%</span>
+                                        <span>{{tactic.view_metrics[0].perc_viewable_imps15s | number:0}}%</span>
+                                    </div>
+                                </div>
+                                <div class="each_col sixth_col">
+                                    {{tactic.view_metrics[0].median_viewable_time | number:0}}
+                                </div>
+                                <div class="each_col seventh_col">
+                                    {{tactic.view_metrics[0][selected_filters.kpi_type.toLowerCase()] | appendDollor: selected_filters.kpi_type}}
+                                </div>
                         </div>
                     </div>
                 </div>

@@ -408,12 +408,21 @@
 		-webkit-border-radius: 5px ;
 		padding: 10px 10px 10px 30px;
 		margin: 0px 0px 0px 50px;*/
+		.dropdown_ul_text {
+			height: 35px;
+			width: 170px;
+			display: block;
+		}
+		.dropdown_ul {
+			width: 170px ;
+		}
 	}
 	.download_report:hover {
 		background: url(asset-path("cdesk/download_report_btn_hover.png")) no-repeat center center  ;
 	}
     .download_anchor {
-      display : block
+      display : block ;
+      text-decoration: none;
     }
 	.dropdown_type3 {
 		margin: 8px 40px 0 0;
@@ -750,6 +759,16 @@
 			font-family: "Avenir" ;
 			padding-top: 0px ;
 		}
+		.first_col {
+			font-weight: bold;
+			
+			span {
+				text-transform: capitalize;
+				text-align: left ;
+				font-size: 14px ;
+			}
+			
+		}
 		.first_col , .seventh_col {
 			padding-top: 20px ;
 			text-transform: uppercase;
@@ -761,6 +780,9 @@
                 min-width: 110px;
                 left: -8px;
                 font-size: 12px;
+			}
+			.arrrow_img {
+				background  : url(asset-path("cdesk/sorting_indicator.png")) no-repeat left bottom ;
 			}
 		}
 		.sub_col {
@@ -783,12 +805,36 @@
 
 		}
 		.all_strategies_holder {
-			.each_strategy_holder {
-				padding: 20px 20px 20px 0;
-				margin: 10px 0 0 20px;
+			.linkage_lines {
+				position: relative;
+				float: left;
+				width: 10px;
+				height: 104px;
+				border-left: solid 1px #e5ecef;
+			}
+			.linkage_lines:after {
+				content: "";
+				height: 1px;
+				width: 10px;
+				background: #e5ecef ;
+				display: block;
+				position: absolute;
+				top : 50px ;
+				left: 0;
+			}
+			.each_strategy {
+				float: left;
+				width: 1046px ;
+				padding: 20px 20px 20px 10px ;
+				margin: 10px 0 0 0px;
 				border: solid 1px #e5ecef;
 				background: #f8faff;
 			}
+			.each_strategy_holder:last-child {
+				.linkage_lines {
+					height: 50px;
+				}
+			} 
 		}
 	}
 }
