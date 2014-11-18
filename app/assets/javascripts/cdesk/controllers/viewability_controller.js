@@ -17,13 +17,6 @@ var angObj = angObj || {};
         $scope.selected_filters = domainReports.getDurationKpi();
 
         $scope.filters = domainReports.getReportsDropDowns();
-        //Remove this, if the CPC, needs to be added.
-        $scope.filters.kpiTypes = [
-            {value: 'CPA', text: 'CPA'},
-            {value: 'CPM', text: 'CPM'},
-            {value: 'CTR', text: 'CTR'},
-            {value: 'action_rate', text: 'Action Rate'}
-        ];
 
         $scope.strategiesList={
             tacticsList:[]
@@ -31,8 +24,9 @@ var angObj = angObj || {};
         $scope.getStrategyTacticsChart= function (param, strategiesList) {
             inventoryService.getViewablityStrategiesTactics(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    strategiesList[0].tacticsList = result.data.data;
-                    $scope.strategiesList =strategiesList[0];
+
+                    strategiesList.tacticsList = result.data.data[0].tactics;
+                    $scope.strategiesList =strategiesList;
                 } // Means no strategy data found
                 else {
                 }
