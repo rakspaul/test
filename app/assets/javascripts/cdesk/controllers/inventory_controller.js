@@ -4,15 +4,9 @@ var angObj = angObj || {};
     angObj.controller('InventoryController', function ($scope, $http,apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService) {
 
 
-        $scope.selectedCampaign = {
-            id: '-1',
-            name: 'Loading...'
-        };
+        $scope.selectedCampaign = domainReports.getDefaultValues();
 
-        $scope.selectedStrategy = {
-            id: '-1',
-            name: 'Loading...'
-        };
+        $scope.selectedStrategy = domainReports.getDefaultValues();
 
         $scope.selected_filters = domainReports.getDurationKpi();
         $scope.selected_filters.tb = '1';
@@ -225,14 +219,7 @@ var angObj = angObj || {};
 
         $scope.checkStatus = function () {
             $scope.inventoryChart = true;
-           // $scope.tacticList[$scope.tacticList.show][0].chart= true;
-            if ($scope.selectedCampaign.name == 'Loading...' ||
-                $scope.selectedStrategy.name == 'Loading...' ||
-                $scope.selectedCampaign.name == 'No Campaign Found' ||
-                $scope.selectedStrategy.name == 'No Strategy Found') {
-                return false;
-            }
-            return true;
+            return domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name);
         };
 
 

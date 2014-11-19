@@ -4,15 +4,9 @@ var angObj = angObj || {};
     angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
 
 
-        $scope.selectedCampaign = {
-            id: '-1',
-            name: 'Loading...'
-        };
+        $scope.selectedCampaign = domainReports.getDefaultValues();
 
-        $scope.selectedStrategy = {
-            id: '-1',
-            name: 'Loading...'
-        };
+        $scope.selectedStrategy = domainReports.getDefaultValues();
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -57,22 +51,6 @@ var angObj = angObj || {};
                 }
             });
         };
-
-
-
-        $scope.checkStatus = function () {
-            // $scope.tacticList[$scope.tacticList.show][0].chart= true;
-            if ($scope.selectedCampaign.name == 'Loading...' ||
-                $scope.selectedStrategy.name == 'Loading...' ||
-                $scope.selectedCampaign.name == 'No Campaign Found' ||
-                $scope.selectedStrategy.name == 'No Strategy Found') {
-                return false;
-            }
-            return true;
-        };
-
-
-
 
         //This function is called from the directive, onchange of the dropdown
         $scope.onKpiDurationChange = function(kpiType) {
@@ -183,22 +161,12 @@ var angObj = angObj || {};
         });
 
 
-        $scope.checkStatus = function () {
-            $scope.inventoryChart = true;
-            // $scope.tacticList[$scope.tacticList.show][0].chart= true;
-            if ($scope.selectedCampaign.name == 'Loading...' ||
-                $scope.selectedStrategy.name == 'Loading...' ||
-                $scope.selectedCampaign.name == 'No Campaign Found' ||
-                $scope.selectedStrategy.name == 'No Strategy Found') {
-                return false;
-            }
-            return true;
-        };
+
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
 
-            if ($scope.checkStatus()) {
+            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 var id = $(e.target).attr('value'), txt = $(e.target).text();
                 $scope.selectedStrategy.id =id;
                 $scope.selectedStrategy.name = txt;

@@ -43,6 +43,21 @@
                     activeTab : document.location.hash.substring(2)
                 }
             },
+            getDefaultValues : function() {
+                return {
+                        id: '-1',
+                        name: 'Loading...'
+                }
+            },
+            checkStatus : function (campaignname, strategyname) {
+                if (campaignname == 'Loading...' ||
+                    strategyname == 'Loading...' ||
+                    campaignname == 'No Campaign Found' ||
+                    strategyname == 'No Strategy Found') {
+                    return false;
+                }
+                return true;
+            },
             getDurationKpi : function () {
                 return {
                     time_filter: datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
