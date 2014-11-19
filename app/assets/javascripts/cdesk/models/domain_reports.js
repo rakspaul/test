@@ -49,6 +49,30 @@
                         name: 'Loading...'
                 }
             },
+            getNotFound : function() {
+                return {
+                    campaign : {
+                        id:-1,
+                        name:'No Campaign Found'
+                    },
+                    strategy : {
+                        id:-1,
+                        name:'No Strategy Found'
+                    }
+                };
+            },
+            getFound : function(obj) {
+                return {
+                    campaign : {
+                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : obj.campaign_id,
+                        name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') :  obj.name
+                    },
+                    strategy : {
+                        id:-1,
+                        name:'No Strategy Found'
+                    }
+                };
+            },
             checkStatus : function (campaignname, strategyname) {
                 if (campaignname == 'Loading...' ||
                     strategyname == 'Loading...' ||
@@ -58,6 +82,7 @@
                 }
                 return true;
             },
+
             getDurationKpi : function () {
                 return {
                     time_filter: datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
@@ -68,11 +93,29 @@
             },
             getCampaignListForUser : function() {
 
-                if(datatransferservice.getCampaignList()){
+                if(datatransferservice.getCampaignList()) {
                     return datatransferservice.getCampaignList();
                 }else {
                     return inventoryService.getCampaingsForUser();
                 }
+            },
+            getCampaignStrategyList : function(campaignId) {
+                if(datatransferservice.getCampaignStrategyList(campaignId)) {
+                    return datatransferservice.getCampaignStrategyList(campaignId);
+                }else {
+                    return inventoryService.getStrategiesForCampaign(campaignId);
+                }
+            },
+            loadFirstStrategy : function(id, name) {
+                var strategyObj = {id:null, name:null};
+                if(datatransferservice.getDomainReportsValue('previousCampaignId') !== datatransferservice.getDomainReportsValue('campaignId')) {
+                    strategyObj.id = id;
+                    strategyObj.name = name
+                }else {
+                    strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
+                    strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
+                }
+
             }
         };
     }]);

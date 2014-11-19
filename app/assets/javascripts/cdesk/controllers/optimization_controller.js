@@ -185,16 +185,14 @@ var angObj = angObj || {};
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
-                $scope.selectedCampaign.id =  dataTransferService.getClickedCampaignId() ? dataTransferService.getClickedCampaignId() : $scope.campaingns[0].campaign_id;
-                $scope.selectedCampaign.name = dataTransferService.getClickedCampaignName() ? dataTransferService.getClickedCampaignName() :  $scope.campaingns[0].name;
-            }
-            else {
+                $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
+               /* $scope.selectedCampaign.id =  dataTransferService.getClickedCampaignId() ? dataTransferService.getClickedCampaignId() : $scope.campaingns[0].campaign_id;
+                $scope.selectedCampaign.name = dataTransferService.getClickedCampaignName() ? dataTransferService.getClickedCampaignName() :  $scope.campaingns[0].name;*/
+            }  else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                    $scope.selectedCampaign.id = -1;
-                    $scope.selectedCampaign.name = "No Campaign Found";
+                    $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
                 }
             }
-
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
             }
@@ -203,12 +201,29 @@ var angObj = angObj || {};
         $scope.campaignlist = function () {
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
-                    var campaigns = result.data.data.slice(0, 1000);
-                    dataTransferService.setCampaignList('campaignList', campaigns);
-                    $scope.setCampaignStrategyList(campaigns);
+                    if(result.status == 'success') {
+                        var campaigns = result.data.data.slice(0, 1000);
+                        dataTransferService.setCampaignList('campaignList', campaigns);
+                        $scope.setCampaignStrategyList(campaigns);
+                    }
                 });
             }else{
                 $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
+            }
+        };
+
+
+
+        $scope.strategylist = function (campaignId) {
+            $scope.selectedStrategy.name = "Loading...";
+            if(dataTransferService.getCampaignStrategyList(campaignId) === false){
+                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
+                    var strategy = result.data.data;
+                    dataTransferService.setCampaignStrategyList(campaignId , strategy);
+                    $scope.updateStrategyObjects(strategy);
+                });
+            }else{
+                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
             }
         };
 
@@ -229,8 +244,7 @@ var angObj = angObj || {};
                     $scope.loadCdbDataForStrategy()
                 }
                 else { //  means empty strategy list
-                    $scope.selectedStrategy.id = -1;
-                    $scope.selectedStrategy.name = "No Strategy Found";
+                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     $scope.chartForStrategy=false;
                 }
             });
@@ -250,10 +264,8 @@ var angObj = angObj || {};
             }
             else{
                 $scope.chartForStrategy=false;
-                $scope.selectedStrategy.id= -1;
-                $scope.selectedStrategy.name = "No Strategy Found";
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-
         });
 
 

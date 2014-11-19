@@ -3,7 +3,7 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('InventoryController', function ($scope, $http,apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService) {
 
-
+        //Default Values
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
         $scope.selectedStrategy = domainReports.getDefaultValues();
@@ -29,51 +29,94 @@ var angObj = angObj || {};
         $scope.filters = domainReports.getReportsDropDowns();
         $scope.strategyFound = false;
 
+
         $scope.init = function () {
-            $scope.campaignlist();
-            };
+            $scope.campaignList();
+        };
 
-
-
+        //URL for download
         $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
 
 
+        /*Campaign List Functions*/
 
-        $scope.setCampaignStrategyList = function(campaigns){
+        $scope.setCampaignStrategyList = function(campaigns) {
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
-                $scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
-                $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;
-                $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
+                $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
 
-            }
-            else {
+               /* $scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
+                $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;*/
+                $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
+            } else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                    $scope.selectedCampaign.id = -1;
-                    $scope.selectedCampaign.name = "No Campaign Found";
+                    $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
                     $scope.strategyFound = false;
                 }
             }
-
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
             }
         };
 
-        $scope.campaignlist = function () {
-            if(dataTransferService.getCampaignList() === false){
+        //Function called to load the campaign list, call ajax if not found in localStorage
+        $scope.campaignList = function () {
+            if(dataTransferService.getCampaignList() === false) {
                 domainReports.getCampaignListForUser().then(function (result) {
-                    var campaigns = result.data.data.slice(0, 1000);
-                    dataTransferService.setCampaignList('campaignList', campaigns);
-                    $scope.setCampaignStrategyList(campaigns);
+                    if(result.status == 'success') {
+                        var campaigns = result.data.data.slice(0, 1000);
+                        dataTransferService.setCampaignList('campaignList', campaigns);
+                        $scope.setCampaignStrategyList(campaigns);
+                    }
                 });
             }else{
                 $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
             }
         };
+        /*Campaign List Functions*/
 
+        /*Strategy List Functions*/
+        $scope.updateStrategyObjects = function(strategy){
+            console.log(strategy);
+            $scope.strategies = strategy;
+            if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
+                //If a different campaign is selected, then load the first strategy data
+                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
+                $scope.selectedStrategy.id = strategyObj.id;
+                $scope.selectedStrategy.name = strategyObj.name;
+                $scope.strategyFound=true;
+                //Call the Apis to load the Strategy Chart and the Tactics chart
+                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+                $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter});
+            } else { //  means empty strategy list
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategyFound = false;
+                $scope.inventoryChart = false;
+
+            }
+        };
+
+        //Calling the Strategy object based on the campaignId
         $scope.strategylist = function (campaignId) {
+            $scope.selectedStrategy.name = "Loading...";
+            if(dataTransferService.getCampaignStrategyList(campaignId) === false){
+                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
+                    console.log('In updateStrategyObjects result');
+                    console.log(result);
+                    if(result.status == 'success') {
+                        var strategy = result.data.data;
+                        dataTransferService.setCampaignStrategyList(campaignId, strategy);
+                        $scope.updateStrategyObjects(strategy);
+                    }
+                });
+            }else{
+                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
+            }
+        };
+        /*Strategy List Functions*/
+
+       /* $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
             inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
@@ -100,7 +143,10 @@ var angObj = angObj || {};
                 }
             });
 
-        };
+        };*/
+
+        /*Strategy and tactics chart and table data related API calls*/
+
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
             inventoryService.getAllTacticDomainData(param).then(function (result) {
@@ -222,8 +268,6 @@ var angObj = angObj || {};
             return domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name);
         };
 
-
-
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
             if ($scope.checkStatus()) {
@@ -248,8 +292,7 @@ var angObj = angObj || {};
                 $scope.strategylist($scope.selectedCampaign.id);
             }
            else{
-                $scope.selectedStrategy.id= -1;
-                $scope.selectedStrategy.name = "No Strategy Found";
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
             $scope.inventoryChart = true;
             if($scope.tacticList[$scope.tacticList.show][0]) {
@@ -257,25 +300,22 @@ var angObj = angObj || {};
             }
         });
 
-            //This function is called from the directive, onchange of the dropdown
-            $scope.onKpiDurationChange = function(kpiType) {
-                if (kpiType == 'duration') {
-                    $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download? date_filter=' + $scope.selected_filters.time_filter;
-                    dataTransferService.updateExistingStorageObjects({'filterDurationType' : $scope.selected_filters.time_filter, 'filterDurationValue' : $scope.selected_filters.time_filter_text});
-                }else{
-                    dataTransferService.updateExistingStorageObjects({'filterKpiType' : $scope.selected_filters.kpi_type, 'filterKpiValue' : $scope.selected_filters.kpi_type_text});
-                }
-                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-                $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-                $scope.$apply();
-
-            };
-
+        //This function is called from the directive, onchange of the dropdown
+        $scope.onKpiDurationChange = function(kpiType) {
+            if (kpiType == 'duration') {
+                $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download? date_filter=' + $scope.selected_filters.time_filter;
+                dataTransferService.updateExistingStorageObjects({'filterDurationType' : $scope.selected_filters.time_filter, 'filterDurationValue' : $scope.selected_filters.time_filter_text});
+            }else{
+                dataTransferService.updateExistingStorageObjects({'filterKpiType' : $scope.selected_filters.kpi_type, 'filterKpiValue' : $scope.selected_filters.kpi_type_text});
+            }
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+            $scope.$apply();
+        };
 
         //Function called when the user clicks on the category tabs
         $('#category_change').click(function (e) {
             if ($scope.checkStatus()) {
-
                 $scope.strategyTable.show = 'Top';
                 $scope.strategyTable.cssClass = 'top_perf_symbol';
                 $scope.tacticList.show = 'topPerformance';
@@ -288,7 +328,6 @@ var angObj = angObj || {};
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
         });
-
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');

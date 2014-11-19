@@ -84,11 +84,25 @@ var angObj = angObj || {} ;
             setCampaignList : function(key, campaignListObject) {
                 localStorage['campaignList'] = JSON.stringify(campaignListObject);
             },
+            setCampaignStrategyList : function(campaignId , StrategyListObject) {
+                if(campaignId > 0) {
+                    localStorage['campaignStrategyList'][campaignId] = JSON.stringify(StrategyListObject);
+                }
+            },
             getCampaignList : function(){
                 if(localStorage['campaignList'] === undefined){
                     return false;
                 }else {
                     return JSON.parse( localStorage['campaignList']);
+                }
+            },
+            getCampaignStrategyList : function(campaignId){
+                if(campaignId > 0) {
+                    if (localStorage['campaignStrategyList'][campaignId] === undefined) {
+                        return false;
+                    } else {
+                        return JSON.parse(localStorage['campaignStrategyList'][campaignId]);
+                    }
                 }
             },
             //@obj format :{campaignDetails key : value, ...});

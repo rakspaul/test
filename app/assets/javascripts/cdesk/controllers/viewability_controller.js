@@ -77,8 +77,9 @@ var angObj = angObj || {};
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
-                $scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
-                $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;
+                $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
+                /*$scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
+                $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;*/
                 var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
                 $scope.download_urls = {
                     tactics: urlPath+'tactics/download?date_filter='+  $scope.selected_filters.time_filter,
@@ -89,8 +90,7 @@ var angObj = angObj || {};
             }
             else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                    $scope.selectedCampaign.id = -1;
-                    $scope.selectedCampaign.name = "No Campaign Found";
+                    $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
                 }
             }
 
@@ -128,8 +128,7 @@ var angObj = angObj || {};
                      $scope.getStrategyList({campaign_id: campaignId, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
                 }
                 else { //  means empty strategy list
-                    $scope.selectedStrategy.id = -1;
-                    $scope.selectedStrategy.name = "No Strategy Found";
+                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 }
             });
         };
@@ -154,8 +153,7 @@ var angObj = angObj || {};
                     exchanges: urlPath+'exchanges/download?date_filter='+  $scope.selected_filters.time_filter
                 };
             }else{
-                $scope.selectedStrategy.id= -1;
-                $scope.selectedStrategy.name = "No Strategy Found";
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
 
         });
