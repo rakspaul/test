@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('reportFilters', function (utils) {
+    angObj.directive('reportFilters', function (domainReports) {
         return {
             restrict:'EAC',
 
@@ -22,7 +22,7 @@
                 $(element.find('ul')).click(function (e) {
 
                     var select = {text:'', value:''};
-                    if ($scope.$parent.checkStatus()) {
+                    if (domainReports.checkStatus($scope.$parent.selectedCampaign.name, $scope.$parent.selectedStrategy.name)) {
                         if(attrs.flag == "kpitypes") {
                             select = {text:'kpi_type_text', value:'kpi_type'};
                         }else{

@@ -86,7 +86,12 @@ var angObj = angObj || {} ;
             },
             setCampaignStrategyList : function(campaignId , StrategyListObject) {
                 if(campaignId > 0) {
-                    localStorage['campaignStrategyList'][campaignId] = JSON.stringify(StrategyListObject);
+                    console.log(campaignId);
+                    console.log(StrategyListObject);
+                    //console.log(localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject););
+                    //localStorage['campaignStrategyList'][campaignId] = JSON.stringify(StrategyListObject);
+                    localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject));
+
                 }
             },
             getCampaignList : function(){
@@ -98,10 +103,14 @@ var angObj = angObj || {} ;
             },
             getCampaignStrategyList : function(campaignId){
                 if(campaignId > 0) {
-                    if (localStorage['campaignStrategyList'][campaignId] === undefined) {
+                    if (localStorage['strategy_'+campaignId] === undefined) {
                         return false;
                     } else {
-                        return JSON.parse(localStorage['campaignStrategyList'][campaignId]);
+                        if(localStorage['strategy_'+campaignId] === undefined) {
+                            console.log('LocalStorage data for strategyList for campaignId : '+campaignId+' in localStorage[strategy_'+campaignId+'] not found');
+                        } else {
+                            return JSON.parse(localStorage['strategy_'+campaignId]);
+                        }
                     }
                 }
             },

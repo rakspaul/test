@@ -241,7 +241,8 @@ var angObj = angObj || {};
         //TODO: toggle is not correct. (1). it will toggle for strategyTable + tactic table.
         // TODO: (2).for both, strategy and tactic, it will check if resultTableData is empty, then show "Data not found" message.
         $scope.showPerformance = function (flag) {
-            if ($scope.checkStatus()) {
+            $scope.inventoryChart = true;
+            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 if (flag === 'Top') {
                     $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0, 5);
                     $scope.strategyTable.show = 'Bottom';
@@ -263,14 +264,11 @@ var angObj = angObj || {};
             $('#tactic_' + id + '_body').toggle();
         };
 
-        $scope.checkStatus = function () {
-            $scope.inventoryChart = true;
-            return domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name);
-        };
 
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
-            if ($scope.checkStatus()) {
+            $scope.inventoryChart = true;
+            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 var id = $(e.target).attr('value'), txt = $(e.target).text();
                 $scope.selectedStrategy.id =id;
                 $scope.selectedStrategy.name = txt;
@@ -315,7 +313,8 @@ var angObj = angObj || {};
 
         //Function called when the user clicks on the category tabs
         $('#category_change').click(function (e) {
-            if ($scope.checkStatus()) {
+            $scope.inventoryChart = true;
+            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 $scope.strategyTable.show = 'Top';
                 $scope.strategyTable.cssClass = 'top_perf_symbol';
                 $scope.tacticList.show = 'topPerformance';

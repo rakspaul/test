@@ -270,10 +270,8 @@ var angObj = angObj || {};
 
 
 
-
         //Function called when the user clicks on the strategy dropdown
         $('#strategies_list').click(function (e) {
-
             if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 var id = $(e.target).attr('value'), txt = $(e.target).text();
                 $scope.selectedStrategy.id =id;

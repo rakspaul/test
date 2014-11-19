@@ -115,6 +115,7 @@
                     strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
                     strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
                 }
+                return strategyObj;
 
             }
         };
