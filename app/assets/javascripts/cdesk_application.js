@@ -50,5 +50,6 @@
 //= require cdesk/services/dataservice
 //= require cdesk/services/inventoryservice
 //= require cdesk/services/transformer_service
+//= require cdesk/services/viewablityservice
 //= require cdesk/services/datatransferservice
 //= require cdesk/utils

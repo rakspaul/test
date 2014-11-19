@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, inventoryService, utils, dataTransferService, domainReports) {
+    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports) {
 
 
         $scope.selectedCampaign = {
@@ -22,7 +22,7 @@ var angObj = angObj || {};
             tacticsList:[]
         };
         $scope.getStrategyTacticsChart= function (param, strategiesList) {
-            inventoryService.getViewablityStrategiesTactics(param).then(function (result) {
+            viewablityService.getViewablityStrategiesTactics(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
                     strategiesList.tacticsList = result.data.data[0].tactics;
@@ -36,7 +36,7 @@ var angObj = angObj || {};
 
         //Function called to show Strategy list
         $scope.getStrategyList = function (param) {
-            inventoryService.getViewablityStrategies(param).then(function (result) {
+            viewablityService.getViewablityStrategies(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
                    var strategiesList = result.data.data;
@@ -111,7 +111,7 @@ var angObj = angObj || {};
 
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
-            inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
+            viewablityService.getStrategiesForCampaign(campaignId).then(function (result) {
                 $scope.strategies = result.data.data;
                 if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                     if(dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
