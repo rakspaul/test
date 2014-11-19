@@ -21,7 +21,7 @@
                 return this.fetch(url);
             },
             downloadReport: function (param){
-                var url = 'http://localhost:9000' + '/campaigns/'+ param.campaign_id+'/inventory/'+ param.domain+'/download?aggregation_period='+ param.time_filter ;
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/'+ param.campaign_id+'/inventory/'+ param.domain+'/download?aggregation_period='+ param.time_filter ;
                 return this.fetch(url);
             },
             fetch: function (url) {
