@@ -355,11 +355,16 @@
         }
     });
     angObj.filter('calculatePerc', function () {
-        return function (val) {
-            if (val === undefined || val == "") {
-                return val;
+        return function (delivered, total) {
+            if (delivered === undefined || total === undefined) {
+                return 0;
             }
-            return parseInt((val / 100 )* 124);
+            var width = parseInt((delivered / total )* 124);
+            //@124 is the css width of the progress bar
+            if(width > 124){
+                return 124;
+            }
+            return width;
         }
     });
 }());

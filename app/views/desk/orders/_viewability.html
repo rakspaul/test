@@ -104,13 +104,13 @@
                     <div class="each_col sec_col">
                         <div class="graph_col">
                             <div class="full_graph_line">
-                                <div class="filled_graph_line fully_filled" style="width:{{strategiesList.view_metrics.total_imps | calculatePerc }}px;">
+                                <div class="filled_graph_line fully_filled" style="width:{{strategiesList.view_metrics.delivered_imps | calculatePerc : strategiesList.view_metrics.total_imps }}px;">
 
                                 </div>
                             </div>
                             <div class="clearfix graph_end_points">
                                 <span>{{strategiesList.view_metrics.delivered_imps | number:0}}</span>
-                                <span>{{strategiesList.view_metrics.total_imps | number:0 }}%</span>
+                                <span>{{strategiesList.view_metrics.total_imps | number:0 }}</span>
                             </div>
                         </div>
                     </div>
@@ -153,13 +153,13 @@
                         <div class="each_col sec_col">
                             <div class="graph_col">
                                 <div class="full_graph_line">
-                                    <div class="filled_graph_line fully_filled" style="width:{{tactic.view_metrics.total_imps | calculatePerc }}px;">
+                                    <div class="filled_graph_line fully_filled" style="width:{{ tactic.view_metrics.delivered_imps | calculatePerc : tactic.view_metrics.total_imps }}px;">
 
                                     </div>
                                 </div>
                                 <div class="clearfix graph_end_points">
                                     <span>{{tactic.view_metrics.delivered_imps | number:0}}</span>
-                                    <span>{{tactic.view_metrics.total_imps| number:0}}%</span>
+                                    <span>{{tactic.view_metrics.total_imps| number:0}}</span>
                                 </div>
                             </div>
                         </div>
