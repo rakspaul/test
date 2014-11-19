@@ -25,10 +25,12 @@
                         </a>
                     </span>
 
-                    <ul class="dropdown_ul dropdown-menu">
-                        <li>Viewability by Tactic</li>
-                        <li>Viewability by Domain</li>
-                        <li>Viewability by Publisher</li>
+                    <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
+
+                        <li value="tactics"><a ng-if="download_urls.tactics"class="download_anchor" href="{{download_urls.tactics}}">Viewability by Tactic</a></li>
+                        <li value="domains"><a ng-if="download_urls.domains"class="download_anchor" href="{{download_urls.domains}}">Viewability by Domain</a></li>
+                        <li value="publishers"><a ng-if="download_urls.publishers"class="download_anchor" href="{{download_urls.publishers}}">Viewability by Publisher</a></li>
+                        <li value="exchanges"><a ng-if="download_urls.exchanges"class="download_anchor" href="{{download_urls.exchanges}}">Viewability by Exchange</a></li>
                     </ul>
                 </div>
 

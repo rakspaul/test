@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports) {
+    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
 
 
         $scope.selectedCampaign = {
@@ -21,6 +21,16 @@ var angObj = angObj || {};
         $scope.strategiesList={
             tacticsList:[]
         };
+
+        $scope.download_urls = {
+            tactics: null,
+            domains: null,
+            publishers: null,
+            exchanges: null
+        };
+        var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
+
+
         $scope.getStrategyTacticsChart= function (param, strategiesList) {
             viewablityService.getViewablityStrategiesTactics(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
@@ -69,6 +79,13 @@ var angObj = angObj || {};
             if (kpiType == 'duration') {
                 $scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType' : $scope.selected_filters.time_filter, 'filterDurationValue' : $scope.selected_filters.time_filter_text});
+                var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
+                $scope.download_urls = {
+                    tactics: urlPath+'tactics/download?date_filter='+  $scope.selected_filters.time_filter,
+                    domains:  urlPath+'domains/download?date_filter='+  $scope.selected_filters.time_filter,
+                    publishers:  urlPath+'publishers/download?date_filter='+  $scope.selected_filters.time_filter,
+                    exchanges: urlPath+'exchanges/download?date_filter='+  $scope.selected_filters.time_filter
+                };
             }else{
                 $scope.$apply();
                 dataTransferService.updateExistingStorageObjects({'filterKpiType' : $scope.selected_filters.kpi_type, 'filterKpiValue' : $scope.selected_filters.kpi_type_text});
@@ -84,6 +101,13 @@ var angObj = angObj || {};
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
                 $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;
+                var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
+                $scope.download_urls = {
+                    tactics: urlPath+'tactics/download?date_filter='+  $scope.selected_filters.time_filter,
+                    domains:  urlPath+'domains/download?date_filter='+  $scope.selected_filters.time_filter,
+                    publishers:  urlPath+'publishers/download?date_filter='+  $scope.selected_filters.time_filter,
+                    exchanges: urlPath+'exchanges/download?date_filter='+  $scope.selected_filters.time_filter
+                };
             }
             else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
@@ -134,6 +158,7 @@ var angObj = angObj || {};
 
         $scope.campaignlist();
 
+
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
@@ -143,6 +168,13 @@ var angObj = angObj || {};
             $scope.$apply();
             if($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
+                var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
+                $scope.download_urls = {
+                    tactics: urlPath+'tactics/download?date_filter='+  $scope.selected_filters.time_filter,
+                    domains:  urlPath+'domains/download?date_filter='+  $scope.selected_filters.time_filter,
+                    publishers:  urlPath+'publishers/download?date_filter='+  $scope.selected_filters.time_filter,
+                    exchanges: urlPath+'exchanges/download?date_filter='+  $scope.selected_filters.time_filter
+                };
             }else{
                 $scope.selectedStrategy.id= -1;
                 $scope.selectedStrategy.name = "No Strategy Found";
