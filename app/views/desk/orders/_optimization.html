@@ -10,24 +10,53 @@
 
         <div class="reports_header_section">
             <!--<div class="back_link" href="{{reach}}">< Back to campaign</div>-->
-            <a class="back_link" href={{reachUrl}}>Back to campaign</a>
 
-            <div class="row campaigns_dropdown_reports clearfix">
-                <div class="pull-left nice_dd" campaign-list="">
-                </div>
+
+            <!--div class="reports_top_heading">{{clicked.campaignName}}
+            </div-->
+            <div class="reports_header_tabs_holder">
+                <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
             </div>
 
-            <div class="reports_top_heading">{{clicked.campaignName}}
-            </div>
-            <div class="reports_tabs clearfix">
-                <span class="report_tab_sel">Optimization Impact</span>
-                <span>Cost</span>
-                <span>Performance</span>
-                <span> <a href="#/inventory" style="text-decoration:none">Inventory</a></span>
-            </div>
-
-
+        <!----------------campaign dropdown--------------------->
         </div>
+        <div class="clearfix inventory_header">
+            <div class="pull-left dropdown dropdown_type1">
+	        <span class="dropdown_ul_text clearfix" data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedCampaign.name}}">{{selectedCampaign.name  | formatUrl: 26}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+                <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
+                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
+                </ul>
+            </div>
+
+            <div class="pull-right download_report" >
+                <a class="download_anchor" href="{{download_url}}">&nbsp;
+                </a>
+            </div>
+            <div class="pull-right dropdown dropdown_type3">
+
+                <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <!----------------campaign dropdown--------------------->
+        <!----------------strategy dropdown--------------------->
+        <div class="clearfix dropdown dropdown_type2">
+	        <span class="dropdown_ul_text " data-toggle="dropdown">
+	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>
+	            <span class="arrrow_img"></span>
+	        </span>
+
+            <ul id="strategies_list" class="dropdown_ul dropdown-menu">
+                <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
+            </ul>
+        </div>
+        <!----------------strategy dropdown--------------------->
+
+
         <div class="reports_graph_top_section" id="graph" >
             <div class="rep_graph_heading">
                <span class="graph_rep_stl"> {{clicked.strategy.lineItemName}}</span>
