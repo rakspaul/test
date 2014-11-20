@@ -114,14 +114,10 @@ var angObj = angObj || {};
             //To set the active tab for reports
             $scope.campaignlist();  //First load the campaign List
             if(dataTransferService.getClickedStrategy()  !== undefined) {
-
-
                 $scope.clicked.strategy = dataTransferService.getClickedStrategy();
                 $scope.clicked.action = dataTransferService.getClickedAction();
                 $scope.clicked.campaignName = dataTransferService.getClickedCampaignName();
                 $scope.clicked.orderId = dataTransferService.getClickedCampaignId();
-
-
                 $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
                 $scope.lineItemName = $scope.clicked.strategy.lineItemName;
                 $scope.loadTableData();
@@ -252,6 +248,7 @@ var angObj = angObj || {};
             var strategyId = ($scope.clicked.strategy.lineitemId !== undefined) ? $scope.clicked.strategy.lineitemId : $scope.selectedStrategy.id;
             dataService.getCdbChartData(param, 'lifetime'/*brandDuration*/, 'strategies', strategyId, true).then(function (result) {
 
+
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     console.log('dataTransferService : '+dataTransferService.getClickedKpiType());
@@ -268,6 +265,7 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, null, param.orderId, $scope.clicked);
+
 
                         }
                     }else{
@@ -303,6 +301,7 @@ var angObj = angObj || {};
                     filterKpiType:dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type,
                     filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type
                 });
+
             }  else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                     $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
