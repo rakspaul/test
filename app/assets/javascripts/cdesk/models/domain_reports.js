@@ -34,10 +34,10 @@
                         {value: 'life_time', text: 'Life Time'}
                     ],
                     'kpiTypes' : [
-                        {value: 'CPA', text: 'CPA'},
+                        {value: 'CTR', text: 'CTR'},
                         {value: 'CPC', text: 'CPC'},
                         {value: 'CPM', text: 'CPM'},
-                        {value: 'CTR', text: 'CTR'},
+                        {value: 'CPA', text: 'CPA'},
                         {value: 'action_rate', text: 'Action Rate'}
                     ],
                     activeTab : document.location.hash.substring(2)

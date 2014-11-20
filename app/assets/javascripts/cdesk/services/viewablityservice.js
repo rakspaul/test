@@ -12,11 +12,13 @@
                 return this.fetch(url);
 
             },
-            getViewablityStrategies : function (param) {
+
+            getStrategyViewData : function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/viewReport?date_filter=' + param.time_filter;
                 return this.fetch(url);
             },
-            getViewablityStrategiesTactics : function (param) {
+
+            getTacticsViewData : function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/tactics/viewReport?date_filter=' + param.time_filter;
                 return this.fetch(url);
             },

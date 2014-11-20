@@ -26,7 +26,7 @@ var angObj = angObj || {};
 
 
         $scope.getStrategyTacticsChart= function (param, strategiesList) {
-            viewablityService.getViewablityStrategiesTactics(param).then(function (result) {
+            viewablityService.getTacticsViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
                     strategiesList.tacticsList = result.data.data[0].tactics;
@@ -40,7 +40,7 @@ var angObj = angObj || {};
 
         //Function called to show Strategy list
         $scope.getStrategyList = function (param) {
-            viewablityService.getViewablityStrategies(param).then(function (result) {
+             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
                    var strategiesList = result.data.data;
