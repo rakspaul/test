@@ -108,6 +108,8 @@ var angObj = angObj || {};
                         var strategy = result.data.data;
                         dataTransferService.setCampaignStrategyList(campaignId, strategy);
                         $scope.updateStrategyObjects(strategy);
+                    }else{
+                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     }
                 });
             }else{
