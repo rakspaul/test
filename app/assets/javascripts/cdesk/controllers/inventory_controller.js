@@ -45,9 +45,14 @@ var angObj = angObj || {};
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
-
-               /* $scope.selectedCampaign.id =  dataTransferService.getDomainReportsValue('campaignId') ? dataTransferService.getDomainReportsValue('campaignId') : $scope.campaingns[0].campaign_id;
-                $scope.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName') ? dataTransferService.getDomainReportsValue('campaignName') :  $scope.campaingns[0].name;*/
+                //Set the KPI Type here
+                $scope.selected_filters.kpi_type = $scope.campaingns[0].kpi_type;
+                $scope.selected_filters.kpi_type_text = ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
+                dataTransferService.updateExistingStorageObjects({
+                    filterKpiType:$scope.selected_filters.kpi_type,
+                    filterKpiValue : $scope.selected_filters.kpi_type_text
+                });
+                console.log($scope.selected_filters.kpi_type);
                 $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
             } else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
@@ -285,7 +290,17 @@ var angObj = angObj || {};
             var id = $(e.target).attr('value'), txt = $(e.target).text();
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt, 'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId')});
+            $scope.selected_filters.kpi_type = $(e.target).attr('_kpi');
+            $scope.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi'),
+            dataTransferService.updateExistingStorageObjects(
+                {
+                    'campaignId' : id,
+                    'campaignName' :  txt,
+                    'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId'),
+                    'filterKpiValue': $scope.selected_filters.kpi_type_text,
+                    'filterKpiType': $scope.selected_filters.kpi_type
+                });
+
             $scope.$apply();
             $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
             if($scope.selectedCampaign.id !== -1) {
