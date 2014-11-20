@@ -229,10 +229,12 @@ button, i, input[type="submit"] {
   .container {
     width: 1115px;
     margin: 0 auto;
+    padding: 0 ;
   }
   #logo {
     display: block;
-    margin-left: 30px;
+    margin-left: 0px;
+    padding-left: 0px ;
   }
   .navbar-collapse {
     &.collapse .nav.navbar-nav {
@@ -1829,3 +1831,602 @@ button, i, input[type="submit"] {
   }
 }
 
+/************* NEW DASHBOARD STYLING *******************************************/
+
+.dashboard_outer_container {
+  width: 1115px;
+  margin: 0 auto;
+  .load-more {
+    margin: 20px;
+    text-align: center;
+    text-indent: -99999;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  }
+  .isFixed {
+    position: fixed;
+    top: 0px ;
+    background: #f8f8f8 ;
+    width: 1115px ;
+    z-index: 1 ;
+
+  }
+  .page_header_container {
+     margin: 20px 10px 20px 0px ;
+    .campaign_name_holder {
+      .campaign_name {
+        color: #333 ;
+        font-weight: bold;
+        font-size: 28px ;
+        display: inline-block;
+        float: left;
+      }
+      .campaign_name_details {
+        color: #0978c9 ;
+        font-size: 16px ;
+        font-family: "Avenir" ;
+        margin-left: 10px ;
+        float: left;
+        margin-top: 10px;
+        display: inline-block;
+      }
+    }
+    .page_filters {
+      color: #666 ;
+      li.each_filter {
+        background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center right ;
+        padding-right: 20px;
+        margin-top: 0px ;
+        #brandsList {
+          width: 280px;
+          max-height: 300px;
+          overflow: auto;
+          height: auto;
+          padding: 0px ;
+          li {
+            padding: 5px 10px;
+          }
+          li:hover {
+            background: #f8f8f8 ;
+          }
+          a {
+            white-space: normal;
+            word-wrap : break-word;
+          }
+        }
+        a {
+          font-family: "Avenir" ;
+        }
+        #brandsDropdownDiv {
+          input {
+            font-family: "Avenir" ;
+          }
+          input::-webkit-input-placeholder { color: #666 ; font-family: "Avenir" ; } 
+          input::-moz-placeholder { color: #666 ;font-family: "Avenir" ;  }  
+          input:-moz-placeholder { color: #666 ;  font-family: "Avenir" ;} 
+          input:-ms-input-placeholder { color: #666 ; font-family: "Avenir" ; }
+        }
+      }
+      .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
+        color: #666;
+        background:  transparent;
+        padding: 0;
+        cursor: pointer;
+      }
+      
+
+
+      #brandsDropdown {
+        background: #F8F8F8;
+        width: 88px ;
+        color: #666 ;
+        font-size: 14px;
+        font-family: "Avenir" ;
+      }
+      li.lifetime_filter {
+        margin-left: 60px;
+        margin-top: 5px;
+        .dropdown-menu {
+          padding: 0px ;
+          li {
+            padding: 5px 10px;
+          }
+          li:hover {
+            background: #f8f8f8 ;
+          }
+        }
+      }
+    }
+  }
+  .summary_title {
+      color: #333 ;
+    .heading {
+      color: #666 ;
+    }
+  }
+  .campaign_list_header_holder {
+    background: #f8fffa ;
+    border: solid 1px #d2dee7 ;
+    color: #333 ;
+    text-transform: uppercase;
+    height: 60px;
+    padding-top: 20px;
+    margin: 10px 0px 0px;
+    .each_header_title {
+      float: left;
+      min-width: 110px;
+      text-align: center;
+      font-size: 14px ;
+      font-family: "Avenir" ;
+      
+      cursor: pointer;
+      margin: 0 15px;
+      a {
+        color: #6c6c6c ;
+        text-decoration: none;
+      }
+      
+    }
+    .active {
+        a {
+          color: #0978c9 ;
+          span span {
+            background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+            display: inline-block;
+            height: 10px;
+            width: 10px;
+          }
+        }
+      }
+    .metrics_title {
+      width: 310px ;
+    }
+    .kpi_title {
+      width: 300px;
+    }
+  }
+  .total_campaign_list_holder {
+
+    .each_campaign_list_container {
+      border: solid 1px #d2dee7 ;
+      background: #fff ;
+      padding: 20px 20px 20px 15px;
+      margin: 0px 0 10px ;
+      .each_campaign_section {
+        float: left;
+      }
+      .campaign_section_KPI {
+        width : 300px ;
+        float: right;
+        .graph_details_KPI {
+          .details_KPI_row1 {
+              font-size: 16px;
+              font-family: "Avenir";
+              color: black;
+            .details_KPI_title {
+              float: left;
+
+              
+            }
+            .cumulative_val {
+              float: right;
+              color: #acacac;
+              font-size: 14px;
+              span {
+                color: #0978c9;
+                font-size: 20px;
+                font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+              }
+            }
+          }
+          .details_KPI_row2 {
+            color: #242424 ;
+            font-size: 16px ;
+            font-family: "Avenir" ;
+            text-align: right;
+            margin-top: 6px ;
+            span {
+              float: right ;
+            }
+            span.icon_KPI  {
+              display: inline-block;
+              background: url(asset-path("cdesk/icn_goal.png")) no-repeat center top;
+              height: 20px;
+              width: 22px;
+              
+            }
+          }
+        }
+        .graph_KPI_holder {
+          height:  150px ;
+          margin-top : 10px ;
+          /*border: solid 1px #eeeeee;*/
+        }
+      }
+      .metric_campaign_section {
+        font-family: "Avenir" ;
+        width: 300px;
+        .metric_graph_header {
+          .metric_title {
+            color: #000 ;
+            font-size: 16px ;
+            
+            float: left;
+          }
+          .metric_val {
+            float: right;
+            color: #0978c9 ;
+            font-size: 20px ;
+            font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+          }
+        }
+        
+        .metric_graph_details {
+          color: #acacac ;
+          font-size: 14px ;
+          border-top: solid 1px #e5ecef;
+          padding-top: 12px;
+          .each_metric_graph_details {
+            float: left;
+            min-width: 30% ;
+            margin-right: 10px;
+            word-wrap: break-word;
+            span {
+              display: block;
+            }
+            span.detail_val {
+              font-size: 20px ;
+              color: #262626 ;
+              font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+            }
+          }
+        }
+      }
+      .campaign_list_details {
+        font-family: "Avenir" ; 
+        width: 360px;
+        margin: 0 40px 0 12px;
+        .campaigns_list_buttons_holder {
+          .strategies_btn {
+            float: left;
+            background: #fff;
+            padding: 5px 10px 5px 30px;
+            border: solid 1px #ccc;
+            border-bottom: 0px;
+            border-radius: 5px 5px 0 0;
+            margin-top: 10px;
+          }
+          .actions_btn {
+            float: right;
+          }
+          .reports_btn {
+            float: right;
+          }
+          .campaign_btn {
+            border: solid 1px #bfd0dc;
+            padding: 6px 15px 0;
+            text-align: center;
+            margin-left: 15px;
+            border-radius: 14px;
+            -moz-border-radius: 14px;
+            -webkit-border-radius: 14px;
+            font-family: "Avenir";
+            color: #bfd0dc;
+            text-transform: uppercase;
+            font-size: 12px;
+            height: 28px;
+            pointer:cursor;
+            
+          }
+          .actions_btn {
+            position: relative;
+            .actions_done {
+              height: 15px ;
+              width : 15px ;
+              background: #fd5a2f ;
+              border-radius: 15px ;
+              -moz-border-radius: 15px ;
+              -webkit-border-radius: 15px ;
+              text-align: center;
+              color: #fff ;
+              position: absolute;
+              top : -5px ;
+              right : 0px ;
+              font-size: 8px;
+              padding : 3px 1px 0 0 ;
+              display: block;
+            }
+          }
+        }
+        .main_heading {
+          font-size: 16px ;
+          color: #000 ;
+          line-height: 24px ;
+          font-weight: bold ;
+          
+        }
+
+        .heading {
+          color: #727272 ;
+          font-size: 14px ;
+          margin-top: 10px ;
+        }
+        .days_left_holder {
+          .total_days_holder {
+            position: relative;
+            height : 4px ;
+            max-width : 360px  ;
+            background: #cdeaff ;
+            border-radius: 4px ;
+            -moz-border-radius: 4px ;
+            -webkit-border-radius: 4px ;
+            margin: 40px 0 25px ;
+            font-family: "Avenir";
+          }
+          .days_end_points {
+            position: absolute;
+            top: -15px;
+            width: 100%;
+             span {
+              float: right ;
+              color: #acacac ;
+              font-size: 10px ;
+            }
+            span:first-child {
+              float: left ;
+            }
+          }
+          
+          .days_over {
+            position: relative;
+            height: 100% ;
+            max-width : 100% ;
+            background: #0978c9 ;
+            border-radius: 4px ;
+            -moz-border-radius: 4px ;
+            -webkit-border-radius: 4px ;
+
+            .days_over_text {
+              position: absolute;
+              top: -26px;
+              color: #44aefc;
+              
+              font-size: 12px;
+              right: -35px;
+            }
+            .ended_text {
+              right : 0px ;
+            }
+            .start_text {
+              right: auto ;
+              left: 0px ;
+            }
+          }
+          .days_over:after {
+              height: 12px;
+              width: 12px;
+              background: #44aefc;
+              content: "";
+              display: block;
+              border-radius: 12px;
+              position: absolute;
+              top: -4px;
+              right: 0;
+          }
+        }
+      }
+      .first_section {
+        height: 8px ;
+        width: 8px ;
+        margin-top: 5px;
+        border-radius: 8px ;
+        -moz-border-radius: 8px ;
+        -webkit-border-radius: 8px ;
+        background: #6abc52 ;
+      }
+     
+    }
+    .each_campaign_list_container:first-child {
+      border-top : 0px ;
+    }
+  }
+  .total_campaign_cost_holder {
+    .each_campaign_cost_container {
+      border: solid 1px #d2dee7;
+      padding: 10px;
+      .each_cost_section {
+        float: left;
+        .each_cost_details {
+          font-family: "Avenir";
+          font-size: 14px;
+          .main_heading {
+            color: #000;
+            font-weight: bold;
+            
+          }
+          .heading {
+            color: #727272 ;
+          }
+          .dates_details {
+            font-size: 12px ;
+            color: #b8c1c8 ;
+          }
+        }
+      }
+      .status_section {
+
+        .status_icon {
+          width: 16px;
+          height: 18px;
+          background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
+        }
+      }
+      .other_details {
+        width: 85% ;
+      }
+      .each_cost_details {
+        float: left;
+      }
+      .cost_metric_graph {
+        float: right;
+        width: 200px ;
+      }
+    }
+    
+  }
+  
+
+  .metric_graph {
+    .full_metric_graph {
+      position: relative;
+      height: 8px;
+      width: 100%;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      background: #f0f6ee;
+      margin: 42px 0;
+      .selected_graph {
+        width: 100px;
+        height: 100% ;
+        background: #6abc52;
+        border-radius: 4px 0 0 4px ;
+        -moz-border-radius: 4px 0 0 4px ;
+        -webkit-border-radius: 4px 0 0 4px ;
+      }
+      .completely_filled {
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+      }
+      .graph_start_point {
+        position: absolute;
+        top: -32px;
+        left: 80px;
+        .end_point_line {
+          position: absolute;
+          bottom: 0;
+        }
+        .end_point_val span {
+          position: absolute;
+          top: 0px ;
+          left: -25px ;
+        }
+        .end_point_val:after {
+          top: 21px;
+          left: -4px;
+          border-right: solid 5px transparent;
+          border-bottom: solid 5px transparent;
+          border-top: solid 5px #c1ccd4;
+          border-left: solid 5px transparent;
+        }
+      }
+      .start_beginning {
+        left: 0px;
+        .end_point_val span {
+          left: 0px ;
+          border-radius: 4px 4px 4px 0px;
+          -moz-border-radius: 4px 4px 4px 0px;
+          -webkit-border-radius: 4px 4px 4px 0px;
+        }
+        .end_point_val:after {
+          top: 16px;
+          left: 0px;
+          border-right: solid 5px transparent;
+          border-top: solid 5px transparent;
+          border-left: solid 5px #c1ccd4;
+          border-bottom: solid 5px transparent;
+        }
+      }
+      .graph_end_point {
+        position: absolute;
+        left: 220px;
+        top: 0px;
+        .end_point_val span {
+          margin-top: 8px;
+          position: absolute;
+          left: -25px;
+        }
+        .end_point_val:after {
+          top: 10px;
+          left: -5px;
+          border: solid 5px transparent;
+          border-bottom: solid 5px #c1ccd4;
+        }
+      }
+      .completed_end_point {
+        left: auto;
+        right: 0;
+        left: 300px;
+        .end_point_line {
+          float: right;
+        }
+        .end_point_val span {
+          margin-top: 0px;
+          top: 18px;
+          position: absolute;
+          right: -1px ;
+          left : auto ;
+          border-radius: 4px 0px 4px 4px;
+          -moz-border-radius: 4px 0px 4px 4px;
+          -webkit-border-radius: 4px 0px 4px 4px;
+        }
+        .end_point_val:after {
+          top: 13px;
+          left: -9px;
+          border-top: solid 5px transparent;
+          border-right: solid 5px #c1ccd4;
+          border-bottom: solid 5px transparent;
+        }
+      }
+
+      .end_point_line {
+        height: 12px;
+        width: 1px;
+        background: #2f6c1d;
+
+      }
+
+      .end_point_val {
+        position: relative;
+        height: 40px;
+        span {
+          display: block;
+          background: #c1ccd4 ;
+          color: #fff ;
+          font-size: 12px ;
+          font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+          padding: 2px 10px;
+          border-radius: 4px;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+         }
+      }
+      .end_point_val:after {
+        height: 0;
+        width: 0;
+        content: "";
+        display: block;
+        position: absolute;
+        top: 16px;
+        left: 0;
+        border: solid 5px transparent;
+        border-top: solid 5px #c1ccd4;
+      }
+    }
+  }
+  .metric_graph.green {
+    .selected_graph {
+        background: #6abc52;
+      }
+  }
+  .metric_graph.red {
+    .selected_graph {
+        background: #fd361c;
+      }
+  }
+  .metric_graph.amber {
+    .selected_graph {
+        background: #fbc216;
+      }
+  }
+}

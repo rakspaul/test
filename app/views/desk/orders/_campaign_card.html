@@ -1,0 +1,108 @@
+<div class="clearfix each_campaign_list_container">
+    <div class="each_campaign_section first_section">
+        <div class="green_circle"></div>
+    </div>
+    <div class="each_campaign_section campaign_list_details">
+        <div class="main_heading">
+            {{campaign.campaignTitle}}
+        </div>
+        <div class="heading">
+            {{campaign.brandName }}
+        </div>
+        <div class="days_left_holder">
+            <div class="total_days_holder">
+                
+                <div class="clearfix days_end_points">
+                        <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
+                        <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
+                </div>
+                <div class="days_over" style="width: {{campaigns.durationCompletion(campaign)}}%;" ng-switch on="campaigns.durationLeft(campaign)">
+                    <!-- <div class="days_over_text">10 Days Left</div> -->
+                    <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
+                    <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
+                    <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(campaign)}} Days Left</span>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="clearfix campaigns_list_buttons_holder">
+            <a href="reports/reports/{{campaign.orderId}}" ng-click="campaigns.campaignReports(campaign)">
+                <div class="campaign_btn reports_btn">
+                    View Report
+                </div>
+            </a>
+            <a href="campaigns#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder">
+                <div class="campaign_btn actions_btn">
+                    <span>Actions</span>
+                    <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="each_campaign_section metric_campaign_section">
+        <div class="clearfix metric_graph_header">
+            <span class="metric_title">Spend</span>
+            <span class="metric_val">${{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | number}}</span>
+        </div>
+        <div class="metric_graph {{getSpendClass(campaign)}}">
+            <div class="full_metric_graph">
+                <div class="selected_graph completely_filled" style="width: {{getSpendWidth(campaign)}}%;"> <!-- put completely_filled when 100% -->
+                </div>
+                <div class="graph_start_point {{(getSpendWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendWidth(campaign) >= campaigns.cdbDataMap[campaign.orderId].getGrossRev()) ? 'start_end_point' : ''}}" style="left: {{getSpendWidth(campaign)-0.2}}%;"><!-- put start_beginning when at start -->
+                    <div class="end_point_val">
+                        <span>${{campaigns.cdbDataMap[campaign.orderId].getGrossRev() | number}}</span>
+                        <div class="end_point_line"></div>
+                    </div>
+                </div>
+                <div class="graph_end_point completed_end_point "><!-- put completed_end_point when at end -->
+                    <div class="end_point_val">
+                        <div class="end_point_line"></div>
+                        <span>${{campaign.expectedMediaCost | number}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix metric_graph_details">
+            <div class="each_metric_graph_details">
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].impressions | number}}</span>
+                <span>Imps.</span>
+            </div>
+            <div class="each_metric_graph_details">
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].getCTR()}}%</span>
+                <span>CTR</span>
+            </div>
+            <div class="each_metric_graph_details">
+                <span class="detail_val">{{campaigns.cdbDataMap[campaign.orderId].getActionRate()}}%</span>
+                <span>Action Rate</span>
+            </div>
+        </div>
+    </div>
+    <div class="each_campaign_section campaign_section_KPI">
+        <div class="graph_details_KPI">
+            <div class="clearfix details_KPI_row1">
+                <span class="details_KPI_title">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
+                <span class="cumulative_val">
+                    Cumulative Value <span>{{campaigns.cdbDataMap[campaign.orderId].map(campaign.kpiType.toLowerCase()) | kpiFormatter:campaign.kpiType}}</span>
+                </span>
+            </div>
+            <div class="clearfix details_KPI_row2">
+                <span>{{campaign.kpiValue | kpiFormatter:campaign.kpiType}}</span>
+                <span class="icon_KPI"></span>
+            </div>
+        </div>
+        <div class="graph_KPI_holder">
+            <span ng-switch="campaign.chart">
+                <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
+                <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                <span ng-switch-default>
+                    <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType && campaign.kpiValue">
+                        <highchart id="" class="graph_KPI_holder" config="campaign.chart" chartTitle=""></highchart>
+                    </div>
+                    <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType && campaign.kpiValue)">
+                        <span class="no-chart">Data Not Avaiable</span>
+                    </div>
+                </span>
+            </span> 
+        </div>
+    </div>
+</div>

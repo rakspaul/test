@@ -1,0 +1,15 @@
+<!--campaign card sort-->
+<div class="clearfix campaign_list_header_holder">
+    <div ng-repeat="sortField in campaigns.sortFieldList" class="each_header_title {{sortField.className}}">
+      <a data-ng-click="campaigns.sortCampaigns(sortField.key)">
+        <span>{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
+      </a>
+    </div>
+    <div class="each_header_title metrics_title">
+        Metrics
+    </div>
+    <div class="each_header_title kpi_title">
+        KPI
+    </div>                
+</div>
+<!--campaign card sort ends-->
