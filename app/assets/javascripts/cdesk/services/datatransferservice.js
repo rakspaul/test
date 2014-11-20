@@ -86,12 +86,7 @@ var angObj = angObj || {} ;
             },
             setCampaignStrategyList : function(campaignId , StrategyListObject) {
                 if(campaignId > 0) {
-                    console.log(campaignId);
-                    console.log(StrategyListObject);
-                    //console.log(localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject););
-                    //localStorage['campaignStrategyList'][campaignId] = JSON.stringify(StrategyListObject);
                     localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject));
-
                 }
             },
             getCampaignList : function(){

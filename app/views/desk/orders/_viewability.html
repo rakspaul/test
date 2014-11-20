@@ -50,8 +50,10 @@
                 <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
             </ul>
         </div>
-
-        <div class="viewability_details_outer_container">
+        <div class="viewability_details_outer_container" style="text-align: center" ng-if="!strategiesList.view_metrics || dataNotFound">
+            Data Not Found
+        </div>
+        <div class="viewability_details_outer_container" ng-if="strategiesList.view_metrics">
             <div class="viewability_header clearfix">
                 <div class="each_col first_col" >
                     <span>Tactic</span>
@@ -97,6 +99,8 @@
                     
                 </div>
             </div>
+
+
             <div class="strategy_total_container " ng-if="strategiesList.view_metrics">
                 <div class="strategy_total_container_header clearfix" >
 

@@ -102,9 +102,15 @@ var angObj = angObj || {};
         $scope.campaignlist = function () {
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
-                    var campaigns = result.data.data.slice(0, 1000);
-                    dataTransferService.setCampaignList('campaignList', campaigns);
-                    $scope.setCampaignStrategyList(campaigns);
+                    if(result.status == 'success' ) {
+                        var campaigns = result.data.data.slice(0, 1000);
+                        dataTransferService.setCampaignList('campaignList', campaigns);
+                        $scope.setCampaignStrategyList(campaigns);
+                        $scope.dataNotFound= false;
+                    }else{
+                        $scope.dataNotFound= true;
+                        console.log('NOT FOOUND');
+                    }
                 });
             }else{
                 $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
