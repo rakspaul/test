@@ -186,6 +186,13 @@ var angObj = angObj || {};
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
+                //Set the KPI Type here
+                $scope.selected_filters.kpi_type = $scope.campaingns[0].kpi_type;
+                $scope.selected_filters.kpi_type_text = ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
+                    dataTransferService.updateExistingStorageObjects({
+                        filterKpiType:$scope.selected_filters.kpi_type,
+                        filterKpiValue : $scope.selected_filters.kpi_type_text
+                    });
                /* $scope.selectedCampaign.id =  dataTransferService.getClickedCampaignId() ? dataTransferService.getClickedCampaignId() : $scope.campaingns[0].campaign_id;
                 $scope.selectedCampaign.name = dataTransferService.getClickedCampaignName() ? dataTransferService.getClickedCampaignName() :  $scope.campaingns[0].name;*/
             }  else {
@@ -255,7 +262,15 @@ var angObj = angObj || {};
             var id = $(e.target).attr('value'), txt = $(e.target).text();
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-            dataTransferService.updateExistingStorageObjects({'campaignId' : id, 'campaignName' :  txt, 'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId')});
+            $scope.selected_filters.kpi_type = $(e.target).attr('_kpi');
+            $scope.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi'),
+            dataTransferService.updateExistingStorageObjects({
+                'campaignId' : id,
+                'campaignName' :  txt,
+                'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId'),
+                'filterKpiValue': $scope.selected_filters.kpi_type_text,
+                'filterKpiType': $scope.selected_filters.kpi_type
+            });
             $scope.$apply();
 
             if($scope.selectedCampaign.id !== -1) {

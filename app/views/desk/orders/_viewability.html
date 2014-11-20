@@ -13,7 +13,7 @@
                 <span class="arrrow_img"></span>
             </span>
                 <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
-                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
+                    <li ng-repeat="campaign in campaingns" _kpi="{{campaign.kpi_type}}" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
                 </ul>
             </div>
 
