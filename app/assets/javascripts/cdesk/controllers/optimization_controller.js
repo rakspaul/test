@@ -278,12 +278,6 @@ var angObj = angObj || {};
                         filterKpiType:$scope.selected_filters.kpi_type,
                         filterKpiValue : $scope.selected_filters.kpi_type_text
                     });
-                dataTransferService.updateExistingStorageObjects({
-                    filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.selected_filters.kpi_type,
-                    filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : $scope.selected_filters.kpi_type_text
-                });
-               /* $scope.selectedCampaign.id =  dataTransferService.getClickedCampaignId() ? dataTransferService.getClickedCampaignId() : $scope.campaingns[0].campaign_id;
-                $scope.selectedCampaign.name = dataTransferService.getClickedCampaignName() ? dataTransferService.getClickedCampaignName() :  $scope.campaingns[0].name;*/
             }  else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                     $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
