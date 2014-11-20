@@ -41,18 +41,22 @@ var angObj = angObj || {};
         //Function called to show Strategy list
         $scope.getStrategyList = function (param) {
              viewablityService.getStrategyViewData(param).then(function (result) {
+                 console.log(result);
                 if (result.status === "OK" || result.status === "success") {
-
+                    console.log("came insiede");
+                    console.log(result);
                    var strategiesList = result.data.data;
                     if(strategiesList) {
-                        $scope.getStrategyTacticsChart(param, strategiesList);
                         $scope.dataNotFound= false;
+                        $scope.getStrategyTacticsChart(param, strategiesList);
+
                     }else{
                         $scope.dataNotFound= true;
                     }
 
                 } // Means no strategy data found
                 else {
+                    $scope.dataNotFound= true;
                 }
             });
         };
