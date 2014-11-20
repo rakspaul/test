@@ -79,8 +79,12 @@
             <div class="rep_graph_holder">
             </div>
         </div>
+        <!--tacticNotFound :  {{tacticNotFound | json}}-->
+        <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
+                        Tactics Not Available
+        </div>
 
-        <div class="each_reports_row each_reports_row_heading">
+        <div class="each_reports_row each_reports_row_heading" ng-if="!tacticNotFound">
             <div class="each_rep_col_holder clearfix">
                 <div class="each_rep_col first_col">Optimization Type</div>
                 <div class="each_rep_col sec_col">Date Optimized</div>
@@ -92,7 +96,7 @@
 
         </div>
 
-        <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" >
+        <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" ng-if="!tacticNotFound">
             <div class="one_section_report_heading">
                 {{tactic.ad_name}}
             </div>
