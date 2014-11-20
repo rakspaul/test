@@ -51,7 +51,7 @@
             </ul>
         </div>
         <!--dataNotFound : {{dataNotFound}}-->
-        <div class="viewability_details_outer_container" style="text-align: center" ng-if="!strategiesList.view_metrics &&  dataNotFound">
+        <div class="viewability_details_outer_container" style="text-align: center" ng-if="dataNotFound">
             Data Not Found
         </div>
         <div class="viewability_details_outer_container" ng-if="strategiesList.view_metrics && !dataNotFound">

@@ -44,7 +44,12 @@ var angObj = angObj || {};
                 if (result.status === "OK" || result.status === "success") {
 
                    var strategiesList = result.data.data;
-                    $scope.getStrategyTacticsChart(param, strategiesList);
+                    if(strategiesList) {
+                        $scope.getStrategyTacticsChart(param, strategiesList);
+                        $scope.dataNotFound= false;
+                    }else{
+                        $scope.dataNotFound= true;
+                    }
 
                 } // Means no strategy data found
                 else {
@@ -174,6 +179,8 @@ var angObj = angObj || {};
                 $scope.selectedStrategy.name = txt;
                 dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
                 $scope.$apply();
+                //Call the chart to load with the changed campaign id and strategyid
+                $scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
             }
         });
 
