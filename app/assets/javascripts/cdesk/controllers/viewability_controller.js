@@ -40,12 +40,14 @@ var angObj = angObj || {};
 
         //Function called to show Strategy list
         $scope.getStrategyList = function (param) {
-             viewablityService.getStrategyViewData(param).then(function (result) {
-                 console.log(result);
+              var strategiesList = {} ;
+              $scope.dataNotFound= true;
+                viewablityService.getStrategyViewData(param).then(function (result) {
+               //  console.log(result);
                 if (result.status === "OK" || result.status === "success") {
-                    console.log("came insiede");
-                    console.log(result);
-                   var strategiesList = result.data.data;
+                 //   console.log("came insiede");
+                  //  console.log(result);
+                    strategiesList = result.data.data;
                     if(strategiesList) {
                         $scope.dataNotFound= false;
                         $scope.getStrategyTacticsChart(param, strategiesList);
@@ -118,7 +120,7 @@ var angObj = angObj || {};
                         $scope.dataNotFound= false;
                     }else{
                         $scope.dataNotFound= true;
-                        console.log('NOT FOOUND');
+                        //console.log('NOT FOUND');
                     }
                 });
             }else{
@@ -181,6 +183,7 @@ var angObj = angObj || {};
                 var id = $(e.target).attr('value'), txt = $(e.target).text();
                 $scope.selectedStrategy.id =id;
                 $scope.selectedStrategy.name = txt;
+              //  console.log( $scope.selectedStrategy.id + " is selected strategy");
                 dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
                 $scope.$apply();
                 //Call the chart to load with the changed campaign id and strategyid
