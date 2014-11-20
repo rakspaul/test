@@ -107,9 +107,9 @@
             </div>
         </div>
         <div ng-if="strategyFound" class="each_chart_accordion_holder"
-             ng-repeat="tactic in tacticList[tacticList.show]">
+             ng-repeat="tactic in tacticList[tacticList.show]" ng-if="tactic.data">
 
-            <div id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
+            <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
                 {{tactic.name}}
             </div>
             <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} "

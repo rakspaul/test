@@ -221,8 +221,16 @@ var angObj = angObj || {};
                         $scope.strategyTable.bottomPerformance.sort(sortNumber);
 
                         //Default show the top performance strategies
-                        $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
-                        $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                        if($scope.strategyTable.show == 'Top') {
+                            $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
+                        }else{
+                          $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0, 5);
+                        }
+                        if($scope.strategyTableData.length > 0) {
+                            $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                        }else{
+                            $scope.inventoryChart = false;
+                        }
                         // draw tactic graph only when strategy section got valid data.
                      //   $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                         if ($scope.inventoryChart === undefined || $scope.inventoryChart === null || resultTableData === undefined || resultTableData.length == 0) {
@@ -256,7 +264,11 @@ var angObj = angObj || {};
                     $scope.strategyTable.cssClass = 'top_perf_symbol';
                     $scope.tacticList.show = 'topPerformance';
                 }
-                $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                if($scope.strategyTableData.length > 0) {
+                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                }else{
+                    $scope.inventoryChart = false;
+                }
                // $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
         };
@@ -317,9 +329,9 @@ var angObj = angObj || {};
         $('#category_change').click(function (e) {
             $scope.inventoryChart = true;
             if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
-                $scope.strategyTable.show = 'Top';
+               /* $scope.strategyTable.show = 'Top';
                 $scope.strategyTable.cssClass = 'top_perf_symbol';
-                $scope.tacticList.show = 'topPerformance';
+                $scope.tacticList.show = 'topPerformance';*/
                $scope.selected_filters.domain = $(e.target).attr('_key');
                 $(".inventory_tab_active").removeClass("inventory_tab_active");
                 $(e.target).parent().addClass("inventory_tab_active");
