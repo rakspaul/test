@@ -21,7 +21,7 @@
                             return spendDifference;
                         }
                         var spend = campaignCDBObj.getGrossRev();
-                        var expectedSpend = campaign.expectedMediaCost;
+                        var expectedSpend = campaign.totalMediaCost;
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
