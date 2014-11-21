@@ -2330,6 +2330,10 @@ button, i, input[type="submit"] {
         
       }
       .start_end_point {
+        .end_point_line {
+          right: 0;
+        }
+        
           .end_point_val span {
             left: auto;
             right: 0px;
