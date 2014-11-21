@@ -25,6 +25,7 @@ var angObj = angObj || {};
 
         $scope.getActionItemsByCampaign = function() {
             //You have opened as a new page.
+
             //TODO uncomment $scope.selectedCampaign.id, and remove hardcoded id 401459
             var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + 401459/*$scope.selectedCampaign.id*/ + "/actions?user_id="+user_id;
 
@@ -33,8 +34,6 @@ var angObj = angObj || {};
                     var counter = 0;
                     var actionItems = result.data.data;
 
-                   // console.log("=================actionItems=============");
-                   // console.log(actionItems);
                     var actionItemsArray=[];
 
                     if (actionItems.length > 0 && $scope.selectedCampaign.id != -1 && $scope.selectedStrategy.id != -1) {
@@ -44,20 +43,23 @@ var angObj = angObj || {};
                             for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
                                 actionItems[i].action[j].action_color = actionColors[counter % 9];
                                 //actionItems[i].action[j].ad_name = actionItems[i].ad_name;
-                                actionItems[i].action[j].ad_id = actionItems[i].ad_id;
+                                actionItems[i].action[j].ad_id = actionItems[i].action[0].ad_id;
                                 actionItemsArray.push(actionItems[i].action[j]);
                                 counter++;
                             }
-
                         }
 
                         for (var i = 0; i < actionItems.length; i++) {
 
+
                             if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
+                                console.log(actionItems[i].lineitemId+" == "+$scope.selectedStrategy.id);
                                 $scope.clicked.action = actionItems[i];
                                 $scope.lineItemName = $scope.clicked.action.lineItemName;
+
                             }
                         }
+
                         $scope.clicked.orderId = $scope.selectedCampaign.id;
                         $scope.clicked.campaignName = $scope.selectedCampaign.name;
                         $scope.clicked.strategy.lineitemId = $scope.selectedStrategy.id;
@@ -92,7 +94,7 @@ var angObj = angObj || {};
             //TODO uncomment the  $scope.selectedCampaign.id
             console.log($scope.selectedCampaign.id);
             var url = "/campaigns/" + 401459/*$scope.selectedCampaign.id */+ ".json?filter[date_filter]=life_time";
-
+            console.log('URL : '+url);
             dataService.getSingleCampaign(url).then(function(result) {
                 if (result.data !== undefined) {
 
@@ -179,13 +181,15 @@ var angObj = angObj || {};
             $scope.tacticList = tacticList ;
             console.log('Final $scope.tacticList Array :');
             console.log($scope.tacticList);
-            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : $scope.clicked.action.action[0] ;
+            console.log("===========$scope.clicked.action.action[0] ======================");
+            console.log($scope.clicked.action.action[0] );
+            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : /*$scope.actionItems ; */$scope.clicked.action.action[0] ;
 
-            var actionId = action.ad_id+''+action.id;
-            console.log(actionId);
-            if(actionId !== null) {
+            $scope.orderid = action.ad_id+''+action.id;
+            console.log(' $scope.orderid : '+$scope.orderid);
+            if($scope.orderid !== null) {
                 $timeout(function() {
-                    $scope.campaignSelected(actionId);
+                    $scope.campaignSelected($scope.orderid);
                 }, 1000);
             }
 
@@ -265,7 +269,8 @@ var angObj = angObj || {};
                                 var kpiTypeLower = angular.lowercase(kpiType);
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
-                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, null, param.orderId, $scope.clicked);
+
+                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, null, $scope.orderid, $scope.clicked);
 
                         }
                     }else{

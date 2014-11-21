@@ -282,10 +282,12 @@
                                 }
                             }
                         }
-
+                        console.log("===========orderId=================");
+                        console.log(orderId);
                         if(orderId !== undefined) {
-                            var id = orderId.action.ad_id+''+orderId.action.id;
-                            $('circle#' +id).attr({stroke: 'green', fill:'green'});
+                            //var id = orderId.action.ad_id+''+orderId.action.id;
+                            //$('circle#' +id).attr({stroke: 'green', fill:'green'});
+                            $('circle#' +orderId).attr({stroke: 'green', fill:'green'});
                         }
 
                     }, 1000);
