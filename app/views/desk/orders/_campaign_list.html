@@ -56,12 +56,12 @@
 
     <div class="scrollable_container">
         <div class="total_campaign_list_holder">
-            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0">
-            <div class="row-fluid" data-ng-repeat="campaign in campaigns.campaignList">
-                    <!-- campaign strategy card -->
-                    <div campaign-card campaign="campaign" campaigns="campaigns"></div>
-                    <!-- campaign strategy card ends-->
-            </div>
+            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
+                <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
+                        <!-- campaign strategy card -->
+                        <div campaign-card campaign="campaign" campaigns="campaigns"></div>
+                        <!-- campaign strategy card ends-->
+                </div>
             </div>
             <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
         </div>

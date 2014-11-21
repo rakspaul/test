@@ -1637,7 +1637,7 @@ button, i, input[type="submit"] {
 }
 
 .status_bar_holder {
-  margin: 40px 0;
+  margin: 10px 0;
   .status_bar_section {
     float: left;
     text-align: center;
@@ -1791,7 +1791,7 @@ button, i, input[type="submit"] {
       position: relative;
       border-top: solid 3px #d2dde5;
       margin-right: 10px;
-      padding-top: 20px ;
+      padding-top: 12px ;
       .arrow_down_middle {
         position: absolute;
         width: 100% ;
@@ -2036,10 +2036,14 @@ button, i, input[type="submit"] {
             }
           }
         }
-        .graph_KPI_holder {
-          height:  150px ;
+        .graph_KPI_outer_holder {
+          height:  100px ;
           margin-top : 10px ;
+          overflow: hidden;
           /*border: solid 1px #eeeeee;*/
+          .graph_KPI_holder {
+            height: 150px ;
+          }
         }
       }
       .metric_campaign_section {
@@ -2199,6 +2203,7 @@ button, i, input[type="submit"] {
             .start_text {
               right: auto ;
               left: 0px ;
+              width: 55px;
             }
           }
           .days_over:after {
@@ -2225,7 +2230,7 @@ button, i, input[type="submit"] {
       }
      
     }
-    .each_campaign_list_container:first-child {
+    .each_campaign_holder:first-child .each_campaign_list_container {
       border-top : 0px ;
     }
   }
@@ -2319,6 +2324,20 @@ button, i, input[type="submit"] {
           border-top: solid 5px #c1ccd4;
           border-left: solid 5px transparent;
         }
+        
+      }
+      .start_end_point {
+          .end_point_val span {
+            left: auto;
+            right: 0px;
+          }
+          .end_point_val:after {
+            border-top: solid 5px rgba(0, 0, 0, 0);
+            border-right: solid 5px #C1CCD4;
+            border-bottom: solid 5px rgba(0, 0, 0, 0);
+            top: 16px;
+            left: -10px;
+          }
       }
       .start_beginning {
         left: 0px;

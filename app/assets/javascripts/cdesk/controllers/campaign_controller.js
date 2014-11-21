@@ -175,6 +175,10 @@
             Campaigns.prototype.fetchDashboardData = function() {
                 var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
                     self = this;
+                //applying brand filter if active
+                if(this.brandId > 0) {
+                    url+='&advertiser_filter=' + this.brandId;
+                }
 
                 dataService.getCampaignDashboardData(url).then(function(result) {
                     if(result.status == "success" && !angular.isString(result.data)){
@@ -364,8 +368,6 @@
                     timePeriod: timePeriod.key
                 });
 
-                //populating dashboard filter with new data
-                Campaigns.prototype.fetchDashboardData.call(this);
             },
 
             Campaigns.prototype.filterByBrand = function(brand) {
@@ -461,6 +463,8 @@
                 this.resetFilters();
                 filters.brand && (this.brandId = filters.brand);
                 filters.timePeriod && (this.timePeriod = filters.timePeriod);
+    
+                Campaigns.prototype.fetchDashboardData.call(this); //populating dashboard filter with new data
                 Campaigns.prototype.fetchCampaigns.call(this);
             },
 

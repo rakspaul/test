@@ -25,6 +25,19 @@
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
+
+                $scope.getSpendTickDifference = function(campaign) {
+                    if(campaign !== undefined) {
+                        var spendDifference = 0;
+                        var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+                        if (campaignCDBObj == undefined) {
+                            return spendDifference;
+                        }
+                        var spend =campaign.expectedMediaCost;
+                        var expectedSpend =campaign.totalMediaCost;
+                        return $scope.getPercentDiff(expectedSpend, spend);
+                    }
+                };
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
                     if (expected == 0) {
@@ -63,6 +76,16 @@
                 $scope.getSpendWidth = function(campaign) {
                     if(campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendDifference(campaign);
+                        if (actualWidth > 100) {
+                            actualWidth = 100;
+                        }
+                        return actualWidth;
+                    }
+                }
+
+                $scope.getSpendTickWidth = function(campaign) {
+                    if(campaign !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
