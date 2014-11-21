@@ -2089,6 +2089,9 @@ button, i, input[type="submit"] {
         font-family: "Avenir" ; 
         width: 360px;
         margin: 0 40px 0 12px;
+        .heading_holder {
+          min-height: 80px ;
+        }
         .campaigns_list_buttons_holder {
           .strategies_btn {
             float: left;
@@ -2203,7 +2206,7 @@ button, i, input[type="submit"] {
             .start_text {
               right: auto ;
               left: 0px ;
-              width: 55px;
+              width: 95px;
             }
           }
           .days_over:after {
@@ -2413,7 +2416,7 @@ button, i, input[type="submit"] {
           background: #c1ccd4 ;
           color: #fff ;
           font-size: 12px ;
-          font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+          font-family: "TradeGothicLTStd";
           padding: 2px 10px;
           border-radius: 4px;
           -moz-border-radius: 4px;

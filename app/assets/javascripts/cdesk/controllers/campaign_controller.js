@@ -177,7 +177,7 @@
                     self = this;
                 //applying brand filter if active
                 if(this.brandId > 0) {
-                    url+='&advertiser_filter=' + this.brandId;
+                    url += '&advertiser_filter=' + this.brandId;
                 }
 
                 dataService.getCampaignDashboardData(url).then(function(result) {

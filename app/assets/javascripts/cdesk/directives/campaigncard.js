@@ -20,8 +20,8 @@
                         if (campaignCDBObj == undefined) {
                             return spendDifference;
                         }
-                        var spend =campaignCDBObj.getGrossRev();
-                        var expectedSpend =campaign.expectedMediaCost;
+                        var spend = campaignCDBObj.getGrossRev();
+                        var expectedSpend = campaign.expectedMediaCost;
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
@@ -33,8 +33,8 @@
                         if (campaignCDBObj == undefined) {
                             return spendDifference;
                         }
-                        var spend =campaign.expectedMediaCost;
-                        var expectedSpend =campaign.totalMediaCost;
+                        var spend = campaign.expectedMediaCost;
+                        var expectedSpend = campaign.totalMediaCost;
                         return $scope.getPercentDiff(expectedSpend, spend);
                     }
                 };
@@ -45,6 +45,7 @@
                     } else {
                         spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
                     }
+                    console.log(actual +'-'+expected+'*100/'+expected);
                     return spendDifference;
                 }
                 $scope.getSpendDiffForStrategy = function(strategy) {
