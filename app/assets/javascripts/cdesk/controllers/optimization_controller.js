@@ -13,7 +13,7 @@ var angObj = angObj || {};
             campaignName : {},
             orderId : {}
         };
-        $scope.campaignKpiType = null;
+
         $scope.filters = domainReports.getReportsDropDowns();
         $scope.orderByField = 'created_at';
         $scope.reverseSort = true;
@@ -176,7 +176,7 @@ var angObj = angObj || {};
             console.log('Final $scope.tacticList Array :');
             console.log($scope.tacticList);
             var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : $scope.clicked.action.action[0] ;
-            console.log(action);
+
             var actionId = action.ad_id+''+action.id;
             console.log(actionId);
             if(actionId !== null) {
@@ -258,6 +258,8 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, null, param.orderId, $scope.clicked);
+
+
 
                         }
                     }else{
