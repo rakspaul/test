@@ -47,7 +47,7 @@ var angObj = '';
     });
     //new campaigns api
     angObj.constant('campaign_api', '');
-    angObj.constant('api', nodejs_api);
+    angObj.constant('api', scala_api);
 
     var urlPaths = {
         apiSerivicesUrl: scala_api

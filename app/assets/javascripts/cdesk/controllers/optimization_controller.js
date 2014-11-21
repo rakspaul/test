@@ -148,13 +148,14 @@ var angObj = angObj || {};
         $scope.loadCdbDataForStrategy = function () {
             //var brandDuration = (dataTransferService.getBrandDuration() !== undefined) ? dataTransferService.getBrandDuration() :  'lifetime';
 
-            dataService.getCdbChartData({ orderId: $scope.clicked.orderId}, 'lifetime'/*brandDuration*/, 'strategies', $scope.clicked.strategy.lineitemId, true).then(function (result) {
+            dataService.getCdbChartData({ orderId: $scope.clicked.orderId}, 'life_time'/*brandDuration*/, 'strategies', $scope.clicked.strategy.lineitemId).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if (!angular.isUndefined(dataTransferService.getClickedKpiType())) {
                         if (result.data.data.measures_by_days.length > 0) {
                             var maxDays = result.data.data.measures_by_days;
                             for (var i = 0; i < maxDays.length; i++) {
+                              maxDays[i]['ctr'] *= 100;
                                 var kpiTypeLower = angular.lowercase(dataTransferService.getClickedKpiType());
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }

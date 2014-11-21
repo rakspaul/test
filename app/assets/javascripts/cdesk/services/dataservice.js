@@ -100,19 +100,23 @@
         );
       },
 
-      getCdbChartData: function (campaign, timePeriod, type, strategyId, useDates) {
+      getCdbChartData: function (campaign, timePeriod, type, strategyId) {
         var urlPath;
         var campaignId= campaign.orderId ? campaign.orderId : dataTransferService.getClickedCampaignId();
         var  durationQuery= 'period=' + timePeriod;
-        if(useDates) {
+        if(timePeriod === 'life_time') {
+          if(campaign.startDate != undefined && campaign.endDate != undefined) {
+            durationQuery = 'start_date=' + campaign.startDate + '&end_date=' + campaign.endDate
+          } else {
             var sd = dataTransferService.getClickedCampaignStartDate() ? dataTransferService.getClickedCampaignStartDate() : campaign.startDate;
             var ed = dataTransferService.getClickedCampaignEndDate() ? dataTransferService.getClickedCampaignEndDate() : campaign.endDate;
             durationQuery = 'start_date=' +sd  + '&end_date=' + ed;
+          }
         }
         if (type == 'campaigns') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays?'+durationQuery
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/bydays/perf?'+durationQuery
         } else if (type == 'strategies') {
-          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays?'+durationQuery
+          urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery
         }
         if (common.useTempData) {
           //mock data
@@ -158,7 +162,7 @@
       },
 
       getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate){
-        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
         return this.fetch(url);
       },
 
@@ -182,13 +186,14 @@
         return this.fetch(url)
       },
 
-      getCampaignData: function (periodKey, campaign) {
-          var qs = '?period=' + periodKey;
-          if(periodKey === 'lifetime'){
-              qs = '?start_date='+campaign.startDate+'&end_date='+campaign.endDate;
-          }
-        var url = api + '/campaigns/' + campaign.orderId + qs;
-          //console.log(url);
+      getCampaignData: function (periodKey, campaign, periodStartDate, periodEndDate) {
+        var qs;
+        if(periodKey === 'life_time'){
+          qs = '?start_date='+campaign.startDate+'&end_date='+campaign.endDate;
+        } else {
+          qs = '?start_date='+periodStartDate+'&end_date='+periodEndDate;
+        }
+        var url = api + '/campaigns/' + campaign.orderId + '/perf' + qs;
         return this.fetch(url);
       },
 

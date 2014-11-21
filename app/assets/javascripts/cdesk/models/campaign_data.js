@@ -2,7 +2,6 @@
   "use strict";
   var CampaignCDBData = function () {
     this.id = 0;
-    this.name = '';
     this.impressions = 0;
     this.clicks = 0;
     this.gross_rev = 0;
