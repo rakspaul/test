@@ -1,9 +1,7 @@
 <div class="reports_main_page_holder">
-
     <div class="reports_header_tabs_holder">
         <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
     </div>
-
     <div class="inventory_reports_container" data-ng-init="init()">
 
         <div class="clearfix inventory_header">
@@ -13,7 +11,7 @@
 	            <span class="arrrow_img"></span>
 	        </span>
                 <ul id="campaigns_list" class="dropdown_ul dropdown-menu">
-                    <li ng-repeat="campaign in campaingns" value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
+                    <li ng-repeat="campaign in campaingns" _kpi="{{campaign.kpi_type}}"  value="{{campaign.campaign_id}}">{{campaign.name  | formatUrl: 26}}</li>
                 </ul>
             </div>
 
@@ -112,6 +110,7 @@
             <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
                 {{tactic.name}}
             </div>
+
             <div class="inventory_strategy_chart clearfix {{($index==0) ? 'open': 'closed'}} "
                  id="tactic_{{$index}}_body">
                 <div class="pull-left inventory_chart">
