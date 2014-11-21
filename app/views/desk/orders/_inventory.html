@@ -98,10 +98,8 @@
                     </div>
                 </div>
             </div>
-            <div  ng-if="!strategyFound">
-                <div style="top: 50%; left: 50%; position: absolute;">
-                    <span class="data_not_found">Data not found</span>
-                </div>
+            <div class="no_data_found" ng-if="!strategyFound">
+                Data Not Found
             </div>
         </div>
         <div ng-if="strategyFound" class="each_chart_accordion_holder"
@@ -149,11 +147,6 @@
                 </div>
             </div>
 
-        </div>
-        <div  ng-if="!strategyFound">
-            <div style="top: 50%; left: 50%; position: absolute;">
-                <span class="data_not_found">Data not found</span>
-            </div>
         </div>
 
     </div>
