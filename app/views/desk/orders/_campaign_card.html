@@ -50,7 +50,7 @@
             <div class="full_metric_graph">
                 <div class="selected_graph {{(getSpendWidth(campaign) >= 100) ? 'completely_filled' : ''}} " style="width: {{getSpendWidth(campaign)}}%;"> <!-- put completely_filled when 100% -->
                 </div>
-                <div class="graph_start_point {{(getSpendWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)-0.2}}%;"><!-- put start_beginning when at start -->
+                <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)}}%;"><!-- put start_beginning when at start -->
                     <div class="end_point_val">
                         <span>${{campaign.expectedMediaCost | number:2}}</span>
                         <div class="end_point_line"></div>
