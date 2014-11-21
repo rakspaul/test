@@ -4,6 +4,9 @@
 
     angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout) {
 
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = is_network_user;
         var campaignList = [];
@@ -136,8 +139,7 @@
 
         var filterObject = new Campaigns();
         $scope.campaigns = filterObject;
-        //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+
     
         $scope.watchActionFilter = function(filter, showExternal) {
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
