@@ -13,7 +13,7 @@ var angObj = angObj || {};
             campaignName : {},
             orderId : {}
         };
-        $scope.campaignKpiType = null;
+
         $scope.filters = domainReports.getReportsDropDowns();
         $scope.orderByField = 'created_at';
         $scope.reverseSort = true;
