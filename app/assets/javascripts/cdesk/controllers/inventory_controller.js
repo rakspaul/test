@@ -46,13 +46,12 @@ var angObj = angObj || {};
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
                 //Set the KPI Type here
-                $scope.selected_filters.kpi_type = $scope.campaingns[0].kpi_type;
-                $scope.selected_filters.kpi_type_text = ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
+                $scope.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type;
+                $scope.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
                 dataTransferService.updateExistingStorageObjects({
-                    filterKpiType:$scope.selected_filters.kpi_type,
+                    filterKpiType:  $scope.selected_filters.kpi_type,
                     filterKpiValue : $scope.selected_filters.kpi_type_text
                 });
-                console.log($scope.selected_filters.kpi_type);
                 $scope.download_url = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/inventory/'+$scope.selected_filters.domain +'/download?date_filter='+  $scope.selected_filters.time_filter ;
             } else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {

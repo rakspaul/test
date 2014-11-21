@@ -187,12 +187,16 @@ var angObj = angObj || {};
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
                 //Set the KPI Type here
-                $scope.selected_filters.kpi_type = $scope.campaingns[0].kpi_type;
-                $scope.selected_filters.kpi_type_text = ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
+                $scope.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type;
+                $scope.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
                     dataTransferService.updateExistingStorageObjects({
                         filterKpiType:$scope.selected_filters.kpi_type,
                         filterKpiValue : $scope.selected_filters.kpi_type_text
                     });
+                dataTransferService.updateExistingStorageObjects({
+                    filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.selected_filters.kpi_type,
+                    filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : $scope.selected_filters.kpi_type_text
+                });
                /* $scope.selectedCampaign.id =  dataTransferService.getClickedCampaignId() ? dataTransferService.getClickedCampaignId() : $scope.campaingns[0].campaign_id;
                 $scope.selectedCampaign.name = dataTransferService.getClickedCampaignName() ? dataTransferService.getClickedCampaignName() :  $scope.campaingns[0].name;*/
             }  else {
