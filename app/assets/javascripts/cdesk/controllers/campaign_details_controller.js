@@ -18,9 +18,9 @@
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.data) {
                 var dataArr = [result.data];
-                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'lifetime', 'life_time')[0];
+                $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 $scope.getCdbChartData($scope.campaign);
-                dataService.getCampaignData('lifetime', $scope.campaign).then(function(response) {
+                dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
                 });
             }
@@ -93,7 +93,7 @@
 
         $scope.getCdbChartData = function(campaign) {
             //API call for campaign chart
-            dataService.getCdbChartData(campaign, 'lifetime', 'campaigns', null, true).then(function (result) {
+            dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
                 var lineData = [], showExternal = true;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if (!angular.isUndefined($scope.campaign.kpiType)) {
@@ -101,6 +101,7 @@
                             var maxDays = result.data.data.measures_by_days;
                             var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
                             for (var i = 0; i < maxDays.length; i++) {
+                                maxDays[i]['ctr'] *= 100;
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;

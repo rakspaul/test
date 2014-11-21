@@ -159,7 +159,7 @@
                         var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                         angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod, self.periodStartDate, self.periodEndDate), function(campaign) {
                             this.push(campaign);
-                            dataService.getCampaignData(cdbApiKey, campaign).then(function(response) {
+                            dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
                             })
                         }, self.campaignList);
@@ -522,7 +522,7 @@
             var apiObj = {
                 'last_week': 'last_7_days',
                 'last_month': 'last_30_days',
-                'life_time': 'lifetime'
+                'life_time': 'life_time'
             };
             return apiObj[key];
         };

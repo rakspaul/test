@@ -77,7 +77,7 @@
                         filterStartDate = campaign.periodStartDate;
                         filterEndDate = campaign.periodEndDate;
                         break;
-                    case 'lifetime': 
+                    case 'life_time':
                     default:
                         //campaign flight dates for timefilter
                         filterStartDate = campaign.startDate;
@@ -143,6 +143,7 @@
                         if(result.data.data.length > 0) {
                             var maxDays = result.data.data;
                             for (var i = 0; i < maxDays.length; i++) {
+                                maxDays[i]['ctr'] *= 100
                                 var kpiType = kpiMap[sKpiType] ? kpiMap[sKpiType] : sKpiType;
                                 var kpiTypeLower = angular.lowercase(kpiType);
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
@@ -202,11 +203,11 @@
         };
 
         var getStrategyMetrics = function(index, strategyObj, timePeriod, campaign) {
-            var  durationQuery= 'period=' + timePeriod;
-            if(timePeriod === 'lifetime'){
-                durationQuery = 'start_date=' +campaign.startDate  + '&end_date=' + campaign.endDate;
-            }
-            var url = '/campaigns/' + campaign.orderId + '/strategies/' + strategyObj[index].id + '?' + durationQuery;
+          var  durationQuery= 'period=' + timePeriod;
+          if(timePeriod === 'life_time') {
+            durationQuery = 'start_date=' + strategyObj[index].startDate + '&end_date=' + strategyObj[index].endDate;
+          }
+          var url = '/campaigns/' + campaign.orderId + '/strategies/' + strategyObj[index].id + '/perf?' + durationQuery;
             dataService.getCampaignStrategies(url, 'metrics').then(function (result) {
                 if(result.status == "success" && !angular.isString(result.data.data)) {
                     strategyObj[index].totalImpressions = result.data.data.impressions;
@@ -226,7 +227,7 @@
 
         var getStrategyCdbLineChart = function(obj, strategyList, timePeriod, campaign, kpiType, kpiValue) {
            var sKpiType=kpiType;
-            dataService.getCdbChartData(campaign, timePeriod, 'strategies', strategyList[obj].id, true).then(function (result) {
+            dataService.getCdbChartData(campaign, timePeriod, 'strategies', strategyList[obj].id).then(function (result) {
                 var lineData=[];
                 if(result.status == "success" && !angular.isString(result.data)) {
                     if(sKpiType != undefined || sKpiType != null) {
@@ -234,6 +235,7 @@
                             var maxDays = result.data.data.measures_by_days;
                             for (var i = 0; i < maxDays.length; i++) {
                                 var kpiType = (sKpiType);
+                                maxDays[i]['ctr'] *= 100
                                 var kpiTypeLower = angular.lowercase(kpiType);
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }                             
@@ -264,7 +266,7 @@
             };
 
             var getCdbLineChart = function(obj, campaignList, timePeriod) {
-                dataService.getCdbChartData(campaignList[obj], timePeriod, 'campaigns', null, true).then(function (result) {
+                dataService.getCdbChartData(campaignList[obj], timePeriod, 'campaigns', null).then(function (result) {
                     var lineDate = [];
                     campaignList[obj].chart = true;
                     if(result.status == "success" && !angular.isString(result.data)) {
@@ -272,6 +274,7 @@
                             if(result.data.data.measures_by_days.length > 0) {
                                 var maxDays = result.data.data.measures_by_days;
                                 for (var i = 0; i < maxDays.length; i++) {
+                                    maxDays[i]["ctr"] *= 100;
                                     var kpiType = (campaignList[obj].kpiType),
                                     kpiTypeLower = angular.lowercase(kpiType);
                                     lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
@@ -320,7 +323,7 @@
                     campaignList.push({
                         orderId: dataArr[obj].id,
                         periodStartDate: periodStartDate,
-                        periodEndDate: periodStartDate,
+                        periodEndDate: periodEndDate,
                         startDate: dataArr[obj].start_date,
                         fromSuffix: utils.formatDate(dataArr[obj].start_date),
                         endDate: dataArr[obj].end_date,
@@ -350,7 +353,7 @@
                             filterStartDate = periodStartDate;
                             filterEndDate = periodEndDate;
                             break;
-                        case 'lifetime': 
+                        case 'life_time':
                         default:
                             //campaign flight dates for timefilter
                             filterStartDate = dataArr[obj].start_date;
