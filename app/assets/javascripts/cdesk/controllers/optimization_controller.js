@@ -28,19 +28,14 @@ var angObj = angObj || {};
 
         $scope.actionListForSelectedStrategy = function() {
             //You have opened as a new page.
-
             var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $scope.selectedCampaign.id + "/actions?user_id="+user_id;
-
             dataService.getActionItems(actionUrl).then(function(result) {
 
                 if(result.data.status_code !== 404) {
                     var counter = 0;
                     var actionItems = result.data.data;
-
                     var actionItemsArray=[];
-
                     if (actionItems.length > 0 && $scope.selectedCampaign.id != -1 && $scope.selectedStrategy.id != -1) {
-
                         for(var i=0; i<actionItems.length; i++) {
                             if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
                                 for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
@@ -54,9 +49,7 @@ var angObj = angObj || {};
                         $scope.clicked.orderId = $scope.selectedCampaign.id;
                         $scope.clicked.campaignName = $scope.selectedCampaign.name;
                         $scope.clicked.strategy.lineitemId = $scope.selectedStrategy.id;
-
                         $scope.actionItems = actionItemsArray;
-
                         $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
                         $scope.lineItemName = $scope.clicked.action.lineItemName;
                         if(actionItemsArray.length > 0) {
@@ -87,14 +80,12 @@ var angObj = angObj || {};
             //console.log('URL : '+url);
             dataService.getSingleCampaign(url).then(function(result) {
                 if (result.data !== undefined) {
-
                     $scope.campaign = {
                         id: result.data.id,
                         start_date : result.data.start_date,
                         end_date : result.data.end_date,
                         kpi_type :  result.data.kpi_type,
                         kpi_value :  result.data.kpi_value
-
                         };
                 }
                 $scope.actionListForSelectedStrategy();
@@ -111,10 +102,8 @@ var angObj = angObj || {};
                 $scope.clicked.action = dataTransferService.getClickedAction();
                 $scope.clicked.campaignName = dataTransferService.getClickedCampaignName();
                 $scope.clicked.orderId = dataTransferService.getClickedCampaignId();
-
                 $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
                 $scope.lineItemName = $scope.clicked.strategy.lineItemName;
-
                 $scope.loadTableData();
                 $scope.loadCdbDataForStrategy();
             }
