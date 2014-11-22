@@ -215,79 +215,83 @@
                         //threshold = 100;
 
                         //red zone calculations
-                        var extremesX = chart.xAxis[0].getExtremes();
-                        chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
-                        var extremes = chart.yAxis[0].getExtremes();
-                        
-                        if(kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
-                            if(extremes.max <= threshold) {
-                                //check if threshold outside chart (red zone is from above the threshold to max value (that is regenerated if outside graph))
-                                chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max) + 0.5);
-                            }
-                        } else {
-                            //for kpi types - clicks, impressions etc (redzone is from threshold to zero)
-                            if(extremes.max < threshold) {
-                                //check if threshold outside chart
-                                chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max));
-                            }
-                        }
+                        if(chart !== undefined) {
 
-                        //plotting red zone
-                        extremes = chart.yAxis[0].getExtremes();
-                        chart.yAxis[0].addPlotBand({ // Light air
-                            from: threshold, 
-                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
-                            color: '#fbdbd1',
-                            label: {
-                                enabled: false,
-                                text: '',
-                                style: {
-                                    color: 'red'
+
+                            var extremesX = chart.xAxis[0].getExtremes();
+                            chart.xAxis[1].setExtremes(extremesX.min - 0.5, extremesX.max + 0.5);
+                            var extremes = chart.yAxis[0].getExtremes();
+
+                            if (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') {
+                                if (extremes.max <= threshold) {
+                                    //check if threshold outside chart (red zone is from above the threshold to max value (that is regenerated if outside graph))
+                                    chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max) + 0.5);
+                                }
+                            } else {
+                                //for kpi types - clicks, impressions etc (redzone is from threshold to zero)
+                                if (extremes.max < threshold) {
+                                    //check if threshold outside chart
+                                    chart.yAxis[0].setExtremes(0, extremes.max + (threshold - extremes.max));
                                 }
                             }
-                        });
 
-                        //rendering threshold marker image in y-axis
-                        var renderPos;
-                        if(threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
-                            chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop/2, 17, 17).add();  
-                        }
+                            //plotting red zone
+                            extremes = chart.yAxis[0].getExtremes();
+                            chart.yAxis[0].addPlotBand({ // Light air
+                                from: threshold,
+                                to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
+                                color: '#fbdbd1',
+                                label: {
+                                    enabled: false,
+                                    text: '',
+                                    style: {
+                                        color: 'red'
+                                    }
+                                }
+                            });
 
-                        //rendering action markers after red zone manipulation
-                        if(external != undefined && external == true) {
-                            //filter applied
-                            showExternal = true;
-                        }
+                            //rendering threshold marker image in y-axis
+                            var renderPos;
+                            if (threshold <= chart.yAxis[0].max && threshold >= chart.yAxis[0].min) {
+                                chart.renderer.image(assets.target_marker, 0, chart.yAxis[0].toPixels(threshold) - chart.plotTop / 2, 17, 17).add();
+                            }
 
-                        if(actionItems) {
-                            for(i = chart.series[0].data.length-1; i >= 0; i--) {
-                                position = 0;
-                                for(var j = actionItems.length-1; j >= 0 ; j--) {
-                                    var dateUTC = new Date(actionItems[j].created_at);
-                                    //example. actionItems[1].created_at  1396396800000 converted to UTC 1413459349308;
-                                    var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
-                                    if(chart.series[0].data[i].x == actionUTC){
-                                        if(flag[actionUTC] === undefined) {
-                                            flag[actionUTC] = 1;
-                                        }else{
-                                            position += 10;
+                            //rendering action markers after red zone manipulation
+                            if (external != undefined && external == true) {
+                                //filter applied
+                                showExternal = true;
+                            }
+
+                            if (actionItems) {
+                                for (i = chart.series[0].data.length - 1; i >= 0; i--) {
+                                    position = 0;
+                                    for (var j = actionItems.length - 1; j >= 0; j--) {
+                                        var dateUTC = new Date(actionItems[j].created_at);
+                                        //example. actionItems[1].created_at  1396396800000 converted to UTC 1413459349308;
+                                        var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
+                                        if (chart.series[0].data[i].x == actionUTC) {
+                                            if (flag[actionUTC] === undefined) {
+                                                flag[actionUTC] = 1;
+                                            } else {
+                                                position += 10;
+                                            }
+                                            if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
+                                                //showing markers based on filter type
+                                                drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
+                                                counter++;
+                                            }
+
                                         }
-                                        if((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
-                                            //showing markers based on filter type
-                                            drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
-                                            counter++;
-                                        }
-                                         
                                     }
                                 }
                             }
-                        }
-                        console.log("===========orderId=================");
-                        console.log(orderId);
-                        if(orderId !== undefined) {
-                            //var id = orderId.action.ad_id+''+orderId.action.id;
-                            //$('circle#' +id).attr({stroke: 'green', fill:'green'});
-                            $('circle#' +orderId).attr({stroke: 'green', fill:'green'});
+                            console.log("===========orderId=================");
+                            console.log(orderId);
+                            if (orderId !== undefined) {
+                                //var id = orderId.action.ad_id+''+orderId.action.id;
+                                //$('circle#' +id).attr({stroke: 'green', fill:'green'});
+                                $('circle#' + orderId).attr({stroke: 'green', fill: 'green'});
+                            }
                         }
 
                     }, 1000);

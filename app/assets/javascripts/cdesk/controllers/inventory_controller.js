@@ -69,7 +69,7 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false) {
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data.slice(0, 1000);
+                        var campaigns = result.data.data;//.slice(0, 1000);
                         dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaignStrategyList(campaigns);
                     }

@@ -41,6 +41,14 @@ var angObj = '';
                 templateUrl: 'viewability',
                 controller: 'viewabilityController'
             })
+            .when('/cost', {
+                templateUrl: 'cost',
+                controller: 'costController'
+            })
+                .when('/performance', {
+                templateUrl: 'performance',
+                controller: 'performanceController'
+            })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];

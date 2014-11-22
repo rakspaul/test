@@ -37,6 +37,8 @@
 //= require cdesk/controllers/optimization_controller
 //= require cdesk/controllers/inventory_controller
 //= require cdesk/controllers/viewability_controller
+//= require cdesk/controllers/cost_controller
+//= require cdesk/controllers/performance_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaigncard
 //= require cdesk/directives/campaignsort

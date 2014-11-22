@@ -9,7 +9,10 @@ var angObj = angObj || {};
 
         var tactics = new Array();
         $scope.clicked = {
-            strategy : {},
+            action:{},
+            strategy : {
+                action: {}
+            },
             campaignName : {},
             orderId : {}
         };
@@ -23,13 +26,13 @@ var angObj = angObj || {};
 
         };
 
-        $scope.getActionItemsByCampaign = function() {
+        $scope.actionListForSelectedStrategy = function() {
             //You have opened as a new page.
 
-            //TODO uncomment $scope.selectedCampaign.id, and remove hardcoded id 401459
-            var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + 401459/*$scope.selectedCampaign.id*/ + "/actions?user_id="+user_id;
+            var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $scope.selectedCampaign.id + "/actions?user_id="+user_id;
 
             dataService.getActionItems(actionUrl).then(function(result) {
+
                 if(result.data.status_code !== 404) {
                     var counter = 0;
                     var actionItems = result.data.data;
@@ -38,44 +41,33 @@ var angObj = angObj || {};
 
                     if (actionItems.length > 0 && $scope.selectedCampaign.id != -1 && $scope.selectedStrategy.id != -1) {
 
-                        //TODO Need to cross check, if this loop is required
-                        for (var i = actionItems.length - 1; i >= 0; i--) {
-                            for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
-                                actionItems[i].action[j].action_color = actionColors[counter % 9];
-                                //actionItems[i].action[j].ad_name = actionItems[i].ad_name;
-                                actionItems[i].action[j].ad_id = actionItems[i].action[0].ad_id;
-                                actionItemsArray.push(actionItems[i].action[j]);
-                                counter++;
-                            }
-                        }
-
-                        for (var i = 0; i < actionItems.length; i++) {
-
-
+                        for(var i=0; i<actionItems.length; i++) {
                             if (actionItems[i].lineitemId == $scope.selectedStrategy.id) {
-                                console.log(actionItems[i].lineitemId+" == "+$scope.selectedStrategy.id);
-                                $scope.clicked.action = actionItems[i];
-                                $scope.lineItemName = $scope.clicked.action.lineItemName;
-
+                                for (var j = actionItems[i].action.length - 1; j >= 0; j--) {
+                                    actionItems[i].action[j].action_color = actionColors[counter % 9];
+                                    $scope.clicked.strategy.action = actionItems[i].action;
+                                    actionItemsArray.push(actionItems[i].action[j]);
+                                    counter++;
+                                }
                             }
                         }
-
                         $scope.clicked.orderId = $scope.selectedCampaign.id;
                         $scope.clicked.campaignName = $scope.selectedCampaign.name;
                         $scope.clicked.strategy.lineitemId = $scope.selectedStrategy.id;
-                        //$scope.clicked.action.action[0].action_color = $scope.action_color;
-                        $scope.clicked.strategy.action = [$scope.clicked.action.action[0]];
 
-                        /*$scope.strategyByActionId = strategyByActionId;*/
-                         $scope.actionItems = actionItemsArray;
-                       /* console.log('=======$scope.actionItems ===========');
-                        console.log($scope.actionItems);*/
+                        $scope.actionItems = actionItemsArray;
 
                         $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
-                        $scope.lineItemName = $scope.clicked.action.lineItemName
+                        $scope.lineItemName = $scope.clicked.action.lineItemName;
+                        if(actionItemsArray.length > 0) {
+                            $scope.loadCdbDataForStrategy();
+                            $scope.loadTableData();
+                            $scope.tacticNotFound = false;
+                        }else{
+                            $scope.tacticNotFound = true;
+                            $scope.chartForStrategy = false;
+                        }
 
-                        $scope.loadTableData();
-                        $scope.tacticNotFound = false;
                     }else{
                         $scope.tacticNotFound = true;
                     }
@@ -91,10 +83,8 @@ var angObj = angObj || {};
 
         $scope.getCampaignDetails = function() {
             //API call for campaign details
-            //TODO uncomment the  $scope.selectedCampaign.id
-            console.log($scope.selectedCampaign.id);
-            var url = "/campaigns/" + 401459/*$scope.selectedCampaign.id */+ ".json?filter[date_filter]=life_time";
-            console.log('URL : '+url);
+            var url = "/campaigns/" +$scope.selectedCampaign.id + ".json?filter[date_filter]=life_time";
+            //console.log('URL : '+url);
             dataService.getSingleCampaign(url).then(function(result) {
                 if (result.data !== undefined) {
 
@@ -107,12 +97,12 @@ var angObj = angObj || {};
 
                         };
                 }
+                $scope.actionListForSelectedStrategy();
             }, function(result) {
                 console.log('call failed');
             });
         };
 
-        //called on load
         $scope.init = function () {
             //To set the active tab for reports
             $scope.campaignlist();  //First load the campaign List
@@ -121,12 +111,12 @@ var angObj = angObj || {};
                 $scope.clicked.action = dataTransferService.getClickedAction();
                 $scope.clicked.campaignName = dataTransferService.getClickedCampaignName();
                 $scope.clicked.orderId = dataTransferService.getClickedCampaignId();
+
                 $scope.reachUrl = '/campaigns#/campaigns/' + $scope.clicked.orderId;
                 $scope.lineItemName = $scope.clicked.strategy.lineItemName;
+
                 $scope.loadTableData();
-            }else{
-                $scope.getCampaignDetails();
-                $scope.getActionItemsByCampaign();
+                $scope.loadCdbDataForStrategy();
             }
         };
 
@@ -145,8 +135,6 @@ var angObj = angObj || {};
         $scope.loadTableData = function(){
             var tacticList = [];
             var actionItems = $scope.clicked.strategy.action;
-            console.log("IN the fun: loadTableData");
-            console.log(actionItems);
             for(var index in actionItems) {
                 var tactic_id = actionItems[index].ad_id;
                 var grouped = false;
@@ -155,7 +143,6 @@ var angObj = angObj || {};
                     for (var i in tacticList) {
                         if (tactic_id === tacticList[i].ad_id) {
                             grouped = true;
-                            tacticList[i].actionList = [];
                             tacticList[i].actionList.push(actionItems[index]);
                             break;
                         }
@@ -179,20 +166,15 @@ var angObj = angObj || {};
                 }
             }
             $scope.tacticList = tacticList ;
-            console.log('Final $scope.tacticList Array :');
-            console.log($scope.tacticList);
-            console.log("===========$scope.clicked.action.action[0] ======================");
-            console.log($scope.clicked.action.action[0] );
-            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : /*$scope.actionItems ; */$scope.clicked.action.action[0] ;
-
-            $scope.orderid = action.ad_id+''+action.id;
-            console.log(' $scope.orderid : '+$scope.orderid);
-            if($scope.orderid !== null) {
-                $timeout(function() {
-                    $scope.campaignSelected($scope.orderid);
-                }, 1000);
+            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
+            $scope.orderid = action.ad_id + '' + action.id;
+            if(action) {
+                if ($scope.orderid !== null) {
+                    $timeout(function () {
+                        $scope.campaignSelected($scope.orderid);
+                    },7000);
+                }
             }
-
         };
 
 
@@ -245,19 +227,18 @@ var angObj = angObj || {};
         $scope.loadCdbDataForStrategy = function () {
 
             if($scope.campaign !== undefined) {
-                var  param = { orderId: parseInt($scope.clicked.orderId), startDate:$scope.campaign.start_date, endDate: $scope.campaign.end_date};
+                var  param = { orderId: parseInt($scope.selectedCampaign.id), startDate:$scope.campaign.start_date, endDate: $scope.campaign.end_date};
+                var strategyId = $scope.selectedStrategy.id;
             } else {
 
                 var  param = { orderId: parseInt($scope.clicked.orderId)}
+                var strategyId = $scope.clicked.strategy.lineitemId;
             }
-            var strategyId = ($scope.clicked.strategy.lineitemId !== undefined) ? $scope.clicked.strategy.lineitemId : $scope.selectedStrategy.id;
-            dataService.getCdbChartData(param, 'lifetime'/*brandDuration*/, 'strategies', strategyId, true).then(function (result) {
 
+            dataService.getCdbChartData(param, 'lifetime'/*brandDuration*/, 'strategies', strategyId, true).then(function (result) {
 
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    console.log('dataTransferService : '+dataTransferService.getClickedKpiType());
-                    console.log($scope.campaign);
                     var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
                     var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
                     var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() :  $scope.actionItems;
@@ -275,11 +256,11 @@ var angObj = angObj || {};
                         }
                     }else{
                         $scope.chartForStrategy=false;
-                        console.log('2');
+                        //console.log('2');
                     }
                 }else{
                     $scope.chartForStrategy=false;
-                    console.log('3');
+                    //console.log('3');
                 }
             });
         };
@@ -295,18 +276,22 @@ var angObj = angObj || {};
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
         //Campaign Strategy List
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        $scope.setCampaignStrategyList = function(campaigns){
+        $scope.setCampaignStrategyList = function(campaigns) {
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
-                $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
+                $scope.selectedCampaign =  domainReports.getFound($scope.campaingns[0])['campaign'];
                 //Set the KPI Type here
-                //$scope.campaignKpiType = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type;
                 dataTransferService.updateExistingStorageObjects({
-                    filterKpiType:dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type,
+                    filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type,
                     filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type
                 });
-
+                if(dataTransferService.getClickedStrategy()  === undefined) {
+                    //console.log('Called optimization page directly ');
+                    $scope.getCampaignDetails();
+                }else{
+                    //console.log('Came Directly from Campaign Details');
+                }
             }  else {
                 if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                     $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
@@ -321,7 +306,7 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data.slice(0, 1000);
+                        var campaigns = result.data.data;//.slice(0, 1000);
                         dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaignStrategyList(campaigns);
                     }
@@ -337,12 +322,12 @@ var angObj = angObj || {};
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
-                $scope.selectedStrategy.id = strategyObj.id;
-                $scope.selectedStrategy.name = strategyObj.name;
+                $scope.selectedStrategy.id =  strategyObj.id;
+                $scope.selectedStrategy.name =  strategyObj.name;
                 $scope.strategyFound=true;
                 //Call the chart to load with the changed campaign id and strategyid
                 $scope.chartForStrategy=true;
-                $scope.loadCdbDataForStrategy()
+
             } else { //  means empty strategy list
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.chartForStrategy=false;
@@ -367,9 +352,12 @@ var angObj = angObj || {};
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
+
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
-            $scope.campaign.kpi_type =  $(e.target).attr('_kpi');
+            //TODO for testing purpose, uncomment below line
+            /*$scope.selectedCampaign.id =  401459;
+            $scope.selectedCampaign.name =  'HARD CODED 401459';*/
             dataTransferService.updateExistingStorageObjects({
                 'campaignId' : id,
                 'campaignName' :  txt,
@@ -382,11 +370,10 @@ var angObj = angObj || {};
             if($scope.selectedCampaign.id !== -1) {
                 $scope.chartForStrategy=true;
                 $scope.strategylist($scope.selectedCampaign.id);
-                $scope.getActionItemsByCampaign();
+                $scope.actionListForSelectedStrategy();
             }
             else{
                 $scope.chartForStrategy=false;
-                //console.log('4');
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
         });
@@ -402,7 +389,7 @@ var angObj = angObj || {};
                 dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
                 $scope.$apply();
                 $scope.chartForStrategy=true;
-                $scope.loadCdbDataForStrategy();
+                $scope.actionListForSelectedStrategy();
             }
         });
 

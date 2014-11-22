@@ -12,11 +12,11 @@
                             title: 'Optimization Impact'
                         },
                         {
-                            href:'#',
+                            href:'cost',
                             title: 'Cost'
                         },
                         {
-                            href:'#',
+                            href:'performance',
                             title: 'Performance'
                         },
                         {
