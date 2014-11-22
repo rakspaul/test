@@ -3,7 +3,6 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
 
-
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
         $scope.selectedStrategy = domainReports.getDefaultValues();
@@ -25,7 +24,7 @@ var angObj = angObj || {};
         var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.selectedCampaign.id +'/viewability/';
 
 
-        $scope.getStrategyTacticsChart= function (param, strategiesList) {
+        $scope.tacticViewData= function (param, strategiesList) {
             viewablityService.getTacticsViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
@@ -39,7 +38,7 @@ var angObj = angObj || {};
 
 
         //Function called to show Strategy list
-        $scope.getStrategyList = function (param) {
+        $scope.strategyViewData = function (param) {
               var strategiesList = {} ;
               $scope.dataNotFound= true;
                 viewablityService.getStrategyViewData(param).then(function (result) {
@@ -50,7 +49,7 @@ var angObj = angObj || {};
                     strategiesList = result.data.data;
                     if(strategiesList) {
                         $scope.dataNotFound= false;
-                        $scope.getStrategyTacticsChart(param, strategiesList);
+                        $scope.tacticViewData(param, strategiesList);
 
                     }else{
                         $scope.dataNotFound= true;
@@ -82,10 +81,12 @@ var angObj = angObj || {};
         };
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
-        //Campaign Strategy List
+        //Campaign  List
         ////////////////////////////////////////////////////////////////////////////////////////////////////
+        $scope.campaigns = {};
         $scope.setCampaigns = function(campaigns){
-            $scope.campaingns = campaigns;
+            $scope.campaigns = campaigns;
+         //   $scope.campaignFullList = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
                 $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
@@ -116,7 +117,7 @@ var angObj = angObj || {};
                 $scope.strategylist($scope.selectedCampaign.id);
             }
         };
-        $scope.campaignFullList={};
+       // $scope.campaignFullList={};
 
         $scope.campaignlist = function () {
             if(dataTransferService.getCampaignList() === false){
@@ -138,6 +139,25 @@ var angObj = angObj || {};
             }
         };
 
+//        $scope.campaignlist = function () {
+//            if(dataTransferService.getCampaignList() === false){
+//                domainReports.getCampaignListForUser().then(function (result) {
+//                    if(result.status == 'success' ) {
+//                        $scope.campaignFullList = result.data.data;
+//                        $scope.campaigns = $scope.campaignFullList.slice(0, 1000);
+//                        dataTransferService.setCampaignList('campaignList', $scope.campaignFullList);
+//                        $scope.setCampaigns($scope.campaigns);
+//                        $scope.dataNotFound= false;
+//                    }else{
+//                        $scope.dataNotFound= true;
+//                        //console.log('NOT FOUND');
+//                    }
+//                });
+//            }else{
+//                $scope.setCampaigns(domainReports.getCampaignListForUser());
+//            }
+//        };
+
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
             viewablityService.getStrategiesForCampaign(campaignId).then(function (result) {
@@ -152,7 +172,7 @@ var angObj = angObj || {};
                     }
                     $scope.dataNotFound= false;
                     //Call the chart to load with the changed campaign id and strategyid
-                     $scope.getStrategyList({campaign_id: campaignId, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+                     $scope.strategyViewData({campaign_id: campaignId, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
                 }
                 else { //  means empty strategy list
                     $scope.dataNotFound= true;
@@ -227,13 +247,14 @@ var angObj = angObj || {};
                 '</ul>',
             link: function ($scope, element, attrs) {
 
+
+
                 //Check the status and load the function accordingly for the campaigns list
                 if(attrs.showSearchBtn === "true") {
                     $('#element').show();
 
                     $scope.filterDropDown = function(){
                         console.log("clicked filter drop down.");
-                        console.log($scope.$parent.campaignFullList);
                         var name = $scope.$parent.selectedCampaign.name.trim();
                         console.log(name);
                         if(name !== 'Loading...') {
@@ -243,15 +264,15 @@ var angObj = angObj || {};
 
                                 var searchFor = angular.lowercase(name);
                                 console.log("search for " + searchFor);
-                                for (var i in $scope.$parent.campaignFullList) {
-                                    var searchIn = angular.lowercase($scope.$parent.campaignFullList[i].name);
+                                for (var i in $scope.$parent.campaigns) {
+                                    var searchIn = angular.lowercase($scope.$parent.campaigns[i].name);
                                     //Matches if the user selects from the drop down
                                     if(searchFor === searchIn) {
                                         console.log("Found exact match by selecting from dropdown")
                                         return;
                                     } else {
                                         if ((searchIn.indexOf(searchFor) >= 0)) {
-                                            filteredOptions.push($scope.$parent.campaignFullList[i]);
+                                            filteredOptions.push($scope.$parent.campaigns[i]);
                                           //  console.log(filteredOptions);
                                         }
                                     }
@@ -260,7 +281,7 @@ var angObj = angObj || {};
                             }
                         }
                         if(name.length == 0){
-                            $scope.listColumns =  $scope.$parent.campaignFullList;
+                            $scope.listColumns =  $scope.$parent.campaigns;
                           //  $scope.campaingns = $scope.$parent.campaignFullList;
                             console.log($scope.campaingns);
                         }
@@ -271,20 +292,23 @@ var angObj = angObj || {};
                         if(oldValue === newValue) {
                             return;
                         }
+
+                        console.log("======================");
+                        console.log($scope.$parent.campaigns);
                         var name = $scope.selectedObj.name.trim();
                         if(newValue !== 'Loading...') {
                             var filteredOptions = [];
                             var showPreviousList=false;
                             if (name.length > 0) {
                                 var searchFor = angular.lowercase(name);
-                                for (var i in $scope.$parent.campaignFullList) {
-                                    var searchIn = angular.lowercase($scope.$parent.campaignFullList[i].name);
+                                for (var i in $scope.$parent.campaigns) {
+                                    var searchIn = angular.lowercase($scope.$parent.campaigns[i].name);
                                     //Matches if the user selects from the drop down
                                     if(searchFor == searchIn) {
                                         return;
                                     } else {
                                         if ((searchIn.indexOf(searchFor) >= 0)) {
-                                            filteredOptions.push($scope.$parent.campaignFullList[i]);
+                                            filteredOptions.push($scope.$parent.campaigns[i]);
 
                                         }
                                     }
@@ -293,7 +317,9 @@ var angObj = angObj || {};
                             }
                         }
                         if(name.length == 0){
-                            $scope.listColumns = $scope.$parent.campaignFullList;
+                            console.log("length is zero ");
+                            $scope.listColumns = $scope.$parent.campaigns;
+                            console.log($scope.listColumns);
                             //$scope.campaingns = $scope.$parent.campaignFullList;
                         }
                     });
