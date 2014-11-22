@@ -249,7 +249,7 @@ var angObj = angObj || {};
                 '</ul>',
             link: function ($scope, element, attrs) {
 
-
+               $scope.originalCampaingList = $scope.$parent.campaigns;
 
                 //Check the status and load the function accordingly for the campaigns list
                 if(attrs.showSearchBtn === "true") {
@@ -320,7 +320,8 @@ var angObj = angObj || {};
                         }
                         if(name.length == 0){
                             console.log("length is zero ");
-                            $scope.listColumns = $scope.$parent.campaigns;
+                            $scope.listColumns = $scope.originalCampaingList ;
+                            // $scope.$parent.campaigns;
                             console.log($scope.listColumns);
                             //$scope.campaingns = $scope.$parent.campaignFullList;
                         }
