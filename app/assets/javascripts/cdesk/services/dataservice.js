@@ -155,7 +155,7 @@
       getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate) {
         filterStartDate='2014-01-01';
         filterEndDate='2014-08-10';
-        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=405026,405023&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
           console.log('cost ...' + url);
           return this.fetch(url);
       },

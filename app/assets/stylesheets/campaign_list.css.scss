@@ -2321,7 +2321,6 @@ button, i, input[type="submit"] {
       .selected_graph {
         width: 100px;
         height: 100% ;
-        background: #6abc52;
         border-radius: 4px 0 0 4px ;
         -moz-border-radius: 4px 0 0 4px ;
         -webkit-border-radius: 4px 0 0 4px ;
@@ -2465,7 +2464,7 @@ button, i, input[type="submit"] {
       }
     }
   }
-  .metric_graph.green {
+  .metric_graph.blue {
     .selected_graph {
         background: #6abc52;
       }
@@ -2553,10 +2552,19 @@ button, i, input[type="submit"] {
         width: 140px;
         color: #313233;
         font-family: "Avenir";
-        padding: 10px 0;
+       
         li {
-          padding: 4px 10px;
+          
           cursor: pointer;
+          a {
+            padding: 4px 10px;
+            background: rgba(0, 0, 0, 0);
+            height: 100%;
+            width: 100%;
+          }
+        }
+        li.active a {
+          color: #0978C9 ;
         }
         li:hover {
           background: #F0FCF4 ;

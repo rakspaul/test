@@ -43,8 +43,10 @@
 //= require cdesk/controllers/performance_controller
 //= require cdesk/directives/campaign
 //= require cdesk/directives/campaigncard
+//= require cdesk/directives/campaigncostcard
 //= require cdesk/directives/campaignsort
 //= require cdesk/directives/campaignlistsort
+//= require cdesk/directives/campaigncostsort
 //= require cdesk/directives/campaigndashboard
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist

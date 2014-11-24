@@ -8,7 +8,11 @@
       $scope.campaigns = new Campaigns();
       
       $scope.campaigns.fetchDashboardData();
-      
+      console.log('roy---'); 
+      $scope.$watch('$scope.campaigns.costList', function(){
+console.log('Watching $scope.campaigns.costList ');
+        console.log($scope.campaigns.costList);
+      });
       $scope.$on("fromCampaignDetails", function(event, args) {
         $scope.loadMoreStrategies(args.campaignId);
       });
@@ -62,7 +66,8 @@
 
             this.cdbDataMap = {}
             this.campaignList = [];
-            this.costList = [];
+            this.costList = {};
+            this.costIds = '';
             this.busy = false;
             this.timePeriod = this.selectedTimePeriod.key;
             this.marketerName;
@@ -162,10 +167,17 @@
                         var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
                         angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod, self.periodStartDate, self.periodEndDate), function(campaign) {
                             this.push(campaign);
+                            self.costIds += campaign.orderId + ',';
                             dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
                             })
                         }, self.campaignList);
+                        self.costIds = self.costIds.substring(0, self.costIds.length-1);
+                        console.log(self.costIds);
+                        if(self.costIds !== '') {
+                            Campaigns.prototype.fetchCostData.call(self);   
+                            self.costIds='';                  
+                        }
                     }
                 }, function(result) {
                     //failure
@@ -207,21 +219,15 @@
                     }
                 });
 
-                Campaigns.prototype.fetchCostData.call(this);
             },
 
              Campaigns.prototype.fetchCostData = function() {
-                console.log('fetchCampaignscost data');
-                dataService.getCampaignCostData(1, this.periodStartDate, this.periodEndDate).then(function(result) {
+                var self = this;
+                dataService.getCampaignCostData(this.costIds, this.periodStartDate, this.periodEndDate).then(function(result) {
                     if(result.status == "success" && !angular.isString(result.data)){
-                        console.log('yay, cost!');
-                        console.log(result.data);
-                        self.costList = modelTransformer.transform(result.data.data, CampaignCost);
-                        console.log(costList[405023].getResearchCost());
-                       /* angular.forEach(result.data.data,function(cost){
-                            console.log(cost);
-                        }, self.costList);*/
-
+                        angular.forEach(result.data.data, function(cost) {
+                            self.costList[cost.id]= modelTransformer.transform(cost, CampaignCost);
+                        });
                     }
                 });
 
