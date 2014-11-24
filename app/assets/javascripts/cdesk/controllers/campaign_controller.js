@@ -8,11 +8,7 @@
       $scope.campaigns = new Campaigns();
       
       $scope.campaigns.fetchDashboardData();
-      console.log('roy---'); 
-      $scope.$watch('$scope.campaigns.costList', function(){
-console.log('Watching $scope.campaigns.costList ');
-        console.log($scope.campaigns.costList);
-      });
+
       $scope.$on("fromCampaignDetails", function(event, args) {
         $scope.loadMoreStrategies(args.campaignId);
       });
@@ -68,6 +64,11 @@ console.log('Watching $scope.campaigns.costList ');
             this.campaignList = [];
             this.costList = {};
             this.costIds = '';
+            this.selectedCostType = 'cpa';
+            this.costDate = {
+                startDate : undefined,
+                endDate : undefined
+            };
             this.busy = false;
             this.timePeriod = this.selectedTimePeriod.key;
             this.marketerName;
@@ -168,12 +169,13 @@ console.log('Watching $scope.campaigns.costList ');
                         angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod, self.periodStartDate, self.periodEndDate), function(campaign) {
                             this.push(campaign);
                             self.costIds += campaign.orderId + ',';
+                            Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
                             dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
                             })
                         }, self.campaignList);
                         self.costIds = self.costIds.substring(0, self.costIds.length-1);
-                        console.log(self.costIds);
+
                         if(self.costIds !== '') {
                             Campaigns.prototype.fetchCostData.call(self);   
                             self.costIds='';                  
@@ -186,7 +188,27 @@ console.log('Watching $scope.campaigns.costList ');
                 });
 
             },
+            Campaigns.prototype.compareCostDates = function(startDate, endDate) {
+                if(this.costDate.startDate === undefined) {
+                    this.costDate.startDate = new Date(startDate);
+                } else {
+                    var smallestDate = new Date(this.costDate.startDate);   
+                    var tempDate = new Date(startDate);
+                    if(tempDate < smallestDate) {
+                        this.costDate.startDate  = tempDate ; 
+                    }
+                }
+                if(this.costDate.endDate === undefined) {
+                    this.costDate.endDate = new Date(endDate);
+                } else {
+                    var highestDate = new Date(this.costDate.endDate);   
+                    var tempDate = new Date(endDate);
+                    if(highestDate < tempDate) {
+                        this.costDate.endDate  = tempDate ; 
+                    }
 
+                }
+            },
             Campaigns.prototype.fetchDashboardData = function() {
                 var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
                     self = this;
@@ -223,15 +245,13 @@ console.log('Watching $scope.campaigns.costList ');
 
              Campaigns.prototype.fetchCostData = function() {
                 var self = this;
-                dataService.getCampaignCostData(this.costIds, this.periodStartDate, this.periodEndDate).then(function(result) {
+                dataService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD")).then(function(result) {
                     if(result.status == "success" && !angular.isString(result.data)){
                         angular.forEach(result.data.data, function(cost) {
                             self.costList[cost.id]= modelTransformer.transform(cost, CampaignCost);
                         });
                     }
                 });
-
-
             },
 
             Campaigns.prototype.dashboardFilter = function(type, state) {
@@ -375,7 +395,9 @@ console.log('Watching $scope.campaigns.costList ');
                 this.campaignList = [];
                 Campaigns.prototype.fetchCampaigns.call(this);
             },
-
+            Campaigns.prototype.filterCostType = function(type) {
+                this.selectedCostType = type;
+            },
             Campaigns.prototype.filterByTimePeriod = function(timePeriod) {
                 this.selectedTimePeriod = timePeriod;
                 this.displayTimePeriod = angular.uppercase(timePeriod.display);

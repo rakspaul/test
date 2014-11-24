@@ -153,10 +153,8 @@
       },
 
       getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate) {
-        filterStartDate='2014-01-01';
-        filterEndDate='2014-08-10';
         var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
-          console.log('cost ...' + url);
+          //console.log('getting cost data : ' + url);
           return this.fetch(url);
       },
 
