@@ -1969,13 +1969,13 @@ button, i, input[type="submit"] {
     }
   }
   .campaign_list_header_holder {
-    background: #f8fffa ;
+    background: #fff ;
     border: solid 1px #d2dee7 ;
     color: #333 ;
     text-transform: uppercase;
     height: 60px;
     padding-top: 20px;
-    margin: 10px 0px 0px;
+    margin: 0px ;
     .each_header_title {
       float: left;
       min-width: 110px;
@@ -2294,14 +2294,14 @@ button, i, input[type="submit"] {
         }
       }
       .other_details {
-        width: 85% ;
+        width: 97% ;
       }
       .each_cost_details {
         float: left;
       }
       .cost_metric_graph {
         float: right;
-        width: 200px ;
+        width: 340px ;
       }
     }
     
@@ -2445,7 +2445,7 @@ button, i, input[type="submit"] {
           background: #c1ccd4 ;
           color: #fff ;
           font-size: 12px ;
-          font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+          font-family: "TradeGothicLTStd";
           padding: 2px 10px;
           border-radius: 4px;
           -moz-border-radius: 4px;
@@ -2550,12 +2550,13 @@ button, i, input[type="submit"] {
         margin: 0;
         text-align: left;
         text-transform: none;
-        width: 135px;
+        width: 140px;
         color: #313233;
         font-family: "Avenir";
         padding: 10px 0;
         li {
           padding: 4px 10px;
+          cursor: pointer;
         }
         li:hover {
           background: #F0FCF4 ;
@@ -2568,6 +2569,20 @@ button, i, input[type="submit"] {
       font-size: 14px;
       font-family: "Avenir";
       color: #313233;
+    }
+    .arrrow_img {
+      background: url("/assets/cdesk/dropdown_down.png") no-repeat center center;
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      margin-left: 6px;
+    }
+    .second_col .dropdown_ul {
+      min-width: 75px;
+      left: 4px;
+      li:hover {
+        background : #f0fcf4;;
+      }
     }
   }
   .cost_col_header_tabs_holder {

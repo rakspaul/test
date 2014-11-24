@@ -57,12 +57,12 @@
         <div class="cost_col_header_tabs_holder">
             <div class="clearfix cost_tabs_margin">
                 <div class="clearfix cost_tabs_holder">
-                    <div class="each_tab">
+                    <div class="each_tab active" id="performance_tab">
                         <div class="each_tab_text">
                             Performance
                         </div>
                     </div>
-                    <div class="each_tab cost_tab active">
+                    <div class="each_tab cost_tab" id="cost_tab">
                         <div class="each_tab_text">
                             Cost Breakdown
                         </div>
@@ -73,10 +73,25 @@
                 </div>
             </div>
             
-            <!--new sort header  cost-->
-            <div class="clearfix cost_col_container campaign_cost_header_holder">
+            <!--cost filter -->
+            <div class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  style="display:none" id="cost_filter_header">
                 <div class="each_cost_col first_col active">Imps.</div>
-                <div class="each_cost_col second_col">CPA<span class="sortable"></span></div>
+                <div class="each_cost_col second_col"><!-- CPA<span class="sortable"></span> -->
+                    <div class="dropdown">
+                        <span class="dropdown_ul_text" data-toggle="dropdown">
+                            <span class="dd_txt ng-binding">CPA</span>
+                            <span class="arrrow_img"></span>
+                        </span>
+
+                          <ul class="dropdown_ul dropdown-menu">
+                              <li>CPA</li>
+                              <li>CPC</li>
+                              <li>CPM</li>
+                              <li>CTR</li>
+                          </ul>
+                    </div>
+
+                </div>
                 <div class="each_cost_col three_col">Inventory</div>
                 <div class="each_cost_col four_col">Data</div>
                 <div class="each_cost_col five_col">Ad Serving</div>
@@ -95,17 +110,17 @@
                             </span>
                         </span>
                         <ul class="dropdown-menu">
-                            <li>Campaign Name</li>
-                            <li>Brand</li>
-                            <li>Flight dates</li>
+                            <li>Campaign Name<span class="sortable"></span></li>
+                            <li>Brand<span class="sortable"></span></li>
+                            <li>Flight dates<span class="sortable"></span></li>
                         </ul>
                     </div>
                    
                 </div>  
-            </div><!--cost header ends-->
+            </div><!--cost  filter ends-->
 
             <!--filter (campaign sort filter) partial view-->
-            <div campaign-list-sort campaigns="campaigns" style="display:none"></div>
+            <div campaign-list-sort campaigns="campaigns" id="performance_filter_header" class="filter_header_block" ></div>
             <!--filter (campaign sort filter) partial view ends-->
         
         </div>
@@ -115,8 +130,8 @@
 
     <div class="scrollable_container">
 
-        <!--cost -->
-        <div class="total_campaign_cost_holder" style="display:none">
+         <!-- COST DIV -->
+        <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
                 <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.campaignList">
                 <div class="clearfix" >
@@ -129,14 +144,15 @@
                             <div class="each_cost_details">
                             
                                 <div class="main_heading">
-                                    Fall 2014 Toyota Camry New Generation Launch Campaign Fall 2014 Toyota
+                                    {{campaign.campaignTitle}}
                                 </div>
                                 <div class="heading">
                                     <span>
-                                        Camry Automotive
+                                        {{campaign.brandName}}
                                     </span>
                                     <span class="dates_details">
-                                        28 Nov 2014 - 30 Dec 2014 (10 Days Left)
+                                        {{campaign.startDate | date :'d MMM y' }} - {{campaign.endDate | date :'d MMM y' }} 
+                                        (10 Days Left)
                                     </span>
                                 </div>
                             </div>
@@ -185,11 +201,14 @@
             </div>
                 
             </div>
+            <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
         </div>
 
-        <!--cost ends-->
+         <!-- END OF COST DIV -->
 
-        <div class="total_campaign_list_holder" >
+
+        <!-- PERFORMANCE DIV -->
+        <div class="each_section_block total_campaign_list_holder"  id="performance_block" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
                 <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                         <!-- campaign strategy card -->
@@ -199,6 +218,7 @@
             </div>
             <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
         </div>
+         <!-- END OF PERFORMANCE DIV -->
     </div><!--end of scrollable container-->
 </div>
 
@@ -207,9 +227,19 @@
         $( "#cdbMenu" ).click(function() {
             $( "#cdbDropdown" ).toggle();
          });
+        $(".each_tab").click( function() {
+            var tab_id = $(this).attr("id").split("_tab") ;
+            $(".active").removeClass("active") ;
+            $(this).addClass("active") ;
+            $(".each_section_block , .filter_header_block").hide() ;
+            $( "#" + tab_id[0] + "_block , #" + tab_id[0] + "_filter_header"  ).show() ;
+        }) ;
         $("#brandsDropdownDiv").click(function() {
             $("#brandsList").toggle();
         });
+        $(".dropdown_ul li").click( function() {
+            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+        }) ;
         $( document ).click(function(event) {
             if($("#cdbDropdown").is(':visible')) {
                 $("#cdbDropdown").hide();
