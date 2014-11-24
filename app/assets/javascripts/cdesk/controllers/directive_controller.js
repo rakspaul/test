@@ -46,7 +46,6 @@
 
         //This function is used to call the campaign list from api, localstorage adapted
         $scope.campaignlist = function () {
-            console.log("directive campaign list is called");
             if (dataTransferService.getCampaignList() === false) {
                 domainReports.getCampaignListForUser().then(function (result) {
                     if (result.status == 'success') {
@@ -64,8 +63,7 @@
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
-            console.log(id);
-            console.log(txt);
+
             $scope.$parent.selectedCampaign.id = id;
             $scope.$parent.selectedCampaign.name = txt;
             $scope.$parent.selected_filters.kpi_type = $(e.target).attr('_kpi');

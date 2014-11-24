@@ -3,6 +3,9 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('InventoryController', function ($scope, $http, apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService) {
 
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+        
         //Default Values
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
@@ -117,38 +120,7 @@ var angObj = angObj || {};
                 $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
             }
         };
-        /*Strategy List Functions*/
 
-        /* $scope.strategylist = function (campaignId) {
-         $scope.selectedStrategy.name = "Loading...";
-         inventoryService.getStrategiesForCampaign(campaignId).then(function (result) {
-         $scope.strategies = result.data.data;
-         if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-         //If a different campaign is selected, then load the first strategy data
-         if(dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
-         $scope.selectedStrategy.id = $scope.strategies[0].id;
-         $scope.selectedStrategy.name = $scope.strategies[0].name;
-         }else {
-         $scope.selectedStrategy.id = dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
-         $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') : $scope.strategies[0].name;
-         }
-         $scope.strategyFound=true;
-         $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-         $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter});
-
-         }
-         else { //  means empty strategy list
-         $scope.selectedStrategy.id = -1;
-         $scope.selectedStrategy.name = "No Strategy Found";
-         $scope.strategyFound = false;
-         $scope.inventoryChart = false;
-
-         }
-         });
-
-         };*/
-
-        /*Strategy and tactics chart and table data related API calls*/
 
         //This function is called for tactics Table data
         $scope.getTacticList = function (param) {
@@ -346,7 +318,6 @@ var angObj = angObj || {};
             }
         });
 
-        //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+
     });
 }());
