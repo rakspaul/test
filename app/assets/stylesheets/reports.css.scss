@@ -398,7 +398,7 @@
 	.download_report {
 		background: url(asset-path("cdesk/download_report_btn_normal.png")) no-repeat center center  ;
 		height: 38px;
-		width: 170px;
+        width: 191px;
 		/*border: solid 1px #359eea ;
 		color : #359eea ;*/
 		/*font-size: 10px ;
@@ -408,9 +408,13 @@
 		-webkit-border-radius: 5px ;
 		padding: 10px 10px 10px 30px;
 		margin: 0px 0px 0px 50px;*/
+      .dropdown {
+        width: 100% ;
+        height: 100% ;
+      }
 		.dropdown_ul_text {
-			height: 35px;
-			width: 170px;
+            width: 100% ;
+            height: 100% ;
 			display: block;
 		}
 		.dropdown_ul {
@@ -424,6 +428,8 @@
       display : block ;
       text-decoration: none;
       padding:0px;
+      height: 100%;
+      width: 100%;
     }
 	.dropdown_type3 {
 		margin: 8px 40px 0 0;
@@ -644,6 +650,10 @@
 			}
 		}
 	}
+}
+.no_data_found {
+  text-align: center;
+  margin-top: 50px ;
 }
 .viewability_details_outer_container {
 	margin-top: 50px ;

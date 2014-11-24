@@ -121,7 +121,7 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success' ) {
-                        var campaigns = result.data.data.slice(0, 1000);
+                        var campaigns = result.data.data.slice(0,1000);
                         dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaignStrategyList(campaigns);
                         $scope.dataNotFound= false;
@@ -191,20 +191,12 @@ var angObj = angObj || {};
 
         });
 
-        //Function called when the user clicks on the strategy dropdown
-        $('#strategies_list').click(function (e) {
+        //Function is called from startegylist directive
+        $scope.callBackStrategyChange = function() {
+            //Call the chart to load with the changed campaign id and strategyid
+            $scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+        };
 
-            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
-                var id = $(e.target).attr('value'), txt = $(e.target).text();
-                $scope.selectedStrategy.id =id;
-                $scope.selectedStrategy.name = txt;
-              //  console.log( $scope.selectedStrategy.id + " is selected strategy");
-                dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
-                $scope.$apply();
-                //Call the chart to load with the changed campaign id and strategyid
-                $scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-            }
-        });
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');

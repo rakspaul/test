@@ -8,15 +8,15 @@
                 return {
                     'tabs' : [
                         {
-                            href:'#',
+                            href:'optimization',
                             title: 'Optimization Impact'
                         },
                         {
-                            href:'#',
+                            href:'cost',
                             title: 'Cost'
                         },
                         {
-                            href:'#',
+                            href:'performance',
                             title: 'Performance'
                         },
                         {

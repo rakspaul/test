@@ -3,6 +3,8 @@
     'use strict';
 
     angObj.controller('CampaignsController', function($scope, Campaigns, utils, $location, _) {
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
       $scope.campaigns = new Campaigns();
       
       $scope.campaigns.fetchDashboardData();
@@ -533,6 +535,5 @@
 
         return Campaigns;
     });
-    //Hot fix to show the campaign tab selected
-    $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+
 }());
