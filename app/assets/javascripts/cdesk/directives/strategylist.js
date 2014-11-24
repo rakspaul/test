@@ -23,10 +23,10 @@
                  element.find('#strategies_list').bind('click', function(e) {
                     if (domainReports.checkStatus($scope.$parent.selectedCampaign.name, $scope.$parent.selectedStrategy.name)) {
                         var id = $(e.target).attr('value'), txt = $(e.target).text();
-                        console.log('strategyList Directive : '+id+' Value : '+txt);
+                        //console.log('strategyList Directive : '+id+' Value : '+txt);
                         $scope.$parent.selectedStrategy.id =id;
                         $scope.$parent.selectedStrategy.name = txt;
-                        console.log('strategyList Directive : '+$scope.$parent.selectedStrategy.id+' Value : '+$scope.$parent.selectedStrategy.name);
+                       // console.log('strategyList Directive : '+$scope.$parent.selectedStrategy.id+' Value : '+$scope.$parent.selectedStrategy.name);
                         //  console.log( $scope.selectedStrategy.id + " is selected strategy");
                         dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
                         $scope.$apply();

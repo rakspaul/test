@@ -1,270 +1,285 @@
 .total_reports_page {
-  margin: 0px auto 40px ;
+  margin: 0px auto 40px;
   width: 1056px;
   .back_link {
-	  color: #177ac6;
-	  font-family: "TradeGothicLTStd-BdCn20";
-	  font-size: 16px;
-	  margin: 0px 0 20px;
-	  text-transform: uppercase;
-	  background: url(asset-path("assets/cdesk/icn_back.png")) no-repeat left top ;
-	  padding: 1px 0 0 14px ;
-   }
-   .load_more_rows {
-   	display: none;
-   }
+    color: #177ac6;
+    font-family: "TradeGothicLTStd-BdCn20";
+    font-size: 16px;
+    margin: 0px 0 20px;
+    text-transform: uppercase;
+    background: url(asset-path("assets/cdesk/icn_back.png")) no-repeat left top;
+    padding: 1px 0 0 14px;
+  }
+  .load_more_rows {
+    display: none;
+  }
   .reports_top_heading {
-	  color: #f9b537;
-	  font-size: 20pt;
-	  font-family: "TradeGothicLTStd-BdCn20";
-	  margin-bottom: 20px;
-	  margin-top: 10px;
-   } 
+    color: #f9b537;
+    font-size: 20pt;
+    font-family: "TradeGothicLTStd-BdCn20";
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
   .reports_graph_top_section {
-	  min-height: 240px ;
-	  width: 1056px ;
-	  margin: 20px auto ;
-	  border-radius: 5px ;
-	  -moz-border-radius: 5px ;
-	  -webkit-border-radius: 5px ;
-	  color: #999 ;
-	  font-size: 14px ;
-	  padding: 22px 36px ;
-	  background: #fff ;
-	  box-shadow: 0 1px 1px #aaaaaa;
-	  .rep_graph_holder {
-		  margin: 20px ;
-		  min-height: 200px ;
-	  }
-	  .rep_graph_heading .graph_rep_stl{
-		  font-family: TradeGothicLTStd;
-		  color: #f9b537;
-		  font-size: 16px;
-		  font-weight: 700;
-	  }
-	  
-	  .load-more {
-		    text-align: center;
-		    text-indent: -99999;
-		    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-		    margin: 100px auto;
-		    display: block;
-	   }
-	   .no-chart {
-		  text-align: center ;
-		  margin-top : 100px ;
-		  display: block;
-	    }
-	    .col-md-12 {
-		  padding-left : 0px ; 
-		}
-
+    min-height: 240px;
+    width: 1056px;
+    margin: 20px auto;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    color: #999;
+    font-size: 14px;
+    padding: 22px 36px;
+    background: #fff;
+    box-shadow: 0 1px 1px #aaaaaa;
+    .rep_graph_holder {
+      margin: 20px;
+      min-height: 200px;
     }
-   .row {
-	  margin: 0px ;
-	}
-	.reports_tabs {
-		margin-bottom: 20px ;
-		span {
-		  display: block;
-		  float: left;
-		  text-transform: uppercase;
-		  margin-right: 52px ;
-		  font-family: "TradeGothicLTStd-BdCn20";
-		  color: #999999;
-		  font-size: 16px;
-		  cursor: pointer;
-		}
-		span.report_tab_sel {
-		  color: #177ac6;
-		}
-	}
-}
+    .rep_graph_heading .graph_rep_stl {
+      font-family: TradeGothicLTStd;
+      color: #f9b537;
+      font-size: 16px;
+      font-weight: 700;
+    }
 
+    .load-more {
+      text-align: center;
+      text-indent: -99999;
+      background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+      margin: 100px auto;
+      display: block;
+    }
+    .no-chart {
+      text-align: center;
+      margin-top: 100px;
+      display: block;
+    }
+    .col-md-12 {
+      padding-left: 0px;
+    }
+
+  }
+  .row {
+    margin: 0px;
+  }
+  .reports_tabs {
+    margin-bottom: 20px;
+    span {
+      display: block;
+      float: left;
+      text-transform: uppercase;
+      margin-right: 52px;
+      font-family: "TradeGothicLTStd-BdCn20";
+      color: #999999;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    span.report_tab_sel {
+      color: #177ac6;
+    }
+  }
+}
 
 .reports_section_details_more .each_reports_row:nth-last-child(2) {
-  border-bottom : 0px ;
+  border-bottom: 0px;
 }
+
 .one_section_reports_holder {
-	.one_section_report_heading {
-	  color: #a9d479;
-	  cursor: pointer;
-	  font-family: TradeGothicLTStd;
-	  font-size: 16px;
-	  font-weight: 700;
-	  margin: 30px 0 20px 0;
-	  padding-top: 20px;
-	  .green_color {
-		  color: #a9d479;
-		}
-	}
-	.each_reports_row {
-	  padding: 20px 16px ;
-	}
-	.reports_section_details_container {
-	  position: relative;
-	  background: #fff ;
-	  min-height: 200px ;
-	  border: solid 1px #e5ecef ;
-	  margin-bottom: 20px ;
-	  border-left: solid 5px #a9d479 ;
-	  max-height: 431px;
-	  overflow-y: auto;
-	  .each_reports_row_details {
-		  font-size: 14px ;
-		  color: #4a4a4a ;
-		  font-family: "Avenir" ;
-		  border-bottom: solid 1px #e5ecef;
-		}
-	}
+  .one_section_report_heading {
+    color: #a9d479;
+    cursor: pointer;
+    font-family: TradeGothicLTStd;
+    font-size: 16px;
+    font-weight: 700;
+    margin: 30px 0 20px 0;
+    padding-top: 20px;
+    .green_color {
+      color: #a9d479;
+    }
+  }
+  .each_reports_row {
+    padding: 20px 16px;
+  }
+  .reports_section_details_container {
+    position: relative;
+    background: #fff;
+    min-height: 200px;
+    border: solid 1px #e5ecef;
+    margin-bottom: 20px;
+    border-left: solid 5px #a9d479;
+    max-height: 431px;
+    overflow-y: auto;
+    .each_reports_row_details {
+      font-size: 14px;
+      color: #4a4a4a;
+      font-family: "Avenir";
+      border-bottom: solid 1px #e5ecef;
+    }
+  }
 }
 
-
-  .each_rep_col_holder {
-		.each_rep_col {
-		  float: left;
-		  width: 150px;
-		  text-align: center;
-		  overflow: hidden;
-		  height: 20px;
-		  white-space: nowrap;
-		  text-overflow: ellipsis;
-		 }
-		 .first_col {
-		  width: 230px ;
-		  text-align: left;
-		 }
-		 .each_rep_col .arrow_img {
-		  display: inline-block;
-		  height: 11px;
-		  width: 8px;
-		 }
-		 .each_rep_col.negative_text  {
-		  color: #f74d51 ;
-		 }
-	}
+.each_rep_col_holder {
+  .each_rep_col {
+    float: left;
+    width: 150px;
+    text-align: center;
+    overflow: hidden;
+    height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .first_col {
+    width: 230px;
+    text-align: left;
+  }
+  .each_rep_col .arrow_img {
+    display: inline-block;
+    height: 11px;
+    width: 8px;
+  }
+  .each_rep_col.negative_text {
+    color: #f74d51;
+  }
+}
 
 .each_report_text_row {
-	 margin-top: 5px ;
-	.each_report_text_col {
-	  float: left;
-	  color : #6F6E6E ;
-	}
-	.each_report_text_col.report_time {
-	  color: #777 ;
-	  font-weight: bold ;
-	  margin-right : 5px ;
-	}
-	.report_text {
-	  font-style: italic;
-	  margin-left : 20px ;
-	  max-width: 70%;
-	}
-	.report_person_name {
-		max-width: 20%;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-	}
+  margin-top: 5px;
+  .each_report_text_col {
+    float: left;
+    color: #6F6E6E;
+  }
+  .each_report_text_col.report_time {
+    color: #777;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  .report_text {
+    font-style: italic;
+    margin-left: 20px;
+    max-width: 70%;
+  }
+  .report_person_name {
+    max-width: 20%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
 }
+
 .type2_section_reports {
-	.one_section_report_heading {
-	 color : #f9b537 ;
-	}
-	.reports_section_details_container {
- 	 border-left: solid 5px #f9b537 ;
-	}
+  .one_section_report_heading {
+    color: #f9b537;
+  }
+  .reports_section_details_container {
+    border-left: solid 5px #f9b537;
+  }
 }
+
 .each_reports_row_heading {
-  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2" ;
-  color: #4a4a4a ;
-  font-size: 12px ;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  color: #4a4a4a;
+  font-size: 12px;
   text-transform: uppercase;
-  padding : 10px 0 0 0 ;
+  padding: 10px 0 0 0;
   .each_rep_col_holder {
-	  border-bottom: solid 2px #e5ecef;
-	  padding: 0px 16px 8px ;
-	  border-left : solid 5px transparent ;
-	}
+    border-bottom: solid 2px #e5ecef;
+    padding: 0px 16px 8px;
+    border-left: solid 5px transparent;
+  }
 }
+
 .type3_section_reports .one_section_report_heading {
-  color : #177ac6 ;
+  color: #177ac6;
 }
+
 .one_section_report_heading {
- .not_optimized_style {
-	  color: #777 ;
-	  font-size: 12px ;
-	  font-family: "Avenir" ;
-	}
+  .not_optimized_style {
+    color: #777;
+    font-size: 12px;
+    font-family: "Avenir";
+  }
 }
 
 .campaigns_sel_list_header {
-  margin-left : 20px ;
+  margin-left: 20px;
 }
+
 #detailedPageNavbar.navbar .navbar-collapse.collapse .nav.navbar-nav li.header_tab_highlight a {
-  color : #fff ;
+  color: #fff;
 }
+
 .nice_dd select#campaign_drop_down {
   background-position: 380px 5px;
 }
+
 .nice_dd select#campaign_drop_down {
-  float : left ;
+  float: left;
 
 }
+
 .nice_dd select {
-  padding-top : 3px ;
+  padding-top: 3px;
 }
+
 .reports_tr td:first-child {
-  min-width : 330px ;
+  min-width: 330px;
 }
+
 .reports_th table td {
-  border-right : solid 1px #e5ecef ;
+  border-right: solid 1px #e5ecef;
 }
+
 .endOfRow {
   clear: both;
 }
+
 .each_reports_row {
-	.positive_td {
-	  color: #78bb68;
-	  padding-left: 0px;
-	}
-	.negative_td {
-	  color: #f74d51;
-	  padding-left: 0px;
-	}
-	span.positive_sign , span.negative_sign {
-		display: none;
-	}
-	.negative_td span.negative_sign , .positive_td span.positive_sign {
-		display: inline-block;
-	}
+  .positive_td {
+    color: #78bb68;
+    padding-left: 0px;
+  }
+  .negative_td {
+    color: #f74d51;
+    padding-left: 0px;
+  }
+  span.positive_sign, span.negative_sign {
+    display: none;
+  }
+  .negative_td span.negative_sign, .positive_td span.positive_sign {
+    display: inline-block;
+  }
 }
+
 .each_rep_col_holder {
-	.each_rep_col.negative_td .arrow_img {
-	  background: url(asset-path("assets/cdesk/red_arrow.png")) no-repeat right bottom ;
-	}
-	.each_rep_col.positive_td .arrow_img  {
-	  background: url(asset-path("assets/cdesk/green_arrow.png")) no-repeat ;
-	}
+  .each_rep_col.negative_td .arrow_img {
+    background: url(asset-path("assets/cdesk/red_arrow.png")) no-repeat right bottom;
+  }
+  .each_rep_col.positive_td .arrow_img {
+    background: url(asset-path("assets/cdesk/green_arrow.png")) no-repeat;
+  }
 }
+
 .reports_section_details_container .action_selected {
   background-color: rgba(169, 212, 121, 0.3);
 }
+
 .graph_icon {
-  float:right;
+  float: right;
   width: 20px;
   height: 20px;
 }
 
 .nice_dd {
   display: none;
-/*  float: left;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  -webkit-border-radius: 4px;
-  background-color: #f9b537;
-  font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */
+  /*  float: left;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background-color: #f9b537;
+    font-family: TradeGothicLTStd; color: #ffffff;
+    font-size: 14px; /* Approximation due to font substitution */
+  /* Approximation due to font substitution */
   width: 100%;
   margin-bottom: 20px;
   padding: 10px;
@@ -283,8 +298,11 @@
   border: 0px;
   font-family: Avenir;
   color: #fff;
-  font-family: TradeGothicLTStd; color: #ffffff;
-  font-size: 14px; /* Approximation due to font substitution */  /* Approximation due to font substitution */ text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
+  font-family: TradeGothicLTStd;
+  color: #ffffff;
+  font-size: 14px; /* Approximation due to font substitution */
+  /* Approximation due to font substitution */
+  text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.15);
   height: 25px;
   max-width: 138px;
   box-shadow: 0px 0px 0px transparent;
@@ -294,6 +312,7 @@
   background-repeat: no-repeat;
   background-position: 130px 5px;
 }
+
 .nice_dd select#campaign_drop_down {
 
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.075);
@@ -301,14 +320,17 @@
   width: 400px;
   max-width: 400px;
 }
+
 .nice_dd select:focus {
-  outline: 0px ;
-  border : 0px ;
+  outline: 0px;
+  border: 0px;
   box-shadow: 0px 0px 0px transparent;
 }
+
 .nice_dd select option {
-  color : #666 ;
+  color: #666;
 }
+
 .campaigns_sel_list_header {
   border-left: solid 1px #e5ecef;
   border-right: solid 1px #e5ecef;
@@ -325,35 +347,37 @@
   background-repeat: no-repeat;
   background-position: 130px 5px;
 }
+
 .reports_header_tabs_holder {
-	font-family: "Avenir";
-	font-size: 14px;
-	color: #434648;
-	height: 40px;
-	border-bottom: solid 1px #e5ecef;
-	padding-top: 10px;
-	margin-bottom: 40px;
-	span {
-		display: inline-block;
-		margin-right: 22px ;
-		padding-bottom: 8px;
-		border-bottom: solid 2px transparent ;
-		cursor: default;
-        a {
-          text-decoration: none;
-          color: #434648;
-        }
-	}
-	span.active_tab {
-		border-bottom: solid 2px #4eabef ;
-        a {
-          text-decoration: none;
-        }
-	}
+  font-family: "Avenir";
+  font-size: 14px;
+  color: #434648;
+  height: 40px;
+  border-bottom: solid 1px #e5ecef;
+  padding-top: 10px;
+  margin-bottom: 40px;
+  span {
+    display: inline-block;
+    margin-right: 22px;
+    padding-bottom: 8px;
+    border-bottom: solid 2px transparent;
+    cursor: default;
+    a {
+      text-decoration: none;
+      color: #434648;
+    }
+  }
+  span.active_tab {
+    border-bottom: solid 2px #4eabef;
+    a {
+      text-decoration: none;
+    }
+  }
 }
+
 .reports_main_page_holder {
-	margin: 0px auto 40px;
-	width: 1056px;
+  margin: 0px auto 40px;
+  width: 1056px;
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -371,481 +395,487 @@
     position: absolute;
     top: 0;
     left: 0;
-    background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174 , 0.8);
+    background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174, 0.8);
     z-index: 1;
   }
 }
+
 .inventory_reports_container {
-	font-family: "Avenir";
-	.dropdown_ul_text {
-		cursor: pointer;
-		.arrrow_img {
-			background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center  ;
-			display: inline-block;
-			height: 10px;
-			width: 10px;
-			margin-left: 6px;
-		}
-	}
-	.dropdown-menu li {
-		cursor: default;
-		padding: 5px 10px;
-		line-height: 15px;
-	}
-	.dropdown-menu li:hover {
-		background: #ebebeb ;
-	}
-	.download_report {
-		background: url(asset-path("cdesk/download_report_btn_normal.png")) no-repeat center center  ;
-		height: 38px;
-        width: 191px;
-		/*border: solid 1px #359eea ;
-		color : #359eea ;*/
-		/*font-size: 10px ;
-		text-transform: uppercase;
-		border-radius: 5px ;
-		-moz-border-radius: 5px ;
-		-webkit-border-radius: 5px ;
-		padding: 10px 10px 10px 30px;
-		margin: 0px 0px 0px 50px;*/
-      .dropdown {
-        width: 100% ;
-        height: 100% ;
-      }
-		.dropdown_ul_text {
-            width: 100% ;
-            height: 100% ;
-			display: block;
-		}
-		.dropdown_ul {
-			width: 170px ;
-		}
-	}
-	.download_report:hover {
-		background: url(asset-path("cdesk/download_report_btn_hover.png")) no-repeat center center  ;
-	}
-    .download_anchor {
-      display : block ;
-      text-decoration: none;
-      padding:0px;
-      height: 100%;
+  font-family: "Avenir";
+  .dropdown_ul_text {
+    cursor: pointer;
+    .arrrow_img {
+      background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      margin-left: 6px;
+    }
+  }
+  .dropdown-menu li {
+    cursor: default;
+    padding: 5px 10px;
+    line-height: 15px;
+  }
+  .dropdown-menu li:hover {
+    background: #ebebeb;
+  }
+  .download_report {
+    background: url(asset-path("cdesk/download_report_btn_normal.png")) no-repeat center center;
+    height: 38px;
+    width: 191px;
+    /*border: solid 1px #359eea ;
+    color : #359eea ;*/
+    /*font-size: 10px ;
+    text-transform: uppercase;
+    border-radius: 5px ;
+    -moz-border-radius: 5px ;
+    -webkit-border-radius: 5px ;
+    padding: 10px 10px 10px 30px;
+    margin: 0px 0px 0px 50px;*/
+    .dropdown {
       width: 100%;
+      height: 100%;
     }
-	.dropdown_type3 {
-		margin: 8px 40px 0 0;
-		background: url(asset-path("cdesk/lifetime_icon.png")) no-repeat 2px 3px  ;
-		padding-left: 20px ;
-		.dropdown-menu {
-			min-width: 120px;
-			left: -6px;
-			li {
-				padding-left: 25px;
-			}
-		}
-		.dd_txt {
-			color: #697075 ;
-		}
-	}
-	.dropdown_type1 {
-		font-size: 26px ;
-		color: #313233 ;
-		font-weight: bold;
-      .dropdown_ul_text {
-        .dd_txt {
-          /*text-transform: lowercase;*/
-          max-width: 660px;
-          overflow: hidden;
-          display: inline-block;
-          height: 40px;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          float: left;
-        }
+    .dropdown_ul_text {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .dropdown_ul {
+      width: 170px;
+    }
+  }
+  .download_report:hover {
+    background: url(asset-path("cdesk/download_report_btn_hover.png")) no-repeat center center;
+  }
+  .download_anchor {
+    display: block;
+    text-decoration: none;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+  }
+  .dropdown_type3 {
+    margin: 8px 40px 0 0;
+    background: url(asset-path("cdesk/lifetime_icon.png")) no-repeat 2px 3px;
+    padding-left: 20px;
+    .dropdown-menu {
+      min-width: 120px;
+      left: -6px;
+      li {
+        padding-left: 25px;
       }
-	}
-	.dropdown_type2 {
-		font-size: 18px ;
-		color: #313233 ;
-		font-weight: bold;
-		margin-top: 15px ;	
-	}
-	.dropdown-menu {
-		padding: 0px ;
-        max-height: 200px;
-        overflow-y: auto;
-	}
-	.performance_selection {
-		.performance_symbol {
-			display: inline-block;
-			background: url(asset-path("cdesk/top_performance_btn_down.png")) no-repeat center center  ;
-			height: 30px;
-			width: 30px;
-			float: left;
-			margin: 0px 10px 0px 0px;
-		}
-		.top_perf_symbol {
-			background: url(asset-path("cdesk/top_performance_btn_top.png")) no-repeat center center  ;
-		}
-		.performance_text {
-			float: left;
-			margin-top: 5px;
-			cursor: default;
-		}
-	}
-	.inventory_strategy_chart {
-		background: #fff ;
-		border : solid 1px #e5ecef ;
-		min-height: 200px ;
-		padding: 20px 10px;
-		.inventory_chart {
-			height: 240px;
-			width: 335px;
-			margin-right: 70px;
-			margin-left: 40px;
-          .highcharts_kpi_titles {
-            margin-left: 56px;
-            color: #666;
-          }
-		}
-		.inventory_each_chart_details {
-			margin-bottom : 10px ;
-			span {
-				display: inline-block;
-				float: left;
-			}
-			span.row_index {
-				color: #1C1D1D;
-				font-size: 13px;
-				margin-top: 10px;
-				text-shadow: 0px 1px 0px #e5ecef;
-			}
-			.cpa_data , .imps_del_data {
-				font-family : "Trade-Gothic-LT-Bold-Condensed-N-2" ;
-				font-size: 16px ;
-				color: #2a2727 ;
-			}
-			.url_val {
-              padding: 8px 10px;
-              margin: 0px 0px 0px 10px;
-              line-height: 18px;
-              width: 260px;
-              height: 36px;
-              overflow: hidden;
-              white-space: nowrap;
-              font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-              font-size: 16px;
-              color: #2a2727;
-			}
-		}	
-	}
-	.inventory_charts_details_holder {
-		.chart_inventory_header {
-			margin-top: 32px ;
-			margin-right: 10px;
-		}
+    }
+    .dd_txt {
+      color: #697075;
+    }
+  }
+  .dropdown_type1 {
+    font-size: 26px;
+    color: #313233;
+    font-weight: bold;
+    .dropdown_ul_text {
+      .dd_txt {
+        /*text-transform: lowercase;*/
+        max-width: 660px;
+        overflow: hidden;
+        display: inline-block;
+        height: 40px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        float: left;
+      }
+      input#campaignDropdown {
+        border: 0;
+        background: transparent;
+      }
+    }
+  }
+  .dropdown_type2 {
+    font-size: 18px;
+    color: #313233;
+    font-weight: bold;
+    margin-top: 15px;
+  }
+  .dropdown-menu {
+    padding: 0px;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .performance_selection {
+    .performance_symbol {
+      display: inline-block;
+      background: url(asset-path("cdesk/top_performance_btn_down.png")) no-repeat center center;
+      height: 30px;
+      width: 30px;
+      float: left;
+      margin: 0px 10px 0px 0px;
+    }
+    .top_perf_symbol {
+      background: url(asset-path("cdesk/top_performance_btn_top.png")) no-repeat center center;
+    }
+    .performance_text {
+      float: left;
+      margin-top: 5px;
+      cursor: default;
+    }
+  }
+  .inventory_strategy_chart {
+    background: #fff;
+    border: solid 1px #e5ecef;
+    min-height: 200px;
+    padding: 20px 10px;
+    .inventory_chart {
+      height: 240px;
+      width: 335px;
+      margin-right: 70px;
+      margin-left: 40px;
+      .highcharts_kpi_titles {
+        margin-left: 56px;
+        color: #666;
+      }
+    }
+    .inventory_each_chart_details {
+      margin-bottom: 10px;
+      span {
+        display: inline-block;
+        float: left;
+      }
+      span.row_index {
+        color: #1C1D1D;
+        font-size: 13px;
+        margin-top: 10px;
+        text-shadow: 0px 1px 0px #e5ecef;
+      }
+      .cpa_data, .imps_del_data {
+        font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+        font-size: 16px;
+        color: #2a2727;
+      }
+      .url_val {
+        padding: 8px 10px;
+        margin: 0px 0px 0px 10px;
+        line-height: 18px;
+        width: 260px;
+        height: 36px;
+        overflow: hidden;
+        white-space: nowrap;
+        font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+        font-size: 16px;
+        color: #2a2727;
+      }
+    }
+  }
+  .inventory_charts_details_holder {
+    .chart_inventory_header {
+      margin-top: 32px;
+      margin-right: 10px;
+    }
 
-	}
-	.inventory_chart_details_list {
-		width: 540px ;
-		float: right;
-	}
-	.cpa_col {
-		width: 120px;
-		text-align: right;
-		.dropdown-menu {
-			min-width: 110px;
-			left: 20px;
-			text-align: left;
-			li {
-				padding-left: 16px;
-			}
-			
-		}
+  }
+  .inventory_chart_details_list {
+    width: 540px;
+    float: right;
+  }
+  .cpa_col {
+    width: 120px;
+    text-align: right;
+    .dropdown-menu {
+      min-width: 110px;
+      left: 20px;
+      text-align: left;
+      li {
+        padding-left: 16px;
+      }
 
-	}
-    .data_not_found {
-      .span{
-        font-weight: bold;
-        font-size: 18px;
+    }
+
+  }
+  .data_not_found {
+    .span {
+      font-weight: bold;
+      font-size: 18px;
+      color: #313233;
+    }
+  }
+
+  .imps_del_col {
+    width: 120px;
+    text-align: right;
+  }
+  .each_chart_accordion_holder {
+    .chart_accordion_heading {
+      background: #f5f9fd;
+      height: 80px;
+      padding-top: 25px;
+      margin-top: 10px;
+      border: solid 1px #e5ecef;
+      padding-left: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #313233;
+    }
+    .inventory_strategy_chart {
+      border-top: 0px;
+    }
+
+    .closed {
+      display: none;
+    }
+    .open {
+      display: block;
+    }
+  }
+  .inventory_tabs {
+    text-transform: uppercase;
+    margin-right: 28px;
+    border: solid 1px #e5ecef;
+    border-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
+    -moz-border-radius: 5px 5px 0px 0px;
+    -webkit-border-radius: 5px 5px 0px 0px;
+    span {
+      display: inline-block;
+      border-right: solid 1px #e5ecef;
+      float: left;
+      border-bottom: solid 1px #e5ecef;
+      position: relative;
+      width: 155px;
+      height: 35px;
+      a {
         color: #313233;
+        font-size: 14px;
+        text-decoration: none;
+        position: absolute;
+        background: #f5f9fd;
+        width: 100%;
+        text-align: center;
+        padding-top: 8px;
+        height: 35px;
       }
     }
-	
-	.imps_del_col {
-		width: 120px;
-		text-align: right;
-	}
-	.each_chart_accordion_holder {
-		.chart_accordion_heading {
-			background: #f5f9fd;
-			height: 80px;
-			padding-top: 25px;
-			margin-top: 10px;
-			border: solid 1px #e5ecef;
-			padding-left: 20px;
-			font-weight: bold;
-			font-size: 18px;
-			color: #313233;
-		}
-		.inventory_strategy_chart {
-			border-top: 0px ;
-		}
+    span.inventory_tab_active {
+      border-bottom: 0px;
+      a {
+        background: #fff;
+        height: 37px;
+      }
 
-        .closed{
-          display: none;
-        }
-        .open{
-          display : block;
-        }
-	}
-	.inventory_tabs {
-		text-transform: uppercase;
-		margin-right: 28px;
-		border: solid 1px #e5ecef;
-		border-bottom: 0px ;
-		border-radius: 5px 5px 0px 0px ;
-		-moz-border-radius: 5px 5px 0px 0px ;
-		-webkit-border-radius: 5px 5px 0px 0px ;
-		span {
-			display: inline-block;
-			border-right: solid 1px #e5ecef;
-			float: left;
-			border-bottom: solid 1px #e5ecef;
-			position: relative;
-			width: 155px;
-			height: 35px;
-			a {
-				color: #313233;
-				font-size: 14px ;
-				text-decoration: none;
-				position: absolute; 
-				background: #f5f9fd ;
-				width: 100%;
-				text-align: center;
-				padding-top: 8px;
-				height: 35px;
-			}
-		}
-		span.inventory_tab_active {
-			border-bottom: 0px ;
-			a {
-				background: #fff ;
-				height: 37px ;
-			}
-			
-		}
-		span:last-child {
-			border-right : 0px ;
-			a {	
-				border-radius: 0px 5px 0px 0px ;
-				-moz-border-radius: 0px 5px 0px 0px ;
-				-webkit-border-radius: 0px 5px 0px 0px ;
-			}
-		}
-		span:first-child {
-			a {
-				border-radius: 5px 0px 0px 0px;
-				-moz-border-radius: 5px 0px 0px 0px ;
-				-webkit-border-radius: 5px 0px 0px 0px ;
-			}
-		}
-	}
+    }
+    span:last-child {
+      border-right: 0px;
+      a {
+        border-radius: 0px 5px 0px 0px;
+        -moz-border-radius: 0px 5px 0px 0px;
+        -webkit-border-radius: 0px 5px 0px 0px;
+      }
+    }
+    span:first-child {
+      a {
+        border-radius: 5px 0px 0px 0px;
+        -moz-border-radius: 5px 0px 0px 0px;
+        -webkit-border-radius: 5px 0px 0px 0px;
+      }
+    }
+  }
 }
+
 .no_data_found {
   text-align: center;
-  margin-top: 50px ;
+  margin-top: 50px;
 }
+
 .viewability_details_outer_container {
-	margin-top: 50px ;
-	.each_col {
-			float: left;
-			width: 120px;
-			margin: 0 15px;
-			font-family : "Trade-Gothic-LT-Bold-Condensed-N-2" ;
-			font-size: 14px ;
-			color: #2a2727 ;
-			padding-top: 20px ;
-			> span {
-				text-align: center;
-				display: block;
-				text-transform: uppercase;
-				color: #313233;
-				font-size: 12px;
-			}
-			.sub_col {
-				span {
-					display: block;
-					float: left;
-				}
-				span:last-child {
-					float: right;
-				}
-			}
+  margin-top: 50px;
+  .each_col {
+    float: left;
+    width: 120px;
+    margin: 0 15px;
+    font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+    font-size: 14px;
+    color: #2a2727;
+    padding-top: 20px;
+    > span {
+      text-align: center;
+      display: block;
+      text-transform: uppercase;
+      color: #313233;
+      font-size: 12px;
+    }
+    .sub_col {
+      span {
+        display: block;
+        float: left;
+      }
+      span:last-child {
+        float: right;
+      }
+    }
 
-			.sub_col:before, .sub_col:after {
-				display: table;
-				line-height: 0;
-				content: "";
-			}
-			.sub_col:after {
-				clear: both;
-			}
-	}
-	
-	.first_col {
-		width : 160px ;
-		color: #313233 ;
-		font-size: 14px;
-		padding-top: 10px;
-		.campaign_spec {
-			font-size: 12px ;
-			font-family: "Avenir" ;
-		}
-	}
-	.sec_col {
-		width: 124px ;
-		padding-top: 5px ;
-		.graph_col {
-			.full_graph_line {
-				width: 124px;
-				height: 8px;
-				background: #cceaff;
-				margin: 10px auto;
-				border-radius: 2px;
-				-moz-border-radius: 2px;
-				-webkit-border-radius: 2px;
-			}
-			.filled_graph_line {
-				height: 8px;
-				width: 100px;
-				background: #1787d8;
-				border-radius: 2px 0 0 2px;
-				-moz-border-radius: 2px 0 0 2px;
-				-webkit-border-radius: 2px 0 0 2px;
-			}
-			.fully_filled {
-				border-radius: 2px;
-				-moz-border-radius: 2px;
-				-webkit-border-radius: 2px;
-			}
-			.graph_end_points {
-				color: #7d8a93 ;
-				font-size: 12px ;
-				font-family: "Avenir" ;
-				span {
-					display: block;
-					float: left;
-				}
-				span:last-child {
-					float: right;
-				}
-			}
-		}
-	}
-	.fifth_col {
-		.sub_col {
-			span {
-				width : 33%;
-				text-align: center;
-			}
-		}
-	}
-	.sixth_col {
-		text-align: center;
-		width: 110px ;
-	}
-	.seventh_col {
-		text-align: right;
-		float: right;
-		width : 70px ;
-		margin: 0;
-		color : #313233 ;
+    .sub_col:before, .sub_col:after {
+      display: table;
+      line-height: 0;
+      content: "";
+    }
+    .sub_col:after {
+      clear: both;
+    }
+  }
+
+  .first_col {
+    width: 160px;
+    color: #313233;
+    font-size: 14px;
+    padding-top: 10px;
+    .campaign_spec {
+      font-size: 12px;
+      font-family: "Avenir";
+    }
+  }
+  .sec_col {
+    width: 124px;
+    padding-top: 5px;
+    .graph_col {
+      .full_graph_line {
+        width: 124px;
+        height: 8px;
+        background: #cceaff;
+        margin: 10px auto;
+        border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+      }
+      .filled_graph_line {
+        height: 8px;
+        width: 100px;
+        background: #1787d8;
+        border-radius: 2px 0 0 2px;
+        -moz-border-radius: 2px 0 0 2px;
+        -webkit-border-radius: 2px 0 0 2px;
+      }
+      .fully_filled {
+        border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+      }
+      .graph_end_points {
+        color: #7d8a93;
         font-size: 12px;
-	}
-	.viewability_header {
-		background: #f5f9fd;
-		border: solid 1px #e5ecef;
-		padding: 10px 20px;
-		.each_col {
-			font-family: "Avenir" ;
-			padding-top: 0px ;
-		}
-		.first_col {
-			font-weight: bold;
-			
-			span {
-				text-transform: capitalize;
-				text-align: left ;
-				font-size: 14px ;
-			}
-			
-		}
-		.first_col , .seventh_col {
-			padding-top: 20px ;
-			text-transform: uppercase;
-		}
-		.seventh_col {
-			margin: 0 ;
-			.dropdown_ul {
-				text-align: left;
-                min-width: 110px;
-                left: -8px;
-                font-size: 12px;
-			}
-			.arrrow_img {
-				background  : url(asset-path("cdesk/sorting_indicator.png")) no-repeat left bottom ;
-			}
-		}
-		.sub_col {
-			border-top: solid 1px #ccc;
-			margin-top: 8px;
-			padding-top: 8px;
-		}
-	}
-	.strategy_total_container {
-		.strategy_total_container_header {
+        font-family: "Avenir";
+        span {
+          display: block;
+          float: left;
+        }
+        span:last-child {
+          float: right;
+        }
+      }
+    }
+  }
+  .fifth_col {
+    .sub_col {
+      span {
+        width: 33%;
+        text-align: center;
+      }
+    }
+  }
+  .sixth_col {
+    text-align: center;
+    width: 110px;
+  }
+  .seventh_col {
+    text-align: right;
+    float: right;
+    width: 70px;
+    margin: 0;
+    color: #313233;
+    font-size: 12px;
+  }
+  .viewability_header {
+    background: #f5f9fd;
+    border: solid 1px #e5ecef;
+    padding: 10px 20px;
+    .each_col {
+      font-family: "Avenir";
+      padding-top: 0px;
+    }
+    .first_col {
+      font-weight: bold;
 
+      span {
+        text-transform: capitalize;
+        text-align: left;
+        font-size: 14px;
+      }
 
-			background: #f5f9fd;
-			border: solid 1px #e5ecef;
-			padding: 20px;
-			
-			.first_col {
-				font-size: 18px ;
-			}
+    }
+    .first_col, .seventh_col {
+      padding-top: 20px;
+      text-transform: uppercase;
+    }
+    .seventh_col {
+      margin: 0;
+      .dropdown_ul {
+        text-align: left;
+        min-width: 110px;
+        left: -8px;
+        font-size: 12px;
+      }
+      .arrrow_img {
+        background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat left bottom;
+      }
+    }
+    .sub_col {
+      border-top: solid 1px #ccc;
+      margin-top: 8px;
+      padding-top: 8px;
+    }
+  }
+  .strategy_total_container {
+    .strategy_total_container_header {
 
-		}
-		.all_strategies_holder {
-			.linkage_lines {
-				position: relative;
-				float: left;
-				width: 10px;
-				height: 104px;
-				border-left: solid 1px #e5ecef;
-			}
-			.linkage_lines:after {
-				content: "";
-				height: 1px;
-				width: 10px;
-				background: #e5ecef ;
-				display: block;
-				position: absolute;
-				top : 50px ;
-				left: 0;
-			}
-			.each_strategy {
-				float: left;
-				width: 1046px ;
-				padding: 20px 20px 20px 10px ;
-				margin: 10px 0 0 0px;
-				border: solid 1px #e5ecef;
-				background: #f8faff;
-			}
-			.each_strategy_holder:last-child {
-				.linkage_lines {
-					height: 50px;
-				}
-			} 
-		}
-	}
+      background: #f5f9fd;
+      border: solid 1px #e5ecef;
+      padding: 20px;
+
+      .first_col {
+        font-size: 18px;
+      }
+
+    }
+    .all_strategies_holder {
+      .linkage_lines {
+        position: relative;
+        float: left;
+        width: 10px;
+        height: 104px;
+        border-left: solid 1px #e5ecef;
+      }
+      .linkage_lines:after {
+        content: "";
+        height: 1px;
+        width: 10px;
+        background: #e5ecef;
+        display: block;
+        position: absolute;
+        top: 50px;
+        left: 0;
+      }
+      .each_strategy {
+        float: left;
+        width: 1046px;
+        padding: 20px 20px 20px 10px;
+        margin: 10px 0 0 0px;
+        border: solid 1px #e5ecef;
+        background: #f8faff;
+      }
+      .each_strategy_holder:last-child {
+        .linkage_lines {
+          height: 50px;
+        }
+      }
+    }
+  }
 }
