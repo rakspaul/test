@@ -148,6 +148,6 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
     });
-    
+
 
 }());
