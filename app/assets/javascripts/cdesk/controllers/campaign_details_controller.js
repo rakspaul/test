@@ -6,6 +6,7 @@
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+
         $scope.campaigns = new Campaigns();
         $scope.is_network_user = is_network_user;
         var campaignList = [];

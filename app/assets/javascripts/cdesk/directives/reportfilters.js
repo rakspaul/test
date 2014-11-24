@@ -30,7 +30,7 @@
                         }
                         $scope.$parent.selected_filters[select.value] = $(e.target).attr('value');
                         $scope.$parent.selected_filters[select.text] = $(e.target).text();
-                        $scope.$parent.onKpiDurationChange(attrs.flag);
+                        $scope.$parent.callBackKpiDurationChange(attrs.flag);
                     }
                 });
             } 

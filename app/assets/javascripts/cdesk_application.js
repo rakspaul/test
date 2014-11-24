@@ -29,6 +29,8 @@
 //= require cdesk/charts/line
 //= require cdesk/charts/actions
 //= require cdesk/charts/columnline
+//= require cdesk/directives/largeListSearch
+//= require cdesk/controllers/directive_controller
 //= require cdesk/controllers/campaign_controller
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
