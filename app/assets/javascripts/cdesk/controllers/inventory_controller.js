@@ -40,7 +40,7 @@ var angObj = angObj || {};
 
         /*Campaign List Functions*/
 
-        $scope.setCampaignStrategyList = function(campaigns) {
+        $scope.setCampaigns = function(campaigns) {
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
@@ -69,13 +69,13 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false) {
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data.slice(0, 1000);
+                        var campaigns = result.data.data;
                         dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaignStrategyList(campaigns);
+                        $scope.setCampaigns(campaigns);
                     }
                 });
             }else{
-                $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
+                $scope.setCampaigns(domainReports.getCampaignListForUser());
             }
         };
         /*Campaign List Functions*/
@@ -88,8 +88,6 @@ var angObj = angObj || {};
                  var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
                 $scope.selectedStrategy.id = strategyObj.id;
                 $scope.selectedStrategy.name = strategyObj.name;
-                console.log('Final ');
-                console.log(strategyObj);
                 $scope.strategyFound=true;
                 //Call the Apis to load the Strategy Chart and the Tactics chart
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });

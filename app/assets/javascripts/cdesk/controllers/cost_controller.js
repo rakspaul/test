@@ -12,11 +12,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.strategiesList={
-            tacticsList:[]
-        };
-
-        $scope.setCampaignStrategyList = function(campaigns) {
+        $scope.setCampaigns = function(campaigns) {
             $scope.campaingns = campaigns;
             if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
                 //Maintain the selected campaign name and id;
@@ -41,13 +37,13 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data.slice(0, 2000);
+                        var campaigns = result.data.data;
                         dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaignStrategyList(campaigns);
+                        $scope.setCampaigns(campaigns);
                     }
                 });
             }else{
-                $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
+                $scope.setCampaigns(domainReports.getCampaignListForUser());
             }
         };
 
