@@ -45,7 +45,7 @@
                     } else {
                         spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
                     }
-                    console.log(actual +'-'+expected+'*100/'+expected);
+                   // console.log(actual +'-'+expected+'*100/'+expected);
                     return spendDifference;
                 }
                 $scope.getSpendDiffForStrategy = function(strategy) {
