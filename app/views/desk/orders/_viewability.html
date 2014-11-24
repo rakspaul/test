@@ -38,8 +38,8 @@
                 <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
             </div>
         </div>
-
-        <div class="dropdown dropdown_type2">
+        <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+        <!--<div class="dropdown dropdown_type2">
             <span class="dropdown_ul_text " data-toggle="dropdown">
                 <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>
                 <span class="arrrow_img"></span>
@@ -48,7 +48,7 @@
             <ul id="strategies_list" class="dropdown_ul dropdown-menu">
                 <li ng-repeat="strategy in strategies" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>
             </ul>
-        </div>
+        </div>-->
         <!--dataNotFound : {{dataNotFound}}-->
         <div class="no_data_found"  ng-if="dataNotFound">
             Data Not Found

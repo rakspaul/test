@@ -295,7 +295,7 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data;//.slice(0, 1000);
+                        var campaigns = result.data.data.slice(0, 2000);
                         dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaignStrategyList(campaigns);
                     }
@@ -341,7 +341,6 @@ var angObj = angObj || {};
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
-
             $scope.selectedCampaign.id = id;
             $scope.selectedCampaign.name = txt;
             //TODO for testing purpose, uncomment below line
@@ -367,21 +366,11 @@ var angObj = angObj || {};
             }
         });
 
-
-
-        //Function called when the user clicks on the strategy dropdown
-        $('#strategies_list').click(function (e) {
-            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
-                var id = $(e.target).attr('value'), txt = $(e.target).text();
-                $scope.selectedStrategy.id =id;
-                $scope.selectedStrategy.name = txt;
-                dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
-                $scope.$apply();
-                $scope.chartForStrategy=true;
-                $scope.actionListForSelectedStrategy();
-            }
-        });
-
+        //Function is called from startegylist directive
+        $scope.callBackStrategyChange = function() {
+            $scope.chartForStrategy=true;
+            $scope.actionListForSelectedStrategy();
+        };
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
     });

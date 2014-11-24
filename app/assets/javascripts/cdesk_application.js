@@ -45,6 +45,7 @@
 //= require cdesk/directives/campaignlistsort
 //= require cdesk/directives/campaigndashboard
 //= require cdesk/directives/reportfilters
+//= require cdesk/directives/strategylist
 //= require cdesk/models/domain_reports
 //= require cdesk/models/campaign
 //= require cdesk/models/campaign_data

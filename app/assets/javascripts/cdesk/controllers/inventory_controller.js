@@ -69,7 +69,7 @@ var angObj = angObj || {};
             if(dataTransferService.getCampaignList() === false) {
                 domainReports.getCampaignListForUser().then(function (result) {
                     if(result.status == 'success') {
-                        var campaigns = result.data.data;//.slice(0, 1000);
+                        var campaigns = result.data.data.slice(0, 1000);
                         dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaignStrategyList(campaigns);
                     }
@@ -81,14 +81,15 @@ var angObj = angObj || {};
         /*Campaign List Functions*/
 
         /*Strategy List Functions*/
-        $scope.updateStrategyObjects = function(strategy){
-            console.log(strategy);
+        $scope.updateStrategyObjects = function(strategy) {
             $scope.strategies = strategy;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
                  var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
                 $scope.selectedStrategy.id = strategyObj.id;
                 $scope.selectedStrategy.name = strategyObj.name;
+                console.log('Final ');
+                console.log(strategyObj);
                 $scope.strategyFound=true;
                 //Call the Apis to load the Strategy Chart and the Tactics chart
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
@@ -106,8 +107,6 @@ var angObj = angObj || {};
             $scope.selectedStrategy.name = "Loading...";
             if(dataTransferService.getCampaignStrategyList(campaignId) === false){
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    console.log('In updateStrategyObjects result');
-                    console.log(result);
                     if(result.status == 'success') {
                         var strategy = result.data.data;
                         dataTransferService.setCampaignStrategyList(campaignId, strategy);
@@ -282,20 +281,13 @@ var angObj = angObj || {};
             $('#tactic_' + id + '_body').toggle();
         };
 
+        //Function is called from startegylist directive
+        $scope.callBackStrategyChange = function() {
+            $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+            $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
+        };
 
-        //Function called when the user clicks on the strategy dropdown
-        $('#strategies_list').click(function (e) {
-            $scope.inventoryChart = true;
-            if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
-                var id = $(e.target).attr('value'), txt = $(e.target).text();
-                $scope.selectedStrategy.id =id;
-                $scope.selectedStrategy.name = txt;
-                dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
-                $scope.$apply();
-                $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-                $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
-            }
-        });
+
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
