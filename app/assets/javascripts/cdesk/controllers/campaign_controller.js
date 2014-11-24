@@ -52,7 +52,7 @@
     });
 
 
-    angObj.factory("Campaigns", function($http, dataService, campaign, apiPaths, modelTransformer, CampaignData) {
+    angObj.factory("Campaigns", function($http, dataService, campaign, apiPaths, modelTransformer, CampaignData, CampaignCost) {
 
         var Campaigns = function() {
             this.timePeriodList = buildTimePeriodList();
@@ -62,6 +62,7 @@
 
             this.cdbDataMap = {}
             this.campaignList = [];
+            this.costList = [];
             this.busy = false;
             this.timePeriod = this.selectedTimePeriod.key;
             this.marketerName;
@@ -202,6 +203,24 @@
                         self.dashboard.total =  self.dashboard.pending.total +
                                                 self.dashboard.active.total +
                                                 self.dashboard.completed.total;
+
+                    }
+                });
+
+                Campaigns.prototype.fetchCostData.call(this);
+            },
+
+             Campaigns.prototype.fetchCostData = function() {
+                console.log('fetchCampaignscost data');
+                dataService.getCampaignCostData(1, this.periodStartDate, this.periodEndDate).then(function(result) {
+                    if(result.status == "success" && !angular.isString(result.data)){
+                        console.log('yay, cost!');
+                        console.log(result.data);
+                        self.costList = modelTransformer.transform(result.data.data, CampaignCost);
+                        console.log(costList[405023].getResearchCost());
+                       /* angular.forEach(result.data.data,function(cost){
+                            console.log(cost);
+                        }, self.costList);*/
 
                     }
                 });

@@ -152,21 +152,29 @@
         }//end of check
       },
 
-      getCampaignDashboardData: function(url){
+      getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate) {
+        filterStartDate='2014-01-01';
+        filterEndDate='2014-08-10';
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=405026,405023&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+          console.log('cost ...' + url);
+          return this.fetch(url);
+      },
+
+      getCampaignDashboardData: function(url) {
         return this.fetch(url);
       },
       
-      getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate){
+      getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate) {
        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/tactics?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
         return this.fetch(url);
       },
 
-      getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate){
+      getCdbTacticsChartData: function(campaignId, strategyId, tacticsId, timePeriod, filterStartDate, filterEndDate) {
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/tactics/' + tacticsId + '/bydays/perf?start_date=' + filterStartDate + '&end_date=' + filterEndDate;
         return this.fetch(url);
       },
 
-      getStrategyTacticList: function(strategyId){
+      getStrategyTacticList: function(strategyId) {
         var url = apiPaths.apiSerivicesUrl + '/strategy/' + strategyId + '/tactics';
         return this.fetch(url);
       },

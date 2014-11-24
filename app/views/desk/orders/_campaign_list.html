@@ -49,13 +49,147 @@
         <div campaign-dashboard campaigns="campaigns"></div>
         <!--dashboard (status bar) partial view ends-->
 
-        <!--filter (campaign sort filter) partial view-->
-        <div campaign-list-sort campaigns="campaigns"></div>
-        <!--filter (campaign sort filter) partial view ends-->
+        <div class="summary_title">
+            <span class="heading">Showing: </span>
+            <span>3 Underperforming Active Campaigns</span>
+        </div>
+
+        <div class="cost_col_header_tabs_holder">
+            <div class="clearfix cost_tabs_margin">
+                <div class="clearfix cost_tabs_holder">
+                    <div class="each_tab">
+                        <div class="each_tab_text">
+                            Performance
+                        </div>
+                    </div>
+                    <div class="each_tab cost_tab active">
+                        <div class="each_tab_text">
+                            Cost Breakdown
+                        </div>
+                    </div>
+                </div>
+                <div class="cost_margin">
+                    Margin: 20.00%
+                </div>
+            </div>
+            
+            <!--new sort header  cost-->
+            <div class="clearfix cost_col_container campaign_cost_header_holder">
+                <div class="each_cost_col first_col active">Imps.</div>
+                <div class="each_cost_col second_col">CPA<span class="sortable"></span></div>
+                <div class="each_cost_col three_col">Inventory</div>
+                <div class="each_cost_col four_col">Data</div>
+                <div class="each_cost_col five_col">Ad Serving</div>
+                <div class="each_cost_col six_col">Rich Media</div>
+                <div class="each_cost_col sev_col">Research</div>
+                <div class="each_cost_col eight_col">Ad Verification</div>
+                <div class="each_cost_col ninth_col">Platform</div>
+                <div class="each_cost_col tenth_col total_cost">Total Spend</div>    
+                <div class="more_options">
+                    <div class="dropdown">
+                        <span data-toggle="dropdown">
+                            <span class="dd_txt">
+                                <span class="dots"></span>
+                                <span class="dots"></span>
+                                <span class="dots"></span>
+                            </span>
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li>Campaign Name</li>
+                            <li>Brand</li>
+                            <li>Flight dates</li>
+                        </ul>
+                    </div>
+                   
+                </div>  
+            </div><!--cost header ends-->
+
+            <!--filter (campaign sort filter) partial view-->
+            <div campaign-list-sort campaigns="campaigns" style="display:none"></div>
+            <!--filter (campaign sort filter) partial view ends-->
+        
+        </div>
+
+        
     </div>
 
     <div class="scrollable_container">
-        <div class="total_campaign_list_holder">
+
+        <!--cost -->
+        <div class="total_campaign_cost_holder" style="display:none">
+            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
+                <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.campaignList">
+                <div class="clearfix" >
+                    <div class="each_cost_section status_section">
+                        <div class="status_icon"></div>
+                    </div>
+                    <div class="each_cost_section other_details">
+                        <div class="clearfix">
+
+                            <div class="each_cost_details">
+                            
+                                <div class="main_heading">
+                                    Fall 2014 Toyota Camry New Generation Launch Campaign Fall 2014 Toyota
+                                </div>
+                                <div class="heading">
+                                    <span>
+                                        Camry Automotive
+                                    </span>
+                                    <span class="dates_details">
+                                        28 Nov 2014 - 30 Dec 2014 (10 Days Left)
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="cost_metric_graph">
+                                <div class="clearfix metric_and_values_graph">
+                                    <div class="metric_graph_details_val">
+                                        <div>Spend</div>
+                                        <div>$25,000</div>
+                                    </div>
+                                    <div class="metric_graph">
+                                        <div class="full_metric_graph">
+                                            <div class="selected_graph"> <!-- put completely_filled when 100% -->
+                                            </div>
+                                            <div class="graph_start_point start_beginning"><!-- put start_beginning when at start -->
+                                                <div class="end_point_val">
+                                                    <span>$453,43</span>
+                                                    <div class="end_point_line"></div>
+                                                </div>
+                                            </div>
+                                
+                                        </div>
+                                     </div>
+                                     <div class="metric_graph_details_val">
+                                        <div>Budget</div>
+                                        <div>$25,000</div>
+                                    </div>
+                                 </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <div class="clearfix cost_col_container cost_cols_holder">
+                        <div class="each_cost_col first_col">12300</div>
+                        <div class="each_cost_col second_col">12300</div>
+                        <div class="each_cost_col three_col">$12300</div>
+                        <div class="each_cost_col four_col">$12300</div>
+                        <div class="each_cost_col five_col">$12300</div>
+                        <div class="each_cost_col six_col">$12300</div>
+                        <div class="each_cost_col sev_col">$12300</div>
+                        <div class="each_cost_col eight_col">$12300</div>
+                        <div class="each_cost_col ninth_col">$12300</div>
+                        <div class="each_cost_col tenth_col total_cost">$12300</div>
+                </div>
+            </div>
+                
+            </div>
+        </div>
+
+        <!--cost ends-->
+
+        <div class="total_campaign_list_holder" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
                 <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
                         <!-- campaign strategy card -->
