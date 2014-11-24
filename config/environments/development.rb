@@ -46,7 +46,7 @@ Reachui::Application.configure do
   # network to search for context
   config.search_contexts_in_network = '6'
 
-  config.scala_api = 'http://dev-desk.collective-media.net:9000'
+  config.scala_api = 'http://dev-desk.collective-media.net/dataapi'
   config.nodejs_api = 'http://dev-desk.collective-media.net:5000'
 
   config.action_mailer.raise_delivery_errors = true
