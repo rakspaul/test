@@ -122,16 +122,12 @@ var angObj = angObj || {};
         $scope.campaignlist = function () {
             if(dataTransferService.getCampaignList() === false){
                 domainReports.getCampaignListForUser().then(function (result) {
-                    if(result.status == 'success' ) {
 
-                        var campaigns = result.data.data.slice(0,1000);
+                    if(result.status == 'success') {
+                        var campaigns = result.data.data ;
                         dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaignStrategyList(campaigns);
+                        $scope.setCampaigns(campaigns);
 
-                        $scope.dataNotFound= false;
-                    }else{
-                        $scope.dataNotFound= true;
-                        //console.log('NOT FOUND');
                     }
                 });
             }else{
