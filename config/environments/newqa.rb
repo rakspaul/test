@@ -55,7 +55,7 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
 
-  config.scala_api = 'http://qa-desk.collective.com:9000'
+  config.scala_api = 'https://qa-desk.collective.com/dataapi'
   config.nodejs_api = 'http://qa-desk.collective.com:5000'
 
   # audience group segment search
