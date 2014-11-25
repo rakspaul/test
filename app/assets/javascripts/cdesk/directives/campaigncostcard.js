@@ -15,7 +15,7 @@
 
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
-                        var spendDifference = 0;
+                        var spendDifference = -33; //fix for initial loading
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                         if (campaignCDBObj == undefined) {
                             return spendDifference;
@@ -47,29 +47,23 @@
                     }
                     return spendDifference;
                 }
-               /* $scope.getSpendDiffForStrategy = function(strategy) {
-                    if (strategy == undefined) {
-                        return 0;
-                    }
-                    var expectedSpend = strategy.expectedMediaCost;
-                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
-                }*/
+
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
                         return $scope.getClassFromDiff(spendDifference);
                     }
                 };
-                /*$scope.getSpendClassForStrategy = function(strategy) {
-                    var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-                    return $scope.getClassFromDiff(spendDifference);
-                }*/
+        
                 $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
                     }
                     if (spendDifference <= -1 && spendDifference > -10) {
                         return 'amber';
+                    }
+                    if (spendDifference == -33) { //fix for initial loading
+                        return ' ';
                     }
                     return 'red';
                 }
@@ -92,34 +86,6 @@
                         return actualWidth;
                     }
                 }
-               /* $scope.getSpendWidthForStrategy = function(strategy) {
-                    var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
-                    if (actualWidth > 100) {
-                        actualWidth = 100;
-                    }
-                    return actualWidth;
-                }*/
-                //$scope.campaigns.durationCompletion();
-                //To show the accorsponding strategy card
-               /* $scope.showStrategies = function(campaignId, strategiesCount) {
-                    if(strategiesCount > 0) {
-                      $('#strategies-accordion-' + campaignId).toggle();
-                    }          
-                };
-
-                $scope.showTactics = function(strategyId, tacticsCount) {
-                      $('#tactics-accordion-' + strategyId).toggle();       
-                };
-
-                //This will call the Parent controllers loadMoreStrategies function
-                $scope.loadMoreStrategies = function(campaignId) {
-                    $scope.$parent.loadMoreStrategies(campaignId);         
-                };
-
-                //This will call the Parent controllers loadMoreTactics function
-                $scope.loadMoreTactics = function(strategyId, campaignId) {
-                    $scope.$parent.loadMoreTactics(strategyId, campaignId);         
-                };*/
 
                 //This is called when the user clicks on the campaign title
                 $scope.goToLocation = function(url){

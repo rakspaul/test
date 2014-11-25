@@ -15,7 +15,7 @@
 
                 $scope.getSpendDifference = function(campaign) {
                     if(campaign !== undefined) {
-                        var spendDifference = 0;
+                        var spendDifference = -33; //fix for initial loading
                         var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
                         if (campaignCDBObj == undefined) {
                             return spendDifference;
@@ -70,6 +70,9 @@
                     }
                     if (spendDifference <= -1 && spendDifference > -10) {
                         return 'amber';
+                    }
+                    if (spendDifference == -33) { //fix for initial loading
+                        return ' ';
                     }
                     return 'red';
                 }

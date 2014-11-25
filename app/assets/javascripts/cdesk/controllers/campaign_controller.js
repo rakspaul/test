@@ -69,6 +69,7 @@
                 startDate : undefined,
                 endDate : undefined
             };
+            this.costMargin;
             this.busy = false;
             this.timePeriod = this.selectedTimePeriod.key;
             this.marketerName;
@@ -107,6 +108,7 @@
                 this.sortParam = undefined;
                 this.sortDirection = undefined;
                 this.totalPages = undefined;
+                this.costMargin = undefined;
             };
 
             this.reset = function() {
@@ -118,6 +120,7 @@
                 this.sortParam = undefined;
                 this.sortDirection = undefined;
                 this.totalPages = undefined;
+                this.costMargin = undefined;
             };
 
             this.resetFilters = function() {
@@ -247,7 +250,8 @@
                 var self = this;
                 dataService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD")).then(function(result) {
                     if(result.status == "success" && !angular.isString(result.data)){
-                        angular.forEach(result.data.data, function(cost) {
+                        self.costMargin = result.data.data.margin;
+                        angular.forEach(result.data.data.costData, function(cost) {
                             self.costList[cost.id]= modelTransformer.transform(cost, CampaignCost);
                         });
                     }

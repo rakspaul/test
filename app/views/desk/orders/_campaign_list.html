@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="cost_margin" style="display:none;">
-                    Margin: 20.00%
+                    Margin: {{(campaigns.costMargin > -1? (campaigns.costMargin | number :0) + '%' : 'NA' )}}
                 </div>
             </div>
             
