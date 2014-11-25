@@ -70,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="cost_margin">
+                <div class="cost_margin" style="display:none;">
                     Margin: 20.00%
                 </div>
             </div>
@@ -124,8 +124,8 @@
             var tab_id = $(this).attr("id").split("_tab") ;
             $(".active").removeClass("active") ;
             $(this).addClass("active") ;
-            $(".each_section_block , .filter_header_block").hide() ;
-            $( "#" + tab_id[0] + "_block , #" + tab_id[0] + "_filter_header"  ).show() ;
+            $(".each_section_block , .filter_header_block , .cost_margin ").hide() ;
+            $( "#" + tab_id[0] + "_block , #" + tab_id[0] + "_filter_header , ." + tab_id[0] + "_margin"  ).show() ;
         }) ;
         $("#brandsDropdownDiv").click(function() {
             $("#brandsList").toggle();

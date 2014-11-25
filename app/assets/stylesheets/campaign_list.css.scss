@@ -1852,11 +1852,14 @@ button, i, input[type="submit"] {
   .each_cost_col {
     float: left;
     width: 100px;
+    min-width: 100px;
+    min-height : 10px;
     font-size: 14px;
     font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
     color: #27292a;
     margin-right: 5px;
     text-align: center;
+    word-wrap: break-word;
   }
   .cost_cols_holder {
     .first_col , .second_col {
@@ -2301,7 +2304,7 @@ button, i, input[type="submit"] {
       }
       .cost_metric_graph {
         float: right;
-        width: 340px ;
+        width: 375px ;
       }
     }
     
@@ -2319,7 +2322,7 @@ button, i, input[type="submit"] {
       background: #f0f6ee;
       margin: 42px 0;
       .selected_graph {
-        width: 100px;
+        width: 0px;
         height: 100% ;
         border-radius: 4px 0 0 4px ;
         -moz-border-radius: 4px 0 0 4px ;
@@ -2716,6 +2719,8 @@ button, i, input[type="submit"] {
           font-size: 10px ;
           color: #717274 ;
           margin: 12px 12px 0 12px ;
+          width: 60px;
+          word-wrap: break-word;
         }
         .metric_graph {
           float: left;
