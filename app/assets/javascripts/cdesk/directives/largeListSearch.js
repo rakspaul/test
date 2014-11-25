@@ -68,6 +68,7 @@
                 });
 
                 $("#campaignDropdown").click(function () {
+                    $('#campaignDropdown').val(' ');
                     if ($('#campaigns_list').css('display') === 'block')
                         $('#campaigns_list').hide();
                     else
