@@ -68,8 +68,6 @@
                 });
 
                 $("#campaignDropdown").click(function () {
-                    console.log("campaing drop down clicked");
-                    console.log($('#campaignDropdown').val(selectedObj.name));
                     if ($('#campaigns_list').css('display') === 'block')
                         $('#campaigns_list').hide();
                     else

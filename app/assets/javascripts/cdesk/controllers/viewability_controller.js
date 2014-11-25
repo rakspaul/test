@@ -131,9 +131,6 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
-            // clear the strategy data in localStorage
-            localStorage['strategyId'] = '';
-            localStorage['strategyName'] = '';
             //Call the chart to load with the changed campaign id and strategyid
             $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
         };

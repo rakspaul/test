@@ -63,6 +63,8 @@
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
             var id = $(e.target).attr('value'), txt = $(e.target).text();
+            // clear the strategy data in localStorage
+            dataTransferService.updateExistingStorageObjects({'strategyId' : '', 'strategyName' :  ''});
 
             $scope.$parent.selectedCampaign.id = id;
             $scope.$parent.selectedCampaign.name = txt;

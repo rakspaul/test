@@ -108,13 +108,15 @@
             },
             loadFirstStrategy : function(id, name) {
                 var strategyObj = {id:null, name:null};
-                if(datatransferservice.getDomainReportsValue('previousCampaignId') !== datatransferservice.getDomainReportsValue('campaignId')) {
+                /*if(datatransferservice.getDomainReportsValue('previousCampaignId') !== datatransferservice.getDomainReportsValue('campaignId')) {
                     strategyObj.id = id;
                     strategyObj.name = name
                 }else {
                     strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
                     strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
-                }
+                }*/
+                strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
+                strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
                 return strategyObj;
 
             }
