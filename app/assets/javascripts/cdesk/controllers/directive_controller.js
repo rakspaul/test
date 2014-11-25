@@ -12,12 +12,14 @@
             if (typeof  $scope.campaigns !== 'undefined' && $scope.campaigns.length > 0) {
                 //Maintain the selected campaign name and id;
                 $scope.$parent.selectedCampaign = domainReports.getFound($scope.campaigns[0])['campaign'];
-                $scope.$parent.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaigns[0].kpi_type;
-                $scope.$parent.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaigns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaigns[0].kpi_type,
+                if($scope.$parent.selected_filters !== undefined) {
+                    $scope.$parent.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaigns[0].kpi_type;
+                    $scope.$parent.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaigns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaigns[0].kpi_type,
                     dataTransferService.updateExistingStorageObjects({
                         filterKpiType: $scope.$parent.selected_filters.kpi_type,
                         filterKpiValue: $scope.$parent.selected_filters.kpi_type_text
                     });
+                }
                 //TODO, change the function name, callBackCampaignsSuccess and callBackCampaignsFailure, if required
                 //function callBackCampaignsSuccess and callBackCampaignsFailure should be extended in the calling controller
                 //Ex: in the optimization_controller.js, you can call a empty function like $scope.callBackCampaignsSuccess = function(){};
@@ -68,15 +70,21 @@
 
             $scope.$parent.selectedCampaign.id = id;
             $scope.$parent.selectedCampaign.name = txt;
-            $scope.$parent.selected_filters.kpi_type = $(e.target).attr('_kpi');
-            $scope.$parent.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi'),
+            if($scope.$parent.selected_filters !== undefined) {
+                $scope.$parent.selected_filters.kpi_type = $(e.target).attr('_kpi');
+                $scope.$parent.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi')
+            }
+            dataTransferService.updateExistingStorageObjects({
+                'campaignId': id,
+                'campaignName': txt,
+                'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId')
+            });
+            if($scope.$parent.selected_filters !== undefined) {
                 dataTransferService.updateExistingStorageObjects({
-                    'campaignId': id,
-                    'campaignName': txt,
-                    'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId'),
                     'filterKpiValue': $scope.$parent.selected_filters.kpi_type_text,
                     'filterKpiType': $scope.$parent.selected_filters.kpi_type
                 });
+            }
             $scope.$apply();
             $(this).hide();
             $scope.$parent.callBackCampaignChange();
