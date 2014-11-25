@@ -201,7 +201,7 @@
           $( ".dropdown_ul" ).toggle();
        });
       $(".dropdown_ul li").click( function() {
-        $(".dd_txt").text($(this).text()) ;
+        $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
       }) ;
       $( document ).click(function() {
           if($(".dropdown_ul").is(':visible')) {

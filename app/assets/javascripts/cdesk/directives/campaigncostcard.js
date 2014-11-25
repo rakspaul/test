@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignCard', function (utils) {
+    angObj.directive('campaignCostCard', function (utils) {
         return {
             restrict:'EAC',
 
@@ -9,7 +9,7 @@
                 campaigns: '='
             },
 
-            templateUrl: 'campaign_card',
+            templateUrl: 'campaign_cost_card',
 
             link: function ($scope, element, attrs) {
 
@@ -47,23 +47,23 @@
                     }
                     return spendDifference;
                 }
-                $scope.getSpendDiffForStrategy = function(strategy) {
+               /* $scope.getSpendDiffForStrategy = function(strategy) {
                     if (strategy == undefined) {
                         return 0;
                     }
                     var expectedSpend = strategy.expectedMediaCost;
                     return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
-                }
+                }*/
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
                         return $scope.getClassFromDiff(spendDifference);
                     }
                 };
-                $scope.getSpendClassForStrategy = function(strategy) {
+                /*$scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
                     return $scope.getClassFromDiff(spendDifference);
-                }
+                }*/
                 $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
@@ -92,16 +92,16 @@
                         return actualWidth;
                     }
                 }
-                $scope.getSpendWidthForStrategy = function(strategy) {
+               /* $scope.getSpendWidthForStrategy = function(strategy) {
                     var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
                     if (actualWidth > 100) {
                         actualWidth = 100;
                     }
                     return actualWidth;
-                }
+                }*/
                 //$scope.campaigns.durationCompletion();
                 //To show the accorsponding strategy card
-                $scope.showStrategies = function(campaignId, strategiesCount) {
+               /* $scope.showStrategies = function(campaignId, strategiesCount) {
                     if(strategiesCount > 0) {
                       $('#strategies-accordion-' + campaignId).toggle();
                     }          
@@ -119,7 +119,7 @@
                 //This will call the Parent controllers loadMoreTactics function
                 $scope.loadMoreTactics = function(strategyId, campaignId) {
                     $scope.$parent.loadMoreTactics(strategyId, campaignId);         
-                };
+                };*/
 
                 //This is called when the user clicks on the campaign title
                 $scope.goToLocation = function(url){

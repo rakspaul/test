@@ -266,6 +266,20 @@
             return input;
         }
     });
+    angObj.filter('formatCostData', function ($filter) {
+        return function (input, symbol, places) {
+            if (input == undefined) {
+                return 'NA';
+            }
+            if(symbol === undefined) {
+                symbol = '';
+            }
+            if(places !== undefined) {
+                return symbol + $filter('number')(input, places);
+            }
+            return symbol + input;
+        }
+    });
     angObj.filter('truncateString', function () {
         return function (input, stringLength) {
             return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');

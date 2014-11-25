@@ -49,22 +49,69 @@
         <div campaign-dashboard campaigns="campaigns"></div>
         <!--dashboard (status bar) partial view ends-->
 
-        <!--filter (campaign sort filter) partial view-->
-        <div campaign-list-sort campaigns="campaigns"></div>
-        <!--filter (campaign sort filter) partial view ends-->
+<!--
+        <div class="summary_title">
+            <span class="heading">Showing: </span>
+            <span>3 Underperforming Active Campaigns</span>
+        </div>
+-->
+
+        <div class="cost_col_header_tabs_holder">
+            <div class="clearfix cost_tabs_margin">
+                <div class="clearfix cost_tabs_holder">
+                    <div class="each_tab active" id="performance_tab">
+                        <div class="each_tab_text">
+                            Performance
+                        </div>
+                    </div>
+                    <div class="each_tab cost_tab" id="cost_tab">
+                        <div class="each_tab_text">
+                            Cost Breakdown
+                        </div>
+                    </div>
+                </div>
+                <div class="cost_margin">
+                    Margin: 20.00%
+                </div>
+            </div>
+            
+            <!--cost filter -->
+            <div campaign-cost-sort class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  campaigns="campaigns" style="display:none" id="cost_filter_header"></div>  
+            <!--cost  filter ends-->
+
+            <!--filter (campaign sort filter) partial view-->
+            <div campaign-list-sort campaigns="campaigns" id="performance_filter_header" class="filter_header_block" ></div>
+            <!--filter (campaign sort filter) partial view ends-->
+        
+        </div>      
     </div>
 
     <div class="scrollable_container">
-        <div class="total_campaign_list_holder">
+        <!-- COST DIV -->
+        <div class="each_section_block total_campaign_cost_holder" id="cost_block" style="display:none" >
             <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
-                <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
-                        <!-- campaign strategy card -->
-                        <div campaign-card campaign="campaign" campaigns="campaigns"></div>
-                        <!-- campaign strategy card ends-->
+                <div class="each_campaign_cost_container" data-ng-repeat="campaign in campaigns.campaignList">
+                    <!-- campaign cost card -->
+                    <div campaign-cost-card campaign="campaign" campaigns="campaigns"></div>
+                     <!-- campaign cost card ends-->
                 </div>
             </div>
             <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
         </div>
+        <!-- END OF COST DIV -->
+
+        <!-- PERFORMANCE DIV -->
+        <div class="each_section_block total_campaign_list_holder"  id="performance_block" >
+            <div infinite-scroll="campaigns.fetchCampaigns()" infinite-scroll-disabled='campaigns.busy' infinite-scroll-distance="0" class="all_campaigns_container">
+                <div class="row-fluid each_campaign_holder" data-ng-repeat="campaign in campaigns.campaignList">
+                    <!-- campaign strategy card -->
+                    <div campaign-card campaign="campaign" campaigns="campaigns"></div>
+                    <!-- campaign strategy card ends-->
+                </div>
+            </div>
+            <div ng-show='campaigns.busy' class="load-more">&nbsp;</div>
+        </div>
+        <!-- END OF PERFORMANCE DIV -->
     </div><!--end of scrollable container-->
 </div>
 
@@ -73,9 +120,19 @@
         $( "#cdbMenu" ).click(function() {
             $( "#cdbDropdown" ).toggle();
          });
+        $(".each_tab").click( function() {
+            var tab_id = $(this).attr("id").split("_tab") ;
+            $(".active").removeClass("active") ;
+            $(this).addClass("active") ;
+            $(".each_section_block , .filter_header_block").hide() ;
+            $( "#" + tab_id[0] + "_block , #" + tab_id[0] + "_filter_header"  ).show() ;
+        }) ;
         $("#brandsDropdownDiv").click(function() {
             $("#brandsList").toggle();
         });
+        $(".dropdown_ul li").click( function() {
+            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+        }) ;
         $( document ).click(function(event) {
             if($("#cdbDropdown").is(':visible')) {
                 $("#cdbDropdown").hide();

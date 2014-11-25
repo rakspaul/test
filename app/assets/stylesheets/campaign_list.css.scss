@@ -1637,7 +1637,8 @@ button, i, input[type="submit"] {
 }
 
 .status_bar_holder {
-  margin: 10px 0;
+ margin: 0px 0 10px ;
+  padding-top: 10px ;
   .status_bar_section {
     float: left;
     text-align: center;
@@ -1842,6 +1843,30 @@ button, i, input[type="submit"] {
     text-indent: -99999;
     background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
+.sortable {
+    background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+  }
+  .each_cost_col {
+    float: left;
+    width: 100px;
+    font-size: 14px;
+    font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+    color: #27292a;
+    margin-right: 5px;
+    text-align: center;
+  }
+  .cost_cols_holder {
+    .first_col , .second_col {
+      color: #0978c9 ;
+    }
+  }
+  .total_cost {
+    width: 140px;
+    margin-right: 0;
+  }
   .isFixed {
     position: fixed;
     top: 0px ;
@@ -1944,13 +1969,13 @@ button, i, input[type="submit"] {
     }
   }
   .campaign_list_header_holder {
-    background: #f8fffa ;
+    background: #fff ;
     border: solid 1px #d2dee7 ;
     color: #333 ;
     text-transform: uppercase;
     height: 60px;
     padding-top: 20px;
-    margin: 10px 0px 0px;
+    margin: 0px ;
     .each_header_title {
       float: left;
       min-width: 110px;
@@ -2269,14 +2294,14 @@ button, i, input[type="submit"] {
         }
       }
       .other_details {
-        width: 85% ;
+        width: 97% ;
       }
       .each_cost_details {
         float: left;
       }
       .cost_metric_graph {
         float: right;
-        width: 200px ;
+        width: 340px ;
       }
     }
     
@@ -2296,7 +2321,6 @@ button, i, input[type="submit"] {
       .selected_graph {
         width: 100px;
         height: 100% ;
-        background: #6abc52;
         border-radius: 4px 0 0 4px ;
         -moz-border-radius: 4px 0 0 4px ;
         -webkit-border-radius: 4px 0 0 4px ;
@@ -2440,7 +2464,7 @@ button, i, input[type="submit"] {
       }
     }
   }
-  .metric_graph.green {
+  .metric_graph.blue {
     .selected_graph {
         background: #6abc52;
       }
@@ -2456,3 +2480,249 @@ button, i, input[type="submit"] {
       }
   }
 }
+
+
+/* cost breakdown */
+  
+  .campaign_cost_header_holder {
+    position: relative;
+    background: #fff;
+    border: solid 1px #d2dee7;
+    text-transform: uppercase;
+    height: 60px;
+    padding: 20px 10px 0;
+    .more_options {
+      position: absolute;
+      right: 10px;
+      top: 6px;
+      width: 40px;
+      height: 20px;
+      font-size: 13px;
+      color: #b8c8d4;
+      text-align: right;
+      cursor: default;
+      .dropdown {
+        height: 35px;
+        width: 50px;
+      }
+      .dd_txt {
+        position: absolute;
+        top: 15px;
+        right: 2px;
+        border: solid 1px transparent;
+        z-index: 2;
+        border-radius: 4px 4px 0 0;
+        height: 21px;
+        background: #fff;
+        border-bottom: 0;
+        width: 34px;
+        .dots {
+          border-radius: 4px ;
+          -moz-border-radius: 4px ;
+          -webkit-border-radius: 4px ;
+          height: 4px ;
+          width: 4px ;
+          background: #b8c8d4 ;
+          margin-left: 5px ;
+          display: block;
+          float: left;
+          margin-top: 8px;
+        }
+      }
+      .dropdown.open {
+        .dd_txt {
+          border: solid 1px #ccc;
+          border-bottom: 0;
+        }
+        
+      }
+      .dropdown-menu {
+        min-width: 100px;
+        left: auto;
+        right: 2px;
+        position: absolute;
+        z-index: 1;
+        border-radius: 4px 0 4px 4px;
+        -moz-border-radius: 4px 0 4px 4px;
+        -webkit-border-radius: 4px 0 4px 4px;
+        padding: 0;
+        margin: 0;
+        text-align: left;
+        text-transform: none;
+        width: 140px;
+        color: #313233;
+        font-family: "Avenir";
+       
+        li {
+          
+          cursor: pointer;
+          a {
+            padding: 4px 10px;
+            background: rgba(0, 0, 0, 0);
+            height: 100%;
+            width: 100%;
+          }
+        }
+        li.active a {
+          color: #0978C9 ;
+        }
+        li:hover {
+          background: #F0FCF4 ;
+        }
+      }
+    }
+    .each_cost_col {
+      cursor: pointer;
+      text-transform: none;
+      font-size: 14px;
+      font-family: "Avenir";
+      color: #313233;
+    }
+    .arrrow_img {
+      background: url("/assets/cdesk/dropdown_down.png") no-repeat center center;
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      margin-left: 6px;
+    }
+    .second_col .dropdown_ul {
+      min-width: 75px;
+      left: 4px;
+      li:hover {
+        background : #f0fcf4;;
+      }
+    }
+  }
+  .cost_col_header_tabs_holder {
+    margin-top: 40px ;
+    .cost_tabs_margin {
+      font-size: 14px ;
+      font-family:"Avenir";
+      color: #6a6d70 ;
+      .cost_tabs_holder {
+        float: left;
+        border: solid 1px #d2dee7;
+        border-bottom: 0px;
+        border-radius: 4px 4px 0 0;
+        .each_tab {
+          position: relative;
+          float: left;
+          text-transform: uppercase;
+          color: #91989d ;
+          height: 36px;
+          width: 170px;
+          text-align: center;
+          border-bottom: 0px ;
+          cursor: pointer;
+          .each_tab_text {
+            background: #f8fffa ;
+            padding: 8px 0px;
+            border-radius: 4px 0 0 0 ;
+          }
+
+        }
+        .cost_tab {
+          .each_tab_text {
+            border-radius: 0 4px 0 0 ;
+          }
+        }
+        .each_tab:first-child {
+          border-right: solid 1px #d2dee7 ;
+        }
+        .each_tab.active {
+          .each_tab_text {
+            background: #fff;
+            height: 38px;
+            position: absolute;
+            z-index: 1;
+            width: 100%;
+
+          }
+          
+        }
+      }
+      .cost_margin {
+        
+        margin-top: 10px;
+        float: right;
+      }
+    }
+  }
+  
+  .total_campaign_cost_holder {
+    background: #fff;
+    margin-bottom: 20px ;
+    .each_campaign_cost_container {
+      border: solid 1px #d2dee7;
+      padding: 20px 10px 10px;
+      border-top: 0;
+      .cost_cols_holder {
+        margin-top: 10px ;
+      }
+      .each_cost_section {
+        float: left;
+        .each_cost_details {
+          font-family: "Avenir";
+          font-size: 14px;
+          .main_heading {
+            color: #000;
+            font-weight: bold;
+            margin-bottom: 4px;
+          }
+          .heading {
+            color: #727272 ;
+          }
+          .dates_details {
+            font-size: 12px ;
+            color: #b8c1c8 ;
+          }
+
+        }
+        .full_metric_graph {
+            margin : 28px 0px 0px ;
+    
+            
+        }
+        .cost_cols_holder {
+          margin: 15px 0 3px 0;
+          padding: 0 ;
+          
+        }
+      }
+      .status_section {
+
+        .status_icon {
+          width: 16px;
+          height: 18px;
+          background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
+        }
+      }
+
+      .other_details {
+        width: 97% ;
+      }
+      .each_cost_details {
+        float: left;
+      }
+      .cost_metric_graph {
+        float: right;
+        width: 340px ;
+        .metric_graph_left_val {
+          float: left;
+        }
+        .metric_graph_details_val {
+          float: left;
+          font-family: "Avenir" ;
+          font-size: 10px ;
+          color: #717274 ;
+          margin: 12px 12px 0 12px ;
+        }
+        .metric_graph {
+          float: left;
+          width: 200px ;
+        }
+      }
+    }
+    
+  }
+/*  end of cost breakdown */
