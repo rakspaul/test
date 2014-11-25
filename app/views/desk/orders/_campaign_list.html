@@ -145,14 +145,16 @@
         });
         $(window).scroll( function() {
             var scroll_top = $(window).scrollTop() ;
-            var fixed_div_top = $(".fixed_line").offset().top ;
-            var fixed_height = $(".fixed_container").height() ;
-            if( scroll_top < fixed_div_top ) {
-                $(".fixed_container").removeClass("isFixed") ;
-                $(".scrollable_container").css("margin-top" , "0px" ) ;
-            } else {
-                $(".fixed_container").addClass("isFixed") ;
-                $(".scrollable_container").css("margin-top" , fixed_height ) ;
+            if($(".fixed_line").offset() !== undefined) {
+                var fixed_div_top = $(".fixed_line").offset().top;
+                var fixed_height = $(".fixed_container").height();
+                if (scroll_top < fixed_div_top) {
+                    $(".fixed_container").removeClass("isFixed");
+                    $(".scrollable_container").css("margin-top", "0px");
+                } else {
+                    $(".fixed_container").addClass("isFixed");
+                    $(".scrollable_container").css("margin-top", fixed_height);
+                }
             }
         }) ; 
     });
