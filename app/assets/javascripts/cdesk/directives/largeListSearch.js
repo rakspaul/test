@@ -68,7 +68,7 @@
                 });
 
                 $("#campaignDropdown").click(function () {
-                    $('#campaignDropdown').val(' ');
+                    $('#campaignDropdown').val('');
                     if ($('#campaigns_list').css('display') === 'block')
                         $('#campaigns_list').hide();
                     else
@@ -76,8 +76,11 @@
 
                 });
 
-                $("#campaigns_list").click(function () {
-                    $(this).hide();
+                $(document).click(function(event) {
+                    if(!$("#campaignDropdown").is(':focus')) {
+                            $("#campaigns_list").hide();
+                            $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
+                    }
                 });
 
             }

@@ -78,6 +78,7 @@
                     'filterKpiType': $scope.$parent.selected_filters.kpi_type
                 });
             $scope.$apply();
+            $(this).hide();
             $scope.$parent.callBackCampaignChange();
 
         });
