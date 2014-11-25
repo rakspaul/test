@@ -2,7 +2,7 @@
     'use strict';
     angObj.controller('directiveController', function ($scope, domainReports, apiPaths, dataTransferService) {
 
-        console.log('inside directiveController ');
+       // console.log('inside directiveController ');
 
 
         $scope.campaigns = {};
