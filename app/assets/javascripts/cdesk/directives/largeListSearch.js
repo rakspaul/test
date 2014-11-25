@@ -7,17 +7,22 @@
                 selectedObj: "="
             },
             controller: 'directiveController',
-            template: '<ul class="nav navbar-nav">' +
+            template: '' +
+                ' <div class="pull-left dropdown dropdown_type1">' +
+                '<span class="dropdown_ul_text" data-toggle="dropdown">' +
+                '<ul class="nav navbar-nav">' +
                 '<li class="dropdown" >' +
                 '<div id="campaignsDropdownDiv" style="display:inline;">' +
                 '<input style="width: 600px;" class="dropdown-toggle inactive dd_txt" ng-model="selectedObj.name" id="campaignDropdown" title="{{selectedObj.name}}" placeholder="{{selectedObj.name }}" data-ng-click="filterDropDown()" />' +
                 '<span class="sort-image-inactive" id="#campaignsDropdownDiv"></span>' +
                 '</div>' +
                 '<ul class="dropdown-menu" role="menu"  id="campaigns_list">' +
-                '<li ng-repeat="campaign in campaigns" value="{{campaign.campaign_id}}" title="{{campaign.name}}" >{{campaign.name }}</li>' +
+                '<li ng-repeat="campaign in campaigns" value="{{campaign.campaign_id}}" _kpi="{{campaign.kpi_type}}" title="{{campaign.name}}" >{{campaign.name }}</li>' +
                 '</ul>' +
                 '</li>' +
-                '</ul>',
+                '</ul>' +
+                '<span id="campaign_arrow_img" class="arrrow_img"></span>' +
+                '</span>',
             link: function ($scope, element, attrs) {
 
                 $scope.originalCampaingList = $scope.campaigns; // for the first time.

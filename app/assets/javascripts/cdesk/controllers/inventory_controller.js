@@ -5,7 +5,7 @@ var angObj = angObj || {};
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
-        
+
         //Default Values
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
@@ -34,54 +34,20 @@ var angObj = angObj || {};
 
 
         $scope.init = function () {
-            $scope.campaignList();
+            // $scope.campaignList();
         };
 
         //URL for download
         $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
 
 
-        /*Campaign List Functions*/
-
-        $scope.setCampaigns = function (campaigns) {
-            $scope.campaingns = campaigns;
-            if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                //Maintain the selected campaign name and id;
-                $scope.selectedCampaign = domainReports.getFound($scope.campaingns[0])['campaign'];
-                //Set the KPI Type here
-                $scope.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type;
-                $scope.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type,
-                    dataTransferService.updateExistingStorageObjects({
-                        filterKpiType: $scope.selected_filters.kpi_type,
-                        filterKpiValue: $scope.selected_filters.kpi_type_text
-                    });
-                $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
-            } else {
-                if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                    $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
-                    $scope.strategyFound = false;
-                }
-            }
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
-            }
+        $scope.callBackCampaignsSuccess = function() {
+            $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
         };
 
-        //Function called to load the campaign list, call ajax if not found in localStorage
-        $scope.campaignList = function () {
-            if (dataTransferService.getCampaignList() === false) {
-                domainReports.getCampaignListForUser().then(function (result) {
-                    if (result.status == 'success') {
-                        var campaigns = result.data.data.slice(0, 1000);
-                        dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaigns(campaigns);
-                    }
-                });
-            } else {
-                $scope.setCampaigns(domainReports.getCampaignListForUser());
-            }
+        $scope.callBackCampaignsFailure = function() {
+            $scope.strategyFound = false;
         };
-        /*Campaign List Functions*/
 
         /*Strategy List Functions*/
         $scope.updateStrategyObjects = function (strategy) {
@@ -257,24 +223,7 @@ var angObj = angObj || {};
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
         };
 
-
-        //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').click(function (e) {
-            var id = $(e.target).attr('value'), txt = $(e.target).text();
-            $scope.selectedCampaign.id = id;
-            $scope.selectedCampaign.name = txt;
-            $scope.selected_filters.kpi_type = $(e.target).attr('_kpi');
-            $scope.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi'),
-                dataTransferService.updateExistingStorageObjects(
-                    {
-                        'campaignId': id,
-                        'campaignName': txt,
-                        'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId'),
-                        'filterKpiValue': $scope.selected_filters.kpi_type_text,
-                        'filterKpiType': $scope.selected_filters.kpi_type
-                    });
-
-            $scope.$apply();
+        $scope.callBackCampaignChange = function() {
             $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
@@ -286,7 +235,7 @@ var angObj = angObj || {};
             if ($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;
             }
-        });
+        }
 
         //This function is called from the directive, onchange of the dropdown
         $scope.callBackKpiDurationChange = function (kpiType) {
@@ -317,7 +266,5 @@ var angObj = angObj || {};
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
         });
-
-
     });
 }());

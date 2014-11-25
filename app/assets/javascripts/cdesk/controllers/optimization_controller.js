@@ -96,7 +96,7 @@ var angObj = angObj || {};
 
         $scope.init = function () {
             //To set the active tab for reports
-            $scope.campaignlist();  //First load the campaign List
+       //     $scope.campaignlist();  //First load the campaign List
             if(dataTransferService.getClickedStrategy()  !== undefined) {
                 $scope.clicked.strategy = dataTransferService.getClickedStrategy();
                 $scope.clicked.action = dataTransferService.getClickedAction();
@@ -265,45 +265,18 @@ var angObj = angObj || {};
         ///////////////////////////////////////////////////////////////////////////////////////////////////////
         //Campaign Strategy List
         ////////////////////////////////////////////////////////////////////////////////////////////////////
-        $scope.setCampaignStrategyList = function(campaigns) {
-            $scope.campaingns = campaigns;
-            if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                //Maintain the selected campaign name and id;
-                $scope.selectedCampaign =  domainReports.getFound($scope.campaingns[0])['campaign'];
-                //Set the KPI Type here
-                dataTransferService.updateExistingStorageObjects({
-                    filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaingns[0].kpi_type,
-                    filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaingns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaingns[0].kpi_type
-                });
-                if(dataTransferService.getClickedStrategy()  === undefined) {
-                    //console.log('Called optimization page directly ');
-                    $scope.getCampaignDetails();
-                }else{
-                    //console.log('Came Directly from Campaign Details');
-                }
-            }  else {
-                if (typeof  $scope.campaingns !== 'undefined' && $scope.campaingns.length > 0) {
-                    $scope.selectedCampaign = domainReports.getNotFound()['campaign'];
-                }
-            }
-            if ($scope.selectedCampaign.id !== -1) {
-                $scope.strategylist($scope.selectedCampaign.id);
+
+        $scope.callBackCampaignsSuccess = function() {
+            dataTransferService.updateExistingStorageObjects({
+                filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $('#campaigns_list li:first').attr('_kpi'),
+                filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($('#campaigns_list li:first').attr('_kpi') === 'action_rate') ? 'Action Rate' : $('#campaigns_list li:first').attr('_kpi')
+            });
+            if(dataTransferService.getClickedStrategy()  === undefined) {
+                $scope.getCampaignDetails();
             }
         };
 
-        $scope.campaignlist = function () {
-            if(dataTransferService.getCampaignList() === false){
-                domainReports.getCampaignListForUser().then(function (result) {
-                    if(result.status == 'success') {
-                        var campaigns = result.data.data.slice(0,1000);
-                        dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaignStrategyList(campaigns);
-                    }
-                });
-            }else{
-                $scope.setCampaignStrategyList(domainReports.getCampaignListForUser());
-            }
-        };
+        $scope.callBackCampaignsFailure = function() {};
 
 
         $scope.updateStrategyObjects = function(strategy){
@@ -338,23 +311,11 @@ var angObj = angObj || {};
             }
         };
 
-        //Function called when the user clicks on the campaign dropdown
-        $('#campaigns_list').click(function (e) {
-            var id = $(e.target).attr('value'), txt = $(e.target).text();
-            $scope.selectedCampaign.id = id;
-            $scope.selectedCampaign.name = txt;
-            //TODO for testing purpose, uncomment below line
-            /*$scope.selectedCampaign.id =  401459;
-            $scope.selectedCampaign.name =  'HARD CODED 401459';*/
+        $scope.callBackCampaignChange = function() {
             dataTransferService.updateExistingStorageObjects({
-                'campaignId' : id,
-                'campaignName' :  txt,
-                'previousCampaignId' : dataTransferService.getDomainReportsValue('campaignId'),
-                'filterKpiValue': ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi'),
-                'filterKpiType': $(e.target).attr('_kpi')
+                filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $('#campaigns_list li:first').attr('_kpi'),
+                filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($('#campaigns_list li:first').attr('_kpi') === 'action_rate') ? 'Action Rate' : $('#campaigns_list li:first').attr('_kpi')
             });
-            $scope.$apply();
-
             if($scope.selectedCampaign.id !== -1) {
                 $scope.chartForStrategy=true;
                 $scope.strategylist($scope.selectedCampaign.id);
@@ -364,7 +325,7 @@ var angObj = angObj || {};
                 $scope.chartForStrategy=false;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-        });
+        };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
