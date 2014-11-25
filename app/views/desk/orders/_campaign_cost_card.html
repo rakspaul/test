@@ -44,7 +44,7 @@
                      </div>
                      <div class="metric_graph_details_val">
                         <div>Budget</div>
-                        <div>${{campaign.expectedMediaCost | number:2}}</div>
+                        <div>${{campaign.totalMediaCost | number:2}}</div>
                     </div>
                  </div>
             </div>
@@ -55,14 +55,14 @@
 
 <div class="clearfix cost_col_container cost_cols_holder">
    
-        <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData}}</div>
+        <div class="each_cost_col first_col">{{campaigns.costList[campaign.orderId].getImpressions() | formatCostData: '' : 0}}</div>
         <div class="each_cost_col second_col">{{campaigns.cdbDataMap[campaign.orderId].map(campaigns.selectedCostType)  | kpiFormatter : campaigns.selectedCostType }}</div>
-        <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | formatCostData : '$' : 2}}</div>
+        <div class="each_cost_col three_col">{{campaigns.costList[campaign.orderId].getInventoryCost() | formatCostData : '$' : 0}}</div>
         <div class="each_cost_col four_col">{{campaigns.costList[campaign.orderId].getDataCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col five_col">{{campaigns.costList[campaign.orderId].getAdServingCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col six_col">{{campaigns.costList[campaign.orderId].getRichMediaCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col sev_col">{{campaigns.costList[campaign.orderId].getResearchCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col eight_col">{{campaigns.costList[campaign.orderId].getAdVerificationCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getPlatformCost() | formatCostData : '$' : 2}}</div>
-        <div class="each_cost_col tenth_col total_cost">{{campaigns.costList[campaign.orderId].getTotal() | formatCostData : '$' : 2}}</div>
+        <div class="each_cost_col five_col">{{campaigns.costList[campaign.orderId].getAdServingCost() | formatCostData : '$' : 0}}</div>
+        <div class="each_cost_col six_col">{{campaigns.costList[campaign.orderId].getRichMediaCost() | formatCostData : '$' : 0}}</div>
+        <div class="each_cost_col sev_col">{{campaigns.costList[campaign.orderId].getResearchCost() | formatCostData : '$' : 0}}</div>
+        <div class="each_cost_col eight_col">{{campaigns.costList[campaign.orderId].getAdVerificationCost() | formatCostData : '$' : 0}}</div>
+        <div class="each_cost_col ninth_col">{{campaigns.costList[campaign.orderId].getPlatformCost() | formatCostData : '$' : 0}}</div>
+        <div class="each_cost_col tenth_col total_cost">{{campaigns.costList[campaign.orderId].getTotal() | formatCostData : '$' : 0}}</div>
 </div>
