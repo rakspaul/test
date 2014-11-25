@@ -96,7 +96,6 @@ var angObj = angObj || {};
 
         //Called from directive_controller.js,  when the user selects the campaign dropdown option
         $scope.callBackCampaignChange = function () {
-            console.log('called from callBackCampaignChange');
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
