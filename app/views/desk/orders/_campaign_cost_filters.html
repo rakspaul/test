@@ -1,0 +1,53 @@
+<!--cost filter -->
+<!--<div class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  style="display:none" id="cost_filter_header">-->
+    <div class="each_cost_col first_col active">Imps.</div>
+    <div class="each_cost_col second_col"><!-- CPA<span class="sortable"></span> -->
+        <div class="dropdown">
+            <span class="dropdown_ul_text" data-toggle="dropdown">
+                <span class="dd_txt ng-binding">CPA</span>
+                <span class="arrrow_img"></span>
+            </span>
+
+              <ul class="dropdown_ul dropdown-menu">
+                  <li data-ng-click="campaigns.filterCostType('cpa')">CPA</li>
+                  <li data-ng-click="campaigns.filterCostType('cpc')">CPC</li>
+                  <li data-ng-click="campaigns.filterCostType('cpm')">CPM</li>
+                  <li data-ng-click="campaigns.filterCostType('ctr')">CTR</li>
+              </ul>
+        </div>
+
+    </div>
+    <div class="each_cost_col three_col">Inventory</div>
+    <div class="each_cost_col four_col">Data</div>
+    <div class="each_cost_col five_col">Ad Serving</div>
+    <div class="each_cost_col six_col">Rich Media</div>
+    <div class="each_cost_col sev_col">Research</div>
+    <div class="each_cost_col eight_col">Ad Verification</div>
+    <div class="each_cost_col ninth_col">Platform</div>
+    <div class="each_cost_col tenth_col total_cost">Total Spend</div>    
+    <div class="more_options">
+        <div class="dropdown">
+            <span data-toggle="dropdown">
+                <span class="dd_txt">
+                    <span class="dots"></span>
+                    <span class="dots"></span>
+                    <span class="dots"></span>
+                </span>
+            </span>
+            <ul class="dropdown-menu">
+              <li class="{{sortField.className}}" ng-repeat="sortField in campaigns.sortFieldList" data-ng-click="campaigns.sortCampaigns(sortField.key)">
+                <a >
+                {{sortField.display}}&nbsp;<span class="sortable {{campaigns.sortIcon(sortField.key)}}"></span> 
+              </a>
+              </li>
+            </ul>
+            <!-- <ul class="dropdown-menu">
+                <li>Campaign Name<span class="sortable"></span></li>
+                <li>Brand<span class="sortable"></span></li>
+                <li>Flight dates<span class="sortable"></span></li>
+            </ul> -->
+        </div>
+       
+    </div>  
+<!--</div>-->
+<!--cost  filter ends-->
