@@ -3,6 +3,9 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
 
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
         $scope.selectedStrategy = domainReports.getDefaultValues();
@@ -102,18 +105,6 @@ var angObj = angObj || {};
             }
         };
 
-
-        //Calling the function callBackStrategyChange
-        $scope.callBackStrategyChange = function () {
-            console.log('Calling from the strategyList directive');
-            //Call the chart to load with the changed campaign id and strategyid
-            $scope.strategylist({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-        };
-
-//        //Hot fix to show the campaign tab selected
-//        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
-
-
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
             viewablityService.getStrategiesForCampaign(campaignId).then(function (result) {
@@ -141,12 +132,10 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             //Call the chart to load with the changed campaign id and strategyid
-            $scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+            $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
         };
 
 
-        //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
     });
 
 
