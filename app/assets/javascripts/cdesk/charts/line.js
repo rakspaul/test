@@ -132,6 +132,27 @@
                                 }
                             }
                         });
+
+                        //draw plotlines
+                        chart.yAxis[0].addPlotLine({
+                            value: extremes.max,
+                            color: '#D2DEE7',
+                            width: 1,
+                            id: 'plot-line-1'
+                        });
+                        chart.xAxis[0].addPlotLine({
+                            value: extremesX.max,
+                            color: '#D2DEE7',
+                            width: 1,
+                            id: 'plot-line-1'
+                        });
+                        chart.xAxis[0].addPlotLine({
+                            value: extremesX.min,
+                            color: '#D2DEE7',
+                            width: 1,
+                            id: 'plot-line-1'
+                        });
+
                     }, 1000);
                 }
 
