@@ -104,29 +104,41 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.strategylist = function (campaignId) {
-            $scope.selectedStrategy.name = "Loading...";
-            viewablityService.getStrategiesForCampaign(campaignId).then(function (result) {
-                $scope.strategies = result.data.data;
-                if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
-                    if (dataTransferService.getDomainReportsValue('previousCampaignId') !== dataTransferService.getDomainReportsValue('campaignId')) {
-                        $scope.selectedStrategy.id = $scope.strategies[0].id;
-                        $scope.selectedStrategy.name = $scope.strategies[0].name;
-                    } else {
-                        $scope.selectedStrategy.id = dataTransferService.getDomainReportsValue('strategyId') ? dataTransferService.getDomainReportsValue('strategyId') : $scope.strategies[0].id;
-                        $scope.selectedStrategy.name = dataTransferService.getDomainReportsValue('strategyName') ? dataTransferService.getDomainReportsValue('strategyName') : $scope.strategies[0].name;
-                    }
-                    $scope.dataNotFound = false;
-                    //Call the chart to load with the changed campaign id and strategyid
-                    $scope.strategyViewData({campaign_id: campaignId, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-                }
-                else { //  means empty strategy list
-                    $scope.dataNotFound = true;
-                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                }
-            });
+        $scope.updateStrategyObjects = function (strategy) {
+            $scope.strategies = strategy;
+            if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
+                //If a different campaign is selected, then load the first strategy data
+                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
+                $scope.selectedStrategy.id = strategyObj.id;
+                $scope.selectedStrategy.name = strategyObj.name;
+                $scope.strategyFound = true;
+                $scope.dataNotFound = false;
+                //Call the chart to load with the changed campaign id and strategyid
+                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+            } else { //  means empty strategy list
+                $scope.dataNotFound = true;
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+            }
         };
 
+
+        //Calling the Strategy object based on the campaignId
+        $scope.strategylist = function (campaignId) {
+            $scope.selectedStrategy.name = "Loading...";
+            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
+                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
+                    if (result.status == 'success') {
+                        var strategy = result.data.data;
+                        dataTransferService.setCampaignStrategyList(campaignId, strategy);
+                        $scope.updateStrategyObjects(strategy);
+                    } else {
+                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                    }
+                });
+            } else {
+                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
+            }
+        };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
