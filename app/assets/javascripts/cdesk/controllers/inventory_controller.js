@@ -33,9 +33,7 @@ var angObj = angObj || {};
         $scope.strategyFound = false;
 
 
-        $scope.init = function () {
-            // $scope.campaignList();
-        };
+       
 
         //URL for download
         $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;

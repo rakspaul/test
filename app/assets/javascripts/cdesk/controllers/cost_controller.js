@@ -26,7 +26,7 @@ var angObj = angObj || {};
 
         $scope.updateStrategyObjects = function(strategy){
             $scope.strategies = strategy;
-            console.log($scope.strategies);
+            //console.log($scope.strategies);
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
