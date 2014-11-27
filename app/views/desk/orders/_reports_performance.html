@@ -56,25 +56,26 @@
             <div class="clearfix">
             
               <div class="clearfix reports_tabs_holder">
-                          <div class="each_tab active">
+                          <div class="each_tab active" id="screens_tab">
                               <div class="each_tab_text">
                                   Screens
                               </div>
                           </div>
-                          <div class="each_tab cost_tab">
+                          <div class="each_tab cost_tab" id="formats_tab">
                               <div class="each_tab_text">
                                   Formats
                               </div>
                           </div>
-                          <div class="each_tab cost_tab">
+                          <div class="each_tab cost_tab" id="daysOfWeek_tab">
                               <div class="each_tab_text">
                                   Days of Week
                               </div>
                           </div>
               </div>
             </div>
-    
-            <div class="reports_performance_container">
+
+            
+            <div class="reports_block reports_performance_container" id="reports_screens_block" >
     
                     <div class="reports_details_outer_container">
                       <div class="clearfix reports_performance_header">
@@ -279,9 +280,25 @@
                     Data Not Found
                 </div>
             </div>
+            <div class="reports_block" id="reports_formats_block" style="display:none;">
+            </div>
+            <div class="reports_block" id="reports_daysOfWeek_block" style="display:none;" >
+            </div>
 
           </div>
          
   
       </div>
   </div>
+
+  <script type="text/javascript">
+    $(document).ready( function() {
+          $(".each_tab").click( function() {
+              var tab_id = $(this).attr("id").split("_tab") ;
+              $( ".reports_tabs_holder").find(".active").removeClass("active") ;
+              $( this ).addClass("active") ;
+              // $( ".reports_block").hide() ;
+              // $( "#reports_" + tab_id[0] + "_block" ).show() ;
+          }) ;
+    }) ;
+  </script>
