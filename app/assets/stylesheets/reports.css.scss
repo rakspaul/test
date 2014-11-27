@@ -1,3 +1,42 @@
+.tootip_holder {
+  position: relative;
+  cursor: default;
+  .common_tooltip {
+    display: none;
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    color: white;
+    padding: 15px;
+    float: none !important;
+    width: 150px;
+    bottom: 30px;
+    left: -75px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-family: "Avenir";
+
+  }
+  .common_tooltip:after {
+    content: " ";
+    height: 0px;
+    width: 0px;
+    position: absolute;
+    bottom: -10px;
+    border-left: solid 10px transparent;
+    border-right: solid 10px transparent;
+    border: solid 10px transparent;
+    display: block;
+    border-bottom: 0px;
+    border-top: solid 10px #000;
+    border-top-color: rgba(0,0,0,0.8);
+    left: 70px ;
+  }
+}
+.tootip_holder:hover {
+  .common_tooltip {
+    display: block;
+  }
+}
 .total_reports_page {
   margin: 0px auto 40px;
   width: 1056px;
