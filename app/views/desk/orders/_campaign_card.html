@@ -5,7 +5,7 @@
     <div class="each_campaign_section campaign_list_details">
         <div class="heading_holder">
             <div class="main_heading">
-                {{campaign.campaignTitle}}
+                <a ng-href="#/campaigns/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
             </div>
             <div class="heading">
                 {{campaign.brandName }}
@@ -13,7 +13,7 @@
         </div>
         <div class="days_left_holder">
             <div class="total_days_holder">
-                
+
                 <div class="clearfix days_end_points">
                         <span class="start_end">{{campaign.startDate | date :'d MMM y' }}</span>
                         <span class="finish_end">{{campaign.endDate | date :'d MMM y' }}</span>
@@ -23,7 +23,7 @@
                     <span ng-switch-when="0" class="days_over_text start_text">Yet to start</span>
                     <span ng-switch-when="-1" class="days_over_text ended_text" >Ended</span>
                     <span ng-switch-default class="days_over_text">{{campaigns.durationLeft(campaign)}} Days Left</span>
-                    
+
                 </div>
             </div>
         </div>
@@ -35,7 +35,7 @@
             </a>
             <a href="campaigns#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder">
                 <div class="campaign_btn actions_btn">
-                    <span>Actions</span>
+                    <span>Activity</span>
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
                 </div>
             </a>

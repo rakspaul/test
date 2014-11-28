@@ -2189,7 +2189,10 @@ button, i, input[type="submit"] {
           color: #000 ;
           line-height: 24px ;
           font-weight: bold ;
-          
+          a {
+            color: #000;
+            text-decoration: none;
+          }
         }
 
         .heading {
@@ -2211,7 +2214,7 @@ button, i, input[type="submit"] {
           }
           .days_end_points {
             position: absolute;
-            top: -15px;
+            top: 6px;
             width: 100%;
              span {
               float: right ;
@@ -2290,6 +2293,10 @@ button, i, input[type="submit"] {
             color: #000;
             font-weight: bold;
             
+          }
+          a {
+            color: #000;
+            text-decoration: none;
           }
           .heading {
             color: #727272 ;
