@@ -52,11 +52,11 @@
                 </div>
                 <div class="graph_start_point {{(getSpendTickWidth(campaign) <= 0) ? 'start_beginning' : ''}} {{(getSpendTickWidth(campaign) >= 100) ? 'start_end_point' : ''}}" style="left: {{getSpendTickWidth(campaign)}}%;"><!-- put start_beginning when at start -->
                     <div class="end_point_val">
-                        <span>${{campaign.expectedMediaCost | number:2}}</span>
+                        <span class="icon_KPI"> ${{campaign.expectedMediaCost | number:2}}</span>
                         <div class="end_point_line"></div>
                     </div>
                 </div>
-                <div class="graph_end_point completed_end_point "><!-- put completed_end_point when at end -->
+                <div class="graph_end_point completed_end_point " ng-hide="campaign.expectedMediaCost == campaign.totalMediaCost"><!-- put completed_end_point when at end -->
                     <div class="end_point_val">
                         <div class="end_point_line"></div>
                         <span>${{campaign.totalMediaCost | number:2}}</span>

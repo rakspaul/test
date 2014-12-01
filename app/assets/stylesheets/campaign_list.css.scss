@@ -2365,6 +2365,10 @@ button, i, input[type="submit"] {
           top: 0px ;
           left: -25px ;
         }
+        .end_point_val span.icon_KPI {
+          background: url(asset-path("cdesk/icn_goal_white.png")) no-repeat  #c1ccd4 5px 2px ;
+          padding-left: 24px;
+        }
         .end_point_val:after {
           top: 21px;
           left: -4px;
