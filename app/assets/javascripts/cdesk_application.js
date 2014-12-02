@@ -62,4 +62,5 @@
 //= require cdesk/services/transformer_service
 //= require cdesk/services/viewablityservice
 //= require cdesk/services/datatransferservice
+//= require cdesk/services/performanceservice
 //= require cdesk/utils

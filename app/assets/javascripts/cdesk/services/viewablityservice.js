@@ -8,7 +8,7 @@
                 return this.fetch(url);
             },
             getCampaingsForUser: function () {
-                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id=11127'; //+user_id;
+                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+ user_id;
                 return this.fetch(url);
 
             },

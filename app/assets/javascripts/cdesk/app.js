@@ -45,9 +45,12 @@ var angObj = '';
                 templateUrl: 'cost',
                 controller: 'costController'
             })
-                .when('/performance', {
+            .when('/performance', {
                 templateUrl: 'performance',
                 controller: 'performanceController'
+            })
+            .when('/reports_performance', {
+                templateUrl: 'reports_performance'
             })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
