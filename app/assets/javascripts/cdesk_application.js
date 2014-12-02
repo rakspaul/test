@@ -41,7 +41,8 @@
 //= require cdesk/controllers/viewability_controller
 //= require cdesk/controllers/cost_controller
 //= require cdesk/controllers/performance_controller
-//= require cdesk/directives/campaign
+//= require cdesk/directives/strategycard
+//= require cdesk/directives/tacticcard
 //= require cdesk/directives/campaigncard
 //= require cdesk/directives/campaigncostcard
 //= require cdesk/directives/campaignsort
