@@ -76,7 +76,7 @@
                         <span>Imps.</span>
                     </div>
                     <div class="each_col forth_col">
-                        <span>CTR</span>
+                        <span>CTR (%)</span>
                     </div>
                     <div class="each_col fifth_col">
                         <span>Action Rate</span>
@@ -106,22 +106,22 @@
                                     {{strategy.dimension}}
                                 </div>
                                 <div class="each_col third_col">
-                                    {{strategy.impressions}}
+                                    {{strategy.impressions | number:0}}
                                 </div>
                                 <div class="each_col forth_col">
-                                    {{strategy.ctr}}
+                                    {{strategy.ctr*100 | number:2}}
                                 </div>
                                 <div class="each_col fifth_col">
-                                    {{strategy.action_rate}}
+                                    {{strategy.action_rate | number:2}}
                                 </div>
                                 <div class="each_col sixth_col">
-                                    {{strategy.cpa}}
+                                    ${{strategy.cpa | number:2}}
                                 </div>
                                 <div class="each_col seventh_col">
-                                    {{strategy.cpc}}
+                                    ${{strategy.cpc | number:2}}
                                 </div>
                                 <div class="each_col eight_col">
-                                    {{strategy.cpm}}
+                                    ${{strategy.cpm | number:2}}
                                 </div>
                             </div>
                         </div>
@@ -142,22 +142,22 @@
                                             {{data.dimension}}
                                         </div>
                                         <div class="each_col third_col">
-                                            {{data.impressions}}
+                                            {{data.impressions | number:0}}
                                         </div>
                                         <div class="each_col forth_col">
-                                            {{data.ctr}}
+                                            {{data.ctr*100 | number:2}}
                                         </div>
                                         <div class="each_col fifth_col">
-                                            {{data.action_rate}}
+                                            {{data.action_rate | number:2}}
                                         </div>
                                         <div class="each_col sixth_col">
-                                            {{data.cpa}}
+                                            ${{data.cpa | number:2}}
                                         </div>
                                         <div class="each_col seventh_col">
-                                            {{data.cpc}}
+                                            ${{data.cpc | number:2}}
                                         </div>
                                         <div class="each_col eight_col">
-                                            {{data.cpm}}
+                                            ${{data.cpm | number:2}}
                                         </div>
                                     </div>
                                 </div>

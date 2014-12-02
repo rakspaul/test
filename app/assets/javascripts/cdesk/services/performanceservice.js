@@ -9,8 +9,8 @@
             },
 
             getTacticsForStrategy: function(param){
-                var url = 'http://dev-desk.collective-media.net:9000/dataapi/campaigns/405617/strategies/11133/tactics/meta ' ;
-                // var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId + '/strategies/'+ param.strategyId+'/tactics/meta' ;
+              //  var url = 'http://dev-desk.collective-media.net:9000/dataapi/campaigns/405617/strategies/11133/tactics/meta ' ;
+                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId + '/strategies/'+ param.strategyId+'/tactics/meta' ;
                 return this.fetch(url);
             },
 

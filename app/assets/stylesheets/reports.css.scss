@@ -872,7 +872,7 @@
       padding-top: 8px;
     }
   }
-  
+
 }
 
 
@@ -880,170 +880,173 @@
 
 
 .strategy_total_container {
-    .strategy_total_container_header {
+  .strategy_total_container_header {
 
-      background: #f5f9fd;
-      border: solid 1px #ccd9e3;
-      padding: 20px;
+    background: #f5f9fd;
+    border: solid 1px #ccd9e3;
+    padding: 20px;
 
-      .first_col {
-        font-size: 18px;
-      }
-
+    .first_col {
+      font-size: 18px;
     }
-    .all_strategies_holder {
+
+  }
+  .all_strategies_holder {
+    .linkage_lines {
+      position: relative;
+      float: left;
+      width: 10px;
+      height: 104px;
+      border-left: solid 1px #ccd9e3;
+    }
+    .linkage_lines:after {
+      content: "";
+      height: 1px;
+      width: 10px;
+      background: #e5ecef;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    .each_strategy {
+      float: left;
+      width: 1046px;
+      padding: 20px 20px 20px 10px;
+      margin: 10px 0 0 0px;
+      border: solid 1px #ccd9e3;
+      background: #f8faff;
+    }
+    .each_strategy_holder:last-child {
       .linkage_lines {
-        position: relative;
-        float: left;
-        width: 10px;
-        height: 104px;
-        border-left: solid 1px #ccd9e3;
-      }
-      .linkage_lines:after {
-        content: "";
-        height: 1px;
-        width: 10px;
-        background: #e5ecef;
-        display: block;
-        position: absolute;
-        top: 50%;
-        left: 0;
-      }
-      .each_strategy {
-        float: left;
-        width: 1046px;
-        padding: 20px 20px 20px 10px;
-        margin: 10px 0 0 0px;
-        border: solid 1px #ccd9e3;
-        background: #f8faff;
-      }
-      .each_strategy_holder:last-child {
-        .linkage_lines {
-          height: 50px;
-        }
+        height: 50px;
       }
     }
   }
+}
 
 /**************** reports performance table styling ***********/
 
 .reports_tabs_content_container {
   margin-top: 50px ;
   .reports_tabs_holder {
-        float: left;
-        border: solid 1px #d2dee7;
-        border-bottom: 0px;
-        border-radius: 4px 4px 0 0;
-        .each_tab {
-          position: relative;
-          float: left;
-          text-transform: uppercase;
-          color: #313233;
-          height: 36px;
-          width: 170px;
-          text-align: center;
-          border-bottom: 0px ;
-          border-right: solid 1px #d2dee7 ;
-          cursor: pointer;
-          .each_tab_text {
-            background: #fff ;
-            padding: 8px 0px;
-            border-radius: 4px 0 0 0 ;
-          }
-
-        }
-        .cost_tab {
-          .each_tab_text {
-            border-radius: 0 4px 0 0 ;
-          }
-        }
-        .each_tab:last-child {
-          border-right: solid 0px transparent ;
-        }
-        .each_tab.active {
-          .each_tab_text {
-            background: #f5f9fd;
-            height: 38px;
-            position: absolute;
-            z-index: 1;
-            width: 100%;
-
-          }
-          
-        }
+    float: left;
+    border: solid 1px #d2dee7;
+    border-bottom: 0px;
+    border-radius: 4px 4px 0 0;
+    .each_tab {
+      position: relative;
+      float: left;
+      text-transform: uppercase;
+      color: #313233;
+      height: 36px;
+      width: 170px;
+      text-align: center;
+      border-bottom: 0px ;
+      border-right: solid 1px #d2dee7 ;
+      cursor: pointer;
+      .each_tab_text {
+        background: #fff ;
+        padding: 8px 0px;
+        border-radius: 4px 0 0 0 ;
       }
-      
-    .reports_block {
-      min-height: 100px ;
+
     }
-    .reports_performance_container {
-      font-family: "Avenir" ;
-      color: #313233 ;
-      .each_col {
-        float: left;
-        width: 120px;
-        text-align: center;
-        margin: 10px 0;
+    .cost_tab {
+      .each_tab_text {
+        border-radius: 0 4px 0 0 ;
       }
-      .all_strategies_holder  {
-
-        .linkage_lines{
-           height : 172px ;
-        }
-        .each_strategy {
-          background: #fff ;
-        }
-        .each_strategy_holder:last-child  {
-          .linkage_lines {
-            height: 100px ;
-          }
-          .linkage_lines:after {
-            top : 100% ;
-            background: #ccd9e3 ;
-          }
-        }
-      }
-
-      .first_col {
-        text-align: left;
-        width: 170px;
-        color: #313233;
-        font-weight: bold;
-        margin-top: 50px;
-        .sub_title {
-          font-weight: normal;
-          font-size: 12px ;
-        }
-      }
-      .row_list_holder {
-        float: left;
-        .each_row_list {
-          font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-          font-size: 14px;
-          color: #2a2727;
-          .sec_col {
-            font-family: "Avenir" ;
-            color: #313233 ;
-          }
-        }
-
-      }
-      .reports_performance_header {
-        
+    }
+    .each_tab:last-child {
+      border-right: solid 0px transparent ;
+    }
+    .each_tab.active {
+      .each_tab_text {
         background: #f5f9fd;
-        border: solid 1px #ccd9e3;
-        padding: 10px 20px;
-        border-bottom: 0px ;
-         .each_col {
-            font-size: 14px ;
+        height: 38px;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
 
-         }
-         .first_col {
-          margin-top: 10px ;
-          font-weight: normal;
-         }
+      }
+
+    }
+  }
+
+  .reports_block {
+    min-height: 100px ;
+  }
+
+  .reports_block {
+    font-family: "Avenir" ;
+    color: #313233 ;
+    .each_col {
+      float: left;
+      width: 120px;
+      text-align: right;
+      margin: 10px 0;
+    }
+    .all_strategies_holder  {
+
+      .linkage_lines{
+        height : 172px ;
+      }
+      .each_strategy {
+        background: #fff ;
+      }
+      .each_strategy_holder:last-child  {
+        .linkage_lines {
+          height: 100px ;
+        }
+        .linkage_lines:after {
+          top : 100% ;
+          background: #ccd9e3 ;
+        }
       }
     }
+
+    .first_col {
+      text-align: left;
+      width: 170px;
+      color: #313233;
+      font-weight: bold;
+      margin-top: 10px;
+      .sub_title {
+        font-weight: normal;
+        font-size: 12px ;
+      }
+    }
+    .row_list_holder {
+      float: left;
+      .each_row_list {
+        font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+        font-size: 14px;
+        color: #2a2727;
+        .sec_col {
+          font-family: "Avenir" ;
+          color: #313233 ;
+          text-align: left;
+        }
+      }
+
+    }
+    .reports_performance_header {
+
+      background: #f5f9fd;
+      border: solid 1px #ccd9e3;
+      padding: 10px 20px;
+      border-bottom: 0px ;
+      .each_col {
+        font-size: 14px ;
+
+
+      }
+      .first_col {
+        margin-top: 10px ;
+        font-weight: normal;
+      }
+    }
+  }
 
 
 
