@@ -45,8 +45,17 @@
             },
             getDefaultValues : function() {
                 return {
+                    campaign : {
                         id: '-1',
                         name: 'Loading...'
+
+                    },
+                    strategy : {
+                        id:-1,
+                        name:'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
+                    }
                 }
             },
             getNotFound : function() {
@@ -106,8 +115,8 @@
                     return inventoryService.getStrategiesForCampaign(campaignId);
                 }
             },
-            loadFirstStrategy : function(id, name) {
-                var strategyObj = {id:null, name:null};
+            loadFirstStrategy : function(id, name, startDate, endDate) {
+                var strategyObj = {id:null, name:null, startDate: null, endDate: null};
                 /*if(datatransferservice.getDomainReportsValue('previousCampaignId') !== datatransferservice.getDomainReportsValue('campaignId')) {
                     strategyObj.id = id;
                     strategyObj.name = name
@@ -117,6 +126,8 @@
                 }*/
                 strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
                 strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
+                strategyObj.startDate = datatransferservice.getDomainReportsValue('strategyStartDate') ? datatransferservice.getDomainReportsValue('strategyStartDate') : startDate;
+                strategyObj.endDate = datatransferservice.getDomainReportsValue('strategyEndDate') ? datatransferservice.getDomainReportsValue('strategyEndDate') : endDate;
                 return strategyObj;
 
             }

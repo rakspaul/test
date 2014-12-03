@@ -484,6 +484,9 @@
     .dropdown_ul {
       width: 170px;
     }
+    .dropdown_ul_perf {
+      width: 240px;
+    }
   }
   .download_report:hover {
     background: url(asset-path("cdesk/download_report_btn_hover.png")) no-repeat center center;
@@ -1051,4 +1054,14 @@
 
 
 
+}
+
+.common-load-icon {
+   text-align: center;
+   text-indent: -99999;
+   height: 40px;
+   width: 40px;
+   background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+   margin: 20px 0 0 250px;
+   display: block;
 }

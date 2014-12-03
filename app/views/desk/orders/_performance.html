@@ -1,427 +1,414 @@
 <div class="reports_main_page_holder">
-    <div class="reports_header_tabs_holder">
+<div class="reports_header_tabs_holder">
         <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
                 ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+</div>
+
+<div class="inventory_reports_container" data-ng-init="init()">
+
+<div class="clearfix inventory_header">
+    <div class="pull-left dropdown dropdown_type1">
+        <large-list-search selected-obj=selectedCampaign></large-list-search>
     </div>
 
-    <div class="inventory_reports_container" data-ng-init="init()">
 
-        <div class="clearfix inventory_header">
-            <div class="pull-left dropdown dropdown_type1">
-                <large-list-search selected-obj=selectedCampaign></large-list-search>
-            </div>
+    <div class="pull-right download_report">
 
-            <div class="pull-right download_report">
-
-                <div class="dropdown">
+        <div class="dropdown">
                     <span class="dropdown_ul_text " data-toggle="dropdown">
                         <a class="download_anchor" href="">&nbsp;
                         </a>
                     </span>
 
-                    <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
+            <ul class="dropdown_ul_perf dropdown-menu" id="performance_download">
 
-                        <!--<li value="tactics"><a ng-if="download_urls.tactics" class="download_anchor"-->
-                                               <!--href="{{download_urls.tactics}}">Viewability by Tactic</a></li>-->
-                        <!--<li value="domains"><a ng-if="download_urls.domains" class="download_anchor"-->
-                                               <!--href="{{download_urls.domains}}">Viewability by Domain</a></li>-->
-                        <!--<li value="publishers"><a ng-if="download_urls.publishers" class="download_anchor"-->
-                                                  <!--href="{{download_urls.publishers}}">Viewability by Publisher</a></li>-->
-                        <!--<li value="exchanges"><a ng-if="download_urls.exchanges" class="download_anchor"-->
-                                                 <!--href="{{download_urls.exchanges}}">Viewability by Exchange</a></li>-->
-                    </ul>
-                </div>
-
-            </div>
-            <div class="pull-right dropdown dropdown_type3">
-                <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"
-                                flag="duration"></report-filters>
-            </div>
-        </div>
-        <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
-
-        <div class="reports_tabs_content_container">
-
-
-            <!--<div class="pull-left clearfix inventory_tabs" id="performanceTab_change">-->
-                <!--<span class="inventory_tab_active"><a href="javascript:void(0);" _key="byscreens">SCREENS</a></span>-->
-                <!--<span><a href="javascript:void(0);" _key="byformats">FORMATS</a></span>-->
-                <!--<span><a href="javascript:void(0);" _key="fulldomains">DAYS OF WEEK</a></span>-->
-            <!--</div>-->
-            <div class="clearfix">
-            <div class="clearfix reports_tabs_holder">
-                <div class="each_tab active" id="byscreens" >
-                    <div class="each_tab_text" >
-                        Screens
-                    </div>
-                </div>
-                <div class="each_tab cost_tab" id="byformats" >
-                    <div class="each_tab_text">
-                        Formats
-                    </div>
-                </div>
-                <div class="each_tab cost_tab" id="bydaysofweek">
-                    <div class="each_tab_text">
-                        Days of Week
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="reports_block" id="reports_screens_block" >
-            <div class="reports_details_outer_container">
-                <div class="clearfix reports_performance_header">
-                    <div class="each_col first_col">
-                        <span>Name</span>
-                    </div>
-                    <div class="each_col sec_col">
-                        <span>Screen Type</span>
-                    </div>
-                    <div class="each_col third_col">
-                        <span>Imps.</span>
-                    </div>
-                    <div class="each_col forth_col">
-                        <span>CTR (%)</span>
-                    </div>
-                    <div class="each_col fifth_col">
-                        <span>Action Rate</span>
-                    </div>
-                    <div class="each_col sixth_col">
-                        <span>CPA</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPC</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPM</span>
-                    </div>
-                </div>
-
-
-                <div class="strategy_total_container "  >
-                    <div class="strategy_total_container_header clearfix">
-
-                        <div class="each_col first_col">
-                            Strategy total:
-                        </div>
-                        <div class="row_list_holder">
-                            <div class="clearfix each_row_list "  ng-repeat="strategy in strategyPerfDataByScreen">
-
-                                <div class="each_col sec_col">
-                                    {{strategy.dimension}}
-                                </div>
-                                <div class="each_col third_col">
-                                    {{strategy.impressions | number:0}}
-                                </div>
-                                <div class="each_col forth_col">
-                                    {{strategy.ctr*100 | number:2}}
-                                </div>
-                                <div class="each_col fifth_col">
-                                    {{strategy.action_rate | number:2}}
-                                </div>
-                                <div class="each_col sixth_col">
-                                    ${{strategy.cpa | number:2}}
-                                </div>
-                                <div class="each_col seventh_col">
-                                    ${{strategy.cpc | number:2}}
-                                </div>
-                                <div class="each_col eight_col">
-                                    ${{strategy.cpm | number:2}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="all_strategies_holder">
-                        <div class="each_strategy_holder clearfix"  ng-repeat="tactic in tacticsPerfDataListByScreen">
-                            <div class="linkage_lines">
-                            </div>
-                            <div class="each_strategy clearfix" >
-                                <div class="each_col first_col" >
-                                    {{tactic[0].description}}
-                                </div>
-                                <div class="row_list_holder">
-                                    <div class="clearfix each_row_list" ng-repeat = "data in tactic">
-                                        <div class="each_col sec_col">
-                                            {{data.dimension}}
-                                        </div>
-                                        <div class="each_col third_col">
-                                            {{data.impressions | number:0}}
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            {{data.ctr*100 | number:2}}
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            {{data.action_rate | number:2}}
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            ${{data.cpa | number:2}}
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            ${{data.cpc | number:2}}
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            ${{data.cpm | number:2}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!--<div>-->
-         <!--1. Strategy perf data by screen-->
-         <!--2.  Strategy format data-->
-         <!--3. Strategy dow data-->
-        <!--</div>-->
-        <!--{{strategyPerfDataByScreen | json}}-->
-        <!--{{strategyPerfDataByFormat | json }}-->
-        <!--{{strategyPerfDataByDOW | json}}-->
-
-
-        <!--show no data found div-->
-
-        <div class="reports_block" id="reports_formats_block"  style="display:none;">
-            <div class="reports_details_outer_container">
-                <div class="clearfix reports_performance_header">
-                    <div class="each_col first_col">
-                        <span>Name</span>
-                    </div>
-                    <div class="each_col sec_col">
-                        <span>Screen Type</span>
-                    </div>
-                    <div class="each_col third_col">
-                        <span>Imps.</span>
-                    </div>
-                    <div class="each_col forth_col">
-                        <span>CTR (%)</span>
-                    </div>
-                    <div class="each_col fifth_col">
-                        <span>Action Rate</span>
-                    </div>
-                    <div class="each_col sixth_col">
-                        <span>CPA</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPC</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPM</span>
-                    </div>
-                </div>
-
-
-                <div class="strategy_total_container ">
-
-                    <div class="strategy_total_container_header clearfix">
-
-                        <div class="each_col first_col">
-                            Strategy total:
-                        </div>
-                        <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat">
-
-                                <!--<div class="each_col sec_col">-->
-                                    <!--Desktop-->
-                                <!--</div>-->
-                                <!--<div class="each_col third_col">-->
-                                    <!--654,643-->
-                                <!--</div>-->
-                                <!--<div class="each_col forth_col">-->
-                                    <!--$0.14-->
-                                <!--</div>-->
-                                <!--<div class="each_col fifth_col">-->
-                                    <!--2,5%-->
-                                <!--</div>-->
-                                <!--<div class="each_col sixth_col">-->
-                                    <!--$3.5-->
-                                <!--</div>-->
-                                <!--<div class="each_col seventh_col">-->
-                                    <!--$2.5-->
-                                <!--</div>-->
-                                <!--<div class="each_col eight_col">-->
-                                    <!--$0.13-->
-                                <!--</div>-->
-
-                                <div class="each_col sec_col">
-                                    {{strategy.dimension}}
-                                </div>
-                                <div class="each_col third_col">
-                                    {{strategy.impressions | number:0}}
-                                </div>
-                                <div class="each_col forth_col">
-                                    {{strategy.ctr*100 | number:2}}
-                                </div>
-                                <div class="each_col fifth_col">
-                                    {{strategy.action_rate | number:2}}
-                                </div>
-                                <div class="each_col sixth_col">
-                                    ${{strategy.cpa | number:2}}
-                                </div>
-                                <div class="each_col seventh_col">
-                                    ${{strategy.cpc | number:2}}
-                                </div>
-                                <div class="each_col eight_col">
-                                    ${{strategy.cpm | number:2}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="all_strategies_holder">
-                        <div class="each_strategy_holder clearfix"  ng-repeat="tactic in tacticsPerfDataListByFormat" >
-                            <div class="linkage_lines">
-                            </div>
-                            <div class="each_strategy clearfix">
-                                <div class="each_col first_col" >
-                                    {{tactic[0].description}}
-                                </div>
-                                <div class="row_list_holder">
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            {{data.dimension}}
-                                        </div>
-                                        <div class="each_col third_col">
-                                            {{data.impressions | number:0}}
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            {{data.ctr*100 | number:2}}
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            {{data.action_rate | number:2}}
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            ${{data.cpa | number:2}}
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            ${{data.cpc | number:2}}
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            ${{data.cpm | number:2}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!--show no data found div-->
-        <div class="reports_block" id="reports_daysOfWeek_block" style="display:none;" >
-            <div class="reports_details_outer_container">
-                <div class="clearfix reports_performance_header">
-                    <div class="each_col first_col">
-                        <span>Name</span>
-                    </div>
-                    <div class="each_col sec_col">
-                        <span>Screen Type</span>
-                    </div>
-                    <div class="each_col third_col">
-                        <span>Imps.</span>
-                    </div>
-                    <div class="each_col forth_col">
-                        <span>CTR</span>
-                    </div>
-                    <div class="each_col fifth_col">
-                        <span>Action Rate</span>
-                    </div>
-                    <div class="each_col sixth_col">
-                        <span>CPA</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPC</span>
-                    </div>
-                    <div class="each_col seventh_col">
-                        <span>CPM</span>
-                    </div>
-                </div>
-
-
-                <div class="strategy_total_container ">
-                    <div class="strategy_total_container_header clearfix">
-
-                        <div class="each_col first_col">
-                            Strategy total:
-                        </div>
-                        <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
-
-                                <div class="each_col sec_col">
-                                    {{strategy.dimension}}
-                                </div>
-                                <div class="each_col third_col">
-                                    {{strategy.impressions | number:0}}
-                                </div>
-                                <div class="each_col forth_col">
-                                    {{strategy.ctr*100 | number:2}}
-                                </div>
-                                <div class="each_col fifth_col">
-                                    {{strategy.action_rate | number:2}}
-                                </div>
-                                <div class="each_col sixth_col">
-                                    ${{strategy.cpa | number:2}}
-                                </div>
-                                <div class="each_col seventh_col">
-                                    ${{strategy.cpc | number:2}}
-                                </div>
-                                <div class="each_col eight_col">
-                                    ${{strategy.cpm | number:2}}
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="all_strategies_holder">
-                        <div class="each_strategy_holder clearfix" >
-                            <div class="linkage_lines">
-                            </div>
-                            <div class="each_strategy clearfix">
-                                <div class="each_col first_col" >
-                                    {{tactic[0].description}}
-                                </div>
-                                <div class="row_list_holder">
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            {{data.dimension}}
-                                        </div>
-                                        <div class="each_col third_col">
-                                            {{data.impressions | number:0}}
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            {{data.ctr*100 | number:2}}
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            {{data.action_rate | number:2}}
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            ${{data.cpa | number:2}}
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            ${{data.cpc | number:2}}
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            ${{data.cpm | number:2}}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <!--show no data found div-->
-
+                <li value="screens"><a ng-if="download_urls.screens" class="download_anchor"
+                                       href="{{download_urls.screens}}">Performance by Screens & Formats</a></li>
+                <li value="daysOfWeek"><a ng-if="download_urls.daysOfWeek" class="download_anchor"
+                                          href="{{download_urls.daysOfWeek}}">Performance by Days Of Week</a></li>
+            </ul>
         </div>
 
     </div>
+    <div class="pull-right dropdown dropdown_type3">
+        <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"
+                        flag="duration"></report-filters>
+    </div>
+</div>
+<strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+
+<div class="reports_tabs_content_container">
+
+<div class="clearfix">
+    <div class="clearfix reports_tabs_holder">
+        <div class="each_tab active" id="byscreens">
+            <div class="each_tab_text">
+                Screens
+            </div>
+        </div>
+        <div class="each_tab cost_tab" id="byformats">
+            <div class="each_tab_text">
+                Formats
+            </div>
+        </div>
+        <div class="each_tab cost_tab" id="bydaysofweek">
+            <div class="each_tab_text">
+                Days of Week
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="reports_block" id="reports_byscreens_block">
+    <div class="reports_details_outer_container">
+        <div class="clearfix reports_performance_header">
+            <div class="each_col first_col">
+                <span>Name</span>
+            </div>
+            <div class="each_col sec_col">
+                <span>Screen Type</span>
+            </div>
+            <div class="each_col third_col">
+                <span>Imps.</span>
+            </div>
+            <div class="each_col forth_col">
+                <span>CTR</span>
+            </div>
+            <div class="each_col fifth_col">
+                <span>Action Rate</span>
+            </div>
+            <div class="each_col sixth_col">
+                <span>CPA</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPC</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPM</span>
+            </div>
+        </div>
+
+
+        <div class="strategy_total_container ">
+
+            <div class="strategy_total_container_header clearfix">
+
+                <div class="each_col first_col">
+                    Strategy total:
+                </div>
+                <div class="row_list_holder">
+                    <!--<div class="common-load-icon"></div>-->
+                    <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen">
+
+                        <div class="each_col sec_col">
+                            {{strategy.dimension}}
+                        </div>
+                        <div class="each_col third_col">
+                            {{strategy.impressions | number:0}}
+                        </div>
+                        <div class="each_col forth_col">
+                            {{strategy.ctr*100 | number:2}}%
+                        </div>
+                        <div class="each_col fifth_col">
+                            {{strategy.action_rate*100 | number:2}}%
+                        </div>
+                        <div class="each_col sixth_col">
+                            ${{strategy.cpa | number:2}}
+                        </div>
+                        <div class="each_col seventh_col">
+                            ${{strategy.cpc | number:2}}
+                        </div>
+                        <div class="each_col eight_col">
+                            ${{strategy.cpm | number:2}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="all_strategies_holder">
+                <!--<div class="common-load-icon"></div>-->
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByScreen">
+                    <div class="linkage_lines">
+                    </div>
+                    <div class="each_strategy clearfix">
+
+                        <div class="each_col first_col">
+                            {{tactic[0].description}}
+                        </div>
+                        <div class="row_list_holder">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                <div class="each_col sec_col">
+                                    {{data.dimension}}
+                                </div>
+                                <div class="each_col third_col">
+                                    {{data.impressions | number:0}}
+                                </div>
+                                <div class="each_col forth_col">
+                                    {{data.ctr*100 | number:2}}%
+                                </div>
+                                <div class="each_col fifth_col">
+                                    {{data.action_rate*100 | number:2}}%
+                                </div>
+                                <div class="each_col sixth_col">
+                                    ${{data.cpa | number:2}}
+                                </div>
+                                <div class="each_col seventh_col">
+                                    ${{data.cpc | number:2}}
+                                </div>
+                                <div class="each_col eight_col">
+                                    ${{data.cpm | number:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--show no data found div-->
+
+<div class="reports_block" id="reports_byformats_block" style="display:none;">
+    <div class="reports_details_outer_container">
+        <div class="clearfix reports_performance_header">
+            <div class="each_col first_col">
+                <span>Name</span>
+            </div>
+            <div class="each_col sec_col">
+                <span>Screen Type</span>
+            </div>
+            <div class="each_col third_col">
+                <span>Imps.</span>
+            </div>
+            <div class="each_col forth_col">
+                <span>CTR</span>
+            </div>
+            <div class="each_col fifth_col">
+                <span>Action Rate</span>
+            </div>
+            <div class="each_col sixth_col">
+                <span>CPA</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPC</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPM</span>
+            </div>
+        </div>
+
+
+        <div class="strategy_total_container ">
+
+            <div class="strategy_total_container_header clearfix">
+
+                <div class="each_col first_col">
+                    Strategy total:
+                </div>
+                <div class="row_list_holder">
+                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat">
+
+                        <!--<div class="each_col sec_col">-->
+                        <!--Desktop-->
+                        <!--</div>-->
+                        <!--<div class="each_col third_col">-->
+                        <!--654,643-->
+                        <!--</div>-->
+                        <!--<div class="each_col forth_col">-->
+                        <!--$0.14-->
+                        <!--</div>-->
+                        <!--<div class="each_col fifth_col">-->
+                        <!--2,5%-->
+                        <!--</div>-->
+                        <!--<div class="each_col sixth_col">-->
+                        <!--$3.5-->
+                        <!--</div>-->
+                        <!--<div class="each_col seventh_col">-->
+                        <!--$2.5-->
+                        <!--</div>-->
+                        <!--<div class="each_col eight_col">-->
+                        <!--$0.13-->
+                        <!--</div>-->
+
+                        <div class="each_col sec_col">
+                            {{strategy.dimension}}
+                        </div>
+                        <div class="each_col third_col">
+                            {{strategy.impressions | number:0}}
+                        </div>
+                        <div class="each_col forth_col">
+                            {{strategy.ctr*100 | number:2}}%
+                        </div>
+                        <div class="each_col fifth_col">
+                            {{strategy.action_rate*100 | number:2}}%
+                        </div>
+                        <div class="each_col sixth_col">
+                            ${{strategy.cpa | number:2}}
+                        </div>
+                        <div class="each_col seventh_col">
+                            ${{strategy.cpc | number:2}}
+                        </div>
+                        <div class="each_col eight_col">
+                            ${{strategy.cpm | number:2}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="all_strategies_holder">
+
+
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByFormat">
+                    <div class="linkage_lines">
+                    </div>
+                    <div class="each_strategy clearfix">
+                        <div class="each_col first_col">
+                            {{tactic[0].description}}
+                        </div>
+                        <div class="row_list_holder">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                <div class="each_col sec_col">
+                                    {{data.dimension}}
+                                </div>
+                                <div class="each_col third_col">
+                                    {{data.impressions | number:0}}
+                                </div>
+                                <div class="each_col forth_col">
+                                    {{data.ctr*100 | number:2}}%
+                                </div>
+                                <div class="each_col fifth_col">
+                                    {{data.action_rate*100 | number:2}}%
+                                </div>
+                                <div class="each_col sixth_col">
+                                    ${{data.cpa | number:2}}
+                                </div>
+                                <div class="each_col seventh_col">
+                                    ${{data.cpc | number:2}}
+                                </div>
+                                <div class="each_col eight_col">
+                                    ${{data.cpm | number:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--show no data found div-->
+<div class="reports_block" id="reports_bydaysofweek_block" style="display:none;">
+    <div class="reports_details_outer_container">
+        <div class="clearfix reports_performance_header">
+            <div class="each_col first_col">
+                <span>Name</span>
+            </div>
+            <div class="each_col sec_col">
+                <span>Screen Type</span>
+            </div>
+            <div class="each_col third_col">
+                <span>Imps.</span>
+            </div>
+            <div class="each_col forth_col">
+                <span>CTR</span>
+            </div>
+            <div class="each_col fifth_col">
+                <span>Action Rate</span>
+            </div>
+            <div class="each_col sixth_col">
+                <span>CPA</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPC</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPM</span>
+            </div>
+        </div>
+
+
+        <div class="strategy_total_container ">
+            <div class="strategy_total_container_header clearfix">
+
+                <div class="each_col first_col">
+                    Strategy total:
+                </div>
+                <div class="row_list_holder">
+                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
+
+                        <div class="each_col sec_col">
+                            {{strategy.dimension}}
+                        </div>
+                        <div class="each_col third_col">
+                            {{strategy.impressions | number:0}}
+                        </div>
+                        <div class="each_col forth_col">
+                            {{strategy.ctr*100 | number:2}}%
+                        </div>
+                        <div class="each_col fifth_col">
+                            {{strategy.action_rate*100 | number:2}}%
+                        </div>
+                        <div class="each_col sixth_col">
+                            ${{strategy.cpa | number:2}}
+                        </div>
+                        <div class="each_col seventh_col">
+                            ${{strategy.cpc | number:2}}
+                        </div>
+                        <div class="each_col eight_col">
+                            ${{strategy.cpm | number:2}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="all_strategies_holder">
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW">
+                    <div class="linkage_lines">
+                    </div>
+                    <div class="each_strategy clearfix">
+                        <div class="each_col first_col">
+                            {{tactic[0].description}}
+                        </div>
+                        <div class="row_list_holder">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                <div class="each_col sec_col">
+                                    {{data.dimension}}
+                                </div>
+                                <div class="each_col third_col">
+                                    {{data.impressions | number:0}}
+                                </div>
+                                <div class="each_col forth_col">
+                                    {{data.ctr*100 | number:2}}%
+                                </div>
+                                <div class="each_col fifth_col">
+                                    {{data.action_rate*100 | number:2}}%
+                                </div>
+                                <div class="each_col sixth_col">
+                                    ${{data.cpa | number:2}}
+                                </div>
+                                <div class="each_col seventh_col">
+                                    ${{data.cpc | number:2}}
+                                </div>
+                                <div class="each_col eight_col">
+                                    ${{data.cpm | number:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--show no data found div-->
+
+</div>
+
+</div>
 </div>

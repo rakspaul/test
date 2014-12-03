@@ -7,6 +7,8 @@ var angObj = angObj || {} ;
             campaignName:null,
             strategyId : null,
             strategyName : null,
+            strategyStartDate : null,
+            strategyEndDate : null,
             filterDurationType:null,
             filterDurationValue:null,
             filterKpiType:null,
