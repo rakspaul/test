@@ -42,20 +42,25 @@
 
         <div class="reports_tabs_content_container">
 
-        <div class="clearfix">
 
+            <!--<div class="pull-left clearfix inventory_tabs" id="performanceTab_change">-->
+                <!--<span class="inventory_tab_active"><a href="javascript:void(0);" _key="byscreens">SCREENS</a></span>-->
+                <!--<span><a href="javascript:void(0);" _key="byformats">FORMATS</a></span>-->
+                <!--<span><a href="javascript:void(0);" _key="fulldomains">DAYS OF WEEK</a></span>-->
+            <!--</div>-->
+            <div class="clearfix">
             <div class="clearfix reports_tabs_holder">
-                <div class="each_tab active" id="screens">
+                <div class="each_tab active" id="byscreens" >
                     <div class="each_tab_text" >
                         Screens
                     </div>
                 </div>
-                <div class="each_tab cost_tab" id="formats">
+                <div class="each_tab cost_tab" id="byformats" >
                     <div class="each_tab_text">
                         Formats
                     </div>
                 </div>
-                <div class="each_tab cost_tab" id="daysofweek">
+                <div class="each_tab cost_tab" id="bydaysofweek">
                     <div class="each_tab_text">
                         Days of Week
                     </div>
@@ -169,9 +174,19 @@
                 </div>
             </div>
         </div>
+        <!--<div>-->
+         <!--1. Strategy perf data by screen-->
+         <!--2.  Strategy format data-->
+         <!--3. Strategy dow data-->
+        <!--</div>-->
+        <!--{{strategyPerfDataByScreen | json}}-->
+        <!--{{strategyPerfDataByFormat | json }}-->
+        <!--{{strategyPerfDataByDOW | json}}-->
+
+
         <!--show no data found div-->
 
-        <div class="reports_block" id="reports_formats_block" style="display:none;">
+        <div class="reports_block" id="reports_formats_block"  style="display:none;">
             <div class="reports_details_outer_container">
                 <div class="clearfix reports_performance_header">
                     <div class="each_col first_col">
@@ -184,7 +199,7 @@
                         <span>Imps.</span>
                     </div>
                     <div class="each_col forth_col">
-                        <span>CTR</span>
+                        <span>CTR (%)</span>
                     </div>
                     <div class="each_col fifth_col">
                         <span>Action Rate</span>
@@ -202,165 +217,91 @@
 
 
                 <div class="strategy_total_container ">
+
                     <div class="strategy_total_container_header clearfix">
 
                         <div class="each_col first_col">
                             Strategy total:
                         </div>
                         <div class="row_list_holder">
-                            <div class="clearfix each_row_list">
+                            <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat">
+
+                                <!--<div class="each_col sec_col">-->
+                                    <!--Desktop-->
+                                <!--</div>-->
+                                <!--<div class="each_col third_col">-->
+                                    <!--654,643-->
+                                <!--</div>-->
+                                <!--<div class="each_col forth_col">-->
+                                    <!--$0.14-->
+                                <!--</div>-->
+                                <!--<div class="each_col fifth_col">-->
+                                    <!--2,5%-->
+                                <!--</div>-->
+                                <!--<div class="each_col sixth_col">-->
+                                    <!--$3.5-->
+                                <!--</div>-->
+                                <!--<div class="each_col seventh_col">-->
+                                    <!--$2.5-->
+                                <!--</div>-->
+                                <!--<div class="each_col eight_col">-->
+                                    <!--$0.13-->
+                                <!--</div>-->
 
                                 <div class="each_col sec_col">
-                                    Desktop
+                                    {{strategy.dimension}}
                                 </div>
                                 <div class="each_col third_col">
-                                    654,643
+                                    {{strategy.impressions | number:0}}
                                 </div>
                                 <div class="each_col forth_col">
-                                    $0.14
+                                    {{strategy.ctr*100 | number:2}}
                                 </div>
                                 <div class="each_col fifth_col">
-                                    2,5%
+                                    {{strategy.action_rate | number:2}}
                                 </div>
                                 <div class="each_col sixth_col">
-                                    $3.5
+                                    ${{strategy.cpa | number:2}}
                                 </div>
                                 <div class="each_col seventh_col">
-                                    $2.5
+                                    ${{strategy.cpc | number:2}}
                                 </div>
                                 <div class="each_col eight_col">
-                                    $0.13
-                                </div>
-                            </div>
-                            <div class="clearfix each_row_list">
-
-                                <div class="each_col sec_col">
-                                    Mobile
-                                </div>
-                                <div class="each_col third_col">
-                                    654,643
-                                </div>
-                                <div class="each_col forth_col">
-                                    $0.14
-                                </div>
-                                <div class="each_col fifth_col">
-                                    2,5%
-                                </div>
-                                <div class="each_col sixth_col">
-                                    $3.5
-                                </div>
-                                <div class="each_col seventh_col">
-                                    $2.5
-                                </div>
-                                <div class="each_col eight_col">
-                                    $0.13
-                                </div>
-                            </div>
-                            <div class="clearfix each_row_list">
-
-                                <div class="each_col sec_col">
-                                    Tablet
-                                </div>
-                                <div class="each_col third_col">
-                                    654,643
-                                </div>
-                                <div class="each_col forth_col">
-                                    $0.14
-                                </div>
-                                <div class="each_col fifth_col">
-                                    2,5%
-                                </div>
-                                <div class="each_col sixth_col">
-                                    $3.5
-                                </div>
-                                <div class="each_col seventh_col">
-                                    $2.5
-                                </div>
-                                <div class="each_col eight_col">
-                                    $0.13
+                                    ${{strategy.cpm | number:2}}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="all_strategies_holder">
-                        <div class="each_strategy_holder clearfix" >
+                        <div class="each_strategy_holder clearfix"  ng-repeat="tactic in tacticsPerfDataListByFormat" >
                             <div class="linkage_lines">
                             </div>
                             <div class="each_strategy clearfix">
                                 <div class="each_col first_col" >
-                                    Toyota Camry For Female
-                                    <div class="sub_title">
-                                        (18-23 y.o.)
-                                    </div>
+                                    {{tactic[0].description}}
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="clearfix each_row_list">
                                         <div class="each_col sec_col">
-                                            Desktop
+                                            {{data.dimension}}
                                         </div>
                                         <div class="each_col third_col">
-                                            654,643
+                                            {{data.impressions | number:0}}
                                         </div>
                                         <div class="each_col forth_col">
-                                            $0.14
+                                            {{data.ctr*100 | number:2}}
                                         </div>
                                         <div class="each_col fifth_col">
-                                            2,5%
+                                            {{data.action_rate | number:2}}
                                         </div>
                                         <div class="each_col sixth_col">
-                                            $3.5
+                                            ${{data.cpa | number:2}}
                                         </div>
                                         <div class="each_col seventh_col">
-                                            $2.5
+                                            ${{data.cpc | number:2}}
                                         </div>
                                         <div class="each_col eight_col">
-                                            $0.13
-                                        </div>
-                                    </div>
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            Mobile
-                                        </div>
-                                        <div class="each_col third_col">
-                                            654,643
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            $0.14
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            2,5%
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            $3.5
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            $2.5
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            $0.13
-                                        </div>
-                                    </div>
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            Tablet
-                                        </div>
-                                        <div class="each_col third_col">
-                                            654,643
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            $0.14
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            2,5%
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            $3.5
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            $2.5
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            $0.13
+                                            ${{data.cpm | number:2}}
                                         </div>
                                     </div>
                                 </div>
@@ -410,78 +351,31 @@
                             Strategy total:
                         </div>
                         <div class="row_list_holder">
-                            <div class="clearfix each_row_list">
+                            <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
 
                                 <div class="each_col sec_col">
-                                    Desktop
+                                    {{strategy.dimension}}
                                 </div>
                                 <div class="each_col third_col">
-                                    654,643
+                                    {{strategy.impressions | number:0}}
                                 </div>
                                 <div class="each_col forth_col">
-                                    $0.14
+                                    {{strategy.ctr*100 | number:2}}
                                 </div>
                                 <div class="each_col fifth_col">
-                                    2,5%
+                                    {{strategy.action_rate | number:2}}
                                 </div>
                                 <div class="each_col sixth_col">
-                                    $3.5
+                                    ${{strategy.cpa | number:2}}
                                 </div>
                                 <div class="each_col seventh_col">
-                                    $2.5
+                                    ${{strategy.cpc | number:2}}
                                 </div>
                                 <div class="each_col eight_col">
-                                    $0.13
+                                    ${{strategy.cpm | number:2}}
                                 </div>
                             </div>
-                            <div class="clearfix each_row_list">
 
-                                <div class="each_col sec_col">
-                                    Mobile
-                                </div>
-                                <div class="each_col third_col">
-                                    654,643
-                                </div>
-                                <div class="each_col forth_col">
-                                    $0.14
-                                </div>
-                                <div class="each_col fifth_col">
-                                    2,5%
-                                </div>
-                                <div class="each_col sixth_col">
-                                    $3.5
-                                </div>
-                                <div class="each_col seventh_col">
-                                    $2.5
-                                </div>
-                                <div class="each_col eight_col">
-                                    $0.13
-                                </div>
-                            </div>
-                            <div class="clearfix each_row_list">
-
-                                <div class="each_col sec_col">
-                                    Tablet
-                                </div>
-                                <div class="each_col third_col">
-                                    654,643
-                                </div>
-                                <div class="each_col forth_col">
-                                    $0.14
-                                </div>
-                                <div class="each_col fifth_col">
-                                    2,5%
-                                </div>
-                                <div class="each_col sixth_col">
-                                    $3.5
-                                </div>
-                                <div class="each_col seventh_col">
-                                    $2.5
-                                </div>
-                                <div class="each_col eight_col">
-                                    $0.13
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="all_strategies_holder">
@@ -490,79 +384,30 @@
                             </div>
                             <div class="each_strategy clearfix">
                                 <div class="each_col first_col" >
-                                    Toyota Camry For Female
-                                    <div class="sub_title">
-                                        (18-23 y.o.)
-                                    </div>
+                                    {{tactic[0].description}}
                                 </div>
                                 <div class="row_list_holder">
                                     <div class="clearfix each_row_list">
                                         <div class="each_col sec_col">
-                                            Desktop
+                                            {{data.dimension}}
                                         </div>
                                         <div class="each_col third_col">
-                                            654,643
+                                            {{data.impressions | number:0}}
                                         </div>
                                         <div class="each_col forth_col">
-                                            $0.14
+                                            {{data.ctr*100 | number:2}}
                                         </div>
                                         <div class="each_col fifth_col">
-                                            2,5%
+                                            {{data.action_rate | number:2}}
                                         </div>
                                         <div class="each_col sixth_col">
-                                            $3.5
+                                            ${{data.cpa | number:2}}
                                         </div>
                                         <div class="each_col seventh_col">
-                                            $2.5
+                                            ${{data.cpc | number:2}}
                                         </div>
                                         <div class="each_col eight_col">
-                                            $0.13
-                                        </div>
-                                    </div>
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            Mobile
-                                        </div>
-                                        <div class="each_col third_col">
-                                            654,643
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            $0.14
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            2,5%
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            $3.5
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            $2.5
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            $0.13
-                                        </div>
-                                    </div>
-                                    <div class="clearfix each_row_list">
-                                        <div class="each_col sec_col">
-                                            Tablet
-                                        </div>
-                                        <div class="each_col third_col">
-                                            654,643
-                                        </div>
-                                        <div class="each_col forth_col">
-                                            $0.14
-                                        </div>
-                                        <div class="each_col fifth_col">
-                                            2,5%
-                                        </div>
-                                        <div class="each_col sixth_col">
-                                            $3.5
-                                        </div>
-                                        <div class="each_col seventh_col">
-                                            $2.5
-                                        </div>
-                                        <div class="each_col eight_col">
-                                            $0.13
+                                            ${{data.cpm | number:2}}
                                         </div>
                                     </div>
                                 </div>

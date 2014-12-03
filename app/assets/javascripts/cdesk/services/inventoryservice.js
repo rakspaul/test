@@ -10,7 +10,7 @@
 
             getCampaingsForUser: function () {
               //  var url = '/assets/cdesk/tmp/campaings.json';
-                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+user_id;
+                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id=11127'; //+user_id;
                 return this.fetch(url);
 
             },
