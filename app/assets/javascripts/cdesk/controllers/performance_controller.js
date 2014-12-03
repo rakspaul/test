@@ -69,7 +69,7 @@ var angObj = angObj || {};
                             };
 
 
-                            if ($scope.selected_filters.tab == 'bydaysofweek') { // && Object.getOwnPropertyNames($scope.tacticsPerfDataListByDOW).length === 0) {
+                            if ($scope.selected_filters.tab == 'bydaysofweek' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByDOW).length === 0) {
 
                                 for (var index in $scope.tacticList) {
                                     tacticParams.tacticId = $scope.tacticList[index].id;
@@ -98,7 +98,7 @@ var angObj = angObj || {};
                                         }
                                     });
                                 }
-                            } else if ($scope.selected_filters.tab == 'byformats') { //} && Object.getOwnPropertyNames($scope.tacticsPerfDataListByFormat).length === 0) {
+                            } else if ($scope.selected_filters.tab == 'byformats' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByFormat).length === 0) {
 
 
                                 for (var index in $scope.tacticList) {
@@ -128,7 +128,7 @@ var angObj = angObj || {};
                                     });
                                 }
 
-                            } else if ($scope.selected_filters.tab == 'byscreens') { // && Object.getOwnPropertyNames($scope.tacticsPerfDataListByScreen).length === 0) {
+                            } else if ($scope.selected_filters.tab == 'byscreens' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByScreen).length === 0) {
 
                                 for (var index in $scope.tacticList) {
                                     tacticParams.tacticId = $scope.tacticList[index].id;
