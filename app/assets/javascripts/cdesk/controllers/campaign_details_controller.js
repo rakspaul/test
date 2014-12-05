@@ -16,11 +16,12 @@
                 actionChart :true
             };
         //API call for campaign details
-        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
+//        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
+        var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId + "?user_id=" + user_id;
 
         dataService.getSingleCampaign(url).then(function(result) {
-            if (result.data) {
-                var dataArr = [result.data];
+            if (result.data.data) {
+                var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 $scope.getCdbChartData($scope.campaign);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
