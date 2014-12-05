@@ -27,6 +27,10 @@
 
                 $scope.originalCampaingList = $scope.campaigns; // for the first time.
                 //Check the status and load the function accordingly for the campaigns list
+                $scope.previouslySelectedCampaing = {
+                    name : $scope.$parent.selectedCampaign.name,
+                     id:  $scope.$parent.selectedCampaign.id
+                }
 
                 $scope.$watch('selectedObj.name', function (oldValue, newValue) {
                     //update $scope.campaigns to original list for each new search
@@ -82,7 +86,16 @@
                 });
 
                 $(document).click(function(event) {
+
                     if(!$("#campaignDropdown").is(':focus')) {
+                        if($scope.$parent.selectedCampaign.name.length < 7 || $scope.campaigns.length == 0 ){
+                            // restoring previous initial stage.
+                            $scope.$parent.selectedCampaign = $scope.previouslySelectedCampaing;
+                            $scope.previouslySelectedCampaing = {
+                                name : $scope.$parent.selectedCampaign.name,
+                                id:  $scope.$parent.selectedCampaign.id
+                            }
+                        }
                             $("#campaigns_list").hide();
                             $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
                     }
