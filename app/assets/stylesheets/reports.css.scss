@@ -416,7 +416,7 @@
 
 .reports_main_page_holder {
   margin: 0px auto 40px;
-  width: 1056px;
+  width: 1115px;
   .load-more {
     margin: 80px auto 0;
     display: block;
@@ -437,8 +437,8 @@
     background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174, 0.8);
     z-index: 1;
   }
-}
 
+}
 .inventory_reports_container , .common_reports_container{
   font-family: "Avenir";
   .dropdown_ul_text {
@@ -1064,4 +1064,76 @@
    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
    margin: 20px 0 0 250px;
    display: block;
+}
+
+.reports_cost_header_holder {
+  color: #313233 ;
+  .cost_header_holder{
+    padding: 20px 0 0 20px ;
+  }
+  .first_col {
+    text-align: left;
+  }
+  .total_cost {
+    width: 125px;
+  }
+  .more_options .dd_txt , .dropdown-menu , .cost_header_holder {
+    background: #f8faff ;
+  } 
+  .each_cost_col {
+    font-family: "Avenir" ;
+    font-size: 14px ;
+    color: #313233 ;
+    font-weight: normal;
+  }
+  .each_cost_heading {
+    font-weight: bold;
+    padding: 0 20px 15px 0;
+    span {
+      font-size: 12px ;
+      font-weight: normal;
+    }
+  }
+  .each_cost_row_holder {
+    .each_cost_row {
+      padding: 20px 0 20px 20px  ;
+      border: solid 1px #d2dee7;
+      border-top: 0;
+      .total_cost {
+        font-weight: bold;
+      }
+    }
+  }
+  .strategy_total_row {
+    background: #f8faff ;
+    .each_cost_heading {
+      font-size: 18px ;
+    }
+  }
+  .all_startegy_cost {
+    .each_cost_row_holder {
+      position: relative;
+      padding-left: 10px;
+      border-left: solid 1px #d2dee7 ;
+      .each_cost_row {
+        padding-left: 10px ;
+      }
+    }
+
+    .each_cost_row:before {
+      content: "" ;
+      height: 1px ;
+      width: 10px ;
+      background: #d2dee7 ;
+      top: 50% ;
+      left: 0px ;
+      position: absolute; 
+    }
+    .each_cost_row_holder:last-child {
+      height: 50px ;
+      .each_cost_row:before {
+        top : 100% ;
+      }
+    }
+  }
 }
