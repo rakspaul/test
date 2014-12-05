@@ -213,7 +213,7 @@
                 }
             },
             Campaigns.prototype.fetchDashboardData = function() {
-                var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
                     self = this;
                 //applying brand filter if active
                 if(this.brandId > 0) {
@@ -534,7 +534,7 @@
                 this.dashboard.filterReady && params.push('conditions=' + this.dashboard.filterReady);
                 this.dashboard.filterDraft && params.push('conditions=' + this.dashboard.filterDraft);
                 this.dashboard.filterCompleted && params.push('conditions=' + this.dashboard.filterCompleted);
-                return apiPaths.apiSerivicesUrl + '/desk/campaigns/bystate?user_id='+user_id+'&' + params.join('&');
+                return apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id='+user_id+'&' + params.join('&');
             };
 
         var toggleSortDirection = function(dir) {
