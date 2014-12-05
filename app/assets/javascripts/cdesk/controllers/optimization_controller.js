@@ -76,16 +76,18 @@ var angObj = angObj || {};
 
         $scope.getCampaignDetails = function() {
             //API call for campaign details
-            var url = "/campaigns/" +$scope.selectedCampaign.id + ".json?filter[date_filter]=life_time";
+//            var url = "/campaigns/" +$scope.selectedCampaign.id + ".json?filter[date_filter]=life_time";
+            var url = apiPaths.apiSerivicesUrl + "/campaigns/" +$scope.selectedCampaign.id + "?user_id="+user_id;
             //console.log('URL : '+url);
             dataService.getSingleCampaign(url).then(function(result) {
-                if (result.data !== undefined) {
+                if (result.data.data !== undefined) {
+                    var res = result.data.data;
                     $scope.campaign = {
-                        id: result.data.id,
-                        start_date : result.data.start_date,
-                        end_date : result.data.end_date,
-                        kpi_type :  result.data.kpi_type,
-                        kpi_value :  result.data.kpi_value
+                        id: res.id,
+                        start_date : res.start_date,
+                        end_date : res.end_date,
+                        kpi_type :  res.kpi_type,
+                        kpi_value :  res.kpi_value
                         };
                 }
                 $scope.actionListForSelectedStrategy();
