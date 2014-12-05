@@ -37,7 +37,11 @@
 </div>
 <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
 
-<div class="reports_tabs_content_container">
+<div class="no_data_found" ng-if="!strategyFound">
+    Data Not Found
+</div>
+
+<div class="reports_tabs_content_container" ng-show="strategyFound" >
 
 <div class="clearfix">
     <div class="clearfix reports_tabs_holder">
@@ -60,13 +64,16 @@
 </div>
 
 <div class="reports_block" id="reports_byscreens_block">
-    <div class="reports_details_outer_container">
+    <div class="no_data_found" ng-if="dataNotFoundForScreen">
+        Data Not Found
+    </div>
+    <div class="reports_details_outer_container" ng-if="!dataNotFoundForScreen">
         <div class="clearfix reports_performance_header">
             <div class="each_col first_col">
                 <span>Name</span>
             </div>
             <div class="each_col sec_col">
-                <span>Screen Type</span>
+                <span>Screen</span>
             </div>
             <div class="each_col third_col">
                 <span>Imps.</span>
@@ -96,8 +103,10 @@
                 <div class="each_col first_col">
                     Strategy total:
                 </div>
+
                 <div class="row_list_holder">
-                    <!--<div class="common-load-icon"></div>-->
+                    <div class="common-load-icon" ng-show="screenBusy"></div>
+                    <!--{{screenBusy}}-->
                     <div class="clearfix each_row_list " ng-repeat="strategy in strategyPerfDataByScreen">
 
                         <div class="each_col sec_col">
@@ -128,10 +137,13 @@
 
             <div class="all_strategies_holder">
                 <!--<div class="common-load-icon"></div>-->
+                <div class="common-load-icon" ng-show="tacticScreenBusy"></div>
+
                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByScreen">
                     <div class="linkage_lines">
                     </div>
                     <div class="each_strategy clearfix">
+
 
                         <div class="each_col first_col">
                             {{tactic[0].description}}
@@ -172,13 +184,18 @@
 <!--show no data found div-->
 
 <div class="reports_block" id="reports_byformats_block" style="display:none;">
-    <div class="reports_details_outer_container">
+
+    <div class="no_data_found" ng-if="dataNotFoundForFormat">
+        Data Not Found
+    </div>
+
+    <div class="reports_details_outer_container"  ng-show="!dataNotFoundForFormat">
         <div class="clearfix reports_performance_header">
             <div class="each_col first_col">
                 <span>Name</span>
             </div>
             <div class="each_col sec_col">
-                <span>Screen Type</span>
+                <span>Format</span>
             </div>
             <div class="each_col third_col">
                 <span>Imps.</span>
@@ -209,6 +226,8 @@
                     Strategy total:
                 </div>
                 <div class="row_list_holder">
+                    <div class="common-load-icon" ng-show="formatBusy"></div>
+                    <!--{{formatBusy}}-->
                     <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByFormat">
 
                         <!--<div class="each_col sec_col">-->
@@ -259,7 +278,8 @@
             </div>
             <div class="all_strategies_holder">
 
-
+                <div class="common-load-icon" ng-show="tacticFormatBusy"></div>
+             <!--{{tacticFormatBusy}}-->
                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByFormat">
                     <div class="linkage_lines">
                     </div>
@@ -301,14 +321,17 @@
     </div>
 </div>
 <!--show no data found div-->
-<div class="reports_block" id="reports_bydaysofweek_block" style="display:none;">
-    <div class="reports_details_outer_container">
+<div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
+    <div class="no_data_found" ng-if="dataNotFoundForDOW">
+        Data Not Found
+    </div>
+    <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
         <div class="clearfix reports_performance_header">
             <div class="each_col first_col">
                 <span>Name</span>
             </div>
             <div class="each_col sec_col">
-                <span>Screen Type</span>
+                <span>Day of Week </span>
             </div>
             <div class="each_col third_col">
                 <span>Imps.</span>
@@ -338,6 +361,8 @@
                     Strategy total:
                 </div>
                 <div class="row_list_holder">
+                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                    <!--{{dowBusy}}-->
                     <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
 
                         <div class="each_col sec_col">
@@ -368,6 +393,8 @@
             <div class="all_strategies_holder">
                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW">
                     <div class="linkage_lines">
+                        <div class="common-load-icon" ng-show="tacticDowBusy"></div>
+                        <!--{{tacticDowBusy}}-->
                     </div>
                     <div class="each_strategy clearfix">
                         <div class="each_col first_col">
