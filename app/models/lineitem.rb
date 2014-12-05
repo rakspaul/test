@@ -56,7 +56,11 @@ class Lineitem < ActiveRecord::Base
   after_validation :set_li_status, on: :create
   before_update :check_est_flight_dates
 
-  scope :in_standard_order, -> { includes([:geo_targets, :audience_groups, { :creatives => [ :lineitem_assignment, :ad_assignments ] } ]).reorder('CAST(io_lineitems.alt_ad_id AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC') }
+  scope :in_standard_order, -> { includes(:creatives => [ :lineitem_assignment, :ad_assignments ],
+                                          :video_creatives => [ :lineitem_assignment, :ad_assignments ]
+                                          ).reorder("CAST(REGEXP_REPLACE(io_lineitems.alt_ad_id,E'[^0-9]','0','gs') AS INTEGER) ASC, lineitem_assignments.start_date ASC, creatives.size ASC")
+                                          .references(:io_lineitems, :lineitem_assignments, :creatives)
+                                 }
 
   def video?()   type == 'Video'; end
   def display?() type == 'Display'; end

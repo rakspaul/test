@@ -1,4 +1,4 @@
-set :branch, 'cdesk_sprint7'
+set :branch, 'cdesk_sprint8'
 
 set :rails_env, "newqa" # set for capistrano asset pipeline precompilation
 
