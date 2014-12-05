@@ -242,7 +242,7 @@ var angObj = angObj || {};
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
 
-                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, null, $scope.orderid, $scope.clicked);
+                            $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.orderid, $scope.clicked);
 
                         }
                     }else{

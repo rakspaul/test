@@ -80,6 +80,18 @@
             this.totalCount;
             this.brandId = 0;
             this.dashboard = {
+                busy: false,
+                pending: {
+                    width: undefined
+                },
+                active: {
+                    width: undefined,
+                    ontrackWidth: undefined
+                },
+                completed: {
+                    width: undefined,
+                    ontrackWidth: undefined
+                },
                 filterActive : '(active,underperforming)',
                 filterReady : undefined,
                 filterDraft : undefined,
@@ -213,7 +225,9 @@
                 }
             },
             Campaigns.prototype.fetchDashboardData = function() {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+
+                this.dashboard.busy = true;
+                var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
                     self = this;
                 //applying brand filter if active
                 if(this.brandId > 0) {
@@ -221,6 +235,7 @@
                 }
 
                 dataService.getCampaignDashboardData(url).then(function(result) {
+                    self.dashboard.busy = false;
                     if(result.status == "success" && !angular.isString(result.data)){
                         self.dashboard.pending = {
                             total : result.data.data.draft + result.data.data.ready,

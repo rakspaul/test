@@ -266,6 +266,15 @@
             return input;
         }
     });
+    angObj.filter('toUpperCase', function () {
+        return function (input) {
+            if (input == undefined) {
+                return '';
+            }
+            input = input.toUpperCase() ;
+            return input;
+        }
+    });
     angObj.filter('formatCostData', function ($filter) {
         return function (input, symbol, places) {
             if (input == undefined) {

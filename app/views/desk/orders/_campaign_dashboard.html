@@ -1,5 +1,6 @@
 <!-- dashboard -->
-<div class="row-fluid clearfix status_bar_holder ">
+<div ng-show='campaigns.dashboard.busy' class="load-more">&nbsp;</div>
+<div ng-show='!campaigns.dashboard.busy' class="row-fluid clearfix status_bar_holder ">
 
     <div class="status_bar_section pending_section" style="width:{{getPendingWidth()}}%">
         <div class="status_partition_section clearfix">

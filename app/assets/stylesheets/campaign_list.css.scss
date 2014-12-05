@@ -57,6 +57,20 @@ $borderColor: #81bee5;
   background: -moz-linear-gradient(left,$startColor, $endColor);
   background: -webkit-linear-gradient(left,$startColor, $endColor);
 }
+@mixin ValStyle() {
+  font-size: 20px;
+  color: #262626;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+@mixin blueVal() {
+  color: #0978c9 ;
+  font-size: 20px ;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+}
+@mixin graphHeadingFont() {
+  font-size: 16px ;
+  color: #2d2f31 ;
+}
 
 /* generic style */
 body {
@@ -83,7 +97,10 @@ button, i, input[type="submit"] {
 .bold {
   font-weight: bold;
 }
-
+.main_container {
+  background: #fff;
+  margin-top: -18px;
+}
 .seperator {
   font-size: 12pt;
 }
@@ -1425,13 +1442,13 @@ button, i, input[type="submit"] {
     }
   }
 }
-//
-//
-//@font-face {
-//    font-family: "Avenir";
-//    src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
-//    url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
-//}
+
+
+@font-face {
+   font-family: "Avenir";
+   src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
+  url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
+}
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -2098,9 +2115,7 @@ button, i, input[type="submit"] {
           }
           .metric_val {
             float: right;
-            color: #0978c9 ;
-            font-size: 20px ;
-            font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+            @include blueVal() ;
           }
         }
         
@@ -2118,9 +2133,7 @@ button, i, input[type="submit"] {
               display: block;
             }
             span.detail_val {
-              font-size: 20px ;
-              color: #262626 ;
-              font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+              @include ValStyle();
             }
           }
         }
@@ -2200,70 +2213,7 @@ button, i, input[type="submit"] {
           font-size: 14px ;
           margin-top: 10px ;
         }
-        .days_left_holder {
-          .total_days_holder {
-            position: relative;
-            height : 4px ;
-            max-width : 360px  ;
-            background: #cdeaff ;
-            border-radius: 4px ;
-            -moz-border-radius: 4px ;
-            -webkit-border-radius: 4px ;
-            margin: 40px 0 25px ;
-            font-family: "Avenir";
-          }
-          .days_end_points {
-            position: absolute;
-            top: 6px;
-            width: 100%;
-             span {
-              float: right ;
-              color: #acacac ;
-              font-size: 10px ;
-            }
-            span:first-child {
-              float: left ;
-            }
-          }
-          
-          .days_over {
-            position: relative;
-            height: 100% ;
-            max-width : 100% ;
-            background: #0978c9 ;
-            border-radius: 4px ;
-            -moz-border-radius: 4px ;
-            -webkit-border-radius: 4px ;
-
-            .days_over_text {
-              position: absolute;
-              top: -26px;
-              color: #44aefc;
-              
-              font-size: 12px;
-              right: -35px;
-            }
-            .ended_text {
-              right : 0px ;
-            }
-            .start_text {
-              right: auto ;
-              left: 0px ;
-              width: 95px;
-            }
-          }
-          .days_over:after {
-              height: 12px;
-              width: 12px;
-              background: #44aefc;
-              content: "";
-              display: block;
-              border-radius: 12px;
-              position: absolute;
-              top: -4px;
-              right: 0;
-          }
-        }
+        
       }
       .first_section {
         height: 8px ;
@@ -2329,7 +2279,71 @@ button, i, input[type="submit"] {
     
   }
   
+  .days_left_holder {
+    .total_days_holder {
+      position: relative;
+      height : 4px ;
+      max-width : 360px  ;
+      background: #cdeaff ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
+      margin: 40px 0 25px ;
+      font-family: "Avenir";
+    }
+    .days_end_points {
+      position: absolute;
+      top: 6px;
+      width: 100%;
+      margin-top: 4px ;
+      span {
+        float: right ;
+        color: #acacac ;
+        font-size: 10px ;
+      }
+      span:first-child {
+        float: left ;
+      }
+    }
+    
+    .days_over {
+      position: relative;
+      height: 100% ;
+      max-width : 100% ;
+      background: #0978c9 ;
+      border-radius: 4px ;
+      -moz-border-radius: 4px ;
+      -webkit-border-radius: 4px ;
 
+      .days_over_text {
+        position: absolute;
+        top: -26px;
+        color: #44aefc;
+        
+        font-size: 12px;
+        right: -35px;
+      }
+      .ended_text {
+        right : 0px ;
+      }
+      .start_text {
+        right: auto ;
+        left: 0px ;
+        width: 95px;
+      }
+    }
+    .days_over:after {
+        height: 12px;
+        width: 12px;
+        background: #44aefc;
+        content: "";
+        display: block;
+        border-radius: 12px;
+        position: absolute;
+        top: -4px;
+        right: 0;
+    }
+  }
   .metric_graph {
     .full_metric_graph {
       position: relative;
@@ -2432,7 +2446,8 @@ button, i, input[type="submit"] {
       .completed_end_point {
         left: auto;
         right: 0;
-        left: 300px;
+        /*left: 300px;*/
+        left: 100%;
         .end_point_line {
           float: right;
         }
@@ -2468,6 +2483,7 @@ button, i, input[type="submit"] {
         span {
           display: block;
           background: #c1ccd4 ;
+          height: 21px;
           color: #fff ;
           font-size: 12px ;
           font-family: "TradeGothicLTStd";
