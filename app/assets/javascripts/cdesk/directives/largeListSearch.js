@@ -27,12 +27,30 @@
 
                 $scope.originalCampaingList = $scope.campaigns; // for the first time.
                 //Check the status and load the function accordingly for the campaigns list
-                $scope.previouslySelectedCampaing = {
-                    name : $scope.$parent.selectedCampaign.name,
-                     id:  $scope.$parent.selectedCampaign.id
-                }
+
+                    $scope.defaultSelectedCampaing = {
+                        name: $scope.$parent.selectedCampaign.name,
+                        id: $scope.$parent.selectedCampaign.id
+                    }
+                  if($scope.defaultSelectedCampaing === 'undefined'){
+                      $scope.defaultSelectedCampaing = {
+                          name: $scope.campaigns[0].name,
+                          id: $scope.campaigns[0].id
+                      }
+                  }
+
 
                 $scope.$watch('selectedObj.name', function (oldValue, newValue) {
+
+                    if($scope.defaultSelectedCampaing.name === 'Loading...'){
+                        $scope.defaultSelectedCampaing.name = oldValue ;
+
+                        if($scope.$parent.selectedCampaign !== 'undefined'){
+
+                            $scope.defaultSelectedCampaing.id = $scope.$parent.selectedCampaign.id ;
+                        }
+                    }
+
                     //update $scope.campaigns to original list for each new search
                     $scope.campaigns = $scope.originalCampaingList;
                     if (oldValue === newValue) {
@@ -42,7 +60,6 @@
                     var name = $scope.selectedObj.name.trim();
                     if (newValue !== 'Loading...') {
                         var filteredOptions = [];
-                        var showPreviousList = false;
                         if (name.length > 0) {
                             var searchFor = angular.lowercase(name);
                             for (var i in $scope.campaigns) {
@@ -78,10 +95,16 @@
 
                 $("#campaignDropdown").click(function () {
                     $('#campaignDropdown').val('');
-                    if ($('#campaigns_list').css('display') === 'block')
+                    if ($('#campaigns_list').css('display') === 'block'){
+                   //     console.log("hiding drop down list");
                         $('#campaigns_list').hide();
-                    else
+                    }
+
+                    else{
+                    //    console.log("showing drop down list");
                         $('#campaigns_list').show();
+
+                    }
 
                 });
 
@@ -90,14 +113,17 @@
                     if(!$("#campaignDropdown").is(':focus')) {
                         if($scope.$parent.selectedCampaign.name.length < 7 || $scope.campaigns.length == 0 ){
                             // restoring previous initial stage.
-                            $scope.$parent.selectedCampaign = $scope.previouslySelectedCampaing;
-                            $scope.previouslySelectedCampaing = {
+                            $scope.$parent.selectedCampaign = $scope.defaultSelectedCampaing;
+
+                            $scope.defaultSelectedCampaing = {
                                 name : $scope.$parent.selectedCampaign.name,
                                 id:  $scope.$parent.selectedCampaign.id
                             }
+                            $scope.campaigns = $scope.originalCampaingList;
                         }
                             $("#campaigns_list").hide();
                             $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
+
                     }
                 });
 
