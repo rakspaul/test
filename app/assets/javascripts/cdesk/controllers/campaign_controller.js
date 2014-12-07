@@ -227,7 +227,7 @@
             Campaigns.prototype.fetchDashboardData = function() {
 
                 this.dashboard.busy = true;
-                var url = apiPaths.apiSerivicesUrl + '/desk/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+                var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
                     self = this;
                 //applying brand filter if active
                 if(this.brandId > 0) {
