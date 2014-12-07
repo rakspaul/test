@@ -19,6 +19,9 @@
             var timeInterval = dataLength/4;
 
             return {
+                /*chart:{
+                    renderTo: 'container'
+                },*/
                 credits: {
                     enabled: false
                 },

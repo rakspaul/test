@@ -1,6 +1,16 @@
 .campaign_details_page {
   font-family: "Avenir" ;
   color: #2d2f31 ;
+  margin-top: -30px;
+  padding-top: 20px;
+  .load-more-strategies {
+    margin: 30px;
+    text-align: center;
+    cursor: pointer;
+    a{
+      text-decoration: none;
+    }
+  }
   .dropdown-menu li {
     cursor: default;
     padding: 5px 10px;
@@ -339,7 +349,11 @@
           }
           .campaigns_list_buttons_holder {
             margin-top: 50px ;
+            .campaign_btn {
+              cursor: pointer;
+            }
             .tactics_open_btn {
+              cursor: pointer;
               background: #fbfcff ;
               border: solid 1px #ebf0f5 ;
               border-bottom: 0px ;
@@ -371,6 +385,9 @@
         }
        
         .tactics_container {
+          .each_campaign_list_container {
+            background: #FBFCFF;
+          }
           .tactics_linkage_lines {
             position: relative;
             width: 100%;
@@ -544,6 +561,10 @@
             display: block;
           }
         }
+        .no_activity_class {
+          text-align: center;
+          margin-top : 160px ;
+        }
       }
     }
     .activity_point {
@@ -573,7 +594,8 @@
         }
         .dropdown_ul {
           min-width: 100px ;
-          left: -8px ;
+          right: 0;
+          left: auto;
         }
       }
     }

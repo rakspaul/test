@@ -35,12 +35,12 @@
                     </div>
                     <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }}</div>
                 </div>
-                <div class="campaign_btn reports_btn">
+                <div class="campaign_btn reports_btn" ng-click="setOptimizationData(campaign, strategy)">
                     View Report
                 </div>
                 <div class="campaign_btn actions_btn">
                     <span>Activity</span>
-                    <span class="actions_done">10</span> 
+                    <!--<span class="actions_done">10</span> -->
                 </div>
             </div>
         </div>

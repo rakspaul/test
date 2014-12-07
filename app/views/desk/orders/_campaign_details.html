@@ -18,7 +18,7 @@
                               {{campaign.brandName}}
                           </div>
                       </div>
-                      <a href="reports/reports/402105" ng-click="campaigns.campaignReports(campaign)">
+                      <a href="campaigns#/performance">
                         <div class="pull-right view_report">
                             View report
                         </div>
@@ -28,16 +28,16 @@
                           <div class="dropdown">
                               <span class="dropdown_ul_text " data-toggle="dropdown">
                                   <span class="dd_txt">
-                                      Lifetime
+                                      LIFETIME
                                   </span>
                                   <span class="arrow_img">
                                   </span>
                               </span>
 
                               <ul class="dropdown_ul dropdown-menu">
-                                  <li>Lifetime</li>
-                                  <li>Last Week</li>
-                                  <li>Last Day</li>
+                                  <li>LIFETIME</li>
+                                  <li>LAST WEEK</li>
+                                  <li>LAST DAY</li>
                               </ul>
                           </div>
                       </div>
@@ -122,29 +122,29 @@
                         </div>
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
-                                
+                                <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle=""></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
                                 <div class="each_detail">
                                     <span class="graph_color color1"></span>
-                                    Inventory: 32% 
+                                    Inventory: {{details.getCostBreakdown.inventory | formatCostData: '' : 0}}%
                                 </div>
                                 <div class="each_detail">
                                     <span class="graph_color color2"></span>
-                                    Data: 32% 
+                                    Data: {{details.getCostBreakdown.data | formatCostData: '' : 0}}%
                                 </div>
                                 <div class="each_detail">
                                     <span class="graph_color color3"></span>
-                                    Ad Serving: 32% 
+                                    Ad Serving: {{details.getCostBreakdown.adServing | formatCostData: '' : 0}}%
                                 </div>
                                 <div class="each_detail">
                                     <span class="graph_color color4"></span>
-                                    Other: 32% 
+                                    Other: {{details.getCostBreakdown.other | formatCostData: '' : 0}}%
                                 </div>
                             </div>
                         </div>
                         <div class="graph_summary">
-                            Total <span class="graph_val">$325,453</span>
+                            Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
                     <div class="each_section_graph_holder" style="opacity:0.3">
@@ -175,22 +175,22 @@
                             Total <span class="graph_val">$325,453</span>
                         </div>
                     </div>
-                    <div class="each_section_graph_holder viewability_section_graph_holder active" title="View Report">
+                    <div class="each_section_graph_holder viewability_section_graph_holder" >
                         <div class="graph_heading">
                             Viewability
                         </div>
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
-                                
+                                <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart"></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
-                                <div class="each_detail">> 1s: 70% </div>
-                                <div class="each_detail">> 1s: 70%</div>
-                                <div class="each_detail">> 15s: 70%</div>
+                                <div class="each_detail">> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
+                                <div class="each_detail">> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
+                                <div class="each_detail">> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
                             </div>
                         </div>
                         <div class="graph_summary">
-                            Total <span class="graph_val">$325,453</span><span>67%</span>
+                            Total <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}</span><span>{{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%</span>
                         </div>
                     </div>
                 </div>
@@ -229,11 +229,11 @@
 
                                   <div class="dropdown" ng-init="actionsFilter = {make_external: true}">
                                         <span class="dropdown_ul_text" data-toggle="dropdown">
-                                            <span>External</span>
+                                            <span class="dd_txt">External</span>
                                             <span class="arrow_img"></span>
                                         </span>
                                         <ul class="dropdown_ul dropdown-menu" >
-                                            <li ng-click="actionsFilter = watchActionFilter(null, false)" class="dd_txt">All</li>
+                                            <li ng-click="actionsFilter = watchActionFilter(null, false)" >All</li>
                                             <li ng-click="actionsFilter = watchActionFilter({make_external: true}, true)">External</li>
                                         </ul>
                                   </div>
@@ -241,7 +241,7 @@
                           </div>
                       </div>
                       <div id="action-container" class="activity_log_list">
-                          <div class="clearfix each_activity_log " ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
+                          <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log " ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
@@ -271,13 +271,13 @@
                                   </div>
                               </div>
                               <div class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" title="Edit">
+                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" >
                                   </div>
-                                  <div class="activity_report" title="Open report">
+                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report">
                                   </div>
                               </div>
                           </div>
-                          <div lass="clearfix each_activity_log" ng-if="!actionItems">
+                          <div class="no_activity_class" ng-if="!actionItems">
                             No Data Available
                           </div>
 
@@ -496,5 +496,16 @@
               $(".dropdown_ul").hide();
           }
       });
+      setTimeout(function() {
+        $('[data-toggle="tooltip"]').tooltip(); 
+
+        $('.each_activity_log').hover(function(){
+          $('.activity_log_list').find('.active').removeClass('active');
+          $(this).addClass('active');
+        });
+      },5000);
+
+
+      
   });
 </script>

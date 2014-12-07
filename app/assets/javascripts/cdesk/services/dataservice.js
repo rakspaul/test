@@ -177,6 +177,18 @@
         return this.fetch(url);
       },
 
+      getCostBreakdown: function(campaign) {
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaign.orderId + '&start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+        console.log(url);
+        return this.fetch(url);
+      },
+
+      getCostViewability: function(campaign, timePeriod) {
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
+        console.log(url);
+        return this.fetch(url);
+      },
+
       getBrands: function () {
         var url = '/desk/advertisers.json';
         return this.fetch(url);

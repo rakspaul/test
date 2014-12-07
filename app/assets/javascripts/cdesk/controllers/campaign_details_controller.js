@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
@@ -27,6 +27,8 @@
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
                 });
+                $scope.getCostBreakdownData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -53,6 +55,8 @@
         }, function(result) {
             console.log('call failed');
         });
+
+       
 
         //$scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
@@ -95,7 +99,67 @@
             }
         };
 
+        $scope.getCostBreakdownData  = function(campaign){
+            var costData, other = 0, sum;
+             //get cost break down data
+            dataService.getCostBreakdown($scope.campaign).then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                     if(result.data.data.costData.length>0){
+                        costData = result.data.data.costData[0];
+                        sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                        if(sum < 100){
+                            other = 100 - sum;
+                        }
+                        $scope.details.getCostBreakdown = {
+                            inventory: costData.inventory_cost_pct,
+                            data: costData.data_cost_pct,
+                            adServing: costData.ad_serving_cost_pct,
+                            other: other
+                        };
+                        var costBreakdownColors =[];
+                            costBreakdownColors["inventory"] = "#F8810E";
+                            costBreakdownColors["data"] = "#0072BC";
+                            costBreakdownColors["adServing"] = "#45CB41";
+                            costBreakdownColors["other"] = "#BFC3D1";
+                        $scope.details.totalCostBreakdown = costData.total;
+                        $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                     }
+                }
+            },function(result){
+                console.log('cost break down call failed');
+            });
+        };
+        $scope.getCostViewabilityData  = function(campaign){
+            var viewabilityData, viewData;
+             //get cost break down data
+            
+            dataService.getCostViewability(campaign,'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data.data)) {
+
+                        viewData = result.data.data;
+                        
+                        $scope.details.getCostViewability = {
+                            pct_1s: viewData.viewable_imps_1s_pct,
+                            pct_5s: viewData.viewable_imps_5s_pct,
+                            pct_15s: viewData.viewable_imps_15s_pct,
+                            pct_total: viewData.viewable_pct
+                        };
+                        var costViewabilitynColors =[];
+                            costViewabilitynColors["inventory"] = "#F8810E";
+                            costViewabilitynColors["data"] = "#0072BC";
+                            costViewabilitynColors["adServing"] = "#45CB41";
+                            costViewabilitynColors["other"] = "#BFC3D1";
+                        $scope.details.getCostViewability.total = viewData.total_imps;
+                        $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
+                    
+                }
+            },function(result){
+                console.log('cost viewability call failed');
+            });
+        };
         $scope.getCdbChartData = function(campaign) {
+            //$scope.details.pieChart = pieChart.highChart();
+            //$scope.details.solidGaugeChart = solidGaugeChart.highChart();
             //API call for campaign chart
             dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
                 var lineData = [], showExternal = true;
