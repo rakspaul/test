@@ -1,24 +1,25 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ["inventoryService", "dataTransferService", function (inventoryService,  datatransferservice) {
+    angObj.factory("domainReports", ["performanceService", "dataTransferService", function (performanceService,  datatransferservice) {
 
         return {
             getReportsDropDowns : function() {
                 return {
                     'tabs' : [
                         {
-                            href:'optimization',
-                            title: 'Optimization Impact'
+                            href:'performance',
+                            title: 'Performance'
                         },
                         {
                             href:'cost',
                             title: 'Cost'
                         },
                         {
-                            href:'performance',
-                            title: 'Performance'
+                            href:'optimization',
+                            title: 'Optimization Impact'
                         },
+
                         {
                             href:'inventory',
                             title: 'Inventory'
@@ -105,14 +106,14 @@
                 if(datatransferservice.getCampaignList()) {
                     return datatransferservice.getCampaignList();
                 }else {
-                    return inventoryService.getCampaingsForUser();
+                    return performanceService.getCampaingsForUser();
                 }
             },
             getCampaignStrategyList : function(campaignId) {
                 if(datatransferservice.getCampaignStrategyList(campaignId)) {
                     return datatransferservice.getCampaignStrategyList(campaignId);
                 }else {
-                    return inventoryService.getStrategiesForCampaign(campaignId);
+                    return performanceService.getStrategiesForCampaign(campaignId);
                 }
             },
             loadFirstStrategy : function(id, name, startDate, endDate) {

@@ -14,7 +14,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.selected_filters.tab = 'byscreens';
+        $scope.selected_filters.tab = 'bydaysofweek';
 
 
         $scope.download_urls = {
@@ -23,6 +23,8 @@ var angObj = angObj || {};
         };
 
         $scope.init= function(){
+
+            $scope.firstTime = true;
 
             $scope.strategyFound = false ;
 
@@ -38,15 +40,15 @@ var angObj = angObj || {};
             $scope.firstTime = true;
             $scope.noTacticsFound = false;
 
-            $scope.tacticList = {};
+            $scope.tacticList = [];
 
-            $scope.strategyPerfDataByScreen = {};
-            $scope.strategyPerfDataByFormat = {};
-            $scope.strategyPerfDataByDOW = {};
+            $scope.strategyPerfDataByScreen = [];
+            $scope.strategyPerfDataByFormat = [];
+            $scope.strategyPerfDataByDOW = [];
 
-            $scope.tacticsPerfDataListByScreen = {};
-            $scope.tacticsPerfDataListByFormat = {};
-            $scope.tacticsPerfDataListByDOW = {};
+            $scope.tacticsPerfDataListByScreen = [];
+            $scope.tacticsPerfDataListByFormat = [];
+            $scope.tacticsPerfDataListByDOW = [];
 
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
@@ -55,18 +57,16 @@ var angObj = angObj || {};
 
         $scope.init();
         $scope.tacticPerfData = function (param) {
+          //  console.log("inside tactic perf data");
+           // console.log(param);
 
-            if ($scope.noTacticsFound !== true){ // && Object.getOwnPropertyNames($scope.tacticList).length === 0 ) {
+           // if ($scope.tacticList === 'undefined' || $scope.tacticList.length === 0){
 
-             //   console.log(" inside tactic perf data");
                 performanceService.getTacticsForStrategy(param).then(function (result) {
-               //     console.log($scope.firstTime);
                     if (result.status === "OK" || result.status === "success") {
                         $scope.tacticList = result.data.data;
                         $scope.noTacticsFound = false;
-
                         var _tacticsPerfList = [];
-
                         if ($scope.tacticList !== 'undefined') {
 
                             var tacticParams = {
@@ -80,7 +80,11 @@ var angObj = angObj || {};
                                 timeFilter: param.timeFilter
                             };
 
-                            if ($scope.selected_filters.tab == 'bydaysofweek' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByDOW).length === 0) {
+                       //     console.log("tactic list found");
+
+                            if ($scope.selected_filters.tab == 'bydaysofweek'){
+                        //        console.log("inside  days of week tab");
+                            if($scope.tacticsPerfDataListByDOW ==='undefined' || $scope.tacticsPerfDataListByDOW.length === 0 ){
                                 $scope.tacticDowBusy = true ;
 
                                 for (var index in $scope.tacticList) {
@@ -89,13 +93,8 @@ var angObj = angObj || {};
                                     tacticParams.startDate = $scope.tacticList[index].startDate;
                                     tacticParams.endDate = $scope.tacticList[index].endDate;
 
-//                                    console.log(" tactics params are");
-//                                    console.log(tacticParams);
-
-
                                     performanceService.getTacticPerfData(tacticParams).then(function (result) {
                                         if (result.status === "OK" || result.status === "success") {
-
                                             var _tacticPerfData = result.data.data;
                                             $scope.tacticDowBusy = false ;
                                             for (var i in _tacticPerfData) {
@@ -103,76 +102,82 @@ var angObj = angObj || {};
                                             }
                                             _tacticsPerfList.push(_tacticPerfData);
                                             $scope.tacticsPerfDataListByDOW = _tacticsPerfList;
-
                                         }
-
                                         else {
 
                                             $scope.tacticDowBusy = false ;
                                         }
                                     });
                                 }
-                            } else if ($scope.selected_filters.tab == 'byformats' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByFormat).length === 0) {
-                                $scope.tacticFormatBusy = true ;
 
-                                for (var index in $scope.tacticList) {
+                               }
+                            } else if ($scope.selected_filters.tab == 'byformats'){
+                                if($scope.tacticsPerfDataListByFormat ==='undefined' || $scope.tacticsPerfDataListByFormat.length === 0 ){
+                                    $scope.tacticFormatBusy = true ;
 
-                                    tacticParams.tacticId = $scope.tacticList[index].id;
-                                    tacticParams.tacticName = $scope.tacticList[index].description;
-                                    tacticParams.startDate = $scope.tacticList[index].startDate;
-                                    tacticParams.endDate = $scope.tacticList[index].endDate;
+                                    for (var index in $scope.tacticList) {
+
+                                        tacticParams.tacticId = $scope.tacticList[index].id;
+                                        tacticParams.tacticName = $scope.tacticList[index].description;
+                                        tacticParams.startDate = $scope.tacticList[index].startDate;
+                                        tacticParams.endDate = $scope.tacticList[index].endDate;
 
 
 
-                                    performanceService.getTacticPerfData(tacticParams).then(function (result) {
-                                        if (result.status === "OK" || result.status === "success") {
+                                        performanceService.getTacticPerfData(tacticParams).then(function (result) {
+                                            if (result.status === "OK" || result.status === "success") {
 
-                                            var _tacticPerfData = result.data.data;
-                                            $scope.tacticFormatBusy = false;
+                                                var _tacticPerfData = result.data.data;
+                                                $scope.tacticFormatBusy = false;
 
-                                            for (var i in _tacticPerfData) {
-                                                _tacticPerfData[i].description = tacticParams.tacticName;
+                                                for (var i in _tacticPerfData) {
+                                                    _tacticPerfData[i].description = tacticParams.tacticName;
+                                                }
+                                                _tacticsPerfList.push(_tacticPerfData);
+                                                $scope.tacticsPerfDataListByFormat = _tacticsPerfList;
+
                                             }
-                                            _tacticsPerfList.push(_tacticPerfData);
-                                            $scope.tacticsPerfDataListByFormat = _tacticsPerfList;
+                                            else {
 
-                                        }
-                                        else {
-
-                                            $scope.tacticFormatBusy = false ;
-                                        }
-                                    });
+                                                $scope.tacticFormatBusy = false ;
+                                            }
+                                        });
+                                    }
                                 }
 
-                            } else if ($scope.selected_filters.tab == 'byscreens' && Object.getOwnPropertyNames($scope.tacticsPerfDataListByScreen).length === 0) {
+                            }else if ($scope.selected_filters.tab === 'byscreens' ){
+                               // console.log("tactic by screens ");
+                               // console.log($scope.tacticsPerfDataListByScreen);
+                               // console.log($scope.tacticsPerfDataListByScreen ==='undefined' || $scope.tacticsPerfDataListByScreen.length === 0 );
+                                if($scope.tacticsPerfDataListByScreen ==='undefined' || $scope.tacticsPerfDataListByScreen.length === 0 ){
+                                    $scope.tacticScreenBusy = true ;
 
-                                $scope.tacticScreenBusy = true ;
-
-                                for (var index in $scope.tacticList) {
-                                    tacticParams.tacticId = $scope.tacticList[index].id;
-                                    tacticParams.tacticName = $scope.tacticList[index].description;
-                                    tacticParams.startDate = $scope.tacticList[index].startDate;
-                                    tacticParams.endDate = $scope.tacticList[index].endDate;
+                                    for (var index in $scope.tacticList) {
+                                        tacticParams.tacticId = $scope.tacticList[index].id;
+                                        tacticParams.tacticName = $scope.tacticList[index].description;
+                                        tacticParams.startDate = $scope.tacticList[index].startDate;
+                                        tacticParams.endDate = $scope.tacticList[index].endDate;
 
 
-                                    performanceService.getTacticPerfData(tacticParams).then(function (result) {
-                                        if (result.status === "OK" || result.status === "success") {
-                                            var _tacticPerfData = result.data.data;
-                                            $scope.tacticScreenBusy = false ;
-                                            for (var i in _tacticPerfData) {
-                                                _tacticPerfData[i].description = tacticParams.tacticName;
+                                        performanceService.getTacticPerfData(tacticParams).then(function (result) {
+                                            if (result.status === "OK" || result.status === "success") {
+                                                var _tacticPerfData = result.data.data;
+                                                $scope.tacticScreenBusy = false ;
+                                                for (var i in _tacticPerfData) {
+                                                    _tacticPerfData[i].description = tacticParams.tacticName;
+                                                }
+                                                _tacticsPerfList.push(_tacticPerfData);
+                                                $scope.tacticsPerfDataListByScreen = _tacticsPerfList;
                                             }
-                                            _tacticsPerfList.push(_tacticPerfData);
-                                            $scope.tacticsPerfDataListByScreen = _tacticsPerfList;
-                                        }
 
-                                        else {
+                                            else {
 
-                                            $scope.tacticScreenBusy = false ;
-                                        }
-                                    });
+                                                $scope.tacticScreenBusy = false ;
+                                            }
+                                        });
+                                    }
+
                                 }
-
                             }
                         }
 
@@ -183,136 +188,110 @@ var angObj = angObj || {};
                     }
 
                 });
-            }
+           // }
         };
 
         $scope.strategyPerformanceData = function (param) {
-          //  console.log($scope.selected_filters.tab === 'byscreens'  && ( Object.getOwnPropertyNames($scope.strategyPerfDataByScreen).length === 0 || Object.getOwnPropertyNames($scope.tacticsPerfDataListByScreen).length === 0 ));
 
-            if ($scope.selected_filters.tab === 'bydaysofweek' && Object.getOwnPropertyNames($scope.strategyPerfDataByDOW).length === 0) {
-               $scope.dowBusy = true;
-               $scope.tacticDowBusy = true;
-                performanceService.getStrategyPerfData(param).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyPerfDataByDOW = result.data.data;
-                        $scope.tacticPerfData(param);
-                        $scope.dowBusy = false ;
-                        $scope.tacticDowBusy = false ;
-                    }
-                    else {
-                        $scope.dataNotFoundForDOW = true;
-                        $scope.dowBusy = false ;
-                        $scope.tacticDowBusy = false ;
+            if ($scope.selected_filters.tab === 'bydaysofweek'){
+              //  console.log("days of week tab");
+                if($scope.strategyPerfDataByDOW ==='undefined' || $scope.strategyPerfDataByDOW.length === 0 ){
+                //    console.log("inside days of week tab");
+                    $scope.dowBusy = true;
+                    $scope.tacticDowBusy = true;
+                    performanceService.getStrategyPerfData(param).then(function (result) {
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.strategyPerfDataByDOW = result.data.data;
+                            $scope.dowBusy = false ;
+                            $scope.tacticPerfData(param);
+                        }
+                        else {
+                            $scope.dataNotFoundForDOW = true;
+                            $scope.dowBusy = false ;
+                            $scope.tacticDowBusy = false ;
+                        }
+                    });
 
-                    }
-                });
-            } else if ($scope.selected_filters.tab === 'byformats' && Object.getOwnPropertyNames($scope.strategyPerfDataByFormat).length  === 0  ) {
-                $scope.formatBusy = true;
-                $scope.tacticFormatBusy = true ;
-                performanceService.getStrategyPerfData(param).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyPerfDataByFormat = result.data.data;
-                        $scope.tacticPerfData(param);
-                        $scope.formatBusy = false ;
-                        $scope.tacticFormatBusy = false ;
-                    }
-                    else {
-                        $scope.dataNotFoundForFormat = true;
-                        $scope.formatBusy = false ;
-                        $scope.tacticFormatBusy = false;
-                       // $scope.dataNotFound = true;
-                    }
-                });
+                    // **********************************************************************
+                    // load other screen tabs strategy data.
+                    //************************************************************************
+//                    if ($scope.firstTime || $scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
+//
+//                        var formatParamsForStrategy = {
+//                            campaignId: $scope.selectedCampaign.id,
+//                            strategyId: $scope.selectedStrategy.id,
+//                            strategyStartDate: $scope.selectedStrategy.startDate,
+//                            strategyEndDate: $scope.selectedStrategy.endDate,
+//                            tab: "byscreens",  //bydaysofweek
+//                            timeFilter: $scope.selected_filters.time_filter
+//                        };
+//
+//                        performanceService.getStrategyPerfData(formatParamsForStrategy).then(function (result) {
+//                            console.log("got strategy data fo screens ");
+//                            if (result.status === "OK" || result.status === "success") {
+//                                $scope.strategyPerfDataByScreen = result.data.data;
+//                                $scope.formatBusy = false;
+//                                $scope.tacticPerfData(formatParamsForStrategy);
+//                            }
+//                            else {
+//                                $scope.dataNotFoundForFormat = true;
+//                                $scope.formatBusy = false;
+//                                // $scope.dataNotFound = true;
+//                            }
+//                        });
+//                        $scope.firstTime = false ;
+//                        console.log("performance tunnings for screens tab successfull");
+//                    }
+                }
 
-            } else if ($scope.selected_filters.tab === 'byscreens'  &&  Object.getOwnPropertyNames($scope.strategyPerfDataByScreen).length === 0) {
+            } else if ($scope.selected_filters.tab === 'byformats' ){
+               // console.log("by fromats tab");
+               // console.log($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0);
+                if($scope.strategyPerfDataByFormat ==='undefined' || $scope.strategyPerfDataByFormat.length === 0){
+                    $scope.formatBusy = true;
+                    $scope.tacticFormatBusy = true;
+                    performanceService.getStrategyPerfData(param).then(function (result) {
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.strategyPerfDataByFormat = result.data.data;
+                            $scope.dataNotFoundForFormat = false;
+                            $scope.formatBusy = false ;
+                            $scope.tacticPerfData(param);
+                        }
+                        else {
+                            $scope.dataNotFoundForFormat = true;
+                            $scope.formatBusy = false ;
+                            $scope.tacticFormatBusy = false;
 
-                $scope.screenBusy = true;
-                $scope.tacticScreenBusy = true ;
+                        }
+                    });
 
-                performanceService.getStrategyPerfData(param).then(function (result) {
-                    if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyPerfDataByScreen = result.data.data;
-                        $scope.screenBusy = false;
-                        $scope.tacticPerfData(param);
-                    }
-                    else {
-                        $scope.dataNotFoundForScreen = true;
-                        $scope.screenBusy = false;
-                        $scope.tacticScreenBusy = false;
+                }
 
-                    }
-                });
+            }  else if ($scope.selected_filters.tab === 'byscreens' ){
 
+                //console.log("by screens tab");
+                //console.log($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0);
+                if($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0) {
+                    $scope.screenBusy = true;
+                    $scope.tacticScreenBusy = true ;
 
-                // ******************************************************************
-                // performance tunning
-                //******************************************************************
+                    performanceService.getStrategyPerfData(param).then(function (result) {
+                        if (result.status === "OK" || result.status === "success") {
+                            $scope.strategyPerfDataByScreen = result.data.data;
+                            $scope.dataNotFoundForScreen = false;
+                            $scope.screenBusy = false;
+                            $scope.tacticPerfData(param);
+                        }
+                        else {
+                            $scope.dataNotFoundForScreen = true;
+                            $scope.screenBusy = false;
+                            $scope.tacticScreenBusy = false;
 
-//                if ($scope.firstTime) {
-//
-//                    // ******************************************************************
-//                    // load other format tabs strategy data.
-//                    //************************************************************************
-//
-//                    var formatParamsForStrategy = {
-//                        campaignId: $scope.selectedCampaign.id,
-//                        strategyId: $scope.selectedStrategy.id,
-//                        strategyStartDate: $scope.selectedStrategy.startDate,
-//                        strategyEndDate: $scope.selectedStrategy.endDate,
-//                        tab: "byformats",  //bydaysofweek
-//                        timeFilter: $scope.selected_filters.time_filter
-//                    };
-//
-//                    performanceService.getStrategyPerfData(formatParamsForStrategy).then(function (result) {
-//                        if (result.status === "OK" || result.status === "success") {
-//                            $scope.strategyPerfDataByFormat = result.data.data;
-//                            $scope.formatBusy = false;
-//                            $scope.tacticPerfData(formatParamsForStrategy);
-//                        }
-//                        else {
-//                            $scope.dataNotFoundForFormat = true;
-//                            $scope.formatBusy = false;
-//                            // $scope.dataNotFound = true;
-//                        }
-//                    });
-//
-//                    console.log("performance tunnings for format successfull");
-//
-//
-//                    // ******************************************************************
-//                    // load other days of week tabs strategy data.
-//                    //************************************************************************
-//
-//                    var daysOfWeekParamsForStrategy = {
-//                        campaignId: $scope.selectedCampaign.id,
-//                        strategyId: $scope.selectedStrategy.id,
-//                        strategyStartDate: $scope.selectedStrategy.startDate,
-//                        strategyEndDate: $scope.selectedStrategy.endDate,
-//                        tab: "bydaysofweek",
-//                        timeFilter: $scope.selected_filters.time_filter
-//                    };
-//
-//                    performanceService.getStrategyPerfData(daysOfWeekParamsForStrategy).then(function (result) {
-//                        if (result.status === "OK" || result.status === "success") {
-//                            $scope.strategyPerfDataByDOW = result.data.data;
-//                            $scope.dowBusy = false;
-//                            $scope.tacticPerfData(daysOfWeekParamsForStrategy);
-//                        }
-//                        else {
-//                            $scope.dataNotFoundForDOW = true;
-//                            $scope.dowBusy = false;
-//                            //    $scope.dataNotFound = true
-//                        }
-//                    });
-//
-//                    console.log("performance tunnings for bydaysofweek successfull");
-//
-//                    $scope.firstTime = false;
-//
-//                }
+                        }
+                    });
+
+                }
             }
-
-
         };
 
         $scope.updateStrategyObjects = function (strategy) {

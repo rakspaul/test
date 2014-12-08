@@ -45,25 +45,139 @@
 
 <div class="clearfix">
     <div class="clearfix reports_tabs_holder">
-        <div class="each_tab active" id="byscreens">
-            <div class="each_tab_text">
-                Screens
-            </div>
-        </div>
-        <div class="each_tab cost_tab" id="byformats">
-            <div class="each_tab_text">
-                Formats
-            </div>
-        </div>
-        <div class="each_tab cost_tab" id="bydaysofweek">
+        <div class="each_tab active" id="bydaysofweek">
             <div class="each_tab_text">
                 Days of Week
             </div>
         </div>
+        <div class="each_tab cost_tab " id="byscreens">
+            <div class="each_tab_text">
+                Screens
+            </div>
+        </div>
+        <div class="each_tab cost_tab " id="byformats">
+            <div class="each_tab_text">
+                Formats
+            </div>
+        </div>
+
     </div>
 </div>
 
-<div class="reports_block" id="reports_byscreens_block">
+<div class="reports_block" id="reports_bydaysofweek_block" style="display:block;" >
+    <div class="no_data_found" ng-if="dataNotFoundForDOW">
+        Data Not Found
+    </div>
+    <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
+        <div class="clearfix reports_performance_header">
+            <div class="each_col first_col">
+                <span>Name</span>
+            </div>
+            <div class="each_col sec_col">
+                <span>Day of Week </span>
+            </div>
+            <div class="each_col third_col">
+                <span>Imps.</span>
+            </div>
+            <div class="each_col forth_col">
+                <span>CTR</span>
+            </div>
+            <div class="each_col fifth_col">
+                <span>Action Rate</span>
+            </div>
+            <div class="each_col sixth_col">
+                <span>CPA</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPC</span>
+            </div>
+            <div class="each_col seventh_col">
+                <span>CPM</span>
+            </div>
+        </div>
+
+
+        <div class="strategy_total_container ">
+            <div class="strategy_total_container_header clearfix">
+
+                <div class="each_col first_col">
+                    Strategy total:
+                </div>
+                <div class="row_list_holder">
+                    <div class="common-load-icon" ng-show="dowBusy"></div>
+                    <!--{{dowBusy}}-->
+                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
+
+                        <div class="each_col sec_col">
+                            {{strategy.dimension}}
+                        </div>
+                        <div class="each_col third_col">
+                            {{strategy.impressions | number:0}}
+                        </div>
+                        <div class="each_col forth_col">
+                            {{strategy.ctr*100 | number:2}}%
+                        </div>
+                        <div class="each_col fifth_col">
+                            {{strategy.action_rate*100 | number:2}}%
+                        </div>
+                        <div class="each_col sixth_col">
+                            ${{strategy.cpa | number:2}}
+                        </div>
+                        <div class="each_col seventh_col">
+                            ${{strategy.cpc | number:2}}
+                        </div>
+                        <div class="each_col eight_col">
+                            ${{strategy.cpm | number:2}}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="common-load-icon" ng-show="tacticDowBusy"></div>
+
+            <div class="all_strategies_holder">
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW">
+                    <div class="linkage_lines">
+                    </div>
+                    <div class="each_strategy clearfix">
+                        <div class="each_col first_col">
+                            {{tactic[0].description}}
+                        </div>
+                        <div class="row_list_holder">
+                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
+                                <div class="each_col sec_col">
+                                    {{data.dimension}}
+                                </div>
+                                <div class="each_col third_col">
+                                    {{data.impressions | number:0}}
+                                </div>
+                                <div class="each_col forth_col">
+                                    {{data.ctr*100 | number:2}}%
+                                </div>
+                                <div class="each_col fifth_col">
+                                    {{data.action_rate*100 | number:2}}%
+                                </div>
+                                <div class="each_col sixth_col">
+                                    ${{data.cpa | number:2}}
+                                </div>
+                                <div class="each_col seventh_col">
+                                    ${{data.cpc | number:2}}
+                                </div>
+                                <div class="each_col eight_col">
+                                    ${{data.cpm | number:2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="reports_block" id="reports_byscreens_block" style="display:none;">
     <div class="no_data_found" ng-if="dataNotFoundForScreen">
         Data Not Found
     </div>
@@ -134,10 +248,10 @@
                 </div>
             </div>
 
+            <div class="common-load-icon" ng-show="tacticScreenBusy"></div>
 
             <div class="all_strategies_holder">
                 <!--<div class="common-load-icon"></div>-->
-                <div class="common-load-icon" ng-show="tacticScreenBusy"></div>
 
                 <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByScreen">
                     <div class="linkage_lines">
@@ -321,118 +435,7 @@
     </div>
 </div>
 <!--show no data found div-->
-<div class="reports_block" id="reports_bydaysofweek_block" style="display:none;" >
-    <div class="no_data_found" ng-if="dataNotFoundForDOW">
-        Data Not Found
-    </div>
-    <div class="reports_details_outer_container" ng-show="!dataNotFoundForDOW" >
-        <div class="clearfix reports_performance_header">
-            <div class="each_col first_col">
-                <span>Name</span>
-            </div>
-            <div class="each_col sec_col">
-                <span>Day of Week </span>
-            </div>
-            <div class="each_col third_col">
-                <span>Imps.</span>
-            </div>
-            <div class="each_col forth_col">
-                <span>CTR</span>
-            </div>
-            <div class="each_col fifth_col">
-                <span>Action Rate</span>
-            </div>
-            <div class="each_col sixth_col">
-                <span>CPA</span>
-            </div>
-            <div class="each_col seventh_col">
-                <span>CPC</span>
-            </div>
-            <div class="each_col seventh_col">
-                <span>CPM</span>
-            </div>
-        </div>
 
-
-        <div class="strategy_total_container ">
-            <div class="strategy_total_container_header clearfix">
-
-                <div class="each_col first_col">
-                    Strategy total:
-                </div>
-                <div class="row_list_holder">
-                    <div class="common-load-icon" ng-show="dowBusy"></div>
-                    <!--{{dowBusy}}-->
-                    <div class="clearfix each_row_list" ng-repeat="strategy in strategyPerfDataByDOW">
-
-                        <div class="each_col sec_col">
-                            {{strategy.dimension}}
-                        </div>
-                        <div class="each_col third_col">
-                            {{strategy.impressions | number:0}}
-                        </div>
-                        <div class="each_col forth_col">
-                            {{strategy.ctr*100 | number:2}}%
-                        </div>
-                        <div class="each_col fifth_col">
-                            {{strategy.action_rate*100 | number:2}}%
-                        </div>
-                        <div class="each_col sixth_col">
-                            ${{strategy.cpa | number:2}}
-                        </div>
-                        <div class="each_col seventh_col">
-                            ${{strategy.cpc | number:2}}
-                        </div>
-                        <div class="each_col eight_col">
-                            ${{strategy.cpm | number:2}}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <div class="all_strategies_holder">
-                <div class="each_strategy_holder clearfix" ng-repeat="tactic in tacticsPerfDataListByDOW">
-                    <div class="linkage_lines">
-                        <div class="common-load-icon" ng-show="tacticDowBusy"></div>
-                        <!--{{tacticDowBusy}}-->
-                    </div>
-                    <div class="each_strategy clearfix">
-                        <div class="each_col first_col">
-                            {{tactic[0].description}}
-                        </div>
-                        <div class="row_list_holder">
-                            <div class="clearfix each_row_list" ng-repeat="data in tactic">
-                                <div class="each_col sec_col">
-                                    {{data.dimension}}
-                                </div>
-                                <div class="each_col third_col">
-                                    {{data.impressions | number:0}}
-                                </div>
-                                <div class="each_col forth_col">
-                                    {{data.ctr*100 | number:2}}%
-                                </div>
-                                <div class="each_col fifth_col">
-                                    {{data.action_rate*100 | number:2}}%
-                                </div>
-                                <div class="each_col sixth_col">
-                                    ${{data.cpa | number:2}}
-                                </div>
-                                <div class="each_col seventh_col">
-                                    ${{data.cpc | number:2}}
-                                </div>
-                                <div class="each_col eight_col">
-                                    ${{data.cpm | number:2}}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </div>
-</div>
 <!--show no data found div-->
 
 </div>
