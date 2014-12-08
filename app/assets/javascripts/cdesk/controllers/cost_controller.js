@@ -14,11 +14,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.selected_kpi='ctr' ;
-
-
         $scope.init = function(){
-          //  console.log("init is called");
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
@@ -175,16 +171,32 @@ var angObj = angObj || {};
 
         };
 
+        $scope.callBackKpiDurationChange = function (kpiType) {
+            if (kpiType == 'duration') {
+                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
+//                $scope.download_urls = {
+//                    tactics: urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    domains: urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    publishers: urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
+//                    exchanges: urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter
+//                };
+            } else {
+                $scope.$apply();
+                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+            }
+        };
 
-
-        $('#kpi_dropdown li').click(function (e) {
-            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
-            $scope.selected_kpi = $(e.target).attr('_key');
-            $scope.$apply() ;
-
-        });
+//        $('#kpi_dropdown li').click(function (e) {
+//            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+//            $scope.selected_kpi = $(e.target).attr('_key');
+//            $scope.$apply() ;
+//
+//        });
 
         $scope.formattingNumber = function(kpi, value){
+        //    console.log( "kpi "+ kpi + "  value "+ value);
            value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
             return value ;
         }

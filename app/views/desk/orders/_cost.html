@@ -26,23 +26,24 @@
                     <div class="clearfix cost_header_holder">
                         <div class="each_cost_col first_col active">Imps.</div>
                         <div class="each_cost_col second_col">
-
-                                    <!--<report-filters selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes"-->
-                                                    <!--flag="kpitypes"></report-filters>-->
                             <div class="dropdown" id="kpi_dropdown">
-                                <span class="dropdown_ul_text" data-toggle="dropdown">
-                        <span class="dd_txt ng-binding">CTR</span>
-                        <span class="arrrow_img"></span>
-                    </span>
+                                    <report-filters selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes"
+                                                    flag="kpitypes"></report-filters>
+                                </div>
+                            <!--<div class="dropdown" id="kpi_dropdown">-->
+                                <!--<span class="dropdown_ul_text" data-toggle="dropdown">-->
+                        <!--<span class="dd_txt ng-binding">CTR</span>-->
+                        <!--<span class="arrrow_img"></span>-->
+                    <!--</span>-->
 
-                                <ul class="dropdown_ul dropdown-menu">
-                                    <li id="ctr" _key="ctr" style="text-align: left">CTR</li>
-                                    <li id="cpc" _key="cpc" style="text-align: left">CPC</li>
-                                    <li id="cpm" _key="cpm" style="text-align: left">CPM</li>
-                                    <li id="cpa" _key="cpa" style="text-align: left">CPA</li>
-                                    <li id="action_rate" _key="action_rate" style="text-align: left">Action Rate</li>
-                                </ul>
-                            </div>
+                                <!--<ul class="dropdown_ul dropdown-menu">-->
+                                    <!--<li id="ctr" _key="ctr" style="text-align: left">CTR</li>-->
+                                    <!--<li id="cpc" _key="cpc" style="text-align: left">CPC</li>-->
+                                    <!--<li id="cpm" _key="cpm" style="text-align: left">CPM</li>-->
+                                    <!--<li id="cpa" _key="cpa" style="text-align: left">CPA</li>-->
+                                    <!--<li id="action_rate" _key="action_rate" style="text-align: left">Action Rate</li>-->
+                                <!--</ul>-->
+                            <!--</div>-->
 
                         </div>
                         <div class="each_cost_col three_col">Inventory</div>
@@ -88,7 +89,7 @@
                                 </div>
                                 <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData" ng-if="!dataNotFound">
                                     <div class="each_cost_col first_col">{{strategy.impressions | number:0}}</div>
-                                    <div class="each_cost_col second_col">{{formattingNumber(selected_kpi, strategy.kpi_metrics[selected_kpi])}}</div>
+                                    <div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), strategy.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>
                                     <div class="each_cost_col three_col">${{strategy.inventory_cost | number:0}}</div>
                                     <div class="each_cost_col four_col">${{strategy.data_cost | number:0}}</div>
                                     <div class="each_cost_col five_col">${{strategy.ad_serving_cost | number:0}}</div>
@@ -110,7 +111,7 @@
 
                                     <div class="clearfix cost_col_container cost_cols_holder">
                                         <div class="each_cost_col first_col">{{tactic.impressions | number:0}}</div>
-                                        <div class="each_cost_col second_col">{{formattingNumber(selected_kpi, tactic.kpi_metrics[selected_kpi])}}</div>
+                                        <div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>
                                         <div class="each_cost_col three_col">${{tactic.inventory_cost | number:0}}</div>
                                         <div class="each_cost_col four_col">${{tactic.data_cost | number:0}}</div>
                                         <div class="each_cost_col five_col">${{tactic.ad_serving_cost | number:0}}</div>
