@@ -30,14 +30,14 @@
         </div>
     </div> -->
 <div class="clearfix campaign_list_header_holder">
-    <div class="each_header_title campaign_title" style="display:none;">
+    <!-- <div class="each_header_title campaign_title" style="display:none;">
         Campaign<span class="sortable"></span>
+    </div> --> 
+    <div class="each_header_title brand_title active_title {{$parent.details.sortClass('brandName')}}" ng-click="$parent.details.sortStrategies('brandName')">
+        Brand<span class="sortable {{$parent.details.sortIcon('brandName')}}"></span>
     </div>
-    <div class="each_header_title brand_title active_title">
-        Brand<span class="sortable"></span>
-    </div>
-    <div class="each_header_title flight_dates_title">
-        Flight Dates<span class="sortable"></span>
+    <div class="each_header_title flight_dates_title {{$parent.details.sortClass('startDate')}}" ng-click="$parent.details.sortStrategies('startDate')">
+        Flight Dates<span class="sortable {{$parent.details.sortIcon('startDate')}}"></span>
     </div>
     <div class="each_header_title metrics_title">
         METRICS (LIFETIME)
@@ -45,4 +45,4 @@
     <div class="each_header_title kpi_title">
         KPI
     </div>                
-</div>
+</div>{{actionsFilter}}

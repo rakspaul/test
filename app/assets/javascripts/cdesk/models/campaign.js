@@ -179,6 +179,7 @@
                 }
                 strategyObj.push({
                     id: strategy.id,
+                    brandName: campaign.brandName,
                     name: strategy.name,
                     startDate: strategy.start_date,
                     endDate: strategy.end_date,
