@@ -14,6 +14,8 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
+        $scope.selected_kpi='ctr' ;
+
 
         $scope.init = function(){
           //  console.log("init is called");
@@ -173,14 +175,19 @@ var angObj = angObj || {};
 
         };
 
+
+
         $('#kpi_dropdown li').click(function (e) {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
             $scope.selected_kpi = $(e.target).attr('_key');
-            console.log("new drop down is clicked");
-            console.log($scope.selected_kpi);
-
+            $scope.$apply() ;
 
         });
+
+        $scope.formattingNumber = function(kpi, value){
+           value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
+            return value ;
+        }
 
     });
 }());
