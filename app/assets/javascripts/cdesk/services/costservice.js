@@ -14,7 +14,6 @@
             },
 
             getCampaingsForUser: function () {
-
                 var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+ user_id ;
 
                 return this.fetch(url);
