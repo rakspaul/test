@@ -1444,10 +1444,19 @@ button, i, input[type="submit"] {
 }
 
 
-/*@font-face {
-   font-family: "Avenir";
-   src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
-  url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
+
+
+
+
+/*
+@font-face {
+    font-family: "Avenir";
+    src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
+    url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
+
+
+
+
 }*/
 .actions_holder {
   width: 920px ;
@@ -1850,28 +1859,6 @@ button, i, input[type="submit"] {
 }
 
 /************* NEW DASHBOARD STYLING *******************************************/
-
-.dashboard_outer_container {
-  width: 1115px;
-  margin: 0 auto;
-  .load-more {
-    margin: 20px;
-    text-align: center;
-    text-indent: -99999;
-    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-  }
-.sortable {
-    background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-  }
-  .sortable.ascending {
-    background-image: url(asset-path("cdesk/sorting_ascending.png"));
-  }
-  .sortable.descending {
-    background-image : url(asset-path("cdesk/sorting_descending.png"));
-  }
   .each_cost_col {
     float: left;
     width: 100px;
@@ -1893,6 +1880,29 @@ button, i, input[type="submit"] {
     width: 140px;
     margin-right: 0;
   }
+  .sortable {
+    background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+  }
+  .sortable.ascending {
+    background-image: url(asset-path("cdesk/sorting_ascending.png"));
+  }
+  .sortable.descending {
+    background-image : url(asset-path("cdesk/sorting_descending.png"));
+  }
+
+.dashboard_outer_container {
+  width: 1115px;
+  margin: 0 auto;
+  .load-more {
+    margin: 20px;
+    text-align: center;
+    text-indent: -99999;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  }
+
   .isFixed {
     position: fixed;
     top: 0px ;
@@ -2526,7 +2536,7 @@ button, i, input[type="submit"] {
 
 /* cost breakdown */
   
-  .campaign_cost_header_holder {
+  .campaign_cost_header_holder , .cost_header_holder  {
     position: relative;
     background: #fff;
     border: solid 1px #d2dee7;

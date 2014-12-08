@@ -68,4 +68,5 @@
 //= require cdesk/services/viewablityservice
 //= require cdesk/services/datatransferservice
 //= require cdesk/services/performanceservice
+//= require cdesk/services/costservice
 //= require cdesk/utils
