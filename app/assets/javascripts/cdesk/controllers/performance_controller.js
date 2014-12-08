@@ -56,8 +56,6 @@ var angObj = angObj || {};
         $scope.init();
         $scope.tacticPerfData = function (param) {
 
-
-
             if ($scope.noTacticsFound !== true){ // && Object.getOwnPropertyNames($scope.tacticList).length === 0 ) {
 
              //   console.log(" inside tactic perf data");
