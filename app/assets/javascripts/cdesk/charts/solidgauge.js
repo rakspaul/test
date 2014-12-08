@@ -72,23 +72,24 @@
                 },
                  series: [{
                     innerRadius: '70%',
-                    data: [{y:viewabilityData.pct_15s, color:'red'}],
+                    data: [{y:viewabilityData.pct_15s, color:'#008ED5'}],
                     radius: '55%'
                 }, {
                     innerRadius: '85%',
-                    data: [{y:viewabilityData.pct_5s, color:'orange'}],
+                    data: [{y:viewabilityData.pct_5s, color:'#45CB41'}],
                     radius: '70%'
                 }, {
                     innerRadius: '100%',
                     radius: '85%',
-                    data: [{y:viewabilityData.pct_1s, color:'green'}],
+                    data: [{y:viewabilityData.pct_1s, color:'#FFA700'}],
                 }, {
                     innerRadius: '101',
                     data: [{y:viewabilityData.pct_total, color:'black'}]
                 }],
                 loading: false,
                 func: function(chart) {
-                    var colors= ['green', 'orange', 'red', 'black'];
+                    //orange, green, blue, black
+                    var colors= ['#FFA700', '#45CB41', '#008ED5', 'black'];
                     $(window).resize(function () {
                         //resize rendering issue fix for future - cost viewability
                         reRender();
