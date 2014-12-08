@@ -14,9 +14,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-
         $scope.init = function(){
-          //  console.log("init is called");
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
@@ -173,14 +171,21 @@ var angObj = angObj || {};
 
         };
 
-        $('#kpi_dropdown li').click(function (e) {
-            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
-            $scope.selected_kpi = $(e.target).attr('_key');
-            console.log("new drop down is clicked");
-            console.log($scope.selected_kpi);
+        $scope.callBackKpiDurationChange = function (kpiType) {
+            if (kpiType == 'duration') {
+                $scope.strategiesCostData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, time_filter: $scope.selected_filters.time_filter });
+                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+            } else {
+                $scope.$apply();
+                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+            }
+        };
 
 
-        });
+        $scope.formattingNumber = function(kpi, value){
+           value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
+            return value ;
+        }
 
     });
 }());
