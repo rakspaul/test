@@ -425,6 +425,10 @@
               color: #727272;
               margin-top: 40px;
               font-size: 14px;
+              img {
+                display: inline-block;
+                margin-right: 5px ;
+              }
             }
             .tactic_accordion_details {
               margin-bottom: 10px;
