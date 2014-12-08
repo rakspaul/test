@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
@@ -27,6 +27,8 @@
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
                 });
+                $scope.getCostBreakdownData($scope.campaign);
+                $scope.getCostViewabilityData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -53,6 +55,8 @@
         }, function(result) {
             console.log('call failed');
         });
+
+       
 
         //$scope.details.actionChart = actionChart.lineChart();
         //Function called when the user clicks on the Load more button
@@ -88,14 +92,74 @@
             var myContainer = $('#action-container:first');
             var scrollTo = $('#actionItem_' + id);
             if(scrollTo.length) {
-            scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+            scrollTo.siblings().removeClass('active').end().addClass('active');
             myContainer.animate({
                 scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
             });
             }
         };
 
+        $scope.getCostBreakdownData  = function(campaign){
+            var costData, other = 0, sum;
+             //get cost break down data
+            dataService.getCostBreakdown($scope.campaign).then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                     if(result.data.data.costData.length>0){
+                        costData = result.data.data.costData[0];
+                        sum = costData.inventory_cost_pct + costData.data_cost_pct + costData.ad_serving_cost_pct;
+                        if(sum < 100){
+                            other = 100 - sum;
+                        }
+                        $scope.details.getCostBreakdown = {
+                            inventory: costData.inventory_cost_pct,
+                            data: costData.data_cost_pct,
+                            adServing: costData.ad_serving_cost_pct,
+                            other: other
+                        };
+                        var costBreakdownColors =[];
+                            costBreakdownColors["inventory"] = "#F8810E";
+                            costBreakdownColors["data"] = "#0072BC";
+                            costBreakdownColors["adServing"] = "#45CB41";
+                            costBreakdownColors["other"] = "#BFC3D1";
+                        $scope.details.totalCostBreakdown = costData.total;
+                        $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                     }
+                }
+            },function(result){
+                console.log('cost break down call failed');
+            });
+        };
+        $scope.getCostViewabilityData  = function(campaign){
+            var viewabilityData, viewData;
+             //get cost break down data
+            
+            dataService.getCostViewability(campaign,'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data.data)) {
+
+                        viewData = result.data.data;
+                        
+                        $scope.details.getCostViewability = {
+                            pct_1s: viewData.viewable_imps_1s_pct,
+                            pct_5s: viewData.viewable_imps_5s_pct,
+                            pct_15s: viewData.viewable_imps_15s_pct,
+                            pct_total: viewData.viewable_pct
+                        };
+                        var costViewabilitynColors =[];
+                            costViewabilitynColors["inventory"] = "#F8810E";
+                            costViewabilitynColors["data"] = "#0072BC";
+                            costViewabilitynColors["adServing"] = "#45CB41";
+                            costViewabilitynColors["other"] = "#BFC3D1";
+                        $scope.details.getCostViewability.total = viewData.total_imps;
+                        $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
+                    
+                }
+            },function(result){
+                console.log('cost viewability call failed');
+            });
+        };
         $scope.getCdbChartData = function(campaign) {
+            //$scope.details.pieChart = pieChart.highChart();
+            //$scope.details.solidGaugeChart = solidGaugeChart.highChart();
             //API call for campaign chart
             dataService.getCdbChartData(campaign, 'life_time', 'campaigns', null).then(function (result) {
                 var lineData = [], showExternal = true;
@@ -109,7 +173,7 @@
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
-                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330, null, undefined, showExternal);
+                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 480, 330, null, undefined, showExternal);
 
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
@@ -146,6 +210,123 @@
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
             return filter;
         };
+
+        /*Single Campaign UI Support elements - starts */ 
+
+         $scope.getSpendDifference = function(campaign) {
+            if(campaign !== undefined) {
+                var spendDifference = -999; //fix for initial loading
+                var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+                if (campaignCDBObj == undefined) {
+                    return spendDifference;
+                }
+                var spend = campaignCDBObj.getGrossRev();
+                var expectedSpend = campaign.expectedMediaCost;
+                return $scope.getPercentDiff(expectedSpend, spend);
+            }
+        };
+
+        $scope.getSpendTotalDifference = function(campaign) {
+            if(campaign !== undefined) {
+                var spendDifference = 0;
+                var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+                if (campaignCDBObj == undefined) {
+                    return spendDifference;
+                }
+                var spend = campaignCDBObj.getGrossRev();
+                var totalSpend = campaign.totalMediaCost;
+                return $scope.getPercentDiff(totalSpend, spend);
+            }
+        };
+
+        $scope.getSpendTickDifference = function(campaign) {
+            if(campaign !== undefined) {
+                var spendDifference = 0;
+                var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
+                if (campaignCDBObj == undefined) {
+                    return spendDifference;
+                }
+                var spend = campaign.expectedMediaCost;
+                var expectedSpend = campaign.totalMediaCost;
+                return $scope.getPercentDiff(expectedSpend, spend);
+            }
+        };
+        $scope.getPercentDiff = function(expected, actual) {
+            var spendDifference = 0;
+            if (expected == 0) {
+                spendDifference = 0;
+            } else {
+                spendDifference = utils.roundOff((actual - expected) * 100 / expected, 2)
+            }
+            return spendDifference;
+        }
+        $scope.getSpendDiffForStrategy = function(strategy) {
+            if (strategy == undefined) {
+                return 0;
+            }
+            var expectedSpend = strategy.expectedMediaCost;
+            return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
+        }
+        $scope.getSpendTotalDifferenceForStrategy = function(strategy) {
+            if(campaign !== undefined) {
+                var spendDifference = 0;
+                
+                var spend = strategy.grossRev;
+                var totalSpend = strategy.totalMediaCost;
+                return $scope.getSpendDiffForStrategy(totalSpend, spend);
+            }
+        };
+        $scope.getSpendClass = function(campaign) {
+            if(campaign !== undefined) {
+                var spendDifference = $scope.getSpendDifference(campaign);
+                return $scope.getClassFromDiff(spendDifference);
+            }
+        };
+        $scope.getSpendClassForStrategy = function(strategy) {
+            var spendDifference = $scope.getSpendDiffForStrategy(strategy);
+            return $scope.getClassFromDiff(spendDifference);
+        }
+        $scope.getClassFromDiff = function(spendDifference) {
+            if (spendDifference > -1) {
+                return 'blue';
+            }
+            if (spendDifference <= -1 && spendDifference > -10) {
+                return 'amber';
+            }
+            if (spendDifference == -999) { //fix for initial loading
+                return ' ';
+            }
+            return 'red';
+        }
+        $scope.getSpendWidth = function(campaign) {
+            if(campaign !== undefined) {
+                var actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
+                if (actualWidth > 100) {
+                    actualWidth = 100;
+                }
+                return actualWidth;
+            }
+        }
+
+        $scope.getSpendTickWidth = function(campaign) {
+            if(campaign !== undefined) {
+                var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
+                if (actualWidth > 100) {
+                    actualWidth = 100;
+                }
+                return actualWidth;
+            }
+        }
+
+         $scope.getSpendWidthForStrategy = function(strategy) {
+                    var actualWidth = 100 + $scope.getSpendTotalDifferenceForStrategy(strategy);
+                    if (actualWidth > 100) {
+                        actualWidth = 100;
+                    }
+                    return actualWidth;
+                }
+        /*Single Campaign UI Support elements - sta */ 
+
 
     });
 

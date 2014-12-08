@@ -123,6 +123,8 @@
 //= require angular-route.min
 //= require highcharts-ng
 //= require highcharts
+//= require highcharts-more
+//= require solid-gauge
 //= require cdesk/app
 //= require cdesk/charts/actions
 //= require cdesk/controllers/campaign_controller

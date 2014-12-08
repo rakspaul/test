@@ -22,6 +22,8 @@
 //= require ng-infinite-scroll.min
 //= require highcharts-ng
 //= require highcharts
+//= require highcharts-more
+//= require solid-gauge
 //= require moment.min
 //= require underscore-min
 
@@ -29,6 +31,8 @@
 //= require cdesk/charts/line
 //= require cdesk/charts/actions
 //= require cdesk/charts/columnline
+//= require cdesk/charts/piechart
+//= require cdesk/charts/solidgauge
 //= require cdesk/directives/largeListSearch
 //= require cdesk/controllers/directive_controller
 //= require cdesk/controllers/campaign_controller

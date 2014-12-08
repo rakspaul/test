@@ -6,20 +6,51 @@
             var kpiTypeLower = kpiType.toLowerCase();
             return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
         }
-        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, defaultGrey) {
+        var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey) {
 
-            var text, textBG;
+            var text, textBG, marker, container;
+
+            marker = chart.renderer.text('E',xPos-2,yPos+2).attr({
+                id: 't'+actionId || 'NA',
+                zIndex: 5
+            }).css({
+                fontWeight: 'bold',
+                fontSize: '9px',
+                color: (defaultGrey || isActionExternal==false) ? 'transparent' :'white',
+                cursor: 'pointer'
+            }).on('click', function (markerObj) {
+                //console.log(markerObj.target.id);
+                $('#'+actionId).click();
+            }).on('mouseover', function (e) {
+                //$('#'+actionId).trigger('mouseover',this);
+            }).on('mouseout', function (e) {
+                //$('#'+actionId).trigger('mouseout',this);
+            }).add(),
+            container = marker.getBBox();
+
+            chart.renderer.circle(container.x+3 , container.y+5,7).attr({
+                fill: (defaultGrey) ? 'white' : '#0072bc' || 'white',
+                stroke: (defaultGrey) ? 'grey' : '#0072bc' || 'grey',
+                'stroke-width': 4,
+                id: actionId || 'NA',
+                kpiType: kpiType || 'NA',
+                kpiValue: kpiValue || 'NA',
+                comment: actionComment || 'NA',
+                zIndex: 4
+            })
+
+
             //full customisation for flags/markers
-            chart.renderer.circle(xPos, yPos, 7).attr({
+            /*chart.renderer.circle(xPos, yPos, 7).attr({
                 fill: '#ffffff',
-                stroke: (defaultGrey) ? 'grey' : markerColor || 'grey',
+                stroke: (defaultGrey) ? 'grey' : '#0072bc' || 'grey',
                 'stroke-width': 4,
                 id: actionId || 'NA',
                 kpiType: kpiType || 'NA',
                 kpiValue: kpiValue || 'NA',
                 comment: actionComment || 'NA',
                 zIndex: 3
-            }).css({
+            })*/.css({
                 cursor: 'pointer'
             }).on('mouseover', function (event) {
                 chart.tooltip.hide();
@@ -43,7 +74,7 @@
                 textBG = chart.renderer.rect(box.x - 5, box.y - 5, box.width + 10, box.height + 10, 5)
                     .attr({
                     fill: '#ffffff',
-                    stroke: markerColor || 'grey',
+                    stroke: '#0072bc' || 'grey',
                         'stroke-width': 1,
                     zIndex: 15
                 }).add();
@@ -55,6 +86,8 @@
                 if(defaultGrey) {
                     $('circle').attr({stroke: 'grey', fill:'#ffffff'});
                     $('circle#' + circleObj.target.id).attr({stroke: 'green', fill:'green'});
+                    $('text#t' + circleObj.target.id).css({fill:'transparent'});
+
                     var myContainer = $('.reports_section_details_container');
                 }
                 //click and scroll action functionality
@@ -63,7 +96,7 @@
                 localStorage.setItem('actionSel' , this.id);
                 if(scrollTo.length) {
                     //scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-                    myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
+                    myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
 
                     myContainer.animate({
                         scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
@@ -176,10 +209,10 @@
                     tooltip: {
                         crosshairs: [{
                             dashStyle: 'dash'
-                        },
+                        }/*,
                         {
                             dashStyle: 'dash'
-                        }],
+                        }*/],
                         enabled: true,
                         formatter: function() {
                             var symbol = kpiPrefix(kpiType);
@@ -202,8 +235,9 @@
                         }
                     },
                     name: kpiType,
+
                     data: data,
-                    color: "#6fd0f4"
+                    color: "#00bff0" /*#6fd0f4"*/
                 }],
                 loading: false,
                 func: function(chart) {
@@ -272,13 +306,12 @@
                                         if (chart.series[0].data[i].x == actionUTC) {
                                             if (flag[actionUTC] === undefined) {
                                                 flag[actionUTC] = 1;
-                                            } else {
-                                                position += 10;
                                             }
                                             if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
                                                 //showing markers based on filter type
-                                                drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, defaultGrey);
+                                                drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, threshold, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey);
                                                 counter++;
+                                                position += 10; //correction for multiple markers in the same place
                                             }
 
                                         }
