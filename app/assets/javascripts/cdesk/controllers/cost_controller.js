@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths) {
 
 
         $scope.selectedCampaign = domainReports.getDefaultValues();
@@ -12,37 +12,107 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.strategiesList={
-            tacticsList:[]
+        $scope.init = function(){
+            $scope.dataNotFound = false;
+            $scope.strategyFound = false;
+
+            $scope.strategyCostBusy = false ;
+            $scope.tacticListCostBusy = false ;
+
+            $scope.strategyCostData = {};
+            $scope.tacticsCostData = {} ;
+            $scope.tacticList = {};
+
         };
 
-        $scope.callBackCampaignsSuccess= function(){
-            //TODO, logic needs to be done
+       $scope.init();
+
+        $scope.strategiesCostData = function (param) {
+       //     console.log("######### strategy cost data entered ##########");
+            $scope.strategyCostBusy = true;
+            $scope.tacticCostBusy = true;
+            costService.getStrategyCostData(param).then(function (result) {
+                    if (result.status === "OK" || result.status === "success") {
+                        $scope.strategyCostData = result.data.data.costData;
+                        $scope.tacticListCostData(param);
+                        $scope.strategyCostBusy = false ;
+                    }
+                    else {
+                        $scope.dataNotFound = true;
+                        $scope.strategyCostBusy = false;
+                        $scope.tacticCostBusy = false;
+
+                    }
+                });
+
         };
 
-        $scope.callBackCampaignsFailure= function(){
-            //TODO, logic needs to be done
+        $scope.tacticListCostData = function(param) {
+            $scope.tacticCostBusy = true;
+
+            costService.getTacticsForStrategy(param).then(function (result) {
+                if (result.status === "OK" || result.status === "success") {
+                    $scope.tacticList = result.data.data;
+                    $scope.noTacticsFound = false;
+
+                    if ($scope.tacticList !== 'undefined') {
+
+                        costService.getTacticCostData(param).then(function (result){
+                            if(result.status === "OK" || result.status === "success"){
+
+                                $scope.tacticsCostData = result.data.data.costData ;
+
+                                for( var i in $scope.tacticList){
+                                    var tacticId =  $scope.tacticList[i].id ;
+                                    var tacticName = $scope.tacticList[i].description ;
+
+                                    for( var index in $scope.tacticsCostData){
+                                        if($scope.tacticsCostData[index].id === tacticId){
+                                            $scope.tacticsCostData[index].name = tacticName
+                                        }
+                                    }
+                                }
+                                $scope.tacticCostBusy = false;
+                            }
+                            else{
+                                $scope.dataNotFound = true;
+                                $scope.tacticCostBusy = false;
+                            }
+                        });
+
+                     }
+
+                }
+            });
+
         };
 
-        $scope.updateStrategyObjects = function(strategy){
+        $scope.updateStrategyObjects = function(strategy) {
+          //  console.log("<*********** update Strategy object call***********");
             $scope.strategies = strategy;
-            //console.log($scope.strategies);
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
-                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
-                $scope.selectedStrategy.id =  strategyObj.id;
-                $scope.selectedStrategy.name =  strategyObj.name;
-                $scope.strategyFound=true;
-                //Call the chart to load with the changed campaign id and strategyid
-                $scope.chartForStrategy=true;
+                var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name, $scope.strategies[0].startDate, $scope.strategies[0].endDate);
+                $scope.selectedStrategy.id = strategyObj.id;
+                $scope.selectedStrategy.name = strategyObj.name;
+                $scope.selectedStrategy.startDate = strategyObj.startDate;
+                $scope.selectedStrategy.endDate = strategyObj.endDate;
+                $scope.strategyFound = true;
+              //  console.log($scope.selectedStrategy);
 
+                if ($scope.selectedStrategy.id == -1) {
+                    $scope.strategyFound = false;
+                }
+                else {
+                    $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
+                }
             } else { //  means empty strategy list
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                $scope.chartForStrategy=false;
-                $scope.tacticNotFound=true;
-
+                $scope.strategyFound = false;
+                // $scope.dataNotFound = true;
             }
         };
+
 
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
@@ -58,16 +128,32 @@ var angObj = angObj || {};
         };
 
 
+        $scope.callBackCampaignsSuccess= function(){
+            //TODO, logic needs to be done
+
+        };
+
+        $scope.callBackCampaignsFailure= function(){
+            //TODO, logic needs to be done
+            console.log('This function is required');
+        };
+
+
         $scope.callBackCampaignChange = function(){
-            //TODO logic of onchnage campaign
-            $scope.strategylist($scope.selectedCampaign.id);
+            $scope.init();
+            if ($scope.selectedCampaign.id !== -1) {
+                $scope.callBackCampaignsSuccess();
+                $scope.strategylist($scope.selectedCampaign.id);
+            } else {
+                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
+            }
         };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
-            //TODO logic of onchnage campaign
-            //Call the chart to load with the changed campaign id and strategyid
-            //$scope.getStrategyList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+            console.log("strategy is changed");
+            $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
+
         };
 
 
