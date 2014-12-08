@@ -39,7 +39,7 @@
 }
 .total_reports_page {
   margin: 0px auto 40px;
-  width: 1056px;
+  width: 1115px;
   .back_link {
     color: #177ac6;
     font-family: "TradeGothicLTStd-BdCn20";
@@ -415,7 +415,7 @@
 }
 
 .reports_main_page_holder {
-  margin: 0px auto 40px;
+  margin: 0px auto 80px;
   width: 1115px;
   .load-more {
     margin: 80px auto 0;
@@ -728,6 +728,12 @@
   margin-top: 50px;
 }
 
+.no_data_found_cost_strategy {
+  text-align: center;
+  margin-top: 0px;
+  margin-bottom: 50px;
+}
+
 .viewability_details_outer_container {
   margin-top: 50px;
   .each_col {
@@ -906,7 +912,7 @@
       content: "";
       height: 1px;
       width: 10px;
-      background: #e5ecef;
+      background: #ccd9e3;
       display: block;
       position: absolute;
       top: 50%;
@@ -914,7 +920,7 @@
     }
     .each_strategy {
       float: left;
-      width: 1046px;
+      width: 1105px;
       padding: 20px 20px 20px 10px;
       margin: 10px 0 0 0px;
       border: solid 1px #ccd9e3;
@@ -932,6 +938,16 @@
 
 .reports_tabs_content_container {
   margin-top: 50px ;
+  .common-load-icon {
+    text-align: center;
+    text-indent: -99999;
+    height: 40px;
+    width: 40px;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    margin: 20px auto 0 ;
+    display: block;
+  }
+
   .reports_tabs_holder {
     float: left;
     border: solid 1px #d2dee7;
@@ -987,7 +1003,7 @@
       float: left;
       width: 120px;
       text-align: right;
-      margin: 10px 0;
+      margin: 10px 0 ;
     }
     .all_strategies_holder  {
 
@@ -1010,7 +1026,7 @@
 
     .first_col {
       text-align: left;
-      width: 170px;
+      width: 200px;
       color: #313233;
       font-weight: bold;
       margin-top: 10px;
@@ -1021,6 +1037,7 @@
     }
     .row_list_holder {
       float: left;
+      min-width: 63%;
       .each_row_list {
         font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
         font-size: 14px;
@@ -1028,7 +1045,6 @@
         .sec_col {
           font-family: "Avenir" ;
           color: #313233 ;
-          text-align: left;
         }
       }
 
@@ -1050,43 +1066,55 @@
       }
     }
   }
-
+  .reports_details_outer_container {
+    div.sec_col {
+      min-width: 70px ;
+      width: 70px ;
+      text-align: left ;
+      margin-left: 20px ;
+    }
+  }
 
 
 
 }
 
-.common-load-icon {
-   text-align: center;
-   text-indent: -99999;
-   height: 40px;
-   width: 40px;
-   background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-   margin: 20px 0 0 250px;
-   display: block;
-}
+
 
 .reports_cost_header_holder {
   color: #313233 ;
-  margin-top: 40px;
+  margin-top: 40px ;
+
+  .common-load-icon {
+    text-align: center;
+    text-indent: -99999;
+    height: 40px;
+    width: 40px;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    margin: 20px auto 0 ;
+    display: block;
+  }
   .cost_header_holder{
     padding: 20px 0 0 20px ;
   }
   .first_col {
     text-align: left;
+    min-width: 80px;
+    width: 80px;
   }
   .total_cost {
     width: 125px;
   }
   .more_options .dd_txt , .dropdown-menu , .cost_header_holder {
     background: #f8faff ;
-  } 
+  }
   .each_cost_col {
     font-family: "Avenir" ;
     font-size: 14px ;
     color: #313233 ;
     font-weight: normal;
   }
+
   .each_cost_heading {
     font-weight: bold;
     padding: 0 20px 15px 0;
@@ -1105,35 +1133,45 @@
       }
     }
   }
-  .strategy_total_row {
-    background: #f8faff ;
-    .each_cost_heading {
-      font-size: 18px ;
-    }
-  }
-  .all_startegy_cost {
-    .each_cost_row_holder {
+  .cost_transparency_container {
+
+    .strategy_total_row {
       position: relative;
-      padding-left: 10px;
-      border-left: solid 1px #d2dee7 ;
-      .each_cost_row {
-        padding-left: 10px ;
+      background: #f8faff ;
+      .each_cost_heading {
+        font-size: 18px ;
+      }
+      .common-load-icon {
+        position: absolute;
+        top: 20px;
+        margin: 0;
+        left: 48%;
       }
     }
+    .all_startegy_cost {
+      .each_cost_row_holder {
+        position: relative;
+        padding-left: 10px;
+        border-left: solid 1px #d2dee7 ;
+        .each_cost_row {
+          padding-left: 10px ;
+        }
+      }
 
-    .each_cost_row:before {
-      content: "" ;
-      height: 1px ;
-      width: 10px ;
-      background: #d2dee7 ;
-      top: 50% ;
-      left: 0px ;
-      position: absolute; 
-    }
-    .each_cost_row_holder:last-child {
-      height: 50px ;
       .each_cost_row:before {
-        top : 100% ;
+        content: "" ;
+        height: 1px ;
+        width: 10px ;
+        background: #d2dee7 ;
+        top: 50% ;
+        left: 0px ;
+        position: absolute;
+      }
+      .each_cost_row_holder:last-child {
+        height: 50px ;
+        .each_cost_row:before {
+          top : 100% ;
+        }
       }
     }
   }
