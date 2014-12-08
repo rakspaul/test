@@ -3,6 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths) {
 
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
 
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
@@ -12,16 +14,17 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
+
         $scope.init = function(){
-            $scope.dataNotFound = false;
-            $scope.strategyFound = false;
-
-            $scope.strategyCostBusy = false ;
-            $scope.tacticListCostBusy = false ;
-
+          //  console.log("init is called");
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
+            $scope.dataNotFound = false;
+            $scope.strategyFound = false;
+            $scope.selectedKpi = 'cpa';
+            $scope.strategyCostBusy = false ;
+            $scope.tacticListCostBusy = false ;
 
         };
 
@@ -33,11 +36,22 @@ var angObj = angObj || {};
             $scope.tacticCostBusy = true;
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
-                        $scope.strategyCostData = result.data.data.costData;
-                        $scope.tacticListCostData(param);
-                        $scope.strategyCostBusy = false ;
+                        $scope.strategyCostData = result.data.data.costData ;
+
+
+                        if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0 ){
+                            $scope.dataNotFound = false;
+                            $scope.strategyCostBusy = false ;
+                            $scope.tacticListCostData(param);
+                        }
+                        else{
+                            $scope.dataNotFound = true;
+                            $scope.strategyCostBusy = false;
+                            $scope.tacticCostBusy = false;
+                        }
                     }
                     else {
+                 //       console.log("data not found ");
                         $scope.dataNotFound = true;
                         $scope.strategyCostBusy = false;
                         $scope.tacticCostBusy = false;
@@ -135,7 +149,7 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsFailure= function(){
             //TODO, logic needs to be done
-            console.log('This function is required');
+          //  console.log('This function is required');
         };
 
 
@@ -151,13 +165,22 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
-            console.log("strategy is changed");
+          //  console.log("strategy is changed");
+            $scope.strategyCostData = {};
+            $scope.tacticsCostData = {} ;
+            $scope.tacticList = {};
             $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
 
         };
 
+        $('#kpi_dropdown li').click(function (e) {
+            $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
+            $scope.selected_kpi = $(e.target).attr('_key');
+            console.log("new drop down is clicked");
+            console.log($scope.selected_kpi);
 
-        //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+
+        });
+
     });
 }());
