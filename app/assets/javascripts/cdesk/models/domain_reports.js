@@ -16,18 +16,18 @@
                             title: 'Cost'
                         },
                         {
-                            href:'optimization',
-                            title: 'Optimization Impact'
-                        },
-
-                        {
                             href:'inventory',
                             title: 'Inventory'
                         },
                         {
                             href:'viewability',
                             title: 'Viewability'
+                        },
+                        {
+                            href:'optimization',
+                            title: 'Optimization Impact'
                         }
+
                     ],
                     'duration' : [
 //                        {value: 'weekly', text: 'Last 7 days'},
