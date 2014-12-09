@@ -201,7 +201,7 @@
                             costViewabilitynColors["data"] = "#0072BC";
                             costViewabilitynColors["adServing"] = "#45CB41";
                             costViewabilitynColors["other"] = "#BFC3D1";
-                        $scope.details.getCostViewability.total = viewData.total_imps;
+                        $scope.details.getCostViewability.total = viewData.viewable_imps;
                         $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                     
                 }
