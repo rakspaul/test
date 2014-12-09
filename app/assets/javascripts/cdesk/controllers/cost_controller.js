@@ -182,9 +182,9 @@ var angObj = angObj || {};
 
         $scope.callBackKpiDurationChange = function (kpiType) {
           //  $scope.init();
-            $scope.strategyCostData = {};
-            $scope.tacticsCostData = {} ;
             if (kpiType == 'duration') {
+                $scope.strategyCostData = {};
+                $scope.tacticsCostData = {} ;
                 //console.log("duration is changed");
                 $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
