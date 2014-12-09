@@ -239,10 +239,11 @@
     color: #70787e ;
     .each_section_graph_holder {
       float: left;
+      border: solid 1px transparent;
       border-right: solid 1px #ebf0f5 ;
       padding: 20px;
       margin: 20px 0px ;
-      width: 275px;
+      width: 278px;
       .graph_heading {
           @include graphHeadingFont() ;
           margin-bottom: 20px ;
@@ -292,9 +293,11 @@
         }
       }
     }
+    .each_section_graph_holder:hover {
+      border: solid 1px #359eea;
+    }
     .each_section_graph_holder:last-child {
       margin-right: 0px ;
-      float: right;
     }
     .viewability_section_graph_holder {
       .section_graph_details {
