@@ -1,23 +1,19 @@
 /*global angObj, angular*/
 (function () {
     "use strict";
-    angObj.factory("domainReports", ["inventoryService", "dataTransferService", function (inventoryService,  datatransferservice) {
+    angObj.factory("domainReports", ["performanceService", "dataTransferService", function (performanceService,  datatransferservice) {
 
         return {
             getReportsDropDowns : function() {
                 return {
                     'tabs' : [
                         {
-                            href:'optimization',
-                            title: 'Optimization Impact'
+                            href:'performance',
+                            title: 'Performance'
                         },
                         {
                             href:'cost',
                             title: 'Cost'
-                        },
-                        {
-                            href:'performance',
-                            title: 'Performance'
                         },
                         {
                             href:'inventory',
@@ -26,7 +22,12 @@
                         {
                             href:'viewability',
                             title: 'Viewability'
+                        },
+                        {
+                            href:'optimization',
+                            title: 'Optimization Impact'
                         }
+
                     ],
                     'duration' : [
 //                        {value: 'weekly', text: 'Last 7 days'},
@@ -105,25 +106,18 @@
                 if(datatransferservice.getCampaignList()) {
                     return datatransferservice.getCampaignList();
                 }else {
-                    return inventoryService.getCampaingsForUser();
+                    return performanceService.getCampaingsForUser();
                 }
             },
             getCampaignStrategyList : function(campaignId) {
                 if(datatransferservice.getCampaignStrategyList(campaignId)) {
                     return datatransferservice.getCampaignStrategyList(campaignId);
                 }else {
-                    return inventoryService.getStrategiesForCampaign(campaignId);
+                    return performanceService.getStrategiesForCampaign(campaignId);
                 }
             },
             loadFirstStrategy : function(id, name, startDate, endDate) {
                 var strategyObj = {id:null, name:null, startDate: null, endDate: null};
-                /*if(datatransferservice.getDomainReportsValue('previousCampaignId') !== datatransferservice.getDomainReportsValue('campaignId')) {
-                    strategyObj.id = id;
-                    strategyObj.name = name
-                }else {
-                    strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
-                    strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
-                }*/
                 strategyObj.id = datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : id;
                 strategyObj.name = datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : name;
                 strategyObj.startDate = datatransferservice.getDomainReportsValue('strategyStartDate') ? datatransferservice.getDomainReportsValue('strategyStartDate') : startDate;
