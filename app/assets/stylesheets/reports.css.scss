@@ -920,7 +920,7 @@
     }
     .each_strategy {
       float: left;
-      width: 1105px;
+      width: 1104px;
       padding: 20px 20px 20px 10px;
       margin: 10px 0 0 0px;
       border: solid 1px #ccd9e3;
@@ -947,7 +947,26 @@
     margin: 20px auto 0 ;
     display: block;
   }
+  .each_strategy_holder {
+    border-left: solid 1px #ccd9e3;
+    padding-left: 10px ;
+    position: relative;
+  }
 
+  .linkage_bar {
+    position: absolute;
+    width: 10px;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    background: #ccd9e3;
+  }
+  .each_strategy_holder:last-child {
+    height: 70px ;
+    .linkage_bar {
+      top: 100% ;
+    }
+  }
   .reports_tabs_holder {
     float: left;
     border: solid 1px #d2dee7;
