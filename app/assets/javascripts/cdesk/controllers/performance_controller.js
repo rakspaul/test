@@ -387,23 +387,22 @@ var angObj = angObj || {};
         });
 
 
-//        //TODO: This function is called from the directive, onchange of the dropdown.It will be done when dropdown is implemented.
-//        $scope.callBackKpiDurationChange = function (kpiType) {
-//            if (kpiType == 'duration') {
-//                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
-//                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
-//                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
-//                $scope.download_urls = {
-//                    tactics: urlPath + 'tactics/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    domains: urlPath + 'domains/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    publishers: urlPath + 'publishers/download?date_filter=' + $scope.selected_filters.time_filter,
-//                    exchanges: urlPath + 'exchanges/download?date_filter=' + $scope.selected_filters.time_filter
-//                };
-//            } else {
-//                $scope.$apply();
-//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
-//            }
-//        };
+        //TODO: This function is called from the directive, onchange of the dropdown.It will be done when dropdown is implemented.
+        $scope.callBackKpiDurationChange = function (kpiType) {
+            if (kpiType == 'duration') {
+                $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_filters.tab, timeFilter: $scope.selected_filters.time_filter });
+                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+
+                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
+                $scope.download_urls = {
+                    screens: urlPath + 'screensandformats/download?date_filter=' + $scope.selected_filters.time_filter,
+                    daysOfWeek: urlPath + 'daysofweek/download?date_filter=' + $scope.selected_filters.time_filter
+                };
+            } else {
+                $scope.$apply();
+                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+            }
+        };
 
 
     });
