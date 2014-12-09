@@ -29,7 +29,7 @@
             $scope.details.sortDirection = undefined;
         };
         $scope.details.sortIcon = function(fieldName) {
-            if ($scope.details.sortParam == fieldName) {
+            if ($scope.details.sortParam == fieldName) {localStorage
                 return $scope.details.sortDirection == 'asc' ? 'ascending' : 'descending';
             } else {
                 return '';
@@ -265,6 +265,22 @@
             dataTransferService.initOptimizationData(param);
 
             utils.goToLocation('/optimization');
+        };
+
+        $scope.setGraphData = function( campaign, type){
+            var param = {
+                selectedCampaign :campaign
+            };
+
+            dataTransferService.initOptimizationData(param);
+            if(type == 'cost'){
+                utils.goToLocation('/cost');
+            }else if(type == 'viewability'){
+                utils.goToLocation('/viewability');
+            }else{
+                utils.goToLocation('/optimization');
+            }
+            
         };
 
         var filterObject = new Campaigns();
