@@ -43,8 +43,8 @@ var angObj = angObj || {};
             $scope.dataNotFound = true;
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
-                    console.log("in view metric page");
-                    console.log(result.data.data);
+                   // console.log("in view metric page");
+                   // console.log(result.data.data);
                     strategiesList = result.data.data;
                     if (strategiesList) {
                         $scope.dataNotFound = false;

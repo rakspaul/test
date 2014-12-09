@@ -10,11 +10,35 @@
         <div class="inventory_reports_container" data-ng-init="init()">
             <div class="clearfix inventory_header">
                 <large-list-search selected-obj=selectedCampaign></large-list-search>
+                <div class="pull-right download_report">
+
+                    <div class="dropdown">
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" href="">&nbsp;
+                        </a>
+                    </span>
+
+                        <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
+
+                            <li value="cost"><a ng-if="download_urls.cost" class="download_anchor"
+                                                   href="{{download_urls.cost}}">Cost Report</a></li>
+
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="pull-right dropdown dropdown_type3">
+                    <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"
+                                    flag="duration"></report-filters>
+                </div>
             </div>
-            <div class="clearfix"></div>
+            <div class="clearfix">
+
+            </div>
             <!----------------campaign dropdown--------------------->
             <!----------------strategy dropdown--------------------->
             <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+
             <!----------------strategy dropdown--------------------->
 
             <div class="no_data_found" ng-if="!strategyFound">
