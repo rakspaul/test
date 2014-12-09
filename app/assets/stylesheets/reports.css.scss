@@ -1125,6 +1125,11 @@
 
   .cost_header_holder{
     padding: 20px 0 0 20px ;
+    .dropdown_ul {
+      li {
+      text-align: left;
+      }
+    }
   }
   .first_col {
     text-align: left;
