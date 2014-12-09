@@ -126,14 +126,14 @@
                     <div class="highcharts">
                      <span ng-switch="campaign.chart">
                             <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                            <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                            <span ng-switch-when="false" class="no-chart">Data Not Available.</span>
                             <span ng-switch-default>
                                 <div class="highcharts" ng-if="campaign.chart && campaign.kpiType && campaign.kpiValue">
                                     <!--{{campaign.chart | json}}-->
                                     <highchart id="highcharts" config="campaign.chart" chartTitle=""></highchart>
                                 </div>
                                 <div class="highcharts" ng-if="!(campaign.chart && campaign.kpiType && campaign.kpiValue)">
-                                    <span class="no-chart">Data Not Avaiable<!-- (PARTIAL CHART)-->.</span>
+                                    <span class="no-chart">Data Not Available<!-- (PARTIAL CHART)-->.</span>
                                 </div>
                             </span>
                         </span>
