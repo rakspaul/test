@@ -3,6 +3,16 @@
   color: #2d2f31 ;
   margin-top: -30px;
   padding-top: 20px;
+  .disabled_dd {
+    position: absolute;
+    height: 87px;
+    width: 130px;
+    top: -1px;
+    left: -1px;
+    opacity: 0.8;
+    background: #FFF;
+    z-index: 1001;
+  }
   .load-more-strategies {
     margin: 30px;
     text-align: center;
@@ -425,6 +435,10 @@
               color: #727272;
               margin-top: 40px;
               font-size: 14px;
+              img {
+                display: inline-block;
+                margin-right: 5px ;
+              }
             }
             .tactic_accordion_details {
               margin-bottom: 10px;

@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
@@ -15,6 +15,58 @@
                 details: null,
                 actionChart :true
             };
+        $scope.details.sortParam = 'startDate';
+        $scope.details.sortDirection = 'asc';
+        $scope.details.toggleSortDirection = function(dir) {
+            if (dir == 'asc') {
+                return 'desc';
+            }
+            return 'asc';
+        };
+        
+        $scope.details.resetSortParams = function() {
+            $scope.details.sortParam = undefined;
+            $scope.details.sortDirection = undefined;
+        };
+        $scope.details.sortIcon = function(fieldName) {
+            if ($scope.details.sortParam == fieldName) {
+                return $scope.details.sortDirection == 'asc' ? 'ascending' : 'descending';
+            } else {
+                return '';
+            }
+        };
+    
+        $scope.details.sortClass = function(fieldName) {
+            if ($scope.details.sortParam == fieldName) {
+                return 'active';
+            } else {
+                return '';
+            }
+        };
+        $scope.details.sortStrategies=function(fieldName){
+            if ($scope.details.sortParam) {
+                    if ($scope.details.sortParam == fieldName) {
+                        var sortDirection = $scope.details.toggleSortDirection($scope.details.sortDirection);
+                        $scope.details.resetSortParams();
+                        $scope.details.sortDirection = sortDirection;
+                    } else {
+                        $scope.details.resetSortParams();
+                    }
+                } else {
+                    $scope.details.resetSortParams();
+                }!$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
+                $scope.details.sortParam = fieldName;
+
+                //filter
+                $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+ 
+        };
+        $scope.details.getSortDirection= function(){
+            return ($scope.details.sortDirection == "desc")? "true" : "false";
+        };
+
+
+
         //API call for campaign details
 //        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId + "?user_id=" + user_id;
@@ -194,6 +246,19 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
                 selectedAction : action,
+                selectedActionItems : $scope.actionItems
+            };
+
+            dataTransferService.initOptimizationData(param);
+
+            utils.goToLocation('/optimization');
+        };
+
+        $scope.setActivityButtonData = function( campaign, strategy){
+            var param = {
+                selectedCampaign :campaign,
+                selectedStrategy : strategy,
+                selectedAction : undefined,
                 selectedActionItems : $scope.actionItems
             };
 

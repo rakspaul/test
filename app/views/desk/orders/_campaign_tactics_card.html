@@ -45,7 +45,8 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-show="tactic.platform_icon" class="channel_details" style="background: url('{{tactic.platform_icon}}') no-repeat left center;">
+                    <div  class="channel_details">
+                        <img ng-show="tactic.platform_icon" width="20px" src="{{tactic.platform_icon}}" >
                         {{tactic.platform_name}}
                     </div>
                 </div>
