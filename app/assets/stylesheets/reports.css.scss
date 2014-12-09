@@ -1173,8 +1173,12 @@
         position: relative;
         padding-left: 10px;
         border-left: solid 1px #d2dee7 ;
+        
+        padding-top: 10px;
         .each_cost_row {
           padding-left: 10px ;
+          border-top: solid 1px #d2dee7;
+          background: #FFF;
         }
       }
 
