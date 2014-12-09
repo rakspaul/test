@@ -5,7 +5,7 @@
     <div class="each_campaign_section campaign_list_details">
         <div class="heading_holder">
             <div class="main_heading">
-                <a ng-href="#/campaigns/{{campaign.orderId}}"> {{campaign.campaignTitle}}</a>
+                <a ng-href="#/campaigns/{{campaign.orderId}}" id="campaign_heading_anchor"> {{campaign.campaignTitle}}</a>
             </div>
             <div class="heading">
                 {{campaign.brandName }}
@@ -28,12 +28,12 @@
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
-            <a href="campaigns#/performance">
+            <a href="campaigns#/performance" id="campaigns_view_report">
                 <div class="campaign_btn reports_btn">
                     View Report
                 </div>
             </a>
-            <a href="campaigns#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder">
+            <a href="campaigns#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder" id="campaigns_activity_btn">
                 <div class="campaign_btn actions_btn">
                     <span>Activity</span>
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>

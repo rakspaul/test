@@ -1,6 +1,6 @@
 <div class="reports_main_page_holder">
     <div class="reports_header_tabs_holder">
-        <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+        <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab"> {{tab.title}}</a></span>
     </div>
     <div class="inventory_reports_container" >
 
@@ -8,7 +8,7 @@
             <large-list-search selected-obj=selectedCampaign></large-list-search>
 
             <div class="pull-right download_report" >
-               <a class="download_anchor" href="{{download_url}}">&nbsp;
+               <a class="download_anchor" href="{{download_url}}" id="inventory_download_btn">&nbsp;
                </a>
             </div>
             <div class="pull-right dropdown dropdown_type3">
@@ -33,9 +33,9 @@
 
             <div class="clearfix chart_inventory_header">
                 <div class="pull-left clearfix inventory_tabs" id="category_change">
-                    <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories">Categories</a></span>
-                    <span><a href="javascript:void(0);" _key="parentdomains">Domains</a></span>
-                    <span><a href="javascript:void(0);" _key="fulldomains">URLs</a></span>
+                    <span class="inventory_tab_active"><a href="javascript:void(0);" _key="categories" id="inventory_category_tab">Categories</a></span>
+                    <span><a href="javascript:void(0);" _key="parentdomains" id="inventory_domains_tab">Domains</a></span>
+                    <span><a href="javascript:void(0);" _key="fulldomains" id="inventory_urls_tab">URLs</a></span>
                 </div>
                 <div class="chart_details_cols_row inventory_chart_details_list clearfix">
                     <div class="pull-left performance_selection clearfix"
@@ -81,7 +81,7 @@
 
                         <span class="url_val" title="{{stable.domain_data}}"
                               ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
-                            <a href="{{ stable.domain_data}}" target='_blank'> {{ stable.domain_data | formatUrl :20 }}</a>
+                            <a href="{{ stable.domain_data}}" target='_blank' id="inventory_url_val"> {{ stable.domain_data | formatUrl :20 }}</a>
                          </span>
 
                         <span class="imps_del_data imps_del_col pull-right">{{stable.impressions | number}}</span>
@@ -130,7 +130,7 @@
                               ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl:20 }}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
                               ng-if="selected_filters.domain == 'fulldomains' ">
-                            <a href="{{ tableData.domain_data}}" target='_blank'> {{ tableData.domain_data | formatUrl:20
+                            <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20
                                 }}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>

@@ -1,7 +1,7 @@
 <div class="reports_main_page_holder">
 <div class="reports_header_tabs_holder">
         <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
-                ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+                ng-href="#/{{tab.href}}" id="viewability_title_tab"> {{tab.title}}</a></span>
 </div>
 
 <div class="inventory_reports_container" data-ng-init="init()">
@@ -13,21 +13,21 @@
 
         <div class="pull-right download_report">
 
-            <div class="dropdown">
+            <div class="dropdown" id="viewability_filter_dd">
                     <span class="dropdown_ul_text " data-toggle="dropdown">
-                        <a class="download_anchor" href="">&nbsp;
+                        <a class="download_anchor" href="" id="viewability_download_btn">&nbsp;
                         </a>
                     </span>
 
                 <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
 
-                    <li value="tactics"><a ng-if="download_urls.tactics" class="download_anchor"
+                    <li value="tactics"><a id="viewability_tactic" ng-if="download_urls.tactics" class="download_anchor"
                                            href="{{download_urls.tactics}}">Viewability by Tactic</a></li>
-                    <li value="domains"><a ng-if="download_urls.domains" class="download_anchor"
+                    <li value="domains"><a id="viewability_domain" ng-if="download_urls.domains" class="download_anchor"
                                            href="{{download_urls.domains}}">Viewability by Domain</a></li>
-                    <li value="publishers"><a ng-if="download_urls.publishers" class="download_anchor"
+                    <li value="publishers"><a id="viewability_publisher" ng-if="download_urls.publishers" class="download_anchor"
                                               href="{{download_urls.publishers}}">Viewability by Publisher</a></li>
-                    <li value="exchanges"><a ng-if="download_urls.exchanges" class="download_anchor"
+                    <li value="exchanges"><a id="viewability_exchange" ng-if="download_urls.exchanges" class="download_anchor"
                                              href="{{download_urls.exchanges}}">Viewability by Exchange</a></li>
                 </ul>
             </div>

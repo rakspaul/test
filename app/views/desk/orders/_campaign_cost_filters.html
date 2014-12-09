@@ -2,7 +2,7 @@
 <!--<div class="clearfix filter_header_block cost_col_container campaign_cost_header_holder"  style="display:none" id="cost_filter_header">-->
     <div class="each_cost_col first_col active">Imps.</div>
     <div class="each_cost_col second_col"><!-- CPA<span class="sortable"></span> -->
-        <div class="dropdown">
+        <div class="dropdown" id="campaign_cost_metrics_dd">
             <span class="dropdown_ul_text" data-toggle="dropdown">
                 <span class="dd_txt ng-binding">CPA</span>
                 <span class="arrrow_img"></span>
@@ -36,7 +36,7 @@
             </span>
             <ul class="dropdown-menu">
               <li class="{{sortField.className}}" ng-repeat="sortField in campaigns.sortFieldList" data-ng-click="campaigns.sortCampaigns(sortField.key)">
-                <a >
+                <a id="campaign_cost_sort">
                 {{sortField.display}}&nbsp;<span class="sortable {{campaigns.sortIcon(sortField.key)}}"></span> 
               </a>
               </li>
