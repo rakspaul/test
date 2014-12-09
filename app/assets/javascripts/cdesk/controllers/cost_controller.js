@@ -14,6 +14,10 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
+        $scope.download_urls = {
+            cost: null
+        };
+
         $scope.init = function(){
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
@@ -142,6 +146,11 @@ var angObj = angObj || {};
 
         $scope.callBackCampaignsSuccess= function(){
             //TODO, logic needs to be done
+            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+
+            $scope.download_urls = {
+                cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
+            };
 
         };
 
@@ -172,9 +181,19 @@ var angObj = angObj || {};
         };
 
         $scope.callBackKpiDurationChange = function (kpiType) {
+          //  $scope.init();
+            $scope.strategyCostData = {};
+            $scope.tacticsCostData = {} ;
             if (kpiType == 'duration') {
-                $scope.strategiesCostData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, time_filter: $scope.selected_filters.time_filter });
+                //console.log("duration is changed");
+                $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+
+                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+
+                $scope.download_urls = {
+                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
+                };
             } else {
                 $scope.$apply();
                 dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
