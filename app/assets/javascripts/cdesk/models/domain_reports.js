@@ -36,10 +36,12 @@
                     ],
                     'kpiTypes' : [
                         {value: 'CTR', text: 'CTR'},
-                        {value: 'CPC', text: 'CPC'},
-                        {value: 'CPM', text: 'CPM'},
+                        {value: 'action_rate', text: 'Action Rate'},
                         {value: 'CPA', text: 'CPA'},
-                        {value: 'action_rate', text: 'Action Rate'}
+                        {value: 'CPC', text: 'CPC'},
+                        {value: 'CPM', text: 'CPM'}
+
+
                     ],
                     activeTab : document.location.hash.substring(2)
                 }
