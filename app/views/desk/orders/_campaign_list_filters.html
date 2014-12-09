@@ -1,7 +1,7 @@
 <!--campaign card sort-->
 <div class="clearfix campaign_list_header_holder">
     <div ng-repeat="sortField in campaigns.sortFieldList" class="each_header_title {{sortField.className}}">
-      <a data-ng-click="campaigns.sortCampaigns(sortField.key)">
+      <a data-ng-click="campaigns.sortCampaigns(sortField.key)" id="campaign_list_sort">
         <span>{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
       </a>
     </div>
