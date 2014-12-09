@@ -95,13 +95,13 @@
         <div class="graph_KPI_outer_holder">
             <span ng-switch="campaign.chart">
                 <span ng-switch-when="true" class="no-chart load-more">&nbsp;</span>
-                <span ng-switch-when="false" class="no-chart">Data Not Avaiable.</span>
+                <span ng-switch-when="false" class="no-chart">Data Not Available.</span>
                 <span ng-switch-default>
                     <div class="graph_KPI_holder" ng-if="campaign.chart && campaign.kpiType && campaign.kpiValue">
                         <highchart id="" class="graph_KPI_holder" config="campaign.chart" chartTitle=""></highchart>
                     </div>
                     <div class="graph_KPI_holder" ng-if="!(campaign.chart && campaign.kpiType && campaign.kpiValue)">
-                        <span class="no-chart">Data Not Avaiable</span>
+                        <span class="no-chart">Data Not Available</span>
                     </div>
                 </span>
             </span> 
