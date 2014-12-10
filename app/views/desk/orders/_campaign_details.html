@@ -186,13 +186,13 @@
                                 <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart"></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
-                                <div class="each_detail">> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
-                                <div class="each_detail">> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
-                                <div class="each_detail">> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
+                                <div class="each_detail"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
+                                <div class="each_detail"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
+                                <div class="each_detail"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
                             </div>
                         </div>
                         <div class="graph_summary">
-                            Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}</span><span>{{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%</span>
+                            Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
                         </div>
                     </div>
                 </div>
@@ -247,7 +247,7 @@
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{action.make_external?'E':''}}
+                                          {{(is_network_user)?((action.make_external)?'E':''):''}}
                                       </span>
                                   </div>
                               </div>
