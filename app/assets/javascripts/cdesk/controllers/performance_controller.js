@@ -363,7 +363,21 @@ var angObj = angObj || {};
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             //Call  to load with the changed campaign id and strategyid
-            $scope.init();
+           // $scope.init();
+            //cleaning the list
+            $scope.tacticList = [];
+            $scope.strategyPerfDataByScreen = [];
+            $scope.strategyPerfDataByFormat = [];
+            $scope.strategyPerfDataByDOW = [];
+
+            $scope.tacticsPerfDataListByScreen = [];
+            $scope.tacticsPerfDataListByFormat = [];
+            $scope.tacticsPerfDataListByDOW = [];
+
+            $scope.dataNotFoundForScreen = false;
+            $scope.dataNotFoundForFormat = false;
+            $scope.dataNotFoundForDOW = false;
+
             if($scope.selectedStrategy.id == -1)
                 $scope.strategyFound = false ;
 
