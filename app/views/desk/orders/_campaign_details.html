@@ -247,7 +247,7 @@
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{action.make_external?'E':''}}
+                                          {{(is_network_user)?((action.make_external)?'E':''):''}}
                                       </span>
                                   </div>
                               </div>

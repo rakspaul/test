@@ -16,7 +16,7 @@
             }).css({
                 fontWeight: 'bold',
                 fontSize: '9px',
-                color: (defaultGrey || isActionExternal==false) ? 'transparent' :'white',
+                color: (defaultGrey || isActionExternal==false || is_network_user==false) ? 'transparent' :'white',
                 cursor: 'pointer'
             }).on('click', function (markerObj) {
                 //console.log(markerObj.target.id);
