@@ -11,6 +11,8 @@ var angObj = angObj || {};
         $scope.selectedStrategy = domainReports.getDefaultValues();
 
         $scope.selected_filters = domainReports.getDurationKpi();
+        $scope.strategyBusy = false;
+        $scope.tacticBusy = false ;
 
         $scope.filters = domainReports.getReportsDropDowns();
 
@@ -25,13 +27,16 @@ var angObj = angObj || {};
 
 
         $scope.tacticViewData = function (param, strategiesList) {
+            $scope.tacticBusy = true;
             viewablityService.getTacticsViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
 
+                    $scope.tacticBusy = false;
                     strategiesList.tacticsList = result.data.data[0].tactics;
                     $scope.strategiesList = strategiesList;
                 } // Means no strategy data found
                 else {
+                    $scope.tacticBusy =false;
                 }
             });
         };
@@ -40,23 +45,31 @@ var angObj = angObj || {};
         //Function called to show Strategy list
         $scope.strategyViewData = function (param) {
             var strategiesList = {};
+            $scope.strategyBusy = true;
+            $scope.tacticBusy = true;
             $scope.dataNotFound = true;
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                    // console.log("in view metric page");
                    // console.log(result.data.data);
                     strategiesList = result.data.data;
+                    $scope.strategyBusy = false;
                     if (strategiesList) {
                         $scope.dataNotFound = false;
                         $scope.tacticViewData(param, strategiesList);
 
                     } else {
                         $scope.dataNotFound = true;
+                        $scope.strategyBusy = false;
+                        $scope.tacticBusy = false ;
+
                     }
 
                 } // Means no strategy data found
                 else {
                     $scope.dataNotFound = true;
+                    $scope.strategyBusy = false;
+                    $scope.tacticBusy = false;
                 }
             });
         };
@@ -98,12 +111,14 @@ var angObj = angObj || {};
 
         //Called from directive_controller.js,  when the user selects the campaign dropdown option
         $scope.callBackCampaignChange = function () {
+            $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
             } else {
-                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
+            $scope.$apply();
         };
 
         $scope.updateStrategyObjects = function (strategy) {
