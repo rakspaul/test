@@ -7,9 +7,24 @@
         <div class="clearfix inventory_header">
             <large-list-search selected-obj=selectedCampaign></large-list-search>
 
-            <div class="pull-right download_report" >
-               <a class="download_anchor" href="{{download_url}}" id="inventory_download_btn">&nbsp;
-               </a>
+            <div class="pull-right download_report">
+
+                <div class="dropdown" >
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" id="inventory_download_btn" href="" >&nbsp;</a>
+                    </span>
+
+                    <ul class="dropdown_ul_inv dropdown-menu" id="inventory_download">
+
+                        <li value="categories"><a ng-if="download_urls.category" class="download_anchor"
+                                               href="{{download_urls.category}}">Inventory Transparency by Site Category</a></li>
+                        <li value="domains"><a ng-if="download_urls.domain" class="download_anchor"
+                                               href="{{download_urls.domain}}">Inventory Transparency by Domain</a></li>
+                        <li value="urls"><a ng-if="download_urls.fullURL" class="download_anchor"
+                                               href="{{download_urls.fullURL}}">Inventory Transparency by URL</a></li>
+                    </ul>
+                </div>
+
             </div>
             <div class="pull-right dropdown dropdown_type3">
 
