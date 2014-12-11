@@ -24,7 +24,7 @@ var angObj = angObj || {};
 
         $scope.init= function(){
 
-            $scope.firstTime = true;
+         //   $scope.firstTime = true;
 
             $scope.strategyFound = false ;
 
@@ -37,7 +37,7 @@ var angObj = angObj || {};
             $scope.dowBusy = false;
             $scope.tacticDowBusy = false ;
 
-            $scope.firstTime = true;
+          //  $scope.firstTime = true;
            // $scope.noTacticsFound = false;
 
             $scope.tacticList = [];
@@ -332,7 +332,6 @@ var angObj = angObj || {};
 
         //This will be called from directive_controller.js
         $scope.callBackCampaignsSuccess = function () {
-            $scope.init();
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
 
             $scope.download_urls = {
@@ -351,13 +350,13 @@ var angObj = angObj || {};
         $scope.callBackCampaignChange = function () {
             $scope.init();
             if ($scope.selectedCampaign.id !== -1) {
-                $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
             } else {
-                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
-              //  $scope.dataNotFound = true;
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false ;
             }
+            $scope.$apply();
         };
 
         //Function is called from startegylist directive

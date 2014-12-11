@@ -3,6 +3,8 @@ var angObj = angObj || {};
     'use strict';
     angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, utils, $http,dataTransferService,actionChart, $timeout, domainReports, apiPaths, actionColors, campaign) {
 
+        //Hot fix to show the campaign tab selected
+        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
         $scope.selectedStrategy = domainReports.getDefaultValues();
@@ -314,19 +316,19 @@ var angObj = angObj || {};
         };
 
         $scope.callBackCampaignChange = function() {
-            dataTransferService.updateExistingStorageObjects({
-                filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $('#campaigns_list li:first').attr('_kpi'),
-                filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($('#campaigns_list li:first').attr('_kpi') === 'action_rate') ? 'Action Rate' : $('#campaigns_list li:first').attr('_kpi')
-            });
+            console.log("call back campaign change");
+            $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
             if($scope.selectedCampaign.id !== -1) {
                 $scope.chartForStrategy=true;
                 $scope.strategylist($scope.selectedCampaign.id);
                 $scope.actionListForSelectedStrategy();
+                $scope.callBackCampaignsSuccess();
             }
             else{
                 $scope.chartForStrategy=false;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
+            $scope.$apply();
         };
 
         //Function is called from startegylist directive
@@ -334,7 +336,6 @@ var angObj = angObj || {};
             $scope.chartForStrategy=true;
             $scope.actionListForSelectedStrategy();
         };
-        //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+
     });
 }());

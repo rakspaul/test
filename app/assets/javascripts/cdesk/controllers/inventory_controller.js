@@ -39,13 +39,7 @@ var angObj = angObj || {};
         $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
 
 
-        $scope.callBackCampaignsSuccess = function() {
-            $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
-        };
 
-        $scope.callBackCampaignsFailure = function() {
-            $scope.strategyFound = false;
-        };
 
         /*Strategy List Functions*/
         $scope.updateStrategyObjects = function (strategy) {
@@ -221,19 +215,28 @@ var angObj = angObj || {};
             $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
         };
 
-        $scope.callBackCampaignChange = function() {
+        $scope.callBackCampaignsSuccess = function() {
             $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
+        };
+
+        $scope.callBackCampaignsFailure = function() {
+            $scope.strategyFound = false;
+        };
+        $scope.callBackCampaignChange = function() {
+            $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
             }
             else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
+            $scope.$apply();
             $scope.inventoryChart = true;
             if ($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;
             }
-        }
+        };
 
         //This function is called from the directive, onchange of the dropdown
         $scope.callBackKpiDurationChange = function (kpiType) {

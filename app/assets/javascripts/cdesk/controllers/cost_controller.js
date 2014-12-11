@@ -166,8 +166,9 @@ var angObj = angObj || {};
                 $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
             } else {
-                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
+            $scope.$apply();
         };
 
         //Function is called from startegylist directive
