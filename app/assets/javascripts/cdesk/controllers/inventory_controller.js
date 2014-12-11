@@ -36,10 +36,11 @@ var angObj = angObj || {};
        
 
         //URL for download
-        $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
-
-
-
+        $scope.download_urls = {
+            category: null,
+            domain: null,
+            fullURL: null
+        };
 
         /*Strategy List Functions*/
         $scope.updateStrategyObjects = function (strategy) {
@@ -216,7 +217,12 @@ var angObj = angObj || {};
         };
 
         $scope.callBackCampaignsSuccess = function() {
-            $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
+            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
+            $scope.download_urls = {
+                category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+                domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
+                fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
+            };
         };
 
         $scope.callBackCampaignsFailure = function() {
@@ -241,7 +247,12 @@ var angObj = angObj || {};
         //This function is called from the directive, onchange of the dropdown
         $scope.callBackKpiDurationChange = function (kpiType) {
             if (kpiType == 'duration') {
-                $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download? date_filter=' + $scope.selected_filters.time_filter;
+                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
+                $scope.download_urls = {
+                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
+                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
+                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
+                };
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
             } else {
                 dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
@@ -262,7 +273,7 @@ var angObj = angObj || {};
                 $(".inventory_tab_active").removeClass("inventory_tab_active");
                 $(e.target).parent().addClass("inventory_tab_active");
                 $scope.$apply();
-                $scope.download_url = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/' + $scope.selected_filters.domain + '/download?date_filter=' + $scope.selected_filters.time_filter;
+               
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
