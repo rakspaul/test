@@ -273,13 +273,7 @@ var angObj = angObj || {};
                 $(".inventory_tab_active").removeClass("inventory_tab_active");
                 $(e.target).parent().addClass("inventory_tab_active");
                 $scope.$apply();
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/inventory/';
-                $scope.download_urls = {
-                    category: urlPath + 'categories/download?date_filter=' + $scope.selected_filters.time_filter,
-                    domain: urlPath + 'parentdomains/download?date_filter=' + $scope.selected_filters.time_filter,
-                    fullURL: urlPath + 'fulldomains/download?date_filter=' + $scope.selected_filters.time_filter
-                };
-
+               
                 $scope.getStrategyChart({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
             }
