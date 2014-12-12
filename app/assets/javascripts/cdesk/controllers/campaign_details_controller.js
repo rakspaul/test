@@ -246,7 +246,8 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
                 selectedAction : action,
-                selectedActionItems : $scope.actionItems
+                selectedActionItems : $scope.actionItems,
+                navigationFromReports : false
             };
 
             dataTransferService.initOptimizationData(param);

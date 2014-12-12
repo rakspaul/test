@@ -19,9 +19,7 @@
             var timeInterval = dataLength/4;
 
             return {
-                /*chart:{
-                    renderTo: 'container'
-                },*/
+
                 credits: {
                     enabled: false
                 },
@@ -120,42 +118,46 @@
                 loading: false,
                 func: function(chart) {
                     $timeout(function() {
-                        var extremesX = chart.xAxis[0].getExtremes();
-                        chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
-                        var extremes = chart.yAxis[0].getExtremes();
-                        chart.yAxis[0].addPlotBand({ // Light air
-                            from: threshold,
-                            to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
-                            color: '#fbdbd1',
-                            label: {
-                                enabled: false,
-                                text: '',
-                                style: {
-                                    color: 'red'
+                        if(chart != 'undefined'){
+                            console.log(chart);
+                            console.log(chart.xAxis);
+                            var extremesX = chart.xAxis[0].getExtremes();
+                            chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
+                            var extremes = chart.yAxis[0].getExtremes();
+                            chart.yAxis[0].addPlotBand({ // Light air
+                                from: threshold,
+                                to: (kpiType.toLowerCase() == 'cpc' || kpiType.toLowerCase() == 'cpa' || kpiType.toLowerCase() == 'cpm') ? extremes.max : extremes.min,
+                                color: '#fbdbd1',
+                                label: {
+                                    enabled: false,
+                                    text: '',
+                                    style: {
+                                        color: 'red'
+                                    }
                                 }
-                            }
-                        });
+                            });
 
-                        //draw plotlines
-                        chart.yAxis[0].addPlotLine({
-                            value: extremes.max,
-                            color: '#D2DEE7',
-                            width: 1,
-                            id: 'plot-line-1'
-                        });
-                        chart.xAxis[0].addPlotLine({
-                            value: extremesX.max,
-                            color: '#D2DEE7',
-                            width: 1,
-                            id: 'plot-line-1'
-                        });
-                        chart.xAxis[0].addPlotLine({
-                            value: extremesX.min,
-                            color: '#D2DEE7',
-                            width: 1,
-                            id: 'plot-line-1'
-                        });
+                            //draw plotlines
+                            chart.yAxis[0].addPlotLine({
+                                value: extremes.max,
+                                color: '#D2DEE7',
+                                width: 1,
+                                id: 'plot-line-1'
+                            });
+                            chart.xAxis[0].addPlotLine({
+                                value: extremesX.max,
+                                color: '#D2DEE7',
+                                width: 1,
+                                id: 'plot-line-1'
+                            });
+                            chart.xAxis[0].addPlotLine({
+                                value: extremesX.min,
+                                color: '#D2DEE7',
+                                width: 1,
+                                id: 'plot-line-1'
+                            });
 
+                        }
                     }, 1000);
                 }
 
