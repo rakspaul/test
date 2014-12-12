@@ -27,6 +27,7 @@ var angObj = angObj || {} ;
                     clickedKpiType  :  param.selectedCampaign.kpiType,
                     clickedKpiValue  :  param.selectedCampaign.kpiValue,
                     clickedActionItems  :  param.selectedActionItems,
+                    navigationFromReports: param.navigationFromReports,
                     strategyId : null,
                     strategyName : null,
                     filterDurationType:null,
@@ -50,6 +51,10 @@ var angObj = angObj || {} ;
                     return '';
                 }
             },
+            getNavigationFromReports : function(){
+                return this.getCampaignDetailsObject('navigationFromReports');
+            },
+
             getClickedStrategyId : function(){
                 return  this.getCampaignDetailsObject('strategyId');
             },
@@ -62,6 +67,13 @@ var angObj = angObj || {} ;
             getClickedCampaignName : function(){
                 return  this.getCampaignDetailsObject('campaignName');
             },
+            getClickedCampaignStartDate : function(){
+                return  this.getCampaignDetailsObject('startDate');
+            },
+            getClickedCampaignEndDate : function(){
+                return  this.getCampaignDetailsObject('endDate');
+            },
+
             getClickedStrategy : function(){
                 return  this.getCampaignDetailsObject('clickedStrategy');
             },
@@ -76,12 +88,6 @@ var angObj = angObj || {} ;
             },
             getClickedActionItems : function(){
                 return  this.getCampaignDetailsObject('clickedActionItems');
-            },
-            getClickedCampaignStartDate : function(){
-                return  this.getCampaignDetailsObject('startDate');
-            },
-            getClickedCampaignEndDate : function(){
-                return  this.getCampaignDetailsObject('endDate');
             },
             setCampaignList : function(key, campaignListObject) {
                 localStorage['campaignList'] = JSON.stringify(campaignListObject);
