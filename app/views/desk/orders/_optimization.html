@@ -18,19 +18,48 @@
                 <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
             </div>
 
-        <!----------------campaign dropdown--------------------->
+        <!--campaign dropdown-->
         </div>
-        <div class="inventory_reports_container">
+        <div class="inventory_reports_container optimization_header">
             <div class="clearfix inventory_header">
                 <large-list-search selected-obj=selectedCampaign></large-list-search>
             </div>
             <div class="clearfix"></div>
-            <!----------------campaign dropdown--------------------->
-            <!----------------strategy dropdown--------------------->
+            <!--campaign dropdown-->
+            <!--strategy dropdown-->
             <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
             
-            <!----------------strategy dropdown--------------------->
+            <!--strategy dropdown-->
+            <div class="download_report">
+  
+              <div class="dropdown" >
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
+                    </span>
+                    <ul class="dropdown-menu" id="optimization_download">
 
+                        <li value="categories">
+                            <a class="download_anchor">Download option 1</a>
+                        </li>
+                        <li value="domains">
+                            <a class="download_anchor">Download option 2</a>
+                        </li>
+                        <li value="urls">
+                            <a class="download_anchor">Download option 3</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="see_dates_holder">
+                    <div class="external_chkbox clearfix">
+                        <div class="squaredFour">
+                          <input type="checkbox" id="squaredFour">
+                          <label for="squaredFour"></label>
+                        </div>       
+                        <span class="squaredFourTxt">See Dates</span>
+                    </div>
+                </div>
+  
+          </div>
         </div>
         <div class="reports_graph_top_section" id="graph" >
             <div class="rep_graph_heading">
@@ -60,13 +89,22 @@
         </div>
 
         <div class="each_reports_row each_reports_row_heading" ng-if="!tacticNotFound">
+            
             <div class="each_rep_col_holder clearfix">
+                <div class="clearfix after_before_title">
+                    <div>Before</div>
+                    <div>After</div>
+                </div>
                 <div class="each_rep_col first_col">Optimization Type</div>
                 <div class="each_rep_col sec_col">Date Optimized</div>
                 <div class="each_rep_col third_col">Metric</div>
-                <div class="each_rep_col sixth_col">Before Value</div>
-                <div class="each_rep_col nine_col">After Value</div>
-                <div class="each_rep_col ten_col">Change %</div>
+                <div class="each_rep_col forth_col left_border">Date from</div>
+                <div class="each_rep_col fifth_col">Date to</div>
+                <div class="each_rep_col sixth_col">Value</div>
+                <div class="each_rep_col sev_col left_border">Date from</div>
+                <div class="each_rep_col eight_col">Date to</div>
+                <div class="each_rep_col nine_col">Value</div>
+                <div class="each_rep_col ten_col left_border" >Change %</div>
             </div>
 
         </div>
@@ -83,8 +121,11 @@
                         <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
                         <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
                         <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
-
+                        <div class="each_rep_col forth_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                        <div class="each_rep_col fifth_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
                         <div class="each_rep_col sixth_col">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
+                        <div class="each_rep_col sev_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                        <div class="each_rep_col eight_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
                         <div class="each_rep_col nine_col">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
                         <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
                             <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
