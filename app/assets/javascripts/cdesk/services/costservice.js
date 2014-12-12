@@ -3,20 +3,10 @@
     angObj.factory("costService", function ($http,$location, api, apiPaths) {
         $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
         return {
-            getStrategiesForCampaign: function (campaingId) {
-                var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';
-                return this.fetch(url);
-            },
 
             getTacticsForStrategy: function(param){
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaignId + '/strategies/'+ param.strategyId+'/tactics/meta' ;
                 return this.fetch(url);
-            },
-
-            getCampaingsForUser: function () {
-                var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id='+ user_id ;
-                return this.fetch(url);
-
             },
 
             getStrategyCostData: function (param) {
