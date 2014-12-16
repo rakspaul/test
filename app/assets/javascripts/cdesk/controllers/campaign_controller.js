@@ -514,6 +514,7 @@
                 Campaigns.prototype.fetchCampaigns.call(this);
             },
                 Campaigns.prototype.dashboardSelectedAll = function () {
+                    this.nextPage=1;
                     if(this.dashboard.filterSelectAll == false)
                     {
                         this.dashboard.filterSelectAll=true;
