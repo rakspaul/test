@@ -430,10 +430,9 @@ var angObj = angObj || {};
                 }
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
 
-                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
-
+                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
                 $scope.download_urls = {
-                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
+                    optimization: urlPath  +'download?date_filter=' + $scope.selected_filters.time_filter
                 };
              } //else {
 //                $scope.$apply();
