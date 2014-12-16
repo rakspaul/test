@@ -540,7 +540,7 @@
                             }
                         }
                         switch(type) {
-                            case "pasued":
+                            case "paused":
                                 this.dashboard.status.paused = undefined;
                                 break;
                             case "completed":
