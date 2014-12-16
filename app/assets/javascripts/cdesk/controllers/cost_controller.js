@@ -14,6 +14,8 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
+        $scope.filter = { sortByColumn : 'default' };
+
         $scope.download_urls = {
             cost: null
         };
@@ -207,7 +209,17 @@ var angObj = angObj || {};
         $scope.formattingNumber = function(kpi, value){
            value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
             return value ;
-        }
+        };
+
+        $scope.sortFunction = function (sortby) {
+            $scope.filter.sortByColumn = sortby;
+//            if (doReverse) {
+//                $scope.filter.reverse = !$scope.filter.reverse;
+//            }
+        };
+
+
+
 
     });
 }());
