@@ -164,8 +164,11 @@
       font-family: "Avenir";
       border-bottom: solid 1px #e5ecef;
     }
-    .each_reports_row_details:hover {
+    .each_reports_row_details:hover  {
       background: #f8faff ;
+    }
+    .each_reports_row_details.action_selected {
+      background: #CFDAF4 ;
     }
   }
 }
