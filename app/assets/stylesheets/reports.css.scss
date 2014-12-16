@@ -1,5 +1,7 @@
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
   background: transparent;
+
+
 }
 .tootip_holder {
   position: relative;
@@ -43,6 +45,7 @@
 .total_reports_page {
   margin: 0px auto 40px;
   width: 1115px;
+
   .back_link {
     color: #177ac6;
     font-family: "TradeGothicLTStd-BdCn20";
@@ -164,8 +167,11 @@
       font-family: "Avenir";
       border-bottom: solid 1px #e5ecef;
     }
-    .each_reports_row_details:hover {
+    .each_reports_row_details:hover  {
       background: #f8faff ;
+    }
+    .each_reports_row_details.action_selected {
+      background: #CFDAF4 ;
     }
   }
 }
@@ -1255,10 +1261,17 @@
 }
 .optimization_header {
   position: relative;
-  .download_report {
+  .header_right_optimization {
     position: absolute;
     top:0px ;
     right: 0px ;
+  }
+  .duration_filters {
+    margin: 10px 45px 0 0 ;
+    .dropdown-menu {
+      min-width: 90px;
+      left: -10px;
+    }
   }
   .external_chkbox {
     float: right;
@@ -1323,3 +1336,37 @@
     }
   }
 }
+.details_with_heading_total {
+    .dates_hide , .after_before_title {
+      display: none;
+    }
+   .dates_show {
+    display: block; 
+   }
+   .left_border {
+      border-left: solid 1px transparent ;
+    }
+    .each_rep_col_holder .each_rep_col {
+      width: 170px ;
+    }
+    .each_rep_col_holder .first_col {
+      width: 210px ;
+    }
+  }
+  .see_dates_selected {
+    .dates_show {
+      display: none;
+    }
+    .after_before_title , .dates_hide {
+      display: block;
+    }
+    .each_rep_col_holder .each_rep_col {
+      width: 100px ;
+    }
+    .each_rep_col_holder .first_col {
+      width: 155px ;
+    }
+    .left_border {
+      border-left: solid 1px #ddedf8 ;
+    }
+  }

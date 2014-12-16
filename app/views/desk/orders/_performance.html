@@ -37,11 +37,14 @@
 </div>
 <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
 
-<div class="no_data_found" ng-if="!strategyFound">
+<span class="no-chart load-more" ng-if="performanceBusy">&nbsp;</span>
+
+<div class="no_data_found" ng-if="!strategyFound && !performanceBusy">
     Data Not Found
 </div>
 
-<div class="reports_tabs_content_container" ng-show="strategyFound" >
+
+<div class="reports_tabs_content_container" ng-show="strategyFound && !performanceBusy" >
 
 <div class="clearfix">
     <div class="clearfix reports_tabs_holder">

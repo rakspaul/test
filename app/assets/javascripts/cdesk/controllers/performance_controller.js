@@ -16,6 +16,9 @@ var angObj = angObj || {};
 
         $scope.selected_filters.tab = 'bydaysofweek';
 
+        $scope.performanceBusy = false;
+
+
 
         $scope.download_urls = {
             screens: null,
@@ -291,6 +294,7 @@ var angObj = angObj || {};
         $scope.updateStrategyObjects = function (strategy) {
 
             $scope.strategies = strategy;
+            $scope.performanceBusy = false ;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name, $scope.strategies[0].startDate, $scope.strategies[0].endDate);
@@ -318,6 +322,7 @@ var angObj = angObj || {};
 
 
         $scope.strategylist = function (campaignId) {
+            $scope.performanceBusy = true ;
             $scope.selectedStrategy.name = "Loading...";
             if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {

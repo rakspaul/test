@@ -30,7 +30,7 @@
 
             chart.renderer.circle(container.x+3 , container.y+5,7).attr({
                 fill: (defaultGrey) ? 'white' : '#0072bc' || 'white',
-                stroke: (defaultGrey) ? 'grey' : '#0072bc' || 'grey',
+                stroke: (defaultGrey) ? '#0070CE' : '#0072bc' || '#0070CE',
                 'stroke-width': 4,
                 id: actionId || 'NA',
                 kpiType: kpiType || 'NA',
@@ -84,27 +84,30 @@
             }).on('click', function (circleObj) {
                 var myContainer = $('#action-container:first');
                 if(defaultGrey) {
-                    $('circle').attr({stroke: 'grey', fill:'#ffffff'});
-                    $('circle#' + circleObj.target.id).attr({stroke: 'green', fill:'green'});
+                    $('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
+                    $('circle#' + circleObj.target.id).attr({stroke: '#0070CE', fill:'#0070CE'});
                     $('text#t' + circleObj.target.id).css({fill:'transparent'});
 
-                    var myContainer = $('.reports_section_details_container');
+                    myContainer = $('.reports_section_details_container');
                 }
                 //click and scroll action functionality
 
                 var scrollTo = $('#actionItem_' + this.id);
                 localStorage.setItem('actionSel' , this.id);
                 if(scrollTo.length) {
-                    //scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-                    myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
+                   // alert("test");
+                    scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
 
+                    //$('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
+                  //  myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
+                    myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
                     myContainer.animate({
                         scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                     });
                 }
             }).add();
         };
-        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, orderId, external) {
+        var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
             var data = [];
             for (var i = 0; i < lineData.length; i++) {
                 var chartData = lineData[i]['date'].split("-");
@@ -318,10 +321,10 @@
                                     }
                                 }
                             }
-                            if (orderId !== undefined) {
-                                //var id = orderId.action.ad_id+''+orderId.action.id;
-                                //$('circle#' +id).attr({stroke: 'green', fill:'green'});
-                                $('circle#' + orderId).attr({stroke: 'green', fill: 'green'});
+                            if(navigationFromReports == false && actionId !== undefined){
+                                $('circle#' + actionId).attr({stroke: '#0070CE', fill: '#0070CE'});
+                                $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+actionId).addClass('action_selected');
+                                $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+actionId).addClass('action_selected');
                             }
                         }
 
