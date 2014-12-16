@@ -583,11 +583,11 @@
                         this.dashboard.status.active.bothItem = undefined;
                         this.dashboard.status.ready =undefined
                         this.dashboard.status.active.ontrack =undefined
-                        this.dashboard.status.active.underperforming = undefined;
+                        this.dashboard.status.active.underperforming = 'active';
                         this.dashboard.filterPaused= undefined;
                         this.dashboard.filterCompleted =undefined ;
                         this.dashboard.filterDraft = undefined;
-                        this.dashboard.filterActive = undefined;
+                        this.dashboard.filterActive = '(active,underperforming)';
                         this.dashboard.filterReady = undefined ;
                     }
                     this.campaignList = [];
