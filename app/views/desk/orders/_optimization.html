@@ -29,30 +29,32 @@
             <!--strategy dropdown-->
             <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
             <!--strategy dropdown-->
-            <div class=" pull-right download_report">
+            <div class="header_right_optimization">
 
-                <!--<div class="dropdown dropdown_type3">-->
-                    <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"-->
-                                    <!--flag="duration"></report-filters>-->
-                <!--</div>-->
-  
-              <div class="pull-right dropdown" >
-                    <span class="dropdown_ul_text " data-toggle="dropdown">
-                        <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
-                    </span>
-                    <ul class="dropdown-menu" id="optimization_download">
-                        <li value="optimization"><a ng-if="download_urls.optimization" class="download_anchor"
-                                                  href="{{download_urls.optimization}}">Optimization Report</a></li>
+                
+                <div class="clearfix">
 
-                        <!--<li value="categories">-->
-                            <!--<a class="download_anchor">Optimization Report</a>-->
-                        <!--</li>-->
-                    </ul>
+                  <div class="pull-right dropdown download_report" >
+                        <span class="dropdown_ul_text " data-toggle="dropdown">
+                            <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
+                        </span>
+                        <ul class="dropdown-menu" id="optimization_download">
+                            <li value="optimization"><a ng-if="download_urls.optimization" class="download_anchor"
+                                                      href="{{download_urls.optimization}}">Optimization Report</a></li>
+
+                            <!--<li value="categories">-->
+                                <!--<a class="download_anchor">Optimization Report</a>-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                    <div class="pull-right dropdown duration_filters">
+                        <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
+                    </div>
                 </div>
-                <div class="see_dates_holder">
+                <div class="see_dates_holder clearfix">
                     <div class="external_chkbox clearfix">
-                        <div class="squaredFour">
-                          <input type="checkbox" id="squaredFour">
+                        <div class="squaredFour" id="see_dates_chkbox" >
+                          <input type="checkbox" id="squaredFour" >
                           <label for="squaredFour"></label>
                         </div>       
                         <span class="squaredFourTxt">See Dates</span>
@@ -85,62 +87,81 @@
             </div>
         </div>
         <!--tacticNotFound :  {{tacticNotFound | json}}-->
-        <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
-                        Tactics Not Available
-        </div>
+        <div class="details_with_heading_total">
 
-        <div class="each_reports_row each_reports_row_heading" ng-if="!tacticNotFound">
-            
-            <div class="each_rep_col_holder clearfix">
-                <div class="clearfix after_before_title">
-                    <div>Before</div>
-                    <div>After</div>
+            <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
+                            Tactics Not Available
+            </div>
+
+            <div class="each_reports_row each_reports_row_heading" ng-if="!tacticNotFound">
+                
+                <div class="each_rep_col_holder clearfix">
+                    <div class="clearfix after_before_title">
+                        <div>Before</div>
+                        <div>After</div>
+                    </div>
+                    <div class="each_rep_col first_col">Optimization Type</div>
+                    <div class="each_rep_col sec_col">Date Optimized</div>
+                    <div class="each_rep_col third_col">Metric</div>
+                    <div class="each_rep_col forth_col left_border dates_hide">Date from</div>
+                    <div class="each_rep_col fifth_col dates_hide">Date to</div>
+                    <div class="each_rep_col sixth_col dates_hide">Value</div>
+                    <div class="each_rep_col sixth_col dates_show">Before Value</div>
+                    <div class="each_rep_col sev_col left_border dates_hide">Date from</div>
+                    <div class="each_rep_col eight_col dates_hide">Date to</div>
+                    <div class="each_rep_col nine_col dates_hide">Value</div>
+                    <div class="each_rep_col nine_col dates_show">After Value</div>
+                    <div class="each_rep_col ten_col left_border" >Change %</div>
                 </div>
-                <div class="each_rep_col first_col">Optimization Type</div>
-                <div class="each_rep_col sec_col">Date Optimized</div>
-                <div class="each_rep_col third_col">Metric</div>
-                <div class="each_rep_col forth_col left_border">Date from</div>
-                <div class="each_rep_col fifth_col">Date to</div>
-                <div class="each_rep_col sixth_col">Value</div>
-                <div class="each_rep_col sev_col left_border">Date from</div>
-                <div class="each_rep_col eight_col">Date to</div>
-                <div class="each_rep_col nine_col">Value</div>
-                <div class="each_rep_col ten_col left_border" >Change %</div>
+
             </div>
 
-        </div>
+            <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" ng-if="!tacticNotFound">
+                <div class="one_section_report_heading">
+                    {{tactic.ad_name}}
+                </div>
 
-        <div class="one_section_reports_holder type1_section_reports" ng-repeat="tactic in tacticList" ng-if="!tacticNotFound">
-            <div class="one_section_report_heading">
-                {{tactic.ad_name}}
-            </div>
-
-            <div class="reports_section_details_container reports_section_details_more" id="action-container">
-                <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id)">
-                    <div class="each_rep_col_holder clearfix" >
-                        <img id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id" src="assets/cdesk/graphIcon.png" class="graph_icon"/>
-                        <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
-                        <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                        <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
-                        <div class="each_rep_col forth_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                        <div class="each_rep_col fifth_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                        <div class="each_rep_col sixth_col">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
-                        <div class="each_rep_col sev_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                        <div class="each_rep_col eight_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
-                        <div class="each_rep_col nine_col">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
-                        <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
-                            <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
-                            <span class="arrow_img"></span>
+                <div class="reports_section_details_container reports_section_details_more" id="action-container">
+                    <div class="each_reports_row each_reports_row_details "  ng-repeat="action in tactic.actionList| orderBy:'created_at':true" id="actionItem_{{action.ad_id}}{{action.id}}" ng-mouseenter="showIcon(action.id)" ng-mouseleave="hideIcon()" data-ng-click="showSelected(action.ad_id+''+action.id)">
+                        <div class="each_rep_col_holder clearfix" >
+                            <img id="graph_icon_{{action.id}}" ng-click="goToGraph(action.id)" ng-if="iconIdToShow == action.id" src="assets/cdesk/graphIcon.png" class="graph_icon"/>
+                            <div title="{{action.action_sub_type[0].name}}" class="each_rep_col first_col">{{action.action_sub_type[0].name}}</div>
+                            <div class="each_rep_col sec_col">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                            <div title="{{action.metric_impacted}}" class="each_rep_col third_col">{{action.metric_impacted}}</div>
+                            <div class="each_rep_col forth_col dates_hide">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                            <div class="each_rep_col fifth_col dates_hide">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                            <div class="each_rep_col sixth_col dates_hide">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
+                            <div class="each_rep_col sixth_col dates_show">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
+                            <div class="each_rep_col sev_col dates_hide">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                            <div class="each_rep_col eight_col dates_hide">{{action.created_at | date:'dd MMM yyyy'}}</div>
+                            <div class="each_rep_col nine_col dates_hide">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
+                            <div class="each_rep_col nine_col dates_show">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
+                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
+                                <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
+                                <span class="arrow_img"></span>
+                            </div>
+                        </div>
+                        <div class="each_report_text_row clearfix">
+                            <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
+                            <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
+                            <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
                         </div>
                     </div>
-                    <div class="each_report_text_row clearfix">
-                        <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
-                        <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
-                        <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
-                    </div>
-                </div>
 
-                <div class="load_more_rows">&#9660;</div>
+                    <div class="load_more_rows">&#9660;</div>
+                </div>
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    $(document).ready( function() {
+        $("#squaredFour").click( function() {
+            if( $(this).is(":checked") == true ) {
+               $(".details_with_heading_total").addClass("see_dates_selected") ;
+            } else {
+                $(".details_with_heading_total").removeClass("see_dates_selected") ;
+            }
+        });
+    }) ;
+    
+    </script>
