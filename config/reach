@@ -80,7 +80,7 @@ proxy_temp_path /var/www/nginx_temp;
 server {
     listen      127.0.0.1:9080;
     # Dummy hostname needs to be added in /etc/hosts
-    server_name  cdb.collective-media.export.net;
+    server_name  cdesk.api.cdb.net;
 
     location ~*/(export|delivery\/data)*$ {
 
