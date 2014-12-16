@@ -256,14 +256,14 @@ var angObj = angObj || {};
 
 
             if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
-                return '$' + val1;
+                return '$' + val1.toFixed(2);
             else if (metricImpacted === "Delivery (Impressions)") {
 
-                return val1.toLocaleString();
+                return (val1.toFixed(2)).toLocaleString();
             }
 
             else
-                return val1;
+                return val1.toFixed(2);
         };
 
         $scope.chartForStrategy=true;
