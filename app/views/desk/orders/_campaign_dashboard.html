@@ -1,7 +1,7 @@
 <!-- dashboard -->
 <div ng-show='campaigns.dashboard.busy' class="load-more">&nbsp;</div>
 <div ng-show='!campaigns.dashboard.busy' class="row-fluid clearfix status_bar_holder ">
-    <div >
+    <div ng-show="campaigns.dashboard.displayFilterSection" >
     <div class="clearfix checkbox_holder">
         <div class="external_chkbox pull-right">
             <div class="squaredFour">

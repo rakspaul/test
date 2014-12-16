@@ -81,6 +81,7 @@
             this.brandId = 0;
             this.dashboard = {
                 filterSelectAll: false,
+                displayFilterSection: false,
                 busy: false,
                 pending: {
                     width: undefined
@@ -301,7 +302,12 @@
                         self.dashboard.displayStatus.completed  = self.dashboard.completed  > 0 ? true:false;
                         self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
                         self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
-
+                        if( self.dashboard.total  > 3) {
+                            self.dashboard.displayFilterSection = true;
+                        }else{
+                            self.dashboard.displayFilterSection = false;
+                            self.dashboardFilter('overwrite','');
+                          }
                     }
                 });
 
@@ -324,7 +330,13 @@
                 this.resetDasboard();
                 this.resetDasboardFilter(type,state);
                 this.dashboardRemoveSelectedAll(type,state);
-                if (type == 'paused' && state == "") {
+                if (type == 'overwrite' && state == "") {
+                    this.dashboard.filterPaused = undefined;
+                    this.dashboard.filterCompleted = undefined;
+                    this.dashboard.filterDraft = undefined;
+                    this.dashboard.filterReady = undefined;
+                    this.dashboard.filterActive = undefined;
+                }else if (type == 'paused' && state == "") {
                     if (this.dashboard.status.paused== 'active') {
                         this.dashboard.filterPaused = undefined;
                         this.dashboard.status.paused = '';
