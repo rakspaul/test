@@ -421,6 +421,26 @@ var angObj = angObj || {};
 
         };
 
+        $scope.callBackKpiDurationChange = function (kpiType) {
+           // console.log("duration is changed");
+            $scope.chartForStrategy=true;
+            if (kpiType == 'duration') {
+                if($scope.selectedStrategy.id !== -1){ // Means selected campaing has valid strategy
+                    $scope.actionDataForSelectedCampaign()
+                }
+                dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
+
+                var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/cost/';
+
+                $scope.download_urls = {
+                    cost: urlPath + 'download?date_filter=' + $scope.selected_filters.time_filter
+                };
+             } //else {
+//                $scope.$apply();
+//                dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+//            }
+        };
+
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
             $scope.chartForStrategy=true;
