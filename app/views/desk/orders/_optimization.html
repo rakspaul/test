@@ -28,25 +28,25 @@
             <!--campaign dropdown-->
             <!--strategy dropdown-->
             <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
-            
             <!--strategy dropdown-->
-            <div class="download_report">
+            <div class=" pull-right download_report">
+
+                <!--<div class="dropdown dropdown_type3">-->
+                    <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"-->
+                                    <!--flag="duration"></report-filters>-->
+                <!--</div>-->
   
-              <div class="dropdown" >
+              <div class="pull-right dropdown" >
                     <span class="dropdown_ul_text " data-toggle="dropdown">
                         <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
                     </span>
                     <ul class="dropdown-menu" id="optimization_download">
+                        <li value="optimization"><a ng-if="download_urls.optimization" class="download_anchor"
+                                                  href="{{download_urls.optimization}}">Optimization Report</a></li>
 
-                        <li value="categories">
-                            <a class="download_anchor">Download option 1</a>
-                        </li>
-                        <li value="domains">
-                            <a class="download_anchor">Download option 2</a>
-                        </li>
-                        <li value="urls">
-                            <a class="download_anchor">Download option 3</a>
-                        </li>
+                        <!--<li value="categories">-->
+                            <!--<a class="download_anchor">Optimization Report</a>-->
+                        <!--</li>-->
                     </ul>
                 </div>
                 <div class="see_dates_holder">
@@ -60,6 +60,7 @@
                 </div>
   
           </div>
+
         </div>
         <div class="reports_graph_top_section" id="graph" >
             <div class="rep_graph_heading">

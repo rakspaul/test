@@ -118,7 +118,7 @@
                 loading: false,
                 func: function(chart) {
                     $timeout(function() {
-                        if(chart != 'undefined'){
+                        if(chart !== undefined){
                           //  console.log(chart);
                           //  console.log(chart.xAxis);
                             var extremesX = chart.xAxis[0].getExtremes();
