@@ -237,6 +237,8 @@
                     return '$' + $filter('number')(input, 2);
                 } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
                     return $filter('number')(input, 0);
+                } else if (kpiType.toLowerCase() == 'vtc') {
+                    return $filter('number')(input, 0) + '%';
                 } else {
 //unknown kpiType
                     return $filter('number')(input, 0);
