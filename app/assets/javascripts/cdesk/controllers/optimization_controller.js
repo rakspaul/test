@@ -164,7 +164,7 @@ var angObj = angObj || {};
             }
         };
 
-        $scope.campaignSelected = function(id) {
+        $scope.actionSelected = function(id) {
             var myContainer = $('.reports_section_details_container');//$('#action-container:first');
             var scrollTo = $('#actionItem_' + id);
             if(scrollTo.length) {
@@ -215,7 +215,7 @@ var angObj = angObj || {};
             if(action) {
                 if ($scope.actionId !== null) {
                     $timeout(function () {
-                        $scope.campaignSelected($scope.actionId);
+                        $scope.actionSelected($scope.actionId);
                     },7000);
                 }
             }
