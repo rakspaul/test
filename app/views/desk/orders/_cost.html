@@ -65,24 +65,23 @@
                         <div class="each_cost_col tenth_col total_cost">Total Spend
 
                         </div>
-                        <!--<div class="more_options">-->
-                            <!--<div class="dropdown">-->
-                    <!--<span data-toggle="dropdown">-->
-                        <!--<span class="dd_txt">-->
-                            <!--<span class="dots"></span>-->
-                            <!--<span class="dots"></span>-->
-                            <!--<span class="dots"></span>-->
-                        <!--</span>-->
-                    <!--</span>-->
+                        <div class="more_options"  id="dot_click">
+                            <div class="dropdown">
+                    <span data-toggle="dropdown">
+                        <span class="dd_txt">
+                            <span class="dots"></span>
+                            <span class="dots"></span>
+                            <span class="dots"></span>
+                        </span>
+                    </span>
+                                <ul class="dropdown-menu" id="sorting_dropdown">
+                                    <li><a  ng-click="sortFunction('name');"  href="javascript:void(0);">Tactic Name<span class="sortable"></span></a></li>
+                                    <li><a  ng-click="sortFunction('impressions');"   href="javascript:void(0);">Imps<span class="sortable"></span></a></li>
+                                    <li><a  ng-click="sortFunction('total');"   href="javascript:void(0);">Total Spend<span class="sortable" ></span></a></li>
+                                </ul>
+                            </div>
 
-                                <!--<ul class="dropdown-menu">-->
-                                    <!--<li><a href="javascript:void(0);">Campaign Name<span class="sortable"></span></a></li>-->
-                                    <!--<li><a href="javascript:void(0);">Brand<span class="sortable"></span></a></li>-->
-                                    <!--<li><a href="javascript:void(0);">Flight dates<span class="sortable"></span></a></li>-->
-                                <!--</ul>-->
-                            <!--</div>-->
-
-                        <!--</div>-->
+                        </div>
                     </div>
                     <!--cost  filter ends-->
 
@@ -112,7 +111,8 @@
                         </div>
                         <div class="all_startegy_cost">
                             <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
-                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData">
+                            <!--{{filter.sortByColumn}}-->
+                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData| orderBy: filter.sortByColumn:true">
                                 <div class="each_cost_row">
                                     <div class="each_cost_heading" >
                                         {{tactic.name}}
@@ -140,4 +140,6 @@
         </div>
     </div>
 </div>
+
+
 
