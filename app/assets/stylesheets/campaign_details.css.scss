@@ -249,6 +249,7 @@
           @include graphHeadingFont() ;
           margin-bottom: 20px ;
       }
+
       .each_section_graph {
         .section_graph {
           height: 100px ;
@@ -294,12 +295,34 @@
         }
       }
     }
+
     .each_section_graph_holder:hover {
       border: solid 1px #359eea;
     }
     .each_section_graph_holder:last-child {
       margin-right: 0px ;
     }
+    .inventory_section_graph_holder {
+        color: #70787e ;
+        font-size: 12px ;
+        font-family: "Avenir" ;
+        min-height: 210px;
+        .each_bar_graph {
+          height: 4px;
+          width: 200px;
+          background: #0072bc;
+        }
+        .graph_heading {
+          margin-bottom: 2px ;
+        }
+        .inventory_number {
+          color : #494646 ;
+          margin-bottom: 4px ;
+        }
+        .each_bar_section_holder {
+          margin-top: 12px ;
+        }
+      }
     .viewability_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
