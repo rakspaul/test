@@ -10,6 +10,12 @@ var angObj = angObj || {};
 
         $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
+        $scope.selected_filters = domainReports.getDurationKpi();
+
+        $scope.download_urls = {
+            optimization: null
+        };
+
        $scope.dataInit = function(){
            $scope.tacticList=[];
            $scope.navigationFromReports = true;
@@ -205,11 +211,11 @@ var angObj = angObj || {};
             }
             $scope.tacticList = tacticList ;
             var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
-            $scope.orderid = action.ad_id + '' + action.id;
+            $scope.actionId = action.ad_id + '' + action.id;
             if(action) {
-                if ($scope.orderid !== null) {
+                if ($scope.actionId !== null) {
                     $timeout(function () {
-                        $scope.campaignSelected($scope.orderid);
+                        $scope.campaignSelected($scope.actionId);
                     },7000);
                 }
             }
@@ -238,12 +244,11 @@ var angObj = angObj || {};
         };
 
         $scope.showSelected = function(id){
-            //$('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
+            $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
             $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+id).addClass('action_selected');
-
-            $('circle').attr({stroke: 'grey', fill:'#ffffff'});
-            $('circle#' +id).attr({stroke: 'green', fill:'green'});
-            //localStorage.setItem('actionSel' , 'actionItem_'+id);
+            $('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
+            $('circle#' +id).attr({stroke: '#0070CE', fill:'#0070CE'});
+            localStorage.setItem('actionSel' , 'actionItem_'+id);
         };
 
 
@@ -299,7 +304,7 @@ var angObj = angObj || {};
                                         lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                                     }
 
-                                        $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.orderid, $scope.clicked);
+                                        $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
 
                                 }
                                 else {
@@ -335,6 +340,10 @@ var angObj = angObj || {};
                 filterKpiType: dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $('#campaigns_list li:first').attr('_kpi'),
                 filterKpiValue : dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($('#campaigns_list li:first').attr('_kpi') === 'action_rate') ? 'Action Rate' : $('#campaigns_list li:first').attr('_kpi')
             });
+            var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/optimization/';
+            $scope.download_urls = {
+                optimization: urlPath  +'download?date_filter=' + $scope.selected_filters.time_filter
+            };
 
         };
 
