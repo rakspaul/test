@@ -123,6 +123,7 @@
                 tacticObj[index].map['cpa'] = tacticMetrics.gross_ecpa;
                 tacticObj[index].map['cpc'] = tacticMetrics.gross_ecpc;
                 tacticObj[index].map['cpm'] = tacticMetrics.gross_ecpm;
+                tacticObj[index].map['vtc'] = 0;
                 tacticObj[index].map['clicks'] = tacticMetrics.clicks;
                 tacticObj[index].map['action_rate'] = tacticMetrics.action_rate;
                 tacticObj[index].map['ctr'] = tacticMetrics.ctr * 100;
@@ -219,6 +220,7 @@
                     strategyObj[index].map['cpa'] = result.data.data.cpa;
                     strategyObj[index].map['cpc'] = result.data.data.cpc;
                     strategyObj[index].map['cpm'] = result.data.data.cpm;
+                    strategyObj[index].map['vtc'] = 0;
                     strategyObj[index].map['clicks'] = result.data.data.clicks;
                     strategyObj[index].map['action_rate'] = result.data.data.action_rate;
                     strategyObj[index].map['ctr'] = result.data.data.ctr * 100;
@@ -335,6 +337,8 @@
                         statusIcon : status,
                         kpiType: dataArr[obj].kpi_type,
                         kpiValue: dataArr[obj].kpi_value,
+                        //kpiType: 'vtc',
+                        //kpiValue: 10,
                         totalImpressions: dataArr[obj].total_impressions,
                         totalMediaCost: Math.round(dataArr[obj].total_media_cost || 0),
                         expectedMediaCost: Math.round(dataArr[obj].expected_media_cost || 0),
