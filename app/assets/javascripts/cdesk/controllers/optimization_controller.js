@@ -215,7 +215,9 @@ var angObj = angObj || {};
             if(action) {
                 if ($scope.actionId !== null) {
                     $timeout(function () {
+
                         $scope.actionSelected($scope.actionId);
+
                     },7000);
                 }
             }
