@@ -1,82 +1,87 @@
 <!-- dashboard -->
 <div ng-show='campaigns.dashboard.busy' class="load-more">&nbsp;</div>
 <div ng-show='!campaigns.dashboard.busy' class="row-fluid clearfix status_bar_holder ">
+    <div ng-show="campaigns.dashboard.displayFilterSection" >
+    <div class="clearfix checkbox_holder">
+        <div class="external_chkbox pull-right">
+            <div class="squaredFour">
+                <input type="checkbox" ng-model="campaigns.dashboard.filterSelectAll" id="squaredFour" class="ng-pristine ng-valid"  data-ng-click="campaigns.dashboardSelectedAll()">
+                <label for="squaredFour"></label>
+            </div>
+            <span class="squaredFourTxt" >Select All</span>
+        </div>
+    </div>
+    <div class="status_bar_widget clearfix">
 
-    <div class="status_bar_section pending_section" style="width:{{getPendingWidth()}}%">
-        <div class="status_partition_section clearfix">
-            <div class="status_section_each_partition draft_section_bar" ng-click="campaigns.dashboardFilter('pending','draft')" style="width:{{getDraftWidth()}}%">
-                <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.pending.draft}}" title="Draft {{campaigns.dashboard.pending.draft}}" > <!--no_partition-->
-                    <span class="section_bar_title">Draft</span>
-                    <span class="section_bar_val">{{campaigns.dashboard.pending.draft}}</span>
+        <div class="status_bar_section draft_section" >
+            <div class="status_partition_section clearfix">
+                <div class="status_section_each_partition draft_section_bar  " ng-click="campaigns.dashboardFilter('draft','')" ><!--no_partition-->
+                    <div class="status_section_bar {{campaigns.dashboard.status.draft}}" title="Draft {{campaigns.dashboard.draft}}" >
+                        <span class="section_bar_title">Draft</span>
+                        <span class="section_bar_val">{{campaigns.dashboard.draft}}</span>
+                    </div>
                 </div>
             </div>
-            <div class="status_section_each_partition ready_section_bar" ng-click="campaigns.dashboardFilter('pending','ready')" style="width:{{getReadyWidth()}}%">
-                <div class="status_section_bar full_partition {{campaigns.dashboard.status.pending.ready}}" title="Ready {{campaigns.dashboard.pending.ready}}"> <!--full_partition-->
-                    <span class="section_bar_title">Ready</span>
-                    <span class="section_bar_val">{{campaigns.dashboard.pending.ready}}</span>
+
+        </div>
+        <div class="status_bar_section ready_section" >
+            <div class="status_partition_section clearfix">
+                <div class="status_section_each_partition ready_section_bar " ng-click="campaigns.dashboardFilter('ready','')"  ><!--full_partition-->
+                    <div class="status_section_bar  {{campaigns.dashboard.status.ready}}" title="Ready {{campaigns.dashboard.ready}}">
+                        <span class="section_bar_title">Ready</span>
+                        <span class="section_bar_val">{{campaigns.dashboard.ready}}</span>
+                    </div>
                 </div>
             </div>
+
         </div>
-        <div class="status_bar_section_details">
-            <div class="arrow_down_middle"></div>
-            <div class="status_bar_section_value">
-                {{campaigns.dashboard.pending.total}}
+
+        <div class="status_bar_section active_section" >
+            <div class="status_partition_section clearfix">
+                <div class="status_section_each_partition active_section_bar" >
+                    <div class="status_section_bar {{campaigns.dashboard.status.active.bothItem}}"  ng-click="campaigns.dashboardFilter('activeAll','')" >
+                        <span class="section_bar_title">Active </span>
+                        <span class="section_bar_val"> {{campaigns.dashboard.active.total}}</span>
+                    </div>
+                </div>
+                <div class="status_section_each_partition onTrack_section_bar status_section_{{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.dashboardFilter('active','ontrack')" >
+                    <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="KPI on Track {{campaigns.dashboard.active.ontrack}}">
+                        <span class="section_bar_title">KPI on Track </span>
+                        <span class="section_bar_val">{{campaigns.dashboard.active.ontrack}}</span>
+                    </div>
+                </div>
+                <div class="status_section_each_partition notOnTrack_section_bar status_section_{{campaigns.dashboard.status.active.underperforming }} " ng-click="campaigns.dashboardFilter('active','underperforming')" >
+                    <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="Underperforming {{campaigns.dashboard.active.underperforming}}">
+                        <span class="section_bar_title">Underperforming</span>
+                        <span class="section_bar_val">{{campaigns.dashboard.active.underperforming}}</span>
+                    </div>
+                </div>
             </div>
-            <div class="status_bar_section_name">
-                Pending
-            </div>
+
         </div>
+        <div class="status_bar_section paused_section"  > <!--no_status_bar_section -->
+            <div class="status_partition_section clearfix" >
+                <div class="status_section_each_partition achieved_goal_section_bar" ng-click="campaigns.dashboardFilter('paused','')"    >
+                    <div class="status_section_bar {{campaigns.dashboard.status.paused }}" title="Paused {{campaigns.dashboard.status.paused}}">
+                        <span class="section_bar_title">Paused </span>
+                        <span class="section_bar_val">{{campaigns.dashboard.paused}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="status_bar_section completed_section"  > <!--no_status_bar_section -->
+            <div class="status_partition_section clearfix" >
+                <div class="status_section_each_partition unachieved_goal_section_bar"   ng-click="campaigns.dashboardFilter('completed','')" >
+                    <div class="status_section_bar {{campaigns.dashboard.status.completed }}" title="Completed {{campaigns.dashboard.completed}}">
+                        <span class="section_bar_title">Completed</span>
+                        <span class="section_bar_val">{{campaigns.dashboard.completed}}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
-    <div class="status_bar_section active_section" style="width:{{getActiveWidth()}}%">
-        <div class="status_partition_section clearfix">
-            <div class="status_section_each_partition onTrack_section_bar" ng-click="campaigns.dashboardFilter('active','ontrack')" style="width:{{getActiveOnTrackWidth()}}%">
-                <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="KPI on Track {{campaigns.dashboard.active.ontrack}}">
-                    <span class="section_bar_title">KPI on Track </span>
-                    <span class="section_bar_val">{{campaigns.dashboard.active.ontrack}}</span>
-                </div>
-            </div>
-            <div class="status_section_each_partition notOnTrack_section_bar" ng-click="campaigns.dashboardFilter('active','underperforming')" style="width:{{getActiveUnderWidth()}}%">
-                <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="Underperforming {{campaigns.dashboard.active.underperforming}}">
-                    <span class="section_bar_title">Underperforming</span>
-                    <span class="section_bar_val">{{campaigns.dashboard.active.underperforming}}</span>
-                </div>
-            </div>
-        </div>
-        <div class="status_bar_section_details">
-            <div class="arrow_down_middle"></div>
-            <div class="status_bar_section_value">
-                {{campaigns.dashboard.active.total}}
-            </div>
-            <div class="status_bar_section_name">
-                Active
-            </div>
-        </div>
-    </div>
-    <div class="status_bar_section completed_section" style="width:{{getCompletedWidth()}}%"> <!--no_status_bar_section -->
-        <div class="status_partition_section clearfix">
-            <div class="status_section_each_partition achieved_goal_section_bar" ng-click="campaigns.dashboardFilter('completed','ontrack')" style="width:{{getCompletedOnTrackWidth()}}%">
-                <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.completed.ontrack }}" title="Met KPI Goal {{campaigns.dashboard.completed.ontrack}}">
-                    <span class="section_bar_title">Met KPI Goal </span>
-                    <span class="section_bar_val">{{campaigns.dashboard.completed.ontrack}}</span>
-                </div>
-            </div>
-            <div class="status_section_each_partition unachieved_goal_section_bar" ng-click="campaigns.dashboardFilter('completed','underperforming')" style="width:{{getCompletedUnderWidth()}}%">
-                <div class="status_section_bar {{campaigns.dashboard.status.completed.underperforming }}" title="Did not meet KPI Goal {{campaigns.dashboard.completed.underperforming}}">
-                    <span class="section_bar_title">Did not meet KPI Goal</span>
-                    <span class="section_bar_val">{{campaigns.dashboard.completed.underperforming}}</span>
-                </div>
-            </div>
-        </div>
-        <div class="status_bar_section_details" >
-            <div class="arrow_down_middle"></div>
-            <div class="status_bar_section_value">
-                {{campaigns.dashboard.completed.total}}
-            </div>
-            <div class="status_bar_section_name">
-                Completed
-            </div>
-        </div>
-    </div>
-   
-</div>
+   </div>
 <!-- dashboard  ends-->
