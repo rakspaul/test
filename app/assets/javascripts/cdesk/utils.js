@@ -229,7 +229,7 @@
         }
     });
     angObj.filter('kpiFormatter', function ($filter) {
-        return function (input, kpiType) {
+        return function (input, kpiType, precision) {
             if (input && kpiType) {
                 if (kpiType.toLowerCase() == 'ctr') {
                     return $filter('number')(input, 2) + '%';
@@ -237,8 +237,10 @@
                     return '$' + $filter('number')(input, 2);
                 } else if (kpiType.toLowerCase() == 'actions' || kpiType.toLowerCase() == 'clicks' || kpiType.toLowerCase() == 'impressions') {
                     return $filter('number')(input, 0);
-                } else if (kpiType.toLowerCase() == 'vtc') {
+                } else if (kpiType.toLowerCase() == 'vtc' && precision === undefined) {
                     return $filter('number')(input, 0) + '%';
+		} else if (kpiType.toLowerCase() == 'vtc' && precision) {
+		    return $filter('number')(input, 2) + '%';
                 } else {
 //unknown kpiType
                     return $filter('number')(input, 0);

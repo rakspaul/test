@@ -84,7 +84,7 @@
             <div class="clearfix details_KPI_row1">
                 <span class="details_KPI_title">{{campaign.kpiType ? campaign.kpiType : 'NA'}}</span>
                 <span class="cumulative_val">
-                    Cumulative Value <span>{{campaigns.cdbDataMap[campaign.orderId].map(campaign.kpiType.toLowerCase()) | kpiFormatter:campaign.kpiType}}</span>
+                    Cumulative Value <span>{{campaigns.cdbDataMap[campaign.orderId].map(campaign.kpiType.toLowerCase()) | kpiFormatter:campaign.kpiType:1}}</span>
                 </span>
             </div>
             <div class="clearfix details_KPI_row2">
