@@ -75,9 +75,16 @@
                         </span>
                     </span>
                                 <ul class="dropdown-menu" id="sorting_dropdown">
-                                    <li><a  ng-click="sortFunction('name');"  href="javascript:void(0);">Tactic Name<span class="sortable"></span></a></li>
-                                    <li><a  ng-click="sortFunction('impressions');"   href="javascript:void(0);">Imps<span class="sortable"></span></a></li>
-                                    <li><a  ng-click="sortFunction('total');"   href="javascript:void(0);">Total Spend<span class="sortable" ></span></a></li>
+
+                                    <li class="{{sortField.class}}" ng-repeat="sortField in sort_field" data-ng-click="sortFunction(sortField.key)">
+                                        <a id="cost_sort">
+                                            {{sortField.display}}&nbsp; <span class="sortable {{sortField.sortDirection}}"></span>
+                                        </a>
+                                    </li>
+                                    <!--{{campaigns.sortIcon(sortField.key)}}-->
+                                    <!--<li class="active"><a  ng-click="sortFunction('name');"  href="javascript:void(0);">Tactic Name<span class="sortable"></span></a></li>-->
+                                    <!--<li><a  ng-click="sortFunction('impressions');"   href="javascript:void(0);">Imps<span class="sortable"></span></a></li>-->
+                                    <!--<li><a  ng-click="sortFunction('total');"   href="javascript:void(0);">Total Spend<span class="sortable" ></span></a></li>-->
                                 </ul>
                             </div>
 
@@ -112,7 +119,7 @@
                         <div class="all_startegy_cost">
                             <div class="common-load-icon" ng-show="tacticCostBusy">&nbsp;</div>
                             <!--{{filter.sortByColumn}}-->
-                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData| orderBy: filter.sortByColumn:true">
+                            <div class="each_cost_row_holder" ng-repeat="tactic in tacticsCostData| orderBy: filter.sortByColumn:filter.ascendingDir">
                                 <div class="each_cost_row">
                                     <div class="each_cost_heading" >
                                         {{tactic.name}}

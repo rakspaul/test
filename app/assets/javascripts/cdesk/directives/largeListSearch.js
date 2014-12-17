@@ -25,6 +25,8 @@
                 '</span>',
             link: function ($scope, element, attrs) {
 
+                $scope.originalAllCampaingList = $scope.allCampaigns ;
+
                 $scope.originalCampaingList = $scope.campaigns; // for the first time.
                 //Check the status and load the function accordingly for the campaigns list
 
@@ -62,22 +64,37 @@
                             var filteredOptions = [];
                             if (name.length > 0) {
                                 var searchFor = angular.lowercase(name);
-                                for (var i in $scope.campaigns) {
-                                    var searchIn = angular.lowercase($scope.campaigns[i].name);
+                                for (var i in $scope.allCampaigns) {
+                                    var searchIn = angular.lowercase($scope.allCampaigns[i].name);
                                     //Matches if the user selects from the drop down
                                     if (searchFor == searchIn) {
                                         return;
                                     } else {
                                         if ((searchIn.indexOf(searchFor) >= 0)) {
-                                            filteredOptions.push($scope.campaigns[i]);
+                                            filteredOptions.push($scope.allCampaigns[i]);
 
                                         }
                                     }
                                 }
                                 $scope.campaigns = filteredOptions;
+//                                var searchFor = angular.lowercase(name);
+//                                for (var i in $scope.campaigns) {
+//                                    var searchIn = angular.lowercase($scope.campaigns[i].name);
+//                                    //Matches if the user selects from the drop down
+//                                    if (searchFor == searchIn) {
+//                                        return;
+//                                    } else {
+//                                        if ((searchIn.indexOf(searchFor) >= 0)) {
+//                                            filteredOptions.push($scope.campaigns[i]);
+//
+//                                        }
+//                                    }
+//                                }
+//                                $scope.campaigns = filteredOptions;
                             }
                         }
                         if (name.length == 0) {
+                            $scope.allCampaigns = $scope.originalAllCampaingList ;
                             $scope.campaigns = $scope.originalCampaingList;
                         }
                     }
@@ -123,6 +140,7 @@
                                 id:  $scope.$parent.selectedCampaign.id
                             }
                             $scope.campaigns = $scope.originalCampaingList;
+                            $scope.allCampaigns = $scope.originalAllCampaingList ;
                         }
                             $("#campaigns_list").hide();
                             $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
