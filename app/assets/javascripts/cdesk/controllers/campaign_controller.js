@@ -187,6 +187,7 @@
                             Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
                             dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
                                 self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, CampaignData);
+                                self.cdbDataMap[campaign.orderId].vtc = response.data.data.video_metrics.vtc_rate * 100;
                             })
                         }, self.campaignList);
                         self.costIds = self.costIds.substring(0, self.costIds.length-1);
