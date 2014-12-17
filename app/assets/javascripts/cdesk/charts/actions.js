@@ -6,6 +6,10 @@
             var kpiTypeLower = kpiType.toLowerCase();
             return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
         }
+        var kpiSuffix = function (kpiType) {
+            var kpiTypeLower = kpiType.toLowerCase();
+            return (kpiTypeLower == 'vtc') ? '%' : ''
+        }
         var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey) {
 
             var text, textBG, marker, container;
@@ -57,13 +61,14 @@
                 var x = event.offsetX;
                 var y = event.offsetY;
                 var correctionX = 0;
-                var symbol = '';
+                var symbol = '', suffix = '';
                 if ((chart.plotWidth - x) < 0) {
                     //check if left side
                     correctionX = (chart.plotWidth - x) * 2 - 10;
                 }
                 symbol = kpiPrefix(kpiType);
-                text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
+                suffix = kpiSuffix(kpiType);
+                text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + suffix + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
                     .attr({
                     zIndex: 16
                 }).css({
@@ -185,7 +190,7 @@
                         tickWidth: 0,
                         labels: {
                             formatter: function() {
-                                return kpiPrefix(kpiType) + this.value;
+                                return kpiPrefix(kpiType) + this.value + kpiSuffix(kpiType);
                             }
                         },
                         plotBands: [{ // Light air
@@ -218,11 +223,12 @@
                         }*/],
                         enabled: true,
                         formatter: function() {
-                            var symbol = kpiPrefix(kpiType);
+                            var symbol = kpiPrefix(kpiType),
+                                suffix = kpiSuffix(kpiType);
                             if (typeof(this.point.options.note) === 'undefined') {
-                                return this.series.name + ':' + ' <b>'+ symbol + this.point.y + '</b><br/>';
+                                return this.series.name + ':' + ' <b>'+ symbol + this.point.y + suffix + '</b><br/>';
                             } else {
-                                return this.series.name + ':' + ' <b>' + symbol + this.point.y + '<br>' + this.point.options.note.text + '</b><br/>';
+                                return this.series.name + ':' + ' <b>' + symbol + this.point.y + suffix + '<br>' + this.point.options.note.text + '</b><br/>';
                             }
                         }
                     },

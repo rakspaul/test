@@ -222,6 +222,7 @@
                             var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
+				maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
