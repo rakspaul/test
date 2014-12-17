@@ -233,7 +233,7 @@ class Order < ActiveRecord::Base
           when KpiTypes::CTR
             validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100)
           when KpiTypes::VTC
-            validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100, :only_integer)
+            validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100, :only_integer => true)
           when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM
             validates_numericality_of(:kpi_value, :greater_than => 0)
         end
