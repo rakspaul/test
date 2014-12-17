@@ -92,6 +92,9 @@ var angObj = angObj || {} ;
             setCampaignList : function(key, campaignListObject) {
                 localStorage['campaignList'] = JSON.stringify(campaignListObject);
             },
+            setAllCampaignList : function(key, campaignListObject) {
+                localStorage['allCampaignList'] = JSON.stringify(campaignListObject);
+            },
             setCampaignStrategyList : function(campaignId , StrategyListObject) {
                 if(campaignId > 0) {
                     localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject));
@@ -102,6 +105,13 @@ var angObj = angObj || {} ;
                     return false;
                 }else {
                     return JSON.parse( localStorage['campaignList']);
+                }
+            },
+            getAllCampaignList : function(){
+                if(localStorage['allCampaignList'] === undefined){
+                    return false;
+                }else {
+                    return JSON.parse( localStorage['allCampaignList']);
                 }
             },
             getCampaignStrategyList : function(campaignId){
