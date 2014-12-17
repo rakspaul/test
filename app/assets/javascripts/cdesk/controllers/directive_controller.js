@@ -6,8 +6,10 @@
 
 
         $scope.campaigns = {};
-        $scope.setCampaigns = function (campaigns) {
+        $scope.allCampaigns = {};
+        $scope.setCampaigns = function (campaigns , allCampaigns) {
             $scope.campaigns = campaigns;
+            $scope.allCampaigns = allCampaigns ;
             //   $scope.campaignFullList = campaigns;
             if (typeof  $scope.campaigns !== 'undefined' && $scope.campaigns.length > 0) {
                 //Maintain the selected campaign name and id;
@@ -48,16 +50,19 @@
 
         //This function is used to call the campaign list from api, localstorage adapted
         $scope.campaignlist = function () {
-            if (dataTransferService.getCampaignList() === false) {
-                domainReports.getCampaignListForUser().then(function (result) {
+            if (dataTransferService.getAllCampaignList() === false) {
+                domainReports.getAllCampaignListForUser().then(function (result) {
                     if (result.status == 'success') {
-                        var campaigns = result.data.data;
+                        var allCampaigns = result.data.data ;
+                        var campaigns = allCampaigns.slice(0,200);
+                        dataTransferService.setAllCampaignList('allCampaignList', allCampaigns);
                         dataTransferService.setCampaignList('campaignList', campaigns);
-                        $scope.setCampaigns(campaigns);
+                        $scope.setCampaigns(campaigns,allCampaigns);
                     }
                 });
             } else {
-                $scope.setCampaigns(domainReports.getCampaignListForUser());
+                var allCampaigns = domainReports.getAllCampaignListForUser();
+                $scope.setCampaigns(allCampaigns.slice(0,200),allCampaigns);
             }
         };
         $scope.campaignlist();

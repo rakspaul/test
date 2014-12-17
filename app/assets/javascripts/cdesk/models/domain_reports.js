@@ -39,7 +39,8 @@
                         {value: 'action_rate', text: 'Action Rate'},
                         {value: 'CPA', text: 'CPA'},
                         {value: 'CPC', text: 'CPC'},
-                        {value: 'CPM', text: 'CPM'}
+                        {value: 'CPM', text: 'CPM'},
+                        {value: 'VTC', text: 'VTC'},
 
 
                     ],
@@ -103,10 +104,18 @@
                     kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiValue')  :   'CTR'
                 };
             },
-            getCampaignListForUser : function() {
+//            getCampaignListForUser : function() {
+//
+//                if(datatransferservice.getCampaignList()) {
+//                    return datatransferservice.getCampaignList();
+//                }else {
+//                    return performanceService.getCampaingsForUser();
+//                }
+//            },
+            getAllCampaignListForUser : function() {
 
-                if(datatransferservice.getCampaignList()) {
-                    return datatransferservice.getCampaignList();
+                if(datatransferservice.getAllCampaignList()) {
+                    return datatransferservice.getAllCampaignList();
                 }else {
                     return performanceService.getCampaingsForUser();
                 }
