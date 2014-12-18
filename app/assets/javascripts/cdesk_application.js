@@ -69,8 +69,6 @@
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist
 //= require cdesk/models/domain_reports
-//= require cdesk/models/campaign_data
-//= require cdesk/models/campaign_cost
 //= require cdesk/models/action_type
 //= require cdesk/models/action_sub_type
 //= require cdesk/models/tactic
