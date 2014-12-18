@@ -7,9 +7,14 @@
 
         $scope.campaigns = {};
         $scope.allCampaigns = {};
+        $scope.originalAllCampaingList={};
+        $scope.originalCampaingList = {};
         $scope.setCampaigns = function (campaigns , allCampaigns) {
             $scope.campaigns = campaigns;
             $scope.allCampaigns = allCampaigns ;
+
+            $scope.originalCampaingList = campaigns;
+            $scope.originalAllCampaingList = allCampaigns ;
             //   $scope.campaignFullList = campaigns;
             if (typeof  $scope.campaigns !== 'undefined' && $scope.campaigns.length > 0) {
                 //Maintain the selected campaign name and id;

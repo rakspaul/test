@@ -25,9 +25,9 @@
                 '</span>',
             link: function ($scope, element, attrs) {
 
-                $scope.originalAllCampaingList = $scope.allCampaigns ;
+                // $scope.originalAllCampaingList = $scope.allCampaigns ;
 
-                $scope.originalCampaingList = $scope.campaigns; // for the first time.
+               // $scope.originalCampaingList = $scope.campaigns; // for the first time.
                 //Check the status and load the function accordingly for the campaigns list
 
                     $scope.defaultSelectedCampaing = {
@@ -62,7 +62,7 @@
                         var name = $scope.selectedObj.name.trim();
                         if (newValue !== 'Loading...') {
                             var filteredOptions = [];
-                            if (name.length > 0) {
+                            if (name.length > 1) {
                                 var searchFor = angular.lowercase(name);
                                 for (var i in $scope.allCampaigns) {
                                     var searchIn = angular.lowercase($scope.allCampaigns[i].name);
