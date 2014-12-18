@@ -34,5 +34,5 @@
       return Math.round(value * factor) / factor;
     }
   }
-  angObj.value('CampaignData', CampaignCDBData);
+  commonModule.value('campaignCDBData', CampaignCDBData);
 }());

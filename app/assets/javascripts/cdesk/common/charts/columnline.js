@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    angObj.factory("columnline", function($timeout, utils) {
+    commonModule.factory("columnline", function($timeout, utils) {
 
 
         var  getRepString = function(x) {

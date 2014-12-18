@@ -26,6 +26,6 @@
     };
   };
 
-  angObj.factory("modelTransformer", modelTransformer);
+  commonModule.factory("modelTransformer", modelTransformer);
 
 }());

@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function() {
     "use strict";
-    angObj.factory("line", function($timeout) {
+    commonModule.factory("line", function($timeout) {
 
         var lineChart = function(lineDate, threshold, kpiType) {
             var data = [],
