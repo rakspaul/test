@@ -75,19 +75,21 @@ server {
 # Proxy Cache for CDB APIs from cdesk-api calls
 proxy_cache_path /var/www/nginx_cache levels=1:2 keys_zone=cdb-proxy:60m max_size=1g inactive=2h;
 proxy_temp_path /var/www/nginx_temp;
+proxy_cache_bypass $http_cache_disabled;
 
 
 server {
-    listen      0.0.0.0:9080;
+    listen      127.0.0.1:9080;
     # Dummy hostname needs to be added in /etc/hosts
     server_name  cdesk-cache.collective-media.net;
 
-    location ~*/(export|delivery\/data)*$ {
+    location / {
 
-        rewrite ~*/(export|delivery\/data)*$ /$1 break;
+        #create cache_args variable to be used as the cache_key without user_id and tkn
+        set $cache_args "format=$arg_format&start_date=$arg_start_date&filter=$arg_filter&end_date=$arg_end_date&cols=$arg_cols&sort=$arg_sort&rolling_sum=$arg_rolling_sum";
 
         proxy_pass http://cm.stgcdb.collective-media.net;
-        proxy_cache_key $scheme$host$uri$is_args$args;
+        proxy_cache_key $scheme$host$uri$is_args$cache_args;
 
         proxy_cache cdb-proxy;
         proxy_cache_valid 10m;
