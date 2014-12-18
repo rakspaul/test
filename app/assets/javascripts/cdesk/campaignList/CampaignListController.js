@@ -1,10 +1,10 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope, CampaignListModel, utils, $location, _) {
+  campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _) {
     //Hot fix to show the campaign tab selected
     $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
-    $scope.campaigns = new CampaignListModel();
+    $scope.campaigns = new campaignListModel();
 
     $scope.campaigns.fetchDashboardData();
 

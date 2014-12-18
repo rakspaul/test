@@ -1,5 +1,5 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("CampaignListModel", function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost) {
+campaignListModule.factory("campaignListModel", function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost) {
 
   var campaign = campaignListService;
   var Campaigns = function() {
