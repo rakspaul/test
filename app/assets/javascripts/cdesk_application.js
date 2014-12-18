@@ -28,14 +28,27 @@
 //= require underscore-min
 
 //= require cdesk/app
-//= require cdesk/charts/line
-//= require cdesk/charts/actions
-//= require cdesk/charts/columnline
-//= require cdesk/charts/piechart
-//= require cdesk/charts/solidgauge
+//= require cdesk/common/CommonModule.js
+//= require cdesk/common/charts/line
+//= require cdesk/common/charts/actions
+//= require cdesk/common/charts/columnline
+//= require cdesk/common/charts/piechart
+//= require cdesk/common/charts/solidgauge
+//= require cdesk/common/services/DataService.js
+//= require cdesk/common/services/datatransferservice
+//= require cdesk/common/services/TransformerService
+//= require cdesk/common/models/CampaignCDBData
+//= require cdesk/common/models/CampaignCost
+//= require cdesk/common/models/CampaignModel
+//= require cdesk/common/utils
+
 //= require cdesk/directives/largeListSearch
 //= require cdesk/controllers/directive_controller
-//= require cdesk/controllers/campaign_controller
+//= require cdesk/campaignList/CampaignListModule
+//= require cdesk/campaignList/CampaignListModel
+//= require cdesk/campaignList/CampaignListService
+//= require cdesk/campaignList/CampaignListController
+
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
@@ -56,18 +69,13 @@
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist
 //= require cdesk/models/domain_reports
-//= require cdesk/models/campaign
 //= require cdesk/models/campaign_data
 //= require cdesk/models/campaign_cost
 //= require cdesk/models/action_type
 //= require cdesk/models/action_sub_type
 //= require cdesk/models/tactic
-//= require cdesk/services/dataservice
 //= require cdesk/services/inventoryservice
-//= require cdesk/services/transformer_service
 //= require cdesk/services/viewablityservice
-//= require cdesk/services/datatransferservice
 //= require cdesk/services/performanceservice
 //= require cdesk/services/costservice
 //= require cdesk/services/optimizationservice
-//= require cdesk/utils
