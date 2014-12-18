@@ -86,7 +86,7 @@
                             </div>
                             <div class="clearfix submit_activity_holder">
                                 <div class="pull-left comment_area">
-                                    <textarea  ng-model="action.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment"></textarea>
+                                    <textarea  ng-model="action.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"></textarea>
                                 </div>
                                 <div class="pull-right submit_btn_holder">
                                     <input type="submit" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn">
@@ -505,6 +505,11 @@
           $(this).addClass('active');
         });
       },5000);
+      $('#action_submit_btn').bind("click", function() {
+          var txt = $.trim(jQuery("#action_comment").val());
+          jQuery("#action_comment").val(txt);
+      });
+
 
 
 
