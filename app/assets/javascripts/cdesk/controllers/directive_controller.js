@@ -61,7 +61,7 @@
                         var allCampaigns = result.data.data ;
                         var campaigns = allCampaigns.slice(0,200);
                         dataTransferService.setAllCampaignList('allCampaignList', allCampaigns);
-                        dataTransferService.setCampaignList('campaignList', campaigns);
+                       // dataTransferService.setCampaignList('campaignList', campaigns);
                         $scope.setCampaigns(campaigns,allCampaigns);
                     }
                 });
