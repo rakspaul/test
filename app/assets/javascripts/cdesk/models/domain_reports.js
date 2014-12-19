@@ -40,9 +40,7 @@
                         {value: 'CPA', text: 'CPA'},
                         {value: 'CPC', text: 'CPC'},
                         {value: 'CPM', text: 'CPM'},
-                        {value: 'VTC', text: 'VTC'},
-
-
+                        {value: 'VTC', text: 'VTC'}
                     ],
                     activeTab : document.location.hash.substring(2)
                 }

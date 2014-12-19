@@ -378,7 +378,7 @@
       if (val === undefined || val == "") {
         return val;
       }
-      return (type == 'CTR' || type == 'action_rate') ? val.toFixed(2) : '$' + val.toFixed(2);
+      return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
     }
   });
   angObj.filter('calculatePerc', function () {
