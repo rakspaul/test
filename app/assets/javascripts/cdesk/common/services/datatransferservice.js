@@ -88,29 +88,29 @@
       getClickedActionItems : function(){
         return  this.getCampaignDetailsObject('clickedActionItems');
       },
-      setCampaignList : function(key, campaignListObject) {
-        localStorage['campaignList'] = JSON.stringify(campaignListObject);
-      },
+//      setCampaignList : function(key, campaignListObject) {
+//        localStorage['campaignList_'+ user_id] = JSON.stringify(campaignListObject);
+//      },
       setAllCampaignList : function(key, campaignListObject) {
-        localStorage['allCampaignList'] = JSON.stringify(campaignListObject);
+        localStorage['allCampaignList_'+ user_id] = JSON.stringify(campaignListObject);
       },
       setCampaignStrategyList : function(campaignId , StrategyListObject) {
         if(campaignId > 0) {
           localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject));
         }
       },
-      getCampaignList : function(){
-        if(localStorage['campaignList'] === undefined){
-          return false;
-        }else {
-          return JSON.parse( localStorage['campaignList']);
-        }
-      },
+//      getCampaignList : function(){
+//        if(localStorage['campaignList_'+user_id] === undefined){
+//          return false;
+//        }else {
+//          return JSON.parse( localStorage['campaignList_'+ user_id]);
+//        }
+//      },
       getAllCampaignList : function(){
-        if(localStorage['allCampaignList'] === undefined){
+        if(localStorage['allCampaignList_'+ user_id] === undefined){
           return false;
         }else {
-          return JSON.parse( localStorage['allCampaignList']);
+          return JSON.parse( localStorage['allCampaignList_'+ user_id]);
         }
       },
       getCampaignStrategyList : function(campaignId){

@@ -89,6 +89,10 @@
                 <span>Average Viewable Time</span>
                 <span>(SEC)</span>
             </div>
+            <div class="each_col suspicious_col">
+                <span> Suspicious Activity</span>
+                <span>(%)</span>
+            </div>
             <div class="each_col seventh_col">
 
                 <div class="dropdown">
@@ -143,6 +147,9 @@
                 <div class="each_col sixth_col">
                     {{strategiesList.view_metrics.median_viewable_time | number: number:0}}
                 </div>
+                <div class="each_col suspicious_col">
+                    {{strategiesList.view_metrics.nht | number: number:2}}%
+                </div>
                 <div class="each_col seventh_col">
                     {{strategiesList.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                     selected_filters.kpi_type}}
@@ -193,6 +200,9 @@
                         </div>
                         <div class="each_col sixth_col">
                             {{tactic.view_metrics.median_viewable_time | number:0}}
+                        </div>
+                        <div class="each_col suspicious_col">
+                            {{strategiesList.view_metrics.nht | number: number:2}}%
                         </div>
                         <div class="each_col seventh_col">
                             {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:

@@ -891,6 +891,12 @@
     color: #313233;
     font-size: 12px;
   }
+    .third_col , .forth_col , .suspicious_col  {
+      width: 90px ;
+    }
+    .suspicious_col {
+      text-align: center;
+    }
   .viewability_header {
     background: #f5f9fd;
     border: solid 1px #ccd9e3;
