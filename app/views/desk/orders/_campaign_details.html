@@ -101,11 +101,14 @@
                 <div class="clearfix campaign_details_graphs_holder">
                     <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
-                            Format (CPA)
+                            Format ({{campaign.kpiType}})
                         </div>
                         <div class="clearfix each_section_graph format_section_graph">
-                            
-                            <div class="each_bar_section_holder mobile_graph">
+                            <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
+                              <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
+                              <div class="each_bar_graph" style="width:{{100-(details.formatTop.kpi_value/format.[details.kpiType])}}%" ></div>
+                            </div>
+                           <!--  <div class="each_bar_section_holder mobile_graph">
                               <div>Mobile: $3.00</div>
                               <div class="each_bar_graph"></div>
                             </div>
@@ -120,7 +123,7 @@
                             <div class="each_bar_section_holder video_graph">
                               <div>Video: $2.00</div>
                               <div class="each_bar_graph"></div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
@@ -156,24 +159,24 @@
                     </div>
                     <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
-                            Inventory (CPA)
+                            Inventory ({{campaign.kpiType}})
                         </div>
                         <div class="clearfix each_section_graph ">
                             <div class="inventory_number">
-                              Top 3
+                              Top {{details.inventory.length}}
                             </div>
-                            <div class="each_bar_section_holder">
-                              <div>Art & Entertainment: $3.00</div>
-                              <div class="each_bar_graph"></div>
+                            <div ng-repeat="data in details.inventory" class="each_bar_section_holder">
+                              <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
+                              <div class="each_bar_graph" style="width:{{100-(details.inventoryTop.kpi_value/data.kpi_value)}}%"></div>
                             </div>
-                            <div class="each_bar_section_holder">
+                            <!-- <div class="each_bar_section_holder">
                               <div>Health & Fitness: $3.00</div>
                               <div class="each_bar_graph"></div>
                             </div>
                             <div class="each_bar_section_holder">
                               <div>TV: $3.00</div>
                               <div class="each_bar_graph"></div>
-                            </div>
+                            </div> -->
                         </div>
                         
                     </div>

@@ -83,6 +83,8 @@
                 });
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getCostViewabilityData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -181,6 +183,72 @@
                 }
             },function(result){
                 console.log('cost break down call failed');
+            });
+        };
+
+        $scope.getInventoryGraphData  = function(campaign){
+            var inventory;
+            dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    if(result.data.data.length>0){
+                        inventory=_.chain(result.data.data[0].inv_metrics)
+                                    .sortBy(function(inventory){ return inventory.kpi_value; })
+                                    .reverse()
+                                    .first(3)
+                                    .value();
+
+                        $scope.details.inventoryTop = _.first(inventory);
+                        $scope.details.inventory = inventory;
+                    }
+                }
+            },function(result){
+                console.log('inventory data call failed');
+            });
+        };
+
+        $scope.getFormatsGraphData  = function(campaign){
+            var formats;
+            dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    if(result.data.data.length>0){
+                        console.log(result.data.data);
+                        // _.each(result.data.data, function(format) {
+                        //     console.log(format);
+                        //     console.log(format[campaign.kpiType.toLowerCase()]);
+                        // });
+                        formats=_.chain(result.data.data)
+                                    .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                    .reverse()
+                                    .value();
+                        _.each(formats, function(format) {
+                            switch(format.dimension){
+                                case 'Display': format.icon = "display_graph";
+                                                break;
+                                case 'Video':   format.icon = "video_graph";
+                                                break;
+                                case 'Mobile':   format.icon = "mobile_graph";
+                                                break;
+                                case 'Social':   format.icon = "social_graph";
+                                                break;
+                            }
+                        });
+                        console.log(formats);
+                        $scope.details.formats = formats; 
+                        $scope.details.formatTop = _.first(formats); 
+                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType];
+                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+                        $scope.details.mapFormat = function(data,value){
+                            if(value == 'ctr')
+                            {
+                                return data[value] * 100;
+                            }
+                            return data[value];
+                        };
+               
+                    }
+                }
+            },function(result){
+                console.log('formats data call failed');
             });
         };
         $scope.getCostViewabilityData  = function(campaign){
