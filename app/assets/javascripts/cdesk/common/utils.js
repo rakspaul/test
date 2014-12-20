@@ -279,6 +279,15 @@
       return input;
     }
   });
+  angObj.filter('toLowerCase', function () {
+    return function (input) {
+      if (input == undefined) {
+        return '';
+      }
+      input = input.toLowerCase() ;
+      return input;
+    }
+  });
   angObj.filter('formatCostData', function ($filter) {
     return function (input, symbol, places) {
       if (input == undefined) {

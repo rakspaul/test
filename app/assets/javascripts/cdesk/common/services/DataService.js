@@ -179,12 +179,26 @@
 
       getCostBreakdown: function(campaign) {
         var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaign.orderId + '&start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
-        console.log(url);
         return this.fetch(url);
       },
 
       getCostViewability: function(campaign, timePeriod) {
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/viewReport?date_filter=' + timePeriod;
+        return this.fetch(url);
+      },
+
+      getCostInventoryData: function(campaign, timePeriod) {
+        // for testing 
+        //var url = apiPaths.apiSerivicesUrl + '/campaigns/405617/inventory/categories?kpi_type=CPC';
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories?kpi_type=' + campaign.kpiType;
+        console.log(url);
+        return this.fetch(url);
+      },
+
+      getCostFormatsData: function(campaign,  timePeriod) {
+        // for testing 
+        //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
         console.log(url);
         return this.fetch(url);
       },

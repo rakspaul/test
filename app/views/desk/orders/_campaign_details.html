@@ -99,22 +99,15 @@
 
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
-                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder viewability_section_graph_holder" style="opacity:0.3">
+                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
-                            Viewability
+                            Format ({{campaign.kpiType}})
                         </div>
-                        <div class="clearfix each_section_graph">
-                            <div class="pull-left section_graph">
-                                
+                        <div class="clearfix each_section_graph format_section_graph">
+                            <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
+                              <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
+                              <div class="each_bar_graph" style="width:{{100-((details.formatTop.kpi_value-format.[details.kpiType])*100/details.formatTop.kpi_value)}}%" ></div>
                             </div>
-                            <div class="pull-right section_graph_details">
-                                <div class="each_detail">> 1s: 70% </div>
-                                <div class="each_detail">> 1s: 70%</div>
-                                <div class="each_detail">> 15s: 70%</div>
-                            </div>
-                        </div>
-                        <div class="graph_summary">
-                            Total <span class="graph_val">$325,453</span><span>67%</span>
                         </div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
@@ -148,35 +141,30 @@
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
-                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder" style="opacity:0.3">
+                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
-                            Cost Breakdown
+                            Inventory ({{campaign.kpiType}})
                         </div>
-                        <div class="clearfix each_section_graph">
-                            <div class="pull-left section_graph">
-                                
+                        <div class="clearfix each_section_graph ">
+                            <div class="inventory_number">
+                              Top {{details.inventory.length}}
                             </div>
-                            <div class="pull-right section_graph_details">
-                                <div class="each_detail">
-                                    <span class="graph_color color1"></span>
-                                    Inventory: 32% 
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color2"></span>
-                                    Data: 32% 
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color3"></span>
-                                    Ad Serving: 32% 
-                                </div>
-                                
+                            <div ng-repeat="data in details.inventory" class="each_bar_section_holder">
+                              <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
+                              <div class="each_bar_graph" style="width:{{100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value)}}%"></div>
                             </div>
+                            <!-- <div class="each_bar_section_holder">
+                              <div>Health & Fitness: $3.00</div>
+                              <div class="each_bar_graph"></div>
+                            </div>
+                            <div class="each_bar_section_holder">
+                              <div>TV: $3.00</div>
+                              <div class="each_bar_graph"></div>
+                            </div> -->
                         </div>
-                        <div class="graph_summary">
-                            Total <span class="graph_val">$325,453</span>
-                        </div>
+                        
                     </div>
-                    <div ng-click="setGraphData(campaign,'viewability')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder viewability_section_graph_holder" >
+                    <div ng-click="setGraphData(campaign,'viewability')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder" >
                         <div class="graph_heading">
                             Viewability
                         </div>
