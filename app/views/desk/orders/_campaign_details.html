@@ -106,24 +106,8 @@
                         <div class="clearfix each_section_graph format_section_graph">
                             <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
                               <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
-                              <div class="each_bar_graph" style="width:{{100-(details.formatTop.kpi_value/format.[details.kpiType])}}%" ></div>
+                              <div class="each_bar_graph" style="width:{{100-((details.formatTop.kpi_value-format.[details.kpiType])*100/details.formatTop.kpi_value)}}%" ></div>
                             </div>
-                           <!--  <div class="each_bar_section_holder mobile_graph">
-                              <div>Mobile: $3.00</div>
-                              <div class="each_bar_graph"></div>
-                            </div>
-                            <div class="each_bar_section_holder display_graph">
-                              <div>Display: $3.00</div>
-                              <div class="each_bar_graph"></div>
-                            </div>
-                            <div class="each_bar_section_holder social_graph">
-                              <div>Social: $2.32</div>
-                              <div class="each_bar_graph"></div>
-                            </div>
-                            <div class="each_bar_section_holder video_graph">
-                              <div>Video: $2.00</div>
-                              <div class="each_bar_graph"></div>
-                            </div> -->
                         </div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
@@ -167,7 +151,7 @@
                             </div>
                             <div ng-repeat="data in details.inventory" class="each_bar_section_holder">
                               <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
-                              <div class="each_bar_graph" style="width:{{100-(details.inventoryTop.kpi_value/data.kpi_value)}}%"></div>
+                              <div class="each_bar_graph" style="width:{{100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value)}}%"></div>
                             </div>
                             <!-- <div class="each_bar_section_holder">
                               <div>Health & Fitness: $3.00</div>
