@@ -125,7 +125,7 @@ gem 'json', '~> 1.8.0'
 gem 'whenever', :require => false
 
 # For exporting xlsx file with order info
-gem "rjb"
+#gem "rjb"
 
 gem 'spreadsheet'
 
