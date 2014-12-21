@@ -1,3 +1,81 @@
+<div class="main_navigation_holder" >
+    <div class="main_nav clearfix">
+
+        <div class="pull-left">
+             <a class="main_logo" href="#" id="logo">
+                <img alt="Collective media logo" src="/assets/collective-media-logo.png" width="170">
+             </a>
+        </div>
+        <div class="pull-left main_navigation clearfix">
+            <div class="pull-left each_nav_link">
+                <a href="#">Campaigns</a>
+            </div>
+            <div class="pull-left each_nav_link">
+                <a href="#">Reports</a>
+            </div>
+        </div>
+        <div class="pull-right profile_menu">
+            <div class="dropdown dropdown-two">
+                <div class="dropdown-toggle profile_account_icon" data-toggle="dropdown" >
+                    
+                </div>
+                <ul class="dropdown-menu" role="menu" >
+                    <li>
+                        <a href="#">
+                            Hello, Xyz
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Log out
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="pull-right main_filters clearfix">
+            <div class="clearfix page_filters">
+                <div class="search-cum-navbar">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown each_filter brands_filter" ng-controller="BrandsController">
+                            <div id="brandsDropdownDiv" style="display:inline;">
+                                <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
+                                <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
+                            </div>
+                            <ul class="dropdown-menu" role="menu" id="brandsList">
+                                <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter"
+                                    ng-controller="BrandsListController" class="{{brand.className}}">
+                                    <a data-ng-click="selectBrand(brand)">
+                                        <span class="tick"></span>
+                                        <span class="menuItemText">{{brand.name}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown dropdown-two each_filter lifetime_filter">
+                            <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
+                                <span id="durationMenuText" ng-bind="campaigns.displayTimePeriod"></span>
+                                <span class="sort-image-inactive"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" id="cdbDropdown">
+                                <li ng-repeat="timeData in campaigns.timePeriodList" class={{timeData.className}}>
+                                    <a data-ng-click="campaigns.filterByTimePeriod(timeData)">
+                                        <span class="tick"></span>
+                                        <span class="menuItemText">{{timeData.display}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  
+
 <div id="detailedPage" class="dashboard_outer_container" data-ng-init="campaigns.fetchCampaigns()">
  <!-- header-->
     <div class="clearfix page_header_container">
@@ -5,7 +83,7 @@
             <span class="campaign_name">{{campaigns.marketerName}}</span>
             <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
         </div>
-        <div class="pull-right clearfix page_filters">
+        <!-- <div class="pull-right clearfix page_filters">
             <div class="search-cum-navbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown each_filter brands_filter" ng-controller="BrandsController">
@@ -39,7 +117,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
  <!-- header ends-->
 
