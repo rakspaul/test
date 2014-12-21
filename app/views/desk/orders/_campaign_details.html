@@ -99,7 +99,7 @@
 
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
-                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
+                    <div ng-click="setGraphData(campaign,'performance')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
                             Format ({{campaign.kpiType}})
                         </div>
@@ -141,7 +141,7 @@
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
-                    <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
+                    <div ng-click="setGraphData(campaign,'inventory')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
                             Inventory ({{campaign.kpiType}})
                         </div>
@@ -153,14 +153,6 @@
                               <div>{{data.domain_data}}: {{data.kpi_value | kpiFormatter:campaign.kpiType}}</div>
                               <div class="each_bar_graph" style="width:{{100-((details.inventoryTop.kpi_value-data.kpi_value)*100/details.inventoryTop.kpi_value)}}%"></div>
                             </div>
-                            <!-- <div class="each_bar_section_holder">
-                              <div>Health & Fitness: $3.00</div>
-                              <div class="each_bar_graph"></div>
-                            </div>
-                            <div class="each_bar_section_holder">
-                              <div>TV: $3.00</div>
-                              <div class="each_bar_graph"></div>
-                            </div> -->
                         </div>
                         
                     </div>
