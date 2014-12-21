@@ -339,7 +339,7 @@
             utils.goToLocation('/optimization');
         };
 
-        $scope.setGraphData = function( campaign, type){
+        $scope.setGraphData = function(campaign, type){
             var param = {
                 selectedCampaign :campaign
             };
@@ -349,7 +349,11 @@
                 utils.goToLocation('/cost');
             }else if(type == 'viewability'){
                 utils.goToLocation('/viewability');
-            }else{
+	    }else if(type == 'inventory') {
+		utils.goToLocation('/inventory');
+            }else if(type == 'performance') {
+		utils.goToLocation('/performance');
+	    }else{
                 utils.goToLocation('/optimization');
             }
             
