@@ -106,7 +106,7 @@
                         <div class="clearfix each_section_graph format_section_graph">
                             <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
                               <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
-                              <div class="each_bar_graph" style="width:{{100-((details.formatTop.kpi_value-format.[details.kpiType])*100/details.formatTop.kpi_value)}}%" ></div>
+                              <div class="each_bar_graph" style="width:{{100-((details.formatTop-format[details.kpiType])*100/details.formatTop)}}%"></div>
                             </div>
                         </div>
                     </div>

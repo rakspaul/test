@@ -190,16 +190,27 @@
             var inventory;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 if (result.status == "success" && !angular.isString(result.data)) {
+                    for (var i = 0; i < result.data.data.length; i++) {
+			result.data.data[i].ctr *= 100;
+			result.data.data[i].vtc *= 100;
+		    }
                     if(result.data.data.length>0){
-                        inventory=_.chain(result.data.data[0].inv_metrics)
-                                    .sortBy(function(inventory){ return inventory.kpi_value; })
-                                    .reverse()
-                                    .first(3)
-                                    .value();
+		        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            inventory=_.chain(result.data.data[0].inv_metrics)
+                                        .sortBy(function(inventory){ return inventory.kpi_value; })
+                                        .reverse()
+                                        .first(3)
+                                        .value();
+                        }else {
+                            inventory=_.chain(result.data.data[0].inv_metrics)
+                                        .sortBy(function(inventory){ return inventory.kpi_value; })
+                                        .first(3)
+                                        .value();
+			}
 
                         $scope.details.inventoryTop = _.first(inventory);
                         $scope.details.inventory = inventory;
-                    }
+		    }
                 }
             },function(result){
                 console.log('inventory data call failed');
@@ -210,12 +221,11 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 if (result.status == "success" && !angular.isString(result.data)) {
+		    for (var i = 0; i < result.data.data.length; i++) {
+			result.data.data[i].ctr *= 100;
+			result.data.data[i].vtc *= 100;
+		    }
                     if(result.data.data.length>0){
-                        console.log(result.data.data);
-                        // _.each(result.data.data, function(format) {
-                        //     console.log(format);
-                        //     console.log(format[campaign.kpiType.toLowerCase()]);
-                        // });
                         formats=_.chain(result.data.data)
                                     .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
                                     .reverse()
@@ -232,19 +242,11 @@
                                                 break;
                             }
                         });
-                        console.log(formats);
                         $scope.details.formats = formats; 
                         $scope.details.formatTop = _.first(formats); 
-                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType];
+			var kpiType = 'ctr';
+                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
                         $scope.details.kpiType = campaign.kpiType.toLowerCase();
-                        $scope.details.mapFormat = function(data,value){
-                            if(value == 'ctr')
-                            {
-                                return data[value] * 100;
-                            }
-                            return data[value];
-                        };
-               
                     }
                 }
             },function(result){
