@@ -1,7 +1,8 @@
 <div  ng-init="$parent.$parent.details.sortStrategies('startDate')" ng-repeat="strategy in campaign.campaignStrategies"  class="strategy_tactic_holder">        
     <div class="clearfix each_campaign_list_container only_strategy_container">
-        <div class="each_campaign_section first_section">
-            <div class="green_circle"></div>
+	<div class="each_campaign_section">
+	    <div class="campaign_status_icon {{strategy.li_status.toLowerCase()}}_campaign_status_icon"></div>
+
         </div>
         <div class="each_campaign_section campaign_list_details">
             <div class="strategy_heading">Strategy</div>

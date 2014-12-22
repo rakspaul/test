@@ -2561,6 +2561,32 @@ button, i, input[type="submit"] {
         -webkit-border-radius: 8px ;
         background: #6abc52 ;
       }
+      .campaign_status_icon {
+        
+        height: 14px;
+        width: 14px;
+        margin-top: 5px;
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-position: top left;
+      }
+      .draft_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/draft_icon.png"))  ;
+      }
+      .ready_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/ready_icon.png"))  ;
+      }
+      .active_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/active_icon.png"))  ;
+      }
+      .paused_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/paused_icon.png"))  ;
+        background-size: 55%;
+      }
+      .completed_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/completed_icon.png")) ;
+      }
 
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
