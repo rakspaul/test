@@ -1,7 +1,10 @@
 <div class="reports_main_page_holder">
-<div class="reports_header_tabs_holder">
+<div class="reports_header_tabs_holder clearfix">
+    <div class="pull-left breadcrumb_campaign"><a href="#">Campaign List</a></div>
+    <div class="pull-left">
         <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
                 ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+    </div>
 </div>
 
 <div class="inventory_reports_container" data-ng-init="init()">

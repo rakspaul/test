@@ -14,8 +14,11 @@
 
             <!--div class="reports_top_heading">{{clicked.campaignName}}
             </div-->
-            <div class="reports_header_tabs_holder">
-                <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+            <div class="reports_header_tabs_holder clearfix">
+                <div class="pull-left breadcrumb_campaign"><a href="#">Campaign List</a></div>
+                <div class="pull-left">
+                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+                </div>
             </div>
 
         <!--campaign dropdown-->
