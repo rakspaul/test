@@ -3117,6 +3117,10 @@ button, i, input[type="submit"] {
       .profile_account_icon:hover {
         background: url(asset-path("cdesk/account_icon_hover.png")) no-repeat center center ;
       }
+      .logout_link {
+        background: url(asset-path("cdesk/logout_icon.png")) no-repeat  20px 6px;
+        padding-left: 40px;
+      }
     }
     .main_navigation {
       text-transform: uppercase;
