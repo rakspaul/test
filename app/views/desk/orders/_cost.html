@@ -3,7 +3,7 @@
     <div class="total_reports_page  ">
         <div class="reports_header_section">
             <div class="reports_header_tabs_holder clearfix">
-                <div class="pull-left breadcrumb_campaign"><a href="#">Campaign Details</a></div>
+		    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
                 <div class="pull-left">
                     <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="reports_cost_tab"> {{tab.title}}</a></span>
                 </div>
