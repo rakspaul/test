@@ -244,7 +244,6 @@
                         });
                         $scope.details.formats = formats; 
                         $scope.details.formatTop = _.first(formats); 
-			var kpiType = 'ctr';
                         $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
                         $scope.details.kpiType = campaign.kpiType.toLowerCase();
                     }
