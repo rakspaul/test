@@ -223,7 +223,7 @@
                 if (result.status == "success" && !angular.isString(result.data)) {
 		    for (var i = 0; i < result.data.data.length; i++) {
 			result.data.data[i].ctr *= 100;
-			result.data.data[i].vtc *= 100;
+			result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
 		    }
                     if(result.data.data.length>0){
                         formats=_.chain(result.data.data)
