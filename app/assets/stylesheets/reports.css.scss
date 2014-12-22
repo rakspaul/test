@@ -433,16 +433,17 @@
   font-family: "Avenir";
   font-size: 14px;
   color: #434648;
-  height: 40px;
+  height: 44px;
   border-bottom: solid 1px #e5ecef;
   padding-top: 10px;
   margin-bottom: 40px;
   span {
     display: inline-block;
-    margin-right: 22px;
+    margin-right: 60px;
     padding-bottom: 8px;
     border-bottom: solid 2px transparent;
     cursor: default;
+    margin-top: 4px ;
     a {
       text-decoration: none;
       color: #434648;
@@ -1374,5 +1375,24 @@
     }
     .left_border {
       border-left: solid 1px #ddedf8 ;
+    }
+  }
+  .breadcrumb_campaign {
+
+    background: url(asset-path("cdesk/breadcrumb_back_btn.png")) no-repeat left center ;
+    padding-left: 34px;
+    cursor: pointer;
+    color: #0978c9;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 80px 10px 0;
+    font-size: 12px ;
+    font-family: "Avenir" ;
+    font-weight: bold ; 
+    a {
+      text-decoration: none;
+    }
+    a:hover {
+      color: #0978c9;
     }
   }
