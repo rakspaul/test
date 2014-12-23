@@ -37,9 +37,12 @@
 //= require cdesk/common/services/DataService.js
 //= require cdesk/common/services/datatransferservice
 //= require cdesk/common/services/TransformerService
+//= require cdesk/common/services/ConstantsService
+//= require cdesk/common/services/RequestCancelService
 //= require cdesk/common/models/CampaignCDBData
 //= require cdesk/common/models/CampaignCost
 //= require cdesk/common/models/CampaignModel
+//= require cdesk/common/models/DataStoreModel
 //= require cdesk/common/utils
 
 //= require cdesk/directives/largeListSearch

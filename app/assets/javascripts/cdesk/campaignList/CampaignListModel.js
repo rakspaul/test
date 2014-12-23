@@ -1,7 +1,6 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost) {
+campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants) {
 
-  var campaign = campaignListService;
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
     this.selectedTimePeriod = this.timePeriodList[2];
@@ -150,10 +149,6 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
   };
 
   Campaigns.prototype.fetchCampaigns = function() {
-    if (this.busy) {
-      console.log('returning as the service is busy: ' + this.timePeriod);
-      return;
-    }
     if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
       console.log('returning as all the campaigns are displayed');
       return;
@@ -161,26 +156,30 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
 
     this.busy = true;
     var self = this,
-      url = Campaigns.prototype._campaignServiceUrl.call(this);
+    url = Campaigns.prototype._campaignServiceUrl.call(this);
     console.log('fetching from new campaigns api: ' + url);
-    dataService.getCampaignActiveInactive(url).then(function(result) {
+    campaignListService.getCampaigns(url, function(result) {
+      requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
+      var data = result.data.data;
       self.nextPage += 1;
-      self.marketerName = result.data.marketer_name;
-      self.totalPages = result.data.total_pages;
-      self.totalCount = result.data.total_count;
-      self.periodStartDate = result.data.period_start_date;
-      self.periodEndDate = result.data.period_end_date;
+      self.marketerName = data.marketer_name;
+      self.totalPages = data.total_pages;
+      self.totalCount = data.total_count;
+      self.periodStartDate = data.period_start_date;
+      self.periodEndDate = data.period_end_date;
 
       self.busy = false;
-      if (result.data.orders.length > 0) {
+      if (data.orders.length > 0) {
         var cdbApiKey = timePeriodApiMapping(self.selectedTimePeriod.key);
-        angular.forEach(campaign.setActiveInactiveCampaigns(result.data.orders, timePeriodApiMapping(self.timePeriod), self.timePeriod, self.periodStartDate, self.periodEndDate), function(campaign) {
+        angular.forEach(campaignListService.setActiveInactiveCampaigns(data.orders, timePeriodApiMapping(self.timePeriod), self.periodStartDate, self.periodEndDate), function(campaign) {
           this.push(campaign);
           self.costIds += campaign.orderId + ',';
           Campaigns.prototype.compareCostDates.call(self, campaign.startDate, campaign.endDate);
           dataService.getCampaignData(cdbApiKey, campaign, self.periodStartDate, self.periodEndDate).then(function(response) {
-            self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
-            self.cdbDataMap[campaign.orderId].vtc = response.data.data.video_metrics.vtc_rate * 100;
+            if(response.status == 'success') {
+              self.cdbDataMap[campaign.orderId] = modelTransformer.transform(response.data.data, campaignCDBData);
+              self.cdbDataMap[campaign.orderId].vtc = response.data.data.video_metrics.vtc_rate * 100;
+            }
           })
         }, self.campaignList);
         self.costIds = self.costIds.substring(0, self.costIds.length-1);
@@ -192,7 +191,6 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
       }
     }, function(result) {
       //failure
-      self.busy = false;
       self.totalCount = 0;
     });
 
@@ -276,7 +274,7 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
 
     Campaigns.prototype.fetchCostData = function() {
       var self = this;
-      dataService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD")).then(function(result) {
+      campaignListService.getCampaignCostData(this.costIds, moment(this.costDate.startDate).format("YYYY-MM-DD"), moment(this.costDate.endDate).format("YYYY-MM-DD"), function(result) {
         if(result.status == "success" && !angular.isString(result.data)){
           self.costMargin = result.data.data.margin;
           angular.forEach(result.data.data.costData, function(cost) {
@@ -384,7 +382,6 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
       });
 
       ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
-
       Campaigns.prototype.fetchCampaigns.call(this);
     },
 
@@ -609,4 +606,4 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
   };
 
   return Campaigns;
-});
+}]);
