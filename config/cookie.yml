@@ -25,7 +25,7 @@ newqa:
   domain: 'qa-desk.collective.com'
 
 newstg:
-  domain: 'demo-desk.collective.com'
+  domain: :all
 
 production:
   domain: 'reach.collective.com'
