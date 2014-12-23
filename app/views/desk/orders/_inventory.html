@@ -1,23 +1,45 @@
 <div class="reports_main_page_holder">
-    <div class="reports_header_tabs_holder">
-        <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab"> {{tab.title}}</a></span>
+    <div class="reports_header_tabs_holder clearfix">
+	    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
+        <div class="pull-left">
+            <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="inventory_tab_{{tab.href}}"> {{tab.title}}</a></span>
+        </div>
     </div>
     <div class="inventory_reports_container" >
 
         <div class="clearfix inventory_header">
-            <large-list-search selected-obj=selectedCampaign></large-list-search>
+            <div class="pull-left dropdown dropdown_type1" id="inventory_camp_list_dd">
+                <large-list-search selected-obj=selectedCampaign></large-list-search>
+            </div>  
 
-            <div class="pull-right download_report" >
-               <a class="download_anchor" href="{{download_url}}" id="inventory_download_btn">&nbsp;
-               </a>
+            <div class="pull-right download_report">
+
+                <div class="dropdown" >
+                    <span class="dropdown_ul_text " data-toggle="dropdown">
+                        <a class="download_anchor" id="inventory_download_btn" href="" >&nbsp;</a>
+                    </span>
+
+                    <ul class="dropdown_ul_inv dropdown-menu" id="inventory_download">
+
+                        <li value="categories"><a ng-if="download_urls.category" class="download_anchor"
+                                               href="{{download_urls.category}}">Inventory Transparency by Site Category</a></li>
+                        <li value="domains"><a ng-if="download_urls.domain" class="download_anchor"
+                                               href="{{download_urls.domain}}">Inventory Transparency by Domain</a></li>
+                        <li value="urls"><a ng-if="download_urls.fullURL" class="download_anchor"
+                                               href="{{download_urls.fullURL}}">Inventory Transparency by URL</a></li>
+                    </ul>
+                </div>
+
             </div>
-            <div class="pull-right dropdown dropdown_type3">
+            <div class="pull-right dropdown dropdown_type3" id="inventory_lifetime_dd" >
 
                <report-filters  selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
 
             </div>
         </div>
-        <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+        <div id="inventory_strategies_dd">
+            <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+        </div>
         <!--<div class="dropdown dropdown_type2">
 	        <span class="dropdown_ul_text " data-toggle="dropdown">
 	            <span class="dd_txt" title="{{selectedStrategy.name}}">{{selectedStrategy.name | formatUrl:26}}</span>

@@ -7,6 +7,7 @@ class Order < ActiveRecord::Base
     CPA = 'CPA'
     CPC = 'CPC'
     CPM = 'CPM'
+    VTC = 'VTC'
   end
 
   cattr_accessor :current_user
@@ -231,6 +232,8 @@ class Order < ActiveRecord::Base
         case self.kpi_type
           when KpiTypes::CTR
             validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100)
+          when KpiTypes::VTC
+            validates_numericality_of(:kpi_value, :greater_than => 0, :less_than => 100, :only_integer => true)
           when KpiTypes::CPA, KpiTypes::CPC, KpiTypes::CPM
             validates_numericality_of(:kpi_value, :greater_than => 0)
         end

@@ -2,8 +2,10 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, CampaignData, campaign, Campaigns, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter) {
 
+      var campaign = campaignListService;
+      var Campaigns = campaignListModel;
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
 
@@ -77,10 +79,12 @@
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
                 $scope.getCdbChartData($scope.campaign);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
-                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, CampaignData);
+                    $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
                 });
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getCostViewabilityData($scope.campaign);
+                $scope.getInventoryGraphData($scope.campaign);
+                $scope.getFormatsGraphData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -181,6 +185,73 @@
                 console.log('cost break down call failed');
             });
         };
+
+        $scope.getInventoryGraphData  = function(campaign){
+            var inventory;
+            dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    for (var i = 0; i < result.data.data.length; i++) {
+			result.data.data[i].ctr *= 100;
+			result.data.data[i].vtc *= 100;
+		    }
+                    if(result.data.data.length>0){
+		        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            inventory=_.chain(result.data.data[0].inv_metrics)
+                                        .sortBy(function(inventory){ return inventory.kpi_value; })
+                                        .reverse()
+                                        .first(3)
+                                        .value();
+                        }else {
+                            inventory=_.chain(result.data.data[0].inv_metrics)
+                                        .sortBy(function(inventory){ return inventory.kpi_value; })
+                                        .first(3)
+                                        .value();
+			}
+
+                        $scope.details.inventoryTop = _.first(inventory);
+                        $scope.details.inventory = inventory;
+		    }
+                }
+            },function(result){
+                console.log('inventory data call failed');
+            });
+        };
+
+        $scope.getFormatsGraphData  = function(campaign){
+            var formats;
+            dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
+                if (result.status == "success" && !angular.isString(result.data)) {
+		    for (var i = 0; i < result.data.data.length; i++) {
+			result.data.data[i].ctr *= 100;
+			result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+		    }
+                    if(result.data.data.length>0){
+                        formats=_.chain(result.data.data)
+                                    .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                    .reverse()
+                                    .value();
+                        _.each(formats, function(format) {
+                            switch(format.dimension){
+                                case 'Display': format.icon = "display_graph";
+                                                break;
+                                case 'Video':   format.icon = "video_graph";
+                                                break;
+                                case 'Mobile':   format.icon = "mobile_graph";
+                                                break;
+                                case 'Social':   format.icon = "social_graph";
+                                                break;
+                            }
+                        });
+                        $scope.details.formats = formats; 
+                        $scope.details.formatTop = _.first(formats); 
+                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
+                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+                    }
+                }
+            },function(result){
+                console.log('formats data call failed');
+            });
+        };
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
@@ -222,6 +293,7 @@
                             var kpiType = ($scope.campaign.kpiType), kpiTypeLower = angular.lowercase(kpiType);
                             for (var i = 0; i < maxDays.length; i++) {
                                 maxDays[i]['ctr'] *= 100;
+				maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100;
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
@@ -246,7 +318,8 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
                 selectedAction : action,
-                selectedActionItems : $scope.actionItems
+                selectedActionItems : $scope.actionItems,
+                navigationFromReports : false
             };
 
             dataTransferService.initOptimizationData(param);
@@ -267,7 +340,7 @@
             utils.goToLocation('/optimization');
         };
 
-        $scope.setGraphData = function( campaign, type){
+        $scope.setGraphData = function(campaign, type){
             var param = {
                 selectedCampaign :campaign
             };
@@ -277,7 +350,11 @@
                 utils.goToLocation('/cost');
             }else if(type == 'viewability'){
                 utils.goToLocation('/viewability');
-            }else{
+	    }else if(type == 'inventory') {
+		utils.goToLocation('/inventory');
+            }else if(type == 'performance') {
+		utils.goToLocation('/performance');
+	    }else{
                 utils.goToLocation('/optimization');
             }
             

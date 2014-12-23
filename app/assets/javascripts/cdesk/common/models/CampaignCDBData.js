@@ -7,6 +7,7 @@
     this.gross_rev = 0;
     this.ctr = 0;
     this.cpm = 0;
+    this.vtc = 0;
     this.cpc = 0;
     this.cpa = 0;
     this.spend = 0;
@@ -33,5 +34,5 @@
       return Math.round(value * factor) / factor;
     }
   }
-  angObj.value('CampaignData', CampaignCDBData);
+  commonModule.value('campaignCDBData', CampaignCDBData);
 }());

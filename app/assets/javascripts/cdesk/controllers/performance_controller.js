@@ -16,6 +16,9 @@ var angObj = angObj || {};
 
         $scope.selected_filters.tab = 'bydaysofweek';
 
+        $scope.performanceBusy = false;
+
+
 
         $scope.download_urls = {
             screens: null,
@@ -24,7 +27,7 @@ var angObj = angObj || {};
 
         $scope.init= function(){
 
-            $scope.firstTime = true;
+         //   $scope.firstTime = true;
 
             $scope.strategyFound = false ;
 
@@ -37,7 +40,7 @@ var angObj = angObj || {};
             $scope.dowBusy = false;
             $scope.tacticDowBusy = false ;
 
-            $scope.firstTime = true;
+          //  $scope.firstTime = true;
            // $scope.noTacticsFound = false;
 
             $scope.tacticList = [];
@@ -291,6 +294,7 @@ var angObj = angObj || {};
         $scope.updateStrategyObjects = function (strategy) {
 
             $scope.strategies = strategy;
+            $scope.performanceBusy = false ;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name, $scope.strategies[0].startDate, $scope.strategies[0].endDate);
@@ -318,6 +322,7 @@ var angObj = angObj || {};
 
 
         $scope.strategylist = function (campaignId) {
+            $scope.performanceBusy = true ;
             $scope.selectedStrategy.name = "Loading...";
             if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
@@ -332,7 +337,6 @@ var angObj = angObj || {};
 
         //This will be called from directive_controller.js
         $scope.callBackCampaignsSuccess = function () {
-            $scope.init();
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
 
             $scope.download_urls = {
@@ -351,19 +355,33 @@ var angObj = angObj || {};
         $scope.callBackCampaignChange = function () {
             $scope.init();
             if ($scope.selectedCampaign.id !== -1) {
-                $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
             } else {
-                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
-              //  $scope.dataNotFound = true;
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false ;
             }
+            $scope.$apply();
         };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
             //Call  to load with the changed campaign id and strategyid
-            $scope.init();
+           // $scope.init();
+            //cleaning the list
+            $scope.tacticList = [];
+            $scope.strategyPerfDataByScreen = [];
+            $scope.strategyPerfDataByFormat = [];
+            $scope.strategyPerfDataByDOW = [];
+
+            $scope.tacticsPerfDataListByScreen = [];
+            $scope.tacticsPerfDataListByFormat = [];
+            $scope.tacticsPerfDataListByDOW = [];
+
+            $scope.dataNotFoundForScreen = false;
+            $scope.dataNotFoundForFormat = false;
+            $scope.dataNotFoundForDOW = false;
+
             if($scope.selectedStrategy.id == -1)
                 $scope.strategyFound = false ;
 

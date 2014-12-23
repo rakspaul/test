@@ -58,5 +58,5 @@
       return Math.round(value * factor) / factor;
     }
   }
-  angObj.value('CampaignCost', CampaignCostData);
+  angObj.value('campaignCost', CampaignCostData);
 }());

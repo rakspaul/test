@@ -52,7 +52,7 @@ $borderColor: #81bee5;
 }
 
 @mixin BackgroundLinearGradientLeftToRight($startColor, $endColor) {
-  background: linear-gradient(to right, $startColor , $endColor); 
+  background: linear-gradient(to right, $startColor , $endColor);
   background: -o-linear-gradient(left, $startColor, $endColor);
   background: -moz-linear-gradient(left,$startColor, $endColor);
   background: -webkit-linear-gradient(left,$startColor, $endColor);
@@ -409,9 +409,9 @@ button, i, input[type="submit"] {
         > input {
           width: 80px;
         }
-        > input::-webkit-input-placeholder { color: $textColorWhite; } 
-        > input::-moz-placeholder { color: $textColorWhite; }  
-        > input:-moz-placeholder { color: $textColorWhite; } 
+        > input::-webkit-input-placeholder { color: $textColorWhite; }
+        > input::-moz-placeholder { color: $textColorWhite; }
+        > input:-moz-placeholder { color: $textColorWhite; }
         > input:-ms-input-placeholder { color: $textColorWhite; }
       }
     }
@@ -506,23 +506,23 @@ button, i, input[type="submit"] {
                   display: inline-block;
                 }
               }
-            }  
-              ul {
-                padding: 0;
-                width: 95%;
-                border-bottom: 1px solid $textGreyColor;
-                li {
-                  display: inline-block;
-                  border-bottom: none;
-                  padding-left: 5px;
-                  &:first-child {
-                    padding-left: 0;
-                  }
+            }
+            ul {
+              padding: 0;
+              width: 95%;
+              border-bottom: 1px solid $textGreyColor;
+              li {
+                display: inline-block;
+                border-bottom: none;
+                padding-left: 5px;
+                &:first-child {
+                  padding-left: 0;
                 }
               }
-              > ul li span {
-                border-bottom: none;
-              }
+            }
+            > ul li span {
+              border-bottom: none;
+            }
           }
         }
         li.col-md-6.pull-right {
@@ -561,11 +561,11 @@ button, i, input[type="submit"] {
             text-align: center;
             padding: 3px 0px 0 0px;
 
-            } 
-            .action_bubble_holder {
-              position: relative;
-              display: inline-block;
-            }
+          }
+          .action_bubble_holder {
+            position: relative;
+            display: inline-block;
+          }
           #icon-campaign-edit.icons-bckground {
             background: url(asset-path("icn_action.png")) no-repeat scroll center 6px  #EBAB34;
             border-radius: 20px;
@@ -712,7 +712,7 @@ button, i, input[type="submit"] {
       .col-md-3.marg-10 .row-fluid .col-md-6 {
         padding: 0 5px;
         text-align: right;
-        margin-bottom: 10px; 
+        margin-bottom: 10px;
         .ctr-container {
           .blue {
             height: 20px;
@@ -847,7 +847,7 @@ button, i, input[type="submit"] {
 
           .panel-body.row-fluid {
             .col-md-12 {
-              > { 
+              > {
                 .col-md-7 {
                   padding-top: 50px !important;
                   height: 232px !important;
@@ -866,7 +866,7 @@ button, i, input[type="submit"] {
                   }
                 }
               }
-              
+
             }
           }
 
@@ -875,7 +875,7 @@ button, i, input[type="submit"] {
           }
         }
 
-        
+
       }
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
         .col-md-4 {
@@ -1151,11 +1151,11 @@ button, i, input[type="submit"] {
   visibility: visible !important;
 }
 #highcharts {
-  width: 219px; 
+  width: 219px;
   height: 140px;
 }
 #highcharts-strategies {
-  width: 219px; 
+  width: 219px;
   height: 140px;
 }
 #campaignDetail.container {
@@ -1175,7 +1175,7 @@ button, i, input[type="submit"] {
             margin-top: 10px;
             border-radius: 20px;
             display: inline-block;
-            height: 40px;background: url(asset-path("icn_act_edit.png")) no-repeat scroll 5px 5px #EBAB34;            
+            height: 40px;background: url(asset-path("icn_act_edit.png")) no-repeat scroll 5px 5px #EBAB34;
             &:hover{
               cursor: pointer;
             }
@@ -1266,12 +1266,12 @@ button, i, input[type="submit"] {
                   }
                 }
                 .campaign-external-sort-dd {
-                  
+
                   border: 0;
                   background: transparent;
                   text-transform: uppercase;
                   width: 100px;
-                  
+
                 }
               }
               .campaign-external-sort {
@@ -1298,14 +1298,14 @@ button, i, input[type="submit"] {
               font-size: 14px ;
               .each_action_performance {
                 margin-right: 10px !important;
-                padding: 7px ; 
+                padding: 7px ;
                 border: 2px solid transparent;
               }
               .action_selected {
                 border: 2px solid #f8f8f8;
                 /*background-color: rgba(169, 212, 121, 0.3);*/
               }
-              
+
               .row {
                 margin: 0px ;
               }
@@ -1342,7 +1342,7 @@ button, i, input[type="submit"] {
               }
               .each_action_time {
                 text-align: right ;
-                margin-right: 0px ; 
+                margin-right: 0px ;
               }
               .each_action_perf_filter {
                 color: #bebebe ;
@@ -1360,19 +1360,19 @@ button, i, input[type="submit"] {
                 -moz-border-radius: 18px;
                 -webkit-border-radius: 18px;
                 padding: 0px;
-		cursor:pointer;
+                cursor:pointer;
                 margin: 0px 5px 0 0;
               }
               .each_action_name {
-               @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
-               font-weight: 700;
-               width: 30%;
-               float: left;
+                @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
+                font-weight: 700;
+                width: 30%;
+                float: left;
               }
               table {
                 width: 470px;
                 .tr_selected {
-                    border: 1px solid #ccc;
+                  border: 1px solid #ccc;
                 }
                 tr {
                   width: 470px;
@@ -1387,7 +1387,7 @@ button, i, input[type="submit"] {
                     }
                   }
                   td:first-child {
-                    
+
                   }
                   td:nth-child(2) {
                     width: 100px;
@@ -1408,7 +1408,7 @@ button, i, input[type="submit"] {
                       text-transform: uppercase;
                     }
                   }
-                  
+
                 }
               }
             }
@@ -1458,6 +1458,67 @@ button, i, input[type="submit"] {
 
 
 }*/
+.external_chkbox {
+  float: left;
+  margin-top: 4px;
+  .squaredFour {
+    width: 20px;
+    margin: 0px 5px 0 0;
+    position: relative;
+    float: left;
+    input[type="checkbox"] {
+      visibility: hidden;
+    }
+    input[type="checkbox"]:focus {
+      outline: 0px ;
+    }
+    label {
+      cursor: pointer;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 0;
+      left: 0px;
+      border-radius: 4px;
+      border: solid 1px #d9d9d9;
+    }
+    label:after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      opacity: 0;
+      content: '';
+      position: absolute;
+      width: 9px;
+      height: 5px;
+      background: transparent;
+      top: 5px;
+      left: 5px;
+      border: 3px solid #333;
+      border-top: none;
+      border-right: none;
+      -webkit-transform: rotate(-45deg);
+      -moz-transform: rotate(-45deg);
+      -o-transform: rotate(-45deg);
+      -ms-transform: rotate(-45deg);
+      transform: rotate(-45deg);
+    }
+    label:hover::after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+      filter: alpha(opacity=30);
+      opacity: 0.5;
+    }
+    input[type=checkbox]:checked + label:after {
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+      filter: alpha(opacity=100);
+      opacity: 1;
+    }
+  }
+  .squaredFourTxt {
+    float: left;
+    font-family: "Avenir" ;
+  }
+}
+
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -1483,12 +1544,12 @@ button, i, input[type="submit"] {
     -webkit-border-radius : 5px ;
     background: url(asset-path("cdesk/arrow.png")) no-repeat right center;
     select {
-      padding: 5px 20px 5px 10px ; 
-      -webkit-appearance: none;  
+      padding: 5px 20px 5px 10px ;
+      -webkit-appearance: none;
       max-width:198px;
       -moz-appearance: none;
-      text-indent: 0.01px; 
-      text-overflow: "";  
+      text-indent: 0.01px;
+      text-overflow: "";
       background: transparent;
       width: 100%;
       -webkit-appearance: none;
@@ -1496,7 +1557,7 @@ button, i, input[type="submit"] {
       font-family: "Avenir" ;
     }
     select:focus {
-      outline: 0px ;  
+      outline: 0px ;
     }
   }
   .action_dd_third {
@@ -1573,7 +1634,7 @@ button, i, input[type="submit"] {
     float: left;
     margin-top: 4px;
     .squaredFour {
-      width: 20px;    
+      width: 20px;
       margin: 0px 5px 0 0;
       position: relative;
       float: left;
@@ -1592,7 +1653,7 @@ button, i, input[type="submit"] {
         left: 0px;
         border-radius: 4px;
         border: solid 1px #d9d9d9;
-       }
+      }
       label:after {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
         filter: alpha(opacity=0);
@@ -1617,12 +1678,12 @@ button, i, input[type="submit"] {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
         filter: alpha(opacity=30);
         opacity: 0.5;
-       }
-       input[type=checkbox]:checked + label:after {
+      }
+      input[type=checkbox]:checked + label:after {
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
         filter: alpha(opacity=100);
         opacity: 1;
-       }
+      }
     }
     .squaredFourTxt {
       float: left;
@@ -1645,24 +1706,290 @@ button, i, input[type="submit"] {
 
 #campaignDetail.container {
   .camp-perf-graph {
-     .load-more {
-        margin: 60px auto 0;
-        display: block;
-     }
-     .no-chart {
-        text-align: center;
-        margin-top: 40px;
-        display: block;
-        font-weight: normal;
-        color: #bebebe;
-        text-transform: capitalize;
-        font-family: "Avenir";
-        font-size: 14px;
-      }
+    .load-more {
+      margin: 60px auto 0;
+      display: block;
+    }
+    .no-chart {
+      text-align: center;
+      margin-top: 40px;
+      display: block;
+      font-weight: normal;
+      color: #bebebe;
+      text-transform: capitalize;
+      font-family: "Avenir";
+      font-size: 14px;
+    }
   }
 }
-
 .status_bar_holder {
+  margin: 0px 0 10px ;
+  padding-top: 10px ;
+  .checkbox_holder {
+    margin: 0 6px 6px 0;
+    font-size: 12px;
+    color: #8fa3b1;
+    line-height: 20px;
+  }
+  .external_chkbox {
+    .squaredFour label {
+      border-radius: 2px ;
+      -moz-border-radius: 2px ;
+      -webkit-border-radius: 2px ;
+    }
+  }
+  .status_bar_section {
+    float: left;
+    width: 16% ;
+    text-align: center;
+    .no_partition {
+      display: none;
+    }
+    .status_partition_section {
+      margin: 0 2px 8px 0;
+      .full_partition {
+        .left_status_section_bar {
+          margin-right: 0px;
+        }
+      }
+      .status_section_each_partition {
+        float: left;
+        height: 40px ;
+        border-radius: 2px ;
+        -moz-border-radius: 2px ;
+        -webkit-border-radius: 2px ;
+        font-size: 12px;
+        text-align: left;
+        color: #fff;
+        font-family: "Avenir";
+        .left_status_section_bar {
+          margin-right: 2px ;
+        }
+
+        .status_section_bar {
+          height: 40px;
+          text-transform: uppercase;
+          padding-top: 8px;
+          border : solid 2px #ccc ;
+          border-radius: 2px ;
+          -moz-border-radius: 2px ;
+          -webkit-border-radius: 2px ;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          cursor: pointer;
+        }
+        .status_section_bar.active {
+          color: #fff ;
+        }
+        span.section_bar_title {
+          padding: 0px 0 0 30px;
+          height: 20px;
+          display: inline-block;
+
+        }
+        span.section_bar_val {
+          font-weight: bold;
+        }
+      }
+      .ready_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color: #249ef7;
+          color: #249ef7 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/ready_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #249ef7 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/ready_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+      }
+      .draft_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #5fbafc ;
+          color: #5fbafc ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/draft_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #5fbafc ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/draft_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+
+      }
+      .active_section_bar {
+        width: 100%;
+        margin-bottom: 6px ;
+        .status_section_bar {
+          border-color : #64d841 ;
+          color: #64d841  ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/active_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #64d841 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/active_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+      }
+      .onTrack_section_bar {
+        width: 50%;
+        position: relative;
+        .status_section_bar {
+          border-color : #38af14 ;
+          color: #38af14  ;
+          height: 28px;
+          padding-top: 4px;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/on_track_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #38af14 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/on_track_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+      }
+      .onTrack_section_bar:after {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        content: "";
+        display: block;
+        height: 8px;
+        width: 16px;
+        background: url(asset-path("statusWidget/upper_arrow_KPI_normal.png")) no-repeat ;
+      }
+      .onTrack_section_bar.status_section_active:after {
+        background: url(asset-path("statusWidget/upper_arrow_KPI_active.png")) no-repeat ;
+      }
+      .notOnTrack_section_bar {
+        width: 50%;
+        position: relative;
+        .status_section_bar {
+          border-color :  #f67c29  ;
+          color: #f67c29 ;
+          height: 28px;
+          padding-top: 4px;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/underperforming_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+
+        .status_section_bar.active {
+          background: #f67c29 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/underperforming_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+
+      }
+      .notOnTrack_section_bar:after {
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        content: "";
+        display: block;
+        height: 8px;
+        width: 16px;
+        background: url(asset-path("statusWidget/upper_arrow_underperforming_normal.png")) no-repeat ;
+      }
+      .notOnTrack_section_bar.status_section_active:after {
+        background: url(asset-path("statusWidget/upper_arrow_underperforming_active.png")) no-repeat ;
+      }
+      .achieved_goal_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #97b5c8 ;
+          color: #97b5c8 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/paused_icon.png")) no-repeat 10px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #97b5c8 ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/paused_icon_active.png")) no-repeat 10px 1px ;
+          }
+        }
+      }
+      .unachieved_goal_section_bar {
+        width: 100%;
+        .status_section_bar {
+          border-color : #7575ea ;
+          color: #7575ea ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/completed_icon.png")) no-repeat 7px 1px ;
+          }
+        }
+        .status_section_bar.active {
+          background: #7575ea ;
+          .section_bar_title {
+            background: url(asset-path("statusWidget/completed_icon_active.png")) no-repeat 7px 1px ;
+          }
+        }
+      }
+      .status_section_each_partition:last-child {
+        float: right;
+      }
+    }
+    .status_bar_section_details {
+      position: relative;
+      border-top: solid 3px #d2dde5;
+      margin-right: 10px;
+      padding-top: 12px ;
+      display: none;
+      .arrow_down_middle {
+        position: absolute;
+        width: 100% ;
+        height: 12px ;
+        top : -3px ;
+        text-align: center;
+        background: url(asset-path("statusBar/dropdown_1.png")) no-repeat center 0px ;
+        span {
+          height : 20px ;
+          width : 20px ;
+          border : solid 2px #ebebeb ;
+        }
+      }
+      .status_bar_section_value {
+        font-size: 14pt;
+        font-family: "TradeGothicLTStd-BdCn20";
+        color: #3b3c3c;
+      }
+      .status_bar_section_name {
+        font-family: "Avenir" ;
+        color: #959da2 ;
+        font-size: 14px ;
+      }
+    }
+  }
+  .active_section {
+    .status_section_bar {
+      text-transform: none;
+    }
+  }
+
+  .active_section {
+    width: 36% ;
+  }
+
+  .no_status_bar_section {
+    display: none;
+  }
+}
+/*.status_bar_holder {
  margin: 0px 0 10px ;
   padding-top: 10px ;
   .status_bar_section {
@@ -1856,42 +2183,42 @@ button, i, input[type="submit"] {
   .no_status_bar_section {
     display: none;
   }
-}
+}*/
 
 /************* NEW DASHBOARD STYLING *******************************************/
-  .each_cost_col {
-    float: left;
-    width: 100px;
-    min-width: 100px;
-    min-height : 10px;
-    font-size: 14px;
-    font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
-    color: #27292a;
-    margin-right: 5px;
-    text-align: center;
-    word-wrap: break-word;
+.each_cost_col {
+  float: left;
+  width: 100px;
+  min-width: 100px;
+  min-height : 10px;
+  font-size: 14px;
+  font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
+  color: #27292a;
+  margin-right: 5px;
+  text-align: center;
+  word-wrap: break-word;
+}
+.cost_cols_holder {
+  .first_col , .second_col {
+    color: #0978c9 ;
   }
-  .cost_cols_holder {
-    .first_col , .second_col {
-      color: #0978c9 ;
-    }
-  }
-  .total_cost {
-    width: 140px;
-    margin-right: 0;
-  }
-  .sortable {
-    background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
-    display: inline-block;
-    height: 10px;
-    width: 10px;
-  }
-  .sortable.ascending {
-    background-image: url(asset-path("cdesk/sorting_ascending.png"));
-  }
-  .sortable.descending {
-    background-image : url(asset-path("cdesk/sorting_descending.png"));
-  }
+}
+.total_cost {
+  width: 140px;
+  margin-right: 0;
+}
+.sortable {
+  background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+}
+.sortable.ascending {
+  background-image: url(asset-path("cdesk/sorting_ascending.png"));
+}
+.sortable.descending {
+  background-image : url(asset-path("cdesk/sorting_descending.png"));
+}
 
 .dashboard_outer_container {
   width: 1115px;
@@ -1912,7 +2239,7 @@ button, i, input[type="submit"] {
 
   }
   .page_header_container {
-     margin: 20px 10px 20px 0px ;
+    margin: 20px 10px 20px 0px ;
     .campaign_name_holder {
       .campaign_name {
         color: #333 ;
@@ -1961,9 +2288,9 @@ button, i, input[type="submit"] {
           input {
             font-family: "Avenir" ;
           }
-          input::-webkit-input-placeholder { color: #666 ; font-family: "Avenir" ; } 
-          input::-moz-placeholder { color: #666 ;font-family: "Avenir" ;  }  
-          input:-moz-placeholder { color: #666 ;  font-family: "Avenir" ;} 
+          input::-webkit-input-placeholder { color: #666 ; font-family: "Avenir" ; }
+          input::-moz-placeholder { color: #666 ;font-family: "Avenir" ;  }
+          input:-moz-placeholder { color: #666 ;  font-family: "Avenir" ;}
           input:-ms-input-placeholder { color: #666 ; font-family: "Avenir" ; }
         }
       }
@@ -1973,7 +2300,7 @@ button, i, input[type="submit"] {
         padding: 0;
         cursor: pointer;
       }
-      
+
 
 
       #brandsDropdown {
@@ -1999,7 +2326,7 @@ button, i, input[type="submit"] {
     }
   }
   .summary_title {
-      color: #333 ;
+    color: #333 ;
     .heading {
       color: #666 ;
     }
@@ -2018,32 +2345,32 @@ button, i, input[type="submit"] {
       text-align: center;
       font-size: 14px ;
       font-family: "Avenir" ;
-      
+
       cursor: pointer;
       margin: 0 15px;
       a {
         color: #6c6c6c ;
         text-decoration: none;
       }
-      
+
     }
     .active {
-        a {
-          color: #0978c9 ;
-          span span {
-            background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
-            display: inline-block;
-            height: 10px;
-            width: 10px;
-          }
-          span span.descending {
-            background-image : url(asset-path("cdesk/sorting_descending.png"));
-          }
-          span span.ascending {
-            background-image : url(asset-path("cdesk/sorting_ascending.png"));
-          }
+      a {
+        color: #0978c9 ;
+        span span {
+          background: url(asset-path("cdesk/sorting_indicator.png")) no-repeat right center;
+          display: inline-block;
+          height: 10px;
+          width: 10px;
+        }
+        span span.descending {
+          background-image : url(asset-path("cdesk/sorting_descending.png"));
+        }
+        span span.ascending {
+          background-image : url(asset-path("cdesk/sorting_ascending.png"));
         }
       }
+    }
     .metrics_title {
       width: 310px ;
     }
@@ -2066,13 +2393,13 @@ button, i, input[type="submit"] {
         float: right;
         .graph_details_KPI {
           .details_KPI_row1 {
-              font-size: 16px;
-              font-family: "Avenir";
-              color: black;
+            font-size: 16px;
+            font-family: "Avenir";
+            color: black;
             .details_KPI_title {
               float: left;
 
-              
+
             }
             .cumulative_val {
               float: right;
@@ -2099,7 +2426,7 @@ button, i, input[type="submit"] {
               background: url(asset-path("cdesk/icn_goal.png")) no-repeat center top;
               height: 20px;
               width: 22px;
-              
+
             }
           }
         }
@@ -2120,7 +2447,7 @@ button, i, input[type="submit"] {
           .metric_title {
             color: #000 ;
             font-size: 16px ;
-            
+
             float: left;
           }
           .metric_val {
@@ -2128,7 +2455,7 @@ button, i, input[type="submit"] {
             @include blueVal() ;
           }
         }
-        
+
         .metric_graph_details {
           color: #acacac ;
           font-size: 14px ;
@@ -2149,7 +2476,7 @@ button, i, input[type="submit"] {
         }
       }
       .campaign_list_details {
-        font-family: "Avenir" ; 
+        font-family: "Avenir" ;
         width: 360px;
         margin: 0 40px 0 12px;
         .heading_holder {
@@ -2185,7 +2512,7 @@ button, i, input[type="submit"] {
             font-size: 12px;
             height: 28px;
             pointer:cursor;
-            
+
           }
           .actions_btn {
             position: relative;
@@ -2223,7 +2550,7 @@ button, i, input[type="submit"] {
           font-size: 14px ;
           margin-top: 10px ;
         }
-        
+
       }
       .first_section {
         height: 8px ;
@@ -2234,7 +2561,33 @@ button, i, input[type="submit"] {
         -webkit-border-radius: 8px ;
         background: #6abc52 ;
       }
-     
+      .campaign_status_icon {
+        
+        height: 14px;
+        width: 14px;
+        margin-top: 5px;
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-size: 80%;
+        background-position: top left;
+      }
+      .draft_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/draft_icon.png"))  ;
+      }
+      .ready_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/ready_icon.png"))  ;
+      }
+      .active_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/active_icon.png"))  ;
+      }
+      .paused_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/paused_icon.png"))  ;
+        background-size: 55%;
+      }
+      .completed_campaign_status_icon {
+        background-image : url(asset-path("statusWidget/completed_icon.png")) ;
+      }
+
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
       border-top : 0px ;
@@ -2252,7 +2605,7 @@ button, i, input[type="submit"] {
           .main_heading {
             color: #000;
             font-weight: bold;
-            
+
           }
           a {
             color: #000;
@@ -2286,9 +2639,9 @@ button, i, input[type="submit"] {
         width: 375px ;
       }
     }
-    
+
   }
-  
+
   .days_left_holder {
     .total_days_holder {
       position: relative;
@@ -2315,7 +2668,7 @@ button, i, input[type="submit"] {
         float: left ;
       }
     }
-    
+
     .days_over {
       position: relative;
       height: 100% ;
@@ -2329,7 +2682,7 @@ button, i, input[type="submit"] {
         position: absolute;
         top: -26px;
         color: #44aefc;
-        
+
         font-size: 12px;
         right: -35px;
         white-space: nowrap;
@@ -2344,15 +2697,15 @@ button, i, input[type="submit"] {
       }
     }
     .days_over:after {
-        height: 12px;
-        width: 12px;
-        background: #44aefc;
-        content: "";
-        display: block;
-        border-radius: 12px;
-        position: absolute;
-        top: -4px;
-        right: 0;
+      height: 12px;
+      width: 12px;
+      background: #44aefc;
+      content: "";
+      display: block;
+      border-radius: 12px;
+      position: absolute;
+      top: -4px;
+      right: 0;
     }
   }
   .metric_graph {
@@ -2402,24 +2755,24 @@ button, i, input[type="submit"] {
           border-top: solid 5px #c1ccd4;
           border-left: solid 5px transparent;
         }
-        
+
       }
       .start_end_point {
         .end_point_line {
           right: 0;
         }
-        
-          .end_point_val span {
-            left: auto;
-            right: 0px;
-          }
-          .end_point_val:after {
-            border-top: solid 5px rgba(0, 0, 0, 0);
-            border-right: solid 5px #C1CCD4;
-            border-bottom: solid 5px rgba(0, 0, 0, 0);
-            top: 16px;
-            left: -10px;
-          }
+
+        .end_point_val span {
+          left: auto;
+          right: 0px;
+        }
+        .end_point_val:after {
+          border-top: solid 5px rgba(0, 0, 0, 0);
+          border-right: solid 5px #C1CCD4;
+          border-bottom: solid 5px rgba(0, 0, 0, 0);
+          top: 16px;
+          left: -10px;
+        }
       }
       .start_beginning {
         left: 0px;
@@ -2502,7 +2855,7 @@ button, i, input[type="submit"] {
           border-radius: 4px;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
-         }
+        }
       }
       .end_point_val:after {
         height: 0;
@@ -2519,265 +2872,265 @@ button, i, input[type="submit"] {
   }
   .metric_graph.blue {
     .selected_graph {
-        background: #6abc52;
-      }
+      background: #6abc52;
+    }
   }
   .metric_graph.red {
     .selected_graph {
-        background: #fd361c;
-      }
+      background: #fd361c;
+    }
   }
   .metric_graph.amber {
     .selected_graph {
-        background: #fbc216;
-      }
+      background: #fbc216;
+    }
   }
 }
 
 
 /* cost breakdown */
-  
-  .campaign_cost_header_holder , .cost_header_holder  {
-    position: relative;
-    background: #fff;
-    border: solid 1px #d2dee7;
-    text-transform: uppercase;
-    height: 60px;
-    padding: 20px 10px 0;
-    .more_options {
+
+.campaign_cost_header_holder , .cost_header_holder  {
+  position: relative;
+  background: #fff;
+  border: solid 1px #d2dee7;
+  text-transform: uppercase;
+  height: 60px;
+  padding: 20px 10px 0;
+  .more_options {
+    position: absolute;
+    right: 10px;
+    top: 6px;
+    width: 40px;
+    height: 20px;
+    font-size: 13px;
+    color: #b8c8d4;
+    text-align: right;
+    cursor: default;
+    .dropdown {
+      height: 35px;
+      width: 50px;
+    }
+    .dd_txt {
       position: absolute;
-      right: 10px;
-      top: 6px;
-      width: 40px;
-      height: 20px;
-      font-size: 13px;
-      color: #b8c8d4;
-      text-align: right;
-      cursor: default;
-      .dropdown {
-        height: 35px;
-        width: 50px;
+      top: 15px;
+      right: 2px;
+      border: solid 1px transparent;
+      z-index: 2;
+      border-radius: 4px 4px 0 0;
+      height: 21px;
+      background: #fff;
+      border-bottom: 0;
+      width: 34px;
+      .dots {
+        border-radius: 4px ;
+        -moz-border-radius: 4px ;
+        -webkit-border-radius: 4px ;
+        height: 4px ;
+        width: 4px ;
+        background: #b8c8d4 ;
+        margin-left: 5px ;
+        display: block;
+        float: left;
+        margin-top: 8px;
       }
+    }
+    .dropdown.open {
       .dd_txt {
-        position: absolute;
-        top: 15px;
-        right: 2px;
-        border: solid 1px transparent;
-        z-index: 2;
-        border-radius: 4px 4px 0 0;
-        height: 21px;
-        background: #fff;
+        border: solid 1px #ccc;
         border-bottom: 0;
-        width: 34px;
-        .dots {
-          border-radius: 4px ;
-          -moz-border-radius: 4px ;
-          -webkit-border-radius: 4px ;
-          height: 4px ;
-          width: 4px ;
-          background: #b8c8d4 ;
-          margin-left: 5px ;
-          display: block;
-          float: left;
-          margin-top: 8px;
-        }
       }
-      .dropdown.open {
-        .dd_txt {
-          border: solid 1px #ccc;
-          border-bottom: 0;
-        }
-        
-      }
-      .dropdown-menu {
-        min-width: 100px;
-        left: auto;
-        right: 2px;
-        position: absolute;
-        z-index: 1;
-        border-radius: 4px 0 4px 4px;
-        -moz-border-radius: 4px 0 4px 4px;
-        -webkit-border-radius: 4px 0 4px 4px;
-        padding: 0;
-        margin: 0;
-        text-align: left;
-        text-transform: none;
-        width: 140px;
-        color: #313233;
-        font-family: "Avenir";
-       
-        li {
-          
-          cursor: pointer;
-          a {
-            padding: 4px 10px;
-            background: rgba(0, 0, 0, 0);
-            height: 100%;
-            width: 100%;
-          }
-        }
-        li.active a {
-          color: #0978C9 ;
-        }
-        li:hover {
-          background: #F0FCF4 ;
-        }
-      }
+
     }
-    .each_cost_col {
-      cursor: pointer;
+    .dropdown-menu {
+      min-width: 100px;
+      left: auto;
+      right: 2px;
+      position: absolute;
+      z-index: 1;
+      border-radius: 4px 0 4px 4px;
+      -moz-border-radius: 4px 0 4px 4px;
+      -webkit-border-radius: 4px 0 4px 4px;
+      padding: 0;
+      margin: 0;
+      text-align: left;
       text-transform: none;
-      font-size: 14px;
-      font-family: "Avenir";
+      width: 140px;
       color: #313233;
-    }
-    .arrrow_img {
-      background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
-      display: inline-block;
-      height: 10px;
-      width: 10px;
-      margin-left: 6px;
-    }
-    .second_col .dropdown_ul {
-      min-width: 75px;
-      left: 4px;
+      font-family: "Avenir";
+
+      li {
+
+        cursor: pointer;
+        a {
+          padding: 4px 10px;
+          background: rgba(0, 0, 0, 0);
+          height: 100%;
+          width: 100%;
+        }
+      }
+      li.active a {
+        color: #0978C9 ;
+      }
       li:hover {
-        background : #f0fcf4;;
+        background: #F0FCF4 ;
       }
     }
   }
-  .cost_col_header_tabs_holder {
-    margin-top: 40px ;
-    .cost_tabs_margin {
-      font-size: 14px ;
-      font-family:"Avenir";
-      color: #6a6d70 ;
-      .cost_tabs_holder {
-        float: left;
-        border: solid 1px #d2dee7;
-        border-bottom: 0px;
-        border-radius: 4px 4px 0 0;
-        .each_tab {
-          position: relative;
-          float: left;
-          text-transform: uppercase;
-          color: #91989d ;
-          height: 36px;
-          width: 170px;
-          text-align: center;
-          border-bottom: 0px ;
-          cursor: pointer;
-          .each_tab_text {
-            background: #f8fffa ;
-            padding: 8px 0px;
-            border-radius: 4px 0 0 0 ;
-          }
-
-        }
-        .cost_tab {
-          .each_tab_text {
-            border-radius: 0 4px 0 0 ;
-          }
-        }
-        .each_tab:first-child {
-          border-right: solid 1px #d2dee7 ;
-        }
-        .each_tab.active {
-          .each_tab_text {
-            background: #fff;
-            height: 38px;
-            position: absolute;
-            z-index: 1;
-            width: 100%;
-
-          }
-          
-        }
-      }
-      .cost_margin {
-        
-        margin-top: 10px;
-        float: right;
-      }
+  .each_cost_col {
+    cursor: pointer;
+    text-transform: none;
+    font-size: 14px;
+    font-family: "Avenir";
+    color: #313233;
+  }
+  .arrrow_img {
+    background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    margin-left: 6px;
+  }
+  .second_col .dropdown_ul {
+    min-width: 75px;
+    left: 4px;
+    li:hover {
+      background : #f0fcf4;;
     }
   }
-  
-  .total_campaign_cost_holder {
-    background: #fff;
-    margin-bottom: 20px ;
-    .each_campaign_cost_container {
+}
+.cost_col_header_tabs_holder {
+  margin-top: 40px ;
+  .cost_tabs_margin {
+    font-size: 14px ;
+    font-family:"Avenir";
+    color: #6a6d70 ;
+    .cost_tabs_holder {
+      float: left;
       border: solid 1px #d2dee7;
-      padding: 20px 10px 10px;
-      border-top: 0;
-      .cost_cols_holder {
-        margin-top: 10px ;
-      }
-      .each_cost_section {
+      border-bottom: 0px;
+      border-radius: 4px 4px 0 0;
+      .each_tab {
+        position: relative;
         float: left;
-        .each_cost_details {
-          font-family: "Avenir";
-          font-size: 14px;
-          .main_heading {
-            color: #000;
-            font-weight: bold;
-            margin-bottom: 4px;
-          }
-          .heading {
-            color: #727272 ;
-          }
-          .dates_details {
-            font-size: 12px ;
-            color: #b8c1c8 ;
-          }
+        text-transform: uppercase;
+        color: #91989d ;
+        height: 36px;
+        width: 170px;
+        text-align: center;
+        border-bottom: 0px ;
+        cursor: pointer;
+        .each_tab_text {
+          background: #f8fffa ;
+          padding: 8px 0px;
+          border-radius: 4px 0 0 0 ;
+        }
+
+      }
+      .cost_tab {
+        .each_tab_text {
+          border-radius: 0 4px 0 0 ;
+        }
+      }
+      .each_tab:first-child {
+        border-right: solid 1px #d2dee7 ;
+      }
+      .each_tab.active {
+        .each_tab_text {
+          background: #fff;
+          height: 38px;
+          position: absolute;
+          z-index: 1;
+          width: 100%;
 
         }
-        .full_metric_graph {
-            margin : 28px 0px 0px ;
-    
-            
-        }
-        .cost_cols_holder {
-          margin: 15px 0 3px 0;
-          padding: 0 ;
-          
-        }
-      }
-      .status_section {
 
-        .status_icon {
-          width: 16px;
-          height: 18px;
-          background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
-        }
-      }
-
-      .other_details {
-        width: 97% ;
-      }
-      .each_cost_details {
-        float: left;
-      }
-      .cost_metric_graph {
-        float: right;
-        width: 340px ;
-        .metric_graph_left_val {
-          float: left;
-        }
-        .metric_graph_details_val {
-          float: left;
-          font-family: "Avenir" ;
-          font-size: 10px ;
-          color: #717274 ;
-          margin: 12px 12px 0 12px ;
-          width: 60px;
-          word-wrap: break-word;
-        }
-        .metric_graph {
-          float: left;
-          width: 200px ;
-        }
       }
     }
-    
+    .cost_margin {
+
+      margin-top: 10px;
+      float: right;
+    }
   }
+}
+
+.total_campaign_cost_holder {
+  background: #fff;
+  margin-bottom: 20px ;
+  .each_campaign_cost_container {
+    border: solid 1px #d2dee7;
+    padding: 20px 10px 10px;
+    border-top: 0;
+    .cost_cols_holder {
+      margin-top: 10px ;
+    }
+    .each_cost_section {
+      float: left;
+      .each_cost_details {
+        font-family: "Avenir";
+        font-size: 14px;
+        .main_heading {
+          color: #000;
+          font-weight: bold;
+          margin-bottom: 4px;
+        }
+        .heading {
+          color: #727272 ;
+        }
+        .dates_details {
+          font-size: 12px ;
+          color: #b8c1c8 ;
+        }
+
+      }
+      .full_metric_graph {
+        margin : 28px 0px 0px ;
+
+
+      }
+      .cost_cols_holder {
+        margin: 15px 0 3px 0;
+        padding: 0 ;
+
+      }
+    }
+    .status_section {
+
+      .status_icon {
+        width: 16px;
+        height: 18px;
+        background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
+      }
+    }
+
+    .other_details {
+      width: 97% ;
+    }
+    .each_cost_details {
+      float: left;
+    }
+    .cost_metric_graph {
+      float: right;
+      width: 340px ;
+      .metric_graph_left_val {
+        float: left;
+      }
+      .metric_graph_details_val {
+        float: left;
+        font-family: "Avenir" ;
+        font-size: 10px ;
+        color: #717274 ;
+        margin: 12px 12px 0 12px ;
+        width: 60px;
+        word-wrap: break-word;
+      }
+      .metric_graph {
+        float: left;
+        width: 200px ;
+      }
+    }
+  }
+
+}
 /*  end of cost breakdown */

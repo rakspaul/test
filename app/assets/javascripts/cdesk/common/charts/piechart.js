@@ -1,7 +1,7 @@
-/*global angObj, angular*/
+
 (function() {
     "use strict";
-    angObj.factory("pieChart", function($timeout) {
+    commonModule.factory("pieChart", function($timeout) {
 
         var pieChart = function(graphData, colors) {
             var data = [], colors;

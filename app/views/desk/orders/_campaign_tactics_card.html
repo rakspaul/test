@@ -4,8 +4,8 @@
         <div class="each_tactic_container">
             
             <div class="clearfix each_campaign_list_container">
-                <div class="each_campaign_section first_section">
-                    <div class="green_circle"></div>
+                <div class="each_campaign_section">
+			<div class="campaign_status_icon {{tactic.status.toLowerCase()}}_campaign_status_icon"></div>
                 </div>
                 <div class="each_campaign_section campaign_list_details">
                     <div class="main_heading">
@@ -93,7 +93,7 @@
                         <div class="clearfix details_KPI_row1">
                             <span class="details_KPI_title">{{campaign.kpiType ? campaign.kpiType : 'NA' | toUpperCase}}</span>
                             <span class="cumulative_val">
-                                Cumulative Value <span>{{tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType}}</span>
+                                Cumulative Value <span>{{tactic.map[campaign.kpiType.toLowerCase()] | kpiFormatter:campaign.kpiType:1}}</span>
                             </span>
                         </div>
                         <div class="clearfix details_KPI_row2">

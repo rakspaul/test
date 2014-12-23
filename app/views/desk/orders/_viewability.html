@@ -1,13 +1,16 @@
 <div class="reports_main_page_holder">
-<div class="reports_header_tabs_holder">
+<div class="reports_header_tabs_holder clearfix">
+	<div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
+    <div class="pull-left">
         <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a
-                ng-href="#/{{tab.href}}" id="viewability_title_tab"> {{tab.title}}</a></span>
+                ng-href="#/{{tab.href}}" id="viewability_title_tab_{{tab.href}}" > {{tab.title}}</a></span>
+    </div>
 </div>
 
 <div class="inventory_reports_container" data-ng-init="init()">
 
     <div class="clearfix inventory_header">
-        <div class="pull-left dropdown dropdown_type1">
+        <div class="pull-left dropdown dropdown_type1" id="viewability_camp_list_dd">
             <large-list-search selected-obj=selectedCampaign></large-list-search>
         </div>
 
@@ -33,12 +36,14 @@
             </div>
 
         </div>
-        <div class="pull-right dropdown dropdown_type3">
+        <div class="pull-right dropdown dropdown_type3" id="viewability_lifetime_dd">
             <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"
                             flag="duration"></report-filters>
         </div>
     </div>
-    <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+    <div id="viewability_strategies_dd">
+        <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+    </div>
 
     <!--dataNotFound : {{dataNotFound}}-->
     <div class="no_data_found" ng-if="dataNotFound">
@@ -88,6 +93,10 @@
             <div class="each_col sixth_col">
                 <span>Average Viewable Time</span>
                 <span>(SEC)</span>
+            </div>
+            <div class="each_col suspicious_col">
+                <span> Suspicious Activity</span>
+                <span>(%)</span>
             </div>
             <div class="each_col seventh_col">
 
@@ -143,6 +152,9 @@
                 <div class="each_col sixth_col">
                     {{strategiesList.view_metrics.median_viewable_time | number: number:0}}
                 </div>
+                <div class="each_col suspicious_col">
+                    {{strategiesList.view_metrics.nht | number: number:2}}%
+                </div>
                 <div class="each_col seventh_col">
                     {{strategiesList.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                     selected_filters.kpi_type}}
@@ -193,6 +205,9 @@
                         </div>
                         <div class="each_col sixth_col">
                             {{tactic.view_metrics.median_viewable_time | number:0}}
+                        </div>
+                        <div class="each_col suspicious_col">
+                            {{strategiesList.view_metrics.nht | number: number:2}}%
                         </div>
                         <div class="each_col seventh_col">
                             {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:

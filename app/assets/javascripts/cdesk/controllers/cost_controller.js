@@ -14,6 +14,27 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
+        $scope.filter = { sortByColumn : 'default', ascendingDir : false };
+
+        $scope.sort_field = [{
+            display: 'Tactic Name',
+            key: 'name',
+            class: '',
+            sortDirection: ''
+
+        }, {
+            display: 'Imps',
+            key: 'impressions',
+            class: '',
+            sortDirection: ''
+        }, {
+            display: 'Total Spend',
+            key: 'total',
+            class: '',
+            sortDirection: ''
+
+        }] ;
+
         $scope.download_urls = {
             cost: null
         };
@@ -166,8 +187,9 @@ var angObj = angObj || {};
                 $scope.callBackCampaignsSuccess();
                 $scope.strategylist($scope.selectedCampaign.id);
             } else {
-                $scope.$parent.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
+            $scope.$apply();
         };
 
         //Function is called from startegylist directive
@@ -204,9 +226,33 @@ var angObj = angObj || {};
 
 
         $scope.formattingNumber = function(kpi, value){
-           value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
+            if(value !== undefined){
+                value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
+            }
             return value ;
-        }
+        };
+
+        $scope.sortFunction = function (sortby) {
+            $scope.filter.sortByColumn = sortby;
+
+            for(var i in $scope.sort_field){
+                if($scope.sort_field[i].key === sortby){
+                    $scope.sort_field[i].class = 'active';
+                    $scope.filter.ascendingDir = !$scope.filter.ascendingDir;
+
+                    ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending' );
+                }
+                else{
+                    $scope.sort_field[i].class = '';
+                    $scope.sort_field[i].sortDirection = '';
+                }
+
+            }
+
+        };
+
+
+
 
     });
 }());

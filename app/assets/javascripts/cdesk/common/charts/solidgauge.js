@@ -1,7 +1,7 @@
-/*global angObj, angular*/
+
 (function() {
     "use strict";
-    angObj.factory("solidGaugeChart", function($timeout) {
+    commonModule.factory("solidGaugeChart", function($timeout) {
 
         var solidGaugeChart = function(viewabilityData) {
 
