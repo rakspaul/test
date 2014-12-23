@@ -3,8 +3,8 @@ module DomainHelper
     return @domain_desk if defined?(@domain_desk)
     # invoking this method from decorators where we don't have request
     @domain_desk =  if Thread.current[:request].host.match(/desk/) 
-		      true
-		    else
+                      true
+                    else
                       ENV['DEPLOY_ENV'] == Role::CDESK
                     end
   end
@@ -12,7 +12,7 @@ module DomainHelper
   def domain_reach?
     return @domain_reach if defined?(@domain_reach)
     @domain_reach = if Thread.current[:request].host.match(/reach/)
-		      true
+                      true
                     else
                       ENV['DEPLOY_ENV'] == Role::REACH_UI
                     end
