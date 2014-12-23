@@ -253,19 +253,20 @@
       });
     };
 
-    var getStrategyList = function(obj, campaignList, timePeriod, cdeskTimePeriod, kpiType, kpiValue) {
+    var getStrategyList = function(campaign, timePeriod) {
 
-      var url = '/campaigns/' + campaignList[obj].orderId + '/lineitems.json?filter[date_filter]=' + cdeskTimePeriod;
+      var kpiType = campaign.kpiType;
+      var kpiValue = campaign.kpiValue;
+      var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
       dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-        var strategyList = [];
         if(result.status == "success" && !angular.isString(result.data)) {
           if(result.data.length >= 0) {
             if(result.data.length <= 3) {
-              campaignList[obj].campaignStrategies = createStrategyObject(result.data, timePeriod, campaignList[obj], kpiType, kpiValue);
+              campaign.campaignStrategies = createStrategyObject(result.data, timePeriod, campaign, kpiType, kpiValue);
             } else {
-              campaignList[obj].campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaignList[obj], kpiType, kpiValue);
-              campaignList[obj].campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaignList[obj], kpiType, kpiValue);
+              campaign.campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
             }
           }
         }
@@ -304,10 +305,7 @@
       },
 
       setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate) {
-        var status = '',
-          campaignList = [],
-          filterStartDate = '',
-          filterEndDate = '';
+        var status = '', campaignList = [];
 
         for (var obj in dataArr) {
           if (!angular.isObject(dataArr[obj])) {
@@ -396,10 +394,46 @@
         return campaignList;
       },
 
+      //should be moved to costservice inside cost module later
       getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success) {
         var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
         var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
         return dataService.fetchCancelable(url, canceller, success);
+      },
+
+      //should be moved to campaign details service
+      getStrategiesData: function(campaign, timePeriod) {
+        return getStrategyList(campaign, timePeriod)
+      },
+
+      //should be moved to campaign details service
+      getTacticsData: function(campaign, timePeriod) {
+
+        var filterStartDate = '', filterEndDate = '';
+        switch(timePeriod) {
+          case constants.PERIOD_LAST_7_DAYS:
+          case constants.PERIOD_LAST_30_DAYS:
+            filterStartDate = campaign.periodStartDate;
+            filterEndDate = campaign.periodEndDate;
+            break;
+          case constants.PERIOD_LIFE_TIME:
+          default:
+            //campaign flight dates for timefilter
+            filterStartDate = campaign.start_date;
+            filterEndDate = campaign.end_date;
+        }
+        dataService.getCdbTacticsMetrics(campaign.id, filterStartDate, filterEndDate).then(function (result) {
+          if(result.status == "success" && !angular.isString(result.data)) {
+            if(result.data.data.length > 0) {
+              var tacticsData = result.data.data;
+              for (var i = 0; i < tacticsData.length; i++) {
+                campaign.tacticMetrics.push({id: tacticsData[i].ad_id, data: tacticsData[i]});
+              }
+            }
+          }
+
+        })
+
       }
     };
   }]);

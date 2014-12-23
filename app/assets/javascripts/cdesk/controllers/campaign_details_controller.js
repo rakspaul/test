@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter) {
+    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants) {
 
       var campaign = campaignListService;
       var Campaigns = campaignListModel;
@@ -77,6 +77,8 @@
             if (result.data.data) {
                 var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 $scope.getCdbChartData($scope.campaign);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
