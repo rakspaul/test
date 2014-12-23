@@ -5,14 +5,16 @@
             <div class="reports_header_tabs_holder clearfix">
 		    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
                 <div class="pull-left">
-                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="reports_cost_tab"> {{tab.title}}</a></span>
+                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="reports_cost_tab_{{tab.href}}"> {{tab.title}}</a></span>
                 </div>
             </div>
-        <!----------------campaign dropdown--------------------->
+        <!-- campaign dropdown -->
         </div>
         <div class="inventory_reports_container" data-ng-init="init()">
             <div class="clearfix inventory_header">
-                <large-list-search selected-obj=selectedCampaign></large-list-search>
+                <div id="report_cost_camp_list_dd">
+                    <large-list-search selected-obj=selectedCampaign></large-list-search>
+                </div>
                 <div class="pull-right download_report">
 
                     <div class="dropdown">
@@ -21,7 +23,7 @@
                         </a>
                     </span>
 
-                        <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
+                        <ul class="dropdown_ul dropdown-menu" id="reports_cost_download" >
 
                             <li value="cost"><a ng-if="download_urls.cost" class="download_anchor"
                                                    href="{{download_urls.cost}}">Cost Report</a></li>
@@ -30,7 +32,7 @@
                     </div>
 
                 </div>
-                <div class="pull-right dropdown dropdown_type3">
+                <div class="pull-right dropdown dropdown_type3" id="cost_lifetime_dd" >
                     <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration"
                                     flag="duration"></report-filters>
                 </div>
@@ -38,11 +40,14 @@
             <div class="clearfix">
 
             </div>
-            <!----------------campaign dropdown--------------------->
-            <!----------------strategy dropdown--------------------->
-            <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+            <!--campaign dropdown-->
+            <!--strategy dropdown-->
+            
+            <div id="cost_strategies_dd" >
+                <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
+            </div>
 
-            <!----------------strategy dropdown--------------------->
+            <!--strategy dropdown-->
 
             <div class="no_data_found" ng-if="!strategyFound">
                 Data Not Found
@@ -70,17 +75,17 @@
                         </div>
                         <div class="more_options"  id="dot_click">
                             <div class="dropdown">
-                    <span data-toggle="dropdown">
-                        <span class="dd_txt">
-                            <span class="dots"></span>
-                            <span class="dots"></span>
-                            <span class="dots"></span>
-                        </span>
-                    </span>
+                                <span data-toggle="dropdown">
+                                    <span class="dd_txt">
+                                        <span class="dots"></span>
+                                        <span class="dots"></span>
+                                        <span class="dots"></span>
+                                    </span>
+                                </span>
                                 <ul class="dropdown-menu" id="sorting_dropdown">
 
                                     <li class="{{sortField.class}}" ng-repeat="sortField in sort_field" data-ng-click="sortFunction(sortField.key)">
-                                        <a id="cost_sort">
+                                        <a id="cost_sort_{{sortField.key}}">
                                             {{sortField.display}}&nbsp; <span class="sortable {{sortField.sortDirection}}"></span>
                                         </a>
                                     </li>

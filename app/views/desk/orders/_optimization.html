@@ -1,8 +1,5 @@
 <div class="campaign-list-container" data-ng-init="init()">
     <div id="detailedPage" class="container">
-
-
-
     </div>
 
 
@@ -15,9 +12,9 @@
             <!--div class="reports_top_heading">{{clicked.campaignName}}
             </div-->
             <div class="reports_header_tabs_holder clearfix">
-		    <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
+		        <div class="pull-left breadcrumb_campaign"><a href="#/campaigns/{{selectedCampaign.id}}">Campaign Details</a></div>
                 <div class="pull-left">
-                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}"> {{tab.title}}</a></span>
+                    <span ng-repeat="tab in filters.tabs" ng-class="{'active_tab': tab.href == filters.activeTab }"><a ng-href="#/{{tab.href}}" id="optimization_tab_{{tab.href}}"> {{tab.title}}</a></span>
                 </div>
             </div>
 
@@ -25,48 +22,51 @@
         </div>
         <div class="inventory_reports_container optimization_header">
             <div class="clearfix inventory_header">
-                <large-list-search selected-obj=selectedCampaign></large-list-search>
-            </div>
-            <div class="clearfix"></div>
-            <!--campaign dropdown-->
-            <!--strategy dropdown-->
-            <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
-            <!--strategy dropdown-->
-            <div class="header_right_optimization">
 
-                
-                <div class="clearfix">
-
-                  <div class="pull-right dropdown download_report" >
+                <div class="pull-left dropdown dropdown_type1" id="optimization_camp_list_dd">
+                    <large-list-search selected-obj=selectedCampaign></large-list-search>
+                </div>
+                <div class="pull-right dropdown download_report" >
                         <span class="dropdown_ul_text " data-toggle="dropdown">
                             <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
                         </span>
                         <ul class="dropdown-menu" id="optimization_download">
-                            <li value="optimization"><a ng-if="download_urls.optimization" class="download_anchor"
-                                                      href="{{download_urls.optimization}}">Optimization Report</a></li>
-
-                            <!--<li value="categories">-->
-                                <!--<a class="download_anchor">Optimization Report</a>-->
-                            <!--</li>-->
+                            <li value="optimization">
+                                <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
+                            </li>
                         </ul>
-                    </div>
-                    <div class="pull-right dropdown duration_filters">
+                </div>
+                <div class="pull-right dropdown duration_filters" id="optimization_duration_dd">
                         <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
-                    </div>
                 </div>
-                <div class="see_dates_holder clearfix">
-                    <div class="external_chkbox clearfix">
-                        <div class="squaredFour" id="see_dates_chkbox" >
-                          <input type="checkbox" id="squaredFour" >
-                          <label for="squaredFour"></label>
-                        </div>       
-                        <span class="squaredFourTxt">See Dates</span>
-                    </div>
+                
+            </div>
+            
+            <!--campaign dropdown-->
+            <div class="clearfix optimization_see_dates">
+
+                <!--strategy dropdown-->
+                <div class="pull-left" id="optimization_strategies_dd">
+                    <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
                 </div>
-  
+                <!--strategy dropdown-->
+                <div class="pull-right">
+
+                    <div class="see_dates_holder clearfix">
+                        <div class="external_chkbox clearfix">
+                            <div class="squaredFour" id="see_dates_chkbox" >
+                              <input type="checkbox" id="optimization_squaredFour" class="squaredFourChkbox">
+                              <label for="optimization_squaredFour"></label>
+                            </div>       
+                            <span class="squaredFourTxt">See Dates</span>
+                        </div>
+                    </div>
+      
+                </div>
           </div>
 
         </div>
+
         <div class="reports_graph_top_section" id="graph" >
             <div class="rep_graph_heading">
                <span class="graph_rep_stl"> {{clicked.strategy.lineItemName}}</span>
@@ -159,7 +159,7 @@
     </div>
     <script type="text/javascript">
     $(document).ready( function() {
-        $("#squaredFour").click( function() {
+        $("#optimization_squaredFour").click( function() {
             if( $(this).is(":checked") == true ) {
                $(".details_with_heading_total").addClass("see_dates_selected") ;
             } else {
