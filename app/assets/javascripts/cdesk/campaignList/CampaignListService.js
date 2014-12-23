@@ -2,7 +2,7 @@
 (function () {
   "use strict";
   //originally in models/campaign.js
-  campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", function (dataService,  utils, common, line) {
+  campaignListModule.factory("campaignListService", ["dataService", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', function (dataService,  utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, constants) {
 
     var appendStrategyData = function(obj, key) {
       var str = '';
@@ -298,9 +298,12 @@
 
     return {
 
+      getCampaigns: function (url, success, failure) {
+        var canceller = requestCanceller.initCanceller(constants.CAMPAIGN_LIST_CANCELLER);
+        return dataService.fetchCancelable(url, canceller, success, failure);
+      },
 
-
-      setActiveInactiveCampaigns: function (dataArr, timePeriod, cdeskTimePeriod, periodStartDate, periodEndDate) {
+      setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate) {
         var status = '',
           campaignList = [],
           filterStartDate = '',
@@ -327,8 +330,14 @@
             default :
               status = undefined;
           }
-
-          campaignList.push({
+          var campaign = modelTransformer.transform(dataArr[obj], campaignModel);
+          campaign.periodStartDate = periodStartDate;
+          campaign.periodEndDate = periodEndDate;
+          campaign.fromSuffix = utils.formatDate(this.start_date);
+          campaign.toSuffix = utils.formatDate(this.end_date);
+          campaign.setVariables();
+          campaignList.push(campaign);
+          /*campaignList.push({
             orderId: dataArr[obj].id,
             periodStartDate: periodStartDate,
             periodEndDate: periodEndDate,
@@ -351,10 +360,10 @@
             tacticMetrics: [],
             chart:true,
             campaignStrategiesLoadMore:null
-          });
+          });*/
 
           //based on time period use period dates or flight dates
-          switch(timePeriod) {
+          /*switch(timePeriod) {
             case 'last_7_days':
             case 'last_30_days':
               //campaign period dates for timefiltering
@@ -366,9 +375,9 @@
               //campaign flight dates for timefilter
               filterStartDate = dataArr[obj].start_date;
               filterEndDate = dataArr[obj].end_date;
-          }
+          }*/
 
-          dataService.getCdbTacticsMetrics(dataArr[obj].id, filterStartDate, filterEndDate).then(function (result) {
+          /*dataService.getCdbTacticsMetrics(dataArr[obj].id, filterStartDate, filterEndDate).then(function (result) {
             if(result.status == "success" && !angular.isString(result.data)) {
               if(result.data.data.length > 0) {
                 var tacticsData = result.data.data;
@@ -378,13 +387,19 @@
               }
             }
 
-          });
+          });*/
 
-          getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
+          //getStrategyList(obj, campaignList, timePeriod, cdeskTimePeriod, dataArr[obj].kpi_type, dataArr[obj].kpi_value)
           getCdbLineChart(obj, campaignList, timePeriod);
 
         }
         return campaignList;
+      },
+
+      getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate, success) {
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
+        var canceller = requestCanceller.initCanceller(constants.COST_CANCELLER);
+        return dataService.fetchCancelable(url, canceller, success);
       }
     };
   }]);
