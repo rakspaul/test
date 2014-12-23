@@ -3077,14 +3077,15 @@ button, i, input[type="submit"] {
   background: #007ac9;
   padding: 20px ;
   .dropdown-menu {
-    padding: 0px ;
+    padding: 10px 0px ;
     background: #0667A6;
     border-radius: 0px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
     border: 0;
-    top: 54px;
+    top: 52px;
     left: -100px ;
+    font-size: 12px ;
     li {
       padding: 5px 10px;
       a {
@@ -3120,8 +3121,12 @@ button, i, input[type="submit"] {
         background: url(asset-path("cdesk/account_icon_hover.png")) no-repeat center center ;
       }
       .logout_link {
-        background: url(asset-path("cdesk/logout_icon.png")) no-repeat  20px 6px;
+        background: url(asset-path("cdesk/logout_icon.png")) no-repeat  20px 4px;
         padding-left: 40px;
+      }
+      .dropdown-menu {
+        z-index: 1001 ;
+        top: 54px ;
       }
     }
     .main_navigation {
@@ -3136,7 +3141,7 @@ button, i, input[type="submit"] {
         margin: 0 30px  ;
         a {
           text-decoration: none;
-          color: #a6c7e6 ;
+          color: #84bce4 ;
 
         }
         a:hover {
@@ -3151,24 +3156,40 @@ button, i, input[type="submit"] {
       margin-top: 10px ;
       .page_filters {
         color: #fff ;
+        .brands_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url(asset-path("cdesk/brand_icon.png")) no-repeat center center ;
+        }
+        .timeline_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url(asset-path("cdesk/lifetime_filter_icon.png")) no-repeat 3px 10px  ;
+        }
+        .timeline_dd {
+          margin-top: 5px ;
+        }
         li.each_filter {
-          background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center right ;
+          background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat center right ;
           padding-right: 20px;
           margin-top: 0px ;
           #brandsList {
-            
+            left : -60px ;
             color: #fff ;
             width: 280px;
             max-height: 300px;
             overflow: auto;
             height: auto;
-            padding: 0px ;
+            padding: 10px 0 ;
             li {
-              padding: 5px 10px;
+              padding: 5px 20px;
             }
             li:hover {
               background: rgba(255,255,255,0.1) ;
               color: #fff ;
+            }
+            li.active {
+              background: url(asset-path("cdesk/side_arrow.png")) no-repeat 10px 8px  ;
             }
             a {
               white-space: normal;
@@ -3177,38 +3198,56 @@ button, i, input[type="submit"] {
           }
           a {
             font-family: "Avenir" ;
+            text-decoration: none; 
           }
           #brandsDropdownDiv {
             input {
               font-family: "Avenir" ;
             }
-            input::-webkit-input-placeholder { color: #fff ; font-family: "Avenir" ; }
-            input::-moz-placeholder { color: #fff ;font-family: "Avenir" ;  }
-            input:-moz-placeholder { color: #fff ;  font-family: "Avenir" ;}
-            input:-ms-input-placeholder { color: #fff ; font-family: "Avenir" ; }
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
           }
         }
+        li.lifetime_filter {
+          .dropdown-menu {
+            left: -35px ;
+            padding: 10px 0 ;
+          }
+          #cdbMenu {
+            color: #84bce4 ;
+          }
+          #cdbMenu:hover , #cdbMenu:focus {
+            color: #fff ;
+          }
+          div.timeline_dd.open {
+            #cdbMenu {
+              color: #fff ;
+            }
+          } 
+        }
+
         .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
-          color: #fff;
+          color: #fff ;
           background:  transparent;
           padding: 0;
           cursor: pointer;
         }
-
-
-
         #brandsDropdown {
           background: #007ac9;
           min-width: 88px ;
-
-          color: #fff ;
+          color: #84bce4 ;
+          text-overflow: ellipsis;
           font-size: 14px;
           font-family: "Avenir" ;
 
         }
+        #brandsDropdown:focus {
+          color: #fff ; 
+        }
         li.lifetime_filter {
-          margin-left: 60px;
-          padding-top: 5px;
+          margin-right : 60px;
           
         }
       }

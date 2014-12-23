@@ -37,35 +37,43 @@
             <div class="clearfix page_filters">
                 <div class="search-cum-navbar">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown each_filter brands_filter" ng-controller="BrandsController">
-                            <div id="brandsDropdownDiv" style="display:inline;">
-                                <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
-                                <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
+                        <li class="dropdown dropdown-two each_filter lifetime_filter clearfix">
+                            <div class="pull-left timeline_dd_icon"></div>
+                            <div class="pull-left timeline_dd">
+                                <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
+                                    <span id="durationMenuText" ng-bind="campaigns.displayTimePeriod"></span>
+                                    <span class="sort-image-inactive"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" id="cdbDropdown">
+                                    <li ng-repeat="timeData in campaigns.timePeriodList" class={{timeData.className}}>
+                                        <a data-ng-click="campaigns.filterByTimePeriod(timeData)">
+                                            <span class="tick"></span>
+                                            <span class="menuItemText">{{timeData.display}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
-                            <ul class="dropdown-menu" role="menu" id="brandsList">
-                                <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter"
-                                    ng-controller="BrandsListController" class="{{brand.className}}">
-                                    <a data-ng-click="selectBrand(brand)">
-                                        <span class="tick"></span>
-                                        <span class="menuItemText">{{brand.name}}</span>
-                                    </a>
-                                </li>
-                            </ul>
                         </li>
-                        <li class="dropdown dropdown-two each_filter lifetime_filter">
-                            <a class="dropdown-toggle active" data-toggle="dropdown" id="cdbMenu">
-                                <span id="durationMenuText" ng-bind="campaigns.displayTimePeriod"></span>
-                                <span class="sort-image-inactive"></span>
-                            </a>
-                            <ul class="dropdown-menu" role="menu" id="cdbDropdown">
-                                <li ng-repeat="timeData in campaigns.timePeriodList" class={{timeData.className}}>
-                                    <a data-ng-click="campaigns.filterByTimePeriod(timeData)">
-                                        <span class="tick"></span>
-                                        <span class="menuItemText">{{timeData.display}}</span>
-                                    </a>
-                                </li>
-                            </ul>
+                        <li class="dropdown each_filter brands_filter clearfix" ng-controller="BrandsController">
+                            <div class="pull-left brands_dd_icon"></div>
+                            <div class="pull-left">
+
+                                <div id="brandsDropdownDiv" style="display:inline;">
+                                    <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown" placeholder="ALL BRANDS"/>
+                                    <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
+                                </div>
+                                <ul class="dropdown-menu" role="menu" id="brandsList">
+                                    <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter"
+                                        ng-controller="BrandsListController" class="{{brand.className}}">
+                                        <a data-ng-click="selectBrand(brand)">
+                                            <span class="tick"></span>
+                                            <span class="menuItemText">{{brand.name}}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
+                        
                     </ul>
                 </div>
             </div>
