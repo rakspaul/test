@@ -11,4 +11,4 @@ role :app, app1
 
 
 
-set :default_environment, 'JAVA_HOME' => "/usr/lib/jvm/java-6-sun-1.6.0.26"
+set :default_environment, 'JAVA_HOME' => '/usr/lib/jvm/java-6-sun-1.6.0.26', 'DEPLOY_ENV' => 'cdesk'
