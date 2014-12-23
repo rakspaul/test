@@ -15,7 +15,7 @@
 
         <div class="status_bar_section draft_section" >
             <div class="status_partition_section clearfix">
-                <div class="status_section_each_partition draft_section_bar  " ng-click="campaigns.dashboardFilter('draft','')" ><!--no_partition-->
+                 <div class="status_section_each_partition draft_section_bar  " ng-click="campaigns.dashboard.status.draft || campaigns.dashboardFilter('draft','')" ><!--no_partition-->
                     <div class="status_section_bar {{campaigns.dashboard.status.draft}}" title="Draft {{campaigns.dashboard.draft}}" >
                         <span class="section_bar_title">Draft</span>
                         <span class="section_bar_val">{{campaigns.dashboard.draft}}</span>
@@ -26,7 +26,7 @@
         </div>
         <div class="status_bar_section ready_section" >
             <div class="status_partition_section clearfix">
-                <div class="status_section_each_partition ready_section_bar " ng-click="campaigns.dashboardFilter('ready','')"  ><!--full_partition-->
+               <div class="status_section_each_partition ready_section_bar " ng-click="campaigns.dashboard.status.ready || campaigns.dashboardFilter('ready','')"  ><!--full_partition-->
                     <div class="status_section_bar  {{campaigns.dashboard.status.ready}}" title="Ready {{campaigns.dashboard.ready}}">
                         <span class="section_bar_title">Ready</span>
                         <span class="section_bar_val">{{campaigns.dashboard.ready}}</span>
@@ -39,18 +39,18 @@
         <div class="status_bar_section active_section" >
             <div class="status_partition_section clearfix">
                 <div class="status_section_each_partition active_section_bar" >
-                    <div class="status_section_bar {{campaigns.dashboard.status.active.bothItem}}"  ng-click="campaigns.dashboardFilter('activeAll','')" >
+                     <div class="status_section_bar {{campaigns.dashboard.status.active.bothItem}}"  ng-click="campaigns.dashboard.status.active.bothItem || campaigns.dashboardFilter('activeAll','')" >
                         <span class="section_bar_title">Active </span>
                         <span class="section_bar_val"> {{campaigns.dashboard.active.total}}</span>
                     </div>
                 </div>
-                <div class="status_section_each_partition onTrack_section_bar status_section_{{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.dashboardFilter('active','ontrack')" >
+                <div class="status_section_each_partition onTrack_section_bar status_section_{{campaigns.dashboard.status.active.ontrack}}" ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.ontrack) || campaigns.dashboardFilter('active','ontrack')" >
                     <div class="status_section_bar left_status_section_bar {{campaigns.dashboard.status.active.ontrack}}" title="KPI on Track {{campaigns.dashboard.active.ontrack}}">
                         <span class="section_bar_title">KPI on Track </span>
                         <span class="section_bar_val">{{campaigns.dashboard.active.ontrack}}</span>
                     </div>
                 </div>
-                <div class="status_section_each_partition notOnTrack_section_bar status_section_{{campaigns.dashboard.status.active.underperforming }} " ng-click="campaigns.dashboardFilter('active','underperforming')" >
+                 <div class="status_section_each_partition notOnTrack_section_bar status_section_{{campaigns.dashboard.status.active.underperforming }} " ng-click="campaigns.dashboard.filterSelectAll || (!campaigns.dashboard.status.active.bothItem && campaigns.dashboard.status.active.underperforming) || campaigns.dashboardFilter('active','underperforming')" >
                     <div class="status_section_bar {{campaigns.dashboard.status.active.underperforming }}" title="Underperforming {{campaigns.dashboard.active.underperforming}}">
                         <span class="section_bar_title">Underperforming</span>
                         <span class="section_bar_val">{{campaigns.dashboard.active.underperforming}}</span>
@@ -61,7 +61,7 @@
         </div>
         <div class="status_bar_section paused_section"  > <!--no_status_bar_section -->
             <div class="status_partition_section clearfix" >
-                <div class="status_section_each_partition achieved_goal_section_bar" ng-click="campaigns.dashboardFilter('paused','')"    >
+                <div class="status_section_each_partition achieved_goal_section_bar" ng-click="campaigns.dashboard.status.paused || campaigns.dashboardFilter('paused','')"    >
                     <div class="status_section_bar {{campaigns.dashboard.status.paused }}" title="Paused {{campaigns.dashboard.status.paused}}">
                         <span class="section_bar_title">Paused </span>
                         <span class="section_bar_val">{{campaigns.dashboard.paused}}</span>
@@ -72,7 +72,7 @@
         </div>
         <div class="status_bar_section completed_section"  > <!--no_status_bar_section -->
             <div class="status_partition_section clearfix" >
-                <div class="status_section_each_partition unachieved_goal_section_bar"   ng-click="campaigns.dashboardFilter('completed','')" >
+                <div class="status_section_each_partition unachieved_goal_section_bar"   ng-click="campaigns.dashboard.status.completed || campaigns.dashboardFilter('completed','')" >
                     <div class="status_section_bar {{campaigns.dashboard.status.completed }}" title="Completed {{campaigns.dashboard.completed}}">
                         <span class="section_bar_title">Completed</span>
                         <span class="section_bar_val">{{campaigns.dashboard.completed}}</span>
