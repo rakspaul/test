@@ -3078,7 +3078,7 @@ button, i, input[type="submit"] {
   padding: 20px ;
   .dropdown-menu {
     padding: 10px 0px ;
-    background: #0667A6;
+    background: #026DB3;
     border-radius: 0px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
@@ -3099,6 +3099,16 @@ button, i, input[type="submit"] {
         color: #fff ;
       }
     }
+  }
+  .dropdown-menu:before {
+    background: url(asset-path("cdesk/dropdown_up_arrow.png")) no-repeat center bottom  ;
+    content: "";
+    display: block;
+    height: 10px;
+    width: 20px;
+    position: absolute;
+    top: -10px;
+    left: 50%;
   }
   .main_nav {
     width: 1115px;
@@ -3164,7 +3174,7 @@ button, i, input[type="submit"] {
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url(asset-path("cdesk/lifetime_filter_icon.png")) no-repeat 3px 10px  ;
+          background: url(asset-path("cdesk/lifetime_filter_icon.png")) no-repeat 8px 9px  ;
         }
         .timeline_dd {
           margin-top: 5px ;
@@ -3215,12 +3225,14 @@ button, i, input[type="submit"] {
             left: -35px ;
             padding: 10px 0 ;
           }
+          
           #cdbMenu {
             color: #84bce4 ;
           }
           #cdbMenu:hover , #cdbMenu:focus {
             color: #fff ;
           }
+          
           div.timeline_dd.open {
             #cdbMenu {
               color: #fff ;
