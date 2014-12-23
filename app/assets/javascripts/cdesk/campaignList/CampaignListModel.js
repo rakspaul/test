@@ -252,12 +252,24 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
           self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
           self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
           if( self.dashboard.total  > 3) {
-            self.dashboard.displayFilterSection = true;
-          }else{
-            self.dashboard.displayFilterSection = false;
-            self.dashboardFilter('overwrite','');
-          }
-        }
+	    self.dashboard.displayFilterSection = true;
+	    if(self.dashboard.active.underperforming == 0 ){
+		self.dashboardFilter('active','ontrack');
+		self.dashboard.filterActive = '(active,ontrack)';
+		self.dashboard.status.active.ontrack = 'active';
+		self.dashboard.status.active.underperforming = '';
+	    }else {
+	        self.dashboard.filterActive = '(active,underperforming)';
+	        self.dashboard.status.active.underperforming = 'active';
+	        self.dashboard.status.active.ontrack = '';
+	    }
+	  }else{
+	      self.dashboard.displayFilterSection = false;
+	      if(self.dashboard.total > 0 ){
+		self.dashboardSelectedAll();
+	      }
+	  }
+	}
       });
 
     },
@@ -432,6 +444,21 @@ campaignListModule.factory("campaignListModel", function($http, dataService, cam
       this.resetFilters();
       filters.brand && (this.brandId = filters.brand);
       filters.timePeriod && (this.timePeriod = filters.timePeriod);
+
+      if(filters.brand != undefined){
+	  this.dashboard.status.active.underperforming = 'active';
+	  this.dashboard.filterActive = '(active,underperforming)';
+	  this.dashboard.filterPaused = undefined;
+	  this.dashboard.filterCompleted = undefined;
+	  this.dashboard.filterDraft = undefined;
+	  this.dashboard.filterReady = undefined;
+	  this.dashboard.status.paused = undefined
+	  this.dashboard.status.completed = undefined;
+	  this.dashboard.status.draft = undefined;
+	  this.dashboard.status.ready = undefined;
+	  this.dashboard.status.active.bothItem = undefined;
+	  this.dashboard.status.active.ontrack = undefined;
+      }
 
       Campaigns.prototype.fetchDashboardData.call(this); //populating dashboard filter with new data
       Campaigns.prototype.fetchCampaigns.call(this);
