@@ -14,7 +14,7 @@
       return this.expiryTime - (new Date() - this.cachedOn);
     }
   }
-  var DataStore = function () {
+  var DataStore = function (utils) {
     this.responseByUrl = {} // key is url itself - It will be used when same url is to be queried
     this.enableCache = true;
     this.addObject = function (key, carrier, object, forced) {
@@ -35,12 +35,12 @@
     this.getCachedByUrl = function (url) {
       var response = this.responseByUrl[url]
       if(response != undefined && response.isStale() === false) {
-        console.log('found saved response for url ' + url + ' Expiry Time: ' + response.getRemainingTime()/1000/60 + "mins")
+        console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
         return response;
       }
       return undefined
     }
   }
-  commonModule.service('dataStore',DataStore);
+  commonModule.service('dataStore', ['utils', DataStore]);
 
 }());
