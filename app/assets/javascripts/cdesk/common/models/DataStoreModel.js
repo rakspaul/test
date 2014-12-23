@@ -22,7 +22,7 @@
         return;
       }
       var existing = carrier[key];
-      if(existing == undefined || existing.isStale === true || forced === true) {
+      if(existing == undefined || existing.isStale() === true || forced === true) {
         carrier[key] = this.getCacheableObject(object)
       }
     }
