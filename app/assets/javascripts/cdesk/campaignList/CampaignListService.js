@@ -282,8 +282,12 @@
             if(result.data.data.measures_by_days.length > 0) {
               var maxDays = result.data.data.measures_by_days;
               for (var i = 0; i < maxDays.length; i++) {
-                maxDays[i]["ctr"] *= 100;
-                maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
+                if(maxDays[i]['modified'] !== true) {
+                  maxDays[i]["ctr"] *= 100;
+                  maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
+                  // since data is fetched from cache, following acts as check if cached data was modified
+                  maxDays[i]['modified'] = true;
+                }
                 var kpiType = (campaignList[obj].kpiType),
                   kpiTypeLower = angular.lowercase(kpiType);
                 lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
