@@ -226,8 +226,9 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         url += '&advertiser_filter=' + this.brandId;
       }
 
-      dataService.getCampaignDashboardData(url).then(function(result) {
+      campaignListService.getDashboardData(url, function(result) {
         self.dashboard.busy = false;
+        requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
         if(result.status == "success" && !angular.isString(result.data)){
           self.dashboard.active = {
             total : result.data.data.active.ontrack + result.data.data.active.underperforming,

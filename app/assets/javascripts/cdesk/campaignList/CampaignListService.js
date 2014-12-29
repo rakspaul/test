@@ -308,6 +308,11 @@
         return dataService.fetchCancelable(url, canceller, success, failure);
       },
 
+      getDashboardData: function (url, success, failure) {
+        var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CANCELLER);
+        return dataService.fetchCancelable(url, canceller, success, failure)
+      },
+
       setActiveInactiveCampaigns: function (dataArr, timePeriod, periodStartDate, periodEndDate) {
         var status = '', campaignList = [];
 
