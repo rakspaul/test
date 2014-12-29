@@ -1,11 +1,10 @@
-
 (function() {
     "use strict";
     commonModule.factory("solidGaugeChart", function($timeout) {
-
         var solidGaugeChart = function(viewabilityData) {
-
-            return {
+        //for testing -mock data
+        //var viewabilityData = {pct_1s: 25.876533630764754, pct_5s: 16.308617428834683, pct_15s: 8.534988603850444, pct_total: 42.78647980214345, total: 8823}
+           return {
                 options: {
                     chart: {
                         renderTo: 'section_graph',
@@ -19,7 +18,7 @@
                         plotBorderWidth: 0,
                         marginRight: 0, //-60, //this does move the chart but you'll need to recompute it
                         marginLeft: 0, //-60,  //whenever the page changes width
-                        marginTop: 0,
+                        marginTop: 3,
                         marginBottom: 0
                     },
                     tooltip: {
@@ -33,12 +32,10 @@
                         enabled: false
                     },
                     pane: {
-                        size: '88%',
+                        size: '97%',
                         startAngle: 0,
                         endAngle: 360,
-
-                        background: {
-                            
+                        background: { 
                             outerRadius: '101%',
                             backgroundColor: '#ffffff',
                         }
@@ -54,7 +51,6 @@
                         labels: {
                             enabled: false
                         },
-
                         min: 0,
                         max: 100,
                         gridLineColor: 'transparent',
@@ -66,9 +62,7 @@
                         tickPosition: 'outside',
                         tickLength: 4,
                         tickWidth: 1,
-
                     },
-
                 },
                  series: [{
                     innerRadius: '70%',
@@ -94,11 +88,9 @@
                         //resize rendering issue fix for future - cost viewability
                         reRender();
                     });
-
                     $timeout(function() {
                         reRender();       
                     }, 1000);
-
                     function reRender(){
                         $('#costViewability .highcharts-tracker path').each(function(index, value) { 
                             $(value).attr({fill:colors[index]});
@@ -106,7 +98,6 @@
 
                     }
                 }
-
             };
         };
         return {

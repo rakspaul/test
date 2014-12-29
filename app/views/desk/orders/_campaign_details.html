@@ -116,7 +116,7 @@
                         </div>
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
-                                <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle=""></highchart>
+                                <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
                                 <div class="each_detail">
@@ -162,7 +162,7 @@
                         </div>
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
-                                <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart"></highchart>
+                                <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
                                 <div class="each_detail"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
