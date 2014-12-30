@@ -43,7 +43,9 @@
     //following are redundant variables and should be removed from single campaign object as they are properties of campaign list.
     this.periodStartDate = '';
     this.periodEndDate = '';
-
+    this.constructor = function() {
+      return this;
+    }
   }
   commonModule.value('campaignModel',CampaignModel);
 }());

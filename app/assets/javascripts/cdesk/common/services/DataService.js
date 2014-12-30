@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
@@ -44,10 +44,6 @@
           urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery
         }
         return this.fetch(urlPath);
-      },
-
-      getCampaignDashboardData: function(url) {
-        return this.fetch(url);
       },
 
       getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate) {
@@ -127,7 +123,8 @@
         if(cachedResponse != undefined) {
           var defer = $q.defer();
           var promise = defer.promise.then(function () {
-            return cachedResponse.value;
+            //here we always return a clone of original object, so that if any modifications are done it will be done on clone and original will remain unchanged
+            return utils.clone(cachedResponse.value);
           });
           defer.resolve();
           return promise;
@@ -139,7 +136,7 @@
               data: response.data
             };
             dataStore.cacheByUrl(url, objOnSuccess)
-            return objOnSuccess;
+            return utils.clone(objOnSuccess);
           },
           function (error) {
             return {
@@ -155,7 +152,7 @@
         if(cachedResponse != undefined) {
           var defer = $q.defer();
           var promise = defer.promise.then(function () {
-            return success.call(this, cachedResponse.value);
+            return success.call(this, utils.clone(cachedResponse.value));
           });
           defer.resolve();
           return promise;
@@ -167,7 +164,7 @@
               data: response.data
             };
             dataStore.cacheByUrl(url, objOnSuccess)
-            return success.call(this, objOnSuccess);
+            return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
             var objOnError = {

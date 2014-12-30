@@ -158,7 +158,11 @@
                             });
 
                         }
-                    }, 1000);
+                    }, 500);
+                },
+
+                getLineData: function() {
+                  return lineDate;
                 }
 
             };

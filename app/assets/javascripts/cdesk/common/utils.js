@@ -30,13 +30,28 @@
           return false;
       }
       return true;
-    }
+    };
+    //clones any javascript object recursively
+    var clone = function clone(obj) {
+      if(obj == null || typeof(obj) != 'object')
+        return obj;
+
+      var temp = obj.constructor();
+
+      for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+          temp[key] = clone(obj[key]);
+        }
+      }
+      return temp;
+    };
     return {
       formatDate: formatDate,
       makeTitle: makeTitle,
       roundOff: roundOff,
       goToLocation: goToLocation,
-      allValuesSame: allValuesSame
+      allValuesSame: allValuesSame,
+      clone: clone
     };
   }]);
   angObj.directive('welcomeUser', function (common) {

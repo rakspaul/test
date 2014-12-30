@@ -148,6 +148,10 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     };
   };
 
+  Campaigns.prototype.reloadGraphs = function() {
+    campaignListService.loadGraphs(this.campaignList, timePeriodApiMapping(this.selectedTimePeriod.key))
+  };
+
   Campaigns.prototype.fetchCampaigns = function() {
     if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
       console.log('returning as all the campaigns are displayed');
