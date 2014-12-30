@@ -118,8 +118,8 @@
                 loading: false,
                 func: function(chart) {
                     $timeout(function() {
-                        if(chart !== undefined){
-                          //  console.log(chart);
+                        if(chart !== undefined && chart.xAxis !== undefined){
+//                            console.log(chart);
                           //  console.log(chart.xAxis);
                             var extremesX = chart.xAxis[0].getExtremes();
                             chart.xAxis[1].setExtremes(extremesX.min - 0.5 , extremesX.max + 0.5);
@@ -158,7 +158,11 @@
                             });
 
                         }
-                    }, 1000);
+                    }, 500);
+                },
+
+                getLineData: function() {
+                  return lineDate;
                 }
 
             };
