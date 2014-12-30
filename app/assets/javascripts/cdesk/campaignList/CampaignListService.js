@@ -300,15 +300,6 @@
       });
     };
 
-    var redrawChartFromCache = function(obj, campaignList) {
-
-      var campaignObject = campaignList[obj];
-      var chartObject = campaignObject.chart;
-      if(chartObject !== true && chartObject !== false) {
-        campaignObject.chart = new line.highChart(chartObject.getLineData(), parseFloat(campaignObject.kpiValue), campaignObject.kpiType);
-      }
-    }
-
     return {
 
       getCampaigns: function (url, success, failure) {
@@ -356,13 +347,6 @@
 
         }
         return campaignList;
-      },
-
-      loadGraphs: function(campaignList, timePeriod) {
-        console.log('loading graphs for campaign list of length '+campaignList.length + ", "+timePeriod);
-        for (var obj in campaignList) {
-          redrawChartFromCache(obj, campaignList);
-        }
       },
 
       //should be moved to costservice inside cost module later

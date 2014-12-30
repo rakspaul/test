@@ -49,9 +49,6 @@
       utils.goToLocation(url);
     };
 
-    $scope.reloadGraphs = function() {
-      $scope.campaigns.reloadGraphs();
-    }
   });
 
 }());
