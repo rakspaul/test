@@ -195,6 +195,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }
     }, function(result) {
       //failure
+      self.busy = false;
       self.totalCount = 0;
     });
 
