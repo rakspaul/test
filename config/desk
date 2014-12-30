@@ -1,7 +1,7 @@
 # Proxy Cache for CDB APIs from cdesk-api calls
 proxy_cache_path /var/www/nginx/nginx_cache levels=1:2 keys_zone=cdb-proxy:60m max_size=1g inactive=2h;
 proxy_temp_path /var/www/nginx/nginx_temp;
-proxy_cache_bypass $http_cache_disabled;
+#proxy_cache_bypass $http_cache_disabled;
 
 
 server {
