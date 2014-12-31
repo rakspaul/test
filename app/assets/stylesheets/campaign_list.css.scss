@@ -3227,6 +3227,17 @@ button, i, input[type="submit"] {
           .dropdown-menu {
             left: -35px ;
             padding: 10px 0 ;
+            
+            .time_dropdown_disabled {
+              height: 55px;
+              width: 160px;
+              opacity: 0.3;
+              background: rgb(42, 38, 38);
+              position: absolute;
+              top: 10px;
+              left: 0px;
+              cursor: default;
+            }
           }
           
           #cdbMenu {
@@ -3241,6 +3252,7 @@ button, i, input[type="submit"] {
               color: #fff ;
             }
           } 
+          
         }
 
         .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
