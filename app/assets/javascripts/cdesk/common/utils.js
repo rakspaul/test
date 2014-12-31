@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.factory('utils', ["$location", function ($location) {
+  commonModule.factory('utils', ["$location", "$sce", function ($location, $sce) {
     var formatDate = function (input) {
       var date = new Date(input);
       var dayOfMonth = date.getDate();
@@ -16,6 +16,12 @@
       }
       title += '</div>';
       return title;
+    };
+    var highlightSearch = function(text, search) {
+      if (!search) {
+          return $sce.trustAsHtml(text);
+      }
+      return $sce.trustAsHtml(unescape(escape(text).replace(new RegExp(escape(search), 'gi'), '<span class="brand_search_highlight" >$&</span>')));
     };
     var roundOff = function (value, places) {
       var factor = Math.pow(10, places);
@@ -51,7 +57,9 @@
       roundOff: roundOff,
       goToLocation: goToLocation,
       allValuesSame: allValuesSame,
-      clone: clone
+      clone: clone,
+      highlightSearch: highlightSearch
+
     };
   }]);
   angObj.directive('welcomeUser', function (common) {

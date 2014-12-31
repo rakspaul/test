@@ -67,7 +67,7 @@
                                         ng-controller="BrandsListController" class="{{brand.className}}">
                                         <a data-ng-click="selectBrand(brand)">
                                             <span class="tick"></span>
-                                            <span class="menuItemText">{{brand.name}}</span>
+                                            <span class="menuItemText" ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>
                                         </a>
                                     </li>
                                 </ul>
