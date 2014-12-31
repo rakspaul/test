@@ -60,9 +60,10 @@
                                     </select>
                                 </div>
                                 <div class="filter_dropdown">
-                                    <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" id="action_sub_type_dd">
+                                    <!-- <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" id="action_sub_type_dd">
                                         <option value="">- Action Sub Type -</option>
-                                    </select>
+                                    </select> -->
+                                     <multiselect class="input-xlarge" multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
                                 </div>
                                 <div class="filter_dropdown">
                                     <select ng-model="tactics.selected" ng-required="true" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">

@@ -72,6 +72,7 @@
 //= require cdesk/directives/campaigndashboard
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist
+//= require multiselect
 //= require cdesk/models/domain_reports
 //= require cdesk/models/action_type
 //= require cdesk/models/action_sub_type
