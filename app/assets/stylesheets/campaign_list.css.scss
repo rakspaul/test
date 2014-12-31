@@ -3189,6 +3189,9 @@ button, i, input[type="submit"] {
             overflow: auto;
             height: auto;
             padding: 10px 0 ;
+            .brand_search_highlight {
+              border-bottom: solid 1px #fff ;
+            }
             li {
               padding: 5px 20px;
             }
