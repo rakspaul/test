@@ -227,7 +227,7 @@ var angObj = angObj || {};
 
         $scope.formattingNumber = function(kpi, value){
             if(value !== undefined){
-                value = ((kpi === 'ctr' || kpi === 'action_rate') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
+                value = ((kpi === 'ctr' || kpi === 'action_rate' || kpi === 'vtc') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
             }
             return value ;
         };
