@@ -49,6 +49,10 @@
       utils.goToLocation(url);
     };
 
+    $scope.highlightSearch = function(text, search) {
+      return utils.highlightSearch(text, search);
+    };
+
   });
 
 }());
