@@ -37,11 +37,23 @@
     $scope.metrics = metrics;
 
     $scope.createAction = function () {
-      $scope.action.submitBtnDisabled = true;
+      $scope.action.submitBtnDisabled = false;
       var data = {};
-      data.action_sub_type_ids = [$scope.action.selectedSubType.id];
+      var selectedTypes = $scope.action.selectedSubType;
+      var selectedIds=[];
+      for(var i in selectedTypes){
+        selectedIds.push(selectedTypes[i].id);
+      }
+      console.log(selectedIds);
+      data.action_sub_type_ids = selectedIds ;//[$scope.action.selectedSubType.id];
       data.make_external = $scope.action.external;
-      data.ad_id = $scope.tactics.selected.id;
+
+      var selectedTactics = $scope.tactics.selected;
+      var selectedTacticIds=1;//[];
+      for(var i in selectedTactics){
+        selectedTacticIds.push(selectedTactics[i].id);
+      }
+      data.ad_id = selectedTacticIds;//$scope.tactics.selected.id;
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
       data.created_by_id = parseInt(user_id);
@@ -49,12 +61,18 @@
       data.created_at = now;
       data.updated_at = now;*/
       data.action_type_id = $scope.action.selectedType.id;
-      console.log(data);
-      dataService.createAction(data).then( function (response){
-        resetActionFormData();
-      }, function (response) {
-        resetActionFormData();
-      });
+      if(data.action_sub_type_ids.length > 0 &&
+        data.action_type_id !='' &&
+        data.metric_impacted != undefined &&
+        data.name.length > 0) {
+        console.log('Now you post ');
+        console.log(data);
+        dataService.createAction(data).then( function (response){
+          resetActionFormData();
+        }, function (response) {
+          resetActionFormData();
+        });
+      }
     }
     function resetActionFormData() {
       $scope.action.submitBtnDisabled = false;

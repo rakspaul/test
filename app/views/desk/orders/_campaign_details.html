@@ -63,13 +63,15 @@
                                     <!-- <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" id="action_sub_type_dd">
                                         <option value="">- Action Sub Type -</option>
                                     </select> -->
-                                     <multiselect class="input-xlarge" multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
+                                     <multiselect class="input-xlarge" defaultoption='Optimization Type' multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
                                 </div>
+
+                                <div>{{action.selectedSubType}}</div>
                                 <div class="filter_dropdown">
-                                    <multiselect class="input-xlarge" multiple="true" ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd"></multiselect>
-                                    <!-- <select ng-model="tactics.selected" ng-required="" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">
+                                    <multiselect class="input-xlarge" defaultoption='Tactic Type' multiple="true" ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd"></multiselect>
+                                    <!--select ng-model="tactics.selected" ng-required="" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">
                                       <option value="">- Tactic -</option>
-                                    </select> -->
+                                    </select-->
                                 </div>
                                 <div class="filter_dropdown">
                                     <select ng-model="metrics.selected" ng-required="" ng-options="metric for metric in metrics.all" id="action_metric_dd">

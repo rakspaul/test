@@ -31,17 +31,21 @@ angular.module('ui.multiselect', [])
     function ($parse, $document, $compile, optionParser) {
       return {
         restrict: 'E',
+        
         require: 'ngModel',
         link: function (originalScope, element, attrs, modelCtrl) {
+
 
           var exp = attrs.options,
             parsedResult = optionParser.parse(exp),
             isMultiple = attrs.multiple ? true : false,
             required = false,
             scope = originalScope.$new(),
+
             changeHandler = attrs.change || anguler.noop;
 
           scope.items = [];
+          scope.defaultoption = attrs.defaultoption;
           scope.header = 'Select';
           scope.multiple = isMultiple;
           scope.disabled = false;
@@ -117,7 +121,7 @@ angular.module('ui.multiselect', [])
           element.append($compile(popUpEl)(scope));
 
           function getHeaderText() {
-            if (is_empty(modelCtrl.$modelValue)) return scope.header = 'Select';
+            if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
             if (isMultiple) {
               scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
             } else {
@@ -230,6 +234,7 @@ angular.module('ui.multiselect', [])
       link: function (scope, element, attrs) {
 
         scope.isVisible = false;
+        scope.selectedAll = true;
 
         scope.toggleSelect = function () {
           if (element.hasClass('open')) {
@@ -253,6 +258,19 @@ angular.module('ui.multiselect', [])
         scope.focus = function focus(){
           var searchBox = element.find('input')[0];
           searchBox.focus(); 
+        }
+        scope.toggleSelectAll = function(flag){
+          console.log("Flag:"+flag);
+          if(flag == false){
+            
+            scope.selectedAll = true;
+            scope.uncheckAll();
+          }else{
+
+            scope.selectedAll = false;
+            scope.checkAll();
+          }
+
         }
 
         var elementMatchesAnyInArray = function (element, elementArray) {
