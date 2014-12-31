@@ -55,7 +55,7 @@
                             </div>
                             <div class="clearfix filter_holder">
                                 <div class="filter_dropdown">
-                                    <select ng-model="action.selectedType" ng-required="true" ng-options="type.name for type in action.types | orderBy:'name'" id="action_type_filter_dd">
+                                    <select ng-model="action.selectedType" ng-required="" ng-options="type.name for type in action.types | orderBy:'name'" id="action_type_filter_dd">
                                       <option value="">- Action Type -</option>
                                     </select>
                                 </div>
@@ -66,12 +66,13 @@
                                      <multiselect class="input-xlarge" multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
                                 </div>
                                 <div class="filter_dropdown">
-                                    <select ng-model="tactics.selected" ng-required="true" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">
+                                    <multiselect class="input-xlarge" multiple="true" ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd"></multiselect>
+                                    <!-- <select ng-model="tactics.selected" ng-required="" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">
                                       <option value="">- Tactic -</option>
-                                    </select>
+                                    </select> -->
                                 </div>
                                 <div class="filter_dropdown">
-                                    <select ng-model="metrics.selected" ng-required="true" ng-options="metric for metric in metrics.all" id="action_metric_dd">
+                                    <select ng-model="metrics.selected" ng-required="" ng-options="metric for metric in metrics.all" id="action_metric_dd">
                                       <option value="">- Metric Impacted -</option>
                                     </select>
                                 </div>
@@ -87,7 +88,7 @@
                             </div>
                             <div class="clearfix submit_activity_holder">
                                 <div class="pull-left comment_area">
-                                    <textarea  ng-model="action.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"></textarea>
+                                    <textarea  ng-model="action.name" ng-required=""  placeHolder="Leave a Comment" id="action_comment" maxlength="160"></textarea>
                                 </div>
                                 <div class="pull-right submit_btn_holder">
                                     <input type="submit" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn">
