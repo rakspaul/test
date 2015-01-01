@@ -181,15 +181,17 @@
                             costBreakdownColors["adServing"] = "#45CB41";
                             costBreakdownColors["other"] = "#BFC3D1";
                         $scope.details.totalCostBreakdown = costData.total;
-                        $scope.$apply(function(){
+                       /* $scope.$apply(function(){
                             $scope.details.getCostBreakdown = {
                             inventory: costData.inventory_cost_pct,
                             data: costData.data_cost_pct,
                             adServing: costData.ad_serving_cost_pct,
                             other: other
                             };
-                        });
-                        $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                        });*/
+                        $timeout(function(){
+                             $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                         });
                      }
                 }
             },function(result){
@@ -284,16 +286,17 @@
                             costViewabilitynColors["adServing"] = "#45CB41";
                             costViewabilitynColors["other"] = "#BFC3D1";
                         $scope.details.getCostViewability.total = viewData.viewable_imps;
-                        $scope.$apply(function(){
+                       /* $scope.$apply(function(){
                              $scope.details.getCostViewability = {
                             pct_1s: viewData.viewable_imps_1s_pct,
                             pct_5s: viewData.viewable_imps_5s_pct,
                             pct_15s: viewData.viewable_imps_15s_pct,
                             pct_total: viewData.viewable_pct
                             };
-                        });
-                        $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
-                    
+                        });*/
+                        $timeout(function(){
+                            $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
+                         });
                 }
             },function(result){
                 console.log('cost viewability call failed');

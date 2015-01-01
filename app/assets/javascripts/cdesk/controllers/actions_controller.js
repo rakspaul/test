@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  angObj.controller('ActionsController', function ($scope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic) {
+  angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic) {
     dataService.getActions().then(function (response) {
       var action = {};
       action.types = [];
@@ -44,16 +44,13 @@
       for(var i in selectedTypes){
         selectedIds.push(selectedTypes[i].id);
       }
-      console.log(selectedIds);
-      data.action_sub_type_ids = selectedIds ;//[$scope.action.selectedSubType.id];
+      data.action_sub_type_ids = selectedIds ;
       data.make_external = $scope.action.external;
-
       var selectedTactics = $scope.tactics.selected;
-      var selectedTacticIds=1;//[];
-      for(var i in selectedTactics){
-        selectedTacticIds.push(selectedTactics[i].id);
+      if($scope.tactics.selected != undefined){
+        data.ad_id = $scope.tactics.selected.id;
       }
-      data.ad_id = selectedTacticIds;//$scope.tactics.selected.id;
+      
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
       data.created_by_id = parseInt(user_id);
@@ -65,8 +62,6 @@
         data.action_type_id !='' &&
         data.metric_impacted != undefined &&
         data.name.length > 0) {
-        console.log('Now you post ');
-        console.log(data);
         dataService.createAction(data).then( function (response){
           resetActionFormData();
         }, function (response) {
@@ -82,6 +77,8 @@
       $scope.action.selectedSubType = undefined;
       $scope.tactics.selected = undefined;
       $scope.metrics.selected = undefined;
+      $scope.selectedAll = false;
+      $rootScope.$broadcast("clear");
     }
   });
 }());

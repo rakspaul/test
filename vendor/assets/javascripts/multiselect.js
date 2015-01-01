@@ -123,7 +123,7 @@ angular.module('ui.multiselect', [])
           function getHeaderText() {
             if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
             if (isMultiple) {
-              scope.header = modelCtrl.$modelValue.length + ' ' + 'selected';
+              scope.header =' ( ' +modelCtrl.$modelValue.length+' )' ;
             } else {
               var local = {};
               local[parsedResult.itemName] = modelCtrl.$modelValue;
@@ -225,7 +225,7 @@ angular.module('ui.multiselect', [])
       };
     }])
 
-  .directive('multiselectPopup', ['$document', function ($document) {
+  .directive('multiselectPopup', ['$document', '$rootScope', function ($document, $rootScope) {
     return {
       restrict: 'E',
       scope: false,
@@ -257,10 +257,18 @@ angular.module('ui.multiselect', [])
 
         scope.focus = function focus(){
           var searchBox = element.find('input')[0];
-          searchBox.focus(); 
+          //searchBox.focus(); 
         }
+       
+        scope.clearCheckbox = function(){
+          
+        };
+         $rootScope.$on("clear",function(){ 
+           scope.selectedAll = true;
+           scope.items = [];
+         });
         scope.toggleSelectAll = function(flag){
-          console.log("Flag:"+flag);
+         
           if(flag == false){
             
             scope.selectedAll = true;
