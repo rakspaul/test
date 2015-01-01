@@ -40,6 +40,10 @@
       }
       return undefined
     }
+    this.deleteFromCache = function (url) {
+      console.log('force delete from cache for url: ' + url);
+      this.responseByUrl[url] = undefined
+    }
   }
   commonModule.service('dataStore', ['utils', DataStore]);
 

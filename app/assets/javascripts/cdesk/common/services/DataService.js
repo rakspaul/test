@@ -119,7 +119,12 @@
       },
 
       updateLastViewedAction: function(campaignId) {
-        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {})
+        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
+          if(response.status === "success") {
+            //delete default campaign list cache here
+            dataStore.deleteFromCache(urlService.APIDefaultCampaignList(user_id));
+          }
+        })
       },
 
       fetch: function (url) {
