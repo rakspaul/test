@@ -109,6 +109,7 @@
                 }
               $scope.strategyByActionId = strategyByActionId;
                 $scope.actionItems = actionItemsArray;
+              dataService.updateLastViewedAction($routeParams.campaignId);
             }
         }, function(result) {
             console.log('call failed');
