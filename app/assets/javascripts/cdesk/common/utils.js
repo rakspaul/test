@@ -399,8 +399,8 @@
   });
   angObj.filter('appendDollor', function () {
     return function (val, type) {
-      if (val === undefined || val == "") {
-        return val;
+      if (val === undefined || val === "" || val === "null")  {
+        return 'NA';
       }
       return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
     }
