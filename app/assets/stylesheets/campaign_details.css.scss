@@ -699,8 +699,28 @@
     }
   }
   .activity_log_holder {
+    position: relative;
     margin-bottom: 30px ;
     border-bottom: solid 1px #ebf0f5 ;
+    .edit_activity_log_holder {
+      position: absolute;
+      top: 0px ;
+      left: 0px ;
+      z-index: 2 ;
+      height: 400px ;
+      width : 1115px ;
+      background: rgba( 0 , 0, 0, 0.5 ) ;
+      .action_filter_holder {
+        width: 90%;
+        margin: 120px auto 0;
+        .filter_dropdown_sel_list {
+          margin-left: 12px ;
+          .filter_dropdown_sel_txt {
+            margin-right: 30px ;
+          }
+        }
+      }
+    }
     .activity_log_list_container {
       .activity_log_list {
         height: 336px ;
