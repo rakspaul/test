@@ -474,8 +474,6 @@
 </div>
 <script type="text/javascript">
   $(document).ready(function() {
-      //jQuery(".selectAllBtn").hide();
-
       $( ".dropdown_ul_text" ).click(function() {
           $( ".dropdown_ul" ).toggle();
        });
@@ -499,32 +497,6 @@
           var txt = $.trim(jQuery("#action_comment").val());
           jQuery("#action_comment").val(txt);
       });
-      /*$("#action_type_filter_dd").bind("change",function(){
-        var actType =  $("#action_type_filter_dd").val();
-        if(actType !=''){
-            if(actType >=0){
-            jQuery(".selectAllBtn").show();
-          }else{
-             jQuery(".selectAllBtn").hide();
-
-          }
-
-        }else{
-           jQuery(".selectAllBtn").hide();
-
-        }
-        
-
-      });*/
       
-       $("#action_type_filter_dd").bind("change",function(){
-        var actType =  $("#action_type_filter_dd").val();
-        console.log("From:"+actType);
-        
-
-      });
-
-
-
   });
 </script>

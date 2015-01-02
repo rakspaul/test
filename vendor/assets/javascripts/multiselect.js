@@ -239,6 +239,7 @@ angular.module('ui.multiselect', [])
         scope.isVisible = false;
         scope.selectedAll = true;
        // scope.displaySelectAllOPtion = false;
+        scope.multipleoption = false;
 
         scope.toggleSelect = function () {
           if (element.hasClass('open')) {
@@ -269,36 +270,25 @@ angular.module('ui.multiselect', [])
         };
          $rootScope.$on("clear",function(){ 
            scope.selectedAll = true;
-           //scope.items = [];
            scope.uncheckAll();
          });
-          $rootScope.$on("displaySelectAll",function(event,args){ 
+           $rootScope.$on("removeOptions",function(event,args){ 
             scope.selectedAll = true;
-            scope.header = '';
-            if(args > 0 ){
-                scope.datashow = true;
-             }
-             else{
-
-                 //scope.uncheckAll()
-
-             }
-
-         });
-           $rootScope.$on("displaySelectAll0",function(event,args){ 
-            scope.selectedAll = true;
-            scope.header = '';
-            console.log("zero");
+            if(scope.datashow == 2){
+             scope.items = [];
+             scope.multipleoption = false;
+             scope.header = '';
+            }
           });
-            $rootScope.$on("displaySelectAll1",function(event,args){ 
+            $rootScope.$on("showOptions",function(event,args){ 
             scope.selectedAll = true;
-            scope.header = '';
-            console.log("one");
+            if(scope.datashow == 2){
+              scope.header = '';
+             scope.multipleoption = true;
+           }
           });
-        scope.toggleSelectAll = function(flag){
-         
-          if(flag == false){
-            
+        scope.toggleSelectAll = function(flag){ 
+          if(flag == false){     
             scope.selectedAll = true;
             scope.uncheckAll();
           }else{

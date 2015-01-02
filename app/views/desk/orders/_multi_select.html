@@ -9,7 +9,7 @@
       <button class="btn-link btn-small selectAllBtn" ng-show="datashow"  ng-click="toggleSelectAll(selectedAll)"  ><i ng-class="{'icon-ok': !selectedAll, 'icon-empty': selectedAll}"  ></i> Select all</button>
     </li>
   
-    <li ng-repeat="i in items" data-attr="{{datashow}}">
+    <li ng-repeat="i in items" data-attr="{{datashow}}" >
       <a ng-click="select(i); focus()">
         <i ng-class="{'icon-ok': i.checked, 'icon-empty': !i.checked}"></i>{{i.label}}</a>
     </li>

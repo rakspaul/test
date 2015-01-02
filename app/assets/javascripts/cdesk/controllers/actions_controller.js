@@ -83,41 +83,21 @@
       $scope.metrics.selected = undefined;
       $scope.selectedAll = false;
       $rootScope.$broadcast("clear");
+      $rootScope.$broadcast("removeOptions");
     }
      $scope.getActionType = function(){
-      var flag = 0;
-      //console.log("My:"+$scope.action.selectedType);
+      var flag = "removeOptions";
       if($scope.action.selectedType !=undefined){
-
         if($scope.action.selectedType.id > 0 ){
-              var flag = 1;
-
+              var flag = "showOptions";
           }else{
-              var flag = 0;
+              var flag = "removeOptions";
           }
-
       }else
       {
-         var flag = 0;
-
+         var flag = "removeOptions";
       }
-
-     // console.log(flag);
-      //$rootScope.$broadcast("displaySelectAll",flag);
-      //return;
-      /*
-        var flag = 0;
-        if($scope.action.selectedType == null){
-           var flag = 0;
-
-        }else if($scope.action.selectedType){
-           if($scope.action.selectedType.id > 0 ){
-              var flag = 1;
-          }else{
-              var flag = 0;
-          }
-        }
-        $rootScope.$broadcast("displaySelectAll",flag);*/
+      $rootScope.$broadcast(flag);
     }
   });
 }());
