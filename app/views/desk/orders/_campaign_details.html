@@ -63,7 +63,7 @@
                                     <!-- <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" id="action_sub_type_dd">
                                         <option value="">- Action Sub Type -</option>
                                     </select> -->
-                                     <multiselect class="input-xlarge" defaultoption='Optimization Type' multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
+                                     <multiselect class="input-xlarge" defaultoption='- Action Sub Type -' multiple="true" ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd"></multiselect>
                                      <input type="hidden" name="subtypes" ng-value="action.selectedSubType" required="true" >
                                 </div>
                                 <div class="filter_dropdown">
