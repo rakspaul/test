@@ -780,6 +780,51 @@
   margin-bottom: 50px;
 }
 
+.strategy_total_container {
+  .strategy_total_container_header {
+
+    background: #f5f9fd;
+    border: solid 1px #ccd9e3;
+    padding: 20px;
+
+    .first_col {
+      font-size: 18px;
+    }
+
+  }
+  .all_strategies_holder {
+    .linkage_lines {
+      position: relative;
+      float: left;
+      width: 10px;
+      height: 104px ;
+      border-left: solid 1px #ccd9e3;
+    }
+    .linkage_lines:after {
+      content: "";
+      height: 1px;
+      width: 10px;
+      background: #ccd9e3;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    .each_strategy {
+      float: left;
+      width: 1104px;
+      padding: 20px 20px 20px 10px;
+      margin: 10px 0 0 0px;
+      border: solid 1px #ccd9e3;
+      background: #f8faff;
+    }
+    .each_strategy_holder:last-child {
+      .linkage_lines {
+        height: 50px;
+      }
+    }
+  }
+}
 .viewability_details_outer_container {
   margin-top: 50px;
   .strategy_total_container {
@@ -948,57 +993,17 @@
       top : 100% ;
     } 
   }
-}
-
-
-
-
-
-.strategy_total_container {
-  .strategy_total_container_header {
-
-    background: #f5f9fd;
-    border: solid 1px #ccd9e3;
-    padding: 20px;
-
-    .first_col {
-      font-size: 18px;
-    }
-
-  }
   .all_strategies_holder {
     .linkage_lines {
-      position: relative;
-      float: left;
-      width: 10px;
-      height: 132px;
-      border-left: solid 1px #ccd9e3;
-    }
-    .linkage_lines:after {
-      content: "";
-      height: 1px;
-      width: 10px;
-      background: #ccd9e3;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 0;
-    }
-    .each_strategy {
-      float: left;
-      width: 1104px;
-      padding: 20px 20px 20px 10px;
-      margin: 10px 0 0 0px;
-      border: solid 1px #ccd9e3;
-      background: #f8faff;
-    }
-    .each_strategy_holder:last-child {
-      .linkage_lines {
-        height: 50px;
-      }
+      height: 132px ;
     }
   }
 }
+
+
+
+
+
 
 /**************** reports performance table styling ***********/
 
