@@ -91,9 +91,9 @@ var angObj = angObj || {};
                         var topPerformance = [], bottomPerformance = [];
                         var resultTableData = $scope.tacticList.tacticList[t].inv_metrics;
                         for (var data in resultTableData) {
-                            if (resultTableData[data].tb === 1) {
+                            if (resultTableData[data].tb === 0) {
                                 topPerformance.push(resultTableData[data]);
-                            } else if (resultTableData[data].tb === 0) {
+                            } else if (resultTableData[data].tb === 1) {
                                 bottomPerformance.push(resultTableData[data]);
                             }
                         }
@@ -142,7 +142,7 @@ var angObj = angObj || {};
                     if (result.data.data[0] !== undefined) {
                         var resultTableData = result.data.data[0].inv_metrics;
                         for (var data in resultTableData) {
-                            if (resultTableData[data].tb === 1) {
+                            if (resultTableData[data].tb === 0) {
                                 $scope.strategyTable.topPerformance.push(resultTableData[data]);
 
                             } else {
