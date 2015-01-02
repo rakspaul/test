@@ -57,11 +57,15 @@
       /*var now = $filter('date')(new Date(), 'yyyy-MM-dd');
       data.created_at = now;
       data.updated_at = now;*/
-      data.action_type_id = $scope.action.selectedType.id;
+      if($scope.action.selectedType){
+         data.action_type_id = $scope.action.selectedType.id;
+      }
+      //console.log(data);
       if(data.action_sub_type_ids.length > 0 &&
         data.action_type_id !='' &&
         data.metric_impacted != undefined &&
         data.name.length > 0) {
+        //console.log("data Posted");
         dataService.createAction(data).then( function (response){
           resetActionFormData();
         }, function (response) {
@@ -79,6 +83,41 @@
       $scope.metrics.selected = undefined;
       $scope.selectedAll = false;
       $rootScope.$broadcast("clear");
+    }
+     $scope.getActionType = function(){
+      var flag = 0;
+      //console.log("My:"+$scope.action.selectedType);
+      if($scope.action.selectedType !=undefined){
+
+        if($scope.action.selectedType.id > 0 ){
+              var flag = 1;
+
+          }else{
+              var flag = 0;
+          }
+
+      }else
+      {
+         var flag = 0;
+
+      }
+
+     // console.log(flag);
+      //$rootScope.$broadcast("displaySelectAll",flag);
+      //return;
+      /*
+        var flag = 0;
+        if($scope.action.selectedType == null){
+           var flag = 0;
+
+        }else if($scope.action.selectedType){
+           if($scope.action.selectedType.id > 0 ){
+              var flag = 1;
+          }else{
+              var flag = 0;
+          }
+        }
+        $rootScope.$broadcast("displaySelectAll",flag);*/
     }
   });
 }());

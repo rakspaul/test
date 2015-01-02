@@ -46,6 +46,9 @@ angular.module('ui.multiselect', [])
 
           scope.items = [];
           scope.defaultoption = attrs.defaultoption;
+          scope.displaySelectAllOPtion = attrs.displaySelectAllOPtion;
+          scope.multipleoption = attrs.multipleoption;
+          scope.datashow = attrs.datashow;
           scope.header = 'Select';
           scope.multiple = isMultiple;
           scope.disabled = false;
@@ -123,7 +126,7 @@ angular.module('ui.multiselect', [])
           function getHeaderText() {
             if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
             if (isMultiple) {
-              scope.header =' ( ' +modelCtrl.$modelValue.length+' )' ;
+              scope.header = modelCtrl.$modelValue.length+' Selected' ;
             } else {
               var local = {};
               local[parsedResult.itemName] = modelCtrl.$modelValue;
@@ -235,6 +238,7 @@ angular.module('ui.multiselect', [])
 
         scope.isVisible = false;
         scope.selectedAll = true;
+       // scope.displaySelectAllOPtion = false;
 
         scope.toggleSelect = function () {
           if (element.hasClass('open')) {
@@ -265,8 +269,32 @@ angular.module('ui.multiselect', [])
         };
          $rootScope.$on("clear",function(){ 
            scope.selectedAll = true;
-           scope.items = [];
+           //scope.items = [];
+           scope.uncheckAll();
          });
+          $rootScope.$on("displaySelectAll",function(event,args){ 
+            scope.selectedAll = true;
+            scope.header = '';
+            if(args > 0 ){
+                scope.datashow = true;
+             }
+             else{
+
+                 //scope.uncheckAll()
+
+             }
+
+         });
+           $rootScope.$on("displaySelectAll0",function(event,args){ 
+            scope.selectedAll = true;
+            scope.header = '';
+            console.log("zero");
+          });
+            $rootScope.$on("displaySelectAll1",function(event,args){ 
+            scope.selectedAll = true;
+            scope.header = '';
+            console.log("one");
+          });
         scope.toggleSelectAll = function(flag){
          
           if(flag == false){
