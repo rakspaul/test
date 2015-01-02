@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
@@ -118,6 +118,15 @@
         return this.post(url, data);
       },
 
+      updateLastViewedAction: function(campaignId) {
+        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
+          if(response.status === "success") {
+            //delete default campaign list cache here
+            dataStore.deleteAllCachedCampaignListUrls();
+          }
+        })
+      },
+
       fetch: function (url) {
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
@@ -180,6 +189,23 @@
 
       post: function (url, data) {
         return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
+          function (response) {
+            return {
+              status: "success",
+              data: response.data
+            };
+          },
+          function (error) {
+            return {
+              status: "error",
+              data: error
+            };
+          }
+        );
+      },
+
+      put: function (url, data) {
+        return $http.put(url, angular.toJson(data)).then(
           function (response) {
             return {
               status: "success",

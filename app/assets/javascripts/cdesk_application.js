@@ -39,6 +39,7 @@
 //= require cdesk/common/services/TransformerService
 //= require cdesk/common/services/ConstantsService
 //= require cdesk/common/services/RequestCancelService
+//= require cdesk/common/services/UrlService
 //= require cdesk/common/models/CampaignCDBData
 //= require cdesk/common/models/CampaignCost
 //= require cdesk/common/models/CampaignModel
