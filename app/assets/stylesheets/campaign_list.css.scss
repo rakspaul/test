@@ -2566,27 +2566,25 @@ button, i, input[type="submit"] {
         height: 14px;
         width: 14px;
         margin-top: 5px;
-        background-size: 80%;
         background-repeat: no-repeat;
-        background-size: 80%;
         background-position: top left;
       }
+      .completed_campaign_status_icon {
+        background-image : url(asset-path("status_icons/complete_icon.png")) ;
+      }
       .draft_campaign_status_icon {
-        background-image : url(asset-path("statusWidget/draft_icon.png"))  ;
+        background-image : url(asset-path("status_icons/draft_icon.png"))  ;
       }
       .ready_campaign_status_icon {
-        background-image : url(asset-path("statusWidget/ready_icon.png"))  ;
+        background-image : url(asset-path("status_icons/ready_icon.png"))  ;
       }
       .active_campaign_status_icon {
-        background-image : url(asset-path("statusWidget/active_icon.png"))  ;
+        background-image : url(asset-path("status_icons/active_icon.png"))  ;
       }
       .paused_campaign_status_icon {
-        background-image : url(asset-path("statusWidget/paused_icon.png"))  ;
-        background-size: 55%;
+        background-image : url(asset-path("status_icons/paused_icon.png"))  ;
       }
-      .completed_campaign_status_icon {
-        background-image : url(asset-path("statusWidget/completed_icon.png")) ;
-      }
+     
 
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
