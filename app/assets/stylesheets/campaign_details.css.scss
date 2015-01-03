@@ -257,6 +257,19 @@
           .icon-ok {
             background-image: url(asset-path("cdesk/list_checkbox_checked.png")) ;
           }
+           .icon-single , .icon-ok2 {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: text-top;
+             background:no-repeat top left ;
+           
+          }
+          .icon-ok2 {
+            color: red ;
+            background-image: url(asset-path("cdesk/ok.png")) ;
+          }
+
           
         }
         select {
