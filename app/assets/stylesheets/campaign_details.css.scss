@@ -247,6 +247,12 @@
               white-space: normal;
             }
           }
+          li:hover {
+            .icon-single {
+              background-image: url(asset-path("cdesk/only_check_mark.png")) ;
+              opacity: 0.5 ;
+            }
+          }
           .icon-empty , .icon-ok {
             display: inline-block;
             width: 20px;
@@ -262,12 +268,12 @@
             width: 20px;
             height: 20px;
             vertical-align: text-top;
-             background:no-repeat top left ;
+            background:no-repeat center center ;
            
           }
+
           .icon-ok2 {
-            color: red ;
-            background-image: url(asset-path("cdesk/ok.png")) ;
+            background-image: url(asset-path("cdesk/only_check_mark.png")) ;
           }
 
           
