@@ -17,6 +17,7 @@
                 details: null,
                 actionChart :true
             };
+
         $scope.details.sortParam = 'startDate';
         $scope.details.sortDirection = 'asc';
         $scope.details.toggleSortDirection = function(dir) {
@@ -67,6 +68,49 @@
             return ($scope.details.sortDirection == "desc")? "true" : "false";
         };
 
+        //EDIT ACTIVITIES
+        $scope.editActivity = false;
+        $scope.saveBtnDisabled = false;
+        $scope.showEdit= function(ad_id){
+            $scope.editActivity=true;
+
+            _.each($scope.actionItems, function(activity) {
+                if(activity.id == ad_id){
+                    $scope.editActivityItem = activity;
+                    $scope.editActionType = activity.action_type_name;
+                    $scope.editActionSubtype = activity.action_sub_type;
+                    $scope.editTactic = activity.ad_name;
+                    $scope.editMetricImpacted = activity.metric_impacted;
+                }
+            });
+
+        };
+
+        $scope.closeEdit= function(){
+            $scope.editActivity=false;
+        };
+
+        $scope.editAction = function () {
+            $scope.saveBtnDisabled = true;
+            var data = {};
+            data.make_external = $scope.editActivityItem.make_external;
+            data.ad_id = $scope.editActivityItem.id;
+            data.name = $scope.editActivityItem.comment;
+
+            dataService.editAction(data).then( function (response){
+                resetEditActionFormData();
+                $scope.editActivity=false;
+            }, function (response) {
+                resetEditActionFormData();
+                $scope.editActivity=false;
+            });
+        }
+        function resetEditActionFormData() {
+            $scope.saveBtnDisabled = false;
+            $scope.editActivityItem.make_external = false;
+            $scope.editActivityItem.comment = '';
+
+        }
 
 
         //API call for campaign details

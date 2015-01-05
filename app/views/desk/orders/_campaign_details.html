@@ -181,52 +181,11 @@
 
                 <!--graph holder ends-->
 
-
                 <!--activity log-->
                 <div class="clearfix activity_log_holder">
 
-                  <!-- edit activity log container -->
-                  <div class="edit_activity_log_holder">
-                    <div class="action_filter_holder">
-                            <div class="heading">
-                                Edit Activity
-                            </div>
-                            <div class="clearfix filter_holder">
-                                <div class="pull-left filter_dropdown_sel_list">
-                                    <span class="filter_dropdown_sel_txt">
-                                      Action Type : Optimization
-                                    </span>
-                                    <span class="filter_dropdown_sel_txt">
-                                      Action Sub Type :  Audience Optimization
-                                    </span>
-                                    <span class="filter_dropdown_sel_txt">
-                                      Tactic 
-                                    </span>
-                                    <span class="filter_dropdown_sel_txt">
-                                      Metric Impacted
-                                    </span>
-                                </div>
-                                <div class="pull-right external_chkbox">
-                                    <div class="external_chkbox clearfix">
-                                      <div class="squaredFour">
-                                        <input type="checkbox" ng-model="action.external" class="squaredFourChkbox" id="edit_details_squaredFour"  />
-                                        <label for="edit_details_squaredFour"></label>
-                                      </div>       
-                                      <span class="squaredFourTxt">External</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix submit_activity_holder">
-                                <div class="pull-left comment_area">
-                                    <textarea  ng-model="action.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"></textarea>
-                                </div>
-                                <div class="pull-right submit_btn_holder">
-                                    <input type="submit" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn">
-                                </div>
-                            </div>
-                        </div>
-                  </div>
-                  <!-- end of edit activity log container -->
+                <!--edit popup-->
+                <div campaign-activity-popup campaigns="campaigns"  ></div>  
                   
                   <div class="pull-left graph_activity_holder">
                       <div class="activity_log_header">
@@ -269,7 +228,8 @@
                           </div>
                       </div>
                       <div id="action-container" class="activity_log_list">
-                          <div data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log " ng-click="setOptimizationData(campaign,action,strategyByActionId)" ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
+                        <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
+                          <div class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems | orderBy:'created_at':true | filter:actionsFilter">
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
@@ -299,9 +259,9 @@
                                   </div>
                               </div>
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" >
+                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-click="showEdit(action.id)">
                                   </div>
-                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report">
+                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
                                   </div>
                               </div>
                           </div>

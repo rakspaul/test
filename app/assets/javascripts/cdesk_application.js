@@ -70,6 +70,7 @@
 //= require cdesk/directives/campaignlistsort
 //= require cdesk/directives/campaigncostsort
 //= require cdesk/directives/campaigndashboard
+//= require cdesk/directives/campaignactivitypopup
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist
 //= require multiselect

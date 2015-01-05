@@ -1,0 +1,44 @@
+<!-- edit activity log container -->
+<div class="edit_activity_log_holder" ng-show="$parent.editActivity" ng-click="$parent.closeEdit();">
+	<form ng-submit="$parent.editAction()" >
+		<div class="action_filter_holder" ng-click="$event.stopPropagation()">
+	        <div class="heading">
+	            Edit Activity
+	        </div>
+	        <div class="clearfix filter_holder">
+	            <div class="pull-left filter_dropdown_sel_list">
+	                <span class="filter_dropdown_sel_txt">
+	                  {{$parent.editActionType | truncateString : 30}}
+	                </span>
+	                <span class="filter_dropdown_sel_txt">
+	                  {{$parent.editActionSubtype | truncateString : 30}}
+	                </span>
+	                <span class="filter_dropdown_sel_txt">
+	                  {{$parent.editTactic | truncateString : 30}} 
+	                </span>
+	                <span class="filter_dropdown_sel_txt">
+	                  Impacts: {{$parent.editMetricImpacted | truncateString : 30}} 
+	                </span>
+	            </div>
+	            <div class="pull-right external_chkbox">
+	                <div class="external_chkbox clearfix">
+	                  <div class="squaredFour">
+	                    <input type="checkbox" ng-model="$parent.editActivityItem.make_external" class="squaredFourChkbox" id="edit_details_squaredFour"  />
+	                    <label for="edit_details_squaredFour"></label>
+	                  </div>       
+	                  <span class="squaredFourTxt">External</span>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="clearfix submit_activity_holder">
+	            <div class="pull-left comment_area">
+	                <textarea  ng-model="$parent.editActivityItem.comment" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"> </textarea>
+	            </div>
+	            <div class="pull-right submit_btn_holder">
+	                <input type="submit" class="submit_btn" value="Save" ng-disabled="$parent.saveBtnDisabled" id="action_save_btn">
+	            </div>
+	        </div>
+	    </div>
+    </form>
+</div>
+<!-- end of edit activity log container -->

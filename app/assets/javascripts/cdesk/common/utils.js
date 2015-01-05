@@ -319,6 +319,9 @@
   });
   angObj.filter('truncateString', function () {
     return function (input, stringLength) {
+      if(input === undefined) {
+        return 'NA';
+      }
       return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
     }
   });
