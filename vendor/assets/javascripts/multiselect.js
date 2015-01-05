@@ -42,13 +42,14 @@ angular.module('ui.multiselect', [])
             required = false,
             scope = originalScope.$new(),
 
-            changeHandler = attrs.change || anguler.noop;
+            changeHandler = attrs.change || angular.noop;
 
           scope.items = [];
           scope.defaultoption = attrs.defaultoption;
           scope.displaySelectAllOPtion = attrs.displaySelectAllOPtion;
           scope.multipleoption = attrs.multipleoption;
           scope.datashow = attrs.datashow;
+          scope.acceptmultiple = attrs.acceptmultiple;
           scope.header = 'Select';
           scope.multiple = isMultiple;
           scope.disabled = false;
@@ -274,15 +275,20 @@ angular.module('ui.multiselect', [])
          });
            $rootScope.$on("removeOptions",function(event,args){ 
             scope.selectedAll = true;
-            if(scope.datashow == 2){
+            if(scope.datashow == 2 ){
              scope.items = [];
              scope.multipleoption = false;
              scope.header = '';
             }
+             if(scope.datashow == 3 ){
+               scope.multipleoption = false;
+
+               scope.header = '';
+             }
           });
             $rootScope.$on("showOptions",function(event,args){ 
             scope.selectedAll = true;
-            if(scope.datashow == 2){
+            if(scope.datashow == 2 || scope.datashow == 3  ){
               scope.header = '';
              scope.multipleoption = true;
            }

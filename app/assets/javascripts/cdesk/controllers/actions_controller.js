@@ -35,7 +35,7 @@
     metrics.all = ['CPA', 'CPC', 'CPM', 'CTR', 'Action Rate', 'Delivery (Impressions)'];
 //    metrics.selected = metrics.all[0];
     $scope.metrics = metrics;
-
+    
     $scope.createAction = function () {
       $scope.action.submitBtnDisabled = false;
       var data = {};
@@ -46,11 +46,18 @@
       }
       data.action_sub_type_ids = selectedIds ;
       data.make_external = $scope.action.external;
-      var selectedTactics = $scope.tactics.selected;
-      if($scope.tactics.selected != undefined){
+      //var selectedTactics = $scope.tactics.selected;
+      /*if($scope.tactics.selected != undefined){
         data.ad_id = $scope.tactics.selected.id;
+      }else{
+         data.ad_id ='';
+      }*/
+      var selectedTactics = $scope.tactics.selected;
+      var selectedTacticIds=[];
+      for(var i in selectedTactics){
+        selectedTacticIds.push(selectedTactics[i].id);
       }
-      
+      data.action_tactic_ids = selectedTacticIds;
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
       data.created_by_id = parseInt(user_id);
@@ -59,18 +66,24 @@
       data.updated_at = now;*/
       if($scope.action.selectedType){
          data.action_type_id = $scope.action.selectedType.id;
+      }else{
+        data.action_type_id ='';
       }
-      //console.log(data);
+
       if(data.action_sub_type_ids.length > 0 &&
-        data.action_type_id !='' &&
+        data.action_type_id !=undefined &&
         data.metric_impacted != undefined &&
-        data.name.length > 0) {
+        data.name.length > 0 ) {
         //console.log("data Posted");
+      //console.log(data.action_tactic_ids);
+      for(var i in data.action_tactic_ids){
+        data.ad_id = data.action_tactic_ids[i]; 
         dataService.createAction(data).then( function (response){
           resetActionFormData();
         }, function (response) {
           resetActionFormData();
         });
+      }
       }
     }
     function resetActionFormData() {
@@ -98,6 +111,46 @@
          var flag = "removeOptions";
       }
       $rootScope.$broadcast(flag);
+    }
+    $scope.getSubType = function(){
+      var data = {};
+      var selectedIds=[];
+      data.action_sub_type_ids = '';
+      $scope.action.selectedSubTypeCount  ='';
+      if($scope.action.selectedSubType){
+         var selectedTypes = $scope.action.selectedSubType;
+        for(var i in selectedTypes){
+          selectedIds.push(selectedTypes[i].id);
+        }
+       data.action_sub_type_ids = selectedIds ;
+
+      }
+      else{
+        data.action_sub_type_ids ='';
+      }
+      $scope.action.selectedSubTypeCount = data.action_sub_type_ids.length > 0 ? data.action_sub_type_ids.length:'';
+
+
+    }
+    
+     $scope.getTactic = function(){
+      var data = {};
+      var selectedIds=[];
+      data.action_tactic_type_ids = '';
+      $scope.action.selectedTacticCount  ='';
+      if($scope.tactics.selected){
+         var selectedTypes = $scope.tactics.selected;
+        for(var i in selectedTypes){
+          selectedIds.push(selectedTypes[i].id);
+        }
+       data.action_tactic_ids = selectedIds ;
+
+      }
+      else{
+        data.action_tactic_ids ='';
+      }
+      $scope.action.selectedTacticCount = data.action_tactic_ids.length > 0 ? data.action_tactic_ids.length:'';
+      
     }
   });
 }());

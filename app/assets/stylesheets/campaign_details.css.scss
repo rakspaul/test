@@ -192,8 +192,22 @@
         width:220px;
         color: #2d2f31 ;
         font-size: 14px ;
-
+        height: 30px;
         background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat right center;
+        .error_msg_input {
+          position: absolute;
+          top : 0px ;
+          left: 0px ;
+          z-index: 1 ;
+        }
+        .input-xlarge {
+          position: absolute;
+          top: 0px ;
+          left: 0px ;
+          z-index: 2 ;
+          background: #fff;
+          width: 90%;
+        }
         .btn:active {
             outline: 0;
 
