@@ -10,9 +10,9 @@
         $scope.saveBtnDisabled = false;
 
         $scope.showEdit= function(ad_id){
-            console.log('requested data');
-            console.log(editAction.data);
 
+            //console.log('requested data');
+            //console.log(editAction.data);
             editAction.data.show = true;
  
             _.each(activityList.data.data, function(activity) {
@@ -31,6 +31,8 @@
         };
 
         $scope.closeEdit= function(){
+            $scope.editError = undefined;
+            $scope.saveBtnDisabled = false;
             editAction.data.show = false;
         };
 
@@ -41,21 +43,26 @@
             data.make_external = editAction.data.makeExternal;
             data.ad_id =  editAction.data.id ;
             data.name = editAction.data.name ;
-
-            console.log('new chnages');
-            console.log(data);
+            //console.log('new chnages');
+            //console.log(data);
 
   
-            dataService.editAction(data).then( function (response){
-                _.each(activityList.data.data, function(activity) {
-                    if(activity.id == data.ad_id){
-                        activity.make_external = data.make_external;
-                        activity.comment = data.name ;
+            editActionsService.editAction(data).then( function (response){
+               if(response) {
+                    _.each(activityList.data.data, function(activity) {
+                        if(activity.id == data.ad_id){
+                            activity.make_external = data.make_external;
+                            activity.comment = data.name ;
 
-                    }
-                });
-                resetEditActionFormData();
-                editAction.data.show = false;
+                        }
+                    });
+
+                    resetEditActionFormData();
+                    editAction.data.show = false;
+                } else {
+                    $scope.editError = "(Update Failed)";
+                }
+
             });
         }
         function resetEditActionFormData() {

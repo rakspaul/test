@@ -189,8 +189,8 @@
                   <form ng-submit="editAction()" >
                     <div class="action_filter_holder" ng-click="$event.stopPropagation()">
                           <div class="heading">
-                              Edit Activity
-                          </div>
+                              Edit Activity <span style="color:red">{{editError}}</span>
+                          </div> 
                           <div class="clearfix filter_holder">
                               <div class="pull-left filter_dropdown_sel_list">
                                   <span class="filter_dropdown_sel_txt">

@@ -118,14 +118,6 @@
         return this.post(url, data);
       },
 
-      editAction: function (data) {
-        return this.put(urlService.APIeditAction(data.ad_id, user_id), data).then(function(response) {
-          if(response.status === "success") {
-            console.log('Edit successful ' + data.ad_id);
-          }
-        })
-      },
-
       updateLastViewedAction: function(campaignId) {
         return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
           if(response.status === "success") {

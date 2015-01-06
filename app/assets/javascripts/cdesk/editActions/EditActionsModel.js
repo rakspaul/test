@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var editAction = function() {
+  var editAction = function(editActionsService) {
     this.data = {
       id: 0,
       actionType: '',
@@ -11,6 +11,12 @@
       makeExternal: '',
       show: false
     };
+
+    var updateAction = function(){
+      //WIP
+    };
   }
-  angObj.service('editAction', editAction);
+  angObj.service('editAction', ['editActionsService', editAction]);
+
+
 }());
