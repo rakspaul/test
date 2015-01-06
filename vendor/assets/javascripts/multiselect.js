@@ -132,7 +132,6 @@ angular.module('ui.multiselect', [])
               }else{
                  var data_selected = modelCtrl.$modelValue;
                  scope.header = data_selected[0].name ;
-
               }
             } else {
               var local = {};
@@ -229,6 +228,17 @@ angular.module('ui.multiselect', [])
               scope.toggleSelect();
             } else {
               selectMultiple(item);
+              if(modelCtrl.$modelValue)
+              {
+                if(modelCtrl.$modelValue.length == 0){
+                  scope.toggleSelectAll(false);
+                }
+                if(scope.items){
+                  if(modelCtrl.$modelValue.length == scope.items.length ){
+                    scope.toggleSelectAll(true);
+                  }
+                }
+              }
             }
           }
         }
