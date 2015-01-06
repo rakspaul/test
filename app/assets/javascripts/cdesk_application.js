@@ -44,6 +44,7 @@
 //= require cdesk/common/models/CampaignCost
 //= require cdesk/common/models/CampaignModel
 //= require cdesk/common/models/DataStoreModel
+//= require cdesk/common/directives/CommonDirectives.js
 //= require cdesk/common/utils
 
 //= require cdesk/directives/largeListSearch
@@ -58,9 +59,20 @@
 //= require cdesk/editActions/EditActionsService
 //= require cdesk/editActions/EditActionsController
 
+//= require cdesk/brands/BrandsModule
+//= require cdesk/brands/BrandsController
+//= require cdesk/brands/BrandsListController
+//= require cdesk/brands/BrandsDirective
+//= require cdesk/brands/BrandsService
+//= require cdesk/brands/BrandsModel
+
+//= require cdesk/timePeriod/TimePeriodModule
+//= require cdesk/timePeriod/TimePeriodModel
+//= require cdesk/timePeriod/TimePeriodDirective
+//= require cdesk/timePeriod/TimePeriodController
+
+
 //= require cdesk/controllers/campaign_details_controller
-//= require cdesk/controllers/brands_controller
-//= require cdesk/controllers/brands_list_controller
 //= require cdesk/controllers/actions_controller
 //= require cdesk/controllers/optimization_controller
 //= require cdesk/controllers/inventory_controller

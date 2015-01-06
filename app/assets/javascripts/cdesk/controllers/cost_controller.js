@@ -251,6 +251,9 @@ var angObj = angObj || {};
 
         };
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
 
 
 

@@ -87,11 +87,6 @@
         return this.fetch(url);
       },
 
-      getBrands: function () {
-        var url = '/desk/advertisers.json';
-        return this.fetch(url);
-      },
-
       getActions: function () {
         var url = apiPaths.apiSerivicesUrl + '/actionTypes';
         return this.fetch(url);

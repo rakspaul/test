@@ -469,7 +469,6 @@ var angObj = angObj || {};
             }
         };
 
-
         $("#optimization_squaredFour").click( function() {
                 if( $(this).is(":checked") == true ) {
                     localStorage.setItem(user_id+'_opt_seeDate',true);
@@ -486,6 +485,9 @@ var angObj = angObj || {};
         });
 
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
 
     });
 }());
