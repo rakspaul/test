@@ -50,7 +50,6 @@ angular.module('ui.multiselect', [])
           scope.multipleoption = attrs.multipleoption;
           scope.datashow = attrs.datashow;
           scope.acceptmultiple = attrs.acceptmultiple;
-          scope.setwidth = attrs.setwidth;
           scope.header = 'Select';
           scope.multiple = isMultiple;
           scope.disabled = false;
