@@ -1,0 +1,51 @@
+<div class="main_navigation_holder">
+  <div class="main_nav clearfix">
+    <div class="pull-left">
+      <a class="main_logo" href="#campaigns" id="logo">
+        <img alt="Collective media logo" src="/assets/collective-media-logo.png" width="170">
+      </a>
+    </div>
+    <div class="pull-left main_navigation clearfix">
+      <div class="pull-left each_nav_link">
+        <a href="#campaigns">Campaigns</a>
+      </div>
+      <div class="pull-left each_nav_link">
+        <a href="#performance">Reports</a>
+      </div>
+    </div>
+    <div class="pull-right profile_menu">
+      <div class="dropdown dropdown-two">
+        <div class="dropdown-toggle profile_account_icon" data-toggle="dropdown"></div>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="#">
+              Hello, Xyz
+            </a>
+          </li>
+          <li>
+            <a href="#" class="logout_link">
+              Log out
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="pull-right main_filters clearfix">
+      <div class="clearfix page_filters">
+        <div class="search-cum-navbar">
+          <ul class="nav navbar-nav">
+            <li class="dropdown dropdown-two each_filter lifetime_filter clearfix">
+              <div class="pull-left timeline_dd_icon"></div>
+              <div class="pull-left timeline_dd" ng-controller="timePeriodController">
+                <timeperiod-drop-down></timeperiod-drop-down>
+              </div>
+            </li>
+            <li class="dropdown each_filter brands_filter clearfix" ng-controller="brandsController">
+              <brands-drop-down></brands-drop-down>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
