@@ -127,7 +127,13 @@ angular.module('ui.multiselect', [])
           function getHeaderText() {
             if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
             if (isMultiple) {
-              scope.header = modelCtrl.$modelValue.length+' Selected' ;
+             if(modelCtrl.$modelValue.length > 1 ){
+                 scope.header = modelCtrl.$modelValue.length+' Selected' ;
+              }else{
+                 var data_selected = modelCtrl.$modelValue;
+                 scope.header = data_selected[0].name ;
+
+              }
             } else {
               var local = {};
               local[parsedResult.itemName] = modelCtrl.$modelValue;
