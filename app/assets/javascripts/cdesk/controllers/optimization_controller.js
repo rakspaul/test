@@ -17,6 +17,11 @@ var angObj = angObj || {};
             optimization: null
         };
 
+        $scope.seeDate = {
+            value : '',
+            className: ''
+        };
+
         $scope.dataInit = function () {
             $scope.tacticList = [];
             $scope.navigationFromReports = true;
@@ -37,6 +42,14 @@ var angObj = angObj || {};
             $scope.filters = domainReports.getReportsDropDowns();
             $scope.orderByField = 'created_at';
             $scope.reverseSort = true;
+
+            if(localStorage.getItem(user_id+'_opt_seeDate') === undefined || localStorage.getItem(user_id+'_opt_seeDate') === null){
+                $scope.seeDate.value = false;
+                $scope.seeDate.className = '';
+            } else {
+                $scope.seeDate.value = localStorage.getItem(user_id+'_opt_seeDate');
+                $scope.seeDate.className = (localStorage.getItem(user_id+'_opt_seeDate') == "true" ? 'see_dates_selected' : '');
+            }
         };
 
         $scope.dataInit();
@@ -455,6 +468,24 @@ var angObj = angObj || {};
                 $scope.noTacticsFound = true;
             }
         };
+
+
+        $("#optimization_squaredFour").click( function() {
+                if( $(this).is(":checked") == true ) {
+                    localStorage.setItem(user_id+'_opt_seeDate',true);
+                    $scope.seeDate.value = true;
+                    $scope.seeDate.className = 'see_dates_selected' ;
+                    $(".details_with_heading_total").addClass("see_dates_selected") ;
+                } else {
+                    localStorage.setItem(user_id+'_opt_seeDate',false);
+                    $scope.seeDate.value = false;
+                    $scope.seeDate.className = '' ;
+                    $(".details_with_heading_total").removeClass("see_dates_selected") ;
+                }
+            $scope.$apply();
+        });
+
+
 
     });
 }());
