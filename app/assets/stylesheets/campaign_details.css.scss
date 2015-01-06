@@ -93,6 +93,31 @@
     box-shadow: 0px 1px 1px #ebf0f5;
     -moz-box-shadow: 0px 1px 1px #ebf0f5;
     -webkit-box-shadow: 0px 1px 1px #ebf0f5;
+    .error_message {
+      position: absolute;
+      color: #fff ;
+      z-index: 5 ;
+      bottom: 40px;
+      left: 0px;
+      background: #323133;
+      width: 200px;
+      font-size: 12px;
+      padding: 10px;
+      border-radius: 5px ;
+      -moz-border-radius: 5px ;
+      -webkit-border-radius: 5px ;
+    }
+    .error_message:after {
+      content: "";
+      height: 0;
+      width: 0;
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      border-right: solid 8px transparent;
+      border-left: solid 8px transparent;
+      border-top: solid 8px #323133 ;
+    }
     .heading {
       font-size: 14px ;
       color: #0978c9 ;
@@ -103,7 +128,11 @@
     }
     .comment_area {
       width: 80%;
+      position: relative;
       padding: 10px 0 6px ;
+      .error_message  {
+        bottom: 70px ;
+      }
       textarea {
         border: 0px;
         background: transparent;
@@ -119,7 +148,7 @@
       }
     }
     .filter_holder {
-      padding: 4px 15px 4px 3px ;
+      padding: 4px 15px 8px 3px ;
       font-size: 14px ;
       color: #2d2f31 ;
       background: #fbfcff ;
@@ -186,12 +215,132 @@
       }
       .filter_dropdown {
         float: left;
-        margin-right: 70px ;
-        overflow:hidden;
-        max-width:172px;
+        position: relative;
+        margin-right: 50px ;
+        /*overflow:hidden;*/
+        width:178px;
         color: #2d2f31 ;
         font-size: 14px ;
+        height: 30px;
         background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat right center;
+        .error_msg_input {
+          position: absolute;
+          top : 0px ;
+          left: 0px ;
+          z-index: 1 ;
+          display: none;
+        }
+        
+        .input-xlarge {
+          position: absolute;
+          top: 0px ;
+          left: 0px ;
+          z-index: 2 ;
+          background: #fff;
+          width: 90%;
+        }
+        .btn:active {
+            outline: 0;
+
+            box-shadow: 0px 0px 0px transparent;
+            -moz-box-shadow: 0px 0px 0px transparent;
+            -webkit-box-shadow: 0px 0px 0px transparent;
+          }
+          multiselect .btn {
+            background: transparent;
+            .caret {
+              display: none;
+            }
+          }
+          .dropdown {
+            background: #fff ;
+            .btn {
+              padding-bottom: 0px;
+              position: absolute;
+              z-index: 1;
+              background : #fff ;
+              
+            }
+            
+          }
+        .dropdown.open {
+            .btn {
+              border: solid 1px #eee;
+              border-bottom: 0px ;
+              padding-bottom: 2px;
+              border-radius: 0;
+              -moz-border-radius: 0;
+              -webkit-border-radius: 0;              
+              z-index: 11;
+
+            }
+            
+          }
+        .dropdown-menu {
+          position: absolute;
+          top: 26px;
+          left: 0;
+          min-width: 100% ;
+          box-shadow: 0px 0px 0px transparent;
+          -webkit-box-shadow: 0px 0px 0px transparent;
+          -moz-box-shadow: 0px 0px 0px transparent;
+          border: solid 1px #eee;
+          border-radius: 0;
+          -webkit-border-radius: 0;
+          -moz-border-radius: 0;
+          width: auto ;
+          max-height:  600px ;
+          z-index: 8;
+          .btn-link {
+            padding: 0px ;
+            color: #262626 ;
+            margin: 0px ;
+            text-decoration: none;
+            border: 0px ;
+            display: block;
+            width: 100%;
+            text-align: left;
+          }
+          
+          li {
+            color: #57606d ;
+            a {
+              padding: 0px ;
+              display: block;
+              white-space: nowrap;
+            }
+          }
+          li:hover {
+            .icon-single {
+              background-image: url(asset-path("cdesk/only_check_mark.png")) ;
+              opacity: 0.5 ;
+            }
+          }
+          .icon-empty , .icon-ok {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: text-top;
+            background: url(asset-path("cdesk/list_checkbox.png")) no-repeat top left ;
+          }
+          .icon-ok {
+            background-image: url(asset-path("cdesk/list_checkbox_checked.png")) ;
+          }
+           .icon-single , .icon-ok2 {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            vertical-align: text-top;
+            background:no-repeat center center ;
+           
+          }
+
+          .icon-ok2 {
+            background-image: url(asset-path("cdesk/only_check_mark.png")) ;
+          }
+
+          
+        }
         select {
           padding: 5px 20px 5px 10px ; 
           -webkit-appearance: none;  
@@ -208,6 +357,17 @@
         select:focus {
           outline: 0px ;  
         }
+      }
+      .select_all_filter_dropdown {
+        width:210px;
+        .dropdown-menu {
+          li:first-child {
+            border-bottom: solid 1px #eee ;
+          }
+        }
+      }
+      .metric_selected_filter_dropdown {
+        width:202px;
       }
     }
     .submit_activity_holder {
@@ -670,3 +830,33 @@
     
   }
 }
+
+/* Mulitiple select */
+/* Put your css in here */
+
+multiselect {
+    display:block;
+}
+multiselect .btn {
+    width: 100%;
+    background-color: #FFF;
+}
+multiselect .btn.error{
+    border: 1px solid #da4f49 !important;
+}
+multiselect .dropdown-menu {
+    max-height: 300px;
+    overflow-y: auto;
+}
+multiselect .dropdown-menu {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 2px;
+}
+multiselect .dropdown-menu > li > a {
+    padding: 3px 10px;
+    cursor:pointer;
+}
+/* End Mulitiple select option */
+
+
