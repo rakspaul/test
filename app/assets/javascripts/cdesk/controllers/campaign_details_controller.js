@@ -2,10 +2,12 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList) {
 
-      var campaign = campaignListService;
-      var Campaigns = campaignListModel;
+        var campaign = campaignListService;
+        var Campaigns = campaignListModel;
+        $scope.actionItems = activityList.data;
+
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
 
@@ -68,50 +70,6 @@
             return ($scope.details.sortDirection == "desc")? "true" : "false";
         };
 
-        //EDIT ACTIVITIES
-        $scope.editActivity = false;
-        $scope.saveBtnDisabled = false;
-        $scope.showEdit= function(ad_id){
-            $scope.editActivity=true;
-
-            _.each($scope.actionItems, function(activity) {
-                if(activity.id == ad_id){
-                    $scope.editActivityItem = activity;
-                    $scope.editActionType = activity.action_type_name;
-                    $scope.editActionSubtype = activity.action_sub_type;
-                    $scope.editTactic = activity.ad_name;
-                    $scope.editMetricImpacted = activity.metric_impacted;
-                }
-            });
-
-        };
-
-        $scope.closeEdit= function(){
-            $scope.editActivity=false;
-        };
-
-        $scope.editAction = function () {
-            $scope.saveBtnDisabled = true;
-            var data = {};
-            data.make_external = $scope.editActivityItem.make_external;
-            data.ad_id = $scope.editActivityItem.id;
-            data.name = $scope.editActivityItem.comment;
-
-            dataService.editAction(data).then( function (response){
-                resetEditActionFormData();
-                $scope.editActivity=false;
-            }, function (response) {
-                resetEditActionFormData();
-                $scope.editActivity=false;
-            });
-        }
-        function resetEditActionFormData() {
-            $scope.saveBtnDisabled = false;
-            $scope.editActivityItem.make_external = false;
-            $scope.editActivityItem.comment = '';
-
-        }
-
 
         //API call for campaign details
 //        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
@@ -151,9 +109,9 @@
                         counter++;
                     }
                 }
-              $scope.strategyByActionId = strategyByActionId;
-                $scope.actionItems = actionItemsArray;
-              dataService.updateLastViewedAction($routeParams.campaignId);
+                $scope.strategyByActionId = strategyByActionId;
+                activityList.data.data = actionItemsArray;
+                dataService.updateLastViewedAction($routeParams.campaignId);
             }
         }, function(result) {
             console.log('call failed');
@@ -363,7 +321,7 @@
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
-                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 480, 330, null, undefined, showExternal);
+                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 480, 330, null, undefined, showExternal);
 
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
@@ -384,7 +342,7 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
                 selectedAction : action,
-                selectedActionItems : $scope.actionItems,
+                selectedActionItems : activityList.data.data ,
                 navigationFromReports : false
             };
 
@@ -398,7 +356,7 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategy,
                 selectedAction : undefined,
-                selectedActionItems : $scope.actionItems
+                selectedActionItems : activityList.data.data 
             };
 
             dataTransferService.initOptimizationData(param);
@@ -431,7 +389,7 @@
 
 
         $scope.watchActionFilter = function(filter, showExternal) {
-            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
+            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 480, 330 , null, undefined, showExternal);
             return filter;
         };
 
