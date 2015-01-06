@@ -49,7 +49,7 @@
 
                 <div ng-show="is_network_user">
                     <!-- action filter -->
-                    <form ng-submit="createAction()" ng-controller="ActionsController" formnovalidate>
+                    <form  ng-controller="ActionsController" >
                         <div class="action_filter_holder">
                             <div class="heading">
                                 Create Activity
@@ -59,41 +59,35 @@
                                <!-- <select ng-model="action.selectedType" ng-required="true" ng-options="type.name for type in action.types | orderBy:'name'" id="action_type_filter_dd" ng-change="getActionType()" >
                                       <option value="">- Action Type -</option>
                                     </select> -->
-                                     <multiselect class="input-xlarge" multiple="false"  class="myerror" multipleoption="false" acceptmultiple="0" defaultoption='- Action Type -'  ng-model="action.selectedType" options="type.name for type in action.types | orderBy:'name'" change="selected()" id="action_type_filter_dd" datashow="1" ng-click="getActionType()" ></multiselect>
-                                     <input type="text" class="error_msg_input" value="{{action.selectedType}}" name="actTypeFlag" id="actTypeFlag" ng-required="true" />
-                                      <div ng-show="action.selectedTypeError"></div>
-                                    
-                                </div>
-                               
-                                <div class="filter_dropdown">
+                                     <multiselect class="input-xlarge" multiple="false"  class="myerror" multipleoption="false" acceptmultiple="0" defaultoption='- Action Type -'  ng-model="action.selectedType" options="type.name for type in action.types | orderBy:'name'" change="selected()" id="action_type_filter_dd" datashow="1" ng-click="resetValidation();getActionType()" setwidth="198"></multiselect>
+                                     <input type="text"  class="error_msg_input" value="{{action.selectedType}}" name="actTypeFlag" id="actTypeFlag"  />
+                               <div  ng-show="action.selectedTypeError" id="error_activity" class="error_message">Please select an item in the list.</div>
+                               </div>
+                                <div class="filter_dropdown select_all_filter_dropdown">
                                     <!-- <select ng-model="action.selectedSubType" ng-required="true" ng-options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" id="action_sub_type_dd">
                                         <option value="">- Action Sub Type -</option>
                                     </select> -->
-                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1" displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="getSubType()"></multiselect>
-                                      <input type="text" class="error_msg_input" value="{{action.selectedSubTypeCount}}" name="actSubTypeFlag" id="actSubTypeFlag" ng-required="true" />
-                                      <div ng-show="action.selectedSubTypeError"></div>
-                                </div>
-                               
-                                <div class="filter_dropdown">
+                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1" setwidth="290" displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType()"></multiselect>
+                                      <input type="text"   class="error_msg_input" value="{{action.selectedSubTypeCount}}" name="actSubTypeFlag" id="actSubTypeFlag"  />
+                                 <div ng-show="action.selectedSubTypeError" id="error_subtype"  class="error_message">Please select an item in the list.</div>
+                               </div>
+                                <div class="filter_dropdown select_all_filter_dropdown">
                                    
                                    <!-- <select ng-model="tactics.selected" ng-required="true" ng-options="tactic.name for tactic in tactics.all | orderBy:'name'" id="action_tactic_dd">
                                       <option value="">- Tactic -</option>
                                     </select>-->
-                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="getTactic()"></multiselect>
-                                     <input type="text" class="error_msg_input" value="{{action.selectedTacticCount}}" name="actTacticFlag" id="actTacticFlag" ng-required="true" />
-                                     <div ng-show="action.selectedTacticError"></div>
-                                    
+                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1" setwidth="550"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()"></multiselect>
+                                     <input type="text"  class="error_msg_input" value="{{action.selectedTacticCount}}" name="actTacticFlag" id="actTacticFlag"  />              
+                                 <div ng-show="action.selectedTacticError" id="error_tactic" class="error_message">Please select an item in the list.</div>
                                 </div>
-                                
                                 <div class="filter_dropdown">
                                    <!-- <select ng-model="metrics.selected" ng-required="true" ng-options="metric for metric in metrics.all" id="action_metric_dd">
                                       <option value="">- Metric Impacted -</option>
                                     </select> -->
-                                     <multiselect class="input-xlarge" multiple="false"    multipleoption="false" acceptmultiple="0"   defaultoption='- Metric Impacted -'  ng-model="metrics.selected" options="metric for metric in metrics.all" change="selected()" id="action_metric_dd" datashow="4" ></multiselect>
-                                     <input type="text" class="error_msg_input" value="{{metrics.selected}}" name="actMatricFlag" id="actMatricFlag" ng-required="true" />
-                                     <div ng-show="action.selectedMetricError"></div>
-                                </div>
-                               
+                                     <multiselect class="input-xlarge" multiple="false"    multipleoption="false" acceptmultiple="0"  setwidth="198"  defaultoption='- Metric Impacted -'  ng-model="metrics.selected" options="metric for metric in metrics.all" change="selected()" id="action_metric_dd" datashow="4" ng-click="resetValidation();" ></multiselect>
+                                     <input type="text"  class="error_msg_input" value="{{metrics.selected}}" name="actMatricFlag" id="actMatricFlag"  />   
+                                 <div ng-show="action.selectedMetricError" id="error_metric" class="error_message">Please select an item in the list.</div>
+                               </div>
                                 <div class="pull-right external_chkbox">
                                     <div class="external_chkbox clearfix">
                                       <div class="squaredFour">
@@ -106,11 +100,13 @@
                             </div>
                             <div class="clearfix submit_activity_holder">
                                 <div class="pull-left comment_area">
-                                    <textarea  ng-model="action.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"></textarea>
-                                     <div ng-show="action.nameError"></div>
-                                </div>
+                                    <textarea  ng-model="action.name"   placeHolder="Leave a Comment" id="action_comment" ng-focus="resetValidation()" maxlength="160"></textarea>
+                                    
+                                
+                                 <div ng-show="action.nameError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                 </div>
                                 <div class="pull-right submit_btn_holder">
-                                    <input type="submit" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn" >
+                                    <input type="button" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn" ng-click="createAction()" >
                                 </div>
                             </div>
                         </div>

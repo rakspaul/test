@@ -74,8 +74,6 @@
         data.action_type_id !=undefined &&
         data.metric_impacted != undefined &&
         data.name.length > 0 ) {
-        //console.log("data Posted");
-      //console.log(data.action_tactic_ids);
       for(var i in data.action_tactic_ids){
         data.ad_id = data.action_tactic_ids[i]; 
         dataService.createAction(data).then( function (response){
@@ -84,7 +82,82 @@
           resetActionFormData();
         });
       }
+      }else{
+        if(data.action_type_id !=''){
+           $scope.action.selectedTypeError = false;
+           $scope.action.actionFlag = 1;
+
+          }else{
+              $scope.action.selectedTypeError = true;
+              $scope.action.selectedSubTypeError = false;
+              $scope.action.selectedTacticError = false;
+              $scope.action.selectedMetricError = false;
+              $scope.action.nameError = false;
+             $scope.action.actionFlag = 0;
+          }
+          if( $scope.action.actionFlag  > 0 ){
+             if(data.action_sub_type_ids.length > 0){
+              $scope.action.selectedSubTypeError = false;
+               $scope.action.actionSubTypeFlag = 1;
+            }else{
+                $scope.action.selectedTypeError = false;
+                $scope.action.selectedSubTypeError = true;
+                $scope.action.selectedTacticError = false;
+                $scope.action.selectedMetricError = false;
+                $scope.action.nameError = false;
+                $scope.action.actionSubTypeFlag = 0;
+            }
+          }
+         if( $scope.action.actionFlag  > 0 &&  $scope.action.actionSubTypeFlag > 0 ){
+          console.log(data.action_tactic_ids);
+           if( data.action_tactic_ids.length > 0 ){
+            $scope.action.selectedTacticError = false;
+            $scope.action.TacticFlag = 1;
+            }else{
+               $scope.action.selectedTypeError = false;
+                $scope.action.selectedSubTypeError = false;
+                $scope.action.selectedTacticError = true;
+                $scope.action.selectedMetricError = false;
+                $scope.action.nameError = false;
+               $scope.action.TacticFlag = 0;
+            }
+
+         }
+         if( $scope.action.actionFlag  > 0 &&  $scope.action.actionSubTypeFlag > 0 && $scope.action.TacticFlag > 0  ){
+          if(  data.metric_impacted != undefined ){
+            $scope.action.selectedMetricError = false;
+             $scope.action.MetricFlag = 1;
+          }else{
+                $scope.action.selectedTypeError = false;
+                $scope.action.selectedSubTypeError = false;
+                $scope.action.selectedTacticError = false;
+                $scope.action.selectedMetricError = true;
+                $scope.action.nameError = false;
+              $scope.action.MetricFlag = 0;
+          }
+        }
+         if( $scope.action.actionFlag  > 0 &&  $scope.action.actionSubTypeFlag > 0 && $scope.action.TacticFlag > 0 &&  $scope.action.MetricFlag > 0  ){
+          if(  data.name.length  > 0 ){
+            $scope.action.nameError = false;
+          }else{
+            $scope.action.selectedTypeError = false;
+                $scope.action.selectedSubTypeError = false;
+                $scope.action.selectedTacticError = false;
+                $scope.action.selectedMetricError = false;
+                $scope.action.nameError = true;
+          }
+        }
+
       }
+    }
+    $scope.resetValidation = function(){
+      console.log("I am from reset");
+       $scope.action.selectedTypeError = false;
+       $scope.action.selectedSubTypeError = false;
+       $scope.action.selectedTacticError = false;
+       $scope.action.selectedMetricError = false;
+       $scope.action.nameError = false;
+
     }
     function resetActionFormData() {
       $scope.action.submitBtnDisabled = false;

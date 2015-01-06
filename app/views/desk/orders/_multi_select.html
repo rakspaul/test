@@ -5,7 +5,7 @@
     <span class="pull-left" ng-if="acceptmultiple != 1"> {{(header)? header : defaultoption}} </span>
     <span class="caret pull-right"></span>
   </button>
-  <ul class="dropdown-menu" id="{{datashow}}">
+  <ul class="dropdown-menu" id="{{datashow}}" style="width:{{setwidth}}px;">
     <div ng-if= "(datashow == 2)" >
     <li ng-show="multipleoption" >
       <button class="btn-link btn-small selectAllBtn" ng-show="datashow"  ng-click="toggleSelectAll(selectedAll)"  >
