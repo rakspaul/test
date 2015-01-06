@@ -347,8 +347,10 @@
 
 .graph_icon {
   float: right;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 26px;
+  background: url(asset-path("cdesk/graphIcon.png")) no-repeat left center;
+  background-size: 100%;
 }
 
 .nice_dd {
