@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, performanceService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('performanceController', function ($scope, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
@@ -437,6 +437,9 @@ var angObj = angObj || {};
             }
         };
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
 
     });
 }());

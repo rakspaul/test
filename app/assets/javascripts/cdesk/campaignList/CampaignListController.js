@@ -1,11 +1,13 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _) {
+  campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _, constants, brandsModel) {
     //Hot fix to show the campaign tab selected
     $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
     $scope.campaigns = new campaignListModel();
-
+    $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
+      $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
+    });
     $scope.campaigns.fetchDashboardData();
 
     $scope.$on("fromCampaignDetails", function(event, args) {

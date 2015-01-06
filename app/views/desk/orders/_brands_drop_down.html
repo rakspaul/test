@@ -1,0 +1,17 @@
+<div class="pull-left brands_dd_icon"></div>
+<div class="pull-left">
+  <div id="brandsDropdownDiv" style="display:inline;">
+    <input class="dropdown-toggle inactive" ng-model="selectedBrand.name" id="brandsDropdown"
+           placeholder="ALL BRANDS"/>
+    <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
+  </div>
+  <ul class="dropdown-menu" role="menu" id="brandsList">
+    <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
+      <a data-ng-click="selectBrand(brand)">
+        <span class="tick"></span>
+          <span class="menuItemText"
+                ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>
+      </a>
+    </li>
+  </ul>
+</div>
