@@ -93,11 +93,11 @@
               $scope.action.selectedTacticError = false;
               $scope.action.selectedMetricError = false;
               $scope.action.nameError = false;
-             $scope.action.actionFlag = 0;
+              $scope.action.actionFlag = 0;
           }
           if( $scope.action.actionFlag  > 0 ){
              if(data.action_sub_type_ids.length > 0){
-              $scope.action.selectedSubTypeError = false;
+               $scope.action.selectedSubTypeError = false;
                $scope.action.actionSubTypeFlag = 1;
             }else{
                 $scope.action.selectedTypeError = false;
@@ -113,12 +113,12 @@
             $scope.action.selectedTacticError = false;
             $scope.action.TacticFlag = 1;
             }else{
-               $scope.action.selectedTypeError = false;
+                $scope.action.selectedTypeError = false;
                 $scope.action.selectedSubTypeError = false;
                 $scope.action.selectedTacticError = true;
                 $scope.action.selectedMetricError = false;
                 $scope.action.nameError = false;
-               $scope.action.TacticFlag = 0;
+                $scope.action.TacticFlag = 0;
             }
 
          }
@@ -139,7 +139,7 @@
           if(  data.name.length  > 0 ){
             $scope.action.nameError = false;
           }else{
-            $scope.action.selectedTypeError = false;
+                $scope.action.selectedTypeError = false;
                 $scope.action.selectedSubTypeError = false;
                 $scope.action.selectedTacticError = false;
                 $scope.action.selectedMetricError = false;
@@ -183,45 +183,6 @@
       }
       $rootScope.$broadcast(flag);
     }
-    $scope.getSubType = function(){
-      var data = {};
-      var selectedIds=[];
-      data.action_sub_type_ids = '';
-      $scope.action.selectedSubTypeCount  ='';
-      if($scope.action.selectedSubType){
-         var selectedTypes = $scope.action.selectedSubType;
-        for(var i in selectedTypes){
-          selectedIds.push(selectedTypes[i].id);
-        }
-       data.action_sub_type_ids = selectedIds ;
-
-      }
-      else{
-        data.action_sub_type_ids ='';
-      }
-      $scope.action.selectedSubTypeCount = data.action_sub_type_ids.length > 0 ? data.action_sub_type_ids.length:'';
-
-
-    }
     
-     $scope.getTactic = function(){
-      var data = {};
-      var selectedIds=[];
-      data.action_tactic_type_ids = '';
-      $scope.action.selectedTacticCount  ='';
-      if($scope.tactics.selected){
-         var selectedTypes = $scope.tactics.selected;
-        for(var i in selectedTypes){
-          selectedIds.push(selectedTypes[i].id);
-        }
-       data.action_tactic_ids = selectedIds ;
-
-      }
-      else{
-        data.action_tactic_ids ='';
-      }
-      $scope.action.selectedTacticCount = data.action_tactic_ids.length > 0 ? data.action_tactic_ids.length:'';
-      
-    }
   });
 }());
