@@ -53,6 +53,11 @@
 //= require cdesk/campaignList/CampaignListService
 //= require cdesk/campaignList/CampaignListController
 
+//= require cdesk/editActions/EditActionsModule
+//= require cdesk/editActions/EditActionsModel
+//= require cdesk/editActions/EditActionsService
+//= require cdesk/editActions/EditActionsController
+
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
 //= require cdesk/controllers/brands_list_controller
@@ -75,6 +80,7 @@
 //= require multiselect
 //= require cdesk/models/domain_reports
 //= require cdesk/models/action_type
+//= require cdesk/models/activity_list
 //= require cdesk/models/action_sub_type
 //= require cdesk/models/tactic
 //= require cdesk/services/inventoryservice
