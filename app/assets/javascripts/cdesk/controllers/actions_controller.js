@@ -109,7 +109,6 @@
             }
           }
          if( $scope.action.actionFlag  > 0 &&  $scope.action.actionSubTypeFlag > 0 ){
-          console.log(data.action_tactic_ids);
            if( data.action_tactic_ids.length > 0 ){
             $scope.action.selectedTacticError = false;
             $scope.action.TacticFlag = 1;
@@ -151,7 +150,6 @@
       }
     }
     $scope.resetValidation = function(){
-      console.log("I am from reset");
        $scope.action.selectedTypeError = false;
        $scope.action.selectedSubTypeError = false;
        $scope.action.selectedTacticError = false;

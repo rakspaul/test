@@ -104,6 +104,7 @@
                                     
                                 
                                  <div ng-show="action.nameError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                 <div  id="error_more_comment" class="error_message"></div>
                                  </div>
                                 <div class="pull-right submit_btn_holder">
                                     <input type="button" class="submit_btn" value="Submit" ng-disabled="action.submitBtnDisabled" id="action_submit_btn" ng-click="createAction()" >
@@ -484,9 +485,7 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-       //$( "button" ).css( {"border": "1px solid #fff !important;"} );
-      //$( "button" ).removeClass( "error");
-        //$("#myid_1").addClass("mycls" );
+      $("#error_more_comment").hide();
       $( ".dropdown_ul_text" ).click(function() {
           $( ".dropdown_ul" ).toggle();
        });
@@ -511,6 +510,21 @@
           jQuery("#action_comment").val(txt);
          
       });
+      $('#action_comment').bind("change keyup", function() {
+          var txt = (jQuery("#action_comment").val());
+          var max_length = $(this).attr("maxlength")
+          if(txt.length == max_length ){
+            $("#error_more_comment").show();
+            $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
+          }
+          else{
+             $("#error_more_comment").hide();
+          }
+         
+      });
+       $('#action_comment').bind("blur", function() {
+          $("#error_more_comment").hide();
+       });
       
       
   });
