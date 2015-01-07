@@ -55,7 +55,7 @@
                     <div class="see_dates_holder clearfix">
                         <div class="external_chkbox clearfix">
                             <div class="squaredFour" id="see_dates_chkbox" >
-                              <input type="checkbox" id="optimization_squaredFour" class="squaredFourChkbox">
+                              <input id="optimization_squaredFour" type="checkbox" class="squaredFourChkbox" ng-checked="{{seeDate.value}}" >
                               <label for="optimization_squaredFour"></label>
                             </div>       
                             <span class="squaredFourTxt">See Dates</span>
@@ -90,7 +90,7 @@
             </div>
         </div>
         <!--tacticNotFound :  {{tacticNotFound | json}}-->
-        <div class="details_with_heading_total">
+        <div class="details_with_heading_total {{seeDate.className}}">
 
             <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
                             Tactics Not Available
@@ -157,15 +157,3 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    $(document).ready( function() {
-        $("#optimization_squaredFour").click( function() {
-            if( $(this).is(":checked") == true ) {
-               $(".details_with_heading_total").addClass("see_dates_selected") ;
-            } else {
-                $(".details_with_heading_total").removeClass("see_dates_selected") ;
-            }
-        });
-    }) ;
-    
-    </script>
