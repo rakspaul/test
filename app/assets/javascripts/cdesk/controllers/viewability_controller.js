@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
@@ -118,7 +118,7 @@ var angObj = angObj || {};
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-            $scope.$apply();
+           // $scope.$apply();
         };
 
         $scope.updateStrategyObjects = function (strategy) {
@@ -142,19 +142,14 @@ var angObj = angObj || {};
         //Calling the Strategy object based on the campaignId
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
-            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
                     if (result.status == 'success') {
                         var strategy = result.data.data;
-                        dataTransferService.setCampaignStrategyList(campaignId, strategy);
                         $scope.updateStrategyObjects(strategy);
                     } else {
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     }
                 });
-            } else {
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
         };
 
         //Function is called from startegylist directive

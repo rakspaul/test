@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('InventoryController', function ($scope, $http, apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService) {
+    angObj.controller('InventoryController', function ($scope, $http, apiPaths, inventoryService, columnline, utils, domainReports, dataTransferService,constants, timePeriodModel) {
 
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
@@ -65,19 +65,14 @@ var angObj = angObj || {};
         //Calling the Strategy object based on the campaignId
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
-            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
                     if (result.status == 'success') {
                         var strategy = result.data.data;
-                        dataTransferService.setCampaignStrategyList(campaignId, strategy);
                         $scope.updateStrategyObjects(strategy);
                     } else {
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     }
                 });
-            } else {
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
         };
 
 
@@ -237,7 +232,7 @@ var angObj = angObj || {};
             else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-            $scope.$apply();
+           // $scope.$apply();
             $scope.inventoryChart = true;
             if ($scope.tacticList[$scope.tacticList.show][0]) {
                 $scope.tacticList[$scope.tacticList.show][0].chart = true;

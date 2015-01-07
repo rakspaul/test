@@ -102,28 +102,19 @@
                     kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiValue')  :   'CTR'
                 };
             },
-//            getCampaignListForUser : function() {
-//
-//                if(datatransferservice.getCampaignList()) {
-//                    return datatransferservice.getCampaignList();
-//                }else {
-//                    return performanceService.getCampaingsForUser();
-//                }
-//            },
-            getAllCampaignListForUser : function() {
+            getAllCampaignListForUser : function(brand_id) {
 
-                if(datatransferservice.getAllCampaignList()) {
-                    return datatransferservice.getAllCampaignList();
+                if(datatransferservice.getAllCampaignList(brand_id)) {
+                    return datatransferservice.getAllCampaignList(brand_id);
                 }else {
-                    return performanceService.getCampaingsForUser();
+                    return performanceService.getCampaingsForUser(brand_id);
                 }
             },
+            //TODO: Remove getCampaignStrategyList method. Better have a seprate service which has api call for campaing and strategy drop down.
+            // directly call that service method from each controller instead of calling following ( to get list of strategy for a campaign)
             getCampaignStrategyList : function(campaignId) {
-                if(datatransferservice.getCampaignStrategyList(campaignId)) {
-                    return datatransferservice.getCampaignStrategyList(campaignId);
-                }else {
-                    return performanceService.getStrategiesForCampaign(campaignId);
-                }
+                 return performanceService.getStrategiesForCampaign(campaignId);
+
             },
             loadFirstStrategy : function(id, name, startDate, endDate) {
                 var strategyObj = {id:null, name:null, startDate: null, endDate: null};

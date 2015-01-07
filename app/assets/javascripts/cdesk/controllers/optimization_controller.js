@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel) {
 
         var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
@@ -403,16 +403,14 @@ var angObj = angObj || {};
             if ($scope.navigationFromReports == true) {
                 $scope.selectedStrategy.name = "Loading...";
             }
-            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    var strategy = result.data.data;
-                    dataTransferService.setCampaignStrategyList(campaignId, strategy);
-                    $scope.updateStrategyObjects(strategy);
+                    if (result.status == 'success') {
+                        var strategy = result.data.data;
+                        $scope.updateStrategyObjects(strategy);
+                    } else {
+                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                    }
                 });
-            } else {
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
-
 
         };
 
@@ -433,7 +431,7 @@ var angObj = angObj || {};
                 $scope.chartForStrategy = false;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-            $scope.$apply();
+         //   $scope.$apply();
 
         };
 
