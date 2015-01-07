@@ -805,7 +805,7 @@
             margin-top: 7px ;
           }
         }
-        .each_activity_log.active {
+        .each_activity_log:hover , .each_activity_log.active {
           border: solid 1px #359eea;
           .activity_edit_holder {
             display: block;

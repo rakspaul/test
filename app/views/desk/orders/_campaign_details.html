@@ -307,7 +307,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="no_activity_class" ng-if="!actionItems">
+                          <div class="no_activity_class" ng-if="!actionItems.data">
                             No Data Available
                           </div>
 
@@ -531,10 +531,10 @@
       setTimeout(function() {
         $('[data-toggle="tooltip"]').tooltip(); 
 
-        $('.each_activity_log').hover(function(){
-          $('.activity_log_list').find('.active').removeClass('active');
-          $(this).addClass('active');
-        });
+        // $('.each_activity_log').hover(function(){
+        //   $('.activity_log_list').find('.active').removeClass('active');
+        //   $(this).addClass('active');
+        // });
       },5000);
       $('#action_submit_btn').bind("click", function() {
           var txt = $.trim(jQuery("#action_comment").val());
