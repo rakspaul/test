@@ -54,7 +54,6 @@
 //= require cdesk/campaignList/CampaignListService
 //= require cdesk/campaignList/CampaignListController
 
-
 //= require cdesk/editActions/EditActionsModule
 //= require cdesk/editActions/EditActionsModel
 //= require cdesk/editActions/EditActionsService
@@ -71,7 +70,6 @@
 //= require cdesk/timePeriod/TimePeriodModel
 //= require cdesk/timePeriod/TimePeriodDirective
 //= require cdesk/timePeriod/TimePeriodController
-
 
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/actions_controller
