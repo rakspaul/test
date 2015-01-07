@@ -183,14 +183,6 @@
                             costBreakdownColors["adServing"] = "#45CB41";
                             costBreakdownColors["other"] = "#BFC3D1";
                         $scope.details.totalCostBreakdown = costData.total;
-                       /* $scope.$apply(function(){
-                            $scope.details.getCostBreakdown = {
-                            inventory: costData.inventory_cost_pct,
-                            data: costData.data_cost_pct,
-                            adServing: costData.ad_serving_cost_pct,
-                            other: other
-                            };
-                        });*/
                         $timeout(function(){
                              $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
                          });
@@ -205,27 +197,25 @@
             var inventory;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    for (var i = 0; i < result.data.data.length; i++) {
-			result.data.data[i].ctr *= 100;
-			result.data.data[i].vtc *= 100;
-		    }
                     if(result.data.data.length>0){
-		        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+	                   if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
                             inventory=_.chain(result.data.data[0].inv_metrics)
-                                        .sortBy(function(inventory){ return inventory.kpi_value; })
-                                        .reverse()
-                                        .first(3)
-                                        .value();
-                        }else {
-                            inventory=_.chain(result.data.data[0].inv_metrics)
-                                        .sortBy(function(inventory){ return inventory.kpi_value; })
-                                        .first(3)
-                                        .value();
-			}
-
-                        $scope.details.inventoryTop = _.first(inventory);
-                        $scope.details.inventory = inventory;
-		    }
+                            .sortBy(function(inventory){ return inventory.kpi_value; })
+                            .reverse()
+                            .first(3)
+                            .value();
+                            _.each(inventory, function(inv) {
+                                inv.kpi_value *= 100;
+                            });
+                    }else {
+                        inventory=_.chain(result.data.data[0].inv_metrics)
+                        .sortBy(function(inventory){ return inventory.kpi_value; })
+                        .first(3)
+                        .value();
+		             }
+                    $scope.details.inventoryTop = _.first(inventory);
+                    $scope.details.inventory = inventory;
+		          }
                 }
             },function(result){
                 console.log('inventory data call failed');
@@ -236,25 +226,25 @@
             var formats;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 if (result.status == "success" && !angular.isString(result.data)) {
-		    for (var i = 0; i < result.data.data.length; i++) {
-			result.data.data[i].ctr *= 100;
-			result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
-		    }
+            	    for (var i = 0; i < result.data.data.length; i++) {
+            		  result.data.data[i].ctr *= 100;
+            		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+            	    }
                     if(result.data.data.length>0){
                         formats=_.chain(result.data.data)
-                                    .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
-                                    .reverse()
-                                    .value();
+                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .reverse()
+                                .value();
                         _.each(formats, function(format) {
                             switch(format.dimension){
                                 case 'Display': format.icon = "display_graph";
-                                                break;
+                                break;
                                 case 'Video':   format.icon = "video_graph";
-                                                break;
+                                break;
                                 case 'Mobile':   format.icon = "mobile_graph";
-                                                break;
+                                break;
                                 case 'Social':   format.icon = "social_graph";
-                                                break;
+                                break;
                             }
                         });
                         $scope.details.formats = formats; 
@@ -288,14 +278,6 @@
                             costViewabilitynColors["adServing"] = "#45CB41";
                             costViewabilitynColors["other"] = "#BFC3D1";
                         $scope.details.getCostViewability.total = viewData.viewable_imps;
-                       /* $scope.$apply(function(){
-                             $scope.details.getCostViewability = {
-                            pct_1s: viewData.viewable_imps_1s_pct,
-                            pct_5s: viewData.viewable_imps_5s_pct,
-                            pct_15s: viewData.viewable_imps_15s_pct,
-                            pct_total: viewData.viewable_pct
-                            };
-                        });*/
                         $timeout(function(){
                             $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
                          });
