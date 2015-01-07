@@ -154,14 +154,12 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
   Campaigns.prototype.fetchCampaigns = function() {
     if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
-      console.log('returning as all the campaigns are displayed');
       return;
     }
 
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
-    console.log('fetching from new campaigns api: ' + url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;

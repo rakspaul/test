@@ -1,14 +1,21 @@
 (function () {
     'use strict';
-    angObj.controller('directiveController', function ($scope, domainReports, apiPaths, dataTransferService) {
-
-       // console.log('inside directiveController ');
-
+    angObj.controller('directiveController', function ($scope, domainReports, apiPaths, dataTransferService , constants , brandsModel ) {
 
         $scope.campaigns = {};
         $scope.allCampaigns = {};
         $scope.originalAllCampaingList={};
         $scope.originalCampaingList = {};
+
+    //        brandsModel.getSelectedBrand()
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event,brand) {
+
+            // clear the existing campaignDetails object present is localStroage.
+            dataTransferService.updateExistingStorageObjects({ 'campaignId':'','campaignName': '', 'strategyId' : '', 'strategyName' :  ''});
+
+            $scope.campaignlist();
+        });
+
         $scope.setCampaigns = function (campaigns , allCampaigns) {
             $scope.campaigns = campaigns;
             $scope.allCampaigns = allCampaigns ;
@@ -27,19 +34,8 @@
                         filterKpiValue: $scope.$parent.selected_filters.kpi_type_text
                     });
                 }
-                //TODO, change the function name, callBackCampaignsSuccess and callBackCampaignsFailure, if required
-                //function callBackCampaignsSuccess and callBackCampaignsFailure should be extended in the calling controller
-                //Ex: in the optimization_controller.js, you can call a empty function like $scope.callBackCampaignsSuccess = function(){};
-                //And The below code will go in viewablity_controller.js, callBackCampaignsSuccess function
-                /*var urlPath = apiPaths.apiSerivicesUrl+'/campaigns/'+ $scope.$parent.selectedCampaign.id +'/viewability/';
-                 $scope.download_urls = {
-                 tactics: urlPath+'tactics/download?date_filter='+  $scope.selected_filters.time_filter,
-                 domains:  urlPath+'domains/download?date_filter='+  $scope.selected_filters.time_filter,
-                 publishers:  urlPath+'publishers/download?date_filter='+  $scope.selected_filters.time_filter,
-                 exchanges: urlPath+'exchanges/download?date_filter='+  $scope.selected_filters.time_filter
-                 };*/
-                //=========================
-                $scope.$parent.callBackCampaignsSuccess();
+              //  $scope.$parent.callBackCampaignsSuccess();
+                $scope.$parent.callBackCampaignChange();
             }
             else {
                 if (typeof  $scope.campaigns !== 'undefined' && $scope.campaigns.length > 0) {
@@ -53,20 +49,22 @@
             }
         };
 
+
+
         //This function is used to call the campaign list from api, localstorage adapted
         $scope.campaignlist = function () {
-            if (dataTransferService.getAllCampaignList() === false) {
-                domainReports.getAllCampaignListForUser().then(function (result) {
+
+            if (dataTransferService.getAllCampaignList(brandsModel.getSelectedBrand().id) === false) {
+                domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id).then(function (result) {
                     if (result.status == 'success') {
                         var allCampaigns = result.data.data ;
                         var campaigns = allCampaigns.slice(0,200);
-                        dataTransferService.setAllCampaignList('allCampaignList', allCampaigns);
-                       // dataTransferService.setCampaignList('campaignList', campaigns);
+                        dataTransferService.setAllCampaignList(allCampaigns,(brandsModel.getSelectedBrand().id));
                         $scope.setCampaigns(campaigns,allCampaigns);
                     }
                 });
             } else {
-                var allCampaigns = domainReports.getAllCampaignListForUser();
+                var allCampaigns = domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id);
                 $scope.setCampaigns(allCampaigns.slice(0,200),allCampaigns);
             }
         };
@@ -74,19 +72,25 @@
 
         //Function called when the user clicks on the campaign dropdown
         $('#campaigns_list').click(function (e) {
-            var id = $(e.target).attr('value'), txt = $(e.target).text();
+            var selectedCampaign = {
+                id : $(e.target).attr('value'),
+                name :  $(e.target).text(),
+                kpi : $(e.target).attr('_kpi'),
+                kpi_text : ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi')
+            };
+
             // clear the strategy data in localStorage
             dataTransferService.updateExistingStorageObjects({'strategyId' : '', 'strategyName' :  ''});
 
-            $scope.$parent.selectedCampaign.id = id;
-            $scope.$parent.selectedCampaign.name = txt;
+            $scope.$parent.selectedCampaign.id = selectedCampaign.id;
+            $scope.$parent.selectedCampaign.name = selectedCampaign.name;
             if($scope.$parent.selected_filters !== undefined) {
-                $scope.$parent.selected_filters.kpi_type = $(e.target).attr('_kpi');
-                $scope.$parent.selected_filters.kpi_type_text = ($(e.target).attr('_kpi') === 'action_rate') ? 'Action Rate' : $(e.target).attr('_kpi')
+                $scope.$parent.selected_filters.kpi_type = selectedCampaign.kpi;
+                $scope.$parent.selected_filters.kpi_type_text = selectedCampaign.kpi_text
             }
             dataTransferService.updateExistingStorageObjects({
-                'campaignId': id,
-                'campaignName': txt,
+                'campaignId': selectedCampaign.id ,
+                'campaignName': selectedCampaign.name,
                 'previousCampaignId': dataTransferService.getDomainReportsValue('campaignId')
             });
             if($scope.$parent.selected_filters !== undefined) {

@@ -11,8 +11,8 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
         success.call(this, brands);
       })
     },
-    setSelectedBrand: function (brand) {
-      brand.selectedBrand = brand;
+    setSelectedBrand: function (_brand) {
+      brand.selectedBrand = _brand;
     },
     getSelectedBrand: function() {
       return brand.selectedBrand;

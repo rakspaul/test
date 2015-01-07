@@ -88,44 +88,16 @@
       getClickedActionItems : function(){
         return  this.getCampaignDetailsObject('clickedActionItems');
       },
-//      setCampaignList : function(key, campaignListObject) {
-//        localStorage['campaignList_'+ user_id] = JSON.stringify(campaignListObject);
-//      },
-      setAllCampaignList : function(key, campaignListObject) {
-        localStorage['allCampaignList_'+ user_id] = JSON.stringify(campaignListObject);
+      setAllCampaignList : function(campaignListObject, brand_id) {
+        localStorage['allCampaignList_'+ brand_id + '_' + user_id] = JSON.stringify(campaignListObject);
       },
-      setCampaignStrategyList : function(campaignId , StrategyListObject) {
-        if(campaignId > 0) {
-          localStorage.setItem('strategy_'+campaignId,  JSON.stringify(StrategyListObject));
-        }
-      },
-//      getCampaignList : function(){
-//        if(localStorage['campaignList_'+user_id] === undefined){
-//          return false;
-//        }else {
-//          return JSON.parse( localStorage['campaignList_'+ user_id]);
-//        }
-//      },
-      getAllCampaignList : function(){
-        if(localStorage['allCampaignList_'+ user_id] === undefined){
-          return false;
-        }else {
-          return JSON.parse( localStorage['allCampaignList_'+ user_id]);
-        }
-      },
-      getCampaignStrategyList : function(campaignId){
-        if(campaignId > 0) {
-          if (localStorage['strategy_'+campaignId] === undefined) {
-            return false;
-          } else {
-            if(localStorage['strategy_'+campaignId] === undefined) {
-              console.log('LocalStorage data for strategyList for campaignId : '+campaignId+' in localStorage[strategy_'+campaignId+'] not found');
-            } else {
-              return JSON.parse(localStorage['strategy_'+campaignId]);
+      getAllCampaignList : function(brand_id){
+            if(localStorage['allCampaignList_'+ brand_id + '_' + user_id] === undefined){
+                return false;
+            }else {
+                return JSON.parse(localStorage['allCampaignList_'+ brand_id + '_' + user_id]);
             }
-          }
-        }
-      },
+       },
       //@obj format :{campaignDetails key : value, ...});
       updateExistingStorageObjects : function(obj){
         if(localStorage['campaignDetails'] === undefined){

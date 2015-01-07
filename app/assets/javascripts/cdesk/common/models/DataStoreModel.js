@@ -35,7 +35,7 @@
     this.getCachedByUrl = function (url) {
       var response = this.responseByUrl[url]
       if(response != undefined && response.isStale() === false) {
-        console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
+       // console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
         return response;
       }
       return undefined
