@@ -37,9 +37,13 @@
 //= require cdesk/common/services/DataService.js
 //= require cdesk/common/services/datatransferservice
 //= require cdesk/common/services/TransformerService
+//= require cdesk/common/services/ConstantsService
+//= require cdesk/common/services/RequestCancelService
+//= require cdesk/common/services/UrlService
 //= require cdesk/common/models/CampaignCDBData
 //= require cdesk/common/models/CampaignCost
 //= require cdesk/common/models/CampaignModel
+//= require cdesk/common/models/DataStoreModel
 //= require cdesk/common/utils
 
 //= require cdesk/directives/largeListSearch
@@ -48,6 +52,11 @@
 //= require cdesk/campaignList/CampaignListModel
 //= require cdesk/campaignList/CampaignListService
 //= require cdesk/campaignList/CampaignListController
+
+//= require cdesk/editActions/EditActionsModule
+//= require cdesk/editActions/EditActionsModel
+//= require cdesk/editActions/EditActionsService
+//= require cdesk/editActions/EditActionsController
 
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/brands_controller
@@ -68,8 +77,10 @@
 //= require cdesk/directives/campaigndashboard
 //= require cdesk/directives/reportfilters
 //= require cdesk/directives/strategylist
+//= require multiselect
 //= require cdesk/models/domain_reports
 //= require cdesk/models/action_type
+//= require cdesk/models/activity_list
 //= require cdesk/models/action_sub_type
 //= require cdesk/models/tactic
 //= require cdesk/services/inventoryservice

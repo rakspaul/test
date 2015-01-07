@@ -1,80 +1,18 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($http, api, apiPaths, common, campaign_api, dataTransferService) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
     return {
 
-      //API for campaign list //TODO: change - no parameters
-      getCampaignActiveInactive: function (urlPath) {
-        /*if (!common.useTempData) {*/
-        //mock data
-        return $http({url: urlPath, method: 'GET', cache: true}).then(
-          function (response) {
-            return {
-              status: "success",
-              data: response.data.data
-            };
-          },
-          function (error) {
-            return {
-              status: "error",
-              data: error
-            };
-          }
-        );
-        /*} else {
-         // live data
-         return $http.jsonp(urlPath)
-         .success(function (data, status, headers, config) {
-         return {
-         status: "success",
-         data: data
-         };
-         })
-         .error(function (data, status, headers, config) {
-         //console.log(status+' error');
-         return {
-         status: "error",
-         data: "error"
-         };
-         });
-         }*/
-      },
       getSingleCampaign: function (urlPath) {
-        return $http({url: urlPath, method: 'GET', cache: true}).then(
-          function (response) {
-            return {
-              status: "success",
-              data: response.data
-            };
-          },
-          function (error) {
-            return {
-              status: "error",
-              data: error
-            };
-          }
-        );
+        return this.fetch(urlPath)
       },
 
       getActionItems: function (urlPath) {
-        return $http({url: urlPath, method: 'GET', cache: true}).then(
-          function (response) {
-            return {
-              status: "success",
-              data: response.data
-            };
-          },
-          function (error) {
-            return {
-              status: "error",
-              data: error
-            };
-          }
-        );
+        return this.fetch(urlPath)
       },
 
       getCampaignStrategies: function (urlPath, type) {
@@ -84,20 +22,7 @@
         } else if (type == 'list') {
           apiUrl = urlPath;
         }
-        return $http({url: apiUrl, method: 'GET', cache: true}).then(
-          function (response) {
-            return {
-              status: "success",
-              data: response.data
-            };
-          },
-          function (error) {
-            return {
-              status: "error",
-              data: error
-            };
-          }
-        );
+        return this.fetch(apiUrl)
       },
 
       getCdbChartData: function (campaign, timePeriod, type, strategyId) {
@@ -118,48 +43,7 @@
         } else if (type == 'strategies') {
           urlPath = (common.useTempData) ? common.useTempData + '/cdb.json' : api + '/campaigns/' + campaignId + '/strategies/' + strategyId + '/bydays/perf?'+durationQuery
         }
-        if (common.useTempData) {
-          //mock data
-          return $http({url: urlPath, method: 'GET', cache: true}).then(
-            function (response) {
-              return {
-                status: "success",
-                data: response.data
-              };
-            },
-            function (error) {
-              return {
-                status: "error",
-                data: error
-              };
-            }
-          );
-        } else {
-          // live data
-          return $http({url: urlPath, method: 'GET', cache: false}).then(
-            function (response) {
-              return {
-                status: "success",
-                data: response.data
-              };
-            },
-            function (error) {
-              return {
-                status: "error",
-                data: error
-              };
-            });
-        }//end of check
-      },
-
-      getCampaignCostData: function(campaignIds, filterStartDate, filterEndDate) {
-        var url = apiPaths.apiSerivicesUrl + '/campaigns/costs?ids=' + campaignIds + '&start_date=' + filterStartDate + '&end_date=' + filterEndDate;
-        //console.log('getting cost data : ' + url);
-        return this.fetch(url);
-      },
-
-      getCampaignDashboardData: function(url) {
-        return this.fetch(url);
+        return this.fetch(urlPath);
       },
 
       getCdbTacticsMetrics: function(campaignId, filterStartDate, filterEndDate) {
@@ -234,8 +118,77 @@
         return this.post(url, data);
       },
 
+      updateLastViewedAction: function(campaignId) {
+        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
+          if(response.status === "success") {
+            //delete default campaign list cache here
+            dataStore.deleteAllCachedCampaignListUrls();
+          }
+        })
+      },
+
       fetch: function (url) {
+        var cachedResponse = dataStore.getCachedByUrl(url);
+        if(cachedResponse != undefined) {
+          var defer = $q.defer();
+          var promise = defer.promise.then(function () {
+            //here we always return a clone of original object, so that if any modifications are done it will be done on clone and original will remain unchanged
+            return utils.clone(cachedResponse.value);
+          });
+          defer.resolve();
+          return promise;
+        }
         return $http({url: url, method: 'GET', cache: true}).then(
+          function (response) {
+            var objOnSuccess = {
+              status: "success",
+              data: response.data
+            };
+            dataStore.cacheByUrl(url, objOnSuccess)
+            return utils.clone(objOnSuccess);
+          },
+          function (error) {
+            return {
+              status: "error",
+              data: error
+            };
+          }
+        );
+      },
+
+      fetchCancelable: function (url, canceller, success, failure) {
+        var cachedResponse = dataStore.getCachedByUrl(url);
+        if(cachedResponse != undefined) {
+          var defer = $q.defer();
+          var promise = defer.promise.then(function () {
+            return success.call(this, utils.clone(cachedResponse.value));
+          });
+          defer.resolve();
+          return promise;
+        }
+        return $http.get(url, {timeout: canceller.promise}).then(
+          function (response) {
+            var objOnSuccess = {
+              status: "success",
+              data: response.data
+            };
+            dataStore.cacheByUrl(url, objOnSuccess)
+            return success.call(this, utils.clone(objOnSuccess));
+          },
+          function (error) {
+            var objOnError = {
+              status: "error",
+              data: error
+            }
+            if(failure != undefined) {
+              return failure.call(this, objOnError);
+            } else return objOnError
+          }
+        );
+      },
+
+      post: function (url, data) {
+        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
           function (response) {
             return {
               status: "success",
@@ -251,8 +204,8 @@
         );
       },
 
-      post: function (url, data) {
-        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
+      put: function (url, data) {
+        return $http.put(url, angular.toJson(data)).then(
           function (response) {
             return {
               status: "success",

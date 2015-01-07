@@ -90,19 +90,24 @@ var angObj = angObj || {};
                                         tacticParams.tacticName = $scope.tacticList[index].description;
                                         tacticParams.startDate = $scope.tacticList[index].startDate;
                                         tacticParams.endDate = $scope.tacticList[index].endDate;
+                                        //console.log("index="+index+", tactic name="+tacticParams.tacticName);
 
                                         performanceService.getTacticPerfData(tacticParams).then(function (result) {
                                             if (result.status === "OK" || result.status === "success") {
                                                 var _tacticPerfData = result.data.data;
                                                 $scope.tacticDowBusy = false;
+                                                var tacticName='';
                                                 for (var i in _tacticPerfData) {
-                                                    _tacticPerfData[i].description = tacticParams.tacticName;
+                                                    if (tacticName === '')
+                                                        for (var ndx in $scope.tacticList)
+                                                            if (_tacticPerfData[i].id == $scope.tacticList[ndx].id)
+                                                                tacticName=$scope.tacticList[ndx].description;
+                                                    _tacticPerfData[i].description = tacticName;
                                                 }
                                                 _tacticsPerfList.push(_tacticPerfData);
                                                 $scope.tacticsPerfDataListByDOW = _tacticsPerfList;
                                             }
                                             else {
-
                                                 $scope.tacticDowBusy = false;
                                             }
                                         });
@@ -126,10 +131,15 @@ var angObj = angObj || {};
 
                                                 var _tacticPerfData = result.data.data;
                                                 $scope.tacticFormatBusy = false;
-
+                                                var tacticName='';
                                                 for (var i in _tacticPerfData) {
-                                                    _tacticPerfData[i].description = tacticParams.tacticName;
+                                                    if (tacticName === '')
+                                                        for (var ndx in $scope.tacticList)
+                                                            if (_tacticPerfData[i].id == $scope.tacticList[ndx].id)
+                                                                tacticName=$scope.tacticList[ndx].description;
+                                                    _tacticPerfData[i].description = tacticName;
                                                 }
+
                                                 _tacticsPerfList.push(_tacticPerfData);
                                                 $scope.tacticsPerfDataListByFormat = _tacticsPerfList;
 
@@ -160,8 +170,13 @@ var angObj = angObj || {};
                                             if (result.status === "OK" || result.status === "success") {
                                                 var _tacticPerfData = result.data.data;
                                                 $scope.tacticScreenBusy = false;
+                                                var tacticName='';
                                                 for (var i in _tacticPerfData) {
-                                                    _tacticPerfData[i].description = tacticParams.tacticName;
+                                                    if (tacticName === '')
+                                                        for (var ndx in $scope.tacticList)
+                                                            if (_tacticPerfData[i].id == $scope.tacticList[ndx].id)
+                                                                tacticName=$scope.tacticList[ndx].description;
+                                                    _tacticPerfData[i].description = tacticName;
                                                 }
                                                 _tacticsPerfList.push(_tacticPerfData);
                                                 $scope.tacticsPerfDataListByScreen = _tacticsPerfList;

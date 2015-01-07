@@ -48,6 +48,7 @@
     $scope.goToLocation = function(url) {
       utils.goToLocation(url);
     };
+
   });
 
 }());

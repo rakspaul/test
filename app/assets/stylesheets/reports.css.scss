@@ -347,8 +347,10 @@
 
 .graph_icon {
   float: right;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 26px;
+  background: url(asset-path("cdesk/graphIcon.png")) no-repeat left center;
+  background-size: 100%;
 }
 
 .nice_dd {
@@ -780,17 +782,66 @@
   margin-bottom: 50px;
 }
 
+.strategy_total_container {
+  .strategy_total_container_header {
+
+    background: #f5f9fd;
+    border: solid 1px #ccd9e3;
+    padding: 20px;
+
+    .first_col {
+      font-size: 18px;
+    }
+
+  }
+  .all_strategies_holder {
+    .linkage_lines {
+      position: relative;
+      float: left;
+      width: 10px;
+      height: 104px ;
+      border-left: solid 1px #ccd9e3;
+    }
+    .linkage_lines:after {
+      content: "";
+      height: 1px;
+      width: 10px;
+      background: #ccd9e3;
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+    }
+    .each_strategy {
+      float: left;
+      width: 1104px;
+      padding: 20px 20px 20px 10px;
+      margin: 10px 0 0 0px;
+      border: solid 1px #ccd9e3;
+      background: #f8faff;
+    }
+    .each_strategy_holder:last-child {
+      .linkage_lines {
+        height: 50px;
+      }
+    }
+  }
+}
 .viewability_details_outer_container {
   margin-top: 50px;
   .strategy_total_container {
     .strategy_total_container_header {
       border-top: 0px ;
     }
+    .each_col.first_col {
+     float: none;   
+     width: 100% ;
+    }
   }
   .each_col {
     float: left;
-    width: 120px;
-    margin: 0 15px;
+    width: 150px;
+    margin: 0 25px;
     font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
     font-size: 14px;
     color: #2a2727;
@@ -835,6 +886,7 @@
   .sec_col {
     width: 124px;
     padding-top: 5px;
+    margin-right: 60px ;
     .graph_col {
       .full_graph_line {
         width: 124px;
@@ -890,7 +942,7 @@
     width: 70px;
     margin: 0;
     color: #313233;
-    font-size: 12px;
+    /*font-size: 12px;*/
   }
     .third_col , .forth_col , .suspicious_col  {
       width: 90px ;
@@ -943,57 +995,17 @@
       top : 100% ;
     } 
   }
-}
-
-
-
-
-
-.strategy_total_container {
-  .strategy_total_container_header {
-
-    background: #f5f9fd;
-    border: solid 1px #ccd9e3;
-    padding: 20px;
-
-    .first_col {
-      font-size: 18px;
-    }
-
-  }
   .all_strategies_holder {
     .linkage_lines {
-      position: relative;
-      float: left;
-      width: 10px;
-      height: 104px;
-      border-left: solid 1px #ccd9e3;
-    }
-    .linkage_lines:after {
-      content: "";
-      height: 1px;
-      width: 10px;
-      background: #ccd9e3;
-      display: block;
-      position: absolute;
-      top: 50%;
-      left: 0;
-    }
-    .each_strategy {
-      float: left;
-      width: 1104px;
-      padding: 20px 20px 20px 10px;
-      margin: 10px 0 0 0px;
-      border: solid 1px #ccd9e3;
-      background: #f8faff;
-    }
-    .each_strategy_holder:last-child {
-      .linkage_lines {
-        height: 50px;
-      }
+      height: 132px ;
     }
   }
 }
+
+
+
+
+
 
 /**************** reports performance table styling ***********/
 
@@ -1081,7 +1093,7 @@
     color: #313233 ;
     .each_col {
       float: left;
-      width: 120px;
+      width: 150px;
       text-align: right;
       margin: 10px 0 ;
     }
@@ -1116,8 +1128,6 @@
       }
     }
     .row_list_holder {
-      float: left;
-      min-width: 63%;
       .each_row_list {
         font-family: "Trade-Gothic-LT-Bold-Condensed-N-2";
         font-size: 14px;
@@ -1152,6 +1162,11 @@
       width: 100px ;
       text-align: left ;
       margin-left: 20px ;
+    }
+    .each_col.first_col {
+      float: none;
+      width: 100% ;
+      margin-left: 18px;
     }
   }
 
@@ -1348,7 +1363,7 @@
       border-left: solid 1px transparent ;
     }
     .each_rep_col_holder .each_rep_col {
-      width: 170px ;
+      width: 160px ;
     }
     .each_rep_col_holder .first_col {
       width: 210px ;

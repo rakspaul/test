@@ -5,7 +5,8 @@ var angObj = '';
 
   angObj = angular.module('cdeskApp',
     [ 'commonModule',
-      'campaignListModule']
+      'campaignListModule',
+      'editActionsModule']
   );
 
 

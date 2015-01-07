@@ -30,13 +30,28 @@
           return false;
       }
       return true;
-    }
+    };
+    //clones any javascript object recursively
+    var clone = function clone(obj) {
+      if(obj == null || typeof(obj) != 'object')
+        return obj;
+
+      var temp = obj.constructor();
+
+      for(var key in obj) {
+        if(obj.hasOwnProperty(key)) {
+          temp[key] = clone(obj[key]);
+        }
+      }
+      return temp;
+    };
     return {
       formatDate: formatDate,
       makeTitle: makeTitle,
       roundOff: roundOff,
       goToLocation: goToLocation,
-      allValuesSame: allValuesSame
+      allValuesSame: allValuesSame,
+      clone: clone
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -304,6 +319,9 @@
   });
   angObj.filter('truncateString', function () {
     return function (input, stringLength) {
+      if(input === undefined) {
+        return 'NA';
+      }
       return input.substring(0, stringLength) + (input.length > stringLength ? ' [...]' : '');
     }
   });
@@ -384,8 +402,8 @@
   });
   angObj.filter('appendDollor', function () {
     return function (val, type) {
-      if (val === undefined || val == "") {
-        return val;
+      if (val === undefined || val === "" || val === "null")  {
+        return 'NA';
       }
       return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
     }

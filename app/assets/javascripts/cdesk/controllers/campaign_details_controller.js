@@ -2,10 +2,12 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList) {
 
-      var campaign = campaignListService;
-      var Campaigns = campaignListModel;
+        var campaign = campaignListService;
+        var Campaigns = campaignListModel;
+        $scope.actionItems = activityList.data;
+
         //Hot fix to show the campaign tab selected
         $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
 
@@ -17,6 +19,7 @@
                 details: null,
                 actionChart :true
             };
+
         $scope.details.sortParam = 'startDate';
         $scope.details.sortDirection = 'asc';
         $scope.details.toggleSortDirection = function(dir) {
@@ -68,7 +71,6 @@
         };
 
 
-
         //API call for campaign details
 //        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
         var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId + "?user_id=" + user_id;
@@ -77,6 +79,8 @@
             if (result.data.data) {
                 var dataArr = [result.data.data];
                 $scope.campaign = campaign.setActiveInactiveCampaigns(dataArr, 'life_time', 'life_time')[0];
+                campaign.getStrategiesData($scope.campaign, constants.PERIOD_LIFE_TIME);
+                campaign.getTacticsData($scope.campaign, constants.PERIOD_LIFE_TIME);
                 $scope.getCdbChartData($scope.campaign);
                 dataService.getCampaignData('life_time', $scope.campaign).then(function(response) {
                     $scope.campaigns.cdbDataMap[$routeParams.campaignId] = modelTransformer.transform(response.data.data, campaignCDBData);
@@ -105,8 +109,9 @@
                         counter++;
                     }
                 }
-              $scope.strategyByActionId = strategyByActionId;
-                $scope.actionItems = actionItemsArray;
+                $scope.strategyByActionId = strategyByActionId;
+                activityList.data.data = actionItemsArray;
+                dataService.updateLastViewedAction($routeParams.campaignId);
             }
         }, function(result) {
             console.log('call failed');
@@ -178,7 +183,17 @@
                             costBreakdownColors["adServing"] = "#45CB41";
                             costBreakdownColors["other"] = "#BFC3D1";
                         $scope.details.totalCostBreakdown = costData.total;
-                        $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                       /* $scope.$apply(function(){
+                            $scope.details.getCostBreakdown = {
+                            inventory: costData.inventory_cost_pct,
+                            data: costData.data_cost_pct,
+                            adServing: costData.ad_serving_cost_pct,
+                            other: other
+                            };
+                        });*/
+                        $timeout(function(){
+                             $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                         });
                      }
                 }
             },function(result){
@@ -273,8 +288,17 @@
                             costViewabilitynColors["adServing"] = "#45CB41";
                             costViewabilitynColors["other"] = "#BFC3D1";
                         $scope.details.getCostViewability.total = viewData.viewable_imps;
-                        $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
-                    
+                       /* $scope.$apply(function(){
+                             $scope.details.getCostViewability = {
+                            pct_1s: viewData.viewable_imps_1s_pct,
+                            pct_5s: viewData.viewable_imps_5s_pct,
+                            pct_15s: viewData.viewable_imps_15s_pct,
+                            pct_total: viewData.viewable_pct
+                            };
+                        });*/
+                        $timeout(function(){
+                            $scope.details.solidGaugeChart=solidGaugeChart.highChart($scope.details.getCostViewability);
+                         });
                 }
             },function(result){
                 console.log('cost viewability call failed');
@@ -297,7 +321,7 @@
                                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
                             }
                             $scope.details.lineData = lineData;
-                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 480, 330, null, undefined, showExternal);
+                            $scope.details.actionChart = actionChart.lineChart(lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data , 480, 330, null, undefined, showExternal);
 
                             if ((localStorage.getItem('actionSel') !== null)) {
                                 $scope.makeCampaignSelected(localStorage.getItem('actionSel'));
@@ -318,7 +342,7 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategyByActionId[action.id],
                 selectedAction : action,
-                selectedActionItems : $scope.actionItems,
+                selectedActionItems : activityList.data.data ,
                 navigationFromReports : false
             };
 
@@ -332,7 +356,7 @@
                 selectedCampaign :campaign,
                 selectedStrategy : strategy,
                 selectedAction : undefined,
-                selectedActionItems : $scope.actionItems
+                selectedActionItems : activityList.data.data 
             };
 
             dataTransferService.initOptimizationData(param);
@@ -365,7 +389,7 @@
 
 
         $scope.watchActionFilter = function(filter, showExternal) {
-            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, $scope.actionItems, 400, 330 , null, undefined, showExternal);
+            $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 480, 330 , null, undefined, showExternal);
             return filter;
         };
 
