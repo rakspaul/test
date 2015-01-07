@@ -1848,6 +1848,7 @@ button, i, input[type="submit"] {
         .status_section_bar {
           border-color : #38af14 ;
           color: #38af14  ;
+          text-transform: none;
           height: 28px;
           padding-top: 4px;
           .section_bar_title {
@@ -1879,6 +1880,7 @@ button, i, input[type="submit"] {
         position: relative;
         .status_section_bar {
           border-color :  #f67c29  ;
+          text-transform: none;
           color: #f67c29 ;
           height: 28px;
           padding-top: 4px;
