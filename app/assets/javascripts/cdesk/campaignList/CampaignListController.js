@@ -3,7 +3,7 @@
 
   campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _, constants, brandsModel) {
     //Hot fix to show the campaign tab selected
-    $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+    $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
