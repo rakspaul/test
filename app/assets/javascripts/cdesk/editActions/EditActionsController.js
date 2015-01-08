@@ -37,17 +37,16 @@
         };
 
         $scope.editAction = function () {
-            $scope.saveBtnDisabled = true;
-          
             var data = {};
             data.make_external = editAction.data.makeExternal;
             data.ad_id =  editAction.data.id ;
             data.name = editAction.data.name ;
             //console.log('new chnages');
             //console.log(data);
-
-  
-            editActionsService.editAction(data).then( function (response){
+            if(data.name.trim().length > 0 ){
+                $scope.saveBtnDisabled = true;
+                $scope.editAction.commentError = false;
+                editActionsService.editAction(data).then( function (response){
                if(response) {
                     _.each(activityList.data.data, function(activity) {
                         if(activity.id == data.ad_id){
@@ -64,12 +63,20 @@
                 }
 
             });
+            }else{
+                $scope.saveBtnDisabled = false;
+                $scope.editAction.commentError = true;                
+            }
+            
         }
         function resetEditActionFormData() {
             $scope.saveBtnDisabled = false;
             editAction.data.makeExternal = false;
             editAction.data.name = '';
 
+        }
+        $scope.resetEditActionValidation = function(){
+            $scope.editAction.commentError = false;
         }
  
 
