@@ -8,7 +8,7 @@
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
     this.SORT_DESC = 'desc';
     this.ACTIVE_UNDERPERFORMING = '(active,underperforming)';
-    this.ALL_BRANDS = 'ALL BRANDS';
+    this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
   }
