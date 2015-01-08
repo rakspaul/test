@@ -267,13 +267,14 @@ var angObj = angObj || {};
         };
 
 
-        $scope.formatMetric = function (val1, metricImpacted) {
+        $scope.formatMetric = function (val1, type) {
 
 
-            if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
+            if (type === "CPC" || type === "CPA" || type === "CPM")
                 return '$' + val1.toFixed(2);
-            else if (metricImpacted === "Delivery (Impressions)") {
-
+            else if( type == 'CTR' || type == 'action_rate' || type == 'vtc')
+                return (val*100).toFixed(2)+'%' ;
+            else if (type === "Delivery (Impressions)") {
                 return (val1.toFixed(2)).toLocaleString();
             }
 

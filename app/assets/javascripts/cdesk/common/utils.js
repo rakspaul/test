@@ -409,11 +409,12 @@
     }
   });
   angObj.filter('appendDollor', function () {
+      console.log("append dollor is called ");
     return function (val, type) {
       if (val === undefined || val === "" || val === "null")  {
         return 'NA';
       }
-      return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
+       return (type.toLowerCase() == 'ctr' || type.toLowerCase() == 'action_rate' || type.toLowerCase() == 'vtc' ) ? (val*100).toFixed(2)+'%' : '$' + val.toFixed(2);
     }
   });
   angObj.filter('calculatePerc', function () {

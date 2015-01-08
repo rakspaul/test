@@ -208,7 +208,6 @@ var angObj = angObj || {};
                 $scope.strategyCostData = {};
                 $scope.tacticsCostData = {} ;
 
-                //console.log("duration is changed");
                 $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
 
@@ -224,12 +223,6 @@ var angObj = angObj || {};
         };
 
 
-        $scope.formattingNumber = function(kpi, value){
-            if(value !== undefined){
-                value = ((kpi === 'ctr' || kpi === 'action_rate' || kpi === 'vtc') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
-            }
-            return value ;
-        };
 
         $scope.sortFunction = function (sortby) {
             $scope.filter.sortByColumn = sortby;

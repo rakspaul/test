@@ -50,7 +50,7 @@
             <!--strategy dropdown-->
 
             <div class="no_data_found" ng-if="!strategyFound">
-                Data Not Found
+                Data not Available
             </div>
             <div class="reports_main_page_holder" ng-show="strategyFound">
                 <div class="reports_cost_header_holder">
@@ -108,11 +108,11 @@
                                     Strategy Total
                                 </div>
                                 <div class="no_data_found_cost_strategy" ng-if="dataNotFound">
-                                    Data Not Found
+                                    Data Not Available
                                 </div>
                                 <div class="clearfix cost_col_container cost_cols_holder" ng-repeat="strategy in strategyCostData" ng-if="!dataNotFound">
                                     <div class="each_cost_col first_col">{{strategy.impressions | number:0}}</div>
-                                    <div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), strategy.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>
+                                    <div class="each_cost_col second_col">{{strategy.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase() }}</div>
                                     <div class="each_cost_col three_col">${{strategy.inventory_cost | number:0}}</div>
                                     <div class="each_cost_col four_col">${{strategy.data_cost | number:0}}</div>
                                     <div class="each_cost_col five_col">${{strategy.ad_serving_cost | number:0}}</div>
@@ -135,7 +135,8 @@
 
                                     <div class="clearfix cost_col_container cost_cols_holder">
                                         <div class="each_cost_col first_col">{{tactic.impressions | number:0}}</div>
-                                        <div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>
+                                        <!--<div class="each_cost_col second_col">{{formattingNumber(selected_filters.kpi_type.toLowerCase(), tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()])}}</div>-->
+                                      <div class="each_cost_col second_col">{{tactic.kpi_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor : selected_filters.kpi_type.toLowerCase()}}</div>
                                         <div class="each_cost_col three_col">${{tactic.inventory_cost | number:0}}</div>
                                         <div class="each_cost_col four_col">${{tactic.data_cost | number:0}}</div>
                                         <div class="each_cost_col five_col">${{tactic.ad_serving_cost | number:0}}</div>
