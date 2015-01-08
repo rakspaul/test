@@ -307,7 +307,7 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="no_activity_class" ng-if="!actionItems.data">
+                          <div class="no_activity_class" ng-if="(!actionItems.data) || ((actionItems.data | filter: {make_external: true} ).length==0)">
                             No Data Available
                           </div>
 
