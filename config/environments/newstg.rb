@@ -59,7 +59,7 @@ Reachui::Application.configure do
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
 
-  config.scala_api = 'https://qa-desk.collective.com/dataapi'
+  config.scala_api = 'https://demo-desk.collective.com/dataapi'
   config.nodejs_api = 'http://qa-desk.collective.com:5000'
 
   # audience group context search
