@@ -44,6 +44,7 @@
 //= require cdesk/common/models/CampaignCost
 //= require cdesk/common/models/CampaignModel
 //= require cdesk/common/models/DataStoreModel
+//= require cdesk/common/controllers/HeaderController
 //= require cdesk/common/directives/CommonDirectives.js
 //= require cdesk/common/utils
 

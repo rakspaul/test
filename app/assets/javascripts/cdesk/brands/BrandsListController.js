@@ -14,7 +14,7 @@
       }
       var filter = $scope.selectedBrand.name.toUpperCase();
       var value = $scope.brand.name.toUpperCase();
-      if (value == constants.ALL_BRANDS) {
+      if (value == constants.ALL_BRANDS.toUpperCase()) {
         return;
       }
       var isSubString = (value.indexOf(filter) > -1);

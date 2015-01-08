@@ -10,6 +10,9 @@
     $scope.selectBrand = function (brand) {
       $('#brandsDropdown').attr('placeholder', brand.name);
       $('#brandsDropdown').val('');
+      if(brandsModel.getSelectedBrand().id === brand.id) {
+        return;
+      }
       $scope.brands.forEach(function (entry) {
         if (brand.id == entry.id) {
           entry.className = 'active';
@@ -21,8 +24,14 @@
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
     };
 
+    $scope.brandsDropdownClicked = function() {
+      $("#brandsList").toggle();
+      $("#cdbDropdown").hide();
+      $("#profileDropdown").hide();
+    };
     $scope.highlightSearch = function (text, search) {
       return utils.highlightSearch(text, search);
     };
+    $scope.brand = brandsModel.getBrand();
   });
 }());

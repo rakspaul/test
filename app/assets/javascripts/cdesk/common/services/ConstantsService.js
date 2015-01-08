@@ -11,6 +11,10 @@
     this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
+    this.GA_DASHBOARD = 'dashboard-widget';
+    this.GA_CLICK = 'click';
+    this.GA_EVENT = 'event';
+    this.GA_SEND = 'send';
   }
 
   commonModule.service("constants", constants);

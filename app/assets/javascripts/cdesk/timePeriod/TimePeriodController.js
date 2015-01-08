@@ -9,5 +9,11 @@
       $rootScope.$broadcast(constants.EVENT_TIMEPERIOD_CHANGED);
     }
 
+    $scope.timePeriodClicked = function() {
+      $("#cdbDropdown").toggle();
+      $("#brandsList").hide();
+      $("#profileDropdown").hide();
+    }
+
   });
 }());

@@ -2,6 +2,8 @@
 brandsModule.factory("brandsModel", ['brandsService', 'constants', function (brandsService, constants) {
   var brand = {};
   brand.selectedBrand = {id: -1}
+  brand.showList = false;
+  brand.styleDisplay = "block"
   return {
     getBrands: function (success) {
       brandsService.fetchBrands().then(function (response) {
@@ -16,7 +18,11 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     },
     getSelectedBrand: function() {
       return brand.selectedBrand;
+    },
+    getBrand: function() {
+      return brand;
     }
+
   };
 }])
 ;

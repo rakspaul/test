@@ -1,4 +1,4 @@
-<div class="main_navigation_holder">
+<div class="main_navigation_holder" ng-controller="headerController">
   <div class="main_nav clearfix">
     <div class="pull-left">
       <a class="main_logo" href="#campaigns" id="logo">
@@ -15,11 +15,11 @@
     </div>
     <div class="pull-right profile_menu">
       <div class="dropdown dropdown-two">
-        <div class="dropdown-toggle profile_account_icon" data-toggle="dropdown"></div>
-        <ul class="dropdown-menu" role="menu">
+        <div class="dropdown-toggle profile_account_icon" id="profileItem" ng-click="showProfileMenu()"></div>
+        <ul class="dropdown-menu" role="menu" id="profileDropdown">
           <li>
             <a href="#">
-              Hello, Xyz
+              Hello, {{user_name}}
             </a>
           </li>
           <li>
@@ -49,3 +49,16 @@
     </div>
   </div>
 </div>
+<script type="text/javascript">
+  $( document ).click(function(event) {
+    if($("#cdbDropdown").is(':visible') && event.target.id != "durationMenuText") {
+      $("#cdbDropdown").hide();
+    }
+    if($("#brandsList").is(':visible') && event.target.id != "brandsDropdown") {
+      $("#brandsList").hide();
+    }
+    if($("#profileDropdown").is(':visible') && event.target.id != "profileItem") {
+      $("#profileDropdown").hide();
+    }
+  });
+</script>
