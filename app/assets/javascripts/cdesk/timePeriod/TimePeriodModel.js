@@ -4,7 +4,7 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
   var buildTimePeriodList = function() {
       return [createTimePeriodObject('Last 7 days', 'last_week'),
         createTimePeriodObject('Last 30 days', 'last_month'),
-        createTimePeriodObject('Lifetime', 'life_time', 'active')
+        createTimePeriodObject('Life Time', 'life_time', 'active')
       ];
 
     };
@@ -29,10 +29,10 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
     this.timeData.timePeriodList = buildTimePeriodList();
     this.timeData.selectedTimePeriod = this.timeData.timePeriodList[2];
     var self = this;
-    this.timeData.displayTimePeriod = angular.uppercase(this.timeData.selectedTimePeriod.display);
+    this.timeData.displayTimePeriod = this.timeData.selectedTimePeriod.display;
     this.selectTimePeriod = function(timePeriod) {
       self.timeData.selectedTimePeriod = timePeriod;
-      self.timeData.displayTimePeriod = angular.uppercase(timePeriod.display);
+      self.timeData.displayTimePeriod = timePeriod.display;
       $("#cdbDropdown").toggle();
       self.timeData.timePeriodList.forEach(function(period) {
       if (period == timePeriod) {
@@ -43,7 +43,6 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
       })
 
     };
-    self.timeData.displayTimePeriod = angular.uppercase(this.timeData.selectedTimePeriod.display)
   };
   return new tpModel();
 }])
