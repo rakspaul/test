@@ -5,7 +5,7 @@ var angObj = angObj || {};
 
         var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 

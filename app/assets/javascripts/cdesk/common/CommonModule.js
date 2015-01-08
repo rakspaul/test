@@ -25,7 +25,7 @@ commonModule.constant('actionColors',colorArray);
 
 commonModule.constant('common', {
  title: 'Collective Desk',
- selectTab:$("ul.nav:first").find('.active').removeClass('active').end(),
+ selectTab:$(".main_navigation").find('.active').removeClass('active').end(),
  //        useTempData:'tempdata' //null for actual api endpoint
  useTempData: null
  });
