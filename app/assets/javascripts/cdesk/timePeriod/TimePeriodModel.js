@@ -4,7 +4,7 @@ timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
   var buildTimePeriodList = function() {
       return [createTimePeriodObject('Last 7 days', 'last_week'),
         createTimePeriodObject('Last 30 days', 'last_month'),
-        createTimePeriodObject('Life Time', 'life_time', 'active')
+        createTimePeriodObject('Lifetime', 'life_time', 'active')
       ];
 
     };

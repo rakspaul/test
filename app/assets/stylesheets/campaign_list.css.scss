@@ -99,7 +99,6 @@ button, i, input[type="submit"] {
 }
 .main_container {
   background: #fff;
-  margin-top: -18px;
 }
 .seperator {
   font-size: 12pt;
@@ -3122,6 +3121,7 @@ button, i, input[type="submit"] {
       width: 30px ;
       margin : 8px 0 0 30px ; 
       cursor: default;
+      
       .profile_account_icon {
         background: url(asset-path("cdesk/account_icon.png")) no-repeat center center ;
         height: 30px ;
@@ -3130,14 +3130,28 @@ button, i, input[type="submit"] {
       .profile_account_icon:hover {
         background: url(asset-path("cdesk/account_icon_hover.png")) no-repeat center center ;
       }
-      .logout_link {
-        background: url(asset-path("cdesk/logout_icon.png")) no-repeat  20px 4px;
-        padding-left: 40px;
-      }
+      
       .dropdown-menu {
         z-index: 1001 ;
         top: 54px ;
+        li {
+          a{
+            padding-left:  6px ;
+            padding-right: 0px ;
+            color: #84bce4 ;
+            font-family: "Avenir" ;
+            cursor: default;
+          }
+          .logout_link {
+            color: #fff ;
+            background: url(asset-path("cdesk/logout_icon.png")) no-repeat  7px 1px;
+            padding-left: 26px;
+            padding-top: 0;
+            cursor: pointer;
+          }
+        }
       }
+
     }
     .main_navigation {
       text-transform: uppercase;
