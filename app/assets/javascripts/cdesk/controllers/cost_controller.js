@@ -241,7 +241,6 @@ var angObj = angObj || {};
         $scope.sortFunction = function (sortby) {
             $scope.filter.sortByColumn = sortby;
             localStorage.setItem(user_id+'_cost_sort' , sortby);
-            console.log("local storage item is set " + localStorage.getItem(user_id+'_cost_sort'));
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
                     $scope.sort_field[i].class = 'active';
