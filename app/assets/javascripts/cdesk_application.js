@@ -73,6 +73,9 @@
 //= require cdesk/timePeriod/TimePeriodDirective
 //= require cdesk/timePeriod/TimePeriodController
 
+//= require cdesk/login/LoginModule
+//= require cdesk/login/LoginService
+//= require cdesk/login/LoginController
 
 //= require cdesk/controllers/campaign_details_controller
 //= require cdesk/controllers/actions_controller

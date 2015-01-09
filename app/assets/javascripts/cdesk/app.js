@@ -8,7 +8,8 @@ var angObj = '';
       'campaignListModule',
       'editActionsModule',
       'brandsModule',
-      'timePeriodModule']
+      'timePeriodModule',
+      'loginModule']
   );
 
 
@@ -38,9 +39,6 @@ var angObj = '';
             .when('/performance', {
                 templateUrl: 'performance',
                 controller: 'performanceController'
-            })
-            .when('/reports_login', {
-                templateUrl: 'reports_login'
             })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
