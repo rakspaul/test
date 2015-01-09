@@ -39,6 +39,9 @@ var angObj = '';
                 templateUrl: 'performance',
                 controller: 'performanceController'
             })
+            .when('/reports_login', {
+                templateUrl: 'reports_login'
+            })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
