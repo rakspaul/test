@@ -1142,10 +1142,6 @@ button, i, input[type="submit"] {
 #brandsDropdown:-ms-input-placeholder {
   color: white;
 }
-#brandsList {
-  height: 500px;
-  overflow: auto;
-}
 .highcharts-container .highcharts-tooltip {
   visibility: visible !important;
 }
@@ -3116,6 +3112,10 @@ button, i, input[type="submit"] {
     color: #fff ;
     .main_logo {
       display: block;
+      background: url(asset-path("collective-media-logo.png")) no-repeat center center ;
+      height: 44px;
+      width: 170px;
+      background-size: contain;
     }
     .profile_menu {
       height: 30px ;
@@ -3208,12 +3208,9 @@ button, i, input[type="submit"] {
           padding-right: 20px;
           margin-top: 0px ;
           #brandsList {
-            left : -60px ;
-            color: #fff ;
             width: 280px;
             max-height: 300px;
-            overflow: auto;
-            height: auto;
+            left : -60px ;
             padding: 10px 0 ;
             .brand_search_highlight {
               border-bottom: solid 1px #fff ;
