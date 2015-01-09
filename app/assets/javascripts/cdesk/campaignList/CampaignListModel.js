@@ -160,6 +160,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
+    console.log('fetching campaign list for url: '+url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;
@@ -228,6 +229,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       if(this.brandId > 0) {
         url += '&advertiser_filter=' + this.brandId;
       }
+      console.log('counts api: '+url);
       var request_start = new Date();
       campaignListService.getDashboardData(url, function(result) {
         var diff = new Date() - request_start;
@@ -258,20 +260,21 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           if( self.dashboard.total  > 3) {
 	    self.dashboard.displayFilterSection = true;
 	    if(self.dashboard.active.underperforming == 0 ){
-		self.dashboardFilter('active','ontrack');
-		self.dashboard.filterActive = '(active,ontrack)';
-		self.dashboard.status.active.ontrack = 'active';
-		self.dashboard.status.active.underperforming = '';
+        self.dashboardFilter('active','ontrack');
+        self.dashboard.filterActive = '(active,ontrack)';
+        self.dashboard.status.active.ontrack = 'active';
+        self.dashboard.status.active.underperforming = '';
 	    }else {
-	        self.dashboard.filterActive = '(active,underperforming)';
-	        self.dashboard.status.active.underperforming = 'active';
-	        self.dashboard.status.active.ontrack = '';
+        self.dashboardFilter('active', 'underperforming');
+        self.dashboard.filterActive = '(active,underperforming)';
+        self.dashboard.status.active.underperforming = 'active';
+        self.dashboard.status.active.ontrack = '';
 	    }
 	  }else{
-	      self.dashboard.displayFilterSection = false;
-	      if(self.dashboard.total > 0 ){
-		self.dashboardSelectedAll();
-	      }
+      self.dashboard.displayFilterSection = false;
+      if(self.dashboard.total > 0 ){
+        self.dashboardSelectedAll();
+      }
 	  }
 	}
       });
@@ -469,14 +472,16 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
     Campaigns.prototype.dashboardSelectedAll = function () {
       this.nextPage=1;
-      if(this.dashboard.filterSelectAll == false)
+      this.dashboard.filterSelectAll=true;
+      this. dashboardSelectedAllResetFilter(true);
+      /*if(this.dashboard.filterSelectAll == false)
       {
         this.dashboard.filterSelectAll=true;
         this. dashboardSelectedAllResetFilter(true);
       }else{
         this.dashboard.filterSelectAll=false;
         this. dashboardSelectedAllResetFilter(false);
-      }
+      }*/
     } ,
     Campaigns.prototype.dashboardRemoveSelectedAll = function (type,state) {
       if( this.dashboard.filterSelectAll == true)
