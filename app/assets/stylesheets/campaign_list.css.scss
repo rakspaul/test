@@ -3252,8 +3252,6 @@ button, i, input[type="submit"] {
             .time_dropdown_disabled {
               height: 55px;
               width: 160px;
-              opacity: 0.3;
-              background: rgb(42, 38, 38);
               position: absolute;
               top: 10px;
               left: 0px;
@@ -3267,7 +3265,16 @@ button, i, input[type="submit"] {
           #cdbMenu:hover , #cdbMenu:focus {
             color: #fff ;
           }
-          
+          .cdbMenu_options {
+            li:first-child , li:nth-child(2) {
+              a {
+                color: #817F7F;
+                font-style: italic;
+              }
+              
+            }
+             
+          }
           div.timeline_dd.open {
             #cdbMenu {
               color: #fff ;
