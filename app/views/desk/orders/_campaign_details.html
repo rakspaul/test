@@ -219,7 +219,7 @@
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
                                   <textarea  ng-model="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxlength="160" ng-focus="resetEditActionValidation()"> </textarea>
-                                  <div ng-show="editAction.commentError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                  <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
                                   <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
                               <div class="pull-right submit_btn_holder">

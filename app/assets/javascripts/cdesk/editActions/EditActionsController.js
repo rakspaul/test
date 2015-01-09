@@ -8,12 +8,13 @@
         //EDIT ACTIVITIES
         $scope.editActivity = false;
         $scope.saveBtnDisabled = false;
-
+        $scope.commentError = false;
         $scope.showEdit= function(ad_id){
 
             //console.log('requested data');
             //console.log(editAction.data);
             editAction.data.show = true;
+            document.getElementById("error_edit_action_more_comment").style.display='none';
  
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){
@@ -31,8 +32,10 @@
         };
 
         $scope.closeEdit= function(){
+            $scope.commentError = false;
             $scope.editError = undefined;
             $scope.saveBtnDisabled = false;
+            document.getElementById("error_edit_action_more_comment").style.display='none';
             editAction.data.show = false;
         };
 
@@ -45,7 +48,7 @@
             //console.log(data);
             if(data.name.trim().length > 0 ){
                 $scope.saveBtnDisabled = true;
-                $scope.editAction.commentError = false;
+                $scope.commentError = false;
                 editActionsService.editAction(data).then( function (response){
                if(response) {
                     _.each(activityList.data.data, function(activity) {
@@ -65,7 +68,7 @@
             });
             }else{
                 $scope.saveBtnDisabled = false;
-                $scope.editAction.commentError = true;                
+                $scope.commentError = true;                
             }
             
         }
@@ -76,7 +79,7 @@
 
         }
         $scope.resetEditActionValidation = function(){
-            $scope.editAction.commentError = false;
+            $scope.commentError = false;
         }
  
 
