@@ -273,7 +273,10 @@
                       </div>
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
-                          <div class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+
+                          <div ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+
+
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
@@ -302,6 +305,9 @@
                                    {{action.comment}} 
                                   </div>
                               </div>
+
+
+
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
                                   <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
                                   </div>
@@ -309,6 +315,51 @@
                                   </div>
                               </div>
                           </div>
+
+
+                          <div ng-if="is_network_user=='false'" ng-click="setOptimizationData(campaign,action,strategyByActionId)" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
+
+                              <div class="pull-left activity_points">
+                                  <div class="activity_point">
+                                      <span>
+                                          {{(is_network_user=='true')?((action.make_external)?'E':''):''}}
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="pull-left activity_main_details">
+                                  <div class="activity_main">
+                                      {{action.created_by_name}}
+                                  </div>
+                                  <div class="activity_date">
+                                      {{action.created_at | formatActionDate }}
+                                  </div>
+                              </div>
+                              <div class="pull-left activity_other_details">
+                                  <div class="clearfix other_details_txt">
+                                      <span>
+                                          Impacts {{action.metric_impacted}}
+                                      </span>
+                                      <span class="optimization_txt">
+            {{action.action_type_name}}: {{action.action_sub_type}}
+                                      </span>
+                                  </div>
+                                  <div class="more_details">
+                                   {{action.comment}} 
+                                  </div>
+                              </div>
+
+
+
+                             <!--  <div ng-show="is_network_user" class="pull-right activity_edit_holder">
+                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
+                                  </div>
+                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
+                                  </div>
+                              </div> -->
+                          </div>
+
+
+
                           <div class="no_activity_class" ng-if="(!actionItems.data) || ((actionItems.data | filter: {make_external: true} ).length==0)">
                             No Data Available
                           </div>
