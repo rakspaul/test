@@ -449,18 +449,19 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       filters.timePeriod && (this.timePeriod = filters.timePeriod);
 
       if(filters.brand != undefined){
-	  this.dashboard.status.active.underperforming = 'active';
-	  this.dashboard.filterActive = '(active,underperforming)';
-	  this.dashboard.filterPaused = undefined;
-	  this.dashboard.filterCompleted = undefined;
-	  this.dashboard.filterDraft = undefined;
-	  this.dashboard.filterReady = undefined;
-	  this.dashboard.status.paused = undefined
-	  this.dashboard.status.completed = undefined;
-	  this.dashboard.status.draft = undefined;
-	  this.dashboard.status.ready = undefined;
-	  this.dashboard.status.active.bothItem = undefined;
-	  this.dashboard.status.active.ontrack = undefined;
+        this.dashboard.filterSelectAll=false;
+    	  this.dashboard.status.active.underperforming = 'active';
+    	  this.dashboard.filterActive = '(active,underperforming)';
+    	  this.dashboard.filterPaused = undefined;
+    	  this.dashboard.filterCompleted = undefined;
+    	  this.dashboard.filterDraft = undefined;
+    	  this.dashboard.filterReady = undefined;
+    	  this.dashboard.status.paused = undefined
+    	  this.dashboard.status.completed = undefined;
+    	  this.dashboard.status.draft = undefined;
+    	  this.dashboard.status.ready = undefined;
+    	  this.dashboard.status.active.bothItem = undefined;
+    	  this.dashboard.status.active.ontrack = undefined;
       }
 
       Campaigns.prototype.fetchDashboardData.call(this); //populating dashboard filter with new data
