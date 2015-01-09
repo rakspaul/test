@@ -267,19 +267,20 @@ var angObj = angObj || {};
         };
 
 
-        $scope.formatMetric = function (val1, metricImpacted) {
-
-
-            if (metricImpacted === "CPC" || metricImpacted === "CPA" || metricImpacted === "CPM")
-                return '$' + val1.toFixed(2);
-            else if (metricImpacted === "Delivery (Impressions)") {
-
-                return (val1.toFixed(2)).toLocaleString();
-            }
-
-            else
-                return val1.toFixed(2);
-        };
+//        $scope.formatMetric = function (val1, type) {
+//
+//
+//            if (type === "CPC" || type === "CPA" || type === "CPM")
+//                return '$' + val1.toFixed(2);
+//            else if( type == 'CTR' || type == 'action_rate' || type == 'vtc')
+//                return (val*100).toFixed(2)+'%' ;
+//            else if (type === "Delivery (Impressions)") {
+//                return (val1.toFixed(2)).toLocaleString();
+//            }
+//
+//            else
+//                return val1.toFixed(2);
+//        };
 
         $scope.chartForStrategy = true;
         $scope.loadCdbDataForStrategy = function () {

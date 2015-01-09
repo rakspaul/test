@@ -410,10 +410,14 @@
   });
   angObj.filter('appendDollor', function () {
     return function (val, type) {
-      if (val === undefined || val === "" || val === "null")  {
-        return 'NA';
-      }
-      return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
+        if (val === undefined || val === "" || val === "null") {
+            return 'NA';
+        }
+        else if (type.toLowerCase() === "delivery (impressions)")
+            return (val.toFixed(2)).toLocaleString();
+        else {
+            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : '$' + val.toFixed(2);
+        }
     }
   });
   angObj.filter('calculatePerc', function () {

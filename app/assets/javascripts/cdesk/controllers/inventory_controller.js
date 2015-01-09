@@ -12,7 +12,7 @@ var angObj = angObj || {};
         $scope.selectedStrategy = domainReports.getDefaultValues();
 
         $scope.selected_filters = domainReports.getDurationKpi();
-        $scope.selected_filters.tb = '1';
+        $scope.selected_filters.tb = '0';
         $scope.selected_filters.domain = 'categories';
 
         $scope.strategyTable = {
@@ -92,20 +92,20 @@ var angObj = angObj || {};
                                 bottomPerformance.push(resultTableData[data]);
                             }
                         }
-                        bottomPerformance.sort(sortNumber);
+                      //  bottomPerformance.sort(sortNumber);
 
-                        topPerformance = topPerformance.slice(0, 5);
-                        bottomPerformance = bottomPerformance.slice(0, 5);
+//                        topPerformance = topPerformance.slice(0, 5);
+//                        bottomPerformance = bottomPerformance.slice(0, 5);
                         var topChartObj = true, bottomChartObj = true;
                         if (topPerformance.length > 4) {
-                            topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type);
+                            topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type_text);
                         }
                         if (topChartObj === undefined || topPerformance.length == 0) {
                             var topChartObj = false;
                         }
                         //For Bottom Chart
                         if (bottomPerformance.length > 4) {
-                            bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type);
+                            bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type_text);
                         }
                         if (topChartObj === undefined || bottomPerformance.length == 0) {
                             var bottomChartObj = false;
@@ -122,9 +122,9 @@ var angObj = angObj || {};
             });
         };
 
-        var sortNumber = function (a, b) {
-            return a.kpi_value - b.kpi_value;
-        };
+//        var sortNumber = function (a, b) {
+//            return a.kpi_value - b.kpi_value;
+//        };
 
         $scope.inventoryChart = true;
 
@@ -145,16 +145,16 @@ var angObj = angObj || {};
                             }
                         }
 
-                        $scope.strategyTable.bottomPerformance.sort(sortNumber);
+                      //  $scope.strategyTable.bottomPerformance.sort(sortNumber);
 
                         //Default show the top performance strategies
                         if ($scope.strategyTable.show == 'Top') {
-                            $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
+                            $scope.strategyTableData = $scope.strategyTable.topPerformance ; //.slice(0, 5);
                         } else {
-                            $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0, 5);
+                            $scope.strategyTableData = $scope.strategyTable.bottomPerformance ; //.slice(0, 5);
                         }
                         if ($scope.strategyTableData.length > 0) {
-                            $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                            $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
                         } else {
                             $scope.inventoryChart = false;
                         }
@@ -181,18 +181,18 @@ var angObj = angObj || {};
             $scope.inventoryChart = true;
             if (domainReports.checkStatus($scope.selectedCampaign.name, $scope.selectedStrategy.name)) {
                 if (flag === 'Top') {
-                    $scope.strategyTableData = $scope.strategyTable.bottomPerformance.slice(0, 5);
+                    $scope.strategyTableData = $scope.strategyTable.bottomPerformance ; //.slice(0, 5);
                     $scope.strategyTable.show = 'Bottom';
                     $scope.strategyTable.cssClass = '';
                     $scope.tacticList.show = 'bottomPerformance';
                 } else {
-                    $scope.strategyTableData = $scope.strategyTable.topPerformance.slice(0, 5);
+                    $scope.strategyTableData = $scope.strategyTable.topPerformance ; //.slice(0, 5);
                     $scope.strategyTable.show = 'Top';
                     $scope.strategyTable.cssClass = 'top_perf_symbol';
                     $scope.tacticList.show = 'topPerformance';
                 }
                 if ($scope.strategyTableData.length > 0) {
-                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type);
+                    $scope.inventoryChart = columnline.highChart($scope.strategyTableData, $scope.selected_filters.kpi_type_text);
                 } else {
                     $scope.inventoryChart = false;
                 }

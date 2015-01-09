@@ -113,7 +113,7 @@
                 </div>
             </div>
             <div class="no_data_found" ng-if="!strategyFound">
-                Data Not Found
+                Data Not Available
             </div>
         </div>
         <div ng-if="strategyFound" class="each_chart_accordion_holder"
@@ -152,8 +152,7 @@
                               ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl:20 }}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
                               ng-if="selected_filters.domain == 'fulldomains' ">
-                            <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20
-                                }}</a>
+                            <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20}}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
                         <span class="cpa_col cpa_data pull-right">{{tableData.kpi_value  | appendDollor : selected_filters.kpi_type }}</span>

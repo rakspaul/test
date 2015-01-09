@@ -16,22 +16,29 @@ var angObj = angObj || {};
 
         $scope.filter = { sortByColumn : 'default', ascendingDir : false };
 
+        $scope.cost_sort = {
+            sortBy : ''
+        }
+
         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir: true
 
         }, {
             display: 'Imps',
             key: 'impressions',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir : false
         }, {
             display: 'Total Spend',
             key: 'total',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir : false
 
         }] ;
 
@@ -48,6 +55,14 @@ var angObj = angObj || {};
             $scope.selectedKpi = 'cpa';
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
+
+            if(localStorage.getItem(user_id+'_cost_sort') === undefined || localStorage.getItem(user_id+'_cost_sort') === null){
+                $scope.cost_sort.sortBy = 'default';
+               // $scope.cost_sort.ascendingDir = false ;
+            } else {
+                $scope.cost_sort.sortBy = localStorage.getItem(user_id+'cost_sort') ;
+             //   $scope.cost_sort.ascendingDir = localStorage.getItem(user_id+'cost_sort')['ascendingDir'] ;
+            }
 
         };
 
@@ -74,7 +89,6 @@ var angObj = angObj || {};
                         }
                     }
                     else {
-                 //       console.log("data not found ");
                         $scope.dataNotFound = true;
                         $scope.strategyCostBusy = false;
                         $scope.tacticCostBusy = false;
@@ -208,7 +222,6 @@ var angObj = angObj || {};
                 $scope.strategyCostData = {};
                 $scope.tacticsCostData = {} ;
 
-                //console.log("duration is changed");
                 $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
 
@@ -224,20 +237,15 @@ var angObj = angObj || {};
         };
 
 
-        $scope.formattingNumber = function(kpi, value){
-            if(value !== undefined){
-                value = ((kpi === 'ctr' || kpi === 'action_rate' || kpi === 'vtc') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
-            }
-            return value ;
-        };
 
         $scope.sortFunction = function (sortby) {
             $scope.filter.sortByColumn = sortby;
-
+            localStorage.setItem(user_id+'_cost_sort' , sortby);
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
                     $scope.sort_field[i].class = 'active';
                     $scope.filter.ascendingDir = !$scope.filter.ascendingDir;
+                    $scope.sort_field[i].ascendingDir =  $scope.filter.ascendingDir ;
 
                     ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending' );
                 }

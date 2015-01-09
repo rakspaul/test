@@ -45,11 +45,11 @@
         <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
     </div>
 
-    <!--dataNotFound : {{dataNotFound}}-->
-    <div class="no_data_found" ng-if="dataNotFound">
-        Data Not Found
+
+    <div class="no_data_found" ng-if="dataNotFound || !strategyFound ">
+      Data Not Available
     </div>
-    <div class="viewability_details_outer_container" ng-if="strategiesList.view_metrics && !dataNotFound">
+    <div class="viewability_details_outer_container" ng-if="viewData.view_metrics && !dataNotFound && strategyFound">
         <div class="viewability_header clearfix">
             <!-- <div class="each_col first_col">
                 <span>Tactic</span>
@@ -110,7 +110,7 @@
         </div>
 
 
-        <div class="strategy_total_container " ng-if="strategiesList.view_metrics">
+        <div class="strategy_total_container " ng-if="viewData.view_metrics">
             <div class="strategy_total_container_header clearfix">
 
                 <div class="each_col first_col">
@@ -120,49 +120,49 @@
                     <div class="graph_col">
                         <div class="full_graph_line">
                             <div class="filled_graph_line fully_filled"
-                                 style="width:{{strategiesList.view_metrics.delivered_imps | calculatePerc : strategiesList.view_metrics.total_imps }}px;">
+                                 style="width:{{viewData.view_metrics.delivered_imps | calculatePerc : viewData.view_metrics.total_imps }}px;">
 
                             </div>
                         </div>
                         <div class="clearfix graph_end_points">
-                            <span>{{strategiesList.view_metrics.delivered_imps | number:0}}</span>
-                            <span>{{strategiesList.view_metrics.total_imps | number:0 }}</span>
+                            <span>{{viewData.view_metrics.delivered_imps | number:0}}</span>
+                            <span>{{viewData.view_metrics.total_imps | number:0 }}</span>
                         </div>
                     </div>
                 </div>
                 <div class="each_col third_col">
                     <div class="sub_col">
-                        <span> {{strategiesList.view_metrics.measurable_imps | number:0}}</span>
-                        <span>{{strategiesList.view_metrics.perc_measurable | number:0}}%</span>
+                        <span> {{viewData.view_metrics.measurable_imps | number:0}}</span>
+                        <span>{{viewData.view_metrics.perc_measurable | number:0}}%</span>
                     </div>
                 </div>
                 <div class="each_col forth_col">
                     <div class="sub_col">
-                        <span> {{strategiesList.view_metrics.viewable_imps | number:0}}</span>
-                        <span>{{strategiesList.view_metrics.perc_viewable | number:0}}%</span>
+                        <span> {{viewData.view_metrics.viewable_imps | number:0}}</span>
+                        <span>{{viewData.view_metrics.perc_viewable | number:0}}%</span>
                     </div>
                 </div>
                 <div class="each_col fifth_col">
                     <div class="sub_col">
-                        <span>{{strategiesList.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
-                        <span>{{strategiesList.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
-                        <span>{{strategiesList.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
+                        <span>{{viewData.view_metrics.perc_viewable_imps_1s | number:0}}%</span>
+                        <span>{{viewData.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
+                        <span>{{viewData.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
                     </div>
                 </div>
                 <div class="each_col sixth_col">
-                    {{strategiesList.view_metrics.median_viewable_time | number: number:0}}
+                    {{viewData.view_metrics.median_viewable_time | number: number:0}}
                 </div>
                 <div class="each_col suspicious_col">
-                    {{strategiesList.view_metrics.nht | number: number:2}}%
+                    {{viewData.view_metrics.nht | number: number:2}}%
                 </div>
                 <div class="each_col seventh_col">
-                    {{strategiesList.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
+                    {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                     selected_filters.kpi_type}}
                 </div>
             </div>
             <div class="all_strategies_holder">
 
-                <div class="each_strategy_holder clearfix" ng-repeat="tactic in strategiesList.tacticsList">
+                <div class="each_strategy_holder clearfix" ng-repeat="tactic in viewData.tacticsList">
                     <div class="linkage_lines">
                     </div>
                     <div class="each_strategy clearfix">
@@ -207,7 +207,7 @@
                             {{tactic.view_metrics.median_viewable_time | number:0}}
                         </div>
                         <div class="each_col suspicious_col">
-                            {{strategiesList.view_metrics.nht | number: number:2}}%
+                            {{tactic.view_metrics.nht | number: number:2}}%
                         </div>
                         <div class="each_col seventh_col">
                             {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:

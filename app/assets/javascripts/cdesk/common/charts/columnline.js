@@ -45,9 +45,9 @@
                 options: {
                     chart: {
                         type: 'column',
-                        width: 400,
+                        width: 450,
                         height: 260,
-                        margin: [20, 60, 30, 50]
+                        margin: [20, 80, 30, 85] // [marginTop, marginRight, marginBottom and marginLeft]
                     },
 
                     colors: [
@@ -222,8 +222,10 @@
 
                     $timeout(function() {
                         if(utils.allValuesSame(impLine)) {
-                            var extremesX = chart.yAxis[0].getExtremes();
-                            chart.yAxis[0].setExtremes(0, extremesX.max * 2);
+                            if(chart !== undefined && chart.xAxis !== undefined){
+                                var extremesX = chart.yAxis[0].getExtremes();
+                                chart.yAxis[0].setExtremes(0, extremesX.max * 2);
+                            }
                         }
                     //setup some logic for the chart
                 }, 1000);
