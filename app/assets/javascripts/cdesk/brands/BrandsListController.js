@@ -1,13 +1,12 @@
 (function () {
   'use strict';
-  angObj.controller('BrandsListController', function ($scope) {
-
+  brandsModule.controller('brandsListController', function ($scope, brandsModel, utils, $rootScope, constants) {
     $scope.$watch('selectedBrand.name', function (newName, oldName) {
       if (newName === oldName) {
         return;
       }
       applyBrandFilter();
-    })
+    });
     function applyBrandFilter() {
       if ($scope.selectedBrand.name == undefined || $scope.selectedBrand.name.length < 1) {
         $scope.isExcludedByBrandFilter = false;
@@ -15,13 +14,11 @@
       }
       var filter = $scope.selectedBrand.name.toUpperCase();
       var value = $scope.brand.name.toUpperCase();
-      if (value == $scope.ALL_BRANDS) {
+      if (value == constants.ALL_BRANDS.toUpperCase()) {
         return;
       }
       var isSubString = (value.indexOf(filter) > -1);
       $scope.isExcludedByBrandFilter = !isSubString;
-    }
-
+    };
   });
 }());
-

@@ -1,3 +1,4 @@
+
 <div id="detailedPage" class="dashboard_outer_container" data-ng-init="campaigns.fetchCampaigns()">
  <!-- header-->
     <div class="clearfix page_header_container">
@@ -5,7 +6,7 @@
             <span class="campaign_name">{{campaigns.marketerName}}</span>
             <span class="campaign_name_details">( {{campaigns.totalCount}} {{(campaigns.totalCount == 0 || campaigns.totalCount > 1  ? 'Campaigns' : 'Campaign' )}} )</span>
         </div>
-        <div class="pull-right clearfix page_filters">
+        <!-- <div class="pull-right clearfix page_filters">
             <div class="search-cum-navbar">
                 <ul class="nav navbar-nav">
                     <li class="dropdown each_filter brands_filter" ng-controller="BrandsController">
@@ -39,7 +40,7 @@
                     </li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
  <!-- header ends-->
 
@@ -117,9 +118,6 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $( "#cdbMenu" ).click(function() {
-            $( "#cdbDropdown" ).toggle();
-         });
         $(".each_tab").click( function() {
             var tab_id = $(this).attr("id").split("_tab") ;
             $(".cost_tabs_margin").find(".active").removeClass("active") ;
@@ -127,22 +125,9 @@
             $(".each_section_block , .filter_header_block , .cost_margin ").hide() ;
             $( "#" + tab_id[0] + "_block , #" + tab_id[0] + "_filter_header , ." + tab_id[0] + "_margin"  ).show() ;
         }) ;
-        $("#brandsDropdownDiv").click(function() {
-            $("#brandsList").toggle();
-        });
         $(".dropdown_ul li").click( function() {
             $(this).closest(".dropdown").find(".dd_txt").text($(this).text()) ;
         }) ;
-        $( document ).click(function(event) {
-            if($("#cdbDropdown").is(':visible')) {
-                $("#cdbDropdown").hide();
-            }
-            if(!$("#brandsDropdown").is(':focus')) {
-                if(event.target.id != "#brandsDropDownImg") {
-                    $("#brandsList").hide();
-                }
-            }
-        });
         $(window).scroll( function() {
             var scroll_top = $(window).scrollTop() ;
             if($(".fixed_line").offset() !== undefined) {

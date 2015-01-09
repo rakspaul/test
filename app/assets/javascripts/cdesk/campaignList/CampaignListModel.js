@@ -1,5 +1,5 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants) {
+campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel) {
 
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
@@ -25,7 +25,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.sortDirection = 'desc';
     this.totalPages;
     this.totalCount;
-    this.brandId = 0;
+    this.brandId = brandsModel.getSelectedBrand().id;
     this.dashboard = {
       filterSelectAll: false,
       displayFilterSection: false,
@@ -120,7 +120,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.busy = false;
       this.timePeriod = 'life_time';
       this.nextPage = 1;
-      this.brandId = 0;
+      this.brandId = brandsModel.getSelectedBrand().id;
       this.sortParam = undefined;
       this.sortDirection = undefined;
       this.totalPages = undefined;
@@ -154,14 +154,12 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
   Campaigns.prototype.fetchCampaigns = function() {
     if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
-      console.log('returning as all the campaigns are displayed');
       return;
     }
 
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
-    console.log('fetching from new campaigns api: ' + url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;
@@ -230,8 +228,10 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       if(this.brandId > 0) {
         url += '&advertiser_filter=' + this.brandId;
       }
-
+      var request_start = new Date();
       campaignListService.getDashboardData(url, function(result) {
+        var diff = new Date() - request_start;
+        ga(constants.GA_SEND, constants.GA_EVENT, constants.GA_DASHBOARD, constants.GA_CLICK, diff / 1000);
         self.dashboard.busy = false;
         requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
         if(result.status == "success" && !angular.isString(result.data)){

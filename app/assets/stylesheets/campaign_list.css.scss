@@ -99,7 +99,6 @@ button, i, input[type="submit"] {
 }
 .main_container {
   background: #fff;
-  margin-top: -18px;
 }
 .seperator {
   font-size: 12pt;
@@ -2260,72 +2259,7 @@ button, i, input[type="submit"] {
         display: inline-block;
       }
     }
-    .page_filters {
-      color: #666 ;
-      li.each_filter {
-        background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center right ;
-        padding-right: 20px;
-        margin-top: 0px ;
-        #brandsList {
-          width: 280px;
-          max-height: 300px;
-          overflow: auto;
-          height: auto;
-          padding: 0px ;
-          li {
-            padding: 5px 10px;
-          }
-          li:hover {
-            background: #f8f8f8 ;
-          }
-          a {
-            white-space: normal;
-            word-wrap : break-word;
-          }
-        }
-        a {
-          font-family: "Avenir" ;
-        }
-        #brandsDropdownDiv {
-          input {
-            font-family: "Avenir" ;
-          }
-          input::-webkit-input-placeholder { color: #666 ; font-family: "Avenir" ; }
-          input::-moz-placeholder { color: #666 ;font-family: "Avenir" ;  }
-          input:-moz-placeholder { color: #666 ;  font-family: "Avenir" ;}
-          input:-ms-input-placeholder { color: #666 ; font-family: "Avenir" ; }
-        }
-      }
-      .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
-        color: #666;
-        background:  transparent;
-        padding: 0;
-        cursor: pointer;
-      }
 
-
-
-      #brandsDropdown {
-        background: #F8F8F8;
-        width: 88px ;
-        color: #666 ;
-        font-size: 14px;
-        font-family: "Avenir" ;
-      }
-      li.lifetime_filter {
-        margin-left: 60px;
-        margin-top: 5px;
-        .dropdown-menu {
-          padding: 0px ;
-          li {
-            padding: 5px 10px;
-          }
-          li:hover {
-            background: #f8f8f8 ;
-          }
-        }
-      }
-    }
   }
   .summary_title {
     color: #333 ;
@@ -3134,3 +3068,243 @@ button, i, input[type="submit"] {
 
 }
 /*  end of cost breakdown */
+
+
+
+
+.main_navigation_holder {
+  height: 84px;
+  background: #007ac9;
+  padding: 20px ;
+  .dropdown-menu {
+    padding: 10px 0px ;
+    background: #026DB3;
+    border-radius: 0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border: 0;
+    top: 52px;
+    left: -100px ;
+    font-size: 12px ;
+    li {
+      padding: 5px 10px;
+      a {
+        color: #fff ;
+      }
+    }
+    li:hover {
+      color: #fff ;
+      background: rgba(255,255,255,0.1) ;
+      a {
+        color: #fff ;
+      }
+    }
+  }
+  .dropdown-menu:before {
+    background: url(asset-path("cdesk/dropdown_up_arrow.png")) no-repeat center bottom  ;
+    content: "";
+    display: block;
+    height: 10px;
+    width: 20px;
+    position: absolute;
+    top: -10px;
+    left: 50%;
+  }
+  .main_nav {
+    width: 1115px;
+    margin: 0 auto;
+    color: #fff ;
+    .main_logo {
+      display: block;
+    }
+    .profile_menu {
+      height: 30px ;
+      width: 30px ;
+      margin : 8px 0 0 30px ; 
+      cursor: default;
+      .profile_account_icon {
+        background: url(asset-path("cdesk/account_icon.png")) no-repeat center center ;
+        height: 30px ;
+        width: 30px ;
+      }
+      .profile_account_icon:hover {
+        background: url(asset-path("cdesk/account_icon_hover.png")) no-repeat center center ;
+      }
+      
+      .dropdown-menu {
+        z-index: 1001 ;
+        top: 54px ;
+        max-width: 150px;
+        li {
+          a{
+            padding-left:  6px ;
+            padding-right: 0px ;
+            color: #84bce4 ;
+            word-wrap: break-word;
+            font-family: "Avenir" ;
+            cursor: default;
+            white-space: normal;
+          }
+          .logout_link {
+            color: #fff ;
+            background: url(asset-path("cdesk/logout_icon.png")) no-repeat  7px 1px;
+            padding-left: 26px;
+            padding-top: 0;
+            cursor: pointer;
+          }
+        }
+      }
+      .dropdown-menu:before {
+          left : 65% ;
+      }
+
+    }
+    .main_navigation {
+      text-transform: uppercase;
+      margin: 15px 0 0 25px;
+      font-family: "Avenir";
+      font-size: 14px;
+      .dropdown-menu  {
+        top : 54px ;
+      }
+      .each_nav_link {
+        margin: 0 30px  ;
+        a {
+          text-decoration: none;
+          color: #84bce4 ;
+        }
+        a:hover  {
+          color: #fff ;
+        }
+      }
+      .active {
+        a {
+          color: #fff ;
+        }
+      }
+    }
+    a {
+      color: #fff ;
+    }
+    .main_filters {
+      margin-top: 10px ;
+      .page_filters {
+        color: #fff ;
+        .brands_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url(asset-path("cdesk/brand_icon.png")) no-repeat center center ;
+        }
+        .timeline_dd_icon {
+          height: 30px ;
+          width: 30px ;
+          background: url(asset-path("cdesk/lifetime_filter_icon.png")) no-repeat 8px 9px  ;
+        }
+        .timeline_dd {
+          margin-top: 5px ;
+        }
+        li.each_filter {
+          background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat center right ;
+          padding-right: 20px;
+          margin-top: 0px ;
+          #brandsList {
+            left : -60px ;
+            color: #fff ;
+            width: 280px;
+            max-height: 300px;
+            overflow: auto;
+            height: auto;
+            padding: 10px 0 ;
+            .brand_search_highlight {
+              border-bottom: solid 1px #fff ;
+            }
+            li {
+              padding: 5px 20px;
+            }
+            li:hover {
+              background: rgba(255,255,255,0.1) ;
+              color: #fff ;
+            }
+            li.active {
+              background: url(asset-path("cdesk/side_arrow.png")) no-repeat 10px 8px  ;
+            }
+            a {
+              white-space: normal;
+              word-wrap : break-word;
+            }
+          }
+          a {
+            font-family: "Avenir" ;
+            text-decoration: none; 
+          }
+          #brandsDropdownDiv {
+            input {
+              font-family: "Avenir" ;
+            }
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+          }
+        }
+        li.lifetime_filter {
+          .dropdown-menu {
+            left: -35px ;
+            padding: 10px 0 ;
+            
+            .time_dropdown_disabled {
+              height: 55px;
+              width: 160px;
+              opacity: 0.3;
+              background: rgb(42, 38, 38);
+              position: absolute;
+              top: 10px;
+              left: 0px;
+              cursor: default;
+            }
+          }
+          
+          #cdbMenu {
+            color: #84bce4 ;
+          }
+          #cdbMenu:hover , #cdbMenu:focus {
+            color: #fff ;
+          }
+          
+          div.timeline_dd.open {
+            #cdbMenu {
+              color: #fff ;
+            }
+          } 
+          
+        }
+
+        .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
+          color: #fff ;
+          background:  transparent;
+          padding: 0;
+          cursor: pointer;
+        }
+        #brandsDropdown {
+          background: #007ac9;
+          min-width: 88px ;
+          color: #84bce4 ;
+          text-overflow: ellipsis;
+          font-size: 14px;
+          font-family: "Avenir" ;
+
+        }
+        #brandsDropdown:focus {
+          color: #fff ; 
+        }
+        li.lifetime_filter {
+          margin-right : 60px;
+          
+        }
+      }
+    }
+  }
+}
+
+
+

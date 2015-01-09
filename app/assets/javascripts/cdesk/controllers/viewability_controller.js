@@ -1,10 +1,10 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('viewabilityController', function ($scope, viewablityService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel) {
 
         //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         $scope.selectedCampaign = domainReports.getDefaultValues();
 
@@ -118,7 +118,7 @@ var angObj = angObj || {};
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
             }
-            $scope.$apply();
+           // $scope.$apply();
         };
 
         $scope.updateStrategyObjects = function (strategy) {
@@ -142,19 +142,14 @@ var angObj = angObj || {};
         //Calling the Strategy object based on the campaignId
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
-            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
                     if (result.status == 'success') {
                         var strategy = result.data.data;
-                        dataTransferService.setCampaignStrategyList(campaignId, strategy);
                         $scope.updateStrategyObjects(strategy);
                     } else {
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     }
                 });
-            } else {
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
         };
 
         //Function is called from startegylist directive
@@ -163,6 +158,9 @@ var angObj = angObj || {};
             $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
         };
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
 
     });
 
