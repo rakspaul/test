@@ -409,7 +409,6 @@
     }
   });
   angObj.filter('appendDollor', function () {
-      console.log("append dollor is called ");
     return function (val, type) {
       if (val === undefined || val === "" || val === "null")  {
         return 'NA';

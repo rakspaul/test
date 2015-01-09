@@ -11,11 +11,7 @@ var angObj = angObj || {};
         $scope.selectedStrategy = domainReports.getDefaultValues();
 
         $scope.selected_filters = domainReports.getDurationKpi();
-        $scope.strategyBusy = false;
-        $scope.tacticBusy = false ;
-
         $scope.filters = domainReports.getReportsDropDowns();
-
 
         $scope.download_urls = {
             tactics: null,
@@ -23,8 +19,17 @@ var angObj = angObj || {};
             publishers: null,
             exchanges: null
         };
-        var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/viewability/';
 
+        $scope.init = function (){
+
+            $scope.viewData = {};
+            $scope.strategyBusy = false;
+            $scope.tacticBusy = false ;
+            $scope.strategyFound = false;
+
+        }
+
+        $scope.init();
 
         $scope.tacticViewData = function (param, strategiesList) {
             $scope.tacticBusy = true;
@@ -33,7 +38,8 @@ var angObj = angObj || {};
 
                     $scope.tacticBusy = false;
                     strategiesList.tacticsList = result.data.data[0].tactics;
-                    $scope.strategiesList = strategiesList;
+                    $scope.viewData = strategiesList;
+
                 } // Means no strategy data found
                 else {
                     $scope.tacticBusy =false;
@@ -111,6 +117,7 @@ var angObj = angObj || {};
 
         //Called from directive_controller.js,  when the user selects the campaign dropdown option
         $scope.callBackCampaignChange = function () {
+            $scope.init();
             $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
             if ($scope.selectedCampaign.id !== -1) {
                 $scope.callBackCampaignsSuccess();
@@ -130,11 +137,19 @@ var angObj = angObj || {};
                 $scope.selectedStrategy.name = strategyObj.name;
                 $scope.strategyFound = true;
                 $scope.dataNotFound = false;
-                //Call the chart to load with the changed campaign id and strategyid
-                $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+                if ($scope.selectedStrategy.id == -1) {
+                    $scope.strategyFound = false;
+                    $scope.dataNotFound = true;
+                }else {
+                    //Call the chart to load with the changed campaign id and strategyid
+                    $scope.strategyFound = true;
+                    $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+
+                }
             } else { //  means empty strategy list
                 $scope.dataNotFound = true;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategyFound = false;
             }
         };
 
