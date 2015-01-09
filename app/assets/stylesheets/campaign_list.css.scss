@@ -3209,9 +3209,13 @@ button, i, input[type="submit"] {
           margin-top: 0px ;
           #brandsList {
             width: 280px;
-            max-height: 300px;
             left : -60px ;
-            padding: 10px 0 ;
+            padding: 0 ;
+            .brandsList_ul {
+              padding: 10px 0 ;
+              max-height: 300px;
+              overflow: auto ;
+            }
             .brand_search_highlight {
               border-bottom: solid 1px #fff ;
             }

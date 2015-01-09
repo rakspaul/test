@@ -6,12 +6,14 @@
     <span class="sort-image-inactive" id="#brandsDropDownImg"></span>
   </div>
   <ul class="dropdown-menu" role="menu" id="brandsList">
-    <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
-      <a data-ng-click="selectBrand(brand)">
-        <span class="tick"></span>
-          <span class="menuItemText"
-                ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>
-      </a>
-    </li>
+    <div class="brandsList_ul">
+      <li ng-repeat="brand in brands" ng-hide="isExcludedByBrandFilter" class="{{brand.className}}" ng-controller="brandsListController">
+        <a data-ng-click="selectBrand(brand)">
+          <span class="tick"></span>
+            <span class="menuItemText"
+                  ng-bind-html="highlightSearch(brand.name, selectedBrand.name)">{{brand.name}}</span>
+        </a>
+      </li>
+    </div>
   </ul>
 </div>
