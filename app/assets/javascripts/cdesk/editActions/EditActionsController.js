@@ -8,12 +8,13 @@
         //EDIT ACTIVITIES
         $scope.editActivity = false;
         $scope.saveBtnDisabled = false;
-
+        $scope.commentError = false;
         $scope.showEdit= function(ad_id){
 
             //console.log('requested data');
             //console.log(editAction.data);
             editAction.data.show = true;
+            document.getElementById("error_edit_action_more_comment").style.display='none';
  
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){
@@ -31,23 +32,24 @@
         };
 
         $scope.closeEdit= function(){
+            $scope.commentError = false;
             $scope.editError = undefined;
             $scope.saveBtnDisabled = false;
+            document.getElementById("error_edit_action_more_comment").style.display='none';
             editAction.data.show = false;
         };
 
         $scope.editAction = function () {
-            $scope.saveBtnDisabled = true;
-          
             var data = {};
             data.make_external = editAction.data.makeExternal;
             data.ad_id =  editAction.data.id ;
             data.name = editAction.data.name ;
             //console.log('new chnages');
             //console.log(data);
-
-  
-            editActionsService.editAction(data).then( function (response){
+            if(data.name.trim().length > 0 ){
+                $scope.saveBtnDisabled = true;
+                $scope.commentError = false;
+                editActionsService.editAction(data).then( function (response){
                if(response) {
                     _.each(activityList.data.data, function(activity) {
                         if(activity.id == data.ad_id){
@@ -64,12 +66,20 @@
                 }
 
             });
+            }else{
+                $scope.saveBtnDisabled = false;
+                $scope.commentError = true;                
+            }
+            
         }
         function resetEditActionFormData() {
             $scope.saveBtnDisabled = false;
             editAction.data.makeExternal = false;
             editAction.data.name = '';
 
+        }
+        $scope.resetEditActionValidation = function(){
+            $scope.commentError = false;
         }
  
 

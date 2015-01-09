@@ -218,7 +218,9 @@
                           </div>
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
-                                  <textarea  ng-model="showList.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"> </textarea>
+                                  <textarea  ng-model="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxlength="160" ng-focus="resetEditActionValidation()"> </textarea>
+                                  <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                  <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
                               <div class="pull-right submit_btn_holder">
                                   <input type="submit" class="submit_btn" value="Save" ng-disabled="saveBtnDisabled" id="action_save_btn">
@@ -516,7 +518,7 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-      $("#error_more_comment").hide();
+      $("#error_more_comment,#error_edit_action_more_comment").hide();
       $( ".dropdown_ul_text" ).click(function() {
           $( ".dropdown_ul" ).toggle();
        });
@@ -555,6 +557,29 @@
       });
        $('#action_comment').bind("blur", function() {
           $("#error_more_comment").hide();
+       });
+
+       //Edit actions
+       
+       $('#action_save_btn').bind("click", function() {
+          var txt = $.trim(jQuery("#edit_action_comment").val());
+          jQuery("#edit_action_comment").val(txt);
+         
+      });
+       $('#edit_action_comment').bind("change keyup", function() {
+          var txt = (jQuery("#edit_action_comment").val());
+          var max_length = $(this).attr("maxlength")
+          if(txt.length == max_length ){
+            $("#error_edit_action_more_comment").show();
+            $("#error_edit_action_more_comment").html('You cannot enter more than '+max_length + ' characters ');
+          }
+          else{
+             $("#error_edit_action_more_comment").hide();
+          }
+         
+      });
+       $('#edit_action_comment').bind("blur", function() {
+          //$("#error_edit_action_more_comment").hide();
        });
       
       
