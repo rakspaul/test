@@ -17,7 +17,8 @@ var angObj = angObj || {};
         $scope.filter = { sortByColumn : 'default', ascendingDir : false };
 
         $scope.cost_sort = {
-            sortBy : ''
+            sortBy : '',
+            ascendingDir : ''
         }
 
         $scope.sort_field = [{
@@ -58,10 +59,17 @@ var angObj = angObj || {};
 
             if(localStorage.getItem(user_id+'_cost_sort') === undefined || localStorage.getItem(user_id+'_cost_sort') === null){
                 $scope.cost_sort.sortBy = 'default';
-               // $scope.cost_sort.ascendingDir = false ;
+                $scope.cost_sort.ascendingDir = false ;
             } else {
                 $scope.cost_sort.sortBy = localStorage.getItem(user_id+'cost_sort') ;
-             //   $scope.cost_sort.ascendingDir = localStorage.getItem(user_id+'cost_sort')['ascendingDir'] ;
+                $scope.cost_sort.ascendingDir = localStorage.getItem(user_id+'_cost_sort_dir') ;
+                for(var i in $scope.sort_field){
+                    if($scope.sort_field[i].key ===  $scope.cost_sort.sortBy){
+                        $scope.sort_field[i].class = 'active';
+                        $scope.sort_field[i].ascendingDir =  $scope.cost_sort.ascendingDir ;
+                        $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
+                    }
+                }
             }
 
         };
@@ -240,14 +248,16 @@ var angObj = angObj || {};
 
         $scope.sortFunction = function (sortby) {
             $scope.filter.sortByColumn = sortby;
-            localStorage.setItem(user_id+'_cost_sort' , sortby);
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
                     $scope.sort_field[i].class = 'active';
-                    $scope.filter.ascendingDir = !$scope.filter.ascendingDir;
-                    $scope.sort_field[i].ascendingDir =  $scope.filter.ascendingDir ;
+                 //   $scope.filter.ascendingDir = !$scope.filter.ascendingDir;
+                    $scope.sort_field[i].ascendingDir =   ! $scope.sort_field[i].ascendingDir ;
+                    $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
 
-                    ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending' );
+                    ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'descending'):($scope.sort_field[i].sortDirection = 'ascending'  );
+                    localStorage.setItem(user_id+'_cost_sort_dir' ,  $scope.filter.ascendingDir );
+                    localStorage.setItem(user_id+'_cost_sort' ,   $scope.filter.sortByColumn );
                 }
                 else{
                     $scope.sort_field[i].class = '';
