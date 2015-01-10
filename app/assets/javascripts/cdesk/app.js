@@ -8,7 +8,9 @@ var angObj = '';
       'campaignListModule',
       'editActionsModule',
       'brandsModule',
-      'timePeriodModule']
+      'timePeriodModule',
+      'angulartics',
+      'angulartics.google.analytics']
   );
 
 

@@ -26,6 +26,8 @@
 //= require solid-gauge
 //= require moment.min
 //= require underscore-min
+//= require angulartics
+//= require angulartics-ga
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
