@@ -50,6 +50,7 @@ angular.module('ui.multiselect', [])
           scope.multipleoption = attrs.multipleoption;
           scope.datashow = attrs.datashow;
           scope.acceptmultiple = attrs.acceptmultiple;
+          scope.maxcharacter = attrs.maxcharacter > 0 ? attrs.maxcharacter:0;
           scope.header = 'Select';
           scope.multiple = isMultiple;
           scope.disabled = false;
@@ -127,12 +128,20 @@ angular.module('ui.multiselect', [])
           function getHeaderText() {
             if (is_empty(modelCtrl.$modelValue)) return scope.header = '';
             if (isMultiple) {
-             if(modelCtrl.$modelValue.length > 1 ){
-                 scope.header = modelCtrl.$modelValue.length+' Selected' ;
-              }else{
-                 var data_selected = modelCtrl.$modelValue;
-                 scope.header = data_selected[0].name ;
-              }
+               var selected_item ='';
+               var data_selected = modelCtrl.$modelValue; 
+               for(i=0;i < data_selected.length;i++){
+                  selected_item = selected_item + data_selected[i].name +",";
+               }
+               if(selected_item.length > 0 ){
+                  selected_item = selected_item.substring(0, selected_item.length - 1);
+                  if(selected_item.length < scope.maxcharacter){
+                     scope.header = selected_item;      
+                  }else{
+                     scope.header = modelCtrl.$modelValue.length+' Selected' ;
+                  }
+
+               }
             } else {
               var local = {};
               local[parsedResult.itemName] = modelCtrl.$modelValue;

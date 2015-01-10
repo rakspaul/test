@@ -60,12 +60,12 @@
                                     <div  ng-show="action.selectedTypeError" id="error_activity" class="error_message">Please select an item in the list.</div>
                                </div>
                                 <div class="filter_dropdown select_all_filter_dropdown">
-                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1"  displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType()"></multiselect>
+                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1"  displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType()" maxcharacter="20"></multiselect>
                                      
                                       <div ng-show="action.selectedSubTypeError" id="error_subtype"  class="error_message">Please select an item in the list.</div>
                                </div>
                                 <div class="filter_dropdown select_all_filter_dropdown">
-                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()"></multiselect>
+                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()" maxcharacter="20"></multiselect>
                                     <div ng-show="action.selectedTacticError" id="error_tactic" class="error_message">Please select an item in the list.</div>
                                 </div>
                                 <div class="filter_dropdown metric_selected_filter_dropdown">
