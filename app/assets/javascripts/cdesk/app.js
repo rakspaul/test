@@ -9,7 +9,9 @@ var angObj = '';
       'editActionsModule',
       'brandsModule',
       'timePeriodModule',
-      'loginModule']
+      'loginModule',
+      'angulartics',
+      'angulartics.google.analytics']
   );
 
 
