@@ -89,15 +89,50 @@
         return  this.getCampaignDetailsObject('clickedActionItems');
       },
       setAllCampaignList : function(campaignListObject, brand_id) {
-        localStorage['allCampaignList_'+ brand_id + '_' + user_id] = JSON.stringify(campaignListObject);
+
+          // check if cache expiry is set if yes, clear the cache if it is expired.
+          if(localStorage.getItem('cache_expiry') !== null && localStorage.getItem('cache_expiry') !== undefined ){
+              if(localStorage.getItem('cache_expiry') < (new Date().getTime())  ){
+                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + user_id);
+
+              }
+          }
+          // extra code to clear old and unused cache keys form localStorage.
+          if(localStorage.getItem('allCampaignList_'+ user_id) !== null && localStorage.getItem('allCampaignList_'+ user_id) !== undefined) {
+              localStorage.removeItem('allCampaignList_' + user_id);
+
+          }
+
+          localStorage['allCampaignList_'+ brand_id + '_' + user_id] = JSON.stringify(campaignListObject);
+
+         var expiry = new Date().getTime() + (60 * 60 * 1000)  ; // cache expiry is 60 min
+
+        localStorage['cache_expiry']  = expiry ;
+
       },
       getAllCampaignList : function(brand_id){
-            if(localStorage['allCampaignList_'+ brand_id + '_' + user_id] === undefined){
-                return false;
-            }else {
+
+
+          // clear old and unused cache keys form localStorage.
+          if(localStorage.getItem('allCampaignList_'+ user_id) !== null && localStorage.getItem('allCampaignList_'+ user_id) !== undefined) {
+              localStorage.removeItem('allCampaignList_' + user_id);
+          }
+
+          if( localStorage.getItem('cache_expiry') !== null &&localStorage.getItem('cache_expiry') !== undefined ){
+              if(localStorage.getItem('cache_expiry') < (new Date().getTime())  ){
+                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + user_id);
+              }
+          }
+
+          if(localStorage['allCampaignList_'+ brand_id + '_' + user_id] === undefined || localStorage['allCampaignList_'+ brand_id + '_' + user_id] === null) {
+              return false;
+          }
+          // check if expiry is present and if we need to time out
+          else {
                 return JSON.parse(localStorage['allCampaignList_'+ brand_id + '_' + user_id]);
             }
        },
+
       //@obj format :{campaignDetails key : value, ...});
       updateExistingStorageObjects : function(obj){
         if(localStorage['campaignDetails'] === undefined){

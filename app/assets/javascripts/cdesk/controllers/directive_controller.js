@@ -53,18 +53,17 @@
 
         //This function is used to call the campaign list from api, localstorage adapted
         $scope.campaignlist = function () {
-
+            var allCampaigns = {};
             if (dataTransferService.getAllCampaignList(brandsModel.getSelectedBrand().id) === false) {
                 domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id).then(function (result) {
                     if (result.status == 'success') {
-                        var allCampaigns = result.data.data ;
-                        var campaigns = allCampaigns.slice(0,200);
+                         allCampaigns = result.data.data ;
                         dataTransferService.setAllCampaignList(allCampaigns,(brandsModel.getSelectedBrand().id));
-                        $scope.setCampaigns(campaigns,allCampaigns);
+                        $scope.setCampaigns(allCampaigns.slice(0,200),allCampaigns);
                     }
                 });
             } else {
-                var allCampaigns = domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id);
+                 allCampaigns = domainReports.getAllCampaignListForUser(brandsModel.getSelectedBrand().id);
                 $scope.setCampaigns(allCampaigns.slice(0,200),allCampaigns);
             }
         };

@@ -22,6 +22,7 @@ var angObj = angObj || {};
 
         $scope.init = function (){
 
+            $scope.strategies = {} ;
             $scope.viewData = {};
             $scope.strategyBusy = false;
             $scope.tacticBusy = false ;
@@ -124,6 +125,7 @@ var angObj = angObj || {};
                 $scope.strategylist($scope.selectedCampaign.id);
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
            // $scope.$apply();
         };
@@ -150,6 +152,7 @@ var angObj = angObj || {};
                 $scope.dataNotFound = true;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
         };
 

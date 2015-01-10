@@ -26,6 +26,7 @@ var angObj = angObj || {};
             $scope.tacticList = [];
             $scope.navigationFromReports = true;
             $scope.campaignActionList = [];
+            $scope.strategies = {} ;
             $scope.clicked = {
                 action: {},
                 strategy: {
@@ -395,6 +396,7 @@ var angObj = angObj || {};
                     $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     $scope.chartForStrategy = false;
                     $scope.tacticNotFound = true;
+                    $scope.strategies = {} ; // if No Strategy then clear the strategy list.
 
                 }
             }
@@ -431,6 +433,7 @@ var angObj = angObj || {};
             else {
                 $scope.chartForStrategy = false;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
          //   $scope.$apply();
 

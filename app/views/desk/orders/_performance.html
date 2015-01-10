@@ -15,7 +15,6 @@
         <large-list-search selected-obj=selectedCampaign></large-list-search>
     </div>
 
-
     <div class="pull-right download_report">
 
         <div class="dropdown" >
@@ -43,9 +42,9 @@
     <strategy-list selected-obj=selectedStrategy list-columns="strategies"></strategy-list>
 </div>
 
-<span class="no-chart load-more" ng-if="performanceBusy">&nbsp;</span>
+<span class="no-chart load-more" ng-if="performanceBusy || first_time_activity_loader">&nbsp;</span>
 
-<div class="no_data_found" ng-if="!strategyFound && !performanceBusy">
+<div class="no_data_found" ng-if="!strategyFound && !performanceBusy && !first_time_activity_loader">
     Data Not Available
 </div>
 
