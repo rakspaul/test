@@ -160,7 +160,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
-    console.log('fetching campaign list for url: '+url);
+    //console.log('fetching campaign list for url: '+url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;
@@ -229,7 +229,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       if(this.brandId > 0) {
         url += '&advertiser_filter=' + this.brandId;
       }
-      console.log('counts api: '+url);
+     // console.log('counts api: '+url);
       var request_start = new Date();
       campaignListService.getDashboardData(url, function(result) {
         var diff = new Date() - request_start;
@@ -443,7 +443,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
 
     Campaigns.prototype._applyFilters = function(filters) {
-      console.log('filter campaigns: ' + JSON.stringify(filters));
+   //   console.log('filter campaigns: ' + JSON.stringify(filters));
       if (filters == undefined) {
         return;
       }

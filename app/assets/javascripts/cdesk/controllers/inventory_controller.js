@@ -14,6 +14,7 @@ var angObj = angObj || {};
         $scope.selected_filters = domainReports.getDurationKpi();
         $scope.selected_filters.tb = '0';
         $scope.selected_filters.domain = 'categories';
+        $scope.strategies = {} ;
 
         $scope.strategyTable = {
             topPerformance: [],
@@ -58,6 +59,7 @@ var angObj = angObj || {};
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false;
                 $scope.inventoryChart = false;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
 
             }
         };
@@ -71,6 +73,7 @@ var angObj = angObj || {};
                         $scope.updateStrategyObjects(strategy);
                     } else {
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                        $scope.strategies = {} ; // clear the old strategy list
                     }
                 });
         };
@@ -231,6 +234,7 @@ var angObj = angObj || {};
             }
             else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
            // $scope.$apply();
             $scope.inventoryChart = true;

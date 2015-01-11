@@ -6,6 +6,8 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
+        $scope.first_time_activity_loader = true ;
+
         $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 
         $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
@@ -39,6 +41,8 @@ var angObj = angObj || {};
 
             $scope.dowBusy = false;
             $scope.tacticDowBusy = false ;
+
+            $scope.strategies = {};
 
           //  $scope.firstTime = true;
            // $scope.noTacticsFound = false;
@@ -308,6 +312,7 @@ var angObj = angObj || {};
 
         $scope.updateStrategyObjects = function (strategy) {
 
+            $scope.first_time_activity_loader = false ;
             $scope.strategies = strategy;
             $scope.performanceBusy = false ;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
@@ -331,6 +336,7 @@ var angObj = angObj || {};
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                // $scope.noTacticsFound = true;
                 $scope.strategyFound = false;
+                $scope.strategies = {} ; // clear the strategy list if no strategy found
                 // $scope.dataNotFound = true;
             }
         };
@@ -375,6 +381,7 @@ var angObj = angObj || {};
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
            // $scope.$apply();
         };
@@ -397,8 +404,11 @@ var angObj = angObj || {};
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
 
-            if($scope.selectedStrategy.id == -1)
+            if($scope.selectedStrategy.id == -1){
                 $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+            }
+
 
            else {
                 $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_filters.tab, timeFilter: $scope.selected_filters.time_filter });
