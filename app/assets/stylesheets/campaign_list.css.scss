@@ -2908,11 +2908,14 @@ button, i, input[type="submit"] {
     }
   }
   .each_cost_col {
-    cursor: pointer;
+    cursor: default;
     text-transform: none;
     font-size: 14px;
     font-family: "Avenir";
     color: #313233;
+  }
+  .second_col {
+    cursor: pointer;
   }
   .arrrow_img {
     background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
@@ -2927,11 +2930,6 @@ button, i, input[type="submit"] {
     li:hover {
       background : #f0fcf4;;
     }
-  }
-}
-.cost_header_holder {
-  .each_cost_col  {
-    cursor: default;
   }
 }
 .cost_col_header_tabs_holder {
