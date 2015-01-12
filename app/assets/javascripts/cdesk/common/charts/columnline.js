@@ -35,9 +35,14 @@
                 kpiColumn = [];
 
             for (var i = 0; i < chartData.length; i++) {
+                var kpi_value = chartData[i].kpi_value ;
+                if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate' ||  kpIType.toLowerCase() === 'vtc'){
+                    kpi_value = kpi_value * 100 ;
+                }
                 xData.push({custom: i, y: chartData[i].domain_data });
                 impLine.push(chartData[i].impressions);
-                kpiColumn.push(chartData[i].kpi_value);
+                kpiColumn.push(kpi_value);
+               // kpiColumn.push(chartData[i].kpi_value);
             }
 
 
@@ -66,12 +71,14 @@
                     tooltip: {
                         formatter: function() {
                             if (this.key) {
-                                var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
                                 var yVal = this.y;
                                 if(this.series.name !== 'Series 1'){
                                     yVal = Highcharts.numberFormat(Math.round(this.y), 0);
+                                    return this.key.y +' : ' + yVal;
+                                } else {
+                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + yVal + '$') ;
                                 }
-                                return  this.key.y +' : '+currency+''+yVal;
+
                             } else {
                                 return  '';
                             }

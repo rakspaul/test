@@ -93,8 +93,9 @@
       },
 
       getTactics: function (orderId) {
-        var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
-        return this.fetch(url)
+        //var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
+          var url = apiPaths.apiSerivicesUrl + '/campaigns/' + orderId + '/strategies/tactics/meta';
+          return this.fetch(url)
       },
 
       getCampaignData: function (periodKey, campaign, periodStartDate, periodEndDate) {

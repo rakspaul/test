@@ -9,7 +9,7 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
       brandsService.fetchBrands().then(function (response) {
         var brands = [
           {'name': constants.ALL_BRANDS, 'id': -1, 'className': 'active'}
-        ].concat(response.data);
+        ].concat(response.data.data);
         success.call(this, brands);
       })
     },
