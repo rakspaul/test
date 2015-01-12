@@ -8,7 +8,7 @@
             var data = [],
                 datObj = [];
                 switch(chartFrom) {
-                    case 'getCdbLine':
+                    case 'campaign':
                         var chart_width = 300;
                         var chart_height = 120;
                         var chart_margin =  [0, 0, 0, 0];
@@ -18,10 +18,10 @@
                         var chart_height = 120;
                         var chart_margin =  [0, 0, 0, 0];
                         break;
-                        case 'strategyCdb':
-                         var chart_width = 300;
-                         var chart_height = 130;
-                         var chart_margin =  [0, 0, 0, 0];
+                    case 'strategy':
+                        var chart_width = 300;
+                        var chart_height = 130;
+                        var chart_margin =  [0, 0, 0, 0];
                         break;         
                     default:
                       

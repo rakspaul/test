@@ -246,7 +246,7 @@
                 var kpiTypeLower = angular.lowercase(kpiType);
                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategyCdb');
+              strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
             }
           }
         }
@@ -291,7 +291,7 @@
                   kpiTypeLower = angular.lowercase(kpiType);
                 lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'getCdbLine');
+              campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
             }
           }
         }else{
