@@ -3120,7 +3120,7 @@ button, i, input[type="submit"] {
     .profile_menu {
       height: 30px ;
       width: 30px ;
-      margin : 8px 0 0 30px ; 
+      margin : 8px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
         background: url(asset-path("cdesk/account_icon.png")) no-repeat center center ;
@@ -3242,12 +3242,13 @@ button, i, input[type="submit"] {
             input {
               font-family: "Avenir" ;
             }
-            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
-            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
-            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
-            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
+            input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ;  }
+            input:-moz-placeholder { color: #FFF ;  font-family: "Avenir" ;}
+            input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
           }
         }
+
         li.lifetime_filter {
           .dropdown-menu {
             left: -35px ;
@@ -3263,9 +3264,9 @@ button, i, input[type="submit"] {
             }
           }
           
-          #cdbMenu {
+          /*#cdbMenu {
             color: #84bce4 ;
-          }
+          }*/
           #cdbMenu:hover , #cdbMenu:focus {
             color: #fff ;
           }
@@ -3295,18 +3296,48 @@ button, i, input[type="submit"] {
         }
         #brandsDropdown {
           background: #007ac9;
-          min-width: 88px ;
+          min-width: 50px ;
+          width: 68px ;
           color: #84bce4 ;
           text-overflow: ellipsis;
           font-size: 14px;
           font-family: "Avenir" ;
 
         }
+        #brandsDropdown::-webkit-input-placeholder {
+          color: white;
+        }
+        #brandsDropdown:-moz-placeholder { /* Firefox 18- */
+          color: white;
+        }
+        #brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
+          color: white;
+        }
+        #brandsDropdown:-ms-input-placeholder {
+          color: white;
+        }
+
+        li.dropdown_open {
+            background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;
+            #brandsDropdown  {
+              width: 154px ;
+            }
+            #brandsDropdownDiv {
+            input {
+              font-family: "Avenir" ;
+            }
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+          }
+          
+        }
         #brandsDropdown:focus {
           color: #fff ; 
         }
         li.lifetime_filter {
-          margin-right : 60px;
+          margin-right : 40px;
           
         }
       }

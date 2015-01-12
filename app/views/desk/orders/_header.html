@@ -55,6 +55,7 @@
       $("#cdbDropdown").hide();
     }
     if($("#brandsList").is(':visible') && event.target.id != "brandsDropdown") {
+      $("#brandsList").closest(".each_filter").removeClass("dropdown_open");
       $("#brandsList").hide();
     }
     if($("#profileDropdown").is(':visible') && event.target.id != "profileItem") {
