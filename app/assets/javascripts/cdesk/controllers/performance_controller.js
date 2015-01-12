@@ -312,7 +312,7 @@ var angObj = angObj || {};
 
         $scope.updateStrategyObjects = function (strategy) {
 
-            $scope.first_time_activity_loader = false ;
+
             $scope.strategies = strategy;
             $scope.performanceBusy = false ;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
@@ -353,6 +353,7 @@ var angObj = angObj || {};
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                     }
                     $scope.performanceBusy = false ;
+                    $scope.first_time_activity_loader = false ;
                 });
         };
 
