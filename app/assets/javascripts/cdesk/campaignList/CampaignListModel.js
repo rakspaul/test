@@ -472,16 +472,16 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
     Campaigns.prototype.dashboardSelectedAll = function () {
       this.nextPage=1;
-      this.dashboard.filterSelectAll=true;
-      this. dashboardSelectedAllResetFilter(true);
-      /*if(this.dashboard.filterSelectAll == false)
+      //this.dashboard.filterSelectAll=true;
+      //this. dashboardSelectedAllResetFilter(true);
+      if(this.dashboard.filterSelectAll == false)
       {
         this.dashboard.filterSelectAll=true;
         this. dashboardSelectedAllResetFilter(true);
       }else{
         this.dashboard.filterSelectAll=false;
         this. dashboardSelectedAllResetFilter(false);
-      }*/
+      }
     } ,
     Campaigns.prototype.dashboardRemoveSelectedAll = function (type,state) {
       if( this.dashboard.filterSelectAll == true)
