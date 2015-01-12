@@ -181,8 +181,9 @@
         );
       },
 
-      post: function (url, data) {
-        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
+      post: function (url, data, header) {
+        console.log((header ? header : {'Content-Type': 'text/plain'}))
+        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
             return {
               status: "success",

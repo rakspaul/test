@@ -1,17 +1,17 @@
 <div class="reports_login_outer_container">
     <div class="reports_login_box">
         <div class="collective_logo"></div>
-        <form>
+        <form name="form" ng-submit="login()">
 
             <div class="login_box_form_holder">
-                    <div class="validation_error_msg" style="display:none;" ><!-- style="display:block;"  when error is there -->
+                    <div class="validation_error_msg" style="display:{{((showLoginError()) ? 'block' : 'none')}};" ><!-- style="display:block;"  when error is there -->
                         The Username/Password is incorrect
                     </div>
-                    <div class="login_txtbox username_login_txtbox"><!-- validation_error -->
-                        <input type="text" class="login_txt_input" placeHolder="Username" >
+                    <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                        <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
                     </div>
-                    <div class="login_txtbox pass_login_txtbox"><!-- validation_error -->
-                        <input type="password" class="login_txt_input" placeHolder="Password">
+                    <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                        <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
                     </div>
                     <div class="signin_options_holder clearfix">
                         <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
@@ -27,7 +27,7 @@
                         </div>
                         
                    </div>
-                   <input type="submit" class="login_btn" value="Sign In"><!-- loading -->
+                   <input ng-disabled="form.$invalid || dataLoading" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
                   <!--  <div class="email_anchor">
                     <a href="#" >Email Collective</a>
                    </div> -->

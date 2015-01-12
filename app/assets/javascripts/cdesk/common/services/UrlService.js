@@ -9,6 +9,12 @@
       var url = apiPaths.apiSerivicesUrl + '/actions/' + actionId + '?user_id=' + user_id;
       return url;
     };
+
+    this.APIloginAction = function () {
+      var url = apiPaths.apiSerivicesUrl + '/login';
+      return url;
+    };
+
     this.APICampaignList = function (user_id, date_filter, page, sort_column, sort_direction, conditions) {
       var url = apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id=' + user_id + '&date_filter=' + date_filter + '&page=' + page +
         '&callback=JSON_CALLBACK&sort_column=' + sort_column + '&sort_direction=' + sort_direction + '&conditions=' + conditions;

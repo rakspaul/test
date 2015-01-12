@@ -49,7 +49,7 @@ var angObj = '';
 
         $rootScope.$on('$locationChangeStart', function () {
             if (($cookies.token === undefined) && ($location.path() !== '/login')) {
-             //   $location.url('/login');
+                $location.url('login');
             }
         });
     });

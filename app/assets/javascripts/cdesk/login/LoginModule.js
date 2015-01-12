@@ -5,7 +5,7 @@ var loginModule = angular.module('loginModule', ['commonModule'])
     $routeProvider.when('/login', {
       templateUrl: 'reports_login',
       controller: 'loginController'
-    })
+    }).otherwise({redirectTo: 'campaigns'});
   })
 
 
