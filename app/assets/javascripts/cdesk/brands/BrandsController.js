@@ -26,6 +26,8 @@
 
     $scope.brandsDropdownClicked = function() {
       $("#brandsList").toggle();
+      $("#cdbMenu").closest(".each_filter").removeClass("dropdown_open");
+      $("#brandsList").closest(".each_filter").toggleClass("dropdown_open");
       $("#cdbDropdown").hide();
       $("#profileDropdown").hide();
     };

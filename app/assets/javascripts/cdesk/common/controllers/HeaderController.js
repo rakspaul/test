@@ -5,6 +5,7 @@
     $scope.showProfileMenu = function() {
       $("#profileDropdown").toggle();
       $("#brandsList").hide();
+      $(".page_filters").find(".dropdown_open").removeClass("dropdown_open");
       $("#cdbDropdown").hide();
     }
   });
