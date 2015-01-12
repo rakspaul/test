@@ -22,7 +22,7 @@
     });
     dataService.getTactics($routeParams.campaignId).then(function (response) {
       var tactics = [];
-      var result = response.data;
+      var result = response.data.data;
       for (var i = 0; i < result.length; i++) {
         var tactic = modelTransformer.transform(result[i], Tactic);
         tactics.push(tactic);
