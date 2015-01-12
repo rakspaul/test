@@ -3,10 +3,29 @@
     "use strict";
     commonModule.factory("line", function($timeout) {
 
-        var lineChart = function(lineDate, threshold, kpiType) {
+        var lineChart = function(lineDate, threshold, kpiType,chartFrom) {
+
             var data = [],
                 datObj = [];
-
+                switch(chartFrom) {
+                    case 'getCdbLine':
+                        var chart_width = 300;
+                        var chart_height = 120;
+                        var chart_margin =  [0, 0, 0, 0];
+                        break;
+                    case 'tactics':
+                        var chart_width = 300;//
+                        var chart_height = 120;
+                        var chart_margin =  [0, 0, 0, 0];
+                        break;
+                        case 'strategyCdb':
+                         var chart_width = 300;
+                         var chart_height = 130;
+                         var chart_margin =  [0, 0, 0, 0];
+                        break;         
+                    default:
+                      
+                }
             for (var i = 0; i < lineDate.length; i++) {
                 var chartDate = lineDate[i]['date'].split("-");
                 data.push([
@@ -19,7 +38,11 @@
             var timeInterval = dataLength/4;
 
             return {
-
+                options: {
+                  chart: {
+                    width :chart_width,
+                    height:chart_height
+                  },
                 credits: {
                     enabled: false
                 },
@@ -27,12 +50,13 @@
                     selected: 1
                 },
                 tooltip: {
-                    useHTML: true,
+                    useHTML: false,
                     dateTimeLabelFormats: {
                         day: '%e of %b'
                     },
                     formatter: function () {
-                        return '<div class="chart-tool-tip" >' + this.series.name  + '<br/>' + Highcharts.dateFormat('%e', this.value) + '-' + Highcharts.dateFormat('%b', this.value) + ': ' + this.y + '</div>';
+                      return '<div class="chart-tool-tip" >' + Highcharts.dateFormat('%A , %b %d , %Y', this.x) +  '<br/> ' +this.series.name +':' + '<b> '+this.y + '</b></div>';
+
                     }
                 },
                 title: {
@@ -99,9 +123,11 @@
                         dashStyle: 'longdashdot'
                     }]
                 },
+            },
                 series: [{
                     name: kpiType,
                     data: data,
+
                     threshold: threshold,
                     negativeColor: '#6fd0f4',
                     color: '#6fd0f4',
