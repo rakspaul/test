@@ -5,7 +5,7 @@
 
             <div class="login_box_form_holder">
                     <div class="validation_error_msg" style="display:{{((showLoginError()) ? 'block' : 'none')}};" ><!-- style="display:block;"  when error is there -->
-                        The Username/Password is incorrect
+                        {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
                     </div>
                     <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
                         <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>

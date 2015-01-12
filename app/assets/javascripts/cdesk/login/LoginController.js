@@ -3,6 +3,7 @@
   loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location) {
    
    $scope.loadingClass = "";
+   $scope.loginErrorMsg = undefined;
    $scope.loginError = false;
 
 	$scope.login = function () { 
@@ -26,6 +27,9 @@
 			 		case "User does not exist":
 			 			$scope.loginError = true;
 			 			break;
+			 		default: 
+			 			$scope.loginError = true;
+			 			$scope.loginErrorMsg = "Network Problems";
 			 	}
 			 	$scope.loadingClass = "";
 			 	$scope.dataLoading = false; 
