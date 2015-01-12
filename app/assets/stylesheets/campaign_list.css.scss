@@ -2929,6 +2929,11 @@ button, i, input[type="submit"] {
     }
   }
 }
+.cost_header_holder {
+  .each_cost_col  {
+    cursor: default;
+  }
+}
 .cost_col_header_tabs_holder {
   margin-top: 40px ;
   .cost_tabs_margin {
