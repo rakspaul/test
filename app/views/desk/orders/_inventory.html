@@ -77,7 +77,9 @@
                     </div>
                 </div>
             </div>
-            <div ng-if="strategyFound" class="inventory_strategy_chart clearfix">
+          <!--strategyBusy :  {{strategyBusy}}-->
+          <span class="no-chart load-more" ng-if="strategyBusy">&nbsp;</span>
+            <div ng-if="strategyFound && !strategyBusy" class="inventory_strategy_chart clearfix">
 
                 <div class="pull-left inventory_chart">
                       <span ng-switch="inventoryChart">
@@ -112,11 +114,13 @@
                     </div>
                 </div>
             </div>
-            <div class="no_data_found" ng-if="!strategyFound">
+            <div class="no_data_found && !strategyBusy" ng-if="!strategyFound">
                 Data Not Available
             </div>
         </div>
-        <div ng-if="strategyFound" class="each_chart_accordion_holder"
+       <!--tacticBusy : {{tacticBusy}}-->
+      <span class="no-chart load-more" ng-if="tacticBusy">&nbsp;</span>
+        <div ng-if="strategyFound && !tacticBusy " class="each_chart_accordion_holder"
              ng-repeat="tactic in tacticList[tacticList.show]" ng-if="tactic.data">
 
             <div  id="tactic_{{$index}}" class="chart_accordion_heading" ng-click="clickTactic($index)">
@@ -149,9 +153,9 @@
                          ng-repeat="tableData in tactic.data">
                         <span class="row_index">{{$index + 1}}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
-                              ng-if="selected_filters.domain !== 'fulldomains' "> {{ tableData.domain_data | formatUrl:20 }}</span>
+                              ng-if="(selected_filters.domain !== 'fulldomains' && selected_filters.domain !== 'parentdomains') "> {{ tableData.domain_data | formatUrl:20 }}</span>
                         <span class="url_val" title="{{tableData.domain_data}}"
-                              ng-if="selected_filters.domain == 'fulldomains' ">
+                              ng-if="(selected_filters.domain == 'fulldomains' || selected_filters.domain == 'parentdomains' )">
                             <a href="{{ tableData.domain_data}}" target='_blank' id="inventory_domain" > {{ tableData.domain_data | formatUrl:20}}</a>
                          </span>
                         <span class="imps_del_data imps_del_col pull-right">{{tableData.impressions  | number}}</span>
