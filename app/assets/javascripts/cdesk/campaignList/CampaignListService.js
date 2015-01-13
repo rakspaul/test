@@ -196,7 +196,7 @@
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-	  totalMediaCost: utils.roundOff(strategy.value, 2),
+	      totalMediaCost: utils.roundOff(strategy.value, 2),
           expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
