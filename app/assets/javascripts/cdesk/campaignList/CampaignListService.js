@@ -177,10 +177,10 @@
           keyValues = appendStrategyData(strategy.selected_key_values, 'title');
         }
         var status;
-        if(strategy.li_status == "Ready"){
+        if(strategy.general.li_status == "Ready"){
           status = "Draft";
         }else{
-          status = strategy.li_status;
+          status = strategy.general.li_status;
         }
         strategyObj.push({
           id: strategy.general.id,
@@ -196,8 +196,8 @@
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-	      totalMediaCost: utils.roundOff(strategy.value, 2),
-          expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
+	      totalMediaCost: utils.roundOff(strategy.general.value, 2),
+          expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
           chart: null
