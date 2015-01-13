@@ -35,12 +35,12 @@
                     }
                     return spendDifference;
                 }
-                $scope.getSpendDiffForStrategy = function(strategy) {
-                    if (strategy == undefined) {
+                $scope.getSpendDiffForTactic = function(tactic) {
+                    if (tactic == undefined) {
                         return 0;
                     }
-                    var expectedSpend = strategy.expectedMediaCost;
-                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
+                    var expectedSpend = tactic.expectedMediaCost;
+                    return $scope.getPercentDiff(expectedSpend, tactic.grossRev)
                 }
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
@@ -48,8 +48,8 @@
                         return $scope.getClassFromDiff(spendDifference);
                     }
                 };
-                $scope.getSpendClassForStrategy = function(strategy) {
-                    var spendDifference = $scope.getSpendDiffForStrategy(strategy);
+                $scope.getSpendClassForTactic = function(tactic) {
+                    var spendDifference = $scope.getSpendDiffForTactic(tactic);
                     return $scope.getClassFromDiff(spendDifference);
                 }
                 $scope.getClassFromDiff = function(spendDifference) {
@@ -61,24 +61,35 @@
                     }
                     return 'red';
                 }
-                $scope.getSpendWidth = function(campaign) {
-                    if(campaign !== undefined) {
-                        var actualWidth = 100 + $scope.getSpendDifference(campaign);
+                $scope.getSpendWidthForTactic = function(tactic) {
+                    if(tactic !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendDiffForTactic(tactic);
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
                         return actualWidth;
                     }
                 }
-                $scope.getSpendWidthForStrategy = function(strategy) {
-                    var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
-                    if (actualWidth > 100) {
-                        actualWidth = 100;
+                $scope.getSpendTickWidthForTactic = function(tactic) {
+                    if(tactic !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendTickDifferenceForTactic(tactic);
+                        if (actualWidth > 100) {
+                            actualWidth = 100;
+                        }
+                        return actualWidth;
                     }
-                    return actualWidth;
                 }
+                $scope.getSpendTickDifferenceForTactic = function(tactic) {
+                    var spendDifference = 0;
+                    if(tactic !== undefined) {
+                        var spend = tactic.expectedMediaCost;
+                        var expectedSpend = tactic.totalMediaCost;
+                        return $scope.getPercentDiff(expectedSpend, spend);
+                    }
+                    return spendDifference;
+                };
                 //$scope.campaigns.durationCompletion();
-                //To show the accorsponding strategy card
+                //To show the accorsponding tactic card
                 $scope.showStrategies = function(campaignId, strategiesCount) {
                     if(strategiesCount > 0) {
                       $('#strategies-accordion-' + campaignId).toggle();

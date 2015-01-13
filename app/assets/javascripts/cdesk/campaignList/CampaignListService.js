@@ -64,7 +64,8 @@
           geo_targeting: geoValues,
           totalImpressions: tactic.impressions,
           grossRev: null,
-          expectedMediaCost: tactic.media_cost,
+	  totalMediaCost: tactic.total_media_cost,
+          expectedMediaCost: tactic.expected_media_cost,
           ctr: 0,
           vtc: 0,
           actionRate: 0,
@@ -195,7 +196,8 @@
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-          expectedMediaCost: strategy.expected_media_cost,
+	  totalMediaCost: utils.roundOff(strategy.value, 2),
+          expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
           chart: null
@@ -257,7 +259,7 @@
 
       var kpiType = campaign.kpiType;
       var kpiValue = campaign.kpiValue;
-      var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+      var url = '/campaigns/' + campaign.orderId + '/lineitems.json?filter[date_filter]=' + timePeriod;
       dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
         if(result.status == "success" && !angular.isString(result.data)) {

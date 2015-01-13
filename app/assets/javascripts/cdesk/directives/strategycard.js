@@ -76,6 +76,26 @@
                     }
                     return actualWidth;
                 }
+                $scope.getSpendTickWidthForStrategy = function(strategy) {
+                    if(strategy !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendTickDifferenceForStrategy(strategy);
+                        if (actualWidth > 100) {
+                            actualWidth = 100;
+                        }
+                        return actualWidth;
+                    }
+                }
+            $scope.getSpendTickDifferenceForStrategy = function(strategy) {
+                var spendDifference = 0;
+                if(strategy !== undefined) {
+                    var spend = strategy.expectedMediaCost;
+                    var expectedSpend = strategy.totalMediaCost;
+                    return $scope.getPercentDiff(expectedSpend, spend);
+                }
+                return spendDifference;
+            };
+
+
                 //$scope.campaigns.durationCompletion();
                 //To show the accorsponding strategy card
                 $scope.showStrategies = function(campaignId, strategiesCount) {
