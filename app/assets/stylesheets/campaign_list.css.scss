@@ -3126,14 +3126,13 @@ button, i, input[type="submit"] {
       margin : 8px 0 0 40px ; 
       cursor: default;
       .profile_account_icon {
-        background: url(asset-path("cdesk/account_icon.png")) no-repeat center center ;
+        background: url(asset-path("cdesk/account_icon.png")) no-repeat 2px 2px  ;
         height: 30px ;
         width: 30px ;
+        &:hover {
+          background-position : 2px -74px ;
+        }
       }
-      .profile_account_icon:hover {
-        background: url(asset-path("cdesk/account_icon_hover.png")) no-repeat center center ;
-      }
-      
       .dropdown-menu {
         z-index: 1001 ;
         top: 54px ;
@@ -3196,8 +3195,9 @@ button, i, input[type="submit"] {
         .brands_dd_icon {
           height: 30px ;
           width: 30px ;
-          background: url(asset-path("cdesk/brand_icon.png")) no-repeat center center ;
+          background: url(asset-path("cdesk/brand_icon.png")) no-repeat 8px 9px  ;
         }
+
         .timeline_dd_icon {
           height: 30px ;
           width: 30px ;
@@ -3251,12 +3251,22 @@ button, i, input[type="submit"] {
             input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
           }
         }
-
+        li.brands_filter {
+          &:hover {
+            .brands_dd_icon {
+              background-position : 8px -52px ;
+            }
+          }
+        }
         li.lifetime_filter {
+          &:hover {
+            .timeline_dd_icon {
+              background-position : 8px -53px ;
+            }
+          }
           .dropdown-menu {
             left: -35px ;
             padding: 10px 0 ;
-            
             .time_dropdown_disabled {
               height: 55px;
               width: 160px;
@@ -3266,10 +3276,6 @@ button, i, input[type="submit"] {
               cursor: default;
             }
           }
-          
-          /*#cdbMenu {
-            color: #84bce4 ;
-          }*/
           #cdbMenu:hover , #cdbMenu:focus {
             color: #fff ;
           }
@@ -3288,7 +3294,9 @@ button, i, input[type="submit"] {
               color: #fff ;
             }
           } 
-          
+          &:hover {
+
+          }
         }
 
         .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
