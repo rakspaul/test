@@ -190,7 +190,7 @@
           order_id: strategy.general.order_id,
           li_status: status,
           ad_size: adSize,
-          tactics_count: strategy.ads_count || 0,
+          tactics_count: strategy.general.ads_count || 0,
           selected_key_values: keyValues,
           selected_geos: geos,
           totalImpressions: null,
