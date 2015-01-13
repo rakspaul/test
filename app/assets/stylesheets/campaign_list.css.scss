@@ -2305,9 +2305,11 @@ button, i, input[type="submit"] {
     }
     .metrics_title {
       width: 310px ;
+      cursor: default;
     }
     .kpi_title {
       width: 300px;
+      cursor: default;
     }
   }
   .total_campaign_list_holder {
@@ -2443,8 +2445,7 @@ button, i, input[type="submit"] {
             text-transform: uppercase;
             font-size: 12px;
             height: 28px;
-            pointer:cursor;
-
+            cursor: pointer;
           }
           .actions_btn {
             position: relative;
