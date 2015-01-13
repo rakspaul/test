@@ -421,8 +421,8 @@
     }
   });
     // This is used in tooltip for optimization tab
-    angObj.filter('appendDollorWithoutFormat', function () {
-        console.log("append dollar without format");
+    angObj.filter('appendDollarWithoutFormat', function () {
+       // console.log("append dollar without format");
         return function (val, type) {
             if (val === undefined || val === "" || val === "null") {
                 return 'NA';
