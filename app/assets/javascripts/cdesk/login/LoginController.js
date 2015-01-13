@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location) {
+  loginModule.controller('loginController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, loginService, $location, loginModel) {
    
    $scope.loadingClass = "";
    $scope.loginErrorMsg = undefined;
@@ -11,11 +11,7 @@
 		$scope.resetValidation();
 		$scope.loadingClass = "loading";
 		loginService.loginAction($scope.username, $scope.password, function(response) {
-			console.log('controller');
-			console.log(response);
 			 if(response.status == "success") { 
-			 	console.log('logged in');
-			 	console.log(response.data.data);
 			 	loginService.setCredentials(response.data.data); 
 			 	$location.path('/campaigns'); 
 			 } else { 
@@ -35,6 +31,7 @@
 			 	$scope.dataLoading = false; 
 			 } 
 		}); 
+		loginService.validateToken(loginModel.getAuthToken());
 	};
 
 	$scope.getLoadingClass = function(){

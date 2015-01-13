@@ -46,11 +46,16 @@ var angObj = '';
         
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, constants) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService) {
 
         $rootScope.$on('$locationChangeStart', function () {
             if (($cookies.auth_token === undefined) && ($location.path() !== '/login')) {
                 $location.url('login');
+            }
+
+            if(!loginModel.getUserId()){
+              //get userinfo from token
+              loginService.validateToken($cookies.auth_token);
             }
             //if logged in - go to campaigns
             // if (($cookies.token !== undefined) && ($location.path() == '/login')) {

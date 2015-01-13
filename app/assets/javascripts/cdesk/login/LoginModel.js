@@ -11,9 +11,9 @@
     this.setUser = function(user){
       this.data = user;
       $cookieStore.put('auth_token', user.auth_token);
-      $cookieStore.put('user_name', user.user_name);
-      $cookieStore.put('is_network_user', user.is_network_user);
-      $cookieStore.put('user_id', user.user_id);
+      // $cookieStore.put('user_name', user.user_name);
+      // $cookieStore.put('is_network_user', user.is_network_user);
+      // $cookieStore.put('user_id', user.user_id);
 
     };
 
@@ -25,7 +25,8 @@
       if(this.data.user_id) {
         return this.data.user_id;
       } else {
-        return $cookieStore.get('user_id');
+       // return $cookieStore.get('user_id');
+       // console.log('no data userid');
       }
     };
 
@@ -33,7 +34,8 @@
       if(this.data.user_name) {
         return this.data.user_name;
       } else {
-        return $cookieStore.get('user_name');
+        //return $cookieStore.get('user_name');
+        // console.log('no data username');
       }
     };
 
@@ -41,7 +43,8 @@
       if(this.data.is_network_user) {
         return this.data.is_network_user;
       } else {
-        return $cookieStore.get('is_network_user');
+        //return $cookieStore.get('is_network_user');
+        // console.log('no data isnetwork');
       }
     };
 
