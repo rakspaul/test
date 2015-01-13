@@ -19,8 +19,7 @@ qa:
 
 newqa:
   <<: *common
-  username: amp
-  password: amp0986N
+  username: postgres
   host: 10.128.170.229
 
 newstg:
