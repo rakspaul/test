@@ -721,12 +721,64 @@
         margin: 120px auto 0;
         .filter_dropdown_sel_list {
           margin-left: 12px ;
+          margin-top: 5px ;
           .filter_dropdown_sel_txt {
             margin-right: 30px ;
           }
         }
       }
-    }
+      .primary_button {
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        background-color:  #0978c9;
+        height: 40px;
+        font-family: "Avenir";
+        color:  #ffffff;
+        font-size: 12px;
+        font-weight: 900;
+        &:hover {
+          background-color:  #2298ef;
+        }
+        &:active {
+          background-color:  #0564a9;
+        }
+      }
+      .primary_button_disabled {
+        opacity: 0.5 ;
+      }
+      .secondary_button {
+        text-transform: uppercase;
+        margin-right: 15px;
+        cursor: pointer;
+        font-family: "Avenir";
+        border-radius: 4px;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border: solid 1px #0978c9;
+        background-color: #ffffff;
+        height: 40px;
+        color: #0978c9;
+        font-size: 12px;
+        font-weight: 900;
+        width: 130px;
+        padding: 12px;
+        text-align: center;
+        &:hover {
+          border-color:  #0978c9;
+          background-color:  #6abdfa;
+          color:  #0978c9;
+        }
+        &:active {
+          background-color:  #0978c9;
+          color:  #ffffff;
+        }
+
+      }
+      .comment_area {
+        width: 75% ;
+      }
+    } 
     .activity_log_list_container {
       .activity_log_list {
         height: 336px ;
