@@ -41,7 +41,7 @@
       return undefined
     };
     this.deleteFromCache = function (url) {
-      console.log('force delete from cache for url: ' + url);
+     // console.log('force delete from cache for url: ' + url);
       this.responseByUrl[url] = undefined
     };
     this.deleteAllCachedCampaignListUrls = function () {

@@ -182,12 +182,12 @@
           status = strategy.li_status;
         }
         strategyObj.push({
-          id: strategy.id,
+          id: strategy.general.id,
           brandName: campaign.brandName,
-          name: strategy.name,
-          startDate: strategy.start_date,
-          endDate: strategy.end_date,
-          order_id: strategy.order_id,
+          name: strategy.general.name,
+          startDate: strategy.general.start_date,
+          endDate: strategy.general.end_date,
+          order_id: strategy.general.order_id,
           li_status: status,
           ad_size: adSize,
           tactics_count: strategy.ads_count || 0,
@@ -195,7 +195,7 @@
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-          expectedMediaCost: strategy.expected_media_cost,
+          expectedMediaCost: strategy.general.expected_media_cost,
           ctr: 0,
           actionRate: 0,
           chart: null
@@ -257,16 +257,17 @@
 
       var kpiType = campaign.kpiType;
       var kpiValue = campaign.kpiValue;
-      var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+     // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+        var url = '/campaigns/' + campaign.orderId + '/strategies' ;
       dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-        if(result.status == "success" && !angular.isString(result.data)) {
-          if(result.data.length >= 0) {
-            if(result.data.length <= 3) {
-              campaign.campaignStrategies = createStrategyObject(result.data, timePeriod, campaign, kpiType, kpiValue);
+        if(result.status == "success" && !angular.isString(result.data.data)) {
+          if(result.data.data.length >= 0) {
+            if(result.data.data.length <= 3) {
+              campaign.campaignStrategies = createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
             } else {
-              campaign.campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
-              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = createStrategyObject(result.data.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
             }
           }
         }
