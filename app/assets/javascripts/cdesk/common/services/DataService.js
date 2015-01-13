@@ -16,13 +16,13 @@
       },
 
       getCampaignStrategies: function (urlPath, type) {
-        var apiUrl;
-        if (type == 'metrics') {
-          apiUrl = api + urlPath;
-        } else if (type == 'list') {
-          apiUrl = urlPath;
-        }
-        return this.fetch(apiUrl)
+//        var apiUrl = api + urlPath;
+//        if (type == 'metrics') {
+//          apiUrl = api + urlPath;
+//        } else if (type == 'list') {
+//          apiUrl = urlPath;
+//        }
+        return this.fetch(api + urlPath)
       },
 
       getCdbChartData: function (campaign, timePeriod, type, strategyId) {
@@ -75,7 +75,6 @@
         // for testing 
         //var url = apiPaths.apiSerivicesUrl + '/campaigns/405617/inventory/categories?kpi_type=CPC';
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories?kpi_type=' + campaign.kpiType;
-        console.log(url);
         return this.fetch(url);
       },
 
@@ -83,7 +82,6 @@
         // for testing 
         //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
-        console.log(url);
         return this.fetch(url);
       },
 
