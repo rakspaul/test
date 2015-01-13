@@ -135,12 +135,12 @@
                             <div class="each_rep_col forth_col dates_hide">{{action.from_date_before | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col fifth_col dates_hide">{{action.to_date_before | date:'dd MMM yyyy'}}</div>
 
-                            <div class="each_rep_col sixth_col dates_hide" title = "{{action.metric_value_before  | number}}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</div>
-                            <div class="each_rep_col sixth_col dates_show" title = "{{action.metric_value_before  | number}}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</div>
+                            <div class="each_rep_col sixth_col dates_hide" title = "{{action.metric_value_before  | appendDollorWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col sixth_col dates_show" title = "{{action.metric_value_before  | appendDollorWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</div>
                             <div class="each_rep_col sev_col dates_hide" >{{action.from_date_after | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col eight_col dates_hide">{{action.to_date_after | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col nine_col dates_hide" title="{{action.metric_value_after  | number}}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
-                            <div class="each_rep_col nine_col dates_show" title ="{{action.metric_value_after | number}}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col nine_col dates_hide" title="{{action.metric_value_after  | appendDollorWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col nine_col dates_show" title ="{{action.metric_value_after | appendDollorWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
                             <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  title="{{action.metric_percent_change  | number}}">
                                 <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
                                 <span class="arrow_img"></span>

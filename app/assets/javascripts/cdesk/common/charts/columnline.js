@@ -76,7 +76,9 @@
                                     yVal = Highcharts.numberFormat(Math.round(this.y), 0);
                                     return this.key.y +' : ' + yVal;
                                 } else {
-                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' + yVal + '$') ;
+                                    // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
+                                    // values till decimal 4 places.
+                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + Math.floor(yVal * 10000) / 10000 + '%') : (this.key.y +' : ' +'$' + Math.floor(yVal * 10000) / 10000  ) ;
                                 }
 
                             } else {
