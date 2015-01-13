@@ -19,7 +19,7 @@
                               {{campaign.brandName}}
                           </div>
                       </div>
-                      <a href="campaigns#/performance" id="details_view_report">
+                      <a href="/#/performance" id="details_view_report">
                         <div class="pull-right view_report">
                             View report
                         </div>
@@ -269,7 +269,7 @@
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{(is_network_user=='true')?((action.make_external)?'E':''):''}}
+                                          {{(is_network_user==true)?((action.make_external)?'E':''):''}}
                                       </span>
                                   </div>
                               </div>
@@ -306,12 +306,12 @@
                           </div>
 
 
-                          <div ng-if="is_network_user=='false'" ng-click="setOptimizationData(campaign,action,strategyByActionId)" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
+                          <div ng-if="is_network_user==false" ng-click="setOptimizationData(campaign,action,strategyByActionId)" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
 
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{(is_network_user=='true')?((action.make_external)?'E':''):''}}
+                                          {{(is_network_user==true)?((action.make_external)?'E':''):''}}
                                       </span>
                                   </div>
                               </div>

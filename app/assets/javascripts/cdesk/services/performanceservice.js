@@ -1,7 +1,7 @@
 (function () {
     "use strict";
-    angObj.factory("performanceService", function ($http,$location, api, apiPaths, common, campaign_api, dataService) {
-        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+    angObj.factory("performanceService", function ($http,$location, api, apiPaths, common, campaign_api, dataService, loginModel) {
+        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
         return {
             getStrategiesForCampaign: function (campaingId) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaingId + '/strategies/meta';

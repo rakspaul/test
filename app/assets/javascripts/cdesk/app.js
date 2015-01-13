@@ -43,14 +43,19 @@ var angObj = '';
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
     });
 
-    angObj.run(function ($rootScope, $location, $cookies) {
+    angObj.run(function ($rootScope, $location, $cookies, constants) {
 
         $rootScope.$on('$locationChangeStart', function () {
-            if (($cookies.token === undefined) && ($location.path() !== '/login')) {
+            if (($cookies.auth_token === undefined) && ($location.path() !== '/login')) {
                 $location.url('login');
             }
+            //if logged in - go to campaigns
+            // if (($cookies.token !== undefined) && ($location.path() == '/login')) {
+            //     $location.url('campaigns');
+            // }
         });
     });
 }());

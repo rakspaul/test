@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function() {
     "use strict";
-    commonModule.factory("actionChart", function($timeout) {
+    commonModule.factory("actionChart", function($timeout, loginModel) {
       var kpiPrefix = function (kpiType) {
         var kpiTypeLower = kpiType.toLowerCase();
         return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
@@ -20,7 +20,7 @@
         }).css({
           fontWeight: 'bold',
           fontSize: '9px',
-          color: (defaultGrey || isActionExternal==false || is_network_user=='false') ? 'transparent' :'white',
+          color: (defaultGrey || isActionExternal==false || loginModel.getIsNetworkUser()==false) ? 'transparent' :'white',
           cursor: 'pointer'
         }).on('click', function (markerObj) {
           //console.log(markerObj.target.id);

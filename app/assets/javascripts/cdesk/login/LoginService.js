@@ -1,7 +1,9 @@
 (function () {
   "use strict";
-  loginModule.factory("loginService", ["$rootScope", "dataService", "$cookieStore", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', 'urlService',  function ($rootScope, dataService, $cookieStore, utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, constants, urlService) {
+  loginModule.factory("loginService", ["$cookies","$rootScope", "dataService", "$cookieStore", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', 'urlService', 'loginModel', function ($cookies, $rootScope, dataService, $cookieStore, utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, constants, urlService, loginModel) {
 	
+    $rootScope.user_id = constants.USER_ID;
+
     var loginAction = function (username, password, callback) {
       var data = {
         login : username,
@@ -14,15 +16,23 @@
         //   console.log('loggedin successful ');
         // }
         callback(response);
+
       })
     };
 
-    var setCredentials = function(authToken){
-      $rootScope.globals = {
-        token: authToken
-      };
-      console.log( $rootScope.globals);
-       $cookieStore.put('token', authToken);
+    var setCredentials = function(data){
+      loginModel.setUser(data);
+      // $rootScope.auth_token = data.auth_token;
+      // $rootScope.user_name = data.user_name;
+      // $rootScope.is_network_user = data.is_network_user;
+      // $rootScope.user_id = data.user_id;
+
+      
+      // $cookieStore.put('auth_token', data.auth_token);
+      // $cookieStore.put('user_name', data.user_name);
+      // $cookieStore.put('is_network_user', data.is_network_user);
+      // $cookieStore.put('user_id', data.user_id);
+
     };
 
     return {

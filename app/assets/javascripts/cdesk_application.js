@@ -74,6 +74,7 @@
 //= require cdesk/timePeriod/TimePeriodController
 
 //= require cdesk/login/LoginModule
+//= require cdesk/login/LoginModel
 //= require cdesk/login/LoginService
 //= require cdesk/login/LoginController
 

@@ -16,7 +16,7 @@
 			 if(response.status == "success") { 
 			 	console.log('logged in');
 			 	console.log(response.data.data);
-			 	loginService.setCredentials(response.data.data.auth_header); 
+			 	loginService.setCredentials(response.data.data); 
 			 	$location.path('/campaigns'); 
 			 } else { 
 			 	console.log('login failed');
