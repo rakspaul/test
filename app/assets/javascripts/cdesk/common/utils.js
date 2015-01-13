@@ -420,6 +420,20 @@
         }
     }
   });
+    // This is used in tooltip for optimization tab
+    angObj.filter('appendDollorWithoutFormat', function () {
+        console.log("append dollar without format");
+        return function (val, type) {
+            if (val === undefined || val === "" || val === "null") {
+                return 'NA';
+            }
+            else if (type.toLowerCase() === "delivery (impressions)")
+                return val.toLocaleString();
+            else {
+                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100) + '%' : '$' + val ;
+            }
+        }
+    });
   angObj.filter('calculatePerc', function () {
     return function (delivered, total) {
       if (delivered === undefined || total === undefined) {
