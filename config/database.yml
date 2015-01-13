@@ -20,6 +20,7 @@ qa:
 newqa:
   <<: *common
   username: postgres
+  database: reporting
   host: 10.128.170.229
 
 newstg:
