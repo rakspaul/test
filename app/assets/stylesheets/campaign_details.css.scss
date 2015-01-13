@@ -743,6 +743,9 @@
         &:active {
           background-color:  #0564a9;
         }
+        &:disabled {
+          opacity: 0.5 ;
+        }
       }
       .primary_button_disabled {
         opacity: 0.5 ;
@@ -776,7 +779,7 @@
 
       }
       .comment_area {
-        width: 75% ;
+        width: 70% ;
       }
     } 
     .activity_log_list_container {
