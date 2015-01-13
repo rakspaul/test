@@ -114,8 +114,10 @@
       };
       var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
         var data = [];
+        var dataArr = [];
         for (var i = 0; i < lineData.length; i++) {
           var chartData = lineData[i]['date'].split("-");
+          dataArr.push(lineData[i]['y']);
           data.push([
             Date.UTC(parseInt(chartData[0]), parseInt(chartData[1], 10) - 1 , parseInt(chartData[2])),
             lineData[i]['y']
@@ -123,6 +125,7 @@
         }
         var dataLength = data.length;
         var timeInterval = dataLength/7;
+        var max_val = Math.max.apply(Math,dataArr)+parseFloat(0.001); 
 
         return {
           options: {
@@ -177,6 +180,7 @@
             yAxis: {
               maxPadding:0,
               minPadding:0,
+              max:max_val,
               title: {
                 align: 'high',
                 offset: 13,
@@ -291,6 +295,25 @@
                       color: 'red'
                     }
                   }
+                });
+               //draw plotlines
+                chart.yAxis[0].addPlotLine({
+                    value: extremes.max,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
+                });
+                chart.xAxis[0].addPlotLine({
+                    value: extremesX.max,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
+                });
+                chart.xAxis[0].addPlotLine({
+                    value: extremesX.min,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
                 });
 
                 //rendering threshold marker image in y-axis
