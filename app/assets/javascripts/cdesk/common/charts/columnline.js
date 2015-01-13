@@ -37,7 +37,7 @@
             for (var i = 0; i < chartData.length; i++) {
                 var kpi_value = chartData[i].kpi_value ;
                 if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate' ||  kpIType.toLowerCase() === 'vtc'){
-                    kpi_value = kpi_value * 100 ;
+                    kpi_value = parseFloat((kpi_value*100).toFixed(4));
                 }
                 xData.push({custom: i, y: chartData[i].domain_data });
                 impLine.push(chartData[i].impressions);
@@ -78,7 +78,7 @@
                                 } else {
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
-                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + Math.floor(yVal * 10000) / 10000 + '%') : (this.key.y +' : ' +'$' + Math.floor(yVal * 10000) / 10000  ) ;
+                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +'$' + yVal  ) ;
                                 }
 
                             } else {
