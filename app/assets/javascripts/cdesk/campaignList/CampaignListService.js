@@ -177,27 +177,27 @@
           keyValues = appendStrategyData(strategy.selected_key_values, 'title');
         }
         var status;
-        if(strategy.li_status == "Ready"){
+        if(strategy.general.li_status == "Ready"){
           status = "Draft";
         }else{
-          status = strategy.li_status;
+          status = strategy.general.li_status;
         }
         strategyObj.push({
-          id: strategy.id,
+          id: strategy.general.id,
           brandName: campaign.brandName,
-          name: strategy.name,
-          startDate: strategy.start_date,
-          endDate: strategy.end_date,
-          order_id: strategy.order_id,
+          name: strategy.general.name,
+          startDate: strategy.general.start_date,
+          endDate: strategy.general.end_date,
+          order_id: strategy.general.order_id,
           li_status: status,
           ad_size: adSize,
-          tactics_count: strategy.ads_count || 0,
+          tactics_count: strategy.general.ads_count || 0,
           selected_key_values: keyValues,
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-	  totalMediaCost: utils.roundOff(strategy.value, 2),
-          expectedMediaCost: utils.roundOff(strategy.expected_media_cost, 2),
+	      totalMediaCost: utils.roundOff(strategy.general.value, 2),
+          expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
           chart: null
@@ -259,16 +259,18 @@
 
       var kpiType = campaign.kpiType;
       var kpiValue = campaign.kpiValue;
-      var url = '/campaigns/' + campaign.orderId + '/lineitems.json?filter[date_filter]=' + timePeriod;
+
+     // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+        var url = '/campaigns/' + campaign.orderId + '/strategies' ;
       dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-        if(result.status == "success" && !angular.isString(result.data)) {
-          if(result.data.length >= 0) {
-            if(result.data.length <= 3) {
-              campaign.campaignStrategies = createStrategyObject(result.data, timePeriod, campaign, kpiType, kpiValue);
+        if(result.status == "success" && !angular.isString(result.data.data)) {
+          if(result.data.data.length >= 0) {
+            if(result.data.data.length <= 3) {
+              campaign.campaignStrategies = createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
             } else {
-              campaign.campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
-              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = createStrategyObject(result.data.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
             }
           }
         }
