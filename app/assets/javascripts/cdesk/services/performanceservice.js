@@ -14,7 +14,7 @@
             },
 
             getCampaingsForUser: function (brand_id) {
-                var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?user_id=' + user_id +"&brand_id="+brand_id ;
+                var url =  apiPaths.apiSerivicesUrl + '/campaigns/meta?brand_id='+brand_id ;
                 return dataService.fetch(url);
 
             },

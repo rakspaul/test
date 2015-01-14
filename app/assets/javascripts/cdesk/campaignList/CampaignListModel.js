@@ -223,7 +223,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     Campaigns.prototype.fetchDashboardData = function() {
 
       this.dashboard.busy = true;
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
         self = this;
       //applying brand filter if active
       if(this.brandId > 0) {
@@ -567,7 +567,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.dashboard.filterDraft && params.push('conditions=' + this.dashboard.filterDraft);
       this.dashboard.filterCompleted && params.push('conditions=' + this.dashboard.filterCompleted);
       this.dashboard.filterPaused && params.push('conditions=' + this.dashboard.filterPaused);
-      return apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id='+user_id+'&' + params.join('&');
+      return apiPaths.apiSerivicesUrl + '/campaigns/bystate?' + params.join('&');
     };
 
   var toggleSortDirection = function(dir) {

@@ -2,9 +2,6 @@
 (function () {
   "use strict";
   commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
-    //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
-    // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
-    //$http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
     $http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
     return {
 
@@ -114,7 +111,7 @@
       },
 
       updateLastViewedAction: function(campaignId) {
-        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
+        return this.put(urlService.APIlastViewedAction(campaignId), {}).then(function(response) {
           if(response.status === "success") {
             //delete default campaign list cache here
             dataStore.deleteAllCachedCampaignListUrls();

@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel) {
 
         var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
@@ -44,12 +44,12 @@ var angObj = angObj || {};
             $scope.orderByField = 'created_at';
             $scope.reverseSort = true;
 
-            if(localStorage.getItem(user_id+'_opt_seeDate') === undefined || localStorage.getItem(user_id+'_opt_seeDate') === null){
+            if(localStorage.getItem(loginModel.getUserId()+'_opt_seeDate') === undefined || localStorage.getItem(loginModel.getUserId()+'_opt_seeDate') === null){
                 $scope.seeDate.value = false;
                 $scope.seeDate.className = '';
             } else {
-                $scope.seeDate.value = localStorage.getItem(user_id+'_opt_seeDate');
-                $scope.seeDate.className = (localStorage.getItem(user_id+'_opt_seeDate') == "true" ? 'see_dates_selected' : '');
+                $scope.seeDate.value = localStorage.getItem(loginModel.getUserId()+'_opt_seeDate');
+                $scope.seeDate.className = (localStorage.getItem(loginModel.getUserId()+'_opt_seeDate') == "true" ? 'see_dates_selected' : '');
             }
         };
 
@@ -133,7 +133,7 @@ var angObj = angObj || {};
 
         $scope.getCampaignDetails = function () {
             //API call for campaign details
-            var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id + "?user_id=" + user_id;
+            var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $scope.selectedCampaign.id;
             dataService.getSingleCampaign(url).then(function (result) {
                 if (result.data.data !== undefined) {
                     var res = result.data.data;
@@ -473,12 +473,12 @@ var angObj = angObj || {};
 
         $("#optimization_squaredFour").click( function() {
                 if( $(this).is(":checked") == true ) {
-                    localStorage.setItem(user_id+'_opt_seeDate',true);
+                    localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',true);
                     $scope.seeDate.value = true;
                     $scope.seeDate.className = 'see_dates_selected' ;
                     $(".details_with_heading_total").addClass("see_dates_selected") ;
                 } else {
-                    localStorage.setItem(user_id+'_opt_seeDate',false);
+                    localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
                     $scope.seeDate.value = false;
                     $scope.seeDate.className = '' ;
                     $(".details_with_heading_total").removeClass("see_dates_selected") ;

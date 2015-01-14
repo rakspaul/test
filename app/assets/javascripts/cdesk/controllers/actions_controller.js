@@ -60,7 +60,7 @@
       data.action_tactic_ids = selectedTacticIds;
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
-      data.created_by_id = parseInt(user_id);
+      //data.created_by_id = parseInt(user_id);
       /*var now = $filter('date')(new Date(), 'yyyy-MM-dd');
       data.created_at = now;
       data.updated_at = now;*/

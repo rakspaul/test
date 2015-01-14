@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel) {
+    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -54,13 +54,13 @@ var angObj = angObj || {};
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
 
-            if(localStorage.getItem(user_id+'_cost_sort') === undefined || localStorage.getItem(user_id+'_cost_sort') === null){
+            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null){
                 $scope.filter.sortByColumn = 'default';
                 $scope.filter.ascendingDir = false ;
 
             } else {
-                $scope.filter.sortByColumn =   localStorage.getItem(user_id+'_cost_sort') ;
-                $scope.filter.ascendingDir = localStorage.getItem(user_id+'_cost_sort_desc') ;
+                $scope.filter.sortByColumn =   localStorage.getItem(loginModel.getUserId()+'_cost_sort') ;
+                $scope.filter.ascendingDir = localStorage.getItem(loginModel.getUserId()+'_cost_sort_desc') ;
 
                 for(var i in $scope.sort_field){
                     if($scope.sort_field[i].key ===   $scope.filter.sortByColumn){
@@ -259,8 +259,8 @@ var angObj = angObj || {};
                     $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
 
                     ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'descending'):($scope.sort_field[i].sortDirection = 'ascending'  );
-                    localStorage.setItem(user_id+'_cost_sort_desc' ,  $scope.filter.ascendingDir );
-                    localStorage.setItem(user_id+'_cost_sort' ,   $scope.filter.sortByColumn );
+                    localStorage.setItem(loginModel.getUserId()+'_cost_sort_desc' ,  $scope.filter.ascendingDir );
+                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.filter.sortByColumn );
                 }
                 else{
                     $scope.sort_field[i].class = '';

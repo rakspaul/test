@@ -27,10 +27,8 @@
 
 
   = content_for?(:content) ? yield(:content) : yield
-
+  
   :javascript
     window.assets                   = {};
     window.assets.target_marker     = "#{image_path('cdesk/icn_goal.png')}";
     window.assets.platform_icon     = "#{image_path('tag_icon.png')}";
-    window.user_id                  = "11082"
-    
