@@ -1,4 +1,4 @@
-aegin
+begin
   require "rvm/capistrano" # Load RVM's capistrano plugin.
 rescue LoadError
   unless @retried
