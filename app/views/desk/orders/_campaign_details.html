@@ -122,21 +122,9 @@
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
                             </div>
                             <div class="pull-right section_graph_details">
-                                <div class="each_detail">
-                                    <span class="graph_color color1"></span>
-                                    Inventory: {{details.getCostBreakdown.inventory | formatCostData: '' : 0}}%
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color2"></span>
-                                    Data: {{details.getCostBreakdown.data | formatCostData: '' : 0}}%
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color3"></span>
-                                    Ad Serving: {{details.getCostBreakdown.adServing | formatCostData: '' : 0}}%
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color4"></span>
-                                    Other: {{details.getCostBreakdown.other | formatCostData: '' : 0}}%
+                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="data.value >= 0.5 ">
+                                    <span class="graph_color {{data.className}}"></span>
+                                    {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
                             </div>
                         </div>
