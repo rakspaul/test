@@ -180,6 +180,12 @@
                             adServing: costData.ad_serving_cost_pct,
                             other: other
                         };
+                         $scope.getCostBreakdownInfo = [
+                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1'},
+                            {name:'Data',value:costData.data_cost_pct,className:'color2'},
+                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3'},
+                            {name:'Other',value:other,className:'color4'}
+                        ];
                         var costBreakdownColors =[];
                             costBreakdownColors["inventory"] = "#F8810E";
                             costBreakdownColors["data"] = "#0072BC";
