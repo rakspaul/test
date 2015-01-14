@@ -10,12 +10,25 @@
 return {
 
     setUser : function(user){
-      data = user;
-      console.log(data);
-      $cookieStore.put('auth_token', user.auth_token);
+        data = user;
+        $cookieStore.put('auth_token', user.auth_token);
         localStorage.setItem('user_name',user.user_name);
         localStorage.setItem('is_network_user',user.is_network_user);
         localStorage.setItem('user_id', user.user_id);
+        // campaignDetails object is required for reports tab.
+        localStorage.setItem( 'campaignDetails', JSON.stringify({
+            campaignId : null,
+            campaignName:null,
+            strategyId : null,
+            strategyName : null,
+            strategyStartDate : null,
+            strategyEndDate : null,
+            filterDurationType:null,
+            filterDurationValue:null,
+            filterKpiType:null,
+            filterKpiValue:null,
+            previousCampaignId:null
+        }));
     },
     // this.getUser = function(){
     //   return this.data;

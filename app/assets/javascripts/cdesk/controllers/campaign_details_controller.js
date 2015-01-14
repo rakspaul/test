@@ -338,8 +338,7 @@
             };
 
             dataTransferService.initOptimizationData(param);
-
-            utils.goToLocation('/#/optimization');
+            document.location = '#/optimization';
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
@@ -351,8 +350,7 @@
             };
 
             dataTransferService.initOptimizationData(param);
-
-            utils.goToLocation('/#/optimization');
+            document.location = '#/optimization';
         };
 
         $scope.setGraphData = function(campaign, type){
