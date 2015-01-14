@@ -2195,6 +2195,28 @@ button, i, input[type="submit"] {
   text-align: center;
   word-wrap: break-word;
 }
+.campaign_status_icon {  
+  height: 14px;
+  width: 14px;
+  margin-top: 5px;
+  background-repeat: no-repeat;
+  background-position: top left;
+}
+.completed_campaign_status_icon {
+  background-image : url(asset-path("status_icons/complete_icon.png")) ;
+}
+.draft_campaign_status_icon {
+  background-image : url(asset-path("status_icons/draft_icon.png"))  ;
+}
+.ready_campaign_status_icon {
+  background-image : url(asset-path("status_icons/ready_icon.png"))  ;
+}
+.active_campaign_status_icon {
+  background-image : url(asset-path("status_icons/active_icon.png"))  ;
+}
+.paused_campaign_status_icon {
+  background-image : url(asset-path("status_icons/paused_icon.png"))  ;
+}
 .cost_cols_holder {
   .first_col , .second_col {
     color: #0978c9 ;
@@ -2494,29 +2516,7 @@ button, i, input[type="submit"] {
         -webkit-border-radius: 8px ;
         background: #6abc52 ;
       }
-      .campaign_status_icon {
-        
-        height: 14px;
-        width: 14px;
-        margin-top: 5px;
-        background-repeat: no-repeat;
-        background-position: top left;
-      }
-      .completed_campaign_status_icon {
-        background-image : url(asset-path("status_icons/complete_icon.png")) ;
-      }
-      .draft_campaign_status_icon {
-        background-image : url(asset-path("status_icons/draft_icon.png"))  ;
-      }
-      .ready_campaign_status_icon {
-        background-image : url(asset-path("status_icons/ready_icon.png"))  ;
-      }
-      .active_campaign_status_icon {
-        background-image : url(asset-path("status_icons/active_icon.png"))  ;
-      }
-      .paused_campaign_status_icon {
-        background-image : url(asset-path("status_icons/paused_icon.png"))  ;
-      }
+      
      
 
     }
