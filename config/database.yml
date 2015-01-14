@@ -37,7 +37,7 @@ stg:
 production:
   <<: *common
   username: amts
-  host: ampdb1.collective-media.net
+  host: ampdb2.collective-media.net
 
 test:
   <<: *common
