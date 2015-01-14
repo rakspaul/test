@@ -19,7 +19,7 @@ set :use_sudo, false
 set :keep_releases, 7 # keep the last N releases
 set :deploy_via, :remote_cache
 set :git_enable_submodules, true
-set :branch, :cdesk_sprint11
+set :branch, :master
 
 set :stages, %w(stg qa production)
 set :default_stage, "qa"
