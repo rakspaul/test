@@ -707,7 +707,13 @@
   .activity_log_holder {
     position: relative;
     margin-bottom: 30px ;
+    padding-bottom: 20px ;
     border-bottom: solid 1px #ebf0f5 ;
+    .graph_activity_holder {
+      .activity_log_header {
+        margin-bottom: 0px ;
+      }
+    }
     .edit_activity_log_holder {
       position: absolute;
       top: 0px ;

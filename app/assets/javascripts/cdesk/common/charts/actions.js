@@ -114,8 +114,10 @@
       };
       var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
         var data = [];
+        var dataArr = [];
         for (var i = 0; i < lineData.length; i++) {
           var chartData = lineData[i]['date'].split("-");
+          dataArr.push(lineData[i]['y']);
           data.push([
             Date.UTC(parseInt(chartData[0]), parseInt(chartData[1], 10) - 1 , parseInt(chartData[2])),
             lineData[i]['y']
@@ -123,13 +125,18 @@
         }
         var dataLength = data.length;
         var timeInterval = dataLength/7;
-
+        var minVal = Math.min.apply(Math,dataArr);
+        var maxVal = Math.max.apply(Math,dataArr);
+        var range = parseFloat(parseFloat(maxVal) - parseFloat(minVal));
+        var percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15;
+        var chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage));
+        var chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
         return {
           options: {
             chart: {
               width: width ? width: 400,
               height: height ? height : 330,
-              margin: [20, 0, 50, 60]
+              margin: [25, 0, 50, 60]
             },
             title: {
               text: '',
@@ -177,6 +184,8 @@
             yAxis: {
               maxPadding:0,
               minPadding:0,
+             max:chartMaximum,
+             /*min:chartMinimum*/
               title: {
                 align: 'high',
                 offset: 13,
@@ -291,6 +300,31 @@
                       color: 'red'
                     }
                   }
+                });
+               //draw plotlines
+                chart.yAxis[0].addPlotLine({
+                    value: extremes.max,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
+                });
+                chart.xAxis[0].addPlotLine({
+                    value: extremesX.max,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
+                });
+                chart.xAxis[0].addPlotLine({
+                    value: extremesX.min,
+                    color: '#D2DEE7',
+                    width: 1,
+                    id: 'plot-line-1'
+                });
+                chart.yAxis[0].addPlotLine({
+                    value: threshold,
+                    color: '#FABD82',
+                    width: 1,
+                    id: 'plot-line-1'
                 });
 
                 //rendering threshold marker image in y-axis
