@@ -1,5 +1,5 @@
 Reachui::Application.routes.draw do
-  root 'account_sessions#new'
+  root 'desk/orders#index'
 
   resource :account_session, :path => 'session', as: 'session', only: [:new, :create, :destroy]
   post 'signin' => 'account_sessions#create'
@@ -230,10 +230,6 @@ Reachui::Application.routes.draw do
       post 'validate'
     end
   end
-
-    get 'campaigns' => 'desk/orders#index'
-    get 'campaigns/:id' => 'desk/orders#show'
-    get 'campaigns/:order_id/lineitems' => 'desk/lineitems#index'
 
   namespace :desk do
     resources :advertisers, :only => [:index] do

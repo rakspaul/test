@@ -1,10 +1,11 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
-    $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+    //$http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
+    $http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
     return {
 
       getSingleCampaign: function (urlPath) {
@@ -162,6 +163,10 @@
         }
         return $http.get(url, {timeout: canceller.promise}).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             var objOnSuccess = {
               status: "success",
               data: response.data
@@ -181,9 +186,14 @@
         );
       },
 
-      post: function (url, data) {
-        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
+      post: function (url, data, header) {
+        console.log((header ? header : {'Content-Type': 'text/plain'}))
+        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             return {
               status: "success",
               data: response.data
@@ -201,6 +211,10 @@
       put: function (url, data) {
         return $http.put(url, angular.toJson(data)).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             return {
               status: "success",
               data: response.data

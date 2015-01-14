@@ -1,7 +1,7 @@
 (function () {
     "use strict";
     angObj.factory("viewablityService", function ($http,$location, api, apiPaths, common, campaign_api, dataService) {
-        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+        //$http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
         return {
 
             getStrategyViewData : function (param) {

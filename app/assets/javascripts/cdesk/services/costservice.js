@@ -1,7 +1,7 @@
 (function () {
     "use strict";
     angObj.factory("costService", function ($http,$location, api, apiPaths, dataService) {
-        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+        //$http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
         return {
 
             getTacticsForStrategy: function(param){

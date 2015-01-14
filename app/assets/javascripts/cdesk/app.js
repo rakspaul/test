@@ -8,7 +8,8 @@ var angObj = '';
       'campaignListModule',
       'editActionsModule',
       'brandsModule',
-      'timePeriodModule']
+      'timePeriodModule',
+      'loginModule']
   );
 
 
@@ -42,13 +43,24 @@ var angObj = '';
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
     });
 
-    angObj.run(function ($rootScope, $location, $cookies) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService) {
 
         $rootScope.$on('$locationChangeStart', function () {
-            if (($cookies.token === undefined) && ($location.path() !== '/login')) {
-             //   $location.url('/login');
+            if (($cookies.auth_token === undefined) && ($location.path() !== '/login')) {
+                $location.url('login');
+            }
+
+            if((!loginModel.getUserId()) && ($location.path() !== '/login')){
+              //get userinfo from token
+              loginService.getUserInfo($cookies.auth_token);
+            }
+            
+            //if logged in - go to campaigns
+            if (($cookies.auth_token) && ($location.path() === '/login')) {
+                $location.url('campaigns');
             }
         });
     });

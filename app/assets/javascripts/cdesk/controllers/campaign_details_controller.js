@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService) {
 
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -12,7 +12,7 @@
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
 
         $scope.campaigns = new Campaigns();
-        $scope.is_network_user = is_network_user;
+        $scope.is_network_user = loginModel.getIsNetworkUser();
         var campaignList = [];
         $scope.details = {
                 campaign: null,
@@ -339,7 +339,7 @@
 
             dataTransferService.initOptimizationData(param);
 
-            utils.goToLocation('/optimization');
+            utils.goToLocation('/#/optimization');
         };
 
         $scope.setActivityButtonData = function( campaign, strategy){
@@ -352,7 +352,7 @@
 
             dataTransferService.initOptimizationData(param);
 
-            utils.goToLocation('/optimization');
+            utils.goToLocation('/#/optimization');
         };
 
         $scope.setGraphData = function(campaign, type){
@@ -370,7 +370,7 @@
             }else if(type == 'performance') {
 		utils.goToLocation('/performance');
 	    }else{
-                utils.goToLocation('/optimization');
+                utils.goToLocation('/#/optimization');
             }
             
         };

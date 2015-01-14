@@ -406,7 +406,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     Campaigns.prototype.editCampaign = function(campaign) {
       ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
         'hitCallback': function() {
-          document.location = "campaigns#/campaigns/" + campaign.orderId;
+          document.location = "/#/campaigns/" + campaign.orderId;
         }
       });
     },

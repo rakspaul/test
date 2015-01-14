@@ -28,12 +28,12 @@
             </div>
         </div>
         <div class="clearfix campaigns_list_buttons_holder">
-            <a href="campaigns#/performance" id="campaigns_view_report">
+            <a href="/#/performance" id="campaigns_view_report">
                 <div class="campaign_btn reports_btn">
                     View Report
                 </div>
             </a>
-            <a href="campaigns#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder" id="campaigns_activity_btn">
+            <a href="/#/campaigns/{{campaign.orderId}}" ng-click="campaigns.editCampaign(campaign)" class="action_bubble_holder" id="campaigns_activity_btn">
                 <div class="campaign_btn actions_btn">
                     <span>Activity</span>
                     <span class="actions_done" ng-if="campaign.actionsCount">{{campaign.actionsCount}}</span>
