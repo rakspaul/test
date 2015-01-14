@@ -3224,7 +3224,7 @@ button, i, input[type="submit"] {
               border-bottom: solid 1px #fff ;
             }
             li {
-              padding: 5px 20px;
+              padding: 0;
             }
             li:hover {
               background: rgba(255,255,255,0.1) ;
@@ -3236,6 +3236,8 @@ button, i, input[type="submit"] {
             a {
               white-space: normal;
               word-wrap : break-word;
+              padding: 5px 20px ;
+              display: block;
             }
           }
           a {
