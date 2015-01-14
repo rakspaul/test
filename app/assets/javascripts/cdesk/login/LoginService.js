@@ -1,6 +1,6 @@
 (function () {
   "use strict";
-  loginModule.factory("loginService", ["$cookies","$rootScope", "dataService", "$cookieStore", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'constants', 'urlService', 'loginModel', '$http', function ($cookies, $rootScope, dataService, $cookieStore, utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, urlService, loginModel, $http) {
+  loginModule.factory("loginService", ["$cookies","$rootScope", "dataService", "$cookieStore", "utils", "common", "line", '$q', 'modelTransformer', 'campaignModel', 'dataStore', 'apiPaths', 'requestCanceller', 'urlService', 'loginModel', '$http', function ($cookies, $rootScope, dataService, $cookieStore, utils, common, line, $q, modelTransformer, campaignModel, dataStore, apiPaths, requestCanceller, urlService, loginModel, $http) {
 	
 
     var loginAction = function (username, password, callback) {
