@@ -5,7 +5,7 @@
         return {
 
             getActionsForSelectedCampaign: function (param) {
-                var url = apiPaths.apiSerivicesUrl + "/reports/campaigns/" +  param.campaignId + "/actions?user_id="+user_id;
+                var url = apiPaths.apiSerivicesUrl + "/reports/campaigns/" +  param.campaignId + "/actions";
                 return dataService.fetch(url);
             }
 

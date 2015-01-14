@@ -73,7 +73,7 @@
 
         //API call for campaign details
 //        var url = "/campaigns/" + $routeParams.campaignId + ".json?filter[date_filter]=life_time";
-        var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId + "?user_id=" + user_id;
+        var url = apiPaths.apiSerivicesUrl + "/campaigns/" + $routeParams.campaignId;
 
         dataService.getSingleCampaign(url).then(function(result) {
             if (result.data.data) {
@@ -93,7 +93,7 @@
         }, function(result) {
             console.log('call failed');
         });
-        var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $routeParams.campaignId + "/actions?user_id="+user_id;
+        var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
         dataService.getActionItems(actionUrl).then(function(result) {
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;

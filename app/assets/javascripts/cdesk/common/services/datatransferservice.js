@@ -1,6 +1,6 @@
 (function (){
   'use strict';
-  commonModule.factory("dataTransferService" , function($http) {
+  commonModule.factory("dataTransferService" , function($http, loginModel) {
     localStorage.setItem( 'campaignDetails', JSON.stringify({
       campaignId : null,
       campaignName:null,
@@ -93,17 +93,17 @@
           // check if cache expiry is set if yes, clear the cache if it is expired.
           if(localStorage.getItem('cache_expiry') !== null && localStorage.getItem('cache_expiry') !== undefined ){
               if(localStorage.getItem('cache_expiry') < (new Date().getTime())  ){
-                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + user_id);
+                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + loginModel.getUserId());
 
               }
           }
           // extra code to clear old and unused cache keys form localStorage.
-          if(localStorage.getItem('allCampaignList_'+ user_id) !== null && localStorage.getItem('allCampaignList_'+ user_id) !== undefined) {
-              localStorage.removeItem('allCampaignList_' + user_id);
+          if(localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== null && localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== undefined) {
+              localStorage.removeItem('allCampaignList_' + loginModel.getUserId());
 
           }
 
-          localStorage['allCampaignList_'+ brand_id + '_' + user_id] = JSON.stringify(campaignListObject);
+          localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()] = JSON.stringify(campaignListObject);
 
          var expiry = new Date().getTime() + (60 * 60 * 1000)  ; // cache expiry is 60 min
 
@@ -114,22 +114,22 @@
 
 
           // clear old and unused cache keys form localStorage.
-          if(localStorage.getItem('allCampaignList_'+ user_id) !== null && localStorage.getItem('allCampaignList_'+ user_id) !== undefined) {
-              localStorage.removeItem('allCampaignList_' + user_id);
+          if(localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== null && localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== undefined) {
+              localStorage.removeItem('allCampaignList_' + loginModel.getUserId());
           }
 
           if( localStorage.getItem('cache_expiry') !== null &&localStorage.getItem('cache_expiry') !== undefined ){
               if(localStorage.getItem('cache_expiry') < (new Date().getTime())  ){
-                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + user_id);
+                  localStorage.removeItem('allCampaignList_'+ brand_id + '_' + loginModel.getUserId());
               }
           }
 
-          if(localStorage['allCampaignList_'+ brand_id + '_' + user_id] === undefined || localStorage['allCampaignList_'+ brand_id + '_' + user_id] === null) {
+          if(localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()] === undefined || localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()] === null) {
               return false;
           }
           // check if expiry is present and if we need to time out
           else {
-                return JSON.parse(localStorage['allCampaignList_'+ brand_id + '_' + user_id]);
+                return JSON.parse(localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()]);
             }
        },
 
