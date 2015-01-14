@@ -149,11 +149,11 @@
               for (var i = 0; i < maxDays.length; i++) {
                 maxDays[i]['ctr'] *= 100
                 maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
-                var kpiType = kpiMap[sKpiType] ? kpiMap[sKpiType] : sKpiType;
+                var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                 var kpiTypeLower = angular.lowercase(kpiType);
                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'tactics');
+              tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
             }
           }
         }
