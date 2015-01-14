@@ -12,9 +12,7 @@
     $scope.logout = function() {
       console.log('logout');
       $cookieStore.remove('auth_token');
-      localStorage.removeItem('user_name');
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('is_network_user');
+      localStorage.clear();
       $location.url('/login');
     };
   });
