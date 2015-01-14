@@ -1,8 +1,8 @@
-set :branch, 'cdesk_sprint11'
+set :branch, 'master'
 
 set :rails_env, "production" # set for capistrano asset pipeline precompilation
 
-set :hipchat_env, "cdesk_sprint11"
+set :hipchat_env, "Production"
 
 set :app1, "ampapp2.collective-media.net"
 
