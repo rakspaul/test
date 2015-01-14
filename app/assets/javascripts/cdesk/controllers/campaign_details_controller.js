@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService) {
 
         var campaign = campaignListService;
         var Campaigns = campaignListModel;

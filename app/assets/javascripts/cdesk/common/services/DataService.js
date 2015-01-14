@@ -1,10 +1,11 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
-    $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
+    //$http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
+    $http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
     return {
 
       getSingleCampaign: function (urlPath) {

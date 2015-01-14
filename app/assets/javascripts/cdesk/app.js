@@ -53,10 +53,11 @@ var angObj = '';
                 $location.url('login');
             }
 
-            if(!loginModel.getUserId()){
+            if((!loginModel.getUserId()) && ($location.path() !== '/login')){
               //get userinfo from token
-              loginService.validateToken($cookies.auth_token);
+              loginService.getUserInfo($cookies.auth_token);
             }
+            
             //if logged in - go to campaigns
             // if (($cookies.token !== undefined) && ($location.path() == '/login')) {
             //     $location.url('campaigns');

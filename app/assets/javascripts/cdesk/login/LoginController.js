@@ -25,13 +25,12 @@
 			 			break;
 			 		default: 
 			 			$scope.loginError = true;
-			 			$scope.loginErrorMsg = "Network Problems";
+			 			//$scope.loginErrorMsg = "Network Problems";
 			 	}
 			 	$scope.loadingClass = "";
 			 	$scope.dataLoading = false; 
 			 } 
 		}); 
-		loginService.validateToken(loginModel.getAuthToken());
 	};
 
 	$scope.getLoadingClass = function(){

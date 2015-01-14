@@ -16,8 +16,7 @@
     };
 
     this.APIuserInfo = function () {
-      //var url = apiPaths.apiSerivicesUrl + '/userinfo';
-      var url = "http://dev-desk.collective-media.net:9001/dataapi/userinfo";
+      var url = apiPaths.apiSerivicesUrl + '/userinfo';
       return url;
     };
 

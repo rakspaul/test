@@ -15,8 +15,7 @@
       })
     };
 
-    var validateToken = function(auth_token){
-      $http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); ;
+    var getUserInfo = function(auth_token){
       return dataService.fetch(urlService.APIuserInfo()).then(function(response){
         loginModel.setUser(response.data.data);
       });
@@ -29,7 +28,7 @@
     return {
     	loginAction: loginAction,
       setCredentials: setCredentials,
-      validateToken: validateToken
+      getUserInfo: getUserInfo
     }
 
   }]);
