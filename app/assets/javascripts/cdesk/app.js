@@ -59,9 +59,9 @@ var angObj = '';
             }
             
             //if logged in - go to campaigns
-            // if (($cookies.token !== undefined) && ($location.path() == '/login')) {
-            //     $location.url('campaigns');
-            // }
+            if (($cookies.auth_token) && ($location.path() === '/login')) {
+                $location.url('campaigns');
+            }
         });
     });
 }());

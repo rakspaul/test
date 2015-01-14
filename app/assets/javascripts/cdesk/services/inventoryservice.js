@@ -1,7 +1,8 @@
 (function () {
     "use strict";
-    angObj.factory("inventoryService", function ($http,$location, api, apiPaths, common, campaign_api, dataService, loginModel) {
-        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
+    angObj.factory("inventoryService", function ($http,$location, api, apiPaths, common, campaign_api, dataService) {
+        //$http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
+
         return {
             getStrategyDomainData: function (param) {
                 var url = apiPaths.apiSerivicesUrl + '/campaigns/' + param.campaign_id + '/strategies/' + param.strategyId + '/inventory/' + param.domain + '?kpi_type=' + param.kpi_type + '&date_filter=' + param.time_filter;
