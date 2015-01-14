@@ -125,19 +125,12 @@
         }
         var dataLength = data.length;
         var timeInterval = dataLength/7;
-        var add_more = 0;
-        if(Math.max.apply(Math,dataArr) >1){
-          add_more = 1;
-        }else{
-           add_more = 0.01;
-        }
         var minVal = Math.min.apply(Math,dataArr);
         var maxVal = Math.max.apply(Math,dataArr);
         var range = parseFloat(parseFloat(maxVal) - parseFloat(minVal));
         var percentage = ((parseFloat(maxVal) - parseFloat(minVal))/100)*15;
         var chartMinimum = parseFloat(parseFloat(minVal) - parseFloat(percentage));
         var chartMaximum = parseFloat(parseFloat(maxVal) + parseFloat(percentage));
-        var max_val = Math.max.apply(Math,dataArr)+parseFloat(add_more);
         return {
           options: {
             chart: {
