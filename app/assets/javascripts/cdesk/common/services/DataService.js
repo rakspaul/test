@@ -1,7 +1,7 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore) {
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
     //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
     // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
     //$http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + loginModel.getAuthToken() + " realm=\"reach-ui\"";
@@ -163,6 +163,10 @@
         }
         return $http.get(url, {timeout: canceller.promise}).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             var objOnSuccess = {
               status: "success",
               data: response.data
@@ -186,6 +190,10 @@
         console.log((header ? header : {'Content-Type': 'text/plain'}))
         return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             return {
               status: "success",
               data: response.data
@@ -203,6 +211,10 @@
       put: function (url, data) {
         return $http.put(url, angular.toJson(data)).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             return {
               status: "success",
               data: response.data

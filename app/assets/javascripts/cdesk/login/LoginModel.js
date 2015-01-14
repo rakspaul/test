@@ -1,23 +1,21 @@
 (function() {
   "use strict";
   var loginModel = function($cookieStore, loginService) {
-    var data = {
-      user_id: undefined,
-      user_name: '',
-      is_network_user: false,
-      auth_token: undefined
-    };
+    var data = {};
+      data.user_id = undefined;
+      data.user_name ='';
+      data.is_network_user = false;
+      data.auth_token = undefined;
+  
 return {
-
-    // getUserInfo : function() {
-    //   loginService.getUserInfo($cookieStore.get('auth_token'));
-    // }
 
     setUser : function(user){
       data = user;
       console.log(data);
       $cookieStore.put('auth_token', user.auth_token);
-
+        localStorage.setItem('user_name',user.user_name);
+        localStorage.setItem('is_network_user',user.is_network_user);
+        localStorage.setItem('user_id', user.user_id);
     },
     // this.getUser = function(){
     //   return this.data;
@@ -27,8 +25,8 @@ return {
       if(data.user_id) {
         return data.user_id;
       } else {
-       // return $cookieStore.get('user_id');
-       // console.log('no data userid');
+        data.user_id = localStorage.getItem('user_id');
+        return localStorage.getItem('user_id');
       }
     },
 
@@ -36,8 +34,8 @@ return {
       if(data.user_name) {
         return data.user_name;
       } else {
-        //return $cookieStore.get('user_name');
-        // console.log('no data username');
+        data.user_name = localStorage.getItem('user_name');
+        return localStorage.getItem('user_name');
       }
     },
 
@@ -45,8 +43,8 @@ return {
       if(data.is_network_user) {
         return data.is_network_user;
       } else {
-        //return $cookieStore.get('is_network_user');
-        console.log('no data isnetwork');
+        data.is_network_user = localStorage.getItem('is_network_user');
+        return localStorage.getItem('is_network_user');
       }
     },
 
@@ -54,6 +52,7 @@ return {
       if(data.auth_token) {
         return data.auth_token;
       } else {
+        data.auth_token = $cookieStore.get('auth_token');
         return $cookieStore.get('auth_token');
       }
     }
