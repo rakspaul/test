@@ -24,6 +24,9 @@ qa:
 newqa: 
   domain: 'qa-desk.collective.com'
 
+qa:
+  domain: 'cdesk.collective-media.net'
+
 newstg:
   domain: :all
 
