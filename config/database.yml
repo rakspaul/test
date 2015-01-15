@@ -39,6 +39,11 @@ production:
   username: amts
   host: ampdb1.collective-media.net
 
+cdesk_production:
+  <<: *common
+  username: amp
+  host: ampdb2.collective-media.net
+
 test:
   <<: *common
   username: amp
