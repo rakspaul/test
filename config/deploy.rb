@@ -20,6 +20,7 @@ set :keep_releases, 7 # keep the last N releases
 set :deploy_via, :remote_cache
 set :git_enable_submodules, true
 set :branch, :master
+set :cdesk, ENV['cdesk'] || 'no'
 
 set :stages, %w(stg qa production cdesk_production newqa)
 set :default_stage, "qa"
@@ -71,16 +72,18 @@ end
 set :test_log, "log/capistrano.test.log"
 
 task :run_tests do
-  puts "--> Running tests"
-  client = HipChat::Client.new(hipchat_token)
-  if system("bundle exec rspec > #{test_log}")
-    puts "----> Tests successfully passed"
-    client[hipchat_room_name].send('Deploy', 'Tests successfully passed', :color => hipchat_color)
-    system("rm #{test_log}")
-  else
-    puts "----> Tests failed, please check #{test_log}"
-    client[hipchat_room_name].send('Deploy', 'Tests failed', :color => hipchat_failed_color)
-    exit
+  unless cdesk == 'yes'
+    puts "--> Running tests"
+    client = HipChat::Client.new(hipchat_token)
+    if system("bundle exec rspec > #{test_log}")
+      puts "----> Tests successfully passed"
+      client[hipchat_room_name].send('Deploy', 'Tests successfully passed', :color => hipchat_color)
+      system("rm #{test_log}")
+    else
+      puts "----> Tests failed, please check #{test_log}"
+      client[hipchat_room_name].send('Deploy', 'Tests failed', :color => hipchat_failed_color)
+      exit
+    end
   end
 end
 
