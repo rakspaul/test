@@ -542,12 +542,22 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         this.dashboard.status.active.bothItem = undefined;
         this.dashboard.status.ready =undefined
         this.dashboard.status.active.ontrack =undefined
-        this.dashboard.status.active.underperforming = 'active';
+        //this.dashboard.status.active.underperforming = 'active';
         this.dashboard.filterPaused= undefined;
         this.dashboard.filterCompleted =undefined ;
         this.dashboard.filterDraft = undefined;
-        this.dashboard.filterActive = '(active,underperforming)';
+        //this.dashboard.filterActive = '(active,underperforming)';
         this.dashboard.filterReady = undefined ;
+        if(this.dashboard.active.underperforming == 0){
+            this.dashboard.filterActive = '(active,ontrack)';
+            this.dashboard.status.active.ontrack ='active';
+            this.dashboard.status.active.underperforming = undefined;
+        }else
+        {
+            this.dashboard.filterActive = '(active,underperforming)';
+            this.dashboard.status.active.underperforming = 'active';
+            this.dashboard.status.active.ontrack =undefined;
+        }
       }
       this.campaignList = [];
       Campaigns.prototype.fetchCampaigns.call(this);
