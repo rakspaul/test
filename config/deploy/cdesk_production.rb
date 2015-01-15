@@ -1,4 +1,4 @@
-set :branch, 'sarguru_cdesk_newprodenv'
+set :branch, 'cdesk_sprint11'
 
 set :rails_env, "cdesk_production" # set for capistrano asset pipeline precompilation
 
