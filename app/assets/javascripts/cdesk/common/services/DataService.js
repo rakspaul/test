@@ -3,7 +3,6 @@
   "use strict";
   commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
     $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken(); 
-    console.log('onlogin-' + loginModel.getAuthToken() );
     return {
 
       getSingleCampaign: function (urlPath) {
