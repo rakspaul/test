@@ -78,6 +78,15 @@
                     }
                     return 'red';
                 }
+                $scope.getSpendWidth = function(campaign) {
+                    if(campaign !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendTotalDifference(campaign);
+                        if (actualWidth > 100) {
+                            actualWidth = 100;
+                        }
+                        return actualWidth;
+                     }
+                }
                 $scope.getSpendTickWidth = function(campaign) {
                     if(campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
