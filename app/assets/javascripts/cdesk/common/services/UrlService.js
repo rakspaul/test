@@ -15,6 +15,11 @@
       return url;
     };
 
+    this.APIlogoutAction = function () {
+      var url = apiPaths.apiSerivicesUrl + '/logout';
+      return url;
+    };
+
     this.APIuserInfo = function () {
       var url = apiPaths.apiSerivicesUrl + '/userinfo';
       return url;
