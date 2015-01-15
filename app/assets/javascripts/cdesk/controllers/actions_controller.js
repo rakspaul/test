@@ -73,7 +73,7 @@
       if(data.action_sub_type_ids.length > 0 &&
         data.action_type_id !=undefined &&
         data.metric_impacted != undefined &&
-        data.name.length > 0 ) {
+        data.name.length > 0 && data.action_tactic_ids.length > 0 ) {
       for(var i in data.action_tactic_ids){
         data.ad_id = data.action_tactic_ids[i]; 
         dataService.createAction(data).then( function (response){
