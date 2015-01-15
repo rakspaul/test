@@ -3,7 +3,8 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
   var brand = {};
   brand.selectedBrand = {id: -1}
   brand.showList = false;
-  brand.styleDisplay = "block"
+  brand.styleDisplay = "block";
+  brand.showAll = true;
   return {
     getBrands: function (success) {
       brandsService.fetchBrands().then(function (response) {

@@ -10,6 +10,7 @@
     $scope.selectBrand = function (brand) {
       $('#brandsDropdown').attr('placeholder', brand.name);
       $('#brandsDropdown').val('');
+      $scope.brandData.showAll = true;
       if(brandsModel.getSelectedBrand().id === brand.id) {
         return;
       }
@@ -31,9 +32,12 @@
       $("#cdbDropdown").hide();
       $("#profileDropdown").hide();
     };
+    $scope.disableShowAll = function() {
+      $scope.brandData.showAll = false;
+    }
     $scope.highlightSearch = function (text, search) {
       return utils.highlightSearch(text, search);
     };
-    $scope.brand = brandsModel.getBrand();
+    $scope.brandData = brandsModel.getBrand();
   });
 }());
