@@ -60,23 +60,12 @@
                     }
                     return spendDifference;
                 }
-                $scope.getSpendDiffForStrategy = function(strategy) {
-                    if (strategy == undefined) {
-                        return 0;
-                    }
-                    var expectedSpend = strategy.expectedMediaCost;
-                    return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
-                }
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
                         var spendDifference = $scope.getSpendDifference(campaign);
                         return $scope.getClassFromDiff(spendDifference);
                     }
                 };
-                $scope.getSpendClassForStrategy = function(strategy) {
-                    var spendDifference = $scope.getSpendDiffForStrategy(strategy);
-                    return $scope.getClassFromDiff(spendDifference);
-                }
                 $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
@@ -96,9 +85,8 @@
                             actualWidth = 100;
                         }
                         return actualWidth;
-                    }
+                     }
                 }
-
                 $scope.getSpendTickWidth = function(campaign) {
                     if(campaign !== undefined) {
                         var actualWidth = 100 + $scope.getSpendTickDifference(campaign);
@@ -107,13 +95,6 @@
                         }
                         return actualWidth;
                     }
-                }
-                $scope.getSpendWidthForStrategy = function(strategy) {
-                    var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
-                    if (actualWidth > 100) {
-                        actualWidth = 100;
-                    }
-                    return actualWidth;
                 }
                 //$scope.campaigns.durationCompletion();
                 //To show the accorsponding strategy card
