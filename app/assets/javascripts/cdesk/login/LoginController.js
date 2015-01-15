@@ -13,7 +13,7 @@
 		loginService.loginAction($scope.username, $scope.password, function(response) {
 			 if(response.status == "success") { 
 			 	loginService.setCredentials(response.data.data); 
-			 	$location.path('/campaigns'); 
+			 	document.location = '/';
 			 } else { 
 			 	console.log('login failed');
 			 	$scope.error = response.data.data.message; 
