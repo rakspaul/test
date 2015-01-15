@@ -2,7 +2,8 @@
 (function () {
   "use strict";
   commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
-    $http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
+    $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken(); 
+    console.log('onlogin-' + loginModel.getAuthToken() );
     return {
 
       getSingleCampaign: function (urlPath) {
@@ -132,6 +133,10 @@
         }
         return $http({url: url, method: 'GET', cache: true}).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              $location.url('login');
+            }
             var objOnSuccess = {
               status: "success",
               data: response.data

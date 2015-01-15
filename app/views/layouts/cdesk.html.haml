@@ -20,7 +20,8 @@
     = yield(:head)
 
   %body
-    %header
+    - if cookies[:auth_token]
+      %header
 
 
 
