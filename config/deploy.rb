@@ -72,6 +72,7 @@ end
 set :test_log, "log/capistrano.test.log"
 
 task :run_tests do
+  puts "cdesk is #{cdesk.inspect}"
   unless cdesk == 'yes'
     puts "--> Running tests"
     client = HipChat::Client.new(hipchat_token)
