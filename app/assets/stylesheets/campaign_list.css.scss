@@ -3208,9 +3208,17 @@ button, i, input[type="submit"] {
           margin-top: 5px ;
         }
         li.each_filter {
-          background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat center right ;
-          padding-right: 20px;
           margin-top: 0px ;
+          .header_filter_arrow_dropdown  {
+            background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat no-repeat 65px 8px;
+            display: inline-block;
+            height: 18px;
+            width: 75px;
+          }
+          #brandsDropdownDiv {
+            background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat no-repeat  right center;
+            padding-right: 20px;
+          }
           #brandsList {
             width: 280px;
             left : -60px ;
@@ -3326,20 +3334,23 @@ button, i, input[type="submit"] {
           color: white;
         }
 
-        li.dropdown_open {
-            background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;
+        li.filter_dropdown_open {
+            .header_filter_arrow_dropdown {
+              background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;
+            }
             #brandsDropdown  {
               width: 154px ;
             }
             #brandsDropdownDiv {
-            input {
-              font-family: "Avenir" ;
+              background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;
+              input {
+                font-family: "Avenir" ;
+              }
+              input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+              input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
+              input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
+              input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
             }
-            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
-            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
-            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
-            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
-          }
           
         }
         #brandsDropdown:focus {

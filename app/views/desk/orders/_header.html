@@ -50,10 +50,11 @@
 <script type="text/javascript">
   $( document ).click(function(event) {
     if($("#cdbDropdown").is(':visible') && event.target.id != "durationMenuText") {
+      $("#cdbDropdown").closest(".each_filter").removeClass("filter_dropdown_open");
       $("#cdbDropdown").hide();
     }
     if($("#brandsList").is(':visible') && event.target.id != "brandsDropdown") {
-      $("#brandsList").closest(".each_filter").removeClass("dropdown_open");
+      $("#brandsList").closest(".each_filter").removeClass("filter_dropdown_open");
       $("#brandsList").hide();
     }
     if($("#profileDropdown").is(':visible') && event.target.id != "profileItem") {
