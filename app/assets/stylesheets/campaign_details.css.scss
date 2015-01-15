@@ -53,12 +53,12 @@
       padding: 10px 10px 10px 30px;
       margin: 0px 0px 0px 50px;
       background: url(asset-path("cdesk/view_report_icon.png")) no-repeat 10px 10px ;
+      &:hover {
+        background-color :  #359eea ;
+        color: #fff ;
+        background-position: 10px -52px  ;
+      } 
     }
-    .view_report:hover {
-      background-color :  #359eea ;
-      color: #fff ;
-      background-image : url(asset-path("cdesk/view_report_white.png"));
-    } 
     .time_period_filter {
       margin: 8px 40px 0 0;
       background: url(asset-path("cdesk/lifetime_icon.png")) no-repeat 2px 3px;
