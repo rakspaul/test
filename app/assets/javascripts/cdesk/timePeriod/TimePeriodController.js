@@ -11,8 +11,8 @@
 
     $scope.timePeriodClicked = function() {
       $("#cdbDropdown").toggle();
-      $("#brandsList").closest(".each_filter").removeClass("dropdown_open");
-      $("#cdbMenu").closest(".each_filter").toggleClass("dropdown_open");
+      $("#brandsList").closest(".each_filter").removeClass("filter_dropdown_open");
+      $("#cdbMenu").closest(".each_filter").toggleClass("filter_dropdown_open");
       $("#brandsList").hide();
       $("#profileDropdown").hide();
     }

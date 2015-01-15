@@ -5,7 +5,7 @@
     $scope.showProfileMenu = function() {
       $("#profileDropdown").toggle();
       $("#brandsList").hide();
-      $(".page_filters").find(".dropdown_open").removeClass("dropdown_open");
+      $(".page_filters").find(".filter_dropdown_open").removeClass("filter_dropdown_open");
       $("#cdbDropdown").hide();
     }
 
