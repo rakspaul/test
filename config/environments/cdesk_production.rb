@@ -55,8 +55,8 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
 
-  config.scala_api = 'https://cdesk.collective-media.net/dataapi'
-  config.nodejs_api = 'http://cdesk.collective-media.net:5000'
+  config.scala_api = 'https://reporting.collective.com/dataapi'
+  config.nodejs_api = 'http://reporting.collective.com:5000'
 
   # audience group segment search
   # comma separated string of network ids
@@ -67,7 +67,7 @@ Reachui::Application.configure do
   config.search_contexts_in_network = '6'
 
   config.action_mailer.default_url_options = {
-    host: "http://cdesk.collective.com"
+    host: "http://reporting.collective.com"
   }
 
   config.action_mailer.raise_delivery_errors = true
