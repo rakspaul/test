@@ -14,18 +14,6 @@
 
             link: function ($scope, element, attrs) {
 
-                $scope.getSpendDifference = function(campaign) {
-                    if(campaign !== undefined) {
-                        var spendDifference = 0;
-                        var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
-                        if (campaignCDBObj == undefined) {
-                            return spendDifference;
-                        }
-                        var spend =campaignCDBObj.getGrossRev();
-                        var expectedSpend =campaign.expectedMediaCost;
-                        return $scope.getPercentDiff(expectedSpend, spend);
-                    }
-                };
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
                     if (expected == 0) {
@@ -41,6 +29,13 @@
                     }
                     var expectedSpend = tactic.expectedMediaCost;
                     return $scope.getPercentDiff(expectedSpend, tactic.grossRev)
+                }
+                $scope.getSpendTotalDiffForTactic = function(tactic) {
+                    if (tactic == undefined) {
+                        return 0;
+                    }
+                    var totalSpend = tactic.totalMediaCost;
+                    return $scope.getPercentDiff(totalSpend, tactic.grossRev)
                 }
                 $scope.getSpendClass = function(campaign) {
                     if(campaign !== undefined) {
@@ -63,7 +58,7 @@
                 }
                 $scope.getSpendWidthForTactic = function(tactic) {
                     if(tactic !== undefined) {
-                        var actualWidth = 100 + $scope.getSpendDiffForTactic(tactic);
+                        var actualWidth = 100 + $scope.getSpendTotalDiffForTactic(tactic);
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
@@ -82,9 +77,9 @@
                 $scope.getSpendTickDifferenceForTactic = function(tactic) {
                     var spendDifference = 0;
                     if(tactic !== undefined) {
-                        var spend = tactic.expectedMediaCost;
-                        var expectedSpend = tactic.totalMediaCost;
-                        return $scope.getPercentDiff(expectedSpend, spend);
+                        var expectedSpend = tactic.expectedMediaCost;
+                        var totalSpend = tactic.totalMediaCost;
+                        return $scope.getPercentDiff(totalSpend, expectedSpend);
                     }
                     return spendDifference;
                 };
