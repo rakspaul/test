@@ -14,6 +14,12 @@
       })
     };
 
+    var logoutAction = function (callback) {
+      return dataService.fetch(urlService.APIlogoutAction()).then(function(response) {
+        callback(response);
+      })
+    };
+
     var getUserInfo = function(auth_token){
       return dataService.fetch(urlService.APIuserInfo()).then(function(response){
         loginModel.setUser(response.data.data);
@@ -27,7 +33,8 @@
     return {
     	loginAction: loginAction,
       setCredentials: setCredentials,
-      getUserInfo: getUserInfo
+      getUserInfo: getUserInfo,
+      logoutAction: logoutAction
     }
 
   }]);

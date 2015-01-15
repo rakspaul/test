@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.controller('headerController', function ($scope, loginModel, $cookieStore, $location) {
+  commonModule.controller('headerController', function ($scope, loginModel, $cookieStore, $location, loginService) {
     $scope.user_name = loginModel.getUserName();
     $scope.showProfileMenu = function() {
       $("#profileDropdown").toggle();
@@ -11,9 +11,15 @@
 
     $scope.logout = function() {
       console.log('logout');
+      loginService.logoutAction(function(response) {
+        if(response.status == "success"){
+          console.log('logout recorded on server');
+        }
+      }); 
       $cookieStore.remove('auth_token');
       localStorage.clear();
       $location.url('/login');
+
     };
   });
 }());
