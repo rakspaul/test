@@ -97,13 +97,27 @@
 
               }
           }
+
+          // check if in localStorage any key matches with 'allCampaignList...' and doesn't belong to the logged in user.If yes remove that.
+          var length = localStorage.length;
+          var suspectedKey = "allCampaignList" ;
+          for(var i =0 ;  i< length ; i++){
+              var current_key = localStorage.key(i);
+              if((current_key !== null)&& (current_key.indexOf(suspectedKey) >= 0) && (current_key !== 'allCampaignList_'+ brand_id + '_' + loginModel.getUserId()) )  {
+                  // means some invalid key exists.
+                  localStorage.removeItem(current_key);
+              }
+          }
+
+          if(brand_id === -1){
+              localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()] = JSON.stringify(campaignListObject);
+          }
+
           // extra code to clear old and unused cache keys form localStorage.
           if(localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== null && localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== undefined) {
               localStorage.removeItem('allCampaignList_' + loginModel.getUserId());
 
           }
-
-          localStorage['allCampaignList_'+ brand_id + '_' + loginModel.getUserId()] = JSON.stringify(campaignListObject);
 
          var expiry = new Date().getTime() + (60 * 60 * 1000)  ; // cache expiry is 60 min
 
@@ -112,6 +126,16 @@
       },
       getAllCampaignList : function(brand_id){
 
+          // check if in localStorage any key matches with 'allCampaignList...' and doesn't belong to the logged in user.If yes remove that.
+          var length = localStorage.length;
+          var suspectedKey = "allCampaignList" ;
+          for(var i =0 ;  i< length ; i++){
+              var current_key = localStorage.key(i);
+              if( (current_key !== null) && (current_key.indexOf(suspectedKey) >= 0) && (current_key !== 'allCampaignList_'+ brand_id + '_' + loginModel.getUserId()) )  {
+                  // means some invalid key exists.
+                  localStorage.removeItem(current_key);
+              }
+          }
 
           // clear old and unused cache keys form localStorage.
           if(localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== null && localStorage.getItem('allCampaignList_'+ loginModel.getUserId()) !== undefined) {

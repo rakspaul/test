@@ -7,9 +7,9 @@ var angObj = angObj || {};
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
         //Default Values
-        $scope.selectedCampaign = domainReports.getDefaultValues();
+        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 
-        $scope.selectedStrategy = domainReports.getDefaultValues();
+        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -97,44 +97,58 @@ var angObj = angObj || {};
         $scope.getTacticList = function (param) {
             $scope.tacticBusy = true;
             inventoryService.getAllTacticDomainData(param).then(function (result) {
-                if (result.data.data[0] !== 'undefined') {
-                    $scope.tacticList.tacticList = result.data.data[0].tactics;
-                    $scope.tacticBusy = false;
-                    $scope.tacticList.topPerformance = [], $scope.tacticList.bottomPerformance = [];
-                    for (var t in  $scope.tacticList.tacticList) {
-                        var topPerformance = [], bottomPerformance = [];
-                        var resultTableData = $scope.tacticList.tacticList[t].inv_metrics;
-                        for (var data in resultTableData) {
-                            if (resultTableData[data].tb === 0) {
-                                topPerformance.push(resultTableData[data]);
-                            } else if (resultTableData[data].tb === 1) {
-                                bottomPerformance.push(resultTableData[data]);
-                            }
-                        }
 
+                if (result.status === "OK" || result.status === "success") {
+
+                    if (result.data.data[0] !== 'undefined') {
+
+                        if (param.domain.toLowerCase() === $scope.selected_filters.domain.toLowerCase()) {
+
+                            $scope.tacticList.tacticList = result.data.data[0].tactics;
+                            $scope.tacticBusy = false;
+                            $scope.tacticList.topPerformance = [], $scope.tacticList.bottomPerformance = [];
+                            for (var t in  $scope.tacticList.tacticList) {
+                                var topPerformance = [], bottomPerformance = [];
+                                var resultTableData = $scope.tacticList.tacticList[t].inv_metrics;
+
+                                $scope.tacticBusy = false;
+
+                                    for (var data in resultTableData) {
+                                        if (resultTableData[data].tb === 0) {
+                                            topPerformance.push(resultTableData[data]);
+                                        } else if (resultTableData[data].tb === 1) {
+                                            bottomPerformance.push(resultTableData[data]);
+                                        }
+                                    }
 //                        topPerformance = topPerformance.slice(0, 5);
 //                        bottomPerformance = bottomPerformance.slice(0, 5);
-                        var topChartObj = true, bottomChartObj = true;
-                        if (topPerformance.length > 4) {
-                            topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type_text);
+                                    var topChartObj = true, bottomChartObj = true;
+                                    if (topPerformance.length > 4) {
+                                        topChartObj = columnline.highChart(topPerformance, $scope.selected_filters.kpi_type_text);
+                                    }
+                                    if (topChartObj === undefined || topPerformance.length == 0) {
+                                         var topChartObj = false;
+                                    }
+                                    //For Bottom Chart
+                                    if (bottomPerformance.length > 4) {
+                                        bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type_text);
+                                    }
+                                    if (topChartObj === undefined || bottomPerformance.length == 0) {
+                                          var bottomChartObj = false;
+                                    }
+                                    $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj });
+                                    $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj });
+
+                            }
                         }
-                        if (topChartObj === undefined || topPerformance.length == 0) {
-                            // var topChartObj = false;
-                        }
-                        //For Bottom Chart
-                        if (bottomPerformance.length > 4) {
-                            bottomChartObj = columnline.highChart(bottomPerformance, $scope.selected_filters.kpi_type_text);
-                        }
-                        if (topChartObj === undefined || bottomPerformance.length == 0) {
-                            //  var bottomChartObj = false;
-                        }
-                        $scope.tacticList.topPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: topPerformance, chart: topChartObj });
-                        $scope.tacticList.bottomPerformance.push({tacticId: $scope.tacticList.tacticList[t].id, name: $scope.tacticList.tacticList[t].name, data: bottomPerformance, chart: bottomChartObj });
+                    } else { // We get empty data response.
+                        $scope.tacticBusy = false;
+                        $scope.inventoryChart = false;
                     }
-                }
-                else {
-//                    var bottomChartObj = false;
-//                    var topChartObj = false;
+                }  else { // Call is failed.
+                    var bottomChartObj = false;
+                    var topChartObj = false;
+                    $scope.tacticBusy = false ;
                     $scope.inventoryChart = false;
                 }
             });
@@ -152,11 +166,6 @@ var angObj = angObj || {};
                     $scope.strategyTable.topPerformance = [], $scope.strategyTable.bottomPerformance = [];
 
                     if (result.data.data[0] !== undefined) {
-
-//                        console.log("*********** data check ************");
-//                        console.log( param.domain );
-//                        console.log($scope.selected_filters.domain);
-//                        console.log(param.domain.toLowerCase() === $scope.selected_filters.domain.toLowerCase());
 
                         // First confirm that the current selected tab and the tab for which we got data response are same. Then only process the data.
                         if (param.domain.toLowerCase() === $scope.selected_filters.domain.toLowerCase()) {
@@ -197,10 +206,12 @@ var angObj = angObj || {};
                     }
                     else {
                         $scope.inventoryChart = false;
+                        $scope.strategyBusy = false;
                     }
                 } // Means no strategy data found
                 else {
                     $scope.inventoryChart = false;
+                    $scope.strategyBusy = false ;
                 }
             });
         };
