@@ -6,9 +6,9 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.getDefaultValues();
+        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 
-        $scope.selectedStrategy = domainReports.getDefaultValues();
+        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -78,7 +78,6 @@ var angObj = angObj || {};
        $scope.init();
 
         $scope.strategiesCostData = function (param) {
-       //     console.log("######### strategy cost data entered ##########");
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = true;
             costService.getStrategyCostData(param).then(function (result) {
@@ -148,7 +147,6 @@ var angObj = angObj || {};
         };
 
         $scope.updateStrategyObjects = function(strategy) {
-          //  console.log("<*********** update Strategy object call***********");
             $scope.strategies = strategy;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
@@ -158,7 +156,6 @@ var angObj = angObj || {};
                 $scope.selectedStrategy.startDate = strategyObj.startDate;
                 $scope.selectedStrategy.endDate = strategyObj.endDate;
                 $scope.strategyFound = true;
-              //  console.log($scope.selectedStrategy);
 
                 if ($scope.selectedStrategy.id == -1) {
                     $scope.strategyFound = false;
@@ -219,7 +216,6 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
-          //  console.log("strategy is changed");
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};

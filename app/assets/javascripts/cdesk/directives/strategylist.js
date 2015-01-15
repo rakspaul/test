@@ -14,7 +14,7 @@
                 '       <span class="arrrow_img"></span>'+
                 '   </span>'+
                 '   <ul id="strategies_list" class="dropdown_ul dropdown-menu">'+
-                '       <li ng-repeat="strategy in listColumns" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>'+
+                '       <li ng-repeat="strategy in listColumns" start_date="{{strategy.startDate}}" end_date="{{strategy.endDate}}" value="{{strategy.id}}">{{strategy.name | formatUrl:26}}</li>'+
                 '   </ul>'+
                 '</div>',
             link: function ($scope, element, attrs) {
@@ -22,13 +22,23 @@
                 //Function called when the user clicks on the strategy dropdown
                  element.find('#strategies_list').bind('click', function(e) {
                     if (domainReports.checkStatus($scope.$parent.selectedCampaign.name, $scope.$parent.selectedStrategy.name)) {
-                        var id = $(e.target).attr('value'), txt = $(e.target).text();
-                        //console.log('strategyList Directive : '+id+' Value : '+txt);
-                        $scope.$parent.selectedStrategy.id =id;
-                        $scope.$parent.selectedStrategy.name = txt;
+                        var selectedStrategy = {
+                            id: $(e.target).attr('value'),
+                            startDate:  $(e.target).attr('start_date'),
+                            endDate:  $(e.target).attr('end_date'),
+                            name:  $(e.target).text()
+                        };
+                        $scope.$parent.selectedStrategy.id =selectedStrategy.id;
+                        $scope.$parent.selectedStrategy.name = selectedStrategy.name;
+                        $scope.$parent.selectedStrategy.startDate = selectedStrategy.startDate ;
+                        $scope.$parent.selectedStrategy.endDate = selectedStrategy.endDate ;
                        // console.log('strategyList Directive : '+$scope.$parent.selectedStrategy.id+' Value : '+$scope.$parent.selectedStrategy.name);
                         //  console.log( $scope.selectedStrategy.id + " is selected strategy");
-                        dataTransferService.updateExistingStorageObjects({'strategyId' : id, 'strategyName' :  txt});
+
+                        dataTransferService.updateExistingStorageObjects({'strategyId' : selectedStrategy.id,
+                                                                          'strategyName' :  selectedStrategy.name,
+                                                                           'strategyStartDate' : selectedStrategy.startDate,
+                                                                           'strategyEndDate' : selectedStrategy.endDate});
                         $scope.$apply();
                         //Define this function in the parent controllers,
                         $scope.$parent.callBackStrategyChange();
