@@ -26,15 +26,17 @@
                 <div class="pull-left dropdown dropdown_type1" id="optimization_camp_list_dd">
                     <large-list-search selected-obj=selectedCampaign></large-list-search>
                 </div>
-                <div class="pull-right dropdown download_report" >
-                        <span class="dropdown_ul_text " data-toggle="dropdown">
-                            <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
-                        </span>
-                        <ul class="dropdown-menu" id="optimization_download">
-                            <li value="optimization">
-                                <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
-                            </li>
-                        </ul>
+                <div class="pull-right download_report">
+                    <div class=" dropdown" id="optimization_filter_dd">
+                            <span class="dropdown_ul_text " data-toggle="dropdown">
+                                <a class="download_anchor" id="optimization_download_btn" href="" >Download Report</a>
+                            </span>
+                            <ul class="dropdown-menu" id="optimization_download">
+                                <li value="optimization">
+                                    <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
+                                </li>
+                            </ul>
+                    </div>
                 </div>
                 <!--<div class="pull-right dropdown duration_filters" id="optimization_duration_dd">-->
                         <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>-->
