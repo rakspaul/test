@@ -267,7 +267,7 @@
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
 
-                          <div ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+                          <div class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
 
 
                               <div class="pull-left activity_points">
