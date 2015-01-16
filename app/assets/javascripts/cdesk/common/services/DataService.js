@@ -120,6 +120,7 @@
       },
 
       fetch: function (url) {
+        loginModel.checkCookieExpiry();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
@@ -134,7 +135,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              $location.url('login');
+              loginModel.removeCookie();
             }
             var objOnSuccess = {
               status: "success",
@@ -144,6 +145,10 @@
             return utils.clone(objOnSuccess);
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.removeCookie();
+            }
             return {
               status: "error",
               data: error
@@ -153,6 +158,7 @@
       },
 
       fetchCancelable: function (url, canceller, success, failure) {
+        loginModel.checkCookieExpiry();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
@@ -166,7 +172,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              $location.url('login');
+              loginModel.removeCookie();
             }
             var objOnSuccess = {
               status: "success",
@@ -176,6 +182,10 @@
             return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.removeCookie();
+            }
             var objOnError = {
               status: "error",
               data: error
@@ -188,11 +198,12 @@
       },
 
       post: function (url, data, header) {
+        loginModel.checkCookieExpiry();
         return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              $location.url('login');
+              loginModel.removeCookie();
             }
             return {
               status: "success",
@@ -200,6 +211,10 @@
             };
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.removeCookie();
+            }
             return {
               status: "error",
               data: error
@@ -209,11 +224,12 @@
       },
 
       put: function (url, data) {
+        loginModel.checkCookieExpiry();
         return $http.put(url, angular.toJson(data)).then(
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              $location.url('login');
+              loginModel.removeCookie();
             }
             return {
               status: "success",
@@ -221,6 +237,10 @@
             };
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.removeCookie();
+            }
             return {
               status: "error",
               data: error
