@@ -94,22 +94,31 @@
               $('text#t' + circleObj.target.id).css({fill:'transparent'});
 
               myContainer = $('.reports_section_details_container');
-            }
-            //click and scroll action functionality
 
-            var scrollTo = $('#actionItem_' + this.id);
-            localStorage.setItem('actionSel' , this.id);
-            if(scrollTo.length) {
-              // alert("test");
-              scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-
-              //$('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
-              //  myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
-              myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
-              myContainer.animate({
-                scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-              });
+              //highlight activity in reports page
+              var scrollTo = $('#actionItem_' + this.id);
+              localStorage.setItem('actionSel' , this.id);
+              if(scrollTo.length) {
+                scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
+                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
+                myContainer.animate({
+                  scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                });
+              }
+            } else {
+              
+              //click to scroll and highlight activity 
+              var scrollTo = $('#actionItem_' + this.id);
+              localStorage.setItem('actionSel' , this.id);
+              if(scrollTo.length) {
+                scrollTo.siblings().removeClass('active').end().addClass('active');
+                myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
+                myContainer.animate({
+                  scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                });
+              }
             }
+
           }).add();
       };
       var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
