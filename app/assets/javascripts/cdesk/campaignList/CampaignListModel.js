@@ -76,8 +76,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.timePeriod = 'life_time';
       this.nextPage = 1;
       //this.brandId = 0;
-      this.sortParam = undefined;
-      this.sortDirection = undefined;
+      this.sortParam = 'start_date';
+      this.sortDirection = 'desc';
       this.totalPages = undefined;
       this.costMargin = undefined;
     };
