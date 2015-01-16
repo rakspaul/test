@@ -307,7 +307,7 @@ var angObj = angObj || {};
             dataService.getCdbChartData(param, 'lifetime', 'strategies', strategyId, true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    if(param.orderId === $scope.selectedCampaign.id){
+                    if(param.orderId == $scope.selectedCampaign.id){
                         var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
                         var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
                         var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() : $scope.actionItems;
