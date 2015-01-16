@@ -1411,8 +1411,7 @@
   }
   .breadcrumb_campaign {
 
-    background: url(asset-path("cdesk/breadcrumb_back_btn.png")) no-repeat left center ;
-    padding-left: 34px;
+    
     cursor: pointer;
     color: #0978c9;
     height: 26px;
@@ -1422,7 +1421,10 @@
     font-family: "Avenir" ;
     font-weight: bold ; 
     a {
+      display: block;
       text-decoration: none;
+      background: url(asset-path("cdesk/breadcrumb_back_btn.png")) no-repeat left center ;
+      padding-left: 34px;
     }
     a:hover {
       color: #0978c9;
