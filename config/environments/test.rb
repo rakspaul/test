@@ -17,7 +17,6 @@ Reachui::Application.configure do
   config.action_controller.perform_caching = false
 
   config.scala_api = 'http://dev-desk.collective-media.net:9000'
-  config.nodejs_api = 'http://dev-desk.collective-media.net:5000'
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
