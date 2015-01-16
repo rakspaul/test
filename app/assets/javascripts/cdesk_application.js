@@ -26,6 +26,8 @@
 //= require solid-gauge
 //= require moment.min
 //= require underscore-min
+//= require angulartics
+//= require angulartics-ga
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
@@ -47,6 +49,7 @@
 //= require cdesk/common/controllers/HeaderController
 //= require cdesk/common/directives/CommonDirectives.js
 //= require cdesk/common/utils
+//= require cdesk/common/services/AnalyticsService
 
 //= require cdesk/directives/largeListSearch
 //= require cdesk/controllers/directive_controller
