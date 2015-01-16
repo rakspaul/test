@@ -39,6 +39,7 @@ var angObj = angObj || {};
                     end_date: {}
                 }
             };
+            $scope.tacticNotFound = true;
 
             $scope.filters = domainReports.getReportsDropDowns();
             $scope.orderByField = 'created_at';
@@ -112,11 +113,13 @@ var angObj = angObj || {};
                 // get action data for the selected campaign.
                 optimizationService.getActionsForSelectedCampaign(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
+                        $scope.tacticNotFound = false;
                         $scope.campaignActionList = result.data.data;
                         $scope.actionDataForSelectedStrategy();
                     }
                     else {
-                        $scope.noTacticsFound = true;
+                //        $scope.noTacticsFound = true;
+                        $scope.tacticNotFound = true;
                         // If no actions found for a campaign still CDB chart should be shown
                         if ($scope.selectedStrategy.id !== -1) {
                             $scope.loadCdbDataForStrategy();
@@ -304,35 +307,38 @@ var angObj = angObj || {};
             dataService.getCdbChartData(param, 'lifetime', 'strategies', strategyId, true).then(function (result) {
                 var lineData = [];
                 if (result.status == "success" && !angular.isString(result.data)) {
-                    var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
-                    var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
-                    var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() : $scope.actionItems;
-                    if (!angular.isUndefined(kpiType)) {
-                        if (result.data.data.measures_by_days.length > 0) {
-                            // $scope.chartForStrategy = true;
-                            // Double check if selected campaign and strategy is same as for which we got CDB data
+                    if(param.orderId === $scope.selectedCampaign.id){
+                        var kpiType = dataTransferService.getClickedKpiType() ? dataTransferService.getClickedKpiType() : $scope.campaign.kpi_type;
+                        var kpiValue = dataTransferService.getClickedKpiValue() ? dataTransferService.getClickedKpiValue() : $scope.campaign.kpi_value;
+                        var actionItems = dataTransferService.getClickedActionItems() ? dataTransferService.getClickedActionItems() : $scope.actionItems;
+                        if (!angular.isUndefined(kpiType)) {
+                            if (result.data.data.measures_by_days.length > 0) {
+                                // $scope.chartForStrategy = true;
+                                // Double check if selected campaign and strategy is same as for which we got CDB data
 
-                            if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
-                                //  $scope.chartForStrategy = true ;
-                                var maxDays = result.data.data.measures_by_days;
-                                for (var i = 0; i < maxDays.length; i++) {
-                                    maxDays[i]['ctr'] *= 100;
-                                    var kpiTypeLower = angular.lowercase(kpiType);
-                                    lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                                if ($scope.selectedCampaign.id == param.orderId && $scope.selectedStrategy.id == strategyId) {
+                                    //  $scope.chartForStrategy = true ;
+                                    var maxDays = result.data.data.measures_by_days;
+                                    for (var i = 0; i < maxDays.length; i++) {
+                                        maxDays[i]['ctr'] *= 100;
+                                        var kpiTypeLower = angular.lowercase(kpiType);
+                                        lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
+                                    }
+
+                                    $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
+
+                                }
+                                else {
+                                    // CDB data obtained is not for currently selected campaing and strategy id
+                                    $scope.chartForStrategy = false;
                                 }
 
-                                $scope.chartForStrategy = actionChart.lineChart(lineData, parseFloat(kpiValue), kpiType, actionItems, 990, 250, true, $scope.actionId, $scope.clicked, $scope.navigationFromReports);
-
                             }
-                            else {
-                                // CDB data obtained is not for currently selected campaing and strategy id
-                                $scope.chartForStrategy = false;
-                            }
-
+                        } else {
+                            $scope.chartForStrategy = false;
                         }
-                    } else {
-                        $scope.chartForStrategy = false;
                     }
+
                 } else {
                     $scope.chartForStrategy = false;
 
@@ -388,7 +394,8 @@ var angObj = angObj || {};
                         $scope.getCampaignDetails();
                     }
                     else {
-                        $scope.noTacticsFound = true;
+               //         $scope.noTacticsFound = true;
+                        $scope.tacticNotFound = true;
                         $scope.chartForStrategy = false;
                     }
 
@@ -412,6 +419,8 @@ var angObj = angObj || {};
                         $scope.updateStrategyObjects(strategy);
                     } else {
                         $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                        $scope.tacticNotFound = true ;
+                        $scope.chartForStrategy = false ;
                     }
                 });
 
@@ -467,7 +476,8 @@ var angObj = angObj || {};
             else {
                 // means selected strategy id is not valid
                 $scope.chartForStrategy = false;
-                $scope.noTacticsFound = true;
+            //    $scope.noTacticsFound = true;
+                $scope.tacticNotFound = true;
             }
         };
 

@@ -258,9 +258,9 @@
 .each_reports_row_heading {
   font-family: "Avenir";
   color: #4a4a4a;
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
-  padding: 10px 0 0 0;
+  padding: 90px 0 0 0;
   .each_rep_col_holder {
     border-bottom: solid 2px #e5ecef;
     padding: 11px 16px ;
@@ -482,7 +482,11 @@
     background: url(asset-path("cdesk/ajax-loading.gif")) no-repeat center center rgba(180, 174, 174, 0.8);
     z-index: 1;
   }
-
+  .highcharts div.inventory-tool-tip {
+    width: 400px;
+    white-space: normal;
+    word-wrap: break-word;
+  }
 }
 .inventory_reports_container , .common_reports_container{
   font-family: "Avenir";

@@ -172,8 +172,6 @@ var angObj = angObj || {};
                             var resultTableData = result.data.data[0].inv_metrics;
 
                             $scope.strategyBusy = false;
-                            console.log("###### the result table data #########");
-                            console.log( resultTableData);
                             // if we get valid inventroy data for strategy then only we need to make call to get tactic data
                             if ((resultTableData !== null || resultTableData !== undefined) && resultTableData.length > 0) {
                                 // As we got strategy data ,first do the call for tactics data
