@@ -49,7 +49,7 @@ var angObj = '';
     angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService) {
 
         $rootScope.$on('$locationChangeStart', function () {
-            if (($cookies.auth_token === undefined) && ($location.path() !== '/login')) {
+            if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
                 $location.url('login');
             }
 
@@ -59,7 +59,7 @@ var angObj = '';
             }
             
             //if logged in - go to campaigns
-            if (($cookies.auth_token) && ($location.path() === '/login')) {
+            if (($cookies.cdesk_session) && ($location.path() === '/login')) {
                 $location.url('campaigns');
             }
         });

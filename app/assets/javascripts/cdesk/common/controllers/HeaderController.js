@@ -16,7 +16,7 @@
           console.log('logout recorded on server');
         }
       }); 
-      $cookieStore.remove('auth_token');
+      $cookieStore.remove('cdesk_session');
       localStorage.clear();
       $location.url('/login');
 

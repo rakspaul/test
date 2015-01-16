@@ -1,20 +1,26 @@
 (function() {
   "use strict";
-  var loginModel = function($cookieStore, loginService) {
+  var loginModel = function($cookieStore, $location) {
     var data = {};
       data.user_id = undefined;
       data.user_name ='';
       data.is_network_user = false;
       data.auth_token = undefined;
+      data.expiry_secs = undefined;
   
 return {
 
     setUser : function(user){
         data = user;
-        $cookieStore.put('auth_token', user.auth_token);
-        localStorage.setItem('user_name',user.user_name);
-        localStorage.setItem('is_network_user',user.is_network_user);
-        localStorage.setItem('user_id', user.user_id);
+
+        var time= moment(new Date());  
+        var store ="";
+        time.add(user.expiry_secs,'seconds');
+        console.log('cookie expires on '+time.format('YYYY-MM-DD HH:mm:ss'));
+        var now = new Date(time);
+        //user.expiry_time=time.format('YYYY-MM-DD HH:mm:ss');
+        document.cookie = 'cdesk_session='+ JSON.stringify(user) +';expires='+now.toGMTString()+';path=/';
+
         // campaignDetails object is required for reports tab.
         localStorage.setItem( 'campaignDetails', JSON.stringify({
             campaignId : null,
@@ -34,45 +40,64 @@ return {
     //   return this.data;
     // };
 
-    getUserId : function(){
+    getUserId : function() {
       if(data.user_id) {
         return data.user_id;
-      } else {
-        data.user_id = localStorage.getItem('user_id');
-        return localStorage.getItem('user_id');
+       } else if($cookieStore.get('cdesk_session')) {
+        data.user_id = $cookieStore.get('cdesk_session').user_id;
+        return $cookieStore.get('cdesk_session').user_id;
       }
     },
 
-    getUserName : function(){
+    getUserName : function() {
       if(data.user_name) {
         return data.user_name;
-      } else {
-        data.user_name = localStorage.getItem('user_name');
-        return localStorage.getItem('user_name');
+       } else if($cookieStore.get('cdesk_session')) {
+        data.user_name = $cookieStore.get('cdesk_session').user_name;
+        return $cookieStore.get('cdesk_session').user_name;
       }
     },
 
-    getIsNetworkUser : function(){
+    getIsNetworkUser : function() {
       if(data.is_network_user) {
         return data.is_network_user;
-      } else {
-        data.is_network_user = localStorage.getItem('is_network_user');
-        return localStorage.getItem('is_network_user');
+       } else if($cookieStore.get('cdesk_session')) {
+        data.is_network_user = $cookieStore.get('cdesk_session').is_network_user;
+        return $cookieStore.get('cdesk_session').is_network_user;
       }
     },
 
-    getAuthToken : function(){
-      if(data.auth_token) {
-        return data.auth_token;
-      } else {
-        data.auth_token = $cookieStore.get('auth_token');
-        return $cookieStore.get('auth_token');
+    getExpirySecs : function() {
+      if(data.expiry_secs) {
+        return data.expiry_secs;
+      } else if($cookieStore.get('cdesk_session')) {
+        data.expiry_secs = $cookieStore.get('cdesk_session').expiry_secs;
+        return $cookieStore.get('cdesk_session').expiry_secs;
       }
+    },
+
+    getAuthToken : function() {
+      if($cookieStore.get('cdesk_session')) {
+        data.auth_token = $cookieStore.get('cdesk_session').auth_token;
+        return $cookieStore.get('cdesk_session').auth_token;
+      }
+    },
+
+    checkCookieExpiry : function(){ 
+      if(!$cookieStore.get('cdesk_session')){
+        localStorage.clear();
+        $location.url('/login');
+      }
+    },
+
+    unauthorized : function() {
+      $cookieStore.remove('cdesk_session');
+      $location.url('/login');
     }
 }
    
   }
-  angObj.service('loginModel', ['$cookieStore', loginModel]);
+  angObj.service('loginModel', ['$cookieStore', '$location', loginModel]);
 
 
 }());
