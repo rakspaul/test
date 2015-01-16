@@ -120,15 +120,19 @@
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
-                            </div>
+                            </div> 
                             <div class="pull-right section_graph_details">
-                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="data.value >= 0.5 ">
+                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                    <span class="graph_color {{data.className}}"></span>
+                                    {{data.name}}: {{data.value | formatCostData: '' : 0}}%
+                                </div>
+                                 <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 && data.name =='Other')">
                                     <span class="graph_color {{data.className}}"></span>
                                     {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
                             </div>
                         </div>
-                        <div class="graph_summary">
+                        <div class="graph_summary" ng-if="(details.totalCostBreakdown)">
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
