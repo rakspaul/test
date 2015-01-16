@@ -69,7 +69,4 @@ module ApplicationHelper
     Rails.application.config.scala_api
   end
 
-  def nodejs_api_url
-    Rails.application.config.nodejs_api
-  end
 end
