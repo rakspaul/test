@@ -135,7 +135,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             var objOnSuccess = {
               status: "success",
@@ -147,7 +147,7 @@
           function (error) {
             if(error.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             return {
               status: "error",
@@ -172,7 +172,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             var objOnSuccess = {
               status: "success",
@@ -184,7 +184,7 @@
           function (error) {
             if(error.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             var objOnError = {
               status: "error",
@@ -203,7 +203,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             return {
               status: "success",
@@ -213,7 +213,7 @@
           function (error) {
             if(error.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             return {
               status: "error",
@@ -229,7 +229,7 @@
           function (response) {
             if(response.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             return {
               status: "success",
@@ -239,7 +239,7 @@
           function (error) {
             if(error.status == 401) {
               console.log('Unauthorised Request - Logging out');
-              loginModel.removeCookie();
+              loginModel.unauthorized();
             }
             return {
               status: "error",

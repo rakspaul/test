@@ -90,7 +90,7 @@ return {
       }
     },
 
-    removeCookie : function() {
+    unauthorized : function() {
       $cookieStore.remove('cdesk_session');
       $location.url('/login');
     }
