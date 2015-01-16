@@ -49,7 +49,9 @@
                 return {
                     campaign : {
                         id: '-1',
-                        name: 'Loading...'
+                        name: 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
 
                     },
                     strategy : {
@@ -64,11 +66,15 @@
                 return {
                     campaign : {
                         id:-1,
-                        name:'No Campaign Found'
+                        name:'No Campaign Found',
+                        startDate: '-1',
+                        endDate: '-1'
                     },
                     strategy : {
                         id:-1,
-                        name:'No Strategy Found'
+                        name:'No Strategy Found',
+                        startDate: '-1',
+                        endDate: '-1'
                     }
                 };
             },
