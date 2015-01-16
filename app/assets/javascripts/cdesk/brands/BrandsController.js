@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  brandsModule.controller('brandsController', function ($scope, brandsModel, utils, $rootScope, constants) {
+  brandsModule.controller('brandsController', function ($scope, brandsModel, utils, $rootScope, constants, loginModel, analytics) {
 
     brandsModel.getBrands(function (brandsData) {
       //data manipulation was already done in brandsModel, so just need to attach data to scope here
@@ -23,6 +23,7 @@
       });
       brandsModel.setSelectedBrand(brand);
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
+      analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name);
     };
 
     $scope.brandsDropdownClicked = function() {

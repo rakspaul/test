@@ -13,8 +13,11 @@
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
+    this.GA_BRAND_SELECTED = 'brand_selected';
     this.GA_EVENT = 'event';
     this.GA_SEND = 'send';
+    this.ROLE_NETWORK = 'Network';
+    this.ROLE_MARKETER = 'Marketer';
   }
 
   commonModule.service("constants", constants);

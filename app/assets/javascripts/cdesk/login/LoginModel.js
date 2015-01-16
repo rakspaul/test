@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  var loginModel = function($cookieStore, $location) {
+  var loginModel = function($cookieStore, $location, constants) {
     var data = {};
       data.user_id = undefined;
       data.user_name ='';
@@ -9,6 +9,13 @@
       data.expiry_secs = undefined;
   
 return {
+
+    getUserRole :function() {
+      if(data.is_network_user === true) {
+        return constants.ROLE_NETWORK
+      }
+      return constants.ROLE_MARKETER;
+    },
 
     setUser : function(user){
         data = user;
@@ -97,7 +104,6 @@ return {
 }
    
   }
-  angObj.service('loginModel', ['$cookieStore', '$location', loginModel]);
-
+  angObj.service('loginModel', ['$cookieStore', '$location', 'constants', loginModel]);
 
 }());

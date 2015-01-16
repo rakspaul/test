@@ -49,6 +49,7 @@
 //= require cdesk/common/controllers/HeaderController
 //= require cdesk/common/directives/CommonDirectives.js
 //= require cdesk/common/utils
+//= require cdesk/common/services/AnalyticsService
 
 //= require cdesk/directives/largeListSearch
 //= require cdesk/controllers/directive_controller
