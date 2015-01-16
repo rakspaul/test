@@ -104,24 +104,28 @@
                 <div class="clearfix campaign_details_graphs_holder">
                     <div ng-click="setGraphData(campaign,'performance')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
-                            Format ({{campaign.kpiType}})
+                            Format ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
-                        <div class="clearfix each_section_graph format_section_graph">
+                        <div class="clearfix each_section_graph format_section_graph"  ng-if="(details.formats.length > 0 &&  campaign.kpiType !='null')">
                             <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
                               <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
                               <div class="each_bar_graph" style="width:{{100-((details.formatTop-format[details.kpiType])*100/details.formatTop)}}%"></div>
                             </div>
                         </div>
+                         <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
+                         <div  ng-if="((details.formats.length == 0 || campaign.kpiType =='null' ) && loadingFormatFlag == false)" class="no-data-available" >Data Not Available</div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
-                        <div class="clearfix each_section_graph">
+                         <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
+                         <div  ng-if="(details.totalCostBreakdown == 0)" class="no-data-available" >Data Not Available</div>
+                        <div class="clearfix each_section_graph" ng-if="(details.totalCostBreakdown > 0 )">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
                             </div> 
-                            <div class="pull-right section_graph_details">
+                            <div class="pull-right section_graph_details"  >
                                 <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
                                     <span class="graph_color {{data.className}}"></span>
                                     {{data.name}}: {{data.value | formatCostData: '' : 0}}%
@@ -132,15 +136,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="graph_summary" ng-if="(details.totalCostBreakdown)">
+                        <div class="graph_summary" ng-if="(details.totalCostBreakdown > 0)">
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
                     <div ng-click="setGraphData(campaign,'inventory')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
-                            Inventory ({{campaign.kpiType}})
+                            Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
-                        <div class="clearfix each_section_graph ">
+                        <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
+                        <div  ng-if="(details.inventory.length == 0)" class="no-data-available" >Data Not Available</div>
+                        <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
                             <div class="inventory_number">
                               Top {{details.inventory.length}}
                             </div>
@@ -153,19 +159,21 @@
                     </div>
                     <div ng-click="setGraphData(campaign,'viewability')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder" >
                         <div class="graph_heading">
-                            Viewability
+                            Viewability 
                         </div>
+                        <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
+                         <div   ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  >Data Not Available</div>
                         <div class="clearfix each_section_graph">
                             <div class="pull-left section_graph">
                                 <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
                             </div>
-                            <div class="pull-right section_graph_details">
-                                <div class="each_detail"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
-                                <div class="each_detail"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
-                                <div class="each_detail"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
+                            <div class="pull-right section_graph_details"  ng-if="(details.getCostViewability)">
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_1s >=0 )"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_5s >=0 )"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_15s >=0 )"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
                             </div>
                         </div>
-                        <div class="graph_summary">
+                        <div class="graph_summary"  ng-if="(details.getCostViewability)">
                             Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
                         </div>
                     </div>
