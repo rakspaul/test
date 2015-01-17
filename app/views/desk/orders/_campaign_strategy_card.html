@@ -36,8 +36,8 @@
                     </div>
                     <div class="pull-left">{{strategy.tactics_count}} {{(strategy.tactics_count == 0 || strategy.tactics_count > 1)? "Tactics" : "Tactic" }}</div>
                 </div>
-                <a href="/#/performance">
-                    <div class="campaign_btn reports_btn">
+                <a ><!--  href="/#/performance" -->
+                    <div class="campaign_btn reports_btn" ng-click="$parent.$parent.viewReports(campaign, strategy)">
                         View Report
                     </div>
                 </a> 

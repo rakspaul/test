@@ -6,11 +6,20 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
+        console.log(" performance controller init ");
+       // console.log(localStorage);
+
         $scope.first_time_activity_loader = true ;
 
-        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
+      //  $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
+     // intValues
+     $scope.selectedCampaign = domainReports.intValues()['campaign'];
+     $scope.selectedStrategy = domainReports.intValues()['strategy'];
 
-        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
+     console.log($scope.selectedStrategy);
+     console.log($scope.selectedCampaign);
+
+      //  $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
