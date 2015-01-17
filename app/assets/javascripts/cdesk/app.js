@@ -48,9 +48,10 @@ var angObj = '';
         
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel) {
 
         $rootScope.$on('$locationChangeStart', function () {
+            brandsModel.enable();
             if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
                 $location.url('login');
             }
