@@ -3260,18 +3260,20 @@ button, i, input[type="submit"] {
             input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
           }
         }
-        li.brands_filter {
-          .disabled_brand_list {
-            position: absolute;
-            top: -15px;
-            left: -15px;
-            height: 64px;
-            width: 155px;
-            cursor: default;
-            z-index: 1;
-          }
+        .disabled_brand_list {
+          display: none;
+          position: absolute;
+          top: -15px;
+          left: -15px;
+          height: 64px;
+          width: 155px;
+          cursor: default;
+          z-index: 1;
         }
-        .brands_filter_disabled {
+        li.brands_filter.brands_filter_disabled {
+          .disabled_brand_list {
+            display: block;
+          }
           #brandsDropdownDiv {
             input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
             input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
@@ -3279,7 +3281,7 @@ button, i, input[type="submit"] {
             input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
           }
         }
-        li.brands_filter:not(.brands_filter_disabled) {
+        li.brands_filter  {
           &:hover {
             .brands_dd_icon {
               background-position : 8px -52px ;
@@ -3287,6 +3289,18 @@ button, i, input[type="submit"] {
             #brandsDropdownDiv {
               input {
                 background-position: 80px -40px ;
+              }
+            }
+          }
+        }
+        li.brands_filter.brands_filter_disabled  {
+          &:hover {
+            .brands_dd_icon {
+              background-position : 8px 9px ;
+            }
+            #brandsDropdownDiv {
+              input {
+                background-position: 80px 14px ;
               }
             }
           }

@@ -6,6 +6,7 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
   brand.styleDisplay = "block";
   brand.showAll = true;
   brand.enable = true;
+  brand.cssClass = "";
   return {
     getBrands: function (success) {
       brandsService.fetchBrands().then(function (response) {
@@ -26,9 +27,11 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
     },
     disable: function() {
       brand.enable = false;
+      brand.cssClass = "brands_filter_disabled"; 
     },
     enable: function() {
       brand.enable = true;
+      brand.cssClass = "";
     }
 
   };
