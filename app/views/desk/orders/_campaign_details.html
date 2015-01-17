@@ -508,7 +508,7 @@
                 <div class="each_col col_sec">
                     <div class="col_heading">KPI</div>
                     <div class="col_val">
-                        {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} {{campaign.kpiType ? campaign.kpiType : 'NA' | toUpperCase}}
+                         <span ng-if="(campaign.kpiValue > 0)"> {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} </span>{{campaign.kpiType !='null' ? campaign.kpiType : 'NA' | toUpperCase}}
                     </div>
                 </div>
                 <div class="each_col col_third">

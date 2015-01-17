@@ -4,7 +4,7 @@
     commonModule.factory("line", function($timeout) {
 
         var lineChart = function(lineDate, threshold, kpiType,chartFrom) {
-
+            var kpiType = kpiType!='null' ? kpiType:'NA';
             var data = [],
                 datObj = [];
                 switch(chartFrom) {
