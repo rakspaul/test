@@ -315,7 +315,6 @@
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{(is_network_user=='true')?((action.make_external)?'E':''):''}}
                                       </span>
                                   </div>
                               </div>
@@ -353,7 +352,7 @@
 
 
 
-                          <div class="no_activity_class" ng-if="(!actionItems.data) || ((actionItems.data | filter: {make_external: true} ).length==0)">
+                          <div class="no_activity_class" ng-if="(!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)">
                             No Data Available
                           </div>
 
