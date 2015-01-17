@@ -257,24 +257,24 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
           self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
           if( self.dashboard.total  > 3) {
-	    self.dashboard.displayFilterSection = true;
-	    if(self.dashboard.active.underperforming == 0 ){
-        self.dashboardFilter('active','ontrack');
-        self.dashboard.filterActive = '(active,ontrack)';
-        self.dashboard.status.active.ontrack = 'active';
-        self.dashboard.status.active.underperforming = '';
-	    }else {
-        self.dashboardFilter('active', 'underperforming');
-        self.dashboard.filterActive = '(active,underperforming)';
-        self.dashboard.status.active.underperforming = 'active';
-        self.dashboard.status.active.ontrack = '';
-	    }
-	  }else{
-      self.dashboard.displayFilterSection = false;
-      if(self.dashboard.total > 0 ){
-        self.dashboardSelectedAll();
-      }
-	  }
+            self.dashboard.displayFilterSection = true;
+            if(self.dashboard.active.underperforming == 0 ) {
+              self.dashboardFilter('active','ontrack');
+              self.dashboard.filterActive = '(active,ontrack)';
+              self.dashboard.status.active.ontrack = 'active';
+              self.dashboard.status.active.underperforming = '';
+            }else {
+              self.dashboardFilter('active', 'underperforming');
+              self.dashboard.filterActive = '(active,underperforming)';
+              self.dashboard.status.active.underperforming = 'active';
+              self.dashboard.status.active.ontrack = '';
+            }
+          } else {
+            self.dashboard.displayFilterSection = false;
+            if(self.dashboard.total > 0 ){
+              self.dashboardSelectedAll();
+            }
+          }
           self.totalCount = result.data.data.total;
         }
 
