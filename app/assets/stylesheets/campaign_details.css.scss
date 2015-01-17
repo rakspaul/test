@@ -834,6 +834,12 @@
                 float: left;
                 margin-right: 20px ;
               }
+              span.impacts_name_txt {
+                width: 75px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+              }
               span.optimization_txt {
                 margin-right: 0px ;
                 width: 285px;
