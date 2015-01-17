@@ -36,6 +36,26 @@
           previousCampaignId:null
         }));
       },
+      initReportingData : function(param){
+        console.log("data transfer service");
+        console.log(param);
+        localStorage.setItem( 'campaignDetails', JSON.stringify({
+          campaignId :  param.selectedCampaign.id,
+          startDate : param.selectedCampaign.start_date,
+          endDate : param.selectedCampaign.end_date,
+          campaignName : param.selectedCampaign.name,
+          selectedStrategy  :  param.selectedStrategy,
+          navigationFromReports: param.navigationFromReports,
+          strategyId : null,
+          strategyName : null,
+          filterDurationType:null,
+          filterDurationValue:null,
+          filterKpiType:param.selectedCampaign.kpi_type,
+          filterKpiValue:param.selectedCampaign.kpi_value,
+          previousCampaignId:null
+        }));
+      },
+
       getDomainReportsValue : function(key){
         if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined) {
           return JSON.parse(localStorage.getItem('campaignDetails'))[key];

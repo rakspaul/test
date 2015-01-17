@@ -353,7 +353,12 @@
                 }
             });
         };
+        $scope.viewReports = function(campaign, strategy){
+            console.log('details !!');
+            console.log(campaign);
+            console.log(strategy);
 
+        };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
             var param = {
