@@ -6,9 +6,9 @@ var angObj = angObj || {};
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 
-        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
+        $scope.selectedCampaign = domainReports.intValues()['campaign'];
+        $scope.selectedStrategy = domainReports.intValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
         $scope.filters = domainReports.getReportsDropDowns();
@@ -178,6 +178,22 @@ var angObj = angObj || {};
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
           $scope.callBackKpiDurationChange('duration');
+        });
+
+        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+
+            console.log("navigation from campaing handled in listening function: viewability");
+
+            if ($scope.selectedCampaign.id !== -1) {
+                $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
+            } else {
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+
+            }
+
         });
 
     });

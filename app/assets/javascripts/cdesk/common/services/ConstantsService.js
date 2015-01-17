@@ -11,6 +11,7 @@
     this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
+    this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
     this.GA_BRAND_SELECTED = 'brand_selected';

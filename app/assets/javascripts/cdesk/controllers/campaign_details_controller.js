@@ -353,11 +353,22 @@
                 }
             });
         };
+
         $scope.viewReports = function(campaign, strategy){
             console.log('details !!');
             console.log(campaign);
             console.log(strategy);
-
+            var param = {
+                selectedCampaign :campaign,
+                selectedStrategy : strategy,
+                strategyId : strategy.id,
+                strategyName : strategy.name,
+                strategyStartDate : strategy.startDate,
+                strategyEndDate : strategy.endDate
+            };
+            dataTransferService.initReportingData(param);
+            $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+            document.location = '#/performance';
         };
 
         $scope.setOptimizationData = function( campaign, action, strategyByActionId){
@@ -387,10 +398,17 @@
 
         $scope.setGraphData = function(campaign, type){
             var param = {
-                selectedCampaign :campaign
+                selectedCampaign :campaign,
+                selectedStrategy : null,
+                strategyId : null,
+                strategyName : null,
+                strategyStartDate : null,
+                strategyEndDate : null
             };
 
-            dataTransferService.initOptimizationData(param);
+            dataTransferService.initReportingData(param);
+            $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+
             if(type == 'cost'){
                 utils.goToLocation('/cost');
             }else if(type == 'viewability'){

@@ -11,8 +11,7 @@
       filterDurationType:null,
       filterDurationValue:null,
       filterKpiType:null,
-      filterKpiValue:null,
-      previousCampaignId:null
+      filterKpiValue:null
     }));
     return {
       initOptimizationData : function(param){
@@ -29,35 +28,30 @@
           navigationFromReports: param.navigationFromReports,
           strategyId : null,
           strategyName : null,
-          filterDurationType:null,
-          filterDurationValue:null,
+          filterDurationType:'life_time',
+          filterDurationValue:'Life Time',
           filterKpiType:null,
           filterKpiValue:null,
           previousCampaignId:null
         }));
       },
       initReportingData : function(param){
-        console.log("data transfer service");
-        console.log(param);
         localStorage.setItem( 'campaignDetails', JSON.stringify({
           campaignId :  param.selectedCampaign.id,
-          startDate : param.selectedCampaign.start_date,
-          endDate : param.selectedCampaign.end_date,
           campaignName : param.selectedCampaign.name,
-          selectedStrategy  :  param.selectedStrategy,
-          navigationFromReports: param.navigationFromReports,
-          strategyId : null,
-          strategyName : null,
-          filterDurationType:null,
-          filterDurationValue:null,
+          strategyId : param.strategyId,
+          strategyName : param.strategyName,
+          strategyStartDate: param.strategyStartDate,
+          strategyEndDate : param.strategyEndDate,
+          filterDurationType:'life_time',
+          filterDurationValue:'Life Time',
           filterKpiType:param.selectedCampaign.kpi_type,
-          filterKpiValue:param.selectedCampaign.kpi_value,
-          previousCampaignId:null
+          filterKpiValue:param.selectedCampaign.kpi_type.toUpperCase()
         }));
       },
 
       getDomainReportsValue : function(key){
-        if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined) {
+        if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== null) {
           return JSON.parse(localStorage.getItem('campaignDetails'))[key];
         }else{
           return false;
