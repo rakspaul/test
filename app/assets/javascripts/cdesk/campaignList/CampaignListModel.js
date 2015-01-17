@@ -245,11 +245,12 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.ready =  result.data.data.ready;
           self.dashboard.completed = result.data.data.completed.total;
           self.dashboard.paused =  result.data.data.paused;
+          self.dashboard.allOtherTotal = result.data.data.na.total!= undefined ? result.data.data.na.total : 0;
           self.dashboard.total =   self.dashboard.draft +
             self.dashboard.ready +
             self.dashboard.active.total +
             self.dashboard.completed +
-            self.dashboard.paused;
+            self.dashboard.paused+self.dashboard.allOtherTotal;
           self.dashboard.displayStatus.draft  = self.dashboard.draft  > 0 ? true:false;
           self.dashboard.displayStatus.ready  = self.dashboard.ready  > 0 ? true:false;
           self.dashboard.displayStatus.paused  = self.dashboard.paused  > 0 ? true:false;
@@ -531,11 +532,11 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         this.dashboard.status.active.bothItem = 'active';
         this.dashboard.status.active.ontrack = 'active';
         this.dashboard.status.active.underperforming = 'active';
-        this.dashboard.filterPaused= '(paused)';
-        this.dashboard.filterCompleted= '(completed)';
-        this.dashboard.filterDraft= '(draft)';
-        this.dashboard.filterActive= '(active)';
-        this.dashboard.filterReady= '(ready)';
+        this.dashboard.filterPaused= undefined;
+        this.dashboard.filterCompleted= undefined;
+        this.dashboard.filterDraft= undefined;
+        this.dashboard.filterActive= undefined;
+        this.dashboard.filterReady= undefined;
       }else{
         this.dashboard.status.paused = undefined;
         this.dashboard.status.completed = undefined
