@@ -40,19 +40,17 @@ var angObj = angObj || {};
         };
 
         $scope.init = function () {
-            $scope.strategyFound = false;
-
             $scope.strategies = {};
-
-            $scope.strategyBusy = false;
-            $scope.tacticBusy = false;
-
+            $scope.strategyFound = false;
+            $scope.strategyTableData = [];
             $scope.strategyTable.topPerformance = [];
             $scope.strategyTable.bottomPerformance = [];
-
             $scope.tacticList.tacticList = [];
             $scope.tacticList.topPerformance = [];
             $scope.tacticList.bottomPerformance = [];
+
+            $scope.strategyBusy = false;
+            $scope.tacticBusy = false;
 
         };
         $scope.init();
