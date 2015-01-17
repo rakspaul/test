@@ -404,6 +404,10 @@
     border-bottom:  solid 1px #ebf0f5 ;
     font-size: 12px;
     color: #70787e ;
+    .no-data-available{
+      margin-top: 20px;
+      text-align: left;
+    }
     .each_section_graph_holder {
       float: left;
       border: solid 1px transparent;
@@ -411,6 +415,7 @@
       padding: 20px;
       margin: 20px 0px ;
       width: 278px;
+      min-height: 210px;
       .graph_heading {
           @include graphHeadingFont() ;
           margin-bottom: 20px ;
@@ -477,7 +482,6 @@
         color: #70787e ;
         font-size: 12px ;
         font-family: "Avenir" ;
-        min-height: 210px;
         .format_section_graph {
           .each_bar_section_holder {
             padding-left: 28px ;
@@ -916,7 +920,10 @@
     .graph_activity {
       height: 350px ;
       width: 450px  ;
-
+      .load-more {
+        margin: 100px 0px 0px 0px;
+        display: block;
+      }
     }
     
   }

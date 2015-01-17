@@ -165,8 +165,10 @@
 
         $scope.getCostBreakdownData  = function(campaign){
             var costData, other = 0, sum;
+            $scope.loadingCostBreakdownFlag = true;
              //get cost break down data
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
+                 $scope.loadingCostBreakdownFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                      if(result.data.data.costData.length>0){
                         costData = result.data.data.costData[0];
@@ -204,7 +206,9 @@
 
         $scope.getInventoryGraphData  = function(campaign){
             var inventory;
+            $scope.loadingInventoryFlag = true;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
+                $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(result.data.data.length>0){
 	                   if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
@@ -233,7 +237,9 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
+            $scope.loadingFormatFlag = true;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
+                $scope.loadingFormatFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
             	    for (var i = 0; i < result.data.data.length; i++) {
             		  result.data.data[i].ctr *= 100;
@@ -269,12 +275,14 @@
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
-            
+             $scope.getCostViewabilityFlag = 0;
+             $scope.loadingViewabilityFlag = true;
             dataService.getCostViewability(campaign,'life_time').then(function(result) {
+                 $scope.getCostViewabilityFlag = 1;
+                 $scope.loadingViewabilityFlag = false;
                 if (result.status == "success" && !angular.isString(result.data.data)) {
 
                         viewData = result.data.data;
-                        
                         $scope.details.getCostViewability = {
                             pct_1s: viewData.viewable_imps_1s_pct,
                             pct_5s: viewData.viewable_imps_5s_pct,

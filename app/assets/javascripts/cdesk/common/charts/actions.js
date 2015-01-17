@@ -124,6 +124,7 @@
       var lineChart = function(lineData, threshold, kpiType, actionItems, width, height, defaultGrey, actionId, external, navigationFromReports) {
         var data = [];
         var dataArr = [];
+        var kpiType = kpiType!='null' ? kpiType:'NA';
         for (var i = 0; i < lineData.length; i++) {
           var chartData = lineData[i]['date'].split("-");
           dataArr.push(lineData[i]['y']);
