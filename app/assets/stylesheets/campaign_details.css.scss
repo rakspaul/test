@@ -459,6 +459,17 @@
           }
         }
       }
+      .graph_holding_section {
+        position: relative;
+        .top_layer_graph {
+          position: absolute;
+          top: 0px ;
+          left : 0px ;
+          height: 110px ;
+          width: 110px ;
+          z-index: 1 ;
+        }
+      }
       .graph_summary {
         font-size: 12px ;
         span {
