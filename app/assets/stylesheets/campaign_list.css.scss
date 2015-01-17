@@ -3261,6 +3261,25 @@ button, i, input[type="submit"] {
           }
         }
         li.brands_filter {
+          .disabled_brand_list {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            height: 64px;
+            width: 155px;
+            cursor: default;
+            z-index: 1;
+          }
+        }
+        .brands_filter_disabled {
+          #brandsDropdownDiv {
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+          }
+        }
+        li.brands_filter:not(.brands_filter_disabled) {
           &:hover {
             .brands_dd_icon {
               background-position : 8px -52px ;
