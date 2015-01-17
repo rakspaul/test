@@ -134,7 +134,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.sortParam = 'start_date';
       this.sortDirection = 'desc';
       this.totalPages = undefined;
-      this.totalCount = undefined;
+//      this.totalCount = undefined;
     };
 
     this.resetSortParams = function() {
@@ -144,7 +144,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.sortParam = undefined;
       this.sortDirection = undefined;
       this.totalPages = undefined;
-      this.totalCount = undefined;
+//      this.totalCount = undefined;
     };
   };
 
@@ -167,7 +167,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       self.nextPage += 1;
       self.marketerName = data.marketer_name;
       self.totalPages = data.total_pages;
-      self.totalCount = data.total_count;
+//      self.totalCount = data.total_count;
       self.periodStartDate = data.period_start_date;
       self.periodEndDate = data.period_end_date;
 
@@ -195,7 +195,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     }, function(result) {
       //failure
       self.busy = false;
-      self.totalCount = 0;
+//      self.totalCount = 0;
     });
 
   },
@@ -233,7 +233,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       var request_start = new Date();
       campaignListService.getDashboardData(url, function(result) {
         var diff = new Date() - request_start;
-        ga(constants.GA_SEND, constants.GA_EVENT, constants.GA_DASHBOARD, constants.GA_CLICK, diff / 1000);
         self.dashboard.busy = false;
         requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
         if(result.status == "success" && !angular.isString(result.data)){
@@ -258,25 +257,27 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
           self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
           if( self.dashboard.total  > 3) {
-	    self.dashboard.displayFilterSection = true;
-	    if(self.dashboard.active.underperforming == 0 ){
-        self.dashboardFilter('active','ontrack');
-        self.dashboard.filterActive = '(active,ontrack)';
-        self.dashboard.status.active.ontrack = 'active';
-        self.dashboard.status.active.underperforming = '';
-	    }else {
-        self.dashboardFilter('active', 'underperforming');
-        self.dashboard.filterActive = '(active,underperforming)';
-        self.dashboard.status.active.underperforming = 'active';
-        self.dashboard.status.active.ontrack = '';
-	    }
-	  }else{
-      self.dashboard.displayFilterSection = false;
-      if(self.dashboard.total > 0 ){
-        self.dashboardSelectedAll();
-      }
-	  }
-	}
+            self.dashboard.displayFilterSection = true;
+            if(self.dashboard.active.underperforming == 0 ) {
+              self.dashboardFilter('active','ontrack');
+              self.dashboard.filterActive = '(active,ontrack)';
+              self.dashboard.status.active.ontrack = 'active';
+              self.dashboard.status.active.underperforming = '';
+            }else {
+              self.dashboardFilter('active', 'underperforming');
+              self.dashboard.filterActive = '(active,underperforming)';
+              self.dashboard.status.active.underperforming = 'active';
+              self.dashboard.status.active.ontrack = '';
+            }
+          } else {
+            self.dashboard.displayFilterSection = false;
+            if(self.dashboard.total > 0 ){
+              self.dashboardSelectedAll();
+            }
+          }
+          self.totalCount = result.data.data.total;
+        }
+
       });
 
     },
