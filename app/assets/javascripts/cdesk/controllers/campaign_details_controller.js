@@ -206,28 +206,33 @@
         };
 
         $scope.getInventoryGraphData  = function(campaign){
-            var inventory;
+            var inventory =[] ;
             $scope.loadingInventoryFlag = true;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
                     if(result.data.data.length>0){
-	                   if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            inventory=_.chain(result.data.data[0].inv_metrics)
-                            .sortBy(function(inventory){ return inventory.kpi_value; })
-                            .reverse()
-                            .first(3)
-                            .value();
-                            _.each(inventory, function(inv) {
-                                inv.kpi_value *= 100;
-                            });
-                    }else {
-                        inventory=_.chain(result.data.data[0].inv_metrics)
-                        .sortBy(function(inventory){ return inventory.kpi_value; })
-                        .first(3)
-                        .value();
-		             }
-                    $scope.details.inventoryTop = _.first(inventory);
+                        var result = result.data.data[0].inv_metrics ;
+                        var top =[];
+                        for (var i in result) {
+
+                            if (result[i].tb === 0) {
+                                top.push(result[i]);
+                            }
+                        }
+                          if(top.length > 0){
+                              if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc' || campaign.kpiType.toLowerCase() == 'action_rate' || campaign.kpiType.toLowerCase()  == 'action rate' ){
+
+                                  for(var i in top){
+                                      top[i].kpi_value *= 100;
+                                  }
+                                  inventory = top.slice(0,3);
+                                  $scope.details.inventoryTop = inventory[0];
+                              } else {
+                                  inventory = top.slice(0,3);
+                                  $scope.details.inventoryTop = inventory[2];
+                              }
+                          }
                     $scope.details.inventory = inventory;
 		          }
                 }
