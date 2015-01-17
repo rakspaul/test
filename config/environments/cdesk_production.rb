@@ -23,6 +23,9 @@ Reachui::Application.configure do
   config.serve_static_assets  = true
   config.static_cache_control = "public, max-age=3600"
 
+  # Compress JavaScripts and CSS.
+  config.assets.js_compressor = :uglifier
+
   # Generate digests for assets URLs.
   config.assets.digest = true
 
@@ -53,7 +56,7 @@ Reachui::Application.configure do
   ## Custom application configurations
 
   # Set the reporting server url
-  config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
+  config.report_service_uri = 'http://cm.ssp.collective-media.net/export'
 
   config.scala_api = 'https://reporting.collective.com/dataapi'
 
