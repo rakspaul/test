@@ -252,10 +252,19 @@
             		  result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
             	    }
                     if(result.data.data.length>0){
-                        formats=_.chain(result.data.data)
+
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            formats=_.chain(result.data.data)
                                 .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
                                 .reverse()
                                 .value();
+                         }else{
+                            formats=_.chain(result.data.data)
+                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .value();
+
+                         }
+
                         _.each(formats, function(format) {
                             switch(format.dimension){
                                 case 'Display': format.icon = "display_graph";
@@ -269,7 +278,11 @@
                             }
                         });
                         $scope.details.formats = formats; 
-                        $scope.details.formatTop = _.first(formats); 
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            $scope.details.formatTop = _.first(formats); 
+                        }else{
+                            $scope.details.formatTop = _.last(formats); 
+                        }
                         $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
                         $scope.details.kpiType = campaign.kpiType.toLowerCase();
                     }
