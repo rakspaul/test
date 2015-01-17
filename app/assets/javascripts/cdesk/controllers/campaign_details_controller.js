@@ -254,13 +254,11 @@
                     if(result.data.data.length>0){
 
                         if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            console.log(result.data.data);
                             formats=_.chain(result.data.data)
                                 .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
                                 .reverse()
                                 .value();
                          }else{
-                            console.log(result.data.data);
                             formats=_.chain(result.data.data)
                                 .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
                                 .value();
