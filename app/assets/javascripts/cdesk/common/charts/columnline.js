@@ -69,18 +69,23 @@
                         enabled: false
                     },
                     tooltip: {
+                        shared: false,
+                        useHTML: true,
                         formatter: function() {
                             if (this.key) {
                                 var yVal = this.y;
+                                var return_val = {};
                                 if(this.series.name !== 'Series 1'){
                                     yVal = Highcharts.numberFormat(Math.round(this.y), 0);
-                                    return this.key.y +' : ' + yVal;
+                                    return_val =  this.key.y +' : ' + yVal;
+                                  //  return "<div style='width: 400px; white-space:normal;word-wrap: break-word;'>"+return_val+'</div>';
                                 } else {
                                     // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
                                     // values till decimal 4 places.
-                                 return ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +'$' + yVal  ) ;
-                                }
+                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +'$' + yVal  ) ;
 
+                                }
+                                return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";
                             } else {
                                 return  '';
                             }
@@ -91,6 +96,10 @@
                             fontWeight: 'bold'
                         }
                     },
+
+
+
+
                     xAxis: {
                         categories: xData,
                         lineWidth: 1,
@@ -189,22 +198,40 @@
                     type: 'column',
                     yAxis: 1,
                     data: kpiColumn,
+                    events: {
+                        mouseOut: function() {
+                            $('#inventory_tooltip').hide();
+                            $('.highcharts-tooltip').hide();
+                        },
+                        mouseOver: function() {
+                            $('#inventory_tooltip').show();
+                            $('.highcharts-tooltip').show();
+                        }
+                    },
                     tooltip: {
 
                         enabled: false
-                        // valueSuffix: ' mm'
-                        //pointFormat: "{point.y:.2f}",
+
 
                     }
                 }, {
                     name: '',
                     type: 'line',
                     data: impLine,
+                    events: {
+                        mouseOut: function() {
+                            $('#inventory_tooltip').hide();
+                            $('.highcharts-tooltip').hide();
+                        },
+                        mouseOver: function() {
+
+                            $('#inventory_tooltip').show();
+                            $('.highcharts-tooltip').show();
+                        }
+                    },
                     tooltip: {
                         enabled: false
-                        //pointFormat: "{point.y:.2f}",
 
-                        //valueSuffix: '°C'
                     },
                     color: '#00bff0',
                     marker: {
