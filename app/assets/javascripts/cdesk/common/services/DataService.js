@@ -121,7 +121,6 @@
 
       fetch: function (url) {
         loginModel.checkCookieExpiry();
-        $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
@@ -160,7 +159,6 @@
 
       fetchCancelable: function (url, canceller, success, failure) {
         loginModel.checkCookieExpiry();
-        $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
