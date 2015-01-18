@@ -227,15 +227,20 @@ var angObj = angObj || {};
                 }
             }
             $scope.tacticList = tacticList;
-            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
-            $scope.actionId = action.ad_id + '' + action.id;
-            if (action) {
-                if ($scope.actionId !== null) {
-                    $timeout(function () {
+            if((actionItems !== undefined ||actionItems !== null) && actionItems.length > 0){
 
-                        $scope.actionSelected($scope.actionId);
+                var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
+                console.log("action is ");
+                console.log(action);
+                $scope.actionId = action.ad_id + '' + action.id;
+                if (action) {
+                    if ($scope.actionId !== null) {
+                        $timeout(function () {
 
-                    }, 7000);
+                            $scope.actionSelected($scope.actionId);
+
+                        }, 7000);
+                    }
                 }
             }
         };
