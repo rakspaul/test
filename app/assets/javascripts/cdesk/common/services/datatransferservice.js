@@ -46,7 +46,7 @@
           filterDurationType:'life_time',
           filterDurationValue:'Life Time',
           filterKpiType:param.selectedCampaign.kpi_type,
-          filterKpiValue:param.selectedCampaign.kpi_type.toUpperCase()
+          filterKpiValue:(param.selectedCampaign.kpi_type === 'action_rate' || param.selectedCampaign.kpi_type === 'action rate' ) ? 'Action rate' : param.selectedCampaign.kpi_type.toUpperCase()
         }));
       },
 
