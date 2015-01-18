@@ -445,7 +445,6 @@ var angObj = angObj || {};
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
-            //   $scope.$apply();
 
         };
 
