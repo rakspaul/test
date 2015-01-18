@@ -273,7 +273,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           } else {
             self.dashboard.displayFilterSection = false;
             if(self.dashboard.total > 0 ){
-              self.dashboardSelectedAll(true);
+              self.dashboard.filterSelectAll=false;
+              self.dashboardSelectedAll();
             }
           }
           self.totalCount = result.data.data.total;
