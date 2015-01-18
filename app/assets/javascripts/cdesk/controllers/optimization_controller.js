@@ -12,6 +12,8 @@ var angObj = angObj || {};
         $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
+        $scope.tacticNotFound = true ;
+        $scope.tacticList = [];
 
         $scope.download_urls = {
             optimization: null
@@ -174,9 +176,18 @@ var angObj = angObj || {};
                 $scope.selectedStrategy.id = $scope.clicked.strategy.lineitemId;
                 $scope.selectedStrategy.name = $scope.clicked.strategy.lineItemName;
 
+
                 // call getCampaingn details to
 
                 $scope.loadTableData();
+                if($scope.tacticList !== undefined && $scope.tacticList.length >0){
+                    $scope.tacticNotFound = false ;
+                    console.log(" loaded table data in init method. The tactic list is ");
+                    console.log($scope.tacticList);
+                    console.log(" $scope.tacticNotFound " +  $scope.tacticNotFound );
+                }
+
+                console.log("loading cdb data now ");
                 $scope.loadCdbDataForStrategy();
             }
         };
@@ -226,12 +237,14 @@ var angObj = angObj || {};
                     tacticList.push(tactic);
                 }
             }
+            console.log("tactic list is");
+            console.log(tacticList);
             $scope.tacticList = tacticList;
             if((actionItems !== undefined ||actionItems !== null) && actionItems.length > 0){
 
                 var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
-                console.log("action is ");
-                console.log(action);
+//                console.log("action is ");
+//                console.log(action);
                 $scope.actionId = action.ad_id + '' + action.id;
                 if (action) {
                     if ($scope.actionId !== null) {
@@ -242,6 +255,10 @@ var angObj = angObj || {};
                         }, 7000);
                     }
                 }
+            }
+            if($scope.tacticList !== undefined && $scope.tacticList.length >0){
+                console.log("have tactic list");
+                $scope.tacticNotFound = false ;
             }
         };
 

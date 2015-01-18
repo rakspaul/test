@@ -30,8 +30,8 @@
           strategyName : null,
           filterDurationType:'life_time',
           filterDurationValue:'Life Time',
-          filterKpiType:null,
-          filterKpiValue:null,
+          filterKpiType:param.selectedCampaign.kpi_type,
+          filterKpiValue:param.selectedCampaign.kpi_type.toUpperCase(),
           previousCampaignId:null
         }));
       },
