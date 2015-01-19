@@ -56,7 +56,7 @@ Reachui::Application.configure do
   config.report_service_uri = 'http://cm.stgcdb.collective-media.net/export'
 
   config.scala_api = 'https://qa-desk.collective.com/dataapi'
-  config.nodejs_api = 'http://qa-desk.collective.com:5000'
+  config.ga_id = 'UA-54603772-1'
 
   # audience group segment search
   # comma separated string of network ids
