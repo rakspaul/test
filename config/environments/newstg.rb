@@ -61,6 +61,8 @@ Reachui::Application.configure do
 
   config.scala_api = 'https://demo-desk.collective.com/dataapi'
 
+  config.ga_id = 'UA-54603772-1'
+
   # audience group context search
   # network to search for context
   config.search_contexts_in_network = '6'
