@@ -23,9 +23,6 @@ Reachui::Application.configure do
   config.serve_static_assets  = true
   config.static_cache_control = "public, max-age=3600"
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-
   # Generate digests for assets URLs.
   config.assets.digest = true
 
