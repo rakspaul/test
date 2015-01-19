@@ -47,6 +47,7 @@ Reachui::Application.configure do
   config.search_contexts_in_network = '6'
 
   config.scala_api = 'http://dev-desk.collective-media.net/dataapi'
+  config.ga_id = 'UA-54603772-1'
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true

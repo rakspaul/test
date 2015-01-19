@@ -59,6 +59,7 @@ Reachui::Application.configure do
   config.report_service_uri = 'http://cm.ssp.collective-media.net/export'
 
   config.scala_api = 'https://reporting.collective.com/dataapi'
+  config.ga_id = 'UA-58701829-1'
 
   # audience group segment search
   # comma separated string of network ids
