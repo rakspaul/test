@@ -35,13 +35,13 @@
     this.getCachedByUrl = function (url) {
       var response = this.responseByUrl[url]
       if(response != undefined && response.isStale() === false) {
-        console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
+       // console.log('found saved response for url ' + url + ' Expiry Time: ' + utils.roundOff(response.getRemainingTime()/1000/60, 2) + "mins")
         return response;
       }
       return undefined
     };
     this.deleteFromCache = function (url) {
-      console.log('force delete from cache for url: ' + url);
+     // console.log('force delete from cache for url: ' + url);
       this.responseByUrl[url] = undefined
     };
     this.deleteAllCachedCampaignListUrls = function () {

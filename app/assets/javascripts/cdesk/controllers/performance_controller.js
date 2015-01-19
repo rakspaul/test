@@ -1,14 +1,21 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, performanceService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('performanceController', function ($scope, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel) {
 
         //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
 
-        $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
+        $scope.first_time_activity_loader = true ;
+
+      //  $scope.selectedCampaign = domainReports.getDefaultValues()['campaign'];
+     // intValues
+     $scope.selectedCampaign = domainReports.intValues()['campaign'];
+     $scope.selectedStrategy = domainReports.intValues()['strategy'];
+
+
+      //  $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -39,6 +46,8 @@ var angObj = angObj || {};
 
             $scope.dowBusy = false;
             $scope.tacticDowBusy = false ;
+
+            $scope.strategies = {};
 
           //  $scope.firstTime = true;
            // $scope.noTacticsFound = false;
@@ -206,9 +215,9 @@ var angObj = angObj || {};
         $scope.strategyPerformanceData = function (param) {
 
             if ($scope.selected_filters.tab === 'bydaysofweek'){
-              //  console.log("days of week tab");
+
                 if($scope.strategyPerfDataByDOW ==='undefined' || $scope.strategyPerfDataByDOW.length === 0 ){
-                //    console.log("inside days of week tab");
+
                     $scope.dowBusy = true;
                     $scope.tacticDowBusy = true;
                     performanceService.getStrategyPerfData(param).then(function (result) {
@@ -308,6 +317,7 @@ var angObj = angObj || {};
 
         $scope.updateStrategyObjects = function (strategy) {
 
+
             $scope.strategies = strategy;
             $scope.performanceBusy = false ;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
@@ -331,6 +341,7 @@ var angObj = angObj || {};
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                // $scope.noTacticsFound = true;
                 $scope.strategyFound = false;
+                $scope.strategies = {} ; // clear the strategy list if no strategy found
                 // $scope.dataNotFound = true;
             }
         };
@@ -339,15 +350,16 @@ var angObj = angObj || {};
         $scope.strategylist = function (campaignId) {
             $scope.performanceBusy = true ;
             $scope.selectedStrategy.name = "Loading...";
-            if (dataTransferService.getCampaignStrategyList(campaignId) === false) {
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    var strategy = result.data.data;
-                    dataTransferService.setCampaignStrategyList(campaignId, strategy);
-                    $scope.updateStrategyObjects(strategy);
+                    if (result.status == 'success') {
+                        var strategy = result.data.data;
+                        $scope.updateStrategyObjects(strategy);
+                    } else {
+                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                    }
+                    $scope.performanceBusy = false ;
+                    $scope.first_time_activity_loader = false ;
                 });
-            } else {
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
         };
 
         //This will be called from directive_controller.js
@@ -375,8 +387,9 @@ var angObj = angObj || {};
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
-            $scope.$apply();
+           // $scope.$apply();
         };
 
         //Function is called from startegylist directive
@@ -397,8 +410,11 @@ var angObj = angObj || {};
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
 
-            if($scope.selectedStrategy.id == -1)
+            if($scope.selectedStrategy.id == -1){
                 $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+            }
+
 
            else {
                 $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_filters.tab, timeFilter: $scope.selected_filters.time_filter });
@@ -437,6 +453,23 @@ var angObj = angObj || {};
             }
         };
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
+
+        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+
+            if ($scope.selectedCampaign.id !== -1) {
+                $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
+            } else {
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+
+            }
+
+        });
 
     });
 }());

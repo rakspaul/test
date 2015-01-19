@@ -1,5 +1,5 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants) {
+campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel) {
 
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
@@ -25,7 +25,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.sortDirection = 'desc';
     this.totalPages;
     this.totalCount;
-    this.brandId = 0;
+    this.brandId = brandsModel.getSelectedBrand().id;
     this.dashboard = {
       filterSelectAll: false,
       displayFilterSection: false,
@@ -76,8 +76,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.timePeriod = 'life_time';
       this.nextPage = 1;
       //this.brandId = 0;
-      this.sortParam = undefined;
-      this.sortDirection = undefined;
+      this.sortParam = 'start_date';
+      this.sortDirection = 'desc';
       this.totalPages = undefined;
       this.costMargin = undefined;
     };
@@ -120,7 +120,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.busy = false;
       this.timePeriod = 'life_time';
       this.nextPage = 1;
-      this.brandId = 0;
+      this.brandId = brandsModel.getSelectedBrand().id;
       this.sortParam = undefined;
       this.sortDirection = undefined;
       this.totalPages = undefined;
@@ -134,7 +134,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.sortParam = 'start_date';
       this.sortDirection = 'desc';
       this.totalPages = undefined;
-      this.totalCount = undefined;
+//      this.totalCount = undefined;
     };
 
     this.resetSortParams = function() {
@@ -144,7 +144,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.sortParam = undefined;
       this.sortDirection = undefined;
       this.totalPages = undefined;
-      this.totalCount = undefined;
+//      this.totalCount = undefined;
     };
   };
 
@@ -154,21 +154,20 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
   Campaigns.prototype.fetchCampaigns = function() {
     if (this.totalPages && (this.totalPages + 1) == this.nextPage) {
-      console.log('returning as all the campaigns are displayed');
       return;
     }
 
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
-    console.log('fetching from new campaigns api: ' + url);
+    //console.log('fetching campaign list for url: '+url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;
       self.nextPage += 1;
       self.marketerName = data.marketer_name;
       self.totalPages = data.total_pages;
-      self.totalCount = data.total_count;
+//      self.totalCount = data.total_count;
       self.periodStartDate = data.period_start_date;
       self.periodEndDate = data.period_end_date;
 
@@ -196,7 +195,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     }, function(result) {
       //failure
       self.busy = false;
-      self.totalCount = 0;
+//      self.totalCount = 0;
     });
 
   },
@@ -224,14 +223,16 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     Campaigns.prototype.fetchDashboardData = function() {
 
       this.dashboard.busy = true;
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?user_id=' + user_id + '&date_filter=' + this.timePeriod,
+      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
         self = this;
       //applying brand filter if active
       if(this.brandId > 0) {
         url += '&advertiser_filter=' + this.brandId;
       }
-
+     // console.log('counts api: '+url);
+      var request_start = new Date();
       campaignListService.getDashboardData(url, function(result) {
+        var diff = new Date() - request_start;
         self.dashboard.busy = false;
         requestCanceller.resetCanceller(constants.DASHBOARD_CANCELLER);
         if(result.status == "success" && !angular.isString(result.data)){
@@ -244,11 +245,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.ready =  result.data.data.ready;
           self.dashboard.completed = result.data.data.completed.total;
           self.dashboard.paused =  result.data.data.paused;
-          self.dashboard.total =   self.dashboard.draft +
-            self.dashboard.ready +
-            self.dashboard.active.total +
-            self.dashboard.completed +
-            self.dashboard.paused;
+          self.dashboard.allOtherTotal = result.data.data.na.total!= undefined ? result.data.data.na.total : 0;
+	  self.dashboard.total = result.data.data.total;
           self.dashboard.displayStatus.draft  = self.dashboard.draft  > 0 ? true:false;
           self.dashboard.displayStatus.ready  = self.dashboard.ready  > 0 ? true:false;
           self.dashboard.displayStatus.paused  = self.dashboard.paused  > 0 ? true:false;
@@ -256,24 +254,28 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
           self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
           if( self.dashboard.total  > 3) {
-	    self.dashboard.displayFilterSection = true;
-	    if(self.dashboard.active.underperforming == 0 ){
-		self.dashboardFilter('active','ontrack');
-		self.dashboard.filterActive = '(active,ontrack)';
-		self.dashboard.status.active.ontrack = 'active';
-		self.dashboard.status.active.underperforming = '';
-	    }else {
-	        self.dashboard.filterActive = '(active,underperforming)';
-	        self.dashboard.status.active.underperforming = 'active';
-	        self.dashboard.status.active.ontrack = '';
-	    }
-	  }else{
-	      self.dashboard.displayFilterSection = false;
-	      if(self.dashboard.total > 0 ){
-		self.dashboardSelectedAll();
-	      }
-	  }
-	}
+            self.dashboard.displayFilterSection = true;
+            if(self.dashboard.active.underperforming == 0 ) {
+              self.dashboardFilter('active','ontrack');
+              self.dashboard.filterActive = '(active,ontrack)';
+              self.dashboard.status.active.ontrack = 'active';
+              self.dashboard.status.active.underperforming = '';
+            }else {
+              self.dashboardFilter('active', 'underperforming');
+              self.dashboard.filterActive = '(active,underperforming)';
+              self.dashboard.status.active.underperforming = 'active';
+              self.dashboard.status.active.ontrack = '';
+            }
+          } else {
+            self.dashboard.displayFilterSection = false;
+            if(self.dashboard.total > 0 ){
+              self.dashboard.filterSelectAll=false;
+              self.dashboardSelectedAll();
+            }
+          }
+          self.totalCount = result.data.data.total;
+        }
+
       });
 
     },
@@ -403,7 +405,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     Campaigns.prototype.editCampaign = function(campaign) {
       ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
         'hitCallback': function() {
-          document.location = "campaigns#/campaigns/" + campaign.orderId;
+          document.location = "/#/campaigns/" + campaign.orderId;
         }
       });
     },
@@ -440,7 +442,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
 
     Campaigns.prototype._applyFilters = function(filters) {
-      console.log('filter campaigns: ' + JSON.stringify(filters));
+   //   console.log('filter campaigns: ' + JSON.stringify(filters));
       if (filters == undefined) {
         return;
       }
@@ -449,18 +451,19 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       filters.timePeriod && (this.timePeriod = filters.timePeriod);
 
       if(filters.brand != undefined){
-	  this.dashboard.status.active.underperforming = 'active';
-	  this.dashboard.filterActive = '(active,underperforming)';
-	  this.dashboard.filterPaused = undefined;
-	  this.dashboard.filterCompleted = undefined;
-	  this.dashboard.filterDraft = undefined;
-	  this.dashboard.filterReady = undefined;
-	  this.dashboard.status.paused = undefined
-	  this.dashboard.status.completed = undefined;
-	  this.dashboard.status.draft = undefined;
-	  this.dashboard.status.ready = undefined;
-	  this.dashboard.status.active.bothItem = undefined;
-	  this.dashboard.status.active.ontrack = undefined;
+        this.dashboard.filterSelectAll=false;
+    	  this.dashboard.status.active.underperforming = 'active';
+    	  this.dashboard.filterActive = '(active,underperforming)';
+    	  this.dashboard.filterPaused = undefined;
+    	  this.dashboard.filterCompleted = undefined;
+    	  this.dashboard.filterDraft = undefined;
+    	  this.dashboard.filterReady = undefined;
+    	  this.dashboard.status.paused = undefined
+    	  this.dashboard.status.completed = undefined;
+    	  this.dashboard.status.draft = undefined;
+    	  this.dashboard.status.ready = undefined;
+    	  this.dashboard.status.active.bothItem = undefined;
+    	  this.dashboard.status.active.ontrack = undefined;
       }
 
       Campaigns.prototype.fetchDashboardData.call(this); //populating dashboard filter with new data
@@ -468,6 +471,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
     Campaigns.prototype.dashboardSelectedAll = function () {
       this.nextPage=1;
+      //this.dashboard.filterSelectAll=true;
+      //this. dashboardSelectedAllResetFilter(true);
       if(this.dashboard.filterSelectAll == false)
       {
         this.dashboard.filterSelectAll=true;
@@ -524,11 +529,11 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         this.dashboard.status.active.bothItem = 'active';
         this.dashboard.status.active.ontrack = 'active';
         this.dashboard.status.active.underperforming = 'active';
-        this.dashboard.filterPaused= '(paused)';
-        this.dashboard.filterCompleted= '(completed)';
-        this.dashboard.filterDraft= '(draft)';
-        this.dashboard.filterActive= '(active)';
-        this.dashboard.filterReady= '(ready)';
+        this.dashboard.filterPaused= undefined;
+        this.dashboard.filterCompleted= undefined;
+        this.dashboard.filterDraft= undefined;
+        this.dashboard.filterActive= undefined;
+        this.dashboard.filterReady= undefined;
       }else{
         this.dashboard.status.paused = undefined;
         this.dashboard.status.completed = undefined
@@ -536,12 +541,20 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         this.dashboard.status.active.bothItem = undefined;
         this.dashboard.status.ready =undefined
         this.dashboard.status.active.ontrack =undefined
-        this.dashboard.status.active.underperforming = 'active';
         this.dashboard.filterPaused= undefined;
         this.dashboard.filterCompleted =undefined ;
         this.dashboard.filterDraft = undefined;
-        this.dashboard.filterActive = '(active,underperforming)';
         this.dashboard.filterReady = undefined ;
+        if(this.dashboard.active.underperforming == 0){
+            this.dashboard.filterActive = '(active,ontrack)';
+            this.dashboard.status.active.ontrack ='active';
+            this.dashboard.status.active.underperforming = undefined;
+        }else
+        {   
+            this.dashboard.filterActive = '(active,underperforming)';
+            this.dashboard.status.active.underperforming = 'active';
+            this.dashboard.status.active.ontrack =undefined;
+        }
       }
       this.campaignList = [];
       Campaigns.prototype.fetchCampaigns.call(this);
@@ -561,7 +574,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.dashboard.filterDraft && params.push('conditions=' + this.dashboard.filterDraft);
       this.dashboard.filterCompleted && params.push('conditions=' + this.dashboard.filterCompleted);
       this.dashboard.filterPaused && params.push('conditions=' + this.dashboard.filterPaused);
-      return apiPaths.apiSerivicesUrl + '/campaigns/bystate?user_id='+user_id+'&' + params.join('&');
+      return apiPaths.apiSerivicesUrl + '/campaigns/bystate?' + params.join('&');
     };
 
   var toggleSortDirection = function(dir) {

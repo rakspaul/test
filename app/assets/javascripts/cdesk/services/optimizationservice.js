@@ -1,31 +1,12 @@
 (function () {
     "use strict";
-    angObj.factory("optimizationService", function ($http,$location, api, apiPaths) {
-        $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+    angObj.factory("optimizationService", function ($http,$location, api, apiPaths, dataService) {
+        //$http.defaults.headers.common['Authorization'] = $cookieStore.get('auth_token'); 
         return {
 
             getActionsForSelectedCampaign: function (param) {
-                var url = apiPaths.apiSerivicesUrl + "/reports/campaigns/" +  param.campaignId + "/actions?user_id="+user_id;
-                return this.fetch(url);
-            },
-
-            fetch: function (url) {
-                return $http({
-                    url: url,
-                    method: 'GET',
-                    cache: false}).then(
-                    function (response) {
-                        return {
-                            status: "success",
-                            data: response.data
-                        };
-                    },
-                    function (error) {
-                        return {
-                            status: "error",
-                            data: error
-                        };
-                    });
+                var url = apiPaths.apiSerivicesUrl + "/reports/campaigns/" +  param.campaignId + "/actions";
+                return dataService.fetch(url);
             }
 
         };

@@ -49,7 +49,9 @@
                 return {
                     campaign : {
                         id: '-1',
-                        name: 'Loading...'
+                        name: 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
 
                     },
                     strategy : {
@@ -60,15 +62,37 @@
                     }
                 }
             },
+            intValues : function() {
+                return {
+                    campaign : {
+                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : '-1',
+                        name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') : 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
+
+                    },
+                    strategy : {
+                        id:  datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : '-1',
+                        name: datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
+                    }
+                }
+            },
+            // datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
             getNotFound : function() {
                 return {
                     campaign : {
                         id:-1,
-                        name:'No Campaign Found'
+                        name:'No Campaign Found',
+                        startDate: '-1',
+                        endDate: '-1'
                     },
                     strategy : {
                         id:-1,
-                        name:'No Strategy Found'
+                        name:'No Strategy Found',
+                        startDate: '-1',
+                        endDate: '-1'
                     }
                 };
             },
@@ -96,34 +120,26 @@
 
             getDurationKpi : function () {
                 return {
-                    time_filter: datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
+
+                    time_filter :  datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType')  : 'life_time',
                     time_filter_text: datatransferservice.getDomainReportsValue('filterDurationValue') ? datatransferservice.getDomainReportsValue('filterDurationValue')  : 'Life Time',
-                    kpi_type: datatransferservice.getDomainReportsValue('filterKpiType') ? datatransferservice.getDomainReportsValue('filterKpiType')  :  'CTR',
-                    kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiValue')  :   'CTR'
+                    kpi_type: datatransferservice.getDomainReportsValue('filterKpiType') ? datatransferservice.getDomainReportsValue('filterKpiType')  :  'ctr',
+                    kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiType')  :   'CTR'
                 };
             },
-//            getCampaignListForUser : function() {
-//
-//                if(datatransferservice.getCampaignList()) {
-//                    return datatransferservice.getCampaignList();
-//                }else {
-//                    return performanceService.getCampaingsForUser();
-//                }
-//            },
-            getAllCampaignListForUser : function() {
+            getAllCampaignListForUser : function(brand_id) {
 
-                if(datatransferservice.getAllCampaignList()) {
-                    return datatransferservice.getAllCampaignList();
+                if(datatransferservice.getAllCampaignList(brand_id)) {
+                    return datatransferservice.getAllCampaignList(brand_id);
                 }else {
-                    return performanceService.getCampaingsForUser();
+                    return performanceService.getCampaingsForUser(brand_id);
                 }
             },
+            //TODO: Remove getCampaignStrategyList method. Better have a seprate service which has api call for campaing and strategy drop down.
+            // directly call that service method from each controller instead of calling following ( to get list of strategy for a campaign)
             getCampaignStrategyList : function(campaignId) {
-                if(datatransferservice.getCampaignStrategyList(campaignId)) {
-                    return datatransferservice.getCampaignStrategyList(campaignId);
-                }else {
-                    return performanceService.getStrategiesForCampaign(campaignId);
-                }
+                 return performanceService.getStrategiesForCampaign(campaignId);
+
             },
             loadFirstStrategy : function(id, name, startDate, endDate) {
                 var strategyObj = {id:null, name:null, startDate: null, endDate: null};

@@ -18,8 +18,7 @@ server {
         proxy_cache_key $scheme$host$uri$is_args$cache_args;
 
         proxy_cache cdb-proxy;
-        # uncomment the following line with http response codes that needs to be cached. e.g. proxy_cache_valid 200 302 2h
-        #proxy_cache_valid 2h;
+        proxy_cache_valid 200 302 2h;
         proxy_cache_use_stale error
                             timeout
                             invalid_header

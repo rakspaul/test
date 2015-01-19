@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.factory('utils', ["$location", function ($location) {
+  commonModule.factory('utils', ["$location", "$sce", function ($location, $sce) {
     var formatDate = function (input) {
       var date = new Date(input);
       var dayOfMonth = date.getDate();
@@ -16,6 +16,12 @@
       }
       title += '</div>';
       return title;
+    };
+    var highlightSearch = function(text, search) {
+      if (!search) {
+          return $sce.trustAsHtml(text);
+      }
+      return $sce.trustAsHtml(unescape(escape(text).replace(new RegExp(escape(search), 'gi'), '<span class="brand_search_highlight" >$&</span>')));
     };
     var roundOff = function (value, places) {
       var factor = Math.pow(10, places);
@@ -51,7 +57,9 @@
       roundOff: roundOff,
       goToLocation: goToLocation,
       allValuesSame: allValuesSame,
-      clone: clone
+      clone: clone,
+      highlightSearch: highlightSearch
+
     };
   }]);
   angObj.directive('welcomeUser', function (common) {
@@ -402,12 +410,30 @@
   });
   angObj.filter('appendDollor', function () {
     return function (val, type) {
-      if (val === undefined || val === "" || val === "null")  {
-        return 'NA';
-      }
-      return (type == 'CTR' || type == 'action_rate' ) ? val.toFixed(2)+'%' : '$' + val.toFixed(2);
+        if (val === undefined || val === "" || val === "null") {
+            return 'NA';
+        }
+        else if (type.toLowerCase() === "delivery (impressions)")
+            return (val.toFixed(2)).toLocaleString();
+        else {
+            return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? (val * 100).toFixed(2) + '%' : '$' + val.toFixed(2);
+        }
     }
   });
+    // This is used in tooltip for optimization tab
+    angObj.filter('appendDollarWithoutFormat', function () {
+       // console.log("append dollar without format");
+        return function (val, type) {
+            if (val === undefined || val === "" || val === "null") {
+                return 'NA';
+            }
+            else if (type.toLowerCase() === "delivery (impressions)")
+                return val.toLocaleString();
+            else {
+                return (type.toLowerCase() === 'ctr' || type.toLowerCase() === 'action_rate' || type.toLowerCase() === 'action rate'  || type.toLowerCase() === 'vtc' ) ? parseFloat((val*100).toFixed(6)) + '%' : '$' + parseFloat((val).toFixed(6)) ;
+            }
+        }
+    });
   angObj.filter('calculatePerc', function () {
     return function (delivered, total) {
       if (delivered === undefined || total === undefined) {

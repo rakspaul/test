@@ -1,16 +1,34 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, utils, $location, _, constants, brandsModel, dataTransferService) {
     //Hot fix to show the campaign tab selected
-    $("ul.nav:first").find('.active').removeClass('active').end().find('li:first').addClass('active');
+    $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
-
+    $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
+      $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
+    });
     $scope.campaigns.fetchDashboardData();
 
     $scope.$on("fromCampaignDetails", function(event, args) {
       $scope.loadMoreStrategies(args.campaignId);
     });
+
+    $scope.viewReports = function(campaign) {
+       var param = {
+                selectedCampaign :campaign,
+                selectedStrategy : null,
+                strategyId : null,
+                strategyName : null,
+                strategyStartDate : null,
+                strategyEndDate : null
+            };
+
+      //dataTransferService.initOptimizationData(param);
+      dataTransferService.initReportingData(param);
+      $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+      document.location = '#/performance';
+    };
 
     $scope.loadMoreStrategies = function(campaignId) {
       var pageSize = 3;
@@ -47,6 +65,10 @@
 
     $scope.goToLocation = function(url) {
       utils.goToLocation(url);
+    };
+
+    $scope.highlightSearch = function(text, search) {
+      return utils.highlightSearch(text, search);
     };
 
   });

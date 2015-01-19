@@ -22,7 +22,7 @@
     });
     dataService.getTactics($routeParams.campaignId).then(function (response) {
       var tactics = [];
-      var result = response.data;
+      var result = response.data.data;
       for (var i = 0; i < result.length; i++) {
         var tactic = modelTransformer.transform(result[i], Tactic);
         tactics.push(tactic);
@@ -60,7 +60,7 @@
       data.action_tactic_ids = selectedTacticIds;
       data.metric_impacted = $scope.metrics.selected;
       data.name = $scope.action.name;
-      data.created_by_id = parseInt(user_id);
+      //data.created_by_id = parseInt(user_id);
       /*var now = $filter('date')(new Date(), 'yyyy-MM-dd');
       data.created_at = now;
       data.updated_at = now;*/
@@ -73,7 +73,7 @@
       if(data.action_sub_type_ids.length > 0 &&
         data.action_type_id !=undefined &&
         data.metric_impacted != undefined &&
-        data.name.length > 0 ) {
+        data.name.length > 0 && data.action_tactic_ids.length > 0 ) {
       for(var i in data.action_tactic_ids){
         data.ad_id = data.action_tactic_ids[i]; 
         dataService.createAction(data).then( function (response){

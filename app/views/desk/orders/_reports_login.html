@@ -1,0 +1,43 @@
+<div class="reports_login_outer_container">
+    <div class="reports_login_box">
+        <div class="collective_logo"></div>
+        <form name="form" ng-submit="login()">
+
+            <div class="login_box_form_holder">
+                    <div class="validation_error_msg" style="display:{{((showLoginError()) ? 'block' : 'none')}};" ><!-- style="display:block;"  when error is there -->
+                        {{(loginErrorMsg) ? loginErrorMsg : "The Username/Password is incorrect" }}
+                    </div>
+                    <div class="login_txtbox username_login_txtbox {{(showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                        <input type="text" class="login_txt_input" ng-model="username" placeHolder="Username" required>
+                    </div>
+                    <div class="login_txtbox pass_login_txtbox {{ (showLoginError()) ? 'validation_error' : ''}}"><!-- validation_error -->
+                        <input type="password" class="login_txt_input" ng-model="password" placeHolder="Password" required>
+                    </div>
+                    <div class="signin_options_holder clearfix">
+                        <!-- <div class="pull-left keep_signed_in external_chkbox clearfix" >
+                              <div class="squaredFour">
+                                <input type="checkbox" id="remember_me_squaredFour" class="squaredFourChkbox" checked="">
+                                <label for="remember_me_squaredFour"></label>
+                              </div>       
+                              <span class="squaredFourTxt">Keep me Signed In</span>
+                        </div> -->
+                        <div class="pull-right forgot_pass_holder">
+                            <a href="#" >Forgot Password</a>
+                            <span class="forgot_pass_tooltip">Contact your Account Manager<br> to reset your password </span>
+                        </div>
+                        
+                   </div>
+                   <input ng-disabled="form.$invalid || dataLoading" type="submit" class="login_btn {{getLoadingClass()}}" value="Sign In"><!-- loading -->
+                  <!--  <div class="email_anchor">
+                    <a href="#" >Email Collective</a>
+                   </div> -->
+                
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+$(document).ready( function() {
+  $("body").addClass("bg_body");
+})
+</script>

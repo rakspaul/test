@@ -1,14 +1,13 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths) {
+    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel) {
 
         //Hot fix to show the campaign tab selected
-        $("ul.nav:first").find('.active').removeClass('active').end().find('li:contains(Reports)').addClass('active');
+        $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
 
-        $scope.selectedCampaign = domainReports.getDefaultValues();
-
-        $scope.selectedStrategy = domainReports.getDefaultValues();
+        $scope.selectedCampaign = domainReports.intValues()['campaign'];
+        $scope.selectedStrategy = domainReports.intValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
 
@@ -16,22 +15,26 @@ var angObj = angObj || {};
 
         $scope.filter = { sortByColumn : 'default', ascendingDir : false };
 
+
         $scope.sort_field = [{
             display: 'Tactic Name',
             key: 'name',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir: true
 
         }, {
             display: 'Imps',
             key: 'impressions',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir : false
         }, {
             display: 'Total Spend',
             key: 'total',
             class: '',
-            sortDirection: ''
+            sortDirection: '',
+            ascendingDir : false
 
         }] ;
 
@@ -43,18 +46,37 @@ var angObj = angObj || {};
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
+            $scope.strategies = {};
             $scope.dataNotFound = false;
             $scope.strategyFound = false;
             $scope.selectedKpi = 'cpa';
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
 
+            if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null){
+                $scope.filter.sortByColumn = 'default';
+                $scope.filter.ascendingDir = false ;
+
+            } else {
+                $scope.filter.sortByColumn =   localStorage.getItem(loginModel.getUserId()+'_cost_sort') ;
+                $scope.filter.ascendingDir = localStorage.getItem(loginModel.getUserId()+'_cost_sort_desc') ;
+
+                for(var i in $scope.sort_field){
+                    if($scope.sort_field[i].key ===   $scope.filter.sortByColumn){
+                        $scope.sort_field[i].class = 'active';
+                        $scope.sort_field[i].ascendingDir = $scope.filter.ascendingDir ;
+                        //( $scope.sort_field[i].ascendingDir === true)?($scope.sort_field[i].sortDirection = 'descending'):($scope.sort_field[i].sortDirection = 'ascending');
+                        ( $scope.sort_field[i].ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending');
+                        $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
+                    }
+                }
+            }
+
         };
 
        $scope.init();
 
         $scope.strategiesCostData = function (param) {
-       //     console.log("######### strategy cost data entered ##########");
             $scope.strategyCostBusy = true;
             $scope.tacticCostBusy = true;
             costService.getStrategyCostData(param).then(function (result) {
@@ -74,7 +96,6 @@ var angObj = angObj || {};
                         }
                     }
                     else {
-                 //       console.log("data not found ");
                         $scope.dataNotFound = true;
                         $scope.strategyCostBusy = false;
                         $scope.tacticCostBusy = false;
@@ -125,7 +146,6 @@ var angObj = angObj || {};
         };
 
         $scope.updateStrategyObjects = function(strategy) {
-          //  console.log("<*********** update Strategy object call***********");
             $scope.strategies = strategy;
             if ($scope.strategies !== 'undefined' && $scope.strategies.length > 0) {
                 //If a different campaign is selected, then load the first strategy data
@@ -135,10 +155,10 @@ var angObj = angObj || {};
                 $scope.selectedStrategy.startDate = strategyObj.startDate;
                 $scope.selectedStrategy.endDate = strategyObj.endDate;
                 $scope.strategyFound = true;
-              //  console.log($scope.selectedStrategy);
 
                 if ($scope.selectedStrategy.id == -1) {
                     $scope.strategyFound = false;
+                    $scope.strategies = {} ; // clear the strategy list if no strategy found
                 }
                 else {
                     $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
@@ -146,6 +166,7 @@ var angObj = angObj || {};
             } else { //  means empty strategy list
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
                 // $scope.dataNotFound = true;
             }
         };
@@ -153,15 +174,14 @@ var angObj = angObj || {};
 
         $scope.strategylist = function (campaignId) {
             $scope.selectedStrategy.name = "Loading...";
-            if(dataTransferService.getCampaignStrategyList(campaignId) === false){
                 domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    var strategy = result.data.data;
-                    dataTransferService.setCampaignStrategyList(campaignId , strategy);
-                    $scope.updateStrategyObjects(strategy);
+                    if (result.status == 'success') {
+                        var strategy = result.data.data;
+                        $scope.updateStrategyObjects(strategy);
+                    } else {
+                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                    }
                 });
-            }else{
-                $scope.updateStrategyObjects(domainReports.getCampaignStrategyList(campaignId));
-            }
         };
 
 
@@ -188,13 +208,13 @@ var angObj = angObj || {};
                 $scope.strategylist($scope.selectedCampaign.id);
             } else {
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
-            $scope.$apply();
+          //  $scope.$apply();
         };
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function() {
-          //  console.log("strategy is changed");
             $scope.strategyCostData = {};
             $scope.tacticsCostData = {} ;
             $scope.tacticList = {};
@@ -209,7 +229,6 @@ var angObj = angObj || {};
                 $scope.strategyCostData = {};
                 $scope.tacticsCostData = {} ;
 
-                //console.log("duration is changed");
                 $scope.strategiesCostData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, startDate: $scope.selectedStrategy.startDate, endDate: $scope.selectedStrategy.endDate, timeFilter: $scope.selected_filters.time_filter });
                 dataTransferService.updateExistingStorageObjects({'filterDurationType': $scope.selected_filters.time_filter, 'filterDurationValue': $scope.selected_filters.time_filter_text});
 
@@ -225,22 +244,18 @@ var angObj = angObj || {};
         };
 
 
-        $scope.formattingNumber = function(kpi, value){
-            if(value !== undefined){
-                value = ((kpi === 'ctr' || kpi === 'action_rate' || kpi === 'vtc') ? (value*100).toFixed(2) + '%' : '$'+ value.toFixed(2) );
-            }
-            return value ;
-        };
 
         $scope.sortFunction = function (sortby) {
             $scope.filter.sortByColumn = sortby;
-
             for(var i in $scope.sort_field){
                 if($scope.sort_field[i].key === sortby){
                     $scope.sort_field[i].class = 'active';
-                    $scope.filter.ascendingDir = !$scope.filter.ascendingDir;
+                    $scope.sort_field[i].ascendingDir =   !$scope.sort_field[i].ascendingDir ;
+                    $scope.filter.ascendingDir =  $scope.sort_field[i].ascendingDir ;
 
-                    ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'ascending'):($scope.sort_field[i].sortDirection = 'descending' );
+                    ($scope.filter.ascendingDir === true)?($scope.sort_field[i].sortDirection = 'descending'):($scope.sort_field[i].sortDirection = 'ascending'  );
+                    localStorage.setItem(loginModel.getUserId()+'_cost_sort_desc' ,  $scope.filter.ascendingDir );
+                    localStorage.setItem(loginModel.getUserId()+'_cost_sort' ,   $scope.filter.sortByColumn );
                 }
                 else{
                     $scope.sort_field[i].class = '';
@@ -251,6 +266,23 @@ var angObj = angObj || {};
 
         };
 
+        $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
+          $scope.callBackKpiDurationChange('duration');
+        });
+
+        $scope.$on(constants.NAVIGATION_FROM_CAMPAIGNS, function() {
+
+            if ($scope.selectedCampaign.id !== -1) {
+                $scope.strategylist($scope.selectedCampaign.id);
+                $scope.callBackCampaignsSuccess();
+            } else {
+                $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                $scope.strategyFound = false ;
+                $scope.strategies = {} ; // if No Strategy then clear the strategy list.
+
+            }
+
+        });
 
 
 

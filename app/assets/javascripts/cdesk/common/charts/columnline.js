@@ -35,9 +35,14 @@
                 kpiColumn = [];
 
             for (var i = 0; i < chartData.length; i++) {
+                var kpi_value = chartData[i].kpi_value ;
+                if(kpIType.toLowerCase() === 'ctr' || kpIType.toLowerCase() === 'action_rate' || kpIType.toLowerCase() === 'action rate' ||  kpIType.toLowerCase() === 'vtc'){
+                    kpi_value = parseFloat((kpi_value*100).toFixed(4));
+                }
                 xData.push({custom: i, y: chartData[i].domain_data });
                 impLine.push(chartData[i].impressions);
-                kpiColumn.push(chartData[i].kpi_value);
+                kpiColumn.push(kpi_value);
+               // kpiColumn.push(chartData[i].kpi_value);
             }
 
 
@@ -45,9 +50,9 @@
                 options: {
                     chart: {
                         type: 'column',
-                        width: 400,
+                        width: 450,
                         height: 260,
-                        margin: [20, 60, 30, 50]
+                        margin: [20, 80, 30, 85] // [marginTop, marginRight, marginBottom and marginLeft]
                     },
 
                     colors: [
@@ -64,14 +69,23 @@
                         enabled: false
                     },
                     tooltip: {
+                        shared: false,
+                        useHTML: true,
                         formatter: function() {
                             if (this.key) {
-                                var currency =(kpIType === 'CTR' || this.series.name !== 'Series 1')? '' : '$';
                                 var yVal = this.y;
+                                var return_val = {};
                                 if(this.series.name !== 'Series 1'){
                                     yVal = Highcharts.numberFormat(Math.round(this.y), 0);
+                                    return_val =  this.key.y +' : ' + yVal;
+                                  //  return "<div style='width: 400px; white-space:normal;word-wrap: break-word;'>"+return_val+'</div>';
+                                } else {
+                                    // here I have used Math.floor , not toFixed(n) because we dont wanted to show rounded off values in tooltip, we just wanted to show
+                                    // values till decimal 4 places.
+                                  return_val = ((kpIType === 'CTR' || kpIType === 'action_rate' || kpIType.toLowerCase() === 'action rate' || kpIType.toLowerCase() === 'vtc')) ?  (this.key.y +' : ' + yVal + '%') : (this.key.y +' : ' +'$' + yVal  ) ;
+
                                 }
-                                return  this.key.y +' : '+currency+''+yVal;
+                                return "<div id='inventory_tooltip' class='inventory-tool-tip'>" +return_val+ "</div>";
                             } else {
                                 return  '';
                             }
@@ -82,6 +96,10 @@
                             fontWeight: 'bold'
                         }
                     },
+
+
+
+
                     xAxis: {
                         categories: xData,
                         lineWidth: 1,
@@ -180,22 +198,40 @@
                     type: 'column',
                     yAxis: 1,
                     data: kpiColumn,
+                    events: {
+                        mouseOut: function() {
+                            $('#inventory_tooltip').hide();
+                            $('.highcharts-tooltip').hide();
+                        },
+                        mouseOver: function() {
+                            $('#inventory_tooltip').show();
+                            $('.highcharts-tooltip').show();
+                        }
+                    },
                     tooltip: {
 
                         enabled: false
-                        // valueSuffix: ' mm'
-                        //pointFormat: "{point.y:.2f}",
+
 
                     }
                 }, {
                     name: '',
                     type: 'line',
                     data: impLine,
+                    events: {
+                        mouseOut: function() {
+                            $('#inventory_tooltip').hide();
+                            $('.highcharts-tooltip').hide();
+                        },
+                        mouseOver: function() {
+
+                            $('#inventory_tooltip').show();
+                            $('.highcharts-tooltip').show();
+                        }
+                    },
                     tooltip: {
                         enabled: false
-                        //pointFormat: "{point.y:.2f}",
 
-                        //valueSuffix: '°C'
                     },
                     color: '#00bff0',
                     marker: {
@@ -222,8 +258,10 @@
 
                     $timeout(function() {
                         if(utils.allValuesSame(impLine)) {
-                            var extremesX = chart.yAxis[0].getExtremes();
-                            chart.yAxis[0].setExtremes(0, extremesX.max * 2);
+                            if(chart !== undefined && chart.xAxis !== undefined){
+                                var extremesX = chart.yAxis[0].getExtremes();
+                                chart.yAxis[0].setExtremes(0, extremesX.max * 2);
+                            }
                         }
                     //setup some logic for the chart
                 }, 1000);

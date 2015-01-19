@@ -19,12 +19,12 @@
                               {{campaign.brandName}}
                           </div>
                       </div>
-                      <a href="campaigns#/performance" id="details_view_report">
+                      <a  id="details_view_report" ng-click="setGraphData(campaign,'performance')">
                         <div class="pull-right view_report">
                             View report
                         </div>
                       </a>
-                      <div class="pull-right time_period_filter">
+                      <!--<div class="pull-right time_period_filter">
 
                           <div class="dropdown" id="campaign_details_duration_dd">
                               <span class="dropdown_ul_text " data-toggle="dropdown">
@@ -43,7 +43,7 @@
                               </ul>
 
                           </div>
-                      </div>
+                      </div>-->
                   </div>
 
 
@@ -60,12 +60,12 @@
                                     <div  ng-show="action.selectedTypeError" id="error_activity" class="error_message">Please select an item in the list.</div>
                                </div>
                                 <div class="filter_dropdown select_all_filter_dropdown">
-                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1"  displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType()"></multiselect>
+                                     <multiselect class="input-xlarge"  multiple="true"  multipleoption="true" acceptmultiple="1"  displaySelectAllOPtion="true" defaultoption='- Action Sub Type -' ng-model="action.selectedSubType" options="subType.name for subType in action.selectedType.subTypes | orderBy:'name'" change="selected()" id="action_sub_type_dd" datashow="2" ng-click="resetValidation();getSubType()" maxcharacter="20"></multiselect>
                                      
                                       <div ng-show="action.selectedSubTypeError" id="error_subtype"  class="error_message">Please select an item in the list.</div>
                                </div>
                                 <div class="filter_dropdown select_all_filter_dropdown">
-                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()"></multiselect>
+                                    <multiselect class="input-xlarge" multiple="true"  multipleoption="true" acceptmultiple="1"  defaultoption='- Tactic -'  ng-model="tactics.selected" options="tactic.name for tactic in tactics.all | orderBy:'name'" change="selected()" id="action_tactic_dd" datashow="3" ng-click="resetValidation();getTactic()" maxcharacter="20"></multiselect>
                                     <div ng-show="action.selectedTacticError" id="error_tactic" class="error_message">Please select an item in the list.</div>
                                 </div>
                                 <div class="filter_dropdown metric_selected_filter_dropdown">
@@ -104,51 +104,50 @@
                 <div class="clearfix campaign_details_graphs_holder">
                     <div ng-click="setGraphData(campaign,'performance')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
-                            Format ({{campaign.kpiType}})
+                            Format ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
-                        <div class="clearfix each_section_graph format_section_graph">
+                        <div class="clearfix each_section_graph format_section_graph"  ng-if="(details.formats.length > 0 &&  campaign.kpiType !='null')">
                             <div ng-repeat="format in details.formats" class="each_bar_section_holder {{format.icon}}">
                               <div>{{format.dimension}}: {{format[details.kpiType] | kpiFormatter : campaign.kpiType}}</div>
                               <div class="each_bar_graph" style="width:{{100-((details.formatTop-format[details.kpiType])*100/details.formatTop)}}%"></div>
                             </div>
                         </div>
+                         <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
+                         <div  ng-if="((details.formats.length == 0 || campaign.kpiType =='null' || !(details.formats) ) && loadingFormatFlag == false)" class="no-data-available" >Data Not Available</div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
-                        <div class="clearfix each_section_graph">
+                         <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
+                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" >Data Not Available</div>
+                        <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
-                            </div>
-                            <div class="pull-right section_graph_details">
-                                <div class="each_detail">
-                                    <span class="graph_color color1"></span>
-                                    Inventory: {{details.getCostBreakdown.inventory | formatCostData: '' : 0}}%
+                            </div> 
+                            <div class="pull-right section_graph_details"  >
+                                <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 &&  data.name !='Other') ">
+                                    <span class="graph_color {{data.className}}"></span>
+                                    {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color2"></span>
-                                    Data: {{details.getCostBreakdown.data | formatCostData: '' : 0}}%
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color3"></span>
-                                    Ad Serving: {{details.getCostBreakdown.adServing | formatCostData: '' : 0}}%
-                                </div>
-                                <div class="each_detail">
-                                    <span class="graph_color color4"></span>
-                                    Other: {{details.getCostBreakdown.other | formatCostData: '' : 0}}%
+                                 <div class="each_detail" ng-repeat="data in getCostBreakdownInfo|orderBy:'-value':reverse" ng-if="(data.value >= 0.5 && data.name =='Other')">
+                                    <span class="graph_color {{data.className}}"></span>
+                                    {{data.name}}: {{data.value | formatCostData: '' : 0}}%
                                 </div>
                             </div>
+                            <div class="top_layer_graph"></div>
                         </div>
-                        <div class="graph_summary">
+                        <div class="graph_summary" ng-if="(details.totalCostBreakdown > 0)">
                             Total <span class="graph_val">{{details.totalCostBreakdown | formatCostData : '$' : 0}} </span>
                         </div>
                     </div>
                     <div ng-click="setGraphData(campaign,'inventory')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder" >
                         <div class="graph_heading">
-                            Inventory ({{campaign.kpiType}})
+                            Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
-                        <div class="clearfix each_section_graph ">
+                        <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
+                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" >Data Not Available</div>
+                        <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
                             <div class="inventory_number">
                               Top {{details.inventory.length}}
                             </div>
@@ -161,19 +160,22 @@
                     </div>
                     <div ng-click="setGraphData(campaign,'viewability')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder" >
                         <div class="graph_heading">
-                            Viewability
+                            Viewability 
                         </div>
-                        <div class="clearfix each_section_graph">
+                        <div ng-show="loadingViewabilityFlag" class="load-more">&nbsp;</div>
+                         <div   ng-if="((!(details.getCostViewability) || (campaign.kpiType =='null') ) && getCostViewabilityFlag == 1) " class="no-data-available"  >Data Not Available</div>
+                        <div class="clearfix each_section_graph graph_holding_section">
                             <div class="pull-left section_graph">
                                 <highchart id="costViewability" ng-show="details.solidGaugeChart" config="details.solidGaugeChart" class="section_graph_highcharts"></highchart>
                             </div>
-                            <div class="pull-right section_graph_details">
-                                <div class="each_detail"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
-                                <div class="each_detail"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
-                                <div class="each_detail"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
+                            <div class="pull-right section_graph_details"  ng-if="(details.getCostViewability)">
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_1s >=0 )"><span class="graph_color color2"></span>> 1s: {{details.getCostViewability.pct_1s  | formatCostData: '' : 0}}% </div>
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_5s >=0 )"><span class="graph_color color3"></span>> 5s: {{details.getCostViewability.pct_5s  | formatCostData: '' : 0}}%</div>
+                                <div class="each_detail" ng-if="(details.getCostViewability.pct_15s >=0 )"><span class="graph_color color1"></span>> 15s: {{details.getCostViewability.pct_15s  | formatCostData: '' : 0}}%</div>
                             </div>
+                            <div class="top_layer_graph"></div>
                         </div>
-                        <div class="graph_summary">
+                        <div class="graph_summary"  ng-if="(details.getCostViewability)">
                             Imps. <span class="graph_val">{{details.getCostViewability.total  | formatCostData: '' : 0}}<!-- </span><span> --> ({{details.getCostViewability.pct_total  | formatCostData: '' : 0}}%)</span>
                         </div>
                     </div>
@@ -185,7 +187,7 @@
                 <div class="clearfix activity_log_holder" ng-controller="editActionsController" >
                 <!--edit popup-->
                 <!-- edit activity log container -->
-                <div ng-controller="editActionsController" class="edit_activity_log_holder" ng-show="showList.show" ng-click="closeEdit();">
+                <div ng-controller="editActionsController" class="edit_activity_log_holder" ng-show="showList.show">
                   <form ng-submit="editAction()" >
                     <div class="action_filter_holder" ng-click="$event.stopPropagation()">
                           <div class="heading">
@@ -218,10 +220,13 @@
                           </div>
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
-                                  <textarea  ng-model="showList.name" ng-required="true"  placeHolder="Leave a Comment" id="action_comment" maxlength="160"> </textarea>
+                                  <textarea  ng-model="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxlength="160" ng-focus="resetEditActionValidation()"> </textarea>
+                                  <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
+                                  <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
-                              <div class="pull-right submit_btn_holder">
-                                  <input type="submit" class="submit_btn" value="Save" ng-disabled="saveBtnDisabled" id="action_save_btn">
+                              <div class="pull-right submit_btn_holder clearfix">
+                                  <span class="pull-left secondary_button" ng-click="closeEdit();">Cancel</span>
+                                  <input type="submit" class="pull-right submit_btn primary_button" value="Save" ng-disabled="saveBtnDisabled" id="action_save_btn">
                               </div>
                           </div>
                       </div>
@@ -271,11 +276,14 @@
                       </div>
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
-                          <div class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+
+                          <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
+
+
                               <div class="pull-left activity_points">
                                   <div class="activity_point">
                                       <span>
-                                          {{(is_network_user=='true')?((action.make_external)?'E':''):''}}
+                                          {{(action.make_external && is_network_user)?'E':''}}
                                       </span>
                                   </div>
                               </div>
@@ -289,7 +297,7 @@
                               </div>
                               <div class="pull-left activity_other_details">
                                   <div class="clearfix other_details_txt">
-                                      <span>
+                                      <span class="impacts_name_txt">
                                           Impacts {{action.metric_impacted}}
                                       </span>
                                       <span class="optimization_txt">
@@ -300,6 +308,9 @@
                                    {{action.comment}} 
                                   </div>
                               </div>
+
+
+
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
                                   <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
                                   </div>
@@ -307,7 +318,50 @@
                                   </div>
                               </div>
                           </div>
-                          <div class="no_activity_class" ng-if="!actionItems">
+
+
+                          <div ng-if="!is_network_user" ng-click="setOptimizationData(campaign,action,strategyByActionId)" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="clearfix each_activity_log "  ng-if="actionItems" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter" style="cursor:pointer">
+                              <div class="pull-left activity_points">
+                                  <div class="activity_point">
+                                      <span>
+                                      </span>
+                                  </div>
+                              </div>
+                              <div class="pull-left activity_main_details">
+                                  <div class="activity_main">
+                                      {{action.created_by_name}}
+                                  </div>
+                                  <div class="activity_date">
+                                      {{action.created_at | formatActionDate }}
+                                  </div>
+                              </div>
+                              <div class="pull-left activity_other_details">
+                                  <div class="clearfix other_details_txt">
+                                      <span class="impacts_name_txt">
+                                          Impacts {{action.metric_impacted}}
+                                      </span>
+                                      <span class="optimization_txt">
+            {{action.action_type_name}}: {{action.action_sub_type}}
+                                      </span>
+                                  </div>
+                                  <div class="more_details">
+                                   {{action.comment}} 
+                                  </div>
+                              </div>
+
+
+
+                             <!--  <div ng-show="is_network_user" class="pull-right activity_edit_holder">
+                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
+                                  </div>
+                                  <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
+                                  </div>
+                              </div> -->
+                          </div>
+
+
+
+                          <div class="no_activity_class" ng-if="(!actionItems.data) || ((actionItems.data | filter: actionsFilter ).length==0)">
                             No Data Available
                           </div>
 
@@ -455,7 +509,7 @@
                 <div class="each_col col_sec">
                     <div class="col_heading">KPI</div>
                     <div class="col_val">
-                        {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} {{campaign.kpiType ? campaign.kpiType : 'NA' | toUpperCase}}
+                         <span ng-if="(campaign.kpiValue > 0)"> {{campaign.kpiValue | kpiFormatter:campaign.kpiType}} </span>{{campaign.kpiType !='null' ? campaign.kpiType : 'NA' | toUpperCase}}
                     </div>
                 </div>
                 <div class="each_col col_third">
@@ -516,7 +570,7 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-      $("#error_more_comment").hide();
+      $("#error_more_comment,#error_edit_action_more_comment").hide();
       $( ".dropdown_ul_text" ).click(function() {
           $( ".dropdown_ul" ).toggle();
        });
@@ -531,10 +585,10 @@
       setTimeout(function() {
         $('[data-toggle="tooltip"]').tooltip(); 
 
-        $('.each_activity_log').hover(function(){
-          $('.activity_log_list').find('.active').removeClass('active');
-          $(this).addClass('active');
-        });
+        // $('.each_activity_log').hover(function(){
+        //   $('.activity_log_list').find('.active').removeClass('active');
+        //   $(this).addClass('active');
+        // });
       },5000);
       $('#action_submit_btn').bind("click", function() {
           var txt = $.trim(jQuery("#action_comment").val());
@@ -555,6 +609,29 @@
       });
        $('#action_comment').bind("blur", function() {
           $("#error_more_comment").hide();
+       });
+
+       //Edit actions
+       
+       $('#action_save_btn').bind("click", function() {
+          var txt = $.trim(jQuery("#edit_action_comment").val());
+          jQuery("#edit_action_comment").val(txt);
+         
+      });
+       $('#edit_action_comment').bind("change keyup", function() {
+          var txt = (jQuery("#edit_action_comment").val());
+          var max_length = $(this).attr("maxlength")
+          if(txt.length == max_length ){
+            $("#error_edit_action_more_comment").show();
+            $("#error_edit_action_more_comment").html('You cannot enter more than '+max_length + ' characters ');
+          }
+          else{
+             $("#error_edit_action_more_comment").hide();
+          }
+         
+      });
+       $('#edit_action_comment').bind("blur", function() {
+          //$("#error_edit_action_more_comment").hide();
        });
       
       

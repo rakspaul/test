@@ -69,7 +69,8 @@ module ApplicationHelper
     Rails.application.config.scala_api
   end
 
-  def nodejs_api_url
-    Rails.application.config.nodejs_api
+  def ga_id
+    Rails.application.config.ga_id
   end
+
 end

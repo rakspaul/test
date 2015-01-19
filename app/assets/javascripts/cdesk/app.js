@@ -6,7 +6,12 @@ var angObj = '';
   angObj = angular.module('cdeskApp',
     [ 'commonModule',
       'campaignListModule',
-      'editActionsModule']
+      'editActionsModule',
+      'brandsModule',
+      'timePeriodModule',
+      'loginModule',
+      'angulartics',
+      'angulartics.google.analytics']
   );
 
 
@@ -40,13 +45,25 @@ var angObj = '';
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
+        
     });
 
-    angObj.run(function ($rootScope, $location, $cookies) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel) {
 
         $rootScope.$on('$locationChangeStart', function () {
-            if (($cookies.token === undefined) && ($location.path() !== '/login')) {
-             //   $location.url('/login');
+            brandsModel.enable();
+            if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
+                $location.url('login');
+            }
+
+            if((!loginModel.getUserId()) && ($location.path() !== '/login')){
+              //get userinfo from token
+              loginService.getUserInfo($cookies.auth_token);
+            }
+            
+            //if logged in - go to campaigns
+            if (($cookies.cdesk_session) && ($location.path() === '/login')) {
+                $location.url('campaigns');
             }
         });
     });

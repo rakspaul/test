@@ -64,7 +64,8 @@
           geo_targeting: geoValues,
           totalImpressions: tactic.impressions,
           grossRev: null,
-          expectedMediaCost: tactic.media_cost,
+	  totalMediaCost: tactic.total_media_cost,
+          expectedMediaCost: tactic.expected_media_cost,
           ctr: 0,
           vtc: 0,
           actionRate: 0,
@@ -148,11 +149,11 @@
               for (var i = 0; i < maxDays.length; i++) {
                 maxDays[i]['ctr'] *= 100
                 maxDays[i]['vtc'] = maxDays[i].video_metrics.vtc_rate * 100
-                var kpiType = kpiMap[sKpiType] ? kpiMap[sKpiType] : sKpiType;
+                var kpiType = kpiMap[angular.lowercase(sKpiType)] ? kpiMap[angular.lowercase(sKpiType)] : angular.lowercase(sKpiType);
                 var kpiTypeLower = angular.lowercase(kpiType);
                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType);
+              tacticsList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), kpiType,'tactics');
             }
           }
         }
@@ -176,26 +177,27 @@
           keyValues = appendStrategyData(strategy.selected_key_values, 'title');
         }
         var status;
-        if(strategy.li_status == "Ready"){
+        if(strategy.general.li_status == "Ready"){
           status = "Draft";
         }else{
-          status = strategy.li_status;
+          status = strategy.general.li_status;
         }
         strategyObj.push({
-          id: strategy.id,
+          id: strategy.general.id,
           brandName: campaign.brandName,
-          name: strategy.name,
-          startDate: strategy.start_date,
-          endDate: strategy.end_date,
-          order_id: strategy.order_id,
+          name: strategy.general.name,
+          startDate: strategy.general.start_date,
+          endDate: strategy.general.end_date,
+          order_id: strategy.general.order_id,
           li_status: status,
           ad_size: adSize,
-          tactics_count: strategy.ads_count || 0,
+          tactics_count: strategy.general.ads_count || 0,
           selected_key_values: keyValues,
           selected_geos: geos,
           totalImpressions: null,
           grossRev: null,
-          expectedMediaCost: strategy.expected_media_cost,
+	      totalMediaCost: utils.roundOff(strategy.general.value, 2),
+          expectedMediaCost: utils.roundOff(strategy.general.expected_media_cost, 2),
           ctr: 0,
           actionRate: 0,
           chart: null
@@ -246,7 +248,7 @@
                 var kpiTypeLower = angular.lowercase(kpiType);
                 lineData.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType);
+              strategyList[obj].chart = new line.highChart(lineData, parseFloat(kpiValue), sKpiType,'strategy');
             }
           }
         }
@@ -257,16 +259,18 @@
 
       var kpiType = campaign.kpiType;
       var kpiValue = campaign.kpiValue;
-      var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+
+     // var url = '/campaigns/' + campaign.orderId + '/lineitems.json';
+        var url = '/campaigns/' + campaign.orderId + '/strategies' ;
       dataService.getCampaignStrategies(url, 'list').then(function (result) {
 
-        if(result.status == "success" && !angular.isString(result.data)) {
-          if(result.data.length >= 0) {
-            if(result.data.length <= 3) {
-              campaign.campaignStrategies = createStrategyObject(result.data, timePeriod, campaign, kpiType, kpiValue);
+        if(result.status == "success" && !angular.isString(result.data.data)) {
+          if(result.data.data.length >= 0) {
+            if(result.data.data.length <= 3) {
+              campaign.campaignStrategies = createStrategyObject(result.data.data, timePeriod, campaign, kpiType, kpiValue);
             } else {
-              campaign.campaignStrategies = createStrategyObject(result.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
-              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategies = createStrategyObject(result.data.data.slice(0,3), timePeriod,campaign, kpiType, kpiValue);
+              campaign.campaignStrategiesLoadMore = createStrategyObject(result.data.data.slice(3), timePeriod,campaign, kpiType, kpiValue);
             }
           }
         }
@@ -291,7 +295,7 @@
                   kpiTypeLower = angular.lowercase(kpiType);
                 lineDate.push({ 'x': i + 1, 'y': utils.roundOff(maxDays[i][kpiTypeLower], 2), 'date': maxDays[i]['date'] });
               }
-              campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType);
+              campaignObject.chart = new line.highChart(lineDate, parseFloat(campaignObject.kpiValue), campaignObject.kpiType,'campaign');
             }
           }
         }else{

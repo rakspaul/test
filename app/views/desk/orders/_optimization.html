@@ -26,19 +26,21 @@
                 <div class="pull-left dropdown dropdown_type1" id="optimization_camp_list_dd">
                     <large-list-search selected-obj=selectedCampaign></large-list-search>
                 </div>
-                <div class="pull-right dropdown download_report" >
-                        <span class="dropdown_ul_text " data-toggle="dropdown">
-                            <a class="download_anchor" id="optimization_download_btn" href="" >&nbsp;</a>
-                        </span>
-                        <ul class="dropdown-menu" id="optimization_download">
-                            <li value="optimization">
-                                <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
-                            </li>
-                        </ul>
+                <div class="pull-right download_report">
+                    <div class=" dropdown" id="optimization_filter_dd">
+                            <span class="dropdown_ul_text " data-toggle="dropdown">
+                                <a class="download_anchor" id="optimization_download_btn" href="" >Download Report</a>
+                            </span>
+                            <ul class="dropdown-menu" id="optimization_download">
+                                <li value="optimization">
+                                    <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
+                                </li>
+                            </ul>
+                    </div>
                 </div>
-                <div class="pull-right dropdown duration_filters" id="optimization_duration_dd">
-                        <report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>
-                </div>
+                <!--<div class="pull-right dropdown duration_filters" id="optimization_duration_dd">-->
+                        <!--<report-filters selected-filter="selected_filters.time_filter_text" list-object="filters.duration" flag="duration"></report-filters>-->
+                <!--</div>-->
                 
             </div>
             
@@ -55,7 +57,7 @@
                     <div class="see_dates_holder clearfix">
                         <div class="external_chkbox clearfix">
                             <div class="squaredFour" id="see_dates_chkbox" >
-                              <input type="checkbox" id="optimization_squaredFour" class="squaredFourChkbox">
+                              <input id="optimization_squaredFour" type="checkbox" class="squaredFourChkbox" ng-checked="{{seeDate.value}}" >
                               <label for="optimization_squaredFour"></label>
                             </div>       
                             <span class="squaredFourTxt">See Dates</span>
@@ -90,10 +92,10 @@
             </div>
         </div>
         <!--tacticNotFound :  {{tacticNotFound | json}}-->
-        <div class="details_with_heading_total">
+        <div class="details_with_heading_total {{seeDate.className}}">
 
             <div class="each_reports_row each_reports_row_heading" style="text-align: center" ng-if="tacticNotFound">
-                            Tactics Not Available
+                            Strategy yet to be optimized.
             </div>
 
             <div class="each_reports_row each_reports_row_heading" ng-if="!tacticNotFound">
@@ -134,13 +136,14 @@
 
                             <div class="each_rep_col forth_col dates_hide">{{action.from_date_before | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col fifth_col dates_hide">{{action.to_date_before | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col sixth_col dates_hide">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
-                            <div class="each_rep_col sixth_col dates_show">{{formatMetric(action.metric_value_before,action.metric_impacted)}}</div>
-                            <div class="each_rep_col sev_col dates_hide">{{action.from_date_after | date:'dd MMM yyyy'}}</div>
+
+                            <div class="each_rep_col sixth_col dates_hide" title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col sixth_col dates_show" title = "{{action.metric_value_before  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_before | appendDollor : action.metric_impacted }}</div>
+                            <div class="each_rep_col sev_col dates_hide" >{{action.from_date_after | date:'dd MMM yyyy'}}</div>
                             <div class="each_rep_col eight_col dates_hide">{{action.to_date_after | date:'dd MMM yyyy'}}</div>
-                            <div class="each_rep_col nine_col dates_hide">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
-                            <div class="each_rep_col nine_col dates_show">{{formatMetric(action.metric_value_after,action.metric_impacted)}}</div>
-                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)" >
+                            <div class="each_rep_col nine_col dates_hide" title="{{action.metric_value_after  | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col nine_col dates_show" title ="{{action.metric_value_after | appendDollarWithoutFormat : action.metric_impacted }}">{{action.metric_value_after | appendDollor : action.metric_impacted}}</div>
+                            <div class="each_rep_col ten_col positive_text"  ng-class="colorCoding(action.metric_value_after,action.metric_value_before,action.metric_impacted)"  title="{{action.metric_percent_change  | number}}">
                                 <span class="positive_sign">+</span><span class="negative_sign">-</span>{{roundOff(action.metric_percent_change,0)}}%
                                 <span class="arrow_img"></span>
                             </div>
@@ -157,15 +160,3 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-    $(document).ready( function() {
-        $("#optimization_squaredFour").click( function() {
-            if( $(this).is(":checked") == true ) {
-               $(".details_with_heading_total").addClass("see_dates_selected") ;
-            } else {
-                $(".details_with_heading_total").removeClass("see_dates_selected") ;
-            }
-        });
-    }) ;
-    
-    </script>

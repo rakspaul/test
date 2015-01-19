@@ -13,18 +13,6 @@
 
             link: function ($scope, element, attrs) {
 
-                $scope.getSpendDifference = function(campaign) {
-                    if(campaign !== undefined) {
-                        var spendDifference = 0;
-                        var campaignCDBObj = $scope.campaigns.cdbDataMap[campaign.orderId];
-                        if (campaignCDBObj == undefined) {
-                            return spendDifference;
-                        }
-                        var spend =campaignCDBObj.getGrossRev();
-                        var expectedSpend =campaign.expectedMediaCost;
-                        return $scope.getPercentDiff(expectedSpend, spend);
-                    }
-                };
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
                     if (expected == 0) {
@@ -40,17 +28,18 @@
                     }
                     var expectedSpend = strategy.expectedMediaCost;
                     return $scope.getPercentDiff(expectedSpend, strategy.grossRev)
-                }
-                $scope.getSpendClass = function(campaign) {
-                    if(campaign !== undefined) {
-                        var spendDifference = $scope.getSpendDifference(campaign);
-                        return $scope.getClassFromDiff(spendDifference);
+                };
+                $scope.getSpendTotalDiffForStrategy = function(strategy) {
+                    if (strategy == undefined) {
+                        return 0;
                     }
+                    var totalSpend = strategy.totalMediaCost;
+                    return $scope.getPercentDiff(totalSpend, strategy.grossRev)
                 };
                 $scope.getSpendClassForStrategy = function(strategy) {
                     var spendDifference = $scope.getSpendDiffForStrategy(strategy);
                     return $scope.getClassFromDiff(spendDifference);
-                }
+                };
                 $scope.getClassFromDiff = function(spendDifference) {
                     if (spendDifference > -1) {
                         return 'blue';
@@ -60,22 +49,33 @@
                     }
                     return 'red';
                 }
-                $scope.getSpendWidth = function(campaign) {
-                    if(campaign !== undefined) {
-                        var actualWidth = 100 + $scope.getSpendDifference(campaign);
+                $scope.getSpendWidthForStrategy = function(strategy) {
+                    var actualWidth = 100 + $scope.getSpendTotalDiffForStrategy(strategy);
+                    if (actualWidth > 100) {
+                        actualWidth = 100;
+                    }
+                    return actualWidth;
+                }
+                $scope.getSpendTickWidthForStrategy = function(strategy) {
+                    if(strategy !== undefined) {
+                        var actualWidth = 100 + $scope.getSpendTickDifferenceForStrategy(strategy);
                         if (actualWidth > 100) {
                             actualWidth = 100;
                         }
                         return actualWidth;
                     }
                 }
-                $scope.getSpendWidthForStrategy = function(strategy) {
-                    var actualWidth = 100 + $scope.getSpendDiffForStrategy(strategy);
-                    if (actualWidth > 100) {
-                        actualWidth = 100;
+                $scope.getSpendTickDifferenceForStrategy = function(strategy) {
+                    var spendDifference = 0;
+                    if(strategy !== undefined) {
+                        var spend = strategy.expectedMediaCost;
+                        var expectedSpend = strategy.totalMediaCost;
+                        return $scope.getPercentDiff(expectedSpend, spend);
                     }
-                    return actualWidth;
-                }
+                    return spendDifference;
+                };
+
+
                 //$scope.campaigns.durationCompletion();
                 //To show the accorsponding strategy card
                 $scope.showStrategies = function(campaignId, strategiesCount) {

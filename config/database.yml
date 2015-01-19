@@ -19,8 +19,8 @@ qa:
 
 newqa:
   <<: *common
-  username: amp
-  password: amp0986N
+  username: postgres
+  database: reporting
   host: 10.128.170.229
 
 newstg:
@@ -38,6 +38,11 @@ production:
   <<: *common
   username: amts
   host: ampdb1.collective-media.net
+
+cdesk_production:
+  <<: *common
+  username: amp
+  host: ampdb2.collective-media.net
 
 test:
   <<: *common

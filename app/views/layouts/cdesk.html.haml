@@ -1,15 +1,14 @@
 !!!
-%html
+%html{'ng-app' => "cdeskApp"}
   %head
     %meta{:charset => "utf-8"}
-    %title= content_for?(:title) ? yield(:title) : "Collective Desk"
+    %title= content_for?(:title) ? yield(:title) : "Reporting"
     %meta{:content => "Collective Desk UI", :name => "description"}
     %meta{:content => "Collective", :name => "author"}
-    %link{:rel => "shortcut icon", :href => "http://collective.com/wp-content/themes/okcm/images/favicon.ico", :type => "image/x-icon"}
+    %link{:rel => "shortcut icon", :href => "#{image_path('collective.png')}", :type => "image/x-icon"}
 
     :javascript
       window.scala_api                = "#{scala_api_url}";
-      window.nodejs_api                = "#{nodejs_api_url}";
 
     = stylesheet_link_tag    "cdesk_application", :media => "all"
     = stylesheet_link_tag    "//fonts.googleapis.com/css?family=Armata"
@@ -19,50 +18,17 @@
     != render :partial => 'layouts/ga'
     = yield(:head)
 
-  %body{ 'ng-app' => "cdeskApp" }
-
-  #detailedPageNavbar.navbar.navbar-default
-    .container
-      .navbar-header
-        %button{'data-target' => 'navbar-collapse', "data-toggle" => "collapse", "class" => "navbar-toggle collapsed", "type" => "button"}
-          .sr-only Toggle navigation
-          .icon-bar
-          .icon-bar
-          .icon-bar
-          .icon-bar
-        %a.navbar-brand{:id => "logo", :href => "#"}
-          = image_tag("collective-media-logo.png", :width => "170")
-      .navbar-collapse.collapse
-        %ul.nav.navbar-nav
-          -if !current_user.agency_user? && !domain_desk?
-            - ApplicationHelper::APP_NAVIGATION_BAR.each do |key, value|
-              %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
-                = link_to key, value[:path]
-          -elsif domain_desk?
-            - app_navigation_bar_cdesk.each do |key, value|
-              %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
-                = link_to key, value[:path]
-          -else
-            - ApplicationHelper::APP_NAVIGATION_BAR_AGENCY.each do |key, value|
-              %li{:class => ("active" if value[:controllers].include?(controller.class.name))}
-                = link_to key, value[:path]
+  %body
+    - if cookies[:cdesk_session]
+      %header
 
 
-        %ul.nav.navbar-nav.navbar-right
-          %li
-            %span.hello
-              Hello,&nbsp;
-            %span.user-name
-              = current_user.first_name
-          %li
-            = link_to "Log out", signout_path
+
+
 
   = content_for?(:content) ? yield(:content) : yield
-
+  
   :javascript
-    window.user_id                  = "#{current_user.id}";
-    window.auth_token               = "#{auth_token}";
-    window.is_network_user          = "#{current_user.network_user?}";
     window.assets                   = {};
     window.assets.target_marker     = "#{image_path('cdesk/icn_goal.png')}";
     window.assets.platform_icon     = "#{image_path('tag_icon.png')}";

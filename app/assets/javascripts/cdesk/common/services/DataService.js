@@ -1,10 +1,8 @@
 /*global angObj*/
 (function () {
   "use strict";
-  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService) {
-    //$http.defaults.headers.common['Authorization'] = userService.getUserDetails('token');
-    // $http.defaults.headers.common.Authorization = userService.getUserDetails('token');
-    $http.defaults.headers.common['Authorization'] = "CollectiveAuth token=" + user_id + ":" + auth_token + " realm=\"reach-ui\"";
+  commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location) {
+    $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken(); 
     return {
 
       getSingleCampaign: function (urlPath) {
@@ -16,13 +14,13 @@
       },
 
       getCampaignStrategies: function (urlPath, type) {
-        var apiUrl;
-        if (type == 'metrics') {
-          apiUrl = api + urlPath;
-        } else if (type == 'list') {
-          apiUrl = urlPath;
-        }
-        return this.fetch(apiUrl)
+//        var apiUrl = api + urlPath;
+//        if (type == 'metrics') {
+//          apiUrl = api + urlPath;
+//        } else if (type == 'list') {
+//          apiUrl = urlPath;
+//        }
+        return this.fetch(api + urlPath)
       },
 
       getCdbChartData: function (campaign, timePeriod, type, strategyId) {
@@ -75,7 +73,6 @@
         // for testing 
         //var url = apiPaths.apiSerivicesUrl + '/campaigns/405617/inventory/categories?kpi_type=CPC';
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/inventory/categories?kpi_type=' + campaign.kpiType;
-        console.log(url);
         return this.fetch(url);
       },
 
@@ -83,12 +80,6 @@
         // for testing 
         //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
-        console.log(url);
-        return this.fetch(url);
-      },
-
-      getBrands: function () {
-        var url = '/desk/advertisers.json';
         return this.fetch(url);
       },
 
@@ -98,8 +89,9 @@
       },
 
       getTactics: function (orderId) {
-        var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
-        return this.fetch(url)
+        //var url = campaign_api + '/orders/' + orderId + '/ads/ads.json';
+          var url = apiPaths.apiSerivicesUrl + '/campaigns/' + orderId + '/strategies/tactics/meta';
+          return this.fetch(url)
       },
 
       getCampaignData: function (periodKey, campaign, periodStartDate, periodEndDate) {
@@ -119,7 +111,7 @@
       },
 
       updateLastViewedAction: function(campaignId) {
-        return this.put(urlService.APIlastViewedAction(campaignId, user_id), {}).then(function(response) {
+        return this.put(urlService.APIlastViewedAction(campaignId), {}).then(function(response) {
           if(response.status === "success") {
             //delete default campaign list cache here
             dataStore.deleteAllCachedCampaignListUrls();
@@ -128,6 +120,7 @@
       },
 
       fetch: function (url) {
+        loginModel.checkCookieExpiry();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
@@ -140,6 +133,10 @@
         }
         return $http({url: url, method: 'GET', cache: true}).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             var objOnSuccess = {
               status: "success",
               data: response.data
@@ -148,6 +145,10 @@
             return utils.clone(objOnSuccess);
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             return {
               status: "error",
               data: error
@@ -157,6 +158,7 @@
       },
 
       fetchCancelable: function (url, canceller, success, failure) {
+        loginModel.checkCookieExpiry();
         var cachedResponse = dataStore.getCachedByUrl(url);
         if(cachedResponse != undefined) {
           var defer = $q.defer();
@@ -168,6 +170,10 @@
         }
         return $http.get(url, {timeout: canceller.promise}).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             var objOnSuccess = {
               status: "success",
               data: response.data
@@ -176,6 +182,10 @@
             return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             var objOnError = {
               status: "error",
               data: error
@@ -187,15 +197,25 @@
         );
       },
 
-      post: function (url, data) {
-        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: {'Content-Type': 'text/plain'} }).then(
+      post: function (url, data, header) {
+        loginModel.checkCookieExpiry();
+        $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
+        return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             return {
               status: "success",
               data: response.data
             };
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             return {
               status: "error",
               data: error
@@ -205,14 +225,24 @@
       },
 
       put: function (url, data) {
+        loginModel.checkCookieExpiry();
+        $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         return $http.put(url, angular.toJson(data)).then(
           function (response) {
+            if(response.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             return {
               status: "success",
               data: response.data
             };
           },
           function (error) {
+            if(error.status == 401) {
+              console.log('Unauthorised Request - Logging out');
+              loginModel.unauthorized();
+            }
             return {
               status: "error",
               data: error

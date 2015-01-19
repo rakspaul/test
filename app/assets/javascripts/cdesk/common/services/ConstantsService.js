@@ -8,6 +8,17 @@
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
     this.SORT_DESC = 'desc';
     this.ACTIVE_UNDERPERFORMING = '(active,underperforming)';
+    this.ALL_BRANDS = 'All Brands';
+    this.EVENT_BRAND_CHANGED = "brandChanged";
+    this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
+    this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";
+    this.GA_DASHBOARD = 'dashboard-widget';
+    this.GA_CLICK = 'click';
+    this.GA_BRAND_SELECTED = 'brand_selected';
+    this.GA_EVENT = 'event';
+    this.GA_SEND = 'send';
+    this.ROLE_NETWORK = 'Network';
+    this.ROLE_MARKETER = 'Marketer';
   }
 
   commonModule.service("constants", constants);
