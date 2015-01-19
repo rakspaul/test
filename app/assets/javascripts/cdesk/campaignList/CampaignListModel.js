@@ -246,11 +246,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.completed = result.data.data.completed.total;
           self.dashboard.paused =  result.data.data.paused;
           self.dashboard.allOtherTotal = result.data.data.na.total!= undefined ? result.data.data.na.total : 0;
-          self.dashboard.total =   self.dashboard.draft +
-            self.dashboard.ready +
-            self.dashboard.active.total +
-            self.dashboard.completed +
-            self.dashboard.paused+self.dashboard.allOtherTotal;
+	  self.dashboard.total = result.data.data.total;
           self.dashboard.displayStatus.draft  = self.dashboard.draft  > 0 ? true:false;
           self.dashboard.displayStatus.ready  = self.dashboard.ready  > 0 ? true:false;
           self.dashboard.displayStatus.paused  = self.dashboard.paused  > 0 ? true:false;
