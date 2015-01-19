@@ -12,7 +12,6 @@
         $scope.loadingCostBreakdownFlag = true;
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
-
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
 
