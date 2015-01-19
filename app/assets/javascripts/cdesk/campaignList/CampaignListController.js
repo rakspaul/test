@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope, campaignListModel, utils, $location, _, constants, brandsModel) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, utils, $location, _, constants, brandsModel, dataTransferService) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
@@ -13,6 +13,22 @@
     $scope.$on("fromCampaignDetails", function(event, args) {
       $scope.loadMoreStrategies(args.campaignId);
     });
+
+    $scope.viewReports = function(campaign) {
+       var param = {
+                selectedCampaign :campaign,
+                selectedStrategy : null,
+                strategyId : null,
+                strategyName : null,
+                strategyStartDate : null,
+                strategyEndDate : null
+            };
+
+      //dataTransferService.initOptimizationData(param);
+      dataTransferService.initReportingData(param);
+      $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+      document.location = '#/performance';
+    };
 
     $scope.loadMoreStrategies = function(campaignId) {
       var pageSize = 3;

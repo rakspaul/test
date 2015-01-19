@@ -11,8 +11,7 @@
       filterDurationType:null,
       filterDurationValue:null,
       filterKpiType:null,
-      filterKpiValue:null,
-      previousCampaignId:null
+      filterKpiValue:null
     }));
     return {
       initOptimizationData : function(param){
@@ -29,15 +28,30 @@
           navigationFromReports: param.navigationFromReports,
           strategyId : null,
           strategyName : null,
-          filterDurationType:null,
-          filterDurationValue:null,
-          filterKpiType:null,
-          filterKpiValue:null,
+          filterDurationType:'life_time',
+          filterDurationValue:'Life Time',
+          filterKpiType:param.selectedCampaign.kpi_type,
+          filterKpiValue:param.selectedCampaign.kpi_type.toUpperCase(),
           previousCampaignId:null
         }));
       },
+      initReportingData : function(param){
+        localStorage.setItem( 'campaignDetails', JSON.stringify({
+          campaignId :  param.selectedCampaign.id,
+          campaignName : param.selectedCampaign.name,
+          strategyId : param.strategyId,
+          strategyName : param.strategyName,
+          strategyStartDate: param.strategyStartDate,
+          strategyEndDate : param.strategyEndDate,
+          filterDurationType:'life_time',
+          filterDurationValue:'Life Time',
+          filterKpiType:param.selectedCampaign.kpi_type,
+          filterKpiValue:(param.selectedCampaign.kpi_type === 'action_rate' || param.selectedCampaign.kpi_type === 'action rate' ) ? 'Action rate' : param.selectedCampaign.kpi_type.toUpperCase()
+        }));
+      },
+
       getDomainReportsValue : function(key){
-        if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined) {
+        if(localStorage.getItem('campaignDetails') !== null && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== undefined && JSON.parse(localStorage.getItem('campaignDetails'))[key] !== null) {
           return JSON.parse(localStorage.getItem('campaignDetails'))[key];
         }else{
           return false;

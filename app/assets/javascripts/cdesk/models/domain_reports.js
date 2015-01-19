@@ -62,6 +62,24 @@
                     }
                 }
             },
+            intValues : function() {
+                return {
+                    campaign : {
+                        id: datatransferservice.getDomainReportsValue('campaignId') ? datatransferservice.getDomainReportsValue('campaignId') : '-1',
+                        name: datatransferservice.getDomainReportsValue('campaignName') ? datatransferservice.getDomainReportsValue('campaignName') : 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
+
+                    },
+                    strategy : {
+                        id:  datatransferservice.getDomainReportsValue('strategyId') ? datatransferservice.getDomainReportsValue('strategyId') : '-1',
+                        name: datatransferservice.getDomainReportsValue('strategyName') ? datatransferservice.getDomainReportsValue('strategyName') : 'Loading...',
+                        startDate: '-1',
+                        endDate: '-1'
+                    }
+                }
+            },
+            // datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
             getNotFound : function() {
                 return {
                     campaign : {
@@ -102,10 +120,11 @@
 
             getDurationKpi : function () {
                 return {
-                    time_filter: datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType') : 'life_time',
+
+                    time_filter :  datatransferservice.getDomainReportsValue('filterDurationType') ? datatransferservice.getDomainReportsValue('filterDurationType')  : 'life_time',
                     time_filter_text: datatransferservice.getDomainReportsValue('filterDurationValue') ? datatransferservice.getDomainReportsValue('filterDurationValue')  : 'Life Time',
-                    kpi_type: datatransferservice.getDomainReportsValue('filterKpiType') ? datatransferservice.getDomainReportsValue('filterKpiType')  :  'CTR',
-                    kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiValue')  :   'CTR'
+                    kpi_type: datatransferservice.getDomainReportsValue('filterKpiType') ? datatransferservice.getDomainReportsValue('filterKpiType')  :  'ctr',
+                    kpi_type_text: datatransferservice.getDomainReportsValue('filterKpiValue') ? datatransferservice.getDomainReportsValue('filterKpiType')  :   'CTR'
                 };
             },
             getAllCampaignListForUser : function(brand_id) {

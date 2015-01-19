@@ -39,8 +39,7 @@ return {
             filterDurationType:null,
             filterDurationValue:null,
             filterKpiType:null,
-            filterKpiValue:null,
-            previousCampaignId:null
+            filterKpiValue:null
         }));
     },
     // this.getUser = function(){

@@ -118,7 +118,7 @@ var angObj = angObj || {};
                         $scope.actionDataForSelectedStrategy();
                     }
                     else {
-                //        $scope.noTacticsFound = true;
+                        //        $scope.noTacticsFound = true;
                         $scope.tacticNotFound = true;
                         // If no actions found for a campaign still CDB chart should be shown
                         if ($scope.selectedStrategy.id !== -1) {
@@ -227,9 +227,10 @@ var angObj = angObj || {};
                 }
             }
             $scope.tacticList = tacticList;
-            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : actionItems[0];
-            $scope.actionId = action.ad_id + '' + action.id;
-            if (action) {
+            var action = (dataTransferService.getClickedAction() !== undefined ) ? dataTransferService.getClickedAction() : ( (actionItems === undefined)? undefined : actionItems[0]) ;
+
+            if (action != undefined ) {
+                $scope.actionId = action.ad_id + '' + action.id;
                 if ($scope.actionId !== null) {
                     $timeout(function () {
 
@@ -394,7 +395,7 @@ var angObj = angObj || {};
                         $scope.getCampaignDetails();
                     }
                     else {
-               //         $scope.noTacticsFound = true;
+                        //         $scope.noTacticsFound = true;
                         $scope.tacticNotFound = true;
                         $scope.chartForStrategy = false;
                     }
@@ -413,16 +414,16 @@ var angObj = angObj || {};
             if ($scope.navigationFromReports == true) {
                 $scope.selectedStrategy.name = "Loading...";
             }
-                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    if (result.status == 'success') {
-                        var strategy = result.data.data;
-                        $scope.updateStrategyObjects(strategy);
-                    } else {
-                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                        $scope.tacticNotFound = true ;
-                        $scope.chartForStrategy = false ;
-                    }
-                });
+            domainReports.getCampaignStrategyList(campaignId).then(function (result) {
+                if (result.status == 'success') {
+                    var strategy = result.data.data;
+                    $scope.updateStrategyObjects(strategy);
+                } else {
+                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                    $scope.tacticNotFound = true ;
+                    $scope.chartForStrategy = false ;
+                }
+            });
 
         };
 
@@ -444,7 +445,6 @@ var angObj = angObj || {};
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategies = {} ; // if No Strategy then clear the strategy list.
             }
-         //   $scope.$apply();
 
         };
 
@@ -476,29 +476,29 @@ var angObj = angObj || {};
             else {
                 // means selected strategy id is not valid
                 $scope.chartForStrategy = false;
-            //    $scope.noTacticsFound = true;
+                //    $scope.noTacticsFound = true;
                 $scope.tacticNotFound = true;
             }
         };
 
         $("#optimization_squaredFour").click( function() {
-                if( $(this).is(":checked") == true ) {
-                    localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',true);
-                    $scope.seeDate.value = true;
-                    $scope.seeDate.className = 'see_dates_selected' ;
-                    $(".details_with_heading_total").addClass("see_dates_selected") ;
-                } else {
-                    localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
-                    $scope.seeDate.value = false;
-                    $scope.seeDate.className = '' ;
-                    $(".details_with_heading_total").removeClass("see_dates_selected") ;
-                }
+            if( $(this).is(":checked") == true ) {
+                localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',true);
+                $scope.seeDate.value = true;
+                $scope.seeDate.className = 'see_dates_selected' ;
+                $(".details_with_heading_total").addClass("see_dates_selected") ;
+            } else {
+                localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
+                $scope.seeDate.value = false;
+                $scope.seeDate.className = '' ;
+                $(".details_with_heading_total").removeClass("see_dates_selected") ;
+            }
             $scope.$apply();
         });
 
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
-          $scope.callBackKpiDurationChange('duration');
+            $scope.callBackKpiDurationChange('duration');
         });
 
     });
