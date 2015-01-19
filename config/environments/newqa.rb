@@ -26,9 +26,6 @@ Reachui::Application.configure do
   # Generate digests for assets URLs.
   config.assets.digest = true
 
-  # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-
   # Add additional assets.
   config.assets.paths << Rails.root.join('app', 'assets', 'fonts')
   config.assets.paths << Rails.root.join('app', 'assets', 'views')
