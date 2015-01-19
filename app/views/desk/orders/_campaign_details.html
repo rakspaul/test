@@ -113,14 +113,14 @@
                             </div>
                         </div>
                          <div ng-show="loadingFormatFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="((details.formats.length == 0 || campaign.kpiType =='null' ) && loadingFormatFlag == false)" class="no-data-available" >Data Not Available</div>
+                         <div  ng-if="((details.formats.length == 0 || campaign.kpiType =='null' || !(details.formats) ) && loadingFormatFlag == false)" class="no-data-available" >Data Not Available</div>
                     </div>
                     <div ng-click="setGraphData(campaign,'cost')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder">
                         <div class="graph_heading">
                             Cost Breakdown
                         </div>
                          <div ng-show="loadingCostBreakdownFlag" class="load-more">&nbsp;</div>
-                         <div  ng-if="(details.totalCostBreakdown == 0)" class="no-data-available" >Data Not Available</div>
+                         <div  ng-if="((details.totalCostBreakdown == 0 || !(details.totalCostBreakdown)) && loadingCostBreakdownFlag== false )" class="no-data-available" >Data Not Available</div>
                         <div class="clearfix each_section_graph graph_holding_section" ng-if="(details.totalCostBreakdown > 0 )">
                             <div class="pull-left section_graph">
                                 <highchart ng-show= "details.pieChart" config="details.pieChart" chartTitle="" class="section_graph_highcharts"></highchart>
@@ -146,7 +146,7 @@
                             Inventory ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>
                         <div ng-show="loadingInventoryFlag" class="load-more" >&nbsp;</div>
-                        <div  ng-if="(details.inventory.length == 0)" class="no-data-available" >Data Not Available</div>
+                        <div  ng-if="((details.inventory.length == 0 || !(details.inventory)) && loadingInventoryFlag == false)" class="no-data-available" >Data Not Available</div>
                         <div class="clearfix each_section_graph " ng-if="(details.inventory.length > 0)">
                             <div class="inventory_number">
                               Top {{details.inventory.length}}

@@ -8,7 +8,10 @@
         var Campaigns = campaignListModel;
         brandsModel.disable();
         $scope.actionItems = activityList.data;
-
+        $scope.loadingViewabilityFlag = true;
+        $scope.loadingCostBreakdownFlag = true;
+        $scope.loadingFormatFlag = true;
+        $scope.loadingInventoryFlag = true;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
 
@@ -166,7 +169,6 @@
 
         $scope.getCostBreakdownData  = function(campaign){
             var costData, other = 0, sum;
-            $scope.loadingCostBreakdownFlag = true;
              //get cost break down data
             dataService.getCostBreakdown($scope.campaign).then(function(result) {
                  $scope.loadingCostBreakdownFlag = false;
@@ -207,7 +209,6 @@
 
         $scope.getInventoryGraphData  = function(campaign){
             var inventory =[] ;
-            $scope.loadingInventoryFlag = true;
             dataService.getCostInventoryData($scope.campaign,'life_time').then(function(result) {
                 $scope.loadingInventoryFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -243,7 +244,6 @@
 
         $scope.getFormatsGraphData  = function(campaign){
             var formats;
-            $scope.loadingFormatFlag = true;
             dataService.getCostFormatsData($scope.campaign, 'life_time').then(function(result) {
                 $scope.loadingFormatFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -295,7 +295,6 @@
             var viewabilityData, viewData;
              //get cost break down data
              $scope.getCostViewabilityFlag = 0;
-             $scope.loadingViewabilityFlag = true;
             dataService.getCostViewability(campaign,'life_time').then(function(result) {
                  $scope.getCostViewabilityFlag = 1;
                  $scope.loadingViewabilityFlag = false;
