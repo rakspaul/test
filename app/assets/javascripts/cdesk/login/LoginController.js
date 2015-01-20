@@ -11,8 +11,10 @@
 		$scope.resetValidation();
 		$scope.loadingClass = "loading";
 		loginService.loginAction($scope.username, $scope.password, function(response) {
-			 if(response.status == "success") { 
-			 	loginService.setCredentials(response.data.data); 
+			 if(response.status == "success") {
+                var user = response.data.data;
+                user.login_name = $scope.username;
+			 	loginService.setCredentials(user);
 			 	document.location = '/';
 			 } else { 
 			 	console.log('login failed');
