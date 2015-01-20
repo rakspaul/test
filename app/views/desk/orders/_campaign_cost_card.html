@@ -1,6 +1,6 @@
 <div class="clearfix" >
     <div class="each_cost_section status_section">
-        <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_campaign_status_icon"></div>
+        <div class="campaign_status_icon  {{campaign.status.toLowerCase()}}_campaign_status_icon" data-toggle="tooltip" data-placement="left" data-original-title="{{campaign.status.toLowerCase() | toCamelCase}}"></div>
     </div>
     <div class="each_cost_section other_details">
         <div class="clearfix">
