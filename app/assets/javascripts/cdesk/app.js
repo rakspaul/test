@@ -66,5 +66,11 @@ var angObj = '';
                 $location.url('campaigns');
             }
         });
+
+        $rootScope.$on('$routeChangeSuccess', function () {
+            if(loginModel.getLoginName()) {
+                ga('set', 'dimension1', loginModel.getLoginName());
+            }
+        });
     });
 }());

@@ -23,6 +23,7 @@
       });
       brandsModel.setSelectedBrand(brand);
       $rootScope.$broadcast(constants.EVENT_BRAND_CHANGED, brand);
+      ga('set', 'dimension1', loginModel.getLoginName());
       analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name);
     };
 
