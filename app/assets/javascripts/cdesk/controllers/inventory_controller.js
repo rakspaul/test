@@ -163,15 +163,15 @@ var angObj = angObj || {};
                 if (result.status === "OK" || result.status === "success") {
                     $scope.strategyTable.topPerformance = [], $scope.strategyTable.bottomPerformance = [];
 
-                    if (result.data.data[0] !== undefined) {
+                    if ((result.data.data[0] !== undefined) && ((result.data.data[0].inv_metrics !== null || result.data.data[0].inv_metrics !== undefined) && result.data.data[0].inv_metrics.length > 0 ) ) {
+                        var resultTableData = result.data.data[0].inv_metrics;
 
-                        // First confirm that the current selected tab and the tab for which we got data response are same. Then only process the data.
-                        if (param.domain.toLowerCase() === $scope.selected_filters.domain.toLowerCase()) {
-                            var resultTableData = result.data.data[0].inv_metrics;
+                                // First confirm that the current selected tab and the tab for which we got data response are same. Then only process the data.
+                                if (param.domain.toLowerCase() === $scope.selected_filters.domain.toLowerCase()) {
 
                             $scope.strategyBusy = false;
                             // if we get valid inventroy data for strategy then only we need to make call to get tactic data
-                            if ((resultTableData !== null || resultTableData !== undefined) && resultTableData.length > 0) {
+
                                 // As we got strategy data ,first do the call for tactics data
                                 $scope.getTacticList({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, domain: $scope.selected_filters.domain, time_filter: $scope.selected_filters.time_filter });
 
@@ -207,18 +207,30 @@ var angObj = angObj || {};
                                 // we are making $scope.tacticBusy = false here because if no data found for a particular kpi and then we change tab then for that also
                                 // data is not found but tactic loader was still true.
                             }
-                        }
                     }
-                    else {
+                    else { //api call doesn't return result data or returns empty invetory metrics data.
                         $scope.inventoryChart = false;
                         $scope.strategyBusy = false;
                         $scope.tacticBusy = false;
+                        $scope.strategyTableData = [];
+                        $scope.strategyTable.topPerformance = [];
+                        $scope.strategyTable.bottomPerformance = [];
+                        $scope.tacticList.tacticList = [];
+                        $scope.tacticList.topPerformance = [];
+                        $scope.tacticList.bottomPerformance = [];
+
                     }
-                } // Means no strategy data found
+                } // Means no strategy data found with API response 404
                 else {
                     $scope.inventoryChart = false;
                     $scope.strategyBusy = false;
                     $scope.tacticBusy = false;
+                    $scope.strategyTableData = [];
+                    $scope.strategyTable.topPerformance = [];
+                    $scope.strategyTable.bottomPerformance = [];
+                    $scope.tacticList.tacticList = [];
+                    $scope.tacticList.topPerformance = [];
+                    $scope.tacticList.bottomPerformance = [];
                 }
             });
         };
