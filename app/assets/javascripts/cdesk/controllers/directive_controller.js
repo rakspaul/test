@@ -7,7 +7,6 @@
         $scope.originalAllCampaingList={};
         $scope.originalCampaingList = {};
 
-    //        brandsModel.getSelectedBrand()
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event,brand) {
 
             // clear the existing campaignDetails object present is localStroage.
@@ -24,8 +23,13 @@
             $scope.originalAllCampaingList = allCampaigns ;
             //   $scope.campaignFullList = campaigns;
             if (typeof  $scope.campaigns !== 'undefined' && $scope.campaigns.length > 0) {
-                //Maintain the selected campaign name and id;
-                $scope.$parent.selectedCampaign = domainReports.getFound($scope.campaigns[0])['campaign'];
+                if(dataTransferService.getDomainReportsValue('campaignId')== false){ // Means No campaing selected in localStorage.
+                    $scope.$parent.selectedCampaign = domainReports.getFound($scope.campaigns[0])['campaign'];
+                }
+                else{
+                    $scope.$parent.selectedCampaign.id = dataTransferService.getDomainReportsValue('campaignId');
+                    $scope.$parent.selectedCampaign.name = dataTransferService.getDomainReportsValue('campaignName');
+                }
                 if($scope.$parent.selected_filters !== undefined) {
                     $scope.$parent.selected_filters.kpi_type = dataTransferService.getDomainReportsValue('filterKpiType') ? dataTransferService.getDomainReportsValue('filterKpiType') : $scope.campaigns[0].kpi_type;
                     $scope.$parent.selected_filters.kpi_type_text = dataTransferService.getDomainReportsValue('filterKpiValue') ? dataTransferService.getDomainReportsValue('filterKpiValue') : ($scope.campaigns[0].kpi_type === 'action_rate') ? 'Action Rate' : $scope.campaigns[0].kpi_type,

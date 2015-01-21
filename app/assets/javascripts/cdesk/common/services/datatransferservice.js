@@ -1,18 +1,6 @@
 (function (){
   'use strict';
   commonModule.factory("dataTransferService" , function($http, loginModel) {
-    localStorage.setItem( 'campaignDetails', JSON.stringify({
-      campaignId : null,
-      campaignName:null,
-      strategyId : null,
-      strategyName : null,
-      strategyStartDate : null,
-      strategyEndDate : null,
-      filterDurationType:null,
-      filterDurationValue:null,
-      filterKpiType:null,
-      filterKpiValue:null
-    }));
     return {
       initOptimizationData : function(param){
         localStorage.setItem( 'campaignDetails', JSON.stringify({
