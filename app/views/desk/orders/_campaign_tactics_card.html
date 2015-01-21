@@ -11,21 +11,20 @@
                     <div class="main_heading">
                         {{tactic.name | truncateString : 78}}
                     </div>
-                    
                     <div class="tactic_accordion_details">
-                        <div>
+                        <div ng-if="(tactic.audience_targeting!='null' && tactic.audience_targeting!='' && tactic.audience_targeting.length > 0  )">
                             <span class="audience-icon"></span>
                             <span>{{(tactic.audience_targeting? (tactic.audience_targeting | truncateString : 78) : '[...]')}}</span>
                         </div>
-                        <div>
+                        <div ng-if="(tactic.geo_targeting!='null' && tactic.geo_targeting!='' && tactic.geo_targeting.length > 0  )">
                             <span class="globe-icon"></span>
                             <span>{{(tactic.geo_targeting? (tactic.geo_targeting | truncateString : 78) : '[...]')}}</span>
                         </div>
-                        <div>
+                        <div ng-if="(tactic.zip_targeting!='null' && tactic.zip_targeting!=''&& tactic.zip_targeting.length > 0  )">
                             <span class="location-icon"></span>
                             <span>{{(tactic.zip_targeting? (tactic.zip_targeting | truncateString : 65) : '[...]')}}</span>
                         </div>
-                        <div class="duration">
+                        <div class="duration"  ng-if="(tactic.ad_size!='null' && tactic.ad_size!='' && tactic.ad_size.length > 0  )">
                             <span class="device-icon"></span>
                             <span>{{(tactic.ad_size ? (tactic.ad_size | truncateString : 50) :'[...]')}}</span>
                         </div>
