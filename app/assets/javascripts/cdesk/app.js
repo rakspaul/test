@@ -11,7 +11,8 @@ var angObj = '';
       'timePeriodModule',
       'loginModule',
       'angulartics',
-      'angulartics.google.analytics']
+      'angulartics.google.analytics',
+      'dashboardModule']
   );
 
 
