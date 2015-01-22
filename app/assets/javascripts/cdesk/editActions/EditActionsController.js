@@ -58,10 +58,11 @@
 
                         }
                     });
-
+                    $scope.editError = undefined;
                     resetEditActionFormData();
                     editAction.data.show = false;
                 } else {
+                    $scope.saveBtnDisabled = false;
                     $scope.editError = "(Update Failed)";
                 }
 
