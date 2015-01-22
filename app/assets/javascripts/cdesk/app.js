@@ -11,7 +11,8 @@ var angObj = '';
       'timePeriodModule',
       'loginModule',
       'angulartics',
-      'angulartics.google.analytics']
+      'angulartics.google.analytics',
+      'dashboardModule']
   );
 
 
@@ -64,6 +65,12 @@ var angObj = '';
             //if logged in - go to campaigns
             if (($cookies.cdesk_session) && ($location.path() === '/login')) {
                 $location.url('campaigns');
+            }
+        });
+
+        $rootScope.$on('$routeChangeSuccess', function () {
+            if(loginModel.getLoginName()) {
+                ga('set', 'dimension1', loginModel.getLoginName());
             }
         });
     });

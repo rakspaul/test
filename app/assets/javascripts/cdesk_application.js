@@ -28,6 +28,7 @@
 //= require underscore-min
 //= require angulartics
 //= require angulartics-ga
+//= require d3
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
@@ -50,6 +51,12 @@
 //= require cdesk/common/directives/CommonDirectives.js
 //= require cdesk/common/utils
 //= require cdesk/common/services/AnalyticsService
+//= require cdesk/common/d3/gauge
+//= require cdesk/common/controllers/GaugeController
+//= require cdesk/common/models/GaugeModel
+
+//= require cdesk/dashboard/DashboardModule
+//= require cdesk/dashboard/DashboardController
 
 //= require cdesk/directives/largeListSearch
 //= require cdesk/controllers/directive_controller

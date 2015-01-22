@@ -7,6 +7,7 @@
       data.is_network_user = false;
       data.auth_token = undefined;
       data.expiry_secs = undefined;
+      data.login_name = undefined;
   
 return {
 
@@ -45,6 +46,15 @@ return {
     // this.getUser = function(){
     //   return this.data;
     // };
+
+    getLoginName : function() {
+        if(data.login_name) {
+            return data.login_name;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.login_name = $cookieStore.get('cdesk_session').login_name;
+            return $cookieStore.get('cdesk_session').login_name;
+        }
+    },
 
     getUserId : function() {
       if(data.user_id) {

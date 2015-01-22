@@ -592,7 +592,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         display: 'Brand',
         key: 'advertiser'
       }, {
-        display: 'Flight dates',
+        display: 'Flight Dates',
         key: 'start_date',
         className: 'active'
       }];

@@ -3,7 +3,7 @@
     'use strict';
 
     angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel) {
-
+        var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
         brandsModel.disable();
@@ -185,20 +185,19 @@
                             adServing: costData.ad_serving_cost_pct,
                             other: other
                         };
-                         $scope.getCostBreakdownInfo = [
-                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1'},
-                            {name:'Data',value:costData.data_cost_pct,className:'color2'},
-                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3'},
-                            {name:'Other',value:other,className:'color4'}
+                        $scope.getCostBreakdownInfo = [
+                            {name:'Inventory',value:costData.inventory_cost_pct,className:'color1',colorCode:'#F8810E'},
+                            {name:'Data',value:costData.data_cost_pct,className:'color2',colorCode:'#0072BC'},
+                            {name:'Ad Serving',value:costData.ad_serving_cost_pct,className:'color3',colorCode:'#45CB41'},
+                            {name:'Other',value:other,className:'color4',colorCode:'#BFC3D1'}
                         ];
-                        var costBreakdownColors =[];
-                            costBreakdownColors["inventory"] = "#F8810E";
-                            costBreakdownColors["data"] = "#0072BC";
-                            costBreakdownColors["adServing"] = "#45CB41";
-                            costBreakdownColors["other"] = "#BFC3D1";
                         $scope.details.totalCostBreakdown = costData.total;
+                        $scope.order = function(predicate, reverse) {
+                            $scope.costBreakdownChartInfo = orderBy($scope.getCostBreakdownInfo, predicate, reverse);
+                        };
+                        $scope.order('-value',false);
                         $timeout(function(){
-                             $scope.details.pieChart=pieChart.highChart($scope.details.getCostBreakdown, costBreakdownColors);
+                             $scope.details.pieChart=pieChart.highChart($scope.costBreakdownChartInfo);
                          });
                      }
                 }

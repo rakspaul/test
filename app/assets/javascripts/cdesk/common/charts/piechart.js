@@ -3,12 +3,21 @@
     "use strict";
     commonModule.factory("pieChart", function($timeout) {
 
-        var pieChart = function(graphData, colors) {
+        var pieChart = function(graphData) {
             var data = [], colors;
-
-            for (var key in graphData) {
-                data.push({'y':graphData[key],
-                 'color':colors[key]});
+            for(var i in graphData)
+            {
+              if(graphData[i].name !='Other'){
+                data.push({'y':graphData[i].value,'color':graphData[i].colorCode});
+              }
+               
+            }
+            for(var othr in graphData)
+            {
+              if(graphData[othr].name =='Other'){
+                data.push({'y':graphData[othr].value,'color':graphData[othr].colorCode});
+              }
+               
             }
             return {
                 options: {
