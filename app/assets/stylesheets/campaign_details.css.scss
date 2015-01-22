@@ -815,8 +815,10 @@
         width : 620px ;
         overflow-y : auto ;
         border: solid 1px #ebf0f5;
+        .load-more {
+          margin-top: 80px ;
+        }
         .each_activity_log {
-          
           font-size: 14px ;
           color: #2d2f31 ;
           padding: 20px 10px ;
