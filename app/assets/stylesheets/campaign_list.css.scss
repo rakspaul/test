@@ -408,10 +408,10 @@ button, i, input[type="submit"] {
         > input {
           width: 80px;
         }
-        > input::-webkit-input-placeholder { color: $textColorWhite; }
-        > input::-moz-placeholder { color: $textColorWhite; }
-        > input:-moz-placeholder { color: $textColorWhite; }
-        > input:-ms-input-placeholder { color: $textColorWhite; }
+        > input::-webkit-input-placeholder { color: $textColorWhite; opacity: 1 ;}
+        > input::-moz-placeholder { color: $textColorWhite;opacity: 1 ; }
+        > input:-moz-placeholder { color: $textColorWhite; opacity: 1 ;}
+        > input:-ms-input-placeholder { color: $textColorWhite;opacity: 1 ; }
       }
     }
     .campaign-title-head {
@@ -1132,15 +1132,19 @@ button, i, input[type="submit"] {
 }
 #brandsDropdown::-webkit-input-placeholder {
   color: white;
+  opacity: 1 ;
 }
 #brandsDropdown:-moz-placeholder { /* Firefox 18- */
   color: white;
+  opacity: 1 ;
 }
 #brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
   color: white;
+  opacity: 1 ;
 }
 #brandsDropdown:-ms-input-placeholder {
   color: white;
+  opacity: 1 ;
 }
 .highcharts-container .highcharts-tooltip {
   visibility: visible !important;
@@ -1687,15 +1691,19 @@ button, i, input[type="submit"] {
   }
   .placeholder_grey::-webkit-input-placeholder {
     color: $textGreyColor;
+    opacity: 1 ;
   }
   .placeholder_grey::-moz-placeholder {
     color: $textGreyColor;
+    opacity: 1 ;
   }
   .placeholder_grey:-ms-input-placeholder {
     color: $textGreyColor;
+    opacity: 1 ;
   }
   .placeholder_grey:-moz-placeholder {
     color: $textGreyColor;
+    opacity: 1 ;
   }
 }
 
@@ -3254,10 +3262,10 @@ button, i, input[type="submit"] {
               background: url(asset-path("cdesk/down_arrow_filter.png")) no-repeat no-repeat  80px 14px ;
               padding-right: 20px;
             }
-            input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
-            input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ;  }
-            input:-moz-placeholder { color: #FFF ;  font-family: "Avenir" ;}
-            input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; }
+            input::-webkit-input-placeholder { color: #FFF ; font-family: "Avenir" ;opacity: 1 ; }
+            input::-moz-placeholder { color: #FFF ;font-family: "Avenir" ; opacity: 1 ; }
+            input:-moz-placeholder { color: #FFF ;  font-family: "Avenir" ;opacity: 1 ;}
+            input:-ms-input-placeholder { color: #FFF ; font-family: "Avenir" ; opacity: 1 ;}
           }
         }
         .disabled_brand_list {
@@ -3275,10 +3283,10 @@ button, i, input[type="submit"] {
             display: block;
           }
           #brandsDropdownDiv {
-            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
-            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
-            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
-            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+            input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
+            input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ; opacity: 1 ; }
+            input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;opacity: 1 ;}
+            input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
           }
         }
         li.brands_filter  {
@@ -3362,15 +3370,19 @@ button, i, input[type="submit"] {
         }
         #brandsDropdown::-webkit-input-placeholder {
           color: white;
+          opacity: 1 ;
         }
         #brandsDropdown:-moz-placeholder { /* Firefox 18- */
           color: white;
+          opacity: 1 ;
         }
         #brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
           color: white;
+          opacity: 1 ;
         }
         #brandsDropdown:-ms-input-placeholder {
           color: white;
+          opacity: 1 ;
         }
 
         li.filter_dropdown_open {
@@ -3384,10 +3396,10 @@ button, i, input[type="submit"] {
                 width: 154px ;
                 background-position: 145px 12px; 
               }
-              input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
-              input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ;  }
-              input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ;}
-              input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; }
+              input::-webkit-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ; }
+              input::-moz-placeholder { color: #84bce4 ;font-family: "Avenir" ; opacity: 1 ; }
+              input:-moz-placeholder { color: #84bce4 ;  font-family: "Avenir" ; opacity: 1 ;}
+              input:-ms-input-placeholder { color: #84bce4 ; font-family: "Avenir" ; opacity: 1 ;}
             }
             &:hover {
               #brandsDropdownDiv {
