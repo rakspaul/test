@@ -205,7 +205,12 @@ button, i, input[type="submit"] {
   font-size: xx-large;
   z-index: 98999;
 }
-
+.unselectable{
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+}
 #ajaxloader {
   position: absolute;
   width: 30px;
@@ -2943,12 +2948,6 @@ button, i, input[type="submit"] {
 }
 .cost_col_header_tabs_holder {
   margin-top: 40px ;
-  .unselectable{
-     -moz-user-select: -moz-none;
-     -khtml-user-select: none;
-     -webkit-user-select: none;
-     user-select: none;
-  }
   .cost_tabs_margin {
     font-size: 14px ;
     font-family:"Avenir";
