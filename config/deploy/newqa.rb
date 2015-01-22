@@ -1,10 +1,10 @@
-set :branch, 'cdesk_sprint8'
+set :branch, 'cdesk_#{ENV['SPRINT']}'
 
 set :rails_env, "newqa" # set for capistrano asset pipeline precompilation
 
 set :hipchat_env, "QA"
 
-set :qa1, "104.131.251.79"
+set :qa1, "qaweb-cdesk001.private.collective.com"
 
 role :web, qa1
 role :app, qa1

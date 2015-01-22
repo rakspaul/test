@@ -21,7 +21,7 @@ newqa:
   <<: *common
   username: postgres
   database: reporting
-  host: 10.128.170.229
+  host: qadb-cdesk001.private.collective.com
 
 newstg:
   <<: *common
