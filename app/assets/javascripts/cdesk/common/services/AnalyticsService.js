@@ -1,7 +1,8 @@
 (function() {
 
   var tracking = function(analytics) {
-    this.track = function(category, action, label, value) {
+    this.track = function(category, action, label, loginName, value) {
+      ga('set', 'dimension1', loginName);
       if(value !== undefined) {
         analytics.eventTrack(action, { category: category, label: label, value: value});
       } else {

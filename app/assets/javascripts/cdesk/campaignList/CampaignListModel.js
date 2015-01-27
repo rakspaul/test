@@ -348,9 +348,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           period.className = '';
         }
       });
-
-      ga('send', 'event', 'time-period-filter', 'click', this.displayTimePeriod);
-
+      //ga('send', 'event', 'time-period-filter', 'click', this.displayTimePeriod);
       Campaigns.prototype._applyFilters.call(this, {
         timePeriod: timePeriod.key
       });
@@ -360,8 +358,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     Campaigns.prototype.filterByBrand = function(brand) {
       $("#cdbDropdown").toggle();
       if (brand != undefined) {
-        ga('send', 'event', 'brand-filter', 'click', brand.name);
-
+        //ga('send', 'event', 'brand-filter', 'click', brand.name);
         Campaigns.prototype._applyFilters.call(this, {
           brand: brand.id
         });
@@ -389,7 +386,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
       });
 
-      ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
+      //ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
       Campaigns.prototype.fetchCampaigns.call(this);
     },
 

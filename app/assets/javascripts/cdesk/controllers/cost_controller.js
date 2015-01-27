@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel) {
+    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -82,7 +82,6 @@ var angObj = angObj || {};
             costService.getStrategyCostData(param).then(function (result) {
                     if (result.status === "OK" || result.status === "success") {
                         $scope.strategyCostData = result.data.data.costData ;
-
 
                         if(typeof $scope.strategyCostData != "undefined" && $scope.strategyCostData != null && $scope.strategyCostData.length >0 ){
                             $scope.dataNotFound = false;
@@ -240,6 +239,7 @@ var angObj = angObj || {};
             } else {
                 $scope.$apply();
                 dataTransferService.updateExistingStorageObjects({'filterKpiType': $scope.selected_filters.kpi_type, 'filterKpiValue': $scope.selected_filters.kpi_type_text});
+                analytics.track(loginModel.getUserRole(), constants.GA_COST_METRIC_SELECTED, $scope.selected_filters.kpi_type_text, loginModel.getLoginName());
             }
         };
 
@@ -263,7 +263,8 @@ var angObj = angObj || {};
                 }
 
             }
-
+            // The sort direction is derived from the code above to match the UI desc/asc icons
+            analytics.track(loginModel.getUserRole(), constants.GA_COST_TAB_SORTING, (sortby + ($scope.filter.ascendingDir === true ? '_desc' : '_asc')), loginModel.getLoginName());
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {

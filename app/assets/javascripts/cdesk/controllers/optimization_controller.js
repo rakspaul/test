@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel) {
+    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
         var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
@@ -269,6 +269,7 @@ var angObj = angObj || {};
             $('circle').attr({stroke: '#0070CE', fill: '#ffffff'});
             $('circle#' + id).attr({stroke: '#0070CE', fill: '#0070CE'});
             localStorage.setItem('actionSel', 'actionItem_' + id);
+            analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };
 
 
@@ -487,6 +488,7 @@ var angObj = angObj || {};
                 $scope.seeDate.value = true;
                 $scope.seeDate.className = 'see_dates_selected' ;
                 $(".details_with_heading_total").addClass("see_dates_selected") ;
+                analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_SEE_DATES, loginModel.getLoginName());
             } else {
                 localStorage.setItem(loginModel.getUserId()+'_opt_seeDate',false);
                 $scope.seeDate.value = false;
