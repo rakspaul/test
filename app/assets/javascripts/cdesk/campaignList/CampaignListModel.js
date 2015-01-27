@@ -333,7 +333,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }
       //get the campaign list
       this.campaignList = [];
-//      console.log(1);
       Campaigns.prototype.fetchCampaigns.call(this);
     },
     Campaigns.prototype.filterCostType = function(type) {
@@ -557,7 +556,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
       }
       this.campaignList = [];
-//      console.log(4);
       Campaigns.prototype.fetchCampaigns.call(this);
 
     } ,
