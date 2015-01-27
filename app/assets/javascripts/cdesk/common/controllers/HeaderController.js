@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  commonModule.controller('headerController', function ($scope, loginModel, $cookieStore, $location, loginService) {
+  commonModule.controller('headerController', function ($scope, $rootScope, loginModel, $cookieStore, $location, loginService) {
     $scope.user_name = loginModel.getUserName();
     $scope.showProfileMenu = function() {
       $("#profileDropdown").toggle();
@@ -21,5 +21,7 @@
       $location.url('/login');
 
     };
+    $rootScope.dashboard = {};
+    $rootScope.dashboard.isNetworkUser = loginModel.getIsNetworkUser();
   });
 }());

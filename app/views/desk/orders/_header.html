@@ -4,7 +4,7 @@
       <span class="main_logo" id="logo"></span>
     </div>
     <div class="pull-left main_navigation clearfix" >
-      <div class="pull-left each_nav_link" id="dashboard_nav_link">
+      <div class="pull-left each_nav_link" id="dashboard_nav_link" ng-if="!dashboard.isNetworkUser">
         <a href="#dashboard">Dashboard</a>
       </div>
       <div class="pull-left each_nav_link" id="campaigns_nav_link">

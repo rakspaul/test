@@ -160,7 +160,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     this.busy = true;
     var self = this,
     url = Campaigns.prototype._campaignServiceUrl.call(this);
-    //console.log('fetching campaign list for url: '+url);
+
+//    console.log('fetching campaign list for url: '+url);
     campaignListService.getCampaigns(url, function(result) {
       requestCanceller.resetCanceller(constants.CAMPAIGN_LIST_CANCELLER);
       var data = result.data.data;
@@ -271,6 +272,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
             if(self.dashboard.total > 0 ){
               self.dashboard.filterSelectAll=false;
               self.dashboardSelectedAll();
+              Campaigns.prototype.fetchCampaigns.call(this);
             }
           }
           self.totalCount = result.data.data.total;
@@ -387,6 +389,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       });
 
       //ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
+
       Campaigns.prototype.fetchCampaigns.call(this);
     },
 
@@ -464,7 +467,6 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       }
 
       Campaigns.prototype.fetchDashboardData.call(this); //populating dashboard filter with new data
-      Campaigns.prototype.fetchCampaigns.call(this);
     },
     Campaigns.prototype.dashboardSelectedAll = function () {
       this.nextPage=1;
