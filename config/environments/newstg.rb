@@ -59,7 +59,8 @@ Reachui::Application.configure do
   # comma separated string of network ids
   config.search_segments_in_network = '6,176'
 
-  config.scala_api = 'https://demo-desk.collective.com/dataapi'
+  config.scala_api    = 'https://demo-desk.collective.com/dataapi'
+  config.workflow_api = 'https://demo-desk.collective.com/wapi'
 
   config.ga_id = 'UA-54603772-1'
 

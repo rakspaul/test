@@ -2,26 +2,26 @@
   var urlFactory = function (apiPaths, constants) {
     //Convention is to start all api urls with API.
     this.APIlastViewedAction = function (campaignId) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaignId + '/viewedActions';
+      var url = apiPaths.workflow_apiServicesUrl + '/campaigns/' + campaignId + '/viewedActions';
       return url;
     };
     this.APIeditAction = function (actionId) {
-      var url = apiPaths.apiSerivicesUrl + '/actions/' + actionId ;
+      var url = apiPaths.workflow_apiServicesUrl + '/actions/' + actionId ;
       return url;
     };
 
     this.APIloginAction = function () {
-      var url = apiPaths.apiSerivicesUrl + '/login';
+      var url = apiPaths.workflow_apiServicesUrl + '/login';
       return url;
     };
 
     this.APIlogoutAction = function () {
-      var url = apiPaths.apiSerivicesUrl + '/logout';
+      var url = apiPaths.workflow_apiServicesUrl + '/logout';
       return url;
     };
 
     this.APIuserInfo = function () {
-      var url = apiPaths.apiSerivicesUrl + '/userinfo';
+      var url = apiPaths.workflow_apiServicesUrl + '/userinfo';
       return url;
     };
 

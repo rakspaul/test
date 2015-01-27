@@ -55,7 +55,8 @@ Reachui::Application.configure do
   # Set the reporting server url
   config.report_service_uri = 'http://cm.ssp.collective-media.net/export'
 
-  config.scala_api = 'https://beta.collective.com/dataapi'
+  config.scala_api    = 'https://beta.collective.com/dataapi'
+  config.workflow_api = 'https://beta.collective.com/wapi'
   config.ga_id = 'UA-58701829-1'
 
   # audience group segment search

@@ -84,7 +84,7 @@
       },
 
       getActions: function () {
-        var url = apiPaths.apiSerivicesUrl + '/actionTypes';
+        var url = apiPaths.workflow_apiServicesUrl + '/actionTypes';
         return this.fetch(url);
       },
 
@@ -106,7 +106,7 @@
       },
 
       createAction: function (data) {
-        var url = apiPaths.apiSerivicesUrl + '/actions';
+        var url = apiPaths.workflow_apiServicesUrl + '/actions';
         return this.post(url, data);
       },
 

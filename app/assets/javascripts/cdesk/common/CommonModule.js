@@ -15,7 +15,8 @@ var commonModule = angular.module('commonModule',
 .constant('api', scala_api)
 
  var urlPaths = {
- apiSerivicesUrl: scala_api
+ apiSerivicesUrl: scala_api,
+ workflow_apiServicesUrl: workflow_api
  };
  commonModule.constant('apiPaths', urlPaths);
 
