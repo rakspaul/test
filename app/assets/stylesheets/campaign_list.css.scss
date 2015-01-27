@@ -205,7 +205,12 @@ button, i, input[type="submit"] {
   font-size: xx-large;
   z-index: 98999;
 }
-
+.unselectable{
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+}
 #ajaxloader {
   position: absolute;
   width: 30px;
@@ -3420,6 +3425,7 @@ button, i, input[type="submit"] {
     }
   }
 }
+
 
 
 

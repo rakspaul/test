@@ -2,13 +2,13 @@
 <div class="clearfix campaign_list_header_holder">
     <div ng-repeat="sortField in campaigns.sortFieldList" class="each_header_title {{sortField.className}}">
       <a data-ng-click="campaigns.sortCampaigns(sortField.key)" id="campaign_list_sort">
-        <span>{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
+        <span class="unselectable">{{sortField.display}}&nbsp;<span class="{{campaigns.sortIcon(sortField.key)}}"></span> </span>
       </a>
     </div>
-    <div class="each_header_title metrics_title">
+    <div class="each_header_title metrics_title unselectable">
         Metrics
     </div>
-    <div class="each_header_title kpi_title">
+    <div class="each_header_title kpi_title unselectable">
         KPI
     </div>                
 </div>
