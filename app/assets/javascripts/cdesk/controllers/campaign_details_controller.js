@@ -6,6 +6,7 @@
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
+        $scope.activityLogFlag = false;
         brandsModel.disable();
         $scope.actionItems = activityList.data;
         $scope.loadingViewabilityFlag = true;
@@ -99,6 +100,7 @@
         });
         var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
         dataService.getActionItems(actionUrl).then(function(result) {
+            $scope.activityLogFlag = true;
             var actionItemsArray = [] , counter = 0;   
             var actionItems = result.data.data;
             var strategyByActionId = {};
