@@ -3,7 +3,7 @@
   commonModule.service("gauge", function(_,constants) {
     var gauges = [];
     var dashContainer;
-    var readings = [];	// pretend readings are supplied (named by gauge).
+    var readings = [];
     var configs = [];
 
     var greenColor = "#00ff00";
@@ -37,14 +37,14 @@
         createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 120, 250,200);
       };
 
-      // some of createGauge is specific to the example (size=120), some belongs in Gauge.
+
       function createDash()
       {
         var body = d3.select("#dashboardContainer")
           .append("svg:svg")
           .attr("class", "dash")
-          .attr("width", 500)//this.config.size)
-          .attr("height", 350);// this.config.size);
+          .attr("width", 500)
+          .attr("height", 350);
         var dasharea = body.selectAll("ellipse");
         dashContainer =  body.append("svg:g").attr("class", "dashContainer")
           .attr("width",500)
@@ -66,17 +66,15 @@
         };
 
         gauges[name] = new Gauge(myContainer, name, config);
-        readings[name] = 0; // initial value
+        readings[name] = 0;
         gauges[name].render();
       }
 
-      // code from gauge.js, below
-      //
       function Gauge(myContainer, name, configuration) {
         this.name = name;
         this.myContainer = myContainer;
 
-        var self = this; // some internal d3 functions do not "like" the "this" keyword, hence setting a local variable
+        var self = this;
 
         this.configure = function (configuration) {
           this.config = configuration;
@@ -84,8 +82,8 @@
           this.config.size = this.config.size;
 
           this.config.radius = this.config.size / 2;
-          this.config.cx = this.config.cx;// + this.config.size / 4;
-          this.config.cy = this.config.cy;// + this.config.size / 2;
+          this.config.cx = this.config.cx;
+          this.config.cy = this.config.cy;
 
           this.config.min = configuration.min || 0;
           this.config.max = configuration.max || 100;
@@ -111,13 +109,13 @@
         this.render = function () {
           this.myContainer.selectAll("svg").remove();
           this.myContainer.selectAll("path").remove();
-          this.body = this.myContainer//dashContainer//d3.select("#" + this.placeholderName)
+          this.body = this.myContainer
             .append("svg:svg")
             .attr("class", "gauge")
-            .attr("x", this.myContainer.x)//this.config.cx-this.config.size/4)
-            .attr("y", this.myContainer.y)//this.config.cy-this.config.size/4)
-            .attr("width", this.myContainer.width)//this.config.size)
-            .attr("height", this.myContainer.height)//this.config.size);
+            .attr("x", this.myContainer.x)
+            .attr("y", this.myContainer.y)
+            .attr("width", this.myContainer.width)
+            .attr("height", this.myContainer.height)
 
           var anglesFill = [], anglesEmpty = [];
           var readingValue = getReadingValue(name, this.config.max);
@@ -168,9 +166,9 @@
 //            .attr("d", line)
             .ease("linear")
             .duration(100);
-          var faceContainer = this.body.append("svg:g").attr("class", "faceContainer");	// for day/night changes
-          var bandsContainer = this.body.append("svg:g").attr("class", "bandsContainer");	// for day/night changes
-          var ticksContainer = this.body.append("svg:g").attr("class", "ticksContainer");	// for day/night changes
+          var faceContainer = this.body.append("svg:g").attr("class", "faceContainer");
+          var bandsContainer = this.body.append("svg:g").attr("class", "bandsContainer");
+          var ticksContainer = this.body.append("svg:g").attr("class", "ticksContainer");
 
           var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
           this.drawPointer(0);
@@ -252,7 +250,6 @@
           return point;
         };
 
-        // initialization
         this.configure(configuration);
       }
     };
