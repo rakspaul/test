@@ -54,6 +54,9 @@
 //= require cdesk/common/d3/gauge
 //= require cdesk/common/controllers/GaugeController
 //= require cdesk/common/models/GaugeModel
+//= require cdesk/common/d3/bubbleChart
+//= require cdesk/common/controllers/BubbleChartController
+//= require cdesk/common/models/BubbleChartModel
 
 //= require cdesk/dashboard/DashboardModule
 //= require cdesk/dashboard/DashboardController
