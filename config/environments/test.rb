@@ -16,7 +16,8 @@ Reachui::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  config.scala_api = 'http://dev-desk.collective-media.net:9000'
+  config.scala_api    = 'http://dev-desk.collective-media.net:9000/dataapi'
+  config.workflow_api = 'http://dev-desk.collective-media.net:9000/wapi'
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

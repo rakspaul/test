@@ -68,6 +68,9 @@ module ApplicationHelper
   def scala_api_url
     Rails.application.config.scala_api
   end
+  def workflow_api_url
+    Rails.application.config.workflow_api
+  end
 
   def ga_id
     Rails.application.config.ga_id

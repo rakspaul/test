@@ -98,7 +98,7 @@
         }, function(result) {
             console.log('call failed');
         });
-        var actionUrl = apiPaths.apiSerivicesUrl + "/reports/campaigns/" + $routeParams.campaignId + "/actions";
+        var actionUrl = apiPaths.workflow_apiServicesUrl + "/campaigns/" + $routeParams.campaignId + "/actions";
         dataService.getActionItems(actionUrl).then(function(result) {
             $scope.activityLogFlag = true;
             var actionItemsArray = [] , counter = 0;   
