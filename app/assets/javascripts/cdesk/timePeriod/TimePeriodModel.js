@@ -1,6 +1,5 @@
 //Data Manipulation in model
 timePeriodModule.factory("timePeriodModel", ['constants', function (constants) {
-  var selectedBrand = {id: -1};
   var buildTimePeriodList = function() {
       return [createTimePeriodObject('Last 7 days', 'last_week'),
         createTimePeriodObject('Last 30 days', 'last_month'),
