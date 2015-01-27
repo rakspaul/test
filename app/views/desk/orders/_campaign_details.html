@@ -211,7 +211,7 @@
                               <div class="pull-right external_chkbox">
                                   <div class="external_chkbox clearfix">
                                     <div class="squaredFour">
-                                      <input type="checkbox" ng-model="showList.makeExternal" class="squaredFourChkbox" id="edit_details_squaredFour"  />
+                                      <input type="checkbox" ng-model="showList.makeExternal" class="squaredFourChkbox" id="edit_details_squaredFour"  onclick="updateSaveBtnStatus()" />
                                       <label for="edit_details_squaredFour"></label>
                                     </div>       
                                     <span class="squaredFourTxt">External</span>
@@ -227,6 +227,8 @@
                               <div class="pull-right submit_btn_holder clearfix">
                                   <span class="pull-left secondary_button" ng-click="closeEdit();">Cancel</span>
                                   <input type="submit" class="pull-right submit_btn primary_button" value="Save" ng-disabled="saveBtnDisabled" id="action_save_btn">
+                                  <input type="hidden" id="hidden_checkbox_status" ng-value="showList.hidden_checkboxStatus" /> 
+                                  <input type="hidden" id="hidden_comments" ng-value="showList.hidden_name" > 
                               </div>
                           </div>
                       </div>
@@ -311,7 +313,7 @@
 
 
                               <div ng-show="is_network_user" class="pull-right activity_edit_holder">
-                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)">
+                                  <div class="activity_edit" data-toggle="tooltip" data-placement="left" data-original-title="Edit" ng-controller="editActionsController" ng-click="showEdit(action.id)" onclick="disableSaveButton()">
                                   </div>
                                   <div class="activity_report" data-toggle="tooltip" data-placement="left" data-original-title="Open Report" ng-click="setOptimizationData(campaign,action,strategyByActionId)">
                                   </div>
@@ -627,6 +629,8 @@
           else{
              $("#error_edit_action_more_comment").hide();
           }
+          //enable save Button
+          updateSaveBtnStatus();
          
       });
        $('#edit_action_comment').bind("blur", function() {
@@ -635,4 +639,18 @@
       
       
   });
+    var updateSaveBtnStatus = function(){
+    var txt = (jQuery("#edit_action_comment").val());
+    var hidden_txt = jQuery("#hidden_comments").val();
+    var hidden_checkbox = jQuery("#hidden_checkbox_status").val().toString();
+    var edit_checkbox =jQuery("#edit_details_squaredFour").prop( "checked").toString();
+    if((hidden_txt == txt) && (hidden_checkbox == edit_checkbox )){
+      jQuery("#action_save_btn").attr('disabled','disabled');
+    }else{
+      jQuery("#action_save_btn").removeAttr('disabled');
+    }
+  }
+  var disableSaveButton = function(){
+    jQuery("#action_save_btn").attr('disabled','disabled');
+  }
 </script>
