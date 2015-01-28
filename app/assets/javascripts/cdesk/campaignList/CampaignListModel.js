@@ -1,5 +1,5 @@
 //originally part of controllers/campaign_controller.js
-campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel) {
+campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campaignListService', 'apiPaths', 'modelTransformer', 'campaignCDBData', 'campaignCost', 'dataStore', 'requestCanceller', 'constants', 'brandsModel', 'loginModel', 'analytics', function($http, dataService, campaignListService, apiPaths, modelTransformer, campaignCDBData, campaignCost, dataStore, requestCanceller, constants, brandsModel, loginModel, analytics) {
 
   var Campaigns = function() {
     this.timePeriodList = buildTimePeriodList();
@@ -334,6 +334,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       //get the campaign list
       this.campaignList = [];
       Campaigns.prototype.fetchCampaigns.call(this);
+      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, type, loginModel.getLoginName());
     },
     Campaigns.prototype.filterCostType = function(type) {
       this.selectedCostType = type;
@@ -388,9 +389,8 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
       });
 
-      //ga('send', 'event', 'sort', 'click', this.sortParam + '-' + this.sortDirection);
-
       Campaigns.prototype.fetchCampaigns.call(this);
+      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING, (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
     },
 
     Campaigns.prototype.sortIcon = function(fieldName) {
@@ -403,11 +403,15 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
     },
 
     Campaigns.prototype.editCampaign = function(campaign) {
+      /*
       ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
         'hitCallback': function() {
           document.location = "/#/campaigns/" + campaign.orderId;
         }
       });
+      */
+      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
+      document.location = "/#/campaigns/" + campaign.orderId;
     },
 
     Campaigns.prototype.campaignReports = function(campaign) {
