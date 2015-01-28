@@ -7,9 +7,10 @@
 
         //EDIT ACTIVITIES
         $scope.editActivity = false;
-        $scope.saveBtnDisabled = false;
+        $scope.saveBtnDisabled = true;
         $scope.commentError = false;
         $scope.showEdit= function(ad_id){
+            $scope.saveBtnDisabled = true;
 
             //console.log('requested data');
             //console.log(editAction.data);
@@ -26,6 +27,8 @@
                     editAction.data.metricImpacted = activity.metric_impacted;
                     editAction.data.name = activity.comment;
                     editAction.data.makeExternal = activity.make_external;
+                    editAction.data.hidden_name= activity.comment;
+                    editAction.data.hidden_checkboxStatus= activity.make_external;
                 }
             });
 
@@ -73,6 +76,7 @@
             }
             
         }
+
         function resetEditActionFormData() {
             $scope.saveBtnDisabled = false;
             editAction.data.makeExternal = false;
