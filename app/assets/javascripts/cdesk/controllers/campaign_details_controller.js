@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -67,8 +67,9 @@
                 }!$scope.details.sortDirection && ($scope.details.sortDirection = 'asc');
                 $scope.details.sortParam = fieldName;
 
-                //filter
-                $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+            //filter
+            $scope.campaign.campaignStrategies=$filter('orderBy')($scope.campaign.campaignStrategies, fieldName,  $scope.details.getSortDirection());
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, ('sort_' + fieldName + (sortDirection ? sortDirection : '_asc')), loginModel.getLoginName());
  
         };
         $scope.details.getSortDirection= function(){
@@ -365,6 +366,7 @@
             };
             dataTransferService.initReportingData(param);
             $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_report_for_strategy', loginModel.getLoginName());
             document.location = '#/performance';
         };
 
@@ -390,6 +392,7 @@
             };
 
             dataTransferService.initOptimizationData(param);
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'view_activity_for_strategy', loginModel.getLoginName());
             document.location = '#/optimization';
         };
 
@@ -405,19 +408,20 @@
 
             dataTransferService.initReportingData(param);
             $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, (type === 'view_report' ? type : type + '_widget'), loginModel.getLoginName());
 
-            if(type == 'cost'){
+            if(type === 'cost'){
                 utils.goToLocation('/cost');
-            }else if(type == 'viewability'){
+            } else if(type === 'viewability'){
                 utils.goToLocation('/viewability');
-	    }else if(type == 'inventory') {
-		utils.goToLocation('/inventory');
-            }else if(type == 'performance') {
-		utils.goToLocation('/performance');
-	    }else{
+	        } else if(type === 'inventory') {
+		        utils.goToLocation('/inventory');
+            } else if(type === 'view_report' || type === 'format') {
+		        utils.goToLocation('/performance');
+	        } else{
                 utils.goToLocation('/#/optimization');
             }
-            
+
         };
 
         var filterObject = new Campaigns();
@@ -426,6 +430,7 @@
 
         $scope.watchActionFilter = function(filter, showExternal) {
             $scope.details.actionChart = actionChart.lineChart($scope.details.lineData, parseFloat($scope.campaign.kpiValue), $scope.campaign.kpiType, activityList.data.data, 480, 330 , null, undefined, showExternal);
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_' + (showExternal ? 'external' : 'all'), loginModel.getLoginName());
             return filter;
         };
 

@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  editActionsModule.controller('editActionsController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, editActionsService, editAction, activityList) {
+  editActionsModule.controller('editActionsController', function ($rootScope, $scope, $filter, $timeout, dataService, $routeParams, modelTransformer, editActionsService, editAction, activityList, loginModel, analytics) {
    
         $scope.showList = editAction.data;
         $scope.actionItems = activityList.data;
@@ -16,6 +16,8 @@
             //console.log(editAction.data);
             editAction.data.show = true;
             document.getElementById("error_edit_action_more_comment").style.display='none';
+
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_edit', loginModel.getLoginName());
  
             _.each(activityList.data.data, function(activity) {
                 if(activity.id == ad_id){

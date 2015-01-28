@@ -19,7 +19,7 @@
                               {{campaign.brandName}}
                           </div>
                       </div>
-                      <a  id="details_view_report" ng-click="setGraphData(campaign,'performance')">
+                      <a  id="details_view_report" ng-click="setGraphData(campaign,'view_report')">
                         <div class="pull-right view_report">
                             View report
                         </div>
@@ -102,7 +102,7 @@
 
                 <!-- graph holder-->
                 <div class="clearfix campaign_details_graphs_holder">
-                    <div ng-click="setGraphData(campaign,'performance')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
+                    <div ng-click="setGraphData(campaign,'format')" data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" class="each_section_graph_holder bar_section_graph_holder">
                         <div class="graph_heading">
                             Format ({{(campaign.kpiType)!='null' ? campaign.kpiType :'NA'}})
                         </div>

@@ -11,7 +11,7 @@
 
             templateUrl: 'campaign_strategy_card',
 
-            link: function ($scope, element, attrs) {
+            link: function ($scope, element, attrs, loginModel, analytics) {
 
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
@@ -85,7 +85,10 @@
                 };
 
                 $scope.showTactics = function(strategyId, tacticsCount) {
-                      $('#tactics-accordion-' + strategyId).toggle();       
+                    if($('#tactics-accordion-' + strategyId).css('display') === 'none') {
+                        analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'show_tactics_for_strategy', loginModel.getLoginName());
+                    }
+                    $('#tactics-accordion-' + strategyId).toggle();
                 };
 
                 //This will call the Parent controllers loadMoreStrategies function

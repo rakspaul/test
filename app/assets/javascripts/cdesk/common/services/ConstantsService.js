@@ -16,6 +16,7 @@
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
     this.GA_BRAND_SELECTED = 'brand_selected';
+    this.GA_CAMPAIGN_DETAILS = 'campaign_details';
     this.GA_EVENT = 'event';
     this.GA_SEND = 'send';
     this.ROLE_NETWORK = 'Network';
