@@ -37,8 +37,8 @@
       return this.APICampaignList(user_id, constants.PERIOD_LIFE_TIME, 1, 'start_date', constants.SORT_DESC, constants.ACTIVE_UNDERPERFORMING);
     };
 
-    this.APICampaignCountsSummary = function(timePeriod) {
-      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod;
+    this.APICampaignCountsSummary = function(timePeriod, brandId) {
+      var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
       return url;
     }
 

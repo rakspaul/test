@@ -17,7 +17,7 @@
       configs[key].msg = msg;
     };
     function getMessage(key) {
-      var value = readings[key] > 0 ? Math.round(readings[key]) : 0;
+      var value = Math.round(readings[key]);
       return value.toString() + configs[key].msg
     };
     this.setMessage = setMessage;

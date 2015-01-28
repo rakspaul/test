@@ -1,17 +1,20 @@
 (function () {
   "use strict";
-  var gauge = function (utils, urlService, timePeriodModel, dataService) {
+  var gauge = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants) {
     this.getGaugeData = function () {
-      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key);
-      return dataService.fetch(url).then(function(response) {
+      var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
+      var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);
+      return dataService.fetchCancelable(url, canceller, function(response) {
         var active = response.data.data.active;
         var ontrack = active.ontrack;
-        var underperforming = active.underperforming;
-        var total = ontrack + underperforming;
-        var pct = Math.round(ontrack/total*100);
+        var total = active.total;
+        var pct = 0;
+        if(total > 0) {
+          pct = Math.round(ontrack / total * 100);
+        }
         return pct;
       })
     }
   }
-  commonModule.service('gaugeModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', gauge]);
+  commonModule.service('gaugeModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants', gauge]);
 }());
