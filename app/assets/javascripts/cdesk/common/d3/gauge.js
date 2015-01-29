@@ -6,9 +6,10 @@
     var readings = [];
     var configs = [];
 
-    var greenColor = "#00ff00";
+    var greenColor = "#3BD400";
     var lightColor = "#EEEEEE";
-    var strokeColor = "#ff0000";
+    var orangeColor = "#F5B200";
+    var lightBlue = "#CFE2F0";
     function updateGauge(key, value) {
       readings[key] = value;
       gauges[key].redraw(key);
@@ -18,14 +19,12 @@
     };
     function getMessage(key) {
       var value = Math.round(readings[key]);
-      return value.toString() + configs[key].msg
+      var msg = (configs[key].msg === undefined) ? '' : configs[key].msg;
+      return value.toString() + msg;
     };
     this.setMessage = setMessage;
     this.updateGauge = updateGauge;
-    this.drawPointer = function(key) {
-      gauges[key].drawPointer(getReadingValue(key, gauges[key].config.max));
-    }
-    this.getReadingValue = getReadingValue;
+
     function getReadingValue (name, max) {
       return readings[name] * max / 100;
     };
@@ -34,9 +33,8 @@
       createDashboard();
       function createDashboard() {
         createDash();
-        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 120, 250,200);
+        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 250,200);
       };
-
 
       function createDash()
       {
@@ -45,7 +43,6 @@
           .attr("class", "dash")
           .attr("width", 500)
           .attr("height", 350);
-        var dasharea = body.selectAll("ellipse");
         dashContainer =  body.append("svg:g").attr("class", "dashContainer")
           .attr("width",500)
           .attr("height",350);
@@ -55,13 +52,15 @@
         var minSize = 120;
         var config = {
           size: minSize + sizebias,
-          innerRadius: (minSize + sizebias)/2,
+          innerRadius: (minSize + sizebias)/3.5,
           outerRadius: (minSize + sizebias)*0.55,
+          outerRingR1: (minSize + sizebias)*0.65,
+          outerRingR2: (minSize + sizebias)*0.70,
           cx: containerOffsetx,
           cy: containerOffsety,
           label: label,
           min: 0,
-          max: 180,
+          max: 280,
           ticks: 24
         };
 
@@ -73,9 +72,7 @@
       function Gauge(myContainer, name, configuration) {
         this.name = name;
         this.myContainer = myContainer;
-
         var self = this;
-
         this.configure = function (configuration) {
           this.config = configuration;
 
@@ -93,19 +90,10 @@
           this.config.faceColor = configuration.faceColor || lightColor;
           configs[name] = this.config;
         };
-
-        this.createRadialLine = function(container, value, color) {
-          var line = d3.svg.line.radial()
-            .angle(function(d) { return d.angle; })
-            .radius(function(d) { return d.radius; });
-          container.append("svg:path")
-            .attr("transform", "translate(" + this.config.cx + "," + this.config.cy + ")")
-            .attr("d", line([{angle:value, radius:this.config.innerRadius},{angle:value, radius:this.config.outerRadius}]))
-            .attr("stroke", color)
-            .attr("stroke-width", 2)
-            .attr("class", "line");
-        }
-
+        this.configure(configuration);
+        this.valueToRadians = function (value) {
+          return value * Math.PI / 180;
+        };
         this.render = function () {
           this.myContainer.selectAll("svg").remove();
           this.myContainer.selectAll("path").remove();
@@ -117,140 +105,126 @@
             .attr("width", this.myContainer.width)
             .attr("height", this.myContainer.height)
 
-          var anglesFill = [], anglesEmpty = [];
-          var readingValue = getReadingValue(name, this.config.max);
-          var ticksFill = Math.round(this.config.ticks * readingValue / this.config.max) + 1;
-          var tickAngle = this.valueToRadians(this.config.range/this.config.ticks);
-          if(ticksFill > 0) {
-            anglesFill[0] = -Math.PI / 2;
-            for (var i = 1; i < ticksFill; i++) {
-              anglesFill.push(anglesFill[i - 1] + tickAngle);
-            }
-          }
-          var prev = (ticksFill > 0) ? ticksFill : 1;
-          if(ticksFill < this.config.ticks) {
-            anglesEmpty[0] = anglesFill[prev - 1] + tickAngle;
-            for (var j = 1; j < this.config.ticks - ticksFill + 1; j++) {
-              anglesEmpty.push(anglesEmpty[j - 1] + tickAngle);
-            }
-          }
           var self = this;
-          _.each(anglesFill, function(value) {
-            self.createRadialLine(self.myContainer, value, "#66CD00");
-          });
+          this.leftArc = createArc(this.body, self.config.cx, self.config.cy, -140, 0, greenColor);
+          this.rightArc = createArc(this.body, self.config.cx, self.config.cy, 140, -280 + this.config.min + 5, orangeColor);
+          this.outerArc = createArc(this.body, self.config.cx, self.config.cy, -140, 280, lightBlue, 1, outerArcFunc);
 
-          _.each(anglesEmpty, function(value) {
-            self.createRadialLine(self.myContainer, value, strokeColor);
-          });
+          var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
+          var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y};
+          this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
+          this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
+//          this.rightDot =
+          this.svgText = createText(this.myContainer, this.config.cx-23, this.config.cy, "0", "sans-serif", 30, "bold", "black");
+          this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "sans-serif", 14, "", "black");
+          this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "sans-serif", 14, "", "black");
 
-          this.body.append("svg:path")
-            .style("fill", greenColor)
-            .attr("d", d3.svg.arc()
-            .startAngle(this.valueToRadians(0))
-            .endAngle(this.valueToRadians(readingValue))
-            .innerRadius(this.config.innerRadius)
-            .outerRadius(this.config.outerRadius))
-            .style("opacity", 0.8)
-            .attr("transform", function () {
-              return "translate(" + self.config.cx + ", " + self.config.cy + ") rotate(270)";
-            });
-          var line = d3.svg.line()
-            .x(function (d) {
-              return d.x;
-            })
-            .y(function (d) {
-              return d.y;
-            })
-            .interpolate("basis");
-          this.myContainer.selectAll("path").transition()
-//            .attr("d", line)
-            .ease("linear")
-            .duration(100);
+          this.pctX = this.config.cx + 12;
+          this.pctTxt = this.myContainer.append("text")
+            .attr("x", this.pctX)
+            .attr("y", this.config.cy-6)
+            .text('%')
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "14px")
+            .attr("font-weight", "bold")
+            .attr("fill", "black");
+
           var faceContainer = this.body.append("svg:g").attr("class", "faceContainer");
           var bandsContainer = this.body.append("svg:g").attr("class", "bandsContainer");
           var ticksContainer = this.body.append("svg:g").attr("class", "ticksContainer");
 
-          var pointerContainer = this.body.append("svg:g").attr("class", "pointerContainer");
-          this.drawPointer(0);
-          pointerContainer.append("svg:circle")
-            .attr("cx", this.config.cx)
-            .attr("cy", this.config.cy)
-            .attr("r", 0.06 * this.config.radius)
-            .style("fill", "#4684EE")
-            .style("stroke", "#666")
-            .style("opacity", 1);
+        };
+        var arc = d3.svg.arc()
+          .startAngle(this.valueToRadians(this.config.min))
+          .innerRadius(this.config.innerRadius)
+          .outerRadius(this.config.outerRadius);
+        var outerArcFunc = d3.svg.arc()
+          .startAngle(this.valueToRadians(this.config.min))
+          .innerRadius(this.config.outerRingR1)
+          .outerRadius(this.config.outerRingR2);
+
+        //Explained example available at http://bl.ocks.org/mbostock/5100636
+        function arcTween(transition, newAngle) {
+          transition.attrTween("d", function(d) {
+            var interpolate = d3.interpolate(d.endAngle, newAngle);
+            return function(t) {
+              d.endAngle = interpolate(t);
+              return arc(d);
+            };
+          });
+        }
+        function createText(container, x, y, text, fontFamily, fontSize, fontWeight, fill) {
+          return container.append("text")
+            .attr("x", x)
+            .attr("y", y)
+            .text('0')
+            .attr("font-family", fontFamily)
+            .attr("font-size", fontSize + "px")
+            .attr("font-weight", fontWeight)
+            .attr("fill", fill);
+        }
+        function createCircle(container, x, y, color, radius) {
+          container.append("circle")
+            .attr("r", radius)
+            .attr("fill", color)
+            .attr("transform", function() {
+              return "translate(" + x + ", " + y +")"
+            });
+        }
+        function createArc(container, x, y, initialAngle, endAngle, color, opacity, arcFunc) {
+          if(opacity === undefined) opacity = 1;
+          if(arcFunc === undefined) arcFunc = arc;
+          return container.append("svg:path")
+            .style("fill", color)
+            .datum({endAngle: self.valueToRadians(endAngle)})
+            .attr("d", arcFunc)
+            .style("opacity", opacity)
+            .attr("transform", function () {
+              return "translate(" + x + ", " + y + ") rotate(" + initialAngle + ")";
+            });
+        }
+
+        this.animateArcs = function() {
+          var readingValue = getReadingValue(name, this.config.max);
+          if(readingValue === 0) readingValue = 1;
+          this.leftArc.transition()
+            .duration(500)
+            .call(arcTween, this.valueToRadians(readingValue));
+          animateRightArc();
+        };
+        function animateRightArc() {
+          var readingValue = -280 + getReadingValue(name, self.config.max) + 1;
+          self.rightArc.transition()
+            .duration(500)
+            .call(arcTween, self.valueToRadians(readingValue))
+        }
+        this.animateText = function() {
+          var self = this;
+          this.svgText
+            .transition()
+            .duration(500)
+            .tween("text", function() {
+              return function(t) {
+                var i = d3.interpolate(this.textContent, readings[name]);
+                this.textContent = Math.round(i(t));
+                if(this.textContent === '100') {
+                  self.pctTxt.attr("x", self.pctX + 15)
+                } else {
+                  self.pctTxt.attr("x", self.pctX);
+                }
+//                self.pctTxt.attr("x", this.x.baseVal["0"].value + 33);
+              };
+            });
         };
 
-        this.redraw = function (name) {
-          this.render();
-          this.drawPointer(getReadingValue(name,this.config.max));
+        this.redraw = function () {
+          this.animateArcs();
+          this.animateText();
+          //hardcoding widget message right now, later move it to config to generalize for gauge
+          this.leftDotText.text(readings[name].toString() + '% on track');
+          this.rightDotText.text((100 - readings[name]).toString() + '% underperforming');
         };
 
-        this.drawPointer = function (value) {
-          var delta = this.config.range / 13;
-
-          var head = this.valueToPoint(value, 0.95);
-          var head1 = this.valueToPoint(value - delta, 0.07);
-          var head2 = this.valueToPoint(value + delta, 0.07);
-
-          var data = [head1, head, head2];
-          var line = d3.svg.line()
-            .x(function (d) {
-              return d.x;
-            })
-            .y(function (d) {
-              return d.y;
-            })
-            .interpolate("basis");
-
-          var pointerContainer = this.body.select(".pointerContainer");
-
-          var pointer = pointerContainer.selectAll("path").data([data]);
-
-          pointer.enter()
-            .append("svg:path")
-            .attr("d", line)
-            .style("fill", "#000099")
-            .style("stroke", "#000077")
-            .style("fill-opacity", 0.7);
-
-          pointer.transition()
-            .attr("d", line)
-            .ease("linear")
-            .duration(100);
-
-          var fontSize = Math.round(this.config.size / 10);
-          pointerContainer.selectAll("text")
-            .data([value])
-            .text(getMessage(name))
-            .enter()
-            .append("svg:text")
-            .attr("x", this.config.cx)
-            .attr("y",  this.config.cy + this.config.size/6 + fontSize)
-            .attr("dy", fontSize / 2)
-            .attr("text-anchor", "middle")
-            .text(getMessage(name))
-            .style("font-size", fontSize + "px")
-            .style("fill", "#000")
-            .style("stroke-width", "0px");
-        };
-
-        this.valueToRadians = function (value) {
-          return value * Math.PI / 180;
-        };
-
-        this.valueToPoint = function (value, factor) {
-          var len = this.config.radius * factor;
-          var inRadians = this.valueToRadians(value);
-          var point = {
-            x: this.config.cx - len * Math.cos(inRadians),
-            y: this.config.cy - len * Math.sin(inRadians)
-          };
-
-          return point;
-        };
-
-        this.configure(configuration);
       }
     };
   })
