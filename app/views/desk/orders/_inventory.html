@@ -22,11 +22,11 @@
                     <ul class="dropdown_ul_inv dropdown-menu" id="inventory_download">
 
                         <li value="categories"><a ng-if="download_urls.category" class="download_anchor"
-                                               href="{{download_urls.category}}">Inventory Transparency by Site Category</a></li>
+                                               ng-click="downloadInventoryReport(download_urls.category, 'transparency_by_site_category')">Inventory Transparency by Site Category</a></li>
                         <li value="domains"><a ng-if="download_urls.domain" class="download_anchor"
-                                               href="{{download_urls.domain}}">Inventory Transparency by Domain</a></li>
+                                               ng-click="downloadInventoryReport(download_urls.domain, 'transparency_by_domain')">Inventory Transparency by Domain</a></li>
                         <li value="urls"><a ng-if="download_urls.fullURL" class="download_anchor"
-                                               href="{{download_urls.fullURL}}">Inventory Transparency by URL</a></li>
+                                               ng-click="downloadInventoryReport(download_urls.fullURL, 'transparency_by_url')">Inventory Transparency by URL</a></li>
                     </ul>
                 </div>
 

@@ -25,13 +25,13 @@
                 <ul class="dropdown_ul dropdown-menu" id="viewablity_download">
 
                     <li value="tactics"><a id="viewability_tactic" ng-if="download_urls.tactics" class="download_anchor"
-                                           href="{{download_urls.tactics}}">Viewability by Tactic</a></li>
+                                           ng-click="downloadViewabilityReport(download_urls.tactics, 'by_tactic')">Viewability by Tactic</a></li>
                     <li value="domains"><a id="viewability_domain" ng-if="download_urls.domains" class="download_anchor"
-                                           href="{{download_urls.domains}}">Viewability by Domain</a></li>
+                                           ng-click="downloadViewabilityReport(download_urls.domains, 'by_domain')">Viewability by Domain</a></li>
                     <li value="publishers"><a id="viewability_publisher" ng-if="download_urls.publishers" class="download_anchor"
-                                              href="{{download_urls.publishers}}">Viewability by Publisher</a></li>
+                                              ng-click="downloadViewabilityReport(download_urls.publishers, 'by_publisher')">Viewability by Publisher</a></li>
                     <li value="exchanges"><a id="viewability_exchange" ng-if="download_urls.exchanges" class="download_anchor"
-                                             href="{{download_urls.exchanges}}">Viewability by Exchange</a></li>
+                                             ng-click="downloadViewabilityReport(download_urls.exchanges, 'by_exchange')">Viewability by Exchange</a></li>
                 </ul>
             </div>
 

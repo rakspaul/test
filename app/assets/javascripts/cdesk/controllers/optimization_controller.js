@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('OptimizationController', function ($scope, $location, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('OptimizationController', function ($scope, $location, $window, $anchorScroll, dataService, optimizationService, utils, $http, dataTransferService, actionChart, $timeout, domainReports, apiPaths, actionColors, campaignListService,constants, timePeriodModel, loginModel, analytics) {
 
         var campaign = campaignListService;
         //Hot fix to show the campaign tab selected
@@ -502,6 +502,11 @@ var angObj = angObj || {};
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {
             $scope.callBackKpiDurationChange('duration');
         });
+
+        $scope.downloadOptimizationReport = function(report_url) {
+            $window.location.href = report_url;
+            analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'optimization_report', loginModel.getLoginName());
+        }
 
     });
 }());

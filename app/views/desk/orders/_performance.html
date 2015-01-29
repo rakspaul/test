@@ -26,9 +26,9 @@
             <ul class="dropdown_ul_perf dropdown-menu" id="performance_download">
 
                 <li value="screens"><a ng-if="download_urls.screens" class="download_anchor"
-                                       href="{{download_urls.screens}}">Performance by Screens & Formats</a></li>
+                                       ng-click="downloadPerformanceReport(download_urls.screens, 'by_screens_and_formats')">Performance by Screens & Formats</a></li>
                 <li value="daysOfWeek"><a ng-if="download_urls.daysOfWeek" class="download_anchor"
-                                          href="{{download_urls.daysOfWeek}}">Performance by Days Of Week</a></li>
+                                          ng-click="downloadPerformanceReport(download_urls.daysOfWeek, 'by_days_of_week')">Performance by Days Of Week</a></li>
             </ul>
         </div>
 

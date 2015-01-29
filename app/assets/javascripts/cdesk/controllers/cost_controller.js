@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('costController', function ($scope, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('costController', function ($scope, $window, costService, utils, dataTransferService, domainReports, apiPaths,constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -285,6 +285,10 @@ var angObj = angObj || {};
 
         });
 
+        $scope.downloadCostReport = function(report_url) {
+            $window.location.href = report_url;
+            analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
+        }
 
 
     });

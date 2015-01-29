@@ -33,7 +33,7 @@
                             </span>
                             <ul class="dropdown-menu" id="optimization_download">
                                 <li value="optimization">
-                                    <a ng-if="download_urls.optimization" class="download_anchor" href="{{download_urls.optimization}}" id="optimization_download_btn">Optimization Report</a>
+                                    <a ng-if="download_urls.optimization" class="download_anchor" ng-click="downloadOptimizationReport(download_urls.optimization)" id="optimization_download_btn">Optimization Report</a>
                                 </li>
                             </ul>
                     </div>

@@ -1,7 +1,7 @@
 /*global angObj, angular*/
 (function() {
     "use strict";
-    commonModule.factory("actionChart", function($timeout, loginModel) {
+    commonModule.factory("actionChart", function($timeout, loginModel, constants, analytics) {
       var kpiPrefix = function (kpiType) {
         var kpiTypeLower = kpiType.toLowerCase();
         return (kpiTypeLower == 'cpc' || kpiTypeLower == 'cpa' || kpiTypeLower == 'cpm') ? '$' : ''
@@ -104,6 +104,7 @@
                 myContainer.animate({
                   scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                 });
+                analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
               }
             } else {
               
@@ -116,6 +117,7 @@
                 myContainer.animate({
                   scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                 });
+                analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
               }
             }
 

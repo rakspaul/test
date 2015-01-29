@@ -25,7 +25,7 @@
             };
 
       //dataTransferService.initOptimizationData(param);
-      analytics.track(loginModel.getUserRole(), constants..GA_CAMPAIGN_CARD_VIEW_REPORT, campaign.name, loginModel.getLoginName());
+      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_VIEW_REPORT, campaign.name, loginModel.getLoginName());
       dataTransferService.initReportingData(param);
       $rootScope.$broadcast(constants.NAVIGATION_FROM_CAMPAIGNS);
       document.location = '#/performance';

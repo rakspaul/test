@@ -38,6 +38,7 @@
     this.GA_VIEWABILITY_TAB_METRIC_SELECTED = 'viewability_tab_metric_selected';
     this.GA_OPTIMIZATION_TAB = 'optimization_tab';
     this.GA_OPTIMIZATION_TAB_SEE_DATES = 'optimization_tab_see_dates_selected';
+    this.GA_DOWNLOAD_REPORT = 'download_report';
     this.GAUGE_PERFORMANCE = 1;
   }
 

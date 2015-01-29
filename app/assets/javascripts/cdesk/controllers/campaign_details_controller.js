@@ -380,6 +380,7 @@
             };
 
             dataTransferService.initOptimizationData(param);
+            analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'activity_log_detailed_report', loginModel.getLoginName(), action.id);
             document.location = '#/optimization';
         };
 
