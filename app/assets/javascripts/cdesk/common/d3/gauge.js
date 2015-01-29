@@ -56,6 +56,7 @@
           outerRadius: (minSize + sizebias)*0.55,
           outerRingR1: (minSize + sizebias)*0.65,
           outerRingR2: (minSize + sizebias)*0.70,
+          animeDuration: 500,
           cx: containerOffsetx,
           cy: containerOffsety,
           label: label,
@@ -106,9 +107,9 @@
             .attr("height", this.myContainer.height)
 
           var self = this;
-          this.leftArc = createArc(this.body, self.config.cx, self.config.cy, -140, 0, greenColor);
-          this.rightArc = createArc(this.body, self.config.cx, self.config.cy, 140, -280 + this.config.min + 5, orangeColor);
-          this.outerArc = createArc(this.body, self.config.cx, self.config.cy, -140, 280, lightBlue, 1, outerArcFunc);
+          this.leftArc = createArc(this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, greenColor);
+          this.rightArc = createArc(this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, orangeColor);
+          this.outerArc = createArc(this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
           var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
           var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y};
@@ -188,21 +189,21 @@
           var readingValue = getReadingValue(name, this.config.max);
           if(readingValue === 0) readingValue = 1;
           this.leftArc.transition()
-            .duration(500)
+            .duration(this.config.animeDuration)
             .call(arcTween, this.valueToRadians(readingValue));
           animateRightArc();
         };
         function animateRightArc() {
           var readingValue = -280 + getReadingValue(name, self.config.max) + 1;
           self.rightArc.transition()
-            .duration(500)
+            .duration(self.config.animeDuration)
             .call(arcTween, self.valueToRadians(readingValue))
         }
         this.animateText = function() {
           var self = this;
           this.svgText
             .transition()
-            .duration(500)
+            .duration(this.config.animeDuration)
             .tween("text", function() {
               return function(t) {
                 var i = d3.interpolate(this.textContent, readings[name]);
