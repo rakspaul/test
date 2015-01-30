@@ -1,13 +1,207 @@
-/*
-  Highcharts JS v4.0.4 (2014-09-02)
- Solid angular gauge module
+/**
+ * @license  Highcharts JS v4.0.4 (2014-09-02)
+ * Solid angular gauge module
+ *
+ * (c) 2010-2014 Torstein Honsi
+ *
+ * License: www.highcharts.com/license
+ */
+/*global Highcharts*/
+(function (H) {
+	"use strict";
+	var defaultPlotOptions = H.getOptions().plotOptions,
+		pInt = H.pInt,
+		pick = H.pick,
+		each = H.each,
+		colorAxisMethods;
+	// The default options
+	defaultPlotOptions.solidgauge = H.merge(defaultPlotOptions.gauge, {
+		colorByPoint: true
+	});
+	// These methods are defined in the ColorAxis object, and copied here.
+	// If we implement an AMD system we should make ColorAxis a dependency.
+	colorAxisMethods = {
+		initDataClasses: function (userOptions) {
+			var axis = this,
+				chart = this.chart,
+				dataClasses,
+				colorCounter = 0,
+				options = this.options;
+				this.dataClasses = dataClasses = [];
+				each(userOptions.dataClasses, function (dataClass, i) {
+				var colors;
+				dataClass = H.merge(dataClass);
+				dataClasses.push(dataClass);
+				if (!dataClass.color) {
+					if (options.dataClassColor === 'category') {
+						colors = chart.options.colors;
+						dataClass.color = colors[colorCounter++];
+						// loop back to zero
+						if (colorCounter === colors.length) {
+							colorCounter = 0;
+						}
+					} else {
+						dataClass.color = axis.tweenColors(H.Color(options.minColor), H.Color(options.maxColor), i / (userOptions.dataClasses.length - 1));
+					}
+				}
+			});
+		},
+		initStops: function (userOptions) {
+			this.stops = userOptions.stops || [
+				[0, this.options.minColor],
+				[1, this.options.maxColor]
+			];
+			each(this.stops, function (stop) {
+				stop.color = H.Color(stop[1]);
+			});
+		},
+		/** 
+		 * Translate from a value to a color
+		 */
+		toColor: function (value, point) {
+			var pos,
+				stops = this.stops,
+				from,
+				to,
+				color,
+				dataClasses = this.dataClasses,
+				dataClass,
+				i;
+			if (dataClasses) {
+				i = dataClasses.length;
+				while (i--) {
+					dataClass = dataClasses[i];
+					from = dataClass.from;
+					to = dataClass.to;
+					if ((from === UNDEFINED || value >= from) && (to === UNDEFINED || value <= to)) {
+						color = dataClass.color;
+						if (point) {
+							point.dataClass = i;
+						}
+						break;
+					}   
+				}
 
- (c) 2010-2014 Torstein Honsi
+			} else {
+				if (this.isLog) {
+					value = this.val2lin(value);
+				}
+				pos = 1 - ((this.max - value) / (this.max - this.min));
+				i = stops.length;
+				while (i--) {
+					if (pos > stops[i][0]) {
+						break;
+					}
+				}
+				from = stops[i] || stops[i + 1];
+				to = stops[i + 1] || from;
+				// The position within the gradient
+				pos = 1 - (to[0] - pos) / ((to[0] - from[0]) || 1);	
+				color = this.tweenColors(
+					from.color, 
+					to.color,
+					pos
+				);
+			}
+			return color;
+		},
+		tweenColors: function (from, to, pos) {
+			// Check for has alpha, because rgba colors perform worse due to lack of
+			// support in WebKit.
+			var hasAlpha = (to.rgba[3] !== 1 || from.rgba[3] !== 1);
+			if (from.rgba.length === 0 || to.rgba.length === 0) {
+				return 'none';
+			}
+			return (hasAlpha ? 'rgba(' : 'rgb(') + 
+				Math.round(to.rgba[0] + (from.rgba[0] - to.rgba[0]) * (1 - pos)) + ',' + 
+				Math.round(to.rgba[1] + (from.rgba[1] - to.rgba[1]) * (1 - pos)) + ',' + 
+				Math.round(to.rgba[2] + (from.rgba[2] - to.rgba[2]) * (1 - pos)) + 
+				(hasAlpha ? (',' + (to.rgba[3] + (from.rgba[3] - to.rgba[3]) * (1 - pos))) : '') + ')';
+		}
+	};
+	// The series prototype
+	H.seriesTypes.solidgauge = H.extendClass(H.seriesTypes.gauge, {
+		type: 'solidgauge',
+		bindAxes: function () {
+			var axis;
+			H.seriesTypes.gauge.prototype.bindAxes.call(this);
+			axis = this.yAxis;
+			H.extend(axis, colorAxisMethods);
+			// Prepare data classes
+			if (axis.options.dataClasses) {
+				axis.initDataClasses(axis.options);
+			}
+			axis.initStops(axis.options);
+		},
+		/**
+		 * Draw the points where each point is one needle
+		 */
+		drawPoints: function () {
+			var series = this,
+				yAxis = series.yAxis,
+				center = yAxis.center,
+				options = series.options,
+				renderer = series.chart.renderer;
+			H.each(series.points, function (point) {
+				var graphic = point.graphic,
+					rotation = yAxis.startAngleRad + yAxis.translate(point.y, null, null, null, true),
+					radius = (pInt(pick(options.radius, 100)) * center[2]) / 200,
+					innerRadius = (pInt(pick(options.innerRadius, 60)) * center[2]) / 200,
+					shapeArgs,
+					d,
+					toColor = yAxis.toColor(point.y, point),
+					fromColor;
+				if (toColor === 'none') { // #3708
+					toColor =  series.color || point.color || 'none';
+				}
+				if (toColor !== 'none') {
+					fromColor = point.color;
+					point.color = toColor;
+				}
+				// Handle the wrap option
+				if (options.wrap === false) {
+					rotation = Math.max(yAxis.startAngleRad, Math.min(yAxis.endAngleRad, rotation));
+				}
+				rotation = rotation * 180 / Math.PI;
+				var angle1 = rotation / (180 / Math.PI),
+					angle2 = yAxis.startAngleRad,
+					minAngle = Math.min(angle1, angle2),
+					maxAngle = Math.max(angle1, angle2);
 
- License: www.highcharts.com/license
-*/
-(function(a){var k=a.getOptions().plotOptions,q=a.pInt,r=a.pick,l=a.each,n;k.solidgauge=a.merge(k.gauge,{colorByPoint:!0});n={initDataClasses:function(b){var h=this,e=this.chart,c,m=0,f=this.options;this.dataClasses=c=[];l(b.dataClasses,function(g,d){var i,g=a.merge(g);c.push(g);if(!g.color)f.dataClassColor==="category"?(i=e.options.colors,g.color=i[m++],m===i.length&&(m=0)):g.color=h.tweenColors(a.Color(f.minColor),a.Color(f.maxColor),d/(b.dataClasses.length-1))})},initStops:function(b){this.stops=
-b.stops||[[0,this.options.minColor],[1,this.options.maxColor]];l(this.stops,function(b){b.color=a.Color(b[1])})},toColor:function(b,h){var e,c=this.stops,a,f=this.dataClasses,g,d;if(f)for(d=f.length;d--;){if(g=f[d],a=g.from,c=g.to,(a===void 0||b>=a)&&(c===void 0||b<=c)){e=g.color;if(h)h.dataClass=d;break}}else{this.isLog&&(b=this.val2lin(b));e=1-(this.max-b)/(this.max-this.min);for(d=c.length;d--;)if(e>c[d][0])break;a=c[d]||c[d+1];c=c[d+1]||a;e=1-(c[0]-e)/(c[0]-a[0]||1);e=this.tweenColors(a.color,
-c.color,e)}return e},tweenColors:function(b,a,e){var c=a.rgba[3]!==1||b.rgba[3]!==1;return b.rgba.length===0||a.rgba.length===0?"none":(c?"rgba(":"rgb(")+Math.round(a.rgba[0]+(b.rgba[0]-a.rgba[0])*(1-e))+","+Math.round(a.rgba[1]+(b.rgba[1]-a.rgba[1])*(1-e))+","+Math.round(a.rgba[2]+(b.rgba[2]-a.rgba[2])*(1-e))+(c?","+(a.rgba[3]+(b.rgba[3]-a.rgba[3])*(1-e)):"")+")"}};a.seriesTypes.solidgauge=a.extendClass(a.seriesTypes.gauge,{type:"solidgauge",bindAxes:function(){var b;a.seriesTypes.gauge.prototype.bindAxes.call(this);
-b=this.yAxis;a.extend(b,n);b.options.dataClasses&&b.initDataClasses(b.options);b.initStops(b.options)},drawPoints:function(){var b=this,h=b.yAxis,e=h.center,c=b.options,m=b.chart.renderer;a.each(b.points,function(f){var g=f.graphic,d=h.startAngleRad+h.translate(f.y,null,null,null,!0),i=q(r(c.radius,100))*e[2]/200,o=q(r(c.innerRadius,60))*e[2]/200,p=h.toColor(f.y,f),k;if(p!=="none")k=f.color,f.color=p;c.wrap===!1&&(d=Math.max(h.startAngleRad,Math.min(h.endAngleRad,d)));var d=d*180/Math.PI,j=d/(180/
-Math.PI),l=h.startAngleRad,d=Math.min(j,l),j=Math.max(j,l);j-d>2*Math.PI&&(j=d+2*Math.PI);i={x:e[0],y:e[1],r:i,innerR:o,start:d,end:j};g?(o=i.d,g.attr({fill:f.color}).animate(i,{step:function(b,c){g.attr("fill",n.tweenColors(a.Color(k),a.Color(p),c.pos))}}),i.d=o):f.graphic=m.arc(i).attr({stroke:c.borderColor||"none","stroke-width":c.borderWidth||0,fill:f.color,"sweep-flag":0}).add(b.group)})},animate:null})})(Highcharts);
+				if (maxAngle - minAngle > 2 * Math.PI) {
+					maxAngle = minAngle + 2 * Math.PI;
+				}
+				shapeArgs = {
+					x: center[0],
+					y: center[1],
+					r: radius,
+					innerR: innerRadius,
+					start: minAngle,
+					end: maxAngle 
+				};
+				if (graphic) {
+					d = shapeArgs.d;
+					/*jslint unparam: true*/
+					graphic.attr({
+						fill: point.color
+					}).animate(shapeArgs, {
+						step: function (value, fx) {
+							graphic.attr('fill', colorAxisMethods.tweenColors(H.Color(fromColor), H.Color(toColor), fx.pos));
+						}
+					});
+					/*jslint unparam: false*/
+					shapeArgs.d = d; // animate alters it
+				} else {					
+					point.graphic = renderer.arc(shapeArgs)
+						.attr({
+							stroke: options.borderColor || 'none',
+							'stroke-width': options.borderWidth || 0,
+							fill: toColor,
+							'sweep-flag': 0
+						}).add(series.group);
+				}
+			});
+		},
+		animate: null
+	});
+}(Highcharts));
