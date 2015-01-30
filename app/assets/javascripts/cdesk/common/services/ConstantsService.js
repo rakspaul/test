@@ -23,6 +23,7 @@
     this.GA_CAMPAIGN_CARD_ACTIVITY = 'campaign_card_activity';
     this.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT = 'campaign_bubble_activity_count';
     this.GA_CAMPAIGN_CARD_VIEW_REPORT = 'campaign_card_view_report';
+    this.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY = 'campaign_details_create_activity';
     this.GA_EVENT = 'event';
     this.GA_SEND = 'send';
     this.ROLE_NETWORK = 'Network';
