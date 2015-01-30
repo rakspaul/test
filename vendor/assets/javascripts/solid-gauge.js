@@ -198,8 +198,7 @@
 							'stroke-width': options.borderWidth || 0,
 							fill: toColor,
 							'sweep-flag': 0
-						})
-						.add(series.group);
+						}).add(series.group);
 				}
 			});
 		},
