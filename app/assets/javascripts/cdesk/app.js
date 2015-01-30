@@ -43,9 +43,9 @@ var angObj = '';
                 templateUrl: 'performance',
                 controller: 'performanceController'
             })
-            .when('/main_dashboard', {
-                templateUrl: 'main_dashboard'
-            })
+//            .when('/main_dashboard', {
+//                templateUrl: 'main_dashboard'
+//            })
             .otherwise({redirectTo: 'campaigns'});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
