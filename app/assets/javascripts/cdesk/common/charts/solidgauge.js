@@ -19,7 +19,11 @@
                         marginRight: 0, //-60, //this does move the chart but you'll need to recompute it
                         marginLeft: 0, //-60,  //whenever the page changes width
                         marginTop: 3,
-                        marginBottom: 0
+                        marginBottom: 0,
+                        animation: {
+                            duration: 100,
+                            easing: 'easeOutBounce'
+                        }
                     },
                     tooltip: {
                         enabled: false
@@ -41,6 +45,7 @@
                         }
                     },
                     plotOptions: {
+                        animation: true,
                         solidgauge: {
                             dataLabels: {
                                 enabled: false,
@@ -66,7 +71,7 @@
                 },
                  series: [{
                     innerRadius: '70%',
-                    data: [{y:viewabilityData.pct_15s, color:'#008ED5'}],
+                    data: [{y:viewabilityData.pct_15s, color:'#FFA700'}],
                     radius: '55%'
                 }, {
                     innerRadius: '85%',
@@ -75,28 +80,34 @@
                 }, {
                     innerRadius: '100%',
                     radius: '85%',
-                    data: [{y:viewabilityData.pct_1s, color:'#FFA700'}],
+                    data: [{y:viewabilityData.pct_1s, color:'#008ED5'}],
                 }, {
                     innerRadius: '101',
-                    data: [{y:viewabilityData.pct_total, color:'black'}]
+                    data: [{y:viewabilityData.pct_total, color:'#000000'}]
+                },
+                //temp workaround to fix animation issues
+                {
+                    innerRadius: '103',
+                    radius: '102%',
+                    data: [{y:100, color:'#FFFFFF'}]
                 }],
                 loading: false,
                 func: function(chart) {
                     //orange, green, blue, black
-                    var colors= ['#FFA700', '#45CB41', '#008ED5', 'black'];
-                    $(window).resize(function () {
-                        //resize rendering issue fix for future - cost viewability
-                        reRender();
-                    });
-                    $timeout(function() {
-                        reRender();       
-                    }, 1000);
-                    function reRender(){
-                        $('#costViewability .highcharts-tracker path').each(function(index, value) { 
-                            $(value).attr({fill:colors[index]});
-                        });
+                    // var colors= ['#FFA700', '#45CB41', '#008ED5', '#000000'];
+                    // $(window).resize(function () {
+                    //     //resize rendering issue fix for future - cost viewability
+                    //     reRender();
+                    // });
+                    // $timeout(function() {
+                    //     reRender();       
+                    // }, 1000);
+                    // function reRender(){
+                    //     $('#costViewability .highcharts-tracker path').each(function(index, value) { 
+                    //         $(value).attr({fill:colors[index]});
+                    //     });
 
-                    }
+                    // }
                 }
             };
         };
