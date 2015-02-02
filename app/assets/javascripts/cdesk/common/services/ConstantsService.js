@@ -16,6 +16,14 @@
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
     this.GA_BRAND_SELECTED = 'brand_selected';
+    this.GA_CAMPAIGN_DETAILS = 'campaign_details';
+    this.GA_TIME_PERIOD_SELECTED = 'time_period_selected';
+    this.GA_CAMPAIGN_STATUS_FILTER = 'campaign_status_filter';
+    this.GA_CAMPAIGN_LIST_SORTING = 'campaign_LIST_sorting';
+    this.GA_CAMPAIGN_CARD_ACTIVITY = 'campaign_card_activity';
+    this.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT = 'campaign_bubble_activity_count';
+    this.GA_CAMPAIGN_CARD_VIEW_REPORT = 'campaign_card_view_report';
+    this.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY = 'campaign_details_create_activity';
     this.GA_EVENT = 'event';
     this.GA_SEND = 'send';
     this.ROLE_NETWORK = 'Network';
@@ -31,6 +39,7 @@
     this.GA_VIEWABILITY_TAB_METRIC_SELECTED = 'viewability_tab_metric_selected';
     this.GA_OPTIMIZATION_TAB = 'optimization_tab';
     this.GA_OPTIMIZATION_TAB_SEE_DATES = 'optimization_tab_see_dates_selected';
+    this.GA_DOWNLOAD_REPORT = 'download_report';
     this.GAUGE_PERFORMANCE = 1;
   }
 
