@@ -596,10 +596,10 @@
           jQuery("#action_comment").val(txt);
          
       });
-      $('#action_comment').bind("change keyup", function() {
+      $('#action_comment').bind("change keyup keydown", function() {
           var txt = (jQuery("#action_comment").val());
-          var max_length = $(this).attr("maxlength")
-          if(txt.length == max_length ){
+          var max_length = $(this).attr("maxlength");
+          if(txt.length >= max_length ){
             $("#error_more_comment").show();
             $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
           }
@@ -619,10 +619,10 @@
           jQuery("#edit_action_comment").val(txt);
          
       });
-       $('#edit_action_comment').bind("change keyup", function() {
+       $('#edit_action_comment').bind("change keyup keydown", function() {
           var txt = (jQuery("#edit_action_comment").val());
-          var max_length = $(this).attr("maxlength")
-          if(txt.length == max_length ){
+          var max_length = $(this).attr("maxlength");
+          if(txt.length >= max_length ){
             $("#error_edit_action_more_comment").show();
             $("#error_edit_action_more_comment").html('You cannot enter more than '+max_length + ' characters ');
           }
