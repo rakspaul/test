@@ -48,9 +48,11 @@
                 }
             }
 
-            if ($scope.$parent.selectedCampaign.id !== -1) {
-                $scope.$parent.strategylist($scope.$parent.selectedCampaign.id);
-            }
+//            if ($scope.$parent.selectedCampaign.id !== -1) {
+//                console.log("directive controller calls callBackCampaignChange");
+//                $scope.$parent.callBackCampaignChange();
+//              //   $scope.$parent.strategylist($scope.$parent.selectedCampaign.id);
+//            }
         };
 
 

@@ -301,6 +301,7 @@
 
             node.on("click", function(d) {
                 $("#brands").hide();
+                $("#backToBrands").show();
                 var campaing_svg_id = "campaigns_svg"
 
              //   $("#brands_svg").empty();
