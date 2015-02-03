@@ -1,0 +1,139 @@
+.main_dashboard {
+	width: 1115px ;
+	margin: 20px  auto ;
+	font-family: "Avenir" ;
+	font-size: 12px ;
+	.row {
+		margin-bottom: 20px ;
+	}
+	.dropdown {
+		cursor: default;
+		.dropdown_ul {
+			text-align: center;
+			min-width: 72px;
+			left: -20px;
+		}
+		.arrow_img {
+          background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center ;
+          height: 10px;
+          width: 10px;
+          display: inline-block;
+          margin-left: 2px;
+        }
+        ul {
+        	padding: 0px ;
+	        li {
+	        	padding: 2px 0 ;
+	        	&:hover {
+		        	background: #f1f1f1 ;
+		        }
+	        }
+	    }
+	}
+	.calendar_holder {
+		border: solid 1px #ccc;
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-webkit-border-radius: 5px;
+		margin: 0 0 0 10px;
+		span {
+			padding: 2px 10px;
+			border-left: solid 1px #cccccc;
+			display: inline-block;
+			text-align: center;
+			float: left;
+			cursor: default;
+			&:first-child {
+				border-left : solid 0px #ccc ;
+			}
+		}
+	}
+	.dashboard_section {
+		min-height: 340px ;
+		box-shadow: 0px 0px 1px #ccc ;
+	}
+	.dashboard_geo_graph_holder {
+		min-height: 545px;
+	}
+	#dashboard_metric_dd {
+		margin-left: 10px ;
+	}
+	.dashboard_perf_graph {
+		min-height: 175px ;
+		margin: 20px ;
+	}
+	.dashboard_heading {
+		
+		font-size: 14px ;
+		padding: 10px 20px ;
+		.show_link {
+			color: #333 ;
+			font-weight: bold;
+			margin: 0px 0 0 30px;
+		}
+		
+	}
+	.dashboard_heading_bold {
+		font-weight: bold;
+		text-transform: uppercase;
+		color: #333 ;
+	}
+	.calendar_heading {
+		span {
+			font-size: 12px ;
+			color: #999 ;
+			text-transform: none;
+			font-weight: normal;
+		}
+
+	}
+	.dashboard_graph_legends {
+		padding: 20px ;
+		color: #999 ;
+		.legend_details {
+			white-space: nowrap;
+			margin: 5px 20px 0 0;
+			display: inline-block;
+			.graph_legend {
+				height: 8px ;
+				width: 8px ;
+				border-radius: 8px ;
+				-moz-border-radius : 8px ;
+				-webkit-border-radius : 8px ;
+				background: green ;
+				display: inline-block;
+				
+			}
+		}
+		.underperf_legend {
+			.graph_legend {
+				background: #fc0 ;
+			}
+		}
+		.legend_type1 {
+			.graph_legend {
+				background: rgb(165, 165, 240) ;
+			}
+		}
+		.legend_type2 {
+			.graph_legend {
+				background: rgb(86, 121, 176);
+			}
+		}
+		.legend_type3 {
+			.graph_legend {
+				background: rgb(163, 186, 223); ;
+			}
+		}
+		.legend_type4 {
+			.graph_legend {
+				background: rgb(142, 183, 249) ;
+			}
+		}
+		.legend_type5 {
+			.graph_legend {
+				background: blue ;
+			}
+		}
+	}
+}

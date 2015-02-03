@@ -39,7 +39,17 @@
 
     this.APICampaignCountsSummary = function(timePeriod, brandId) {
       var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
-      return url;
+      console.log(url);
+        return url;
+    }
+
+    this.APISpendWidgetForAllBrands = function(timePeriod, brandId ){
+        var url =  apiPaths.apiSerivicesUrl + '/brands/budgetAndSpends?date_filter=life_time&topCount=5' ;
+        console.log(url);
+
+       // http://dev-desk.collective-media.net/dataapi/brands/budgetAndSpends?start_date=2014-01-01&end-date=2015-03-30&topCount=5
+      // var url =  '/assets/cdesk/tmp/sample.json' ;
+       return url ;
     }
 
   }

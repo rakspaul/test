@@ -41,21 +41,22 @@
     this.createGauge = function() {
 
       createDashboard();
+
       function createDashboard() {
         createDash();
-        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 250,200);
+        createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 175,125);
       };
 
       function createDash()
       {
-        var body = d3.select("#dashboardContainer")
+        var body = d3.select("#dashboardContainer") //chartContainer
           .append("svg:svg")
           .attr("class", "dash")
-          .attr("width", 500)
-          .attr("height", 350);
+          .attr("width", 350)
+          .attr("height", 280);
         dashContainer =  body.append("svg:g").attr("class", "dashContainer")
           .attr("width",500)
-          .attr("height",350);
+          .attr("height",300);
       };
 
       function createGauge(myContainer, name, label, sizebias, containerOffsetx, containerOffsety) {
