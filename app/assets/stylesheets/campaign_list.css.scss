@@ -2301,6 +2301,7 @@ button, i, input[type="submit"] {
   .campaign_list_header_holder {
     background: #fff ;
     border: solid 1px #d2dee7 ;
+    border-bottom-width: 2px ;
     color: #333 ;
     text-transform: uppercase;
     height: 60px;
@@ -2316,7 +2317,8 @@ button, i, input[type="submit"] {
       cursor: pointer;
       margin: 0 15px;
       a {
-        color: #6c6c6c ;
+        /*color: #6c6c6c ;*/
+        color: #313233 ;
         text-decoration: none;
       }
 
@@ -2529,9 +2531,6 @@ button, i, input[type="submit"] {
         -webkit-border-radius: 8px ;
         background: #6abc52 ;
       }
-      
-     
-
     }
     .each_campaign_holder:first-child .each_campaign_list_container {
       border-top : 0px ;
@@ -2539,7 +2538,7 @@ button, i, input[type="submit"] {
   }
   .total_campaign_cost_holder {
     .each_campaign_cost_container {
-      border: solid 1px #d2dee7;
+      /*border: solid 1px #d2dee7;*/
       padding: 10px;
       .each_cost_section {
         float: left;
@@ -2963,14 +2962,15 @@ button, i, input[type="submit"] {
         position: relative;
         float: left;
         text-transform: uppercase;
-        color: #91989d ;
+        /*color: #91989d ;*/
+        color: #313233 ;
         height: 36px;
         width: 170px;
         text-align: center;
         border-bottom: 0px ;
         cursor: pointer;
         .each_tab_text {
-          background: #f8fffa ;
+          background: #f5f9fd ;
           padding: 8px 0px;
           border-radius: 4px 0 0 0 ;
         }

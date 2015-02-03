@@ -1,3 +1,4 @@
+$reportHighlight: #f5f9fd;
 .dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
   background: transparent;
 }
@@ -147,7 +148,7 @@
       font-family: "Avenir";
      .each_rep_col_holder {
         padding: 20px 16px;
-        background: #f5f9fd;
+        background: $reportHighlight ;
         border: solid 1px #ccd9e3;
       }
     }
@@ -252,7 +253,7 @@
     border-bottom: solid 2px #e5ecef;
     padding: 11px 16px ;
     border-left: solid 5px transparent;
-    background: #f5f9fd;
+    background: $reportHighlight ;
     border: solid 1px #ccd9e3;
   }
 }
@@ -468,7 +469,7 @@
     line-height: 15px;
   }
   .dropdown-menu li:hover {
-    background: #ebebeb;
+    background: #d2dee7 ;
   }
   .download_report {
     height: 38px;
@@ -685,7 +686,7 @@
   }
   .each_chart_accordion_holder {
     .chart_accordion_heading {
-      background: #f5f9fd;
+      background: $reportHighlight;
       height: 80px;
       padding-top: 25px;
       margin-top: 10px;
@@ -727,7 +728,7 @@
         font-size: 14px;
         text-decoration: none;
         position: absolute;
-        background: #f5f9fd;
+        background: $reportHighlight;
         width: 100%;
         text-align: center;
         padding-top: 8px;
@@ -769,7 +770,7 @@
 }
 .strategy_total_container {
   .strategy_total_container_header {
-    background: #f5f9fd;
+    background: $reportHighlight ;
     border: solid 1px #ccd9e3;
     border-top-width: 2px ; 
     padding: 20px;
@@ -801,7 +802,7 @@
       padding: 20px 20px 20px 10px;
       margin: 10px 0 0 0px;
       border: solid 1px #ccd9e3;
-      background: #f8faff;
+      background: #fff;
     }
     .each_strategy_holder:last-child {
       .linkage_lines {
@@ -931,7 +932,7 @@
       text-align: center;
     }
   .viewability_header {
-    background: #f5f9fd;
+    background: #fff;
     border: solid 1px #ccd9e3;
     padding: 10px 20px;
     .each_col {
@@ -1029,7 +1030,7 @@
       border-right: solid 1px #d2dee7 ;
       cursor: pointer;
       .each_tab_text {
-        background: #f5f9fd ;
+        background: $reportHighlight ;
         padding: 8px 0px;
         border-radius: 4px 0 0 0 ;
       }
@@ -1190,7 +1191,7 @@
   .cost_transparency_container {
     .strategy_total_row {
       position: relative;
-      background: #f5f9fd ;
+      background: $reportHighlight ;
       .each_cost_heading {
         font-size: 18px ;
       }
