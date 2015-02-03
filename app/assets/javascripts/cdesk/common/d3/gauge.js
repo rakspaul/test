@@ -1,6 +1,6 @@
 (function() {
   "use strict";
-  commonModule.service("gauge", function(_,constants) {
+  commonModule.service("gauge", function(_,constants, $window) {
     var gauges = [];
     var dashContainer;
     var readings = [];
@@ -28,6 +28,16 @@
     function getReadingValue (name, max) {
       return readings[name] * max / 100;
     };
+
+    var currentGauge = this;
+    this.setLeftArcClickHandler = function(value) {
+      currentGauge.leftArcClickHandler = value;
+    }
+
+    this.setRightArcClickHandler = function(value) {
+      currentGauge.rightArcClickHandler = value;
+    }
+
     this.createGauge = function() {
 
       createDashboard();
@@ -106,10 +116,9 @@
             .attr("width", this.myContainer.width)
             .attr("height", this.myContainer.height)
 
-          var self = this;
-          this.leftArc = createArc(this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, greenColor);
-          this.rightArc = createArc(this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, orangeColor);
-          this.outerArc = createArc(this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
+          this.leftArc = createArc(currentGauge.leftArcClickHandler, this.body, self.config.cx, self.config.cy, -this.config.max/2, 0, greenColor);
+          this.rightArc = createArc(currentGauge.rightArcClickHandler, this.body, self.config.cx, self.config.cy, this.config.max/2, -this.config.max + this.config.min + 5, orangeColor);
+          this.outerArc = createArc(undefined, this.body, self.config.cx, self.config.cy, -this.config.max/2, this.config.max, lightBlue, 1, outerArcFunc);
 
           var leftDotPt = {x: self.config.cx - this.config.outerRingR2 - 10, y:self.config.cy + this.config.outerRingR2};
           var rightDotPt = {x: self.config.cx + this.config.outerRingR2 - 120, y: leftDotPt.y};
@@ -172,9 +181,10 @@
               return "translate(" + x + ", " + y +")"
             });
         }
-        function createArc(container, x, y, initialAngle, endAngle, color, opacity, arcFunc) {
+        function createArc(clickHandler, container, x, y, initialAngle, endAngle, color, opacity, arcFunc) {
           if(opacity === undefined) opacity = 1;
           if(arcFunc === undefined) arcFunc = arc;
+          if(clickHandler === undefined) clickHandler = function() {};
           return container.append("svg:path")
             .style("fill", color)
             .datum({endAngle: self.valueToRadians(endAngle)})
@@ -182,7 +192,9 @@
             .style("opacity", opacity)
             .attr("transform", function () {
               return "translate(" + x + ", " + y + ") rotate(" + initialAngle + ")";
-            });
+            })
+            .on('click', clickHandler)
+            .style("cursor", "pointer");
         }
 
         this.animateArcs = function() {

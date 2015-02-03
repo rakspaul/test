@@ -9,6 +9,10 @@
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
     this.SORT_DESC = 'desc';
     this.ACTIVE_UNDERPERFORMING = '(active,underperforming)';
+    this.ACTIVE_ONTRACK = '(active,ontrack)';
+    this.ONTRACK = 'ontrack';
+    this.UNDERPERFORMING = 'underperforming';
+    this.ACTIVE = 'active';
     this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";

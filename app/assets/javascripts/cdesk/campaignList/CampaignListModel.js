@@ -221,7 +221,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
 
       }
     },
-    Campaigns.prototype.fetchDashboardData = function() {
+    Campaigns.prototype.fetchDashboardData = function(forceLoadFilter) {
 
       this.dashboard.busy = true;
       var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + this.timePeriod,
@@ -254,18 +254,20 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
           self.dashboard.displayStatus.completed  = self.dashboard.completed  > 0 ? true:false;
           self.dashboard.displayStatus.underperforming  = self.dashboard.active.underperforming  > 0 ? true:false;
           self.dashboard.displayStatus.ontrack  = self.dashboard.active.ontrack  > 0 ? true:false;
-          if( self.dashboard.total  > 3) {
+          if(forceLoadFilter !== undefined) {
+            self.dashboard.displayFilterSection = true;
+            if(forceLoadFilter === constants.ACTIVE_ONTRACK) {
+              loadActiveOntrack();
+            } else if(forceLoadFilter === constants.ACTIVE_UNDERPERFORMING) {
+              loadActiveUnderperforming();
+            }
+          }
+          else if( self.dashboard.total  > 3) {
             self.dashboard.displayFilterSection = true;
             if(self.dashboard.active.underperforming == 0 ) {
-              self.dashboardFilter('active','ontrack');
-              self.dashboard.filterActive = '(active,ontrack)';
-              self.dashboard.status.active.ontrack = 'active';
-              self.dashboard.status.active.underperforming = '';
+              loadActiveOntrack();
             }else {
-              self.dashboardFilter('active', 'underperforming');
-              self.dashboard.filterActive = '(active,underperforming)';
-              self.dashboard.status.active.underperforming = 'active';
-              self.dashboard.status.active.ontrack = '';
+              loadActiveUnderperforming();
             }
           } else {
             self.dashboard.displayFilterSection = false;
@@ -279,6 +281,20 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         }
 
       });
+
+      function loadActiveOntrack() {
+        self.dashboardFilter(constants.ACTIVE, constants.ONTRACK);
+        self.dashboard.filterActive = constants.ACTIVE_ONTRACK;
+        self.dashboard.status.active.ontrack = constants.ACTIVE;
+        self.dashboard.status.active.underperforming = '';
+      };
+
+      function loadActiveUnderperforming() {
+        self.dashboardFilter(constants.ACTIVE, constants.UNDERPERFORMING)
+        self.dashboard.filterActive = constants.ACTIVE_UNDERPERFORMING;
+        self.dashboard.status.active.ontrack = '';
+        self.dashboard.status.active.underperforming = constants.ACTIVE;
+      }
 
     },
 
