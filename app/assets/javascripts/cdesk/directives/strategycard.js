@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.directive('campaignStrategyCard', function (utils) {
+    angObj.directive('campaignStrategyCard', function (utils, loginModel, analytics, constants) {
         return {
             restrict:'EAC',
 
@@ -11,7 +11,7 @@
 
             templateUrl: 'campaign_strategy_card',
 
-            link: function ($scope, element, attrs, loginModel, analytics) {
+            link: function ($scope, element, attrs) {
 
                 $scope.getPercentDiff = function(expected, actual) {
                     var spendDifference = 0;
