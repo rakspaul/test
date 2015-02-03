@@ -456,11 +456,16 @@ $reportHighlight: #f5f9fd;
   .dropdown_ul_text {
     cursor: pointer;
     .arrrow_img {
-      background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center;
+      background: url(asset-path("cdesk/dropdown_down.png")) no-repeat center center;
       display: inline-block;
       height: 10px;
       width: 10px;
       margin-left: 6px;
+    }
+  }
+  .dropdown_type1 , .dropdown_type2  {
+    .arrrow_img {
+      background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center;
     }
   }
   .dropdown-menu li {
