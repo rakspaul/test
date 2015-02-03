@@ -22,6 +22,7 @@
         $scope.backToBrands = function(){
             $("#brands").show();
             $("#campaigns").hide();
+            $("#backToBrands").hide();
             bubbleChart.cleaningBubbleChart("campaigns");
             //$("#campaigns_svg").removeAll();
         };
