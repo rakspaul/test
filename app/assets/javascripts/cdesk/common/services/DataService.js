@@ -110,7 +110,7 @@
         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_action_subtypes_selected', loginModel.getLoginName(), data.action_sub_type_ids.length);
         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, 'number_of_tactics_selected', loginModel.getLoginName(), data.action_tactic_ids.length);
         analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS_CREATE_ACTIVITY, (data.make_external ? 'external' : 'internal'), loginModel.getLoginName());
-        return this.post(url, data);
+        return this.post(url, data, {'Content-Type': 'application/json'});
       },
 
       updateLastViewedAction: function(campaignId) {
