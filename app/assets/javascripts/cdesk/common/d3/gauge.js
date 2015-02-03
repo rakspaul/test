@@ -41,6 +41,7 @@
     this.createGauge = function() {
 
       createDashboard();
+
       function createDashboard() {
         createDash();
         createGauge(dashContainer, constants.GAUGE_PERFORMANCE, "", 40, 175,125);
@@ -48,10 +49,10 @@
 
       function createDash()
       {
-        var body = d3.select("#dashboardContainer")
+        var body = d3.select("#dashboardContainer") //chartContainer
           .append("svg:svg")
           .attr("class", "dash")
-          .attr("width", 500)
+          .attr("width", 350)
           .attr("height", 280);
         dashContainer =  body.append("svg:g").attr("class", "dashContainer")
           .attr("width",500)
