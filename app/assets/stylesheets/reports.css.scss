@@ -1385,6 +1385,8 @@ $reportHighlight: #f5f9fd;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%); 
+    -webkit-transform: translate(-50%, -50%); 
     width: 368px ;
     margin: 0 auto ;
     .login_box_form_holder {
