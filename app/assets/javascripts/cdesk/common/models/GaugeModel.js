@@ -1,6 +1,10 @@
 (function () {
   "use strict";
   var gauge = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants) {
+    this.dashboard = {selectedFilter: ''};
+    this.resetDashboardFilters = function() {
+      this.dashboard.selectedFilter = '';
+    }
     this.getGaugeData = function () {
       var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
       var canceller = requestCanceller.initCanceller(constants.GAUGE_CANCELLER);

@@ -1,15 +1,20 @@
 (function() {
   'use strict';
 
-  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, utils, $location, _, constants, brandsModel, dataTransferService, loginModel, analytics) {
+  campaignListModule.controller('campaignListController', function($scope,  $rootScope, campaignListModel, utils, $location, _, constants, brandsModel, dataTransferService, loginModel, analytics, gaugeModel) {
     //Hot fix to show the campaign tab selected
     $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
     $scope.campaigns = new campaignListModel();
     $scope.$on(constants.EVENT_BRAND_CHANGED, function(event) {
       $scope.campaigns.filterByBrand(brandsModel.getSelectedBrand());
     });
-    $scope.campaigns.fetchDashboardData();
-
+    //Based on gauge click, load the filter and reset data set after gauge click.
+    var forceLoadCampaignsFilter;
+    if(gaugeModel.dashboard.selectedFilter !== '') {
+      forceLoadCampaignsFilter = gaugeModel.dashboard.selectedFilter;
+    }
+    $scope.campaigns.fetchDashboardData(forceLoadCampaignsFilter);
+    gaugeModel.resetDashboardFilters();
     $scope.$on("fromCampaignDetails", function(event, args) {
       $scope.loadMoreStrategies(args.campaignId);
     });
