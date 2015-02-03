@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    angObj.controller('directiveController', function ($scope, domainReports, apiPaths, dataTransferService , constants , brandsModel ) {
+    angObj.controller('directiveController', function ($scope, domainReports, apiPaths, dataTransferService , constants , brandsModel, loginModel, analytics ) {
 
         $scope.campaigns = {};
         $scope.allCampaigns = {};
@@ -105,6 +105,7 @@
             $scope.$apply();
             $(this).hide();
             $scope.$parent.callBackCampaignChange();
+            analytics.track(loginModel.getUserRole(), constants.GA_USER_CAMPAIGN_SELECTION, selectedCampaign.name, loginModel.getLoginName());
 
         });
     });

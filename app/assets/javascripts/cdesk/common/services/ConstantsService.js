@@ -40,6 +40,8 @@
     this.GA_OPTIMIZATION_TAB = 'optimization_tab';
     this.GA_OPTIMIZATION_TAB_SEE_DATES = 'optimization_tab_see_dates_selected';
     this.GA_DOWNLOAD_REPORT = 'download_report';
+    this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
+    this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
     this.GAUGE_PERFORMANCE = 1;
   }
 

@@ -355,16 +355,16 @@ var angObj = angObj || {};
         $scope.strategylist = function (campaignId) {
             $scope.performanceBusy = true ;
             $scope.selectedStrategy.name = "Loading...";
-                domainReports.getCampaignStrategyList(campaignId).then(function (result) {
-                    if (result.status == 'success') {
-                        var strategy = result.data.data;
-                        $scope.updateStrategyObjects(strategy);
-                    } else {
-                        $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
-                    }
-                    $scope.performanceBusy = false ;
-                    $scope.first_time_activity_loader = false ;
-                });
+            domainReports.getCampaignStrategyList(campaignId).then(function (result) {
+                if (result.status == 'success') {
+                    var strategy = result.data.data;
+                    $scope.updateStrategyObjects(strategy);
+                } else {
+                    $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
+                }
+                $scope.performanceBusy = false ;
+                $scope.first_time_activity_loader = false ;
+            });
         };
 
         //This will be called from directive_controller.js
@@ -418,11 +418,9 @@ var angObj = angObj || {};
             if($scope.selectedStrategy.id == -1){
                 $scope.strategyFound = false ;
                 $scope.strategies = {} ; // if No Strategy then clear the strategy list.
-            }
-
-
-           else {
+            } else {
                 $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_filters.tab, timeFilter: $scope.selected_filters.time_filter });
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
         };
 
