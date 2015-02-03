@@ -2,24 +2,30 @@
     'use strict';
     commonModule.controller('bubbleChartController', function ($scope, loginModel, $cookieStore, $location, loginService,bubbleChart, bubbleChartModel) {
 
-        $scope.backToBrands = function(){
-            $("#brands").show();
-            $("#campaigns").hide();
-           bubbleChart.cleaningBubbleChart("campaigns");
-            //$("#campaigns_svg").removeAll();
+        $scope.init = function(){
+            $scope.spendBusy = true;
+            getSpendData();
+
         };
 
-
         function getSpendData () {
+            $scope.spendBusy = true ;
 
             bubbleChartModel.getBubbleChartData().then(function(result) {
-                console.log("inside then of controller to get result");
-                console.log(result);
-                //var sampleData =  '/assets/cdesk/tmp/sample.json';
+                $scope.spendBusy = false ;
                 bubbleChart.updateBubbleChartData(result);
             });
         }
-        getSpendData();
+
+        $scope.init();
+
+        $scope.backToBrands = function(){
+            $("#brands").show();
+            $("#campaigns").hide();
+            bubbleChart.cleaningBubbleChart("campaigns");
+            //$("#campaigns_svg").removeAll();
+        };
+
 
     });
 }());

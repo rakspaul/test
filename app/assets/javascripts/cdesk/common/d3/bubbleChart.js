@@ -17,15 +17,18 @@
             //if(isNaN(x)) return x;
             var y = Math.abs(x);
 
-            if(y < 9999) {
+            if(y < 999)
                 return  "$ " + x;
+
+            if(y < 9999) {
+                return  "$ " + Math.round(x/1000) + "k";
             }
 
             if(y < 1000000) {
-                return "$ " +Math.round(x/1000) + "k";
+                return "$ " + Math.round(x/1000) + "k";
             }
             if( y < 10000000) {
-                return "$ "+ (x/1000000).toFixed(2) + "m";
+                return "$ "+  Math.round(x/1000000) + "m";
             }
 
             if(y < 1000000000) {
@@ -96,7 +99,6 @@
            var positionsCampaigns =  [[90,80],[250,100],[175,200],[60,210] ,[280,200],[[290,220]]];
             var formattedDataBrands = [];
             var formattedDataCampaigns = [];
-            console.log("inside data foramtting ");
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
                 var maxRadius = 75 ;
@@ -110,8 +112,6 @@
                         budget :node.budget,
                         spend : node.spend,
                         percFill : Math.round((node.spend / node.budget)* 100) ,
-//                       onTrack : node.on_track_campaigns,
-//                       total : node.total_campaigns,
                         campaigns : node.campaigns,
                         cx : positions[i][0],
                         cy : positions[i][1],
@@ -119,7 +119,6 @@
                     };
                     formattedDataBrands.push(object);
                 }
-                //   console.log(formattedData);
             } else if(spanId == 'campaigns'){
                 var campaignArray = root['campaigns'];
                 var maxRadius = 60 ;
@@ -191,11 +190,8 @@
 
         function updateBubbleChartData(data){
             this.spendData = data ;
-            this.first = true;
-            console.log("inside update bubble chart");
 
              createBubbleChartNew.call(this, "brands", this.spendData);
-           // createBubbleChartFinal.call(this, "brands", this.spendData);
         };
 
         this.updateBubbleChartData = updateBubbleChartData ;
@@ -238,34 +234,56 @@
 
             node.append("text") //For brand name
                 .attr("transform", function(d) {
-                    return "translate(" + d.cx + "," + (d.cy+25 )+ ")";
+                    if(d.r > 40)
+                        return "translate(" + d.cx + "," + (d.cy+35) + ")";
+                    else
+                        return  "translate(" + d.cx + "," + (d.cy+20) + ")";
                 })
                 .attr("font-family","sans-serif")
                // .attr("dy", "30em")
-                .style("font-size", "18px")
+                .style("font-size", function(d){
+                    var size ;
+                    if(d.r > 40 )
+                    size = "18px"
+                    else if (d.r > 25)
+                    size = "16px"
+                    return size ;
+                })
                 .style("text-anchor", "middle")
                 .attr("fill", "white")
                 .text(function(d) {
                     var text ;
                     if(d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
+                    } else if (d.r > 25){
+                        text = d.className.substring(0, 3) + '...' ;
                     }
                     return text ;
                 }); // TODO : text auto resizing : http://bl.ocks.org/mbostock/1846692
 
             node.data(chartData).append("text") // for brand budget
                 .attr("transform", function(d) {
-                    return "translate(" + d.cx + "," + d.cy + ")";
+                    if(d.r > 40)
+                        return "translate(" + d.cx + "," + (d.cy+10) + ")";
+                    else
+                        return  "translate(" + d.cx + "," + (d.cy) + ")";
                 })
                 .attr("font-family","sans-serif")
                 .style("text-anchor", "middle")
                 .attr("fill", "white")
                 .attr("font-size",function(d){
                     var text_size ;
-                    if(d.r > 40){
+                    if(d.r > 65){
+                       text_size = "35px"
+                    }
+                    else if(d.r > 50){
+                        text_size = "32px";
+                    }else if(d.r > 40){
                         text_size="28px";
-                    } else{
-                        text_size="20px" ;
+                    } else if(d.r >25) {
+                        text_size="18px" ;
+                    } else if(d.r > 15){
+                        text_size = "14px"
                     }
                     return text_size ;
                 })
@@ -274,13 +292,12 @@
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     var budget ;
-                    if(d.r >20)
+                    if(d.r >15)
                         budget = getRepString(d.budget);
 
                     return budget ;
                 });
 
-            console.log("appending click event");
 
             node.on("click", function(d) {
                 $("#brands").hide();
@@ -301,37 +318,23 @@
                 $("#campaigns").show();
                 self.first = false ;
             });
-
-            //           var node = bubbleContainer.svg.selectAll("circle")
-//                .data(chartData).enter()
-//                .append("circle")
-//               .attr("stroke-width", '4')
-//               .attr("stroke" , blueOutline)
-//               .style("fill", "url(#grad)")
-//               .style('opacity', 1)
-//                .attr("r" , function(d){
-//                   return d.r ;
-//               })
-//                .attr("cx" , function(d){return d.cx ;})
-//                .attr("cy" , function(d){return d.cy ;});
-
         } ;
 
         this.cleaningBubbleChart = function(spanId){
-            console.log("cleaning svg "+ spanId);
             d3.select("#"+spanId+"_svg").remove();
         };
 
         this.createBubbleChartForCampaigns = function( spanId , data){
-            console.log("creating bubble chart for campaing");
             var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
 
             var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
 
-
-            var node = campaignChartContainer.svg.selectAll("circle")
+            var node = campaignChartContainer.svg.selectAll(".node")
                 .data(chartData).enter()
-                .append("circle")
+                .append("g")
+                .attr("class" , "node");
+
+            node.append("circle")
                 .attr("stroke-width", '4')
                 .attr("stroke" , function(d){
                     if(d.status === 'ontrack') return greenOutline  ;
@@ -363,15 +366,22 @@
 
             node.append("text") // for brand budget
                 .attr("transform", function(d) {
-                    return "translate(" + d.cx + "," + d.cy + ")";
+                    if(d.r > 25)
+                    return "translate(" + d.cx + "," + (d.cy+10) + ")";
+                    else
+                    return  "translate(" + d.cx + "," + (d.cy+5) + ")";
                 })
                 .attr("font-family","sans-serif")
                 .attr("font-size",function(d){
                     var text_size ;
-                    if(d.r > 40){
+                    if(d.r > 50){
+                        text_size = "35px";
+                    }else if(d.r > 40){
                         text_size="28px";
-                    } else{
-                        text_size="20px" ;
+                    } else if(d.r >25) {
+                        text_size="18px" ;
+                    } else if(d.r > 15){
+                        text_size = "14px"
                     }
                     return text_size ;
                 })
@@ -380,59 +390,13 @@
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     var budget ;
-                    if(d.r >20)
+                    if(d.r >8)
                         budget = getRepString(d.budget);
 
                     return budget ;
                 });
 
-//            var node = campaignChartContainer.svg.selectAll("g.node")
-//                .data(campaignChartContainer.bubble.nodes(classes(data,spanId))
-//                    .filter(function(d) { return !d.children; }))
-//                .enter()
-//                .append("g")
-//                .attr("class", "node")
-//                .attr("transform", function(d) {
-//                    return "translate(" + d.x + "," + d.y + ")";
-//                }
-//            );
-//            node.append("title")
-//                .text(function(d){
-//                    return d.className + "  Total Budget :" + campaignChartContainer.format(d.budget); });
-//
-//            node.append("circle")
-//                .attr("r", function(d) { return d.value/900 ; })
-//                .attr("fill",function(d){
-//                    if(d.status === 'ontrack') return green  ;
-//                    else if(d.status === 'underperforming') return orange;
-//                });
-
-//            node.append("text")
-//                .attr("dy", function(d) {
-//                    var dy;
-//                    if(d.r >25)
-//                        dy = "0.3em" ;
-//                    return dy ;
-//                })
-//                .attr("font-family","sans-serif")
-//                .attr("font-size","24px")
-//                .attr("font-weight","bold")
-//                .attr("fill", "white")
-//                .style("text-anchor", "middle")
-//                .text(function(d) {
-//                    var budget ;
-//                    if(d.r >30)
-//                        budget = getRepString(d.budget);
-//
-//                    return budget ;
-//                });
-
         };
-
-
-
-
-
 
     });
 }());
