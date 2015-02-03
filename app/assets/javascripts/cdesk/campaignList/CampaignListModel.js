@@ -428,8 +428,15 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
         return '';
       }
     },
+    Campaigns.prototype.findShortCutKey = function(campaign,ev) {
+      if(ev.metaKey == true){
+        this.editCampaign(campaign, true);
+      }else{
+        this.editCampaign(campaign, false);
+      }
+    },
 
-    Campaigns.prototype.editCampaign = function(campaign) {
+    Campaigns.prototype.editCampaign = function(campaign,status) {
       /*
       ga('send', 'event', 'edit-campaign', 'click', campaign.campaignTitle, {
         'hitCallback': function() {
@@ -438,7 +445,9 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       });
       */
       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_CARD_ACTIVITY, constants.GA_CAMPAIGN_ACTIVITY_BUBBLE_COUNT, loginModel.getLoginName(), campaign.actionsCount);
-      document.location = "/#/campaigns/" + campaign.orderId;
+      if(status == false){
+        document.location = "/#/campaigns/" + campaign.orderId;
+      }
     },
 
     Campaigns.prototype.campaignReports = function(campaign) {
