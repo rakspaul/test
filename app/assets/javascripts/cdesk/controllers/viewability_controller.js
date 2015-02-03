@@ -175,6 +175,7 @@ var angObj = angObj || {};
         $scope.callBackStrategyChange = function () {
             //Call the chart to load with the changed campaign id and strategyid
             $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
+            analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
         };
 
         $scope.$on(constants.EVENT_TIMEPERIOD_CHANGED, function(event) {

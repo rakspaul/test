@@ -472,7 +472,8 @@ var angObj = angObj || {};
         $scope.callBackStrategyChange = function () {
             $scope.chartForStrategy = true;
             if ($scope.selectedStrategy.id !== -1) { // Means selected campaing has valid strategy
-                $scope.actionDataForSelectedCampaign()
+                $scope.actionDataForSelectedCampaign();
+                analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
             }
             else {
                 // means selected strategy id is not valid

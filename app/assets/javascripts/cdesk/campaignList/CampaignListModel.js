@@ -334,7 +334,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       //get the campaign list
       this.campaignList = [];
       Campaigns.prototype.fetchCampaigns.call(this);
-      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, type, loginModel.getLoginName());
+      analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_STATUS_FILTER, (state ? state : type), loginModel.getLoginName());
     },
     Campaigns.prototype.filterCostType = function(type) {
       this.selectedCostType = type;
