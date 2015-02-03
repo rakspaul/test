@@ -80,6 +80,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.sortDirection = 'desc';
       this.totalPages = undefined;
       this.costMargin = undefined;
+      this.setActiveSortElement(this.sortParam);
     };
     this.resetDasboardFilter = function(type,state) {
       if(type == 'active') {
@@ -408,6 +409,16 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       Campaigns.prototype.fetchCampaigns.call(this);
       analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_LIST_SORTING, (fieldName + '_' + (sortDirection ? sortDirection : 'asc')), loginModel.getLoginName());
     },
+    Campaigns.prototype.setActiveSortElement = function(fieldName) {
+      this.sortParam = fieldName;
+      this.sortFieldList.forEach(function(field) {
+        if (fieldName == field.key) {
+          field.className = 'active';
+        } else {
+          field.className = '';
+        }
+      });
+    },
 
     Campaigns.prototype.sortIcon = function(fieldName) {
 
@@ -492,6 +503,7 @@ campaignListModule.factory("campaignListModel", ['$http', 'dataService', 'campai
       this.nextPage=1;
       //this.dashboard.filterSelectAll=true;
       //this. dashboardSelectedAllResetFilter(true);
+      this.resetDasboard();
       if(this.dashboard.filterSelectAll == false)
       {
         this.dashboard.filterSelectAll=true;
