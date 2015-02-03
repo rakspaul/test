@@ -771,6 +771,7 @@
   .strategy_total_container_header {
     background: #f5f9fd;
     border: solid 1px #ccd9e3;
+    border-top-width: 2px ; 
     padding: 20px;
     .first_col {
       font-size: 18px;
@@ -1028,7 +1029,7 @@
       border-right: solid 1px #d2dee7 ;
       cursor: pointer;
       .each_tab_text {
-        background: #fff ;
+        background: #f5f9fd ;
         padding: 8px 0px;
         border-radius: 4px 0 0 0 ;
       }
@@ -1043,7 +1044,7 @@
     }
     .each_tab.active {
       .each_tab_text {
-        background: #f5f9fd;
+        background: #fff;
         height: 38px;
         position: absolute;
         z-index: 1;
@@ -1103,7 +1104,7 @@
       }
     }
     .reports_performance_header {
-      background: #f5f9fd;
+      background: #fff;
       border: solid 1px #ccd9e3;
       padding: 10px 20px;
       border-bottom: 0px ;
@@ -1143,6 +1144,7 @@
     display: block;
   }
   .cost_header_holder{
+    background: #fff ;
     padding: 20px 0 0 20px ;
     .dropdown_ul {
       li {
@@ -1158,8 +1160,8 @@
   .total_cost {
     width: 125px;
   }
-  .more_options .dd_txt , .dropdown-menu , .cost_header_holder {
-    background: #f8faff ;
+  .more_options .dd_txt , .dropdown-menu  {
+    background: #fff ;
   }
   .each_cost_col {
     font-family: "Avenir" ;
@@ -1188,7 +1190,7 @@
   .cost_transparency_container {
     .strategy_total_row {
       position: relative;
-      background: #f8faff ;
+      background: #f5f9fd ;
       .each_cost_heading {
         font-size: 18px ;
       }

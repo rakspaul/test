@@ -2838,6 +2838,7 @@ button, i, input[type="submit"] {
   position: relative;
   background: #fff;
   border: solid 1px #d2dee7;
+  border-bottom-width: 2px ; 
   text-transform: uppercase;
   height: 60px;
   padding: 20px 10px 0;
@@ -2904,7 +2905,8 @@ button, i, input[type="submit"] {
       font-family: "Avenir";
 
       li {
-
+        padding-top : 1px ;
+        padding-bottom: 1px ;
         cursor: pointer;
         a {
           padding: 4px 10px;
@@ -2917,7 +2919,7 @@ button, i, input[type="submit"] {
         color: #0978C9 ;
       }
       li:hover {
-        background: #F0FCF4 ;
+        background: #d2dee7 ;
       }
     }
   }
@@ -2942,7 +2944,7 @@ button, i, input[type="submit"] {
     min-width: 75px;
     left: 4px;
     li:hover {
-      background : #f0fcf4;;
+      background : #d2dee7 ;
     }
   }
 }
