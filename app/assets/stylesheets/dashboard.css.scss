@@ -85,15 +85,62 @@
 		min-height: 350px ;
 		box-shadow: 0px 0px 1px #ccc ;
 	}
-	.dashboard_geo_graph_holder {
-		min-height: 545px;
-	}
 	#dashboard_metric_dd {
 		margin-left: 10px ;
 	}
 	.dashboard_perf_graph {
 		min-height: 175px ;
 		margin: 20px ;
+	}
+	.dashboard_geo_graph_holder {
+		min-height: 545px;
+		#calendar_widget {
+			.chart {
+				font-family: Arial, sans-serif;
+				font-size: 12px;
+			}
+
+			.axis path,.axis line {
+				fill: none;
+				stroke: #ccc;
+				shape-rendering: crispEdges;
+			}
+			.bar {
+				fill: #33b5e5;
+				stroke: #000;
+				shape-rendering: crispEdges;
+			}
+
+			.bar-failed {
+				fill: #F5F9FD; 
+				stroke: #000;
+				shape-rendering: crispEdges;
+			}
+
+			.bar-running {
+				fill: #ccc;
+				stroke: #000;
+				shape-rendering: crispEdges;
+
+			}
+
+			.bar-succeeded {
+				fill: #33b5e5;
+				stroke: #000;
+				shape-rendering: crispEdges;
+			}
+
+			.bar-killed {
+				fill: #ffbb33;
+				stroke: #000;
+				shape-rendering: crispEdges;
+
+			}
+
+		}
+		.dashboard_perf_graph {
+			overflow: hidden;
+		}
 	}
 	.dashboard_heading {
 		
