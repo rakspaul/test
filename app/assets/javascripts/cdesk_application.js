@@ -58,6 +58,10 @@
 //= require cdesk/common/controllers/BubbleChartController
 //= require cdesk/common/models/BubbleChartModel
 
+//= require cdesk/common/d3/ganttChart
+//= require cdesk/common/controllers/GanttChartController
+//= require cdesk/common/models/GanttChartModel
+
 //= require cdesk/dashboard/DashboardModule
 //= require cdesk/dashboard/DashboardController
 
