@@ -3,7 +3,7 @@
     commonModule.service("ganttChart", function() {
         this.createGanttChart = function() {
 
-        };
+		};
 
 		d3.gantt = function() {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
@@ -25,7 +25,7 @@
 		    var taskTypes = [];
 		    var taskStatus = [];
 		    var height = CALENDAR_HEIGHT - margin.top - margin.bottom - 5;
-		    var width = CALENDAR_WIDTH  - margin.right - margin.left - 5;
+		    var width = CALENDAR_WIDTH - margin.right - margin.left - 5;
 
 		    var tickFormat = "%d"; //%b
 
@@ -41,7 +41,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 500]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 300]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -50,7 +50,7 @@
 		        .tickSize(height - margin.top, height - margin.top)
 		        .tickPadding(-15);
 
-		    var yAxis = d3.svg.axis().scale(y).orient("right").tickFormat("").tickSize(0);
+		    var yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
 
 		    var initTimeDomain = function(tasks) {
 		        if (timeDomainMode === FIT_TIME_DOMAIN_MODE) {
@@ -72,7 +72,7 @@
 
 		    var initAxis = function() {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 500]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 300]);
 
 		        xAxis = d3.svg.axis()
 		            .scale(x).orient("top")
@@ -81,7 +81,8 @@
 		            .tickSize(height - margin.top, height - margin.top)
 		            .tickPadding(-15); //modified from 8
 
-		        yAxis = d3.svg.axis().scale(y).orient("right").tickFormat("").tickSize(0);
+		        yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+
 		    };
 
 		    function gantt(tasks) {
@@ -112,29 +113,27 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-//temporary *****
-		        var box =svg.append("rect")
-		        .attr("x",39)
-		        .attr("y",50)
-		            .attr("width",300)
-		            .attr("height",25)
-		            .attr("stroke","#ccc")
-		            .attr("fill","#ccc");
+		        gantt.draw(tasks);
+		        // //temporary *****
+		        // 		        var box =svg.append("rect")
+		        // 		        .attr("x",39)
+		        // 		        .attr("y",50)
+		        // 		            .attr("width",300)
+		        // 		            .attr("height",25)
+		        // 		            .attr("stroke","#ccc")
+		        // 		            .attr("fill","#ccc");
 
-		          box.transition().duration(1000)
-		          .attr("width",621)
-//temporary *****		          
+		        // 		          box.transition().duration(1000)
+		        // 		          .attr("width",621)
+		        // //temporary *****		          
 
 		        return gantt;
 
 		    };
 
-		    gantt.redraw = function(tasks) {
+		    gantt.draw = function(tasks) {
 
-		        initTimeDomain(tasks);
-		        initAxis();
-
-		        var svg = d3.select("svg");
+		        var svg = d3.select("#calendar_widget").select("svg");
 
 		        var ganttChartGroup = svg.select(".gantt-chart");
 
@@ -283,6 +282,18 @@
 		        return gantt;
 		    };
 
+		    gantt.redraw = function(tasks) {
+		        console.log('redraw');
+		        initTimeDomain(tasks);
+		        initAxis();
+
+		        gantt.draw(tasks);
+
+
+
+		        return gantt;
+		    };
+
 		    gantt.margin = function(value) {
 		        if (!arguments.length)
 		            return margin;
@@ -346,16 +357,16 @@
 		    };
 
 		    return gantt;
-		};//end of gantt
+		}; //end of gantt
 
-	
-var gantt;
-var tasks;
-var taskNames ;
-var taskStatus;
-		var maxDate ;
-		var minDate ;
-		var format ;
+
+		var gantt;
+		var tasks;
+		var taskNames;
+		var taskStatus;
+		var maxDate;
+		var minDate;
+		var format;
 		var timeDomainString;
 
 		function prev() {
@@ -365,8 +376,9 @@ var taskStatus;
 		    gantt.redraw(tasks);
 
 		}
+
 		function addTask() {
-console.log('here');
+		    console.log('here');
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
 		    var taskStatusName = taskStatusKeys[Math.floor(Math.random() * taskStatusKeys.length)];
@@ -394,7 +406,8 @@ console.log('here');
 
 		    return lastEndDate;
 		}
-function next() {
+
+		function next() {
 		    format = "%d";
 		    gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
 		    gantt.tickFormat(format);
@@ -403,7 +416,7 @@ function next() {
 		}
 
 		function changeTimeDomain(timeDomainString) {
-		   // this.timeDomainString = timeDomainString;
+		    // this.timeDomainString = timeDomainString;
 		    switch (timeDomainString) {
 		        case "1hr":
 		            format = "%H:%M:%S";
@@ -426,7 +439,7 @@ function next() {
 
 		        case "1week":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -14), getEndDate()]);
+		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -15), getEndDate()]);
 		            break;
 
 		        case "1month":
@@ -441,91 +454,89 @@ function next() {
 		    gantt.redraw(tasks);
 		}
 
-	
+
 
 
 		//********************** IMPLEMENTATION
-function newCalendar(){
+		function newCalendar() {
 
 
-		tasks = [{
-		    "startDate": new Date("Tue Dec 25 00:00:01 EST 2012"),
-		    "endDate": new Date("Tue Jan 08 23:59:59 EST 2013"),
-		    "taskName": "Sierra",
-		    "status": "RUNNING",
-		    "name": "Campaign Name - X34234 34530453"
-		}, {
-		    "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
-		    "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
-		    "taskName": "TWC",
-		    "status": "FAILED",
-		    "name": "TWC Auto 2345234 234234SDFS"
-		}, {
-		    "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
-		    "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
-		    "taskName": "TWC",
-		    "status": "FAILED",
-		    "name": "TWC Auto 2345234 234234SDFS"
-		}, {
-		    "startDate": new Date("Tue Jan 01 00:00:01 EST 2013"),
-		    "endDate": new Date("Sat Jan 05 23:59:59 EST 2013"),
-		    "taskName": "TWC",
-		    "status": "FAILED",
-		    "name": "TWC Auto 2345234 234234SDFS"
-		}];
+		    tasks = [{
+		        "startDate": new Date("Tue Dec 25 00:00:01 EST 2012"),
+		        "endDate": new Date("Tue Jan 08 23:59:59 EST 2013"),
+		        "taskName": "Sierra",
+		        "status": "RUNNING",
+		        "name": "Campaign Name - X34234 34530453"
+		    }, {
+		        "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
+		        "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
+		        "taskName": "TWC",
+		        "status": "FAILED",
+		        "name": "TWC Auto 2345234 234234SDFS"
+		    }, {
+		        "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
+		        "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
+		        "taskName": "TWC",
+		        "status": "FAILED",
+		        "name": "TWC Auto 2345234 234234SDFS"
+		    }, {
+		        "startDate": new Date("Tue Jan 01 00:00:01 EST 2013"),
+		        "endDate": new Date("Sat Jan 05 23:59:59 EST 2013"),
+		        "taskName": "TWC",
+		        "status": "FAILED",
+		        "name": "TWC Auto 2345234 234234SDFS"
+		    }];
 
-		taskStatus = {
-		    "SUCCEEDED": "bar",
-		    "FAILED": "bar-failed",
-		    "RUNNING": "bar-running",
-		    "KILLED": "bar-killed"
+		    taskStatus = {
+		        "SUCCEEDED": "bar",
+		        "FAILED": "bar-failed",
+		        "RUNNING": "bar-running",
+		        "KILLED": "bar-killed"
+		    };
+
+		    taskNames = ["TWC", "Corolla", "Sierra", "Piedmont Eye Care"];
+
+		    tasks.sort(function(a, b) {
+		        return a.endDate - b.endDate;
+		    });
+		    maxDate = tasks[tasks.length - 1].endDate;
+		    tasks.sort(function(a, b) {
+		        return a.startDate - b.startDate;
+		    });
+		    minDate = tasks[0].startDate;
+
+		    format = "%d";
+		    timeDomainString = "1week";
+
+
+
+
+		    //this.gantt=gantt;
+		    console.log("new chart");
+
+		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
+
+		    var margin = {
+		        top: 20,
+		        right: 40,
+		        bottom: 20,
+		        left: 50
+		    };
+		    gantt.margin(margin);
+
+		    gantt.timeDomainMode("fixed");
+		    changeTimeDomain(timeDomainString);
+
+		    gantt(tasks);
+
+
 		};
-
-		taskNames = ["TWC", "Corolla", "Sierra", "Piedmont Eye Care"];
-
-		tasks.sort(function(a, b) {
-		    return a.endDate - b.endDate;
-		});
-		maxDate = tasks[tasks.length - 1].endDate;
-		tasks.sort(function(a, b) {
-		    return a.startDate - b.startDate;
-		});
-		minDate = tasks[0].startDate;
-
-		format = "%d";
-		timeDomainString = "1week";
-
-
-
-		
-
-		
-
-	//this.gantt=gantt;
-	console.log("new chart");
-	
-		 gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
-	   
-		var margin = {
-		    top: 20,
-		    right: 40,
-		    bottom: 20,
-		    left: 50
-		};
-		gantt.margin(margin);
-
-		gantt.timeDomainMode("fixed");
-		changeTimeDomain(timeDomainString);
-
-		gantt(tasks);
-
-};
-//expose this function to public
-		this.newCalendar = newCalendar ;
+		//expose this function to public
+		this.newCalendar = newCalendar;
 		this.addTask = addTask;
-		
-	this.prev = prev;
 
+		this.prev = prev;
+		this.next = next;
 
 
 

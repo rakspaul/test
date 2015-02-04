@@ -16,6 +16,11 @@
         	console.log('adding');
         	  	ganttChart.prev();
         }
+
+        $scope.next = function(){
+        	console.log('adding');
+        	  	ganttChart.next();
+        }
         $scope.init();
 
     });
