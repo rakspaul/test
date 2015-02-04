@@ -275,7 +275,7 @@
 
 		        svg.select(".x").transition().call(xAxis)
 		            .selectAll(".tick text").attr("style", "font-family:sans-serif;font-size:12pt").attr("x", function(d) {
-		                return 10
+		                return 20
 		            });
 		        svg.select(".y").transition().call(yAxis);
 
@@ -387,7 +387,7 @@
 
 		    tasks.push({
 		        "startDate": d3.time.day.offset(lastEndDate, Math.ceil(Math.random(10))),
-		        "endDate": d3.time.day.offset(lastEndDate, (Math.ceil(Math.random(74))) + 1),
+		        "endDate": d3.time.day.offset(lastEndDate, (Math.ceil(300)) + 1),
 		        "taskName": taskName,
 		        "status": taskStatusName,
 		        "name": name
@@ -476,13 +476,13 @@
 		    }, {
 		        "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
 		        "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
-		        "taskName": "TWC",
+		        "taskName": "Corolla",
 		        "status": "FAILED",
 		        "name": "TWC Auto 2345234 234234SDFS"
 		    }, {
-		        "startDate": new Date("Tue Jan 01 00:00:01 EST 2013"),
+		        "startDate": new Date("Tue Dec 01 00:00:01 EST 2012"),
 		        "endDate": new Date("Sat Jan 05 23:59:59 EST 2013"),
-		        "taskName": "TWC",
+		        "taskName": "Eye Care",
 		        "status": "FAILED",
 		        "name": "TWC Auto 2345234 234234SDFS"
 		    }];
@@ -494,7 +494,7 @@
 		        "KILLED": "bar-killed"
 		    };
 
-		    taskNames = ["TWC", "Corolla", "Sierra", "Piedmont Eye Care"];
+		    taskNames = ["Toyota","TWC", "Corolla", "Sierra", "Eye Care", "East"];
 
 		    tasks.sort(function(a, b) {
 		        return a.endDate - b.endDate;
