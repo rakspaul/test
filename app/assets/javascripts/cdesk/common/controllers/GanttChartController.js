@@ -21,6 +21,16 @@
         	console.log('adding');
         	  	ganttChart.next();
         }
+
+        $scope.month = function(){
+            console.log('adding');
+                ganttChart.month();
+        }
+
+         $scope.today = function(){
+            console.log('adding');
+                ganttChart.today();
+        }
         $scope.init();
 
     });

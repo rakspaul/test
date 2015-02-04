@@ -8,7 +8,7 @@
 		d3.gantt = function() {
 		    var FIT_TIME_DOMAIN_MODE = "fit";
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
-		    var CAMPAIGN_HEIGHT = 30;
+		    var CAMPAIGN_HEIGHT = 25;
 
 		    var CALENDAR_HEIGHT = 600;
 		    var CALENDAR_WIDTH = 1050;
@@ -173,7 +173,7 @@
 		            .attr("width", function(d) {
 		                return (x(d.endDate) - x(d.startDate));
 		            })
-		            .attr("height", 3)
+		            .attr("height", 2)
 		            .transition()
 		            .attr("transform", rectTransform);
 
@@ -370,10 +370,7 @@
 		var timeDomainString;
 
 		function prev() {
-		    format = "%d";
-		    gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
-		    gantt.tickFormat(format);
-		    gantt.redraw(tasks);
+		     changeTimeDomain('prev');
 
 		}
 
@@ -408,10 +405,19 @@
 		}
 
 		function next() {
-		    format = "%d";
-		    gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
-		    gantt.tickFormat(format);
-		    gantt.redraw(tasks);
+		   
+		    changeTimeDomain('next');
+
+		}
+
+		function month() {
+
+		    changeTimeDomain('1month');
+
+		}
+		function today() {
+
+		    changeTimeDomain('today');
 
 		}
 
@@ -445,6 +451,19 @@
 		        case "1month":
 		            format = "%d";
 		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -30), getEndDate()]);
+		            break;
+
+				case "today":
+		            format = "%d";
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -3), d3.time.day.offset(Date.now(), +3)]);
+		            break;
+		        case "next":
+		            format = "%d";
+		            gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
+		            break;
+		         case "prev":
+		            format = "%d";
+		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -7), getEndDate()]);
 		            break;
 		        default:
 		            format = "%H:%M"
@@ -537,6 +556,8 @@
 
 		this.prev = prev;
 		this.next = next;
+		this.month = month;
+		this.today = today;
 
 
 
