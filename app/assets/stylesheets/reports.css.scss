@@ -593,6 +593,7 @@ $reportHighlight: #f5f9fd;
     overflow-y: auto;
   }
   .performance_selection {
+    cursor: pointer;
     .performance_symbol {
       display: inline-block;
       background: url(asset-path("cdesk/top_performance_btn_down.png")) no-repeat center center;
@@ -607,7 +608,6 @@ $reportHighlight: #f5f9fd;
     .performance_text {
       float: left;
       margin-top: 5px;
-      cursor: default;
     }
   }
   .inventory_strategy_chart {
