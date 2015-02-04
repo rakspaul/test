@@ -21,15 +21,17 @@
       }
     });
     dataService.getTactics($routeParams.campaignId).then(function (response) {
-      var tactics = [];
-      var result = response.data.data;
-      for (var i = 0; i < result.length; i++) {
-        var tactic = modelTransformer.transform(result[i], Tactic);
-        tactics.push(tactic);
+      if(response.status === 'success') {
+        var tactics = [];
+        var result = response.data.data;
+        for (var i = 0; i < result.length; i++) {
+          var tactic = modelTransformer.transform(result[i], Tactic);
+          tactics.push(tactic);
+        }
+        $scope.tactics = {};
+        $scope.tactics.all = tactics;
+        //      $scope.tactics.selected = tactics[0];
       }
-      $scope.tactics = {};
-      $scope.tactics.all = tactics;
-//      $scope.tactics.selected = tactics[0];
     });
     var metrics = {};
     metrics.all = ['CPA', 'CPC', 'CPM', 'CTR', 'Action Rate', 'Delivery (Impressions)'];
