@@ -2,7 +2,8 @@
 (function () {
   "use strict";
   commonModule.factory("dataService", function ($q, $http, api, apiPaths, common, campaign_api, dataTransferService, dataStore, utils, urlService, loginModel, $cookieStore, $location, constants, analytics) {
-    $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken(); 
+    $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
+    var errorObject = {status:"error", data: {message:"Error"}};
     return {
 
       getSingleCampaign: function (urlPath) {
@@ -136,9 +137,12 @@
         }
         return $http({url: url, method: 'GET', cache: true}).then(
           function (response) {
-            if(response.status == 401) {
-              console.log('Unauthorised Request - Logging out');
+            if(response.status === 401) {
               loginModel.unauthorized();
+              return errorObject;
+            } else if(response.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             var objOnSuccess = {
               status: "success",
@@ -149,8 +153,11 @@
           },
           function (error) {
             if(error.status == 401) {
-              console.log('Unauthorised Request - Logging out');
               loginModel.unauthorized();
+              return errorObject;
+            } else if(error.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             return {
               status: "error",
@@ -173,9 +180,12 @@
         }
         return $http.get(url, {timeout: canceller.promise}).then(
           function (response) {
-            if(response.status == 401) {
-              console.log('Unauthorised Request - Logging out');
+            if(response.status === 401) {
               loginModel.unauthorized();
+              return errorObject;
+            } else if(response.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             var objOnSuccess = {
               status: "success",
@@ -185,9 +195,12 @@
             return success.call(this, utils.clone(objOnSuccess));
           },
           function (error) {
-            if(error.status == 401) {
-              console.log('Unauthorised Request - Logging out');
+            if(error.status === 401) {
               loginModel.unauthorized();
+              return errorObject;
+            } else if(error.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             var objOnError = {
               status: "error",
@@ -205,9 +218,12 @@
         $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
         return $http({url: url, method: 'POST', cache: true, data: angular.toJson(data), headers: (header ? header : {'Content-Type': 'text/plain'}) }).then(
           function (response) {
-            if(response.status == 401) {
-              console.log('Unauthorised Request - Logging out');
+            if(response.status === 401) {
               loginModel.unauthorized();
+              return errorObject;
+            } else if(response.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             return {
               status: "success",
@@ -215,9 +231,12 @@
             };
           },
           function (error) {
-            if(error.status == 401) {
-              console.log('Unauthorised Request - Logging out');
+            if(error.status === 401) {
               loginModel.unauthorized();
+              return errorObject;
+            } else if(error.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             return {
               status: "error",
@@ -233,8 +252,11 @@
         return $http.put(url, angular.toJson(data)).then(
           function (response) {
             if(response.status == 401) {
-              console.log('Unauthorised Request - Logging out');
               loginModel.unauthorized();
+              return errorObject;
+            } else if(response.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             return {
               status: "success",
@@ -243,8 +265,11 @@
           },
           function (error) {
             if(error.status == 401) {
-              console.log('Unauthorised Request - Logging out');
               loginModel.unauthorized();
+              return errorObject;
+            } else if(error.status === 403) {
+              loginModel.forbidden();
+              return errorObject;
             }
             return {
               status: "error",

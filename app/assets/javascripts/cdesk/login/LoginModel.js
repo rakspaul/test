@@ -109,6 +109,10 @@ return {
     unauthorized : function() {
       $cookieStore.remove('cdesk_session');
       $location.url('/login');
+    },
+
+    forbidden : function() {
+      $location.url('/campaigns');
     }
 }
    
