@@ -62,6 +62,7 @@ var angObj = '';
               $location.url('campaigns');
           }
           if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
+            $cookieStore.put(constants.COOKIE_REDIRECT, $location.path());
             $location.url('login');
           }
         });
