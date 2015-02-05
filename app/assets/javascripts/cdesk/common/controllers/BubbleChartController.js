@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('bubbleChartController', function ($scope, loginModel, $cookieStore, $location, loginService,bubbleChart, bubbleChartModel) {
+    commonModule.controller('bubbleChartController', function ($scope, loginModel, $cookieStore, $location, loginService,bubbleChart, bubbleChartModel,constants) {
 
         $scope.init = function(){
             $scope.spendBusy = true;
@@ -18,6 +18,14 @@
         }
 
         $scope.init();
+
+        $scope.$on(constants.BRAND_BUTTON_CLICKED, function(event, args) {
+            $("#brands").show();
+            $("#campaigns").hide();
+            $("#backToBrands").hide();
+            bubbleChart.cleaningBubbleChart("campaigns");
+            // alert("catch the event in dashboard");
+        });
 
         $scope.backToBrands = function(){
             $("#brands").show();
