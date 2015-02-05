@@ -13,6 +13,11 @@
   }
 return {
 
+    deleteData: function () {
+      data = {};
+      data.is_network_user = false;
+    },
+
     getUserRole :function() {
       if(data.is_network_user === true) {
         return constants.ROLE_NETWORK

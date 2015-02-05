@@ -52,18 +52,18 @@ var angObj = '';
     angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
 
         $rootScope.$on('$locationChangeStart', function () {
+          if($location.path() !== '/login') {
             brandsModel.enable();
+          }
             dataService.updateRequestHeader();
 
-            if((!loginModel.getUserId()) && ($location.path() !== '/login')){
-              //get userinfo from token
-              loginService.getUserInfo($cookies.auth_token);
-            }
-            
             //if logged in - go to campaigns
-            if (($cookies.cdesk_session) && ($location.path() === '/login')) {
-                $location.url('campaigns');
-            }
+          if (($cookies.cdesk_session) && ($location.path() === '/login')) {
+              $location.url('campaigns');
+          }
+          if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
+            $location.url('login');
+          }
         });
 
         $rootScope.$on('$routeChangeSuccess', function () {

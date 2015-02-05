@@ -15,9 +15,10 @@
         if(response.status == "success"){
           console.log('logout recorded on server');
         }
-      }); 
+      });
       $cookieStore.remove('cdesk_session');
       localStorage.clear();
+      loginModel.deleteData();
       $location.url('/login');
 
     };
