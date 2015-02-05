@@ -49,23 +49,21 @@ var angObj = '';
         
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
 
         $rootScope.$on('$locationChangeStart', function () {
+          if($location.path() !== '/login') {
             brandsModel.enable();
-            if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
-                $location.url('login');
-            }
+          }
+            dataService.updateRequestHeader();
 
-            if((!loginModel.getUserId()) && ($location.path() !== '/login')){
-              //get userinfo from token
-              loginService.getUserInfo($cookies.auth_token);
-            }
-            
             //if logged in - go to campaigns
-            if (($cookies.cdesk_session) && ($location.path() === '/login')) {
-                $location.url('campaigns');
-            }
+          if (($cookies.cdesk_session) && ($location.path() === '/login')) {
+              $location.url('campaigns');
+          }
+          if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
+            $location.url('login');
+          }
         });
 
         $rootScope.$on('$routeChangeSuccess', function () {
@@ -73,5 +71,10 @@ var angObj = '';
                 ga('set', 'dimension1', loginModel.getLoginName());
             }
         });
+
+      if($cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
+        $location.url($cookieStore.get(constants.COOKIE_REDIRECT));
+        $cookieStore.remove(constants.COOKIE_REDIRECT);
+      }
     });
 }());
