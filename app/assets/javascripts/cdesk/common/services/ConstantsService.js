@@ -48,6 +48,8 @@
     this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
     this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
     this.GAUGE_PERFORMANCE = 1;
+    this.COOKIE_REDIRECT = "cdesk_redirect";
+    this.COOKIE_SESSION = "cdesk_session";
   }
 
   commonModule.service("constants", constants);

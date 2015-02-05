@@ -2,22 +2,24 @@
   'use strict';
   angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic) {
     dataService.getActions().then(function (response) {
-      var action = {};
-      action.types = [];
-      action.external = false;
-      action.name = '';
-      var result = response.data.data;
-      for (var i = 0; i < result.length; i++) {
-        action.types[i] = modelTransformer.transform(result[i], ActionType);
-        for (var j = 0; j < result[i].subTypeList.length; j++) {
-          action.types[i].subTypes[j] = modelTransformer.transform(result[i].subTypeList[j], ActionSubType)
+      if(response.status === 'success') {
+        var action = {};
+        action.types = [];
+        action.external = false;
+        action.name = '';
+        var result = response.data.data;
+        for (var i = 0; i < result.length; i++) {
+          action.types[i] = modelTransformer.transform(result[i], ActionType);
+          for (var j = 0; j < result[i].subTypeList.length; j++) {
+            action.types[i].subTypes[j] = modelTransformer.transform(result[i].subTypeList[j], ActionSubType)
+          }
         }
-      }
-//      action.selectedType = action.types[0];
-//      action.selectedSubType = action.selectedType.subTypes[0];
-      $scope.action = action;
-      $scope.setAction = function () {
-        $scope.action.selectedSubType = $scope.action.selectedType.subTypes[0];
+  //      action.selectedType = action.types[0];
+  //      action.selectedSubType = action.selectedType.subTypes[0];
+        $scope.action = action;
+        $scope.setAction = function () {
+          $scope.action.selectedSubType = $scope.action.selectedType.subTypes[0];
+        }
       }
     });
     dataService.getTactics($routeParams.campaignId).then(function (response) {

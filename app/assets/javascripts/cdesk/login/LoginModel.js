@@ -8,7 +8,9 @@
       data.auth_token = undefined;
       data.expiry_secs = undefined;
       data.login_name = undefined;
-  
+  var updateRedirectUrl = function(value) {
+    $cookieStore.put(constants.COOKIE_REDIRECT, value);
+  }
 return {
 
     getUserRole :function() {
@@ -102,12 +104,18 @@ return {
     checkCookieExpiry : function(){ 
       if(!$cookieStore.get('cdesk_session')){
         localStorage.clear();
+        if($location.$$path !== '/login') {
+          updateRedirectUrl($location.$$path);
+        }
         $location.url('/login');
       }
     },
 
     unauthorized : function() {
       $cookieStore.remove('cdesk_session');
+      if($location.$$path !== '/login') {
+        updateRedirectUrl($location.$$path);
+      }
       $location.url('/login');
     },
 

@@ -22,7 +22,9 @@
 
     var getUserInfo = function(auth_token){
       return dataService.fetch(urlService.APIuserInfo()).then(function(response){
-        loginModel.setUser(response.data.data);
+        if(response.status === 'success') {
+          loginModel.setUser(response.data.data);
+        }
       });
     }
 

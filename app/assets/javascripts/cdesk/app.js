@@ -49,13 +49,11 @@ var angObj = '';
         
     });
 
-    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel) {
+    angObj.run(function ($rootScope, $location, $cookies, loginModel, loginService, brandsModel, dataService, $cookieStore, constants) {
 
         $rootScope.$on('$locationChangeStart', function () {
             brandsModel.enable();
-            if (($cookies.cdesk_session === undefined) && ($location.path() !== '/login')) {
-                $location.url('login');
-            }
+            dataService.updateRequestHeader();
 
             if((!loginModel.getUserId()) && ($location.path() !== '/login')){
               //get userinfo from token
@@ -73,5 +71,10 @@ var angObj = '';
                 ga('set', 'dimension1', loginModel.getLoginName());
             }
         });
+
+      if($cookieStore.get(constants.COOKIE_REDIRECT) && $cookieStore.get(constants.COOKIE_SESSION)) {
+        $location.url($cookieStore.get(constants.COOKIE_REDIRECT));
+        $cookieStore.remove(constants.COOKIE_REDIRECT);
+      }
     });
 }());

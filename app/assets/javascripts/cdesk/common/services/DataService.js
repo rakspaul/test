@@ -6,6 +6,10 @@
     var errorObject = {status:"error", data: {message:"Error"}};
     return {
 
+      updateRequestHeader: function() {
+        $http.defaults.headers.common['Authorization'] = loginModel.getAuthToken();
+      },
+
       getSingleCampaign: function (urlPath) {
         return this.fetch(urlPath)
       },
