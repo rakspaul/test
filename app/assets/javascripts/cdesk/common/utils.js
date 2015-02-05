@@ -447,4 +447,14 @@
       return width;
     }
   });
+  angObj.filter('newlines', function(){
+     return function (input) {
+        return input.replace(/(?:\r\n|\r|\n)/g, '<br />');
+     }
+  });
+  angObj.filter('morelines', function(){
+     return function (input) {
+        return input.replace('\\n', '<br />');
+     }
+  });
 }());

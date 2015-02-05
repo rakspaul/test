@@ -12,7 +12,8 @@ var angObj = '';
       'loginModule',
       'angulartics',
       'angulartics.google.analytics',
-      'dashboardModule']
+      'dashboardModule',
+      'ngSanitize']
   );
 
 

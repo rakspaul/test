@@ -73,7 +73,27 @@
       }else{
         data.action_type_id ='';
       }
-
+      var max_line = 2;
+      var maxChar = 160;
+      var line = data.name;
+      var split = line.split("\n");
+      var splitlength = split.length;
+      if(splitlength > max_line){
+        var txt_data ='';
+        for(i=0; i< max_line;i++){
+          if(i==0){
+            txt_data += split[i] + '\n'; 
+          }else{
+            txt_data += split[i]; 
+          }
+        }
+        data.name = txt_data;
+      }
+      if(data.name.length > maxChar ){
+        var txt_data = data.name;
+        var limited_txt = txt_data.substring(0, maxChar );
+        data.name = txt_data;
+      }
       if(data.action_sub_type_ids.length > 0 &&
         data.action_type_id !=undefined &&
         data.metric_impacted != undefined &&
