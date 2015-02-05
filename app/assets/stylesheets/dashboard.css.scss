@@ -30,6 +30,20 @@
 	        }
 	    }
 	}
+	.status_filter {
+		color: #333 ;
+		font-size: 14px ;
+		font-weight: bold ;
+		.status_filter_dd {
+			font-weight: normal ;
+			margin-left: 15px ;
+			li {
+				text-align: left;
+				padding: 2px 10px;
+			}
+			
+		}
+	}
 	.dashboard_main_heading {
 		span {
 			display: block;
