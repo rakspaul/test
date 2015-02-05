@@ -272,9 +272,11 @@
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 40 )
+
                     size = "16px" ;
                     else if (d.r > 25)
                     size = "14px" ;
+
                     return size ;
                 })
                 .style("text-anchor", "middle")
@@ -329,6 +331,7 @@
 
                     return budget ;
                 });
+
 
 //            node.on("mouseover", function(e){
 //                console.log("mouseover event");
@@ -387,6 +390,7 @@
                 .append("g");
 
             var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
+
 
 
             var node = campaigns_svg.selectAll(".node")
