@@ -18,6 +18,8 @@
     this.EVENT_BRAND_CHANGED = "brandChanged";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";
+    this.BUBBLE_BRAND_CLICKED = "bubbleBrandClicked";
+    this.BRAND_BUTTON_CLICKED = "BRAND_BUTTON_CLICKED";
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
     this.GA_BRAND_SELECTED = 'brand_selected';
@@ -48,6 +50,7 @@
     this.GA_USER_CAMPAIGN_SELECTION = 'user_campaign_selection';
     this.GA_USER_STRATEGY_SELECTION = 'user_strategy_selection';
     this.GAUGE_PERFORMANCE = 1;
+
   }
 
   commonModule.service("constants", constants);

@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("bubbleChart", function() {
+    commonModule.service("bubbleChart", function($rootScope,constants) {
 
         var dark_blue = "#1B9FEC" ,
             blue = "#0978C9" ,
@@ -50,11 +50,11 @@
                 color = d3.scale.category20c();
 
 
-            var bubble = d3.layout.pack()
-                //  .sort(null)
-                .sort(function(a, b) { return -(a.value - b.value); })
-                .size([width+ bleed*2, height])
-                .padding(3);
+//            var bubble = d3.layout.pack()
+//                //  .sort(null)
+//                .sort(function(a, b) { return -(a.value - b.value); })
+//                .size([width+ bleed*2, height])
+//                .padding(3);
 
             var svg = d3.select("#"+spanId).append("svg")
                 .attr("width", width)
@@ -86,7 +86,7 @@
 //                campaigns_svg :campaigns_svg,
 //                brands_svg: brands_svg ,
                 svg : svg,
-                bubble : bubble,
+               // bubble : bubble,
                 text : text,
                 format : format
             };
@@ -94,18 +94,43 @@
 
         } ;
 
+        function computeLineCordinate( percFill ,x, y, r){
+
+            console.log( "percfill is "+ percFill + "x="+ x+ "y="+ y + "r=" + r );
+            var lineData = [];
+            if(percFill < 100 ){
+                var d = ( (percFill / 50) -1)* r ;
+                var start = [(x - Math.sqrt( r*r - d*d)), y-d ];
+                var end = [( x + Math.sqrt(r*r - d*d)) , y-d  ];
+                console.log( "start is " + start);
+                console.log("end is " + end);
+                lineData.push(start);
+                lineData.push(end);
+            }
+           else {
+                console.log("perc fill is more than 100" + x+ "  " + y +"  "+ r+ "  ");
+                lineData = [(0,0), (0,0)];
+            }
+            return lineData ;
+
+        };
+
         function dataFormatting (root , spanId){
-            var positions = [[90,80],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
+            var positions = [[100,100],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
            var positionsCampaigns =  [[90,80],[250,100],[175,200],[60,210] ,[280,200],[[290,220]]];
             var formattedDataBrands = [];
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
-                var maxRadius = 75 ;
+                var maxRadius = 90 ;
                 var maxBudget = brandArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
                 for(var i in brandArray){
                     var node = brandArray[i];
+                   var lineData = computeLineCordinate( Math.round((node.spend / node.budget)* 100) ,positions[i][0], positions[i][1],(node.budget)*ratio) ;
+//                    console.log("Budget is "+ node.budget);
+//                    console.log("spend is "+ node.spend);
+//                    console.log( node.spend / node.budget);
                     var object = {
                         className: node.name,
                         value : node.budget,
@@ -115,8 +140,11 @@
                         campaigns : node.campaigns,
                         cx : positions[i][0],
                         cy : positions[i][1],
-                        r : (node.budget)*ratio
+                        r : (node.budget)*ratio,
+                        lineData : lineData
+                        //lineData : [{"x":(positions[i][0] - Math.sqrt(( (node.budget)*ratio))) , "y": }, {"x": , "y": }]
                     };
+
                     formattedDataBrands.push(object);
                 }
             } else if(spanId == 'campaigns'){
@@ -124,18 +152,22 @@
                 var maxRadius = 60 ;
                 var maxBudget = campaignArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
+
                 for(var i in campaignArray){
                     var node = campaignArray[i];
+                    console.log("campaings perc" + Math.round((node.spend / node.budget )* 100));
+                    var lineData = computeLineCordinate( Math.round((node.spend / node.budget)* 100) ,positions[i][0], positions[i][1],(node.budget)*ratio) ;
                     var object = {
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
                         spend : node.spend,
                         status : node.status,
-                        percFill : Math.round((node.budget / node.spend , 2)* 100) ,
+                        percFill : Math.round((node.spend / node.budget )* 100) ,
                         cx : positionsCampaigns[i][0],
                         cy : positionsCampaigns[i][1],
-                        r : (node.budget)*ratio
+                        r : (node.budget)*ratio,
+                        lineData : lineData
                     };
                     formattedDataCampaigns.push(object);
                 }
@@ -208,6 +240,21 @@
                 .append("g")
                 .attr("class" , "node") ;
 
+          //  var line = bubbleContainer.svg.append("path")
+
+
+            var lineFunction = d3.svg.line()
+                .x(function(d){
+                    console.log(d);
+                    return d.x ;})
+                .y(function(d){
+                    console.log(d);
+                    return d.y;})
+                .interpolate("cardinal-closed");
+
+
+
+
             node.append("circle")
                 .attr("stroke-width", '4')
                 .attr("stroke" , blueOutline)
@@ -244,9 +291,9 @@
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 40 )
-                    size = "18px"
+                    size = "18px" ;
                     else if (d.r > 25)
-                    size = "16px"
+                    size = "16px" ;
                     return size ;
                 })
                 .style("text-anchor", "middle")
@@ -261,7 +308,7 @@
                     return text ;
                 }); // TODO : text auto resizing : http://bl.ocks.org/mbostock/1846692
 
-            node.data(chartData).append("text") // for brand budget
+            node.append("text") // for brand budget
                 .attr("transform", function(d) {
                     if(d.r > 40)
                         return "translate(" + d.cx + "," + (d.cy+10) + ")";
@@ -274,7 +321,7 @@
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
-                       text_size = "35px"
+                        text_size = "35px"
                     }
                     else if(d.r > 50){
                         text_size = "32px";
@@ -298,27 +345,44 @@
                     return budget ;
                 });
 
+            node.append("path")
+                .attr("d",function(d){
+                    console.log(d);
+                    var startEndPos = [];
+                    var start = {
+                        "x" : d.lineData[0][0],
+                        "y": d.lineData[0][1]
+                    };
+                    var end = {
+                        "x" : d.lineData[1][0],
+                        "y" : d.lineData[1][1]
+                    }
+
+                    startEndPos.push(start);
+                    startEndPos.push(end);
+                    return lineFunction(startEndPos);
+                })
+                .attr("stroke" , "red")
+                .attr("stroke-width", 1) ;
 
             node.on("click", function(d) {
+                var brand_name = d.className ;
+                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, brand_name);
+
                 $("#brands").hide();
                 $("#backToBrands").show();
-                var campaing_svg_id = "campaigns_svg"
-
-             //   $("#brands_svg").empty();
-                console.log("cleared brands svg");
 
                 var campaigns = d.campaigns ;
                 var data = {
                     "campaigns": campaigns
                 };
-                console.log(data.campaigns);
-                console.log("this.first is "+ self.first);
 
                 self.createBubbleChartForCampaigns("campaigns",data );
 
                 $("#campaigns").show();
                 self.first = false ;
             });
+            node.data(chartData);
         } ;
 
         this.cleaningBubbleChart = function(spanId){
@@ -330,10 +394,21 @@
 
             var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
 
+
             var node = campaignChartContainer.svg.selectAll(".node")
                 .data(chartData).enter()
                 .append("g")
                 .attr("class" , "node");
+
+            var lineFunction = d3.svg.line()
+                .x(function(d){
+                    console.log(d);
+                    return d.x ;})
+                .y(function(d){
+                    console.log(d);
+                    return d.y;})
+                .interpolate("cardinal-closed");
+
 
             node.append("circle")
                 .attr("stroke-width", '4')
@@ -396,6 +471,26 @@
 
                     return budget ;
                 });
+
+            node.append("path")
+                .attr("d",function(d){
+                    console.log(d);
+                    var startEndPos = [];
+                    var start = {
+                        "x" : d.lineData[0][0],
+                        "y": d.lineData[0][1]
+                    };
+                    var end = {
+                        "x" : d.lineData[1][0],
+                        "y" : d.lineData[1][1]
+                    }
+
+                    startEndPos.push(start);
+                    startEndPos.push(end);
+                    return lineFunction(startEndPos);
+                })
+                .attr("stroke" , "red")
+                .attr("stroke-width", 1) ;
 
         };
 
