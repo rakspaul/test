@@ -19,6 +19,12 @@
 
         $scope.init();
 
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            bubbleChart.cleaningBubbleChart("campaigns");
+            bubbleChart.cleaningBubbleChart("brands");
+            getSpendData();
+        });
+
         $scope.$on(constants.BRAND_BUTTON_CLICKED, function(event, args) {
             $("#brands").show();
             $("#campaigns").hide();

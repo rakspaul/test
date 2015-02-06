@@ -95,40 +95,32 @@
                 var newCordinates = {
                     "x" : newx,
                     "y" : newy
-                }
+                };
                 lineData.push(newCordinates);
             }
 
-            var curvyline = [] ;
-            curvyline.push(lineData[0]);
             var xstart = lineData[0].x ;
             var ystart = lineData[0].y ;
+
             var xend = lineData[lineData.length -1].x ;
             var yend = lineData[lineData.length -1].y ;
 
-            var xmiddle = xstart + ( xend - xstart)/2 ;
-            var ymiddle = ystart ;
 
             var middle   = {
-                "x" : xmiddle,
-                "y" : ymiddle
-            }
-
-            var xfirstmiddle = xstart + (xmiddle - xstart) /2 ;
-            var yfirstmiddle = ymiddle + ycurviness ;
+                "x" : xstart + ( xend - xstart)/2 ,
+                "y" : ystart
+            };
 
             var firstMiddle   = {
-                "x" : xfirstmiddle,
-                "y" : yfirstmiddle
-            }
+                "x" : xstart + (middle.x - xstart) /2 ,
+                "y" : middle.y + ycurviness
+            };
 
-            var xsecondmiddle = xmiddle + ( xend - xmiddle) / 2 ;
-            var ysecondmiddle = ymiddle - ycurviness ;
 
             var secondMiddle   = {
-                "x" : xsecondmiddle,
-                "y" : ysecondmiddle
-            }
+                "x" :  middle.x + ( xend - middle.x) / 2 ,
+                "y" : middle.y - ycurviness
+            };
 
             lineData.push(secondMiddle);
             lineData.push(middle);
