@@ -392,7 +392,6 @@
             var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
 
 
-
             var node = campaigns_svg.selectAll(".node")
                 .data(chartData).enter()
                 .append("g")
