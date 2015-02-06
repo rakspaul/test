@@ -141,8 +141,14 @@
 	}
 	.dashboard_perf_graph {
 		min-height: 175px ;
-
-		margin: 20px 0 ;
+		margin: 20px ;
+		position: relative;
+		.data_not_available {
+			text-align: center;
+			position: absolute;
+			width: 100%;
+			top: 35%;
+		}
 	}
 	.dashboard_geo_graph_holder {
 		min-height: 545px;
