@@ -190,7 +190,7 @@
 		                }
 		            })
 		            .text(function(d) {
-		                return d.taskName;
+		                return d.name;
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
@@ -478,10 +478,9 @@ console.log(tasks);
 
 		//********************** IMPLEMENTATION
 		function newCalendar(task, taskName) {
-tasks=task;
-taskNames=taskName;
-console.log("chartttt");
-console.log(tasks);
+			tasks = task;
+			taskNames = taskName;
+
 		    // tasks = [{
 		    //     "startDate": new Date("Tue Dec 25 00:00:01 EST 2012"),
 		    //     "endDate": new Date("Tue Jan 08 23:59:59 EST 2013"),
