@@ -19,6 +19,9 @@
 		        bottom: 20,
 		        left: 50
 		    };
+
+		    var onTrackColor = "#47ab1d";
+		    var underperformingColor = "#ee9455";
 		    var timeDomainStart = d3.time.day.offset(new Date(), -300);
 		    var timeDomainEnd = d3.time.hour.offset(new Date(), +300);
 		    var timeDomainMode = FIT_TIME_DOMAIN_MODE; // fixed or fit
@@ -31,12 +34,10 @@
 
 
 		    var keyFunction = function(d) {
-		        console.log("key" + d.startDate);
 		        return d.startDate + d.taskName + d.endDate;
 		    };
 
 		    var rectTransform = function(d) {
-		        console.log("transform" + d);
 		        return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
 		    };
 
@@ -113,20 +114,7 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
-		        gantt.draw(tasks);
-		        // //temporary *****
-		        // 		        var box =svg.append("rect")
-		        // 		        .attr("x",39)
-		        // 		        .attr("y",50)
-		        // 		            .attr("width",300)
-		        // 		            .attr("height",25)
-		        // 		            .attr("stroke","#ccc")
-		        // 		            .attr("fill","#ccc");
-
-		        // 		          box.transition().duration(1000)
-		        // 		          .attr("width",621)
-		        // //temporary *****		          
-
+		        gantt.draw(tasks);		          
 		        return gantt;
 
 		    };
@@ -140,7 +128,8 @@
 		        var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var rect = rectData.enter();
 		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
-		            alert('click captured' + d.name);
+		           // alert('click captured' + d.name);
+		            document.location ='#/campaigns/'+d.id;
 		        });
 
 
@@ -169,9 +158,19 @@
 		        //top bar 
 		        rectGroup.append("rect")
 		            .attr("class", "header")
-		            .attr("fill", "green")
+		            .attr("fill", function(d){
+		            	if(d.status == "ontrack") {
+		            		return onTrackColor;
+		            	} else if(d.status == "underperforming") {
+		            		return underperformingColor;
+		            	}
+		            })
 		            .attr("width", function(d) {
-		                return (x(d.endDate) - x(d.startDate));
+		            	if(d.status == "ontrack" || d.status == "underperforming" ){
+		                	return (x(d.endDate) - x(d.startDate));
+		            	}else {
+		            		return 0;
+		            	}
 		            })
 		            .attr("height", 2)
 		            .transition()
@@ -207,25 +206,19 @@
 		                    return 0;
 		                }
 		            })
-		            .attr("xlink:href", "https://qa-desk.collective.com/assets/statusWidget/active_icon-062230a04a602d1f17ea262b34a0198f.png")
+		            .attr("xlink:href", function(d){
+		            	switch(d.status){
+		            		case "ontrack": 
+		            		case "underperforming": return window.assets.active;
+		            		case "paused": return window.assets.paused;
+		            		case "ready": return window.assets.ready;
+		            		case "completed": return window.assets.completed;
+
+		            	}
+		            })
 		            .transition()
 		            .attr("transform", rectTransform);
 
-		        //incase of a tooltip
-		        //   	rectGroup.on("mouseover", function(d) {
-		        //     var g = d3.select(this); // The node
-		        //     // The class is used to remove the additional text later
-		        //     var info = g.append('text')
-		        //        .classed('info', true)
-		        //        .attr('x', 20)
-		        //        .attr('y', 10)
-		        //        .attr("transform", rectTransform)
-		        //        .text('More info');
-		        // })
-		        // .on("mouseout", function() {
-		        //     // Remove the info text on mouse out.
-		        //     d3.select(this).select('text.info').remove();
-		        // });
 
 		        var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var campaignBody = ganttChartGroup.selectAll(".campaigns").data(tasks, keyFunction);
@@ -234,14 +227,21 @@
 		        var campaignsStatusIcon = ganttChartGroup.selectAll(".icon").data(tasks, keyFunction);
 
 
-
-
-		        var translateVisualElements = function(a) {
+		        var translateVisualElements = function(a , type) {
 		            a.transition()
 		                .delay(0)
 		                .attr("transform", rectTransform)
 		                .attr("width", function(d) {
-		                    return (x(d.endDate) - x(d.startDate));
+		                	if(type == "top"){
+		                		if(d.status == "ontrack" || d.status == "underperforming" ){
+		                			return (x(d.endDate) - x(d.startDate));
+		            			}else {
+		            				return 0;
+		            			}
+		                	}else{
+		                		return (x(d.endDate) - x(d.startDate));
+		                	}
+		                    
 		                });
 		        };
 
@@ -266,7 +266,7 @@
 
 		        translateVisualElements(node);
 		        translateVisualElements(campaignBody);
-		        translateVisualElements(campaignTopStroke);
+		        translateVisualElements(campaignTopStroke, "top");
 		        translateGraphicElements(campaignText);
 		        translateGraphicElements(campaignsStatusIcon);
 
@@ -283,14 +283,10 @@
 		    };
 
 		    gantt.redraw = function(tasks) {
-		        console.log('redraw');
+		        //console.log('redraw');
 		        initTimeDomain(tasks);
 		        initAxis();
-
 		        gantt.draw(tasks);
-
-
-
 		        return gantt;
 		    };
 
@@ -375,7 +371,6 @@
 		}
 
 		function addTask() {
-		    console.log('here');
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
 		    var taskStatusName = taskStatusKeys[Math.floor(Math.random() * taskStatusKeys.length)];
@@ -389,7 +384,7 @@
 		        "status": taskStatusName,
 		        "name": name
 		    });
-console.log(tasks);
+
 		    changeTimeDomain(timeDomainString);
 		    gantt.redraw(tasks);
 		};
@@ -508,10 +503,11 @@ console.log(tasks);
 		    // }];
 
 		    taskStatus = {
-		        "SUCCEEDED": "bar",
-		        "FAILED": "bar-failed",
-		        "RUNNING": "bar-running",
-		        "KILLED": "bar-killed"
+		        "ontrack": "bar",
+		        "underperforming": "bar",
+		        "paused": "bar",
+		        "ready": "bar",
+		        "completed": "bar"
 		    };
 
 		    // taskNames = ["Toyota","TWC", "Corolla", "Sierra", "Eye Care", "East"];
@@ -528,10 +524,6 @@ console.log(tasks);
 		    format = "%d";
 		    timeDomainString = "1week";
 
-
-
-
-		    //this.gantt=gantt;
 		    console.log("new chart");
 
 		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
@@ -543,18 +535,16 @@ console.log(tasks);
 		        left: 50
 		    };
 		    gantt.margin(margin);
-
 		    gantt.timeDomainMode("fixed");
 		    changeTimeDomain(timeDomainString);
-
 		    gantt(tasks);
 
 
 		};
+
 		//expose this function to public
 		this.newCalendar = newCalendar;
 		this.addTask = addTask;
-
 		this.prev = prev;
 		this.next = next;
 		this.month = month;

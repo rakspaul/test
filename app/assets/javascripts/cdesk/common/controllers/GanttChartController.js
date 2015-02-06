@@ -16,47 +16,39 @@
                     _.each(datum.campaigns, function(tasks) {
                        // tasks.taskName = datum.name;
                         var c = {};
+                        c.id = tasks.id;
                         c.name = tasks.name;
                         c.startDate = new Date(tasks.start_date);
                         c.endDate = new Date(tasks.end_date);
-                        c.status = "FAILED";
+                        c.status = tasks.status;
                         c.taskName =  datum.name;
                         campaigns.push(c);
                     });
 
                 });
-                console.log(campaigns);
                 ganttChart.newCalendar(campaigns, brands);
             });
-
-
-
-           
-
         };
+
         $scope.add = function(){
-        	console.log('adding');
-        	  	ganttChart.addTask();
+        	ganttChart.addTask();
         }
          $scope.prev = function(){
-        	console.log('adding');
-        	  	ganttChart.prev();
+        	ganttChart.prev();
         }
 
         $scope.next = function(){
-        	console.log('adding');
-        	  	ganttChart.next();
+        	ganttChart.next();
         }
 
         $scope.month = function(){
-            console.log('adding');
-                ganttChart.month();
+            ganttChart.month();
         }
 
          $scope.today = function(){
-            console.log('adding');
-                ganttChart.today();
+            ganttChart.today();
         }
+
         $scope.init();
 
     });
