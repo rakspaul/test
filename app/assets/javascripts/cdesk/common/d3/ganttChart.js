@@ -190,7 +190,7 @@
 		                }
 		            })
 		            .text(function(d) {
-		                return d.name;
+		                return d.taskName;
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
@@ -379,7 +379,7 @@
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
 		    var taskStatusName = taskStatusKeys[Math.floor(Math.random() * taskStatusKeys.length)];
-		    var taskName = "TWC";//taskNames[Math.floor(Math.random() * taskNames.length)];
+		    var taskName = "twc";//taskNames[Math.floor(Math.random() * taskNames.length)];
 		    var name = "test";
 
 		    tasks.push({
@@ -477,8 +477,9 @@ console.log(tasks);
 
 
 		//********************** IMPLEMENTATION
-		function newCalendar(tasks, taskNames) {
-//
+		function newCalendar(task, taskName) {
+tasks=task;
+taskNames=taskName;
 console.log("chartttt");
 console.log(tasks);
 		    // tasks = [{
