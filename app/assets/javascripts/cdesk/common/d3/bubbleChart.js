@@ -56,76 +56,77 @@
         };
 
         var dataGenerator = function(x, y , r ,perc ){
-
-            // To set curviness of the circle filling 1st criteria is r
-            var ycurviness = 8;
-            if(r<10)
-              ycurviness = 0;
-            if(r<18)
-                ycurviness = 3;
-            if(r<30)
-                ycurviness = 5;
-            else if(r < 50)
-                ycurviness = 8;
-            else if( r < 60)
-                ycurviness =10;
-
-            // To set curviness 2nd criteria is percentage fill
-            if(perc >90)
-              ycurviness =3 ;
-
-
-            var startangle = Math.atan(1 - perc/50);
-            var sin = Math.sin(startangle);
-            var cos = Math.cos(startangle);
-
-            var xstart = x - (r)*cos ;
-            var ystart = y + (r)*sin ;
-
-            var xend = x+(r)*cos ;
-            var yend = y+r*sin ;
-
             var lineData = [];
 
-            for(var angle = startangle; angle < (Math.PI - startangle); angle = angle +((Math.PI)/180 *8) ){
+            if(perc<99){
+                // To set curviness of the circle filling 1st criteria is r
+                var ycurviness = 8;
+                if(r<10)
+                    ycurviness = 0;
+                if(r<18)
+                    ycurviness = 3;
+                if(r<30)
+                    ycurviness = 5;
+                else if(r < 50)
+                    ycurviness = 8;
+                else if( r < 60)
+                    ycurviness =10;
 
-                var newx = x -(r)*Math.cos(angle);
-                var newy = y+ (r)*Math.sin(angle);
+                // To set curviness 2nd criteria is percentage fill
+                if(perc >90)
+                    ycurviness =3 ;
 
-                var newCordinates = {
-                    "x" : newx,
-                    "y" : newy
-                };
-                lineData.push(newCordinates);
-            }
+
+                var startangle = Math.atan(1 - perc/50);
+
+                for(var angle = startangle; angle < (Math.PI - startangle); angle = angle +((Math.PI)/180 *4) ){
+
+                    var newCordinates = {
+                        "x" : x -(r)*Math.cos(angle),
+                        "y" :  y+ (r)*Math.sin(angle)
+                    };
+
+                    lineData.push(newCordinates);
+                }
 
             var xstart = lineData[0].x ;
             var ystart = lineData[0].y ;
 
             var xend = lineData[lineData.length -1].x ;
-            var yend = lineData[lineData.length -1].y ;
+
+                var middle   = {
+                    "x" : xstart + ( xend - xstart)/2 ,
+                    "y" : ystart
+                };
+
+                var firstMiddle   = {
+                    "x" : xstart + (middle.x - xstart) /2 ,
+                    "y" : middle.y + ycurviness
+                };
 
 
-            var middle   = {
-                "x" : xstart + ( xend - xstart)/2 ,
-                "y" : ystart
-            };
+                var secondMiddle   = {
+                    "x" :  middle.x + ( xend - middle.x) / 2 ,
+                    "y" : middle.y - ycurviness
+                };
 
-            var firstMiddle   = {
-                "x" : xstart + (middle.x - xstart) /2 ,
-                "y" : middle.y + ycurviness
-            };
+                lineData.push(secondMiddle);
+                lineData.push(middle);
+                lineData.push(firstMiddle);
+                lineData.push(lineData[0]);
 
+            }else{
 
-            var secondMiddle   = {
-                "x" :  middle.x + ( xend - middle.x) / 2 ,
-                "y" : middle.y - ycurviness
-            };
+                for(var angle = 0; angle < (2*Math.PI); angle = angle +((Math.PI)/180 *8) ){
+                    var newCordinates = {
+                        "x" : x -(r)*Math.cos(angle),
+                        "y" :  y+ (r)*Math.sin(angle)
+                    };
 
-            lineData.push(secondMiddle);
-            lineData.push(middle);
-            lineData.push(firstMiddle);
-            lineData.push(lineData[0]);
+                    lineData.push(newCordinates);
+                }
+            }
+
 
             return lineData ;
         };
@@ -275,10 +276,10 @@
                 .attr("fill", "white")
                 .text(function(d) {
                     var text ;
-                    if(d.r > 40){
+                    if(d.r > 50){
+                        text = d.className.substring(0, 6) + '...' ;
+                    } else if (d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
-                    } else if (d.r > 35){
-                        text = d.className.substring(0, 3) + '...' ;
                     } else if(d.r > 30) {
                         text = d.className.substring(0, 2) + '...' ;
                     }
@@ -482,9 +483,12 @@
                 .attr("fill", "white")
                 .text(function(d) {
                     var text ;
-                    if(d.r > 40){
+                    if(d.r > 50){
+                        text = d.className.substring(0, 6) + '...' ;
+                    } else if(d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
-                    } else if (d.r > 25){
+                    }
+                    else if (d.r > 25){
                         text = d.className.substring(0, 3) + '...' ;
                     }
                     return text ;
