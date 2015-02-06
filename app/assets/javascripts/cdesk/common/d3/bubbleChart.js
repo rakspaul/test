@@ -2,8 +2,9 @@
     "use strict";
     commonModule.service("bubbleChart", function($rootScope,constants) {
 
-        var dark_blue = "#1B9FEC" ,
-            blue = "#0978C9" ,
+        var dark_blue = "#0978c9 " ,
+            blue = "#209AEF" ,
+            darkBlueOutline_popup = "#085F9F",
             orange = "#F67C29" ,
             darkOrange = "#DD6B1D",
             green ="#64EF3A",
@@ -12,6 +13,18 @@
             blueOutline = "#1378C3",
             greenOutline = "#64D841" ,
             orangeOutline = "#DB691C";
+
+        var text = d3.select("body")
+            .append("div")
+            .style("position", "absolute")
+            .style("z-index", "10")
+            .style("visibility", "hidden")
+            .style("color", "black")
+            .style("padding", "8px")
+            .style("background-color", "rgba(1, 0, 0, 0.75)")
+            .style("border-radius", "6px")
+            .style("font", "12px sans-serif")
+            .text("tooltip");
 
         var getRepString = function(x) {
             //if(isNaN(x)) return x;
@@ -42,82 +55,92 @@
             return "1T+";
         };
 
-        var createChartContainer = function(spanId , w, h, b){
-            var width = w, //400,
-                height = h , //280,
-                bleed =  b , //300,
-                format = d3.format(",d"),
-                color = d3.scale.category20c();
+        var dataGenerator = function(x, y , r ,perc ){
+
+            // To set curviness of the circle filling 1st criteria is r
+            var ycurviness = 8;
+            if(r<10)
+              ycurviness = 0;
+            if(r<18)
+                ycurviness = 3;
+            if(r<30)
+                ycurviness = 5;
+            else if(r < 50)
+                ycurviness = 8;
+            else if( r < 60)
+                ycurviness =10;
+
+            // To set curviness 2nd criteria is percentage fill
+            if(perc >90)
+              ycurviness =3 ;
 
 
-//            var bubble = d3.layout.pack()
-//                //  .sort(null)
-//                .sort(function(a, b) { return -(a.value - b.value); })
-//                .size([width+ bleed*2, height])
-//                .padding(3);
+            var startangle = Math.atan(1 - perc/50);
+            var sin = Math.sin(startangle);
+            var cos = Math.cos(startangle);
 
-            var svg = d3.select("#"+spanId).append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .attr("id",  spanId+"_svg")
-                .append("g");
+            var xstart = x - (r)*cos ;
+            var ystart = y + (r)*sin ;
 
-//            var campaigns_svg = d3.select("#"+spanId).append("svg")
-//                .attr("width", width)
-//                .attr("height", height)
-//                .attr("id",  "campaigns_svg")
-//                .append("g");
-            //  .attr("class", "bubble")
-            // .attr("transform", "translate(" + -bleed + ",0)");
+            var xend = x+(r)*cos ;
+            var yend = y+r*sin ;
 
-            var text = d3.select("body")
-                .append("div")
-                .style("position", "absolute")
-                .style("z-index", "10")
-                .style("visibility", "hidden")
-                .style("color", "black")
-                .style("padding", "8px")
-                .style("background-color", "rgba(1, 0, 0, 0.75)")
-                .style("border-radius", "6px")
-                .style("font", "12px sans-serif")
-                .text("tooltip");
-
-            var container = {
-//                campaigns_svg :campaigns_svg,
-//                brands_svg: brands_svg ,
-                svg : svg,
-               // bubble : bubble,
-                text : text,
-                format : format
-            };
-            return container;
-
-        } ;
-
-        function computeLineCordinate( percFill ,x, y, r){
-
-            console.log( "percfill is "+ percFill + "x="+ x+ "y="+ y + "r=" + r );
             var lineData = [];
-            if(percFill < 100 ){
-                var d = ( (percFill / 50) -1)* r ;
-                var start = [(x - Math.sqrt( r*r - d*d)), y-d ];
-                var end = [( x + Math.sqrt(r*r - d*d)) , y-d  ];
-                console.log( "start is " + start);
-                console.log("end is " + end);
-                lineData.push(start);
-                lineData.push(end);
-            }
-           else {
-                console.log("perc fill is more than 100" + x+ "  " + y +"  "+ r+ "  ");
-                lineData = [(0,0), (0,0)];
-            }
-            return lineData ;
 
+            for(var angle = startangle; angle < (Math.PI - startangle); angle = angle +((Math.PI)/180 *8) ){
+
+                var newx = x -(r)*Math.cos(angle);
+                var newy = y+ (r)*Math.sin(angle);
+
+                var newCordinates = {
+                    "x" : newx,
+                    "y" : newy
+                }
+                lineData.push(newCordinates);
+            }
+
+            var curvyline = [] ;
+            curvyline.push(lineData[0]);
+            var xstart = lineData[0].x ;
+            var ystart = lineData[0].y ;
+            var xend = lineData[lineData.length -1].x ;
+            var yend = lineData[lineData.length -1].y ;
+
+            var xmiddle = xstart + ( xend - xstart)/2 ;
+            var ymiddle = ystart ;
+
+            var middle   = {
+                "x" : xmiddle,
+                "y" : ymiddle
+            }
+
+            var xfirstmiddle = xstart + (xmiddle - xstart) /2 ;
+            var yfirstmiddle = ymiddle + ycurviness ;
+
+            var firstMiddle   = {
+                "x" : xfirstmiddle,
+                "y" : yfirstmiddle
+            }
+
+            var xsecondmiddle = xmiddle + ( xend - xmiddle) / 2 ;
+            var ysecondmiddle = ymiddle - ycurviness ;
+
+            var secondMiddle   = {
+                "x" : xsecondmiddle,
+                "y" : ysecondmiddle
+            }
+
+            lineData.push(secondMiddle);
+            lineData.push(middle);
+            lineData.push(firstMiddle);
+            lineData.push(lineData[0]);
+
+            return lineData ;
         };
 
         function dataFormatting (root , spanId){
             var positions = [[100,100],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
-           var positionsCampaigns =  [[90,80],[250,100],[175,200],[60,210] ,[280,200],[[290,220]]];
+           var positionsCampaigns =  [[90,80],[250,100],[175,200],[60,210] ,[290,210]];
             var formattedDataBrands = [];
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
@@ -127,11 +150,8 @@
                 var ratio = maxRadius / maxBudget ;
                 for(var i in brandArray){
                     var node = brandArray[i];
-                   var lineData = computeLineCordinate( Math.round((node.spend / node.budget)* 100) ,positions[i][0], positions[i][1],(node.budget)*ratio) ;
-//                    console.log("Budget is "+ node.budget);
-//                    console.log("spend is "+ node.spend);
-//                    console.log( node.spend / node.budget);
                     var object = {
+                        id: "brand_"+ (i+1) ,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -140,9 +160,7 @@
                         campaigns : node.campaigns,
                         cx : positions[i][0],
                         cy : positions[i][1],
-                        r : (node.budget)*ratio,
-                        lineData : lineData
-                        //lineData : [{"x":(positions[i][0] - Math.sqrt(( (node.budget)*ratio))) , "y": }, {"x": , "y": }]
+                        r : ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio
                     };
 
                     formattedDataBrands.push(object);
@@ -155,9 +173,8 @@
 
                 for(var i in campaignArray){
                     var node = campaignArray[i];
-                    console.log("campaings perc" + Math.round((node.spend / node.budget )* 100));
-                    var lineData = computeLineCordinate( Math.round((node.spend / node.budget)* 100) ,positions[i][0], positions[i][1],(node.budget)*ratio) ;
                     var object = {
+                        id: "campaign_"+ (i+1) ,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -166,8 +183,7 @@
                         percFill : Math.round((node.spend / node.budget )* 100) ,
                         cx : positionsCampaigns[i][0],
                         cy : positionsCampaigns[i][1],
-                        r : (node.budget)*ratio,
-                        lineData : lineData
+                        r : ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio
                     };
                     formattedDataCampaigns.push(object);
                 }
@@ -179,47 +195,6 @@
             } ;
         };
 
-        function configureGrad( perc , id ,svg, lightcolor, darkcolor) {
-//         console.log("configure grad is called ");
-//            console.log(perc + id) ;
-
-           // var spanId = (id === 'brandBlueGrad')? 'brands' : 'campaigns' ;
-
-            var grad =  svg
-                .append("defs")
-                .append("linearGradient")
-                .attr("id", id)
-                .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%")
-                .selectAll("stop")
-                .data([
-                    {offset: perc + "%" , color : lightcolor },
-                    {offset : (100 -perc)+ "%" , color : darkcolor }
-                ])
-                .enter().append("stop")
-                .attr("offset" , function(d) {
-                    // console.log(d.offset);
-                    return d.offset; } )
-                .attr("stop-color" , function(d){
-                    //console.log(d.color);
-                    return d.color ;});
-
-//            grad.append("stop").
-//                attr("offset" , function(){
-//                    var percentrage = perc + '%' ;
-//                    console.log(percentrage);
-//                    return percentrage ;
-//                }).style("stop-color",dark_blue); // dark blue
-//
-//            grad.append("stop")
-//                .attr("offset", function(){
-//                    console.log((100 - perc) + "%");
-//                    return (100 - perc) + "%";
-//                }).style("stop-color",blue); // light blue
-//
-            return grad;
-
-        };
-
         function updateBubbleChartData(data){
             this.spendData = data ;
 
@@ -229,51 +204,57 @@
         this.updateBubbleChartData = updateBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
+
+            var brands_svg  = d3.select("#brands").append("svg")
+                .attr("width", 400)
+                .attr("height", 280)
+                .attr("id",  "brands_svg")
+                .append("g");
+
             var self = this ;
-            var bubbleContainer = createChartContainer(spanId,400, 280, 420 );
+        //    var bubbleContainer = createChartContainer(spanId,400, 280, 420 );
 
             var chartData =  dataFormatting(data,"brands")['formattedDataBrands'];
 
-            var node = bubbleContainer.svg.selectAll(".node")
+            var node = brands_svg.selectAll(".node")
                 .data(chartData)
                 .enter()
                 .append("g")
                 .attr("class" , "node") ;
 
-          //  var line = bubbleContainer.svg.append("path")
-
-
             var lineFunction = d3.svg.line()
                 .x(function(d){
-                    console.log(d);
                     return d.x ;})
                 .y(function(d){
-                    console.log(d);
                     return d.y;})
-                .interpolate("cardinal-closed");
-
+                .interpolate("basis-closed");
 
 
 
             node.append("circle")
+                .attr("id", function(d){
+                    return (d.id +"_circle" ) ;
+                })
                 .attr("stroke-width", '4')
                 .attr("stroke" , blueOutline)
-
-                .style("fill", blue)
-//                .style("fill", function() {
-//                return "hsl(" + Math.random() * 360 + ",100%,50%)";
-//            })
-
-                //function(d){
-//                    var brandBlueGrad = configureGrad(d.percFill,"brandBlueGrad",bubbleContainer.svg, blue, dark_blue);
-//                    return "url(#brandBlueGrad)" ;
-//                })
+                .style("fill", dark_blue)
                 .style('opacity', 1)
                 .attr("r" , function(d){
                     return d.r ;
                 })
                 .attr("cx" , function(d){return d.cx ;})
                 .attr("cy" , function(d){return d.cy ;});
+
+            node.append("path")
+                .attr("d",function(d){
+                    var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
+                    return lineFunction(dataSet);
+                })
+                .attr("stroke" , blueOutline)
+                .style('opacity', 1)
+                .attr("stroke-width", 4)
+                .attr("fill", blue);
+
 
             node.append("title")
                 .text(function(d){
@@ -284,16 +265,16 @@
                     if(d.r > 40)
                         return "translate(" + d.cx + "," + (d.cy+35) + ")";
                     else
-                        return  "translate(" + d.cx + "," + (d.cy+20) + ")";
+                        return  "translate(" + d.cx + "," + (d.cy+25) + ")";
                 })
-                .attr("font-family","sans-serif")
-               // .attr("dy", "30em")
+                .attr("font-family","Avenir")
+                .style("font-weight","500")
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 40 )
-                    size = "18px" ;
-                    else if (d.r > 25)
                     size = "16px" ;
+                    else if (d.r > 25)
+                    size = "14px" ;
                     return size ;
                 })
                 .style("text-anchor", "middle")
@@ -302,20 +283,24 @@
                     var text ;
                     if(d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
-                    } else if (d.r > 25){
+                    } else if (d.r > 35){
                         text = d.className.substring(0, 3) + '...' ;
+                    } else if(d.r > 30) {
+                        text = d.className.substring(0, 2) + '...' ;
                     }
                     return text ;
-                }); // TODO : text auto resizing : http://bl.ocks.org/mbostock/1846692
+                });
 
             node.append("text") // for brand budget
                 .attr("transform", function(d) {
                     if(d.r > 40)
                         return "translate(" + d.cx + "," + (d.cy+10) + ")";
+                    else if(d.r >22)
+                        return "translate(" + d.cx + "," + (d.cy) + ")";
                     else
-                        return  "translate(" + d.cx + "," + (d.cy) + ")";
+                        return  "translate(" + d.cx + "," + (d.cy-1) + ")";
                 })
-                .attr("font-family","sans-serif")
+                .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
                 .attr("fill", "white")
                 .attr("font-size",function(d){
@@ -334,7 +319,7 @@
                     }
                     return text_size ;
                 })
-                .attr("font-weight","bold")
+                .attr("font-weight","900")
                 .attr("fill", "white")
                 .style("text-anchor", "middle")
                 .text(function(d) {
@@ -345,39 +330,43 @@
                     return budget ;
                 });
 
-            node.append("path")
-                .attr("d",function(d){
-                    console.log(d);
-                    var startEndPos = [];
-                    var start = {
-                        "x" : d.lineData[0][0],
-                        "y": d.lineData[0][1]
-                    };
-                    var end = {
-                        "x" : d.lineData[1][0],
-                        "y" : d.lineData[1][1]
-                    }
-
-                    startEndPos.push(start);
-                    startEndPos.push(end);
-                    return lineFunction(startEndPos);
-                })
-                .attr("stroke" , "red")
-                .attr("stroke-width", 1) ;
+//            node.on("mouseover", function(e){
+//                console.log("mouseover event");
+//                console.log(e);
+//                node.append("path")
+//                    .attr("id",function(d){
+//
+//                    })
+//                    .attr("d",function(d){
+//                        console.log(d);
+//                        var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
+//                        return lineFunction(dataSet);
+//                    })
+//                    .attr("stroke" , darkBlueOutline)
+//                    .style('opacity', 1)
+//                    .attr("stroke-width", 8)
+//                    .attr("fill", "none");
+//            });
+//            node.on("mouseout" , function(d){
+//                console.log("mouse out event");
+//            })
 
             node.on("click", function(d) {
+
+
                 var brand_name = d.className ;
                 $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, brand_name);
 
                 $("#brands").hide();
                 $("#backToBrands").show();
 
+
                 var campaigns = d.campaigns ;
                 var data = {
                     "campaigns": campaigns
                 };
 
-                self.createBubbleChartForCampaigns("campaigns",data );
+               self.createBubbleChartForCampaigns("campaigns",data );
 
                 $("#campaigns").show();
                 self.first = false ;
@@ -390,27 +379,32 @@
         };
 
         this.createBubbleChartForCampaigns = function( spanId , data){
-            var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
+          //  var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
+            var campaigns_svg  = d3.select("#campaigns").append("svg")
+                .attr("width", 400)
+                .attr("height", 280)
+                .attr("id",  "campaigns_svg")
+                .append("g");
 
             var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
 
 
-            var node = campaignChartContainer.svg.selectAll(".node")
+            var node = campaigns_svg.selectAll(".node")
                 .data(chartData).enter()
                 .append("g")
                 .attr("class" , "node");
 
-            var lineFunction = d3.svg.line()
+            var lineFunction_circle = d3.svg.line()
                 .x(function(d){
-                    console.log(d);
                     return d.x ;})
                 .y(function(d){
-                    console.log(d);
                     return d.y;})
-                .interpolate("cardinal-closed");
-
+                .interpolate("basis-closed");
 
             node.append("circle")
+                .attr("id", function(d){
+                    return (d.id +"_circle" ) ;
+                })
                 .attr("stroke-width", '4')
                 .attr("stroke" , function(d){
                     if(d.status === 'ontrack') return greenOutline  ;
@@ -419,15 +413,10 @@
                 .attr("fill",function(d){
 
                     if(d.status === 'ontrack') {
-//                        var campaignGreenGrad = configureGrad(d.percFill,"campaignGreenGrad", campaignChartContainer.svg ,green, darkgreen);
-//                        return "url(#campaignGreenGrad)" ;
-
-                          return greenOutline  ;
+                          return darkgreen  ;
                     }
                     else if(d.status === 'underperforming') {
-//                        var campaignOrangeGrad = configureGrad(d.percFill,"campaignOrangeGrad",  campaignChartContainer.campaigns_svg,orange, darkOrange);
-//                        return "url(#campaignOrangeGrad)" ;
-                        return orangeOutline
+                        return darkOrange
                     }
                 })
                 .attr("r" , function(d){
@@ -436,22 +425,73 @@
                 .attr("cx" , function(d){return d.cx ;})
                 .attr("cy" , function(d){return d.cy ;});
 
-            node.append("title")
-                .text(function(d){
-                    return d.className ;});
+            node.append("path")
+                .attr("d",function(d){
+                    var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
+                    return lineFunction_circle(dataSet);
+                })
+                .attr("stroke" , function(d){
+                    if(d.status === 'ontrack') return greenOutline  ;
+                    else if(d.status === 'underperforming') return orangeOutline;
+                })
+                .attr("fill",function(d) {
+                    if (d.status === 'ontrack')  return green;
+
+                    else if (d.status === 'underperforming')   return orange ;
+                }) ;
+
+                    node.append("title")
+                        .text(function (d) {
+                            return d.className;
+                        });
+
+
+            node.append("text") //For brand name
+                .attr("transform", function(d) {
+                    if(d.r > 40)
+                        return "translate(" + d.cx + "," + (d.cy+35) + ")";
+                    else
+                        return  "translate(" + d.cx + "," + (d.cy+20) + ")";
+                })
+                .attr("font-family","Avenir")
+                .style("font-size", function(d){
+                    var size ;
+                    if(d.r > 40 )
+                        size = "16px" ;
+                    else if (d.r > 25)
+                        size = "14px" ;
+                    return size ;
+                })
+                .style("text-anchor", "middle")
+                .attr("font-weight","500")
+                .attr("fill", "white")
+                .text(function(d) {
+                    var text ;
+                    if(d.r > 40){
+                        text = d.className.substring(0, 4) + '...' ;
+                    } else if (d.r > 25){
+                        text = d.className.substring(0, 3) + '...' ;
+                    }
+                    return text ;
+                });
 
             node.append("text") // for brand budget
                 .attr("transform", function(d) {
-                    if(d.r > 25)
-                    return "translate(" + d.cx + "," + (d.cy+10) + ")";
+                    if(d.r > 40)
+                        return "translate(" + d.cx + "," + (d.cy+10) + ")";
                     else
-                    return  "translate(" + d.cx + "," + (d.cy+5) + ")";
+                        return  "translate(" + d.cx + "," + (d.cy+5) + ")";
                 })
-                .attr("font-family","sans-serif")
+                .attr("font-family","Avenir")
+                .style("text-anchor", "middle")
+                .attr("fill", "white")
                 .attr("font-size",function(d){
                     var text_size ;
-                    if(d.r > 50){
-                        text_size = "35px";
+                    if(d.r > 65){
+                        text_size = "35px"
+                    }
+                    else if(d.r > 50){
+                        text_size = "32px";
                     }else if(d.r > 40){
                         text_size="28px";
                     } else if(d.r >25) {
@@ -461,38 +501,18 @@
                     }
                     return text_size ;
                 })
-                .attr("font-weight","bold")
+                .attr("font-weight","900")
                 .attr("fill", "white")
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     var budget ;
-                    if(d.r >8)
+                    if(d.r >15)
                         budget = getRepString(d.budget);
 
                     return budget ;
                 });
 
-            node.append("path")
-                .attr("d",function(d){
-                    console.log(d);
-                    var startEndPos = [];
-                    var start = {
-                        "x" : d.lineData[0][0],
-                        "y": d.lineData[0][1]
-                    };
-                    var end = {
-                        "x" : d.lineData[1][0],
-                        "y" : d.lineData[1][1]
-                    }
-
-                    startEndPos.push(start);
-                    startEndPos.push(end);
-                    return lineFunction(startEndPos);
-                })
-                .attr("stroke" , "red")
-                .attr("stroke-width", 1) ;
-
-        };
+            };
 
     });
 }());
