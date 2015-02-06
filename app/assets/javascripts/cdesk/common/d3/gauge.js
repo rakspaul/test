@@ -226,7 +226,11 @@
                 this.textContent = Math.round(i(t));
                 if(this.textContent === '100') {
                   self.pctTxt.attr("x", self.pctX + 15)
-                } else {
+                } else if(parseInt(this.textContent) < 10)
+                {
+                  self.pctTxt.attr("x", self.pctX - 15);
+                } else
+                {
                   self.pctTxt.attr("x", self.pctX);
                 }
 //                self.pctTxt.attr("x", this.x.baseVal["0"].value + 33);
@@ -238,8 +242,8 @@
           this.animateArcs();
           this.animateText();
           //hardcoding widget message right now, later move it to config to generalize for gauge
-          this.leftDotText.text(readings[name].toString() + '% on track');
-          this.rightDotText.text((100 - readings[name]).toString() + '% underperforming');
+          this.leftDotText.text(readings[name].toString() + '% On Track');
+          this.rightDotText.text((100 - readings[name]).toString() + '% Underperforming');
         };
 
       }
