@@ -108,7 +108,7 @@
 		            .attr("transform", "translate(0, " + (height - margin.top - margin.bottom) + ")")
 		            .transition()
 		            .call(xAxis)
-		            .selectAll(".tick text").attr("style", "font-family:sans-serif;font-size:12pt;").attr("x", function(d) {
+		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt;").attr("x", function(d) {
 		                return 10
 		            });
 
@@ -181,6 +181,7 @@
 		            .attr("x", 30)
 		            .attr("y", CAMPAIGN_HEIGHT / 2)
 		            .attr("dy", ".35em")
+		            .attr("font-family", "Avenir")
 		            .attr("style", function(d) {
 		                if ((x(d.endDate) - x(d.startDate)) != 0) {
 		                    return "";
@@ -274,10 +275,10 @@
 
 
 		        svg.select(".x").transition().call(xAxis)
-		            .selectAll(".tick text").attr("style", "font-family:sans-serif;font-size:12pt").attr("x", function(d) {
+		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d) {
 		                return 20
 		            });
-		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-size:13pt");
+		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-family:Avenir;font-size:13pt");
 
 		        return gantt;
 		    };
