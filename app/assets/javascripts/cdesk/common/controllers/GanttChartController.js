@@ -45,8 +45,12 @@
             ganttChart.month();
         }
 
-         $scope.today = function(){
+        $scope.today = function(){
             ganttChart.today();
+        }
+
+        $scope.year = function(){
+            ganttChart.year();
         }
 
         $scope.init();

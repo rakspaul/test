@@ -82,7 +82,7 @@
 		            .tickSize(height - margin.top, height - margin.top)
 		            .tickPadding(-15); //modified from 8
 
-		        yAxis = d3.svg.axis().scale(y).orient("left").tickSize(0);
+		        yAxis = d3.svg.axis().scale(y).orient("right").tickSize(0);
 
 		    };
 
@@ -277,7 +277,7 @@
 		            .selectAll(".tick text").attr("style", "font-family:sans-serif;font-size:12pt").attr("x", function(d) {
 		                return 20
 		            });
-		        svg.select(".y").transition().call(yAxis);
+		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-size:13pt");
 
 		        return gantt;
 		    };
@@ -416,6 +416,12 @@
 
 		}
 
+		function year() {
+
+		    changeTimeDomain('year');
+
+		}
+
 		function changeTimeDomain(timeDomainString) {
 		    // this.timeDomainString = timeDomainString;
 		    switch (timeDomainString) {
@@ -452,6 +458,12 @@
 		            format = "%d";
 		            gantt.timeDomain([d3.time.day.offset(Date.now(), -3), d3.time.day.offset(Date.now(), +3)]);
 		            break;
+
+		        case "year":
+		            format = "%d";
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -150), d3.time.day.offset(Date.now(), +150)]);
+		            break;
+
 		        case "next":
 		            format = "%d";
 		            gantt.timeDomain([getEndDate(), d3.time.day.offset(getEndDate(), +7)]);
@@ -549,6 +561,7 @@
 		this.next = next;
 		this.month = month;
 		this.today = today;
+		this.year = year;
 
 
 
