@@ -2,7 +2,7 @@
 (function() {
     'use strict';
 
-    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics) {
+    angObj.controller('CampaignDetailsController', function($rootScope, $scope, $routeParams, modelTransformer, campaignCDBData, campaignListService, campaignListModel, actionChart, dataService, apiPaths, actionColors, utils, dataTransferService, $timeout, pieChart, solidGaugeChart, $filter, constants, editAction, activityList, loginModel, loginService, brandsModel, analytics, dataStore, urlService) {
         var orderBy = $filter('orderBy');
         var campaign = campaignListService;
         var Campaigns = campaignListModel;
@@ -99,7 +99,15 @@
         }, function(result) {
             console.log('call failed');
         });
-        var actionUrl = apiPaths.workflow_apiServicesUrl + "/campaigns/" + $routeParams.campaignId + "/actions";
+        updateActionItems();
+
+      $rootScope.$on(constants.EVENT_ACTION_CREATED, newActionCreated);
+      function newActionCreated() {
+        dataStore.deleteFromCache(urlService.APIActionData($routeParams.campaignId));
+        updateActionItems();
+      }
+      function updateActionItems() {
+        var actionUrl = urlService.APIActionData($routeParams.campaignId);
         dataService.getActionItems(actionUrl).then(function(result) {
           if(result.status === 'success') {
             $scope.activityLogFlag = true;
@@ -126,8 +134,9 @@
             }
           }
         }, function(result) {
-            console.log('call failed');
+          console.log('call failed');
         });
+      }
 
        
 
