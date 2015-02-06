@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic) {
+  angObj.controller('ActionsController', function ($scope,$rootScope, $filter, dataService, $routeParams, modelTransformer, ActionType, ActionSubType, Tactic, constants) {
     dataService.getActions().then(function (response) {
       if(response.status === 'success') {
         var action = {};
@@ -82,6 +82,7 @@
         data.ad_id = data.action_tactic_ids[i]; 
         dataService.createAction(data).then( function (response){
           resetActionFormData();
+          $rootScope.$broadcast(constants.EVENT_ACTION_CREATED);
         }, function (response) {
           resetActionFormData();
         });

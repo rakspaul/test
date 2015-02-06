@@ -15,7 +15,7 @@
       },
 
       getActionItems: function (urlPath) {
-        return this.fetch(urlPath)
+        return this.fetch(urlPath);
       },
 
       getCampaignStrategies: function (urlPath, type) {
@@ -139,7 +139,7 @@
           defer.resolve();
           return promise;
         }
-        return $http({url: url, method: 'GET', cache: true}).then(
+        return $http({url: url, method: 'GET'}).then(
           function (response) {
             if(response.status === 401) {
               loginModel.unauthorized();

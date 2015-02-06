@@ -50,6 +50,10 @@
        return url ;
     }
 
+    this.APIActionData = function(campaignId) {
+      return apiPaths.workflow_apiServicesUrl + "/campaigns/" + campaignId + "/actions"
+    }
+
   }
 
   commonModule.service("urlService", ['apiPaths', 'constants', urlFactory]);
