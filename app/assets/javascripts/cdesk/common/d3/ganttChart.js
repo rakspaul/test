@@ -374,8 +374,8 @@
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
 		    var taskStatusName = taskStatusKeys[Math.floor(Math.random() * taskStatusKeys.length)];
-		    var taskName = "twc";//taskNames[Math.floor(Math.random() * taskNames.length)];
-		    var name = "test";
+		    var taskName = "TWC";//taskNames[Math.floor(Math.random() * taskNames.length)];
+		    var name = "Test Campaign - Status:"+taskStatusName+" - Brand:"+taskName;
 
 		    tasks.push({
 		        "startDate": d3.time.day.offset(lastEndDate, Math.ceil(Math.random(10))),
