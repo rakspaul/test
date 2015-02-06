@@ -13,6 +13,7 @@
         $scope.loadingCostBreakdownFlag = true;
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
+        $scope.loadingScreenFlag = true;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
 
@@ -94,7 +95,8 @@
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
-                $scope.getFormatsGraphData($scope.campaign);
+                //$scope.getFormatsGraphData($scope.campaign);
+                $scope.getScreenGraphData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -302,6 +304,54 @@
                 }
             },function(result){
                 console.log('formats data call failed');
+            });
+        };
+         $scope.getScreenGraphData  = function(campaign){
+            var screens;
+            dataService.getScreenData($scope.campaign).then(function(result) {
+                $scope.loadingScreenFlag = false;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    for (var i = 0; i < result.data.data.length; i++) {
+                      result.data.data[i].ctr *= 100;
+                      result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+                    }
+                    if(result.data.data.length>0){
+
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            screens=_.chain(result.data.data)
+                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .reverse()
+                                .value();
+                         }else{
+                            screens=_.chain(result.data.data)
+                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .value();
+
+                         }
+                        _.each(screens, function(format) {
+                             switch(format.dimension){
+                                case 'Smartphone': format.icon = "mobile_graph";
+                                break;
+                                case 'TV':   format.icon = "display_graph";
+                                break;
+                                case 'Tablet':   format.icon = "mobile_graph";
+                                break;
+                                case 'Desktop':   format.icon = "display_graph";
+                                break;
+                            }
+                        });
+                        $scope.details.screens = screens; 
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            $scope.details.formatTop = _.first(screens); 
+                        }else{
+                            $scope.details.formatTop = _.last(screens); 
+                        }
+                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
+                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+                    }
+                }
+            },function(result){
+                console.log('screen data call failed');
             });
         };
         $scope.getCostViewabilityData  = function(campaign){
