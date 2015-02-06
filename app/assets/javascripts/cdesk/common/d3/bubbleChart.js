@@ -2,28 +2,40 @@
     "use strict";
     commonModule.service("bubbleChart", function($rootScope,constants) {
 
-        var dark_blue = "#0978c9 " ,
+        var darkblue = "#0978c9 " ,
             blue = "#209AEF" ,
-            darkBlueOutline_popup = "#085F9F",
-            orange = "#F67C29" ,
-            darkOrange = "#DD6B1D",
-            green ="#64EF3A",
-            darkgreen = "#64D841",
+
+            orange = "#F1661F" , // #FC812F
+            darkOrange = "#F1661F",
+
+            green ="#59F52D",
+            darkgreen = "#56D431",
 
             blueOutline = "#1378C3",
-            greenOutline = "#64D841" ,
-            orangeOutline = "#DB691C";
+            darkBlueOutline = "#085F9F",
 
-        var text = d3.select("body")
+            greenOutline = "#64D841" ,
+            darkGreenOutline = "#47AB1D",
+
+            orangeOutline = "#DB691C",
+
+           tooltipBackGroundColor = "#FEFFFE";
+
+
+        var tooltip = d3.select("body")
             .append("div")
             .style("position", "absolute")
             .style("z-index", "10")
             .style("visibility", "hidden")
             .style("color", "black")
             .style("padding", "8px")
-            .style("background-color", "rgba(1, 0, 0, 0.75)")
-            .style("border-radius", "6px")
-            .style("font", "12px sans-serif")
+            .style("background-color", tooltipBackGroundColor)
+            .style("border-radius", "8px")
+            .style("border" , "2px")
+            .style("word-wrap", "break-word")
+            .style("font", "14px Avenir")
+            .style("text-alignt","center")
+            .style("font-weight","500")
             .text("tooltip");
 
         var getRepString = function(x) {
@@ -151,7 +163,7 @@
                       radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
                     }
                     var object = {
-                        id: "brand_"+ (i+1) ,
+                        id:  i ,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -180,7 +192,7 @@
                         radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
                     }
                     var object = {
-                        id: "campaign_"+ (i+1) ,
+                        id: i ,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -222,7 +234,6 @@
                 .append("g");
 
             var self = this ;
-        //    var bubbleContainer = createChartContainer(spanId,400, 280, 420 );
 
             var chartData =  dataFormatting(data,"brands")['formattedDataBrands'];
 
@@ -243,12 +254,11 @@
 
             node.append("circle")
                 .attr("id", function(d){
-                    return (d.id +"_circle" ) ;
+                    return ("brands_"+ d.id +"_circle" ) ;
                 })
                 .attr("stroke-width", '4')
                 .attr("stroke" , blueOutline)
-                .style("fill", dark_blue)
-                .style('opacity', 1)
+                .style("fill", darkblue)
                 .attr("r" , function(d){
                     return d.r ;
                 })
@@ -257,19 +267,25 @@
                 .attr("cy" , function(d){return d.cy ;});
 
             node.append("path")
+                .attr("id", function(d){
+                    return ("brands_"+ d.id +"_path" ) ;
+                })
                 .attr("d",function(d){
                     var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
                     return lineFunction(dataSet);
                 })
                 .attr("stroke" , blueOutline)
-                .style('opacity', 1)
                 .attr("stroke-width", 4)
                 .attr("fill", blue);
 
 
-            node.append("title")
-                .text(function(d){
-                    return d.className ;});
+//            node.append("title")
+//                .text(function(d){
+//                    return d.className ;});
+//
+//         node.append("title")
+//                .text(function(d){
+//                    return "Total spend : $" + d.spend ; });
 
             node.append("text") //For brand name
                 .attr("transform", function(d) {
@@ -280,6 +296,7 @@
                 })
                 .attr("font-family","Avenir")
                 .style("font-weight","500")
+                .style("z-index", "10")
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 40 )
@@ -316,6 +333,7 @@
                 .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
                 .attr("fill", "white")
+                .style("z-index", "10")
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
@@ -343,59 +361,83 @@
                     return budget ;
                 });
 
-//            node.on("mouseover", function(e){
-//                console.log("mouseover event");
-//                console.log(e);
-//                node.append("path")
-//                    .attr("id",function(d){
-//
-//                    })
-//                    .attr("d",function(d){
-//                        console.log(d);
-//                        var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
-//                        return lineFunction(dataSet);
-//                    })
-//                    .attr("stroke" , darkBlueOutline)
-//                    .style('opacity', 1)
-//                    .attr("stroke-width", 8)
-//                    .attr("fill", "none");
-//            });
-//            node.on("mouseout" , function(d){
-//                console.log("mouse out event");
-//            })
+            node.on("mouseover", function(obj){
+                console.log("mouseover event");
 
-//            node.on("mouseover", function(e){
-//                console.log("mouseover event");
-//                console.log(e);
-//                node.append("path")
-//                    .attr("id",function(d){
-//
-//                    })
-//                    .attr("d",function(d){
-//                        console.log(d);
-//                        var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
-//                        return lineFunction(dataSet);
-//                    })
-//                    .attr("stroke" , darkBlueOutline)
-//                    .style('opacity', 1)
-//                    .attr("stroke-width", 8)
-//                    .attr("fill", "none");
-//            });
-//            node.on("mouseout" , function(d){
-//                console.log("mouse out event");
-//            })
+                var focused_obj = {
+                    name : obj.className,
+                    id : obj.id,
+                    cx : obj.cx,
+                    cy : obj.cy,
+                    percFill : obj.percFill,
+                    spend : obj.spend,
+                    r : obj.r
+                };
 
-            node.on("click", function(d) {
+        //        d3.select("#brands_"+focused_obj.id +"_path").remove();
+
+                node.selectAll("circle").attr('opacity',0.5);
+                node.selectAll("path").attr('opacity', 0.5);
 
 
-                var brand_name = d.className ;
+          //     create new path element
+                d3.select("#brands_"+focused_obj.id+ "_circle").attr('opacity', 1);
+                d3.select("#brands_"+focused_obj.id+ "_path").attr('opacity', 1);
+
+                d3.select("#brands_"+focused_obj.id+ "_path")
+                    .attr('opacity', 1)
+                    .attr("stroke" , darkBlueOutline)
+                    .attr("stroke-width", 3)
+                    .attr("fill", blue);
+
+                return tooltip.text(focused_obj.name + ", Total Spend : $"+ focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                }) ).style("visibility", "visible");
+
+            });
+
+            node.on("mouseout" , function(obj){
+                console.log("mouse out event");
+                console.log(obj);
+                var focused_obj = {
+                    name : obj.className,
+                    id : obj.id,
+                    cx : obj.cx,
+                    cy : obj.cy,
+                    percFill : obj.percFill,
+                    r : obj.r
+                };
+
+                node.selectAll("circle").attr('opacity',1);
+                node.selectAll("path").attr('opacity', 1);
+
+                d3.select("#brands_"+focused_obj.id +"_path")
+                    .attr('opacity', 1)
+                    .attr("stroke" , blueOutline)
+                    .attr("stroke-width", 4)
+                    .attr("fill", blue);
+
+                return tooltip
+                    .style("visibility", "hidden");
+
+            });
+
+           node.on("mousemove", function(){
+               return tooltip.style("top", (event.pageY-10)+"px")
+                   .style("left",(event.pageX+10)+"px");
+           });
+
+            node.on("click", function(obj) {
+
+               var brand_name = obj.className ;
+                
                 $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, brand_name);
 
                 $("#brands").hide();
                 $("#backToBrands").show();
 
 
-                var campaigns = d.campaigns ;
+                var campaigns = obj.campaigns ;
                 var data = {
                     "campaigns": campaigns
                 };
@@ -438,21 +480,14 @@
 
             node.append("circle")
                 .attr("id", function(d){
-                    return (d.id +"_circle" ) ;
+                    return ( "campaigns_"+d.id +"_circle" ) ;
                 })
                 .attr("stroke-width", '4')
                 .attr("stroke" , function(d){
-                    if(d.status === 'ontrack') return greenOutline  ;
-                    else if(d.status === 'underperforming') return orangeOutline;
+                    return (d.status == 'ontrack') ? greenOutline  : orangeOutline ;
                 })
                 .attr("fill",function(d){
-
-                    if(d.status === 'ontrack') {
-                          return darkgreen  ;
-                    }
-                    else if(d.status === 'underperforming') {
-                        return darkOrange
-                    }
+                    return (d.status === 'ontrack') ? darkgreen : darkOrange ;
                 })
                 .attr("r" , function(d){
                     return d.r ;
@@ -461,24 +496,26 @@
                 .attr("cy" , function(d){return d.cy ;});
 
             node.append("path")
+                .attr("id", function(d){
+                    return ("campaigns_" + d.id +"_path" ) ;
+                })
                 .attr("d",function(d){
                     var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
                     return lineFunction_circle(dataSet);
                 })
+                .attr("stroke-width",4)
                 .attr("stroke" , function(d){
-                    if(d.status === 'ontrack') return greenOutline  ;
-                    else if(d.status === 'underperforming') return orangeOutline;
+                    return (d.status == 'ontrack') ?  greenOutline : orangeOutline ;
                 })
                 .attr("fill",function(d) {
-                    if (d.status === 'ontrack')  return green;
+                 return (d.status == 'ontrack') ?  green : orange ;
 
-                    else if (d.status === 'underperforming')   return orange ;
                 }) ;
 
-                    node.append("title")
-                        .text(function (d) {
-                            return d.className;
-                        });
+//                    node.append("title")
+//                        .text(function (d) {
+//                            return d.className;
+//                        });
 
 
             node.append("text") //For brand name
@@ -489,6 +526,7 @@
                         return  "translate(" + d.cx + "," + (d.cy+20) + ")";
                 })
                 .attr("font-family","Avenir")
+                .style("z-index", "10")
                 .style("font-size", function(d){
                     var size ;
                     if(d.r > 40 )
@@ -523,6 +561,7 @@
                 .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
                 .attr("fill", "white")
+                .style("z-index", "10")
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
@@ -549,6 +588,74 @@
 
                     return budget ;
                 });
+
+            node.on("mouseover", function(obj){
+                console.log("mouseover event");
+
+                var campaign_obj = {
+                    name : obj.className,
+                    id : obj.id,
+                    cx : obj.cx,
+                    cy : obj.cy,
+                    status : obj.status,
+                    percFill : obj.percFill,
+                    spend : obj.spend,
+                    r : obj.r
+                };
+
+                //        d3.select("#brands_"+focused_obj.id +"_path").remove();
+
+                node.selectAll("circle").attr('opacity',0.4);
+                node.selectAll("path").attr('opacity', 0.4);
+
+
+                //     create new path element
+                d3.select("#campaigns_"+campaign_obj.id+ "_circle").attr('opacity', 1);
+                d3.select("#campaings_"+campaign_obj.id+ "_path").attr('opacity', 1);
+
+                d3.select("#campaigns_"+campaign_obj.id+ "_path")
+                    .attr("stroke" , (campaign_obj.status == 'ontrack')? darkGreenOutline : orangeOutline)
+                    .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
+                    .attr("stroke-width", 3);
+
+                return tooltip.text(campaign_obj.name +", Total Spend : $"+ campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                }) ).style("visibility", "visible");
+
+            });
+
+
+            node.on("mousemove", function(){
+                return tooltip.style("top", (event.pageY-10)+"px")
+                    .style("left",(event.pageX+10)+"px");
+            });
+
+            node.on("mouseout" , function(obj){
+                console.log("mouse out event");
+                console.log(obj);
+                var campaign_obj = {
+                    name : obj.className,
+                    id : obj.id,
+                    cx : obj.cx,
+                    cy : obj.cy,
+                    percFill : obj.percFill,
+                    status : obj.status,
+                    r : obj.r
+                };
+
+                node.selectAll("circle").attr('opacity',1);
+                node.selectAll("path").attr('opacity', 1);
+
+                d3.select("#campaigns_"+campaign_obj.id+ "_path")
+                    .attr("stroke" , (campaign_obj.status == 'ontrack')? greenOutline : orangeOutline)
+                    .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
+                    .attr("stroke-width", 3);
+
+
+                return tooltip
+                    .style("visibility", "hidden");
+
+            });
 
             };
 
