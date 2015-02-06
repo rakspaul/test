@@ -19,6 +19,8 @@
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.EVENT_ACTION_CREATED = "actionCreated";
     this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";
+    this.BUBBLE_BRAND_CLICKED = "bubbleBrandClicked";
+    this.BRAND_BUTTON_CLICKED = "BRAND_BUTTON_CLICKED";
     this.GA_DASHBOARD = 'dashboard-widget';
     this.GA_CLICK = 'click';
     this.GA_BRAND_SELECTED = 'brand_selected';

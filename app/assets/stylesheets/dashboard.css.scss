@@ -30,6 +30,39 @@
 	        }
 	    }
 	}
+
+	.status_filter {
+		color: #333 ;
+		font-size: 14px ;
+		font-weight: bold ;
+		.status_filter_dd {
+			font-weight: normal ;
+			margin-left: 15px ;
+			li {
+				text-align: left;
+				padding: 2px 10px;
+			}
+			
+		}
+	}
+
+	.dashboard_main_heading {
+		span {
+			display: block;
+			float: left;
+			font-size: 24px;
+			font-weight: bold;
+		}
+		span.bubble_heading {
+			color: white;
+			background: #108AE2;
+			padding: 4px 20px;
+			border-radius: 15px;
+			margin-left: 20px;
+			font-size: 14px;
+			font-weight: normal;
+		}
+	}
 	.calendar_holder {
 		border: solid 1px #ccc;
 		border-radius: 5px;
@@ -49,7 +82,7 @@
 		}
 	}
 	.dashboard_section {
-		min-height: 340px ;
+		min-height: 350px ;
 		box-shadow: 0px 0px 1px #ccc ;
 	}
 	.dashboard_geo_graph_holder {
@@ -75,7 +108,6 @@
 	}
 	.dashboard_heading_bold {
 		font-weight: bold;
-		text-transform: uppercase;
 		color: #333 ;
 	}
 	.calendar_heading {
@@ -139,7 +171,7 @@
 }
 .common_loading_icon {
   text-align: center;
-  height: 40px;
+  height: 20px;
   width: 40px;
   background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   margin: 60px auto 0 ;
