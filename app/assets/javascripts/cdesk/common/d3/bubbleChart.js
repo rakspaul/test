@@ -28,15 +28,21 @@
             .style("z-index", "10")
             .style("visibility", "hidden")
             .style("color", "black")
-            .style("padding", "8px")
+            .style("padding", "5px 20px")
             .style("background-color", tooltipBackGroundColor)
-            .style("border-radius", "8px")
-            .style("border" , "2px")
+            .style("border-radius", "4px")
+            .style("-webkit-border-radius", "4px")
+            .style("-moz-border-radius", "4px")
+            .style("border" , "solid 1px #ccc")
             .style("word-wrap", "break-word")
+            .style("box-shadow", "0px 0px 2px #ccc")
             .style("font", "14px Avenir")
             .style("text-alignt","center")
             .style("font-weight","500")
+            .style("width","200px")
             .text("tooltip");
+
+
 
         var getRepString = function(x) {
             //if(isNaN(x)) return x;
