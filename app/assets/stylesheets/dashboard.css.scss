@@ -3,6 +3,7 @@
 	margin: 20px  auto ;
 	font-family: "Avenir" ;
 	font-size: 12px ;
+	color:  #21252b;
 	.row {
 		margin: 0 0 20px 0 ;
 	}
@@ -25,7 +26,7 @@
 	        li {
 	        	padding: 2px 0 ;
 	        	&:hover {
-		        	background: #f1f1f1 ;
+		        	background: #d2dee7 ;
 		        }
 	        }
 	    }
@@ -44,14 +45,18 @@
 			}
 			
 		}
+		.dd_heading {
+			font-size: 14px; 
+			font-weight: 900;
+		}
 	}
 
 	.dashboard_main_heading {
 		span {
 			display: block;
 			float: left;
-			font-size: 24px;
-			font-weight: bold;
+			font-size: 20px; 
+			font-weight: 900;
 		}
 		span.bubble_heading {
 			color: white;
@@ -60,73 +65,87 @@
 			border-radius: 15px;
 			margin-left: 20px;
 			font-size: 14px;
-			font-weight: normal;
+			font-weight: 900;
 		}
 	}
 	.calendar_holder {
-		border: solid 1px #ccc;
-		border-radius: 5px;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
+		border: solid 1px #e7edf1;
+		border-radius: 4px;
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
 		margin: 0 0 0 40px;
+		color:  #21252b;
+		font-size: 14px;
+		background-color:  #ffffff;
 		span {
-			padding: 2px 10px;
-			border-left: solid 1px #cccccc;
+			padding: 2px 18px;
+			border-left: solid 1px #e7edf1;
 			display: inline-block;
 			text-align: center;
 			float: left;
 			cursor: default;
 			&:first-child {
-				border-left : solid 0px #ccc ;
+				border-left : solid 0px #e7edf1 ;
 			}
 		}
 	}
 	.calendar_holder_period {
-		border: solid 1px #ccc;
-		border-radius: 5px;
-		-moz-border-radius: 5px;
-		-webkit-border-radius: 5px;
 		margin: 0 0 0 40px;
+		font-size: 14px;	
 		span {
-			padding: 2px 10px;
-			border-left: solid 1px #cccccc;
+			padding: 2px 18px;
 			display: inline-block;
 			text-align: center;
 			float: left;
 			cursor: default;
-			&:first-child {
-				border-left : solid 0px #ccc ;
+			margin-right: 18px ;
+			border: solid 1px transparent ;
+			border-radius: 4px;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			&:hover {
+				border: solid 1px #e7edf1;
 			}
+		}
+		span.active {
+			border: solid 1px #e7edf1;
 		}
 	}
 	.dashboard_section {
 		min-height: 350px ;
-		box-shadow: 0px 0px 1px #ccc ;
+		box-shadow: 0px 0px 1px #e7edf1 ;
+		background: #fff ;
 	}
 	.dashboard_geo_graph_holder {
 		min-height: 545px;
 	}
 	#dashboard_metric_dd {
 		margin-left: 10px ;
+		font-size: 14px ;
+		margin-top: 3px;
+		.dropdown_ul {
+			left: -6px;
+			li {
+				padding: 2px 5px;
+			}
+		}
 	}
 	.dashboard_perf_graph {
 		min-height: 175px ;
 		margin: 20px 0 ;
 	}
 	.dashboard_heading {
-		
-		font-size: 14px ;
-		padding: 10px 20px ;
+		font-size: 16px; 
+		padding: 20px 20px 0px;
 		.show_link {
-			color: #333 ;
-			font-weight: bold;
-			margin: 0px 0 0 30px;
+			margin: 3px 0 0 100px;
+			font-size: 14px; 	
+			font-weight: 900 ;
 		}
 		
 	}
 	.dashboard_heading_bold {
-		font-weight: bold;
-		color: #333 ;
+		font-weight: 900;
 	}
 	.calendar_heading {
 		span {
