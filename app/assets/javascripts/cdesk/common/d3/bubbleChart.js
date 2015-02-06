@@ -57,77 +57,78 @@
 
         var dataGenerator = function(x, y , r ,perc ){
             var lineData = [];
+            if(r >0 ){
 
-            if(perc<99){
-                // To set curviness of the circle filling 1st criteria is r
-                var ycurviness = 8;
-                if(r<10)
-                    ycurviness = 0;
-                if(r<18)
-                    ycurviness = 3;
-                if(r<30)
-                    ycurviness = 5;
-                else if(r < 50)
-                    ycurviness = 8;
-                else if( r < 60)
-                    ycurviness =10;
+                if(perc<99){
+                    // To set curviness of the circle filling 1st criteria is r
+                    var ycurviness = 8;
+                    if(r<10)
+                        ycurviness = 0;
+                    if(r<18)
+                        ycurviness = 3;
+                    if(r<30)
+                        ycurviness = 5;
+                    else if(r < 50)
+                        ycurviness = 8;
+                    else if( r < 60)
+                        ycurviness =10;
 
-                // To set curviness 2nd criteria is percentage fill
-                if(perc >90)
-                    ycurviness =3 ;
+                    // To set curviness 2nd criteria is percentage fill
+                    if(perc >90)
+                        ycurviness =3 ;
 
 
-                var startangle = Math.atan(1 - perc/50);
+                    var startangle = Math.atan(1 - perc/50);
 
-                for(var angle = startangle; angle < (Math.PI - startangle); angle = angle +((Math.PI)/180 *4) ){
+                    for(var angle = startangle; angle < (Math.PI - startangle); angle = angle +((Math.PI)/180 *4) ){
 
-                    var newCordinates = {
-                        "x" : x -(r)*Math.cos(angle),
-                        "y" :  y+ (r)*Math.sin(angle)
+                        var newCordinates = {
+                            "x" : x -(r)*Math.cos(angle),
+                            "y" :  y+ (r)*Math.sin(angle)
+                        };
+
+                        lineData.push(newCordinates);
+                    }
+
+                    var xstart = lineData[0].x ;
+                    var ystart = lineData[0].y ;
+
+                    var xend = lineData[lineData.length -1].x ;
+
+                    var middle   = {
+                        "x" : xstart + ( xend - xstart)/2 ,
+                        "y" : ystart
                     };
 
-                    lineData.push(newCordinates);
-                }
-
-            var xstart = lineData[0].x ;
-            var ystart = lineData[0].y ;
-
-            var xend = lineData[lineData.length -1].x ;
-
-                var middle   = {
-                    "x" : xstart + ( xend - xstart)/2 ,
-                    "y" : ystart
-                };
-
-                var firstMiddle   = {
-                    "x" : xstart + (middle.x - xstart) /2 ,
-                    "y" : middle.y + ycurviness
-                };
-
-
-                var secondMiddle   = {
-                    "x" :  middle.x + ( xend - middle.x) / 2 ,
-                    "y" : middle.y - ycurviness
-                };
-
-                lineData.push(secondMiddle);
-                lineData.push(middle);
-                lineData.push(firstMiddle);
-                lineData.push(lineData[0]);
-
-            }else{
-
-                for(var angle = 0; angle < (2*Math.PI); angle = angle +((Math.PI)/180 *8) ){
-                    var newCordinates = {
-                        "x" : x -(r)*Math.cos(angle),
-                        "y" :  y+ (r)*Math.sin(angle)
+                    var firstMiddle   = {
+                        "x" : xstart + (middle.x - xstart) /2 ,
+                        "y" : middle.y + ycurviness
                     };
 
-                    lineData.push(newCordinates);
+
+                    var secondMiddle   = {
+                        "x" :  middle.x + ( xend - middle.x) / 2 ,
+                        "y" : middle.y - ycurviness
+                    };
+
+                    lineData.push(secondMiddle);
+                    lineData.push(middle);
+                    lineData.push(firstMiddle);
+                    lineData.push(lineData[0]);
+
+                }else{
+
+                    for(var angle = 0; angle < (2*Math.PI); angle = angle +((Math.PI)/180 *8) ){
+                        var newCordinates = {
+                            "x" : x -(r)*Math.cos(angle),
+                            "y" :  y+ (r)*Math.sin(angle)
+                        };
+
+                        lineData.push(newCordinates);
+                    }
                 }
+
             }
-
-
             return lineData ;
         };
 
@@ -143,17 +144,23 @@
                 var ratio = maxRadius / maxBudget ;
                 for(var i in brandArray){
                     var node = brandArray[i];
+                    var percFill =0 ;
+                    var radius  = 0 ;
+                    if(node.budget > 0 ){
+                      percFill   = Math.round((node.spend / node.budget)* 100);
+                      radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
+                    }
                     var object = {
                         id: "brand_"+ (i+1) ,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
                         spend : node.spend,
-                        percFill : Math.round((node.spend / node.budget)* 100) ,
+                        percFill : percFill,
                         campaigns : node.campaigns,
                         cx : positions[i][0],
                         cy : positions[i][1],
-                        r : ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio
+                        r : radius
                     };
 
                     formattedDataBrands.push(object);
@@ -166,6 +173,12 @@
 
                 for(var i in campaignArray){
                     var node = campaignArray[i];
+                    var percFill = 0 ;
+                    var radius  = 0 ;
+                    if(node.budget > 0 ){
+                        percFill   = Math.round((node.spend / node.budget)* 100);
+                        radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
+                    }
                     var object = {
                         id: "campaign_"+ (i+1) ,
                         className: node.name,
@@ -173,10 +186,10 @@
                         budget :node.budget,
                         spend : node.spend,
                         status : node.status,
-                        percFill : Math.round((node.spend / node.budget )* 100) ,
+                        percFill : percFill ,
                         cx : positionsCampaigns[i][0],
                         cy : positionsCampaigns[i][1],
-                        r : ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio
+                        r : radius
                     };
                     formattedDataCampaigns.push(object);
                 }
@@ -197,6 +210,10 @@
         this.updateBubbleChartData = updateBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
+
+            if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
+                $("#data_not_available").show();
+            }
 
             var brands_svg  = d3.select("#brands").append("svg")
                 .attr("width", 400)
@@ -235,7 +252,8 @@
                 .attr("r" , function(d){
                     return d.r ;
                 })
-                .attr("cx" , function(d){return d.cx ;})
+                .attr("cx" , function(d){
+                    return d.cx ;})
                 .attr("cy" , function(d){return d.cy ;});
 
             node.append("path")
@@ -387,11 +405,12 @@
                 $("#campaigns").show();
                 self.first = false ;
             });
-            node.data(chartData);
+
         } ;
 
         this.cleaningBubbleChart = function(spanId){
             d3.select("#"+spanId+"_svg").remove();
+            $("#data_not_available").hide();
         };
 
         this.createBubbleChartForCampaigns = function( spanId , data){

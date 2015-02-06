@@ -20,6 +20,7 @@
         $scope.init();
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            $("#data_not_available").hide();
             bubbleChart.cleaningBubbleChart("campaigns");
             bubbleChart.cleaningBubbleChart("brands");
             getSpendData();
