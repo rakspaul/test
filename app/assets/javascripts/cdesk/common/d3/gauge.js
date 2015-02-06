@@ -185,8 +185,8 @@
         function createArc(clickHandler, container, x, y, initialAngle, endAngle, color, opacity, arcFunc) {
           if(opacity === undefined) opacity = 1;
           if(arcFunc === undefined) arcFunc = arc;
-          if(clickHandler === undefined) clickHandler = function() {};
-          return container.append("svg:path")
+
+          var obj = container.append("svg:path")
             .style("fill", color)
             .datum({endAngle: self.valueToRadians(endAngle)})
             .attr("d", arcFunc)
@@ -194,8 +194,11 @@
             .attr("transform", function () {
               return "translate(" + x + ", " + y + ") rotate(" + initialAngle + ")";
             })
-            .on('click', clickHandler)
-            .style("cursor", "pointer");
+            if(clickHandler !== undefined) {
+              obj = obj.on('click', clickHandler)
+                       .style("cursor", "pointer");
+            }
+          return obj;
         }
 
         this.animateArcs = function() {
