@@ -1,4 +1,5 @@
 <div ng-controller="ganttChartController" id="calendar_widget" >
+<div class="common_loading_icon" ng-if="calendarBusy"></div>
 	<button ng-click="add()">[Add]</button>
 	<button ng-click="prev()">[Prev]</button>
 	<button ng-click="next()">[Next]</button>

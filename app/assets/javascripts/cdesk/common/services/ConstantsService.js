@@ -5,6 +5,7 @@
     this.DASHBOARD_CANCELLER = 3;
     this.GAUGE_CANCELLER = 4;
     this.SPEND_CHART_CANCELLER = 51;
+    this.GANTT_CHART_CANCELLER = 6;
     this.PERIOD_LIFE_TIME = 'life_time';
     this.PERIOD_LAST_7_DAYS = 'last_7_days';
     this.PERIOD_LAST_30_DAYS = 'last_30_days';

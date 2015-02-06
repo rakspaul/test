@@ -190,7 +190,7 @@
 		                }
 		            })
 		            .text(function(d) {
-		                return d.taskName;
+		                return d.name;
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
@@ -361,8 +361,8 @@
 
 
 		var gantt;
-		var tasks;
-		var taskNames;
+		var tasks = [];
+		var taskNames =[];
 		var taskStatus;
 		var maxDate;
 		var minDate;
@@ -379,7 +379,7 @@
 		    var lastEndDate = getEndDate();
 		    var taskStatusKeys = Object.keys(taskStatus);
 		    var taskStatusName = taskStatusKeys[Math.floor(Math.random() * taskStatusKeys.length)];
-		    var taskName = taskNames[Math.floor(Math.random() * taskNames.length)];
+		    var taskName = "TWC";//taskNames[Math.floor(Math.random() * taskNames.length)];
 		    var name = "test";
 
 		    tasks.push({
@@ -389,7 +389,7 @@
 		        "status": taskStatusName,
 		        "name": name
 		    });
-
+console.log(tasks);
 		    changeTimeDomain(timeDomainString);
 		    gantt.redraw(tasks);
 		};
@@ -477,34 +477,35 @@
 
 
 		//********************** IMPLEMENTATION
-		function newCalendar() {
-
-
-		    tasks = [{
-		        "startDate": new Date("Tue Dec 25 00:00:01 EST 2012"),
-		        "endDate": new Date("Tue Jan 08 23:59:59 EST 2013"),
-		        "taskName": "Sierra",
-		        "status": "RUNNING",
-		        "name": "Campaign Name - X34234 34530453"
-		    }, {
-		        "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
-		        "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
-		        "taskName": "TWC",
-		        "status": "FAILED",
-		        "name": "TWC Auto 2345234 234234SDFS"
-		    }, {
-		        "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
-		        "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
-		        "taskName": "Corolla",
-		        "status": "FAILED",
-		        "name": "TWC Auto 2345234 234234SDFS"
-		    }, {
-		        "startDate": new Date("Tue Dec 01 00:00:01 EST 2012"),
-		        "endDate": new Date("Sat Jan 05 23:59:59 EST 2013"),
-		        "taskName": "Eye Care",
-		        "status": "FAILED",
-		        "name": "TWC Auto 2345234 234234SDFS"
-		    }];
+		function newCalendar(tasks, taskNames) {
+//
+console.log("chartttt");
+console.log(tasks);
+		    // tasks = [{
+		    //     "startDate": new Date("Tue Dec 25 00:00:01 EST 2012"),
+		    //     "endDate": new Date("Tue Jan 08 23:59:59 EST 2013"),
+		    //     "taskName": "Sierra",
+		    //     "status": "RUNNING",
+		    //     "name": "Campaign Name - X34234 34530453"
+		    // }, {
+		    //     "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
+		    //     "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
+		    //     "taskName": "TWC",
+		    //     "status": "FAILED",
+		    //     "name": "TWC Auto 2345234 234234SDFS"
+		    // }, {
+		    //     "startDate": new Date("Thu Dec 20 00:00:01 EST 2012"),
+		    //     "endDate": new Date("Thu Jan 10 23:59:59 EST 2013"),
+		    //     "taskName": "Corolla",
+		    //     "status": "FAILED",
+		    //     "name": "TWC Auto 2345234 234234SDFS"
+		    // }, {
+		    //     "startDate": new Date("Tue Dec 01 00:00:01 EST 2012"),
+		    //     "endDate": new Date("Sat Jan 05 23:59:59 EST 2013"),
+		    //     "taskName": "Eye Care",
+		    //     "status": "FAILED",
+		    //     "name": "TWC Auto 2345234 234234SDFS"
+		    // }];
 
 		    taskStatus = {
 		        "SUCCEEDED": "bar",
@@ -513,7 +514,7 @@
 		        "KILLED": "bar-killed"
 		    };
 
-		    taskNames = ["Toyota","TWC", "Corolla", "Sierra", "Eye Care", "East"];
+		    // taskNames = ["Toyota","TWC", "Corolla", "Sierra", "Eye Care", "East"];
 
 		    tasks.sort(function(a, b) {
 		        return a.endDate - b.endDate;
