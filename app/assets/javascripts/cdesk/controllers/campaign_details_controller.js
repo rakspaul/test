@@ -308,6 +308,7 @@
         };
          $scope.getScreenGraphData  = function(campaign){
             var screens;
+            var orderByscreens;
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -316,37 +317,36 @@
                       result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
                     }
                     if(result.data.data.length>0){
-
                         if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
                             screens=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
                                 .reverse()
                                 .value();
                          }else{
                             screens=_.chain(result.data.data)
-                                .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
+                                .sortBy(function(format){ return screen[campaign.kpiType.toLowerCase()]; })
                                 .value();
 
                          }
-                        _.each(screens, function(format) {
-                             switch(format.dimension){
-                                case 'Smartphone': format.icon = "mobile_graph";
+                         orderByscreens=_.chain(result.data.data)
+                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
+                                .reverse()
+                                .value();
+                        _.each(screens, function(screen) {
+                             switch(screen.dimension){
+                                case 'Smartphone': screen.icon = "mobile_graph";
                                 break;
-                                case 'TV':   format.icon = "display_graph";
+                                case 'TV':   screen.icon = "display_graph";
                                 break;
-                                case 'Tablet':   format.icon = "mobile_graph";
+                                case 'Tablet':   screen.icon = "tablet_graph";
                                 break;
-                                case 'Desktop':   format.icon = "display_graph";
+                                case 'Desktop':   screen.icon = "display_graph";
                                 break;
                             }
                         });
                         $scope.details.screens = screens; 
-                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
-                            $scope.details.formatTop = _.first(screens); 
-                        }else{
-                            $scope.details.formatTop = _.last(screens); 
-                        }
-                        $scope.details.formatTop = $scope.details.formatTop[campaign.kpiType.toLowerCase()];
+                        $scope.details.screenTop = _.first(orderByscreens); 
+                        $scope.details.screenTop = $scope.details.screenTop[campaign.kpiType.toLowerCase()];
                         $scope.details.kpiType = campaign.kpiType.toLowerCase();
                     }
                 }
@@ -480,7 +480,9 @@
 		        utils.goToLocation('/inventory');
             } else if(type === 'view_report' || type === 'format') {
 		        utils.goToLocation('/performance');
-	        } else{
+	        } else if(type === 'screens') {
+                utils.goToLocation('/performance');
+            } else{
                 utils.goToLocation('/#/optimization');
             }
 
@@ -611,8 +613,6 @@
                     return actualWidth;
                 }
         /*Single Campaign UI Support elements - sta */ 
-
-
     });
 
 }());

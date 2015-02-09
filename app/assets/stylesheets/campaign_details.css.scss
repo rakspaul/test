@@ -511,6 +511,10 @@
           .social_graph {
             background: url(asset-path("cdesk/social_icon.png")) no-repeat 4px 6px ;
           }
+          .tablet_graph {
+            background: url(asset-path("cdesk/tablet_icon.png")) no-repeat 1px 2px;
+            background-size: 8%;
+          }
         }
         .each_bar_graph {
           height: 4px;
