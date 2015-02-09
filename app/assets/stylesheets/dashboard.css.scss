@@ -7,6 +7,9 @@
   .row {
     margin: 0 0 20px 0;
   }
+  .common_tooltip {
+
+  }
   .dropdown {
     cursor: default;
     .dropdown_ul {
@@ -64,6 +67,59 @@
   }
 
   .dashboard_main_heading {
+  	.more_txt_heading {
+  		margin-left: 5px ;
+  	}
+  	.brand_close_btn {
+  		display: inline;
+  		visibility: hidden;
+		font-size: 15px;
+		font-weight: normal;
+		cursor: pointer;
+		float: right;
+		margin-left: 10px;
+		transform: rotate(45deg);
+		-moz-transform: rotate(45deg);
+		-webkit-transform: rotate(45deg);
+  	}
+  	.tootip_holder {
+		margin-left: 15px;
+		margin-top: 3px;
+  		.common_tooltip {
+	  		font-size: 12px ;
+	  		font-weight: normal;
+	  		width: 200px ;
+	  		bottom: 34px;
+			left: -88px;
+			display: none;
+	  	}
+	  	.common_tooltip:after {
+  			left: 44% ;
+  		}
+	  	.tooltip_show_icon {
+  			border-radius: 20px;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			height: 20px;
+			width: 20px;
+			background: #B3B9C3;
+			color: #656B74;
+			text-align: center;
+			line-height: 21px;
+			font-size: 14px;
+			transform: rotate(180deg);
+			-moz-transform: rotate(180deg);
+			-webkit-transform: rotate(180deg);
+  		}
+  		&:hover {
+  			.common_tooltip {
+  				display: block;
+  			}
+
+  		}
+  	}
+
+  	
     span {
       display: block;
       float: left;
@@ -72,12 +128,19 @@
     }
     span.bubble_heading {
       color: white;
-      background: #108AE2;
-      padding: 4px 20px;
+      background: #939eae;
+      padding: 4px 16px;
       border-radius: 15px;
-      margin-left: 20px;
+      margin-left: 10px;
       font-size: 14px;
       font-weight: 900;
+      cursor: default;
+      &:hover {
+      	background: #108AE2;
+      	.brand_close_btn {
+      		visibility: visible;
+      	}
+      }
     }
   }
   .calendar_holder {
