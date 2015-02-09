@@ -368,7 +368,6 @@
                 });
 
             node.on("mouseover", function(obj){
-                console.log("mouseover event");
 
                 var focused_obj = {
                     name : obj.className,
@@ -403,8 +402,6 @@
             });
 
             node.on("mouseout" , function(obj){
-                console.log("mouse out event");
-                console.log(obj);
                 var focused_obj = {
                     name : obj.className,
                     id : obj.id,
@@ -596,7 +593,6 @@
                 });
 
             node.on("mouseover", function(obj){
-                console.log("mouseover event");
 
                 var campaign_obj = {
                     name : obj.className,
@@ -637,8 +633,6 @@
             });
 
             node.on("mouseout" , function(obj){
-                console.log("mouse out event");
-                console.log(obj);
                 var campaign_obj = {
                     name : obj.className,
                     id : obj.id,
