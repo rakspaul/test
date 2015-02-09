@@ -22,7 +22,7 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
     }
   };
   function addTitleSecondPart() {
-    dashboardData.title += dashboardData.selected + ' for ' + timePeriodModel.timeData.selectedTimePeriod.display;
+    dashboardData.title += dashboardData.selected + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display;
   }
   var setBrand = function(brand) {
     dashboardData.selectedBrand = brand;
