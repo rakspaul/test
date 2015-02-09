@@ -615,9 +615,9 @@
                 node.selectAll("path").attr('opacity', 0.4);
 
 
-                //     create new path element
+                //     create new path element campaigns_0_circle
                 d3.select("#campaigns_"+campaign_obj.id+ "_circle").attr('opacity', 1);
-                d3.select("#campaings_"+campaign_obj.id+ "_path").attr('opacity', 1);
+                d3.select("#campaigns_"+campaign_obj.id+ "_path").attr('opacity', 1);
 
                 d3.select("#campaigns_"+campaign_obj.id+ "_path")
                     .attr("stroke" , (campaign_obj.status == 'ontrack')? darkGreenOutline : orangeOutline)
