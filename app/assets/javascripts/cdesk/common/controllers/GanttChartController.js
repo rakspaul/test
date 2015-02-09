@@ -8,24 +8,44 @@
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 var brands = [],
-                    campaigns = [];
+                    campaigns = [],
+                    count =0;
                 //TODO: move this into a service
+
                 _.each(result.brands, function(datum) {
-                    brands.push(datum.name);
-
-                    _.each(datum.campaigns, function(tasks) {
-                       // tasks.taskName = datum.name;
-                        var c = {};
-                        c.id = tasks.id;
-                        c.name = tasks.name;
-                        c.startDate = new Date(tasks.start_date);
-                        c.endDate = new Date(tasks.end_date);
-                        c.status = tasks.status;
-                        c.taskName =  datum.name;
+                    
+                    count++;
+                    var c = {};
+                        c.id = datum.id;
+                        c.name = datum.name;
+                        c.type = "brand";
+                        c.status = "";
+                        //push a brand into campaign list as type=brand and min and max date
+                        c.taskName =  count;
+                            var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                            var data= _.first(temp); //getting lowest start date
+                            c.startDate = new Date(data.start_date);
+                            temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                            data= _.last(temp); //getting highest start date
+                            c.endDate = new Date(data.end_date);
                         campaigns.push(c);
-                    });
+                        brands.push(count);
 
+                        _.each(datum.campaigns, function(tasks) {
+                            count++;
+                            var c = {};
+                            c.id = tasks.id;
+                            c.name = tasks.name;
+                            c.startDate = new Date(tasks.start_date);
+                            c.endDate = new Date(tasks.end_date);
+                            c.status = tasks.status;
+                            c.taskName =  count;
+                            brands.push(count);
+                            campaigns.push(c);
+                        });
+                    
                 });
+
                 ganttChart.newCalendar(campaigns, brands);
             });
         };

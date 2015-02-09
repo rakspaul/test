@@ -10,7 +10,7 @@
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 600;
+		    var CALENDAR_HEIGHT = 1000;
 		    var CALENDAR_WIDTH = 1050;
 
 		    var margin = {
@@ -42,7 +42,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 300]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -60,20 +60,20 @@
 		                timeDomainEnd = d3.time.hour.offset(new Date(), +3);
 		                return;
 		            }
-		            tasks.sort(function(a, b) {
-		                return a.endDate - b.endDate;
-		            });
+		            // tasks.sort(function(a, b) {
+		            //     return a.endDate - b.endDate;
+		            // });
 		            timeDomainEnd = tasks[tasks.length - 1].endDate;
-		            tasks.sort(function(a, b) {
-		                return a.startDate - b.startDate;
-		            });
+		            // tasks.sort(function(a, b) {
+		            //     return a.startDate - b.startDate;
+		            // });
 		            timeDomainStart = tasks[0].startDate;
 		        }
 		    };
 
 		    var initAxis = function() {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeBands([0, 300]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
 
 		        xAxis = d3.svg.axis()
 		            .scale(x).orient("top")
@@ -82,7 +82,7 @@
 		            .tickSize(height - margin.top, height - margin.top)
 		            .tickPadding(-15); //modified from 8
 
-		        yAxis = d3.svg.axis().scale(y).orient("right").tickSize(0);
+		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
 		    };
 
@@ -129,8 +129,33 @@
 		        var rect = rectData.enter();
 		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
 		           // alert('click captured' + d.name);
+		           if(d.type!="brand")
 		            document.location ='#/campaigns/'+d.id;
 		        });
+
+//brand grouping
+		        rectGroup.append("text")
+		            .attr("class", "brand_name")
+		            .attr("x", 30)
+		            .attr("y", 0)
+		            .attr("dy", ".35em")
+		            .attr("font-size", "20px")
+		            .attr("font-weight", "900")
+		            .attr("fill","#21252b")
+		            .attr("font-family", "Avenir")
+		            .attr("style", function(d) {
+		                if (d.type=="brand") {
+		                    return "";
+		                } else {
+		                    return "display:none";
+		                }
+		            })
+		            .text(function(d) {
+		                return d.name;
+		            })
+		            .transition()
+		            .attr("transform", rectTransform);
+//brand grouping ends
 
 
 		        rectGroup.append("rect")
@@ -140,6 +165,7 @@
 		            .attr("id", function(d, i) {
 		                return "campaign-" + i;
 		            })
+		            .attr("style","cursor:pointer")
 		            .attr("class", function(d) {
 		                if (taskStatus[d.status] == null) {
 		                    return "bar campaigns";
@@ -147,7 +173,10 @@
 		                return taskStatus[d.status] + " campaigns";
 		            })
 		            .attr("width", function(d) {
-		                return (x(d.endDate) - x(d.startDate));
+		            	if(d.type=="brand")
+		                	return 0;
+		                else
+		                	return (x(d.endDate) - x(d.startDate));
 		            })
 		            .attr("height", function(d) {
 		                return CAMPAIGN_HEIGHT
@@ -158,6 +187,7 @@
 		        //top bar 
 		        rectGroup.append("rect")
 		            .attr("class", "header")
+		            .attr("style", "cursor:pointer")
 		            .attr("fill", function(d){
 		            	if(d.status == "ontrack") {
 		            		return onTrackColor;
@@ -166,7 +196,9 @@
 		            	}
 		            })
 		            .attr("width", function(d) {
-		            	if(d.status == "ontrack" || d.status == "underperforming" ){
+		            	if(d.type=="brand")
+		                		return 0;
+		                else if(d.status == "ontrack" || d.status == "underperforming" ){
 		                	return (x(d.endDate) - x(d.startDate));
 		            	}else {
 		            		return 0;
@@ -183,11 +215,13 @@
 		            .attr("dy", ".35em")
 		            .attr("font-family", "Avenir")
 		            .attr("style", function(d) {
-		                if ((x(d.endDate) - x(d.startDate)) != 0) {
-		                    return "";
-		                } else {
-		                    return "display:none";
-		                }
+		            	if(d.type=="brand"){
+		            		return "display:none";
+			            } else if ((x(d.endDate) - x(d.startDate)) != 0) {
+			                return "cursor:pointer";
+			            } else {
+			                return "display:none";
+			            }
 		            })
 		            .text(function(d) {
 		                return d.name;
@@ -201,7 +235,9 @@
 		            .attr("y", CAMPAIGN_HEIGHT / 5)
 		            .attr("height", CAMPAIGN_HEIGHT - 10)
 		            .attr("width", function(d) {
-		                if ((x(d.endDate) - x(d.startDate)) != 0) {
+		            	if(d.type=="brand")
+		                	return 0;
+		                else if ((x(d.endDate) - x(d.startDate)) != 0) {
 		                    return 15;
 		                } else {
 		                    return 0;
@@ -233,7 +269,9 @@
 		                .delay(0)
 		                .attr("transform", rectTransform)
 		                .attr("width", function(d) {
-		                	if(type == "top"){
+		                	if(d.type=="brand")
+		                		return 0;
+		                    else if(type == "top"){
 		                		if(d.status == "ontrack" || d.status == "underperforming" ){
 		                			return (x(d.endDate) - x(d.startDate));
 		            			}else {
@@ -257,8 +295,10 @@
 		                    }
 		                })
 		                .attr("style", function(d) {
-		                    if ((x(d.endDate) - x(d.startDate)) >= 40) {
-		                        return "";
+		                	if(d.type=="brand")
+		                		return "display:none";
+		                    else if ((x(d.endDate) - x(d.startDate)) >= 40) {
+		                        return "cursor:pointer";
 		                    } else {
 		                        return "display:none";
 		                    }
@@ -382,6 +422,7 @@
 		        "startDate": d3.time.day.offset(lastEndDate, Math.ceil(Math.random(10))),
 		        "endDate": d3.time.day.offset(lastEndDate, (Math.ceil(300)) + 1),
 		        "taskName": taskName,
+		       // "type": "brand",
 		        "status": taskStatusName,
 		        "name": name
 		    });
@@ -525,13 +566,13 @@
 
 		    // taskNames = ["Toyota","TWC", "Corolla", "Sierra", "Eye Care", "East"];
 
-		    tasks.sort(function(a, b) {
-		        return a.endDate - b.endDate;
-		    });
+		    // tasks.sort(function(a, b) {
+		    //     return a.endDate - b.endDate;
+		    // });
 		    maxDate = tasks[tasks.length - 1].endDate;
-		    tasks.sort(function(a, b) {
-		        return a.startDate - b.startDate;
-		    });
+		    // tasks.sort(function(a, b) {
+		    //     return a.startDate - b.startDate;
+		    // });
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
