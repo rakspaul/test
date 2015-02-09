@@ -1,26 +1,26 @@
-(function() {
+(function () {
   "use strict";
-  dashboardModule.controller('dashboardController', function ($scope,$rootScope, constants) {
-      $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
-      $scope.init = function(){
-          $scope.selectedBrand = {} ;
-          $scope.brandSelected = false
-      };
+  dashboardModule.controller('dashboardController', function ($scope, $rootScope, constants, dashboardModel) {
+    $(".main_navigation").find('.active').removeClass('active').end().find('#dashboard_nav_link').addClass('active');
+    $scope.data = dashboardModel.getData();
 
-      $scope.init();
+    $scope.clickOnBrandButton = function (e) {
 
-      $scope.clickOnBrandButton = function(e){
+      $rootScope.$broadcast(constants.BRAND_BUTTON_CLICKED);
+      dashboardModel.setSelectedBrand(constants.ALL_BRANDS);
+      updateTitle();
+    };
 
-          $rootScope.$broadcast(constants.BRAND_BUTTON_CLICKED);
-          $("#brandButton").hide();
-      };
+    $rootScope.$on(constants.BUBBLE_BRAND_CLICKED, function (event, args) {
+      dashboardModel.setSelectedBrand(args);
+      updateTitle();
+      $scope.$apply();
+    });
+    updateTitle();
 
-      $scope.$on(constants.BUBBLE_BRAND_CLICKED, function(event, args) {
-          $scope.selectedBrand = args ;
-          $scope.brandSelected = true;
-          $scope.$apply();
-          $("#brandButton").show();
-        // alert("catch the event in dashboard");
-      });
+    function updateTitle() {
+      dashboardModel.setTitle();
+    }
+
   })
 }());

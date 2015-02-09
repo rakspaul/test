@@ -63,6 +63,7 @@
 //= require cdesk/common/models/GanttChartModel
 
 //= require cdesk/dashboard/DashboardModule
+//= require cdesk/dashboard/DashboardModel
 //= require cdesk/dashboard/DashboardController
 
 //= require cdesk/directives/largeListSearch
