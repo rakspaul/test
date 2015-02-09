@@ -1,268 +1,272 @@
 .main_dashboard {
-	width: 1115px ;
-	margin: 20px  auto ;
-	font-family: "Avenir" ;
-	font-size: 12px ;
-	color:  #21252b;
-	.row {
-		margin: 0 0 20px 0 ;
-	}
-	.dropdown {
-		cursor: default;
-		.dropdown_ul {
-			text-align: left;
-			min-width: 72px;
-			left: -20px;
-		}
-		.arrow_img {
-          background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center ;
-          height: 10px;
-          width: 10px;
-          display: inline-block;
-          margin-left: 2px;
+  width: 1115px;
+  margin: 20px auto;
+  font-family: "Avenir";
+  font-size: 12px;
+  color: #21252b;
+  .row {
+    margin: 0 0 20px 0;
+  }
+  .dropdown {
+    cursor: default;
+    .dropdown_ul {
+      text-align: left;
+      min-width: 72px;
+      left: -20px;
+    }
+
+    .arrow_img {
+      background: url(asset-path("cdesk/blue_dropdown.png")) no-repeat center center;
+      height: 10px;
+      width: 10px;
+      display: inline-block;
+      margin-left: 2px;
+    }
+    ul {
+      padding: 0px;
+      li {
+        padding: 2px 0;
+        &:hover {
+          background: #d2dee7;
         }
-        ul {
-        	padding: 0px ;
-	        li {
-	        	padding: 2px 0 ;
-	        	&:hover {
-		        	background: #d2dee7 ;
-		        }
-	        }
-	    }
-	}
+      }
+    }
+  }
 
-	.status_filter {
-		color: #333 ;
-		font-size: 14px ;
-		font-weight: bold ;
-		.status_filter_dd {
-			font-weight: normal ;
-			margin-left: 15px ;
-			li {
-				text-align: left;
-				padding: 2px 10px;
-			}
-			
-		}
-		.dd_heading {
-			font-size: 14px; 
-			font-weight: 900;
-		}
-	}
+  .status_filter {
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    .status_filter_dd {
+      font-weight: normal;
+      margin-left: 15px;
+      position: relative;
+      li {
+        text-align: left;
+        padding: 2px 10px;
+      }
+      .dd_options_disabled {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        opacity: 0.3;
+        cursor: default;
+        background: #000;
+        height: 48px;
+      }
 
-	.dashboard_main_heading {
-		span {
-			display: block;
-			float: left;
-			font-size: 20px; 
-			font-weight: 900;
-		}
-		span.bubble_heading {
-			color: white;
-			background: #108AE2;
-			padding: 4px 20px;
-			border-radius: 15px;
-			margin-left: 20px;
-			font-size: 14px;
-			font-weight: 900;
-		}
-	}
-	.calendar_holder {
-		border: solid 1px #e7edf1;
-		border-radius: 4px;
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		margin: 0 0 0 40px;
-		color:  #21252b;
-		font-size: 14px;
-		background-color:  #ffffff;
-		span {
-			padding: 2px 18px;
-			border-left: solid 1px #e7edf1;
-			display: inline-block;
-			text-align: center;
-			float: left;
-			cursor: default;
-			&:first-child {
-				border-left : solid 0px #e7edf1 ;
-			}
-		}
-	}
-	.calendar_holder_period {
-		margin: 0 0 0 40px;
-		font-size: 14px;	
-		span {
-			padding: 2px 18px;
-			display: inline-block;
-			text-align: center;
-			float: left;
-			cursor: default;
-			margin-right: 18px ;
-			border: solid 1px transparent ;
-			border-radius: 4px;
-			-moz-border-radius: 4px;
-			-webkit-border-radius: 4px;
-			&:hover {
-				border: solid 1px #e7edf1;
-			}
-		}
-		span.active {
-			border: solid 1px #e7edf1;
-		}
-	}
-	.dashboard_section {
-		min-height: 350px ;
-		box-shadow: 0px 0px 1px #e7edf1 ;
-		background: #fff ;
-	}
-	#dashboard_metric_dd {
-		margin-left: 10px ;
-		font-size: 14px ;
-		margin-top: 3px;
-		.dropdown_ul {
-			left: -6px;
-			li {
-				padding: 2px 5px;
-			}
-		}
-	}
-	.dashboard_perf_graph {
-		min-height: 175px ;
-		margin: 20px 0 ;
-	}
-	.dashboard_geo_graph_holder {
-		min-height: 545px;
-		#calendar_widget {
-			.chart {
-				font-family: Arial, sans-serif;
-				font-size: 12px;
-			}
+    }
+    .dd_heading {
+      font-size: 14px;
+      font-weight: 900;
+    }
+  }
 
-			.axis path,.axis line {
-				fill: none;
-				stroke: #ccc;
-				shape-rendering: crispEdges;
-			}
-			.bar {
-				fill: #f5f9fd;
-				stroke: #ccd2da;
-				shape-rendering: crispEdges;
-			}
+  .dashboard_main_heading {
+    span {
+      display: block;
+      float: left;
+      font-size: 20px;
+      font-weight: 900;
+    }
+    span.bubble_heading {
+      color: white;
+      background: #108AE2;
+      padding: 4px 20px;
+      border-radius: 15px;
+      margin-left: 20px;
+      font-size: 14px;
+      font-weight: 900;
+    }
+  }
+  .calendar_holder {
+    border: solid 1px #e7edf1;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    margin: 0 0 0 40px;
+    color: #21252b;
+    font-size: 14px;
+    background-color: #ffffff;
+    span {
+      padding: 2px 18px;
+      border-left: solid 1px #e7edf1;
+      display: inline-block;
+      text-align: center;
+      float: left;
+      &:first-child {
+        border-left: solid 0px #e7edf1;
+      }
+    }
+    span.end_dates {
+      	cursor: pointer;
+    }
+  }
+  .calendar_holder_period {
+    margin: 0 0 0 40px;
+    font-size: 14px;
+    span {
+      padding: 2px 18px;
+      display: inline-block;
+      text-align: center;
+      float: left;
+      cursor: pointer;
+      margin-right: 18px;
+      border: solid 1px transparent;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      &:hover {
+        border: solid 1px #e7edf1;
+      }
+    }
+    span.active {
+      border: solid 1px #e7edf1;
+    }
+  }
+  .dashboard_section {
+    min-height: 350px;
+    box-shadow: 0px 0px 1px #e7edf1;
+    background: #fff;
+  }
+  #dashboard_metric_dd {
+    margin-left: 10px;
+    font-size: 14px;
+    margin-top: 3px;
+    .dropdown_ul {
+      left: -6px;
+      li {
+        padding: 2px 5px;
+      }
+    }
+  }
+  .dashboard_perf_graph {
+    min-height: 175px;
+    margin: 20px 5px;
+    position: relative;
+    .data_not_available {
+      text-align: center;
+      position: absolute;
+      width: 100%;
+      top: 35%;
+    }
+  }
+  .dashboard_geo_graph_holder {
+    min-height: 545px;
+    #calendar_widget {
+      .chart {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+      }
 
-			/*.bar-failed {
-				fill: #F5F9FD; 
-				stroke: #000;
-				shape-rendering: crispEdges;
-			}
+      .axis path, .axis line {
+        fill: none;
+        stroke: #ccc;
+        shape-rendering: crispEdges;
+      }
+      .bar {
+        fill: #f5f9fd;
+        stroke: #ccd2da;
+        shape-rendering: crispEdges;
+      }
 
-			.bar-running {
-				fill: #ccc;
-				stroke: #000;
-				shape-rendering: crispEdges;
-
-			}
-
-			.bar-succeeded {
-				fill: #33b5e5;
-				stroke: #000;
-				shape-rendering: crispEdges;
-			}
-
-			.bar-killed {
-				fill: #ffbb33;
-				stroke: #000;
-				shape-rendering: crispEdges;
-
-			}*/
-
-		}
-		.dashboard_perf_graph {
-			overflow: hidden;
-		}
+    }
+    .dashboard_perf_graph {
+      overflow: hidden;
+      margin: 20px;
+      position: relative;
+      .data_not_available {
+        text-align: center;
+        position: absolute;
+        width: 100%;
+        top: 35%;
+      }
+    }
 	}
-	.dashboard_heading {
-		font-size: 16px; 
-		padding: 20px 20px 0px;
-		.show_link {
-			margin: 3px 0 0 100px;
-			font-size: 14px; 	
-			font-weight: 900 ;
-		}
-		
-	}
-	.dashboard_heading_bold {
-		font-weight: 900;
-	}
-	.calendar_heading {
-		span {
-			font-size: 12px ;
-			color: #999 ;
-			text-transform: none;
-			font-weight: normal;
-		}
+    .dashboard_heading {
+      font-size: 16px;
+      padding: 20px 20px 0px;
+      .show_link {
+        margin: 3px 0 0 100px;
+        font-size: 14px;
+        font-weight: 900;
+      }
 
-	}
-	.dashboard_graph_legends {
-		padding: 20px ;
-		color: #999 ;
-		.legend_details {
-			white-space: nowrap;
-			margin: 5px 20px 0 0;
-			display: inline-block;
-			.graph_legend {
-				height: 8px ;
-				width: 8px ;
-				border-radius: 8px ;
-				-moz-border-radius : 8px ;
-				-webkit-border-radius : 8px ;
-				background: green ;
-				display: inline-block;
-				
-			}
-		}
-		.underperf_legend {
-			.graph_legend {
-				background: #fc0 ;
-			}
-		}
-		.legend_type1 {
-			.graph_legend {
-				background: rgb(165, 165, 240) ;
-			}
-		}
-		.legend_type2 {
-			.graph_legend {
-				background: rgb(86, 121, 176);
-			}
-		}
-		.legend_type3 {
-			.graph_legend {
-				background: rgb(163, 186, 223); ;
-			}
-		}
-		.legend_type4 {
-			.graph_legend {
-				background: rgb(142, 183, 249) ;
-			}
-		}
-		.legend_type5 {
-			.graph_legend {
-				background: blue ;
-			}
-		}
-	}
-}
-.common_loading_icon {
-  text-align: center;
-  height: 20px;
-  width: 40px;
-  background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-  margin: 60px auto 0 ;
-  display: block;
-}
-#backToBrands {
-  cursor: pointer;
-  font-weight: normal;
-  text-transform: none;
+    }
+    .dashboard_heading_bold {
+      font-weight: 900;
+    }
+    .calendar_heading {
+      span {
+        font-size: 12px;
+        color: #999;
+        text-transform: none;
+        font-weight: normal;
+      }
+
+    }
+    .dashboard_graph_legends {
+      padding: 20px;
+      color: #999;
+      .legend_details {
+        white-space: nowrap;
+        margin: 5px 20px 0 0;
+        display: inline-block;
+        .graph_legend {
+          height: 8px;
+          width: 8px;
+          border-radius: 8px;
+          -moz-border-radius: 8px;
+          -webkit-border-radius: 8px;
+          background: green;
+          display: inline-block;
+
+        }
+      }
+      .underperf_legend {
+        .graph_legend {
+          background: #fc0;
+        }
+      }
+      .legend_type1 {
+        .graph_legend {
+          background: rgb(165, 165, 240);
+        }
+      }
+      .legend_type2 {
+        .graph_legend {
+          background: rgb(86, 121, 176);
+        }
+      }
+      .legend_type3 {
+        .graph_legend {
+          background: rgb(163, 186, 223);;
+        }
+      }
+      .legend_type4 {
+        .graph_legend {
+          background: rgb(142, 183, 249);
+        }
+      }
+      .legend_type5 {
+        .graph_legend {
+          background: blue;
+        }
+      }
+    }
+  
+  .common_loading_icon {
+    text-align: center;
+    height: 20px;
+    width: 40px;
+    background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+    margin: 60px auto 0;
+    display: block;
+  }
+  #backToBrands {
+    cursor: pointer;
+    font-weight: normal;
+    text-transform: none;
+  }
 }
