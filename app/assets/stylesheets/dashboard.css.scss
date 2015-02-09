@@ -95,10 +95,12 @@
       display: inline-block;
       text-align: center;
       float: left;
-      cursor: default;
       &:first-child {
         border-left: solid 0px #e7edf1;
       }
+    }
+    span.end_dates {
+      	cursor: pointer;
     }
   }
   .calendar_holder_period {
@@ -109,7 +111,7 @@
       display: inline-block;
       text-align: center;
       float: left;
-      cursor: default;
+      cursor: pointer;
       margin-right: 18px;
       border: solid 1px transparent;
       border-radius: 4px;
@@ -141,7 +143,7 @@
   }
   .dashboard_perf_graph {
     min-height: 175px;
-    margin: 20px;
+    margin: 20px 5px;
     position: relative;
     .data_not_available {
       text-align: center;
@@ -181,6 +183,7 @@
         top: 35%;
       }
     }
+	}
     .dashboard_heading {
       font-size: 16px;
       padding: 20px 20px 0px;
@@ -252,7 +255,7 @@
         }
       }
     }
-  }
+  
   .common_loading_icon {
     text-align: center;
     height: 20px;
