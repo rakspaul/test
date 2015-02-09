@@ -170,6 +170,7 @@
                     }
                     var object = {
                         id:  i ,
+                        brandId: node.id,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -228,7 +229,6 @@
         this.updateBubbleChartData = updateBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
-
             if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
                 $("#data_not_available").show();
             }
@@ -434,7 +434,7 @@
 
                var brand_name = obj.className ;
                 
-                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, brand_name);
+                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
 
                 $("#brands").hide();
                 $("#backToBrands").show();

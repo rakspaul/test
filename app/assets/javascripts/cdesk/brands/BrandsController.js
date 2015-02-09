@@ -26,6 +26,10 @@
       analytics.track(loginModel.getUserRole(), constants.GA_BRAND_SELECTED, brand.name, loginModel.getLoginName());
     };
 
+    $rootScope.$on(constants.EVENT_BRAND_CHANGED_FROM_DASHBOARD, function(event, brand) {
+      $scope.selectBrand(brand);
+    });
+
     $scope.brandsDropdownClicked = function() {
       if(brandsModel.getBrand().enable === false) {
         return;

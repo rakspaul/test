@@ -1,7 +1,8 @@
 //Data Manipulation in model
 brandsModule.factory("brandsModel", ['brandsService', 'constants', function (brandsService, constants) {
   var brand = {};
-  brand.selectedBrand = {id: -1, name: constants.ALL_BRANDS}
+  brand.allBrandObject = {id: -1, name: constants.ALL_BRANDS};
+  brand.selectedBrand = brand.allBrandObject;
   brand.showList = false;
   brand.styleDisplay = "block";
   brand.showAll = true;
