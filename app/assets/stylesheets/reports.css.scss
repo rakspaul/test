@@ -565,6 +565,21 @@ $reportHighlight: #f5f9fd;
     font-size: 26px;
     color: #313233;
     font-weight: bold;
+    .dropdown-menu {
+      width: 660px ;
+    }
+    .campaign_name_length {
+      display: block;
+      max-width: 660px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 26px;
+      color: #313233;
+      font-weight: bold;
+      clear: both;
+      display: none;
+    }
     .dropdown_ul_text {
       .dd_txt {
         max-width: 660px;
