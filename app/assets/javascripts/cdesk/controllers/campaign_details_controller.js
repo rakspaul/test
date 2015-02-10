@@ -13,6 +13,7 @@
         $scope.loadingCostBreakdownFlag = true;
         $scope.loadingFormatFlag = true;
         $scope.loadingInventoryFlag = true;
+        $scope.loadingScreenFlag = true;
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#campaigns_nav_link').addClass('active');
 
@@ -94,7 +95,8 @@
                 $scope.getCostBreakdownData($scope.campaign);
                 $scope.getCostViewabilityData($scope.campaign);
                 $scope.getInventoryGraphData($scope.campaign);
-                $scope.getFormatsGraphData($scope.campaign);
+                //$scope.getFormatsGraphData($scope.campaign);
+                $scope.getScreenGraphData($scope.campaign);
             }
         }, function(result) {
             console.log('call failed');
@@ -304,6 +306,54 @@
                 console.log('formats data call failed');
             });
         };
+         $scope.getScreenGraphData  = function(campaign){
+            var screens;
+            var orderByscreens;
+            dataService.getScreenData($scope.campaign).then(function(result) {
+                $scope.loadingScreenFlag = false;
+                if (result.status == "success" && !angular.isString(result.data)) {
+                    for (var i = 0; i < result.data.data.length; i++) {
+                      result.data.data[i].ctr *= 100;
+                      result.data.data[i].vtc = result.data.data[i].video_metrics.vtc_rate * 100;
+                    }
+                    if(result.data.data.length>0){
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                            screens=_.chain(result.data.data)
+                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
+                                .reverse()
+                                .value();
+                         }else{
+                            screens=_.chain(result.data.data)
+                                .sortBy(function(format){ return screen[campaign.kpiType.toLowerCase()]; })
+                                .value();
+
+                         }
+                         orderByscreens=_.chain(result.data.data)
+                                .sortBy(function(screen){ return screen[campaign.kpiType.toLowerCase()]; })
+                                .reverse()
+                                .value();
+                        _.each(screens, function(screen) {
+                             switch(screen.dimension){
+                                case 'Smartphone': screen.icon = "mobile_graph";
+                                break;
+                                case 'TV':   screen.icon = "display_graph";
+                                break;
+                                case 'Tablet':   screen.icon = "tablet_graph";
+                                break;
+                                case 'Desktop':   screen.icon = "display_graph";
+                                break;
+                            }
+                        });
+                        $scope.details.screens = screens; 
+                        $scope.details.screenTop = _.first(orderByscreens); 
+                        $scope.details.screenTop = $scope.details.screenTop[campaign.kpiType.toLowerCase()];
+                        $scope.details.kpiType = campaign.kpiType.toLowerCase();
+                    }
+                }
+            },function(result){
+                console.log('screen data call failed');
+            });
+        };
         $scope.getCostViewabilityData  = function(campaign){
             var viewabilityData, viewData;
              //get cost break down data
@@ -428,9 +478,9 @@
                 utils.goToLocation('/viewability');
 	        } else if(type === 'inventory') {
 		        utils.goToLocation('/inventory');
-            } else if(type === 'view_report' || type === 'format') {
+            } else if(type === 'view_report' || type === 'format' || type == 'screens') {
 		        utils.goToLocation('/performance');
-	        } else{
+	        }else{
                 utils.goToLocation('/#/optimization');
             }
 
@@ -561,8 +611,6 @@
                     return actualWidth;
                 }
         /*Single Campaign UI Support elements - sta */ 
-
-
     });
 
 }());

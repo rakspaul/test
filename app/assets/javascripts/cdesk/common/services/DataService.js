@@ -87,6 +87,12 @@
         var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byformats/perf?date_filter=' + timePeriod;
         return this.fetch(url);
       },
+       getScreenData: function(campaign) {
+        // for testing 
+        //var url = apiPaths.apiSerivicesUrl + '/campaigns/401652/byformats/perf?date_filter=life_time'
+        var url = apiPaths.apiSerivicesUrl + '/campaigns/' + campaign.orderId + '/byscreens/perf?start_date=' +campaign.startDate + '&end_date=' +campaign.endDate;
+        return this.fetch(url);
+      },
 
       getActions: function () {
         var url = apiPaths.workflow_apiServicesUrl + '/actionTypes';
