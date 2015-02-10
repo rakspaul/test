@@ -597,49 +597,8 @@
          
       });
       $('#action_comment,#action_submit_btn').bind("change keyup keydown click", function() {
-          var txt = (jQuery("#action_comment").val());
-          var max_length = $(this).attr("maxChar");
-          var max_line = $(this).attr("maxLine");
-          var txt_data = '';
-          var txtlength = txt.length;
-          var line = txt;
-          var split = line.split("\n");
-          var splitlength = split.length;
-          if(splitlength > max_line){
-            for(i=0; i< max_line;i++){
-              if(i == 0){
-                txt_data += split[i] + '\n'; 
+          CommentValidation('action_comment','error_more_comment');
 
-              }
-              else{
-                  txt_data += split[i] ; 
-              }
-              
-            }
-            $("#error_more_comment").show();
-            $("#error_more_comment").html('You cannot enter more than '+max_line + ' lines ');
-            $('#action_comment').val(txt_data);
-            //check Limited characters
-            if(txt.length >= max_length ){
-              $("#error_more_comment").show();
-              $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-              var limited_txt = txt_data.substring(0, max_length );
-              $('#action_comment').val(limited_txt);
-            }
-            else{
-               //$("#error_more_comment").hide();
-            }
-          }else {
-            if(txt.length >= max_length ){
-              $("#error_more_comment").show();
-              $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-              var limited_txt = txt.substring(0, max_length );
-              $('#action_comment').val(limited_txt);
-            }
-            else{
-               $("#error_more_comment").hide();
-            }
-          }
       });
        $('#action_comment').bind("blur", function() {
           $("#error_more_comment").hide();
@@ -653,44 +612,7 @@
          
       });
        $('#edit_action_comment').bind("change keyup keydown click", function() {
-          var txt = (jQuery("#edit_action_comment").val());
-          var max_length = $(this).attr("maxChar");
-          var max_line = $(this).attr("maxLine");
-          var txt_data = '';
-          var txtlength = txt.length;
-          var line = txt;
-          var split = line.split("\n");
-          var splitlength = split.length;
-          if(splitlength > max_line){
-            for(i=0; i< max_line;i++){
-              txt_data += split[i] + '\n' ; 
-            }
-            $("#error_edit_action_more_comment").show();
-            $("#error_edit_action_more_comment").html('You cannot enter more than '+max_line + ' lines ');
-            $('#edit_action_comment').val(txt_data);
-            //check Limited characters
-            if(txt.length >= max_length ){
-              $("#error_more_comment").show();
-              $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-              var limited_txt = txt_data.substring(0, max_length );
-              $('#edit_action_comment').val(limited_txt);
-            }
-            else{
-               //$("#error_edit_action_more_comment").hide();
-            }
-          }else {
-            $("#error_edit_action_more_comment").hide();
-            if(txt.length >= max_length ){
-              $("#error_edit_action_more_comment").show();
-              $("#error_edit_action_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-              var limited_txt = txt.substring(0, max_length );
-              $('#edit_action_comment').val(limited_txt);
-            }
-            else{
-               $("#error_more_comment").hide();
-            }
-          }
-
+          CommentValidation('edit_action_comment','error_edit_action_more_comment');
           //enable save Button
           updateSaveBtnStatus();
          
@@ -714,5 +636,52 @@
   }
   var disableSaveButton = function(){
     jQuery("#action_save_btn").attr('disabled','disabled');
+  }
+  var CommentValidation = function(boxId,errMsgId){
+    var txtBoxId ="#"+boxId;
+    var errorMsgId="#"+errMsgId;
+    var txt = (jQuery(txtBoxId).val());
+    var max_length = $(txtBoxId).attr("maxChar");
+          var max_line = $(txtBoxId).attr("maxLine");
+          var txt_data = '';
+          var txtlength = txt.length;
+          var line = txt;
+          var split = line.split("\n");
+          var splitlength = split.length;
+          if(splitlength > max_line){
+            for(i=0; i< max_line;i++){
+              if(i == (parseInt(max_line)) - 1) {
+                txt_data += split[i]; 
+
+              }
+              else{
+                  txt_data += split[i] + '\n'; 
+              }
+              
+            }
+            $(errorMsgId).show();
+            $(errorMsgId).html('You cannot enter more than '+max_line + ' lines ');
+            $(txtBoxId).val(txt_data);
+            //check Limited characters
+            if(txt.length > max_length ){
+              $(errorMsgId).show();
+              $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+              var limited_txt = txt_data.substring(0, max_length );
+              $(txtBoxId).val(limited_txt);
+            }
+            else{
+               //$(errorMsgId).hide();
+            }
+          }else {
+            if(txt.length > max_length ){
+              $(errorMsgId).show();
+              $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+              var limited_txt = txt.substring(0, max_length );
+              $(txtBoxId).val(limited_txt);
+            }
+            else{
+               $(errorMsgId).hide();
+            }
+          }
   }
 </script>

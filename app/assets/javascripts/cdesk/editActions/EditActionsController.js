@@ -57,10 +57,10 @@
             if(splitlength > max_line){
                 var txt_data ='';
                 for(i=0; i< max_line;i++){
-                    if(i==0){
-                        txt_data += split[i] + '\n'; 
+                    if(i == (parseInt(max_line) ) - 1){
+                        txt_data += split[i] ; 
                     }else{
-                        txt_data += split[i]; 
+                        txt_data += split[i] + '\n'; 
                     }
                  
                 }
@@ -69,7 +69,7 @@
               if(data.name.length > maxChar ){
                 var txt_data = data.name;
                 var limited_txt = txt_data.substring(0, maxChar );
-                data.name = txt_data;
+                data.name = limited_txt;
             }
             //console.log('new chnages');
             //console.log(data);
