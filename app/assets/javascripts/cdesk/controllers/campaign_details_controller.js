@@ -478,13 +478,9 @@
                 utils.goToLocation('/viewability');
 	        } else if(type === 'inventory') {
 		        utils.goToLocation('/inventory');
-            } else if(type === 'view_report' || type === 'format') {
+            } else if(type === 'view_report' || type === 'format' || type == 'screens') {
 		        utils.goToLocation('/performance');
-	        } else if(type === 'screens') {
-                utils.goToLocation('/performance');
-               //$rootScope.$broadcast("activeScreen");
-               $rootScope.activeScreen = true;
-            } else{
+	        }else{
                 utils.goToLocation('/#/optimization');
             }
 

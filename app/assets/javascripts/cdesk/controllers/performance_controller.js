@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $rootScope,$window, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $window, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -21,7 +21,7 @@ var angObj = angObj || {};
 
         $scope.filters = domainReports.getReportsDropDowns();
 
-        $scope.selected_filters.tab = 'bydaysofweek';
+        $scope.selected_filters.tab = 'byscreens';
 
         $scope.performanceBusy = false;
 
@@ -66,18 +66,11 @@ var angObj = angObj || {};
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
         };
-        if($rootScope.activeScreen == true){
-            console.log("Set activeScreen tab");
-        }
-         $rootScope.$on("activeScreen",function(event,args){ 
-            console.log("I caleed");
-            $scope.selected_filters.tab = 'byscreens';
-
-        });
 
         $scope.init();
         $scope.tacticPerfData = function (param) {
-                performanceService.getTacticsForStrategy(param).then(function (result) {
+              performanceService.getTacticsForStrategy(param).then(function (result) {
+
                     if (result.status === "OK" || result.status === "success") {
                         $scope.tacticList = result.data.data;
                        // $scope.noTacticsFound = false;
@@ -169,12 +162,11 @@ var angObj = angObj || {};
                                 }
 
                             } else if ($scope.selected_filters.tab === 'byscreens') {
-                                // console.log("tactic by screens ");
+                                 //console.log("tactic by screens ");
                                 // console.log($scope.tacticsPerfDataListByScreen);
                                 // console.log($scope.tacticsPerfDataListByScreen ==='undefined' || $scope.tacticsPerfDataListByScreen.length === 0 );
                                 if ($scope.tacticsPerfDataListByScreen === 'undefined' || $scope.tacticsPerfDataListByScreen.length === 0) {
                                     $scope.tacticScreenBusy = true;
-
                                     for (var index in $scope.tacticList) {
                                         tacticParams.tacticId = $scope.tacticList[index].id;
                                         tacticParams.tacticName = $scope.tacticList[index].description;
@@ -300,7 +292,6 @@ var angObj = angObj || {};
                 }
 
             }  else if ($scope.selected_filters.tab === 'byscreens' ){
-                //console.log("by screens tab");
                 //console.log($scope.strategyPerfDataByScreen ==='undefined' || $scope.strategyPerfDataByScreen.length === 0);
 
                 analytics.track(loginModel.getUserRole(), constants.GA_PERF_SCREENS, 'screens', loginModel.getLoginName());
@@ -441,7 +432,6 @@ var angObj = angObj || {};
                 $(this).addClass("active");
                 $(".reports_block").hide();
                 $("#reports_" + tab_id[0] + "_block").show();
-
                 $scope.strategyPerformanceData({campaignId: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, strategyStartDate: $scope.selectedStrategy.startDate, strategyEndDate: $scope.selectedStrategy.endDate, tab: $scope.selected_filters.tab, timeFilter: $scope.selected_filters.time_filter });
             });
         });
