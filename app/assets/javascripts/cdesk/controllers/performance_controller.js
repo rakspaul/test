@@ -1,7 +1,7 @@
 var angObj = angObj || {};
 (function () {
     'use strict';
-    angObj.controller('performanceController', function ($scope, $window, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
+    angObj.controller('performanceController', function ($scope, $rootScope,$window, performanceService, utils, dataTransferService, domainReports, apiPaths, constants, timePeriodModel, loginModel, analytics) {
 
         //Hot fix to show the campaign tab selected
         $(".main_navigation").find('.active').removeClass('active').end().find('#reports_nav_link').addClass('active');
@@ -66,6 +66,14 @@ var angObj = angObj || {};
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
         };
+        if($rootScope.activeScreen == true){
+            console.log("Set activeScreen tab");
+        }
+         $rootScope.$on("activeScreen",function(event,args){ 
+            console.log("I caleed");
+            $scope.selected_filters.tab = 'byscreens';
+
+        });
 
         $scope.init();
         $scope.tacticPerfData = function (param) {

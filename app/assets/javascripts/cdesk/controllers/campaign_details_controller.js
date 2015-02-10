@@ -482,6 +482,8 @@
 		        utils.goToLocation('/performance');
 	        } else if(type === 'screens') {
                 utils.goToLocation('/performance');
+               //$rootScope.$broadcast("activeScreen");
+               $rootScope.activeScreen = true;
             } else{
                 utils.goToLocation('/#/optimization');
             }
