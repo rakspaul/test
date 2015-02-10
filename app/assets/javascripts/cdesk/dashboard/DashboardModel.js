@@ -7,13 +7,11 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
   var setTitle = function () {
     dashboardData.title = "Showing ";
     var selectedBrand = brandsModel.getSelectedBrand().name;//dashboardData.selectedBrand;
-    if(selectedBrand !== constants.ALL_BRANDS) {
-      dashboardData.title += selectedBrand + ': ';
-    } else {
+    if(selectedBrand === constants.ALL_BRANDS) {
       var brandsCount = brandsModel.getBrand().totalBrands;
       //checking for 6 instead of 5 as AllBrands is added by default to brand count.
       if(brandsCount !== undefined && brandsCount > 6) {
-        dashboardData.title += "Top 5 Brands: ";
+        dashboardData.title += "Brands: ";
       } else {
         dashboardData.title += "All Brands: ";
       }
@@ -21,7 +19,7 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
     addTitleSecondPart();
   };
   function addTitleSecondPart() {
-    dashboardData.title += dashboardData.selectedStatus + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display;
+    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display;
   }
   var setBrand = function(brand) {
     dashboardData.selectedBrand = brand.name;
