@@ -15,8 +15,12 @@
     this.ONTRACK = 'ontrack';
     this.UNDERPERFORMING = 'underperforming';
     this.ACTIVE = 'active';
+    this.DASHBOARD_STATUS_ACTIVE = "Active";
+    this.DASHBOARD_STATUS_COMPLETED = "Completed";
+    this.DASHBOARD_STATUS_ALL = "All";
     this.ALL_BRANDS = 'All Brands';
     this.EVENT_BRAND_CHANGED = "brandChanged";
+    this.EVENT_BRAND_CHANGED_FROM_DASHBOARD = "brandChangedFromDashboard";
     this.EVENT_TIMEPERIOD_CHANGED = "timePeriodChanged";
     this.EVENT_ACTION_CREATED = "actionCreated";
     this.NAVIGATION_FROM_CAMPAIGNS = "navigationFromCampaigns";

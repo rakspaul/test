@@ -170,6 +170,7 @@
                     }
                     var object = {
                         id:  i ,
+                        brandId: node.id,
                         className: node.name,
                         value : node.budget,
                         budget :node.budget,
@@ -228,7 +229,6 @@
         this.updateBubbleChartData = updateBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
-
             if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
                 $("#data_not_available").show();
             }
@@ -368,7 +368,6 @@
                 });
 
             node.on("mouseover", function(obj){
-                console.log("mouseover event");
 
                 var focused_obj = {
                     name : obj.className,
@@ -403,8 +402,6 @@
             });
 
             node.on("mouseout" , function(obj){
-                console.log("mouse out event");
-                console.log(obj);
                 var focused_obj = {
                     name : obj.className,
                     id : obj.id,
@@ -437,7 +434,7 @@
 
                var brand_name = obj.className ;
                 
-                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, brand_name);
+                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
 
                 $("#brands").hide();
                 $("#backToBrands").show();
@@ -596,7 +593,6 @@
                 });
 
             node.on("mouseover", function(obj){
-                console.log("mouseover event");
 
                 var campaign_obj = {
                     name : obj.className,
@@ -637,8 +633,6 @@
             });
 
             node.on("mouseout" , function(obj){
-                console.log("mouse out event");
-                console.log(obj);
                 var campaign_obj = {
                     name : obj.className,
                     id : obj.id,

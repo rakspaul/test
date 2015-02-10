@@ -2,21 +2,19 @@
   <div class="row">
 
     <div class="clearfix col-md-10 dashboard_main_heading">
-      <span>Showing top 5 </span>
-      <span  id="brandButton" ng-if="brandSelected" class="bubble_heading" data-ng-click="clickOnBrandButton()" >{{selectedBrand}} <span class="brand_close_btn">+</span> </span>
-      <span class="more_txt_heading"> active and completed campaigns for lifetime</span>
-      <span class="tootip_holder"><span class="tooltip_show_icon">!</span><span class="common_tooltip">We are showing top 5 of 15 Camry campaigns based on budget size</span></span>
+      <span>{{data.title}}</span>
+      <span  id="brandButton" ng-if="data.brandSelected" class="bubble_heading" data-ng-click="clickOnBrandButton()" >{{data.selectedBrand}} <span class="brand_close_btn">+</span> </span>
+      <span class="tootip_holder"><span class="tooltip_show_icon">!</span><span class="common_tooltip">{{data.title}}</span></span>
+
     </div>
     <div class="clearfix col-md-2 status_filter">
       <div class="dropdown pull-right status_filter_dd" >
             <span class="dropdown_ul_text " data-toggle="dropdown">
-                <span>Active</span>
+                <span>{{data.selectedStatus}}</span>
                 <span class="arrow_img"></span>
             </span>
             <ul class="dropdown_ul dropdown-menu ">
-                <li>All</li>
-                <li>Paused</li>
-                <li>Active</li>
+                <li ng-repeat="elem in data.statusDropdownValues">{{elem}}</li>
                 <div class="dd_options_disabled"></div>
             </ul>
       </div>
