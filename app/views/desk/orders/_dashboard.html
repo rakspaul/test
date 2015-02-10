@@ -48,8 +48,69 @@
     </div>
     <div class="col-md-4">
       <div class="dashboard_section dashboard_screens_graph_holder">
-        <div class="dashboard_heading dashboard_heading_bold">Screens</div>
+        <div class="dashboard_heading dashboard_heading_bold clearfix">
+          <div class="pull-left dropdown" id="dashboard_screen_dd">
+            <span class="dropdown_ul_text" data-toggle="dropdown">
+              <span>Screens</span>
+              <span class="arrow_img"></span>
+            </span>
+            <ul class="dropdown_ul dropdown-menu">
+              <li>Screens</li>
+              <li>Formats</li>
+            </ul>
+          </div>
+          <div class="pull-right dropdown" id="dashboard_allocation_dd">
+            <span class="dropdown_ul_text" data-toggle="dropdown">
+              <span>Allocation</span>
+              <span class="arrow_img"></span>
+            </span>
+            <ul class="dropdown_ul dropdown-menu">
+              <li>Spend (Allocation by Spend)</li>
+              <li>CTR</li>
+              <li>CPA</li>
+              <li>CPC</li>
+              <li>CPM</li>
+              <li>Action Rate</li>
+            </ul>
+          </div>
+        </div>
         <div class="dashboard_perf_graph">
+          <div class="row each_screen_bar" id="smartphone_screen">
+            <div class="col-md-2 screen_bar_icon">
+            </div>
+            <div class="col-md-10 screen_bar_details">
+              <div class="clearfix screen_bar_details_row">
+                <div class="pull-left">Smartphone</div>
+                <div class="pull-right percentage_screen">50<span>%</span></div>
+              </div>
+              <div class="screen_bar_details_row">
+              </div>
+            </div>
+          </div>
+          <div class="row each_screen_bar" id="tablet_screen">
+            <div class="col-md-2 screen_bar_icon">
+            </div>
+            <div class="col-md-10 screen_bar_details">
+              <div class="clearfix screen_bar_details_row">
+                <div class="pull-left">Tablet</div>
+                <div class="pull-right percentage_screen">50<span>%</span></div>
+              </div>
+              <div class="screen_bar_details_row">
+              </div>
+            </div>
+          </div>
+          <div class="row each_screen_bar" id="desktop_screen">
+            <div class="col-md-2 screen_bar_icon">
+            </div>
+            <div class="col-md-10 screen_bar_details">
+              <div class="clearfix screen_bar_details_row">
+                <div class="pull-left">Desktop</div>
+                <div class="pull-right percentage_screen">50<span>%</span></div>
+              </div>
+              <div class="screen_bar_details_row">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
