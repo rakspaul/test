@@ -14,6 +14,7 @@ brandsModule.factory("brandsModel", ['brandsService', 'constants', function (bra
         var brands = [
           {'name': constants.ALL_BRANDS, 'id': -1, 'className': 'active'}
         ].concat(response.data.data);
+        brand.totalBrands = brands.length;
         success.call(this, brands);
       })
     },
