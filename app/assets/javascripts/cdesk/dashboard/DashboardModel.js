@@ -8,13 +8,8 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
     dashboardData.title = "Showing ";
     var selectedBrand = brandsModel.getSelectedBrand().name;//dashboardData.selectedBrand;
     if(selectedBrand === constants.ALL_BRANDS) {
-      var brandsCount = brandsModel.getBrand().totalBrands;
-      //checking for 6 instead of 5 as AllBrands is added by default to brand count.
-      if(brandsCount !== undefined && brandsCount > 6) {
-        dashboardData.title += "Brands: ";
-      } else {
-        dashboardData.title += "All Brands: ";
-      }
+      //var brandsCount = brandsModel.getBrand().totalBrands;
+      dashboardData.title += "Brands: ";
     }
     addTitleSecondPart();
   };
