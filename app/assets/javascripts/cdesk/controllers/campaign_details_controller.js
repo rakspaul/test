@@ -309,6 +309,7 @@
          $scope.getScreenGraphData  = function(campaign){
             var screens;
             var orderByscreens;
+            $scope.screenTotal = 0;
             dataService.getScreenData($scope.campaign).then(function(result) {
                 $scope.loadingScreenFlag = false;
                 if (result.status == "success" && !angular.isString(result.data)) {
@@ -333,6 +334,11 @@
                                 .reverse()
                                 .value();
                         _.each(screens, function(screen) {
+                             if(screen.dimension.toLowerCase() == 'smartphone' || screen.dimension.toLowerCase() == 'tablet' || screen.dimension.toLowerCase() =='desktop'){
+                                if(screen[campaign.kpiType.toLowerCase()] > 0){
+                                    $scope.screenTotal +=screen[campaign.kpiType.toLowerCase()];
+                                }       
+                            }
                              switch(screen.dimension){
                                 case 'Smartphone': screen.icon = "mobile_graph";
                                 break;
