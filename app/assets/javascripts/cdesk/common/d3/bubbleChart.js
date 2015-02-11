@@ -157,7 +157,7 @@
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
-                var maxRadius = 90 ;
+                var maxRadius = 70 ;
                 var maxBudget = brandArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
                 for(var i in brandArray){

@@ -40,16 +40,17 @@
     this.APICampaignCountsSummary = function(timePeriod, brandId) {
       var url = apiPaths.apiSerivicesUrl + '/campaigns/summary/counts?date_filter=' + timePeriod + ((brandId > -1) ? '&advertiser_filter=' + brandId : '');
         return url;
-    }
+    };
 
     this.APISpendWidgetForAllBrands = function(timePeriod, brandId ){
         var url =  apiPaths.apiSerivicesUrl + '/brands/budgetAndSpends?date_filter='+ timePeriod+ '&topCount=5&advertiser_filter=' + brandId ;
-
-
-       // http://dev-desk.collective-media.net/dataapi/brands/budgetAndSpends?start_date=2014-01-01&end-date=2015-03-30&topCount=5
-      // var url =  '/assets/cdesk/tmp/sample.json' ;
        return url ;
-    }
+    };
+
+     this.APIScreenWidgetForAllBrands = function(timePeriod, brandId ){
+          var url =  apiPaths.apiSerivicesUrl + '/marketers/573/byformats/perf?start_date=2012-07-01&end_date=2014-10-31' ;
+          return url ;
+      };
 
     this.APIActionData = function(campaignId) {
       return apiPaths.workflow_apiServicesUrl + "/campaigns/" + campaignId + "/actions"
