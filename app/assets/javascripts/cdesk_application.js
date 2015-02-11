@@ -30,6 +30,7 @@
 //= require angulartics-ga
 //= require d3
 //= require angular-sanitize
+//= require filesaver
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
