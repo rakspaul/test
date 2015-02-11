@@ -255,7 +255,17 @@
 
                             </span>
                           </span>
-                      </div>
+                      </div> 
+                      <div class="clearfix "  ng-show="is_network_user" >
+                       <div class="clearfix graph_legends internal_legend">
+                         <span class="legend"></span>
+                         <span class="legend_text">Internal</span>
+                       </div>
+                       <div class="clearfix graph_legends">
+                         <span class="legend"></span>
+                         <span class="legend_text">External</span>
+                       </div>
+                     </div>
                   </div>
                   <div class="pull-right activity_log_list_container">
                       <div class="clearfix activity_log_header">
@@ -284,7 +294,7 @@
 
 
                               <div class="pull-left activity_points">
-                                  <div class="activity_point">
+                                  <div class="{{action.make_external == true ? 'activity_point_ext':'activity_point_int'}}">
                                       <span>
                                           {{(action.make_external && is_network_user)?'E':''}}
                                       </span>
@@ -326,7 +336,7 @@
                               
                               <div class="activity_tooltip {{$index == 0 ? 'activity_tooltip_bottom':''}} " >Click for detailed reports</div>
                               <div class="pull-left activity_points">
-                                  <div class="activity_point">
+                                  <div class="{{action.make_external == true ? 'activity_point_ext':'activity_point_int'}}">
                                       <span>
                                       </span>
                                   </div>
