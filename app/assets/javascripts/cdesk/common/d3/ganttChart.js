@@ -148,7 +148,7 @@
 		        		if(newWidth > width){
 		        			var rect = d3.select(this);
            					rect.select("rect",":text_container").attr("width", newWidth);
-           					d3.select(this).select("text.campaigns_text")
+           					d3.select(this).select("text.campaigns_name")
            					//console.log(rect.select("text","#campaigns_name"));
            					.text(function(d){
            						return d.name;
@@ -170,7 +170,7 @@
 		            	}
 		            	//considering approx. of 10px for a character
 		            	var fitCount = width/10;
-		            	d3.select(this).select("text.campaigns_text")
+		            	d3.select(this).select("text.campaigns_name")
            					.text(function(d){
            						if(fitCount >= stringLength){
 		            			//texts fits :)
@@ -259,7 +259,7 @@
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("text")
-		            .attr("class", "campaigns_text")
+		            .attr("class", "campaigns_name")
 		            .attr("x", 30)
 		            .attr("y", CAMPAIGN_HEIGHT / 2)
 		            .attr("dy", ".35em")
