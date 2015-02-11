@@ -177,6 +177,42 @@
         );
       },
 
+        downloadFile: function (url) {
+            loginModel.checkCookieExpiry();
+            return $http({url: url, method: 'GET', responseType: 'arraybuffer'}).then(
+                function (response) {
+                    if(response.status === 401) {
+                        loginModel.unauthorized();
+                        return errorObject;
+                    } else if(response.status === 403) {
+                        loginModel.forbidden();
+                        return errorObject;
+                    }
+                    var objOnSuccess = {
+                        status: "success",
+                        data: response.data,
+                        headers: response.headers
+                    };
+                    var fileName = objOnSuccess.headers('filename');
+                    var file = new Blob([objOnSuccess.data], {type: objOnSuccess.headers('Content-Type')});
+                    return saveAs(file, fileName);
+                },
+                function (error) {
+                    if(error.status == 401) {
+                        loginModel.unauthorized();
+                        return errorObject;
+                    } else if(error.status === 403) {
+                        loginModel.forbidden();
+                        return errorObject;
+                    }
+                    return {
+                        status: "error",
+                        data: error
+                    };
+                }
+            );
+        },
+
       fetchCancelable: function (url, canceller, success, failure) {
         loginModel.checkCookieExpiry();
         var cachedResponse = dataStore.getCachedByUrl(url);
