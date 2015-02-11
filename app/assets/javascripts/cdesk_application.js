@@ -57,6 +57,9 @@
 //= require cdesk/common/d3/bubbleChart
 //= require cdesk/common/controllers/BubbleChartController
 //= require cdesk/common/models/BubbleChartModel
+//= require cdesk/common/d3/screenChart
+//= require cdesk/common/controllers/ScreenChartController
+//= require cdesk/common/models/ScreenChartModel
 
 //= require cdesk/common/d3/ganttChart
 //= require cdesk/common/controllers/GanttChartController
