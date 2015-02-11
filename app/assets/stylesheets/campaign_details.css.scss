@@ -512,8 +512,7 @@
             background: url(asset-path("cdesk/social_icon.png")) no-repeat 4px 6px ;
           }
           .tablet_graph {
-            background: url(asset-path("cdesk/tablet_icon.png")) no-repeat 1px 2px;
-            background-size: 8%;
+            background: url(asset-path("cdesk/tablet_icon.png")) no-repeat 4px 5px ;
           }
         }
         .each_bar_graph {
@@ -744,6 +743,30 @@
       .activity_log_header {
         margin-bottom: 0px ;
       }
+      .graph_legends {
+        float: left;
+        margin-right: 30px ;
+        .legend {
+          display: inline-block;
+          height: 17px ;
+          width: 17px ;
+          border-radius: 17px ;
+          -webkit-border-radius : 17px ;
+          -moz-border-radius : 17px ;
+          background: #0072bc;
+          float: left;
+          margin-right: 10px ;
+        }
+        .legend_text {
+          display: inline-block;
+          float: left;
+        }
+      }
+      .internal_legend {
+        .legend {
+          background: #ccc ;
+        }
+      }
     }
     .edit_activity_log_holder {
       position: absolute;
@@ -943,13 +966,21 @@
             margin-top: 7px ;
           }
         }
+        
+
         .each_activity_log:hover {
           .activity_tooltip {
             display: block;
           }
         }
+        .each_activity_log:hover  {
+          background: #f8faff;
+        }
+        .each_activity_log.active {
+          background: #cfdaf4;
+
+        }
         .each_activity_log:hover , .each_activity_log.active {
-          border: solid 1px #359eea;
           .activity_edit_holder {
             display: block;
           }
@@ -960,7 +991,7 @@
         }
       }
     }
-    .activity_point {
+    .activity_point , .activity_point_ext , .activity_point_int  , .activity_point_int_sel {
       height: 17px ;
       width: 17px ;
       border-radius : 17px ;
@@ -969,9 +1000,32 @@
       color: #fff ;
       background: #0072bc ;
       font-size: 10px;
+      border: solid 1px #0072bc ;
       text-align: center;
-      padding-top: 2px;
+      padding-top: 1px;
       padding-right: 1px;
+      padding-left: 2px ;
+    }
+    .activity_point_ext  {
+      background : transparent ;
+      color: #0072bc ;
+    }
+    .activity_point_int {
+      background : transparent ;
+      color: #ccc ;
+      border-color: #ccc;
+    }
+    .each_activity_log.active {
+      .activity_point_int {
+         background: #ccc ;
+         border: solid 1px #ccc ;
+         color: #fff ;
+      }
+      .activity_point_ext {
+        background: #0072bc ;
+        border: solid 1px #0072bc ;
+        color: #fff ;
+      }
     }
     .activity_log_header {
       @include graphHeadingFont() ;
