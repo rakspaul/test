@@ -84,6 +84,7 @@
 
 		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
+
 		    };
 
 		    function gantt(tasks) {
@@ -128,15 +129,63 @@
 		        var rectData = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var rect = rectData.enter();
 		        var rectGroup = rect.append("g").attr("class", "node").on("click", function(d) {
-		           // alert('click captured' + d.name);
 		           if(d.type!="brand")
-		            document.location ='#/campaigns/'+d.id;
-		        });
+		            	document.location ='#/campaigns/'+d.id;
+		        })
+
+		        //on mouseover tanstitions for campaigns 
+		        //resize and display the campaign text 
+		        .on('mouseover', function(d){
+		        	var width=(x(d.endDate) - x(d.startDate));
+	            	//character count of the camapaign name
+	            	var stringLength = d.name.length;
+	            	//considering each character takes 12px
+	            	var newWidth = stringLength * 12;
+		        	//if qualifying element
+		        	//if width below a limit
+		        	//calculate the width of container and  re populate the text
+		        	if(d.type!="brand"){
+		        		if(newWidth > width){
+		        			var rect = d3.select(this);
+           					rect.select("rect",":text_container").attr("width", newWidth);
+           					d3.select(this).select("text.campaigns_text")
+           					//console.log(rect.select("text","#campaigns_name"));
+           					.text(function(d){
+           						return d.name;
+           					});
+           				}
+		        	}
+		        	
+		         })
+      			.on('mouseout', function(d){
+      				var width=(x(d.endDate) - x(d.startDate));
+      				var stringLength = d.name.length;
+      				if(d.type!="brand"){
+      					var rect = d3.select(this);
+           				rect.select("rect",":text_container").attr("width", width);
+
+		            	if( width > 25 ){
+		            		//minimum width to fit in the icon
+		            		width = Math.abs(25 -width);
+		            	}
+		            	//considering approx. of 10px for a character
+		            	var fitCount = width/10;
+		            	d3.select(this).select("text.campaigns_text")
+           					.text(function(d){
+           						if(fitCount >= stringLength){
+		            			//texts fits :)
+		            			return d.name;
+		            			} else {
+		            				return d.name.substr(0, fitCount) + "...";
+		            			} 
+           					});
+      				}	
+      			});
 
 //brand grouping
 		        rectGroup.append("text")
 		            .attr("class", "brand_name")
-		            .attr("x", 30)
+		            .attr("x", 0)
 		            .attr("y", 0)
 		            .attr("dy", ".35em")
 		            .attr("font-size", "20px")
@@ -165,6 +214,7 @@
 		            .attr("id", function(d, i) {
 		                return "campaign-" + i;
 		            })
+		            .attr("class", "text_container")
 		            .attr("style","cursor:pointer")
 		            .attr("class", function(d) {
 		                if (taskStatus[d.status] == null) {
@@ -209,7 +259,7 @@
 		            .attr("transform", rectTransform);
 
 		        rectGroup.append("text")
-		            .attr("class", "campaigns_name")
+		            .attr("class", "campaigns_text")
 		            .attr("x", 30)
 		            .attr("y", CAMPAIGN_HEIGHT / 2)
 		            .attr("dy", ".35em")
@@ -224,7 +274,22 @@
 			            }
 		            })
 		            .text(function(d) {
-		                return d.name;
+		            	//widht of the container
+		            	var width=(x(d.endDate) - x(d.startDate));
+		            	//character count of the camapaign name
+		            	var stringLength = d.name.length;
+		            	if( width > 25 ){
+		            		//minimum width to fit in the icon
+		            		width = Math.abs(25 -width);
+		            	}
+		            	//considering approx. of 10px for a character
+		            	var fitCount = width/10;
+		            	if(fitCount >= stringLength){
+		            		//texts fits :)
+		            		return d.name;
+		            	} else {
+		            		return d.name.substr(0, fitCount) + "...";
+		            	} 
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
@@ -284,7 +349,7 @@
 		                });
 		        };
 
-		        var translateGraphicElements = function(a) {
+		        var translateGraphicElements = function(a, type) {
 		            a.transition().delay(0)
 		                .attr("transform", rectTransform)
 		                .attr("width", function(d) {
@@ -302,13 +367,33 @@
 		                    } else {
 		                        return "display:none";
 		                    }
-		                });
+		                })
+		                .text(function(d) {
+		                	if(type == "text") {
+				            	//widht of the container
+				            	var width=(x(d.endDate) - x(d.startDate));
+				            	//character count of the camapaign name
+				            	var stringLength = d.name.length;
+				            	if( width > 25 ){
+				            		//minimum width to fit in the icon
+				            		width = Math.abs(25 -width);
+				            	}
+				            	//considering approx. of 10px for a character
+				            	var fitCount = width/10;
+				            	if(fitCount >= stringLength){
+				            		//texts fits :)
+				            		return d.name;
+				            	} else {
+				            		return d.name.substr(0, fitCount) + "...";
+				            	} 
+				            }
+				        })
 		        };
 
 		        translateVisualElements(node);
 		        translateVisualElements(campaignBody);
 		        translateVisualElements(campaignTopStroke, "top");
-		        translateGraphicElements(campaignText);
+		        translateGraphicElements(campaignText,  "text");
 		        translateGraphicElements(campaignsStatusIcon);
 
 		        rectData.exit().remove();

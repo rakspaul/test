@@ -13,9 +13,28 @@
                 //TODO: move this into a service
 
                 _.each(result.brands, function(datum) {
-                    
+
+                    //placeholder - empty value to add spacing
                     count++;
                     var c = {};
+                        c.id = count;
+                        c.name = " ";
+                        c.type = "brand";
+                        c.status = "";
+                        //push a brand into campaign list as type=brand and min and max date
+                        c.taskName =  count;
+                            var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                            var data= _.first(temp); //getting lowest start date
+                            c.startDate = new Date(data.start_date);
+                            temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                            data= _.last(temp); //getting highest start date
+                            c.endDate = new Date(data.end_date);
+                        campaigns.push(c);
+                        brands.push(count);
+
+                    //brand injected
+                    count++;
+                        c = {};
                         c.id = datum.id;
                         c.name = datum.name;
                         c.type = "brand";
