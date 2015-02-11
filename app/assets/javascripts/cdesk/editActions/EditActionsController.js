@@ -27,7 +27,7 @@
                     editAction.data.actionSubtype = activity.action_sub_type;
                     editAction.data.tactic = activity.ad_name;;
                     editAction.data.metricImpacted = activity.metric_impacted;
-                    editAction.data.name = activity.comment;
+                    editAction.data.name = activity.comment.replace('\\n', '\n');
                     editAction.data.makeExternal = activity.make_external;
                     editAction.data.hidden_name= activity.comment;
                     editAction.data.hidden_checkboxStatus= activity.make_external;
@@ -48,9 +48,32 @@
             var data = {};
             data.make_external = editAction.data.makeExternal;
             data.ad_id =  editAction.data.id ;
-            data.name = editAction.data.name ;
+            data.name = editAction.data.name.replace('\\n', '\n');
+            var max_line = 2;
+            var maxChar = 160;
+            var line = data.name;
+            var split = line.split("\n");
+            var splitlength = split.length;
+            if(splitlength > max_line){
+                var txt_data ='';
+                for(i=0; i< max_line;i++){
+                    if(i == (parseInt(max_line) ) - 1){
+                        txt_data += split[i] ; 
+                    }else{
+                        txt_data += split[i] + '\n'; 
+                    }
+                 
+                }
+                data.name = txt_data;
+              }
+              if(data.name.length > maxChar ){
+                var txt_data = data.name;
+                var limited_txt = txt_data.substring(0, maxChar );
+                data.name = limited_txt;
+            }
             //console.log('new chnages');
             //console.log(data);
+            data.name = data.name.replace('\\n', '\n');
             if(data.name.trim().length > 0 ){
                 $scope.saveBtnDisabled = true;
                 $scope.commentError = false;
@@ -59,7 +82,7 @@
                     _.each(activityList.data.data, function(activity) {
                         if(activity.id == data.ad_id){
                             activity.make_external = data.make_external;
-                            activity.comment = data.name ;
+                            activity.comment = data.name;
 
                         }
                     });

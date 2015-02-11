@@ -85,7 +85,7 @@
                             </div>
                             <div class="clearfix submit_activity_holder">
                                 <div class="pull-left comment_area">
-                                    <textarea  ng-model="action.name"   placeHolder="Leave a Comment" id="action_comment" ng-focus="resetValidation()" maxlength="160"></textarea>
+                                    <textarea  ng-model="action.name"   placeHolder="Leave a Comment" id="action_comment" ng-focus="resetValidation()" maxChar="160" maxLine="2"></textarea>
                                     
                                 
                                  <div ng-show="action.nameError" id="error_comment" class="error_message">Please fill out this field.</div>
@@ -221,7 +221,7 @@
                           </div>
                           <div class="clearfix submit_activity_holder">
                               <div class="pull-left comment_area">
-                                  <textarea  ng-model="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxlength="160" ng-focus="resetEditActionValidation()"> </textarea>
+                                  <textarea  ng-model="showList.name"  ng-bind-html="showList.name"   placeHolder="Leave a Comment" id="edit_action_comment" maxChar="160" maxLine="2" ng-focus="resetEditActionValidation()"> </textarea>
                                   <div ng-show="commentError" id="error_comment" class="error_message">Please fill out this field.</div>
                                   <div  id="error_edit_action_more_comment" class="error_message"></div>
                               </div>
@@ -277,6 +277,7 @@
                               
                           </div>
                       </div>
+                     
                       <div id="action-container" class="activity_log_list">
                         <!-- data-toggle="tooltip" data-placement="top" data-original-title="Click for detailed reports" -->
                           <div  ng-if="is_network_user" class="clearfix each_activity_log "  ng-if="(actionItems && activityLogFlag == true)" id="actionItem_{{action.ad_id}}{{action.id}}" ng-repeat="action in actionItems.data | orderBy:'created_at':true | filter:actionsFilter">
@@ -306,8 +307,7 @@
 					  {{action.action_type_name}}: {{action.action_sub_type}}
                                       </span>
                                   </div>
-                                  <div class="more_details">
-                                   {{action.comment}} 
+                                  <div class="more_details" ng-bind-html="action.comment|morelines|newlines">
                                   </div>
                               </div>
 
@@ -348,8 +348,7 @@
             {{action.action_type_name}}: {{action.action_sub_type}}
                                       </span>
                                   </div>
-                                  <div class="more_details">
-                                   {{action.comment}} 
+                                  <div class="more_details" ng-bind-html="action.comment|morelines|newlines"> 
                                   </div>
                               </div>
 
@@ -594,22 +593,14 @@
         //   $(this).addClass('active');
         // });
       },5000);
-      $('#action_submit_btn').bind("click", function() {
+      $('#action_submit_btn,#action_comment').bind("click focus", function() {
           var txt = $.trim(jQuery("#action_comment").val());
           jQuery("#action_comment").val(txt);
          
       });
-      $('#action_comment').bind("change keyup keydown", function() {
-          var txt = (jQuery("#action_comment").val());
-          var max_length = $(this).attr("maxlength");
-          if(txt.length >= max_length ){
-            $("#error_more_comment").show();
-            $("#error_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-          }
-          else{
-             $("#error_more_comment").hide();
-          }
-         
+      $('#action_comment,#action_submit_btn').bind("change keyup keydown click", function() {
+          CommentValidation('action_comment','error_more_comment');
+
       });
        $('#action_comment').bind("blur", function() {
           $("#error_more_comment").hide();
@@ -617,21 +608,13 @@
 
        //Edit actions
        
-       $('#action_save_btn').bind("click", function() {
+       $('#action_save_btn,#edit_action_comment').bind("click focus", function() {
           var txt = $.trim(jQuery("#edit_action_comment").val());
           jQuery("#edit_action_comment").val(txt);
          
       });
-       $('#edit_action_comment').bind("change keyup keydown", function() {
-          var txt = (jQuery("#edit_action_comment").val());
-          var max_length = $(this).attr("maxlength");
-          if(txt.length >= max_length ){
-            $("#error_edit_action_more_comment").show();
-            $("#error_edit_action_more_comment").html('You cannot enter more than '+max_length + ' characters ');
-          }
-          else{
-             $("#error_edit_action_more_comment").hide();
-          }
+       $('#edit_action_comment').bind("change keyup keydown click", function() {
+          CommentValidation('edit_action_comment','error_edit_action_more_comment');
           //enable save Button
           updateSaveBtnStatus();
          
@@ -643,8 +626,8 @@
       
   });
     var updateSaveBtnStatus = function(){
-    var txt = (jQuery("#edit_action_comment").val());
-    var hidden_txt = jQuery("#hidden_comments").val();
+    var txt = (jQuery("#edit_action_comment").val()).replace(/\n/g, '').replace('\\n', '');
+    var hidden_txt = jQuery("#hidden_comments").val().replace(/\n/g, '').replace('\\n', '');
     var hidden_checkbox = jQuery("#hidden_checkbox_status").val().toString();
     var edit_checkbox =jQuery("#edit_details_squaredFour").prop( "checked").toString();
     if((hidden_txt == txt) && (hidden_checkbox == edit_checkbox )){
@@ -655,5 +638,52 @@
   }
   var disableSaveButton = function(){
     jQuery("#action_save_btn").attr('disabled','disabled');
+  }
+  var CommentValidation = function(boxId,errMsgId){
+    var txtBoxId ="#"+boxId;
+    var errorMsgId="#"+errMsgId;
+    var txt = (jQuery(txtBoxId).val());
+    var max_length = $(txtBoxId).attr("maxChar");
+          var max_line = $(txtBoxId).attr("maxLine");
+          var txt_data = '';
+          var txtlength = txt.length;
+          var line = txt;
+          var split = line.split("\n");
+          var splitlength = split.length;
+          if(splitlength > max_line){
+            for(i=0; i< max_line;i++){
+              if(i == (parseInt(max_line)) - 1) {
+                txt_data += split[i]; 
+
+              }
+              else{
+                  txt_data += split[i] + '\n'; 
+              }
+              
+            }
+            $(errorMsgId).show();
+            $(errorMsgId).html('You cannot enter more than '+max_line + ' lines ');
+            $(txtBoxId).val(txt_data);
+            //check Limited characters
+            if(txt.length > max_length ){
+              $(errorMsgId).show();
+              $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+              var limited_txt = txt_data.substring(0, max_length );
+              $(txtBoxId).val(limited_txt);
+            }
+            else{
+               //$(errorMsgId).hide();
+            }
+          }else {
+            if(txt.length > max_length ){
+              $(errorMsgId).show();
+              $(errorMsgId).html('You cannot enter more than '+max_length + ' characters ');
+              var limited_txt = txt.substring(0, max_length );
+              $(txtBoxId).val(limited_txt);
+            }
+            else{
+               $(errorMsgId).hide();
+            }
+          }
   }
 </script>

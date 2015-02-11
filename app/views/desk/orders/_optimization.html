@@ -151,7 +151,7 @@
                         <div class="each_report_text_row clearfix">
                             <div class="each_report_text_col report_time">{{action.created_at | date:'h:mm a'}}</div>
                             <div title="{{action.created_by_name}}" class="each_report_text_col report_person_name">{{action.created_by_name}}</div>
-                            <div title="{{action.comment}}" class="each_report_text_col report_text">{{action.comment}}</div>
+                            <div title="{{action.comment}}" class="each_report_text_col report_text" ng-bind-html="action.comment|morelines|newlines"></div>
                         </div>
                     </div>
 

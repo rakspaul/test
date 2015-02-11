@@ -29,6 +29,7 @@
 //= require angulartics
 //= require angulartics-ga
 //= require d3
+//= require angular-sanitize
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
