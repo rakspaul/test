@@ -59,6 +59,18 @@
     this.GAUGE_PERFORMANCE = 1;
     this.COOKIE_REDIRECT = "cdesk_redirect";
     this.COOKIE_SESSION = "cdesk_session";
+    this.SPEND = "Spend Allocation";
+    this.IMPRESSIONS ="Impressions";
+    this.CTR = "CTR";
+    this.CPM = "CPM";
+    this.CPC = "CPC";
+    this.CPA = "CPA";
+    this.ACTION_RATE = "Action rate";
+    this.SCREENS = "Screens";
+    this.FORMATS = "Formats"
+
+
+
   }
 
   commonModule.service("constants", constants);
