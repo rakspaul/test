@@ -89,8 +89,6 @@
         }
         data.name = txt_data;
       }
-      console.log(data.name);
-      console.log(data.name.length);
       if(data.name.length > maxChar ){
         var txt_data = data.name;
         var limited_txt = txt_data.substring(0, maxChar );
@@ -110,7 +108,7 @@
         });
       }
       }else{
-        if(data.action_type_id !=''){
+        if(data.action_type_id !='' && data.action_type_id != undefined){
            $scope.action.selectedTypeError = false;
            $scope.action.actionFlag = 1;
 
@@ -182,19 +180,25 @@
        $scope.action.selectedTacticError = false;
        $scope.action.selectedMetricError = false;
        $scope.action.nameError = false;
+       $scope.enableSubTypePopup =false;
 
     }
     function resetActionFormData() {
       $scope.action.submitBtnDisabled = false;
       $scope.action.external = false;
       $scope.action.name = '';
+
       $scope.action.selectedType = undefined;
       $scope.action.selectedSubType = undefined;
+      $scope.action.selectedSubType = [];
       $scope.tactics.selected = undefined;
       $scope.metrics.selected = undefined;
       $scope.selectedAll = false;
       $rootScope.$broadcast("clear");
       $rootScope.$broadcast("removeOptions");
+      $scope.enableSubTypePopup =false;
+      $scope.action.selectedSubTypeError = false;
+      $scope.action.selectedTypeError = false;
     }
      $scope.getActionType = function(){
       var flag = "removeOptions";
@@ -209,6 +213,19 @@
          var flag = "removeOptions";
       }
       $rootScope.$broadcast(flag);
+    }
+    $scope.showDropdownList = function(){
+       if($scope.action.selectedType !=undefined){
+        if($scope.action.selectedType.id > 0 ){
+              var flag = false;
+          }else{
+              var flag = true;
+          }
+      }else
+      {
+         var flag = true;
+      }
+      $scope.enableSubTypePopup = flag;
     }
     
   });
