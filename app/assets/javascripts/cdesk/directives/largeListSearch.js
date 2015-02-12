@@ -100,6 +100,9 @@
                         }
                     }
 
+                    $(".campaign_name_length").text($("#campaignDropdown").val()) ;
+                    $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
+
                 });
 
 
@@ -147,7 +150,7 @@
                             $("#campaignDropdown").val($scope.$parent.selectedCampaign.name);
 
                             $(".campaign_name_length").text($("#campaignDropdown").attr("placeHolder")) ;
-                            $("#campaignDropdown").width( $(".campaign_name_length").width() + 20 ) ;
+                            $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                     }
                 });
 
@@ -155,18 +158,18 @@
                     
                     $('#campaignDropdown').keydown(function() {
                        $(".campaign_name_length").text($(this).val()) ;
-                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 20 ) ;
+                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                     });
                     setTimeout(function(){ 
-                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 20 ) ;
+                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                     }, 100);
                     $(".campaigns_list_li").click( function() {
                        $(".campaign_name_length").text($(this).text()) ;
-                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 20 ) ;
+                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                     });
                     $("#campaigns_list").click( function() {
                        $(".campaign_name_length").text($("#campaignDropdown").attr("placeHolder")) ;
-                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 20 ) ;
+                       $("#campaignDropdown").width( $(".campaign_name_length").width() + 14 ) ;
                        
                     });
                 });
