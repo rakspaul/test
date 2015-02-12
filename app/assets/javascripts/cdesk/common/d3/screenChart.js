@@ -69,13 +69,14 @@
 //                }
             }
 
-            // max selected metric value will be first non zero value of the selected metric out of all nodes
-            var max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1][selected_metric_key]) == 0 ? ((data[2][selected_metric_key] == 0 ? (data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
-
-                ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value,
-                totalAllocation = 0;
 
             if (data !== undefined && data.length > 0) {
+                // max selected metric value will be first non zero value of the selected metric out of all nodes
+                var max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1][selected_metric_key]) == 0 ? ((data[2][selected_metric_key] == 0 ? (data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
+
+                    ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value,
+                    totalAllocation = 0;
+                
                 var index_to_remove ;
 
                 for (var i in data) {
