@@ -89,6 +89,10 @@
             ganttChart.today();
         }
 
+        $scope.quarter = function(){
+            ganttChart.quarter();
+        }
+
         $scope.year = function(){
             ganttChart.year();
         }

@@ -71,17 +71,19 @@
                 </span>
                 <ul class="dropdown_ul dropdown-menu">
                   <li>Budget</li>
-                  <li>Date</li>
+                  <li>End Date</li>
                 </ul>
               </div>
               <div class="pull-right show_link">
                 Sort by:
               </div>
-              <div class="pull-right calendar_holder_period">
-                <span>Week</span>
-                <span>Month</span>
-                <span>Quarter</span><!-- add active whenever it is selected -->
-                <span>Year</span>
+              <div class="pull-right calendar_holder_period" ng-controller="ganttChartController">
+                <span ng-click="prev()"> [<] </span>
+                <span ng-click="next()" > [>] </span> 
+                <span ng-click="today()">Week</span>
+                <span ng-click="month()">Month</span>
+                <span ng-click="quarter()">Quarter</span><!-- add active whenever it is selected -->
+                <span ng-click="year()">Year</span>
               </div>
               
 

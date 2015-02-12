@@ -10,7 +10,7 @@
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 1000;
+		    var CALENDAR_HEIGHT = 1100;
 		    var CALENDAR_WIDTH = 1050;
 
 		    var margin = {
@@ -43,7 +43,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -74,7 +74,7 @@
 
 		    var initAxis = function() {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
 
 		        xAxis = d3.svg.axis()
 		            .scale(x).orient("top")
@@ -550,9 +550,16 @@
 		    changeTimeDomain('1month');
 
 		}
+
 		function today() {
 
 		    changeTimeDomain('today');
+
+		}
+
+		function quarter() {
+
+		    changeTimeDomain('quarter');
 
 		}
 
@@ -598,6 +605,12 @@
 		            format = "%d";
 		            gantt.timeDomain([d3.time.day.offset(Date.now(), -4), d3.time.day.offset(Date.now(), +3)]);
 		            break;
+
+		        case "quarter":
+		            format = "%d";
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -45), d3.time.day.offset(Date.now(), +45)]);
+		            break;
+
 
 		        case "year":
 		            format = "%d";
@@ -702,6 +715,7 @@
 		this.month = month;
 		this.today = today;
 		this.year = year;
+		this.quarter = quarter;
 
 
 
