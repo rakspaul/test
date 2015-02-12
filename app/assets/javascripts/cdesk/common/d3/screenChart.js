@@ -76,7 +76,7 @@
 
                     ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value,
                     totalAllocation = 0;
-                
+
                 var index_to_remove ;
 
                 for (var i in data) {

@@ -32,7 +32,6 @@
         };
 
         $scope.metricDropdownChange = function(obj){
-            console.log(obj);
             $scope.cleanScreenWidget();
             screenChartModel.setScreenWidgetMetric(obj);
 
