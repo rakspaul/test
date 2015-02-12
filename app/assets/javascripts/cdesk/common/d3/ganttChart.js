@@ -22,6 +22,7 @@
 
 		    var onTrackColor = "#47ab1d";
 		    var underperformingColor = "#ee9455";
+		    var noStatusColor = "#939eae";
 		    var timeDomainStart = d3.time.day.offset(new Date(), -300);
 		    var timeDomainEnd = d3.time.hour.offset(new Date(), +300);
 		    var timeDomainMode = FIT_TIME_DOMAIN_MODE; // fixed or fit
@@ -147,7 +148,7 @@
 		        	if(d.type!="brand"){
 		        		if(newWidth > width){
 		        			var rect = d3.select(this);
-           					rect.select("rect",":text_container").attr("width", newWidth);
+           					rect.select("rect.campaigns").attr("width", newWidth-4);
            					d3.select(this).select("text.campaigns_name")
            					//console.log(rect.select("text","#campaigns_name"));
            					.text(function(d){
@@ -162,7 +163,7 @@
       				var stringLength = d.name.length;
       				if(d.type!="brand"){
       					var rect = d3.select(this);
-           				rect.select("rect",":text_container").attr("width", width);
+           				rect.select("rect.campaigns").attr("width", width-4);
 
 		            	if( width > 25 ){
 		            		//minimum width to fit in the icon
@@ -206,8 +207,35 @@
 		            .attr("transform", rectTransform);
 //brand grouping ends
 
+		        //top bar 
+		        rectGroup.append("rect")
+		            .attr("class", "header")
+		            .attr("style", "cursor:pointer")
+		            .attr("fill", function(d){
+		            	if(d.kpiStatus == "ontrack") {
+		            		return onTrackColor;
+		            	} else if(d.kpiStatus == "underperforming") {
+		            		return underperformingColor;
+		            	} else {
+		            		return noStatusColor;
+		            	}
+		            })
+		            .attr("width", function(d) {
+		            	if(d.type=="brand")
+		                		return 0;
+		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
+		                	return (x(d.endDate) - x(d.startDate));
+		            	}else {
+		            		return 0;
+		            	}
+		            })
+		            .attr("height", CAMPAIGN_HEIGHT + 1)
+		            .transition()
+		            .attr("transform", rectTransform);
 
 		        rectGroup.append("rect")
+		        	.attr("x", 2)
+		        	.attr("y", 2)
 		            .attr("title", function(d) {
 		                return "campaign";
 		            })
@@ -225,36 +253,17 @@
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
 		                	return 0;
-		                else
-		                	return (x(d.endDate) - x(d.startDate));
+		                else {
+		                	var width = (x(d.endDate) - x(d.startDate)) -4;
+		                		if(width>=0)
+		                			return (width);
+		                		else 
+		                			return 0;
+		                }
 		            })
 		            .attr("height", function(d) {
-		                return CAMPAIGN_HEIGHT
+		                return CAMPAIGN_HEIGHT-2
 		            })
-		            .transition()
-		            .attr("transform", rectTransform);
-
-		        //top bar 
-		        rectGroup.append("rect")
-		            .attr("class", "header")
-		            .attr("style", "cursor:pointer")
-		            .attr("fill", function(d){
-		            	if(d.kpiStatus == "ontrack") {
-		            		return onTrackColor;
-		            	} else if(d.kpiStatus == "underperforming") {
-		            		return underperformingColor;
-		            	}
-		            })
-		            .attr("width", function(d) {
-		            	if(d.type=="brand")
-		                		return 0;
-		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
-		                	return (x(d.endDate) - x(d.startDate));
-		            	}else {
-		            		return 0;
-		            	}
-		            })
-		            .attr("height", 2)
 		            .transition()
 		            .attr("transform", rectTransform);
 
@@ -343,7 +352,11 @@
 		            				return 0;
 		            			}
 		                	}else{
-		                		return (x(d.endDate) - x(d.startDate));
+		                		var width = (x(d.endDate) - x(d.startDate)) -4;
+		                		if(width>=0)
+		                			return (width);
+		                		else 
+		                			return 0;
 		                	}
 		                    
 		                });
@@ -583,7 +596,7 @@
 
 				case "today":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(Date.now(), -3), d3.time.day.offset(Date.now(), +3)]);
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -4), d3.time.day.offset(Date.now(), +3)]);
 		            break;
 
 		        case "year":
@@ -661,7 +674,7 @@
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
-		    timeDomainString = "1week";
+		    timeDomainString = "today";
 
 		    console.log("new chart");
 
