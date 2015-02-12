@@ -299,22 +299,29 @@ angular.module('ui.multiselect', [])
            scope.uncheckAll();
          });
            $rootScope.$on("removeOptions",function(event,args){ 
-            scope.selectedAll = true;
+            //scope.selectedAll = true;
             if(scope.datashow == 2 ){
+             scope.selectedAll = true;
              scope.items = [];
              scope.multipleoption = false;
              scope.header = '';
+             scope.toggleSelectAll(false);
             }
              if(scope.datashow == 3 ){
                scope.multipleoption = false;
 
-               scope.header = '';
+               //scope.header = '';
              }
           });
             $rootScope.$on("showOptions",function(event,args){ 
-            scope.selectedAll = true;
+          
             if(scope.datashow == 2 || scope.datashow == 3  ){
-              scope.header = '';
+
+              if(scope.datashow == 2){
+                 scope.selectedAll = true;
+                 scope.header = '';
+              }
+             
              scope.multipleoption = true;
            }
           });
