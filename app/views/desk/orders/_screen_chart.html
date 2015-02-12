@@ -4,31 +4,26 @@
   <div class="dashboard_heading dashboard_heading_bold clearfix">
     <div class="pull-left dropdown" id="dashboard_screen_dd">
             <span class="dropdown_ul_text" data-toggle="dropdown">
-              <span>Screens</span>
+              <span>{{screenWidgetData.selectedFormat}}</span>
               <span class="arrow_img"></span>
             </span>
       <ul class="dropdown_ul dropdown-menu">
-        <li>Screens</li>
-        <li>Formats</li>
+        <li ng-repeat="data in screenWidgetData.formatDropDown " data-ng-click="formatDropdownChange(data)">{{data}}</li>
       </ul>
     </div>
     <div class="pull-right dropdown" id="dashboard_allocation_dd">
             <span class="dropdown_ul_text" data-toggle="dropdown">
-              <span>Allocation</span>
+              <span>{{screenWidgetData.selectedMetric}}</span>
               <span class="arrow_img"></span>
             </span>
       <ul class="dropdown_ul dropdown-menu">
-        <li>Spend (Allocation by Spend)</li>
-        <li>CTR</li>
-        <li>CPA</li>
-        <li>CPC</li>
-        <li>CPM</li>
-        <li>Action Rate</li>
+        <li  ng-repeat="data in screenWidgetData.metricDropDown" data-ng-click="metricDropdownChange(data)" >{{data }}</li>
       </ul>
     </div>
     <div class="common_loading_icon" ng-if="screenBusy "></div>
-    <span id="screens"  ng-if="!screenBusy"></span>
+    <span id="screens" ></span>
   </div>
+</div>
 
 
   <!--<div class="dashboard_perf_graph">-->
@@ -68,5 +63,3 @@
   <!--</div>-->
   <!--</div>-->
   <!--</div>-->
-  <!--</div>-->
-</div>

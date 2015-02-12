@@ -47,8 +47,14 @@
        return url ;
     };
 
-     this.APIScreenWidgetForAllBrands = function(timePeriod, brandId ){
-          var url =  apiPaths.apiSerivicesUrl + '/marketers/573/byformats/perf?start_date=2012-07-01&end_date=2014-10-31' ;
+     this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType){
+          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf' ;
+          return url ;
+      };
+
+      this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType){
+
+          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf' ;
           return url ;
       };
 

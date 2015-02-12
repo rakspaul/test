@@ -268,7 +268,7 @@
             	    }
                     if(result.data.data.length>0){
 
-                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc') {
+                        if(campaign.kpiType.toLowerCase() == 'ctr' || campaign.kpiType.toLowerCase() == 'vtc' || campaign.kpiType.toLowerCase() == 'action_rate' || campaign.kpiType.toLowerCase() == 'action rate') {
                             formats=_.chain(result.data.data)
                                 .sortBy(function(format){ return format[campaign.kpiType.toLowerCase()]; })
                                 .reverse()
