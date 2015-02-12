@@ -18,6 +18,7 @@
             darkGreenOutline = "#47AB1D",
 
             orangeOutline = "#DB691C",
+            darkOrangeOutline ="#DB530F",
 
            tooltipBackGroundColor = "#FEFFFE";
 
@@ -157,7 +158,7 @@
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
-                var maxRadius = 90 ;
+                var maxRadius = 70 ;
                 var maxBudget = brandArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
                 for(var i in brandArray){
@@ -204,7 +205,7 @@
                         value : node.budget,
                         budget :node.budget,
                         spend : node.spend,
-                        status : node.status,
+                        status : node.kpi_status,
                         percFill : percFill ,
                         cx : positionsCampaigns[i][0],
                         cy : positionsCampaigns[i][1],
@@ -616,7 +617,7 @@
                 d3.select("#campaigns_"+campaign_obj.id+ "_path").attr('opacity', 1);
 
                 d3.select("#campaigns_"+campaign_obj.id+ "_path")
-                    .attr("stroke" , (campaign_obj.status == 'ontrack')? darkGreenOutline : orangeOutline)
+                    .attr("stroke" , (campaign_obj.status == 'ontrack')? darkGreenOutline : darkOrangeOutline)
                     .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
                     .attr("stroke-width", 3);
 

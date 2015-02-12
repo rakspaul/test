@@ -5,6 +5,7 @@
     this.DASHBOARD_CANCELLER = 3;
     this.GAUGE_CANCELLER = 4;
     this.SPEND_CHART_CANCELLER = 51;
+    this.SCREEN_CHART_CANCELLER = 52;
     this.GANTT_CHART_CANCELLER = 6;
     this.PERIOD_LIFE_TIME = 'life_time';
     this.PERIOD_LAST_7_DAYS = 'last_7_days';
@@ -58,6 +59,18 @@
     this.GAUGE_PERFORMANCE = 1;
     this.COOKIE_REDIRECT = "cdesk_redirect";
     this.COOKIE_SESSION = "cdesk_session";
+    this.SPEND = "Spend Allocation";
+    this.IMPRESSIONS ="Impressions";
+    this.CTR = "CTR";
+    this.CPM = "CPM";
+    this.CPC = "CPC";
+    this.CPA = "CPA";
+    this.ACTION_RATE = "Action rate";
+    this.SCREENS = "Screens";
+    this.FORMATS = "Formats"
+
+
+
   }
 
   commonModule.service("constants", constants);

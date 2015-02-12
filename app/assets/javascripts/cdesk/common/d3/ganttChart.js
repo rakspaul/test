@@ -689,7 +689,7 @@
 		    format = "%d";
 		    timeDomainString = "today";
 
-		    console.log("new chart");
+
 
 		    gantt = d3.gantt().taskTypes(taskNames).taskStatus(taskStatus).tickFormat(format); //.height(450).width(800);;
 
