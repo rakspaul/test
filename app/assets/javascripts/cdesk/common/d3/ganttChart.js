@@ -10,7 +10,7 @@
 		    var FIXED_TIME_DOMAIN_MODE = "fixed";
 		    var CAMPAIGN_HEIGHT = 25;
 
-		    var CALENDAR_HEIGHT = 1000;
+		    var CALENDAR_HEIGHT = 1100;
 		    var CALENDAR_WIDTH = 1050;
 
 		    var margin = {
@@ -22,6 +22,7 @@
 
 		    var onTrackColor = "#47ab1d";
 		    var underperformingColor = "#ee9455";
+		    var noStatusColor = "#939eae";
 		    var timeDomainStart = d3.time.day.offset(new Date(), -300);
 		    var timeDomainEnd = d3.time.hour.offset(new Date(), +300);
 		    var timeDomainMode = FIT_TIME_DOMAIN_MODE; // fixed or fit
@@ -42,7 +43,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -73,7 +74,7 @@
 
 		    var initAxis = function() {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 430]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
 
 		        xAxis = d3.svg.axis()
 		            .scale(x).orient("top")
@@ -147,7 +148,7 @@
 		        	if(d.type!="brand"){
 		        		if(newWidth > width){
 		        			var rect = d3.select(this);
-           					rect.select("rect",":text_container").attr("width", newWidth);
+           					rect.select("rect.campaigns").attr("width", newWidth-4);
            					d3.select(this).select("text.campaigns_name")
            					//console.log(rect.select("text","#campaigns_name"));
            					.text(function(d){
@@ -162,7 +163,7 @@
       				var stringLength = d.name.length;
       				if(d.type!="brand"){
       					var rect = d3.select(this);
-           				rect.select("rect",":text_container").attr("width", width);
+           				rect.select("rect.campaigns").attr("width", width-4);
 
 		            	if( width > 25 ){
 		            		//minimum width to fit in the icon
@@ -206,8 +207,35 @@
 		            .attr("transform", rectTransform);
 //brand grouping ends
 
+		        //top bar 
+		        rectGroup.append("rect")
+		            .attr("class", "header")
+		            .attr("style", "cursor:pointer")
+		            .attr("fill", function(d){
+		            	if(d.kpiStatus == "ontrack") {
+		            		return onTrackColor;
+		            	} else if(d.kpiStatus == "underperforming") {
+		            		return underperformingColor;
+		            	} else {
+		            		return noStatusColor;
+		            	}
+		            })
+		            .attr("width", function(d) {
+		            	if(d.type=="brand")
+		                		return 0;
+		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
+		                	return (x(d.endDate) - x(d.startDate));
+		            	}else {
+		            		return 0;
+		            	}
+		            })
+		            .attr("height", CAMPAIGN_HEIGHT + 1)
+		            .transition()
+		            .attr("transform", rectTransform);
 
 		        rectGroup.append("rect")
+		        	.attr("x", 2)
+		        	.attr("y", 2)
 		            .attr("title", function(d) {
 		                return "campaign";
 		            })
@@ -217,44 +245,25 @@
 		            .attr("class", "text_container")
 		            .attr("style","cursor:pointer")
 		            .attr("class", function(d) {
-		                if (taskStatus[d.status] == null) {
+		                if (taskStatus[d.kpiStatus] == null) {
 		                    return "bar campaigns";
 		                }
-		                return taskStatus[d.status] + " campaigns";
+		                return taskStatus[d.kpiStatus] + " campaigns";
 		            })
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
 		                	return 0;
-		                else
-		                	return (x(d.endDate) - x(d.startDate));
+		                else {
+		                	var width = (x(d.endDate) - x(d.startDate)) -4;
+		                		if(width>=0)
+		                			return (width);
+		                		else 
+		                			return 0;
+		                }
 		            })
 		            .attr("height", function(d) {
-		                return CAMPAIGN_HEIGHT
+		                return CAMPAIGN_HEIGHT-2
 		            })
-		            .transition()
-		            .attr("transform", rectTransform);
-
-		        //top bar 
-		        rectGroup.append("rect")
-		            .attr("class", "header")
-		            .attr("style", "cursor:pointer")
-		            .attr("fill", function(d){
-		            	if(d.status == "ontrack") {
-		            		return onTrackColor;
-		            	} else if(d.status == "underperforming") {
-		            		return underperformingColor;
-		            	}
-		            })
-		            .attr("width", function(d) {
-		            	if(d.type=="brand")
-		                		return 0;
-		                else if(d.status == "ontrack" || d.status == "underperforming" ){
-		                	return (x(d.endDate) - x(d.startDate));
-		            	}else {
-		            		return 0;
-		            	}
-		            })
-		            .attr("height", 2)
 		            .transition()
 		            .attr("transform", rectTransform);
 
@@ -309,12 +318,12 @@
 		                }
 		            })
 		            .attr("xlink:href", function(d){
-		            	switch(d.status){
-		            		case "ontrack": 
-		            		case "underperforming": return window.assets.active;
-		            		case "paused": return window.assets.paused;
-		            		case "ready": return window.assets.ready;
-		            		case "completed": return window.assets.completed;
+		            	switch(d.state){
+		            		case "Active": return window.assets.active;
+		            		case "Paused": return window.assets.paused;
+		            		case "Draft": return window.assets.draft;
+		            		case "Ready": return window.assets.ready;
+		            		case "Completed": return window.assets.completed;
 
 		            	}
 		            })
@@ -337,13 +346,17 @@
 		                	if(d.type=="brand")
 		                		return 0;
 		                    else if(type == "top"){
-		                		if(d.status == "ontrack" || d.status == "underperforming" ){
+		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
 		                			return (x(d.endDate) - x(d.startDate));
 		            			}else {
 		            				return 0;
 		            			}
 		                	}else{
-		                		return (x(d.endDate) - x(d.startDate));
+		                		var width = (x(d.endDate) - x(d.startDate)) -4;
+		                		if(width>=0)
+		                			return (width);
+		                		else 
+		                			return 0;
 		                	}
 		                    
 		                });
@@ -537,9 +550,16 @@
 		    changeTimeDomain('1month');
 
 		}
+
 		function today() {
 
 		    changeTimeDomain('today');
+
+		}
+
+		function quarter() {
+
+		    changeTimeDomain('quarter');
 
 		}
 
@@ -583,8 +603,14 @@
 
 				case "today":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(Date.now(), -3), d3.time.day.offset(Date.now(), +3)]);
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -4), d3.time.day.offset(Date.now(), +3)]);
 		            break;
+
+		        case "quarter":
+		            format = "%d";
+		            gantt.timeDomain([d3.time.day.offset(Date.now(), -45), d3.time.day.offset(Date.now(), +45)]);
+		            break;
+
 
 		        case "year":
 		            format = "%d";
@@ -661,7 +687,7 @@
 		    minDate = tasks[0].startDate;
 
 		    format = "%d";
-		    timeDomainString = "1week";
+		    timeDomainString = "today";
 
 		    console.log("new chart");
 
@@ -689,6 +715,7 @@
 		this.month = month;
 		this.today = today;
 		this.year = year;
+		this.quarter = quarter;
 
 
 
