@@ -217,10 +217,10 @@
 		            .attr("class", "text_container")
 		            .attr("style","cursor:pointer")
 		            .attr("class", function(d) {
-		                if (taskStatus[d.status] == null) {
+		                if (taskStatus[d.kpiStatus] == null) {
 		                    return "bar campaigns";
 		                }
-		                return taskStatus[d.status] + " campaigns";
+		                return taskStatus[d.kpiStatus] + " campaigns";
 		            })
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
@@ -239,16 +239,16 @@
 		            .attr("class", "header")
 		            .attr("style", "cursor:pointer")
 		            .attr("fill", function(d){
-		            	if(d.status == "ontrack") {
+		            	if(d.kpiStatus == "ontrack") {
 		            		return onTrackColor;
-		            	} else if(d.status == "underperforming") {
+		            	} else if(d.kpiStatus == "underperforming") {
 		            		return underperformingColor;
 		            	}
 		            })
 		            .attr("width", function(d) {
 		            	if(d.type=="brand")
 		                		return 0;
-		                else if(d.status == "ontrack" || d.status == "underperforming" ){
+		                else if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
 		                	return (x(d.endDate) - x(d.startDate));
 		            	}else {
 		            		return 0;
@@ -309,12 +309,12 @@
 		                }
 		            })
 		            .attr("xlink:href", function(d){
-		            	switch(d.status){
-		            		case "ontrack": 
-		            		case "underperforming": return window.assets.active;
-		            		case "paused": return window.assets.paused;
-		            		case "ready": return window.assets.ready;
-		            		case "completed": return window.assets.completed;
+		            	switch(d.state){
+		            		case "Active": return window.assets.active;
+		            		case "Paused": return window.assets.paused;
+		            		case "Draft": return window.assets.draft;
+		            		case "Ready": return window.assets.ready;
+		            		case "Completed": return window.assets.completed;
 
 		            	}
 		            })
@@ -337,7 +337,7 @@
 		                	if(d.type=="brand")
 		                		return 0;
 		                    else if(type == "top"){
-		                		if(d.status == "ontrack" || d.status == "underperforming" ){
+		                		if(d.kpiStatus == "ontrack" || d.kpiStatus == "underperforming" ){
 		                			return (x(d.endDate) - x(d.startDate));
 		            			}else {
 		            				return 0;

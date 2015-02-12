@@ -57,7 +57,8 @@
                             c.name = tasks.name;
                             c.startDate = new Date(tasks.start_date);
                             c.endDate = new Date(tasks.end_date);
-                            c.status = tasks.status;
+                            c.state = tasks.state;
+                            c.kpiStatus = tasks.kpi_status;
                             c.taskName =  count;
                             brands.push(count);
                             campaigns.push(c);
