@@ -281,8 +281,8 @@
                     var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
                     return lineFunction(dataSet);
                 })
-                .attr("stroke" , blueOutline)
-                .attr("stroke-width", 4)
+                .attr("stroke" , blue)
+                .attr("stroke-width", 0.5)
                 .attr("fill", blue);
 
 
@@ -417,8 +417,8 @@
 
                 d3.select("#brands_"+focused_obj.id +"_path")
                     .attr('opacity', 1)
-                    .attr("stroke" , blueOutline)
-                    .attr("stroke-width", 4)
+                    .attr("stroke" , blue)
+                    .attr("stroke-width", 0.5)
                     .attr("fill", blue);
 
                 return tooltip

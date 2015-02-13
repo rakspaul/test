@@ -1,6 +1,6 @@
 (function () {
     "use strict";
-    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants) {
+    var screenChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel ,requestCanceller, constants, loginModel) {
         var screenWidgetData = { selectedMetric : constants.SPEND ,
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
@@ -11,7 +11,7 @@
 
         this.getScreenChartData = function () {
            var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase();
-            var url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,573, _screenWidgetFormatType );
+            var url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType );
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
@@ -47,7 +47,7 @@
                 case 'action rate':
                     screenWidgetData['selectedMetric'] = constants.ACTION_RATE;
                     break;
-                case 'Allocation Spend' :
+                case 'spend allocation' :
                     screenWidgetData['selectedMetric'] = constants.SPEND;
                     break;
             }
@@ -76,5 +76,5 @@
 
 
     };
-    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , screenChartData]);
+    commonModule.service('screenChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , 'loginModel', screenChartData]);
 }());
