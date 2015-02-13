@@ -12,6 +12,7 @@ var angObj = angObj || {};
         $scope.selectedStrategy = domainReports.getDefaultValues()['strategy'];
 
         $scope.selected_filters = domainReports.getDurationKpi();
+         $scope.is_network_user = loginModel.getIsNetworkUser();
 
         $scope.download_urls = {
             optimization: null
@@ -263,11 +264,11 @@ var angObj = angObj || {};
             $("html,body").animate({scrollTop: 0}, '300');
         };
 
-        $scope.showSelected = function (id) {
+        $scope.showSelected = function (id,isActionExternal) {
             $('#action-container:first').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
             $('.reports_section_details_container').find('.action_selected').removeClass('action_selected').end().find('#actionItem_' + id).addClass('action_selected');
-            $('circle').attr({stroke: '#0070CE', fill: '#ffffff'});
-            $('circle#' + id).attr({stroke: '#0070CE', fill: '#0070CE'});
+            $('circle').attr({fill: '#ffffff'});
+            $('circle#' + id).attr({ fill:(isActionExternal==false ) ? '#777':'#0072bc'});
             localStorage.setItem('actionSel', 'actionItem_' + id);
             analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, constants.GA_OPTIMIZATION_TAB_ACTIVITY_SELECTED, loginModel.getLoginName());
         };

@@ -743,28 +743,10 @@
       .activity_log_header {
         margin-bottom: 0px ;
       }
-      .graph_legends {
-        float: left;
-        margin-right: 30px ;
-        .legend {
-          display: inline-block;
-          height: 17px ;
-          width: 17px ;
-          border-radius: 17px ;
-          -webkit-border-radius : 17px ;
-          -moz-border-radius : 17px ;
-          background: #0072bc;
-          float: left;
-          margin-right: 10px ;
-        }
-        .legend_text {
-          display: inline-block;
-          float: left;
-        }
-      }
+      
       .internal_legend {
         .legend {
-          background: #ccc ;
+          background: #777 ;
         }
       }
     }
@@ -1012,13 +994,13 @@
     }
     .activity_point_int {
       background : transparent ;
-      color: #ccc ;
-      border-color: #ccc;
+      color: #777 ;
+      border-color: #777;
     }
     .each_activity_log.active {
       .activity_point_int {
-         background: #ccc ;
-         border: solid 1px #ccc ;
+         background: #777 ;
+         border: solid 1px #777 ;
          color: #fff ;
       }
       .activity_point_ext {
@@ -1085,5 +1067,36 @@ multiselect .dropdown-menu > li > a {
     cursor:pointer;
 }
 /* End Mulitiple select option */
+
+
+.common_graph_legend {
+  margin: 0px auto 0 185px ; 
+  width: 220px ;
+  .graph_legends {
+      float: left;
+      margin-right: 30px ;
+      .legend {
+        display: inline-block;
+        height: 17px ;
+        width: 17px ;
+        border-radius: 17px ;
+        -webkit-border-radius : 17px ;
+        -moz-border-radius : 17px ;
+        background: #0072bc;
+        float: left;
+        margin-right: 10px ;
+      }
+      .legend_text {
+        display: inline-block;
+        float: left;
+      }
+
+    }
+    .internal_legend {
+        .legend {
+          background: #777 ;
+        }
+      }
+  }
 
 
