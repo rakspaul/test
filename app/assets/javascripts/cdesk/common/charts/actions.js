@@ -13,14 +13,13 @@
       var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey) {
 
         var text, textBG, marker, container;
-
         marker = chart.renderer.text('E',xPos-2,yPos+2).attr({
           id: 't'+actionId || 'NA',
           zIndex: 5
         }).css({
           fontWeight: 'bold',
           fontSize: '9px',
-          color: (defaultGrey || isActionExternal==false || loginModel.getIsNetworkUser()==false) ? 'transparent' :'white',
+          color: (defaultGrey || isActionExternal==false || loginModel.getIsNetworkUser()==false) ? 'transparent' :'transparent',
           cursor: 'pointer'
         }).on('click', function (markerObj) {
           //console.log(markerObj.target.id);
@@ -30,12 +29,11 @@
         }).on('mouseout', function (e) {
           //$('#'+actionId).trigger('mouseout',this);
         }).add(),
-          container = marker.getBBox();
-
-        chart.renderer.circle(container.x+3 , container.y+5,7).attr({
-          fill: (defaultGrey) ? 'white' : '#0072bc' || 'white',
-          stroke: (defaultGrey) ? '#0070CE' : '#0072bc' || '#0070CE',
-          'stroke-width': 4,
+        container = marker.getBBox();
+        chart.renderer.circle(container.x+3 , container.y+5,9).attr({
+          fill: '#fff',
+          stroke: (defaultGrey == false|| isActionExternal==false ) ? '#777':'#0072bc',
+          'stroke-width': 1,
           id: actionId || 'NA',
           kpiType: kpiType || 'NA',
           kpiValue: kpiValue || 'NA',
@@ -68,7 +66,9 @@
             }
             symbol = kpiPrefix(kpiType);
             suffix = kpiSuffix(kpiType);
-            text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + suffix + "</b><br>" + this.getAttribute('comment'), x + 10 + correctionX, y + 10 * 2)
+            var html_comment= (this.getAttribute('comment')).toString();
+            html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
+            text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + suffix + "</b><br>" + html_comment  , x + 10 + correctionX, y + 10 * 2)
               .attr({
                 zIndex: 16
               }).css({
@@ -88,9 +88,14 @@
             textBG.destroy();
           }).on('click', function (circleObj) {
             var myContainer = $('#action-container:first');
+            /* New Code */
+            $('circle').attr({ fill:'#ffffff'});
+            $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+            //End 
             if(defaultGrey) {
-              $('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
-              $('circle#' + circleObj.target.id).attr({stroke: '#0070CE', fill:'#0070CE'});
+
+              //$('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
+             // $('circle#' + circleObj.target.id).attr({stroke: '#0070CE', fill:'#0070CE'});
               $('text#t' + circleObj.target.id).css({fill:'transparent'});
 
               myContainer = $('.reports_section_details_container');
