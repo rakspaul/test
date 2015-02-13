@@ -47,7 +47,7 @@
                 case 'action rate':
                     screenWidgetData['selectedMetric'] = constants.ACTION_RATE;
                     break;
-                case 'Allocation Spend' :
+                case 'spend allocation' :
                     screenWidgetData['selectedMetric'] = constants.SPEND;
                     break;
             }

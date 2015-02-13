@@ -269,11 +269,11 @@
             node.append("text")
                 .attr("x", function (d) {
                     if(d.percValue.length < 7)
-                    return 270;
+                    return 260;
                     else if(d.percValue.length < 12)
-                    return 250 ;
+                    return 240 ;
                     else if (d.percValue.length < 16)
-                    return 220;
+                    return 210;
                 })
                 .attr("y", function (d) {
 
