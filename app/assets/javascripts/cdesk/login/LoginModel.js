@@ -8,6 +8,7 @@
       data.auth_token = undefined;
       data.expiry_secs = undefined;
       data.login_name = undefined;
+      data.agency_id = undefined;
   var updateRedirectUrl = function(value) {
     $cookieStore.put(constants.COOKIE_REDIRECT, value);
   }
@@ -70,6 +71,15 @@ return {
         data.user_id = $cookieStore.get('cdesk_session').user_id;
         return $cookieStore.get('cdesk_session').user_id;
       }
+    },
+
+    getAgencyId : function() {
+        if(data.agency_id) {
+            return data.agency_id;
+        } else if($cookieStore.get('cdesk_session')) {
+            data.agency_id = $cookieStore.get('cdesk_session').agency_id;
+            return $cookieStore.get('cdesk_session').agency_id;
+        }
     },
 
     getUserName : function() {
