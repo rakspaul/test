@@ -182,12 +182,12 @@
                 .attr("spreadMethod", "pad");
 
             gradient.append("svg:stop")
-                .attr("offset", "70%")
+                .attr("offset", "50%")
                 .attr("stop-color", "#0978c9")
                 .attr("stop-opacity", 1);
 
             gradient.append("svg:stop")
-                .attr("offset", "100%")
+                .attr("offset", "80%")
                 .attr("stop-color", "#2298ef")
                 .attr("stop-opacity", 1);
 
