@@ -53,8 +53,7 @@
       };
 
       this.APIScreenWidgetForBrand = function(timePeriod,agencyId,  brandId , _screenWidgetFormatType){
-
-          var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf' ;
+         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/brands/'+brandId +'/'+ _screenWidgetFormatType + '/perf' ;
           return url ;
       };
 

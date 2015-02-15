@@ -72,12 +72,12 @@
 
             if (data !== undefined && data.length > 0) {
                 // max selected metric value will be first non zero value of the selected metric out of all nodes
-                var max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1][selected_metric_key]) == 0 ? ((data[2][selected_metric_key] == 0 ? (data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
+                var max_selected_metric_value = ((data[0][selected_metric_key]) == 0 ? ((data[1] !== undefined && data[1][selected_metric_key]) == 0 ? ((data[2] !== undefined && data[2][selected_metric_key] == 0 ? (data[3] !== undefined && data[3][selected_metric_key]):(data[2][selected_metric_key])) ):((data[1][selected_metric_key]) )) : ((data[0][selected_metric_key]))),
 
                     ratio = (max_selected_metric_value == 0)? 0 : length / max_selected_metric_value,
                     totalAllocation = 0;
 
-                var index_to_remove ;
+                var index_to_remove = -1;
 
                 for (var i in data) {
                     totalAllocation += data[i][selected_metric_key];
@@ -87,7 +87,12 @@
                         index_to_remove = i;
                     }
                 }
-                data.splice(index_to_remove,1);
+
+                console.log(index_to_remove + " index_to_remove");
+                if(index_to_remove !== -1)
+                  data.splice(index_to_remove,1);
+
+                console.log(data);
 
                 for (var index in data) {
                     var node = data[index];
@@ -95,7 +100,7 @@
                     var percAllocation , percAllocationString , showGreyProgressBar = false, bar_length;
 
                     if (selected_metric_key == 'gross_rev' || selected_metric_key == 'impressions') {
-                        percAllocation = (node[selected_metric_key] / totalAllocation) *100;
+                        percAllocation = (totalAllocation == 0 || node[selected_metric_key] == 0)? 0: (node[selected_metric_key] / totalAllocation) *100;
                         if(percAllocation < 0.5)
                         percAllocation = 0.00;
                         bar_length = node[selected_metric_key] * ratio ;
@@ -140,7 +145,7 @@
                             break;
                     }
 
-
+                   console.log(node.dimension);
                     var obj = {
                         dimension: node.dimension,
                         selected_metric: selected_metric_key,
@@ -153,6 +158,7 @@
                         iconPath: iconPath
 
                     };
+                    console.log(obj);
 
                     formattedData.push(obj);
                 }
