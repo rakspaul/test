@@ -13,7 +13,16 @@
 
             bubbleChartModel.getBubbleChartData().then(function(result) {
                 $scope.spendBusy = false ;
-                bubbleChart.updateBubbleChartData(result);
+                if(bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true){
+                    d3.select("#brands_svg").remove();
+                    d3.select("#campaigns_svg").remove();
+                    $("#data_not_available").show();
+                 //   $scope.cleanScreenWidget();
+                }else{
+                    $("#data_not_available_screen").hide();
+                    bubbleChart.updateBubbleChartData(result);
+                }
+               // bubbleChart.updateBubbleChartData(result);
             });
         }
 
@@ -29,7 +38,6 @@
         $scope.$on(constants.BRAND_BUTTON_CLICKED, function(event, args) {
             $("#brands").show();
             $("#campaigns").hide();
-            $("#backToBrands").hide();
             bubbleChart.cleaningBubbleChart("campaigns");
             // alert("catch the event in dashboard");
         });
@@ -37,7 +45,6 @@
         $scope.backToBrands = function(){
             $("#brands").show();
             $("#campaigns").hide();
-            $("#backToBrands").hide();
             bubbleChart.cleaningBubbleChart("campaigns");
             //$("#campaigns_svg").removeAll();
         };

@@ -159,8 +159,10 @@
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
                 var maxRadius = 70 ;
-                var maxBudget = brandArray[0].budget ;
-                var ratio = maxRadius / maxBudget ;
+                //console.log(brandArray[0] + " brandArray[0]");
+
+                var maxBudget = (brandArray == undefined || brandArray[0] == undefined) ? 0 : brandArray[0].budget ;
+                var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
                 for(var i in brandArray){
                     var node = brandArray[i];
                     var percFill =0 ;

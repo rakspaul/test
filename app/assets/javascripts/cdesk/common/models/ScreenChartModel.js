@@ -13,7 +13,6 @@
         this.getScreenChartData = function () {
            var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase();
             var url;
-            console.log("selected brand id is "+brandsModel.getSelectedBrand().id + (brandsModel.getSelectedBrand().id !== -1) );
             if(brandsModel.getSelectedBrand().id !== -1){
                  url = urlService.APIScreenWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), brandsModel.getSelectedBrand().id , _screenWidgetFormatType );
             }else {
