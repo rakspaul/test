@@ -5,18 +5,33 @@
             metricDropDown : [constants.SPEND, constants.IMPRESSIONS, constants.CTR, constants.CPA, constants.CPM, constants.CPC, constants.ACTION_RATE],
             selectedFormat : constants.SCREENS,
             formatDropDown : [constants.SCREENS, constants.FORMATS],
-            chartData : {}
+            chartData : {},
+            dataNotAvailable : true
 
         };
 
         this.getScreenChartData = function () {
            var _screenWidgetFormatType = "by" + screenWidgetData['selectedFormat'].toLowerCase();
-            var url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType );
+            var url;
+            console.log("selected brand id is "+brandsModel.getSelectedBrand().id + (brandsModel.getSelectedBrand().id !== -1) );
+            if(brandsModel.getSelectedBrand().id !== -1){
+                 url = urlService.APIScreenWidgetForBrand(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), brandsModel.getSelectedBrand().id , _screenWidgetFormatType );
+            }else {
+                 url = urlService.APIScreenWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, loginModel.getAgencyId(), _screenWidgetFormatType );
+            }
+
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                screenWidgetData['chartData'] = data ;
-                return  screenWidgetData['chartData'] ;
+                console.log(data);
+                if(data !== undefined && data.length >0){
+                    screenWidgetData['dataNotAvailable'] = false ;
+                    screenWidgetData['chartData'] = data ;
+                } else {
+                    screenWidgetData['dataNotAvailable'] = true ;
+                }
+
+              //  return  screenWidgetData['chartData'] ;
             })
         };
 

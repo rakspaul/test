@@ -17,9 +17,26 @@
 
             screenChartModel.getScreenChartData().then(function(result) {
                 $scope.screenBusy = false ;
-                screenChart.updateScreenChartData();
+                if(screenChartModel.getScreenWidgetData()['dataNotAvailable'] == true){
+                    $("#data_not_available_screen").show();
+                    $scope.cleanScreenWidget();
+                }else{
+                    $("#data_not_available_screen").hide();
+                    screenChart.updateScreenChartData();
+                }
+
             });
-        }
+        };
+
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+
+            console.log("cleaning up old screen widget");
+            $scope.cleanScreenWidget();
+
+            getScreenAndFormatData();
+        });
+
+
 
         $scope.cleanScreenWidget = function(){
             d3.select("#screen_svg").remove();
