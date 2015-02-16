@@ -24,7 +24,7 @@
 
                         if(brand_data == undefined){
                             $("#data_not_available").show();
-                          //  bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true
+                            bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true
                         } else {
                             var data = {
                                 campaigns : (brand_data == undefined) ? {} : brand_data['campaigns']

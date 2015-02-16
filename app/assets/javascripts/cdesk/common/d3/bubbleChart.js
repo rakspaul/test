@@ -25,7 +25,7 @@
 
         var tooltip = d3.select("body")
             .append("div")
-            .attr("id","tooltip")
+            .attr("id","bubbleChartTooltip")
             .style("position", "absolute")
             .style("z-index", "10")
             .style("visibility", "hidden")
@@ -407,7 +407,6 @@
                     r : obj.r
                 };
 
-        //        d3.select("#brands_"+focused_obj.id +"_path").remove();
 
                 node.selectAll("circle").attr('opacity',0.5);
                 node.selectAll("path").attr('opacity', 0.5);
@@ -455,13 +454,13 @@
 
            node.on("mousemove", function(){
                return tooltip.style("top", (event.pageY-10)+"px")
-                   .style("left",(event.pageX+10)+"px");
+                   .style("left",(event.pageX+10)+"px")
+                   .style;
            });
 
             node.on("click", function(obj) {
 
-               var brand_name = obj.className ;
-                
+                tooltip.style("visibility", "hidden");
                 $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
             });
 
@@ -634,7 +633,8 @@
                     .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
                     .attr("stroke-width", 3);
 
-                return tooltip.text(campaign_obj.name +", Total Spend : $"+ campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+
+                return tooltip.html(campaign_obj.name + " <br/> Total Spend : $" + campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible");
 
@@ -643,7 +643,8 @@
 
             node.on("mousemove", function(){
                 return tooltip.style("top", (event.pageY-10)+"px")
-                    .style("left",(event.pageX+10)+"px");
+                    .style("left",(event.pageX+10)+"px")
+                    .style("visibility", "visible");;
             });
 
             node.on("mouseout" , function(obj){
