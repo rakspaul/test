@@ -1,24 +1,27 @@
 <div class="dashboard_section dashboard_screens_graph_holder" ng-controller="screenChartController"  >
   <div class="data_not_available" id="data_not_available" style="display: none"> Data not available</div>
 
-  <div class="dashboard_heading dashboard_heading_bold clearfix">
-    <div class="pull-left dropdown" id="dashboard_screen_dd">
-            <span class="dropdown_ul_text" data-toggle="dropdown">
-              <span>{{screenWidgetData.selectedFormat}}</span>
-              <span class="arrow_img"></span>
-            </span>
-      <ul class="dropdown_ul dropdown-menu">
-        <li ng-repeat="data in screenWidgetData.formatDropDown " data-ng-click="formatDropdownChange(data)">{{data}}</li>
-      </ul>
-    </div>
-    <div class="pull-right dropdown" id="dashboard_allocation_dd">
-            <span class="dropdown_ul_text" data-toggle="dropdown">
-              <span>{{screenWidgetData.selectedMetric}}</span>
-              <span class="arrow_img"></span>
-            </span>
-      <ul class="dropdown_ul dropdown-menu">
-        <li  ng-repeat="data in screenWidgetData.metricDropDown" data-ng-click="metricDropdownChange(data)" >{{data }}</li>
-      </ul>
+  <div class="clearfix">
+    <div class="dashboard_heading dashboard_heading_bold clearfix">
+      <div class="pull-left dropdown" id="dashboard_screen_dd">
+              <span class="dropdown_ul_text" data-toggle="dropdown">
+                <span>{{screenWidgetData.selectedFormat}}</span>
+                <span class="arrow_img"></span>
+              </span>
+              <ul class="dropdown_ul dropdown-menu">
+                <li ng-repeat="data in screenWidgetData.formatDropDown " data-ng-click="formatDropdownChange(data)">{{data}}</li>
+              </ul>
+      </div>
+      <div class="pull-right dropdown" id="dashboard_allocation_dd">
+              <span class="metrics_text">Metrics</span>
+              <span class="dropdown_ul_text" data-toggle="dropdown">
+                <span>{{screenWidgetData.selectedMetric}}</span>
+                <span class="arrow_img"></span>
+              </span>
+              <ul class="dropdown_ul dropdown-menu">
+                <li  ng-repeat="data in screenWidgetData.metricDropDown" data-ng-click="metricDropdownChange(data)" >{{data }}</li>
+              </ul>
+      </div>
     </div>
     <div class="common_loading_icon" ng-if="screenBusy "></div>
     <span id="screens" ></span>
