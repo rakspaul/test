@@ -47,6 +47,16 @@
        return url ;
     };
 
+    this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, state ){
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&state='+ state ;
+       return url ;
+    };
+
+    this.APICalendarWidgetForAllBrands = function(timePeriod, agencyId, sortColumn, state, brandId){
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/' + agencyId + '/brands/' + brandId + '/campaigns/meta?topCount=5&sort_column=' + sortColumn + '&state=' + state ;
+       return url ;
+    };
+
      this.APIScreenWidgetForAllBrands = function(timePeriod, agencyId , _screenWidgetFormatType){
           var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId+ '/'+ _screenWidgetFormatType + '/perf' ;
           return url ;

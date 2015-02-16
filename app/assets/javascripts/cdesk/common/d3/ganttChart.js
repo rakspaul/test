@@ -43,7 +43,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 700]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -90,7 +90,7 @@
 
 		    var initAxis = function(timeDomainString) {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 700]);
 			
 				//TO DO - better names
 				var formatDay = d3.time.format("%d");
@@ -763,8 +763,28 @@
 
 		};
 
+		function updateCalendar(task, taskName) {
+			tasks = task;
+			taskNames = taskName;
+
+		    taskStatus = {
+		        "ontrack": "bar",
+		        "underperforming": "bar",
+		        "paused": "bar",
+		        "ready": "bar",
+		        "completed": "bar"
+		    };
+
+		    timeDomainString = "today";
+		    changeTimeDomain(timeDomainString);
+		    gantt.redraw(tasks, timeDomainString);
+
+
+		};
+
 		//expose this function to public
 		this.newCalendar = newCalendar;
+		this.updateCalendar = updateCalendar;
 		this.addTask = addTask;
 		this.prev = prev;
 		this.next = next;
