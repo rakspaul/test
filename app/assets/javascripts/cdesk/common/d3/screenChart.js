@@ -12,8 +12,7 @@
         function updateScreenChartData() {
             var data = screenChartModel.getScreenWidgetData()['chartData'];
             this.screenData = data;
-            d3.select("#screens_svg").remove();
-
+            d3.select("#screen_svg").remove();
             createScreenChart.call(this, this.screenData);
         };
 
@@ -55,18 +54,6 @@
                     })
                     .value();
 
-//                // in case of cpc, cpa and cpm if top element has value 0 for selected metric , put that at the end.
-//
-//                if(data[0][selected_metric_key] == 0){
-//                    console.log("THIS DATA HAS TOP ELEMENT AS ZERO");
-//                    console.log(data);
-//
-//                    var node_to_put_atEnd = data[0];
-//                    console.log(node_to_put_atEnd);
-//                  //  data = data.splice(0,1);
-//                     data.push(node_to_put_atEnd);
-//                    console.log(data);
-//                }
             }
 
 
@@ -88,11 +75,9 @@
                     }
                 }
 
-                console.log(index_to_remove + " index_to_remove");
                 if(index_to_remove !== -1)
                   data.splice(index_to_remove,1);
 
-                console.log(data);
 
                 for (var index in data) {
                     var node = data[index];
@@ -104,7 +89,7 @@
                         if(percAllocation < 0.5)
                         percAllocation = 0.00;
                         bar_length = node[selected_metric_key] * ratio ;
-                        percAllocationString = percAllocation.toFixed(2) + "%";
+                        percAllocationString = percAllocation.toFixed(0) + "%";
 
                     } else if (selected_metric_key == 'ctr' || selected_metric_key == 'action_rate' || selected_metric_key == 'vtc') {
                         percAllocation = node[selected_metric_key] * 100;
@@ -113,7 +98,7 @@
                     } else if (selected_metric_key == 'cpa' || selected_metric_key == 'cpm' || selected_metric_key == 'cpc') {
                         bar_length = (node[selected_metric_key] == 0)? 0: (length * max_selected_metric_value)/ node[selected_metric_key]  ;
                         percAllocation = node[selected_metric_key] ;
-                        percAllocationString = "$" + percAllocation.toFixed(2);
+                        percAllocationString = "$" + percAllocation.toFixed(0);
                     }
 
                     if (percAllocation !== undefined && percAllocation.toFixed(2) == 0.00) {
@@ -145,7 +130,6 @@
                             break;
                     }
 
-                   console.log(node.dimension);
                     var obj = {
                         dimension: node.dimension,
                         selected_metric: selected_metric_key,
@@ -158,7 +142,6 @@
                         iconPath: iconPath
 
                     };
-                    console.log(obj);
 
                     formattedData.push(obj);
                 }
@@ -172,6 +155,7 @@
                 $("#data_not_available").show();
             }
 
+            d3.select("#screen_svg").remove();
             var screen_svg = d3.select("#screens").append("svg")
                 .attr("width", 400)
                 .attr("height", 280)
@@ -274,8 +258,10 @@
 
             node.append("text")
                 .attr("x", function (d) {
-                    if(d.percValue.length < 7)
-                    return 260;
+                    if(d.percValue.length < 4)
+                    return 285;
+                    else if(d.percValue.length < 7)
+                        return 260;
                     else if(d.percValue.length < 12)
                     return 240 ;
                     else if (d.percValue.length < 16)

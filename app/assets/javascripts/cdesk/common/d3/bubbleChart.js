@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("bubbleChart", function($rootScope,constants) {
+    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel) {
 
         var darkblue = "#0978c9 " ,
             blue = "#209AEF" ,
@@ -25,6 +25,7 @@
 
         var tooltip = d3.select("body")
             .append("div")
+            .attr("id","tooltip")
             .style("position", "absolute")
             .style("z-index", "10")
             .style("visibility", "hidden")
@@ -159,7 +160,6 @@
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
                 var maxRadius = 70 ;
-                //console.log(brandArray[0] + " brandArray[0]");
 
                 var maxBudget = (brandArray == undefined || brandArray[0] == undefined) ? 0 : brandArray[0].budget ;
                 var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
@@ -190,7 +190,7 @@
             } else if(spanId == 'campaigns'){
                 var campaignArray = root['campaigns'];
                 var maxRadius = 60 ;
-                var maxBudget = campaignArray[0].budget ;
+                var maxBudget = (campaignArray == undefined || campaignArray[0] == undefined) ? 0 : campaignArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
 
                 for(var i in campaignArray){
@@ -229,7 +229,32 @@
              createBubbleChartNew.call(this, "brands", this.spendData);
         };
 
+        function updatCampaignBubbleChartData(data){
+            $("#brands").hide();
+            $("#campaigns").show();
+            createBubbleChartForCampaigns("campaigns",data );
+        };
+//        var brand_name = obj.className ;
+//
+//        $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
+//
+//        $("#brands").hide();
+//        $("#backToBrands").show();
+//
+//
+//        var campaigns = obj.campaigns ;
+//        var data = {
+//            "campaigns": campaigns
+//        };
+//
+//        self.createBubbleChartForCampaigns("campaigns",data );
+//
+//        $("#campaigns").show();
+//        self.first = false ;
+
+
         this.updateBubbleChartData = updateBubbleChartData ;
+        this.updatCampaignBubbleChartData = updatCampaignBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
             if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
@@ -438,20 +463,6 @@
                var brand_name = obj.className ;
                 
                 $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
-
-                $("#brands").hide();
-                $("#backToBrands").show();
-
-
-                var campaigns = obj.campaigns ;
-                var data = {
-                    "campaigns": campaigns
-                };
-
-               self.createBubbleChartForCampaigns("campaigns",data );
-
-                $("#campaigns").show();
-                self.first = false ;
             });
 
         } ;
@@ -461,7 +472,7 @@
             $("#data_not_available").hide();
         };
 
-        this.createBubbleChartForCampaigns = function( spanId , data){
+        var createBubbleChartForCampaigns = function( spanId , data){
           //  var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
             var campaigns_svg  = d3.select("#campaigns").append("svg")
                 .attr("width", 400)

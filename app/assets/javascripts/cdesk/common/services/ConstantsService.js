@@ -59,7 +59,7 @@
     this.GAUGE_PERFORMANCE = 1;
     this.COOKIE_REDIRECT = "cdesk_redirect";
     this.COOKIE_SESSION = "cdesk_session";
-    this.SPEND = "Spend Allocation";
+    this.SPEND = "Spend";
     this.IMPRESSIONS ="Impressions";
     this.CTR = "CTR";
     this.CPM = "CPM";
