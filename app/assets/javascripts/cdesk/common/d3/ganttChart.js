@@ -176,7 +176,7 @@
 
 		    };
 
-		    gantt.draw = function(tasks) {
+		    gantt.draw = function(tasks, timeDomainString) {
 
 		        var svg = d3.select("#calendar_widget").select("svg");
 
@@ -466,11 +466,16 @@
 
 		        rectData.exit().remove();
 
-
 		        svg.select(".x").transition().call(xAxis)
-		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d) {
-		                return 20
+		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
+		        		//formatting for ticks
+		            	if(timeDomainString == "1month") {
+		      				if(i == 0) {return -30; }else {return 5;}
+		            	} else {
+		                	return 20;
+		            	}
 		            });
+
 		        svg.select(".y").transition().call(yAxis).selectAll(".tick text").attr("style","font-weight:bold;font-family:Avenir;font-size:13pt");
 
 		        return gantt;
@@ -480,7 +485,7 @@
 		        //console.log('redraw');
 		        initTimeDomain(tasks);
 		        initAxis(timeDomainString);
-		        gantt.draw(tasks);
+		        gantt.draw(tasks, timeDomainString);
 		        return gantt;
 		    };
 
@@ -625,7 +630,21 @@
 		}
 
 		function changeTimeDomain(timeDomainString) {
+
 		    // this.timeDomainString = timeDomainString;
+
+		    //calculating timedomain based on present day 
+		    var todayIs = moment();
+		    var thisMonth = moment().format("MM");
+		    var presentYear = moment().format("YYYY");
+
+		    //this quarter
+		    //this year
+		    //this month
+
+		  
+		    
+
 		    switch (timeDomainString) {
 		        case "1hr":
 		            format = "%H:%M:%S";
@@ -653,23 +672,38 @@
 
 		        case "1month":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(getEndDate(), -30), getEndDate()]);
+
+		            gantt.timeDomain([moment().startOf('month'), moment().endOf('month')]);
 		            break;
 
 				case "today":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(Date.now(), -4), d3.time.day.offset(Date.now(), +3)]);
+		            //monday to sunday
+		            gantt.timeDomain([moment().startOf('day').subtract(3, 'days'), moment().endOf('day').add(3, 'days')]);
 		            break;
 
 		        case "quarter":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(Date.now(), -45), d3.time.day.offset(Date.now(), +45)]);
+
+		            var qStart = 0, qEnd = 2;
+		            if(thisMonth >= 1 && thisMonth <= 3  ){
+		             	qStart = 0; qEnd = 2;
+		            } else if(thisMonth >= 4 && thisMonth <= 6  ){
+		            	qStart = 3; qEnd = 5;
+		            } else if(thisMonth >= 7 && thisMonth <= 9  ){
+		            	qStart = 6; qEnd = 8;
+		            } else if(thisMonth >= 10 && thisMonth <= 12  ){
+		            	qStart = 9; qEnd = 11;
+
+		            }
+
+		            gantt.timeDomain([moment().month(qStart).startOf('month'), moment().month(qEnd).endOf('month')]);
 		            break;
 
 
 		        case "year":
 		            format = "%d";
-		            gantt.timeDomain([d3.time.day.offset(Date.now(), -150), d3.time.day.offset(Date.now(), +150)]);
+		            gantt.timeDomain([moment().startOf('year'), moment().endOf('year')]);
 		            break;
 
 		        case "next":
