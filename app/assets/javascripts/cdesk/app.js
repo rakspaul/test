@@ -18,6 +18,12 @@ var angObj = '';
 
 
     angObj.config(function ($routeProvider, $httpProvider) {
+       var setDefaultPage = 'campaigns';
+       if(localStorage.getItem('networkUser') == 'true' || localStorage.getItem('networkUser') == true){
+        setDefaultPage = 'campaigns';
+       }else{
+        setDefaultPage = 'dashboard';
+       }
         $routeProvider
             .when('/campaigns/:campaignId', {
                 templateUrl: 'campaign_details',
@@ -44,7 +50,7 @@ var angObj = '';
                 templateUrl: 'performance',
                 controller: 'performanceController'
             })
-            .otherwise({redirectTo: 'campaigns'});
+            .otherwise({redirectTo: setDefaultPage});
      //   $compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|):/);
         delete $httpProvider.defaults.headers.common['X-Requested-With'];
         
