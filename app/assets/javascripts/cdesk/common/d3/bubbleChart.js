@@ -149,7 +149,11 @@
                 }
 
             }
-            return lineData ;
+            return {
+                lineData : lineData,
+                curveEndX : xend,
+                curveEndY : ystart
+            } ;
         };
 
         function dataFormatting (root , spanId){
@@ -171,6 +175,8 @@
                       percFill   = Math.round((node.spend / node.budget)* 100);
                       radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
                     }
+                    var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
+
                     var object = {
                         id:  i ,
                         brandId: node.id,
@@ -182,7 +188,10 @@
                         campaigns : node.campaigns,
                         cx : positions[i][0],
                         cy : positions[i][1],
-                        r : radius
+                        r : radius,
+                        pathData : pathData['lineData'],
+                        toolTipX : pathData['curveEndX'],
+                        toolTipY : pathData['curveEndY']
                     };
 
                     formattedDataBrands.push(object);
@@ -201,6 +210,8 @@
                         percFill   = Math.round((node.spend / node.budget)* 100);
                         radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
                     }
+                    var pathData =  dataGenerator(positionsCampaigns[i][0], positionsCampaigns[i][1], radius, percFill );
+
                     var object = {
                         id: i ,
                         className: node.name,
@@ -211,7 +222,10 @@
                         percFill : percFill ,
                         cx : positionsCampaigns[i][0],
                         cy : positionsCampaigns[i][1],
-                        r : radius
+                        r : radius,
+                        pathData : pathData['lineData'],
+                        toolTipX : pathData['curveEndX'],
+                        toolTipY : pathData['curveEndY']
                     };
                     formattedDataCampaigns.push(object);
                 }
@@ -234,23 +248,6 @@
             $("#campaigns").show();
             createBubbleChartForCampaigns("campaigns",data );
         };
-//        var brand_name = obj.className ;
-//
-//        $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
-//
-//        $("#brands").hide();
-//        $("#backToBrands").show();
-//
-//
-//        var campaigns = obj.campaigns ;
-//        var data = {
-//            "campaigns": campaigns
-//        };
-//
-//        self.createBubbleChartForCampaigns("campaigns",data );
-//
-//        $("#campaigns").show();
-//        self.first = false ;
 
 
         this.updateBubbleChartData = updateBubbleChartData ;
@@ -305,8 +302,7 @@
                     return ("brands_"+ d.id +"_path" ) ;
                 })
                 .attr("d",function(d){
-                    var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
-                    return lineFunction(dataSet);
+                    return lineFunction(d.pathData);
                 })
                 .attr("stroke" , blue)
                 .attr("stroke-width", 0.5)
@@ -404,7 +400,9 @@
                     cy : obj.cy,
                     percFill : obj.percFill,
                     spend : obj.spend,
-                    r : obj.r
+                    r : obj.r,
+                    tootlipX : obj.toolTipX,
+                    tooltipY : obj.toolTipY
                 };
 
 
@@ -516,8 +514,7 @@
                     return ("campaigns_" + d.id +"_path" ) ;
                 })
                 .attr("d",function(d){
-                    var dataSet = dataGenerator(d.cx, d.cy, d.r, d.percFill );
-                    return lineFunction_circle(dataSet);
+                    return lineFunction_circle(d.pathData);
                 })
                 .attr("stroke-width",4)
                 .attr("stroke" , function(d){
@@ -527,11 +524,6 @@
                  return (d.status == 'ontrack') ?  green : orange ;
 
                 }) ;
-
-//                    node.append("title")
-//                        .text(function (d) {
-//                            return d.className;
-//                        });
 
 
             node.append("text") //For brand name
@@ -615,7 +607,9 @@
                     status : obj.status,
                     percFill : obj.percFill,
                     spend : obj.spend,
-                    r : obj.r
+                    r : obj.r,
+                    tootlipX : obj.toolTipX,
+                    tooltipY : obj.toolTipY
                 };
 
                 //        d3.select("#brands_"+focused_obj.id +"_path").remove();
@@ -644,7 +638,7 @@
             node.on("mousemove", function(){
                 return tooltip.style("top", (event.pageY-10)+"px")
                     .style("left",(event.pageX+10)+"px")
-                    .style("visibility", "visible");;
+                    .style("visibility", "visible");
             });
 
             node.on("mouseout" , function(obj){
