@@ -25,6 +25,7 @@
 
         var tooltip = d3.select("body")
             .append("div")
+            .attr("class" , "bubble_tooltip") 
             .attr("id","bubbleChartTooltip")
             .style("position", "absolute")
             .style("z-index", "10")
