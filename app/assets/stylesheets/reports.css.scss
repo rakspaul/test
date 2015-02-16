@@ -283,10 +283,18 @@ $reportBorder : #ccd9e3 ;
   @include ColHeadingFontColor() ;
   .each_rep_col_holder {
     border-bottom: solid 2px $reportBorder ;
-    padding: 11px 16px ;
+    padding: 15px 16px ;
     border-left: solid 5px transparent;
     background: $reportHighlight ;
     border: solid 1px $reportBorder ;
+  }
+}
+.each_reports_row_heading.optimization_heading {
+  
+  text-transform: none;
+  .after_before_title {
+    @include ColHeadingFontColor();
+    font-size: 12px ;
   }
 }
 .type3_section_reports .one_section_report_heading {
@@ -1457,6 +1465,14 @@ div.strategy_total_container {
     }
     .left_border {
       border-left: solid 1px #ddedf8 ;
+    }
+    .each_reports_row_heading.optimization_heading  {
+      .each_rep_col_holder {
+        padding-top: 20px ;
+      }
+      .after_before_title {
+        margin-top: 4px;
+      }
     }
   }
   .breadcrumb_campaign {
