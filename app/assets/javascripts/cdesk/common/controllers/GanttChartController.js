@@ -10,7 +10,8 @@
                 $scope.noData = false;
                 var brands = [],
                     campaigns = [],
-                    count =0;
+                    count =0,
+                    limit = 5;
                 //TODO: move this into a service
                 if(result.brands.length >0){
                     $scope.noData = false;
@@ -52,7 +53,7 @@
                             campaigns.push(c);
                             brands.push(count);
 
-                            _.each(datum.campaigns, function(tasks) {
+                            _.each(_.first(datum.campaigns, limit), function(tasks) {
                                 count++;
                                 var c = {};
                                 c.id = tasks.id;
@@ -65,6 +66,7 @@
                                 brands.push(count);
                                 campaigns.push(c);
                             });
+                            
                         
                     });
 
