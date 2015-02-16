@@ -18,7 +18,7 @@
             }
 
            // var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
-            var canceller = requestCanceller.initCanceller(constants.GANTT_CHART_CANCELLER);
+            var canceller = requestCanceller.initCanceller(constants.GANTT_CHART_BRAND_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
                 return data;

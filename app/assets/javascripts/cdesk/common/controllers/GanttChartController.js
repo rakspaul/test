@@ -7,11 +7,13 @@
             $scope.calendarBusy = true;
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
+                $scope.noData = false;
                 var brands = [],
                     campaigns = [],
                     count =0;
                 //TODO: move this into a service
                 if(result.brands.length >0){
+                    $scope.noData = false;
                     _.each(result.brands, function(datum) {
 
                         //placeholder - empty value to add spacing
@@ -70,21 +72,20 @@
                         ganttChart.newCalendar(campaigns, brands);
                     } else {
                         //TODO stabilize update
-                        //ganttChart.updateCalendar(campaigns, brands);
+                        // console.log(brands);
+                        // console.log(campaigns);
+                        ganttChart.updateCalendar(campaigns, brands);
                     }
             } else {
                 console.log('no calendar data');
+                $scope.noData = true;
             }
 
             
             });
         };
 
-        //Listener for brand changes
-        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $scope.init('update');
-        });
-
+       
         $scope.add = function(){
         	ganttChart.addTask();
         }
@@ -113,6 +114,12 @@
         }
 
         $scope.init();
+
+         //Listener for brand changes
+        $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            $scope.init('update');
+        });
+
 
     });
 }());

@@ -764,6 +764,8 @@
 		};
 
 		function updateCalendar(task, taskName) {
+			tasks = [];
+			taskNames = [];
 			tasks = task;
 			taskNames = taskName;
 
