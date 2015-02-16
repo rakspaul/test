@@ -30,9 +30,9 @@
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $("#screens").hide();
             d3.select("#screen_svg").remove();
             $("#data_not_available_screen").hide();
+            screenChartModel.getScreenWidgetData()['chartData']={};
             getScreenAndFormatData();
         });
 
@@ -46,6 +46,7 @@
             $("#screens").hide();
             d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
+            screenChartModel.getScreenWidgetData()['chartData']={};
             getScreenAndFormatData();
         };
 
