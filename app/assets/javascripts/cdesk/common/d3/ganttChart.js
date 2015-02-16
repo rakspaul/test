@@ -47,7 +47,23 @@
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
-		        .tickFormat(d3.time.format(tickFormat))
+		        .tickFormat(function(d){
+		            	
+						count++;
+						console.log(d);
+		            	if(count == 1){
+		            		return formatMonth(d);
+		            	} else {
+		            		return formatDay(d);
+		            	}
+		            	
+						
+						//if first - show date and month, 
+						//if 1st day of month - show month, day
+						//if other views - quarter, year, month 
+						//year - show month - year for 1st
+		            	
+		            })
 		        .ticks(d3.time.days, 1)
 		        .tickSize(height - margin.top, height - margin.top)
 		        .tickPadding(-15);
@@ -72,16 +88,55 @@
 		        }
 		    };
 
-		    var initAxis = function() {
+		    var initAxis = function(timeDomainString) {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 500]);
+			
+				//TO DO - better names
+				var formatDay = d3.time.format("%d");
+				var formatMonth = d3.time.format("%b %d");
 
-		        xAxis = d3.svg.axis()
-		            .scale(x).orient("top")
-		            .tickFormat(d3.time.format(tickFormat))
-		            .ticks(d3.time.days, 1)
-		            .tickSize(height - margin.top, height - margin.top)
-		            .tickPadding(-15); //modified from 8
+				var formatQuarter = d3.time.format("%b ' %y");
+				var formatMonthOnly = d3.time.format("%b");
+
+				var count =0;
+				var tickType = d3.time.days;
+				switch(timeDomainString){
+					case "quarter": 
+					case "year":
+						tickType = d3.time.months;
+				}
+
+				        xAxis = d3.svg.axis()
+				            .scale(x).orient("top")
+				            .tickFormat(function(d){
+				            	
+								count++;
+								if(timeDomainString == "1month" || timeDomainString == "today" || timeDomainString == "week"){
+					            	if(count == 1 || moment(d).format("D") == 1){
+					            		return formatMonth(d);
+					            	} else {
+					            		return formatDay(d);
+					            	}
+					            }else {
+					            	//year or quarter
+					            	if(count == 1){
+					            		return formatQuarter(d);
+					            	} else {
+					            		return formatMonthOnly(d);
+					            	}
+
+					            }
+								
+								//if first - show date and month, 
+								//if 1st day of month - show month, day
+								//if other views - quarter, year, month 
+								//year - show month - year for 1st
+				            	
+				            })
+				            .ticks(tickType, 1)
+				            .tickSize(height - margin.top, height - margin.top)
+				            .tickPadding(-15); //modified from 8
 
 		        yAxis = d3.svg.axis().scale(y).orient("left").tickFormat("").tickSize(0); //.tickFormat("")
 
@@ -421,10 +476,10 @@
 		        return gantt;
 		    };
 
-		    gantt.redraw = function(tasks) {
+		    gantt.redraw = function(tasks, timeDomainString) {
 		        //console.log('redraw');
 		        initTimeDomain(tasks);
-		        initAxis();
+		        initAxis(timeDomainString);
 		        gantt.draw(tasks);
 		        return gantt;
 		    };
@@ -630,7 +685,7 @@
 
 		    }
 		    gantt.tickFormat(format);
-		    gantt.redraw(tasks);
+		    gantt.redraw(tasks, timeDomainString);
 		}
 
 
@@ -703,6 +758,7 @@
 		    gantt.timeDomainMode("fixed");
 		    changeTimeDomain(timeDomainString);
 		    gantt(tasks);
+		    gantt.redraw(tasks, timeDomainString);
 
 
 		};
