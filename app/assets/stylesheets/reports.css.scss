@@ -913,7 +913,7 @@ div.strategy_total_container {
   }
   .each_col {
     float: left;
-    width: 150px;
+    width: 185px;
     margin: 0 25px;
     padding-top: 20px;
     @include ReportDataFontColor() ;
@@ -951,10 +951,18 @@ div.strategy_total_container {
       font-family: "Avenir";
     }
   }
-  .sec_col {
-    width: 75px;
+  div.sec_col {
+    width: 90px;
     padding-top: 20px;
     margin-right: 60px ;
+    div.sub_col {
+      span {
+        float: none !important;
+        display: block;
+        text-align: center;
+      }
+    }
+
     .graph_col {
       .full_graph_line {
         width: 124px;
@@ -1012,11 +1020,12 @@ div.strategy_total_container {
     margin: 0;
     color: #313233;
   }
-    .third_col , .forth_col , .suspicious_col  {
+  .third_col , .forth_col {
+    width: 130px ;
+  }
+  .suspicious_col  {
       width: 90px ;
-    }
-    .suspicious_col {
-      text-align: center;
+    text-align: center;
     }
   .viewability_header {
     background: #fff;

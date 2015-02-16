@@ -90,15 +90,11 @@
                     <span>15s</span>
                 </div>
             </div>
-            <div class="each_col sixth_col">
-                <span>Average Viewable Time</span>
-                <span>(SEC)</span>
-            </div>
             <div class="each_col suspicious_col">
                 <span> Suspicious Activity</span>
                 <span>(%)</span>
             </div>
-            <div class="each_col seventh_col">
+            <div class="each_col sixth_col">
 
                 <div class="dropdown">
                     <report-filters selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes"
@@ -154,13 +150,10 @@
                         <span>{{viewData.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
                     </div>
                 </div>
-                <div class="each_col sixth_col">
-                    {{viewData.view_metrics.median_viewable_time | number: number:0}}
-                </div>
                 <div class="each_col suspicious_col">
                     {{viewData.view_metrics.nht | number: number:2}}%
                 </div>
-                <div class="each_col seventh_col">
+                <div class="each_col sixth_col">
                     {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                     selected_filters.kpi_type}}
                 </div>
@@ -210,13 +203,10 @@
                                 <span>{{tactic.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
                             </div>
                         </div>
-                        <div class="each_col sixth_col">
-                            {{tactic.view_metrics.median_viewable_time | number:0}}
-                        </div>
                         <div class="each_col suspicious_col">
                             {{tactic.view_metrics.nht | number: number:2}}%
                         </div>
-                        <div class="each_col seventh_col">
+                        <div class="each_col sixth_col">
                             {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                             selected_filters.kpi_type}}
                         </div>
