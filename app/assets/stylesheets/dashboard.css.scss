@@ -216,6 +216,13 @@
 		font-weight: 500; 
   		.dropdown_ul {
   			width: 130px ;
+  			left: auto;
+			right: 0px;
+  		}
+  		.metrics_text {
+  			color: #21252b;
+			font-weight: 700;
+			margin-right: 10px;
   		}
 	}
   .dashboard_perf_graph {
@@ -372,8 +379,10 @@
     height: 20px;
     width: 40px;
     background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
-    margin: 60px auto 0;
+    margin: 120px auto 0;
     display: block;
+    position: absolute;
+	width: 100%;
   }
   #backToBrands {
     cursor: pointer;
