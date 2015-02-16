@@ -818,6 +818,16 @@ $reportBorder : #ccd9e3 ;
       }
     }
   }
+  .download-report-load-icon {
+    text-align: left;
+    font-weight: bold;
+    text-indent: -99999;
+    height: 40px;
+    width: 140px;
+    background: url(asset-path("loading.gif")) no-repeat scroll 70% 9% rgba(0, 0, 0, 0);
+    margin: 20px auto 0 ;
+    display: inline-block;
+  }
 }
 .no_data_found {
   text-align: center;

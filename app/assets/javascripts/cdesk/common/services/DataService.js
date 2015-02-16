@@ -191,11 +191,11 @@
                     var objOnSuccess = {
                         status: "success",
                         data: response.data,
-                        headers: response.headers
+                        headers: response.headers,
+                        fileName: response.headers('filename')
                     };
-                    var fileName = objOnSuccess.headers('filename');
-                    var file = new Blob([objOnSuccess.data], {type: objOnSuccess.headers('Content-Type')});
-                    return saveAs(file, fileName);
+                    objOnSuccess.file = new Blob([objOnSuccess.data], {type: objOnSuccess.headers('Content-Type')});
+                    return objOnSuccess;
                 },
                 function (error) {
                     if(error.status == 401) {
