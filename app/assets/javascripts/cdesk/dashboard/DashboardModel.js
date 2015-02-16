@@ -5,16 +5,22 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
   dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
   dashboardData.brandSelected = false;
   var setTitle = function () {
-    dashboardData.title = "Showing ";
-    var selectedBrand = brandsModel.getSelectedBrand().name;//dashboardData.selectedBrand;
-    if(selectedBrand === constants.ALL_BRANDS) {
-      //var brandsCount = brandsModel.getBrand().totalBrands;
-      dashboardData.title += "Brands: ";
-    }
-    addTitleSecondPart();
+    dashboardData.title = 'Showing ';
+    addCampaigns();
   };
-  function addTitleSecondPart() {
-    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display;
+  function addCampaigns() {
+    var selectedBrand = brandsModel.getSelectedBrand().name;
+    var brandsCount = brandsModel.getBrand().totalBrands;
+
+    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
+    //dashboardData.toolTip = 'Showing data for ';
+    dashboardData.toolTip = 'Showing ';
+    if(selectedBrand === constants.ALL_BRANDS) {
+      dashboardData.titleSecondPart += "all brands";
+      //dashboardData.toolTip += brandsCount;
+    }
+    //dashboardData.toolTip += ' campaigns across ' + brandsCount + ' brands for '+ timePeriodModel.timeData.selectedTimePeriod.display + ' for ' + selectedBrand;
+    dashboardData.toolTip += dashboardData.selectedStatus + ' campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ' + selectedBrand;
   }
   var setBrand = function(brand) {
     dashboardData.selectedBrand = brand.name;
