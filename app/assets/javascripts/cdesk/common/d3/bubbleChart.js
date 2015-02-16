@@ -423,7 +423,7 @@
                     .attr("stroke-width", 3)
                     .attr("fill", blue);
 
-                return tooltip.text(focused_obj.name + ", Total Spend : $"+ focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                return tooltip.html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible");
 
