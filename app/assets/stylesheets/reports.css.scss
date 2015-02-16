@@ -914,7 +914,7 @@ div.strategy_total_container {
   .each_col {
     float: left;
     width: 185px;
-    margin: 0 25px;
+    margin: 0 30px;
     padding-top: 20px;
     @include ReportDataFontColor() ;
     > span {
@@ -1019,6 +1019,9 @@ div.strategy_total_container {
     font-size: 12px ;
     margin: 0;
     color: #313233;
+  }
+  .third_col {
+    margin-left: 45px ;
   }
   .third_col , .forth_col {
     width: 130px ;

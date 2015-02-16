@@ -94,7 +94,7 @@
                 <span> Suspicious Activity</span>
                 <span>(%)</span>
             </div>
-            <div class="each_col sixth_col">
+            <div class="each_col seventh_col">
 
                 <div class="dropdown">
                     <report-filters selected-filter="selected_filters.kpi_type_text" list-object="filters.kpiTypes"
@@ -153,7 +153,7 @@
                 <div class="each_col suspicious_col">
                     {{viewData.view_metrics.nht | number: number:2}}%
                 </div>
-                <div class="each_col sixth_col">
+                <div class="each_col seventh_col">
                     {{viewData.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                     selected_filters.kpi_type}}
                 </div>
@@ -206,7 +206,7 @@
                         <div class="each_col suspicious_col">
                             {{tactic.view_metrics.nht | number: number:2}}%
                         </div>
-                        <div class="each_col sixth_col">
+                        <div class="each_col seventh_col">
                             {{tactic.view_metrics[selected_filters.kpi_type.toLowerCase()] | appendDollor:
                             selected_filters.kpi_type}}
                         </div>
