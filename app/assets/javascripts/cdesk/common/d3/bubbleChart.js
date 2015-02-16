@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    commonModule.service("bubbleChart", function($rootScope,constants) {
+    commonModule.service("bubbleChart", function($rootScope,constants, brandsModel) {
 
         var darkblue = "#0978c9 " ,
             blue = "#209AEF" ,
@@ -25,6 +25,7 @@
 
         var tooltip = d3.select("body")
             .append("div")
+            .attr("id","bubbleChartTooltip")
             .style("position", "absolute")
             .style("z-index", "10")
             .style("visibility", "hidden")
@@ -159,8 +160,9 @@
             if(spanId == 'brands'){
                 var brandArray = root['brands'];
                 var maxRadius = 70 ;
-                var maxBudget = brandArray[0].budget ;
-                var ratio = maxRadius / maxBudget ;
+
+                var maxBudget = (brandArray == undefined || brandArray[0] == undefined) ? 0 : brandArray[0].budget ;
+                var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
                 for(var i in brandArray){
                     var node = brandArray[i];
                     var percFill =0 ;
@@ -188,7 +190,7 @@
             } else if(spanId == 'campaigns'){
                 var campaignArray = root['campaigns'];
                 var maxRadius = 60 ;
-                var maxBudget = campaignArray[0].budget ;
+                var maxBudget = (campaignArray == undefined || campaignArray[0] == undefined) ? 0 : campaignArray[0].budget ;
                 var ratio = maxRadius / maxBudget ;
 
                 for(var i in campaignArray){
@@ -227,7 +229,32 @@
              createBubbleChartNew.call(this, "brands", this.spendData);
         };
 
+        function updatCampaignBubbleChartData(data){
+            $("#brands").hide();
+            $("#campaigns").show();
+            createBubbleChartForCampaigns("campaigns",data );
+        };
+//        var brand_name = obj.className ;
+//
+//        $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
+//
+//        $("#brands").hide();
+//        $("#backToBrands").show();
+//
+//
+//        var campaigns = obj.campaigns ;
+//        var data = {
+//            "campaigns": campaigns
+//        };
+//
+//        self.createBubbleChartForCampaigns("campaigns",data );
+//
+//        $("#campaigns").show();
+//        self.first = false ;
+
+
         this.updateBubbleChartData = updateBubbleChartData ;
+        this.updatCampaignBubbleChartData = updatCampaignBubbleChartData ;
 
         function createBubbleChartNew(spanId, data) {
             if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
@@ -380,7 +407,6 @@
                     r : obj.r
                 };
 
-        //        d3.select("#brands_"+focused_obj.id +"_path").remove();
 
                 node.selectAll("circle").attr('opacity',0.5);
                 node.selectAll("path").attr('opacity', 0.5);
@@ -396,7 +422,7 @@
                     .attr("stroke-width", 3)
                     .attr("fill", blue);
 
-                return tooltip.text(focused_obj.name + ", Total Spend : $"+ focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                return tooltip.html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible");
 
@@ -428,28 +454,14 @@
 
            node.on("mousemove", function(){
                return tooltip.style("top", (event.pageY-10)+"px")
-                   .style("left",(event.pageX+10)+"px");
+                   .style("left",(event.pageX+10)+"px")
+                   .style;
            });
 
             node.on("click", function(obj) {
 
-               var brand_name = obj.className ;
-                
+                tooltip.style("visibility", "hidden");
                 $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
-
-                $("#brands").hide();
-                $("#backToBrands").show();
-
-
-                var campaigns = obj.campaigns ;
-                var data = {
-                    "campaigns": campaigns
-                };
-
-               self.createBubbleChartForCampaigns("campaigns",data );
-
-                $("#campaigns").show();
-                self.first = false ;
             });
 
         } ;
@@ -459,7 +471,7 @@
             $("#data_not_available").hide();
         };
 
-        this.createBubbleChartForCampaigns = function( spanId , data){
+        var createBubbleChartForCampaigns = function( spanId , data){
           //  var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
             var campaigns_svg  = d3.select("#campaigns").append("svg")
                 .attr("width", 400)
@@ -621,7 +633,8 @@
                     .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
                     .attr("stroke-width", 3);
 
-                return tooltip.text(campaign_obj.name +", Total Spend : $"+ campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+
+                return tooltip.html(campaign_obj.name + " <br/> Total Spend : $" + campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible");
 
@@ -630,7 +643,8 @@
 
             node.on("mousemove", function(){
                 return tooltip.style("top", (event.pageY-10)+"px")
-                    .style("left",(event.pageX+10)+"px");
+                    .style("left",(event.pageX+10)+"px")
+                    .style("visibility", "visible");;
             });
 
             node.on("mouseout" , function(obj){
