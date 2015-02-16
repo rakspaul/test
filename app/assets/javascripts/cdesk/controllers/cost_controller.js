@@ -295,7 +295,6 @@ var angObj = angObj || {};
                     saveAs(response.file, response.fileName);
                 } else if (response.status === "error") {
                     $scope.costReportDownloadBusy = false;
-                    alert("Report Download Failed");
                 }
             });
             analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
