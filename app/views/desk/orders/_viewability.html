@@ -90,10 +90,6 @@
                     <span>15s</span>
                 </div>
             </div>
-            <div class="each_col sixth_col">
-                <span>Average Viewable Time</span>
-                <span>(SEC)</span>
-            </div>
             <div class="each_col suspicious_col">
                 <span> Suspicious Activity</span>
                 <span>(%)</span>
@@ -154,9 +150,6 @@
                         <span>{{viewData.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
                     </div>
                 </div>
-                <div class="each_col sixth_col">
-                    {{viewData.view_metrics.median_viewable_time | number: number:0}}
-                </div>
                 <div class="each_col suspicious_col">
                     {{viewData.view_metrics.nht | number: number:2}}%
                 </div>
@@ -209,9 +202,6 @@
                                 <span>{{tactic.view_metrics.perc_viewable_imps_5s | number:0}}%</span>
                                 <span>{{tactic.view_metrics.perc_viewable_imps_15s | number:0}}%</span>
                             </div>
-                        </div>
-                        <div class="each_col sixth_col">
-                            {{tactic.view_metrics.median_viewable_time | number:0}}
                         </div>
                         <div class="each_col suspicious_col">
                             {{tactic.view_metrics.nht | number: number:2}}%
