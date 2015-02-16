@@ -413,6 +413,7 @@ var angObj = angObj || {};
             $scope.dataNotFoundForScreen = false;
             $scope.dataNotFoundForFormat = false;
             $scope.dataNotFoundForDOW = false;
+            $scope.perfReportDownloadBusy = false;
 
             if($scope.selectedStrategy.id == -1){
                 $scope.strategyFound = false ;
@@ -473,7 +474,15 @@ var angObj = angObj || {};
         });
 
         $scope.downloadPerformanceReport = function(report_url, report_name) {
-            dataService.downloadFile(report_url);
+            $scope.perfReportDownloadBusy = true;
+            dataService.downloadFile(report_url).then(function(response) {
+                if(response.status === "success"){
+                    $scope.perfReportDownloadBusy = false;
+                    saveAs(response.file, response.fileName);
+                } else if (response.status === "error") {
+                    $scope.perfReportDownloadBusy = false;
+                }
+            });
             analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'performance_' + report_name + '_report', loginModel.getLoginName());
         }
 

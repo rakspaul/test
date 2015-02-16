@@ -52,6 +52,7 @@ var angObj = angObj || {};
             $scope.selectedKpi = 'cpa';
             $scope.strategyCostBusy = false ;
             $scope.tacticListCostBusy = false ;
+            $scope.costReportDownloadBusy = false;
 
             if(localStorage.getItem(loginModel.getUserId()+'_cost_sort') === undefined || localStorage.getItem(loginModel.getUserId()+'_cost_sort') === null){
                 $scope.filter.sortByColumn = 'default';
@@ -287,7 +288,15 @@ var angObj = angObj || {};
         });
 
         $scope.downloadCostReport = function(report_url) {
-            dataService.downloadFile(report_url);
+            $scope.costReportDownloadBusy = true;
+            dataService.downloadFile(report_url).then(function(response) {
+                if(response.status === "success"){
+                    $scope.costReportDownloadBusy = false;
+                    saveAs(response.file, response.fileName);
+                } else if (response.status === "error") {
+                    $scope.costReportDownloadBusy = false;
+                }
+            });
             analytics.track(loginModel.getUserRole(), constants.GA_DOWNLOAD_REPORT, 'cost_report', loginModel.getLoginName());
         }
 
