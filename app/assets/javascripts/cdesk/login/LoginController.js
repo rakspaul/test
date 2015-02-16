@@ -15,6 +15,11 @@
                 var user = response.data.data;
                 user.login_name = $scope.username;
 			 	loginService.setCredentials(user);
+			 	if(loginModel.getIsNetworkUser() == true){
+			 		localStorage.setItem('networkUser',true);
+			 	}else{
+			 		localStorage.setItem('networkUser',false);
+			 	}
 			 	document.location = '/';
 			 } else { 
 			 	console.log('login failed');
