@@ -1,5 +1,7 @@
 <div class="dashboard_section dashboard_budget_graph_holder" ng-controller="bubbleChartController" >
-  <div class="dashboard_heading dashboard_heading_bold" >Budget
+  <div class="dashboard_heading dashboard_heading_bold" >
+  	Budget
+  	<span id = "top_text" class="top_budget_subtitle">{{budget_top_title}}</span>
   </div>
   <div class="common_loading_icon" ng-if="spendBusy "></div>
   <div class="dashboard_perf_graph">

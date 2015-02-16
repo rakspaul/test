@@ -4,7 +4,8 @@
 
         var bubbleWidgetData = {
             chartData : {},
-            dataNotAvailable : true
+            dataNotAvailable : true,
+            budget_top_title : {}
 
         };
         this.getBubbleChartData = function () {
@@ -16,6 +17,17 @@
                 if(data != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
                     bubbleWidgetData['chartData'] = data ;
+                    if( brandsModel.getSelectedBrand().id == -1) { // data is obtained for all brands view
+                        var total_brands = (data['total_brands'] > 5) ? 5 : data['total_brands'] ;
+                        bubbleWidgetData['budget_top_title'] = "(Top " + total_brands + " brands)";
+                    }else { // data is obtained for all campaign view
+                        var brand_data = (data != undefined && data['brands'] != undefined) ? data['brands'][0] : undefined ;
+                        if(brand_data != undefined){
+                          var campaings =  brand_data['campaigns'] ;
+                          var campaignLength = (campaings == undefined )?  0 : campaings.length ;
+                            bubbleWidgetData['budget_top_title'] = "(Top " + campaignLength + " campaigns)";
+                        }
+                    }
                 } else {
 
                     bubbleWidgetData['dataNotAvailable'] = true ;
