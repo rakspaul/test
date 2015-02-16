@@ -371,7 +371,7 @@ var angObj = angObj || {};
             var urlPath = apiPaths.apiSerivicesUrl + '/campaigns/' + $scope.selectedCampaign.id + '/performance/';
 
             $scope.download_urls = {
-                screens: urlPath + 'screensandformats/download?date_filter=' + $scope.selected_filters.time_filter,
+                screens: urlPath + 'screensandformats/reportDownload?date_filter=' + $scope.selected_filters.time_filter,
                 daysOfWeek: urlPath + 'daysofweek/reportDownload?date_filter=' + $scope.selected_filters.time_filter
             };
         };
