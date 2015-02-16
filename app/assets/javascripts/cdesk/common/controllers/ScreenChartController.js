@@ -13,6 +13,7 @@
         $scope.screenWidgetData = screenChartModel.getScreenWidgetData();
 
         function getScreenAndFormatData () {
+            $("#screens").show();
             $scope.screenBusy = true ;
 
             screenChartModel.getScreenChartData().then(function(result) {
@@ -29,9 +30,9 @@
         };
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-
-            $scope.cleanScreenWidget();
-
+            $("#screens").hide();
+            d3.select("#screen_svg").remove();
+            $("#data_not_available_screen").hide();
             getScreenAndFormatData();
         });
 
@@ -42,13 +43,14 @@
         };
 
         $scope.formatDropdownChange = function(obj){
-            $scope.cleanScreenWidget();
+            $("#screens").hide();
+            d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetFormat(obj);
             getScreenAndFormatData();
         };
 
         $scope.metricDropdownChange = function(obj){
-            $scope.cleanScreenWidget();
+            d3.select("#screen_svg").remove();
             screenChartModel.setScreenWidgetMetric(obj);
 
             screenChart.updateScreenChartData();
