@@ -30,7 +30,6 @@
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
 
-            console.log("cleaning up old screen widget");
             $scope.cleanScreenWidget();
 
             getScreenAndFormatData();

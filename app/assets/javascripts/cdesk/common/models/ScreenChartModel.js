@@ -22,7 +22,7 @@
             var canceller = requestCanceller.initCanceller(constants.SCREEN_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
                 var data = response.data.data;
-                console.log(data);
+
                 if(data !== undefined && data.length >0){
                     screenWidgetData['dataNotAvailable'] = false ;
                     screenWidgetData['chartData'] = data ;
@@ -61,7 +61,7 @@
                 case 'action rate':
                     screenWidgetData['selectedMetric'] = constants.ACTION_RATE;
                     break;
-                case 'spend allocation' :
+                case 'spend' :
                     screenWidgetData['selectedMetric'] = constants.SPEND;
                     break;
             }
