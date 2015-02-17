@@ -1134,9 +1134,14 @@ div.strategy_total_container {
     background: $reportBorder ;
   }
   .each_strategy_holder:last-child {
-    height: 70px ;
     .linkage_bar {
-      top: 100% ;
+        background: #f8f8f8;
+        border-top: solid 1px #ccd9e3;
+        height: 50%;
+        bottom: 0;
+        top: auto;
+        left: -1px;
+        width: 11px;
     }
   }
   .reports_tabs_holder {
@@ -1364,9 +1369,14 @@ div.strategy_total_container {
         position: absolute;
       }
       .each_cost_row_holder:last-child {
-        height: 50px ;
         .each_cost_row:before {
-          top : 100% ;
+          background: #f8f8f8;
+          border-top: solid 1px #ccd9e3;
+          height: 50%;
+          bottom: 0;
+          top: auto;
+          left: -1px;
+          width: 11px;
         }
       }
     }
