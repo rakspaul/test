@@ -195,10 +195,10 @@
                     return (d.x - icon_padding_xaxis);
                 })
                 .attr("y", function (d) {
-                    return d.y - icon_padding_yaxis - 5;
+                    return d.y - icon_padding_yaxis - 8;
                 })
-                .attr("width", 28)
-                .attr("height", 28)
+                .attr("width", 30)
+                .attr("height", 30)
                 .attr("xlink:href", function (d) {
                     return d.iconPath;
                 });
