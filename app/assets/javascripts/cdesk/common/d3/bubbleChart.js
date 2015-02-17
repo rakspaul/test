@@ -52,25 +52,30 @@
             var y = Math.abs(x);
 
             if(y < 999)
-                return  "$ " + x;
+                return  "$" + x.toFixed(2);
 
             if(y < 9999) {
-                return  "$ " + Math.round(x/1000) + "k";
+              var  x = x/1000 ;
+                return  "$" + x.toFixed(2)+ "k";
             }
 
             if(y < 1000000) {
-                return "$ " + Math.round(x/1000) + "k";
+                var x = x/1000;
+                return "$" + x.toFixed(2) + "k";
             }
             if( y < 10000000) {
-                return "$ "+  Math.round(x/1000000) + "m";
+                var x = x/1000000 ;
+                return "$"+ x.toFixed(2) + "m";
             }
 
             if(y < 1000000000) {
-                return "$ " +Math.round((x/1000000)) + "m";
+                var x = x/1000000 ;
+                return "$" + x.toFixed(2) + "m";
             }
 
             if(y < 1000000000000) {
-                return "$ "+ Math.round((x/1000000000)) + "b";
+                var x= x/1000000000 ;
+                return "$"+ x.toFixed(2) + "b";
             }
 
             return "1T+";
@@ -374,16 +379,14 @@
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
-                        text_size = "35px"
+                        text_size = "27px"
                     }
                     else if(d.r > 50){
-                        text_size = "32px";
-                    }else if(d.r > 40){
-                        text_size="28px";
+                        text_size = "25px";
                     } else if(d.r >25) {
-                        text_size="18px" ;
+                        text_size="14px" ;
                     } else if(d.r > 15){
-                        text_size = "14px"
+                        text_size = "10px"
                     }
                     return text_size ;
                 })
@@ -580,16 +583,14 @@
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
-                        text_size = "35px"
+                        text_size = "27px"
                     }
                     else if(d.r > 50){
-                        text_size = "32px";
-                    }else if(d.r > 40){
-                        text_size="28px";
+                        text_size = "25px";
                     } else if(d.r >25) {
-                        text_size="18px" ;
+                        text_size="14px" ;
                     } else if(d.r > 15){
-                        text_size = "14px"
+                        text_size = "10px"
                     }
                     return text_size ;
                 })

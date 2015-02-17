@@ -98,7 +98,7 @@
                     } else if (selected_metric_key == 'cpa' || selected_metric_key == 'cpm' || selected_metric_key == 'cpc') {
                         bar_length = (node[selected_metric_key] == 0)? 0: (length * max_selected_metric_value)/ node[selected_metric_key]  ;
                         percAllocation = node[selected_metric_key] ;
-                        percAllocationString = "$" + percAllocation.toFixed(0);
+                        percAllocationString = "$" + percAllocation.toFixed(2);
                     }
 
                     if (percAllocation !== undefined && percAllocation.toFixed(2) == 0.00) {
