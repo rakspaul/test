@@ -1698,6 +1698,16 @@ div.strategy_total_container {
   }
 }
 
+.common-load-icon_viewability {
+  text-align: center;
+  text-indent: -99999;
+  height: 40px;
+  width: 40px;
+  background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
+  margin: 20px auto 0 ;
+  display: block;
+}
+
 
 
 /*  end of reports login page */

@@ -54,7 +54,6 @@ var angObj = angObj || {};
             var strategiesList = {};
             $scope.strategyBusy = true;
             $scope.tacticBusy = true;
-            $scope.dataNotFound = true;
             viewablityService.getStrategyViewData(param).then(function (result) {
                 if (result.status === "OK" || result.status === "success") {
                    // console.log("in view metric page");
@@ -138,11 +137,9 @@ var angObj = angObj || {};
                 var strategyObj = domainReports.loadFirstStrategy($scope.strategies[0].id, $scope.strategies[0].name);
                 $scope.selectedStrategy.id = strategyObj.id;
                 $scope.selectedStrategy.name = strategyObj.name;
-                $scope.strategyFound = true;
-                $scope.dataNotFound = false;
                 if ($scope.selectedStrategy.id == -1) {
                     $scope.strategyFound = false;
-                    $scope.dataNotFound = true;
+                  //  $scope.dataNotFound = true;
                 }else {
                     //Call the chart to load with the changed campaign id and strategyid
                     $scope.strategyFound = true;
@@ -150,7 +147,7 @@ var angObj = angObj || {};
 
                 }
             } else { //  means empty strategy list
-                $scope.dataNotFound = true;
+              //  $scope.dataNotFound = true;
                 $scope.selectedStrategy = domainReports.getNotFound()['strategy'];
                 $scope.strategyFound = false;
                 $scope.strategies = {} ; // if No Strategy then clear the strategy list.
@@ -173,6 +170,7 @@ var angObj = angObj || {};
 
         //Function is called from startegylist directive
         $scope.callBackStrategyChange = function () {
+            $scope.viewData = {};
             //Call the chart to load with the changed campaign id and strategyid
             $scope.strategyViewData({campaign_id: $scope.selectedCampaign.id, strategyId: $scope.selectedStrategy.id, kpi_type: $scope.selected_filters.kpi_type, time_filter: $scope.selected_filters.time_filter });
             analytics.track(loginModel.getUserRole(), constants.GA_USER_STRATEGY_SELECTION, $scope.selectedStrategy.name, loginModel.getLoginName());
