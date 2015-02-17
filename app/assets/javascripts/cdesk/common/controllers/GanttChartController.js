@@ -82,7 +82,9 @@
                         //TODO stabilize update
                         // console.log(brands);
                         // console.log(campaigns);
-                        ganttChart.updateCalendar(campaigns, brands);
+
+                        ganttChart.newCalendar(campaigns, brands);
+                       // ganttChart.updateCalendar(campaigns, brands);
                     }
             } else {
              //   console.log('no calendar data');
@@ -125,6 +127,8 @@
 
          //Listener for brand changes
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
+            //removing chart to update and redraw
+            $('.chart').remove()
             $scope.init('update');
         });
 
