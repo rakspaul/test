@@ -43,7 +43,7 @@
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 700]);
+		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
 
 		    var xAxis = d3.svg.axis()
 		        .scale(x).orient("top")
@@ -90,7 +90,7 @@
 
 		    var initAxis = function(timeDomainString) {
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 700]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
 			
 				//TO DO - better names
 				var formatDay = d3.time.format("%d");

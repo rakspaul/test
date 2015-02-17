@@ -15,7 +15,7 @@
                 //TODO: move this into a service
                 if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
-                    _.each(result.brands, function(datum) {
+                    _.each(_.first(result.brands,5), function(datum) {
 
                         //placeholder - empty value to add spacing
                         count++;
