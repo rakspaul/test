@@ -7,6 +7,7 @@
     this.SPEND_CHART_CANCELLER = 51;
     this.SCREEN_CHART_CANCELLER = 52;
     this.GANTT_CHART_CANCELLER = 6;
+    this.GANTT_CHART_BRAND_CANCELLER = 7;
     this.PERIOD_LIFE_TIME = 'life_time';
     this.PERIOD_LAST_7_DAYS = 'last_7_days';
     this.PERIOD_LAST_30_DAYS = 'last_30_days';
