@@ -13,6 +13,8 @@
 		    var CALENDAR_HEIGHT = 1100;
 		    var CALENDAR_WIDTH = 1050;
 
+		    var isSingleBrand = false;
+
 		    var margin = {
 		        top: 20,
 		        right: 40,
@@ -89,8 +91,12 @@
 		    };
 
 		    var initAxis = function(timeDomainString) {
+		    	var range = 450;
+		    	if(isSingleBrand) {
+		    		range = 115;
+		    	}
 		        x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
-		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
+		        y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, range]);
 			
 				//TO DO - better names
 				var formatDay = d3.time.format("%d");
@@ -551,6 +557,15 @@
 		        return gantt;
 		    };
 
+		    gantt.isSingleBrand = function(singleBrand) {
+		    	if(singleBrand == true) {
+		    		isSingleBrand = true;
+		    	} else {
+		    		isSingleBrand = false;
+		    	}
+		    	return gantt;
+		    }
+
 		    return gantt;
 		}; //end of gantt
 
@@ -726,7 +741,7 @@
 
 
 		//********************** IMPLEMENTATION
-		function newCalendar(task, taskName) {
+		function newCalendar(task, taskName, singleBrand) {
 			tasks = task;
 			taskNames = taskName;
 
@@ -788,6 +803,8 @@
 		        bottom: 20,
 		        left: 50
 		    };
+		    gantt.isSingleBrand(singleBrand);
+
 		    gantt.margin(margin);
 		    gantt.timeDomainMode("fixed");
 		    changeTimeDomain(timeDomainString);

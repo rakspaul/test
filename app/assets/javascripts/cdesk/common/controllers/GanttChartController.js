@@ -1,6 +1,6 @@
 (function () {
     'use strict';
-    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants) {
+    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants, brandsModel) {
 
     	
     	$scope.init = function(update){
@@ -76,16 +76,13 @@
                         
                     });
 
-                    if(update === undefined){
+                    if(brandsModel.getSelectedBrand().id == -1) {
                         ganttChart.newCalendar(campaigns, brands);
-                    } else {
-                        //TODO stabilize update
-                        // console.log(brands);
-                        // console.log(campaigns);
-
-                        ganttChart.newCalendar(campaigns, brands);
+                    } else if(update || brandsModel.getSelectedBrand().id) {
+                        ganttChart.newCalendar(campaigns, brands, true);
                        // ganttChart.updateCalendar(campaigns, brands);
                     }
+                    
             } else {
              //   console.log('no calendar data');
                 $scope.noData = true;
@@ -129,7 +126,14 @@
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
             //removing chart to update and redraw
             $('.chart').remove()
-            $scope.init('update');
+
+            if(brandsModel.getSelectedBrand().id == -1){
+                $scope.init();
+            }else{
+                //single brand
+                $scope.init('single_brand');
+            }
+            
         });
 
 
