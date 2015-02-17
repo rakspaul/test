@@ -26,12 +26,15 @@
                             c.status = "";
                             //push a brand into campaign list as type=brand and min and max date
                             c.taskName =  count;
-                                var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                                var data= _.first(temp); //getting lowest start date
-                                c.startDate = new Date(data.start_date);
-                                temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                                data= _.last(temp); //getting highest start date
-                                c.endDate = new Date(data.end_date);
+                                // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                                // var data= _.first(temp); //getting lowest start date
+                                // c.startDate = new Date(data.start_date);
+                                c.startDate=moment().subtract(2, 'years').startOf('year');
+                                // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                                // data= _.last(temp); //getting highest start date
+                                // c.endDate = new Date(data.end_date);
+                                c.endDate = moment().add(2, 'years').endOf('year');
+
                             campaigns.push(c);
                             brands.push(count);
 
@@ -44,12 +47,15 @@
                             c.status = "";
                             //push a brand into campaign list as type=brand and min and max date
                             c.taskName =  count;
-                                var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                                var data= _.first(temp); //getting lowest start date
-                                c.startDate = new Date(data.start_date);
-                                temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                                data= _.last(temp); //getting highest start date
-                                c.endDate = new Date(data.end_date);
+                                // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                                // var data= _.first(temp); //getting lowest start date
+                                // c.startDate = new Date(data.start_date);
+                                c.startDate=moment().subtract(2, 'years').startOf('year');
+                                // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                                // data= _.last(temp); //getting highest start date
+                                // c.endDate = new Date(data.end_date);
+                                c.endDate = moment().add(2, 'years').endOf('year');
+
                             campaigns.push(c);
                             brands.push(count);
 
