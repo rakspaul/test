@@ -1,6 +1,6 @@
 
 dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'constants', function (brandsModel, timePeriodModel, constants) {
-  var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_ACTIVE};
+  var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_ALL};
   dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ALL,constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED]
   dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
   dashboardData.brandSelected = false;

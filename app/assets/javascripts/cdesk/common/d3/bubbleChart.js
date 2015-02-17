@@ -5,7 +5,7 @@
         var darkblue = "#0978c9 " ,
             blue = "#209AEF" ,
 
-            orange = "#F1661F" , // #FC812F
+            orange = "#FC8631" , // #FC812F
             darkOrange = "#F1661F",
 
             green ="#59F52D",
@@ -159,7 +159,7 @@
 
         function dataFormatting (root , spanId){
             var positions = [[100,100],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
-           var positionsCampaigns =  [[90,80],[250,100],[175,200],[60,210] ,[290,210]];
+           var positionsCampaigns =  [[80,70],[260,70],[175,200],[70,220] ,[290,210]];
             var formattedDataBrands = [];
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
@@ -239,6 +239,8 @@
         };
 
         function updateBubbleChartData(data){
+            $("#brands").show();
+            $("#campaigns").hide();
             this.spendData = data ;
 
              createBubbleChartNew.call(this, "brands", this.spendData);
@@ -258,6 +260,10 @@
             if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
                 $("#data_not_available").show();
             }
+
+            // remove existing brands svg ( if any)
+            d3.select("#brands_svg").remove();
+            d3.select("#campaigns_svg").remove();
 
             var brands_svg  = d3.select("#brands").append("svg")
                 .attr("width", 400)

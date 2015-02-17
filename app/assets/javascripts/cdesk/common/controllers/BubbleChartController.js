@@ -6,6 +6,7 @@
         function getSpendData() {
             $scope.spendBusy = true;
 
+            // Fetch the new data now.
             bubbleChartModel.getBubbleChartData().then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
@@ -40,25 +41,28 @@
 
                 }
 
-                // bubbleChart.updateBubbleChartData(result);
             });
         }
 
         getSpendData();
 
         $scope.$on(constants.EVENT_BRAND_CHANGED, function (event, args) {
-            $("#data_not_available").hide();
-            bubbleChart.cleaningBubbleChart("campaigns");
             bubbleChart.cleaningBubbleChart("brands");
+            bubbleChart.cleaningBubbleChart("campaigns");
+
             getSpendData();
         });
 
-        $scope.$on(constants.BRAND_BUTTON_CLICKED, function (event, args) {
-            $("#brands").show();
-            $("#campaigns").hide();
-            bubbleChart.cleaningBubbleChart("campaigns");
-            // alert("catch the event in dashboard");
-        });
+//        $scope.$on(constants.BRAND_BUTTON_CLICKED, function (event, args) {
+//            console.log("brand button clicked");
+//            bubbleChart.cleaningBubbleChart("campaigns");
+//            bubbleChart.cleaningBubbleChart("brands");
+//            $("#brands").show();
+//            $("#campaigns").hide();
+//            // alert("catch the event in dashboard");
+//            // first clean the old data
+//          //  bubbleChartModel.getbubbleWidgetData()['chartData'] = {};
+//        });
 
 
     });

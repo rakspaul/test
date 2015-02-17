@@ -25,7 +25,7 @@
                         if(brand_data != undefined){
                           var campaings =  brand_data['campaigns'] ;
                           var campaignLength = (campaings == undefined )?  0 : campaings.length ;
-                            bubbleWidgetData['budget_top_title'] = "(Top " + campaignLength + " campaigns)";
+                            bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top " + campaignLength + " campaigns)" :  "(All Campaigns)" ;
                         }
                     }
                 } else {

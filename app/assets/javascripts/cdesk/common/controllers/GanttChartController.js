@@ -13,7 +13,7 @@
                     count =0,
                     limit = 5;
                 //TODO: move this into a service
-                if(result.brands.length >0){
+                if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
                     _.each(result.brands, function(datum) {
 
@@ -79,7 +79,7 @@
                         ganttChart.updateCalendar(campaigns, brands);
                     }
             } else {
-                console.log('no calendar data');
+             //   console.log('no calendar data');
                 $scope.noData = true;
             }
 
