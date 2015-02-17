@@ -1,10 +1,11 @@
 (function () {
     'use strict';
-    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants) {
+    commonModule.controller('ganttChartController', function ($scope, $location, ganttChart, ganttChartModel, constants, brandsModel) {
 
     	
     	$scope.init = function(update){
             $scope.calendarBusy = true;
+            $scope.selected = "today";
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 $scope.noData = false;
@@ -15,7 +16,7 @@
                 //TODO: move this into a service
                 if(result != undefined && result.brands != undefined &&  result.brands.length >0){
                     $scope.noData = false;
-                    _.each(result.brands, function(datum) {
+                    _.each(_.first(result.brands,5), function(datum) {
 
                         //placeholder - empty value to add spacing
                         count++;
@@ -26,12 +27,15 @@
                             c.status = "";
                             //push a brand into campaign list as type=brand and min and max date
                             c.taskName =  count;
-                                var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                                var data= _.first(temp); //getting lowest start date
-                                c.startDate = new Date(data.start_date);
-                                temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                                data= _.last(temp); //getting highest start date
-                                c.endDate = new Date(data.end_date);
+                                // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                                // var data= _.first(temp); //getting lowest start date
+                                // c.startDate = new Date(data.start_date);
+                                c.startDate=moment().subtract(2, 'years').startOf('year');
+                                // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                                // data= _.last(temp); //getting highest start date
+                                // c.endDate = new Date(data.end_date);
+                                c.endDate = moment().add(2, 'years').endOf('year');
+
                             campaigns.push(c);
                             brands.push(count);
 
@@ -44,12 +48,15 @@
                             c.status = "";
                             //push a brand into campaign list as type=brand and min and max date
                             c.taskName =  count;
-                                var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
-                                var data= _.first(temp); //getting lowest start date
-                                c.startDate = new Date(data.start_date);
-                                temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
-                                data= _.last(temp); //getting highest start date
-                                c.endDate = new Date(data.end_date);
+                                // var temp = _.sortBy(datum.campaigns, function(o) { return o.start_date; })
+                                // var data= _.first(temp); //getting lowest start date
+                                // c.startDate = new Date(data.start_date);
+                                c.startDate=moment().subtract(2, 'years').startOf('year');
+                                // temp = _.sortBy(datum.campaigns, function(o) { return o.end_date; })
+                                // data= _.last(temp); //getting highest start date
+                                // c.endDate = new Date(data.end_date);
+                                c.endDate = moment().add(2, 'years').endOf('year');
+
                             campaigns.push(c);
                             brands.push(count);
 
@@ -70,14 +77,13 @@
                         
                     });
 
-                    if(update === undefined){
+                    if(brandsModel.getSelectedBrand().id == -1) {
                         ganttChart.newCalendar(campaigns, brands);
-                    } else {
-                        //TODO stabilize update
-                        // console.log(brands);
-                        // console.log(campaigns);
-                        ganttChart.updateCalendar(campaigns, brands);
+                    } else if(update || brandsModel.getSelectedBrand().id) {
+                        ganttChart.newCalendar(campaigns, brands, true);
+                       // ganttChart.updateCalendar(campaigns, brands);
                     }
+                    
             } else {
              //   console.log('no calendar data');
                 $scope.noData = true;
@@ -100,18 +106,22 @@
         }
 
         $scope.month = function(){
+             $scope.selected = "month";
             ganttChart.month();
         }
 
         $scope.today = function(){
+            $scope.selected = "today";
             ganttChart.today();
         }
 
         $scope.quarter = function(){
+             $scope.selected = "quarter";
             ganttChart.quarter();
         }
 
         $scope.year = function(){
+             $scope.selected = "year";
             ganttChart.year();
         }
 
@@ -119,7 +129,16 @@
 
          //Listener for brand changes
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
-            $scope.init('update');
+            //removing chart to update and redraw
+            $('.chart').remove()
+            $scope.selected = "today";
+            if(brandsModel.getSelectedBrand().id == -1){
+                $scope.init();
+            }else{
+                //single brand
+                $scope.init('single_brand');
+            }
+            
         });
 
 
