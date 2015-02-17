@@ -159,7 +159,7 @@
 
         function dataFormatting (root , spanId){
             var positions = [[100,100],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
-           var positionsCampaigns =  [[80,70],[260,70],[175,200],[70,220] ,[290,210]];
+           var positionsCampaigns =  [[80,70],[260,70],[180,160],[70,220] ,[290,210]];
             var formattedDataBrands = [];
             var formattedDataCampaigns = [];
             if(spanId == 'brands'){
