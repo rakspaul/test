@@ -76,10 +76,10 @@
               <div class="pull-right calendar_holder_period" >
                <!--  <span ng-click="prev()"> [<] </span>
                 <span ng-click="next()" > [>] </span> --> 
-                <span ng-click="today()">Week</span>
-                <span ng-click="month()">Month</span>
-                <span ng-click="quarter()">Quarter</span><!-- add active whenever it is selected -->
-                <span ng-click="year()">Year</span>
+                <span ng-click="today()" class="{{(selected=='today')?'active':''}}">Week</span>
+                <span ng-click="month()" class="{{(selected=='month')?'active':''}}">Month</span>
+                <span ng-click="quarter()" class="{{(selected=='quarter')?'active':''}}">Quarter</span><!-- add active whenever it is selected -->
+                <span ng-click="year()" class="{{(selected=='year')?'active':''}}">Year</span>
               </div>
               
 

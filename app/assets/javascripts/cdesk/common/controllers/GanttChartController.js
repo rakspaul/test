@@ -5,6 +5,7 @@
     	
     	$scope.init = function(update){
             $scope.calendarBusy = true;
+            $scope.selected = "today";
             ganttChartModel.getGanttChartData().then(function(result) {
                 $scope.calendarBusy = false;
                 $scope.noData = false;
@@ -105,18 +106,22 @@
         }
 
         $scope.month = function(){
+             $scope.selected = "month";
             ganttChart.month();
         }
 
         $scope.today = function(){
+            $scope.selected = "today";
             ganttChart.today();
         }
 
         $scope.quarter = function(){
+             $scope.selected = "quarter";
             ganttChart.quarter();
         }
 
         $scope.year = function(){
+             $scope.selected = "year";
             ganttChart.year();
         }
 
@@ -126,7 +131,7 @@
         $scope.$on(constants.EVENT_BRAND_CHANGED, function(event, args) {
             //removing chart to update and redraw
             $('.chart').remove()
-
+            $scope.selected = "today";
             if(brandsModel.getSelectedBrand().id == -1){
                 $scope.init();
             }else{
