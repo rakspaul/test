@@ -126,11 +126,11 @@
           this.leftDot = createCircle(this.body, leftDotPt.x, leftDotPt.y, greenColor, 5);
           this.rightDot = createCircle(this.body, rightDotPt.x, rightDotPt.y, orangeColor, 5);
 //          this.rightDot =
-          this.svgText = createText(this.myContainer, this.config.cx-23, this.config.cy, "0", "sans-serif", 30, "bold", "black");
+          this.svgText = createText(this.myContainer, this.config.cx-10, this.config.cy, "0", "sans-serif", 30, "bold", "black");
           this.rightDotText = createText(this.myContainer, rightDotPt.x + 10, rightDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
           this.leftDotText = createText(this.myContainer, leftDotPt.x + 10, leftDotPt.y + 5, "0", "Avenir", 14, "", "#57606d");
 
-          this.pctX = this.config.cx + 12;
+          this.pctX = this.config.cx + 8;
           this.pctTxt = this.myContainer.append("text")
             .attr("x", this.pctX)
             .attr("y", this.config.cy-6)
@@ -225,13 +225,13 @@
                 var i = d3.interpolate(this.textContent, readings[name]);
                 this.textContent = Math.round(i(t));
                 if(this.textContent === '100') {
-                  self.pctTxt.attr("x", self.pctX + 15)
+                  self.pctTxt.attr("x", self.pctX + 25)
                 } else if(parseInt(this.textContent) < 10)
                 {
-                  self.pctTxt.attr("x", self.pctX - 15);
+                  self.pctTxt.attr("x", self.pctX );
                 } else
                 {
-                  self.pctTxt.attr("x", self.pctX);
+                  self.pctTxt.attr("x", self.pctX+15);
                 }
 //                self.pctTxt.attr("x", this.x.baseVal["0"].value + 33);
               };

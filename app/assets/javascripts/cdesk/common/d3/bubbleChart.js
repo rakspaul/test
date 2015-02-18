@@ -343,9 +343,9 @@
                     var size ;
                     if(d.r > 40 )
 
-                    size = "16px" ;
-                    else if (d.r > 25)
                     size = "14px" ;
+                    else if (d.r > 25)
+                    size = "12px" ;
 
                     return size ;
                 })
@@ -379,14 +379,14 @@
                 .attr("font-size",function(d){
                     var text_size ;
                     if(d.r > 65){
-                        text_size = "27px"
+                        text_size = "26px"
                     }
                     else if(d.r > 50){
-                        text_size = "25px";
+                        text_size = "24px";
                     } else if(d.r >25) {
                         text_size="14px" ;
                     } else if(d.r > 15){
-                        text_size = "10px"
+                        text_size = "11px"
                     }
                     return text_size ;
                 })
