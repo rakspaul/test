@@ -36,10 +36,10 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
   function addCampaigns() {
     var selectedBrand = brandsModel.getSelectedBrand().name;
 
-    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
+    dashboardData.titleSecondPart = dashboardData.selectedStatus + ' Campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
 
     if(selectedBrand === constants.ALL_BRANDS) {
-      dashboardData.titleSecondPart += "all brands";
+      dashboardData.titleSecondPart += constants.ALL_BRANDS;
     }
 
 
