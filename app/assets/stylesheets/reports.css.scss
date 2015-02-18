@@ -399,6 +399,22 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     white-space: normal;
     word-wrap: break-word;
   }
+  .default-kpi-dropdown-icon {
+    height: 15px;
+    width: 12px;
+    background: url(asset-path("icn_goal.png")) no-repeat scroll 5% 90% rgba(0, 0, 0, 0);
+    background-size: 10px 10px;
+    display: inline-block;
+  }
+
+  .default-kpi-header-icon {
+    height: 15px;
+    width: 12px;
+    background: url(asset-path("icn_goal.png")) no-repeat scroll 5% 90% rgba(0, 0, 0, 0);
+    background-size: 10px 10px;
+    display: inline-block;
+  }
+
 }
 .inventory_reports_container , .common_reports_container{
   font-family: "Avenir";

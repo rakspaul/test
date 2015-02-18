@@ -10,11 +10,12 @@
                 flag:'@'
             },
             template: '<span class="dropdown_ul_text" data-toggle="dropdown">'+
-                           '<span class="dd_txt">{{selectedFilter}}</span>'+
+                           '<span class="default-kpi-header-icon" ng-if="selectedFilter.kpi_type.trim().toLowerCase() == selectedFilter.campaign_default_kpi_type.trim()"></span>'+
+                           '<span class="dd_txt">{{selectedFilter.kpi_type_text.trim()}}</span>'+
                            '<span class="arrrow_img"></span>'+
                            '</span>'+
                            '<ul  class="dropdown_ul dropdown-menu">'+
-                           '    <li ng-repeat="list in listObject" value="{{list.value}}">{{list.text}}</li>'+
+                           '    <li ng-repeat="list in listObject" value="{{list.value}}"><span class="default-kpi-dropdown-icon" ng-if="list.value.toLowerCase() == selectedFilter.campaign_default_kpi_type"></span>{{list.text}}</li>'+
                             '</ul>',
             link: function ($scope, element, attrs) {
 
