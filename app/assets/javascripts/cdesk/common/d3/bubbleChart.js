@@ -52,34 +52,34 @@
             var y = Math.abs(x);
 
             if(y < 999) {
-                return  "$" + ((r > 20) ? x.toFixed(2) : x.toFixed(0));
+                return  "$" + ((r > 27) ? x.toFixed(2) : x.toFixed(0));
             }
             if(y < 9999) {
               var  x = x/1000 ;
 
-                return  "$" + ((r >20) ? x.toFixed(2)  : x.toFixed(0))+ "k";
+                return  "$" + ((r >27) ? x.toFixed(2)  : x.toFixed(0))+ "k";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
 
-                return "$" + ((r >20) ? x.toFixed(2) : x.toFixed(0)) + "k";
+                return "$" + ((r >27) ? x.toFixed(2) : x.toFixed(0)) + "k";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
 
-                return "$"+ ((r >20) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return "$"+ ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
                
-                return "$" +  ((r >20) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return "$" +  ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return "$"+  ((r >20) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
+                return "$"+  ((r >27) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
             }
 
             return "1T+";
@@ -325,14 +325,6 @@
                 .attr("fill", blue);
 
 
-//            node.append("title")
-//                .text(function(d){
-//                    return d.className ;});
-//
-//         node.append("title")
-//                .text(function(d){
-//                    return "Total spend : $" + d.spend ; });
-
             node.append("text") //For brand name
                 .attr("transform", function(d) {
                     if(d.r > 40)
@@ -361,7 +353,7 @@
                         text = d.className.substring(0, 6) + '...' ;
                     } else if (d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
-                    } else if(d.r > 30) {
+                    } else if(d.r > 32) {
                         text = d.className.substring(0, 2) + '...' ;
                     }
                     return text ;
@@ -388,7 +380,7 @@
                     } else if(d.r >25) {
                         text_size="14px" ;
                     } else if(d.r > 15){
-                        text_size = "11px"
+                        text_size = "10px"
                     }
                     return text_size ;
                 })
@@ -565,7 +557,7 @@
                     } else if(d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
                     }
-                    else if (d.r > 25){
+                    else if (d.r > 32){
                         text = d.className.substring(0, 3) + '...' ;
                     }
                     return text ;
@@ -588,7 +580,7 @@
                         text_size = "27px"
                     }
                     else if(d.r > 50){
-                        text_size = "25px";
+                        text_size = "24px";
                     } else if(d.r >25) {
                         text_size="14px" ;
                     } else if(d.r > 15){
