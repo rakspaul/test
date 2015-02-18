@@ -1,27 +1,50 @@
 
-dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'constants', function (brandsModel, timePeriodModel, constants) {
+dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'constants' ,'urlService','requestCanceller','dataService', function (brandsModel, timePeriodModel, constants,urlService,requestCanceller,dataService) {
   var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_ALL};
   dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ALL,constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED]
   dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
   dashboardData.brandSelected = false;
+  dashboardData.totalCampaigns = 0;
+  dashboardData.totalBrands = 0;
+  dashboardData.toolTip = '';
+
   var setTitle = function () {
     dashboardData.title = 'Showing ';
+    getCampaingsCount();
     addCampaigns();
   };
+
+   var getCampaingsCount =  function () {
+        var url = urlService.APICampaignCountsSummary(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
+        var canceller = requestCanceller.initCanceller(constants.DASHBOARD_CAMPAIGNS_COUNT_CANCELLER);
+
+       return dataService.fetchCancelable(url, canceller, function(response) {
+           var totalCampaigns =  response.data.data.active.total + response.data.data.completed.total + response.data.data.na.total ;
+           dashboardData.totalCampaigns = totalCampaigns ;
+
+           //TODO : when data api will be modified we will get brands count from that api. Currently its hard coded
+           var totalBrands =  44; // response.data.data.brands.total;
+           dashboardData.totalBrands = totalBrands;
+
+           var selectedBrand = brandsModel.getSelectedBrand().name;
+
+           dashboardData.toolTip = 'Showing data for ' +  dashboardData.totalCampaigns + ' campaigns across '+ dashboardData.totalBrands + ' brands for '+ timePeriodModel.timeData.selectedTimePeriod.display + ' for ' + selectedBrand;
+
+       })
+    };
+
   function addCampaigns() {
     var selectedBrand = brandsModel.getSelectedBrand().name;
-    var brandsCount = brandsModel.getBrand().totalBrands;
 
     dashboardData.titleSecondPart = dashboardData.selectedStatus + ' campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ';
-    //dashboardData.toolTip = 'Showing data for ';
-    dashboardData.toolTip = 'Showing ';
+
     if(selectedBrand === constants.ALL_BRANDS) {
       dashboardData.titleSecondPart += "all brands";
-      //dashboardData.toolTip += brandsCount;
     }
-    //dashboardData.toolTip += ' campaigns across ' + brandsCount + ' brands for '+ timePeriodModel.timeData.selectedTimePeriod.display + ' for ' + selectedBrand;
-    dashboardData.toolTip += dashboardData.selectedStatus + ' campaigns for ' + timePeriodModel.timeData.selectedTimePeriod.display + ' for ' + selectedBrand;
-  }
+
+
+  };
+
   var setBrand = function(brand) {
     dashboardData.selectedBrand = brand.name;
     if(brand.name === constants.ALL_BRANDS) {
@@ -30,9 +53,10 @@ dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'co
       dashboardData.brandSelected = true;
     }
   };
+
   var getData = function() {
     return dashboardData;
-  }
+  };
 
   return {
     setTitle: setTitle,
