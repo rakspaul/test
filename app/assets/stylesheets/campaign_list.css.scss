@@ -211,110 +211,6 @@ button, i, input[type="submit"] {
    -webkit-user-select: none;
    user-select: none;
 }
-#ajaxloader {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  z-index: 99999999;
-  border: 8px solid $textColorWhite;
-  border-right-color: transparent;
-  border-radius: 50%;
-  box-shadow: 0 0 25px 2px #eeeeee;
-  -webkit-animation: spin 1s linear infinite;
-  -o-animation: spin 1s linear infinite;
-  -moz-animation: spin 1s linear infinite;
-}
-
-@-webkit-keyframes spin {
-  from {
-    transform: rotate(0deg);
-    opacity: 0.2;
-  }
-  50% {
-    transform: rotate(180deg);
-    opacity: 1;
-  }
-  to {
-    transform: rotate(360deg);
-    opacity: 0.2;
-  }
-}
-
-
-/* header style */
-#detailedPageNavbar.navbar {
-  height: 80px;
-  border-radius: 0;
-  margin-bottom: 16px;
-  @include BackgroundLinearGradient(#007ac9, #1c89cf);
-  .container {
-    width: 1115px;
-    margin: 0 auto;
-    padding: 0 ;
-  }
-  #logo {
-    display: block;
-    margin-left: 0px;
-    padding-left: 0px ;
-  }
-  .navbar-collapse {
-    &.collapse .nav.navbar-nav {
-      margin-top: 8px;
-      margin-left: 0;
-      li {
-        a {
-          padding: 20px 30px;
-          text-transform: uppercase;
-          @include FontColor($textHelloColor, 14pt, $primaryFont);
-        }
-        &.active a {
-          color: $textColorWhite;
-          box-shadow: none;
-          background: transparent;
-          transition: all 0.3s ease 0s;
-          &:hover {
-            color: $textColorWhite;
-            box-shadow: none;
-            background: transparent;
-            transition: all 0.3s ease 0s;
-          }
-        }
-        a {
-          &:hover, &:focus {
-            color: $textColorWhite;
-            box-shadow: none;
-            background: transparent;
-            transition: all 0.3s ease 0s;
-          }
-        }
-      }
-      &.navbar-right {
-        margin-top: 25px;
-        li {
-          a {
-            padding: 5px 35px 5px 15px;
-            font-size: 11pt;
-            border-right: 1px solid $borderColor;
-          }
-          .hello {
-            padding: 5px 0;
-            display: inline-block;
-            @include FontColor($textHelloColor, 11pt, $tertiaryFont);
-          }
-          .user-name {
-            padding: 5px 35px 5px 0;
-            border-right: 1px solid $borderColor;
-            @include FontColor($textColorWhite, 11pt, $primaryFont);
-          }
-          &:last-child a {
-            border-right: none;
-            padding-right: 10px;
-          }
-        }
-      }
-    }
-  }
-}
 
 /* detailed page style */
 
@@ -803,7 +699,6 @@ button, i, input[type="submit"] {
       border: 1px solid #ccc;
     }
     &.inner-accordion-wrapper {
-      /*display: none;*/
       margin-top: -20px;
       margin-bottom: 20px;
     }
@@ -870,16 +765,12 @@ button, i, input[type="submit"] {
                   }
                 }
               }
-
             }
           }
-
           &:last-child {
             background: url(asset-path("cdesk/accordion-line-end.png")) no-repeat scroll -27px 0px ;
           }
         }
-
-
       }
       .panel-collapse.collapse.in .panel-body.row-fluid .col-md-12 > {
         .col-md-4 {
@@ -1139,11 +1030,11 @@ button, i, input[type="submit"] {
   color: white;
   opacity: 1 ;
 }
-#brandsDropdown:-moz-placeholder { /* Firefox 18- */
+#brandsDropdown:-moz-placeholder { 
   color: white;
   opacity: 1 ;
 }
-#brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
+#brandsDropdown::-moz-placeholder { 
   color: white;
   opacity: 1 ;
 }
@@ -1211,257 +1102,15 @@ button, i, input[type="submit"] {
       }
     }
   }
-  #campaignPerformanceWrapper {
-    width: 1150px;
-    margin-top: 10px;
-    margin-left: -30px;
-    .col-md-12 {
-      padding: 0;
-      .campaign-performance-container {
-        height: 410px;
-        padding: 25px 45px;
-        background: $textColorWhite;
-        .camp-perf-graph {
-          width: 40% ;
-        }
-        .camp-perf-history {
-          width : 60% ;
-        }
-        .campaign-performance-container-sections {
-          .col-md-12 {
-            font-weight: bold;
-            text-transform: uppercase;
-            @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-            .campaign-performance-match {
-              font-weight: normal;
-            }
-            .highcharts {
-              width: 100%;
-              height: 320px;
-              margin-top: 10px;
-              font-weight: normal;
-            }
-            .col-md-6 {
-              font-weight: bold;
-              text-transform: uppercase;
-              @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-              .campaign-external-dd-holder {
-                display: inline-block;
-                cursor: default;
-                @include FontColor($textHeadingColor, 12px, $tertiaryFont);
-                .arrrow_img {
-                  background: url(asset-path("cdesk/descending.png")) no-repeat right center;
-                  height: 10px;
-                  width: 10px;
-                  display: inline-block;
-                }
-                .dropdown_ul {
-                  padding: 4px 4px 4px 6px;
-                  left: -7px;
-                  font-size: 12px;
-                  min-width: 90px;
-                  li {
-                    margin-bottom: 0px;
-                    padding: 5px;
-                    line-height: 20px;
-                  }
-                  li:hover {
-                    background: #f8f8f8 ;
-                  }
-                }
-                .campaign-external-sort-dd {
-
-                  border: 0;
-                  background: transparent;
-                  text-transform: uppercase;
-                  width: 100px;
-
-                }
-              }
-              .campaign-external-sort {
-                display: inline-block;
-                text-transform: uppercase;
-                @include FontColor($textHeadingColor, 12px, $tertiaryFont);
-                span.descending {
-                  margin: 0;
-                  width: 8px;
-                  padding: 0;
-                  height: 13px;
-                  vertical-align: bottom;
-                  border-bottom: none;
-                  display: inline-block;
-                  background: url(asset-path("cdesk/descending.png")) no-repeat 0 0px rgba(0, 0, 0, 0);
-                }
-              }
-            }
-            .campaign-performance-match {
-              height: 290px;
-              margin-top: 25px;
-              overflow-y: auto;
-              padding-left: 20px;
-              font-size: 14px ;
-              .each_action_performance {
-                margin-right: 10px !important;
-                padding: 7px ;
-                border: 2px solid transparent;
-              }
-              .action_selected {
-                border: 2px solid #f8f8f8;
-                /*background-color: rgba(169, 212, 121, 0.3);*/
-              }
-
-              .row {
-                margin: 0px ;
-              }
-              .each_action_perf_note {
-                margin: 4px 0 ;
-                font-family:  "Avenir" ;
-              }
-              .each_action_perf_header {
-                margin-top: 1px ;
-              }
-              .col-md-11.each_campaign_perf_details {
-                text-transform: none ;
-                cursor: pointer;
-                padding: 0px ;
-                width: 520px;
-              }
-              .col-md-1, .col-md-2, .col-md-3 , .col-md-4 , .col-md-5 , .col-md-6 , .col-md-7, .col-md-8, .col-md-9 , .col-md-10 , .col-md-11 , .col-md-12 {
-                padding: 0px ;
-              }
-              .action_filter , .each_action_time {
-                margin-right: 8px;
-                word-wrap: break-word;
-                text-align: center;
-                @include FontColor( #bebebe, 14px, $tertiaryFont);
-                font-weight: 700;
-                float: right;
-              }
-              .action_filter , .each_action_time {
-                max-width: 100px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                width: 84px;
-              }
-              .each_action_time {
-                text-align: right ;
-                margin-right: 0px ;
-              }
-              .each_action_perf_filter {
-                color: #bebebe ;
-                font-family:  "Avenir" ;
-
-              }
-              .circle_action {
-                text-align: center;
-                height: 18px;
-                width: 18px;
-                background: transparent;
-                display: block;
-                border: solid 4px #f5b236;
-                border-radius: 18px;
-                -moz-border-radius: 18px;
-                -webkit-border-radius: 18px;
-                padding: 0px;
-                cursor:pointer;
-                margin: 0px 5px 0 0;
-              }
-              .each_action_name {
-                @include FontColor($textDarkGreyColor, 14px, $tertiaryFont);
-                font-weight: 700;
-                width: 30%;
-                float: left;
-              }
-              table {
-                width: 470px;
-                .tr_selected {
-                  border: 1px solid #ccc;
-                }
-                tr {
-                  width: 470px;
-                  padding: 5px;
-                  display: -moz-box;
-                  display: -webkit-box;
-                  border: 1px solid transparent;
-                  td {
-                    border-top: none;
-                    span, div {
-                      text-transform: none;
-                    }
-                  }
-                  td:first-child {
-
-                  }
-                  td:nth-child(2) {
-                    width: 100px;
-                    padding: 8px 0px 8px 4px;
-                    span {
-                      @include FontColor($textDarkGreyColor, 10pt, $tertiaryFont);
-                    }
-                  }
-                  td:nth-child(3) {
-                    width: 215px;
-                    padding-right: 0;
-                  }
-                  td:last-child {
-                    width: 110px;
-                    padding: 8px 4px 8px 0;
-                    text-align: right;
-                    span {
-                      text-transform: uppercase;
-                    }
-                  }
-
-                }
-              }
-            }
-          }
-        }
-      }
-      .campaign-performance-container-two {
-        height: 130px;
-        margin-top: 3px;
-        padding: 25px 45px;
-        background: $textColorWhite;
-        .spend_detail {
-          margin-left : 25px ;
-        }
-        .col-md-3, .col-md-2 {
-          .col-md-12:first-child {
-            font-weight: bold;
-            text-transform: uppercase;
-            @include FontColor($textDarkGreyColor, 12px, $tertiaryFont);
-          }
-          .col-md-12:last-child {
-            margin-top: 15px;
-            text-transform: none;
-            @include FontColor($textHeadingColor, 15pt, $primaryFont);
-            span {
-              text-transform: uppercase;
-            }
-          }
-        }
-      }
-    }
-  }
 }
-
-
-
-
-
 
 /*
 @font-face {
     font-family: "Avenir";
     src: url(asset-path("Avenir/Avenir_LT_55_Roman.woff")) format("woff"),
     url(asset-path("Avenir/Avenir_LT_55_Roman.ttf")) format("truetype");
-
-
-
-
 }*/
+
 .external_chkbox {
   float: left;
   margin-top: 4px;
@@ -1522,7 +1171,6 @@ button, i, input[type="submit"] {
     font-family: "Avenir" ;
   }
 }
-
 .actions_holder {
   width: 920px ;
   margin:  30px auto 20px ;
@@ -1711,7 +1359,6 @@ button, i, input[type="submit"] {
     opacity: 1 ;
   }
 }
-
 #campaignDetail.container {
   .camp-perf-graph {
     .load-more {
@@ -1773,7 +1420,6 @@ button, i, input[type="submit"] {
         .left_status_section_bar {
           margin-right: 2px ;
         }
-
         .status_section_bar {
           height: 40px;
           text-transform: uppercase;
@@ -1794,7 +1440,6 @@ button, i, input[type="submit"] {
           padding: 0px 0 0 30px;
           height: 20px;
           display: inline-block;
-
         }
         span.section_bar_val {
           font-weight: bold;
@@ -1831,7 +1476,6 @@ button, i, input[type="submit"] {
             background: url(asset-path("statusWidget/draft_icon_active.png")) no-repeat 7px 1px ;
           }
         }
-
       }
       .active_section_bar {
         width: 100%;
@@ -1896,7 +1540,6 @@ button, i, input[type="submit"] {
             background: url(asset-path("statusWidget/underperforming_icon.png")) no-repeat 7px 1px ;
           }
         }
-
         .status_section_bar.active {
           background: #f67c29 ;
           .section_bar_title {
@@ -1990,210 +1633,13 @@ button, i, input[type="submit"] {
       text-transform: none;
     }
   }
-
   .active_section {
     width: 36% ;
   }
-
   .no_status_bar_section {
     display: none;
   }
 }
-/*.status_bar_holder {
- margin: 0px 0 10px ;
-  padding-top: 10px ;
-  .status_bar_section {
-    float: left;
-    text-align: center;
-    .status_partition_section {
-      margin: 0 10px 8px 0;
-      .no_partition {
-        display: none;
-      }
-      .status_section_each_partition {
-        float: left;
-        height: 25px ;
-        border-radius: 2px ;
-        -moz-border-radius: 2px ;
-        -webkit-border-radius: 2px ;
-        font-size: 12px;
-        text-align: left;
-        color: #fff;
-        font-family: "Avenir";
-        .left_status_section_bar {
-          margin-right: 10px ;
-        }
-        .left_status_section_bar.full_partition {
-          margin-right: 0px ;
-        }
-        .status_section_bar {
-          height: 25px;
-          padding-top: 2px;
-          border : solid 2px #ccc ;
-          border-radius: 2px ;
-          -moz-border-radius: 2px ;
-          -webkit-border-radius: 2px ;
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          cursor: pointer;
-        }
-        .status_section_bar.active {
-          color: #fff ;
-        }
-        span.section_bar_title {
-          padding: 0px 0 0 20px;
-
-        }
-        span.section_bar_val {
-          font-weight: bold;
-        }
-       }
-       .ready_section_bar {
-        width: 50%;
-        .status_section_bar {
-           border-color: #4eabef;
-           color: #4eabef ;
-           .section_bar_title {
-            background: url(asset-path("statusBar/ready.png")) no-repeat 5px 1px ;
-           }
-         }
-         .status_section_bar.active {
-          background: #4eabef ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/ready_selected.png")) no-repeat 5px 1px ;
-           }
-         }
-       }
-       .draft_section_bar {
-        width: 50%;
-        .status_section_bar {
-          border-color : #93cef9 ;
-          color: #93cef9 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/draft.png")) no-repeat 5px 1px ;
-           }
-        }
-        .status_section_bar.active {
-          background: #93cef9 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/draft_selected.png")) no-repeat 5px 1px ;
-           }
-         }
-        
-       }
-       .onTrack_section_bar {
-        width: 50%;
-        .status_section_bar {
-          border-color : #6abc52;
-          color: #6abc52 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat 5px 1px ;
-           }
-        }
-        .status_section_bar.active {
-          background: #6abc52;
-          .section_bar_title {
-            background: url(asset-path("statusBar/KPI_onTrack_selected.png")) no-repeat 5px 1px ;
-           }
-        }
-       }
-       .notOnTrack_section_bar {
-        width: 50%;
-        .status_section_bar {
-          border-color :  #fbc216  ;
-          color: #fbc216 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/underperforming.png")) no-repeat 5px 1px ;
-           }
-        }
-        .status_section_bar.active {
-          background: #fbc216 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/underperforming_selected.png")) no-repeat 5px 1px ;
-           }
-        }
-        
-       }
-       .achieved_goal_section_bar {
-         width: 50%;
-        .status_section_bar {
-          border-color : #acbecc ;
-          color: #acbecc ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/met_KPI.png")) no-repeat 5px 1px ;
-           }
-        }
-        .status_section_bar.active {
-          background: #acbecc ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/met_KPI_selected.png")) no-repeat 5px 1px ;
-           }
-        }
-       }
-       .unachieved_goal_section_bar {
-        width: 50%;
-        .status_section_bar {
-          border-color : #d3dfe8 ;
-          color: #d3dfe8 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/unachieved_KPI.png")) no-repeat 5px 1px ;
-           }
-        }
-        .status_section_bar.active {
-          background: #d3dfe8 ;
-          .section_bar_title {
-            background: url(asset-path("statusBar/unachieved_KPI_selected.png")) no-repeat 5px 1px ;
-           }
-        }
-       }
-       .status_section_each_partition:last-child {
-        float: right;
-       }
-    }
-    .status_bar_section_details {
-      position: relative;
-      border-top: solid 3px #d2dde5;
-      margin-right: 10px;
-      padding-top: 12px ;
-      .arrow_down_middle {
-        position: absolute;
-        width: 100% ;
-        height: 12px ;
-        top : -3px ;
-        text-align: center;
-        background: url(asset-path("statusBar/dropdown_1.png")) no-repeat center 0px ;
-        span {
-          height : 20px ;
-          width : 20px ;
-          border : solid 2px #ebebeb ;
-        }
-      } 
-      .status_bar_section_value {
-        font-size: 14pt;
-        font-family: "TradeGothicLTStd-BdCn20";
-        color: #3b3c3c;
-      }
-      .status_bar_section_name {
-        font-family: "Avenir" ;
-        color: #959da2 ;
-        font-size: 14px ;
-      }
-    }
-  }
-  .pending_section {
-    width: 25% ;
-  }
-  .active_section {
-    width: 50% ;
-  }
-  .completed_section {
-    width: 25% ;
-  }
-  .no_status_bar_section {
-    display: none;
-  }
-}*/
 
 /************* NEW DASHBOARD STYLING *******************************************/
 .each_cost_col {
@@ -2251,7 +1697,6 @@ button, i, input[type="submit"] {
 .sortable.descending {
   background-image : url(asset-path("cdesk/sorting_descending.png"));
 }
-
 .dashboard_outer_container {
   width: 1115px;
   margin: 0 auto;
@@ -2261,14 +1706,12 @@ button, i, input[type="submit"] {
     text-indent: -99999;
     background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
-
   .isFixed {
     position: fixed;
     top: 0px ;
     background: #f8f8f8 ;
     width: 1115px ;
     z-index: 1 ;
-
   }
   .page_header_container {
     margin: 20px 10px 20px 0px ;
@@ -2290,7 +1733,6 @@ button, i, input[type="submit"] {
         display: inline-block;
       }
     }
-
   }
   .summary_title {
     color: #333 ;
@@ -2313,15 +1755,12 @@ button, i, input[type="submit"] {
       text-align: center;
       font-size: 14px ;
       font-family: "Avenir" ;
-
       cursor: pointer;
       margin: 0 15px;
       a {
-        /*color: #6c6c6c ;*/
         color: #313233 ;
         text-decoration: none;
       }
-
     }
     .active {
       a {
@@ -2350,7 +1789,6 @@ button, i, input[type="submit"] {
     }
   }
   .total_campaign_list_holder {
-
     .each_campaign_list_container {
       border: solid 1px #d2dee7 ;
       background: #fff ;
@@ -2369,8 +1807,6 @@ button, i, input[type="submit"] {
             color: black;
             .details_KPI_title {
               float: left;
-
-
             }
             .cumulative_val {
               float: right;
@@ -2397,7 +1833,6 @@ button, i, input[type="submit"] {
               background: url(asset-path("cdesk/icn_goal.png")) no-repeat center top;
               height: 20px;
               width: 22px;
-
             }
           }
         }
@@ -2405,7 +1840,6 @@ button, i, input[type="submit"] {
           height:  150px ;
           margin-top : 10px ;
           overflow: hidden;
-          /*border: solid 1px #eeeeee;*/
           .graph_KPI_holder {
             height: 120px ;
           }
@@ -2418,7 +1852,6 @@ button, i, input[type="submit"] {
           .metric_title {
             color: #000 ;
             font-size: 16px ;
-
             float: left;
           }
           .metric_val {
@@ -2426,7 +1859,6 @@ button, i, input[type="submit"] {
             @include blueVal() ;
           }
         }
-
         .metric_graph_details {
           color: #acacac ;
           font-size: 14px ;
@@ -2514,13 +1946,11 @@ button, i, input[type="submit"] {
             text-decoration: none;
           }
         }
-
         .heading {
           color: #727272 ;
           font-size: 14px ;
           margin-top: 10px ;
         }
-
       }
       .first_section {
         height: 8px ;
@@ -2538,7 +1968,6 @@ button, i, input[type="submit"] {
   }
   .total_campaign_cost_holder {
     .each_campaign_cost_container {
-      /*border: solid 1px #d2dee7;*/
       padding: 10px;
       .each_cost_section {
         float: left;
@@ -2548,7 +1977,6 @@ button, i, input[type="submit"] {
           .main_heading {
             color: #000;
             font-weight: bold;
-
           }
           a {
             color: #000;
@@ -2564,7 +1992,6 @@ button, i, input[type="submit"] {
         }
       }
       .status_section {
-
         .status_icon {
           width: 16px;
           height: 18px;
@@ -2582,9 +2009,7 @@ button, i, input[type="submit"] {
         width: 375px ;
       }
     }
-
   }
-
   .days_left_holder {
     .total_days_holder {
       position: relative;
@@ -2611,7 +2036,6 @@ button, i, input[type="submit"] {
         float: left ;
       }
     }
-
     .days_over {
       position: relative;
       height: 100% ;
@@ -2620,12 +2044,10 @@ button, i, input[type="submit"] {
       border-radius: 4px ;
       -moz-border-radius: 4px ;
       -webkit-border-radius: 4px ;
-
       .days_over_text {
         position: absolute;
         top: -26px;
         color: #44aefc;
-
         font-size: 12px;
         right: -35px;
         white-space: nowrap;
@@ -2698,13 +2120,11 @@ button, i, input[type="submit"] {
           border-top: solid 5px #c1ccd4;
           border-left: solid 5px transparent;
         }
-
       }
       .start_end_point {
         .end_point_line {
           right: 0;
         }
-
         .end_point_val span {
           left: auto;
           right: 0px;
@@ -2753,7 +2173,6 @@ button, i, input[type="submit"] {
       .completed_end_point {
         left: auto;
         right: 0;
-        /*left: 300px;*/
         left: 100%;
         .end_point_line {
           float: right;
@@ -2776,14 +2195,11 @@ button, i, input[type="submit"] {
           border-bottom: solid 5px transparent;
         }
       }
-
       .end_point_line {
         height: 12px;
         width: 1px;
         background: #2f6c1d;
-
       }
-
       .end_point_val {
         position: relative;
         height: 40px;
@@ -2829,7 +2245,6 @@ button, i, input[type="submit"] {
     }
   }
 }
-
 
 /* cost breakdown */
 
@@ -2884,7 +2299,6 @@ button, i, input[type="submit"] {
         border: solid 1px #ccc;
         border-bottom: 0;
       }
-
     }
     .dropdown-menu {
       min-width: 100px;
@@ -2902,7 +2316,6 @@ button, i, input[type="submit"] {
       width: 140px;
       color: #313233;
       font-family: "Avenir";
-
       li {
         padding-top : 1px ;
         padding-bottom: 1px ;
@@ -2962,7 +2375,6 @@ button, i, input[type="submit"] {
         position: relative;
         float: left;
         text-transform: uppercase;
-        /*color: #91989d ;*/
         color: #313233 ;
         height: 36px;
         width: 170px;
@@ -2974,7 +2386,6 @@ button, i, input[type="submit"] {
           padding: 8px 0px;
           border-radius: 4px 0 0 0 ;
         }
-
       }
       .cost_tab {
         .each_tab_text {
@@ -2991,19 +2402,15 @@ button, i, input[type="submit"] {
           position: absolute;
           z-index: 1;
           width: 100%;
-
         }
-
       }
     }
     .cost_margin {
-
       margin-top: 10px;
       float: right;
     }
   }
 }
-
 .total_campaign_cost_holder {
   background: #fff;
   margin-bottom: 20px ;
@@ -3031,28 +2438,22 @@ button, i, input[type="submit"] {
           font-size: 12px ;
           color: #b8c1c8 ;
         }
-
       }
       .full_metric_graph {
         margin : 28px 0px 0px ;
-
-
       }
       .cost_cols_holder {
         margin: 15px 0 3px 0;
         padding: 0 ;
-
       }
     }
     .status_section {
-
       .status_icon {
         width: 16px;
         height: 18px;
         background: url(asset-path("statusBar/KPI_onTrack.png")) no-repeat center center;
       }
     }
-
     .other_details {
       width: 97% ;
     }
@@ -3106,24 +2507,24 @@ button, i, input[type="submit"] {
       a {
         color: #fff ;
       }
-    }
-    li:hover {
-      color: #fff ;
-      background: rgba(255,255,255,0.1) ;
-      a {
+      &:hover {
         color: #fff ;
+        background: rgba(255,255,255,0.1) ;
+        a {
+          color: #fff ;
+        }
       }
     }
-  }
-  .dropdown-menu:before {
-    background: url(asset-path("cdesk/dropdown_up_arrow.png")) no-repeat center bottom  ;
-    content: "";
-    display: block;
-    height: 10px;
-    width: 20px;
-    position: absolute;
-    top: -10px;
-    left: 50%;
+    &:before {
+      background: url(asset-path("cdesk/dropdown_up_arrow.png")) no-repeat center bottom  ;
+      content: "";
+      display: block;
+      height: 10px;
+      width: 20px;
+      position: absolute;
+      top: -10px;
+      left: 50%;
+    }
   }
   .main_nav {
     width: 1115px;
@@ -3175,7 +2576,6 @@ button, i, input[type="submit"] {
       .dropdown-menu:before {
           left : 65% ;
       }
-
     }
     .main_navigation {
       text-transform: uppercase;
@@ -3358,7 +2758,6 @@ button, i, input[type="submit"] {
             }
           }
         }
-
         .nav  li.each_filter a , .nav  li.each_filter a:hover, .nav   li.each_filter a:focus {
           color: #fff ;
           background:  transparent;
@@ -3373,17 +2772,16 @@ button, i, input[type="submit"] {
           text-overflow: ellipsis;
           font-size: 14px;
           font-family: "Avenir" ;
-
         }
         #brandsDropdown::-webkit-input-placeholder {
           color: white;
           opacity: 1 ;
         }
-        #brandsDropdown:-moz-placeholder { /* Firefox 18- */
+        #brandsDropdown:-moz-placeholder { 
           color: white;
           opacity: 1 ;
         }
-        #brandsDropdown::-moz-placeholder {  /* Firefox 19+ */
+        #brandsDropdown::-moz-placeholder { 
           color: white;
           opacity: 1 ;
         }
@@ -3391,7 +2789,6 @@ button, i, input[type="submit"] {
           color: white;
           opacity: 1 ;
         }
-
         li.filter_dropdown_open {
             .header_filter_arrow_dropdown {
               background-image : url(asset-path("cdesk/up_arrow_filter.png")) ;

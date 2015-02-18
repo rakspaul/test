@@ -40,7 +40,6 @@
         font-size: 14px ;
       }
     }
-    
     .view_report {
       border: solid 1px #359eea ;
       cursor: pointer;
@@ -216,7 +215,6 @@
         float: left;
         position: relative;
         margin-right: 50px ;
-        /*overflow:hidden;*/
         width:178px;
         color: #2d2f31 ;
         font-size: 14px ;
@@ -228,7 +226,6 @@
           z-index: 1 ;
           display: none;
         }
-        
         .input-xlarge {
           position: absolute;
           top: 0px ;
@@ -239,7 +236,6 @@
         }
         .btn:active {
             outline: 0;
-
             box-shadow: 0px 0px 0px transparent;
             -moz-box-shadow: 0px 0px 0px transparent;
             -webkit-box-shadow: 0px 0px 0px transparent;
@@ -280,9 +276,7 @@
               -moz-border-radius: 0;
               -webkit-border-radius: 0;              
               z-index: 11;
-
             }
-            
           }
         .dropdown-menu {
           position: absolute;
@@ -309,7 +303,6 @@
             width: 100%;
             text-align: left;
           }
-          
           li {
             color: #57606d ;
             a {
@@ -317,11 +310,11 @@
               display: block;
               white-space: nowrap;
             }
-          }
-          li:hover {
-            .icon-single {
-              background-image: url(asset-path("cdesk/only_check_mark.png")) ;
-              opacity: 0.5 ;
+            &:hover {
+              .icon-single {
+                background-image: url(asset-path("cdesk/only_check_mark.png")) ;
+                opacity: 0.5 ;
+              }
             }
           }
           .icon-empty , .icon-ok {
@@ -340,14 +333,10 @@
             height: 20px;
             vertical-align: text-top;
             background:no-repeat center center ;
-           
           }
-
           .icon-ok2 {
             background-image: url(asset-path("cdesk/only_check_mark.png")) ;
           }
-
-          
         }
         select {
           padding: 5px 20px 5px 10px ; 
@@ -396,7 +385,6 @@
           border-radius: 5px;
           display: block;
           line-height: 12px;
-         
         }
       }
     }
@@ -422,13 +410,11 @@
           @include graphHeadingFont() ;
           margin-bottom: 20px ;
       }
-
       .each_section_graph {
         .section_graph {
           height: 100px ;
           width: 100px ;
           margin : 0px 10px 10px 0px ;
-         /* border : solid 1px #ccc ;*/
          .section_graph_highcharts {
           width: 116px;
           height: 135px; 
@@ -484,7 +470,6 @@
         }
       }
     }
-
     .each_section_graph_holder:hover {
       border: solid 1px #359eea;
     }
@@ -538,7 +523,6 @@
     .each_section_graph_holder {
       .section_graph_details {
         margin-top: 10px ;
-
       }
     }
     .each_section_graph_holder.active {
@@ -628,7 +612,6 @@
             }
           }
         }
-      
         .only_strategy_container {
           padding-bottom: 0px ;
           margin-bottom: 0px ;
@@ -638,7 +621,6 @@
             margin-top: 30px ;
           }
         }
-       
         .tactics_container {
           .each_campaign_list_container {
             background: #FBFCFF;
@@ -664,7 +646,6 @@
               .tactics_linkage_lines_bar {
                 top: 100% ;
               }
-            
           }
           .each_tactic_container {
             background: #fbfcff;
@@ -722,10 +703,6 @@
                 }
               }
             }
-
-
-
-
           }
         }
       }
@@ -743,7 +720,6 @@
       .activity_log_header {
         margin-bottom: 0px ;
       }
-      
       .internal_legend {
         .legend {
           background: #777 ;
@@ -818,7 +794,6 @@
           background-color:  #0978c9;
           color:  #ffffff;
         }
-
       }
       .comment_area {
         width: 70% ;
@@ -869,7 +844,6 @@
           .activity_tooltip_bottom {
             bottom: -40px;
             top: auto;
-
           }
           .activity_tooltip_bottom:after  {
             bottom: 36px;
@@ -912,7 +886,6 @@
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-
               }
             }
           }
@@ -948,8 +921,6 @@
             margin-top: 7px ;
           }
         }
-        
-
         .each_activity_log:hover {
           .activity_tooltip {
             display: block;
@@ -960,7 +931,6 @@
         }
         .each_activity_log.active {
           background: #cfdaf4;
-
         }
         .each_activity_log:hover , .each_activity_log.active {
           .activity_edit_holder {
@@ -1036,7 +1006,6 @@
         display: block;
       }
     }
-    
   }
 }
 
@@ -1090,7 +1059,6 @@ multiselect .dropdown-menu > li > a {
         display: inline-block;
         float: left;
       }
-
     }
     .internal_legend {
         .legend {
