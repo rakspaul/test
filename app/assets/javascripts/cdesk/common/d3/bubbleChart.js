@@ -47,35 +47,39 @@
 
 
 
-        var getRepString = function(x) {
+        var getRepString = function(x ,r) {
             //if(isNaN(x)) return x;
             var y = Math.abs(x);
 
-            if(y < 999)
-                return  "$" + x.toFixed(2);
-
+            if(y < 999) {
+                return  "$" + ((r > 27) ? x.toFixed(2) : x.toFixed(0));
+            }
             if(y < 9999) {
               var  x = x/1000 ;
-                return  "$" + x.toFixed(2)+ "k";
+
+                return  "$" + ((r >27) ? x.toFixed(2)  : x.toFixed(0))+ "k";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
-                return "$" + x.toFixed(2) + "k";
+
+                return "$" + ((r >27) ? x.toFixed(2) : x.toFixed(0)) + "k";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
-                return "$"+ x.toFixed(2) + "m";
+
+                return "$"+ ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
-                return "$" + x.toFixed(2) + "m";
+               
+                return "$" +  ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return "$"+ x.toFixed(2) + "b";
+                return "$"+  ((r >27) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
             }
 
             return "1T+";
@@ -179,7 +183,7 @@
                     var radius  = 0 ;
                     if(node.budget > 0 ){
                       percFill   = Math.round((node.spend / node.budget)* 100);
-                      radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
+                      radius = ((node.budget)*ratio < 20 )? 20 : (node.budget)*ratio ;
                     }
                     var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
 
@@ -214,7 +218,7 @@
                     var radius  = 0 ;
                     if(node.budget > 0 ){
                         percFill   = Math.round((node.spend / node.budget)* 100);
-                        radius = ((node.budget)*ratio <5 )? 5 : (node.budget)*ratio ;
+                        radius = ((node.budget)*ratio < 20 )? 20 : (node.budget)*ratio ;
                     }
                     var pathData =  dataGenerator(positionsCampaigns[i][0], positionsCampaigns[i][1], radius, percFill );
 
@@ -321,14 +325,6 @@
                 .attr("fill", blue);
 
 
-//            node.append("title")
-//                .text(function(d){
-//                    return d.className ;});
-//
-//         node.append("title")
-//                .text(function(d){
-//                    return "Total spend : $" + d.spend ; });
-
             node.append("text") //For brand name
                 .attr("transform", function(d) {
                     if(d.r > 40)
@@ -357,7 +353,7 @@
                         text = d.className.substring(0, 6) + '...' ;
                     } else if (d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
-                    } else if(d.r > 30) {
+                    } else if(d.r > 32) {
                         text = d.className.substring(0, 2) + '...' ;
                     }
                     return text ;
@@ -367,10 +363,8 @@
                 .attr("transform", function(d) {
                     if(d.r > 40)
                         return "translate(" + d.cx + "," + (d.cy+10) + ")";
-                    else if(d.r >22)
-                        return "translate(" + d.cx + "," + (d.cy) + ")";
-                    else
-                        return  "translate(" + d.cx + "," + (d.cy-1) + ")";
+                    else if(d.r >19)
+                        return "translate(" + d.cx + "," + (d.cy+2) + ")";
                 })
                 .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
@@ -386,7 +380,7 @@
                     } else if(d.r >25) {
                         text_size="14px" ;
                     } else if(d.r > 15){
-                        text_size = "11px"
+                        text_size = "10px"
                     }
                     return text_size ;
                 })
@@ -395,8 +389,8 @@
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     var budget ;
-                    if(d.r >15)
-                        budget = getRepString(d.budget);
+                    if(d.r > 15)
+                        budget = getRepString(d.budget, d.r);
 
                     return budget ;
                 });
@@ -563,7 +557,7 @@
                     } else if(d.r > 40){
                         text = d.className.substring(0, 4) + '...' ;
                     }
-                    else if (d.r > 25){
+                    else if (d.r > 32){
                         text = d.className.substring(0, 3) + '...' ;
                     }
                     return text ;
@@ -573,8 +567,8 @@
                 .attr("transform", function(d) {
                     if(d.r > 40)
                         return "translate(" + d.cx + "," + (d.cy+10) + ")";
-                    else
-                        return  "translate(" + d.cx + "," + (d.cy+5) + ")";
+                    else if(d.r >19)
+                        return "translate(" + d.cx + "," + (d.cy + 2) + ")";
                 })
                 .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
@@ -586,7 +580,7 @@
                         text_size = "27px"
                     }
                     else if(d.r > 50){
-                        text_size = "25px";
+                        text_size = "24px";
                     } else if(d.r >25) {
                         text_size="14px" ;
                     } else if(d.r > 15){
@@ -600,7 +594,7 @@
                 .text(function(d) {
                     var budget ;
                     if(d.r >15)
-                        budget = getRepString(d.budget);
+                        budget = getRepString(d.budget, d.r);
 
                     return budget ;
                 });
