@@ -245,6 +245,19 @@
       }
     };
   });
+angObj.directive('truncateTextWithHover', function () {
+    return{
+      restrict: 'AE',
+      scope: {
+        txt: "@txt",
+        txtLength: "@txtlength"
+      },
+      template: '<span data-toggle="tooltip" data-placement="top" data-original-title="{{txt}}" ng-show="(txt.length > txtLength)">' +
+      '{{txt |limitTo:txtLength}} ...</span>'+
+      '<span  ng-show="(txt.length <= txtLength)">' +
+      '{{txt}}</span>'
+    };
+  });
   angObj.filter('spliter', function () {
     return function (input, splitIndex) {
 // do some bounds checking here to ensure it has that index
