@@ -48,7 +48,7 @@
     };
 
     this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, state ){
-        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&state='+ state ;
+        var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&state='+ state ;
        return url ;
     };
 
