@@ -2,30 +2,34 @@
     "use strict";
     commonModule.service("bubbleChart", function($rootScope,constants, brandsModel) {
 
-        var darkblue = "#0978c9 " ,
-            blue = "#209AEF" ,
+        var colors = {
+            brands : {
+                circleFill : "#0F62BC ",
+                spendFillLight : "#1796EE",
+                spendPathOutline :   "#085f9f"
 
-            orange = "#FC8631" , // #FC812F
-            darkOrange = "#F1661F",
+        },
+            campaigns : {
+                onTrack : {
+                   circleFill :   "#56D431",
+                   spendFillLight :  "#58F12D",
+                   spendPathOutline :   "#085f9f"
+                },
+                underPerforming : {
+                    circleFill : "#F1661F" ,
+                    spendFillLight :  "#FC8631",
+                    spendPathOutline :  "#DB530F"
+                }
+            }
+        };
 
-            green ="#59F52D",
-            darkgreen = "#56D431",
 
-            blueOutline = "#1378C3",
-            darkBlueOutline = "#085F9F",
-
-            greenOutline = "#64D841" ,
-            darkGreenOutline = "#47AB1D",
-
-            orangeOutline = "#DB691C",
-            darkOrangeOutline ="#DB530F",
-
-           tooltipBackGroundColor = "#FEFFFE";
+         var tooltipBackGroundColor = "#FEFFFE";
 
 
         var tooltip = d3.select("body")
             .append("div")
-            .attr("class" , "bubble_tooltip") 
+            .attr("class" , "bubble_tooltip")
             .attr("id","bubbleChartTooltip")
             .style("position", "absolute")
             .style("z-index", "10")
@@ -52,34 +56,34 @@
             var y = Math.abs(x);
 
             if(y < 999) {
-                return  "$" + ((r > 27) ? x.toFixed(2) : x.toFixed(0));
+                return  "$" + ((r > 40) ? x.toFixed(2) : x.toFixed(0));
             }
             if(y < 9999) {
-              var  x = x/1000 ;
+                var  x = x/1000 ;
 
-                return  "$" + ((r >27) ? x.toFixed(2)  : x.toFixed(0))+ "k";
+                return  "$" + ((r >40) ? x.toFixed(2)  : x.toFixed(0))+ "k";
             }
 
             if(y < 1000000) {
                 var x = x/1000;
 
-                return "$" + ((r >27) ? x.toFixed(2) : x.toFixed(0)) + "k";
+                return "$" + ((r >40) ? x.toFixed(2) : x.toFixed(0)) + "k";
             }
             if( y < 10000000) {
                 var x = x/1000000 ;
 
-                return "$"+ ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+                return "$"+ ((r >40) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000) {
                 var x = x/1000000 ;
-               
-                return "$" +  ((r >27) ? x.toFixed(2)  : x.toFixed(0)) + "m";
+
+                return "$" +  ((r >40) ? x.toFixed(2)  : x.toFixed(0)) + "m";
             }
 
             if(y < 1000000000000) {
                 var x= x/1000000000 ;
-                return "$"+  ((r >27) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
+                return "$"+  ((r >40) ? x.toFixed(2)  : x.toFixed(0 )) + "b";
             }
 
             return "1T+";
@@ -167,128 +171,109 @@
         };
 
         function dataFormatting (root , spanId){
-            var positions = [[100,100],[250,100],[160,200],[60,210] ,[280,200],[[290,220]]];
-           var positionsCampaigns =  [[80,70],[260,70],[180,160],[70,220] ,[290,210]];
-            var formattedDataBrands = [];
-            var formattedDataCampaigns = [];
-            if(spanId == 'brands'){
-                var brandArray = root['brands'];
-                var maxRadius = 70 ;
 
-                var maxBudget = (brandArray == undefined || brandArray[0] == undefined) ? 0 : brandArray[0].budget ;
-                var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
-                for(var i in brandArray){
-                    var node = brandArray[i];
-                    var percFill =0 ;
-                    var radius  = 0 ;
-                    if(node.budget > 0 ){
-                      percFill   = Math.round((node.spend / node.budget)* 100);
-                      radius = ((node.budget)*ratio < 20 )? 20 : (node.budget)*ratio ;
-                    }
-                    var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
+            var positions =  [[72,80],[240,60],[165,160],[290,220] ,[60,220],[165,240]];
+            var formattedData = [];
+            var array = root;
+            var maxRadius = (spanId == 'brands') ? 70 : 60 ;
 
-                    var object = {
-                        id:  i ,
-                        brandId: node.id,
-                        className: node.name,
-                        value : node.budget,
-                        budget :node.budget,
-                        spend : node.spend,
-                        percFill : percFill,
-                        campaigns : node.campaigns,
-                        cx : positions[i][0],
-                        cy : positions[i][1],
-                        r : radius,
-                        pathData : pathData['lineData'],
-                        toolTipX : pathData['curveEndX'],
-                        toolTipY : pathData['curveEndY']
-                    };
+            var maxBudget = (array == undefined || array[0] == undefined) ? 0 : array[0].budget ;
+            var ratio = (maxBudget == 0)? 0 : maxRadius / maxBudget ;
 
-                    formattedDataBrands.push(object);
+            for(var i in array){
+                var node = array[i];
+                var percFill =0 ;
+                var radius  = 0 ;
+                if(node.budget > 0 ){
+                    percFill   = Math.round((node.spend / node.budget)* 100);
+
+                    radius = ((node.budget)*ratio < 30 )? 30 : ( (node.budget)*ratio < 40 ?  ( node.budget*ratio + 5 ): (node.budget)*ratio  );
                 }
-            } else if(spanId == 'campaigns'){
-                var campaignArray = root['campaigns'];
-                var maxRadius = 60 ;
-                var maxBudget = (campaignArray == undefined || campaignArray[0] == undefined) ? 0 : campaignArray[0].budget ;
-                var ratio = maxRadius / maxBudget ;
+                var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
 
-                for(var i in campaignArray){
-                    var node = campaignArray[i];
-                    var percFill = 0 ;
-                    var radius  = 0 ;
-                    if(node.budget > 0 ){
-                        percFill   = Math.round((node.spend / node.budget)* 100);
-                        radius = ((node.budget)*ratio < 20 )? 20 : (node.budget)*ratio ;
-                    }
-                    var pathData =  dataGenerator(positionsCampaigns[i][0], positionsCampaigns[i][1], radius, percFill );
+                var object = {
+                    id:  i ,
+                    brandId: node.id,
+                    className: node.name,
+                    value : node.budget,
+                    budget :node.budget,
+                    spend : node.spend,
+                    percFill : percFill,
+                    campaigns : node.campaigns,
+                    cx : positions[i][0],
+                    cy : positions[i][1],
+                    r : radius,
+                    status : (spanId == 'brands') ? 'brands' :  node.kpi_status ,
+                    pathData : pathData['lineData'],
+                    toolTipX : pathData['curveEndX'],
+                    toolTipY : pathData['curveEndY'],
+                    objectType : (spanId == 'brands')? 'brands' : 'campaigns'
+                };
 
-                    var object = {
-                        id: i ,
-                        className: node.name,
-                        value : node.budget,
-                        budget :node.budget,
-                        spend : node.spend,
-                        status : node.kpi_status,
-                        percFill : percFill ,
-                        cx : positionsCampaigns[i][0],
-                        cy : positionsCampaigns[i][1],
-                        r : radius,
-                        pathData : pathData['lineData'],
-                        toolTipX : pathData['curveEndX'],
-                        toolTipY : pathData['curveEndY']
-                    };
-                    formattedDataCampaigns.push(object);
-                }
-
+                formattedData.push(object);
             }
-            return {
-                formattedDataBrands : formattedDataBrands,
-                formattedDataCampaigns : formattedDataCampaigns
-            } ;
+
+
+            return formattedData ;
         };
 
-        function updateBubbleChartData(data){
+        function updateBubbleChartData( spanId, data){
+
             $("#brands").show();
             $("#campaigns").hide();
             this.spendData = data ;
+            createBubbleChart.call(this, spanId, this.spendData);
 
-             createBubbleChartNew.call(this, "brands", this.spendData);
-        };
-
-        function updatCampaignBubbleChartData(data){
-            $("#brands").hide();
-            $("#campaigns").show();
-            createBubbleChartForCampaigns("campaigns",data );
         };
 
 
         this.updateBubbleChartData = updateBubbleChartData ;
-        this.updatCampaignBubbleChartData = updatCampaignBubbleChartData ;
 
-        function createBubbleChartNew(spanId, data) {
-            if(data !== undefined && data.total_brands == 1 &&  data['brands'][0].budget == 0){
-                $("#data_not_available").show();
-            }
+        function createBubbleChart(spanId, data) {
 
-            // remove existing brands svg ( if any)
             d3.select("#brands_svg").remove();
             d3.select("#campaigns_svg").remove();
 
-            var brands_svg  = d3.select("#brands").append("svg")
-                .attr("width", 400)
-                .attr("height", 280)
-                .attr("id",  "brands_svg")
-                .append("g");
+            var brands_svg = {},
+                campaigns_svg = {} ,
+                chartData = {},
+                node = {} ;
 
-            var self = this ;
+            if(spanId == "brands"){
+                $("#brands").show();
+                $("#campaigns").hide();
 
-            var chartData =  dataFormatting(data,"brands")['formattedDataBrands'];
+                 brands_svg  = d3.select("#brands").append("svg")
+                    .attr("width", 400)
+                    .attr("height", 280)
+                    .attr("id",  spanId + "_svg")
+                    .append("g");
 
-            var node = brands_svg.selectAll(".node")
-                .data(chartData)
-                .enter()
-                .append("g")
-                .attr("class" , "node") ;
+                 chartData =  dataFormatting(data,spanId) ;
+
+                 node = brands_svg.selectAll(".node")
+                    .data(chartData)
+                    .enter()
+                    .append("g")
+                    .attr("class" , "node") ;
+            } else if(spanId == "campaigns"){
+                $("#brands").hide();
+                $("#campaigns").show();
+
+                 campaigns_svg  = d3.select("#campaigns").append("svg")
+                    .attr("width", 400)
+                    .attr("height", 280)
+                    .attr("id",  "campaigns_svg")
+                    .append("g");
+
+                 chartData =  dataFormatting(data,spanId) ;
+
+
+                 node = campaigns_svg.selectAll(".node")
+                    .data(chartData).enter()
+                    .append("g")
+                    .attr("class" , "node");
+            }
 
             var lineFunction = d3.svg.line()
                 .x(function(d){
@@ -301,11 +286,11 @@
 
             node.append("circle")
                 .attr("id", function(d){
-                    return ("brands_"+ d.id +"_circle" ) ;
+                  return (d.objectType == 'brands' ? "brands_" + d.id + "_circle" : "campaigns_" + d.id + "_circle" ) ;
                 })
-                .attr("stroke-width", '4')
-                .attr("stroke" , blueOutline)
-                .style("fill", darkblue)
+                .style("fill", function(d){
+                  return  (d.objectType == 'brands') ? colors.brands.circleFill : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.circleFill : colors.campaigns.underPerforming.circleFill );
+                })
                 .attr("r" , function(d){
                     return d.r ;
                 })
@@ -315,33 +300,39 @@
 
             node.append("path")
                 .attr("id", function(d){
-                    return ("brands_"+ d.id +"_path" ) ;
+                return ( d.objectType == 'brands' ) ? 'brands_'+  d.id +"_path" : 'campaigns_' +  d.id +"_path" ;
                 })
                 .attr("d",function(d){
                     return lineFunction(d.pathData);
                 })
-                .attr("stroke" , blue)
-                .attr("stroke-width", 0.5)
-                .attr("fill", blue);
+               // .attr("stroke" , blue)
+               //  .attr("stroke-width", 0.5)
+                .attr("fill",  function(d){
+                    return  (d.objectType == 'brands') ? colors.brands.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight );
+                });
 
 
             node.append("text") //For brand name
                 .attr("transform", function(d) {
-                    if(d.r > 40)
+                    if(d.r > 50)
                         return "translate(" + d.cx + "," + (d.cy+35) + ")";
+                    else if(d.r >40)
+                        return "translate(" + d.cx + "," + (d.cy+25) + ")";
                     else
-                        return  "translate(" + d.cx + "," + (d.cy+25) + ")";
+                        return  "translate(" + d.cx + "," + (d.cy) + ")";
                 })
                 .attr("font-family","Avenir")
                 .style("font-weight","500")
                 .style("z-index", "10")
                 .style("font-size", function(d){
                     var size ;
-                    if(d.r > 40 )
+                    if(d.r > 50 )
 
-                    size = "14px" ;
-                    else if (d.r > 25)
-                    size = "12px" ;
+                        size = "14px" ;
+                    else if (d.r > 40)
+                        size = "12px" ;
+                    else
+                       size = "10px"
 
                     return size ;
                 })
@@ -352,19 +343,19 @@
                     if(d.r > 50){
                         text = d.className.substring(0, 6) + '...' ;
                     } else if (d.r > 40){
-                        text = d.className.substring(0, 4) + '...' ;
-                    } else if(d.r > 32) {
-                        text = d.className.substring(0, 2) + '...' ;
+                        text = d.className.substring(0, 3) + '...' ;
                     }
                     return text ;
                 });
 
             node.append("text") // for brand budget
                 .attr("transform", function(d) {
-                    if(d.r > 40)
+                    if(d.r > 50)
                         return "translate(" + d.cx + "," + (d.cy+10) + ")";
-                    else if(d.r >19)
+                    else if(d.r >40)
                         return "translate(" + d.cx + "," + (d.cy+2) + ")";
+                    else
+                        return "translate(" + d.cx + "," + (d.cy+5) + ")";
                 })
                 .attr("font-family","Avenir")
                 .style("text-anchor", "middle")
@@ -372,15 +363,13 @@
                 .style("z-index", "10")
                 .attr("font-size",function(d){
                     var text_size ;
-                    if(d.r > 65){
+                    if(d.r > 50){
                         text_size = "26px"
                     }
-                    else if(d.r > 50){
-                        text_size = "24px";
-                    } else if(d.r >25) {
+                    else if(d.r > 30){
+                        text_size = "20px";
+                    } else {
                         text_size="14px" ;
-                    } else if(d.r > 15){
-                        text_size = "10px"
                     }
                     return text_size ;
                 })
@@ -389,7 +378,7 @@
                 .style("text-anchor", "middle")
                 .text(function(d) {
                     var budget ;
-                    if(d.r > 15)
+                    if(d.r > 25)
                         budget = getRepString(d.budget, d.r);
 
                     return budget ;
@@ -405,28 +394,33 @@
                     percFill : obj.percFill,
                     spend : obj.spend,
                     r : obj.r,
+                    objectType : obj.objectType,
+                    status : obj.status ,
                     tootlipX : obj.toolTipX,
                     tooltipY : obj.toolTipY
                 };
 
 
-                node.selectAll("circle").attr('opacity',0.5);
-                node.selectAll("path").attr('opacity', 0.5);
+                node.selectAll("circle").attr('opacity',0.4);
+                node.selectAll("path").attr('opacity', 0.4);
 
+                var focusedObjId = (focused_obj.objectType == 'brands')? "brands_"+focused_obj.id : "campaigns_"+focused_obj.id ;
 
-          //     create new path element
-                d3.select("#brands_"+focused_obj.id+ "_circle").attr('opacity', 1);
-                d3.select("#brands_"+focused_obj.id+ "_path").attr('opacity', 1);
+                d3.select("#"+focusedObjId + "_circle").attr('opacity', 1);
+                d3.select("#"+focusedObjId + "_path").attr('opacity', 1);
 
-                d3.select("#brands_"+focused_obj.id+ "_path")
+                d3.select( "#"+ focusedObjId + "_path")
+                    .attr('id', focusedObjId + "_path")
                     .attr('opacity', 1)
-                    .attr("stroke" , darkBlueOutline)
-                    .attr("stroke-width", 3)
-                    .attr("fill", blue);
+                   .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : colors.campaigns.underPerforming.spendPathOutline ))
+                     .attr("stroke-width", 3)
+                   .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
+
 
                 return tooltip.html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible");
+
 
             });
 
@@ -437,33 +431,44 @@
                     cx : obj.cx,
                     cy : obj.cy,
                     percFill : obj.percFill,
-                    r : obj.r
+                    spend : obj.spend,
+                    r : obj.r,
+                    objectType : obj.objectType,
+                    status : obj.status ,
+                    tootlipX : obj.toolTipX,
+                    tooltipY : obj.toolTipY
                 };
+
+
+                var focusedObjId = (focused_obj.objectType == 'brands')? "brands_"+focused_obj.id : "campaigns_"+focused_obj.id ;
 
                 node.selectAll("circle").attr('opacity',1);
                 node.selectAll("path").attr('opacity', 1);
 
-                d3.select("#brands_"+focused_obj.id +"_path")
-                    .attr('opacity', 1)
-                    .attr("stroke" , blue)
-                    .attr("stroke-width", 0.5)
-                    .attr("fill", blue);
+                var id_to_remove = focusedObjId + "_path" ;
 
-                return tooltip
-                    .style("visibility", "hidden");
+                d3.select("#"+ id_to_remove)
+                    .attr('opacity', 1)
+                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ))
+                    .attr("stroke-width", 0.2)
+                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
+
+              return  tooltip.style("visibility", "hidden");
 
             });
 
-           node.on("mousemove", function(){
-               return tooltip.style("top", (event.pageY-10)+"px")
-                   .style("left",(event.pageX+10)+"px")
-                   .style;
-           });
+            node.on("mousemove", function(){
+                return tooltip.style("top", (event.pageY-10)+"px")
+                    .style("left",(event.pageX+10)+"px") ;
+
+            });
 
             node.on("click", function(obj) {
 
-                tooltip.style("visibility", "hidden");
-                $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
+                if(obj.objectType == 'brands'){
+                    tooltip.style("visibility", "hidden");
+                    $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
+                }
             });
 
         } ;
@@ -473,202 +478,7 @@
             $("#data_not_available").hide();
         };
 
-        var createBubbleChartForCampaigns = function( spanId , data){
-          //  var campaignChartContainer = createChartContainer(spanId , 400, 280, 420);
-            var campaigns_svg  = d3.select("#campaigns").append("svg")
-                .attr("width", 400)
-                .attr("height", 280)
-                .attr("id",  "campaigns_svg")
-                .append("g");
 
-            var chartData =  dataFormatting(data,spanId)['formattedDataCampaigns'];
-
-
-            var node = campaigns_svg.selectAll(".node")
-                .data(chartData).enter()
-                .append("g")
-                .attr("class" , "node");
-
-            var lineFunction_circle = d3.svg.line()
-                .x(function(d){
-                    return d.x ;})
-                .y(function(d){
-                    return d.y;})
-                .interpolate("basis-closed");
-
-            node.append("circle")
-                .attr("id", function(d){
-                    return ( "campaigns_"+d.id +"_circle" ) ;
-                })
-                .attr("stroke-width", '4')
-                .attr("stroke" , function(d){
-                    return (d.status == 'ontrack') ? greenOutline  : orangeOutline ;
-                })
-                .attr("fill",function(d){
-                    return (d.status === 'ontrack') ? darkgreen : darkOrange ;
-                })
-                .attr("r" , function(d){
-                    return d.r ;
-                })
-                .attr("cx" , function(d){return d.cx ;})
-                .attr("cy" , function(d){return d.cy ;});
-
-            node.append("path")
-                .attr("id", function(d){
-                    return ("campaigns_" + d.id +"_path" ) ;
-                })
-                .attr("d",function(d){
-                    return lineFunction_circle(d.pathData);
-                })
-                .attr("stroke-width",4)
-                .attr("stroke" , function(d){
-                    return (d.status == 'ontrack') ?  greenOutline : orangeOutline ;
-                })
-                .attr("fill",function(d) {
-                 return (d.status == 'ontrack') ?  green : orange ;
-
-                }) ;
-
-
-            node.append("text") //For brand name
-                .attr("transform", function(d) {
-                    if(d.r > 40)
-                        return "translate(" + d.cx + "," + (d.cy+35) + ")";
-                    else
-                        return  "translate(" + d.cx + "," + (d.cy+20) + ")";
-                })
-                .attr("font-family","Avenir")
-                .style("z-index", "10")
-                .style("font-size", function(d){
-                    var size ;
-                    if(d.r > 40 )
-                        size = "16px" ;
-                    else if (d.r > 25)
-                        size = "14px" ;
-                    return size ;
-                })
-                .style("text-anchor", "middle")
-                .attr("font-weight","500")
-                .attr("fill", "white")
-                .text(function(d) {
-                    var text ;
-                    if(d.r > 50){
-                        text = d.className.substring(0, 6) + '...' ;
-                    } else if(d.r > 40){
-                        text = d.className.substring(0, 4) + '...' ;
-                    }
-                    else if (d.r > 32){
-                        text = d.className.substring(0, 3) + '...' ;
-                    }
-                    return text ;
-                });
-
-            node.append("text") // for brand budget
-                .attr("transform", function(d) {
-                    if(d.r > 40)
-                        return "translate(" + d.cx + "," + (d.cy+10) + ")";
-                    else if(d.r >19)
-                        return "translate(" + d.cx + "," + (d.cy + 2) + ")";
-                })
-                .attr("font-family","Avenir")
-                .style("text-anchor", "middle")
-                .attr("fill", "white")
-                .style("z-index", "10")
-                .attr("font-size",function(d){
-                    var text_size ;
-                    if(d.r > 65){
-                        text_size = "27px"
-                    }
-                    else if(d.r > 50){
-                        text_size = "24px";
-                    } else if(d.r >25) {
-                        text_size="14px" ;
-                    } else if(d.r > 15){
-                        text_size = "10px"
-                    }
-                    return text_size ;
-                })
-                .attr("font-weight","900")
-                .attr("fill", "white")
-                .style("text-anchor", "middle")
-                .text(function(d) {
-                    var budget ;
-                    if(d.r >15)
-                        budget = getRepString(d.budget, d.r);
-
-                    return budget ;
-                });
-
-            node.on("mouseover", function(obj){
-
-                var campaign_obj = {
-                    name : obj.className,
-                    id : obj.id,
-                    cx : obj.cx,
-                    cy : obj.cy,
-                    status : obj.status,
-                    percFill : obj.percFill,
-                    spend : obj.spend,
-                    r : obj.r,
-                    tootlipX : obj.toolTipX,
-                    tooltipY : obj.toolTipY
-                };
-
-                //        d3.select("#brands_"+focused_obj.id +"_path").remove();
-
-                node.selectAll("circle").attr('opacity',0.4);
-                node.selectAll("path").attr('opacity', 0.4);
-
-
-                //     create new path element campaigns_0_circle
-                d3.select("#campaigns_"+campaign_obj.id+ "_circle").attr('opacity', 1);
-                d3.select("#campaigns_"+campaign_obj.id+ "_path").attr('opacity', 1);
-
-                d3.select("#campaigns_"+campaign_obj.id+ "_path")
-                    .attr("stroke" , (campaign_obj.status == 'ontrack')? darkGreenOutline : darkOrangeOutline)
-                    .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
-                    .attr("stroke-width", 3);
-
-
-                return tooltip.html(campaign_obj.name + " <br/> Total Spend : $" + campaign_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
-                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                }) ).style("visibility", "visible");
-
-            });
-
-
-            node.on("mousemove", function(){
-                return tooltip.style("top", (event.pageY-10)+"px")
-                    .style("left",(event.pageX+10)+"px")
-                    .style("visibility", "visible");
-            });
-
-            node.on("mouseout" , function(obj){
-                var campaign_obj = {
-                    name : obj.className,
-                    id : obj.id,
-                    cx : obj.cx,
-                    cy : obj.cy,
-                    percFill : obj.percFill,
-                    status : obj.status,
-                    r : obj.r
-                };
-
-                node.selectAll("circle").attr('opacity',1);
-                node.selectAll("path").attr('opacity', 1);
-
-                d3.select("#campaigns_"+campaign_obj.id+ "_path")
-                    .attr("stroke" , (campaign_obj.status == 'ontrack')? greenOutline : orangeOutline)
-                    .attr("fill", (campaign_obj.status == 'ontrack')? green : orange )
-                    .attr("stroke-width", 3);
-
-
-                return tooltip
-                    .style("visibility", "hidden");
-
-            });
-
-            };
 
     });
 }());
