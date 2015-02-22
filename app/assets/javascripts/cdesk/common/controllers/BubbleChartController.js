@@ -5,13 +5,13 @@
          $scope.data = {
              brandData : {},
              campaignDataForSelectedBrand : {},
-             campaignDataForAllBrands : {}
+             campaignDataForAllBrands : []
          };
         function getSpendDataForCampaigns() {
             $scope.spendBusy = true;
 
             // Fetch the new data now.
-            bubbleChartModel.getBubbleChartDataForCampaign().then(function () {
+            bubbleChartModel.getBubbleChartDataForCampaign( brandsModel.getSelectedBrand().id).then(function () {
                 $scope.spendBusy = false;
                 if (bubbleChartModel.getbubbleWidgetData()['dataNotAvailable'] == true) {
                     d3.select("#brands_svg").remove();
@@ -48,6 +48,17 @@
 
                     bubbleChart.updateBubbleChartData( "brands", $scope.data.brandData);
 
+                    for( var i in $scope.data.brandData) {
+                        var brand = $scope.data.brandData[i];
+
+                        bubbleChartModel.getBubbleChartDataForCampaignWithOutCanceller(brand.id).then(function (result) {
+                            var obj = {
+                                brandId: brand.id,
+                                campaigns: result
+                            };
+                            $scope.data.campaignDataForAllBrands.push(obj);
+                        });
+                    }
                 }
 
             });

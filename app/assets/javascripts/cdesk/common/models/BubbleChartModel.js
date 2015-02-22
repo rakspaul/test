@@ -37,8 +37,8 @@
         };
 
        // getBubbleChartDataForCampaign
-        this.getBubbleChartDataForCampaign = function () {
-            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), brandsModel.getSelectedBrand().id);
+        this.getBubbleChartDataForCampaign = function (selectedBrand) {
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
             var canceller = requestCanceller.initCanceller(constants.BUBBLE_CHART_CAMPAIGN_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
 
@@ -53,9 +53,30 @@
                 } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;
                 }
-                return bubbleWidgetData['campaignDataForSelectedBrand'];
+                return campaigns;
             })
         };
+
+        // So that user can fire paraller request to fetch campaigns of a brands.
+        this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
+            return dataService.fetch(url).then(function(response) {
+
+                var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
+                var campaignLength = response.data.data.length ;
+
+                if(campaigns != undefined ){
+                    bubbleWidgetData['dataNotAvailable'] = false ;
+                    bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
+
+                } else {
+                    bubbleWidgetData['dataNotAvailable'] = true ;
+                }
+                return campaigns;
+            })
+        };
+
 
         this.getbubbleWidgetData = function(){
             return bubbleWidgetData ;
