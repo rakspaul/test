@@ -13,7 +13,7 @@ require 'bundler/capistrano'
 require 'hipchat/capistrano'
 
 set :application, "reachui"
-set :repository,  "git@github.com:collectivereach/reachui.git"
+set :repository,  "git@github.com:collectivereach/crpt-ui.git"
 set :scm, :git
 set :use_sudo, false
 set :keep_releases, 7 # keep the last N releases
