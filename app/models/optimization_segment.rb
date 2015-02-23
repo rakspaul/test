@@ -1,2 +1,0 @@
-class OptimizationSegment < Segment
-end
