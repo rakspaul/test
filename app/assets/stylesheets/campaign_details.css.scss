@@ -678,7 +678,7 @@
                   width: 16px;
                   height: 16px;
                   display: inline-block;
-                  background: url(asset-path("cdesk/icn_audience.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                  background: url(asset-path("cdesk/icn_audience.png")) no-repeat scroll -3px 1px rgba(0, 0, 0, 0);
                 }
                 .globe-icon {
                   width: 16px;
@@ -696,10 +696,25 @@
                 }
                 .device-icon {
                   width: 17px;
-                  height: 17px;
+                  height: 18px;
                   vertical-align: sub;
                   display: inline-block;
-                  background: url(asset-path("cdesk/icn_size.png")) no-repeat scroll -1px 1px rgba(0, 0, 0, 0);
+                  background: url(asset-path("cdesk/display_icon.png")) no-repeat  0px 3px ;
+                }
+                .device-icon.mobile_graph {
+                  background-image : url(asset-path("cdesk/mobile_icon.png")) ;
+                }
+                .device-icon.social_graph {
+                  background-image : url(asset-path("cdesk/social_icon.png")) ;
+                }
+                .device-icon.display_graph {
+                  background-image : url(asset-path("cdesk/display_icon.png")) ;
+                }
+                .device-icon.video_graph {
+                  background : url(asset-path("cdesk/video_icon.png")) no-repeat  0px 6px ;
+                }
+                .device-icon.tablet_graph {
+                  background-image : url(asset-path("cdesk/tablet_icon.png")) ;
                 }
               }
             }
