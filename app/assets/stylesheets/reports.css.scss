@@ -192,6 +192,13 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     .each_reports_row_details.action_selected {
       background: #CFDAF4 ;
     }
+    .default-kpi-header-icon {
+      height: 17px;
+      width: 17px;
+      background: url(asset-path("icn_goal.png")) no-repeat scroll left bottom ;
+      background-size: 70% ;
+      display: inline-block;
+    }
   }
 }
 .each_rep_col_holder {
