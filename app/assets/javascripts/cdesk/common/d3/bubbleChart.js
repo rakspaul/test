@@ -2,29 +2,14 @@
     "use strict";
     commonModule.service("bubbleChart", function($rootScope,constants, brandsModel) {
 
-        var colors = {
-            brands : {
-                circleFill : "#0F62BC ",
-                spendFillLight : "#1796EE",
-                spendPathOutline :   "#085f9f"
-
-        },
-            campaigns : {
-                onTrack : {
-                   circleFill :   "#56D431",
-                   spendFillLight :  "#58F12D",
-                   spendPathOutline :   "#085f9f"
-                },
-                underPerforming : {
-                    circleFill : "#F1661F" ,
-                    spendFillLight :  "#FC8631",
-                    spendPathOutline :  "#DB530F"
-                }
-            }
-        };
+        var brands_svg = {},
+            campaigns_svg = {} ,
+            chartData = {},
+            node = {} , blueGradient = {}, orangeGradient = {}, greenGradient = {} ;
 
 
-         var tooltipBackGroundColor = "#FEFFFE";
+
+        var tooltipBackGroundColor = "#FEFFFE";
 
 
         var tooltip = d3.select("body")
@@ -48,6 +33,28 @@
             .style("font-weight","500")
             .style("width","200px")
             .text("tooltip");
+
+
+        var colors = {
+            brands : {
+                circleFill : "#0F62BC ",
+                spendFillLight :  "url(#blueGradient)",
+                spendPathOutline :   "#085f9f"
+
+            },
+            campaigns : {
+                onTrack : {
+                    circleFill :   "#56D431",
+                    spendFillLight :  "url(#greenGradient)",
+                    spendPathOutline :   "#085f9f"
+                },
+                underPerforming : {
+                    circleFill : "#F1661F" ,
+                    spendFillLight :    "url(#orangeGradient)",
+                    spendPathOutline :  "#DB530F"
+                }
+            }
+        };
 
 
 
@@ -231,13 +238,14 @@
 
         function createBubbleChart(spanId, data) {
 
-            d3.select("#brands_svg").remove();
-            d3.select("#campaigns_svg").remove();
-
-            var brands_svg = {},
+                brands_svg = {},
                 campaigns_svg = {} ,
                 chartData = {},
                 node = {} ;
+
+            d3.select("#brands_svg").remove();
+            d3.select("#campaigns_svg").remove();
+
 
             if(spanId == "brands"){
                 $("#brands").show();
@@ -256,6 +264,29 @@
                     .enter()
                     .append("g")
                     .attr("class" , "node") ;
+
+                  blueGradient = node.append("svg:defs")
+                    .append("svg:linearGradient")
+                    .attr("id", "blueGradient")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "0%")
+                    .attr("y2", "100%")
+                    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+                blueGradient.append("svg:stop")
+                    .attr("offset", "25%")
+                    .attr("stop-color", "#1F9FF4")
+                    .attr("stop-opacity", 1);
+
+                blueGradient.append("svg:stop")
+                    .attr("offset", "75%")
+                    .attr("stop-color",  "#1B7FE2")
+                    .attr("stop-opacity", 1);
+
+
+
             } else if(spanId == "campaigns"){
                 $("#brands").hide();
                 $("#campaigns").show();
@@ -273,6 +304,48 @@
                     .data(chartData).enter()
                     .append("g")
                     .attr("class" , "node");
+
+              greenGradient = node.append("svg:defs")
+                   // .append("svg:linearGradient")
+                    .attr("id", "greenGradient")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "0%")
+                    .attr("y2", "100%")
+                    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+                greenGradient.append("svg:stop")
+                    .attr("offset", "25%")
+                    .attr("stop-color", "#59F42D")
+                    .attr("stop-opacity", 1);
+
+                greenGradient.append("svg:stop")
+                    .attr("offset", "75%")
+                    .attr("stop-color", "#45D11F")
+                    .attr("stop-opacity", 1);
+
+                 orangeGradient = node.append("svg:defs")
+                    .append("svg:linearGradient")
+                    .attr("id", "orangeGradient")
+                    .attr("x1", "0%")
+                    .attr("y1", "0%")
+                    .attr("x2", "0%")
+                    .attr("y2", "100%")
+                    .attr("spreadMethod", "pad");
+
+// Define the gradient colors
+                orangeGradient.append("svg:stop")
+                    .attr("offset", "30%")
+                    .attr("stop-color", "#FC8732")
+                    .attr("stop-opacity", 1);
+
+
+                orangeGradient.append("svg:stop")
+                    .attr("offset", "70%")
+                    .attr("stop-color", "#FC782A")
+                    .attr("stop-opacity", 1);
+
             }
 
             var lineFunction = d3.svg.line()
@@ -305,8 +378,6 @@
                 .attr("d",function(d){
                     return lineFunction(d.pathData);
                 })
-               // .attr("stroke" , blue)
-               //  .attr("stroke-width", 0.5)
                 .attr("fill",  function(d){
                     return  (d.objectType == 'brands') ? colors.brands.spendFillLight : ((d.status.toLowerCase() == 'ontrack') ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight );
                 });
@@ -477,8 +548,6 @@
             d3.select("#"+spanId+"_svg").remove();
             $("#data_not_available").hide();
         };
-
-
 
     });
 }());
