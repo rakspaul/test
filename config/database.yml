@@ -5,7 +5,7 @@ login: &common
   password: 
   host: localhost
   port: 5432
-  database: amp
+  database: reachui
   min_messages: warning # silence the NOTICE: messages from postgres
 
 
