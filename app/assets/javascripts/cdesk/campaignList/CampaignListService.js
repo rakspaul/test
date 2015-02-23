@@ -49,9 +49,28 @@
         }else{
           status = tactic.status;
         }
-
+        var media_type = tactic.media_type.toLowerCase();
+        var media_type_icon ='display_graph';
+        if(media_type.length > 0 ){
+          switch(media_type){
+            case 'display': media_type_icon = "display_graph";
+            break;
+            case 'video':   media_type_icon = "video_graph";
+            break;
+            case 'mobile':   media_type_icon = "mobile_graph";
+            break;
+            case 'facebook':   media_type_icon = "social_graph";
+            break;
+            case 'mobilevideo':   media_type_icon = "video_graph";
+            break;
+            case 'passback':   media_type_icon = "display_graph";
+            break;
+            default: media_type_icon = "display_graph";
+          }
+        }
         tacticObj.push({
           id: tactic.id,
+          media_type_icon:media_type_icon,
           name: tactic.name,
           startDate: tactic.start_date,
           endDate: tactic.end_date,
