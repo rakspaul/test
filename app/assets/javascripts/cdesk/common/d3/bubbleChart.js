@@ -534,7 +534,23 @@
                     .html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible")
-                    .style("top",(focused_obj.toolTipY+ focused_obj.r + 10 )+"px")
+                    .style("top", function(){
+                        var tooltipHeight = $("div.bubble_tooltip").height() ;
+                        var shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px";
+
+                        if(focused_obj.r >50 && focused_obj.percFill > 99){
+                            tooltipHeight = $("div.bubble_tooltip").height() ;
+                            shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px"; }
+                           else if(focused_obj.r > 35  && focused_obj.percFill > 99){
+                                tooltipHeight = $("div.bubble_tooltip").height() ;
+                                shift = (focused_obj.toolTipY+ focused_obj.r - (tooltipHeight/2) - 2 )+"px"
+                            }
+                          else if(focused_obj.r > 25  && focused_obj.percFill > 99){
+                            shift = (focused_obj.toolTipY+ focused_obj.r  + 10) +"px"
+                        }
+
+                       return shift ;
+                    })
                     .style("left" ,  (focused_obj.toolTipX + 10) +"px") ;
 
 
@@ -569,7 +585,7 @@
                     .attr("stroke-width", 0.2)
                     .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
 
-            //  return  tooltip.style("visibility", "hidden");
+              return  tooltip.style("visibility", "hidden");
 
             });
 
