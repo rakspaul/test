@@ -1,2 +1,0 @@
-class BehavioralSegment < Segment
-end

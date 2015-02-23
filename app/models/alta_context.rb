@@ -1,2 +1,0 @@
-class AltaContext < Context
-end

@@ -1,8 +1,0 @@
-- @reach_clients.each do |client|
-  %tr
-    %td= link_to client.name, edit_admin_reach_client_path(client)
-    %td= client.abbr
-    %td= client.try(:media_contact).try(:name)
-    %td= client.try(:billing_contact).try(:name)
-    %td= client.try(:sales_person).try(:full_name)
-    %td= client.try(:account_manager).try(:full_name)
