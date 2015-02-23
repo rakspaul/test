@@ -42,10 +42,15 @@
         return url;
     };
 
-    this.APISpendWidgetForAllBrands = function(timePeriod, brandId ){
-        var url =  apiPaths.apiSerivicesUrl + '/brands/budgetAndSpends?date_filter='+ timePeriod+ '&topCount=5&advertiser_filter=' + brandId ;
+    this.APISpendWidgetForAllBrands = function(timePeriod, agencyId ){
+       var url = apiPaths.apiSerivicesUrl  + '/agencies/' + agencyId + '/brands/spend/perf?date_filter=' + timePeriod ;
        return url ;
     };
+
+      this.APISpendWidgetForCampaigns = function(timePeriod, agencyId , brandId ){
+          var url = apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId + '/brands/' + brandId +'/campaigns/spend/perf?date_filter=' + timePeriod ;
+          return url ;
+      };
 
     this.APICalendarWidgetForBrand = function(timePeriod, agencyId, sortColumn, state ){
         var url =  apiPaths.apiSerivicesUrl + '/agencies/'+ agencyId +'/brands/campaigns/meta?topCount=5&sort_column='+ sortColumn +'&state='+ state ;

@@ -1,45 +1,87 @@
 (function () {
     "use strict";
-    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel, requestCanceller, constants) {
+    var bubbleChartData = function (utils, urlService, timePeriodModel, dataService, brandsModel , requestCanceller, constants, loginModel) {
 
         var bubbleWidgetData = {
-            chartData : {},
+            brandData : {},
             dataNotAvailable : true,
-            budget_top_title : {}
+            budget_top_title : {},
+            campaignDataForSelectedBrand : {},
+            campaignDataForAllBrands : {}
 
         };
+
         this.getBubbleChartData = function () {
-            var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key, brandsModel.getSelectedBrand().id);
+            var url = urlService.APISpendWidgetForAllBrands(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId());
             var canceller = requestCanceller.initCanceller(constants.SPEND_CHART_CANCELLER);
             return dataService.fetchCancelable(url, canceller, function(response) {
-                var data = response.data.data;
+
+             var total_brands = response.data.data.length ;
+
+             var data =   _.chain(response.data.data).
+                                sortBy(function(d){ return d.budget ;}).
+                                reverse().
+                                slice(0,5).
+                                value();
 
                 if(data != undefined ){
                     bubbleWidgetData['dataNotAvailable'] = false ;
-                    bubbleWidgetData['chartData'] = data ;
-                    if( brandsModel.getSelectedBrand().id == -1) { // data is obtained for all brands view
-                        var total_brands = (data['total_brands'] > 5) ? 5 : data['total_brands'] ;
-                        bubbleWidgetData['budget_top_title'] =  (total_brands >5) ? "(Top 5 brands)" : "(All Brands)";
-                    }else { // data is obtained for all campaign view
-                        var brand_data = (data != undefined && data['brands'] != undefined) ? data['brands'][0] : undefined ;
-                        if(brand_data != undefined){
-                          var campaings =  brand_data['campaigns'] ;
-                          var campaignLength = (campaings == undefined )?  0 : campaings.length ;
-                            bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
-                        }
-                    }
-                } else {
+                    bubbleWidgetData['brandData'] = data ;
+                    bubbleWidgetData['budget_top_title'] =  (total_brands >5) ? "(Top 5 brands)" : "(All Brands)";
 
+                } else {
                     bubbleWidgetData['dataNotAvailable'] = true ;
                 }
-                return bubbleWidgetData['chartData'];
+                return bubbleWidgetData['brandData'];
             })
         };
+
+       // getBubbleChartDataForCampaign
+        this.getBubbleChartDataForCampaign = function (selectedBrand) {
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
+            var canceller = requestCanceller.initCanceller(constants.BUBBLE_CHART_CAMPAIGN_CANCELLER);
+            return dataService.fetchCancelable(url, canceller, function(response) {
+
+                var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
+                var campaignLength = response.data.data.length ;
+
+                if(campaigns != undefined ){
+                    bubbleWidgetData['dataNotAvailable'] = false ;
+                    bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
+
+                } else {
+                    bubbleWidgetData['dataNotAvailable'] = true ;
+                }
+                return campaigns;
+            })
+        };
+
+        // So that user can fire paraller request to fetch campaigns of a brands.
+        this.getBubbleChartDataForCampaignWithOutCanceller = function (selectedBrand) {
+            var url = urlService.APISpendWidgetForCampaigns(timePeriodModel.timeData.selectedTimePeriod.key,loginModel.getAgencyId(), selectedBrand);
+            return dataService.fetch(url).then(function(response) {
+
+                var campaigns = (response.data.data !== undefined) ? response.data.data.campaigns : {} ;
+                var campaignLength = response.data.data.length ;
+
+                if(campaigns != undefined ){
+                    bubbleWidgetData['dataNotAvailable'] = false ;
+                    bubbleWidgetData['campaignDataForSelectedBrand'] = campaigns ;
+                    bubbleWidgetData['budget_top_title'] = (campaignLength >5) ?  "(Top 5 campaigns)" :  "(All Campaigns)" ;
+
+                } else {
+                    bubbleWidgetData['dataNotAvailable'] = true ;
+                }
+                return campaigns;
+            })
+        };
+
 
         this.getbubbleWidgetData = function(){
             return bubbleWidgetData ;
         };
 
     };
-    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , bubbleChartData]);
+    commonModule.service('bubbleChartModel', ['utils', 'urlService', 'timePeriodModel', 'dataService', 'brandsModel', 'requestCanceller', 'constants' , 'loginModel' , bubbleChartData]);
 }());
