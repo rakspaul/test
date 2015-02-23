@@ -31,6 +31,7 @@
 //= require d3
 //= require angular-sanitize
 //= require filesaver
+//= require ui-bootstrap-tpls-0.12.1.min
 
 //= require cdesk/app
 //= require cdesk/common/CommonModule.js
