@@ -12,27 +12,7 @@
         var tooltipBackGroundColor = "#FEFFFE";
 
 
-        var tooltip = d3.select("body")
-            .append("div")
-            .attr("class" , "bubble_tooltip")
-            .attr("id","bubbleChartTooltip")
-            .style("position", "absolute")
-            .style("z-index", "10")
-            .style("visibility", "hidden")
-            .style("color", "black")
-            .style("padding", "5px 20px")
-            .style("background-color", tooltipBackGroundColor)
-            .style("border-radius", "4px")
-            .style("-webkit-border-radius", "4px")
-            .style("-moz-border-radius", "4px")
-            .style("border" , "solid 1px #ccc")
-            .style("word-wrap", "break-word")
-            .style("box-shadow", "0px 0px 2px #ccc")
-            .style("font", "14px Avenir")
-            .style("text-alignt","center")
-            .style("font-weight","500")
-            .style("width","200px")
-            .text("tooltip");
+
 
 
         var colors = {
@@ -99,6 +79,7 @@
         var dataGenerator = function(x, y , r ,perc ){
             var lineData = [];
             if(r >0 ){
+                var xstart, xend, ystart ;
 
                 if(perc<99){
                     // To set curviness of the circle filling 1st criteria is r
@@ -131,10 +112,10 @@
                         lineData.push(newCordinates);
                     }
 
-                    var xstart = lineData[0].x ;
-                    var ystart = lineData[0].y ;
+                    xstart = lineData[0].x ;
+                    ystart = lineData[0].y ;
 
-                    var xend = lineData[lineData.length -1].x ;
+                    xend = lineData[lineData.length -1].x ;
 
                     var middle   = {
                         "x" : xstart + ( xend - xstart)/2 ,
@@ -167,6 +148,8 @@
 
                         lineData.push(newCordinates);
                     }
+                    xend = x+r;
+                    ystart = y ;
                 }
 
             }
@@ -197,6 +180,7 @@
                     radius = ((node.budget)*ratio < 30 )? 30 : ( (node.budget)*ratio < 40 ?  ( node.budget*ratio + 5 ): (node.budget)*ratio  );
                 }
                 var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
+                console.log(pathData);
 
                 var object = {
                     id:  i ,
@@ -216,7 +200,6 @@
                     toolTipY : pathData['curveEndY'],
                     objectType : (spanId == 'brands')? 'brands' : 'campaigns'
                 };
-
                 formattedData.push(object);
             }
 
@@ -285,6 +268,28 @@
                     .attr("stop-color",  "#1B7FE2")
                     .attr("stop-opacity", 1);
 
+                var tooltip = d3.select(".dashboard_budget_graph_holder")
+                    .append("div")
+                    .attr("class" , "bubble_tooltip")
+                    .attr("id","bubbleChartTooltip")
+                    .style("position", "absolute")
+                    .style("z-index", "10")
+                    .style("visibility", "hidden")
+                    .style("color", "black")
+                    .style("padding", "5px 20px")
+                    .style("background-color", tooltipBackGroundColor)
+                    .style("border-radius", "4px")
+                    .style("-webkit-border-radius", "4px")
+                    .style("-moz-border-radius", "4px")
+                    .style("border" , "solid 1px #ccc")
+                    .style("word-wrap", "break-word")
+                    .style("box-shadow", "0px 0px 2px #ccc")
+                    .style("font", "14px Avenir")
+                    .style("text-alignt","center")
+                    .style("font-weight","500")
+                    .style("width","300px")
+                    .text("tooltip");
+
 
 
             } else if(spanId == "campaigns"){
@@ -345,6 +350,28 @@
                     .attr("offset", "70%")
                     .attr("stop-color", "#FC782A")
                     .attr("stop-opacity", 1);
+
+                var tooltip = d3.select(".dashboard_budget_graph_holder")
+                    .append("div")
+                    .attr("class" , "bubble_tooltip")
+                    .attr("id","bubbleChartTooltip")
+                    .style("position", "absolute")
+                    .style("z-index", "10")
+                    .style("visibility", "hidden")
+                    .style("color", "black")
+                    .style("padding", "5px 20px")
+                    .style("background-color", tooltipBackGroundColor)
+                    .style("border-radius", "4px")
+                    .style("-webkit-border-radius", "4px")
+                    .style("-moz-border-radius", "4px")
+                    .style("border" , "solid 1px #ccc")
+                    .style("word-wrap", "break-word")
+                    .style("box-shadow", "0px 0px 2px #ccc")
+                    .style("font", "14px Avenir")
+                    .style("text-alignt","center")
+                    .style("font-weight","500")
+                    .style("width","300px")
+                    .text("tooltip");
 
             }
 
@@ -455,6 +482,14 @@
                     return budget ;
                 });
 
+//            node.on("mouseover", function(d) {
+////                var matrix = this.getScreenCTM()
+////                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
+//                tooltip.html(d)
+//                    .style("left", (window.pageXOffset + matrix.e + 15) + "px")
+//                    .style("top", (window.pageYOffset + matrix.f - 30) + "px");
+//            })
+
             node.on("mouseover", function(obj){
 
                 var focused_obj = {
@@ -467,9 +502,15 @@
                     r : obj.r,
                     objectType : obj.objectType,
                     status : obj.status ,
-                    tootlipX : obj.toolTipX,
-                    tooltipY : obj.toolTipY
+                    toolTipX : obj.toolTipX,
+                    toolTipY : obj.toolTipY
                 };
+//                console.log("focused object");
+                console.log(focused_obj);
+                console.log(focused_obj.toolTipX+ focused_obj.r + 10);
+                console.log(focused_obj.toolTipX);
+                console.log(focused_obj.r);
+//              console.log("tooltip x "+ focused_obj.toolTipX + "tooltilp y "+ focused_obj.toolTipY);
 
 
                 node.selectAll("circle").attr('opacity',0.4);
@@ -488,9 +529,13 @@
                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
 
 
-                return tooltip.html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                return tooltip
+                  //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
+                    .html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                }) ).style("visibility", "visible");
+                }) ).style("visibility", "visible")
+                    .style("top",(focused_obj.toolTipY+ focused_obj.r + 10 )+"px")
+                    .style("left" ,  (focused_obj.toolTipX + 10) +"px") ;
 
 
             });
@@ -506,8 +551,8 @@
                     r : obj.r,
                     objectType : obj.objectType,
                     status : obj.status ,
-                    tootlipX : obj.toolTipX,
-                    tooltipY : obj.toolTipY
+                    toolTipX : obj.toolTipX,
+                    toolTipY : obj.toolTipY
                 };
 
 
@@ -524,15 +569,29 @@
                     .attr("stroke-width", 0.2)
                     .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
 
-              return  tooltip.style("visibility", "hidden");
+            //  return  tooltip.style("visibility", "hidden");
 
             });
 
-            node.on("mousemove", function(){
-                return tooltip.style("top", (event.pageY-10)+"px")
-                    .style("left",(event.pageX+10)+"px") ;
-
-            });
+//            node.on("mousemove", function(obj){
+//                var focused_obj = {
+//                    name : obj.className,
+//                    id : obj.id,
+//                    cx : obj.cx,
+//                    cy : obj.cy,
+//                    percFill : obj.percFill,
+//                    spend : obj.spend,
+//                    r : obj.r,
+//                    objectType : obj.objectType,
+//                    toolTipX : obj.toolTipX,
+//                    toolTipY : obj.toolTipY
+//                };
+//                console.log("mousemove ");
+//                console.log("tooltip x "+ focused_obj.toolTipX + "tooltilp y "+ focused_obj.toolTipY);
+//
+//                return tooltip.style("top",(focused_obj.toolTipX ) +"px")
+//                    .style("left" , (focused_obj.toolTipY+ focused_obj.r + 10) +"px") ;
+//            });
 
             node.on("click", function(obj) {
 
