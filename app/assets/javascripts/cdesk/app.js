@@ -13,7 +13,8 @@ var angObj = '';
       'angulartics',
       'angulartics.google.analytics',
       'dashboardModule',
-      'ngSanitize']
+      'ngSanitize',
+      'ui.bootstrap']
   );
 
 
