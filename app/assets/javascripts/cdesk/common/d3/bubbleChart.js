@@ -46,7 +46,7 @@
                 onTrack : {
                     circleFill :   "#56D431",
                     spendFillLight :  "url(#greenGradient)",
-                    spendPathOutline :   "#085f9f"
+                    spendPathOutline :   "#379B1C",
                 },
                 underPerforming : {
                     circleFill : "#F1661F" ,
@@ -306,7 +306,7 @@
                     .attr("class" , "node");
 
               greenGradient = node.append("svg:defs")
-                   // .append("svg:linearGradient")
+                    .append("svg:linearGradient")
                     .attr("id", "greenGradient")
                     .attr("x1", "0%")
                     .attr("y1", "0%")
