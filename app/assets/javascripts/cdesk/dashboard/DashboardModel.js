@@ -1,7 +1,7 @@
 
 dashboardModule.factory("dashboardModel", ['brandsModel', 'timePeriodModel', 'constants' ,'urlService','requestCanceller','dataService', function (brandsModel, timePeriodModel, constants,urlService,requestCanceller,dataService) {
   var dashboardData = {selectedStatus: constants.DASHBOARD_STATUS_ALL};
-  dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ALL,constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED]
+  dashboardData.statusDropdownValues = [constants.DASHBOARD_STATUS_ACTIVE, constants.DASHBOARD_STATUS_COMPLETED,constants.DASHBOARD_STATUS_ALL]
   dashboardData.selectedBrand = brandsModel.getSelectedBrand().name;
   dashboardData.brandSelected = false;
   dashboardData.totalCampaigns = 0;
