@@ -180,7 +180,7 @@
                     radius = ((node.budget)*ratio < 30 )? 30 : ( (node.budget)*ratio < 40 ?  ( node.budget*ratio + 5 ): (node.budget)*ratio  );
                 }
                 var pathData =  dataGenerator(positions[i][0], positions[i][1], radius, percFill );
-                console.log(pathData);
+                
 
                 var object = {
                     id:  i ,
@@ -287,7 +287,7 @@
                     .style("font", "14px Avenir")
                     .style("text-alignt","center")
                     .style("font-weight","500")
-                    .style("width","300px")
+                    .style("width","200px")
                     .text("tooltip");
 
 
@@ -498,12 +498,12 @@
                     toolTipX : obj.toolTipX,
                     toolTipY : obj.toolTipY
                 };
-//                console.log("focused object");
-                console.log(focused_obj);
-                console.log(focused_obj.toolTipX+ focused_obj.r + 10);
-                console.log(focused_obj.toolTipX);
-                console.log(focused_obj.r);
-//              console.log("tooltip x "+ focused_obj.toolTipX + "tooltilp y "+ focused_obj.toolTipY);
+
+                // console.log(focused_obj);
+                // console.log(focused_obj.toolTipY+ focused_obj.r + 10);
+                // console.log(focused_obj.toolTipY);
+                // console.log(focused_obj.r);
+
 
 
                 node.selectAll("circle").attr('opacity',0.4);
@@ -524,9 +524,11 @@
 
                 return tooltip
                   //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
-                    .html(focused_obj.name + " <br/>  Spend : $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
+                    .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b> $" + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                }) ).style("visibility", "visible")
+                }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b> $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
+                    return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
+                })  ).style("visibility", "visible")
                     .style("top", function(){
                         var tooltipHeight = $("div.bubble_tooltip").height() ;
                         var shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px";
@@ -546,7 +548,7 @@
 
                        return shift ;
                     })
-                    .style("left" ,  (focused_obj.toolTipX + 10) +"px") ;
+                    .style("left" ,  (focused_obj.toolTipX + 14) +"px") ;
 
 
             });
