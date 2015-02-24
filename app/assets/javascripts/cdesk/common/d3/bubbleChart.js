@@ -235,7 +235,7 @@
                 $("#campaigns").hide();
 
                  brands_svg  = d3.select("#brands").append("svg")
-                    .attr("width", 400)
+                    .attr("width", 350)
                     .attr("height", 280)
                     .attr("id",  spanId + "_svg")
                     .append("g");
@@ -297,7 +297,7 @@
                 $("#campaigns").show();
 
                  campaigns_svg  = d3.select("#campaigns").append("svg")
-                    .attr("width", 400)
+                    .attr("width", 350)
                     .attr("height", 280)
                     .attr("id",  "campaigns_svg")
                     .append("g");
@@ -520,13 +520,15 @@
                    .attr("stroke" , (focused_obj.objectType == 'brands') ? colors.brands.spendPathOutline : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendPathOutline : colors.campaigns.underPerforming.spendPathOutline ))
                      .attr("stroke-width", 3)
                    .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
+                
+
 
 
                 return tooltip
                   //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
-                    .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b> $" + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
+                  .html(focused_obj.name + " <br/>  <b style='display:inline-block;width:55px;'>Budget:</b>  $" + focused_obj.budget.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b> $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
+                }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b>  $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 })  ).style("visibility", "visible")
                     .style("top", function(){
