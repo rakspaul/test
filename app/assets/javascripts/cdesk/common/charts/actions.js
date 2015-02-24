@@ -10,19 +10,39 @@
         var kpiTypeLower = kpiType.toLowerCase();
         return (kpiTypeLower == 'vtc') ? '%' : ''
       }
-      var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey) {
-
+      var drawMarker = function (chart, xPos, yPos, markerColor, kpiType, kpiValue, actionId, actionComment, isActionExternal, defaultGrey,activityCount,id_list) {
+        
         var text, textBG, marker, container;
-        marker = chart.renderer.text('E',xPos-2,yPos+2).attr({
+        var display_color = activityCount == 1 ? 'transparent' : '#000';
+        var flagId = isActionExternal == true ? 'external' : 'internal';
+        var display_activityCount ='';
+        var applyColor ='';
+        if(activityCount >1 ){  
+          applyColor = 1;
+        }else{
+            applyColor = 0;
+        }
+        display_activityCount = ' '+activityCount+'  ';
+        if(activityCount.toString().length > 1){
+          var place_circle_x = 5.5; 
+        }else{
+          var place_circle_x= 3;
+        }
+        var numberOfActivityHeader = isActionExternal == true ? '<b>'+activityCount+'</b> External Activities' : '<b>'+activityCount +'</b> Internal Activities';
+        marker = chart.renderer.text(display_activityCount,xPos-2 ,yPos+2).attr({
           id: 't'+actionId || 'NA',
-          zIndex: 5
+          removeX:16,
+          flagId:flagId,
+          zIndex: 9,
+          applyColor:applyColor
         }).css({
           fontWeight: 'bold',
-          fontSize: '9px',
-          color: (defaultGrey || isActionExternal==false || loginModel.getIsNetworkUser()==false) ? 'transparent' :'transparent',
+          fontSize: '8px',
+          textAlign: 'left',
+          leftMargin:'2px',
+          color:display_color,
           cursor: 'pointer'
         }).on('click', function (markerObj) {
-          //console.log(markerObj.target.id);
           $('#'+actionId).click();
         }).on('mouseover', function (e) {
           //$('#'+actionId).trigger('mouseover',this);
@@ -30,18 +50,18 @@
           //$('#'+actionId).trigger('mouseout',this);
         }).add(),
         container = marker.getBBox();
-        chart.renderer.circle(container.x+3 , container.y+5,9).attr({
+        chart.renderer.circle(container.x+place_circle_x , container.y+5,10).attr({
           fill: '#fff',
           stroke: (defaultGrey == false|| isActionExternal==false ) ? '#777':'#0072bc',
-          'stroke-width': 1,
+          'stroke-width': 1.5,
           id: actionId || 'NA',
           kpiType: kpiType || 'NA',
           kpiValue: kpiValue || 'NA',
           comment: actionComment || 'NA',
+          id_list:id_list,
+          activityCount:activityCount,
           zIndex: 4
         })
-
-
           //full customisation for flags/markers
           /*chart.renderer.circle(xPos, yPos, 7).attr({
            fill: '#ffffff',
@@ -68,6 +88,10 @@
             suffix = kpiSuffix(kpiType);
             var html_comment= (this.getAttribute('comment')).toString();
             html_comment = html_comment.replace(/(?:\\r\\n|\r|\\n| \\n)/g, '<br />');
+            if(activityCount > 1){
+              $('.highcharts-tooltip').hide();
+              html_comment = numberOfActivityHeader;        
+            }
             text = chart.renderer.text(this.getAttribute('kpiType') + ": <b>" + symbol + this.getAttribute('kpiValue') + suffix + "</b><br>" + html_comment  , x + 10 + correctionX, y + 10 * 2)
               .attr({
                 zIndex: 16
@@ -86,42 +110,78 @@
           }).on('mouseout', function (event) {
             text.destroy();
             textBG.destroy();
+            $('.highcharts-tooltip').show();
           }).on('click', function (circleObj) {
             var myContainer = $('#action-container:first');
+            var getIdList = this.getAttribute('id_list');
+            var splitIdList =  getIdList.split(",");
             /* New Code */
             $('circle').attr({ fill:'#ffffff'});
-            $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+            //check and select multiple activity id
+            if(splitIdList.length > 1 ){
+              for(var i=0;i < splitIdList.length;i++){
+                var targetId =splitIdList[i];
+                $('circle#' + targetId).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+              }   
+            }else{
+                $('circle#' + circleObj.target.id).attr({ fill:(  isActionExternal==false ) ? '#777':'#0072bc'});
+            }
+            $("text[applyColor=1]").css({fill:'#000'});
+            var getactivityCount = this.getAttribute('activityCount');
+            if(getactivityCount > 1){
+              $('text#t' + circleObj.target.id).css({fill:'#fff'});
+            }
             //End 
             if(defaultGrey) {
 
               //$('circle').attr({stroke: '#0070CE', fill:'#ffffff'});
-             // $('circle#' + circleObj.target.id).attr({stroke: '#0070CE', fill:'#0070CE'});
-              $('text#t' + circleObj.target.id).css({fill:'transparent'});
-
+             // $('circle#' + circleObj.target.id).attr({stroke: '#0070CE', fill:'#0070CE'});  
               myContainer = $('.reports_section_details_container');
-
               //highlight activity in reports page
               var scrollTo = $('#actionItem_' + this.id);
               localStorage.setItem('actionSel' , this.id);
               if(scrollTo.length) {
                 scrollTo.siblings().removeClass('action_selected').end().addClass('action_selected');
-                myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
-                myContainer.animate({
+                //Mulitple Activity List
+                if(splitIdList.length > 1 ){
+                   for(var i=0;i < splitIdList.length;i++){
+                      var targetId =splitIdList[i];
+                       myContainer.find('#actionItem_'+targetId).addClass('action_selected');
+                       myContainer.animate({
+                        scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                      });
+                 }
+                }else{
+                  //Day wise single Activity 
+                   myContainer.find('.action_selected').removeClass('action_selected').end().find('#actionItem_'+this.id).addClass('action_selected');
+                   myContainer.animate({
                   scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
                 });
+
+                }
                 analytics.track(loginModel.getUserRole(), constants.GA_OPTIMIZATION_TAB, 'optimization_graph_activity_marker_click', loginModel.getLoginName());
               }
             } else {
-              
               //click to scroll and highlight activity 
               var scrollTo = $('#actionItem_' + this.id);
               localStorage.setItem('actionSel' , this.id);
               if(scrollTo.length) {
                 scrollTo.siblings().removeClass('active').end().addClass('active');
-                myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
-                myContainer.animate({
-                  scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
-                });
+                if(splitIdList.length > 1 ){
+                  myContainer.find('.active').removeClass('active').end();
+                  for(var i=0;i < splitIdList.length;i++){
+                    var targetId =splitIdList[i];
+                     myContainer.find('#actionItem_'+targetId).addClass('active');
+                    myContainer.animate({
+                      scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                    });     
+                  }   
+                }else{
+                    myContainer.find('.active').removeClass('active').end().find('#actionItem_'+this.id).addClass('active');
+                    myContainer.animate({
+                      scrollTop: scrollTo.offset().top - myContainer.offset().top + myContainer.scrollTop()
+                    });
+                }
                 analytics.track(loginModel.getUserRole(), constants.GA_CAMPAIGN_DETAILS, 'campaign_performance_graph_activity_click', loginModel.getLoginName());
               }
             }
@@ -355,12 +415,61 @@
                   //filter applied
                   showExternal = true;
                 }
-
+                var countActivityItem = new Array();
+                var findPlacedActivity = new Array();
+                var eFlag =0;;
                 if (actionItems) {
                   for (i = chart.series[0].data.length - 1; i >= 0; i--) {
                     position = 0;
                     for (var j = actionItems.length - 1; j >= 0; j--) {
                       var dateUTC = new Date(actionItems[j].created_at);
+                      var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate()); 
+                      if (chart.series[0].data[i].x == actionUTC) {
+                        if (flag[actionUTC] === undefined) {
+                          flag[actionUTC] = 1;
+                        }
+                        if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
+                          eFlag = actionItems[j].make_external;
+                           if (countActivityItem[actionUTC] == undefined  ){
+                              countActivityItem[actionUTC] =[];
+                              countActivityItem[actionUTC]['externalIDS'] =[];
+                              countActivityItem[actionUTC]['internalIDS'] =[];
+                              countActivityItem[actionUTC]['external'] = 0
+                              countActivityItem[actionUTC]['internal'] = 0;
+                              
+                          }
+                            if(eFlag == true){
+                                if( countActivityItem[actionUTC]['external'] != undefined ){
+                                    countActivityItem[actionUTC]['external']++;
+                                    var arrayVar = "externalIDS";
+                                  }else{
+                                    //countActivityItem[actionUTC]['external']++;
+                                    }
+                            }else{
+                                var arrayVar = "internalIDS";
+                                if( countActivityItem[actionUTC]['internal'] != undefined ){
+                                    countActivityItem[actionUTC]['internal']++;
+                                  }else{
+                                    //countActivityItem[actionUTC]['internal']++;
+                                    }
+
+                            }
+                           var activity_id = actionItems[j].ad_id + '' + actionItems[j].id;
+                           var check_morethan_one = countActivityItem[actionUTC][arrayVar].length > 0 ? "," : "";
+                           countActivityItem[actionUTC][arrayVar]= countActivityItem[actionUTC][arrayVar] + check_morethan_one + activity_id;
+                        }
+
+                      }
+                    }
+                  }
+                }
+                var activityCount = 0;
+                if (actionItems) {
+                  for (i = chart.series[0].data.length - 1; i >= 0; i--) {
+                    position = 0;
+                    for (var j = actionItems.length - 1; j >= 0; j--) {
+                      var dateUTC = new Date(actionItems[j].created_at);
+                      //console.log(dateUTC);
                       //example. actionItems[1].created_at  1396396800000 converted to UTC 1413459349308;
                       var actionUTC = Date.UTC(dateUTC.getUTCFullYear(), dateUTC.getUTCMonth(), dateUTC.getUTCDate());
                       if (chart.series[0].data[i].x == actionUTC) {
@@ -368,12 +477,29 @@
                           flag[actionUTC] = 1;
                         }
                         if ((showExternal && actionItems[j].make_external == true) || (showExternal === undefined)) {
-                          //showing markers based on filter type
-                          drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey);
-                          counter++;
-                          position += 10; //correction for multiple markers in the same place
+                           var checkFlag = actionItems[j].make_external == true ? 'external':'internal';
+                           var arrayVar = actionItems[j].make_external == true ? 'externalIDS':'internalIDS';
+                           activityCount = countActivityItem[actionUTC][checkFlag];
+                           var id_list = countActivityItem[actionUTC][arrayVar];  
+                          if(activityCount == 1){
+                            drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                            counter++;
+                             position += 10; //correction for multiple markers in the same place
+                          }else{
+                               if (findPlacedActivity[actionUTC] == undefined  ){
+                                findPlacedActivity[actionUTC] =[];
+                                findPlacedActivity[actionUTC]['external'] = 0
+                                findPlacedActivity[actionUTC]['internal'] = 0;
+                          }
+                           //Multiple Item in single chart
+                            if( findPlacedActivity[actionUTC][checkFlag] != 'completed' ){
+                                findPlacedActivity[actionUTC][checkFlag] = 'completed';
+                                drawMarker(chart, chart.series[0].data[i].plotX + chart.plotLeft, chart.series[0].data[i].plotY + chart.plotTop + position, actionItems[j].action_color, kpiType, chart.series[0].data[i].y, actionItems[j].ad_id + '' + actionItems[j].id, actionItems[j].comment, actionItems[j].make_external, defaultGrey,activityCount,id_list);
+                                counter++;
+                                position += 20;
+                            }
+                          } 
                         }
-
                       }
                     }
                   }
