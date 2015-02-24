@@ -45,6 +45,10 @@
 		    };
 
 		    var markerTransform = function() {
+		    	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            if(width<=40) {
+		            	return "translate(" + x(moment()) + ",0)";
+		            }
 		        return "translate(" + x(moment().startOf('day')) + ",0)";
 		    };
 
@@ -181,6 +185,7 @@
 
 		        svg.append("g").attr("class", "y axis").transition().call(yAxis);
 
+svg.append('rect').attr("class","marker");
 		        gantt.draw(tasks);		          
 		        return gantt;
 
@@ -395,12 +400,12 @@
 		            .transition()
 		            .attr("transform", rectTransform);
 //today marker
-		              ganttChartGroup.append("rect")
+		        ganttChartGroup.select("rect.marker")
 		            .attr("x", function(){
 		            	return x(moment().startOf('day'))
 		            })
 		            .attr("y", -20)
-		            .attr("class", "header")
+		            .attr("class", "marker")
 		            .attr("style", "cursor:pointer")
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
