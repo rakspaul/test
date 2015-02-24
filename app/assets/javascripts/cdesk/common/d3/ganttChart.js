@@ -44,6 +44,10 @@
 		        return "translate(" + x(d.startDate) + "," + y(d.taskName) + ")";
 		    };
 
+		    var markerTransform = function() {
+		        return "translate(" + x(moment().startOf('day')) + ",0)";
+		    };
+
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
 		    var y = d3.scale.ordinal().domain(taskTypes).rangeRoundBands([0, 450]);
 
@@ -390,7 +394,41 @@
 		            })
 		            .transition()
 		            .attr("transform", rectTransform);
+//today marker
+		              ganttChartGroup.append("rect")
+		            .attr("x", function(){
+		            	return x(moment().startOf('day'))
+		            })
+		            .attr("y", -20)
+		            .attr("class", "header")
+		            .attr("style", "cursor:pointer")
+		            .attr("fill", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		return "blue"
+		            	} else {
+		            		return "#ccc"
+		            	}
+		            })
+		            .attr("width", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		width =2;
+		            	}
+		            	return width;
+		            })
+		            .attr("height", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		 return CALENDAR_HEIGHT;
+		            	} else {
+		            		return 3;
+		            	}
 
+		            });
+		           //.transition()
+		           //.attr("transform", markerTransform);
+//today marker ends
 
 		        var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
 		        var campaignBody = ganttChartGroup.selectAll(".campaigns").data(tasks, keyFunction);
@@ -471,6 +509,19 @@
 		        translateGraphicElements(campaignsStatusIcon);
 
 		        rectData.exit().remove();
+//today marker transition
+		         ganttChartGroup.append("g")
+		           .transition()
+		           .attr("transform", markerTransform)
+		           .attr("width", function(){
+		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		            	if(width<=40) {
+		            		width =2;
+		            	}
+
+		            	return width;
+		            });
+//today marker transition
 
 		        svg.select(".x").transition().call(xAxis)
 		            .selectAll(".tick text").attr("style", "font-family:Avenir;font-size:12pt").attr("x", function(d, i) {
