@@ -1,0 +1,354 @@
+$text_color: #005c97;
+
+#details {
+  width: 100%;
+//  overflow: auto;
+
+  .content {
+
+    .upload-io-region {
+      padding: 10px;
+    }
+
+    .drop-region {
+      border: 2px dashed #DDDDDD;
+      height: 100px;
+      text-align: center;
+      color: #ddd;
+      cursor: pointer;
+
+      h4 {
+        margin-top: 40px;
+      }
+    }
+
+    .edit-order-region {
+      padding: 10px;
+    }
+
+    .order-or-separator {
+      color: #666;
+      text-align: center;
+    }
+
+    .fileinput-button {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fileinput-button input {
+      position: absolute;
+      top: 0;
+      right: 0;
+      left: 0;
+      height: 100px;
+      width: 100%;
+      margin: 0;
+      opacity: 0;
+      filter: alpha(opacity=0);
+      font-size: 23px;
+      direction: ltr;
+      cursor: pointer;
+    }
+
+    .create-advertiser{
+      text-align:center;
+      padding:5px 0 0;
+
+      .input-append{
+        padding-top:10px;
+        input{
+          width:250px;
+        }
+      }
+    }
+
+    .tt-dropdown-menu {
+      .tt-suggestions{
+        max-height: 250px;
+        overflow-y: auto;
+        border-bottom:1px solid #ccc;
+
+        .tt-suggestion{
+          line-height:20px;
+          p{
+            height:auto;
+            padding:0px;
+            margin:0px;
+            font-size:13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.orders-content{
+
+  padding:0 10px 10px;
+
+  .orders-header {
+
+    .header-filter{
+      background:#f7f7f7;
+      border-radius:5px;
+      padding:10px 10px 0;
+      margin-bottom:10px;
+
+      .filter-form{
+        margin:0;
+
+        .control-group{
+          margin-right:15px;
+
+          select{
+            margin-bottom:5px;
+          }
+        }
+
+        .search-control{
+          margin:25px 15px 0 0;
+        }
+
+        .orders-control{
+          select{
+            width:120px;
+          }
+        }
+
+        .status-control{
+          select{
+            width:140px;
+          }
+        }
+
+      }
+
+    }
+
+    .btn-delete{
+      margin-bottom:10px;
+    }
+
+  }
+
+  .orders-list{
+
+    .orders-table {
+      width: 100%;
+
+      tbody > tr:hover {
+        background-color: #f8f8f8;
+      }
+
+      th {
+        background: none repeat scroll 0 0 #F7F7F7;
+        border-left: 1px solid #ededed;
+        color: $rui-th-color;
+        font-size: 12px;
+        font-weight: bold;
+        line-height: 16px;
+        text-align: left;
+        vertical-align: middle;
+        border-radius: 0;
+        border-top: 1px solid #ededed;
+
+        &:last-child {
+          border-right: 1px solid #ededed;
+        }
+
+        .header-container {
+          position:relative;
+          padding-right:20px;
+        }
+
+        .title-container {
+          .title {
+            padding: 7px;
+          }
+        }
+
+        .actions-container {
+          position:absolute;
+          top:0;
+          right:0;
+          height:100%;
+          text-align: center;
+          width: 18px;
+          border-left: 1px solid #f1f1f1;
+          color: #B3B3B3;
+
+          i {
+            padding: 9px 3px 8px;
+            display: inline-block;
+
+            &:hover {
+              background-color: #e8e8e8;
+            }
+          }
+        }
+      }
+
+      th.small{ min-width:110px; }
+      th.medium{ min-width:145px; }
+      th.x-small{
+        min-width: 21px;
+
+        .header-container {
+          padding-right: 0;
+        }
+      }
+
+      .not-in-om {
+        color: orange
+      }
+
+      td {
+        font-size: 12px;
+        line-height: 16px;
+        padding: 5px;
+        border-top: 1px solid #ededed;
+        border-left: 1px solid #ededed;
+        vertical-align: top;
+
+        &:last-child {
+          border-right: 1px solid #ededed;
+        }
+
+        .order-title{
+          margin-bottom:5px;
+        }
+
+        .order-note{
+          min-width:100px;
+          max-width:270px;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          font-size:11px;
+          color:#B3B3B3;
+          display:inline-block;
+        }
+
+        .tooltip-inner{
+          font-size:11px;
+          color:#B3B3B3;
+        }
+
+        .import-datetime{
+          font-size:11px;
+          color:#B3B3B3;
+          margin-top:7px;
+        }
+      }
+
+      tr:last-child > td {
+        border-bottom: 1px solid #ededed;
+      }
+
+      .order-name{
+        width:400px;
+      }
+
+      .amp-id:hover, .dfp-id:hover{
+        border-radius:2px;
+        background:#ddd;
+      }
+
+    }
+
+  }
+
+}
+
+.order-notes{
+  margin-bottom:20px;
+
+  .order-notes-table{
+    width:100%;
+
+    td, th {
+      font-size: 11px;
+      line-height: 15px;
+      padding: 3px;
+      vertical-align: top;
+    }
+
+    .username {
+      min-width: 90px;
+      color: #005C97;
+    }
+
+    .ordersnotes {
+      width: 72%;
+      float: left;
+    }
+  }
+
+  .note-input-control{
+    .control-label{
+      font-size:12px;
+      margin-right:10px;
+      color:#005C97;
+      font-weight:bold;
+      min-width:70px;
+    }
+
+    textarea {
+      margin:5px;
+      border:none;
+      font-size:12px;
+      line-height:14px;
+      padding:0 2px;
+      box-shadow:none;
+      border-bottom: 1px solid #005C97;
+      border-left: 1px solid #005C97;
+      border-right: 1px solid #005C97;
+      border-radius:0;
+      min-width:100%;
+    }
+
+    .save-note {
+      background-color: $text_color;
+      float: left;
+      padding: 5px;
+      margin-left:15px;
+
+      &:hover{
+        background-color: lighten($text_color, 10%);
+        cursor: pointer;
+      }
+    }
+
+    .save-note-btn {
+      background: url(asset-path('activity_log_white_icon.png')) 0px 0px no-repeat;
+      width: 16px;
+      height: 16px;
+    }
+
+    .save-note-btn.spinner {
+      background: url(asset-path('select2-spinner.gif')) $text_color 0px 0px no-repeat
+    }
+  }
+}
+
+.activities-table {
+  margin-top: 30px;
+}
+
+.order-action-buttons {
+  clear: both;
+  div {
+    display: inline-block;
+  }
+
+  .save-order-btn,
+  .push-order-btn {
+    float: none;
+  }
+}
+
+.advertiser_name_top {
+  padding:10px 10px;
+  font-size: 28px;
+}
