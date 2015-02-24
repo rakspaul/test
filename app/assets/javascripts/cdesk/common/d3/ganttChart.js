@@ -47,9 +47,9 @@
 		    var markerTransform = function() {
 		    	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            if(width<=40) {
-		            	return "translate(" + x(moment()) + ",0)";
+		            	return "translate(" + x(moment()) + ",-20)";
 		            }
-		        return "translate(" + x(moment().startOf('day')) + ",0)";
+		        return "translate(" + x(moment().startOf('day')) + ",-20)";
 		    };
 
 		    var x = d3.time.scale().domain([timeDomainStart, timeDomainEnd]).range([0, width]).clamp(true);
@@ -401,10 +401,8 @@ svg.append('rect').attr("class","marker");
 		            .attr("transform", rectTransform);
 //today marker
 		        ganttChartGroup.select("rect.marker")
-		            .attr("x", function(){
-		            	return x(moment().startOf('day'))
-		            })
-		            .attr("y", -20)
+		            .attr("x", 0)
+		            .attr("y", 0)
 		            .attr("class", "marker")
 		            .attr("style", "cursor:pointer")
 		            .attr("fill", function(){
@@ -430,9 +428,9 @@ svg.append('rect').attr("class","marker");
 		            		return 3;
 		            	}
 
-		            });
-		           //.transition()
-		           //.attr("transform", markerTransform);
+		            })
+		           .transition()
+		           .attr("transform", markerTransform);
 //today marker ends
 
 		        var node = ganttChartGroup.selectAll(".node").data(tasks, keyFunction);
@@ -518,14 +516,14 @@ svg.append('rect').attr("class","marker");
 		         ganttChartGroup.append("g")
 		           .transition()
 		           .attr("transform", markerTransform)
-		           .attr("width", function(){
-		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
-		            	if(width<=40) {
-		            		width =2;
-		            	}
+		           // .attr("width", function(){
+		           //  	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
+		           //  	if(width<=40) {
+		           //  		width =2;
+		           //  	}
 
-		            	return width;
-		            });
+		           //  	return width;
+		           //  });
 //today marker transition
 
 		        svg.select(".x").transition().call(xAxis)
