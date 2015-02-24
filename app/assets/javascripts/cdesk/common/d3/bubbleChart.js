@@ -268,13 +268,13 @@
                     .attr("stop-color",  "#1B7FE2")
                     .attr("stop-opacity", 1);
 
-                var tooltip = d3.select(".dashboard_budget_graph_holder")
+                var tooltip = d3.select(".dashboard_budget_graph_holder .dashboard_perf_graph")
                     .append("div")
                     .attr("class" , "bubble_tooltip")
                     .attr("id","bubbleChartTooltip")
                     .style("position", "absolute")
                     .style("z-index", "10")
-                    .style("visibility", "hidden")
+                    .style("display", "none")
                     .style("color", "black")
                     .style("padding", "5px 20px")
                     .style("background-color", tooltipBackGroundColor)
@@ -351,13 +351,13 @@
                     .attr("stop-color", "#FC782A")
                     .attr("stop-opacity", 1);
 
-                var tooltip = d3.select(".dashboard_budget_graph_holder")
+                var tooltip = d3.select(".dashboard_budget_graph_holder .dashboard_perf_graph")
                     .append("div")
                     .attr("class" , "bubble_tooltip")
                     .attr("id","bubbleChartTooltip")
                     .style("position", "absolute")
                     .style("z-index", "10")
-                    .style("visibility", "hidden")
+                    .style("display", "none")
                     .style("color", "black")
                     .style("padding", "5px 20px")
                     .style("background-color", tooltipBackGroundColor)
@@ -499,12 +499,6 @@
                     toolTipY : obj.toolTipY
                 };
 
-                // console.log(focused_obj);
-                // console.log(focused_obj.toolTipY+ focused_obj.r + 10);
-                // console.log(focused_obj.toolTipY);
-                // console.log(focused_obj.r);
-
-
 
                 node.selectAll("circle").attr('opacity',0.4);
                 node.selectAll("path").attr('opacity', 0.4);
@@ -530,27 +524,13 @@
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) + " <br/>  <b style='display:inline-block;width:55px;'>Spend:</b>  $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
-                })  ).style("visibility", "visible")
+                })  ).style("display", "block")
                     .style("top", function(){
-                        var tooltipHeight = $("div.bubble_tooltip").height() ;
-                        var shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px";
-
-                        if(focused_obj.r >50 && focused_obj.percFill > 99){
-                            tooltipHeight = $("div.bubble_tooltip").height() ;
-                            shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px"; }
-
-                           else if(focused_obj.r > 35  && focused_obj.percFill > 99){
-                                tooltipHeight = $("div.bubble_tooltip").height() ;
-                                shift = (focused_obj.toolTipY+ focused_obj.r - (tooltipHeight/2) - 2 )+"px"
-                            }
-                          else if(focused_obj.r > 25 ){
-                            tooltipHeight = $("div.bubble_tooltip").height() ;
-                            shift = (focused_obj.toolTipY+ focused_obj.r ) +"px"
-                        }
-
+                        var tooltipHeight = $("div.bubble_tooltip:visible").height() ;
+                        var shift = (focused_obj.cy - (tooltipHeight/2))+"px";
                        return shift ;
                     })
-                    .style("left" ,  (focused_obj.toolTipX + 14) +"px") ;
+                    .style("left" ,  (focused_obj.toolTipX + 10) +"px") ;
 
 
             });
@@ -584,14 +564,14 @@
                     .attr("stroke-width", 0.2)
                     .attr("fill", (focused_obj.objectType == 'brands') ? colors.brands.spendFillLight : (focused_obj.status.toLowerCase() == 'ontrack' ? colors.campaigns.onTrack.spendFillLight : colors.campaigns.underPerforming.spendFillLight ));
 
-              return  tooltip.style("visibility", "hidden");
+              return  tooltip.style("display", "none");
 
             });
 
             node.on("click", function(obj) {
 
                 if(obj.objectType == 'brands'){
-                    tooltip.style("visibility", "hidden");
+                    tooltip.style("display", "none");
                     $rootScope.$broadcast(constants.BUBBLE_BRAND_CLICKED, obj);
                 }
             });
