@@ -12,8 +12,8 @@ require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
 require 'hipchat/capistrano'
 
-set :application, "reachui"
-set :repository,  "git@github.com:collectivereach/crpt-ui.git"
+set :application, "crpt-ui"
+set :repository,  "git@github.com:collectivemedia/crpt-ui.git"
 set :scm, :git
 set :use_sudo, false
 set :keep_releases, 7 # keep the last N releases
@@ -99,7 +99,7 @@ namespace :deploy do
   task :file_store_symlink do
     run "mkdir -p #{shared_path}/file_store && ln -nfs #{shared_path}/file_store #{current_release}/file_store"
 
-    attachments_path = 'private/uploads/reach/activity/attachments'
+    attachments_path = 'private/uploads/crpt-ui/activity/attachments'
     run %Q(mkdir -p #{shared_path}/#{attachments_path} && ln -nfs #{shared_path}/private #{current_release}/private)
   end
 
