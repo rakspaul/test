@@ -482,14 +482,6 @@
                     return budget ;
                 });
 
-//            node.on("mouseover", function(d) {
-////                var matrix = this.getScreenCTM()
-////                    .translate(+ this.getAttribute("cx"), + this.getAttribute("cy"));
-//                tooltip.html(d)
-//                    .style("left", (window.pageXOffset + matrix.e + 15) + "px")
-//                    .style("top", (window.pageYOffset + matrix.f - 30) + "px");
-//            })
-
             node.on("mouseover", function(obj){
 
                 var focused_obj = {
@@ -499,6 +491,7 @@
                     cy : obj.cy,
                     percFill : obj.percFill,
                     spend : obj.spend,
+                    budget : obj.budget ,
                     r : obj.r,
                     objectType : obj.objectType,
                     status : obj.status ,
@@ -531,7 +524,7 @@
 
                 return tooltip
                   //  .attr("transform",  "translate(" + focused_obj.toolTipX + "," + focused_obj.toolTipY + ")" )
-                    .html(focused_obj.name + " <br/> Total Spend : $" + focused_obj.spend.toFixed(0).replace(/./g, function(c, i, a) {
+                    .html(focused_obj.name + " <br/>  Spend : $" + focused_obj.spend.toFixed(2).replace(/./g, function(c, i, a) {
                     return i && c !== "." && ((a.length - i) % 3 === 0) ? ',' + c : c;
                 }) ).style("visibility", "visible")
                     .style("top", function(){
@@ -541,12 +534,14 @@
                         if(focused_obj.r >50 && focused_obj.percFill > 99){
                             tooltipHeight = $("div.bubble_tooltip").height() ;
                             shift = (focused_obj.toolTipY+ focused_obj.r - tooltipHeight/2 )+"px"; }
+
                            else if(focused_obj.r > 35  && focused_obj.percFill > 99){
                                 tooltipHeight = $("div.bubble_tooltip").height() ;
                                 shift = (focused_obj.toolTipY+ focused_obj.r - (tooltipHeight/2) - 2 )+"px"
                             }
-                          else if(focused_obj.r > 25  && focused_obj.percFill > 99){
-                            shift = (focused_obj.toolTipY+ focused_obj.r  + 10) +"px"
+                          else if(focused_obj.r > 25 ){
+                            tooltipHeight = $("div.bubble_tooltip").height() ;
+                            shift = (focused_obj.toolTipY+ focused_obj.r ) +"px"
                         }
 
                        return shift ;
@@ -588,26 +583,6 @@
               return  tooltip.style("visibility", "hidden");
 
             });
-
-//            node.on("mousemove", function(obj){
-//                var focused_obj = {
-//                    name : obj.className,
-//                    id : obj.id,
-//                    cx : obj.cx,
-//                    cy : obj.cy,
-//                    percFill : obj.percFill,
-//                    spend : obj.spend,
-//                    r : obj.r,
-//                    objectType : obj.objectType,
-//                    toolTipX : obj.toolTipX,
-//                    toolTipY : obj.toolTipY
-//                };
-//                console.log("mousemove ");
-//                console.log("tooltip x "+ focused_obj.toolTipX + "tooltilp y "+ focused_obj.toolTipY);
-//
-//                return tooltip.style("top",(focused_obj.toolTipX ) +"px")
-//                    .style("left" , (focused_obj.toolTipY+ focused_obj.r + 10) +"px") ;
-//            });
 
             node.on("click", function(obj) {
 
