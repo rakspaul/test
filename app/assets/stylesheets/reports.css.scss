@@ -68,6 +68,20 @@ $reportBorder : #ccd9e3 ;
     display: block;
   }
 }
+.report_heading_dropdown_txt {
+  color: #A9A8A8;
+  font-size: 13px;
+  float: left;
+  margin-right: 5px;
+  font-weight: normal;
+  margin-top: 16px;
+  width: 70px;
+}
+.dropdown_type1_holder {
+  .report_heading_dropdown_txt {
+    margin-top: 10px; 
+  }
+}
 .total_reports_page {
   margin: 0px auto 40px;
   width: 1115px;
@@ -387,6 +401,7 @@ div.reports_section_details_more div.each_reports_row:nth-last-child(2) {
     width: 30px;
     background: url(asset-path("loading.gif")) no-repeat scroll 48% 45% rgba(0, 0, 0, 0);
   }
+
   .no-chart {
     margin: 80px auto 0;
     display: block;
