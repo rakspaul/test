@@ -12,16 +12,24 @@
         var active = response.data.data.active;
         var completed = response.data.data.completed;
         var na = response.data.data.na ;
+
         var totalCampaigns = active.total + completed.total + na.total ;
         var onTrack = active.ontrack + completed.ontrack + na.ontrack ;
         var underPerforming = active.underperforming + completed.underperforming + na.underperforming ;
+        var others = active.others + completed.others + na.others ;
 
 
         var pct = 0;
-        if(totalCampaigns > 0) {
-          pct = Math.round(onTrack / totalCampaigns * 100);
+        if((onTrack + underPerforming) > 0) {
+          pct = Math.round(onTrack / (onTrack + underPerforming) * 100);
         }
-        return pct;
+        return {
+            onTrackPct : pct,
+            onTrack : onTrack,
+            underPerforming : underPerforming,
+            others : others,
+            totalCampaigns : totalCampaigns
+        };
       })
     }
   }
