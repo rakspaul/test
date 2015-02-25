@@ -409,9 +409,9 @@ svg.append('rect').attr("class","marker_body");
 		            .attr("fill", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
-		            		return "blue"
+		            		return "#74AFDD" //BLUE - LINE COLOR
 		            	} else {
-		            		return "#ccc"
+		            		return "#e7edf1"
 		            	}
 		            })
 		            .attr("width", function(){
@@ -426,7 +426,7 @@ svg.append('rect').attr("class","marker_body");
 		            	if(width<=40) {
 		            		 return CALENDAR_HEIGHT;
 		            	} else {
-		            		return 5;
+		            		return 4;
 		            	}
 
 		            })
@@ -436,10 +436,10 @@ svg.append('rect').attr("class","marker_body");
 		           //body
 		           ganttChartGroup.select("rect.marker_body")
 		            .attr("x", 0)
-		            .attr("y", 5)
+		            .attr("y", 4)
 		            .attr("class", "marker_body")
 		            //.attr("style", "cursor:pointer")
-		            .attr("fill", '#f9f9f9')
+		            .attr("fill", '#f5f9fd')
 		            .attr("width", function(){
 		            	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		            	if(width<=40) {
@@ -540,9 +540,9 @@ svg.append('rect').attr("class","marker_body");
 
 		        rectData.exit().remove();
 //today marker transition
-		         ganttChartGroup.select("rect.marker")
-		           .transition()
-		           .attr("transform", markerTransform)
+		         // ganttChartGroup.select("rect.marker")
+		         //   .transition()
+		         //   .attr("transform", markerTransform)
 		           // .attr("width", function(){
 		           //  	var width = (x(moment().endOf('day')) - x(moment().startOf('day')));
 		           //  	if(width<=40) {
